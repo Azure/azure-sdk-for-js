@@ -232,6 +232,7 @@ export interface OperationRequestInfo {
 
 // @public
 export interface OperationRequestOptions {
+    allowInsecureConnection?: boolean;
     customHeaders?: {
         [key: string]: string;
     };
@@ -350,6 +351,7 @@ export class ServiceClient {
 
 // @public
 export interface ServiceClientOptions extends CommonClientOptions {
+    allowInsecureConnection?: boolean;
     baseUri?: string;
     credential?: TokenCredential;
     credentialScopes?: string | string[];

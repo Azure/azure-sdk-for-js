@@ -68,4 +68,12 @@ export {
   BearerTokenAuthenticationPolicyOptions,
   bearerTokenAuthenticationPolicyName
 } from "./policies/bearerTokenAuthenticationPolicy";
+export {
+  bearerTokenChallengeAuthenticationPolicy,
+  BearerTokenChallengeAuthenticationPolicyOptions,
+  bearerTokenChallengeAuthenticationPolicyName,
+  ChallengeCallbacks,
+  AuthorizeRequestOptions,
+  AuthorizeRequestOnChallengeOptions
+} from "./policies/bearerTokenChallengeAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";

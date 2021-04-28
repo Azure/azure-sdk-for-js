@@ -7,7 +7,7 @@
 ```yaml
 package-name: azure-communication-phone-numbers
 description: Phone number configuration client
-package-version: 1.0.0-beta.5
+package-version: 1.0.1
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated

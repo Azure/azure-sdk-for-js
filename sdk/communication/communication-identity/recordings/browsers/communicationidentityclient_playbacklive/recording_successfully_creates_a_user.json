@@ -10,7 +10,16 @@
    "status": 201,
    "response": "{\"identity\":{\"id\":\"sanitized\"}}",
    "responseHeaders": {
-    "content-type": "application/json; charset=utf-8"
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 24 Apr 2021 01:34:23 GMT",
+    "ms-cv": "SJrtqsmtb0Gl6S9lR7NQMw.0",
+    "request-context": "appId=",
+    "status": "201",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0oHWDYAAAAADQM4TXlcOjTpgCo6iD/h5BWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-ms-client-request-id": "sanitized",
+    "x-processing-time": "14ms"
    }
   }
  ],
@@ -18,5 +27,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "27d09bb5f8e19a5b9a886691bbe0c28c"
+ "hash": "8fad07321e2cb129a0508d71c22546fe"
 }

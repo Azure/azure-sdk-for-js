@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.6 (Unreleased)
+
+
 ## 1.0.5 (2021-04-12)
 
 - No functionality changes from 1.0.4. This release is to correct an issue where 1.0.4 shipped with modules in the wrong format (cjs instead of es6.)

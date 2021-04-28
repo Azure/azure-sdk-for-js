@@ -38,12 +38,12 @@ export function bearerTokenAuthenticationPolicy(
   // The options are left out of the public API until there's demand to configure this.
   // Remember to extend `BearerTokenAuthenticationPolicyOptions` with `TokenCyclerOptions`
   // in order to pass through the `options` object.
-  const getToken = createTokenCycler(credential, scopes /* , options */);
+  const cycler = createTokenCycler(credential /* , options */);
 
   return {
     name: bearerTokenAuthenticationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const { token } = await getToken({
+      const { token } = await cycler.getToken(scopes, {
         abortSignal: request.abortSignal,
         tracingOptions: request.tracingOptions
       });

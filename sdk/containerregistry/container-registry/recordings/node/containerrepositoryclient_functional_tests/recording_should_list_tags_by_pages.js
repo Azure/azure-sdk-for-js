@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1361',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,160 +22,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '6b4b80c9-6073-4bd2-8106-3fb7deda0600',
+  'ab140bc2-1fe4-47e5-a6fd-f09281621100',
   'x-ms-ests-server',
-  '2.1.11562.10 - NCUS ProdSlices',
+  '2.1.11654.13 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AubVabojdJVHvZY0mJSQ0Yl12iTZBQAAAFeL-dcOAAAA; expires=Sun, 02-May-2021 22:03:20 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoSJwXg-yQ9Fm2nEvdcHOzJ12iTZBAAAAPXzC9gOAAAA; expires=Sun, 16-May-2021 21:09:22 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 02 Apr 2021 22:03:20 GMT',
+  'Fri, 16 Apr 2021 21:09:22 GMT',
   'Connection',
-  'close'
-]);
-
-nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
-  .get('/acr/v1/_catalog')
-  .reply(401, {"errors":[{"code":"UNAUTHORIZED","message":"authentication required, visit https://aka.ms/acr/authorization for more information.","detail":[{"Type":"registry","Name":"catalog","Action":"*"}]}]}, [
-  'Server',
-  'openresty',
-  'Date',
-  'Fri, 02 Apr 2021 22:03:21 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
+  'close',
   'Content-Length',
-  '196',
-  'Connection',
-  'close',
-  'Access-Control-Expose-Headers',
-  'Docker-Content-Digest',
-  'Access-Control-Expose-Headers',
-  'WWW-Authenticate',
-  'Access-Control-Expose-Headers',
-  'Link',
-  'Access-Control-Expose-Headers',
-  'X-Ms-Correlation-Request-Id',
-  'Docker-Distribution-Api-Version',
-  'registry/2.0',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'Www-Authenticate',
-  'Bearer realm="https://myregistry.azurecr.io/oauth2/token",service="myregistry.azurecr.io",scope="registry:catalog:*",error="invalid_token"',
-  'X-Content-Type-Options',
-  'nosniff',
-  'X-Ms-Correlation-Request-Id',
-  '2396abae-3d5e-440a-acdf-7ddeb6221f45',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains'
-]);
-
-nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
-  .post('/oauth2/exchange', "grant_type=access_token&service=myregistry.azurecr.io&access_token=access_token")
-  .reply(200, {"refresh_token":"refresh_token"}, [
-  'Server',
-  'openresty',
-  'Date',
-  'Fri, 02 Apr 2021 22:03:21 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Transfer-Encoding',
-  'chunked',
-  'Connection',
-  'close',
-  'X-Ms-Correlation-Request-Id',
-  '2c1648f3-0e6f-47c2-8c9c-59283619741e',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains'
-]);
-
-nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
-  .post('/oauth2/token', "grant_type=refresh_token&service=myregistry.azurecr.io&refresh_token=refresh_token&scope=registry%3Acatalog%3A*")
-  .reply(200, {"access_token":"access_token"}, [
-  'Server',
-  'openresty',
-  'Date',
-  'Fri, 02 Apr 2021 22:03:22 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Transfer-Encoding',
-  'chunked',
-  'Connection',
-  'close',
-  'X-Ms-Correlation-Request-Id',
-  'aef3921f-4d62-4b7d-8a1a-a83c1ce43892',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains'
-]);
-
-nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
-  .get('/acr/v1/_catalog')
-  .reply(200, {"repositories":["library/hello-world"]}, [
-  'Server',
-  'openresty',
-  'Date',
-  'Fri, 02 Apr 2021 22:03:22 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Content-Length',
-  '41',
-  'Connection',
-  'close',
-  'Access-Control-Expose-Headers',
-  'Docker-Content-Digest',
-  'Access-Control-Expose-Headers',
-  'WWW-Authenticate',
-  'Access-Control-Expose-Headers',
-  'Link',
-  'Access-Control-Expose-Headers',
-  'X-Ms-Correlation-Request-Id',
-  'Docker-Distribution-Api-Version',
-  'registry/2.0',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'X-Ms-Correlation-Request-Id',
-  '6b7376f1-f623-4134-87f4-89dbce237de1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains'
-]);
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fmanagement.core.windows.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
-  'Cache-Control',
-  'no-store, no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '1361',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'x-ms-request-id',
-  'f7591668-b1d2-4d8d-b54b-eee82a7a0d00',
-  'x-ms-ests-server',
-  '2.1.11622.19 - WUS2 ProdSlices',
-  'Set-Cookie',
-  'fpc=AubVabojdJVHvZY0mJSQ0Yl12iTZBgAAAFeL-dcOAAAA; expires=Sun, 02-May-2021 22:03:22 GMT; path=/; secure; HttpOnly; SameSite=None',
-  'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
-  'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
-  'Date',
-  'Fri, 02 Apr 2021 22:03:22 GMT',
-  'Connection',
-  'close'
+  '1361'
 ]);
 
 nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
@@ -187,7 +46,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Fri, 02 Apr 2021 22:03:22 GMT',
+  'Fri, 16 Apr 2021 21:09:23 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
@@ -211,7 +70,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  '6b938d34-5bc9-4672-875f-b132ca9c40e5',
+  'f2fdc595-30b3-4941-9b66-12b75cc390a3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
@@ -222,7 +81,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Fri, 02 Apr 2021 22:03:23 GMT',
+  'Fri, 16 Apr 2021 21:09:23 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
@@ -230,7 +89,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'X-Ms-Correlation-Request-Id',
-  'c0ec4cbd-7b58-4ddc-8625-498070590180',
+  '789460cc-f585-481f-a9b4-50d048583c62',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
@@ -241,7 +100,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Fri, 02 Apr 2021 22:03:23 GMT',
+  'Fri, 16 Apr 2021 21:09:23 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
@@ -249,7 +108,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'X-Ms-Correlation-Request-Id',
-  '4a7c173a-057d-44ea-be8a-be4326805f47',
+  '7813fefe-6006-464a-a6cc-d031187e018d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
@@ -257,11 +116,11 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
 nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   .get('/acr/v1/library%2Fhello-world/_tags')
   .query(true)
-  .reply(200, {"registry":"myregistry.azurecr.io","imageName":"library/hello-world","tags":[{"name":"test-delete","digest":"sha256:308866a43596e83578c7dfa15e27a73011bdd402185a84c5cd7f32a88b501a24","createdTime":"2021-04-02T22:02:52.9100099Z","lastUpdateTime":"2021-04-02T22:02:52.9100099Z","signed":false,"changeableAttributes":{"deleteEnabled":true,"writeEnabled":true,"readEnabled":true,"listEnabled":true}}]}, [
+  .reply(200, {"registry":"myregistry.azurecr.io","imageName":"library/hello-world","tags":[{"name":"test-delete","digest":"sha256:f2266cbfc127c960fd30e76b7c792dc23b588c0db76233517e1891a4e357d519","createdTime":"2021-04-16T21:07:14.8020246Z","lastUpdateTime":"2021-04-16T21:07:14.8020246Z","signed":false,"changeableAttributes":{"deleteEnabled":true,"writeEnabled":true,"readEnabled":true,"listEnabled":true}}]}, [
   'Server',
   'openresty',
   'Date',
-  'Fri, 02 Apr 2021 22:03:23 GMT',
+  'Fri, 16 Apr 2021 21:09:24 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
@@ -285,7 +144,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  '86de7b36-d60a-44d5-909f-cb31aaf981d5',
+  'dba69251-45fa-4a9e-b00f-69f9266ffb24',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
@@ -297,7 +156,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Fri, 02 Apr 2021 22:03:24 GMT',
+  'Fri, 16 Apr 2021 21:09:24 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
@@ -321,7 +180,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  '91544016-ca9e-46c7-a715-183f71552b4c',
+  'c449fe20-6ac5-444c-b5e6-d45c76c5edd7',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
@@ -332,7 +191,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Fri, 02 Apr 2021 22:03:24 GMT',
+  'Fri, 16 Apr 2021 21:09:24 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
@@ -340,7 +199,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'X-Ms-Correlation-Request-Id',
-  '8a99c3df-d275-443e-8084-7f1c4f1d099f',
+  '705203db-3997-487d-81f7-4d42bb2e42a7',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
@@ -351,7 +210,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Fri, 02 Apr 2021 22:03:24 GMT',
+  'Fri, 16 Apr 2021 21:09:24 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
@@ -359,7 +218,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'X-Ms-Correlation-Request-Id',
-  '9ce4ff6a-ee99-4157-bec9-752b7da0b141',
+  'ccfb06e3-2dea-4b7d-80c1-6493d6da23e1',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
@@ -367,11 +226,11 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
 nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   .get('/acr/v1/library%2Fhello-world/_tags')
   .query(true)
-  .reply(200, {"registry":"myregistry.azurecr.io","imageName":"library/hello-world","tags":[{"name":"test1","digest":"sha256:308866a43596e83578c7dfa15e27a73011bdd402185a84c5cd7f32a88b501a24","createdTime":"2021-04-02T22:02:51.7577005Z","lastUpdateTime":"2021-04-02T22:02:51.7577005Z","signed":false,"changeableAttributes":{"deleteEnabled":true,"writeEnabled":true,"readEnabled":true,"listEnabled":true}}]}, [
+  .reply(200, {"registry":"myregistry.azurecr.io","imageName":"library/hello-world","tags":[{"name":"test1","digest":"sha256:f2266cbfc127c960fd30e76b7c792dc23b588c0db76233517e1891a4e357d519","createdTime":"2021-04-16T21:07:13.4693627Z","lastUpdateTime":"2021-04-16T21:07:13.4693627Z","signed":false,"changeableAttributes":{"deleteEnabled":true,"writeEnabled":true,"readEnabled":true,"listEnabled":true}}]}, [
   'Server',
   'openresty',
   'Date',
-  'Fri, 02 Apr 2021 22:03:25 GMT',
+  'Fri, 16 Apr 2021 21:09:25 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
@@ -393,7 +252,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  '0bd5e03b-a546-48d9-a2ed-23b072498287',
+  '8c802e84-9c4d-4b82-ac37-083d231c67c4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
