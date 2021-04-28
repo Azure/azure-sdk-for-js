@@ -1,7 +1,8 @@
 import { PerfStressTest } from "@azure/test-utils-perfstress";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
-  bearerTokenAuthenticationPolicy,
+  AuthorizeRequestOnChallengeOptions,
+  bearerTokenChallengeAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
@@ -9,8 +10,6 @@ import {
   Pipeline,
   PipelineRequest,
   PipelineResponse,
-  ChallengeCallbackOptions,
-  retrieveToken
 } from "@azure/core-rest-pipeline";
 import { TextDecoder } from "util";
 
@@ -64,11 +63,13 @@ function parseCAEChallenge(challenges: string): any[] {
     );
 }
 
-async function authenticateRequestOnChallenge(
-  challenge: string,
-  options: ChallengeCallbackOptions
-): Promise<boolean> {
-  const { scopes, setAuthorizationHeader } = options;
+async function authorizeRequestOnChallenge(options: AuthorizeRequestOnChallengeOptions): Promise<boolean> {
+  const { scopes, request, response, getAccessToken } = options;
+
+  const challenge = response?.headers.get("WWW-Authenticate");
+  if (!challenge) {
+    throw new Error("Failed to retrieve challenge from response headers");
+  }
 
   const challenges: TestChallenge[] = parseCAEChallenge(challenge) || [];
 
@@ -80,10 +81,8 @@ async function authenticateRequestOnChallenge(
     cachedChallenge = challenge;
   }
 
-  const accessToken = await retrieveToken({
+  const accessToken = await getAccessToken(scopes, {
     ...options,
-    cachedToken: undefined,
-    scopes: parsedChallenge.scope || scopes,
     claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64"))
   });
 
@@ -91,7 +90,7 @@ async function authenticateRequestOnChallenge(
     return false;
   }
 
-  setAuthorizationHeader(accessToken);
+  request.headers.set("Authorization", `Bearer ${accessToken}`);
   return true;
 }
 
@@ -150,17 +149,18 @@ export class BearerTokenAuthenticationPolicyWWWChallenge extends PerfStressTest 
 
     this.pipeline = createEmptyPipeline();
 
-    const bearerPolicy = bearerTokenAuthenticationPolicy({
+    let cachedToken: AccessToken | null = null;
+    const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
-      scopes: "",
+      scopes: [""],
       credential,
       challengeCallbacks: {
-        async authenticateRequest({ cachedToken, setAuthorizationHeader }) {
+        async authorizeRequest({ request }) {
           if (cachedToken) {
-            setAuthorizationHeader(cachedToken);
+            request.headers.set("Authorization", `Bearer ${cachedToken}`);
           }
         },
-        authenticateRequestOnChallenge
+        authorizeRequestOnChallenge
       }
     });
 
