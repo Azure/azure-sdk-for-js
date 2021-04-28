@@ -12,7 +12,6 @@
 ### Bug fixes
 
 - If there are many outstanding messages that are not settled, `receiveMessages` hangs forever and doesn't return. [#14060](https://github.com/Azure/azure-sdk-for-js/pull/14060) fixes the problem by throwing an error with code `UnsettledMessagesLimitExceeded` for receiveMessages. If used `subscribe`, `processError` will be notified upon exceeding the limit.
-- `expiresAtUtc` is `Invalid Date` in the received message when the ttl is not defined. Has been fixed in [#13543](https://github.com/Azure/azure-sdk-for-js/pull/13543)
 - Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug w.r.t the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
 - Settling messages now use the `retryOptions` passed to `ServiceBusClient`, making it more resilient against network failures.
   [PR#14867](https://github.com/Azure/azure-sdk-for-js/pull/14867/files)
