@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates various ways to read a certificate as well as updating a certificate's tags.
+ * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
+
 import { CertificateClient, DefaultCertificatePolicy } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 

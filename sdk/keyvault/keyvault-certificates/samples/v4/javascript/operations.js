@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates creating, updating, and deleting a certificate's operation.
+ * @summary Uses a CertiicateClient to create, update, and delete a certificate's operation.
  */
 const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");

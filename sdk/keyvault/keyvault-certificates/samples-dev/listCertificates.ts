@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates various ways to list certificates, list a certificate's versions, and list deleted certificates.
+ * @summary List certificates, lists a certificate's versions, and lists deleted certificates in various ways.
  */
+
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 

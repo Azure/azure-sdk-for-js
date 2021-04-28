@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates purging all deleted certificates from a Key Vault.
+ * @summary Purges all deleted certificates from a Key Vault.
  */
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";

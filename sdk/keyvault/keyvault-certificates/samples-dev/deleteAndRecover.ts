@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates deleting and recovering a self-signed certificate (soft-delete is required for this sample to run).
+ * @summary Creates a self-signed certificate, deletes it, and then recovers it (soft-delete is required for this sample to run).
  */
+
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 

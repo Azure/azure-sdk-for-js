@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates creating, updating, and deleting certificate contacts.
+ * @summary Creates, updates, and deletes certificate contacts.
  */
+
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 

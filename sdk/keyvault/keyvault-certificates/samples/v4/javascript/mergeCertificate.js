@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates creating a certificate with an unknown issuer and signing it using a fake certificate authority and the mergeCertificate API.
+ * @summary Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
  */
+
 const fs = require("fs");
 const childProcess = require("child_process");
 

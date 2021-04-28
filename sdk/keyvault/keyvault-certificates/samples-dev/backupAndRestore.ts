@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates creating a self-signed certificate, creating a backup from it, and restoring it.
+ * @summary Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.
  */
+
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 

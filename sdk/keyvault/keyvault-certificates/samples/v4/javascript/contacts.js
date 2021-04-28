@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates creating, updating, and deleting certificate contacts.
+ * @summary Creates, updates, and deletes certificate contacts.
  */
+
 const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 

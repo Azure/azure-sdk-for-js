@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates various ways to read a certificate as well as updating a certificate's tags.
+ * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
+
 const { CertificateClient, DefaultCertificatePolicy } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 

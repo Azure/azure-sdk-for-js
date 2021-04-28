@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates importing a PFX and PEM certificate.
+ * @summary Imports a PFX and PEM certificate and then deletes them.
  */
+
 import { CertificateClient, WellKnownIssuer } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
