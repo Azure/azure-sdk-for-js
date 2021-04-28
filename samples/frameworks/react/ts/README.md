@@ -69,7 +69,7 @@ Additionally, you may open multiple instances of this sample application and wat
 
 ## Next Steps
 
-Take a look at our [API Documentation][apiref] for more information about the APIs that are avaiable.
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available.
 
 [react]: https://create-react-app.dev/
 [typescript]: https://www.typescriptlang.org/docs/home.html

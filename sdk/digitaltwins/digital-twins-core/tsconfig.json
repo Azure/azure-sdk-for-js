@@ -7,8 +7,11 @@
     "lib": ["es6", "dom"],
     "declaration": true,
     "outDir": "./dist-esm",
-    "declarationDir": "./types"
+    "declarationDir": "./types",
+    "paths": {
+      "@azure/digital-twins-core": ["./src/index"]
+    },
+    "resolveJsonModule": true
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts"],
-  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

@@ -217,7 +217,7 @@ export class PerfStressProgram {
     // of operations running.
     const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
     console.log(
-      `\n=== ${title} mode, iteration ${iterationIndex}. Logs every ${millisecondsToLog /
+      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
         1000}s ===`
     );
     console.log(`Current\t\tTotal\t\tAverage`);

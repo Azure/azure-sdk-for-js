@@ -11,7 +11,7 @@ import { PhoneNumbersClientOptionalParams } from "./models";
 import { lroPolicy } from "./lro";
 
 const packageName = "azure-communication-phone-numbers";
-const packageVersion = "1.0.0-beta.5";
+const packageVersion = "1.0.1";
 
 export class PhoneNumbersClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -19,7 +19,8 @@ export class PhoneNumbersClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the PhoneNumbersClientContext class.
-   * @param endpoint The communication resource, for example https://resourcename.communication.azure.com
+   * @param endpoint The communication resource, for example
+   *                 https://resourcename.communication.azure.com.
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: PhoneNumbersClientOptionalParams) {

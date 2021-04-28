@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { TokenCredentialOptions } from "../client/identityClient";
 import { AuthenticationRecord } from "../msal/types";
-import { PersistentCredentialOptions } from "./persistentCredentialOptions";
 
 /**
  * Common constructor options for the Identity credentials that requires user interaction.
  */
-export interface InteractiveCredentialOptions extends PersistentCredentialOptions {
+export interface InteractiveCredentialOptions extends TokenCredentialOptions {
   /**
    * Result of a previous authentication that can be used to retrieve the cached credentials of each individual account.
    * This is necessary to provide in case the application wants to work with more than one account per

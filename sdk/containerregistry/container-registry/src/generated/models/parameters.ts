@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   Manifest as ManifestMapper,
   ContentProperties as ContentPropertiesMapper,
@@ -248,6 +248,16 @@ export const accept3: OperationParameter = {
     serializedName: "Accept",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const value2: OperationParameter = {
+  parameterPath: ["options", "value"],
+  mapper: {
+    serializedName: "value",
+    type: {
+      name: "Stream"
     }
   }
 };

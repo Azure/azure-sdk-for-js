@@ -54,17 +54,9 @@
       "type": "string",
       "value": "[parameters('baseName')]"
     },
-    "CONTAINERREGISTRY_ENDPOINT": {
+    "CONTAINER_REGISTRY_ENDPOINT": {
       "type": "string",
       "value": "[variables('endpointValue')]"
-    },
-    "CONTAINERREGISTRY_USERNAME": {
-      "type": "string",
-      "value": "[listCredentials(parameters('baseName'), variables('apiVersion')).username]"
-    },
-    "CONTAINERREGISTRY_PASSWORD": {
-      "type": "string",
-      "value": "[listCredentials(parameters('baseName'), variables('apiVersion')).passwords[0].value]"
     }
   }
 }

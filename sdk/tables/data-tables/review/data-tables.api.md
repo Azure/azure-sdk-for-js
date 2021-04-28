@@ -244,6 +244,7 @@ export interface TableBatch {
     partitionKey: string;
     submitBatch: () => Promise<TableBatchResponse>;
     updateEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions) => void;
+    upsertEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions) => void;
 }
 
 // @public

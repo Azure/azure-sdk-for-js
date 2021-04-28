@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "12.0.0-beta.2",
+  "version": "12.0.0-beta.3",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -18,13 +18,13 @@
     "build:autorest": "autorest ./swagger/README.md --typescript --package-version=1.0.0-beta.4 --version=3.0.6267 --v3=true",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
+    "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts types/latest types/3.1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
-    "execute:samples": "echo Skipped.",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run --testMode=integration",
@@ -124,6 +124,16 @@
     "@rollup/plugin-inject": "^4.0.0",
     "ts-node": "^9.0.0",
     "typedoc": "0.15.2"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Data Tables",
+    "productSlugs": [
+      "azure",
+      "azure-table-storage"
+    ],
+    "requiredResources": {
+      "Azure Storage instance": "https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal"
+    }
   },
   "//metadata": {
     "constantPaths": [

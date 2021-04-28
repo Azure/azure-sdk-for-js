@@ -7,13 +7,10 @@ import { AccessToken, GetTokenOptions } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
-import { TokenCachePersistenceOptions } from "../../tokenCache/persistencePlatforms";
-import { TokenCachePersistence } from "../../tokenCache/TokenCachePersistence";
 import { resolveTenantId } from "../../util/resolveTenantId";
-import { TokenCache } from "../../tokenCache/types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalFlow, MsalFlowOptions } from "../flows";
-import { AuthenticationRequired } from "../errors";
+import { AuthenticationRequiredError } from "../errors";
 import { AuthenticationRecord } from "../types";
 import {
   defaultLoggerCallback,
@@ -29,7 +26,6 @@ import {
  * @internal
  */
 export interface MsalNodeOptions extends MsalFlowOptions {
-  tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
   tokenCredentialOptions: TokenCredentialOptions;
 }
 
@@ -46,17 +42,14 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected publicApp: msalNode.PublicClientApplication | undefined;
   protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
   protected msalConfig: msalNode.Configuration;
-  protected tokenCache: TokenCache | undefined;
+  protected clientId: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
 
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
-
-    if (options.tokenCachePersistenceOptions) {
-      this.tokenCache = new TokenCachePersistence(options.tokenCachePersistenceOptions);
-    }
+    this.clientId = this.msalConfig.auth.clientId;
   }
 
   /**
@@ -100,12 +93,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
     if (this.publicApp || this.confidentialApp) {
       return;
-    }
-
-    if (this.tokenCache) {
-      this.msalConfig.cache = {
-        cachePlugin: await this.tokenCache.register()
-      };
     }
 
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
@@ -162,7 +149,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     }
 
     if (accountsByTenant.length === 1) {
-      this.account = msalToPublic(accountsByTenant[0]);
+      this.account = msalToPublic(this.clientId, accountsByTenant[0]);
     } else {
       this.logger
         .info(`More than one account was found authenticated for this Client ID and Tenant ID.
@@ -180,11 +167,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    * Clears MSAL's cache.
    */
   async logout(): Promise<void> {
-    const cache = await this.publicApp?.getTokenCache();
-    if (!this.account || !cache) {
-      return;
-    }
-    cache.removeAccount(publicToMsal(this.account));
+    // Intentionally empty
   }
 
   /**
@@ -196,7 +179,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     await this.getActiveAccount();
     if (!this.account) {
-      throw new AuthenticationRequired(scopes, options);
+      throw new AuthenticationRequiredError(scopes, options);
     }
 
     const silentRequest: msalNode.SilentFlowRequest = {
@@ -209,7 +192,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     try {
       this.logger.info("Attempting to acquire token silently");
       const response = await this.publicApp!.acquireTokenSilent(silentRequest);
-      return this.handleResult(scopes, response || undefined);
+      return this.handleResult(scopes, this.clientId, response || undefined);
     } catch (err) {
       throw this.handleError(scopes, err, options);
     }
@@ -231,11 +214,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     options.correlationId = options?.correlationId || this.generateUuid();
     await this.init(options);
     return this.getTokenSilent(scopes, options).catch((err) => {
-      if (err.name !== "AuthenticationRequired") {
+      if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }
       if (options?.disableAutomaticAuthentication) {
-        throw new AuthenticationRequired(
+        throw new AuthenticationRequiredError(
           scopes,
           options,
           "Automatic authentication has been disabled. You may call the authentication() method."

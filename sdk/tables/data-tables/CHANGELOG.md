@@ -1,11 +1,16 @@
 # Release History
 
-## 12.0.0-beta.2 (Unreleased)
+## 12.0.0-beta.3 (Unreleased)
 
+
+## 12.0.0-beta.2 (2021-04-06)
+
+- Update open-telemetry dependency to 1.0.0-rc.0 [#14208](https://github.com/Azure/azure-sdk-for-js/pull/14208)
+- Update @azure/core-client and @azure/core-rest-pipeline dependencies to 1.0.0 [#14318](https://github.com/Azure/azure-sdk-for-js/pull/14318)
 
 ## 12.0.0-beta.1 (2021-03-09)
 
-- Exclude browser unsupported headers when building a Batch request in the browser [#13955)](https://github.com/Azure/azure-sdk-for-js/pull/13955)
+- Exclude browser unsupported headers when building a Batch request in the browser [#13955](https://github.com/Azure/azure-sdk-for-js/pull/13955)
 - Make connection string keys case-insensitive [#13954](https://github.com/Azure/azure-sdk-for-js/pull/13954)
 
 ## 1.0.0-beta.5 (2021-02-09)

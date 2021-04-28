@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClient } from "../generatedClient";
+import { GeneratedClientContext } from "../generatedClientContext";
 import {
   ContainerRegistryGetRepositoriesOptionalParams,
   ContainerRegistryGetRepositoriesResponse,
@@ -20,13 +20,13 @@ import {
 
 /** Class representing a ContainerRegistry. */
 export class ContainerRegistry {
-  private readonly client: GeneratedClient;
+  private readonly client: GeneratedClientContext;
 
   /**
    * Initialize a new instance of the class ContainerRegistry class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClient) {
+  constructor(client: GeneratedClientContext) {
     this.client = client;
   }
 
@@ -34,16 +34,11 @@ export class ContainerRegistry {
    * Tells whether this Docker Registry instance supports Docker Registry HTTP API v2
    * @param options The options parameters.
    */
-  checkDockerV2Support(
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  checkDockerV2Support(options?: coreClient.OperationOptions): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       checkDockerV2SupportOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -53,13 +48,10 @@ export class ContainerRegistry {
   getRepositories(
     options?: ContainerRegistryGetRepositoriesOptionalParams
   ): Promise<ContainerRegistryGetRepositoriesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getRepositoriesOperationSpec
-    ) as Promise<ContainerRegistryGetRepositoriesResponse>;
+    );
   }
 
   /**
@@ -69,16 +61,12 @@ export class ContainerRegistry {
    */
   deleteRepository(
     name: string,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<ContainerRegistryDeleteRepositoryResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { name, options },
       deleteRepositoryOperationSpec
-    ) as Promise<ContainerRegistryDeleteRepositoryResponse>;
+    );
   }
 
   /**
@@ -90,20 +78,16 @@ export class ContainerRegistry {
     nextLink: string,
     options?: ContainerRegistryGetRepositoriesNextOptionalParams
   ): Promise<ContainerRegistryGetRepositoriesNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       getRepositoriesNextOperationSpec
-    ) as Promise<ContainerRegistryGetRepositoriesNextResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const checkDockerV2SupportOperationSpec: coreHttp.OperationSpec = {
+const checkDockerV2SupportOperationSpec: coreClient.OperationSpec = {
   path: "/v2/",
   httpMethod: "GET",
   responses: {
@@ -116,7 +100,7 @@ const checkDockerV2SupportOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getRepositoriesOperationSpec: coreHttp.OperationSpec = {
+const getRepositoriesOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/_catalog",
   httpMethod: "GET",
   responses: {
@@ -133,7 +117,7 @@ const getRepositoriesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteRepositoryOperationSpec: coreHttp.OperationSpec = {
+const deleteRepositoryOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "DELETE",
   responses: {
@@ -148,7 +132,7 @@ const deleteRepositoryOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getRepositoriesNextOperationSpec: coreHttp.OperationSpec = {
+const getRepositoriesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

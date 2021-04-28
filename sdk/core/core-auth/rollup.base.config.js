@@ -37,7 +37,7 @@ export function nodeConfig(test = false) {
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
-    baseConfig.output.file = "test-dist/index.js";
+    baseConfig.output.file = "dist-test/index.js";
 
     // mark assert as external
     baseConfig.external.push("assert");

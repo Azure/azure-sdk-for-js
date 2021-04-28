@@ -55,8 +55,14 @@ describe("IdentityClient", function() {
       "secret",
       mockHttp.tokenCredentialOptions
     );
+
     await assertRejects(credential.getToken("https://test/.default"), (error) => {
-      assert.equal(error.name, "CredentialUnavailable");
+      // Keep in mind that this credential has different implementations in Node and in browsers.
+      if (isNode) {
+        assert.equal(error.name, "CredentialUnavailableError");
+      } else {
+        assert.equal(error.name, "AuthenticationError");
+      }
       return true;
     });
   });
@@ -123,7 +129,12 @@ describe("IdentityClient", function() {
     );
 
     await assertRejects(credential.getToken("https://test/.default"), (error) => {
-      assert.equal(error.name, "CredentialUnavailable");
+      // Keep in mind that this credential has different implementations in Node and in browsers.
+      if (isNode) {
+        assert.equal(error.name, "CredentialUnavailableError");
+      } else {
+        assert.equal(error.name, "AuthenticationError");
+      }
       return true;
     });
   });

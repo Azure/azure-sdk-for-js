@@ -10,7 +10,8 @@ import { getAuthorityHost, getKnownAuthorities, MsalBaseUtilities } from "../uti
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRecord } from "../types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { AuthenticationRequired } from "../errors";
+import { AuthenticationRequiredError } from "../errors";
+import { CredentialUnavailableError } from "../../client/errors";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -41,7 +42,7 @@ export function defaultBrowserMsalConfig(
   const authorityHost = getAuthorityHost(tenantId, options.authorityHost);
   return {
     auth: {
-      clientId: options.clientId!, // we just initialized it above
+      clientId: options.clientId!,
       authority: authorityHost,
       knownAuthorities: getKnownAuthorities(tenantId, authorityHost),
       // If the users picked redirect as their login style,
@@ -63,6 +64,7 @@ export function defaultBrowserMsalConfig(
  */
 export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrowserFlow {
   protected loginStyle: BrowserLoginStyle;
+  protected clientId: string;
   protected tenantId: string;
   protected account: AuthenticationRecord | undefined;
   protected msalConfig: msalBrowser.Configuration;
@@ -73,6 +75,10 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     super(options);
     this.logger = options.logger;
     this.loginStyle = options.loginStyle;
+    if (!options.clientId) {
+      throw new CredentialUnavailableError("A client ID is required in browsers");
+    }
+    this.clientId = options.clientId;
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);
     this.msalConfig = defaultBrowserMsalConfig(options);
     this.disableAutomaticAuthentication = options.disableAutomaticAuthentication;
@@ -138,11 +144,11 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
       await this.login(scopes);
     }
     return this.getTokenSilent(scopes).catch((err) => {
-      if (err.name !== "AuthenticationRequired") {
+      if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }
       if (options?.disableAutomaticAuthentication) {
-        throw new AuthenticationRequired(
+        throw new AuthenticationRequiredError(
           scopes,
           options,
           "Automatic authentication has been disabled. You may call the authentication() method."

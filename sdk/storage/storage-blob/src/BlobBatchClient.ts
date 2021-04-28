@@ -309,9 +309,9 @@ export class BlobBatchClient {
 
       // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
       const rawBatchResponse: ServiceSubmitBatchResponseModel = await this.serviceOrContainerContext.submitBatch(
-        batchRequestBody,
         utf8ByteLength(batchRequestBody),
         batchRequest.getMultiPartContentType(),
+        batchRequestBody,
         {
           ...options,
           ...convertTracingToRequestOptionsBase(updatedOptions)

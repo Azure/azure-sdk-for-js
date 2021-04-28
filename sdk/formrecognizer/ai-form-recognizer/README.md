@@ -326,10 +326,10 @@ main().catch((err) => {
 
 You are not limited to receipts! There are a few prebuilt models to choose from, each of which has its own set of supported fields.:
 
-- Receipts, through the `beginRecognizeReceipts` method (see [the supported fields of the receipt model](https://aka.ms/azsdk/formrecognizer/receiptfields)).
-- Business cards, through `beginRecognizeBusinessCards` (see [the supported fields of the business card model](https://aka.ms/azsdk/formrecognizer/businesscardfields)).
-- Invoices, through `beginRecognizeInvoices` (see [the supported fields of the invoice model](https://aka.ms/azsdk/formrecognizer/invoicefields)).
-- Identity Documents (such as driver licenses and passports), through `beginRecognizeIdDocuments` (see [the supported fields of the identity document model](https://aka.ms/azsdk/formrecognizer/iddocumentfields)).
+- Receipts, through the `beginRecognizeReceipts` method (see [the supported fields of the receipt model](https://aka.ms/formrecognizer/receiptfields)).
+- Business cards, through `beginRecognizeBusinessCards` (see [the supported fields of the business card model](https://aka.ms/formrecognizer/businesscardfields)).
+- Invoices, through `beginRecognizeInvoices` (see [the supported fields of the invoice model](https://aka.ms/formrecognizer/invoicefields)).
+- Identity Documents (such as driver licenses and passports), through `beginRecognizeIdDocuments` (see [the supported fields of the identity document model](https://aka.ms/formrecognizer/iddocumentfields)).
 
 ### Train a Model
 
@@ -467,7 +467,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
 [quickstart_training]: https://docs.microsoft.com/azure/cognitive-services/form-recognizer/quickstarts/curl-train-extract#train-a-form-recognizer-model
 [quickstart_labeling]: https://docs.microsoft.com/azure/cognitive-services/form-recognizer/quickstarts/label-tool
-[labeled_sample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/trainLabeledModel.ts
+[labeled_sample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/v3/typescript/src/trainLabeledModel.ts
 [multi_and_single_service]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows
 [azure_portal_create_fr_resource]: https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFormRecognizer
 [azure_cli_create_fr_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account-cli?tabs=windows

@@ -82,7 +82,7 @@ stages:
         jobs:
         - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
           parameters:
-            JobTemplatePath: /eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+            JobTemplatePath: /eng/pipelines/templates/jobs/live.tests.yml
             AdditionalParameters:
               PackageName: ${{ parameters.PackageName }}
               ServiceDirectory: ${{ parameters.ServiceDirectory }}
@@ -110,5 +110,6 @@ stages:
               - ${{ parameters.MatrixReplace }}
             CloudConfig:
               SubscriptionConfiguration: ${{ cloud.value.SubscriptionConfiguration }}
+              SubscriptionConfigurations: ${{ cloud.value.SubscriptionConfigurations }}
               Location: ${{ coalesce(parameters.Location, cloud.value.Location) }}
               Cloud: ${{ cloud.key }}

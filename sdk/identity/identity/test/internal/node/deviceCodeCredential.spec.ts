@@ -7,11 +7,9 @@ import Sinon from "sinon";
 import assert from "assert";
 import { PublicClientApplication } from "@azure/msal-node";
 import { env, isLiveMode } from "@azure/test-utils-recorder";
-import { DeviceCodeCredential, TokenCachePersistenceOptions } from "../../../src";
+import { DeviceCodeCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
-import { isNode15, isNode8 } from "../../../src/tokenCache/nodeVersion";
 import { Context } from "mocha";
 
 describe("DeviceCodeCredential (internal)", function() {
@@ -54,144 +52,5 @@ describe("DeviceCodeCredential (internal)", function() {
     await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 2);
     assert.equal(doGetTokenSpy.callCount, 1);
-  });
-
-  // To test this, please install @azure/msal-node-extensions and un-skip these tests.
-  describe("Persistent tests", function() {
-    try {
-      /* eslint-disable-next-line @typescript-eslint/no-require-imports */
-      require("@azure/msal-node-extensions");
-    } catch (e) {
-      return;
-    }
-
-    it("Accepts tokenCachePersistenceOptions", async function(this: Context) {
-      // msal-node-extensions does not currently support Node 8.
-      if (isNode8 || isNode15) {
-        this.skip();
-      }
-      // OSX asks for passwords on CI, so we need to skip these tests from our automation
-      if (process.platform === "darwin") {
-        this.skip();
-      }
-      // These tests should not run live because this credential requires user interaction.
-      if (isLiveMode()) {
-        this.skip();
-      }
-
-      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-        name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-        allowUnencryptedStorage: true
-      };
-
-      // Emptying the token cache before we start.
-      const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
-      const persistence = await tokenCache.getPersistence();
-      persistence?.save("");
-
-      const credential = new DeviceCodeCredential({
-        tokenCachePersistenceOptions
-      });
-
-      await credential.getToken(scope);
-      const result = await persistence?.load();
-      const parsedResult = JSON.parse(result!);
-      assert.ok(parsedResult.AccessToken);
-    });
-
-    it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Context) {
-      // msal-node-extensions does not currently support Node 8.
-      if (isNode8 || isNode15) {
-        this.skip();
-      }
-      // OSX asks for passwords on CI, so we need to skip these tests from our automation
-      if (process.platform === "darwin") {
-        this.skip();
-      }
-      // These tests should not run live because this credential requires user interaction.
-      if (isLiveMode()) {
-        this.skip();
-      }
-
-      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-        name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-        allowUnencryptedStorage: true
-      };
-
-      // Emptying the token cache before we start.
-      const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
-      const persistence = await tokenCache.getPersistence();
-      persistence?.save("");
-
-      const credential = new DeviceCodeCredential({
-        tokenCachePersistenceOptions
-      });
-
-      await credential.getToken(scope);
-      assert.equal(getTokenSilentSpy.callCount, 1);
-      assert.equal(doGetTokenSpy.callCount, 1);
-
-      // The cache should have a token a this point
-      const result = await persistence?.load();
-      const parsedResult = JSON.parse(result!);
-      assert.ok(parsedResult.AccessToken);
-
-      await credential.getToken(scope);
-      assert.equal(getTokenSilentSpy.callCount, 2);
-      assert.equal(doGetTokenSpy.callCount, 1);
-    });
-
-    it("allows passing an authenticationRecord to avoid further manual authentications", async function(this: Context) {
-      // msal-node-extensions does not currently support Node 8.
-      if (isNode8 || isNode15) {
-        this.skip();
-      }
-      // OSX asks for passwords on CI, so we need to skip these tests from our automation
-      if (process.platform === "darwin") {
-        this.skip();
-      }
-      // These tests should not run live because this credential requires user interaction.
-      if (isLiveMode()) {
-        this.skip();
-      }
-      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-        name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-        allowUnencryptedStorage: true
-      };
-
-      // Emptying the token cache before we start.
-      const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
-      const persistence = await tokenCache.getPersistence();
-      persistence?.save("");
-
-      const credential = new DeviceCodeCredential({
-        // To be able to re-use the account, the Token Cache must also have been provided.
-        // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
-        tokenCachePersistenceOptions
-      });
-
-      const account = await credential.authenticate(scope);
-      assert.ok(account);
-      assert.equal(getTokenSilentSpy.callCount, 1);
-      assert.equal(doGetTokenSpy.callCount, 1);
-
-      const credential2 = new DeviceCodeCredential({
-        authenticationRecord: account,
-        // To be able to re-use the account, the Token Cache must also have been provided.
-        // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
-        tokenCachePersistenceOptions
-      });
-
-      // The cache should have a token a this point
-      const result = await persistence?.load();
-      const parsedResult = JSON.parse(result!);
-      assert.ok(parsedResult.AccessToken);
-
-      const token = await credential2.getToken(scope);
-      assert.ok(token?.token);
-      assert.ok(token?.expiresOnTimestamp! > Date.now());
-      assert.equal(getTokenSilentSpy.callCount, 2);
-      assert.equal(doGetTokenSpy.callCount, 1);
-    });
   });
 });
