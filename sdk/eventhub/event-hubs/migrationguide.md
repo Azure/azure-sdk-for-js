@@ -87,9 +87,9 @@ This and the need to support improvements to the algorithm used for managing par
 
 ### Sending events
 
-| In v2                              | Equivalent in v5                               | Sample                                                                                                                           |
-| ---------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `EventHubClient.sendBatch(events)` | `EventHubProducerClient.sendBatch(eventBatch)` | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/sendEvents.ts) |
+| In v2                              | Equivalent in v5                               | Sample                                                                                                                              |
+| ---------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `EventHubClient.sendBatch(events)` | `EventHubProducerClient.sendBatch(eventBatch)` | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/typescript/src/sendEvents.ts) |
 
 Other noteworthy changes:
 
@@ -174,9 +174,9 @@ if (batch.count > 0) {
 
 ### Receiving events
 
-| In v2                                                          | Equivalent in v5                     | Sample                                                                                                                                 |
-| -------------------------------------------------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `EventHubClient.receive()` and `EventHubClient.receiveBatch()` | `EventHubConsumerClient.subscribe()` | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts) |
+| In v2                                                          | Equivalent in v5                     | Sample                                                                                                                                    |
+| -------------------------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `EventHubClient.receive()` and `EventHubClient.receiveBatch()` | `EventHubConsumerClient.subscribe()` | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/typescript/src/receiveEvents.ts) |
 
 Other noteworthy changes:
 
