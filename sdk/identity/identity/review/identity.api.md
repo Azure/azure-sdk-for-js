@@ -13,6 +13,9 @@ import { TokenCredential } from '@azure/core-http';
 export { AccessToken }
 
 // @public
+export function addIdentityExtension(extension: Partial<IdentityExtension>): void;
+
+// @public
 export class AggregateAuthenticationError extends Error {
     constructor(errors: any[], errorMessage?: string);
     errors: any[];
@@ -183,6 +186,14 @@ export function getDefaultAzureCredential(): TokenCredential;
 
 export { GetTokenOptions }
 
+// @public (undocumented)
+export interface IdentityExtension {
+    // Warning: (ae-incompatible-release-tags) The symbol "augmentDefaultCredentialStack" is marked as @public, but its signature references "TokenCredentialConstructor" which is marked as @internal
+    //
+    // (undocumented)
+    augmentDefaultCredentialStack: (stack: TokenCredentialConstructor[]) => void;
+}
+
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(options?: InteractiveBrowserCredentialOptions | InteractiveBrowserCredentialBrowserOptions);
@@ -225,6 +236,14 @@ export class ManagedIdentityCredential implements TokenCredential {
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
 
 export { TokenCredential }
+
+// Warning: (ae-internal-missing-underscore) The name "TokenCredentialConstructor" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface TokenCredentialConstructor {
+    // (undocumented)
+    new (options?: DefaultAzureCredentialOptions): TokenCredential;
+}
 
 // @public
 export interface TokenCredentialOptions extends PipelineOptions {

@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export * from "./extensions";
+
+export { TokenCredentialConstructor } from "./credentials/defaultCredentialStack";
+
 import { TokenCredential } from "@azure/core-http";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
