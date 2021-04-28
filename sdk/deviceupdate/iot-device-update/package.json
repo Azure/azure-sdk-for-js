@@ -68,27 +68,34 @@
     "node": ">=8.0.0"
   },
   "//sampleConfiguration": {
-    "skipFolder": true
+    "productName": "Azure Text Analytics",
+    "productSlugs": [
+      "azure",
+      "azure-iot"
+    ],
+    "requiredResources": {
+      "Azure Device Update for IoT Hub instance": "https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update"
+    }
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:debug": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
+    "build:samples": "echo Obsolete.",
     "build:test": "echo skip",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skip",
     "integration-test:node": "echo skip",
     "integration-test": "echo skip",
-    "lint:fix": "echo skip",
-    "lint": "echo skip",
+    "lint:fix": "eslint package.json api-extractor.json src samples --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src samples --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "echo skip",

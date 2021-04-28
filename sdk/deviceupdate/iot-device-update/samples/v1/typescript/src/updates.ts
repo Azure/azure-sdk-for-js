@@ -1,3 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Demonstrates the use of a DeviceUpdateClient to list all the update providers that have been imported to Device Update for IoT Hub
+ */
 import { DeviceUpdateClient } from "@azure/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import { config } from "dotenv";
