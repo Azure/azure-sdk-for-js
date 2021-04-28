@@ -26,7 +26,7 @@
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:browser": "npm run build:test && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
