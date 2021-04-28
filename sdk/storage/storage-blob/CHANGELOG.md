@@ -200,6 +200,55 @@
 - [Breaking] Return type of `downloadToBuffer` helper method on `BlobClient` is changed to `Promise<Buffer>` from `Promise<void>` [PR #5624](https://github.com/Azure/azure-sdk-for-js/pull/5624)
 - [Breaking] IE11 needs `Object.assign` polyfill loaded. [PR #5727](https://github.com/Azure/azure-sdk-for-js/pull/5727)
 
+## 12.0.0-preview.4 (2019-10-09)
+
+- [Breaking] Replace string array with boolean flags to specify dataset to include when listing containers or blobs.
+  - For listing containers
+    Before this change the option is specified as
+    ```js
+    blobServiceClient.listContainers({
+      include: "metadata"
+    });
+    ```
+    After this change:
+    ```js
+    blobServiceClient.listContainers({
+      includeMetadata: true
+    });
+    ```
+  - For listing blobs
+    Before this change the option is specified as
+    ```js
+    containerClient.listBlobsFlat({
+      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"]
+    });
+    ```
+    After this change:
+    ```js
+    containerClient.listBlobsFlat({
+      includeCopy: true,
+      includeDeleted: true,
+      includeMetadata: true,
+      includeSnapshots: true,
+      includeUncommitedBlobs: true
+    });
+    ```
+- [Breaking] `BlobClient.setTier()` is renamed to `BlobClient.setAccessTier()`.
+- [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on `LeaseClient`.
+- Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `BlobServiceClient` or `BlobClient` are instantiated.
+- Added development connection string support to connect to the storage emulator [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
+  - Development Connection String
+    - `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;`
+  - Shorthand notation is also supported
+    - `UseDevelopmentStorage=true` (or `UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri`)
+- Added name properties on all the clients for convenience.
+  - `accountName` is added to `AppendBlobClient`, `BlobClient`, `BlobServiceClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
+  - `containerName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
+  - `blobName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient` and `PageBlobClient`.
+- [Breaking] `Models.StorageServiceProperties` is renamed to `Models.BlobServiceProperties`
+- [Breaking] `Models.StorageServiceStats` is renamed to `Models.BlobServiceStatistics`
+- [Breaking] `UserDelegationKey.signedOid` is renamed to `UserDelegationKey.signedObjectId`. `UserDelegationKey.signedTid` is renamed to `UserDelegationKey.signedTenantId`.
+
 ## 12.0.0-preview.3 (2019-09-11)
 
 - [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
@@ -312,55 +361,6 @@
 - Exported `HttpRequestBody` type to allow implementation of a customized HTTP client.
 
 For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
-
-## 12.0.0-preview.4 (2019-10-09)
-
-- [Breaking] Replace string array with boolean flags to specify dataset to include when listing containers or blobs.
-  - For listing containers
-    Before this change the option is specified as
-    ```js
-    blobServiceClient.listContainers({
-      include: "metadata"
-    });
-    ```
-    After this change:
-    ```js
-    blobServiceClient.listContainers({
-      includeMetadata: true
-    });
-    ```
-  - For listing blobs
-    Before this change the option is specified as
-    ```js
-    containerClient.listBlobsFlat({
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"]
-    });
-    ```
-    After this change:
-    ```js
-    containerClient.listBlobsFlat({
-      includeCopy: true,
-      includeDeleted: true,
-      includeMetadata: true,
-      includeSnapshots: true,
-      includeUncommitedBlobs: true
-    });
-    ```
-- [Breaking] `BlobClient.setTier()` is renamed to `BlobClient.setAccessTier()`.
-- [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on `LeaseClient`.
-- Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `BlobServiceClient` or `BlobClient` are instantiated.
-- Added development connection string support to connect to the storage emulator [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
-  - Development Connection String
-    - `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;`
-  - Shorthand notation is also supported
-    - `UseDevelopmentStorage=true` (or `UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri`)
-- Added name properties on all the clients for convenience.
-  - `accountName` is added to `AppendBlobClient`, `BlobClient`, `BlobServiceClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
-  - `containerName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
-  - `blobName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient` and `PageBlobClient`.
-- [Breaking] `Models.StorageServiceProperties` is renamed to `Models.BlobServiceProperties`
-- [Breaking] `Models.StorageServiceStats` is renamed to `Models.BlobServiceStatistics`
-- [Breaking] `UserDelegationKey.signedOid` is renamed to `UserDelegationKey.signedObjectId`. `UserDelegationKey.signedTid` is renamed to `UserDelegationKey.signedTenantId`.
 
 ## 10.3.0 (2018-12-27)
 
