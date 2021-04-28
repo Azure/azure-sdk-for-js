@@ -1752,6 +1752,44 @@ export interface SearchIndexerError {
     readonly statusCode: number;
 }
 
+// @public
+export interface SearchIndexerKnowledgeStore {
+    projections: SearchIndexerKnowledgeStoreProjection[];
+    storageConnectionString: string;
+}
+
+// @public
+export type SearchIndexerKnowledgeStoreBlobProjectionSelector = SearchIndexerKnowledgeStoreProjectionSelector & {
+    storageContainer: string;
+};
+
+// @public
+export type SearchIndexerKnowledgeStoreFileProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
+
+// @public
+export type SearchIndexerKnowledgeStoreObjectProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
+
+// @public
+export interface SearchIndexerKnowledgeStoreProjection {
+    files?: SearchIndexerKnowledgeStoreFileProjectionSelector[];
+    objects?: SearchIndexerKnowledgeStoreObjectProjectionSelector[];
+    tables?: SearchIndexerKnowledgeStoreTableProjectionSelector[];
+}
+
+// @public
+export interface SearchIndexerKnowledgeStoreProjectionSelector {
+    generatedKeyName?: string;
+    inputs?: InputFieldMappingEntry[];
+    referenceKeyName?: string;
+    source?: string;
+    sourceContext?: string;
+}
+
+// @public
+export type SearchIndexerKnowledgeStoreTableProjectionSelector = SearchIndexerKnowledgeStoreProjectionSelector & {
+    tableName: string;
+};
+
 // @public (undocumented)
 export interface SearchIndexerLimits {
     readonly maxDocumentContentCharactersToExtract?: number;
@@ -1768,6 +1806,7 @@ export interface SearchIndexerSkillset {
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey | null;
     etag?: string;
+    knowledgeStore?: SearchIndexerKnowledgeStore;
     name: string;
     skills: SearchIndexerSkill[];
 }
@@ -1955,7 +1994,7 @@ export interface ServiceCounters {
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
     indexerCounter: ResourceCounter;
-    skillsetCounter: ResourceCounter;
+    skillsetCounter?: ResourceCounter;
     storageSizeCounter: ResourceCounter;
     synonymMapCounter: ResourceCounter;
 }

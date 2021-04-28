@@ -291,6 +291,13 @@ export {
   KnownTokenFilterName,
   CharFilterName,
   KnownCharFilterName,
-  LexicalNormalizer as BaseLexicalNormalizer
+  LexicalNormalizer as BaseLexicalNormalizer,
+  SearchIndexerKnowledgeStore,
+  SearchIndexerKnowledgeStoreProjection,
+  SearchIndexerKnowledgeStoreFileProjectionSelector,
+  SearchIndexerKnowledgeStoreBlobProjectionSelector,
+  SearchIndexerKnowledgeStoreProjectionSelector,
+  SearchIndexerKnowledgeStoreObjectProjectionSelector,
+  SearchIndexerKnowledgeStoreTableProjectionSelector
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";

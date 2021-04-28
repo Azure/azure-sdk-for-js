@@ -520,6 +520,7 @@ export function generatedSkillsetToPublicSkillset(
     cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(
       generatedSkillset.cognitiveServicesAccount
     ),
+    knowledgeStore: generatedSkillset.knowledgeStore,
     etag: generatedSkillset.etag,
     encryptionKey: convertEncryptionKeyToPublic(generatedSkillset.encryptionKey)
   };
@@ -536,6 +537,7 @@ export function publicSkillsetToGeneratedSkillset(
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(
       skillset.cognitiveServicesAccount
     ),
+    knowledgeStore: skillset.knowledgeStore,
     encryptionKey: convertEncryptionKeyToGenerated(skillset.encryptionKey)
   };
 }
