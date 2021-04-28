@@ -1609,9 +1609,7 @@ export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
 
 // @public
 export interface SearchDocumentsResultBase {
-    readonly answers?: {
-        [propertyName: string]: AnswerResult[];
-    } | null;
+    readonly answers?: AnswerResult[] | null;
     readonly count?: number;
     readonly coverage?: number;
     readonly facets?: {
@@ -1960,9 +1958,7 @@ export type SearchResult<T> = {
     readonly highlights?: {
         [k in keyof T]?: string[];
     };
-    readonly captions?: {
-        [propertyName: string]: CaptionResult[];
-    } | null;
+    readonly captions?: CaptionResult[] | null;
     document: T;
 };
 

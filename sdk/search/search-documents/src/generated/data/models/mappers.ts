@@ -82,13 +82,11 @@ export const SearchDocumentsResult: coreHttp.CompositeMapper = {
         readOnly: true,
         nullable: true,
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Sequence",
+          element: {
             type: {
-              name: "Sequence",
-              element: {
-                type: { name: "Composite", className: "AnswerResult" }
-              }
+              name: "Composite",
+              className: "AnswerResult"
             }
           }
         }
@@ -375,13 +373,11 @@ export const SearchResult: coreHttp.CompositeMapper = {
         readOnly: true,
         nullable: true,
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Sequence",
+          element: {
             type: {
-              name: "Sequence",
-              element: {
-                type: { name: "Composite", className: "CaptionResult" }
-              }
+              name: "Composite",
+              className: "CaptionResult"
             }
           }
         }
