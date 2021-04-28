@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Uses a CertiicateClient to create, update, and delete a certificate's operation.
+ * @summary Uses a CertificateClient to create, update, and delete a certificate's operation.
  */
+ 
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 

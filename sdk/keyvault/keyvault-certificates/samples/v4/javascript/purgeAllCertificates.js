@@ -4,6 +4,7 @@
 /**
  * @summary Purges all deleted certificates from a Key Vault.
  */
+ 
 const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 
