@@ -2,7 +2,6 @@
 
 ## 12.5.1 (Unreleased)
 
-
 ## 12.5.0 (2021-03-10)
 
 - Updated Azure Storage Service API version to 2020-06-12.
@@ -171,7 +170,7 @@
   });
   ```
 
-## 10.3.0 (2019.09)
+## 10.3.0 (2019-09)
 
 - Updated Azure Storage Service API version to 2019-02-02.
 - Added a new API `ShareURL.createPermission()` which allows for the creation of a security descriptor at the Azure File share level. This descriptor can be used for files and directories in the share.
@@ -179,7 +178,7 @@
 - Added APIs `DirectoryURL.setProperties()` and `FileURL.setProperties()`, and updated APIs `DirectoryURL.create()` and `FileURL.create()` for setting file permission, attributes, creation time, and last write time.
 - Added a new API `FileURL.uploadRangeFromURL()` which allows range in a file to be written using a range of another file as a source. This permits synchronous server-side copies to be orchestrated for files of any size.
 
-## 12.0.0-preview.3 (2019.08)
+## 12.0.0-preview.3 (2019-08)
 
 - Updated Azure Storage Service API version to 2019-02-02.
 - Added a new API `ShareClient.createPermission()` which allows for the creation of a security descriptor at the Azure File share level. This descriptor can be used for files and directories in the share.
@@ -201,7 +200,7 @@
 - Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/src/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/src/proxyAuth.ts)
 - Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
-## 12.0.0-preview.2 (2019.08)
+## 12.0.0-preview.2 (2019-08)
 
 - [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
@@ -211,7 +210,7 @@
   - SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
   - SAS connection string is supported in both NodeJS and browser runtimes unlike the Account Connection String which is supported only in the NodeJS runtime.
 
-## 12.0.0-preview.1 (2019.07)
+## 12.0.0-preview.1 (2019-07)
 
 - [Breaking] Client types are renamed from *URL to *Client.
   - ServiceURL, ShareURL, DirectoryURL and FileURL to FileServiceClient, ShareClient, DirectoryClient and FileClient respectively.
@@ -246,7 +245,7 @@
 
 For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
 
-## 10.2.0 (2019.06)
+## 10.2.0 (2019-06)
 
 - Fixed a bug of `downloadBlobToBuffer()` and `downloadAzureFileToBuffer()` when provided offset is not 0.
 - Fixed a bug that `Aborter` cannot work during retry interval.
@@ -262,7 +261,7 @@ For release notes and more information please visit https://aka.ms/azsdk/release
 - Added `DirectoryURL.forceCloseHandlesSegment()`, `FileURL.forceCloseHandlesSegment()`, `DirectoryURL.forceCloseHandle()` and `FileURL.forceCloseHandle()` to close handles.
 - Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/rest/api/storageservices/version-2018-11-09).
 
-## 10.1.0 (2019.01)
+## 10.1.0 (2019-01)
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help reducing bundle footprint.
 - [Breaking] Updated URL encoding strategy for `url` parameters of `new XXXURL(url, pipeline)` methods, such as `new FileURL(url, pipeline)`.
@@ -275,6 +274,6 @@ For release notes and more information please visit https://aka.ms/azsdk/release
 - Fixed an issue that when body is string with special characters, `FileURL.uploadRange` will fail to upload.
 - Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
 
-## 10.0.0-preview (2018.12)
+## 10.0.0-preview (2018-12)
 
 - Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.
