@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates using a key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
+ * @summary Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
  */
+
 const { createHash } = require("crypto");
 
 const { KeyClient, CryptographyClient } = require("@azure/keyvault-keys");

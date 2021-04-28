@@ -12,11 +12,11 @@ urlFragment: keyvault-keys-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                   | **Description**                                                                 |
-| ------------------------------- | ------------------------------------------------------------------------------- |
-| [cryptography.ts][cryptography] | Demonstrates using a key to sign/verify, encrypt/decrypt, and wrap/unwrap data. |
-| [helloWorld.ts][helloworld]     | Demonstrates creating, reading, listing, and deleting keys.                     |
-| [purgeAllKeys.ts][purgeallkeys] | Demonstrates purging all deleted keys from an Azure Key Vault.                  |
+| **File Name**                   | **Description**                                                                    |
+| ------------------------------- | ---------------------------------------------------------------------------------- |
+| [cryptography.ts][cryptography] | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data. |
+| [helloWorld.ts][helloworld]     | Creates, reads, lists, and deletes keys.                                           |
+| [purgeAllKeys.ts][purgeallkeys] | Purges all deleted keys from an Azure Key Vault.                                   |
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ To quickly create the needed Key Vault resources in Azure and to receive a conne
 
 [![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
 
-If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [this page](https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli) for more information.
+If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [the documentation for enabling soft-delete in Key Vault](https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli) for more information.
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
