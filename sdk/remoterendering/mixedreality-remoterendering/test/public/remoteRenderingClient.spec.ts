@@ -26,10 +26,6 @@ import {
 } from "@azure/core-auth";
 import { createClient, createRecorder, getEnv } from "../utils/recordedClient";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
 describe("RemoteRenderingClient construction", () => {
   const accountDomain = "mixedreality.azure.com";
   const accountId = "00000000-0000-0000-0000-000000000000";

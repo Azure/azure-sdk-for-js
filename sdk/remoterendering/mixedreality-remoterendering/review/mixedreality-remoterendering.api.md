@@ -36,9 +36,6 @@ export interface AssetConversionOperationState extends PollOperationState<AssetC
     latestResponse: AssetConversion;
 }
 
-// @public (undocumented)
-export type AssetConversionOptions = AssetConversionPollerOptions & OperationOptions;
-
 // @public
 export interface AssetConversionOutput {
     readonly outputAssetUrl?: string;
@@ -70,6 +67,12 @@ export interface AssetConversionSettings {
 // @public
 export type AssetConversionStatus = string;
 
+// @public (undocumented)
+export type BeginConversionOptions = AssetConversionPollerOptions & OperationOptions;
+
+// @public (undocumented)
+export type BeginSessionOptions = RenderingSessionPollerOptions & OperationOptions;
+
 // @public
 export interface CancelledAssetConversion extends AssetConversionBase {
     status: "Cancelled";
@@ -95,6 +98,9 @@ export interface FailedAssetConversion extends AssetConversionBase {
     error: RemoteRenderingServiceError;
     status: "Failed";
 }
+
+// @public (undocumented)
+export type GetSessionPollerOptions = RenderingSessionPollerOptions & OperationOptions;
 
 // @public
 export const enum KnownAssetConversionStatus {
@@ -126,9 +132,14 @@ export interface NonStartedAssetConversion extends AssetConversionBase {
 }
 
 // @public
-export type PartialRenderingSessionProperties = {
-    [P in keyof RenderingSessionProperties]+?: RenderingSessionProperties[P];
-};
+export interface PartialRenderingSessionProperties {
+    readonly arrInspectorPort?: number;
+    readonly createdOn?: Date;
+    readonly elapsedTimeInMinutes?: number;
+    readonly handshakePort?: number;
+    readonly host?: string;
+    readonly teraflops?: number;
+}
 
 // @public
 export interface ReadyRenderingSession extends RenderingSessionBase {
@@ -142,16 +153,16 @@ export class RemoteRenderingClient {
     constructor(endpoint: string, accountId: string, accountDomain: string, credential: AzureKeyCredential, options?: RemoteRenderingClientOptions);
     constructor(endpoint: string, accountId: string, accountDomain: string, credential: TokenCredential, options?: RemoteRenderingClientOptions);
     constructor(endpoint: string, accountId: string, accountDomain: string, credential: AccessToken, options?: RemoteRenderingClientOptions);
-    beginConversion(conversionId: string, assetConversionSettings: AssetConversionSettings, options?: AssetConversionOptions): Promise<AssetConversionPollerLike>;
-    beginSession(sessionId: string, renderingSessionSettings: RenderingSessionSettings, options?: RenderingSessionOptions): Promise<RenderingSessionPollerLike>;
+    beginConversion(conversionId: string, assetConversionSettings: AssetConversionSettings, options?: BeginConversionOptions): Promise<AssetConversionPollerLike>;
+    beginConversion(options: ResumeBeginConversionOptions): Promise<AssetConversionPollerLike>;
+    beginSession(sessionId: string, settings: RenderingSessionSettings, options?: BeginSessionOptions): Promise<RenderingSessionPollerLike>;
+    beginSession(options: ResumeBeginSessionOptions): Promise<RenderingSessionPollerLike>;
     endSession(sessionId: string, options?: OperationOptions): Promise<void>;
     getConversion(conversionId: string, options?: OperationOptions): Promise<AssetConversion>;
-    getConversionPoller(conversionId: string, options?: AssetConversionOptions): Promise<AssetConversionPollerLike>;
     getSession(sessionId: string, options?: OperationOptions): Promise<RenderingSession>;
-    getSessionPoller(sessionId: string, options?: RenderingSessionOptions): Promise<RenderingSessionPollerLike>;
     listConversions(options?: OperationOptions): PagedAsyncIterableIterator<AssetConversion>;
     listSessions(options?: OperationOptions): PagedAsyncIterableIterator<RenderingSession>;
-    updateSession(sessionId: string, updateSessionSettings: UpdateSessionSettings, options?: OperationOptions): Promise<RenderingSession>;
+    updateSession(sessionId: string, options: UpdateSessionOptions): Promise<RenderingSession>;
 }
 
 // @public
@@ -187,9 +198,6 @@ export interface RenderingSessionOperationState extends PollOperationState<Rende
 }
 
 // @public (undocumented)
-export type RenderingSessionOptions = RenderingSessionPollerOptions & OperationOptions;
-
-// @public (undocumented)
 export type RenderingSessionPollerLike = PollerLike<RenderingSessionOperationState, RenderingSession>;
 
 // @public (undocumented)
@@ -213,6 +221,16 @@ export interface RenderingSessionSettings {
     maxLeaseTimeInMinutes: number;
     size: RenderingServerSize;
 }
+
+// @public (undocumented)
+export type ResumeBeginConversionOptions = BeginConversionOptions & {
+    resumeFrom: string;
+};
+
+// @public (undocumented)
+export type ResumeBeginSessionOptions = BeginSessionOptions & {
+    resumeFrom: string;
+};
 
 // @public
 export interface RunningAssetConversion extends AssetConversionBase {
@@ -238,6 +256,9 @@ export interface SucceededAssetConversion extends AssetConversionBase {
     readonly output: AssetConversionOutput;
     status: "Succeeded";
 }
+
+// @public (undocumented)
+export type UpdateSessionOptions = UpdateSessionSettings & OperationOptions;
 
 // @public
 export interface UpdateSessionSettings {

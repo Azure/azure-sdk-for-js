@@ -13,7 +13,7 @@ import {
 } from "@azure/test-utils-recorder";
 
 import { RemoteRenderingClient } from "../../src";
-//import "./env";
+import "./env";
 
 // When the recorder observes the values of these environment variables
 // in any recorded HTTP request or response, it will replace them with
