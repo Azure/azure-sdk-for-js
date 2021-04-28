@@ -14,7 +14,7 @@ export async function authenticate(that: Context): Promise<any> {
     replaceableVariables: {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azure_tenant_id",
+      AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
       KEYVAULT_NAME: "keyvault_name",
       KEYVAULT_URI: "https://keyvault_name.vault.azure.net/"
     },
@@ -22,7 +22,9 @@ export async function authenticate(that: Context): Promise<any> {
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
       (recording: any): any =>
-        suffix === "" ? recording : recording.replace(new RegExp(suffix, "g"), "")
+        suffix === "" ? recording : recording.replace(new RegExp(suffix, "g"), ""),
+      (recording: any): any =>
+        recording.replace(/addr=[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/g, "addr=IP_ADDRESS")
     ],
     queryParametersToSkip: []
   };
