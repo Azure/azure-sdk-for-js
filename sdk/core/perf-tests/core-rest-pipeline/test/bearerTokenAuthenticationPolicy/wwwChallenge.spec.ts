@@ -9,7 +9,7 @@ import {
   HttpClient,
   Pipeline,
   PipelineRequest,
-  PipelineResponse,
+  PipelineResponse
 } from "@azure/core-rest-pipeline";
 import { TextDecoder } from "util";
 
@@ -63,7 +63,9 @@ function parseCAEChallenge(challenges: string): any[] {
     );
 }
 
-async function authorizeRequestOnChallenge(options: AuthorizeRequestOnChallengeOptions): Promise<boolean> {
+async function authorizeRequestOnChallenge(
+  options: AuthorizeRequestOnChallengeOptions
+): Promise<boolean> {
   const { scopes, request, response, getAccessToken } = options;
 
   const challenge = response?.headers.get("WWW-Authenticate");
@@ -82,8 +84,8 @@ async function authorizeRequestOnChallenge(options: AuthorizeRequestOnChallengeO
   }
 
   const accessToken = await getAccessToken(scopes, {
-    ...options,
-    claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64"))
+    // The architects haven't decided:
+    // claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64"))
   });
 
   if (!accessToken) {
@@ -97,16 +99,20 @@ async function authorizeRequestOnChallenge(options: AuthorizeRequestOnChallengeO
 class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
   public scopesAndClaims: { scope: string | string[]; challengeClaims: string | undefined }[] = [];
-  public getTokenResponses: (AccessToken | null)[];
 
-  constructor(getTokenResponses: (AccessToken | null)[]) {
-    this.getTokenResponses = getTokenResponses;
-  }
+  constructor(public getTokenResponse: AccessToken) {}
 
-  public getToken(scope: string | string[], options: GetTokenOptions): Promise<AccessToken | null> {
+  public getToken(
+    scope: string | string[],
+    _options: GetTokenOptions
+  ): Promise<AccessToken | null> {
     this.authCount++;
-    this.scopesAndClaims.push({ scope, challengeClaims: options.claims });
-    return Promise.resolve(this.getTokenResponses.shift()!);
+    this.scopesAndClaims.push({
+      scope,
+      // Architects haven't decided about the claims property
+      challengeClaims: undefined // options.claims
+    });
+    return Promise.resolve(this.getTokenResponse);
   }
 }
 
@@ -117,9 +123,9 @@ export class BearerTokenAuthenticationPolicyWWWChallenge extends PerfStressTest 
     super();
   }
 
-  pipeline?: Pipeline;
-  testHttpsClient?: HttpClient;
-  request?: PipelineRequest;
+  static pipeline?: Pipeline;
+  static testHttpsClient?: HttpClient;
+  static request?: PipelineRequest;
 
   async globalSetup(): Promise<void> {
     const scope = "http://localhost/.default";
@@ -127,27 +133,27 @@ export class BearerTokenAuthenticationPolicyWWWChallenge extends PerfStressTest 
       access_token: { foo: "bar" }
     });
 
-    this.request = createPipelineRequest({ url: "https://example.com" });
+    const request = createPipelineRequest({ url: "https://example.com" });
     const responses: PipelineResponse[] = [
       {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${scope}", claims="${encodeString(challengeClaims)}"`
         }),
-        request: this.request,
+        request,
         status: 401
       },
       {
         headers: createHttpHeaders(),
-        request: this.request,
+        request,
         status: 200
       }
     ];
 
     const expiresOn = Date.now() + 5000;
     const getTokenResponse = { token: "mock-token", expiresOnTimestamp: expiresOn };
-    const credential = new MockRefreshAzureCredential([getTokenResponse]);
+    const credential = new MockRefreshAzureCredential(getTokenResponse);
 
-    this.pipeline = createEmptyPipeline();
+    const pipeline = createEmptyPipeline();
 
     let cachedToken: AccessToken | null = null;
     const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
@@ -164,12 +170,15 @@ export class BearerTokenAuthenticationPolicyWWWChallenge extends PerfStressTest 
       }
     });
 
-    this.pipeline.addPolicy(bearerPolicy);
+    pipeline.addPolicy(bearerPolicy);
 
     const finalSendRequestHeaders: (string | undefined)[] = [];
 
     let responsesCount = 0;
-    this.testHttpsClient = {
+
+    BearerTokenAuthenticationPolicyWWWChallenge.request = request;
+    BearerTokenAuthenticationPolicyWWWChallenge.pipeline = pipeline;
+    BearerTokenAuthenticationPolicyWWWChallenge.testHttpsClient = {
       sendRequest: async (req) => {
         finalSendRequestHeaders.push(req.headers.get("Authorization"));
 
@@ -185,6 +194,7 @@ export class BearerTokenAuthenticationPolicyWWWChallenge extends PerfStressTest 
   }
 
   async runAsync(): Promise<void> {
-    await this.pipeline!.sendRequest(this.testHttpsClient!, this.request!);
+    const { pipeline, testHttpsClient, request } = BearerTokenAuthenticationPolicyWWWChallenge;
+    await pipeline!.sendRequest(testHttpsClient!, request!);
   }
 }
