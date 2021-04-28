@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* 
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary use custom HTTP pipeline options when connecting to Azure Storage
+ * @azsdk-weight 40
+ */
 
-import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+import { BlobServiceClient, StorageSharedKeyCredential, newPipeline } from "@azure/storage-blob";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -20,10 +21,17 @@ export async function main() {
   // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
+  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
+  const pipeline = newPipeline(sharedKeyCredential, {
+    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
+    retryOptions: { maxTries: 4 }, // Retry options
+    userAgentOptions: { userAgentPrefix: "Sample V1.0.0" } // Customized telemetry string
+  });
+
   // List containers
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
+    pipeline
   );
 
   let i = 1;

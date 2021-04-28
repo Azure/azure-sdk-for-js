@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary iterate over blobs in a container using different methods, with
+ * options for paging, resuming paging, etc.
+ * @azsdk-weight 70
+ */
 
 import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 

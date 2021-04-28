@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* 
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary authenticate using an account name and shared key
+ * @azsdk-weight 95
+ */
 
-const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";

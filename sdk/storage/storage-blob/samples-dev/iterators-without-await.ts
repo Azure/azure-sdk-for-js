@@ -1,16 +1,19 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary iterate over blobs in a container without using ES2018 `for await`
+ * syntax
+ * @azsdk-weight 60
+ */
 
-const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+import { ContainerClient, StorageSharedKeyCredential, BlobItem } from "@azure/storage-blob";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -43,7 +46,7 @@ async function main() {
   let index = 1;
   let asyncIter = containerClient.listBlobsFlat();
 
-  function printBlob(result) {
+  function printBlob(result: { done?: boolean; value: BlobItem }) {
     if (!result.done) {
       console.log("Blob " + index++ + ": " + result.value.name);
       asyncIter.next().then(printBlob);

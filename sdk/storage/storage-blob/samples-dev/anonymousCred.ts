@@ -1,36 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* 
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary authenticate anonymously using a SAS-encoded URL
+ * @azsdk-weight 95
+ */
 
-import { BlobServiceClient, StorageSharedKeyCredential, newPipeline } from "@azure/storage-blob";
+import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
-  // Enter your storage account name and shared key
+  // Enter your storage account name and SAS
   const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
+  const accountSas = process.env.ACCOUNT_SAS || "";
 
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-
-  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = newPipeline(sharedKeyCredential, {
-    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    retryOptions: { maxTries: 4 }, // Retry options
-    userAgentOptions: { userAgentPrefix: "Sample V1.0.0" } // Customized telemetry string
-  });
+  // Use AnonymousCredential when url already includes a SAS signature
+  const anonymousCredential = new AnonymousCredential();
 
   // List containers
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    pipeline
+    // When using AnonymousCredential, following url should include a valid SAS or support public access
+    `https://${account}.blob.core.windows.net${accountSas}`,
+    anonymousCredential
   );
 
   let i = 1;

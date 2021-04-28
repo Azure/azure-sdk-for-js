@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* 
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary connect to the Azure Storage service through a proxy and
+ * authenticate using a shared key
+ * @azsdk-weight 85
+ */
 
 import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 

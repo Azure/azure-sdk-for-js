@@ -1,50 +1,57 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* 
-  You can create your own policy and inject it into the default pipeline, or create your own Pipeline.
-  A request policy is a filter triggered before and after a HTTP request. With a filter, we can tweak HTTP requests and responses. 
-  For example, add a customized header, update URL or create logs. A HTTP pipeline is a group of policy factories.
+/**
+ * This sample shows how the Azure SDK for JavaScript core HTTP layer can be
+ * customized using policies. It creates a custom HTTP request policy and
+ * injects it into the default request pipeline (a pipeline is merely a
+ * sequence of policies). A request policy is a filter triggered before and
+ * after an HTTP request. A policy can modify the request in arbitrary ways,
+ * and in this sample we use it to modify the `x-ms-client-request-id` header.
+ *
+ * @summary use a custom request policy to add metadata to requests
+ * @azsdk-weight 35
+ */
 
-  Here we provide a sample to demonstrate how to customize the x-ms-client-request-id header for all outgoing HTTP requests.
-  This sample is just to demo the feature. Feel free to move the classes into one file in your code.
-
-  Setup: Enter your storage account name and shared key in main()
-*/
-
-const {
+import {
   newPipeline,
   AnonymousCredential,
   BlobServiceClient,
-  BaseRequestPolicy
-} = require("@azure/storage-blob");
+  BaseRequestPolicy,
+  WebResource,
+  RequestPolicy,
+  RequestPolicyOptions
+} from "@azure/storage-blob";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
+  prefix: string;
   // Constructor to accept parameters
-  constructor(prefix) {
+  constructor(prefix: string) {
     this.prefix = prefix;
   }
 
   // create() method needs to create a new RequestIDPolicy object
-  create(nextPolicy, options) {
+  create(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     return new RequestIDPolicy(nextPolicy, options, this.prefix);
   }
 }
 
 // Create a policy by extending from BaseRequestPolicy
 class RequestIDPolicy extends BaseRequestPolicy {
-  constructor(nextPolicy, options, prefix) {
+  prefix: string;
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, prefix: string) {
     super(nextPolicy, options);
     this.prefix = prefix;
   }
 
   // Customize HTTP requests and responses by overriding sendRequest
   // Parameter request is WebResource type
-  async sendRequest(request) {
+  async sendRequest(request: WebResource) {
     // Customize client request ID header
     request.headers.set(
       "x-ms-client-request-id",
@@ -61,7 +68,7 @@ class RequestIDPolicy extends BaseRequestPolicy {
 }
 
 // Main function
-async function main() {
+export async function main() {
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
 

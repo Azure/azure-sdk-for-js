@@ -37,17 +37,16 @@
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
-    "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
+    "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts typings/latest typings/3.1",
     "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* typings temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "clean:samples": "rimraf samples/javascript/node_modules samples/typescript/node_modules samples/typescript/dist samples/typescript/package-lock.json samples/javascript/package-lock.json",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/storage-blob/dist-samples/typescript/src/",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  \"dist-esm/storage-blob/test/*.spec.js\" \"dist-esm/storage-blob/test/node/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -102,20 +101,21 @@
     ]
   },
   "//sampleConfiguration": {
-    "skip": [
-      "advanced.js",
-      "anonymousCred.js",
-      "azureAdAuth.js",
-      "basic.js",
-      "customPipeline.js",
-      "customizedClientHeaders.js",
-      "iterators-blobs-hierarchy.js",
-      "iterators-blobs.js",
-      "iterators-containers.js",
-      "iterators-without-await.js",
-      "readingSnapshot.js",
-      "sharedKeyCred.js"
-    ]
+    "skipFolder": true,
+    "productName": "Azure Storage Blob",
+    "productSlugs": [
+      "azure",
+      "azure-storage",
+      "azure-blob-storage"
+    ],
+    "requiredResources": {
+      "Azure Storage Account": "https://docs.microsoft.com/azure/storage/common/storage-account-overview"
+    },
+    "extraFiles": {
+      "./samples-browser/": [
+        "browser"
+      ]
+    }
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",

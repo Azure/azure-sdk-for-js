@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary shows how to use the basic operations (create, list and download
+ * blobs, as well as creting and deleting containers)
+ * @azsdk-weight 100
+ */
 
 import {
   BlobServiceClient,

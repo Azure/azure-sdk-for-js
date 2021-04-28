@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter connection string of your storage account name in main()
-*/
+/**
+ * @summary demonstrate various errors and responses
+ * @azsdk-weight 20
+ */
 
-const { BlobServiceClient } = require("@azure/storage-blob");
+import { BlobServiceClient } from "@azure/storage-blob";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
   // SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
@@ -91,7 +93,7 @@ async function main() {
     const downloadBlockBlobResponse = await blockBlobClient.download();
     console.log(
       `Downloaded blob content - ${(
-        await streamToBuffer(downloadBlockBlobResponse.readableStreamBody)
+        await streamToBuffer(downloadBlockBlobResponse.readableStreamBody!)
       ).toString()},`
     );
     console.log(
@@ -138,10 +140,10 @@ async function main() {
 }
 
 // A helper method used to read a Node.js readable stream into a Buffer
-async function streamToBuffer(readableStream) {
+async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    const chunks = [];
-    readableStream.on("data", (data) => {
+    const chunks: Buffer[] = [];
+    readableStream.on("data", (data: Buffer | string) => {
       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
     });
     readableStream.on("end", () => {

@@ -1,26 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name, SAS and a path pointing to local file in main()
-*/
+/**
+ * @summary use advanced options when creating the client and containers, as
+ * well as when listing and downloading blobs
+ * @azsdk-weight 10
+ */
 
-const fs = require("fs");
-
-const { AbortController } = require("@azure/abort-controller");
-const { AnonymousCredential, BlobServiceClient, newPipeline } = require("@azure/storage-blob");
+import * as fs from "fs";
+import { AbortController } from "@azure/abort-controller";
+import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/storage-blob";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
 // Alternatively, logging can be enabled at runtime by calling `setLogLevel("info");`
 // `setLogLevel` can be imported from the `@azure/logger` package
-const { setLogLevel } = require("@azure/logger");
+import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 
-async function main() {
+export async function main() {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
@@ -86,7 +88,7 @@ async function main() {
   }
 
   // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with BlockBlobClient.uploadData()
-  // Uncomment following code in browsers because document.getElementById() is only available in browsers
+  // Uncomment following code in browsers because document is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
   await blockBlobClient.uploadData(browserFile, {
