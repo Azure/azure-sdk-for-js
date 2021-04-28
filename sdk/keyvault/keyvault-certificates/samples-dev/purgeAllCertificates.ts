@@ -4,7 +4,7 @@
 /**
  * @summary Purges all deleted certificates from a Key Vault.
  */
- 
+
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 

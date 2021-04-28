@@ -22,7 +22,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [issuers.ts][issuers]                           | Creates, updates and deletes certificate issuers.                                                                          |
 | [listCertificates.ts][listcertificates]         | List certificates, lists a certificate's versions, and lists deleted certificates in various ways.                         |
 | [mergeCertificate.ts][mergecertificate]         | Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API. |
-| [operations.ts][operations]                     | Uses a CertiicateClient to create, update, and delete a certificate's operation.                                           |
+| [operations.ts][operations]                     | Uses a CertificateClient to create, update, and delete a certificate's operation.                                          |
 | [purgeAllCertificates.ts][purgeallcertificates] | Purges all deleted certificates from a Key Vault.                                                                          |
 
 ## Prerequisites

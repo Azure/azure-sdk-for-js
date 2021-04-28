@@ -22,7 +22,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [issuers.js][issuers]                           | Creates, updates and deletes certificate issuers.                                                                          |
 | [listCertificates.js][listcertificates]         | List certificates, lists a certificate's versions, and lists deleted certificates in various ways.                         |
 | [mergeCertificate.js][mergecertificate]         | Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API. |
-| [operations.js][operations]                     | Uses a CertiicateClient to create, update, and delete a certificate's operation.                                           |
+| [operations.js][operations]                     | Uses a CertificateClient to create, update, and delete a certificate's operation.                                          |
 | [purgeAllCertificates.js][purgeallcertificates] | Purges all deleted certificates from a Key Vault.                                                                          |
 
 ## Prerequisites

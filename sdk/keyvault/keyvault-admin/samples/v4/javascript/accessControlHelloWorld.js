@@ -4,7 +4,7 @@
 /**
  * @summary Uses an AccessControlClient to list, create, and assign roles to users.
  */
- 
+
 const { KeyVaultAccessControlClient } = require("@azure/keyvault-admin");
 const { DefaultAzureCredential } = require("@azure/identity");
 const uuid = require("uuid");

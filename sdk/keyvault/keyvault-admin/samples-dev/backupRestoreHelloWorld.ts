@@ -4,7 +4,7 @@
 /**
  * @summary Uses a BackupClient to backup and fully restore an Azure Key Vault using Azure Storage Blob.
  */
- 
+
 import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 import { DefaultAzureCredential } from "@azure/identity";
 
