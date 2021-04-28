@@ -675,6 +675,11 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Split Q promises wrapper to new repository.
 - Update to package file for npm registry.
 
+## 1.2.1 (2015-08-15)
+
+- Implements ID Based Routing.
+- Fixes Issue [#49](https://github.com/Azure/azure-documentdb-node/issues/49) - current property conflicts with method current().
+
 ## 1.2.0 (2015-08-05)
 
 - Added support for GeoSpatial index.
@@ -776,8 +781,3 @@ Any request to Cosmos DB using a retired SDK will be rejected by the service.
 | [1.0.2](#1.0.2)          | May 23, 2015       | August 30, 2020 |
 | [1.0.1](#1.0.1)          | May 15, 2015       | August 30, 2020 |
 | [1.0.0](#1.0.0)          | April 08, 2015     | August 30, 2020 |
-## 1.2.1 ((2015-08-15))
-
-- Implements ID Based Routing.
-- Fixes Issue [#49](https://github.com/Azure/azure-documentdb-node/issues/49) - current property conflicts with method current().
-

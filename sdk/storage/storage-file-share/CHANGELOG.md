@@ -44,6 +44,20 @@
 - Bug fix - `credential` parameter of `newPipeline()` function is now optional. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
 - Bug fix - Content-Length header is no more ignored. Fixes bugs [8903](https://github.com/Azure/azure-sdk-for-js/issues/8903), [9300](https://github.com/Azure/azure-sdk-for-js/issues/9300) and [10614](https://github.com/Azure/azure-sdk-for-js/issues/10614).
 
+## 12.2.0-preview.1 (2020-07-03)
+
+- Updated Azure Storage Service API version to 2019-12-12.
+- Support 4 TB files.
+- Added `exists` and `deleteIfExists()` to `ShareClient`, `ShareDirectoryClient`, and `ShareFileClient`.
+- Added `createIfNotExists()` to `ShareClient` and `ShareDirectoryClient`.
+
+## 12.1.2 (2020-05-20)
+
+- Fix data corruption failure error [issue #6411](https://github.com/Azure/azure-sdk-for-js/issues/6411) when downloading compressed files. [PR #7993](https://github.com/Azure/azure-sdk-for-js/pull/7993)
+- Fix un-handled TypeError [issue #8499](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)
+- Updated to use `@opentelemetry/api` 0.6.1 via `@azure/core-tracing`. [PR #7998](https://github.com/Azure/azure-sdk-for-js/pull/7998)
+- Updated to use `typescript` 3.8.3. [PR #8659](https://github.com/Azure/azure-sdk-for-js/pull/8659)
+
 ## 12.1.1 (2020-03-10)
 
 - Fixed unexpected hang issue when uploading empty body. Fixed bug [6904](https://github.com/Azure/azure-sdk-for-js/issues/6904).
@@ -57,21 +71,7 @@
 - `ShareProperties` now has 4 additional properties for premium file shares.
 - Fixed a bug where the package didn't work as expected when bundling web applications. [PR #7298](https://github.com/Azure/azure-sdk-for-js/pull/7298)
 
-## 12.2.0-preview.1 (2020.07)
-
-- Updated Azure Storage Service API version to 2019-12-12.
-- Support 4 TB files.
-- Added `exists` and `deleteIfExists()` to `ShareClient`, `ShareDirectoryClient`, and `ShareFileClient`.
-- Added `createIfNotExists()` to `ShareClient` and `ShareDirectoryClient`.
-
-## 12.1.2 (2020.05)
-
-- Fix data corruption failure error [issue #6411](https://github.com/Azure/azure-sdk-for-js/issues/6411) when downloading compressed files. [PR #7993](https://github.com/Azure/azure-sdk-for-js/pull/7993)
-- Fix un-handled TypeError [issue #8499](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)
-- Updated to use `@opentelemetry/api` 0.6.1 via `@azure/core-tracing`. [PR #7998](https://github.com/Azure/azure-sdk-for-js/pull/7998)
-- Updated to use `typescript` 3.8.3. [PR #8659](https://github.com/Azure/azure-sdk-for-js/pull/8659)
-
-## 12.0.1 (2020.01)
+## 12.0.1 (2020-01-09)
 
 - Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6755](https://github.com/Azure/azure-sdk-for-js/pull/6755)
 - Service clients now share a single http client instance by default. [PR #6657](https://github.com/Azure/azure-sdk-for-js/pull/6657)
@@ -94,7 +94,7 @@
 - Added a warning to the documentation of `downloadToBuffer` that explains the limitations of Node.js `Buffer` sizes to around 2GB on 64-bit architectures and 1GB on 32-bit architectures.
 - Documented the behavior of `getProperties` methods with respect to metadata keys and their casing inconsistency when compared to the metadata keys returned through corresponding "list" methods with the `includeMetadata` option.
 
-## 12.0.0-preview.6 (2019.11)
+## 12.0.0-preview.6 (2019-10-30)
 
 - [Breaking] `@azure/storage-file` package is renamed to `@azure/storage-file-share` to better align with the upcoming new package for Azure Storage Files DataLake. As a consequence,
   - `FileServiceClient` becomes `ShareServiceClient`
