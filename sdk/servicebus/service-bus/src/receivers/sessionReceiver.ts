@@ -438,7 +438,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
     return {
       close: async (): Promise<void> => {
-        return this._messageSession?.receiverHelper.suspend();
+        return this._messageSession?.streamingReceiverHelper.suspend();
       }
     };
   }

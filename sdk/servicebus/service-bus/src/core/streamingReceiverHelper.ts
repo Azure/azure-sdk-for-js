@@ -10,8 +10,7 @@ import { receiverLogger as logger } from "../log";
  *
  * @internal
  */
-export class ReceiverHelper {
-  // TODO: It is only ever used for streaming receivers (sessions and non-sessions) - so rename it to StramingReceiverHelper
+export class StreamingReceiverHelper {
   private _isSuspended: boolean = false;
 
   constructor(
@@ -46,7 +45,7 @@ export class ReceiverHelper {
   }
 
   /**
-   * Drains the credits for the receiver and prevents the `receiverHelper.addCredit()` method from adding credits.
+   * Drains the credits for the receiver and prevents the `streamingReceiverHelper.addCredit()` method from adding credits.
    * Call `resume()` to enable the `addCredit()` method.
    */
   async suspend(): Promise<void> {

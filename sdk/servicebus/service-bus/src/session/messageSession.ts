@@ -32,7 +32,7 @@ import {
   StreamingReceiverCreditManager
 } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { ReceiverHelper } from "../core/receiverHelper";
+import { StreamingReceiverHelper } from "../core/streamingReceiverHelper";
 import {
   ServiceBusSessionReceiverOptions,
   ProcessErrorArgs,
@@ -186,10 +186,10 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   private _totalAutoLockRenewDuration: number;
 
-  public get receiverHelper(): ReceiverHelper {
-    return this._receiverHelper;
+  public get streamingReceiverHelper(): StreamingReceiverHelper {
+    return this._streamingReceiverHelper;
   }
-  private _receiverHelper: ReceiverHelper;
+  private _streamingReceiverHelper: StreamingReceiverHelper;
 
   /**
    * Ensures that the session lock is renewed before it expires. The lock will not be renewed for
@@ -373,7 +373,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       address: entityPath,
       audience: `${connectionContext.config.endpoint}${entityPath}`
     });
-    this._receiverHelper = new ReceiverHelper(() => ({
+    this._streamingReceiverHelper = new StreamingReceiverHelper(() => ({
       receiver: this.link,
       logPrefix: this.logPrefix
     }));
@@ -618,7 +618,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           receiver: this.link,
           logPrefix: this.logPrefix
         }),
-        this._receiverHelper,
+        this._streamingReceiverHelper,
         this.receiveMode,
         this.entityPath,
         this._context.config.host,

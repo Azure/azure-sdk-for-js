@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverEvents } from "rhea-promise";
-import { ReceiverHelper } from "../../../src/core/receiverHelper";
+import { StreamingReceiverHelper } from "../../../src/core/streamingReceiverHelper";
 import { createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -28,7 +28,7 @@ describe("ReceiverHelper unit tests", () => {
      * checking.
      */
     it(`operations on an invalid receiver should just no-op harmlessly: ${invalidReceiver}`, async () => {
-      const helper = new ReceiverHelper(() => ({
+      const helper = new StreamingReceiverHelper(() => ({
         receiver: invalidReceiver,
         logPrefix: "whatever"
       }));
@@ -55,7 +55,7 @@ describe("ReceiverHelper unit tests", () => {
 
   it("operations on an open receiver", async () => {
     const receiver = createRheaReceiverForTests();
-    const helper = new ReceiverHelper(() => ({ receiver, logPrefix: "hello" }));
+    const helper = new StreamingReceiverHelper(() => ({ receiver, logPrefix: "hello" }));
 
     let drainWasCalled = false;
 

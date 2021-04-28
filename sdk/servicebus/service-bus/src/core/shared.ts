@@ -7,7 +7,7 @@ import { receiverLogger } from "../log";
 import { ReceiveMode } from "../models";
 import { Receiver } from "rhea-promise";
 import { OnError } from "./messageReceiver";
-import { ReceiverHelper } from "./receiverHelper";
+import { StreamingReceiverHelper } from "./streamingReceiverHelper";
 
 /**
  * @internal
@@ -133,7 +133,7 @@ export function numberOfEmptyIncomingSlots(
 export class StreamingReceiverCreditManager {
   constructor(
     private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string },
-    private receiverHelper: ReceiverHelper,
+    private streamingReceiverHelper: StreamingReceiverHelper,
     private receiveMode: ReceiveMode,
     private entityPath: string,
     private fullyQualifiedNamespace: string,
@@ -142,7 +142,7 @@ export class StreamingReceiverCreditManager {
 
   addCreditsInit() {
     const emptySlots = numberOfEmptyIncomingSlots(this._getCurrentReceiver().receiver);
-    this.receiverHelper.addCredit(
+    this.streamingReceiverHelper.addCredit(
       this.receiveMode === "peekLock"
         ? Math.min(this.maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1) // TODO: Move the -1 to numberOfEmptyIncomingSlots
         : this.maxConcurrentCalls
@@ -159,7 +159,7 @@ export class StreamingReceiverCreditManager {
   onReceive(notifyError: OnError | undefined) {
     const receiver = this._getCurrentReceiver().receiver;
     if (this.receiveMode === "receiveAndDelete" || numberOfEmptyIncomingSlots(receiver) > 1) {
-      this.receiverHelper.addCredit(1);
+      this.streamingReceiverHelper.addCredit(1);
     } else if (receiver) {
       notifyError?.({
         error: new ServiceBusError(
@@ -189,7 +189,7 @@ export class StreamingReceiverCreditManager {
       this.receiveMode === "peekLock" &&
       numberOfEmptyIncomingSlots(receiver) > 1 &&
       receiver?.isOpen() &&
-      this.receiverHelper.canReceiveMessages()
+      this.streamingReceiverHelper.canReceiveMessages()
     ) {
       this.addCreditsInit();
     }

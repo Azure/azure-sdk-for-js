@@ -10,7 +10,7 @@ import {
 } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 
-import { ReceiverHelper } from "./receiverHelper";
+import { StreamingReceiverHelper } from "./streamingReceiverHelper";
 
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import {
@@ -65,7 +65,7 @@ export class StreamingReceiver extends MessageReceiver {
    */
   private _retryOptions: RetryOptions;
 
-  private _receiverHelper: ReceiverHelper;
+  private _streamingReceiverHelper: StreamingReceiverHelper;
 
   /**
    * Used so we can stub out retry in tests.
@@ -113,7 +113,7 @@ export class StreamingReceiver extends MessageReceiver {
     // for the streaming receiver so long as we can receive messages then we
     // _are_ receiving messages - there's no in-between state like there is
     // with BatchingReceiver.
-    return this._receiverHelper.canReceiveMessages();
+    return this._streamingReceiverHelper.canReceiveMessages();
   }
 
   /**
@@ -132,7 +132,7 @@ export class StreamingReceiver extends MessageReceiver {
     this._retryOptions = options?.retryOptions || {};
     this._retry = retry;
 
-    this._receiverHelper = new ReceiverHelper(() => ({
+    this._streamingReceiverHelper = new StreamingReceiverHelper(() => ({
       receiver: this.link,
       logPrefix: this.logPrefix
     }));
@@ -142,7 +142,7 @@ export class StreamingReceiver extends MessageReceiver {
         receiver: this.link,
         logPrefix: this.logPrefix
       }),
-      this._receiverHelper,
+      this._streamingReceiverHelper,
       this.receiveMode,
       this.entityPath,
       this._context.config.host,
@@ -381,7 +381,7 @@ export class StreamingReceiver extends MessageReceiver {
   }
 
   async stopReceivingMessages(): Promise<void> {
-    await this._receiverHelper.suspend();
+    await this._streamingReceiverHelper.suspend();
   }
 
   /**
@@ -456,7 +456,7 @@ export class StreamingReceiver extends MessageReceiver {
     // this might seem odd but in reality this entire class is like one big function call that
     // results in a receive(). Once we're being initialized we should consider ourselves the
     // "owner" of the receiver and that it's now being locked into being the actual receiver.
-    this._receiverHelper.resume();
+    this._streamingReceiverHelper.resume();
   }
 
   /**
