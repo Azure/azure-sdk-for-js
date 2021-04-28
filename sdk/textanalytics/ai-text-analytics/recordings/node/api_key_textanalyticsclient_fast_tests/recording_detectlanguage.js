@@ -14,13 +14,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1',
   'x-envoy-upstream-service-time',
-  '5024',
+  '2515',
   'apim-request-id',
-  '8b30a01a-1978-4221-968e-58eb76edd7a3',
+  '82509c28-646b-41af-ac85-ed2633d13790',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 20:12:53 GMT'
+  'Wed, 28 Apr 2021 21:03:11 GMT'
 ]);
