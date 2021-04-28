@@ -46,7 +46,7 @@ async function provideAnomalyFeedback(client, metricId) {
 async function providePeriodFeedback(client, metricId) {
   console.log("Creating a period feedback...");
   const periodFeedback = {
-    metricId: metricId,
+    metricId,
     feedbackType: "Period",
     periodType: "AutoDetect",
     periodValue: 4,
