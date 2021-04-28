@@ -1,17 +1,25 @@
 # Azure IoT Resolver library for Javascript
 
-This package contains an isomorphic Client Library for Azure IoT Models Repository in Javascript. Use the Azure IoT Resolver library for Javascript to pull DTDL files from remote endpoints.
+This package contains an isomorphic Client Library for Azure IoT Models Repository in Javascript. Use the Azure IoT Models Repository library for Javascript to pull DTDL files from remote endpoints.
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iot/modelsrepository) |
+[Package (npm)](https://www.npmjs.com/package/@azure/iot-modelsrepository-client/) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/iot-modelsrepository-client/samples) |
+
+-------------------------------------
 
 ## Key concepts
 
-The Azure IoT Resolver library for Javascript is written to interact with the Azure IoT PlugAndPlay Models Repository, for those developers who wish to write applications in Javascript to do so.
+The Azure IoT Models Repository library for Javascript is written to interact with the Azure IoT PlugAndPlay Models Repository, for those developers who wish to write applications in Javascript to do so.
 
 ### Currently supported environments
 
-- Node.js version 10.x.x or higher
+- Node.js version 8.x.x or higher
 - Browser JavaScript
 
 ### How to Install
+
+The preferred way to install the Azure IoT Models Repository client library for JavaScript is to use the npm package manager. Type the following into a terminal window:
 
 ```
 npm install @azure/iot-modelsrepository-client
@@ -61,6 +69,8 @@ console.log(result);
   <body></body>
 </html>
 ```
+
+-----------------------------------------
 
 ## Related projects
 

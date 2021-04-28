@@ -3,7 +3,7 @@
 
 import { DTDL } from "./DTDL";
 import { logger } from "./logger";
-import { DtmiResolver } from "./resolver";
+import { DtmiResolver } from "./dtmiResolver";
 
 export class PseudoParser {
   private _resolver: DtmiResolver;

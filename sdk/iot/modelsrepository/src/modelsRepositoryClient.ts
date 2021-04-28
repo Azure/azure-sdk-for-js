@@ -6,20 +6,23 @@ import {
   IoTModelsRepositoryServiceClient, 
   ModelsRepositoryClientOptions,
   dependencyResolutionType,
-  isLocalPath,
   HttpFetcher,
   FilesystemFetcher,
   PseudoParser,
   DtmiResolver,
-  ResolverError,
   logger,
 } from "./internal";
 import * as cnst from './constants';
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
 import { URL } from "url";
 import * as path from "path";
-import { Fetcher } from "./fetcher";
+import { Fetcher } from "./fetcherAbstract";
+import { RestError } from "@azure/core-rest-pipeline";
 
+function isLocalPath(p: string): boolean {
+  const myRegex = RegExp(/^(?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+$/g);
+  return !!p.match(myRegex);
+}
 
 /**
  * Initializes a new instance of the IoT Models Repository Client.
@@ -111,6 +114,7 @@ export class ModelsRepositoryClient {
    * or a Filesystem Fetcher.
    */
   private _createFetcher(location: string, options: ModelsRepositoryClientOptions): Fetcher {
+    // TODO: Validate that this works with a Windows UNC Filesystem URI.
     let locationURL;
     let fetcher;
     if (isLocalPath(location)) {
@@ -186,7 +190,8 @@ export class ModelsRepositoryClient {
         logger.info(`Retreiving expanded model(s): ${dtmis}...`);
         modelMap = await this._resolver.resolve(dtmis, true);
       } catch (e) {
-        if (e instanceof ResolverError) {
+        if (e instanceof RestError) {
+          logger.info("Could not retrieve model(s) from expanded model DTDL - ")
           // TODO: What do we do if it is a ResolverError?
         } else {
           throw e;
