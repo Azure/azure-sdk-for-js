@@ -124,7 +124,7 @@ describe("RemoteRendering functional tests", () => {
     await recorder.stop();
   });
 
-  it("successful conversion", async () => {
+  it("can convert successfully", async () => {
     let storageContainerUrl: string =
       "https://" +
       getEnv("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
@@ -181,7 +181,7 @@ describe("RemoteRendering functional tests", () => {
     assert.isTrue(foundConversion);
   });
 
-  it("failed conversion no access", async () => {
+  it("throws correct exception on no access", async () => {
     let storageContainerUrl =
       "https://" +
       getEnv("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
@@ -216,7 +216,7 @@ describe("RemoteRendering functional tests", () => {
     assert.isTrue(didThrowExpected);
   });
 
-  it("failed conversion missing asset", async () => {
+  it("will fail in the correct way on missing asset", async () => {
     let storageContainerUrl =
       "https://" +
       getEnv("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
@@ -242,6 +242,13 @@ describe("RemoteRendering functional tests", () => {
       conversionId,
       conversionSettings
     );
+
+    let assetConversion: AssetConversion = await client.getConversion(conversionId);
+    assert.equal(assetConversion.conversionId, conversionId);
+
+    let newPoller = await client.beginConversion({ resumeFrom: conversionPoller.toString() });
+    assert.equal(newPoller.getOperationState().latestResponse.conversionId, conversionId);
+
     let conversion: AssetConversion = await conversionPoller.pollUntilDone();
     assert.equal(conversion.status, "Failed");
     if (conversion.status == "Failed") {
@@ -251,7 +258,7 @@ describe("RemoteRendering functional tests", () => {
     }
   });
 
-  it("successful session", async () => {
+  it("can start a session", async () => {
     const sessionSettings: RenderingSessionSettings = {
       maxLeaseTimeInMinutes: 4,
       size: "Standard"
@@ -301,10 +308,10 @@ describe("RemoteRendering functional tests", () => {
     }
     assert.isTrue(foundSession);
 
-    client.endSession(sessionId);
+    await client.endSession(sessionId);
   });
 
-  it("invalid session", async () => {
+  it("throws the correct exception on invalid session properties", async () => {
     const sessionSettings: RenderingSessionSettings = {
       maxLeaseTimeInMinutes: -4,
       size: "Standard"

@@ -3,8 +3,8 @@
 
 import { Context } from "mocha";
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
+import { env, record, Recorder, RecorderEnvironmentSetup, isPlaybackMode } from "@azure/test-utils-recorder";
 
 import { RemoteRenderingClient } from "../../src";
 //import "./env";
@@ -14,7 +14,7 @@ import { RemoteRenderingClient } from "../../src";
 // the values they are mapped to below, which are not real account details.
 const replaceableVariables: Record<string, string> = {
   REMOTERENDERING_ARR_ACCOUNT_DOMAIN: "eastus2.mixedreality.azure.com",
-  REMOTERENDERING_ARR_ACCOUNT_ID: "arr_account_id",
+  REMOTERENDERING_ARR_ACCOUNT_ID: "00000000-1111-2222-3333-444455556666",
   REMOTERENDERING_ARR_ACCOUNT_KEY: "arr_account_key",
   REMOTERENDERING_ARR_BLOB_CONTAINER_NAME: "test",
   REMOTERENDERING_ARR_SAS_TOKEN: "arr_sas_token",
@@ -46,9 +46,17 @@ export function createClient(): RemoteRenderingClient {
   const accountId = getEnv("REMOTERENDERING_ARR_ACCOUNT_ID");
   const accountKey = getEnv("REMOTERENDERING_ARR_ACCOUNT_KEY");
 
-  const keyCredential = new AzureKeyCredential(accountKey);
-
-  return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, keyCredential);
+  if (isPlaybackMode()) {
+    // When playing back, we do not want to interact with the STS service, so we use
+    // the AccessToken auth path.
+    const maxTimestampMs = 8640000000000000;
+    let credential: AccessToken = { token: "<access_token>", expiresOnTimestamp: maxTimestampMs };
+    return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+  }
+  else {
+    let credential: AzureKeyCredential = new AzureKeyCredential(accountKey);
+    return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+  }
 }
 
 /**
