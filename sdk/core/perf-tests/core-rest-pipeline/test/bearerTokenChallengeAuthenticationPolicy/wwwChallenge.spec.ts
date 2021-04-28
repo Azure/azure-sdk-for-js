@@ -100,7 +100,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
   public scopesAndClaims: { scope: string | string[]; challengeClaims: string | undefined }[] = [];
 
-  constructor(public getTokenResponse: AccessToken) { }
+  constructor(public getTokenResponse: AccessToken) {}
 
   public getToken(
     scope: string | string[],
@@ -155,7 +155,7 @@ export class BearerTokenChallengeAuthenticationPolicyTest extends PerfStressTest
 
     const pipeline = createEmptyPipeline();
 
-    let cachedToken: AccessToken | null = null;
+    const cachedToken: AccessToken | null = null;
     const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [""],
