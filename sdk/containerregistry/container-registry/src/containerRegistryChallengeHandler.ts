@@ -3,10 +3,13 @@
 
 import { GetTokenOptions } from "@azure/core-auth";
 import {
-  ChallengeCallbackOptions,
-  ChallengeCallbacks,
-  parseWWWAuthenticate
-} from "./bearerTokenChallengeAuthenticationPolicy";
+  PipelineRequest,
+  AuthorizeRequestOnChallengeOptions,
+  ChallengeCallbacks
+} from "@azure/core-rest-pipeline";
+import { parseWWWAuthenticate } from "./wwwAuthenticateParser";
+import * as Mappers from "./generated/models/mappers";
+import * as Parameters from "./generated/models/parameters";
 import {
   ContainerRegistryGetTokenOptions,
   ContainerRegistryRefreshTokenCredential
@@ -51,12 +54,12 @@ export class ChallengeHandler implements ChallengeCallbacks {
   /**
    * Updates  the authentication context based on the challenge.
    */
-  async authenticateRequestOnChallenge(
-    challenge: string,
-    options: ChallengeCallbackOptions
-  ): Promise<boolean> {
+  async authorizeRequestOnChallenge(options: AuthorizeRequestOnChallengeOptions): Promise<boolean> {
     // Once we're here, we've completed Step 1.
-
+    const challenge = options.response?.headers.get("WWW-Authenticate");
+    if (!challenge) {
+      throw new Error("Failed to retrieve challenge from response headers");
+    }
     // Step 2: Parse challenge string to retrieve serviceName and scope, where scope is the ACR Scope
     const { service, scope } = parseWWWAuthenticate(challenge);
 
@@ -81,7 +84,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
     );
 
     // Step 5 - Authorize Request.  At this point we're done with AAD and using an ACR access token.
-    options.setAuthorizationHeader(acrAccessToken);
+    options.request.headers.set("Authorization", `Bearer ${acrAccessToken}`);
 
     return true;
   }

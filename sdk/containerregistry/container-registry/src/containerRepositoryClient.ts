@@ -4,7 +4,10 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { TokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import {
+  InternalPipelineOptions,
+  bearerTokenChallengeAuthenticationPolicy
+} from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
@@ -348,11 +351,22 @@ export class ContainerRepositoryClient {
     });
 
     try {
-      return await this.client.containerRegistryRepository.updateManifestAttributes(
+      const properties = await this.client.containerRegistryRepository.updateManifestAttributes(
         this.repository,
         digest,
         updatedOptions
       );
+      return {
+        ...properties,
+        writeableProperties: properties.writeableProperties
+          ? {
+              canDelete: properties.writeableProperties.canDelete,
+              canList: properties.writeableProperties.canList,
+              canRead: properties.writeableProperties.canRead,
+              canWrite: properties.writeableProperties.canWrite
+            }
+          : undefined
+      };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -375,10 +389,19 @@ export class ContainerRepositoryClient {
     });
 
     try {
-      return await this.client.containerRegistryRepository.setProperties(
+      const properties = await this.client.containerRegistryRepository.setProperties(
         this.repository,
         updatedOptions
       );
+      return {
+        ...properties,
+        writeableProperties: {
+          canDelete: properties.writeableProperties.canDelete,
+          canList: properties.writeableProperties.canList,
+          canRead: properties.writeableProperties.canRead,
+          canWrite: properties.writeableProperties.canWrite
+        }
+      };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
