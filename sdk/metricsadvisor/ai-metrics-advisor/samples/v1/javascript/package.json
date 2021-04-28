@@ -1,0 +1,32 @@
+{
+  "name": "azure-ai-metrics-advisor-samples-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Metrics Advisor client library samples for JavaScript",
+  "engine": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/metricsadvisor/ai-metrics-advisor"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/metricsadvisor/ai-metrics-advisor",
+  "dependencies": {
+    "@azure/ai-metrics-advisor": "next",
+    "dotenv": "latest"
+  }
+}
