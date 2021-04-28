@@ -70,7 +70,7 @@ async function provideChangePointFeedback(client, metricId) {
 async function provideCommentFeedback(client, metricId) {
   console.log("Creating a comment feedback...");
   const commendFeedback = {
-    metricId: metricId,
+    metricId,
     feedbackType: "Comment",
     dimensionKey: { city: "Manila", category: "Handmade" },
     comment: "This is a comment"
