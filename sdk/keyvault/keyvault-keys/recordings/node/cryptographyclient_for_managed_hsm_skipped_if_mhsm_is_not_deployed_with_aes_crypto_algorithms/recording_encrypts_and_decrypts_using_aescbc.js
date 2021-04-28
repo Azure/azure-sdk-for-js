@@ -11,7 +11,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-server-latency',
-  '0',
+  '1',
   'x-content-type-options',
   'nosniff',
   'www-authenticate',
@@ -21,7 +21,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '0',
   'x-ms-request-id',
-  'c6f76e9e-970f-11eb-9ae0-000d3aabcf45',
+  'b16c5274-a862-11eb-bf44-000d3a230d40',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -31,14 +31,86 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fmanagedhsm.azure.net%2F.default")
+  .get('/common/discovery/instance')
+  .query(true)
+  .reply(200, {"tenant_discovery_endpoint":"https://login.microsoftonline.com/azure_tenant_id/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}, [
+  'Cache-Control',
+  'max-age=86400, private',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Access-Control-Allow-Origin',
+  '*',
+  'Access-Control-Allow-Methods',
+  'GET, OPTIONS',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '8ddc5117-b311-458b-9e1e-2431a4322000',
+  'x-ms-ests-server',
+  '2.1.11654.16 - SCUS ProdSlices',
+  'Set-Cookie',
+  'fpc=AhaQWKq9CYtBrP8niBgsLC-nSoKIBgAAAF6_G9gOAAAA4BL6Uw4AAABnvxvYDgAAAA; expires=Fri, 28-May-2021 20:45:40 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr2aAhTov8Zw9XkTQvAYD89mpSJ67j8evbloHfW1_iAA17ifhWwl6KLYz3gAsaUra47JRPgjYdMo7WVBpqbz9T_O3EbjIQjwMD-o7SdoRtguhWVsx1DNGUHSK6IaDVPLoxhhqGdzKE7mV9qxia3oIdIqX5XECe2C2O9YL2K0aSJOogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Wed, 28 Apr 2021 20:45:40 GMT',
+  'Content-Length',
+  '980'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .get('/azure_tenant_id/v2.0/.well-known/openid-configuration')
+  .reply(200, {"token_endpoint":"https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/azure_tenant_id/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/azure_tenant_id/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"tenant_region_scope":"WW","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
+  'Cache-Control',
+  'max-age=86400, private',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Access-Control-Allow-Origin',
+  '*',
+  'Access-Control-Allow-Methods',
+  'GET, OPTIONS',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '2edd392b-81a3-4a8b-9002-96dfde846800',
+  'x-ms-ests-server',
+  '2.1.11654.16 - WUS2 ProdSlices',
+  'Set-Cookie',
+  'fpc=AhaQWKq9CYtBrP8niBgsLC-nSoKIBgAAAF6_G9gOAAAA4BL6Uw4AAABnvxvYDgAAAA; expires=Fri, 28-May-2021 20:45:40 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr-_UPwUlt2ItUzb6K2xcj7NVw8fOWAZLKYs3V8DM8bU1KRJ5JKpBdUkWCFTDQ2o_W8nkE0qZwsIVJQW_7nWGj-Ruv0MOZVOW7d6075814TczQ9jZo8J51troKIuxqa-oppzV5RcQhePFAcef6nNlLK6Zkdtoh-6ESfL3Q2hRvuEcgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Wed, 28 Apr 2021 20:45:40 GMT',
+  'Content-Length',
+  '1651'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .filteringRequestBody(function (body) {
+            return body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id");
+        })
+  .post('/azure_tenant_id/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fmanagedhsm.azure.net%2F.default%20openid%20profile%20offline_access&grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1322',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -50,31 +122,35 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '96774553-792a-4e56-b76b-20eb937d9400',
+  '59be9ca1-3141-4a1b-8056-7be0dc378f00',
   'x-ms-ests-server',
-  '2.1.11562.10 - EUS ProdSlices',
+  '2.1.11654.16 - WUS2 ProdSlices',
+  'x-ms-clitelem',
+  '1,0,0,,',
   'Set-Cookie',
-  'fpc=Am0fWzSZgrZIhjQQdspyT5DMoO4EAQAAAOWv_tcOAAAA; expires=Thu, 06-May-2021 19:39:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhaQWKq9CYtBrP8niBgsLC-nSoKIBwAAAF6_G9gOAAAA4BL6Uw4AAABnvxvYDgAAAA; expires=Fri, 28-May-2021 20:45:40 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 06 Apr 2021 19:39:18 GMT'
+  'Wed, 28 Apr 2021 20:45:40 GMT',
+  'Content-Length',
+  '1322'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/cryptography-client-test/create', {"kty":"AES","key_size":256,"attributes":{}})
   .query(true)
-  .reply(200, {"attributes":{"created":1617737958,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1617737958},"key":{"key_ops":["wrapKey","unwrapKey","decrypt","encrypt"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90","kty":"oct-HSM"}}, [
+  .reply(200, {"attributes":{"created":1619642740,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1619642740},"key":{"key_ops":["wrapKey","unwrapKey","decrypt","encrypt"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/28078b62158c4537313a92b6b978788c","kty":"oct-HSM"}}, [
   'content-type',
   'application/json; charset=utf-8',
   'x-content-type-options',
   'nosniff',
   'content-length',
-  '364',
+  '362',
   'x-ms-request-id',
-  'c746ff2c-970f-11eb-9ae0-000d3aabcf45',
+  'b1a9ee18-a862-11eb-bf44-000d3a230d40',
   'x-ms-keyvault-region',
   'westeurope',
   'strict-transport-security',
@@ -82,9 +158,9 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-security-policy',
   "default-src 'self'",
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;',
+  'conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=Ipv4;',
   'x-ms-server-latency',
-  '165',
+  '182',
   'cache-control',
   'no-cache',
   'x-frame-options',
@@ -92,7 +168,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90')
+  .get('/keys/cryptography-client-test/28078b62158c4537313a92b6b978788c')
   .query(true)
   .reply(401, "OK", [
   'content-type',
@@ -106,66 +182,33 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '2',
   'x-ms-request-id',
-  'c777dbf6-970f-11eb-9ae0-000d3aabcf45',
+  'b1d39312-a862-11eb-bf44-000d3a230d40',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
   "default-src 'self'",
   'x-ms-build-version',
-  '1.0.20210329-1-34f5870f-develop',
+  '1.0.20210407-3-27236ed1-develop',
   'cache-control',
   'no-cache',
   'x-ms-server-latency',
   '0'
 ]);
 
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fmanagedhsm.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
-  'Cache-Control',
-  'no-store, no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '1322',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'x-ms-request-id',
-  '96774553-792a-4e56-b76b-20ebb07d9400',
-  'x-ms-ests-server',
-  '2.1.11562.10 - EUS ProdSlices',
-  'Set-Cookie',
-  'fpc=Am0fWzSZgrZIhjQQdspyT5DMoO4EAQAAAOWv_tcOAAAA; expires=Thu, 06-May-2021 19:39:19 GMT; path=/; secure; HttpOnly; SameSite=None',
-  'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
-  'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
-  'Date',
-  'Tue, 06 Apr 2021 19:39:19 GMT'
-]);
-
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90')
+  .get('/keys/cryptography-client-test/28078b62158c4537313a92b6b978788c')
   .query(true)
-  .reply(200, {"attributes":{"created":1617737958,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1617737958},"key":{"key_ops":["wrapKey","unwrapKey","encrypt","decrypt"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90","kty":"oct-HSM"}}, [
+  .reply(200, {"attributes":{"created":1619642740,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1619642740},"key":{"key_ops":["wrapKey","unwrapKey","encrypt","decrypt"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/28078b62158c4537313a92b6b978788c","kty":"oct-HSM"}}, [
   'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  'c7a8ebec-970f-11eb-9ae0-000d3aabcf45',
+  'b1e18bfc-a862-11eb-bf44-000d3a230d40',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
   'westeurope',
   'content-length',
-  '364',
+  '362',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -175,25 +218,25 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-content-type-options',
   'nosniff',
   'x-ms-build-version',
-  '1.0.20210329-1-34f5870f-develop',
+  '1.0.20210407-3-27236ed1-develop',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;',
+  'conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=Ipv4;',
   'x-ms-server-latency',
-  '72'
+  '53'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90/encrypt', {"alg":"A256CBCPAD","value":"ZW5jcnlwdHMgYW5kIGRlY3J5cHRzIHVzaW5nIEFFUy1DQkM","iv":"eHh4eHh4eHh4eHh4eHh4eA"})
+  .post('/keys/cryptography-client-test/28078b62158c4537313a92b6b978788c/encrypt', {"alg":"A256CBCPAD","value":"ZW5jcnlwdHMgYW5kIGRlY3J5cHRzIHVzaW5nIEFFUy1DQkM","iv":"eHh4eHh4eHh4eHh4eHh4eA"})
   .query(true)
-  .reply(200, {"alg":"A256CBCPAD","iv":"eHh4eHh4eHh4eHh4eHh4eA","kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90","value":"K0I8_0thJCXZxLRnFuGMmf3krXJfPvYGdhppgyOf6_UVn11ZLcI5Hn8neQ2EJqef"}, [
+  .reply(200, {"alg":"A256CBCPAD","iv":"eHh4eHh4eHh4eHh4eHh4eA","kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/28078b62158c4537313a92b6b978788c","value":"nx8tMVPv2mnzME70n0sb5xgr3I8Ee12Hgr7axjAmln0KUS8fe977uEJ1_9BGCqIC"}, [
   'content-type',
   'application/json; charset=utf-8',
   'x-content-type-options',
   'nosniff',
   'content-length',
-  '258',
+  '256',
   'x-ms-request-id',
-  'c7cb45e8-970f-11eb-9ae0-000d3aabcf45',
+  'b1f93efa-a862-11eb-bf44-000d3a230d40',
   'x-ms-keyvault-region',
   'westeurope',
   'strict-transport-security',
@@ -201,9 +244,9 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-security-policy',
   "default-src 'self'",
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;',
+  'conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=Ipv4;',
   'x-ms-server-latency',
-  '0',
+  '1',
   'cache-control',
   'no-cache',
   'x-frame-options',
@@ -211,17 +254,17 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90/decrypt', {"alg":"A256CBCPAD","value":"K0I8_0thJCXZxLRnFuGMmf3krXJfPvYGdhppgyOf6_UVn11ZLcI5Hn8neQ2EJqef","iv":"eHh4eHh4eHh4eHh4eHh4eA"})
+  .post('/keys/cryptography-client-test/28078b62158c4537313a92b6b978788c/decrypt', {"alg":"A256CBCPAD","value":"nx8tMVPv2mnzME70n0sb5xgr3I8Ee12Hgr7axjAmln0KUS8fe977uEJ1_9BGCqIC","iv":"eHh4eHh4eHh4eHh4eHh4eA"})
   .query(true)
-  .reply(200, {"alg":"A256CBCPAD","kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90","value":"ZW5jcnlwdHMgYW5kIGRlY3J5cHRzIHVzaW5nIEFFUy1DQkM"}, [
+  .reply(200, {"alg":"A256CBCPAD","kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/28078b62158c4537313a92b6b978788c","value":"ZW5jcnlwdHMgYW5kIGRlY3J5cHRzIHVzaW5nIEFFUy1DQkM"}, [
   'content-type',
   'application/json; charset=utf-8',
   'x-content-type-options',
   'nosniff',
   'content-length',
-  '211',
+  '209',
   'x-ms-request-id',
-  'c7e29a9a-970f-11eb-9ae0-000d3aabcf45',
+  'b2089526-a862-11eb-bf44-000d3a230d40',
   'x-ms-keyvault-region',
   'westeurope',
   'strict-transport-security',
@@ -229,7 +272,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-security-policy',
   "default-src 'self'",
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;',
+  'conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=Ipv4;',
   'x-ms-server-latency',
   '0',
   'cache-control',
@@ -241,15 +284,15 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/cryptography-client-test')
   .query(true)
-  .reply(200, {"attributes":{"created":1617737958,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1617737958},"deletedDate":1617737960,"key":{"key_ops":["unwrapKey","wrapKey","decrypt","encrypt"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90","kty":"oct-HSM"},"recoveryId":"https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test","scheduledPurgeDate":1625513960}, [
+  .reply(200, {"attributes":{"created":1619642740,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1619642740},"deletedDate":1619642741,"key":{"key_ops":["unwrapKey","wrapKey","decrypt","encrypt"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/28078b62158c4537313a92b6b978788c","kty":"oct-HSM"},"recoveryId":"https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test","scheduledPurgeDate":1627418741}, [
   'content-type',
   'application/json; charset=utf-8',
   'x-content-type-options',
   'nosniff',
   'content-length',
-  '535',
+  '531',
   'x-ms-request-id',
-  'c7f9e33a-970f-11eb-9ae0-000d3aabcf45',
+  'b21686fe-a862-11eb-bf44-000d3a230d40',
   'x-ms-keyvault-region',
   'westeurope',
   'strict-transport-security',
@@ -257,9 +300,9 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-security-policy',
   "default-src 'self'",
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;',
+  'conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=Ipv4;',
   'x-ms-server-latency',
-  '92',
+  '86',
   'cache-control',
   'no-cache',
   'x-frame-options',
@@ -269,17 +312,17 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedkeys/cryptography-client-test')
   .query(true)
-  .reply(200, {"attributes":{"created":1617737958,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1617737958},"deletedDate":1617737960,"key":{"key_ops":["encrypt","decrypt","unwrapKey","wrapKey"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/e2a8da05da804c1f1fdc11efc4733a90","kty":"oct-HSM"},"recoveryId":"https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test","scheduledPurgeDate":1625513960}, [
+  .reply(200, {"attributes":{"created":1619642740,"enabled":true,"exportable":false,"recoverableDays":90,"recoveryLevel":"Recoverable+Purgeable","updated":1619642740},"deletedDate":1619642741,"key":{"key_ops":["encrypt","decrypt","unwrapKey","wrapKey"],"kid":"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/28078b62158c4537313a92b6b978788c","kty":"oct-HSM"},"recoveryId":"https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test","scheduledPurgeDate":1627418741}, [
   'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  'c81f4242-970f-11eb-9ae0-000d3aabcf45',
+  'b231c0fe-a862-11eb-bf44-000d3a230d40',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
   'westeurope',
   'content-length',
-  '535',
+  '531',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -289,11 +332,11 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-content-type-options',
   'nosniff',
   'x-ms-build-version',
-  '1.0.20210329-1-34f5870f-develop',
+  '1.0.20210407-3-27236ed1-develop',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;',
+  'conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=Ipv4;',
   'x-ms-server-latency',
-  '26'
+  '38'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
@@ -307,7 +350,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '0',
   'x-ms-request-id',
-  'c83a5bfe-970f-11eb-9ae0-000d3aabcf45',
+  'b2463f48-a862-11eb-bf44-000d3a230d40',
   'x-ms-keyvault-region',
   'westeurope',
   'strict-transport-security',
@@ -315,9 +358,9 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-security-policy',
   "default-src 'self'",
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;',
+  'conn_type=Ipv4;addr=72.68.182.20;act_addr_fam=Ipv4;',
   'x-ms-server-latency',
-  '135',
+  '125',
   'cache-control',
   'no-cache',
   'x-frame-options',
