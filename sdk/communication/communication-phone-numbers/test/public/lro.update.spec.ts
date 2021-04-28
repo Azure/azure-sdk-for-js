@@ -4,7 +4,11 @@
 import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { PhoneNumbersClient, PhoneNumberCapabilitiesRequest } from "../../src";
+import {
+  PhoneNumbersClient,
+  PhoneNumberCapabilitiesRequest,
+  PhoneNumberCapabilityType
+} from "../../src";
 import { matrix } from "./utils/matrix";
 import {
   canCreateRecordedClientWithToken,
@@ -37,7 +41,23 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("can update a phone number's capabilities", async function() {
-      const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" };
+      let callingCapabilityType: PhoneNumberCapabilityType = "outbound";
+      let smsCapabilityType: PhoneNumberCapabilityType = "inbound+outbound";
+      const currentPhoneNumber = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
+
+      if (currentPhoneNumber.capabilities.calling == callingCapabilityType) {
+        callingCapabilityType = "inbound";
+      }
+
+      if (currentPhoneNumber.capabilities.sms == smsCapabilityType) {
+        smsCapabilityType = "outbound";
+      }
+
+      const update: PhoneNumberCapabilitiesRequest = {
+        calling: callingCapabilityType,
+        sms: smsCapabilityType
+      };
+
       const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
         purchasedPhoneNumber,
         update
