@@ -289,46 +289,45 @@ export namespace ConnectionContext {
       waitForConnectionRefreshPromise = new Promise((resolve) => {
         waitForConnectionRefreshResolve = resolve;
       });
-
-      logger.verbose(
-        "[%s] 'disconnected' event occurred on the amqp connection.",
-        connectionContext.connection.id
-      );
-
-      if (context.connection && context.connection.error) {
-        logger.verbose(
-          "[%s] Accompanying error on the context.connection: %O",
-          connectionContext.connection.id,
-          context.connection && context.connection.error
-        );
-      }
-      if (context.error) {
-        logger.verbose(
-          "[%s] Accompanying error on the context: %O",
-          connectionContext.connection.id,
-          context.error
-        );
-      }
-      const state: Readonly<{
-        wasConnectionCloseCalled: boolean;
-        numSenders: number;
-        numReceivers: number;
-      }> = {
-        wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
-        numSenders: Object.keys(connectionContext.senders).length,
-        numReceivers: Object.keys(connectionContext.receivers).length
-      };
-      logger.verbose(
-        "[%s] Closing all open senders and receivers in the state: %O",
-        connectionContext.connection.id,
-        state
-      );
-
-      // Clear internal map maintained by rhea to avoid reconnecting of old links once the
-      // connection is back up.
-      connectionContext.connection.removeAllSessions();
-
       try {
+        logger.verbose(
+          "[%s] 'disconnected' event occurred on the amqp connection.",
+          connectionContext.connection.id
+        );
+
+        if (context.connection && context.connection.error) {
+          logger.verbose(
+            "[%s] Accompanying error on the context.connection: %O",
+            connectionContext.connection.id,
+            context.connection && context.connection.error
+          );
+        }
+        if (context.error) {
+          logger.verbose(
+            "[%s] Accompanying error on the context: %O",
+            connectionContext.connection.id,
+            context.error
+          );
+        }
+        const state: Readonly<{
+          wasConnectionCloseCalled: boolean;
+          numSenders: number;
+          numReceivers: number;
+        }> = {
+          wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
+          numSenders: Object.keys(connectionContext.senders).length,
+          numReceivers: Object.keys(connectionContext.receivers).length
+        };
+        logger.verbose(
+          "[%s] Closing all open senders and receivers in the state: %O",
+          connectionContext.connection.id,
+          state
+        );
+
+        // Clear internal map maintained by rhea to avoid reconnecting of old links once the
+        // connection is back up.
+        connectionContext.connection.removeAllSessions();
+
         // Close the cbs session to ensure all the event handlers are released.
         await connectionContext.cbsSession?.close().catch(() => {
           /* error already logged, swallow it here */
@@ -363,9 +362,17 @@ export namespace ConnectionContext {
         );
       }
 
-      await refreshConnection(connectionContext);
-      waitForConnectionRefreshResolve();
-      waitForConnectionRefreshPromise = undefined;
+      try {
+        await refreshConnection(connectionContext);
+      } catch (err) {
+        logger.verbose(
+          `[${connectionContext.connectionId}] An error occurred while refreshing the connection in 'disconnected'. %O`,
+          err
+        );
+      } finally {
+        waitForConnectionRefreshResolve();
+        waitForConnectionRefreshPromise = undefined;
+      }
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {
