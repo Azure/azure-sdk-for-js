@@ -761,11 +761,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/mixedreality-remoterendering",
-      "projectFolder": "sdk/remoterendering/mixedreality-remoterendering",
-      "versionPolicyName": "client"
-    }
-    {
       "packageName": "@azure/web-pubsub",
       "projectFolder": "sdk/web-pubsub/web-pubsub",
       "versionPolicyName": "client"
@@ -794,6 +789,11 @@
       "packageName": "@azure-tests/perf-app-configuration",
       "projectFolder": "sdk/appconfiguration/perf-tests/app-configuration",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/mixedreality-remoterendering",
+      "projectFolder": "sdk/remoterendering/mixedreality-remoterendering",
+      "versionPolicyName": "client"
     }
   ]
 }
