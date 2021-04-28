@@ -1,25 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT Licence.
 
+/**
+ * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint.
+ */
+
 /*
-  This sample demonstrates how to convert an Iot Hub connection string to
-  an Event Hubs connection string that points to the built-in messaging endpoint.
-
-  The Event Hubs connection string is then used with the EventHubConsumerClient to
-  receive events.
-
-  More information about the built-in messaging endpoint can be found at:
-  https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
-*/
+ * The Event Hubs connection string is then used with the EventHubConsumerClient to receive events.
+ *
+ * More information about the built-in messaging endpoint can be found at:
+ * https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
+ */
 
 const crypto = require("crypto");
-const Buffer = require("buffer").Buffer;
-const { Connection, ReceiverEvents, isAmqpError, parseConnectionString } = require("rhea-promise");
+const { Buffer } = require("buffer");
+const { Connection, ReceiverEvents, parseConnectionString } = require("rhea-promise");
+const rheaPromise = require("rhea-promise");
 const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();
+
+/**
+ * Type guard for AmqpError.
+ * @param err - An unknown error.
+ */
+function isAmqpError(err) {
+  return rheaPromise.isAmqpError(err);
+}
 
 const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
@@ -41,9 +50,9 @@ function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
 
 /**
  * Converts an IotHub Connection string into an Event Hubs-compatible connection string.
- * @param {string} connectionString An IotHub connection string in the format:
+ * @param connectionString - An IotHub connection string in the format:
  * `"HostName=<your-iot-hub>.azure-devices.net;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"`
- * @returns {Promise<string>} An Event Hubs-compatible connection string in the format:
+ * @returns An Event Hubs-compatible connection string in the format:
  * `"Endpoint=sb://<hostname>;EntityPath=<your-iot-hub>;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"`
  */
 async function convertIotHubToEventHubsConnectionString(connectionString) {
@@ -71,7 +80,8 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
     SharedAccessKeyName,
     5 // token expires in 5 minutes
   );
-  const connectionOptions = {
+
+  const connection = new Connection({
     transport: "tls",
     host: HostName,
     hostname: HostName,
@@ -79,9 +89,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
     port: 5671,
     reconnect: false,
     password: token
-  };
-
-  const connection = new Connection(connectionOptions);
+  });
   await connection.open();
 
   // Create the receiver that will trigger a redirect error.

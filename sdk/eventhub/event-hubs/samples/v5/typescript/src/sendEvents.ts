@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT Licence.
 
-/*
-  This sample demonstrates how the send() function can be used to send events to Event Hubs.
-  See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about to learn about Event Hubs.
-
-  Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
-*/
+/**
+ * @summary Demonstrates how to send events to an Event Hub.
+ *
+ */
 
 import { EventHubProducerClient } from "@azure/event-hubs";
 

@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT Licence.
 
+/**
+ * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint.
+ */
+
 /*
-  This sample demonstrates how to convert an Iot Hub connection string to
-  an Event Hubs connection string that points to the built-in messaging endpoint.
-
-  The Event Hubs connection string is then used with the EventHubConsumerClient to
-  receive events.
-
-  More information about the built-in messaging endpoint can be found at:
-  https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
-*/
+ * The Event Hubs connection string is then used with the EventHubConsumerClient to receive events.
+ *
+ * More information about the built-in messaging endpoint can be found at:
+ * https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
+ */
 
 import * as crypto from "crypto";
 import { Buffer } from "buffer";
-import {
-  AmqpError,
-  Connection,
-  ReceiverEvents,
-  isAmqpError as rheaIsAmqpError,
-  parseConnectionString
-} from "rhea-promise";
+import { AmqpError, Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
+import rheaPromise from "rhea-promise";
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
 
 // Load the .env file if it exists
@@ -32,7 +27,7 @@ dotenv.config();
  * @param err - An unknown error.
  */
 function isAmqpError(err: any): err is AmqpError {
-  return rheaIsAmqpError(err);
+  return rheaPromise.isAmqpError(err);
 }
 
 const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";

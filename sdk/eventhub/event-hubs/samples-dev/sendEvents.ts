@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT Licence.
 
-/*
-  This sample demonstrates how the send() function can be used to send events to Event Hubs.
-  See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about to learn about Event Hubs.
+/**
+ * @summary Demonstrates how to send events to an Event Hub.
+ *
+ * @azsdk-weight 60
+ */
 
-  Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
-*/
-
-const { EventHubProducerClient } = require("@azure/event-hubs");
+import { EventHubProducerClient } from "@azure/event-hubs";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
 
-async function main() {
+export async function main(): Promise<void> {
   console.log(`Running sendEvents sample`);
 
   const producer = new EventHubProducerClient(connectionString, eventHubName);
@@ -55,6 +54,7 @@ async function main() {
 
     // add events to our batch
     let i = 0;
+
     while (i < eventsToSend.length) {
       // messages can fail to be added to the batch if they exceed the maximum size configured for
       // the EventHub.
@@ -103,7 +103,6 @@ async function main() {
   }
 
   await producer.close();
-
   console.log(`Exiting sendEvents sample`);
 }
 

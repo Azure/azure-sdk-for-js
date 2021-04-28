@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT Licence.
 
+/**
+ * @summary Demonstrates how to connect to Azure Event Hubs over websockets to work over an HTTP proxy.
+ */
+
 /*
-  This sample demonstrates how to use WebSockets enable Event Hubs to work over an HTTP proxy and
-  in environments where the standard AMQP port 5671 is blocked. For the latter case, ignore proxy
-  related configurations in this sample.
-
-  This sample uses 2 external libraries
-  - The `ws` library to provide a WebSocket implementation to the Event Hubs library.
-  - The `https-proxy-agent` to enable the `ws` library to work with a proxy server.
-
-  Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
-*/
+ * In environments where the standard AMQP port 5671 is blocked and you don't want to connect through a proxy,
+ * ignore proxy related configurations in this sample.
+ */
 
 import WebSocket from "ws";
 const url = require("url");

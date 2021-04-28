@@ -1,33 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT Licence.
 
-/*
-  This sample demonstrates how to use the EventHubConsumerClient to process events from all partitions
-  of a consumer group in an Event Hubs instance.
+/**
+ * @summary Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hub.
+ *
+ */
 
-  If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" sample
-  to populate it before running this sample.
-
-  For an example that uses checkpointing, see the sample in the eventhubs-checkpointstore-blob package
-  on GitHub at the following link:
-
-  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/typescript/src/receiveEventsUsingCheckpointStore.ts
-
-  Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
-*/
-
-import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
 const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
-export async function main() {
+async function main() {
   console.log(`Running receiveEvents sample`);
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);

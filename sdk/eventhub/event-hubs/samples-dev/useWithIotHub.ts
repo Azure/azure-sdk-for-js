@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT Licence.
 
-/*
- This sample demonstrates how to use the EventHubClient with an IotHub instance
-*/
+/**
+ * @summary Demonstrates how to use the EventHubConsumerClient to receive messages from an IoT Hub.
+ */
+
 import { EventHubConsumerClient } from "@azure/event-hubs";
 
 // Load the .env file if it exists

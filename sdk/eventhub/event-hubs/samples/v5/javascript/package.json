@@ -1,0 +1,35 @@
+{
+  "name": "azure-event-hubs-samples-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Event Hubs client library samples for JavaScript",
+  "engine": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/eventhub/event-hubs"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "event hubs",
+    "events",
+    "Azure"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs",
+  "dependencies": {
+    "@azure/event-hubs": "latest",
+    "dotenv": "latest",
+    "rhea-promise": "^1.2.1",
+    "@azure/identity": "^1.1.0",
+    "ws": "^7.1.1",
+    "https-proxy-agent": "^5.0.0"
+  }
+}

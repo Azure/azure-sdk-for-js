@@ -1,27 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT Licence.
 
+/**
+ * @summary Demonstrates how to connect to Azure Event Hubs over websockets to work over an HTTP proxy.
+ */
+
 /*
-  This sample demonstrates how to use WebSockets enable Event Hubs to work over an HTTP proxy and
-  in environments where the standard AMQP port 5671 is blocked. For the latter case, ignore proxy
-  related configurations in this sample.
+ * In environments where the standard AMQP port 5671 is blocked and you don't want to connect through a proxy,
+ * ignore proxy related configurations in this sample.
+ */
 
-  This sample uses 2 external libraries
-  - The `ws` library to provide a WebSocket implementation to the Event Hubs library.
-  - The `https-proxy-agent` to enable the `ws` library to work with a proxy server.
-
-  Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
-*/
-
-const WebSocket = require("ws");
+import WebSocket from "ws";
 const url = require("url");
-const httpsProxyAgent = require("https-proxy-agent");
+import { HttpsProxyAgent } from "https-proxy-agent";
 
-const { EventHubConsumerClient } = require("@azure/event-hubs");
+import { EventHubConsumerClient } from "@azure/event-hubs";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
@@ -33,9 +30,9 @@ const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 // Skip this section if you are not behind a proxy server
 const urlParts = url.parse("http://localhost:3128");
 urlParts.auth = "username:password"; // Skip this if proxy server does not need authentication.
-const proxyAgent = new httpsProxyAgent(urlParts);
+const proxyAgent = new HttpsProxyAgent(urlParts);
 
-async function main() {
+export async function main(): Promise<void> {
   console.log(`Running websockets sample`);
 
   const client = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, {
@@ -44,12 +41,11 @@ async function main() {
       webSocketConstructorOptions: { agent: proxyAgent }
     }
   });
-
   /*
-     Refer to other samples, and place your code here to send/receive events
-    */
-
+   Refer to other samples, and place your code here to send/receive events
+  */
   await client.close();
+
   console.log(`Exiting websockets sample`);
 }
 
