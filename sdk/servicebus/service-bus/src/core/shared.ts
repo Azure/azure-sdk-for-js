@@ -156,7 +156,9 @@ export class StreamingReceiverCreditManager {
         ? Math.min(this.maxConcurrentCalls, emptySlots)
         : this.maxConcurrentCalls;
     this.streamingReceiverHelper.addCredit(creditsToAdd);
-    logger.verbose(`${logPrefix} creditManager: added ${creditsToAdd} credits (initial)`);
+    logger.verbose(
+      `${logPrefix} creditManager: added ${creditsToAdd} credits (initial); total credits = ${receiver?.credit}`
+    );
   }
   /**
    * Upon receiving a new message, this method can be called to add a credit to receive one more message.
@@ -169,8 +171,27 @@ export class StreamingReceiverCreditManager {
     const { receiver, logPrefix } = this._getCurrentReceiver();
     if (this.receiveMode === "receiveAndDelete") {
       this.streamingReceiverHelper.addCredit(1);
-      logger.verbose(`${logPrefix} creditManager: added 1 credits upon receiving a message`);
-    } else if (receiver && incomingBufferProperties(receiver).numberOfEmptySlots === 0) {
+      logger.verbose(
+        `${logPrefix} creditManager: added 1 credits upon receiving a message; total credits = ${receiver?.credit}`
+      );
+      return;
+    }
+
+    const { numberOfEmptySlots } = incomingBufferProperties(receiver);
+    if (receiver && numberOfEmptySlots > 0) {
+      const possibleMaxCredits = Math.min(this.maxConcurrentCalls, numberOfEmptySlots);
+      if (possibleMaxCredits > receiver.credit) {
+        const creditsToAdd = possibleMaxCredits - receiver.credit;
+        this.streamingReceiverHelper.addCredit(creditsToAdd);
+        logger.verbose(
+          `${logPrefix} creditManager: added ${creditsToAdd} credits upon receiving a message; total credits = ${receiver?.credit}`
+        );
+      }
+      return;
+    }
+
+    if (receiver) {
+      // No empty slots left, so notify the user with an error
       notifyError?.({
         error: new ServiceBusError(
           UnsettledMessagesLimitExceededError,
@@ -181,10 +202,8 @@ export class StreamingReceiverCreditManager {
         fullyQualifiedNamespace: this.fullyQualifiedNamespace
       });
     } else {
-      // Link doesn't exist
-      // SessionLockLost for sessions/onAMQPError for non-sessions will be notified in one of the listeners
-      // So, not notifying here
-      // TODO: Validate above
+      // receiver is not defined
+      // SessionLockLost for sessions/onAMQPError for non-sessions will be notified in one of the listeners - nothing to do here
     }
   }
 
@@ -196,26 +215,17 @@ export class StreamingReceiverCreditManager {
    */
   async postProcessing() {
     const { receiver, logPrefix } = this._getCurrentReceiver();
-    const { numberOfEmptySlots, numberOfFilledSlots } = incomingBufferProperties(receiver);
-    if (
-      this.receiveMode === "peekLock" &&
-      numberOfEmptySlots > 0 &&
-      this.streamingReceiverHelper.canReceiveMessages()
-    ) {
-      if (this.maxConcurrentCalls > numberOfFilledSlots) {
-        const creditsToAdd = Math.min(
-          this.maxConcurrentCalls - numberOfFilledSlots,
-          numberOfEmptySlots
-        );
-        this.streamingReceiverHelper.addCredit(creditsToAdd);
-        logger.verbose(
-          `${logPrefix} creditManager: added ${creditsToAdd} credits after message settlement`
-        );
-      } else {
-        // Case (maxConcurrentCalls === numberOfFilledSlots) :
-        //      - no need to add credits until the messages are settled
-        // Case (maxConcurrentCalls < numberOfFilledSlots)   :
-        //      - won't be possible because we don't add credits more than maxConcurrentCalls
+    const { numberOfEmptySlots } = incomingBufferProperties(receiver);
+    if (this.receiveMode === "peekLock") {
+      if (receiver && numberOfEmptySlots > 0) {
+        const possibleMaxCredits = Math.min(this.maxConcurrentCalls, numberOfEmptySlots);
+        if (possibleMaxCredits > receiver.credit) {
+          const creditsToAdd = possibleMaxCredits - receiver.credit;
+          this.streamingReceiverHelper.addCredit(creditsToAdd);
+          logger.verbose(
+            `${logPrefix} creditManager: added ${creditsToAdd} credits after message settlement; total credits = ${receiver?.credit}`
+          );
+        }
       }
     }
   }
