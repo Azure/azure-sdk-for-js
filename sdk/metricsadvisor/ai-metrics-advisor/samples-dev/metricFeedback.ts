@@ -66,7 +66,7 @@ async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: str
 async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId: string) {
   console.log("Creating a change point feedback...");
   const changePointFeedback: MetricChangePointFeedback = {
-    metricId: metricId,
+    metricId,
     feedbackType: "ChangePoint",
     startTime: new Date("2020/08/05"),
     value: "ChangePoint",
