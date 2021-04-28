@@ -40,9 +40,9 @@ export type AnalyzeTextOptions = OperationOptions & AnalyzeRequest;
 export interface AnswerResult {
     [property: string]: any;
     readonly highlights?: string | null;
-    readonly key?: string;
-    readonly score?: number;
-    readonly text?: string;
+    readonly key: string;
+    readonly score: number;
+    readonly text: string;
 }
 
 // @public

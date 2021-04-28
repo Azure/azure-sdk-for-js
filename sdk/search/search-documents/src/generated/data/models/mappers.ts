@@ -150,6 +150,7 @@ export const AnswerResult: coreHttp.CompositeMapper = {
     modelProperties: {
       score: {
         serializedName: "score",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -157,6 +158,7 @@ export const AnswerResult: coreHttp.CompositeMapper = {
       },
       key: {
         serializedName: "key",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -164,6 +166,7 @@ export const AnswerResult: coreHttp.CompositeMapper = {
       },
       text: {
         serializedName: "text",
+        required: true,
         readOnly: true,
         type: {
           name: "String"

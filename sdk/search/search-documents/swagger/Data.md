@@ -85,3 +85,13 @@ modelerfour:
       Score: $DO_NOT_NORMALIZE$_score
       Highlights: $DO_NOT_NORMALIZE$_highlights
 ```
+
+### Mark score, key and text fields as required in AnswerResult Object
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnswerResult
+    transform: >
+      $.required = ['score', 'key', 'text'];
+```

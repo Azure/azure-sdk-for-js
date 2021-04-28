@@ -85,17 +85,17 @@ export interface AnswerResult {
    * The score value represents how relevant the answer is to the the query relative to other answers returned for the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly score?: number;
+  readonly score: number;
   /**
    * The key of the document the answer was extracted from.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly key?: string;
+  readonly key: string;
   /**
    * The text passage extracted from the document contents as the answer.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly text?: string;
+  readonly text: string;
   /**
    * Same text passage as in the Text property with highlighted text phrases most relevant to the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
