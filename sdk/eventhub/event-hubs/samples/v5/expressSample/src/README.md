@@ -3,10 +3,10 @@
 This sample programs show how to use the JavaScript client libraries for Azure Event Hubs to send events in the node express framework.
 One scenario is building an HTTP-based service that accepts events as part of an HTTP request, then transforms and sends those events into a downstream Event Hub.
 
-| **File Name**                     | **Description**                                                                                                                |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **File Name**                             | **Description**                                                                                                                |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | [asyncBatchingProducer.ts][eventproducer] | Demonstrates how the send() function can be used to send events to an Event Hub instance. Support batch send and time trigger. |
-| [index.ts][index]                 | Express Http server entry point. Receive http payload and use AsyncBatchingProducer to ingest payload to eventHub.                     |
+| [index.ts][index]                         | Express Http server entry point. Receive http payload and use AsyncBatchingProducer to ingest payload to eventHub.             |
 
 ## Prerequisites
 
