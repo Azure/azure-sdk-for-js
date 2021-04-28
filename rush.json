@@ -513,6 +513,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/identity-native",
+      "projectFolder": "sdk/identity/identity-native",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/keyvault-common",
       "projectFolder": "sdk/keyvault/keyvault-common",
       "versionPolicyName": "utility"
