@@ -456,7 +456,7 @@ describe("StreamingReceiver unit tests", () => {
 
     streamingReceiver["init"] = initMock;
     streamingReceiver["_onError"] = onErrorMock;
-    streamingReceiver["_receiverHelper"]["addCredit"] = addCreditMock;
+    streamingReceiver["_streamingReceiverHelper"]["addCredit"] = addCreditMock;
 
     await streamingReceiver.onDetached(new Error("let's detach"));
     assert.isTrue(
