@@ -333,6 +333,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-document-translator",
+      "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-anomaly-detector",
       "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
       "versionPolicyName": "client"
@@ -400,6 +405,11 @@
     {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure-rest/core-client",
+      "projectFolder": "sdk/core-rest/core-client",
       "versionPolicyName": "core"
     },
     {
@@ -495,11 +505,6 @@
     {
       "packageName": "@azure/mock-hub",
       "projectFolder": "sdk/eventhub/mock-hub",
-      "versionPolicyName": "utility"
-    },
-    {
-      "packageName": "testhub",
-      "projectFolder": "sdk/eventhub/testhub",
       "versionPolicyName": "utility"
     },
     {
@@ -688,6 +693,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-identity",
+      "projectFolder": "sdk/identity/perf-tests/identity",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/mixedreality-authentication",
       "projectFolder": "sdk/mixedreality/mixedreality-authentication",
       "versionPolicyName": "client"
@@ -698,8 +708,23 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/web-pubsub",
+      "projectFolder": "sdk/web-pubsub/web-pubsub",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/web-pubsub-express",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-express",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-tests/perf-search-documents",
       "projectFolder": "sdk/search/perf-tests/search-documents",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-metrics-advisor",
+      "projectFolder": "sdk/metricsadvisor/perf-tests/ai-metrics-advisor",
       "versionPolicyName": "test"
     },
     {

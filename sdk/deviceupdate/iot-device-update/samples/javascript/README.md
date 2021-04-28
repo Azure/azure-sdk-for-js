@@ -4,7 +4,8 @@ languages:
   - javascript
 products:
   - azure
-  - azure-iot-device-update
+  - azure-iot
+  - azure-iot-hub
 urlFragment: azure-iot-device-update-javascript
 ---
 

@@ -1,0 +1,45 @@
+{
+  "name": "azure-digital-twins-core-samples-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Digital Twins client library samples for TypeScript",
+  "engine": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/digitaltwins/digital-twins-core"
+  },
+  "keywords": [
+    "azure",
+    "iot",
+    "digital-twins-core",
+    "cloud",
+    "twins",
+    "node",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins/digital-twins-core",
+  "dependencies": {
+    "@azure/digital-twins-core": "latest",
+    "dotenv": "latest",
+    "@azure/identity": "^1.1.0",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "typescript": "~4.2.0",
+    "rimraf": "latest"
+  }
+}

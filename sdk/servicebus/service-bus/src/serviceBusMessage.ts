@@ -274,11 +274,64 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
  * @internal
  * Converts given ServiceBusMessage to RheaMessage
  */
-export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
-  const amqpMsg: RheaMessage = {
-    body: msg.body,
-    message_annotations: {}
-  };
+export function toRheaMessage(
+  msg: ServiceBusMessage | ServiceBusReceivedMessage | AmqpAnnotatedMessage,
+  encoder: Pick<typeof defaultDataTransformer, "encode">
+): RheaMessage {
+  let amqpMsg: RheaMessage;
+  if (isAmqpAnnotatedMessage(msg)) {
+    amqpMsg = {
+      ...AmqpAnnotatedMessage.toRheaMessage(msg),
+      body: encoder.encode(msg.body, msg.bodyType ?? "data")
+    };
+  } else {
+    let bodyType: "data" | "sequence" | "value" = "data";
+
+    if (isServiceBusReceivedMessage(msg)) {
+      /*
+       * TODO: this is a bit complicated.
+       *
+       * It seems reasonable to expect to be able to round-trip a message (ie,
+       * receive a message, and then send it again, possibly to another queue / topic).
+       * If the user does that we need to make sure to respect their original AMQP
+       * type so when the message is re - encoded we don't put 'body' into the wrong spot.
+       *
+       * The complication is that we need to decide if we're okay with respecting a field
+       * from the rawAmqpMessage, which up until now we've treated as just vestigial
+       * information on send. My hope is that the use case of "alter the sb message in some
+       * incompatible way with the underying _rawAmqpMessage.bodyType" is not common
+       * enough for us to try to do anything more than what I'm doing here.
+       */
+      bodyType = msg._rawAmqpMessage.bodyType ?? "data";
+    }
+
+    // TODO: it seems sensible that we'd also do this for AMQPAnnotated message.
+    const validationError = getMessagePropertyTypeMismatchError(msg);
+
+    if (validationError) {
+      throw validationError;
+    }
+
+    amqpMsg = {
+      body: encoder.encode(msg.body, bodyType),
+      message_annotations: {}
+    };
+
+    amqpMsg.ttl = msg.timeToLive;
+  }
+
+  if (amqpMsg.ttl != null && amqpMsg.ttl !== Constants.maxDurationValue) {
+    amqpMsg.creation_time = Date.now();
+    amqpMsg.absolute_expiry_time = Math.min(
+      Constants.maxAbsoluteExpiryTime,
+      amqpMsg.creation_time + amqpMsg.ttl
+    );
+  }
+
+  if (isAmqpAnnotatedMessage(msg)) {
+    return amqpMsg;
+  }
+
   if (msg.applicationProperties != null) {
     amqpMsg.application_properties = msg.applicationProperties;
   }
@@ -291,6 +344,7 @@ export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
         "Length of 'sessionId' property on the message cannot be greater than 128 characters."
       );
     }
+
     amqpMsg.group_id = msg.sessionId;
   }
   if (msg.replyTo != null) {
@@ -315,15 +369,6 @@ export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
   }
   if (msg.replyToSessionId != null) {
     amqpMsg.reply_to_group_id = msg.replyToSessionId;
-  }
-  if (msg.timeToLive != null && msg.timeToLive !== Constants.maxDurationValue) {
-    amqpMsg.ttl = msg.timeToLive;
-    amqpMsg.creation_time = Date.now();
-    if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
-      amqpMsg.absolute_expiry_time = amqpMsg.creation_time + amqpMsg.ttl;
-    } else {
-      amqpMsg.absolute_expiry_time = Constants.maxAbsoluteExpiryTime;
-    }
   }
   if (msg.partitionKey != null) {
     if (msg.partitionKey.length > Constants.maxPartitionKeyLength) {
@@ -451,8 +496,11 @@ export function fromRheaMessage(
       body: undefined
     };
   }
+
+  const { body, bodyType } = defaultDataTransformer.decodeWithType(msg.body);
+
   const sbmsg: ServiceBusMessage = {
-    body: msg.body
+    body: body
   };
 
   if (msg.application_properties != null) {
@@ -501,7 +549,12 @@ export function fromRheaMessage(
     }
   }
 
-  const props: any = {};
+  type PartialWritable<T> = Partial<
+    {
+      -readonly [P in keyof T]: T[P];
+    }
+  >;
+  const props: PartialWritable<ServiceBusReceivedMessage> = {};
   if (msg.message_annotations != null) {
     if (msg.message_annotations[Constants.deadLetterSource] != null) {
       props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
@@ -523,15 +576,18 @@ export function fromRheaMessage(
       props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
     }
   }
-  if (msg.ttl != null && msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()) {
-    props.expiresAtUtc = new Date(Constants.maxDurationValue);
-  } else {
-    props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
+  if (msg.ttl == null) msg.ttl = Constants.maxDurationValue;
+  if (props.enqueuedTimeUtc) {
+    props.expiresAtUtc = new Date(
+      Math.min(props.enqueuedTimeUtc.getTime() + msg.ttl, Constants.maxDurationValue)
+    );
   }
 
+  const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+  rawMessage.bodyType = bodyType;
+
   const rcvdsbmsg: ServiceBusReceivedMessage = {
-    _rawAmqpMessage: AmqpAnnotatedMessage.fromRheaMessage(msg),
-    _delivery: delivery,
+    _rawAmqpMessage: rawMessage,
     deliveryCount: msg.delivery_count,
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
@@ -547,8 +603,10 @@ export function fromRheaMessage(
         : undefined,
     ...sbmsg,
     ...props,
-    deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason,
-    deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription
+    deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string | undefined,
+    deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as
+      | string
+      | undefined
   };
 
   logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
@@ -560,6 +618,26 @@ export function fromRheaMessage(
  */
 export function isServiceBusMessage(possible: unknown): possible is ServiceBusMessage {
   return isObjectWithProperties(possible, ["body"]);
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function isAmqpAnnotatedMessage(possible: unknown): possible is AmqpAnnotatedMessage {
+  return (
+    isObjectWithProperties(possible, ["body", "bodyType"]) &&
+    possible.constructor.name !== ServiceBusMessageImpl.name
+  );
+}
+
+/**
+ * @internal
+ */
+export function isServiceBusReceivedMessage(
+  possible: unknown
+): possible is ServiceBusReceivedMessage {
+  return isServiceBusMessage(possible) && "_rawAmqpMessage" in possible;
 }
 
 /**
@@ -766,11 +844,24 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (receiveMode === "receiveAndDelete") {
       this.lockToken = undefined;
     }
+
+    let actualBodyType:
+      | ReturnType<typeof defaultDataTransformer["decodeWithType"]>["bodyType"]
+      | undefined = undefined;
+
     if (msg.body) {
-      this.body = defaultDataTransformer.decode(msg.body);
+      try {
+        const result = defaultDataTransformer.decodeWithType(msg.body);
+
+        this.body = result.body;
+        actualBodyType = result.bodyType;
+      } catch (err) {
+        this.body = undefined;
+      }
     }
     // TODO: _rawAmqpMessage is already being populated in fromRheaMessage(), no need to do it twice
     this._rawAmqpMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+    this._rawAmqpMessage.bodyType = actualBodyType;
     this.delivery = delivery;
   }
 

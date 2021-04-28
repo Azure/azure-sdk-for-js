@@ -140,4 +140,21 @@ describe("FileSystemPersist", () => {
       assert.deepStrictEqual(value2, secondBatch);
     });
   });
+
+  describe("#fileCleanupTask()", () => {
+    it("must clean old files from temp location", async () => {
+      const sleep = promisify(setTimeout);
+      const persister = new FileSystemPersist({ instrumentationKey });
+      const firstBatch = [{ batch: "first" }];
+      const success1 = await persister.push(firstBatch);
+      assert.strictEqual(success1, true);
+      persister.fileRetemptionPeriod = 1;
+      // wait 100 ms
+      await sleep(100);
+      let cleanup = await persister["_fileCleanupTask"]();
+      assert.strictEqual(cleanup, true);
+      let fileValue = await persister.shift();
+      assert.deepStrictEqual(fileValue, null); //File doesn't exist anymore
+    });
+  });
 });

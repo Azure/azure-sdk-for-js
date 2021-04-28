@@ -17,7 +17,8 @@ import {
   UpdateTableEntityOptions,
   TableBatch,
   TableBatchResponse,
-  TableBatchEntityResponse
+  TableBatchEntityResponse,
+  UpsertTableEntityOptions
 } from "./models";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
@@ -129,6 +130,23 @@ export class TableBatchImpl implements TableBatch {
   ): void {
     this.checkPartitionKey(entity.partitionKey);
     this.pendingOperations.push(this.interceptClient.updateEntity(entity, mode, options));
+  }
+
+  /**
+   * Adds an upsertEntity operation to the batch
+   * @param entity - The properties for the table entity.
+   * @param mode   - The different modes for updating the entity:
+   *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *               - Replace: Updates an existing entity by replacing the entire entity.
+   * @param options - The options parameters.
+   */
+  public upsertEntity<T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: UpsertTableEntityOptions
+  ): void {
+    this.checkPartitionKey(entity.partitionKey);
+    this.pendingOperations.push(this.interceptClient.upsertEntity(entity, mode, options));
   }
 
   /**

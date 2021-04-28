@@ -218,8 +218,11 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
       // If there's no challenge in cache, a blank body will start the challenge.
       const originalBody = webResource.body;
       webResource.body = "";
-      response = await this._nextPolicy.sendRequest(webResource);
-      webResource.body = originalBody;
+      try {
+        response = await this._nextPolicy.sendRequest(webResource);
+      } finally {
+        webResource.body = originalBody;
+      }
     } else {
       // If we did have a challenge in memory,
       // we attempt to load the token from the cache into the request before we try to send the request.

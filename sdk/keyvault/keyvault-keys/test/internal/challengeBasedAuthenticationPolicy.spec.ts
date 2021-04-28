@@ -9,12 +9,15 @@ import { env, Recorder } from "@azure/test-utils-recorder";
 import {
   AuthenticationChallengeCache,
   AuthenticationChallenge,
-  parseWWWAuthenticate
+  parseWWWAuthenticate,
+  challengeBasedAuthenticationPolicy
 } from "../../../keyvault-common/src";
 import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { getServiceVersion } from "../utils/utils.common";
+import { WebResource } from "@azure/core-http";
+import { ClientSecretCredential } from "@azure/identity";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -136,5 +139,35 @@ describe("Challenge based authentication tests", () => {
         c: "c"
       });
     });
+  });
+});
+
+describe("Local Challenge based authentication tests", () => {
+  it("should recover gracefully when a downstream policy fails", async () => {
+    // The simplest possible policy with a _nextPolicy that throws an error.
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!
+    );
+
+    const policy = challengeBasedAuthenticationPolicy(credential).create(
+      {
+        sendRequest: () => {
+          throw new Error("Boom");
+        }
+      },
+      { log: () => null, shouldLog: () => false }
+    );
+
+    const request = new WebResource("https://portal.azure.com", "GET", "request body");
+
+    try {
+      await policy.sendRequest(request);
+    } catch (err) {
+      // the next policy throws
+    }
+
+    assert.equal(request.body, "request body");
   });
 });

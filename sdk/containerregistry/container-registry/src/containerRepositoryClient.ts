@@ -3,18 +3,16 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import { TokenCredential } from "@azure/core-auth";
 import {
-  TokenCredential,
-  OperationOptions,
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
   InternalPipelineOptions,
-  isTokenCredential,
-  RestResponse
-} from "@azure/core-http";
+  bearerTokenChallengeAuthenticationPolicy
+} from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { URL } from "./url";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
@@ -24,25 +22,24 @@ import {
   ContainerRegistryClientOptions,
   ContentProperties,
   DeleteRepositoryResult,
+  RegistryArtifactOrderBy,
   RegistryArtifactProperties,
   RepositoryProperties,
+  TagOrderBy,
   TagProperties
 } from "./model";
-import {
-  ContainerRegistryUserCredential,
-  createContainerRegistryUserCredentialPolicy
-} from "./containerRegistryUserCredentialPolicy";
 import { extractNextLink } from "./utils";
+import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 
 /**
  * Options for the `getProperties` method of `ContainerRepositoryClient`.
  */
-export interface GetPropertiesOptions extends OperationOptions {}
+export interface GetRepositoryPropertiesOptions extends OperationOptions {}
 
 /**
- * Options for the `delete` method of `ContainerRepositoryClient`.
+ * Options for delete repository operation.
  */
-export interface DeleteOptions extends OperationOptions {}
+export interface DeleteRepositoryOptions extends OperationOptions {}
 
 /**
  * Options for the `deleteRegistryArtifact` method of `ContainerRepositoryClient`.
@@ -70,9 +67,9 @@ export interface GetTagPropertiesOptions extends OperationOptions {}
 export interface SetManifestPropertiesOptions extends OperationOptions {}
 
 /**
- * Options for the `setPermissions` method of `ContainerRepositoryClient`.
+ * Options for the `setProperties` method of `ContainerRepositoryClient`.
  */
-export interface SetPermissionsOptions extends OperationOptions {}
+export interface SetRepositoryPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `setTagProperties` method of `ContainerRepositoryClient`.
  */
@@ -83,7 +80,7 @@ export interface SetTagPropertiesOptions extends OperationOptions {}
  */
 export interface ListRegistryArtifactsOptions extends OperationOptions {
   /** orderby query parameter */
-  orderby?: string;
+  orderBy?: RegistryArtifactOrderBy;
 }
 
 /**
@@ -91,9 +88,11 @@ export interface ListRegistryArtifactsOptions extends OperationOptions {
  */
 export interface ListTagsOptions extends OperationOptions {
   /** orderby query parameter */
-  orderby?: string;
-  /** filter by digest */
-  digest?: string;
+  orderBy?: TagOrderBy;
+}
+
+function isDigest(tagOrDigest: string): boolean {
+  return tagOrDigest.includes(":");
 }
 
 /**
@@ -101,6 +100,7 @@ export interface ListTagsOptions extends OperationOptions {
  */
 export class ContainerRepositoryClient {
   private client: GeneratedClient;
+  private authClient: GeneratedClient;
   /**
    * The Azure Container Registry endpoint.
    */
@@ -136,14 +136,16 @@ export class ContainerRepositoryClient {
   constructor(
     endpointUrl: string,
     repository: string,
-    credential: TokenCredential | ContainerRegistryUserCredential,
+    credential: TokenCredential,
     options: ContainerRegistryClientOptions = {}
   ) {
     this.endpoint = endpointUrl;
+    this.repository = repository;
+    const parsedUrl = new URL(endpointUrl);
+    this.registry = parsedUrl.hostname;
+
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;
-    this.repository = repository;
-    this.registry = ""; // TODO: (jeremymeng) implement
     if (!options.userAgentOptions) {
       options.userAgentOptions = {};
     }
@@ -153,24 +155,25 @@ export class ContainerRepositoryClient {
       options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    // The AAD scope for an API is usually the baseUri + "/.default", but it
-    // may be different for your service.
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, `${endpointUrl}/.default`)
-      : createContainerRegistryUserCredentialPolicy(credential);
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       loggingOptions: {
         logger: logger.info,
         // This array contains header names we want to log that are not already
         // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-        allowedHeaderNames: ["x-ms-correlation-request-id"],
-        allowedQueryParameters: ["last", "n"]
+        additionalAllowedHeaderNames: ["x-ms-correlation-request-id"],
+        additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"]
       }
     };
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.client = new GeneratedClient(endpointUrl, pipeline);
+    this.authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
+    this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
+    const authPolicy = bearerTokenChallengeAuthenticationPolicy({
+      credential,
+      scopes: [`https://management.core.windows.net/.default`],
+      challengeCallbacks: new ChallengeHandler(this.authClient)
+    });
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -178,7 +181,7 @@ export class ContainerRepositoryClient {
    *
    * @param options - optional configuration for the operation
    */
-  public async delete(options: DeleteOptions = {}): Promise<DeleteRepositoryResult> {
+  public async delete(options: DeleteRepositoryOptions = {}): Promise<DeleteRepositoryResult> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-delete", options);
 
     try {
@@ -203,19 +206,18 @@ export class ContainerRepositoryClient {
   public async deleteRegistryArtifact(
     digest: string,
     options: DeleteRegistryArtifactOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "ContainerRepositoryClient-deleteRegistryArtifact",
       options
     );
 
     try {
-      const result = await this.client.containerRegistryRepository.deleteManifest(
+      await this.client.containerRegistryRepository.deleteManifest(
         this.repository,
         digest,
         updatedOptions
       );
-      return result;
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -229,16 +231,11 @@ export class ContainerRepositoryClient {
    * @param tag - the name of the tag to be deleted.
    * @param options -
    */
-  public async deleteTag(tag: string, options: DeleteTagOptions = {}): Promise<RestResponse> {
+  public async deleteTag(tag: string, options: DeleteTagOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-deleteTag", options);
 
     try {
-      const result = await this.client.containerRegistryRepository.deleteTag(
-        this.repository,
-        tag,
-        updatedOptions
-      );
-      return result;
+      await this.client.containerRegistryRepository.deleteTag(this.repository, tag, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -251,7 +248,9 @@ export class ContainerRepositoryClient {
    * Retrieves properties of this repository.
    * @param options -
    */
-  public async getProperties(options: GetPropertiesOptions = {}): Promise<RepositoryProperties> {
+  public async getProperties(
+    options: GetRepositoryPropertiesOptions = {}
+  ): Promise<RepositoryProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-getProperties", options);
 
     try {
@@ -282,13 +281,20 @@ export class ContainerRepositoryClient {
       options
     );
 
+    let digest: string = tagOrDigest;
+    if (!isDigest(tagOrDigest)) {
+      digest = (await this.getTagProperties(tagOrDigest)).digest!; // TODO: (jeremymeng) swagger update to make digest non-optional
+    }
+
     try {
       const result = await this.client.containerRegistryRepository.getRegistryArtifactProperties(
         this.repository,
-        tagOrDigest,
+        digest,
         updatedOptions
       );
-      return result;
+      const registryArtifacts = result.references;
+      delete result.references;
+      return { ...result, registryArtifacts };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -326,7 +332,7 @@ export class ContainerRepositoryClient {
   }
 
   /**
-   * Sets properties of a manifest.
+   * Updates manifest artifact attributes.
    * @param digest - the digest of the manifest.
    * @param options -
    */
@@ -334,19 +340,29 @@ export class ContainerRepositoryClient {
     digest: string,
     value: ContentProperties,
     options: SetManifestPropertiesOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<RegistryArtifactProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setManifestProperties", {
       ...options,
       value: value
     });
 
     try {
-      const result = await this.client.containerRegistryRepository.updateTagAttributes(
+      const properties = await this.client.containerRegistryRepository.updateManifestAttributes(
         this.repository,
         digest,
         updatedOptions
       );
-      return result;
+      return {
+        ...properties,
+        writeableProperties: properties.writeableProperties
+          ? {
+              canDelete: properties.writeableProperties.canDelete,
+              canList: properties.writeableProperties.canList,
+              canRead: properties.writeableProperties.canRead,
+              canWrite: properties.writeableProperties.canWrite
+            }
+          : undefined
+      };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -356,24 +372,32 @@ export class ContainerRepositoryClient {
   }
 
   /**
-   * Sets permissions.
+   * Updates repository attributes.
    * @param options -
    */
-  public async setPermissions(
+  public async setProperties(
     value: ContentProperties,
-    options: SetPermissionsOptions = {}
-  ): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setPermissions", {
+    options: SetRepositoryPropertiesOptions = {}
+  ): Promise<RepositoryProperties> {
+    const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setProperties", {
       ...options,
       value: value
     });
 
     try {
-      const result = await this.client.containerRegistryRepository.setProperties(
+      const properties = await this.client.containerRegistryRepository.setProperties(
         this.repository,
         updatedOptions
       );
-      return result;
+      return {
+        ...properties,
+        writeableProperties: {
+          canDelete: properties.writeableProperties.canDelete,
+          canList: properties.writeableProperties.canList,
+          canRead: properties.writeableProperties.canRead,
+          canWrite: properties.writeableProperties.canWrite
+        }
+      };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -383,27 +407,26 @@ export class ContainerRepositoryClient {
   }
 
   /**
-   * Sets properties of a tag.
+   * Updates tag attributes.
    * @param tag - name of the tag
    * @param options -
    */
   public async setTagProperties(
     tag: string,
-    value: ContentProperties = {},
+    value: ContentProperties,
     options: SetTagPropertiesOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<TagProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setTagProperties", {
       ...options,
       value: value
     });
 
     try {
-      const result = await this.client.containerRegistryRepository.updateTagAttributes(
+      return await this.client.containerRegistryRepository.updateTagAttributes(
         this.repository,
         tag,
         updatedOptions
       );
-      return result;
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -443,7 +466,7 @@ export class ContainerRepositoryClient {
   }
 
   private async *listArtifactItems(
-    options: ListTagsOptions = {}
+    options: ListRegistryArtifactsOptions = {}
   ): AsyncIterableIterator<RegistryArtifactProperties> {
     for await (const page of this.listArtifactPage({}, options)) {
       yield* page;
@@ -457,9 +480,10 @@ export class ContainerRepositoryClient {
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
-        n: continuationState.maxPageSize
+        n: continuationState.maxPageSize,
+        orderby: options.orderBy
       };
-      let currentPage = await this.client.containerRegistryRepository.getManifests(
+      const currentPage = await this.client.containerRegistryRepository.getManifests(
         this.repository,
         optionsComplete
       );
@@ -479,28 +503,28 @@ export class ContainerRepositoryClient {
           };
         });
       }
-      while (continuationState.continuationToken) {
-        currentPage = await this.client.containerRegistryRepository.getManifestsNext(
-          this.repository,
-          continuationState.continuationToken,
-          options
+    }
+    while (continuationState.continuationToken) {
+      const currentPage = await this.client.containerRegistryRepository.getManifestsNext(
+        this.repository,
+        continuationState.continuationToken,
+        options
+      );
+      if (currentPage.link) {
+        continuationState.continuationToken = currentPage.link.substr(
+          1,
+          currentPage.link.indexOf(">") - 1
         );
-        if (currentPage.link) {
-          continuationState.continuationToken = currentPage.link.substr(
-            1,
-            currentPage.link.indexOf(">") - 1
-          );
-        } else {
-          continuationState.continuationToken = undefined;
-        }
-        if (currentPage.manifests) {
-          yield currentPage.manifests.map((t) => {
-            return {
-              ...t,
-              repository: currentPage.repository!
-            };
-          });
-        }
+      } else {
+        continuationState.continuationToken = undefined;
+      }
+      if (currentPage.manifests) {
+        yield currentPage.manifests.map((t) => {
+          return {
+            ...t,
+            repository: currentPage.repository!
+          };
+        });
       }
     }
   }
@@ -546,9 +570,10 @@ export class ContainerRepositoryClient {
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
-        n: continuationState.maxPageSize
+        n: continuationState.maxPageSize,
+        orderby: options.orderBy
       };
-      let currentPage = await this.client.containerRegistryRepository.getTags(
+      const currentPage = await this.client.containerRegistryRepository.getTags(
         this.repository,
         optionsComplete
       );
@@ -561,21 +586,21 @@ export class ContainerRepositoryClient {
           };
         });
       }
-      while (continuationState.continuationToken) {
-        currentPage = await this.client.containerRegistryRepository.getTagsNext(
-          this.repository,
-          continuationState.continuationToken,
-          options
-        );
-        continuationState.continuationToken = extractNextLink(currentPage.link);
-        if (currentPage.tagAttributeBases) {
-          yield currentPage.tagAttributeBases.map((t) => {
-            return {
-              ...t,
-              repository: currentPage.repository
-            };
-          });
-        }
+    }
+    while (continuationState.continuationToken) {
+      const currentPage = await this.client.containerRegistryRepository.getTagsNext(
+        this.repository,
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = extractNextLink(currentPage.link);
+      if (currentPage.tagAttributeBases) {
+        yield currentPage.tagAttributeBases.map((t) => {
+          return {
+            ...t,
+            repository: currentPage.repository
+          };
+        });
       }
     }
   }

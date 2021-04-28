@@ -41,7 +41,11 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/public/*.spec.js",
+      "dist-esm/test/public/node/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -109,7 +113,11 @@ export function browserConfig(test = false) {
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), browser specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/public/*.spec.js",
+      "dist-esm/test/public/browser/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
 

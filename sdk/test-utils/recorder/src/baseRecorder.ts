@@ -9,6 +9,7 @@ import {
   filterSecretsRecursivelyFromJSON,
   generateTestRecordingFilePath
 } from "./utils";
+import { defaultRequestBodyTransforms } from "./utils/requestBodyTransform";
 
 /**
  * Loads the environment variables in both node and browser modes corresponding to the key-value pairs provided.
@@ -34,7 +35,8 @@ export abstract class BaseRecorder {
   public environmentSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {},
     customizationsOnRecordings: [],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
+    requestBodyTransformations: defaultRequestBodyTransforms
   };
   protected hash: string;
   private defaultCustomizationsOnRecordings = defaultCustomizationsOnRecordings;
@@ -84,6 +86,33 @@ export abstract class BaseRecorder {
         this.environmentSetup.customizationsOnRecordings
       )
     );
+  }
+
+  public init(environmentSetup: RecorderEnvironmentSetup) {
+    this.environmentSetup = {
+      replaceableVariables: {
+        ...this.environmentSetup.replaceableVariables,
+        ...environmentSetup.replaceableVariables
+      },
+      customizationsOnRecordings: [
+        ...this.environmentSetup.customizationsOnRecordings,
+        ...environmentSetup.customizationsOnRecordings
+      ],
+      queryParametersToSkip: [
+        ...this.environmentSetup.queryParametersToSkip,
+        ...environmentSetup.queryParametersToSkip
+      ],
+      requestBodyTransformations: {
+        stringTransforms:
+          this.environmentSetup.requestBodyTransformations?.stringTransforms?.concat(
+            environmentSetup.requestBodyTransformations?.stringTransforms ?? []
+          ) ?? [],
+        jsonTransforms:
+          this.environmentSetup.requestBodyTransformations?.jsonTransforms?.concat(
+            environmentSetup.requestBodyTransformations?.jsonTransforms ?? []
+          ) ?? []
+      }
+    };
   }
 
   public abstract record(environmentSetup: RecorderEnvironmentSetup): void;

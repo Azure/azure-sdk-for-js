@@ -65,17 +65,17 @@ function isErrorResponse(errorResponse: any): errorResponse is OAuthErrorRespons
 /**
  * The Error.name value of an CredentialUnavailable
  */
-export const CredentialUnavailableName = "CredentialUnavailable";
+export const CredentialUnavailableErrorName = "CredentialUnavailableError";
 
 /**
  * This signifies that the credential that was tried in a chained credential
  * was not available to be used as the credential. Rather than treating this as
  * an error that should halt the chain, it's caught and the chain continues
  */
-export class CredentialUnavailable extends Error {
+export class CredentialUnavailableError extends Error {
   constructor(message?: string) {
     super(message);
-    this.name = CredentialUnavailableName;
+    this.name = CredentialUnavailableErrorName;
   }
 }
 

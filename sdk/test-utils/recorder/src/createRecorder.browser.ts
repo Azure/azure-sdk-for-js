@@ -99,7 +99,7 @@ export class NiseRecorder extends BaseRecorder {
   // When recording, we want to hit the server and intercept requests/responses
   // Nise does not allow us to intercept requests if they're sent to the server, so we need to override its behavior
   public record(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
-    this.environmentSetup = recorderEnvironmentSetup;
+    super.init(recorderEnvironmentSetup);
     const self = this;
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
     this.xhr = xhr;
@@ -151,7 +151,7 @@ export class NiseRecorder extends BaseRecorder {
   // When playing back, we want to intercept requests, find a corresponding match in our recordings and respond to it with the recorded data
   // We must override the request's 'send' function because all the request information (body, url, method, queries) will be ready when it's called
   public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
-    this.environmentSetup = recorderEnvironmentSetup;
+    super.init(recorderEnvironmentSetup);
     const self = this;
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
     this.xhr = xhr;
