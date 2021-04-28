@@ -22,9 +22,7 @@ export async function authenticate(that: Context): Promise<any> {
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
       (recording: any): any =>
-        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), ""),
-      (recording: any): any =>
-        recording.replace(/addr=[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/g, "addr=IP_ADDRESS")
+        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), "")
     ],
     queryParametersToSkip: []
   };

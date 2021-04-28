@@ -23,13 +23,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '8ce7a590-3a87-4a0d-a5d5-1d3ed4829e1c',
+  '2d4007d0-827c-43d4-817c-1e0d331e2e8f',
   'x-ms-request-id',
-  '2d2a7f1e-2ff4-42e8-98c9-44d3a12c5e5f',
+  '53688911-0ecf-42a9-838a-0feb30799c53',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
   'X-Powered-By',
   'ASP.NET',
   'Strict-Transport-Security',
@@ -37,7 +37,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:29:41 GMT'
+  'Wed, 28 Apr 2021 22:59:07 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -46,6 +46,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .reply(200, {"tenant_discovery_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}, [
   'Cache-Control',
   'max-age=86400, private',
+  'Content-Length',
+  '980',
   'Content-Type',
   'application/json; charset=utf-8',
   'Strict-Transport-Security',
@@ -59,21 +61,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '94c6c03f-3f13-4661-a340-4524eaca3602',
+  '5d7726b7-1d24-4984-9f64-df468c5c2500',
   'x-ms-ests-server',
-  '2.1.11654.16 - WUS2 ProdSlices',
+  '2.1.11654.16 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AgEcO6Mgn-9Lr10m3z7WdtjmR1YbAQAAANitG9gOAAAA; expires=Fri, 28-May-2021 19:29:41 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ags565BX9kNAvFMBrxPSoDbmR1YbBAAAALLeG9gOAAAA; expires=Fri, 28-May-2021 22:59:07 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrzRIentNfb-9WMbdWhm8iDWiJQOWiuNZUkdM2HSOMZt8zWse3-UlmWcNXdTSNIHd6IiBChw4Ycka-_ikScoCrEPXKJNoVr3xIu2ldHNQqeZ2KT9iafo7eicEFS2iJkPopb9BtumsL5hmWhQpY-vfIGzE2Xn369BOvAOsDTQ4Z4-wgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrdFJf0quFFzIHHj_1e5QNhcplKpe4uf2XwGjnXFp8I5LDUpsqVIwrS4--QftHv_hy4r8e_i08Tc33iqseJk-at86z97DFB0rCAsFbtW2oJf8XAsYrYHvDCihRE47FVdEoxZUXjfevAZ0_p_Hb5LHKKXOwYOM-jE9cI1vjwkU4plcgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 19:29:41 GMT',
-  'Content-Length',
-  '980'
+  'Wed, 28 Apr 2021 22:59:07 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -94,19 +94,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'dedc67f4-ae43-4b2e-817d-760fcdbd1501',
+  '085f4f7d-8c01-4e13-9607-f708b7b41b01',
   'x-ms-ests-server',
   '2.1.11654.16 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AgEcO6Mgn-9Lr10m3z7WdtjmR1YbAQAAANitG9gOAAAA; expires=Fri, 28-May-2021 19:29:41 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ags565BX9kNAvFMBrxPSoDbmR1YbBAAAALLeG9gOAAAA; expires=Fri, 28-May-2021 22:59:07 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrTZUysXidwbKHU7l14gC0qRxlYLukMP-scbhZyCZ-aaL-1MUoKQXDjXSDoDnOQWK_CwVBqxZUUGd84lsdhFIbm3GqwGfdApNH99D0U-9WUOoAENC8cPr_BbrftN-6Ypp1wEnAwwZ8g3i0HMcp8oYgYyLUbzFGmfYpZ_Vd3Q4r7fYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrKsiKFnv9yveSXUcuwAqYEh0F1xfP3JlZIJzSSW5pHgZ_Cb9mdstHhpR2SYOEtdkGJE_3Iuqcw-9zkxIOxVwxuicN1mpZjiPtB12NexbqGvuGEtC_BzBkCTI-tS_7R4HLtU0twe7Vwng-dpyhYiwmxpyYToVceFGHCBBaI_fj9vogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 19:29:41 GMT',
+  'Wed, 28 Apr 2021 22:59:07 GMT',
   'Content-Length',
   '1651'
 ]);
@@ -134,25 +134,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'c9b1dafe-fe4f-4e0b-b172-aa0364481101',
+  '076e25e2-b1ae-43ce-89f1-08dd3bae2a01',
   'x-ms-ests-server',
-  '2.1.11654.16 - WUS2 ProdSlices',
+  '2.1.11654.16 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AgEcO6Mgn-9Lr10m3z7WdtjmR1YbAgAAANitG9gOAAAA; expires=Fri, 28-May-2021 19:29:41 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ags565BX9kNAvFMBrxPSoDbmR1YbBAAAALLeG9gOAAAA; expires=Fri, 28-May-2021 22:59:08 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 19:29:41 GMT'
+  'Wed, 28 Apr 2021 22:59:07 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .put('/secrets/backupRestoreSecretName-cantimeoutdeletingasecret-', {"value":"RSA","attributes":{}})
   .query(true)
-  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/backupRestoreSecretName-cantimeoutdeletingasecret-/f3b831d364a04a80adba4df301261c25","attributes":{"enabled":true,"created":1619638181,"updated":1619638181,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"value":"RSA","id":"https://keyvault_name.vault.azure.net/secrets/backupRestoreSecretName-cantimeoutdeletingasecret-/0ca838a142f44b4584ed4cff7397c81e","attributes":{"enabled":true,"created":1619650748,"updated":1619650748,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -164,13 +164,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '8ce7a590-3a87-4a0d-a5d5-1d3ed4829e1c',
+  '2d4007d0-827c-43d4-817c-1e0d331e2e8f',
   'x-ms-request-id',
-  'fc1296d1-ff5f-43f3-8b97-9c8ae8bc1eb0',
+  '00148181-16e5-41d3-a643-43fd4c2e443f',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
   'X-Powered-By',
   'ASP.NET',
   'Strict-Transport-Security',
@@ -178,7 +178,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:29:41 GMT',
+  'Wed, 28 Apr 2021 22:59:07 GMT',
   'Content-Length',
   '307'
 ]);
@@ -186,7 +186,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/secrets/backupRestoreSecretName-cantimeoutdeletingasecret-/backup')
   .query(true)
-  .reply(200, {"value":"KUF6dXJlS2V5VmF1bHRTZWNyZXRCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQzB5TlRZaUxDSmxibU1pT2lKQk1qVTJRMEpETFVoVE5URXlJbjAuVFFaVGRVV2YyZ3ZBb01VQ3l2OFBfQWtXQnF3UU5WUFNLYVcta0hmQ0hXZmdpZldxckwyQkxGVEVES0h6SWhGTHg3SjJXVGVfSUlSd293MTJRcjRlMTlhSXBjb0l3UEo4RTRUNEJicm45RkVqNFFZcmFhdzRNSmtnYVpvd0JfS1pTQ3B6VFNpUWZvR1dTckQ2MGk1UFZJNlZBZUFrTXN2X2g0ejdQQlQxSEZrckFyNTlNeHZSNGxYUFZTQks2SnhfbHdaRXJoZTYzQXU2Q0lKQ241UVpJd0FSZzljM3FYUklkb053cHZmdU5aemQ0eHpSa1dYREVPX0ozMTlRZ3pBLWZrYXFIZEJPUGtRRUZaVlF4Z1E0MzFqdElUSGtwODk2YXNQYlZ2XzFaMFRfczR4QjhPNGRrS25YOXlHaG9UTWE5NllBdkZoNGRSdVdoeE4tYkVRUERRLkZkVVczdUpHbjJteFJhaGdtcGlVVkEueUtTSnkwQW5wYkVLNmFEWHpjc1hFdy0yaVczYlE3NFRoZjhHZENQdHFxNU14OVYtNzViS1FIWWR2QXN5RXNFUmlESTZNOFNoRlJ6aVd6dGlPeVo2ZmlsTE5WaEJHOHJIMF9jMjRBdmNDQXV3ZW5OQTA1MTZrR0oxM3FZcG1QcVNyVl9xblkxNnBidUhTc2o4eldTVnFuV3FDRUc4NG5hWUlkVU9tWWdjVlR2anFXcHFGMVp1OGM0U2pYZGFKb3lSWC1mU3ZnNllGYUEzdEl5ZVlQbzVoYWFhYWNka2IwWXM0bDFVRXdrYWhoeHRqNVV1UjNCRmlfSXpIcnUzS2ZxS1p6RDE1V1F0YWtqRmpiZFZ6M2stdjNzajhZb0otX3pidDJWX05EV2RuSWJmRHZSQzN5aWtYOGRQNll6MUJuVWk4bzVqY1ljOEZBZlJDSDI2bFBRMzZmNkdiaWpfd3Rkak9UNUJCOVFySkpKaHFTRmsxSkx4UWZXeFlkbUtSR0ZrSWRoNGJBNGhlbGZ1X2RsUDMzVjNDRkhTT29xUWxtNUNOekpWTG9lcTg0VGV5SXVtSEpqcXBkaldkWnN2OHh6UEdFU05meGFLeXhNRDRLWmc1VmZxekNiazhxQUVPYXN4Qno0emV6MjNTVkoyNHBpSXFmaFk5SmNEZ0czbDJveU51SjdodlplaTEyMmtnY1hkOXdLVXZzcTRLalNSaU4xQ0RGUmVfdDNHVjd0UmkwZ01RSFktQlVQamRvR0hORXdLVUtadVdFSWdTdld5R3kzSW9aOFpJazFrbWxZYmpsc2JEZjlxTTRyTU15NzNwcGZicnU0SDVVZVllNVNzbWxscFExX205SmkxaDNhRTRuRm5Dc2t1blpLZk9halFaaTRTdXNPRGZKSWVDNzlDTy03TlhkUUJRZGcyNjBObTIwSHBpZHEyX2MwbHBDakZFZWwxYVpjTlc5aTBYaG5WeHhkcHRsZGlWeFFfM04weXVvUmxGNkNvX2tKN19XVFdsd1JJQlhMOEZmQnQ3Qm45X3pZSlNMSUZ5anRvX3AtdzJYQVdGRmNyeklnODJRWHI4ck9iR0RYNDJickprSEM5SEl0QU0wRUxMQWlSOTVYenlYUmNtV3JkZ3pRSUpXSVFzUFVyWUFEekRqdE1RMmN6RHhMa2hyLTUzZzRrVUVXX0NDeld3ZFNRLTVYZ2Jkb3lhMlVYcDNtWEhGbHZDamhOZFFqVWJ2OTJPdkd3NXEtdDVHWnNhUlRBazA4ZzFjMm5QMGFCSXJHTEJGSE9OdmFxbURKcTBRRkR0N1dNWW1oZU5vLUo5SXhQeGtlMHRDbV9RZ056TnBhWF9Xb0laYVZfdUlhNWhTaDVodThpSWhwTEdvbC1hdVFNVXBqNHRZQXAxdjVuSzVKMVJGWTRZUS1TeEJ1aHVBNjZ2c1laWmgxUWwxcldHTW8yeWlLLWFCSEFfd1g0dWhmN21iejNMZEJVZGJETTJWNFNtRnVqcEVTRjZQeW9ORlFXay04VmwxRFhsZTZBcUtWV3hiUXRqTTFlNTVIMHlTRlJuV2h1RDhEYkhnR3hUVXlwQW5ZQ3BLZ2N6M1pyWlNJNkRBVzhOY0VYZGVrUmZsZ3ZDQW1EUXh2Vks5dlh0SWl2WmVTZ1JUTS0xRC1rMWhFMDBBQjY0QU9SVUdma2FiaGFEV0ZnQ183Wjh5dnY2RUlKeXc5REU1X1c0NDhid3d0SUFoTTgzMDJzZWotdktJTmNrdXdOOHNrV3I5dkVHX29GYmNsX2UzVXRTTFFCUUU0V2swLVptMkZUX2ZSVWtybGFVamFVdHF1ckJhd0UtZjlzek5fOWJfeWEzNFM0RjdXdExiWklITHYtczRBWDFtdHJYbVB2ZmZib0pscU5UQTgtdXlTWUJjTk1XLXBZcTYtMDdxRi1Ia2FzOENXbThRTW4ycnM4RjVrNHV3eWxzbUN2Wk93UmR3WmJoUzNXTml0UlNCVHROeElHZng4VzY3S05NNDRWMGlNVkF1NTl1VTM4M0ZqVGYzLUtFY0NfRDhvemtsWFBpVUJjODYxRzJ0VEFRLWhseU00VHFpSDItS2JNOWFRVWtFNDQwb1B6azZial90U090TzlkV0w3VzdGd2RSdmxaV3pQVEVkb0ViN2FYUnhXTHlXTGU3RlBaVVpuaWQ1QnMtQVp0Q2tkQnY3OTNoOVBWVGJJQ3VTU0gxUWlKaW5FV2I3OWhSTnd0UzdyMUs5VFpOTzFXX2RvZHlvZnQtbUpaQTlqd0dQQm1zRm5rOWdGVnp1ZzJGVGhldk9NVmMtTGRCWnNqZUgxNVhvbjFIQkM5X0syakViZUtQTzRVUmN1d0tPY2FIM3FESzlDVnJzeHhZc0MtN2s0T0lqWm90TDItZy1mUXNKek9RaDladUhoWFpYaGQyVzl6RC1Xc1hsZjhCUmVyazZyTFpxSGgyNG9oTEl5NUdMVmNod3pqSlBsVzVzUHZiSnNfaFZMaE9mZWh2OTFMeU9TR0VJLUdWT25INVpKZ0FGSlF1RDZ1MDE1VlpGbHpZU2lZSUk5cENGOEpRM3pER2Z3MjJoSnNETEp5ZUtZNlFYRkFzOC1vT3N3YzJOSTQxNUFYcUkxcGNSNUdSSmY5ckJSLVZ6QlZ3Vi11d3BTUnVRQ0hHXzBEYmphcUtCd1hiUkNMUFpJMVhXYzRBb1lPVHBWdld3aW5UcXBhUHNmNmpBZ20taHhwREpna3BZaHI4b3Z4M1ZxY1RvRDRYRXViZEpUekdyX0dQVjZUWU1rU2VaUXBQUFZMeFE5SHZ2T2dqeEF0VHVsbkRvMks4dVRfRXdVY2FvT2VCSmtqdEtfNVU3THVmVTJYSjNIQzNvNDJpMkZWdUJ2OWkyXzdHQWQyUURwS3IwS2VCX2h5TmdpLWZSVWtUcG45a1pyY3VxUUxjM1dYeDIwdzdnM2stR1U4ZlFkcnRfNWRtSThPTDBMNnc4d3NlN2laeXpxMU5fWTZha2dPeDhlTThEUW1wT2lXVlRnNTN5MjlIbkVKV0VDRkQydGdtSlNRT1Jlbnc4WUVJTVMwdG5ka3BQZ1NBR3NWV1F4LUg3QnY4czBtQkhteEZoYlZKZ0JWemlYaVY2eUNPZnJ0NkotczFRckVncXpYcnUwZ2VFQzJRbDBEcWJ0UWg0RzN6c1JFbjhTT001LWlXUElweG1GVDJKU2otVGxjSENyVDl0U2tCVUxyREtsb21ZSDdBYmpreGJ1WUI3OXhPUldDMGVlalVScS1KbzhBUU1OWUt1YzVkNm1Ed2tHQ1YtX2xRaC1Rc3VJMjlXdEVUOV9iNHNLbkF2VDhjTGZQbU4xT0FIUTRtYnpMOVJ6MUFKcWdCMnZka3F0Z2V2ZkZZSGlpWnA1QXNvalB2R0daOE9qSE1BVDZ1T0JuWkxPNlZsYjJvMmJBSmU5emhHWFJtN01wbGxTV21wRXFvSlAteWZJU2U1bkF4OG9rTW1JVUhwRmlXOHdLNDhINnVUTTVtd1ktdVl5c19LNkd6VlNKUEtmU29oalVLaHZRb3JJb3hrRGF2b1ZBbmdIV2lYcll0VTVZVGpmNWw2NkpoV1BiemdQT1ZUN3ZmSnl0ZmZCd051WXFDVWVyR09qVDRpcVcwRzJ1OVFtNDBNR1psMDJZM1FvczNIWnZjSXZCX3RBWHpxckk1RWdPcWxqMm1ZVkdtVl94eGlnQUI3V3pCdHU2eW8wbXlLY3BKNkpvQ2NSMWZRYVBwektydC1OSWwxLW5xOGFFY0dFdC1SZlJLcVY0LW9jNWRuLXZxV2pRTnBWeTNqb0xxbVM2WWZwcC1lMTNuXzVjOFhYUENES1F0aTBpSUdQYVJtaVl3SDgtMXdXX3MzTmZpRUtQWTVVbTFUQ2NzQXRMOXVETk42VHZBWGllZklVZmRuQnJfM1duVmV6WmMzY2NxQ2xjbWdzdjVIbndqQkhwUkt6Y0FVUW5uS3AxTmozc3RjNWlPTmxpN2x2c0lzNVRzUUJiM0FCOTIzem1hRUp0b2Y4eUVaZjZ2eV9IVTZrc3p4RFBzMnp2OHFKd29vcVh3aXAwd0hHbEk4Qk00bGpqVXExd0ppZThXQjcwNHc1clZ1RkU0TzVfMFZFR2t4NmJWZ1VfUnVoSlNxWTFoQkYxNE5SbDMzNVNZc21HN1BlX1NnWE9DMVRXN3VpOVJLNDc0U2hLUGVlY21MRGxPNkRrZjhlcG5IS01NZzZnRWpTUy1RX0tqRFQzQmd5NnFmUlo1T2JEV3hJN2l2Z2UtMWpmM2NReFhMVEhjQ2cybWY4N25GRTdnQ2Y4OHBBM1Z5NVlOSzFJb1laV2NhbVpDelJadVlvelpmZXBvNFhCejh0dUpYenY0TVNzSGVpaWwtNVRsaDhjdm5LVnRsTmIzcWtFM29qM2FGeWRxYnhzU1JmZzJMRDZMdGxnWUNlLWV3ZGljT2VkR3hWcmV5Zjd3WGRWVUg2dGZzNkVMcC1EUWJWOTFzZWg1ZXVNSXFtNkVWWEw5WkY1M19Eb2lYQm9jRHU5QTFhcURVWlRFcUJBOXkxR3ctOXJuM3ZQejM0M0tqcjhUWVpUN0FCeVl6cGNnMHY2aDBDUF9qbkhTXzJjRzFzR2JjNVJTN1hPZzFLOEpVZjJlaUNJT2YwYjNNWDlLZUprblNJSUhWZ2pkRDZnVExJMXZoS2R6dGJaUlh0NkRTWXdHbEhrb2E5TzhKMnVHdE1ZZ01rMnlsYnlUSm01R0JTUDB3ckVPUldCVGEzUWU2ZmUzWldwWFVxRWlUbmVPbFBPTWhpMkh5cjhSdXFyRnBXc1pHNjdUR25JMlFXX2NqaXhtbnMzRW9aT2lTNjg1X3RXeFViWjA2Y2lxa2VmTTlqNEVEeVlHUHU3LTRzZ0VWWC1xcGdxMFczXzlBNS1uLW9YZDNVTjdpemY5TngwM3BFbFRZZDRhMGZkUy1rN0d5UkpJN1ZhWGpob29nNzVWSUt0YlBNdFZlZ3pnT294ZnM1Vy0zUV9QWjUyVkwzUjJHSU9jcnMySVdweWpyNEVIWFVKWThnZGU1c3BZYXFzUFgzTEVNaUNOTTZsV0szbDBYbUVtaEM3YXV3VmtSckZHYVdDQ3pOSlhXTURJNTMtUzVGME44VGVuZmN0QXhYVTRjaXFBbS1ROVZMcWhzUC1pV0pqUmkzV0R1MFZoUXBJWk9zNUVwb0dnVWRfSTZyQUw5Y1ZVMXVaQzU5TmRNU2dRRzRYN1c3YkZKcjJtZTRUcHdsQmhrYzB1bHVHR3ppdGhyVXd6aXdfamloZTBIcml3RHJnTzA4blRQOHpMdno2R3lJVkhPX1UzVC1mdXpJTXdobjh6YXdTM3NMRTlwZUw5MGRtVGVzY0VCQ0hNeDJ5c3VQSExkaWxOaWRhdXdvdGVQNVZCa21STzQ4SUZiWGdFV2lyd3lzU25xanpBbjh5NWIwOGR4VTh0cTg5RnF6WlJWbktQV3B6eU5MUlA1blRxeEdfZEFHQzNWbGJEeTQuRzhzWUt3ZHUtS05iM3NJdTlDTUpkOEVCdkdRVGs1YXV0ak1YWXlBVHo0QQ"}, [
+  .reply(200, {"value":"KUF6dXJlS2V5VmF1bHRTZWNyZXRCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQzB5TlRZaUxDSmxibU1pT2lKQk1qVTJRMEpETFVoVE5URXlJbjAuRHAwV1JMVXNjR0ZNZVZuMGI4dEVlT2x1X2szSjlfV0QzS1FpbDFZSlpOWWU4enBvem5wZkQ1U3IzNVY1bWdvTHA0emZhTlVyNTlOdmJkaTBPMW9sa2dFSzhJRHdRMk9HQjVnNktNUFlqeGdWcFNLSnZsMEpQTksxb2s5LXI0N0RBUVBFbGM3UURVNWxteVh1eE5OQjNpMjZoMjVyQWwtaTJPMEZKdjdtTGFDUlkxdGF1NmpuUHJCZHBzMUwxcHJTQ1Z6Qk50aDJhdnh0QURzaXVRTzJzd3JWQU8yN3BFMGxMZHlfNFZVYnluVHpiVHR2SmVoc1BycWRwSDN5RWl2R29VQnpJcHpZNUE3RzVCVEItMXNkT2ZBNEEwRlBhV0R5SmlZTXc3OHUyNjFvQWVQRGo3UTd0Q1o0QTlMVnZyV1ZXalNuT0ZkOWpUZnROSHJUSDBMMXZRLkI5TXZnVHBINE5lWWhObjRGYzU5cXcuZnNyM1k1bDk2d2pmcjlMMVpndk5UR3l3OXg4M2c1UndhT1ZVRVdnS2txenp3Ry1Ic1doYUduVFcySXo3VWdoNnd6MlhmblFpblZITXhWQ29oV2h2T2tHb2NMclBBS3FuSFdzUWJ6Vkc3ekpmY2MySTRRcGZsZWJZYmEtbDgzU3dMek5hUU5BQV82NlhMWlRCVXlBVm5ONExqWWlfbXNIbWJjOHdfeG9ieFZnUXVGbzdZM1lrMXV2OHgwN0IzT0RDT2NTZldoUTZlWllIYWtZbXFxcG9aNURROUFzbW5odkRPd3lPSE9YdGFBaThxcG9BbnV6bmVxSG5RRDU2dkxES3dhNGFQSWdtUnZodDJ4b1JXSWQzV1JtWGdtVUViblF4VTBlYzFmc1FSR19qTXlRZmliSnZxbGZiTEJmM0V6Vm1xMUQ2VEhmcWh2ZmFDOG52UjFCRjV3M0N5Wks5S1NHdXNOY2t1LWcxcEZyd29nVkZOS25iNldsN216RHRuejUzYkhrSGo4OGp0OHI4bWRidTJ1N1VMeWR0NU8tdHd3OG5QN2lyNzN3VWZUSWhVeDBmV2lEOUVTb0I2Q0JoTWtqSzMzV3g0VDR6VU01aTExcXhmdkJveV9vRWZFNGdMZmRnTUZ6aWowVWxDeFprdWNoOTV3cHVLeWxvdG54UEZqTVJhRWRZYXBtUFR3VU8zcWotRWY3el9rQ1pUdFZFZS1SNGxNQlQyU01odXd5ZWotRzhjdkVYWkthNEFWWUtiUGVMLXREMnF1QlF5WUdwdVBEeEQ0cUdRX1h5Z3c5QllzQjVLd2tsMS15Z1QxeHpYODg2Qm9pa1hhQ1RiZFh0ZWtSb3dJektGWVRRZnQ1VFVJT2F5OUVZOTBOS0FIWlpQZENIQUVkXzRxLUZhODROQkZKQjNQV1hGRE5aa0ZoRkVmSmZqSVI4Zl8tOGw0NklsazNlOWZPUEpXNm90dkl1YmI4ZjBzenpVSFlyZWJyNzV4Qk1lQUtsT3lQeGhFT1pXUFQ5N0hCYVBETVl6SHpDS2hTMEJmemhudW1ZdGZqUTFGVEpzN0tocXROSDRVNFFaZEdhMmg0UlZ3N1ZSRWpvUHdNcGhtUzVvT3BvVFFYQ3NNbzlxdkU2aEJIRl9McmdIM29Id3p3cFNaSVFBTGVGZlJkcnU0M01xQW5adVNWbjUybVM2b1Y3cVZTOWNGaFJPRFF0ckh6cW50ODhhaGtuM183OERKRkJVOUhlcGlVaWp5cE9PbWpIWnM1RUpJTkI0SEo1ZU1tZG5KaHl4Y2hjS01iZVJqVkdqX2dTNnlodG1xWUJxQk1fdFJpVHQ0SzI4U2FHOG1ndVVXSU5hTURVRkl3VkZpQWM5eVZkWGlfM0VobGU4SkY3Ujg5Z0tOQkQtTnlSOXZvUC12M3dRaVNMclFPTDJIeWhXRXJqNHFFZUdwNmFJSlptdUZQRzdhSDF4Zllra1VOcXZZMy1VbDNEMTZHdWdmN1JONS1oVlZPeWdQX2ZLVjM4TF9meGNQakxlWHk0OEU1Z05Jb0lmSEJaZm9Rb0xXZ0FTR2kzQWhydlh4RkU4VjFnMW81d2x0LWZsYmtEbEJGVGhoeS0zNHV5U091Zkl3QXZCYmFUNS1COWNrbHBwbFVXaWdsSWxmdndWNTVHZ1dTREJtWnNqb29UQWl3VjFYQ282cS1qQnNmV29LN1VsQlRjMTI3RzlfQ3c4eHJ5WnlVbjN1SHlvY0ZoSGxkMTg4WDBEamR6TXFrcElaWV9EVzNNSi0zLTluMnkzaEdmTG95TnlLMFg2Tm9fZTM2WENwVlRURFNzeFJTUi1wdkxHR0NHREZDU2lsQ2Fza3hIUHYyckVBWTFFVjh4a1lRdFlXZ0p2aGxGUWtWQkRvNUh0b0RzY2otWWRZVnFKU1Z0V01rU2hqZzNnS1hia21qVmhuamZ6SVBhQWRESEVPOGRWbVdiRWlCTmROQ09EdGExbmRzNU9HcG8xVWpZYVpBMG1URTBwRUE4R0stZ1RGZE5LMVZoSW1GTk5SYWVTejJXVmZJcGo2YkVCdUdWZnZCWjA0VC1uZ1YxMGhVQkhRRm5RdDRBOHpXemlSRS1jeDY1cDhROUh6NWV0ejZZbDNGZTM5eElCNG5UdGR2WHRrV1hwMC1maHVRZEVGbWZDdHotMEJFSmJwbXZCT1BfREtFX3FPUGkyRUpCRGY1OC1icXlaeUJkODhKNmdxVEVIU1R2T3lUOVJRdm04emxLcUpHcG9DRTdjcW9nU0FCeEc4R2liQXZjdkp3UWVvX09BZG1rS1ZOMmd0Ylp1UVlFWnY4am0zUmNDTTlCRVEwajBzSkU2V09Gci1CRnJBTjBkOXJQc0FYR05xT3I1MkdUVzJpNGowNlllNjVTelhvanN5ZDNvcVY4RjUySGlSVG9IcGhKaFdhRTVCT3Z0c3RNLVJ1VHR1M0VieDlSNkFJd05pcWxUMDJiVmE5OThUSnBfLTBNZ1E0a2p5ekE3a0NwWFNFSlIzd2hrdTh0S3A1VVFfdTJzaXNEaVFNcHh5d1lHdTR5MXlXZ0cwYVpkT3U2ZFdxb1h4OHZINWZPLWl6dU95a0M3TXVTX3lWdlUzYmVqT0lhVU5zZ1M3NmZSTXZEWTFYQi1HTmJpM1NOd2F3WWE4cUc3d3Q5bnR3NlNzLUY5N2ZwZURVR3NCcnFUUUU5TERYU3Rzc2VtdERhaVB1Q3o3UnhINkNxaU82WkUzR2ZaNlMtSG5ic2hqSzBvaVo1d3NkWFBRYzI5SVM4eWx6YlZRZUwzVjJ4YXlmRDJHNXRrVldfRGhkWE5SNF82XzhkVGdFWklMSlJqck9RY0ZJbTJ2YnFTT3l5MklZSWNKZVVWNzVlME05eTVnWmIycDVId05lcjVyVzRsWGE2SlJHc09OeUVXazV6RGZmd2ZSV2FjYi1JWW1PaUJGRkpDbE8xSDh0TjJhTlRHZ2VtcV9vei1PWkxZNGpfeVJUbVBIcVNfZVVlbC1mV2JicHF3UDhsTGtycG1zUm5aTEllaUpSTFQ1aDVzNmZXaE9pSm9nRDd4SjFsMk9GempDUF9UU0FuWG1qTHVNMW9HbjFmYmkwcnJJanJwVWVqdWNWUjFlVlFsMVZqTTJwSGRseENoNnVwR3U3eTNpMWdXd2xZS3M0VlF6ZlFWN3lrYnhES1NHSDJJRFVZX3hJNWU0NS14NTZYbGk5OTU0TmtxUlUwT0Z6TmRoR0VHQktVWW5Wckd5RnRQb05mM05pUEEwNmU0UE9ZbGRXaXNKaXdqcFhzem1LQnhrSGJ1OE14XzJTMmI3UkxPbUhUQTZUWWZQWjdiV0Y5Rk0zemFFcWlYZW8ydko2QmRxSTZkQ2RwV25lc3ZjY1ZtMlFwejIzcU1MZG9RdnR0dlNtbGhSc3ppT0ZzbmZhS0VQX0dmZFBrVXdQbUN1NWZPOXFPck1qVFRtRWp5SGtlM05neTBpcmdNMnVtUGZpR2xrWExSVUtvejYtTzJ4aXVZMGI0UklLX19fWUpnR25vVDdRNXQzY1lfUDExcGhGUko2Rjl4REpEWmxOUkRWV2N1TlI0b0ZMZWVLRGM4YVZld2VpOUgyQmdpRFRPZjJIeVUtTUY4NTV5dTBvQmxxWDczY1FSMkQ5SWdzY0dpOUxGREI2TzNPZTZBNGhDNTV1NmVzUlhRa0t4eXkyNURJODh4WGxKSHVtYzZaYllLbm5ISWhwOFE4UTg3NVh3RDdKdkFLbEhCZVF5ZXhucWFhSEVpV2tWLVV1OURjbkU1Z3FoMm1USjR2bXBCY1RGNG5UTGJPemVrXzlKUVZ6TUV1TDdnUFUyTmI0S0NDSXIwNXJuN0JPM3hWemlpSmtWYmRiS29GVmduZGkxOWVaaUN6dkRDOHRndE1LSmtUUFZwbkw5d2pyQjBqVG5JeG5iVFRBcUhoZk9ESklJaE1HYTJnWUhoZEo0Vks4M2FvY0xaamg3OGNMUFZvamgzVlA2aElVWGlCejNWVm9QX2g2cmlNd1BBeEdIS05WR0hvY3EtWGt2YmJUWTF5NnJ3NzZZODlmbm83SzVvV0pES1VJdGRvdGNEU044ZnIwTG1hSllaYmxEalNwOUJyemlHUVBIZ0tIcWFITFdpX2ljY2N5aVFRYXRwdVpSYnhRTndqbzA2UlhUWFdVQVU3RHJ0UTVnbkxlb2thQi1XaFFvZWQwY25waVQ0NTZpYjd4Y095WmRUUUwySnoxaTBVcTVvT2lMZEFNOVA3dlZBNnRLd3djRGpsWExzdDQwVGtwRVhzajZNWFdEcGpSbGFadnRhZ3o0OUhoTTNPY1V1XzFoQ1NxRHF2VDlsbkdBN2NUdFEweS1HMEpNQURRNjFJd0tvYWRTUEE2RHhRTVVoQUx0RHVXVFRGWEM0VGRmSnVHaE4wQUdIc3VJYVpXQ2hKLXBhNmt3S0MzVlUwX3ZYLUgxNTlSVkpDQTNkWGZSaW1jVFl1U1VadkxMWVlYOFo1VnNSakJuWFJPeng3cm8zRG95LUFuV0hVMU0tZU5zMzBCX3JJSG5mSDZoei16dXJLU0NkdGhneWNGYlpJWmpXWm9DVWtsSFhXX0g5VG5EMTh4N1NESVl6WGVLVGJzaTZSLTNWcE1ia1JET1lONjluYWVkRzdrZTZXTlFMSDJ0QzlLSi1VTnVBc2lNNl9WZUhFZzJudjRZbk9EMEhweHpBQ1Rtdm82R2w4SzU2aG9iZDJSWmJyeFp6UktLcExYdjZPNTF1WmNPdGZ3YkludWVTU2tzTS1IZURSU3ZRcnUxSE9rZlBheE56OWNUSi1lcV9jS2FfTXBSdWRXQVVzemdfR2NVSHVsMDkzNy03cmRHenJlQUdlV1FlNlpiR2d5X0hXSjYxTXBWS3pRU1pGZWhJQ2FWdzJCUUVLOElXT2FIcE1Db1EwTGpoaTVEWDFVYzliOHpDVWc4eVlvWVE0SDNDNHFsVmpLSVpXWDZzODNUaElvejEta1FEaHB2dFJYR2FzMlFmNkdZRTNaaWZDVG03bzAtMGdvUU5xWmVYazJmOEM0bzlLQm9DZDhrYmtZZEtLaWNyOXZkU0FNYTdzUWNQSElYelVFZl9oS2N0SjkzdmZ0OWZkcTMtUDhYaDItYVVkbkVYak41VnA0QV95QmkzeE5HZTN2Z2d4YlREb2xZR1dXOUZONWFfVXUtR3VEb2ZTb1N3cVpkTXhSV0I3bjNHMkdNV1VxR1dGQkRGV1dkZEh3X0tKbVNEYnNwOVFZcXphQU1ZWnlveDNiaUVaVk4xOTBhZFhZcXJFcXh5Wkh1cHpFUmFzaW1FeHNmTk1DTzlHQlhia1lBbG5Vc2RxLXhJMjZWeWxjY1NOZ01neEZKWWlXVUljZF82WXZyZmVGVWM4eVNBemw1MXlySmsyQ3luSFN1SVduam83dFdfckRjRGg0ekpBYlVZUVdDVkxCeXhzM1lIRWliYjBSUzdOQUJtMUNsV2VrOW9GM0ppUWtXSzFvWDZhWTYtMncubkNkd3RxOUdqTHVDTkswWjRMRnBPUGlkQmVWN1VEWmF2QjhkdzJna0c0dw"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -198,13 +198,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '66fdc674-a8ef-439a-997b-3968c6cccec0',
+  '97fef371-b0ee-4e50-9b94-720e0808b906',
   'x-ms-request-id',
-  '46dcca49-41db-427f-bb6b-cd1cb4750c05',
+  'c0779368-eca5-4447-b3ee-29b818b62a22',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
   'X-Powered-By',
   'ASP.NET',
   'Strict-Transport-Security',
@@ -212,7 +212,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:29:41 GMT',
+  'Wed, 28 Apr 2021 22:59:07 GMT',
   'Content-Length',
   '6294'
 ]);
@@ -220,7 +220,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/secrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-","deletedDate":1619638182,"scheduledPurgeDate":1627414182,"id":"https://keyvault_name.vault.azure.net/secrets/backupRestoreSecretName-cantimeoutdeletingasecret-/f3b831d364a04a80adba4df301261c25","attributes":{"enabled":true,"created":1619638181,"updated":1619638181,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-","deletedDate":1619650748,"scheduledPurgeDate":1627426748,"id":"https://keyvault_name.vault.azure.net/secrets/backupRestoreSecretName-cantimeoutdeletingasecret-/0ca838a142f44b4584ed4cff7397c81e","attributes":{"enabled":true,"created":1619650748,"updated":1619650748,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -232,13 +232,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '7da19318-652b-48ea-8ab4-4212237eb52e',
+  'ecded5fb-3094-4bea-a90b-3b36d551a28e',
   'x-ms-request-id',
-  '0726ebcd-172f-4cb3-80be-59b2d12f2f32',
+  '7472dcd0-20e9-43a7-90d8-3697f29232bd',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
   'X-Powered-By',
   'ASP.NET',
   'Strict-Transport-Security',
@@ -246,7 +246,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:29:42 GMT',
+  'Wed, 28 Apr 2021 22:59:08 GMT',
   'Content-Length',
   '491'
 ]);
@@ -268,757 +268,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'b86b1358-1d93-4cba-b304-7029d7d58a16',
+  '496af70a-e907-4460-a270-525fb9c76e68',
   'x-ms-request-id',
-  'af6be82c-03a0-40ae-9544-42090f0441a5',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:29:42 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'fe036ac5-3468-4a86-87fa-565c0263cfb7',
-  'x-ms-request-id',
-  'ca7700c8-f85f-4b83-896b-e79079734950',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:29:42 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '13613253-fbeb-417f-8dbe-1394e020ee99',
-  'x-ms-request-id',
-  '7cb5340e-3bf9-4a1a-bee9-322ef15f31b5',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:29:44 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'b9d7a91a-8a72-4cae-93d3-813ca2d1d56b',
-  'x-ms-request-id',
-  'b64d6b1e-97c3-49f3-bc70-e0341acee56a',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:29:46 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'f7778205-05d0-49be-ac27-cbd06571be79',
-  'x-ms-request-id',
-  '5c93a109-124f-4901-abbf-980c5c2f4ff5',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:29:48 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'dd7c9289-d70c-4a43-943e-6fb2206a8fc3',
-  'x-ms-request-id',
-  '69416dab-0b06-4ad9-b937-9941d4b67d7a',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:29:50 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '6ccfc3e8-7cc7-4649-88d6-5e0b50352232',
-  'x-ms-request-id',
-  'f7a05776-b0ce-4002-91b8-466fc42a61e9',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:29:52 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '312d5ce8-8f44-48b1-b576-470b0f79061f',
-  'x-ms-request-id',
-  '6c871d06-6cf5-48d6-a871-b39b6128ec75',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:29:55 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '874007f0-5f6b-4ddd-ba0d-6f0bcffe997a',
-  'x-ms-request-id',
-  '280b5b5e-efba-4544-afd8-16a5cf03cd07',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:29:57 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'ac1f72da-6623-4f62-af9e-6927c9a65e34',
-  'x-ms-request-id',
-  'ce74275f-e8bb-450a-9e86-38a0cb3cc1d2',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:29:59 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '1c3c600b-8d39-4f83-9082-581265b67717',
-  'x-ms-request-id',
-  'b50b348a-d7ba-4c7c-a62e-d22ca2f5d249',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:01 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '2b677052-51eb-4649-b726-4ca5f30c7824',
-  'x-ms-request-id',
-  '604a934d-7cc5-4f4c-9adf-3334fb1e1b28',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:03 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '8d74d5be-84f1-4311-91b2-cfcdf74f9ae2',
-  'x-ms-request-id',
-  'da0ff393-cc22-4ee2-b797-4c446819efcc',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:05 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '08edbe46-8dd5-4b66-bbeb-c24f6448a060',
-  'x-ms-request-id',
-  '57d9e2db-30e2-4286-999e-2f480fea919f',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:07 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '2cf3d7aa-cb4e-4dab-9814-1a17cc8cf7d6',
-  'x-ms-request-id',
-  'ab83b14f-9d82-4320-9bae-eb7569b4bea2',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:09 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'dae6d4d7-cb06-4f79-bed9-1f9d3260b04c',
-  'x-ms-request-id',
-  '2cb44d93-38e2-44c4-9b8b-f141c4c75779',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:11 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '47d7172b-38da-48ea-826e-f121253ca8de',
-  'x-ms-request-id',
-  '0ac6b78a-028a-4e38-8d46-eb1c2c13b5fe',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:13 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'b2352b12-b675-4f5d-98a4-b0132eeadaac',
-  'x-ms-request-id',
-  '2ee377a0-44b4-4f9d-90b8-22abe122d1de',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:16 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'fb818e93-3faf-4f5d-a6cc-28ba2ea88c5e',
-  'x-ms-request-id',
-  'be4c18df-71d1-479a-8245-6bc24ee78d28',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:18 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '14aa99bb-2b25-4300-a900-89e735d8be34',
-  'x-ms-request-id',
-  '8f11df30-728e-43aa-8bb9-d43e2a7b73ac',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:20 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '7c14d8d7-a9a7-426f-9c34-873aebe97088',
-  'x-ms-request-id',
-  '9a528e86-2f1a-44a6-8bad-800240eab8e9',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESSct_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:22 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '4fd83b2d-fe6a-4465-a546-cbab173b2ab7',
-  'x-ms-request-id',
-  '2f0a1e24-d54d-4a22-8735-508dabb418ef',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',addr=IP_ADDRESS
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 19:30:24 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '140',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '2355407b-01c2-43bb-888a-11c17629bfa5',
-  'x-ms-request-id',
-  '1c15b30f-b25e-4addr=IP_ADDRESS404b',
+  'f9cde002-32a4-4e2c-82ef-cf9a3c153318',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1030,7 +282,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:26 GMT'
+  'Wed, 28 Apr 2021 22:59:08 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -1050,9 +302,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '2a59f5e9-2c3f-4bea-93fd-082b8c75e0b2',
+  'e280d8a2-1842-4643-bc44-a069cc684fbe',
   'x-ms-request-id',
-  '112f0c8f-085f-4668-b06a-792fc40e1eea',
+  '7da42ce5-8dbb-450a-b060-47f3e105f1d2',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1064,7 +316,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:28 GMT'
+  'Wed, 28 Apr 2021 22:59:08 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -1084,9 +336,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '3ab62a26-6386-41a3-9d9c-c921073abe83',
+  'd9a62d31-08a3-4dbc-bb40-6c1777a285f1',
   'x-ms-request-id',
-  '3be2560a-5687-4107-ac16-ab208e8da41d',
+  '444da640-d0d4-498c-a8cf-6c4987b79af7',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1098,7 +350,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:30 GMT'
+  'Wed, 28 Apr 2021 22:59:10 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -1118,9 +370,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '21def32f-1e60-420e-b172-10d753e638f7',
+  'f49861ff-20f4-467c-bd97-28e51a593303',
   'x-ms-request-id',
-  'fb497fa8-03a3-4a12-b177-e4ee16fc9251',
+  '8847f51d-4e44-48f4-b597-4d2d4702b95f',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1132,7 +384,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:32 GMT'
+  'Wed, 28 Apr 2021 22:59:13 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -1152,9 +404,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '5ba132a6-88b4-4f91-bb05-da6947d6e891',
+  'ae394b58-3961-4b61-aead-f38199b18a9f',
   'x-ms-request-id',
-  '979351e5-e367-4f29-bc14-2f08d4b55901',
+  '9e66738d-93fe-4dc5-89e3-615f3b9ff09d',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1166,7 +418,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:35 GMT'
+  'Wed, 28 Apr 2021 22:59:15 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -1186,9 +438,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '5a262dfe-8004-483e-8fb2-f8e26457a9b4',
+  '533127f6-80db-44d6-a84b-28517dcf4dca',
   'x-ms-request-id',
-  'caa651d9-9473-4c18-929c-bcf3aaee7ca8',
+  '7b68f935-d5f7-465e-a0bb-893bbdcc9e2f',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1200,7 +452,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:37 GMT'
+  'Wed, 28 Apr 2021 22:59:17 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -1220,9 +472,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'ef58871a-35af-4682-a592-8fa7a32c2850',
+  '673b237a-ac82-4607-a73c-6ef736f20fe8',
   'x-ms-request-id',
-  '1f703919-f163-4583-a010-58b81de5557c',
+  '1706bc49-9cce-4277-8ff5-105875d33258',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1234,7 +486,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:39 GMT'
+  'Wed, 28 Apr 2021 22:59:19 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -1254,9 +506,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '607718eb-4407-4ff4-be85-50735138872c',
+  'df839a16-8748-48f1-aff1-8cf71d5069b2',
   'x-ms-request-id',
-  '220932b5-7962-453a-bec3-10f12c7cd67d',
+  '610d20b6-3782-43e5-99a8-7850c5ff5063',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1268,7 +520,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:41 GMT'
+  'Wed, 28 Apr 2021 22:59:20 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -1288,9 +540,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '8c279199-96f6-4e1b-ab32-6403e6119011',
+  '51c4fc56-6017-4971-af4c-99ee5794a42a',
   'x-ms-request-id',
-  '06d7594c-23ae-4270-8c66-37694b22816f',
+  'dfea5ca4-dc02-49fb-88e1-18291e7c5e60',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1302,7 +554,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:43 GMT'
+  'Wed, 28 Apr 2021 22:59:22 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -1322,9 +574,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '09acb88b-a827-45ef-b2b1-3540dea29854',
+  '428c5286-1e98-49f6-a64f-b516e5146dcd',
   'x-ms-request-id',
-  'c64b5fe4-cf81-405e-8ce1-af7eb694e1b2',
+  '2ebc374c-66bb-479f-b288-8657197e7196',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1336,7 +588,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:45 GMT'
+  'Wed, 28 Apr 2021 22:59:25 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -1356,9 +608,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '493d18d0-66ef-4b01-b668-ab6500c0cfa9',
+  '68d3fb19-f8ea-460e-af5d-abe92f85c793',
   'x-ms-request-id',
-  'e64580fc-0f66-437c-8df5-217d087a2178',
+  'eb6c3851-25eb-4feb-97ce-17c76183e7f0',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1370,13 +622,863 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:47 GMT'
+  'Wed, 28 Apr 2021 22:59:27 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-","deletedDate":1619638182,"scheduledPurgeDate":1627414182,"id":"https://keyvault_name.vault.azure.net/secrets/backupRestoreSecretName-cantimeoutdeletingasecret-/f3b831d364a04a80adba4df301261c25","attributes":{"enabled":true,"created":1619638181,"updated":1619638181,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'c82e8388-0095-4b3c-ba3f-4bf48d2a7980',
+  'x-ms-request-id',
+  '459b67cd-61b0-4ac9-9c59-efde982e0a2f',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:29 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '87cdc5dc-b488-4621-b67b-a3d216917efb',
+  'x-ms-request-id',
+  'ee60418d-1790-4c47-94ed-8bd43cd4d23d',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:31 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'b2d9f2ec-3931-4a00-8eef-cdef391a11b7',
+  'x-ms-request-id',
+  '2e3489d7-9773-4fb3-8230-b30b51d0f403',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:33 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '67c594df-382f-412f-b198-ef2a6a9e93c8',
+  'x-ms-request-id',
+  '239b53af-7f20-4248-9f47-700159884b46',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:35 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'e72e2172-dd65-4411-95b8-64375d4c5b95',
+  'x-ms-request-id',
+  '56c01aa8-02ce-45b3-8697-030a3e2aebac',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:38 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'fb6fe03f-e9fd-498f-934e-7c863807cbf2',
+  'x-ms-request-id',
+  '842de745-6a7d-49fe-bf0d-8f6e5bdc6fd5',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:40 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '60395480-2aff-407e-b199-30f6bf99cd1c',
+  'x-ms-request-id',
+  'dca687ba-f247-4d88-9d5f-1536797bdb80',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:42 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '1e3a1607-4244-43c1-a41e-57432c8e8924',
+  'x-ms-request-id',
+  '33f59517-cc3d-417b-8ad2-8e75b1576b79',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:44 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '6dd9271e-dc73-4191-8c3f-0362ecbadbb3',
+  'x-ms-request-id',
+  '6460919f-232a-4d72-889d-0bf6650c6dd4',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:46 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '70ed3daf-ee78-4faf-bfdb-fed900df2f92',
+  'x-ms-request-id',
+  '772eeec8-b1a5-4dbb-857f-0df9db19f705',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:48 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'cb937503-ee8e-4a98-b5a3-e3cfa44eb8f9',
+  'x-ms-request-id',
+  '05ee2ca6-40e1-4739-bac6-abe7babcc0fe',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:51 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '3c2f8cc7-51ba-4f10-9c11-4e477890e412',
+  'x-ms-request-id',
+  'ba865044-9f36-4f65-adb6-28ba97f34ec9',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:52 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '8d8f0d93-7058-48a7-b5e1-848449f1aecb',
+  'x-ms-request-id',
+  '0c7d72ff-0ea5-4841-b7ab-0456f4641461',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:54 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'fa7c7a85-1c42-49c2-8aa4-8d8bde5a1d3c',
+  'x-ms-request-id',
+  '85fc3a1a-b83a-4b3e-bdb2-1d79f7b64d89',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:56 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'b8a48ca4-2364-415e-8625-458ceb9d625a',
+  'x-ms-request-id',
+  'a825c261-d413-48d2-8451-28527a89ccd5',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 22:59:58 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '7159ede0-cd05-40e1-b48f-9d5600538067',
+  'x-ms-request-id',
+  '648a1836-9fd5-4200-b0be-86d7ed4702ba',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 23:00:00 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'caafc7e0-8130-4fb2-8bcd-e6f76ed3ce9c',
+  'x-ms-request-id',
+  '846086e1-4672-4581-81db-e6c5cf763fde',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 23:00:03 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '43ecb06e-ae67-4146-80be-378c5029e077',
+  'x-ms-request-id',
+  '1aabb27b-a990-4cf8-8b46-80f06acf3a34',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 23:00:05 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'd2573085-d28b-4525-894b-40a3475eb0f7',
+  'x-ms-request-id',
+  'c00ab8f2-6d12-4af9-ac27-ca4a7a06058e',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 23:00:07 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '4ae574b5-c2b1-4479-936a-012cad48869b',
+  'x-ms-request-id',
+  '2069e057-4b57-4b0e-8a27-3bc033aa75ba',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 23:00:09 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '410f1393-715a-4f39-9794-7b535d5c6aa7',
+  'x-ms-request-id',
+  'da153777-ef26-4759-8f61-29f5524487ea',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 23:00:11 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'e6a041ec-46af-42e3-bd6c-c665ff31bf01',
+  'x-ms-request-id',
+  '5f95e667-241f-435a-ab2d-80bbcdc77989',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 23:00:13 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'e7ada283-ec80-4d79-977f-024e97698170',
+  'x-ms-request-id',
+  '085a4911-5c57-4271-93f6-04b40adca9eb',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 23:00:16 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '3e16b4f5-5e2f-43d2-a151-8ff444536fce',
+  'x-ms-request-id',
+  '5f4292b7-d433-4334-81ef-4b90d9b1aca1',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 23:00:17 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: backupRestoreSecretName-cantimeoutdeletingasecret-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '140',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '88dca2ba-983e-4c8b-85c5-ddb53dafa064',
+  'x-ms-request-id',
+  '63d745c3-6aab-42a0-92f3-eed7e5b9081f',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=IP_ADDRESS;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Wed, 28 Apr 2021 23:00:20 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-')
+  .query(true)
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/backupRestoreSecretName-cantimeoutdeletingasecret-","deletedDate":1619650748,"scheduledPurgeDate":1627426748,"id":"https://keyvault_name.vault.azure.net/secrets/backupRestoreSecretName-cantimeoutdeletingasecret-/0ca838a142f44b4584ed4cff7397c81e","attributes":{"enabled":true,"created":1619650748,"updated":1619650748,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1388,9 +1490,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '60d44042-3111-4fde-91ff-e0fb5ff6c030',
+  '153b431a-7257-47ca-87bc-e62e91b0725c',
   'x-ms-request-id',
-  '541d98bc-c00e-4faf-aaf8-4d64ab69a91d',
+  '0f3fb109-4f2c-4210-ad24-1fc89cc8dd07',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1402,7 +1504,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:50 GMT',
+  'Wed, 28 Apr 2021 23:00:22 GMT',
   'Content-Length',
   '491'
 ]);
@@ -1420,9 +1522,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'fbbf2b68-e9f0-4616-ace7-a7c12cdac2a1',
+  'd8ca6c6f-2be4-4651-95de-3b77245a1b64',
   'x-ms-request-id',
-  '820d120f-0ca9-4b38-b600-abe1cfecc878',
+  '6108c11d-1dbb-40f4-b482-ec36721001a6',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1434,5 +1536,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 19:30:50 GMT'
+  'Wed, 28 Apr 2021 23:00:22 GMT'
 ]);
