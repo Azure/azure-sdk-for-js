@@ -30,7 +30,6 @@ import {
 } from "./model";
 import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
-import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChallengeAuthenticationPolicy";
 import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
 
 /**
@@ -172,7 +171,7 @@ export class ContainerRepositoryClient {
     this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
     const authPolicy = bearerTokenChallengeAuthenticationPolicy({
       credential,
-      scopes: `https://management.core.windows.net/.default`,
+      scopes: ["https://management.core.windows.net/.default"],
       challengeCallbacks: new ChallengeHandler(
         new ContainerRegistryRefreshTokenCredential(credential, this.authClient)
       )

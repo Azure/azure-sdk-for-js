@@ -3,13 +3,11 @@
 
 import { GetTokenOptions } from "@azure/core-auth";
 import {
-  PipelineRequest,
   AuthorizeRequestOnChallengeOptions,
-  ChallengeCallbacks
+  ChallengeCallbacks,
+  AuthorizeRequestOptions
 } from "@azure/core-rest-pipeline";
 import { parseWWWAuthenticate } from "./wwwAuthenticateParser";
-import * as Mappers from "./generated/models/mappers";
-import * as Parameters from "./generated/models/parameters";
 import {
   ContainerRegistryGetTokenOptions,
   ContainerRegistryRefreshTokenCredential
@@ -47,7 +45,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
     });
   }
 
-  authenticateRequest(_options: ChallengeCallbackOptions): Promise<void> {
+  authenticateRequest(_options: AuthorizeRequestOptions): Promise<void> {
     return Promise.resolve();
   }
 

@@ -94,7 +94,7 @@ export class ContainerRegistryClient {
     this.client.pipeline.addPolicy(
       bearerTokenChallengeAuthenticationPolicy({
         credential,
-        scopes: `https://management.core.windows.net/.default`,
+        scopes: ["https://management.core.windows.net/.default"],
         challengeCallbacks: new ChallengeHandler(
           new ContainerRegistryRefreshTokenCredential(credential, this.authClient)
         )
