@@ -498,7 +498,7 @@ export class BatchingReceiverLite {
     }, args.abortSignal);
 
     const { numberOfEmptySlots } = incomingBufferProperties(receiver);
-    if (numberOfEmptySlots <= 1) {
+    if (numberOfEmptySlots === 0) {
       throw new ServiceBusError(
         UnsettledMessagesLimitExceededError,
         "UnsettledMessagesLimitExceeded"
