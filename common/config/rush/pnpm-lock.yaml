@@ -10303,7 +10303,7 @@ packages:
   file:projects/schema-registry.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
-      '@azure/identity': 1.3.0
+      '@azure/identity': 2.0.0-beta.2
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -10349,7 +10349,7 @@ packages:
     dev: false
     name: '@rush-temp/schema-registry'
     resolution:
-      integrity: sha512-PfosQpd4CbfdyFXBKAJsZFUJ9P+YwX131MiYGCUQwdWamWfKg4fSGo7+fPAOENODNf9rPe4gahmmonDYuke+IQ==
+      integrity: sha512-17hP8R0yUsRDrAF+eV78yGccYDtnp8YwwX+l8hpqqf2awgtNCVJXNmj9ne9IZ4wNnZHYbx3vcCRLV0KTQRDBag==
       tarball: file:projects/schema-registry.tgz
     version: 0.0.0
   file:projects/search-documents.tgz:
