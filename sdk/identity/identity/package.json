@@ -44,7 +44,7 @@
     "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace --exclude \"test/**/browser/**/*.spec.ts\" \"test/**/*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test": "npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node &&npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
