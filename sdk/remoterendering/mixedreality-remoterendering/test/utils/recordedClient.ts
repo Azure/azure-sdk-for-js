@@ -4,7 +4,13 @@
 import { Context } from "mocha";
 
 import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
-import { env, record, Recorder, RecorderEnvironmentSetup, isPlaybackMode } from "@azure/test-utils-recorder";
+import {
+  env,
+  record,
+  Recorder,
+  RecorderEnvironmentSetup,
+  isPlaybackMode
+} from "@azure/test-utils-recorder";
 
 import { RemoteRenderingClient } from "../../src";
 //import "./env";
@@ -52,8 +58,7 @@ export function createClient(): RemoteRenderingClient {
     const maxTimestampMs = 8640000000000000;
     let credential: AccessToken = { token: "<access_token>", expiresOnTimestamp: maxTimestampMs };
     return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
-  }
-  else {
+  } else {
     let credential: AzureKeyCredential = new AzureKeyCredential(accountKey);
     return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
   }
