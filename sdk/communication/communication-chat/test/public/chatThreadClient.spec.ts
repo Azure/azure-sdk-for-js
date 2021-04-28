@@ -69,7 +69,8 @@ describe("ChatThreadClient", function() {
 
   it("successfully sends a message", async function() {
     const request = { content: `content` };
-    const result = await chatThreadClient.sendMessage(request);
+    const options = { properties: { tags: "sometag" } };
+    const result = await chatThreadClient.sendMessage(request, options);
 
     assert.isNotNull(result.id);
     messageId = result.id!;
@@ -90,6 +91,7 @@ describe("ChatThreadClient", function() {
 
     assert.isNotNull(message);
     assert.equal(message.id, messageId);
+    assert.isDefined(message.properties?.tags);
   });
 
   it("successfully lists messages", async function() {
