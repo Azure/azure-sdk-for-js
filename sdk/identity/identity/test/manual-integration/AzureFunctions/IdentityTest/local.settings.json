@@ -1,9 +1,0 @@
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "node",
-    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "KEYVAULT_URI" :"https://kaghiya-test-identity.vault.azure.net/",
-    "AZURE_LOG_LEVEL": "verbose"
-  }
-}
