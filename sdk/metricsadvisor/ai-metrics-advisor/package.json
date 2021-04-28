@@ -149,6 +149,6 @@
     },
     "skipFolder": false,
     "disableDocsMs": false,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/?view=azure-node-preview"
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/"
   }
 }
