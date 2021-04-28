@@ -3,7 +3,12 @@
 
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusReceivedMessage, ServiceBusSender } from "../../src";
+import {
+  ProcessErrorArgs,
+  ServiceBusError,
+  ServiceBusReceivedMessage,
+  ServiceBusSender
+} from "../../src";
 import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
 import { ServiceBusReceiver } from "../../src/receivers/receiver";
 import {
@@ -249,6 +254,7 @@ describe("2048 scenarios - subscribe", function(): void {
         const receivedBodies: any[] = [];
         let numberOfMessagesReceived = 0;
         let received2047 = false;
+        let unsettledMessagesLimitErrorSeen = false;
         const firstBatch: ServiceBusReceivedMessage[] = [];
         const secondBatch: ServiceBusReceivedMessage[] = [];
         receiver.subscribe(
@@ -262,7 +268,11 @@ describe("2048 scenarios - subscribe", function(): void {
                 secondBatch.push(msg);
               }
             },
-            async processError() {}
+            async processError(args: ProcessErrorArgs) {
+              if ((args.error as ServiceBusError).code === "UnsettledMessagesLimitExceeded") {
+                unsettledMessagesLimitErrorSeen = true;
+              }
+            }
           },
           {
             maxConcurrentCalls: 2000,
@@ -279,6 +289,11 @@ describe("2048 scenarios - subscribe", function(): void {
           numberOfMessagesReceived,
           2047,
           "Unexpected - messages were not settled, so new messages should not have been received"
+        );
+        chai.assert.equal(
+          unsettledMessagesLimitErrorSeen,
+          true,
+          "UnsettledMessagesLimitExceeded should have been observed in the processError callback"
         );
         await receiver.completeMessage(firstBatch.shift()!); // settle the first message
         chai.assert.equal(
@@ -304,8 +319,5 @@ describe("2048 scenarios - subscribe", function(): void {
         await receiver.close();
       }).timeout(200000);
     });
-
-    // TODO: Add test to make sure UnsettledMessagesLimitExceeded is notified
-    // TODO:
   });
 });
