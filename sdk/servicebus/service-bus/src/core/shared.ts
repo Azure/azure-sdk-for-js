@@ -153,7 +153,7 @@ export class StreamingReceiverCreditManager {
       .numberOfEmptySlots;
     this.streamingReceiverHelper.addCredit(
       this.receiveMode === "peekLock"
-        ? Math.min(this.maxConcurrentCalls, emptySlots) // TODO: Move the -1 to numberOfEmptyIncomingSlots
+        ? Math.min(this.maxConcurrentCalls, emptySlots)
         : this.maxConcurrentCalls
     );
     // TODO: Add log message
@@ -188,19 +188,29 @@ export class StreamingReceiverCreditManager {
   }
 
   /**
-   * Meant to be called after a message is settled with the receive link
+   * Meant to be called after a message is settled with the receive link.
+   * Replenishes the number of credits on the link to receive more messages.
    *
    * @internal
    */
   async postProcessing() {
     const receiver = this._getCurrentReceiver().receiver;
+    const { numberOfEmptySlots, numberOfFilledSlots } = incomingBufferProperties(receiver);
     if (
       this.receiveMode === "peekLock" &&
-      incomingBufferProperties(receiver).numberOfEmptySlots > 0 &&
-      receiver?.isOpen() &&
+      numberOfEmptySlots > 0 &&
       this.streamingReceiverHelper.canReceiveMessages()
     ) {
-      this.addCreditsInit();
+      if (this.maxConcurrentCalls > numberOfFilledSlots) {
+        this.streamingReceiverHelper.addCredit(
+          Math.min(this.maxConcurrentCalls - numberOfFilledSlots, numberOfEmptySlots)
+        );
+      } else {
+        // Case (maxConcurrentCalls === numberOfFilledSlots) :
+        //      - no need to add credits until the messages are settled
+        // Case (maxConcurrentCalls < numberOfFilledSlots)   :
+        //      - won't be possible because we don't add credits more than maxConcurrentCalls
+      }
     }
   }
 }
