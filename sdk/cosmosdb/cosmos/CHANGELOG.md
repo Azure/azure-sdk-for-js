@@ -675,7 +675,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Split Q promises wrapper to new repository.
 - Update to package file for npm registry.
 
-## 1.2.1 ((2015-08-15))
+## 1.2.1 (2015-08-15)
 
 - Implements ID Based Routing.
 - Fixes Issue [#49](https://github.com/Azure/azure-documentdb-node/issues/49) - current property conflicts with method current().
