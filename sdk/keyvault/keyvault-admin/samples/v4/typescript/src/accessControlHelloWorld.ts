@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates the use of an AccessControlClient to list, create, and assign roles to users.
+ * @summary Uses an AccessControlClient to list, create, and assign roles to users.
  */
 import { KeyVaultAccessControlClient, KeyVaultPermission } from "@azure/keyvault-admin";
 import { DefaultAzureCredential } from "@azure/identity";

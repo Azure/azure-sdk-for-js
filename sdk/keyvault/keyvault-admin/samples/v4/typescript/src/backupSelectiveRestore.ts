@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates the use of a BackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob.
+ * @summary Uses a BackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob.
  */
+
 import { KeyVaultBackupClient } from "@azure/keyvault-admin";
 import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
