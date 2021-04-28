@@ -226,7 +226,7 @@ const subscription = eventHubConsumerClient.subscribe(
 await subscription.close();
 ```
 
-See [`receiveEvents.ts`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts)
+See [`receiveEvents.ts`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/typescript/src/receiveEvents.ts)
 for a sample program demonstrating this.
 
 #### Migrating from `EventProcessorHost` to `EventHubConsumerClient` for receiving events
@@ -333,7 +333,7 @@ what order, making checkpointing difficult to do correctly.
 
 In V5 the model has been simplified so new events are not delivered until the
 previous batch has been consumed by your event handler. You can see a sample
-demonstrating this [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts)
+demonstrating this [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/typescript/src/receiveEvents.ts)
 
 ### Creating EventPosition
 
