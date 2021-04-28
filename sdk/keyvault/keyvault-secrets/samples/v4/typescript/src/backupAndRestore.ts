@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates backing up a Key Vault secret to a local file and restoring from it.
+ * @summary Backs up an Azure Key Vault secret to a local file and restores from it.
  */
+
 import * as fs from "fs";
 
 import { SecretClient } from "@azure/keyvault-secrets";

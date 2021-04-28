@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates creating, reading, and updating a secret in various ways.
+ * @summary Uses a SecretClient to create, read, and update a secret in various ways.
  */
+
 const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 

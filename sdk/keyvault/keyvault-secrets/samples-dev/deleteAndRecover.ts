@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates deleting a secret and then recovering a deleted secret (this sample requires soft-delete to run).
+ * @summary Deletes a secret and then recovers a deleted secret (this sample requires soft-delete to run).
  */
+
 import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
 

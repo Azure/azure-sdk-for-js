@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates various ways to iterate over secrets and their versions.
+ * @summary Uses a SecretClient to iterate over secrets and their versions.
  */
+
 import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
 

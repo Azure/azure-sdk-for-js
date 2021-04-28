@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates purging all deleted secrets from an Azure Key Vault.
+ * @summary Purges all deleted secrets from an Azure Key Vault.
  */
+
 import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
 
