@@ -111,16 +111,24 @@ export const UnsettledMessagesLimitExceededError =
   "Failed to fetch new messages as the limit for unsettled messages is reached. Please settle received messages using settlement methods(such as `completeMessage()`) on the receiver to receive the next message.";
 
 /**
- * Returns the number of empty slots in the Circular buffer of incoming deliveries
+ * Returns the number of empty/filled slots in the Circular buffer of incoming deliveries
  * based on the capacity and size of the buffer.
  *
  * @internal
  */
-export function numberOfEmptyIncomingSlots(
+export function incomingBufferProperties(
   receiver: Pick<Receiver, "session"> | undefined
-): number {
+): {
+  numberOfEmptySlots: number; // 2048(total) - filled
+  numberOfFilledSlots: number; // number of unsettled messages
+} {
   const incomingDeliveries = receiver?.session?.incoming?.deliveries;
-  return incomingDeliveries ? incomingDeliveries.capacity - incomingDeliveries.size : 0;
+  return {
+    numberOfEmptySlots: incomingDeliveries
+      ? incomingDeliveries.capacity - incomingDeliveries.size - 1
+      : 0,
+    numberOfFilledSlots: incomingDeliveries ? incomingDeliveries.size : 0
+  };
 }
 
 /**
@@ -141,10 +149,11 @@ export class StreamingReceiverCreditManager {
   ) {}
 
   addCreditsInit() {
-    const emptySlots = numberOfEmptyIncomingSlots(this._getCurrentReceiver().receiver);
+    const emptySlots = incomingBufferProperties(this._getCurrentReceiver().receiver)
+      .numberOfEmptySlots;
     this.streamingReceiverHelper.addCredit(
       this.receiveMode === "peekLock"
-        ? Math.min(this.maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1) // TODO: Move the -1 to numberOfEmptyIncomingSlots
+        ? Math.min(this.maxConcurrentCalls, emptySlots) // TODO: Move the -1 to numberOfEmptyIncomingSlots
         : this.maxConcurrentCalls
     );
     // TODO: Add log message
@@ -158,9 +167,9 @@ export class StreamingReceiverCreditManager {
    */
   onReceive(notifyError: OnError | undefined) {
     const receiver = this._getCurrentReceiver().receiver;
-    if (this.receiveMode === "receiveAndDelete" || numberOfEmptyIncomingSlots(receiver) > 1) {
+    if (this.receiveMode === "receiveAndDelete") {
       this.streamingReceiverHelper.addCredit(1);
-    } else if (receiver) {
+    } else if (receiver && incomingBufferProperties(receiver).numberOfEmptySlots === 0) {
       notifyError?.({
         error: new ServiceBusError(
           UnsettledMessagesLimitExceededError,
@@ -187,7 +196,7 @@ export class StreamingReceiverCreditManager {
     const receiver = this._getCurrentReceiver().receiver;
     if (
       this.receiveMode === "peekLock" &&
-      numberOfEmptyIncomingSlots(receiver) > 1 &&
+      incomingBufferProperties(receiver).numberOfEmptySlots > 0 &&
       receiver?.isOpen() &&
       this.streamingReceiverHelper.canReceiveMessages()
     ) {

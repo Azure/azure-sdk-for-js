@@ -21,7 +21,7 @@ import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { ReceiveMode } from "../models";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
-import { numberOfEmptyIncomingSlots, UnsettledMessagesLimitExceededError } from "./shared";
+import { incomingBufferProperties, UnsettledMessagesLimitExceededError } from "./shared";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -497,8 +497,8 @@ export class BatchingReceiverLite {
       reject(err);
     }, args.abortSignal);
 
-    const emptySlots = numberOfEmptyIncomingSlots(receiver);
-    if (emptySlots <= 1) {
+    const { numberOfEmptySlots } = incomingBufferProperties(receiver);
+    if (numberOfEmptySlots <= 1) {
       throw new ServiceBusError(
         UnsettledMessagesLimitExceededError,
         "UnsettledMessagesLimitExceeded"
@@ -506,7 +506,7 @@ export class BatchingReceiverLite {
     }
     const creditsToAdd =
       this._receiveMode === "peekLock"
-        ? Math.min(args.maxMessageCount, emptySlots <= 1 ? 0 : emptySlots - 1)
+        ? Math.min(args.maxMessageCount, numberOfEmptySlots)
         : args.maxMessageCount;
     logger.verbose(`${loggingPrefix} Adding credit for receiving ${creditsToAdd} messages.`);
 
