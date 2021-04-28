@@ -737,7 +737,6 @@ export class MessageSession extends LinkEntity<Receiver> {
             });
           }
         }
-        await creditManager.postProcessing();
       };
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);

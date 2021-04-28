@@ -356,8 +356,6 @@ export class StreamingReceiver extends MessageReceiver {
           });
         }
       }
-
-      await this._creditManager.postProcessing();
     };
   }
 
