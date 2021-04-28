@@ -114,6 +114,7 @@ export class ServiceBusError extends MessagingError {
    * - **SessionCannotBeLocked**: The requested session cannot be locked.
    * - **SessionLockLost**: The lock on the session has expired. Callers should request the session again.
    * - **UnauthorizedAccess"**: The user doesn't have access to the entity.
+   * - **UnsettledMessagesLimitExceeded**: The number of unsettled messages that can be held is reached, received messages need to be settled.
    */
   // NOTE: make sure this list and the list above are properly kept in sync.
   code: ServiceBusErrorCode;
