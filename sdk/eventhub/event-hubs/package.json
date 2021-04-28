@@ -93,7 +93,7 @@
       "azure-event-hubs"
     ],
     "requiredResources": {
-      "Azure Event Hub": "https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-create"
+      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
     }
   },
   "dependencies": {

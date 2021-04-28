@@ -49,6 +49,6 @@ curl --header "Content-Type: application/json" \
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[eventproducer]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/expressSample/src/asyncBatchingProducer.ts
-[index]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/expressSample/src/index.ts
+[eventproducer]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/expressSample/src/asyncBatchingProducer.ts
+[index]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/expressSample/src/index.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs

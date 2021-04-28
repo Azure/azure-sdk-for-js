@@ -69,5 +69,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [websockets]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/v5/javascript/websockets.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureeventhub]: https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-create
+[createinstance_azureeventhub]: https://docs.microsoft.com/azure/event-hubs/event-hubs-create
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/README.md
