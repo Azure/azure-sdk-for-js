@@ -5,7 +5,7 @@ module.exports.hash = "90a26594a9bee69ecaa4e7730cc2726b";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .put('/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -23,9 +23,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '32b18db5-2341-437b-9c49-fa77c3b8e4bb',
+  '73c87745-b082-4dd9-af89-e8890f84facb',
   'x-ms-request-id',
-  '16ecdbb8-fd9a-4c81-869b-d966b7e38591',
+  'e28bbd6d-b533-45f2-98f4-bdf3697885d5',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -37,11 +37,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:23 GMT'
+  'Thu, 29 Apr 2021 22:45:36 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .put('/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -59,9 +59,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '19d941fa-0217-4a27-b247-f4ee9e85a7aa',
+  'f1687eef-7a99-449c-ae2a-42d0ac07798e',
   'x-ms-request-id',
-  'fab753e3-a023-4f0c-88b9-985831b76da1',
+  'e4c8433c-d542-4d7d-a637-efa4434dce59',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -73,7 +73,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:23 GMT'
+  'Thu, 29 Apr 2021 22:45:36 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -95,19 +95,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '54e8b18d-3dbd-44e4-80c8-a97591877f01',
+  '22bec69c-d806-4673-946b-39af84caff01',
   'x-ms-ests-server',
-  '2.1.11654.16 - NCUS ProdSlices',
+  '2.1.11654.16 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AuJrkiSJyzBEvgW_qSsM-zE; expires=Sat, 29-May-2021 21:22:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsWtYlAkBrFLp4sAGKiIt58; expires=Sat, 29-May-2021 22:45:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrXoUQV5h-ow1IKX-F3UITeUUgJwb06GkRPBTQC5rIOAbMZvO1NNzQdBx0bYqiImdZtVhyTmH-xn6o8GdnRqxnWuOPDJcIA-vEu_FxcNOKpx20cdvOxm44-QVqxaca2es2JlB9SgP4mMxvDiWrrzfPj61_ozrL5eCzLaXNHNnw208gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr8tELeHeIKEZnFb__w66cq314SXPZmUrBjebZ1VQdT6Cg3KTLId56Mp_ElAFF_JJg4gvH9XNbTFCxAfCAdXJRyZ-DUB7eC4vzkXmXG3D9t1uy86K3WR9pbl2n9GXssNXGAwNZ2NIfLE4ImmvZae8WTvJkzjPzbZxmvlB-BLFMjsIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 29 Apr 2021 21:22:23 GMT',
+  'Thu, 29 Apr 2021 22:45:36 GMT',
   'Content-Length',
   '980'
 ]);
@@ -118,6 +118,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .reply(200, {"tenant_discovery_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}, [
   'Cache-Control',
   'max-age=86400, private',
+  'Content-Length',
+  '980',
   'Content-Type',
   'application/json; charset=utf-8',
   'Strict-Transport-Security',
@@ -131,21 +133,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0a84320f-ef6d-4965-8616-b9754ade0403',
+  '0b778748-49e1-438c-b3af-0a281659a701',
   'x-ms-ests-server',
   '2.1.11654.16 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlNmH_58Q9FEnDlQsWFvGlk; expires=Sat, 29-May-2021 21:22:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlIihWuMcSJAkRR2I9ngXJo; expires=Sat, 29-May-2021 22:45:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevredekrw2ncmIiF6bnK9gKjSs8VGAdpXlmX11WNttdFoZLLkU-Rz8YYadNySGjDbC1BH0GC4ggLSBtXYrPx10GMxaZGm1HPUo0NFhjHN38GeZ6SMxxXBT-ApSrnVO5XWs9xNhtKzb4Mip3ZK9RnH_0ktWnX3hJa_qP6UnfNgfAfEogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrupRd4mP5-Txdgt3ZVLI35O69SxUE0bpwvQqX-ITdOK3XjSxEiODCDUVedcJMrf8_t0hSQ7lwoum5v31t0cxcT1yJK5VIJ9YIj83FEMA85IG1r-hLhIsNuKCkntNgj6o0DQWAjtWpqLo5aag-Y1gMu1pNCrKT8J_gnlpSc5_bL1kgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 29 Apr 2021 21:22:23 GMT',
-  'Content-Length',
-  '980'
+  'Thu, 29 Apr 2021 22:45:36 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -153,6 +153,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .reply(200, {"token_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"tenant_region_scope":"NA","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
   'Cache-Control',
   'max-age=86400, private',
+  'Content-Length',
+  '1651',
   'Content-Type',
   'application/json; charset=utf-8',
   'Strict-Transport-Security',
@@ -166,21 +168,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd4a25a78-ec19-4706-852d-0d355b892d00',
+  'feaddbb6-07b0-4df9-aae1-472a91642e00',
   'x-ms-ests-server',
   '2.1.11654.16 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AuJrkiSJyzBEvgW_qSsM-zE; expires=Sat, 29-May-2021 21:22:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsWtYlAkBrFLp4sAGKiIt58; expires=Sat, 29-May-2021 22:45:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrX2xuwDul4ZTh3TxihjFvV-Ig3ezryeETPsAzK_XmTNU79Mmb2PizuROus4AXy_ZNPZHx_uZXH5CZImc02Spm5TRGKemcQYUItn0sQO1XSEQzP9H0nMxEbzhzj_3cgx2i6CdDbaWBKxXTvThAC1OWZ440Qc4G5JIE5J2q4GC7Rk4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrxg-jo0tTvMxblHaaDjkULsCRXb4ePrafb8J9esqGl0es1ESWyJCy69yEMDtf8D8wBk2RKdQaReUciDvWKX7ytKyup6ilK4AOTmfr0KZfzpCnyi03QGbBouzYfixD0y-3r2cXeRdp2KmjK2jZSrqPkDKPsbDMhrGInaDPJmHIt18gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 29 Apr 2021 21:22:23 GMT',
-  'Content-Length',
-  '1651'
+  'Thu, 29 Apr 2021 22:45:36 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -201,59 +201,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8fa1c2cf-b116-417a-8b4c-0513d3566701',
+  '69d19c2f-76dc-46f6-87c0-ff6a7cb43500',
   'x-ms-ests-server',
-  '2.1.11654.16 - EUS ProdSlices',
+  '2.1.11654.16 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlNmH_58Q9FEnDlQsWFvGlk; expires=Sat, 29-May-2021 21:22:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlIihWuMcSJAkRR2I9ngXJo; expires=Sat, 29-May-2021 22:45:37 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrYRvFmrYqAHDyaLKtNIPDCdWW9v4F7piufgFDnF4U1mS6TB7HncNQiVHNUitZBKLoAcpKGN0-MbNMetPoF2x2JHqCcpdyvg9ZKy6138Tesgf_RKOQC27kDy0nvTFbKQk2QGS62w6zYHKAReVIAw8YcCdlb_UOPzwpHQZhIbTd-7YgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrnZkvi7vpdS8fiKBdMtdnN5ARMr3XouklBZvcw8G1Hl4mndggpnpM0xIklVOPj6lnPGxglqcRS-a9KGD6p9QaSruxqwQzMHTyM7Xq-x_s0vVP1BqTsLQb-cQa_R9kv2HjXwrMuHbxoF0x6bIzBGnqCmc26sgb9ayjUPPvkg7GTPIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 29 Apr 2021 21:22:23 GMT',
+  'Thu, 29 Apr 2021 22:45:36 GMT',
   'Content-Length',
   '1651'
-]);
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .filteringRequestBody(function (body) {
-            return body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id");
-        })
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access&grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
-  'no-store, no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '1313',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'x-ms-request-id',
-  '20b67a4f-7212-40f5-9e77-01a6d0993101',
-  'x-ms-ests-server',
-  '2.1.11654.16 - SCUS ProdSlices',
-  'x-ms-clitelem',
-  '1,0,0,,',
-  'Set-Cookie',
-  'fpc=AuJrkiSJyzBEvgW_qSsM-zHmR1YbAQAAAJAaHdgOAAAA; expires=Sat, 29-May-2021 21:22:24 GMT; path=/; secure; HttpOnly; SameSite=None',
-  'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
-  'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
-  'Date',
-  'Thu, 29 Apr 2021 21:22:23 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -277,27 +239,65 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '82b21217-7d26-4ed6-b96a-0e4fbb292d00',
+  'b837b52a-1493-42df-a3ea-2c46775a1f00',
   'x-ms-ests-server',
   '2.1.11654.16 - NCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AlNmH_58Q9FEnDlQsWFvGlnmR1YbAQAAAJAaHdgOAAAA; expires=Sat, 29-May-2021 21:22:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsWtYlAkBrFLp4sAGKiIt5_mR1YbAQAAABAuHdgOAAAA; expires=Sat, 29-May-2021 22:45:37 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 29 Apr 2021 21:22:23 GMT',
+  'Thu, 29 Apr 2021 22:45:36 GMT',
+  'Content-Length',
+  '1313'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .filteringRequestBody(function (body) {
+            return body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id");
+        })
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fvault.azure.net%2F.default%20openid%20profile%20offline_access&grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret")
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
+  'Cache-Control',
+  'no-store, no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '0159a308-4cc5-4ce1-af9f-65c259f0ae00',
+  'x-ms-ests-server',
+  '2.1.11654.16 - WUS2 ProdSlices',
+  'x-ms-clitelem',
+  '1,0,0,,',
+  'Set-Cookie',
+  'fpc=AlIihWuMcSJAkRR2I9ngXJrmR1YbAQAAABAuHdgOAAAA; expires=Sat, 29-May-2021 22:45:37 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Thu, 29 Apr 2021 22:45:36 GMT',
   'Content-Length',
   '1313'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0', {"value":"value","attributes":{}})
+  .put('/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0', {"value":"value","attributes":{}})
   .query(true)
-  .reply(200, {"value":"value","id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0/85843a72a54f4880ad18d6ab2cab0152","attributes":{"enabled":true,"created":1619731344,"updated":1619731344,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"value":"value","id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0/9169edd7879a4cdcbcffcec9ae6e7ca4","attributes":{"enabled":true,"created":1619736337,"updated":1619736337,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -309,9 +309,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '32b18db5-2341-437b-9c49-fa77c3b8e4bb',
+  'f1687eef-7a99-449c-ae2a-42d0ac07798e',
   'x-ms-request-id',
-  'f7684f05-69f4-489f-8f31-f98ac8488933',
+  '609c43c2-032b-46ae-a04f-46edcba335e8',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -323,15 +323,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:24 GMT',
+  'Thu, 29 Apr 2021 22:45:36 GMT',
   'Content-Length',
-  '323'
+  '330'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1', {"value":"value","attributes":{}})
+  .delete('/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(200, {"value":"value","id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1/8971569b40ba40829a645360fc9bba32","attributes":{"enabled":true,"created":1619731344,"updated":1619731344,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0","deletedDate":1619736337,"scheduledPurgeDate":1627512337,"id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0/9169edd7879a4cdcbcffcec9ae6e7ca4","attributes":{"enabled":true,"created":1619736337,"updated":1619736337,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -343,9 +343,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '19d941fa-0217-4a27-b247-f4ee9e85a7aa',
+  '6d0affad-70ed-4419-bbe5-95d6fa8edcab',
   'x-ms-request-id',
-  '07156d5b-2325-478b-beda-30ab120424a1',
+  'eb16c7ef-2822-483c-961e-287c8cc023ff',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -357,15 +357,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:24 GMT',
+  'Thu, 29 Apr 2021 22:45:36 GMT',
   'Content-Length',
-  '323'
+  '533'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .put('/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1', {"value":"value","attributes":{}})
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0","deletedDate":1619731344,"scheduledPurgeDate":1627507344,"id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0/85843a72a54f4880ad18d6ab2cab0152","attributes":{"enabled":true,"created":1619731344,"updated":1619731344,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"value":"value","id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1/33a97e2f9057443084e5d7c33a0d7755","attributes":{"enabled":true,"created":1619736337,"updated":1619736337,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -377,9 +377,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '57627f22-c104-4ec3-8983-a7aaa5693ef0',
+  '73c87745-b082-4dd9-af89-e8890f84facb',
   'x-ms-request-id',
-  '2a110e3f-eda2-45b7-91b5-76d2dbd0542d',
+  '0c88b2a9-1963-495d-817b-e7d8595a3387',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -391,21 +391,21 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:24 GMT',
+  'Thu, 29 Apr 2021 22:45:37 GMT',
   'Content-Length',
-  '519'
+  '330'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -413,9 +413,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '5c4afa7a-a674-48d5-8dcc-d889f5fc0ad6',
+  '51f34d64-2ec8-4432-9e6e-81988f78d41e',
   'x-ms-request-id',
-  'ab4a3174-6f98-41a1-b6d4-60ae69c3971d',
+  '0a365919-bf76-4e16-8bd5-3a51cdbd55ce',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -427,19 +427,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:24 GMT'
+  'Thu, 29 Apr 2021 22:45:36 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -447,9 +447,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'e5a8d47e-f64c-4739-9262-45a064c86ed6',
+  'f1d2cd10-47dd-4605-9c95-6da0c48716aa',
   'x-ms-request-id',
-  '5e3d7e6c-d55a-4255-83a5-c219ece3f62a',
+  'e52b1984-1001-4389-a740-530eaf8f30d9',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -461,19 +461,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:24 GMT'
+  'Thu, 29 Apr 2021 22:45:37 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -481,9 +481,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'aa7ad01d-9ffe-4f5d-b3ab-c5a0cad2c3ee',
+  '17ab54cc-6b6a-4216-ae00-7c9d7d52ccb1',
   'x-ms-request-id',
-  'e0229ca9-d792-4aec-9c16-c68ded65f7f3',
+  '1d9c1327-d569-45e5-86a3-573b6287e3f9',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -495,19 +495,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:26 GMT'
+  'Thu, 29 Apr 2021 22:45:39 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -515,9 +515,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '80dae715-a2ca-414f-b42d-1441b0be41e0',
+  '481e1618-7be0-4144-b9fa-59c9e358ce1c',
   'x-ms-request-id',
-  '4b7bd144-4bba-4039-a5e0-248bc3d37ecd',
+  '85600673-9aa5-4aa0-b367-94a428762176',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -529,19 +529,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:28 GMT'
+  'Thu, 29 Apr 2021 22:45:41 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -549,9 +549,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '24927491-02c2-4cf3-832e-1918bc30c8ab',
+  'e3040a4f-2fef-49d1-9430-def4bac7c4c4',
   'x-ms-request-id',
-  '084b6688-38fb-4368-a85f-5508bc921ecd',
+  'b5650dbe-8b15-4b59-aeb2-531a43bd6440',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -563,19 +563,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:30 GMT'
+  'Thu, 29 Apr 2021 22:45:43 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -583,9 +583,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '8cc37a5f-2ced-4465-822a-49bce4ad3cb9',
+  '7019cbbd-f7b5-4c15-ba53-395ca63b2878',
   'x-ms-request-id',
-  'dbc51109-1d31-4289-b57e-cab83c3411df',
+  '26f9718e-690d-4231-b5ac-911d6b9d590a',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -597,19 +597,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:32 GMT'
+  'Thu, 29 Apr 2021 22:45:45 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -617,9 +617,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '0300b6b1-68d0-4bf2-81ee-18f7f2653540',
+  '2c4ab8b6-4843-4c56-be5a-604acb3aef01',
   'x-ms-request-id',
-  'ca2b91d9-b90b-4102-9a92-50efc32065a6',
+  '172bc445-9632-4c35-a811-292c459199b5',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -631,19 +631,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:35 GMT'
+  'Thu, 29 Apr 2021 22:45:47 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -651,9 +651,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'de965969-7ed3-48ed-b4c9-a9dd770f53e9',
+  'e296bb17-cc78-4f20-89fe-cf60b8e35c63',
   'x-ms-request-id',
-  'c6a6e2e7-be0b-4a1b-b742-e55349cb5f61',
+  'd982ffd4-17a2-491a-9696-abce1442a1c6',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -665,19 +665,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:37 GMT'
+  'Thu, 29 Apr 2021 22:45:49 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -685,9 +685,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'ae09bd98-6df1-4089-973f-23f61ddcbc9e',
+  'c0b31ee8-f390-4fb8-b25f-f5f32497d755',
   'x-ms-request-id',
-  'd6d1558e-e3c1-4363-b76e-a67955a996e5',
+  '608a94e1-95be-4271-be44-1c538d1de55c',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -699,19 +699,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:39 GMT'
+  'Thu, 29 Apr 2021 22:45:52 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -719,9 +719,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '0c531b2c-ecdc-48e4-a075-ba2a746ecce5',
+  'd6f6857d-b49c-469c-9e88-74c0aa36ea49',
   'x-ms-request-id',
-  'f2ce13c5-fbaf-48ab-bce7-53eca7e1b2b5',
+  '18dcf147-111a-4280-843f-83e84bdac7a9',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -733,19 +733,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:41 GMT'
+  'Thu, 29 Apr 2021 22:45:54 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -753,9 +753,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '49d37b8a-4cb2-4fdd-9757-86b9874b48ef',
+  '7fbe4441-5f5a-4592-b454-f1d15b8a8172',
   'x-ms-request-id',
-  '6471b515-e63b-4594-8d39-1a89a5b0f266',
+  'd79391cb-33fc-414a-acf7-5a1c68da888b',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -767,19 +767,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:43 GMT'
+  'Thu, 29 Apr 2021 22:45:55 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -787,9 +787,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'f35f64e2-03bb-4d6d-a786-c06ec7209c27',
+  'dde42f45-4c26-449a-a328-dbe202159e1d',
   'x-ms-request-id',
-  '0fea251f-39eb-4f0d-b342-491609586787',
+  '9b767031-be17-4739-9643-008aa741447f',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -801,19 +801,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:45 GMT'
+  'Thu, 29 Apr 2021 22:45:58 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -821,9 +821,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '18e25b67-ddd2-4a26-b72e-5f5827f44ae4',
+  '6a89c332-626a-486c-8949-2102890510eb',
   'x-ms-request-id',
-  '0af93d00-c372-4d44-834b-f0004c8afe82',
+  '9546cfc8-0a66-4d7a-abe4-61df808ee5b2',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -835,19 +835,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:48 GMT'
+  'Thu, 29 Apr 2021 22:46:00 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -855,9 +855,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '84d8f915-6123-4a66-bb4d-fcba0863148a',
+  '38dc2e29-8fb6-4e39-8737-80d477d500f7',
   'x-ms-request-id',
-  '90936b6b-e3bf-4d0a-bb2a-4cefbaa5b6e0',
+  'cfa1ccf9-ed8c-41b4-8fe3-bf61dfdf9471',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -869,19 +869,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:50 GMT'
+  'Thu, 29 Apr 2021 22:46:02 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -889,9 +889,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '83cf77c3-bcd6-4904-a69f-77afde9ab3f4',
+  '2ad48a05-352a-40af-8c07-ca3602c12a6c',
   'x-ms-request-id',
-  'fe2afc5c-a49a-43cf-8a75-2dc261c9cf1c',
+  '23333640-f395-4605-a536-d6aa9d534245',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -903,19 +903,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:52 GMT'
+  'Thu, 29 Apr 2021 22:46:04 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -923,9 +923,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '4a114fb4-c4cd-4353-a72d-20ce5fb39c10',
+  'a2e2e142-3dec-4e78-8b8d-85979d4ed67e',
   'x-ms-request-id',
-  '196c16d1-8063-46f4-952d-03e38486b8d4',
+  '0d7126ca-5f61-47a5-8d58-c314ca0913c7',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -937,19 +937,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:54 GMT'
+  'Thu, 29 Apr 2021 22:46:06 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -957,9 +957,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '219f5aff-db13-422c-a731-5be9297f26f0',
+  '1220833f-549d-4000-988a-75ef889b1636',
   'x-ms-request-id',
-  '4f26c2cc-e109-4a4f-a0d7-d6d5fae2294f',
+  '43a72e6a-7671-4260-ad14-9f37d6400441',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -971,19 +971,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:56 GMT'
+  'Thu, 29 Apr 2021 22:46:08 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -991,9 +991,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '164e5d04-2f80-42cd-8e7a-3ef7407b9b97',
+  '31447eab-d87e-4958-9252-8733203345ab',
   'x-ms-request-id',
-  '1cd2ffaa-127a-438e-8404-5e0b73f6d191',
+  '2e51e1ec-94ae-43ae-a924-c7b32e037e86',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1005,19 +1005,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:22:58 GMT'
+  'Thu, 29 Apr 2021 22:46:11 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1025,9 +1025,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'f2be750c-d59b-45a5-bee8-0ecfbc9d16b3',
+  '9ef1f4b5-3934-49e5-bf34-4bf3b3421884',
   'x-ms-request-id',
-  'ec1a6f35-26be-40b2-9b88-a7cc50307286',
+  'c8f802ab-92a4-420c-a445-46615bb9700e',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1039,19 +1039,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:00 GMT'
+  'Thu, 29 Apr 2021 22:46:13 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1059,9 +1059,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '2c787349-4a77-436d-9a35-29b566748c08',
+  'fff74568-8724-47ea-9f4d-f6fc71094e11',
   'x-ms-request-id',
-  '46788bbf-cd39-4996-8d26-8b5db47dd129',
+  'aeb99d08-57fa-46b6-8b40-a2c914f4d433',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1073,19 +1073,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:02 GMT'
+  'Thu, 29 Apr 2021 22:46:15 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1093,9 +1093,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'b5d4d977-3957-4184-af99-fe52f1da1f1a',
+  '39856e9e-3d1b-49fb-8063-7e936c5dcae5',
   'x-ms-request-id',
-  '401e3729-f572-4292-9f06-3d4d54e26e97',
+  'bdb84f76-712e-4782-9b1d-d1a1825a191f',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1107,19 +1107,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:04 GMT'
+  'Thu, 29 Apr 2021 22:46:16 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1127,9 +1127,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '1faa3485-69be-4cff-8562-ec0aeebe2379',
+  '332a5c20-f1f7-48c5-bf30-d69b2fc1d9e1',
   'x-ms-request-id',
-  '2f424c4f-132e-4870-8e05-e9ca4a21ecf6',
+  '0d8bc5f4-43d8-4db6-b600-46c1cfe27c25',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1141,19 +1141,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:06 GMT'
+  'Thu, 29 Apr 2021 22:46:19 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1161,9 +1161,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'ea39d900-acfa-4e54-baf6-af98ec0669c0',
+  '29bdb0ba-e287-4f73-9f0f-00839e431a53',
   'x-ms-request-id',
-  'fabf62b5-c497-4335-b801-ca1224ad2b4c',
+  'df5757e2-aeb7-4cc5-8dde-115d295596ed',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1175,19 +1175,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:08 GMT'
+  'Thu, 29 Apr 2021 22:46:21 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1195,9 +1195,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '9ad11c2e-de12-4988-a98c-88f4cd210c7c',
+  '071b8401-6135-408f-91fc-942f561317c4',
   'x-ms-request-id',
-  'b7b3ebb4-63e6-44ae-9748-e506d6b1550f',
+  '9d24b8d4-682d-4d67-8b15-acfaebe09439',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1209,19 +1209,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:11 GMT'
+  'Thu, 29 Apr 2021 22:46:23 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1229,9 +1229,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '46ee0ff4-77e7-4394-b482-cd066e1ed8f5',
+  '8f2ebc3e-3b4c-4594-9355-3cc394bf32bc',
   'x-ms-request-id',
-  '8f70dbe8-82af-49b6-9614-13b6b8a0fe30',
+  '7d754699-1114-4a65-a5f6-cde55acf6e08',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1243,19 +1243,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:13 GMT'
+  'Thu, 29 Apr 2021 22:46:25 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1263,9 +1263,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'a753de44-104c-44d7-b5e1-5e13042b446e',
+  '0e51fc66-2d01-4f58-b5bd-a2a84785feee',
   'x-ms-request-id',
-  'e5b51b25-f7b9-435f-9b30-0aa032f96d3d',
+  '76a4719c-3a6a-4157-8fc3-034388a41612',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1277,19 +1277,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:15 GMT'
+  'Thu, 29 Apr 2021 22:46:27 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1297,9 +1297,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '75345d4d-88fe-4f48-9ba9-de8c14f2d1f9',
+  '20d6c886-76eb-461f-8f64-0f5a988f9523',
   'x-ms-request-id',
-  '380a5308-c448-4152-9de4-e4eb85386c67',
+  '35f4fd4e-2d02-4e6e-a342-6b2b388ccc45',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1311,19 +1311,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:17 GMT'
+  'Thu, 29 Apr 2021 22:46:29 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1331,9 +1331,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'b57f64ac-a599-4afc-965d-1deb5da5a867',
+  '22be17a0-4802-420a-8b3b-f9006fda8f85',
   'x-ms-request-id',
-  'aa371d8f-4ca0-4726-86f8-5527f2d1c6db',
+  'f2c60f82-d599-4b7a-8976-b0083f7b4a72',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1345,19 +1345,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:19 GMT'
+  'Thu, 29 Apr 2021 22:46:31 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1365,9 +1365,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '84f42e0b-ba43-4b3f-a4af-9e7a68c83b13',
+  '3fe6ae95-4c51-4876-bb73-cb97f0417f86',
   'x-ms-request-id',
-  'd66c63aa-63f6-4e53-9a1c-c0cb7d2eb866',
+  '4681d3ad-4d37-4efc-b10d-f968ba0abeed',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1379,19 +1379,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:21 GMT'
+  'Thu, 29 Apr 2021 22:46:33 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1399,9 +1399,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '21a833af-0430-43c8-8eca-9fddcbb3d3e5',
+  '35e899b6-a9f1-4a24-89a6-173bf83fcd9b',
   'x-ms-request-id',
-  '976ff2ad-bfca-46c9-b9ac-c2760a25c730',
+  '96e6c6ab-b762-40ef-a742-ddfa1ee81133',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1413,19 +1413,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:23 GMT'
+  'Thu, 29 Apr 2021 22:46:36 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--0"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1433,9 +1433,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'f05ac58a-beff-4b7b-ac8f-e954a1ede5eb',
+  '0e4d450d-697d-43cf-be58-12ce86e49059',
   'x-ms-request-id',
-  '49c06dda-c5ef-40a8-968a-22edade8bc1c',
+  '980aa1c8-0939-43e3-a577-70f21e3c0c12',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1447,13 +1447,217 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:26 GMT'
+  'Thu, 29 Apr 2021 22:46:38 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0","deletedDate":1619731344,"scheduledPurgeDate":1627507344,"id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0/85843a72a54f4880ad18d6ab2cab0152","attributes":{"enabled":true,"created":1619731344,"updated":1619731344,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '161',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'd0f205df-b81d-45ee-9065-5c9dc67d8a5d',
+  'x-ms-request-id',
+  '642030bf-dc40-4fde-aaf7-48014f804405',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=20.94.192.72;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 29 Apr 2021 22:46:39 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '161',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'a6236818-1aab-4ae7-8349-fa2789c9ebfb',
+  'x-ms-request-id',
+  '64861f0d-4af0-4341-848a-07ff30aeee05',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=20.94.192.72;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 29 Apr 2021 22:46:42 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '161',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'cebf4b3f-abf1-466c-afe5-9c4b347430bf',
+  'x-ms-request-id',
+  '36d6be22-55c3-4576-b09a-3787dda52c48',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=20.94.192.72;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 29 Apr 2021 22:46:43 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '161',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  '8a8608ac-cb5c-474f-9955-4660140ab2e1',
+  'x-ms-request-id',
+  'd2176b85-b479-4fd5-b242-01d65f7db51b',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=20.94.192.72;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 29 Apr 2021 22:46:46 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '161',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'd2e43c1d-7161-4250-b11f-07b9a2cc764f',
+  'x-ms-request-id',
+  '0bca75da-857a-4d7a-8c0d-b1025df1a80e',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=20.94.192.72;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 29 Apr 2021 22:46:48 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
+  .query(true)
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '161',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'eastus',
+  'x-ms-client-request-id',
+  'd02204db-6508-4dd9-bcee-c07c53b083e1',
+  'x-ms-request-id',
+  'e500354d-c119-4280-b4f3-fbcea0b40dad',
+  'x-ms-keyvault-service-version',
+  '1.2.265.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=20.94.192.72;act_addr_fam=InterNetwork;',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 29 Apr 2021 22:46:50 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
+  .query(true)
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0","deletedDate":1619736337,"scheduledPurgeDate":1627512337,"id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0/9169edd7879a4cdcbcffcec9ae6e7ca4","attributes":{"enabled":true,"created":1619736337,"updated":1619736337,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1465,9 +1669,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'e15363ed-fc51-4c1c-9ac7-db5b48eea317',
+  '224a63c3-6396-43be-ad70-7bf6633b78af',
   'x-ms-request-id',
-  '02787d54-24d1-4ce8-a70d-4b4966102ec3',
+  '2f3f1ba2-d458-4ad0-95cd-1b8319d0774a',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1479,13 +1683,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:27 GMT',
+  'Thu, 29 Apr 2021 22:46:53 GMT',
   'Content-Length',
-  '519'
+  '533'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--0')
+  .delete('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--0')
   .query(true)
   .reply(204, "", [
   'Cache-Control',
@@ -1497,9 +1701,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '976f7cd3-65fc-49ff-bd0a-1fa5505bb17f',
+  'feaf26f4-767e-4305-ac92-111ccc500b60',
   'x-ms-request-id',
-  'afcd2e67-27e2-4bd0-bf4b-2a6687508dee',
+  '75905b2e-ed48-44bc-8282-4e94609da422',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1511,13 +1715,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:28 GMT'
+  'Thu, 29 Apr 2021 22:46:53 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .delete('/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1","deletedDate":1619731408,"scheduledPurgeDate":1627507408,"id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1/8971569b40ba40829a645360fc9bba32","attributes":{"enabled":true,"created":1619731344,"updated":1619731344,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1","deletedDate":1619736413,"scheduledPurgeDate":1627512413,"id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1/33a97e2f9057443084e5d7c33a0d7755","attributes":{"enabled":true,"created":1619736337,"updated":1619736337,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1529,9 +1733,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'e15bf3cb-2585-4572-9f8c-0997375c844c',
+  '8095860f-6ec3-4b48-9466-24eaa429a123',
   'x-ms-request-id',
-  'c3398350-22ed-4602-a326-671b9c981443',
+  '8dcde2e7-3a0d-417c-9b10-f9328464052e',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1543,21 +1747,21 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:28 GMT',
+  'Thu, 29 Apr 2021 22:46:53 GMT',
   'Content-Length',
-  '519'
+  '533'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1565,9 +1769,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '364b6ca2-069e-4137-9d5d-2a24459a3c9f',
+  'e6c1a07d-519d-4653-aff7-128feadde59d',
   'x-ms-request-id',
-  '84ff15ae-862d-44ed-9394-e73a6b3aee2b',
+  'e293652a-6f87-495c-be15-ffa3212242fb',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1579,19 +1783,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:28 GMT'
+  'Thu, 29 Apr 2021 22:46:53 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1599,9 +1803,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '282074c3-3ded-4aa4-848c-5db5899be2f8',
+  '27c555fd-80e4-4527-93c4-8f7575a7efb4',
   'x-ms-request-id',
-  '91330d96-212e-40ef-9ce0-4b03183878fa',
+  '5d12e5b0-fd54-4c1a-8cc2-c1556ee5b23e',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1613,19 +1817,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:28 GMT'
+  'Thu, 29 Apr 2021 22:46:53 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1633,9 +1837,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '5bd2a879-b0ba-4bc0-9de3-2121ed04e8a4',
+  '1a2688c6-27e3-411e-82a4-aa2a2d2177d1',
   'x-ms-request-id',
-  'adc098ab-25e4-48d4-a782-a3f087d4284d',
+  '5dbf76ae-7639-408e-938a-f340edeafd1f',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1647,19 +1851,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:30 GMT'
+  'Thu, 29 Apr 2021 22:46:55 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1667,9 +1871,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '8c056efd-b886-436f-93d5-167cdd0bfc45',
+  '96ec9834-10fc-43f3-acf5-bed3ce728ec7',
   'x-ms-request-id',
-  '69fe9f94-edd9-46cc-b753-d3e504be934a',
+  'cb8a2793-2479-4544-b5de-9ee00a4135ba',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1681,19 +1885,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:33 GMT'
+  'Thu, 29 Apr 2021 22:46:57 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1701,9 +1905,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'a381085c-ce14-4451-9754-f4bb117ccbc5',
+  '2d723a7e-a99d-4a40-8f3a-239f3205c3da',
   'x-ms-request-id',
-  '0e90a176-abf9-47e2-b370-9c9382bad1dc',
+  'bfb7cef2-316f-4a99-b3eb-5284f0e7d3db',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1715,19 +1919,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:35 GMT'
+  'Thu, 29 Apr 2021 22:46:59 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1735,9 +1939,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '611f69a0-0597-422a-a10f-5ccc8235791f',
+  '392e5b76-9011-4440-87da-554605e7ffd5',
   'x-ms-request-id',
-  '9388079e-da9c-4f5d-8d2a-ce60833a4d90',
+  '21db0e8b-195c-4793-af30-2dd47ce4669f',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1749,19 +1953,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:36 GMT'
+  'Thu, 29 Apr 2021 22:47:01 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1769,9 +1973,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '0b1ce753-f15b-4a19-9895-899bf5c6852c',
+  '3b04a409-7987-45ed-8626-e6a02f670520',
   'x-ms-request-id',
-  '6e185e83-7fe5-4e0f-b449-b2f026fec2c3',
+  'bfdf6b87-bb5e-41c3-a0e1-42af9aca7540',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1783,19 +1987,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:38 GMT'
+  'Thu, 29 Apr 2021 22:47:04 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1803,9 +2007,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'fba26e2b-a106-40a2-a7e9-fc379331b4bb',
+  '5f7a99bd-fe5f-49e5-8084-1b7c73f1c55c',
   'x-ms-request-id',
-  'e71c0b2b-4f98-4550-a465-5f71d286a072',
+  '5ac27529-6936-41cf-b047-bdf7d6611ff2',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1817,19 +2021,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:41 GMT'
+  'Thu, 29 Apr 2021 22:47:05 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1837,9 +2041,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '66115b5e-aa6e-4fbc-838e-9c6fc7363642',
+  '4173ae1c-09da-4da1-9320-758458a22344',
   'x-ms-request-id',
-  'a32d35e8-5507-4efe-938c-065068fbb7e7',
+  '09375b1a-772b-4787-b7a3-87de1822236f',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1851,19 +2055,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:42 GMT'
+  'Thu, 29 Apr 2021 22:47:08 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1871,9 +2075,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '500797e7-e46d-4cb5-a2a8-be0f8ad61219',
+  '0327e1d8-aa50-427e-9083-6f5b532fa8df',
   'x-ms-request-id',
-  '108c4132-e270-4b76-b8a7-43ea52aa3ade',
+  '6c60af80-fede-4ba7-9bcc-e6a730cb317b',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1885,19 +2089,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:45 GMT'
+  'Thu, 29 Apr 2021 22:47:09 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1905,9 +2109,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'ffe5f14e-fec0-4c41-b221-9ca912bacb0e',
+  'f9931f02-33ed-41ab-8921-1ad714c3e6d9',
   'x-ms-request-id',
-  '250a1e58-3ff7-4bd7-9d62-c1f138f5e428',
+  '1884a0a9-6a21-4531-ac63-c8a57d5b507c',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1919,19 +2123,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:47 GMT'
+  'Thu, 29 Apr 2021 22:47:12 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1939,9 +2143,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'bfd31b5e-07f1-4299-acf4-95125ef38891',
+  '9e060c74-b31c-4fcd-a806-248dc7d94d3f',
   'x-ms-request-id',
-  'ca9a8850-13c8-4f7a-b20a-77e10f20c251',
+  '09e46fa4-0900-42f3-a8fd-43fc0edd034d',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1953,19 +2157,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:49 GMT'
+  'Thu, 29 Apr 2021 22:47:14 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -1973,9 +2177,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'a611a189-6c74-4364-bb4e-de2507ba07b5',
+  '71f23346-00a5-42d3-a1b0-ac9951fdd170',
   'x-ms-request-id',
-  'a94d9f29-29b0-4161-b1b2-3dd19d046108',
+  'e6dd6200-f0af-4cae-a13a-4e7df07a662e',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -1987,19 +2191,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:51 GMT'
+  'Thu, 29 Apr 2021 22:47:16 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -2007,9 +2211,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'bd7410b1-53a2-4f7e-b367-efe56db55061',
+  '98fdd0de-dcfe-4565-a3c0-eacaa80542f5',
   'x-ms-request-id',
-  '7d73c17c-925e-4c06-ad1b-f0f60185f6ae',
+  '48c152cd-ff4f-40b0-b327-dab6d641a138',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -2021,19 +2225,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:53 GMT'
+  'Thu, 29 Apr 2021 22:47:18 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -2041,9 +2245,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '951eae3e-1fe7-4c74-85bb-6cd9ac824521',
+  '98887218-a55e-450f-b057-42477ea70741',
   'x-ms-request-id',
-  '9d9f500e-a714-4bfe-9689-c94879102252',
+  '0ea6018a-5536-4c0f-86a4-4e683a6b58e0',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -2055,19 +2259,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:55 GMT'
+  'Thu, 29 Apr 2021 22:47:21 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -2075,9 +2279,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '1532c6af-1eec-4aea-8e8e-0e402aef02d6',
+  'e57e8af1-528c-495f-83d4-617fa8c2d983',
   'x-ms-request-id',
-  '923d7deb-6cb3-4542-8549-68ed80a369d0',
+  '2027f322-2690-4b7d-bff1-5d7dd09b3f7b',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -2089,19 +2293,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:23:57 GMT'
+  'Thu, 29 Apr 2021 22:47:23 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -2109,9 +2313,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '17a96bdb-d322-4e34-b7b5-86a090978d79',
+  '4b267fb4-d014-40c5-af0c-de94419b4f7e',
   'x-ms-request-id',
-  'dfb0cfd1-2c27-4ab0-9116-049fc8a7e63e',
+  '8eb50d1d-d6c1-482a-8823-454af3c207fb',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -2123,19 +2327,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:24:00 GMT'
+  'Thu, 29 Apr 2021 22:47:25 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -2143,9 +2347,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'ce95f258-58cc-4924-9043-99e0d11ffd69',
+  '7ae87e7b-83d4-4aed-8a5a-52ece37920a1',
   'x-ms-request-id',
-  'b008e097-737e-42f0-96e3-3a3438dd8086',
+  '2fdeab04-dfc3-4ef8-821c-09766f16b884',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -2157,19 +2361,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:24:02 GMT'
+  'Thu, 29 Apr 2021 22:47:26 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -2177,9 +2381,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  'f56cc931-e01d-4d30-8f7a-44c0128a3ba1',
+  '8902b1a2-40cd-4c25-8408-eaa15f162545',
   'x-ms-request-id',
-  'f895ef9e-7be8-4e77-b80a-bee0652c5325',
+  'f202b7a4-e49c-482d-b9aa-78fb76ae44ef',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -2191,19 +2395,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:24:04 GMT'
+  'Thu, 29 Apr 2021 22:47:28 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -2211,9 +2415,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '3cc2fdca-2d19-4f86-b966-ad3bf0c3a436',
+  '3eb3120d-2227-48d3-8651-1a5cf499f074',
   'x-ms-request-id',
-  '5cefec1c-5a3d-4809-8fdc-aceb2b4400ff',
+  'ae9055e9-5b3f-4f31-82d0-600d9ca6dc8f',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -2225,19 +2429,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:24:06 GMT'
+  'Thu, 29 Apr 2021 22:47:30 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '154',
+  '161',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -2245,9 +2449,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '3ef8630c-9aaf-4d2a-a996-f282843250e2',
+  '87a5cfc6-c0c1-48c0-a8b2-dc491bbb6746',
   'x-ms-request-id',
-  'e4fb4597-ba27-411e-8906-f40267c581a6',
+  'e0726bba-3621-4ee4-8fc0-cc3c6e7fa263',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -2259,115 +2463,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:24:08 GMT'
+  'Thu, 29 Apr 2021 22:47:33 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .get('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '154',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '1b5645d1-242a-409e-8514-b4fdb5aa16b9',
-  'x-ms-request-id',
-  'e0f54ac3-6068-4320-8702-0750f710b083',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=20.94.192.72;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Thu, 29 Apr 2021 21:24:10 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '154',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  '2e7d7bc5-040c-41de-897d-8e62578780a7',
-  'x-ms-request-id',
-  'e09c6828-d86f-4b38-b7c8-26902bee8228',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=20.94.192.72;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Thu, 29 Apr 2021 21:24:13 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
-  .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Deleted Secret not found: challengeAuthmykey-Authenticationshouldworkforparallelrequests--1"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '154',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'eastus',
-  'x-ms-client-request-id',
-  'b103fa6b-8b4e-4391-9651-68f7a66d4dca',
-  'x-ms-request-id',
-  '15c3b701-a2bb-4078-95b9-0509b4137b59',
-  'x-ms-keyvault-service-version',
-  '1.2.265.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=20.94.192.72;act_addr_fam=InterNetwork;',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Thu, 29 Apr 2021 21:24:14 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
-  .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1","deletedDate":1619731408,"scheduledPurgeDate":1627507408,"id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1/8971569b40ba40829a645360fc9bba32","attributes":{"enabled":true,"created":1619731344,"updated":1619731344,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1","deletedDate":1619736413,"scheduledPurgeDate":1627512413,"id":"https://keyvault_name.vault.azure.net/secrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1/33a97e2f9057443084e5d7c33a0d7755","attributes":{"enabled":true,"created":1619736337,"updated":1619736337,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -2379,9 +2481,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '1ecdf2f1-ac8e-4e8c-af47-8142283a7b7f',
+  '3d0427d9-731a-46b6-8320-b76bd1b6c85a',
   'x-ms-request-id',
-  '3339cd08-af42-43e9-8fa2-64ee6303f406',
+  'f2cf10f5-109d-4ea2-a2a7-b39f0f67ee89',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -2393,13 +2495,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:24:17 GMT',
+  'Thu, 29 Apr 2021 22:47:35 GMT',
   'Content-Length',
-  '519'
+  '533'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedsecrets/challengeAuthmykey-Authenticationshouldworkforparallelrequests--1')
+  .delete('/deletedsecrets/challengeAuthSecretName-Authenticationshouldworkforparallelrequests--1')
   .query(true)
   .reply(204, "", [
   'Cache-Control',
@@ -2411,9 +2513,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'eastus',
   'x-ms-client-request-id',
-  '0ba86fdc-fd02-412c-8034-4e22bb60b082',
+  '60e7a8a4-a454-44fd-9e27-c662f149133b',
   'x-ms-request-id',
-  '037a0b3a-078e-4f41-8919-b644e1f37702',
+  '2faef36e-f004-41e9-ab09-e2d6f4031ae0',
   'x-ms-keyvault-service-version',
   '1.2.265.0',
   'x-ms-keyvault-network-info',
@@ -2425,5 +2527,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 29 Apr 2021 21:24:16 GMT'
+  'Thu, 29 Apr 2021 22:47:35 GMT'
 ]);
