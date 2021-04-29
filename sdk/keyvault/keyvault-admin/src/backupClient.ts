@@ -70,7 +70,7 @@ export class KeyVaultBackupClient {
    * ```
    * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
-   * @param options - Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
+   * @param options - options used to configure Key Vault API requests.
    */
   constructor(vaultUrl: string, credential: TokenCredential, options: BackupClientOptions = {}) {
     this.vaultUrl = vaultUrl;
