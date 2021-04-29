@@ -80,7 +80,11 @@ function createTestHttpClient(): HttpClient {
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
-    console.log(`MS-CV header for request: ${requestResponse.headers.get("ms-cv")} (${requestResponse.status} - ${httpRequest.url})`);
+    console.log(
+      `MS-CV header for request: ${requestResponse.headers.get("ms-cv")} (${
+        requestResponse.status
+      } - ${httpRequest.url})`
+    );
 
     return requestResponse;
   };
