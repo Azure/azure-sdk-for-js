@@ -6,7 +6,7 @@ import {
   RtspSource,
   UnsecuredEndpoint,
   NodeInput,
-  AssetSink,
+  IotHubMessageSink,
   createRequest
 } from "../src";
 
@@ -30,14 +30,12 @@ describe("test", () => {
       nodeName: "rtspSource"
     };
 
-    const assetSink: AssetSink = {
-      name: "assetSink",
-      inputs: [graphNodeInput],
-      assetContainerSasUrl: "sampleAsset-${System.GraphTopologyName}-${System.GraphInstanceName}",
-      localMediaCachePath: "/var/lib/azuremediaservices/tmp/",
-      localMediaCacheMaximumSizeMiB: "2048",
-      "@type": "#Microsoft.VideoAnalyzer.AssetSink"
-    };
+    const msgSink: IotHubMessageSink = {
+      name: "msgSink",
+      inputs: [nodeInput],  
+      hubOutputName: "${hubSinkOutputName}",
+      "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink"
+    }
 
     const graphTopology: PipelineTopology = {
       name: "jsTestGraph",
@@ -49,7 +47,7 @@ describe("test", () => {
           { name: "rtspUrl", type: "String" }
         ],
         sources: [rtspSource],
-        sinks: [assetSink]
+        sinks: [msgSink]
       }
     };
 

@@ -1268,46 +1268,6 @@ export const FileSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const AssetSink: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.VideoAnalyzer.AssetSink",
-  type: {
-    name: "Composite",
-    className: "AssetSink",
-    uberParent: "SinkNodeBase",
-    polymorphicDiscriminator: SinkNodeBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SinkNodeBase.type.modelProperties,
-      assetContainerSasUrl: {
-        serializedName: "assetContainerSasUrl",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      segmentLength: {
-        serializedName: "segmentLength",
-        type: {
-          name: "String"
-        }
-      },
-      localMediaCachePath: {
-        serializedName: "localMediaCachePath",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      localMediaCacheMaximumSizeMiB: {
-        serializedName: "localMediaCacheMaximumSizeMiB",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const VideoSink: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.VideoSink",
   type: {
@@ -1434,26 +1394,6 @@ export const HttpHeaderCredentials: coreHttp.CompositeMapper = {
       },
       headerValue: {
         serializedName: "headerValue",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SymmetricKeyCredentials: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials",
-  type: {
-    name: "Composite",
-    className: "SymmetricKeyCredentials",
-    uberParent: "CredentialsBase",
-    polymorphicDiscriminator: CredentialsBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...CredentialsBase.type.modelProperties,
-      key: {
-        serializedName: "key",
         required: true,
         type: {
           name: "String"
@@ -1780,11 +1720,11 @@ export const LivePipelineSetRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ItemNonSetRequestBase: coreHttp.CompositeMapper = {
-  serializedName: "ItemNonSetRequestBase",
+export const MethodRequestEmptyBodyBase: coreHttp.CompositeMapper = {
+  serializedName: "MethodRequestEmptyBodyBase",
   type: {
     name: "Composite",
-    className: "ItemNonSetRequestBase",
+    className: "MethodRequestEmptyBodyBase",
     uberParent: "MethodRequest",
     polymorphicDiscriminator: {
       serializedName: "methodName",
@@ -1988,7 +1928,7 @@ export const PipelineTopologyGetRequest: coreHttp.CompositeMapper = {
     uberParent: "MethodRequest",
     polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ItemNonSetRequestBase.type.modelProperties
+      ...MethodRequestEmptyBodyBase.type.modelProperties
     }
   }
 };
@@ -2001,7 +1941,7 @@ export const PipelineTopologyDeleteRequest: coreHttp.CompositeMapper = {
     uberParent: "MethodRequest",
     polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ItemNonSetRequestBase.type.modelProperties
+      ...MethodRequestEmptyBodyBase.type.modelProperties
     }
   }
 };
@@ -2014,7 +1954,7 @@ export const LivePipelineGetRequest: coreHttp.CompositeMapper = {
     uberParent: "MethodRequest",
     polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ItemNonSetRequestBase.type.modelProperties
+      ...MethodRequestEmptyBodyBase.type.modelProperties
     }
   }
 };
@@ -2027,7 +1967,7 @@ export const LivePipelineActivateRequest: coreHttp.CompositeMapper = {
     uberParent: "MethodRequest",
     polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ItemNonSetRequestBase.type.modelProperties
+      ...MethodRequestEmptyBodyBase.type.modelProperties
     }
   }
 };
@@ -2040,7 +1980,7 @@ export const LivePipelineDeactivateRequest: coreHttp.CompositeMapper = {
     uberParent: "MethodRequest",
     polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ItemNonSetRequestBase.type.modelProperties
+      ...MethodRequestEmptyBodyBase.type.modelProperties
     }
   }
 };
@@ -2053,7 +1993,7 @@ export const LivePipelineDeleteRequest: coreHttp.CompositeMapper = {
     uberParent: "MethodRequest",
     polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ItemNonSetRequestBase.type.modelProperties
+      ...MethodRequestEmptyBodyBase.type.modelProperties
     }
   }
 };
@@ -2082,13 +2022,11 @@ export let discriminators = {
   "ProcessorNodeBase.#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor": CognitiveServicesVisionProcessor,
   "SinkNodeBase.#Microsoft.VideoAnalyzer.IotHubMessageSink": IotHubMessageSink,
   "SinkNodeBase.#Microsoft.VideoAnalyzer.FileSink": FileSink,
-  "SinkNodeBase.#Microsoft.VideoAnalyzer.AssetSink": AssetSink,
   "SinkNodeBase.#Microsoft.VideoAnalyzer.VideoSink": VideoSink,
   "EndpointBase.#Microsoft.VideoAnalyzer.UnsecuredEndpoint": UnsecuredEndpoint,
   "EndpointBase.#Microsoft.VideoAnalyzer.TlsEndpoint": TlsEndpoint,
   "CredentialsBase.#Microsoft.VideoAnalyzer.UsernamePasswordCredentials": UsernamePasswordCredentials,
   "CredentialsBase.#Microsoft.VideoAnalyzer.HttpHeaderCredentials": HttpHeaderCredentials,
-  "CredentialsBase.#Microsoft.VideoAnalyzer.SymmetricKeyCredentials": SymmetricKeyCredentials,
   "CertificateSource.#Microsoft.VideoAnalyzer.PemCertificateList": PemCertificateList,
   "NamedLineBase.#Microsoft.VideoAnalyzer.NamedLineString": NamedLineString,
   "ImageFormatProperties.#Microsoft.VideoAnalyzer.ImageFormatRaw": ImageFormatRaw,
@@ -2100,7 +2038,7 @@ export let discriminators = {
   "SpatialAnalysisOperationBase.SpatialAnalysisTypedOperationBase": SpatialAnalysisTypedOperationBase,
   "MethodRequest.pipelineTopologySet": PipelineTopologySetRequest,
   "MethodRequest.livePipelineSet": LivePipelineSetRequest,
-  "MethodRequest.ItemNonSetRequestBase": ItemNonSetRequestBase,
+  "MethodRequest.MethodRequestEmptyBodyBase": MethodRequestEmptyBodyBase,
   "MethodRequest.pipelineTopologyList": PipelineTopologyListRequest,
   "MethodRequest.livePipelineList": LivePipelineListRequest,
   "ProcessorNodeBase.#Microsoft.VideoAnalyzer.GrpcExtension": GrpcExtension,

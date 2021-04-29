@@ -7,9 +7,9 @@ import {
   RtspSource,
   UnsecuredEndpoint,
   NodeInput,
-  AssetSink,
   LivePipeline,
-  createRequest
+  createRequest,
+  IotHubMessageSink
 } from "@azure/media-video-analyzer-edge";
 
 import { Client } from "azure-iothub";
@@ -33,15 +33,12 @@ function buildPipelineTopology() {
     nodeName: "rtspSource"
   };
 
-  const assetSink: AssetSink = {
-    name: "assetSink",
-    inputs: [nodeInput],
-    assetContainerSasUrl:
-      "https://sampleAsset-${System.PipelineTopologyName}-${System.LivePipelineName}.com",
-    localMediaCachePath: "/var/lib/azuremediaservices/tmp/",
-    localMediaCacheMaximumSizeMiB: "2048",
-    "@type": "#Microsoft.VideoAnalyzer.AssetSink"
-  };
+  const msgSink: IotHubMessageSink = {
+    name: "msgSink",
+    inputs: [nodeInput],  
+    hubOutputName: "${hubSinkOutputName}",
+    "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink"
+  }
 
   const pipelineTopology: PipelineTopology = {
     name: "jsTestGraph",
@@ -49,11 +46,12 @@ function buildPipelineTopology() {
       description: "description for jsTestGraph",
       parameters: [
         { name: "rtspUserName", type: "String", default: "dummyUsername" },
-        { name: "rtspPassword", type: "SecretString", default: "dumyPassword" },
-        { name: "rtspUrl", type: "String" }
+        { name: "rtspPassword", type: "SecretString", default: "dummyPassword" },
+        { name: "rtspUrl", type: "String" },
+        { name: "hubSinkOutputName", type:"String"}
       ],
       sources: [rtspSource],
-      sinks: [assetSink]
+      sinks: [msgSink]
     }
   };
 

@@ -24,14 +24,12 @@ export type SinkNodeBaseUnion =
   | SinkNodeBase
   | IotHubMessageSink
   | FileSink
-  | AssetSink
   | VideoSink;
 export type EndpointBaseUnion = EndpointBase | UnsecuredEndpoint | TlsEndpoint;
 export type CredentialsBaseUnion =
   | CredentialsBase
   | UsernamePasswordCredentials
-  | HttpHeaderCredentials
-  | SymmetricKeyCredentials;
+  | HttpHeaderCredentials;
 export type CertificateSourceUnion = CertificateSource | PemCertificateList;
 export type NamedLineBaseUnion = NamedLineBase | NamedLineString;
 export type ImageFormatPropertiesUnion =
@@ -51,7 +49,7 @@ export type MethodRequestUnion =
   | PipelineTopologySetRequestBody
   | LivePipelineSetRequest
   | LivePipelineSetRequestBody
-  | ItemNonSetRequestBaseUnion
+  | MethodRequestEmptyBodyBaseUnion
   | PipelineTopologyListRequest
   | LivePipelineListRequest;
 export type ExtensionProcessorBaseUnion =
@@ -64,8 +62,8 @@ export type SpatialAnalysisTypedOperationBaseUnion =
   | SpatialAnalysisPersonZoneCrossingOperation
   | SpatialAnalysisPersonDistanceOperation
   | SpatialAnalysisPersonLineCrossingOperation;
-export type ItemNonSetRequestBaseUnion =
-  | ItemNonSetRequestBase
+export type MethodRequestEmptyBodyBaseUnion =
+  | MethodRequestEmptyBodyBase
   | PipelineTopologyGetRequest
   | PipelineTopologyDeleteRequest
   | LivePipelineGetRequest
@@ -73,89 +71,96 @@ export type ItemNonSetRequestBaseUnion =
   | LivePipelineDeactivateRequest
   | LivePipelineDeleteRequest;
 
-/** Represents a unique live pipeline. */
+/** Live Pipeline represents an unique instance of a pipeline topology which is used for real-time content ingestion and analysis. */
 export interface LivePipeline {
-  /** The identifier for the live pipeline. */
+  /** Live pipeline unique identifier. */
   name: string;
-  /** The system data for a resource. */
+  /** Read-only system metadata associated with this object. */
   systemData?: SystemData;
-  /** The properties of the live pipeline. */
+  /** Live pipeline properties. */
   properties?: LivePipelineProperties;
 }
 
-/** The system data for a resource. This is used by both pipeline topologies and live pipelines. */
+/** Read-only system metadata associated with a resource. */
 export interface SystemData {
-  /** The timestamp of resource creation (UTC). */
+  /** Date and time when this resource was first created. Value is represented in UTC according to the ISO8601 date format. */
   createdAt?: Date;
-  /** The timestamp of resource last modification (UTC). */
+  /** Date and time when this resource was last modified. Value is represented in UTC according to the ISO8601 date format. */
   lastModifiedAt?: Date;
 }
 
-/** Properties of a live pipeline. */
+/** Live pipeline properties. */
 export interface LivePipelineProperties {
-  /** An optional description for the live pipeline. */
+  /** An optional description of the live pipeline. */
   description?: string;
-  /** The name of the pipeline topology that this live pipeline will run. A pipeline topology with this name should already have been set in the Edge module. */
+  /** The reference to an existing pipeline topology defined for real-time content processing. When activated, this live pipeline will process content according to the pipeline topology definition. */
   topologyName?: string;
-  /** List of one or more live pipeline parameters. */
+  /** List of the instance level parameter values for the user-defined topology parameters. A pipeline can only define or override parameters values for parameters which have been declared in the referenced topology. Topology parameters without a default value must be defined. Topology parameters with a default value can be optionally be overridden. */
   parameters?: ParameterDefinition[];
-  /** Allowed states for a live pipeline. */
+  /** Current pipeline state (read-only). */
   state?: LivePipelineState;
 }
 
-/** A key-value pair. A pipeline topology allows certain values to be parameterized. When a live pipeline is created, the parameters are supplied with arguments specific to that instance. This allows the same pipeline topology to be used as a blueprint for multiple streams with different values for the parameters. */
+/** Defines the parameter value of an specific pipeline topology parameter. See pipeline topology parameters for more information. */
 export interface ParameterDefinition {
-  /** The name of the parameter defined in the pipeline topology. */
+  /** Name of the parameter declared in the pipeline topology. */
   name: string;
-  /** The value to supply for the named parameter defined in the pipeline topology. */
+  /** Parameter value to be applied on this specific live pipeline. */
   value?: string;
 }
 
-/** A collection of streams. */
+/** A collection of live pipelines. */
 export interface LivePipelineCollection {
-  /** A collection of live pipelines. */
+  /** List of live pipelines. */
   value?: LivePipeline[];
-  /** A continuation token to use in subsequent calls to enumerate through the live pipeline collection. This is used when the collection contains too many results to return in one response. */
+  /** A continuation token to be used in subsequent calls when enumerating through the collection. This is returned when the collection results won't fit in a single response. */
   continuationToken?: string;
 }
 
 /** A collection of pipeline topologies. */
 export interface PipelineTopologyCollection {
-  /** A collection of pipeline topologies. */
+  /** List of pipeline topologies. */
   value?: PipelineTopology[];
-  /** A continuation token to use in subsequent calls to enumerate through the pipeline topology collection. This is used when the collection contains too many results to return in one response. */
+  /** A continuation token to be used in subsequent calls when enumerating through the collection. This is returned when the collection results won't fit in a single response. */
   continuationToken?: string;
 }
 
-/** The definition of a pipeline topology. */
+/**
+ * Pipeline topology describes the processing steps to be applied when processing media for a particular outcome. The topology should be defined according to the scenario to be achieved and can be reused across many pipeline instances which share the same processing characteristics. For instance, a pipeline topology which acquires data from a RTSP camera, process it with an specific AI model and stored the data on the cloud can be reused across many different cameras, as long as the same processing should be applied across all the cameras. Individual instance properties can be defined through the use of user-defined parameters, which allow for a topology to be parameterized, thus allowing individual pipelines to refer to different values, such as individual cameras RTSP endpoints and credentials. Overall a topology is composed of the following:
+ *
+ *   - Parameters: list of user defined parameters that can be references across the topology nodes.
+ *   - Sources: list of one or more data sources nodes such as an RTSP source which allows for media to be ingested from cameras.
+ *   - Processors: list of nodes which perform data analysis or transformations.
+ *   -Sinks: list of one or more data sinks which allow for data to be stored or exported to other destinations.
+ */
 export interface PipelineTopology {
-  /** The identifier for the pipeline topology. */
+  /** Pipeline topology unique identifier. */
   name: string;
-  /** The system data for a resource. */
+  /** Read-only system metadata associated with this object. */
   systemData?: SystemData;
-  /** The properties of the pipeline topology. */
+  /** Pipeline topology properties. */
   properties?: PipelineTopologyProperties;
 }
 
-/** A description of the properties of a pipeline topology. */
+/** Pipeline topology properties. */
 export interface PipelineTopologyProperties {
-  /** A description of a pipeline topology. It is recommended to use this to describe the expected use of the pipeline topology. */
+  /** An optional description of the pipeline topology. It is recommended that the expected use of the topology to be described here. */
   description?: string;
-  /** The list of parameters defined in the pipeline topology. The value for these parameters are supplied by streams of this pipeline topology. */
+  /** List of the topology parameter declarations. Parameters declared here can be referenced throughout the topology nodes through the use of "${PARAMETER_NAME}" string pattern. Parameters can have optional default values and can later be defined in individual instances of the pipeline. */
   parameters?: ParameterDeclaration[];
-  /** The list of source nodes in this pipeline topology. */
+  /** List of the topology source nodes. Source nodes enable external data to be ingested by the pipeline. */
   sources?: SourceNodeBaseUnion[];
-  /** The list of processor nodes in this pipeline topology. */
+  /** List of the topology processor nodes. Processor nodes enable pipeline data to be analyzed, processed or transformed. */
   processors?: ProcessorNodeBaseUnion[];
-  /** The list of sink nodes in this pipeline topology. */
+  /** List of the topology sink nodes. Sink nodes allow pipeline data to be stored or exported. */
   sinks?: SinkNodeBaseUnion[];
 }
 
-/** The declaration of a parameter in the pipeline topology. A topology can be authored with parameters. Then, during live pipeline creation, the value for those parameters can be specified. This allows the same pipeline topology to be used as a blueprint for multiple live pipelines with different values for the parameters. */
+/** Single topology parameter declaration. Declared parameters can and must be referenced throughout the topology and can optionally have default values to be used when they are not defined in the pipeline instances. */
 export interface ParameterDeclaration {
-  /** The name of the parameter. */
+  /** Name of the parameter. */
   name: string;
-  /** The type of the parameter. */
+  /** Type of the parameter. */
   type: ParameterType;
   /** Description of the parameter. */
   description?: string;
@@ -163,17 +168,17 @@ export interface ParameterDeclaration {
   default?: string;
 }
 
-/** A source node in a pipeline topology. */
+/** Base class for topology source nodes. */
 export interface SourceNodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
     | "#Microsoft.VideoAnalyzer.RtspSource"
     | "#Microsoft.VideoAnalyzer.IotHubMessageSource";
-  /** The name to be used for this source node. */
+  /** Node name. Must be unique within the topology. */
   name: string;
 }
 
-/** A node that represents the desired processing of media in a topology. Takes media and/or events as inputs, and emits media and/or event as output. */
+/** Base class for topology processor nodes. */
 export interface ProcessorNodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
@@ -185,41 +190,40 @@ export interface ProcessorNodeBase {
     | "#Microsoft.VideoAnalyzer.HttpExtension"
     | "#Microsoft.VideoAnalyzer.SignalGateProcessor"
     | "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor";
-  /** The name for this processor node. */
+  /** Node name. Must be unique within the topology. */
   name: string;
-  /** An array of the names of the other nodes in the topology, the outputs of which are used as input for this processor node. */
+  /** An array of upstream node references within the topology to be used as inputs for this node. */
   inputs: NodeInput[];
 }
 
-/** Represents the input to any node in a topology. */
+/** Describes an input signal to be used on a pipeline node. */
 export interface NodeInput {
-  /** The name of another node in the pipeline topology, the output of which is used as input to this node. */
+  /** The name of the upstream node in the pipeline which output is used as input of the current node. */
   nodeName: string;
-  /** Allows for the selection of particular streams from another node. */
+  /** Allows for the selection of specific data streams (eg. video only) from another node. */
   outputSelectors?: OutputSelector[];
 }
 
 /** Allows for the selection of particular streams from another node. */
 export interface OutputSelector {
-  /** The stream property to compare with. */
+  /** The property of the data stream to be used as the selection criteria. */
   property?: OutputSelectorProperty;
-  /** The operator to compare streams by. */
+  /** The operator to compare properties by. */
   operator?: OutputSelectorOperator;
   /** Value to compare against. */
   value?: string;
 }
 
-/** Enables a pipeline topology to write media data to a destination outside of the Azure Video Analyzer IoT Edge module. */
+/** Base class for topology sink nodes. */
 export interface SinkNodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
     | "#Microsoft.VideoAnalyzer.IotHubMessageSink"
     | "#Microsoft.VideoAnalyzer.FileSink"
-    | "#Microsoft.VideoAnalyzer.AssetSink"
     | "#Microsoft.VideoAnalyzer.VideoSink";
-  /** The name to be used for the topology sink. */
+  /** Node name. Must be unique within the topology. */
   name: string;
-  /** An array of the names of the other nodes in the pipeline topology, the outputs of which are used as input for this sink node. */
+  /** An array of upstream node references within the topology to be used as inputs for this node. */
   inputs: NodeInput[];
 }
 
@@ -229,19 +233,18 @@ export interface EndpointBase {
   "@type":
     | "#Microsoft.VideoAnalyzer.UnsecuredEndpoint"
     | "#Microsoft.VideoAnalyzer.TlsEndpoint";
-  /** Polymorphic credentials to be presented to the endpoint. */
+  /** Credentials to be presented to the endpoint. */
   credentials?: CredentialsBaseUnion;
-  /** Url for the endpoint. */
+  /** The endpoint URL for Video Analyzer to connect to. */
   url: string;
 }
 
-/** Credentials to present during authentication. */
+/** Base class for credential objects. */
 export interface CredentialsBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
     | "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials"
-    | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials"
-    | "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
+    | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials";
 }
 
 /** Base class for certificate sources. */
@@ -250,51 +253,51 @@ export interface CertificateSource {
   "@type": "#Microsoft.VideoAnalyzer.PemCertificateList";
 }
 
-/** Options for controlling the authentication of TLS endpoints. */
+/** Options for controlling the validation of TLS endpoints. */
 export interface TlsValidationOptions {
-  /** Boolean value ignoring the host name (common name) during validation. */
+  /** When set to 'true' causes the certificate subject name validation to be skipped. Default is 'false'. */
   ignoreHostname?: string;
-  /** Boolean value ignoring the integrity of the certificate chain at the current time. */
+  /** When set to 'true' causes the certificate chain trust validation to be skipped. Default is 'false'. */
   ignoreSignature?: string;
 }
 
-/** Properties which will be used only if a video is being created. */
+/** Optional video properties to be used in case a new video resource needs to be created on the service. These will not take effect if the video already exists. */
 export interface VideoCreationProperties {
-  /** An optional title for the video. */
+  /** Optional video title provided by the user. Value can be up to 256 characters long. */
   title?: string;
-  /** An optional description for the video. */
+  /** Optional video description provided by the user. Value can be up to 2048 characters long. */
   description?: string;
-  /** When writing media to video, wait until at least this duration of media has been accumulated on the Edge. Expressed in increments of 30 seconds, with a minimum of 30 seconds and a recommended maximum of 5 minutes. */
+  /** Video segment length indicates the length of individual video files (segments) which are persisted to storage. Smaller segments provide lower archive playback latency but generate larger volume of storage transactions. Larger segments reduce the amount of storage transactions while increasing the archive playback latency. Value must be specified in ISO8601 duration format (i.e. "PT30S" equals 30 seconds) and can vary between 30 seconds to 5 minutes, in 30 seconds increments. Changing this value after the video is initially created can lead to errors when uploading media to the archive. Default value is 30 seconds. */
   segmentLength?: string;
 }
 
-/** Describes the named line. */
+/** Base class for named lines. */
 export interface NamedLineBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.NamedLineString";
-  /** The name of the line. */
+  /** Line name. Must be unique within the node. */
   name: string;
 }
 
-/** Describes the properties of an image frame. */
+/** Image transformations and formatting options to be applied to the video frame(s). */
 export interface ImageProperties {
-  /** The scaling mode for the image. */
+  /** Image scaling mode. */
   scale?: ImageScale;
-  /** Encoding settings for an image. */
+  /** Base class for image formatting properties. */
   format?: ImageFormatPropertiesUnion;
 }
 
-/** The scaling mode for the image. */
+/** Image scaling mode. */
 export interface ImageScale {
-  /** Describes the modes for scaling an input video frame into an image, before it is sent to an inference engine. */
+  /** Describes the image scaling mode to be applied. Default mode is 'pad'. */
   mode?: ImageScaleMode;
-  /** The desired output width of the image. */
+  /** The desired output image width. */
   width?: string;
-  /** The desired output height of the image. */
+  /** The desired output image height. */
   height?: string;
 }
 
-/** Encoding settings for an image. */
+/** Base class for image formatting properties. */
 export interface ImageFormatProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
@@ -304,19 +307,19 @@ export interface ImageFormatProperties {
     | "#Microsoft.VideoAnalyzer.ImageFormatPng";
 }
 
-/** Describes the properties of a sample. */
+/** Defines how often media is submitted to the extension plugin. */
 export interface SamplingOptions {
-  /** If true, limits the samples submitted to the extension to only samples which have associated inference(s) */
+  /** When set to 'true', prevents frames without upstream inference data to be sent to the extension plugin. This is useful to limit the frames sent to the extension to pre-analyzed frames only. For example, when used downstream from a motion detector, this can enable for only frames in which motion has been detected to be further analyzed. */
   skipSamplesWithoutAnnotation?: string;
-  /** Maximum rate of samples submitted to the extension */
+  /** Maximum rate of samples submitted to the extension. This prevents an extension plugin to be overloaded with data. */
   maximumSamplesPerSecond?: string;
 }
 
-/** Describes how media should be transferred to the inference engine. */
+/** Describes how media is transferred to the extension plugin. */
 export interface GrpcExtensionDataTransfer {
-  /** The size of the buffer for all in-flight frames in mebibytes if mode is SharedMemory. Should not be specified otherwise. */
+  /** The share memory buffer for sample transfers, in mebibytes. It can only be used with the 'SharedMemory' transfer mode. */
   sharedMemorySizeMiB?: string;
-  /** How frame data should be transmitted to the inference engine. */
+  /** Data transfer mode: embedded or sharedMemory. */
   mode: GrpcExtensionDataTransferMode;
 }
 
@@ -324,11 +327,11 @@ export interface GrpcExtensionDataTransfer {
 export interface NamedPolygonBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.NamedPolygonString";
-  /** The name of the polygon. */
+  /** Polygon name. Must be unique within the node. */
   name: string;
 }
 
-/** Defines the Spatial Analysis operation to be used in the Cognitive Services Vision processor. */
+/** Base class for Azure Cognitive Services Spatial Analysis operations. */
 export interface SpatialAnalysisOperationBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
@@ -340,7 +343,7 @@ export interface SpatialAnalysisOperationBase {
     | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation";
 }
 
-/** Defines a Spatial Analysis operation eventing configuration */
+/** Defines the Azure Cognitive Services Spatial Analysis operation eventing configuration. */
 export interface SpatialAnalysisOperationEventBase {
   /** The event threshold. */
   threshold?: string;
@@ -376,7 +379,7 @@ export interface SpatialAnalysisPersonLineCrossingLineEvents {
   events?: SpatialAnalysisPersonLineCrossingEvent[];
 }
 
-/** Base Class for Method Requests. */
+/** Base class for direct method calls. */
 export interface MethodRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName:
@@ -384,7 +387,7 @@ export interface MethodRequest {
     | "PipelineTopologySetRequestBody"
     | "livePipelineSet"
     | "LivePipelineSetRequestBody"
-    | "ItemNonSetRequestBase"
+    | "MethodRequestEmptyBodyBase"
     | "pipelineTopologyList"
     | "pipelineTopologyGet"
     | "pipelineTopologyDelete"
@@ -393,63 +396,63 @@ export interface MethodRequest {
     | "livePipelineActivate"
     | "livePipelineDeactivate"
     | "livePipelineDelete";
-  /** api version */
+  /** Video Analyzer API version. */
   apiVersion?: "1.0";
 }
 
-/** Represents the livePipelineSet request body. */
+/** Live pipeline resource representation. */
 export type LivePipelineSetRequestBody = MethodRequest &
   LivePipeline & {
     /** Polymorphic discriminator, which specifies the different types this object can be */
     methodName: "LivePipelineSetRequestBody";
   };
 
-/** Represents the pipelineTopologySet request body. */
+/** Pipeline topology resource representation. */
 export type PipelineTopologySetRequestBody = MethodRequest &
   PipelineTopology & {
     /** Polymorphic discriminator, which specifies the different types this object can be */
     methodName: "PipelineTopologySetRequestBody";
   };
 
-/** Enables a pipeline topology to capture media from a RTSP server. */
+/** RTSP source allows for media from an RTSP camera or generic RTSP server to be ingested into a live pipeline. */
 export type RtspSource = SourceNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.RtspSource";
-  /** Underlying RTSP transport. This is used to enable or disable HTTP tunneling. */
+  /** Network transport utilized by the RTSP and RTP exchange: TCP or HTTP. When using TCP, the RTP packets are interleaved on the TCP RTSP connection. When using HTTP, the RTSP messages are exchanged through long lived HTTP connections, and the RTP packages are interleaved in the HTTP connections alongside the RTSP messages. */
   transport?: RtspTransport;
-  /** RTSP endpoint of the stream that is being connected to. */
+  /** RTSP endpoint information for Video Analyzer to connect to. This contains the required information for Video Analyzer to connect to RTSP cameras and/or generic RTSP servers. */
   endpoint: EndpointBaseUnion;
 };
 
-/** Enables a pipeline topology to receive messages via routes declared in the IoT Edge deployment manifest. */
+/** IoT Hub Message source allows for the pipeline to consume messages from the IoT Edge Hub. Messages can be routed from other IoT modules via routes declared in the IoT Edge deployment manifest. */
 export type IotHubMessageSource = SourceNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSource";
-  /** Name of the input path where messages can be routed to (via routes declared in the IoT Edge deployment manifest). */
+  /** Name of the IoT Edge Hub input from which messages will be consumed. */
   hubInputName?: string;
 };
 
-/** A node that accepts raw video as input, and detects if there are moving objects present. If so, then it emits an event, and allows frames where motion was detected to pass through. Other frames are blocked/dropped. */
+/** Motion detection processor allows for motion detection on the video stream. It generates motion events whenever motion is present on the video. */
 export type MotionDetectionProcessor = ProcessorNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.MotionDetectionProcessor";
-  /** Enumeration that specifies the sensitivity of the motion detection processor. */
+  /** Motion detection sensitivity: low, medium, high. */
   sensitivity?: MotionDetectionSensitivity;
-  /** Indicates whether the processor should detect and output the regions, within the video frame, where motion was detected. Default is true. */
+  /** Indicates whether the processor should detect and output the regions within the video frame where motion was detected. Default is true. */
   outputMotionRegion?: boolean;
-  /** Event aggregation window duration, or 0 for no aggregation. */
+  /** Time window duration on which events are aggregated before being emitted. Value must be specified in ISO8601 duration format (i.e. "PT2S" equals 2 seconds). Use 0 seconds for no aggregation. Default is 1 second. */
   eventAggregationWindow?: string;
 };
 
-/** A node that accepts raw video as input, and detects objects. */
+/** Object tracker processor allows for continuous tracking of one of more objects over a finite sequence of video frames. It must be used downstream of an object detector extension node, thus allowing for the extension to be configured to to perform inferences on sparse frames through the use of the 'maximumSamplesPerSecond' sampling property. The object tracker node will then track the detected objects over the frames in which the detector is not invoked resulting on a smother tracking of detected objects across the continuum of video frames. The tracker will stop tracking objects which are not subsequently detected by the upstream detector on the subsequent detections. */
 export type ObjectTrackingProcessor = ProcessorNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor";
-  /** Enumeration that controls the accuracy of the tracker. */
+  /** Object tracker accuracy: low, medium, high. Higher accuracy leads to higher CPU consumption in average. */
   accuracy?: ObjectTrackingAccuracy;
 };
 
-/** A node that accepts raw video as input, and detects when an object crosses a line. */
+/** Line crossing processor allows for the detection of tracked objects moving across one or more predefined lines. It must be downstream of an object tracker of downstream on an AI extension node that generates sequenceId for objects which are tracked across different frames of the video. Inference events are generated every time objects crosses from one side of the line to another. */
 export type LineCrossingProcessor = ProcessorNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.LineCrossingProcessor";
@@ -457,29 +460,29 @@ export type LineCrossingProcessor = ProcessorNodeBase & {
   lines: NamedLineBaseUnion[];
 };
 
-/** Processor that allows for extensions outside of the Azure Video Analyzer Edge module to be integrated into the pipeline topology. It is the base class for various different kinds of extension processor types. */
+/** Base class for pipeline extension processors. Pipeline extensions allow for custom media analysis and processing to be plugged into the Video Analyzer pipeline. */
 export type ExtensionProcessorBase = ProcessorNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ExtensionProcessorBase";
-  /** Endpoint to which this processor should connect. */
+  /** Endpoint details of the pipeline extension plugin. */
   endpoint: EndpointBaseUnion;
-  /** Describes the parameters of the image that is sent as input to the endpoint. */
+  /** Image transformations and formatting options to be applied to the video frame(s) prior submission to the pipeline extension plugin. */
   image: ImageProperties;
-  /** Describes the sampling options to be applied when forwarding samples to the extension. */
+  /** Media sampling parameters that define how often media is submitted to the extension plugin. */
   samplingOptions?: SamplingOptions;
 };
 
-/** A signal gate determines when to block (gate) incoming media, and when to allow it through. It gathers input events over the activationEvaluationWindow, and determines whether to open or close the gate. */
+/** A signal gate determines when to block (gate) incoming media, and when to allow it through. It gathers input events over the activationEvaluationWindow, and determines whether to open or close the gate. See https://aka.ms/ava-signalgate for more information. */
 export type SignalGateProcessor = ProcessorNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.SignalGateProcessor";
   /** The period of time over which the gate gathers input events before evaluating them. */
   activationEvaluationWindow?: string;
-  /** Signal offset once the gate is activated (can be negative). It is an offset between the time the event is received, and the timestamp of the first media sample (eg. video frame) that is allowed through by the gate. */
+  /** Signal offset once the gate is activated (can be negative). It determines the how much farther behind of after the signal will be let through based on the activation time. A negative offset indicates that data prior the activation time must be included on the signal that is let through, once the gate is activated. When used upstream of a file or video sink, this allows for scenarios such as recording buffered media prior an event, such as: record video 5 seconds prior motions is detected. */
   activationSignalOffset?: string;
-  /** The minimum period for which the gate remains open in the absence of subsequent triggers (events). */
+  /** The minimum period for which the gate remains open in the absence of subsequent triggers (events). When used upstream of a file or video sink, it determines the minimum length of the recorded video clip. */
   minimumActivationTime?: string;
-  /** The maximum period for which the gate remains open in the presence of subsequent events. */
+  /** The maximum period for which the gate remains open in the presence of subsequent triggers (events). When used upstream of a file or video sink, it determines the maximum length of the recorded video clip. */
   maximumActivationTime?: string;
 };
 
@@ -497,173 +500,151 @@ export type CognitiveServicesVisionProcessor = ProcessorNodeBase & {
   operation: SpatialAnalysisOperationBaseUnion;
 };
 
-/** Enables a pipeline topology to publish messages that can be delivered via routes declared in the IoT Edge deployment manifest. */
+/** IoT Hub Message sink allows for pipeline messages to published into the IoT Edge Hub. Published messages can then be delivered to the cloud and other modules via routes declared in the IoT Edge deployment manifest. */
 export type IotHubMessageSink = SinkNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink";
-  /** Name of the output path to which the pipeline topology will publish message. These messages can then be delivered to desired destinations by declaring routes referencing the output path in the IoT Edge deployment manifest. */
+  /** Name of the Iot Edge Hub output to which the messages will be published. */
   hubOutputName: string;
 };
 
-/** Enables a topology to write/store media (video and audio) to a file on the Edge device. */
+/** File sink allows for video and audio content to be recorded on the file system on the edge device. */
 export type FileSink = SinkNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.FileSink";
-  /** Absolute directory for all outputs to the Edge device from this sink. */
+  /** Absolute directory path where media files will be stored. */
   baseDirectoryPath: string;
-  /** File name pattern for creating new files on the Edge device. The pattern must include at least one system variable. See the documentation for available variables and additional examples. */
+  /** File name pattern for creating new files when performing event based recording. The pattern must include at least one system variable. */
   fileNamePattern: string;
-  /** Maximum amount of disk space that can be used for storing files from this sink. */
+  /** Maximum amount of disk space that can be used for storing files from this sink. Once this limit is reached, the oldest files from this sink will be automatically deleted. */
   maximumSizeMiB: string;
 };
 
-/** Enables a pipeline topology to record media to an Azure Media Services asset for subsequent playback. */
-export type AssetSink = SinkNodeBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.VideoAnalyzer.AssetSink";
-  /** An Azure Storage SAS Url which points to container, such as the one created for an Azure Media Services asset. */
-  assetContainerSasUrl: string;
-  /** When writing media to an asset, wait until at least this duration of media has been accumulated on the Edge. Expressed in increments of 30 seconds, with a minimum of 30 seconds and a recommended maximum of 5 minutes. */
-  segmentLength?: string;
-  /** Path to a local file system directory for temporary caching of media before writing to an Asset. Used when the Edge device is temporarily disconnected from Azure. */
-  localMediaCachePath: string;
-  /** Maximum amount of disk space that can be used for temporary caching of media. */
-  localMediaCacheMaximumSizeMiB: string;
-};
-
-/** Enables a pipeline topology to record media to an Azure Video Analyzer video for subsequent playback. */
+/** Video sink allows for video and audio to be recorded to the Video Analyzer service. The recorded video can be played from anywhere and further managed from the cloud. Due to security reasons, a given Video Analyzer edge module instance can only record content to new video entries, or existing video entries previously recorded by the same module. Any attempt to record content to an existing video which has not been created by the same module instance will result in failure to record. */
 export type VideoSink = SinkNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.VideoSink";
-  /** Name of a new or existing Video Analyzer video entity to use as media output. */
+  /** Name of a new or existing Video Analyzer video resource used for the media recording. */
   videoName: string;
-  /** Optional properties which will be used only if a video is being created. */
+  /** Optional video properties to be used in case a new video resource needs to be created on the service. */
   videoCreationProperties?: VideoCreationProperties;
-  /** Path to a local file system directory for temporary caching of media before writing to a video. This local cache will grow if the connection to Azure is not stable. */
+  /** Path to a local file system directory for caching of temporary media files. This will also be used to store content which cannot be immediately uploaded to Azure due to Internet connectivity issues. */
   localMediaCachePath: string;
-  /** Maximum amount of disk space that can be used for temporary caching of media. */
+  /** Maximum amount of disk space that can be used for caching of temporary media files. Once this limit is reached, the oldest segments of the media archive will be continuously deleted in order to make space for new media, thus leading to gaps in the cloud recorded content. */
   localMediaCacheMaximumSizeMiB: string;
 };
 
-/** An endpoint that the pipeline topology can connect to, with no encryption in transit. */
+/** Unsecured endpoint describes an endpoint that the pipeline can connect to over clear transport (no encryption in transit). */
 export type UnsecuredEndpoint = EndpointBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint";
 };
 
-/** A TLS endpoint for pipeline topology external connections. */
+/** TLS endpoint describes an endpoint that the pipeline can connect to over TLS transport (data is encrypted in transit). */
 export type TlsEndpoint = EndpointBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.TlsEndpoint";
-  /** Trusted certificates when authenticating a TLS connection. Null designates that Azure Media Service's source of trust should be used. */
+  /** List of trusted certificate authorities when authenticating a TLS connection. A null list designates that Azure Video Analyzer's list of trusted authorities should be used. */
   trustedCertificates?: CertificateSourceUnion;
   /** Validation options to use when authenticating a TLS connection. By default, strict validation is used. */
   validationOptions?: TlsValidationOptions;
 };
 
-/** Username/password credential pair. */
+/** Username and password credentials. */
 export type UsernamePasswordCredentials = CredentialsBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials";
-  /** Username for a username/password pair. */
+  /** Username to be presented as part of the credentials. */
   username: string;
-  /** Password for a username/password pair. Please use a parameter so that the actual value is not returned on PUT or GET requests. */
+  /** Password to be presented as part of the credentials. It is recommended that this value is parameterized as a secret string in order to prevent this value to be returned as part of the resource on API requests. */
   password: string;
 };
 
-/** Http header service credentials. */
+/** HTTP header credentials. */
 export type HttpHeaderCredentials = CredentialsBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.HttpHeaderCredentials";
   /** HTTP header name. */
   headerName: string;
-  /** HTTP header value. Please use a parameter so that the actual value is not returned on PUT or GET requests. */
+  /** HTTP header value. It is recommended that this value is parameterized as a secret string in order to prevent this value to be returned as part of the resource on API requests. */
   headerValue: string;
-};
-
-/** Symmetric key credential. */
-export type SymmetricKeyCredentials = CredentialsBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
-  /** Symmetric key credential. */
-  key: string;
 };
 
 /** A list of PEM formatted certificates. */
 export type PemCertificateList = CertificateSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.PemCertificateList";
-  /** PEM formatted public certificates one per entry. */
+  /** PEM formatted public certificates. One certificate per entry. */
   certificates: string[];
 };
 
-/** Describes the start point and end point of a line in the frame. */
+/** Describes a line configuration. */
 export type NamedLineString = NamedLineBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.NamedLineString";
-  /** Sets the properties of the line. */
+  /** Point coordinates for the line start and end, respectively. Example: '[[0.3, 0.2],[0.9, 0.8]]'. Each point is expressed as [LEFT, TOP] coordinate ratios ranging from 0.0 to 1.0, where [0,0] is the upper-left frame corner and [1, 1] is the bottom-right frame corner. */
   line: string;
 };
 
-/** Encoding settings for raw images. */
+/** Raw image formatting. */
 export type ImageFormatRaw = ImageFormatProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ImageFormatRaw";
-  /** The pixel format that will be used to encode images. */
+  /** Pixel format to be applied to the raw image. */
   pixelFormat: ImageFormatRawPixelFormat;
 };
 
-/** Encoding settings for Jpeg images. */
+/** JPEG image encoding. */
 export type ImageFormatJpeg = ImageFormatProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ImageFormatJpeg";
-  /** The image quality. Value must be between 0 to 100 (best quality). */
+  /** Image quality value between 0 to 100 (best quality). */
   quality?: string;
 };
 
-/** Encoding settings for Bmp images. */
+/** BMP image encoding. */
 export type ImageFormatBmp = ImageFormatProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ImageFormatBmp";
 };
 
-/** Encoding settings for Png images. */
+/** PNG image encoding. */
 export type ImageFormatPng = ImageFormatProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ImageFormatPng";
 };
 
-/** Describes a closed polygon in the frame. */
+/** Describes a closed polygon configuration. */
 export type NamedPolygonString = NamedPolygonBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.NamedPolygonString";
-  /** Sets the properties of the polygon. */
+  /** Point coordinates for the polygon. Example: '[[0.3, 0.2],[0.9, 0.8],[0.7, 0.6]]'. Each point is expressed as [LEFT, TOP] coordinate ratios ranging from 0.0 to 1.0, where [0,0] is the upper-left frame corner and [1, 1] is the bottom-right frame corner. */
   polygon: string;
 };
 
-/** Defines a custom Spatial Analysis operation to be used in the Cognitive Services Vision processor. */
+/** Defines a Spatial Analysis custom operation. This requires the Azure Cognitive Services Spatial analysis module to be deployed alongside the Video Analyzer module, please see https://aka.ms/ava-spatial-analysis for more information. */
 export type SpatialAnalysisCustomOperation = SpatialAnalysisOperationBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisCustomOperation";
-  /** Custom configuration to pass to the Cognitive Services Vision processor. */
+  /** Custom configuration to pass to the Azure Cognitive Services Spatial Analysis module. */
   extensionConfiguration: string;
 };
 
-/** Defines a typed Spatial Analysis operation to be used in the Cognitive Services Vision processor. */
+/** Base class for Azure Cognitive Services Spatial Analysis typed operations. */
 export type SpatialAnalysisTypedOperationBase = SpatialAnalysisOperationBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "SpatialAnalysisTypedOperationBase";
-  /** Enables debugging for the Spatial Analysis operation. */
+  /** If set to 'true', enables debugging mode for this operation. */
   debug?: string;
   /** Advanced camera configuration. */
   cameraConfiguration?: string;
   /** Advanced detector node configuration. */
   detectorNodeConfiguration?: string;
-  /** Enables face mask detection. */
+  /** If set to 'true', enables face mask detection for this operation. */
   enableFaceMaskClassifier?: string;
 };
 
-/** Defines a Spatial Analysis Person Count operation eventing configuration */
+/** Defines a Spatial Analysis person count operation eventing configuration. */
 export type SpatialAnalysisPersonCountEvent = SpatialAnalysisOperationEventBase & {
   /** The event trigger type. */
   trigger?: SpatialAnalysisPersonCountEventTrigger;
@@ -671,13 +652,13 @@ export type SpatialAnalysisPersonCountEvent = SpatialAnalysisOperationEventBase 
   outputFrequency?: string;
 };
 
-/** Defines a Spatial Analysis Person Crossing Zone operation eventing configuration */
+/** Defines a Spatial Analysis person crossing zone operation eventing configuration. */
 export type SpatialAnalysisPersonZoneCrossingEvent = SpatialAnalysisOperationEventBase & {
   /** The event type. */
   eventType?: SpatialAnalysisPersonZoneCrossingEventType;
 };
 
-/** Defines a Spatial Analysis Person Distance operation eventing configuration */
+/** Defines a Spatial Analysis person distance operation eventing configuration. */
 export type SpatialAnalysisPersonDistanceEvent = SpatialAnalysisOperationEventBase & {
   /** The event trigger type. */
   trigger?: SpatialAnalysisPersonDistanceEventTrigger;
@@ -689,61 +670,68 @@ export type SpatialAnalysisPersonDistanceEvent = SpatialAnalysisOperationEventBa
   maximumDistanceThreshold?: string;
 };
 
-/** Defines a Spatial Analysis Person Line Crossing operation eventing configuration */
+/** Defines a Spatial Analysis person line crossing operation eventing configuration. */
 export type SpatialAnalysisPersonLineCrossingEvent = SpatialAnalysisOperationEventBase & {};
 
-/** Represents the pipelineTopologySet request. */
+/** Creates a new pipeline topology or updates an existing one. */
 export type PipelineTopologySetRequest = MethodRequest & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName: "pipelineTopologySet";
-  /** The definition of a pipeline topology. */
+  /**
+   * Pipeline topology describes the processing steps to be applied when processing media for a particular outcome. The topology should be defined according to the scenario to be achieved and can be reused across many pipeline instances which share the same processing characteristics. For instance, a pipeline topology which acquires data from a RTSP camera, process it with an specific AI model and stored the data on the cloud can be reused across many different cameras, as long as the same processing should be applied across all the cameras. Individual instance properties can be defined through the use of user-defined parameters, which allow for a topology to be parameterized, thus allowing individual pipelines to refer to different values, such as individual cameras RTSP endpoints and credentials. Overall a topology is composed of the following:
+   *
+   *   - Parameters: list of user defined parameters that can be references across the topology nodes.
+   *   - Sources: list of one or more data sources nodes such as an RTSP source which allows for media to be ingested from cameras.
+   *   - Processors: list of nodes which perform data analysis or transformations.
+   *   -Sinks: list of one or more data sinks which allow for data to be stored or exported to other destinations.
+   */
   pipelineTopology: PipelineTopology;
 };
 
-/** Represents the livePipelineSet request. */
+/** Creates a new live pipeline or updates an existing one. */
 export type LivePipelineSetRequest = MethodRequest & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName: "livePipelineSet";
-  /** Represents a unique live pipeline. */
+  /** Live Pipeline represents an unique instance of a pipeline topology which is used for real-time content ingestion and analysis. */
   livePipeline: LivePipeline;
 };
 
-export type ItemNonSetRequestBase = MethodRequest & {
+export type MethodRequestEmptyBodyBase = MethodRequest & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "ItemNonSetRequestBase";
-  /** method name */
+  methodName: "MethodRequestEmptyBodyBase";
+  /** Resource name. */
   name: string;
 };
 
-/** Represents the pipelineTopologyList request. */
+/** List all existing pipeline topologies. */
 export type PipelineTopologyListRequest = MethodRequest & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName: "pipelineTopologyList";
 };
 
-/** Represents the livePipelineList request. */
+/** List all existing live pipelines. */
 export type LivePipelineListRequest = MethodRequest & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName: "livePipelineList";
 };
 
-/** A processor that allows the pipeline topology to send video frames to an external inference container over a gRPC connection. This can be done using shared memory (for high frame rates), or over the network. Inference results are relayed to downstream nodes. */
+/** GRPC extension processor allows pipeline extension plugins to be connected to the pipeline through over a gRPC channel. Extension plugins must act as an gRPC server. Please see https://aka.ms/ava-extension-grpc for details. */
 export type GrpcExtension = ExtensionProcessorBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.GrpcExtension";
-  /** How media should be transferred to the inference engine. */
+  /** Specifies how media is transferred to the extension plugin. */
   dataTransfer: GrpcExtensionDataTransfer;
-  /** Optional configuration to pass to the gRPC extension. */
+  /** An optional configuration string that is sent to the extension plugin. The configuration string is specific to each custom extension and it not understood neither validated by Video Analyzer. Please see https://aka.ms/ava-extension-grpc for details. */
   extensionConfiguration?: string;
 };
 
-/** A processor that allows the pipeline topology to send video frames (mostly at low frame rates e.g. <5 fps) to an external inference container over an HTTP-based RESTful API. Inference results are relayed to downstream nodes. */
+/** HTTP extension processor allows pipeline extension plugins to be connected to the pipeline through over the HTTP protocol. Extension plugins must act as an HTTP server. Please see https://aka.ms/ava-extension-http for details. */
 export type HttpExtension = ExtensionProcessorBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.HttpExtension";
 };
 
-/** Defines a Spatial Analysis Person Count operation to be used in the Cognitive Services Vision processor. */
+/** Defines a Spatial Analysis person count operation. This requires the Azure Cognitive Services Spatial analysis module to be deployed alongside the Video Analyzer module, please see https://aka.ms/ava-spatial-analysis for more information. */
 export type SpatialAnalysisPersonCountOperation = SpatialAnalysisTypedOperationBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation";
@@ -751,7 +739,7 @@ export type SpatialAnalysisPersonCountOperation = SpatialAnalysisTypedOperationB
   zones: SpatialAnalysisPersonCountZoneEvents[];
 };
 
-/** Defines a Spatial Analysis Person Zone Crossing operation to be used in the Cognitive Services Vision processor. */
+/** Defines a Spatial Analysis person zone crossing operation. This requires the Azure Cognitive Services Spatial analysis module to be deployed alongside the Video Analyzer module, please see https://aka.ms/ava-spatial-analysis for more information. */
 export type SpatialAnalysisPersonZoneCrossingOperation = SpatialAnalysisTypedOperationBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation";
@@ -759,7 +747,7 @@ export type SpatialAnalysisPersonZoneCrossingOperation = SpatialAnalysisTypedOpe
   zones: SpatialAnalysisPersonZoneCrossingZoneEvents[];
 };
 
-/** Defines a Spatial Analysis Person Distance operation to be used in the Cognitive Services Vision processor. */
+/** Defines a Spatial Analysis person distance operation. This requires the Azure Cognitive Services Spatial analysis module to be deployed alongside the Video Analyzer module, please see https://aka.ms/ava-spatial-analysis for more information. */
 export type SpatialAnalysisPersonDistanceOperation = SpatialAnalysisTypedOperationBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation";
@@ -767,7 +755,7 @@ export type SpatialAnalysisPersonDistanceOperation = SpatialAnalysisTypedOperati
   zones: SpatialAnalysisPersonDistanceZoneEvents[];
 };
 
-/** Defines a Spatial Analysis Person Line Crossing operation to be used in the Cognitive Services Vision processor. */
+/** Defines a Spatial Analysis person line crossing operation. This requires the Azure Cognitive Services Spatial analysis module to be deployed alongside the Video Analyzer module, please see https://aka.ms/ava-spatial-analysis for more information. */
 export type SpatialAnalysisPersonLineCrossingOperation = SpatialAnalysisTypedOperationBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation";
@@ -775,38 +763,38 @@ export type SpatialAnalysisPersonLineCrossingOperation = SpatialAnalysisTypedOpe
   lines: SpatialAnalysisPersonLineCrossingLineEvents[];
 };
 
-/** Represents the pipelineTopologyGet request. */
-export type PipelineTopologyGetRequest = ItemNonSetRequestBase & {
+/** Retrieves an existing pipeline topology. */
+export type PipelineTopologyGetRequest = MethodRequestEmptyBodyBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName: "pipelineTopologyGet";
 };
 
-/** Represents the pipelineTopologyDelete request. */
-export type PipelineTopologyDeleteRequest = ItemNonSetRequestBase & {
+/** Deletes an existing pipeline topology. */
+export type PipelineTopologyDeleteRequest = MethodRequestEmptyBodyBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName: "pipelineTopologyDelete";
 };
 
-/** Represents the livePipelineGet request. */
-export type LivePipelineGetRequest = ItemNonSetRequestBase & {
+/** Retrieves an existing live pipeline. */
+export type LivePipelineGetRequest = MethodRequestEmptyBodyBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName: "livePipelineGet";
 };
 
-/** Represents the livePipelineActivate request. */
-export type LivePipelineActivateRequest = ItemNonSetRequestBase & {
+/** Activates an existing live pipeline. */
+export type LivePipelineActivateRequest = MethodRequestEmptyBodyBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName: "livePipelineActivate";
 };
 
-/** Represents the livePipelineDeactivate request. */
-export type LivePipelineDeactivateRequest = ItemNonSetRequestBase & {
+/** Deactivates an existing live pipeline. */
+export type LivePipelineDeactivateRequest = MethodRequestEmptyBodyBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName: "livePipelineDeactivate";
 };
 
-/** Represents the livePipelineDelete request. */
-export type LivePipelineDeleteRequest = ItemNonSetRequestBase & {
+/** Deletes an existing live pipeline. */
+export type LivePipelineDeleteRequest = MethodRequestEmptyBodyBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName: "livePipelineDelete";
 };
@@ -817,7 +805,7 @@ export const enum KnownLivePipelineState {
   Inactive = "inactive",
   /** The live pipeline is transitioning into the active state. */
   Activating = "activating",
-  /** The live pipeline is active and processing media. */
+  /** The live pipeline is active and able to process media. If your data source is not available, for instance, if your RTSP camera is powered off or unreachable, the pipeline will still be active and periodically retrying the connection. Your Azure subscription will be billed for the duration in which the live pipeline is in the active state. */
   Active = "active",
   /** The live pipeline is transitioning into the inactive state. */
   Deactivating = "deactivating"
@@ -830,22 +818,22 @@ export const enum KnownLivePipelineState {
  * ### Know values supported by the service
  * **inactive**: The live pipeline is idle and not processing media. \
  * **activating**: The live pipeline is transitioning into the active state. \
- * **active**: The live pipeline is active and processing media. \
+ * **active**: The live pipeline is active and able to process media. If your data source is not available, for instance, if your RTSP camera is powered off or unreachable, the pipeline will still be active and periodically retrying the connection. Your Azure subscription will be billed for the duration in which the live pipeline is in the active state. \
  * **deactivating**: The live pipeline is transitioning into the inactive state.
  */
 export type LivePipelineState = string;
 
 /** Known values of {@link ParameterType} that the service accepts. */
 export const enum KnownParameterType {
-  /** A string parameter value. */
+  /** The parameter's value is a string. */
   String = "string",
-  /** A string to hold sensitive information as parameter value. */
+  /** The parameter's value is a string that holds sensitive information. */
   SecretString = "secretString",
-  /** A 32-bit signed integer as parameter value. */
+  /** The parameter's value is a 32-bit signed integer. */
   Int = "int",
-  /** A 64-bit double-precision floating point type as parameter value. */
+  /** The parameter's value is a 64-bit double-precision floating point. */
   Double = "double",
-  /** A boolean value that is either true or false. */
+  /** The parameter's value is a boolean value that is either true or false. */
   Bool = "bool"
 }
 
@@ -854,17 +842,17 @@ export const enum KnownParameterType {
  * {@link KnownParameterType} can be used interchangeably with ParameterType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **string**: A string parameter value. \
- * **secretString**: A string to hold sensitive information as parameter value. \
- * **int**: A 32-bit signed integer as parameter value. \
- * **double**: A 64-bit double-precision floating point type as parameter value. \
- * **bool**: A boolean value that is either true or false.
+ * **string**: The parameter's value is a string. \
+ * **secretString**: The parameter's value is a string that holds sensitive information. \
+ * **int**: The parameter's value is a 32-bit signed integer. \
+ * **double**: The parameter's value is a 64-bit double-precision floating point. \
+ * **bool**: The parameter's value is a boolean value that is either true or false.
  */
 export type ParameterType = string;
 
 /** Known values of {@link OutputSelectorProperty} that the service accepts. */
 export const enum KnownOutputSelectorProperty {
-  /** The stream's MIME type or subtype. */
+  /** The stream's MIME type or subtype: audio, video or application */
   MediaType = "mediaType"
 }
 
@@ -873,15 +861,15 @@ export const enum KnownOutputSelectorProperty {
  * {@link KnownOutputSelectorProperty} can be used interchangeably with OutputSelectorProperty,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **mediaType**: The stream's MIME type or subtype.
+ * **mediaType**: The stream's MIME type or subtype: audio, video or application
  */
 export type OutputSelectorProperty = string;
 
 /** Known values of {@link OutputSelectorOperator} that the service accepts. */
 export const enum KnownOutputSelectorOperator {
-  /** A media type is the same type or a subtype. */
+  /** The property is of the type defined by value. */
   Is = "is",
-  /** A media type is not the same type or a subtype. */
+  /** The property is not of the type defined by value. */
   IsNot = "isNot"
 }
 
@@ -890,16 +878,16 @@ export const enum KnownOutputSelectorOperator {
  * {@link KnownOutputSelectorOperator} can be used interchangeably with OutputSelectorOperator,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **is**: A media type is the same type or a subtype. \
- * **isNot**: A media type is not the same type or a subtype.
+ * **is**: The property is of the type defined by value. \
+ * **isNot**: The property is not of the type defined by value.
  */
 export type OutputSelectorOperator = string;
 
 /** Known values of {@link RtspTransport} that the service accepts. */
 export const enum KnownRtspTransport {
-  /** HTTP/HTTPS transport. This should be used when HTTP tunneling is desired. */
+  /** HTTP transport. RTSP messages are exchanged over long running HTTP requests and RTP packets are interleaved within the HTTP channel. */
   Http = "http",
-  /** TCP transport. This should be used when HTTP tunneling is NOT desired. */
+  /** TCP transport. RTSP is used directly over TCP and RTP packets are interleaved within the TCP channel. */
   Tcp = "tcp"
 }
 
@@ -908,18 +896,18 @@ export const enum KnownRtspTransport {
  * {@link KnownRtspTransport} can be used interchangeably with RtspTransport,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **http**: HTTP\/HTTPS transport. This should be used when HTTP tunneling is desired. \
- * **tcp**: TCP transport. This should be used when HTTP tunneling is NOT desired.
+ * **http**: HTTP transport. RTSP messages are exchanged over long running HTTP requests and RTP packets are interleaved within the HTTP channel. \
+ * **tcp**: TCP transport. RTSP is used directly over TCP and RTP packets are interleaved within the TCP channel.
  */
 export type RtspTransport = string;
 
 /** Known values of {@link MotionDetectionSensitivity} that the service accepts. */
 export const enum KnownMotionDetectionSensitivity {
-  /** Low Sensitivity. */
+  /** Low sensitivity. */
   Low = "low",
-  /** Medium Sensitivity. */
+  /** Medium sensitivity. */
   Medium = "medium",
-  /** High Sensitivity. */
+  /** High sensitivity. */
   High = "high"
 }
 
@@ -928,19 +916,19 @@ export const enum KnownMotionDetectionSensitivity {
  * {@link KnownMotionDetectionSensitivity} can be used interchangeably with MotionDetectionSensitivity,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **low**: Low Sensitivity. \
- * **medium**: Medium Sensitivity. \
- * **high**: High Sensitivity.
+ * **low**: Low sensitivity. \
+ * **medium**: Medium sensitivity. \
+ * **high**: High sensitivity.
  */
 export type MotionDetectionSensitivity = string;
 
 /** Known values of {@link ObjectTrackingAccuracy} that the service accepts. */
 export const enum KnownObjectTrackingAccuracy {
-  /** Low Accuracy. */
+  /** Low accuracy. */
   Low = "low",
-  /** Medium Accuracy. */
+  /** Medium accuracy. */
   Medium = "medium",
-  /** High Accuracy. */
+  /** High accuracy. */
   High = "high"
 }
 
@@ -949,19 +937,19 @@ export const enum KnownObjectTrackingAccuracy {
  * {@link KnownObjectTrackingAccuracy} can be used interchangeably with ObjectTrackingAccuracy,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **low**: Low Accuracy. \
- * **medium**: Medium Accuracy. \
- * **high**: High Accuracy.
+ * **low**: Low accuracy. \
+ * **medium**: Medium accuracy. \
+ * **high**: High accuracy.
  */
 export type ObjectTrackingAccuracy = string;
 
 /** Known values of {@link ImageScaleMode} that the service accepts. */
 export const enum KnownImageScaleMode {
-  /** Use the same aspect ratio as the input frame. */
+  /** Preserves the same aspect ratio as the input image. If only one image dimension is provided, the second dimension is calculated based on the input image aspect ratio. When 2 dimensions are provided, the image is resized to fit the most constraining dimension, considering the input image size and aspect ratio. */
   PreserveAspectRatio = "preserveAspectRatio",
-  /** Center pad the input frame to match the given dimensions. */
+  /** Pads the image with black horizontal stripes (letterbox) or black vertical stripes (pillar-box) so the image is resized to the specified dimensions while not altering the content aspect ratio. */
   Pad = "pad",
-  /** Stretch input frame to match given dimensions. */
+  /** Stretches the original image so it resized to the specified dimensions. */
   Stretch = "stretch"
 }
 
@@ -970,17 +958,17 @@ export const enum KnownImageScaleMode {
  * {@link KnownImageScaleMode} can be used interchangeably with ImageScaleMode,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **preserveAspectRatio**: Use the same aspect ratio as the input frame. \
- * **pad**: Center pad the input frame to match the given dimensions. \
- * **stretch**: Stretch input frame to match given dimensions.
+ * **preserveAspectRatio**: Preserves the same aspect ratio as the input image. If only one image dimension is provided, the second dimension is calculated based on the input image aspect ratio. When 2 dimensions are provided, the image is resized to fit the most constraining dimension, considering the input image size and aspect ratio. \
+ * **pad**: Pads the image with black horizontal stripes (letterbox) or black vertical stripes (pillar-box) so the image is resized to the specified dimensions while not altering the content aspect ratio. \
+ * **stretch**: Stretches the original image so it resized to the specified dimensions.
  */
 export type ImageScaleMode = string;
 
 /** Known values of {@link GrpcExtensionDataTransferMode} that the service accepts. */
 export const enum KnownGrpcExtensionDataTransferMode {
-  /** Frames are transferred embedded into the gRPC messages. */
+  /** Media samples are embedded into the gRPC messages. This mode is less efficient but it requires a simpler implementations and can be used with plugins which are not on the same node as the Video Analyzer module. */
   Embedded = "embedded",
-  /** Frames are transferred through shared memory. */
+  /** Media samples are made available through shared memory. This mode enables efficient data transfers but it requires that the extension plugin to be co-located on the same node and sharing the same shared memory space. */
   SharedMemory = "sharedMemory"
 }
 
@@ -989,8 +977,8 @@ export const enum KnownGrpcExtensionDataTransferMode {
  * {@link KnownGrpcExtensionDataTransferMode} can be used interchangeably with GrpcExtensionDataTransferMode,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **embedded**: Frames are transferred embedded into the gRPC messages. \
- * **sharedMemory**: Frames are transferred through shared memory.
+ * **embedded**: Media samples are embedded into the gRPC messages. This mode is less efficient but it requires a simpler implementations and can be used with plugins which are not on the same node as the Video Analyzer module. \
+ * **sharedMemory**: Media samples are made available through shared memory. This mode enables efficient data transfers but it requires that the extension plugin to be co-located on the same node and sharing the same shared memory space.
  */
 export type GrpcExtensionDataTransferMode = string;
 
