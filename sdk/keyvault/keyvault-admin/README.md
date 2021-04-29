@@ -205,22 +205,8 @@ The methods that begin long running operations return a poller that allows you t
 
 We have samples both in JavaScript and TypeScript that show the access control and backup/restore features in this package. Please follow the corresponding readmes for detailed steps to run the samples.
 
-- [Readme for JavaScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/README.md)
-- [Readme for TypeScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/README.md)
-
-Direct links to the specific JavaScript samples follow:
-
-- Access control (RBAC):
-  - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Creating a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Getting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Deleting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-- Backup and restore:
-  - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
-  - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
-  - [Performing a selective key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
-  - [Performing a selective key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
+- [Readme for JavaScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/javascript/README.md)
+- [Readme for TypeScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/typescript/README.md)
 
 ## Troubleshooting
 
