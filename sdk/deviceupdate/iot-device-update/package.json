@@ -68,7 +68,7 @@
     "node": ">=8.0.0"
   },
   "//sampleConfiguration": {
-    "productName": "Azure Text Analytics",
+    "productName": "Azure IoT Hub Device Update",
     "productSlugs": [
       "azure",
       "azure-iot"
