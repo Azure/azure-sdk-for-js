@@ -7,15 +7,6 @@
 import * as coreHttp from '@azure/core-http';
 
 // @public
-export type AssetSink = Sink & {
-    "@type": "#Microsoft.VideoAnalyzer.AssetSink";
-    assetContainerSasUrl: string;
-    segmentLength?: string;
-    localMediaCachePath: string;
-    localMediaCacheMaximumSizeMiB: string;
-};
-
-// @public
 export interface CertificateSource {
     "@type": "#Microsoft.VideoAnalyzer.PemCertificateList";
 }
@@ -24,74 +15,77 @@ export interface CertificateSource {
 export type CertificateSourceUnion = CertificateSource | PemCertificateList;
 
 // @public
-export type CognitiveServicesVisionExtension = ExtensionProcessorBase & {
-    "@type": "#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension";
-    extensionConfiguration?: string;
+export type CognitiveServicesVisionProcessor = ProcessorNodeBase & {
+    "@type": "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor";
+    endpoint: EndpointBaseUnion;
+    image?: ImageProperties;
+    samplingOptions?: SamplingOptions;
+    operation: SpatialAnalysisOperationBaseUnion;
 };
 
 // @public (undocumented)
 export function createRequest(request: "pipelineTopologySet", payload: PipelineTopology): Request<PipelineTopology>;
 
-// Warning: (ae-forgotten-export) The symbol "NamePayload" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "NameObject" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export function createRequest(request: "pipelineTopologyGet", payload: string): Request<NamePayload>;
+export function createRequest(request: "pipelineTopologyGet", payload: string): Request<NameObject>;
 
 // @public (undocumented)
 export function createRequest(request: "pipelineTopologyList"): Request<{}>;
 
 // @public (undocumented)
-export function createRequest(request: "pipelineTopologyDelete", payload: string): Request<NamePayload>;
+export function createRequest(request: "pipelineTopologyDelete", payload: string): Request<NameObject>;
 
 // @public (undocumented)
 export function createRequest(request: "livePipelineSet", payload: LivePipeline): Request<LivePipeline>;
 
 // @public (undocumented)
-export function createRequest(request: "livePipelineGet", payload: string): Request<NamePayload>;
+export function createRequest(request: "livePipelineGet", payload: string): Request<NameObject>;
 
 // @public (undocumented)
 export function createRequest(request: "livePipelineList"): Request<{}>;
 
 // @public (undocumented)
-export function createRequest(request: "livePipelineDelete", payload: string): Request<NamePayload>;
+export function createRequest(request: "livePipelineDelete", payload: string): Request<NameObject>;
 
 // @public (undocumented)
-export function createRequest(request: "livePipelineActivate", payload: string): Request<NamePayload>;
+export function createRequest(request: "livePipelineActivate", payload: string): Request<NameObject>;
 
 // @public (undocumented)
-export function createRequest(request: "livePipelineDeactivate", payload: string): Request<NamePayload>;
+export function createRequest(request: "livePipelineDeactivate", payload: string): Request<NameObject>;
 
 // @public
-export interface Credentials {
-    "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials" | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials" | "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
+export interface CredentialsBase {
+    "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials" | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials";
 }
 
 // @public (undocumented)
-export type CredentialsUnion = Credentials | UsernamePasswordCredentials | HttpHeaderCredentials | SymmetricKeyCredentials;
+export type CredentialsBaseUnion = CredentialsBase | UsernamePasswordCredentials | HttpHeaderCredentials;
 
 // @public
-export interface Endpoint {
+export interface EndpointBase {
     "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint" | "#Microsoft.VideoAnalyzer.TlsEndpoint";
-    credentials?: CredentialsUnion;
+    credentials?: CredentialsBaseUnion;
     url: string;
 }
 
 // @public (undocumented)
-export type EndpointUnion = Endpoint | UnsecuredEndpoint | TlsEndpoint;
+export type EndpointBaseUnion = EndpointBase | UnsecuredEndpoint | TlsEndpoint;
 
 // @public
-export type ExtensionProcessorBase = Processor & {
+export type ExtensionProcessorBase = ProcessorNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.ExtensionProcessorBase";
-    endpoint: EndpointUnion;
-    image: Image;
+    endpoint: EndpointBaseUnion;
+    image: ImageProperties;
     samplingOptions?: SamplingOptions;
 };
 
 // @public (undocumented)
-export type ExtensionProcessorBaseUnion = ExtensionProcessorBase | CognitiveServicesVisionExtension | GrpcExtension | HttpExtension;
+export type ExtensionProcessorBaseUnion = ExtensionProcessorBase | GrpcExtension | HttpExtension;
 
 // @public
-export type FileSink = Sink & {
+export type FileSink = SinkNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.FileSink";
     baseDirectoryPath: string;
     fileNamePattern: string;
@@ -125,41 +119,38 @@ export type HttpExtension = ExtensionProcessorBase & {
 };
 
 // @public
-export type HttpHeaderCredentials = Credentials & {
+export type HttpHeaderCredentials = CredentialsBase & {
     "@type": "#Microsoft.VideoAnalyzer.HttpHeaderCredentials";
     headerName: string;
     headerValue: string;
 };
 
 // @public
-export interface Image {
-    format?: ImageFormatUnion;
-    scale?: ImageScale;
-}
-
-// @public
-export interface ImageFormat {
-    "@type": "#Microsoft.VideoAnalyzer.ImageFormatRaw" | "#Microsoft.VideoAnalyzer.ImageFormatJpeg" | "#Microsoft.VideoAnalyzer.ImageFormatBmp" | "#Microsoft.VideoAnalyzer.ImageFormatPng";
-}
-
-// @public
-export type ImageFormatBmp = ImageFormat & {
+export type ImageFormatBmp = ImageFormatProperties & {
     "@type": "#Microsoft.VideoAnalyzer.ImageFormatBmp";
 };
 
 // @public
-export type ImageFormatJpeg = ImageFormat & {
+export type ImageFormatJpeg = ImageFormatProperties & {
     "@type": "#Microsoft.VideoAnalyzer.ImageFormatJpeg";
     quality?: string;
 };
 
 // @public
-export type ImageFormatPng = ImageFormat & {
+export type ImageFormatPng = ImageFormatProperties & {
     "@type": "#Microsoft.VideoAnalyzer.ImageFormatPng";
 };
 
 // @public
-export type ImageFormatRaw = ImageFormat & {
+export interface ImageFormatProperties {
+    "@type": "#Microsoft.VideoAnalyzer.ImageFormatRaw" | "#Microsoft.VideoAnalyzer.ImageFormatJpeg" | "#Microsoft.VideoAnalyzer.ImageFormatBmp" | "#Microsoft.VideoAnalyzer.ImageFormatPng";
+}
+
+// @public (undocumented)
+export type ImageFormatPropertiesUnion = ImageFormatProperties | ImageFormatRaw | ImageFormatJpeg | ImageFormatBmp | ImageFormatPng;
+
+// @public
+export type ImageFormatRaw = ImageFormatProperties & {
     "@type": "#Microsoft.VideoAnalyzer.ImageFormatRaw";
     pixelFormat: ImageFormatRawPixelFormat;
 };
@@ -167,8 +158,11 @@ export type ImageFormatRaw = ImageFormat & {
 // @public
 export type ImageFormatRawPixelFormat = string;
 
-// @public (undocumented)
-export type ImageFormatUnion = ImageFormat | ImageFormatRaw | ImageFormatJpeg | ImageFormatBmp | ImageFormatPng;
+// @public
+export interface ImageProperties {
+    format?: ImageFormatPropertiesUnion;
+    scale?: ImageScale;
+}
 
 // @public
 export interface ImageScale {
@@ -181,25 +175,16 @@ export interface ImageScale {
 export type ImageScaleMode = string;
 
 // @public
-export type IotHubMessageSink = Sink & {
+export type IotHubMessageSink = SinkNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink";
     hubOutputName: string;
 };
 
 // @public
-export type IotHubMessageSource = Source & {
+export type IotHubMessageSource = SourceNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSource";
     hubInputName?: string;
 };
-
-// @public (undocumented)
-export type ItemNonSetRequestBase = MethodRequest & {
-    methodName: "ItemNonSetRequestBase";
-    name: string;
-};
-
-// @public (undocumented)
-export type ItemNonSetRequestBaseUnion = ItemNonSetRequestBase | PipelineTopologyGetRequest | PipelineTopologyDeleteRequest | LivePipelineGetRequest | LivePipelineActivateRequest | LivePipelineDeactivateRequest | LivePipelineDeleteRequest;
 
 // @public
 export const enum KnownGrpcExtensionDataTransferMode {
@@ -278,21 +263,34 @@ export const enum KnownRtspTransport {
 }
 
 // @public
-export interface Line {
-    line: LineCoordinates;
-    name: string;
+export const enum KnownSpatialAnalysisOperationFocus {
+    BottomCenter = "bottomCenter",
+    Center = "center",
+    Footprint = "footprint"
 }
 
 // @public
-export interface LineCoordinates {
-    end: Point;
-    start: Point;
+export const enum KnownSpatialAnalysisPersonCountEventTrigger {
+    Event = "event",
+    Interval = "interval"
 }
 
 // @public
-export type LineCrossingProcessor = Processor & {
+export const enum KnownSpatialAnalysisPersonDistanceEventTrigger {
+    Event = "event",
+    Interval = "interval"
+}
+
+// @public
+export const enum KnownSpatialAnalysisPersonZoneCrossingEventType {
+    ZoneCrossing = "zoneCrossing",
+    ZoneDwellTime = "zoneDwellTime"
+}
+
+// @public
+export type LineCrossingProcessor = ProcessorNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.LineCrossingProcessor";
-    lines: Line[];
+    lines: NamedLineBaseUnion[];
 };
 
 // @public
@@ -303,7 +301,7 @@ export interface LivePipeline {
 }
 
 // @public
-export type LivePipelineActivateRequest = ItemNonSetRequestBase & {
+export type LivePipelineActivateRequest = MethodRequestEmptyBodyBase & {
     methodName: "livePipelineActivate";
 };
 
@@ -314,17 +312,17 @@ export interface LivePipelineCollection {
 }
 
 // @public
-export type LivePipelineDeactivateRequest = ItemNonSetRequestBase & {
+export type LivePipelineDeactivateRequest = MethodRequestEmptyBodyBase & {
     methodName: "livePipelineDeactivate";
 };
 
 // @public
-export type LivePipelineDeleteRequest = ItemNonSetRequestBase & {
+export type LivePipelineDeleteRequest = MethodRequestEmptyBodyBase & {
     methodName: "livePipelineDelete";
 };
 
 // @public
-export type LivePipelineGetRequest = ItemNonSetRequestBase & {
+export type LivePipelineGetRequest = MethodRequestEmptyBodyBase & {
     methodName: "livePipelineGet";
 };
 
@@ -349,7 +347,7 @@ export type LivePipelineSetRequest = MethodRequest & {
 
 // @public
 export type LivePipelineSetRequestBody = MethodRequest & LivePipeline & {
-    methodName: "livePipelineSetRequestBody";
+    methodName: "LivePipelineSetRequestBody";
 };
 
 // @public
@@ -358,14 +356,23 @@ export type LivePipelineState = string;
 // @public
 export interface MethodRequest {
     apiVersion?: "1.0";
-    methodName: "pipelineTopologySet" | "PipelineTopologySetRequestBody" | "livePipelineSet" | "livePipelineSetRequestBody" | "ItemNonSetRequestBase" | "pipelineTopologyList" | "pipelineTopologyGet" | "pipelineTopologyDelete" | "livePipelineList" | "livePipelineGet" | "livePipelineActivate" | "livePipelineDeactivate" | "livePipelineDelete";
+    methodName: "pipelineTopologySet" | "PipelineTopologySetRequestBody" | "livePipelineSet" | "LivePipelineSetRequestBody" | "MethodRequestEmptyBodyBase" | "pipelineTopologyList" | "pipelineTopologyGet" | "pipelineTopologyDelete" | "livePipelineList" | "livePipelineGet" | "livePipelineActivate" | "livePipelineDeactivate" | "livePipelineDelete";
 }
 
 // @public (undocumented)
-export type MethodRequestUnion = MethodRequest | PipelineTopologySetRequest | PipelineTopologySetRequestBody | LivePipelineSetRequest | LivePipelineSetRequestBody | ItemNonSetRequestBaseUnion | PipelineTopologyListRequest | LivePipelineListRequest;
+export type MethodRequestEmptyBodyBase = MethodRequest & {
+    methodName: "MethodRequestEmptyBodyBase";
+    name: string;
+};
+
+// @public (undocumented)
+export type MethodRequestEmptyBodyBaseUnion = MethodRequestEmptyBodyBase | PipelineTopologyGetRequest | PipelineTopologyDeleteRequest | LivePipelineGetRequest | LivePipelineActivateRequest | LivePipelineDeactivateRequest | LivePipelineDeleteRequest;
+
+// @public (undocumented)
+export type MethodRequestUnion = MethodRequest | PipelineTopologySetRequest | PipelineTopologySetRequestBody | LivePipelineSetRequest | LivePipelineSetRequestBody | MethodRequestEmptyBodyBaseUnion | PipelineTopologyListRequest | LivePipelineListRequest;
 
 // @public
-export type MotionDetectionProcessor = Processor & {
+export type MotionDetectionProcessor = ProcessorNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.MotionDetectionProcessor";
     sensitivity?: MotionDetectionSensitivity;
     outputMotionRegion?: boolean;
@@ -374,6 +381,36 @@ export type MotionDetectionProcessor = Processor & {
 
 // @public
 export type MotionDetectionSensitivity = string;
+
+// @public
+export interface NamedLineBase {
+    "@type": "#Microsoft.VideoAnalyzer.NamedLineString";
+    name: string;
+}
+
+// @public (undocumented)
+export type NamedLineBaseUnion = NamedLineBase | NamedLineString;
+
+// @public
+export type NamedLineString = NamedLineBase & {
+    "@type": "#Microsoft.VideoAnalyzer.NamedLineString";
+    line: string;
+};
+
+// @public
+export interface NamedPolygonBase {
+    "@type": "#Microsoft.VideoAnalyzer.NamedPolygonString";
+    name: string;
+}
+
+// @public (undocumented)
+export type NamedPolygonBaseUnion = NamedPolygonBase | NamedPolygonString;
+
+// @public
+export type NamedPolygonString = NamedPolygonBase & {
+    "@type": "#Microsoft.VideoAnalyzer.NamedPolygonString";
+    polygon: string;
+};
 
 // @public
 export interface NodeInput {
@@ -385,7 +422,7 @@ export interface NodeInput {
 export type ObjectTrackingAccuracy = string;
 
 // @public
-export type ObjectTrackingProcessor = Processor & {
+export type ObjectTrackingProcessor = ProcessorNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor";
     accuracy?: ObjectTrackingAccuracy;
 };
@@ -440,12 +477,12 @@ export interface PipelineTopologyCollection {
 }
 
 // @public
-export type PipelineTopologyDeleteRequest = ItemNonSetRequestBase & {
+export type PipelineTopologyDeleteRequest = MethodRequestEmptyBodyBase & {
     methodName: "pipelineTopologyDelete";
 };
 
 // @public
-export type PipelineTopologyGetRequest = ItemNonSetRequestBase & {
+export type PipelineTopologyGetRequest = MethodRequestEmptyBodyBase & {
     methodName: "pipelineTopologyGet";
 };
 
@@ -458,9 +495,9 @@ export type PipelineTopologyListRequest = MethodRequest & {
 export interface PipelineTopologyProperties {
     description?: string;
     parameters?: ParameterDeclaration[];
-    processors?: ProcessorUnion[];
-    sinks?: SinkUnion[];
-    sources?: SourceUnion[];
+    processors?: ProcessorNodeBaseUnion[];
+    sinks?: SinkNodeBaseUnion[];
+    sources?: SourceNodeBaseUnion[];
 }
 
 // @public
@@ -474,26 +511,15 @@ export type PipelineTopologySetRequestBody = MethodRequest & PipelineTopology & 
     methodName: "PipelineTopologySetRequestBody";
 };
 
-// @public (undocumented)
-export type PipelineTopologySetRequestPayload = PipelineTopology & {
-    "@apiVersion": string;
-};
-
 // @public
-export interface Point {
-    x: string;
-    y: string;
-}
-
-// @public
-export interface Processor {
-    "@type": "#Microsoft.VideoAnalyzer.MotionDetectionProcessor" | "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor" | "#Microsoft.VideoAnalyzer.LineCrossingProcessor" | "#Microsoft.VideoAnalyzer.ExtensionProcessorBase" | "#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension" | "#Microsoft.VideoAnalyzer.GrpcExtension" | "#Microsoft.VideoAnalyzer.HttpExtension" | "#Microsoft.VideoAnalyzer.SignalGateProcessor";
+export interface ProcessorNodeBase {
+    "@type": "#Microsoft.VideoAnalyzer.MotionDetectionProcessor" | "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor" | "#Microsoft.VideoAnalyzer.LineCrossingProcessor" | "#Microsoft.VideoAnalyzer.ExtensionProcessorBase" | "#Microsoft.VideoAnalyzer.GrpcExtension" | "#Microsoft.VideoAnalyzer.HttpExtension" | "#Microsoft.VideoAnalyzer.SignalGateProcessor" | "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor";
     inputs: NodeInput[];
     name: string;
 }
 
 // @public (undocumented)
-export type ProcessorUnion = Processor | MotionDetectionProcessor | ObjectTrackingProcessor | LineCrossingProcessor | ExtensionProcessorBaseUnion | SignalGateProcessor;
+export type ProcessorNodeBaseUnion = ProcessorNodeBase | MotionDetectionProcessor | ObjectTrackingProcessor | LineCrossingProcessor | ExtensionProcessorBaseUnion | SignalGateProcessor | CognitiveServicesVisionProcessor;
 
 // @public (undocumented)
 export interface Request<T> {
@@ -509,10 +535,10 @@ export interface Request<T> {
 export type RequestType = "pipelineTopologySet" | "pipelineTopologyGet" | "pipelineTopologyList" | "pipelineTopologyDelete" | "livePipelineSet" | "livePipelineGet" | "livePipelineList" | "livePipelineDelete" | "livePipelineActivate" | "livePipelineDeactivate";
 
 // @public
-export type RtspSource = Source & {
+export type RtspSource = SourceNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.RtspSource";
     transport?: RtspTransport;
-    endpoint: EndpointUnion;
+    endpoint: EndpointBaseUnion;
 };
 
 // @public
@@ -525,7 +551,7 @@ export interface SamplingOptions {
 }
 
 // @public
-export type SignalGateProcessor = Processor & {
+export type SignalGateProcessor = ProcessorNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.SignalGateProcessor";
     activationEvaluationWindow?: string;
     activationSignalOffset?: string;
@@ -534,29 +560,137 @@ export type SignalGateProcessor = Processor & {
 };
 
 // @public
-export interface Sink {
-    "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink" | "#Microsoft.VideoAnalyzer.FileSink" | "#Microsoft.VideoAnalyzer.AssetSink";
+export interface SinkNodeBase {
+    "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink" | "#Microsoft.VideoAnalyzer.FileSink" | "#Microsoft.VideoAnalyzer.VideoSink";
     inputs: NodeInput[];
     name: string;
 }
 
 // @public (undocumented)
-export type SinkUnion = Sink | IotHubMessageSink | FileSink | AssetSink;
+export type SinkNodeBaseUnion = SinkNodeBase | IotHubMessageSink | FileSink | VideoSink;
 
 // @public
-export interface Source {
+export interface SourceNodeBase {
     "@type": "#Microsoft.VideoAnalyzer.RtspSource" | "#Microsoft.VideoAnalyzer.IotHubMessageSource";
     name: string;
 }
 
 // @public (undocumented)
-export type SourceUnion = Source | RtspSource | IotHubMessageSource;
+export type SourceNodeBaseUnion = SourceNodeBase | RtspSource | IotHubMessageSource;
 
 // @public
-export type SymmetricKeyCredentials = Credentials & {
-    "@type": "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
-    key: string;
+export type SpatialAnalysisCustomOperation = SpatialAnalysisOperationBase & {
+    "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisCustomOperation";
+    extensionConfiguration: string;
 };
+
+// @public
+export interface SpatialAnalysisOperationBase {
+    "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisCustomOperation" | "SpatialAnalysisTypedOperationBase" | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation" | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation" | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation" | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation";
+}
+
+// @public (undocumented)
+export type SpatialAnalysisOperationBaseUnion = SpatialAnalysisOperationBase | SpatialAnalysisCustomOperation | SpatialAnalysisTypedOperationBaseUnion;
+
+// @public
+export interface SpatialAnalysisOperationEventBase {
+    focus?: SpatialAnalysisOperationFocus;
+    threshold?: string;
+}
+
+// @public
+export type SpatialAnalysisOperationFocus = string;
+
+// @public
+export type SpatialAnalysisPersonCountEvent = SpatialAnalysisOperationEventBase & {
+    trigger?: SpatialAnalysisPersonCountEventTrigger;
+    outputFrequency?: string;
+};
+
+// @public
+export type SpatialAnalysisPersonCountEventTrigger = string;
+
+// @public
+export type SpatialAnalysisPersonCountOperation = SpatialAnalysisTypedOperationBase & {
+    "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation";
+    zones: SpatialAnalysisPersonCountZoneEvents[];
+};
+
+// @public (undocumented)
+export interface SpatialAnalysisPersonCountZoneEvents {
+    events?: SpatialAnalysisPersonCountEvent[];
+    zone: NamedPolygonBaseUnion;
+}
+
+// @public
+export type SpatialAnalysisPersonDistanceEvent = SpatialAnalysisOperationEventBase & {
+    trigger?: SpatialAnalysisPersonDistanceEventTrigger;
+    outputFrequency?: string;
+    minimumDistanceThreshold?: string;
+    maximumDistanceThreshold?: string;
+};
+
+// @public
+export type SpatialAnalysisPersonDistanceEventTrigger = string;
+
+// @public
+export type SpatialAnalysisPersonDistanceOperation = SpatialAnalysisTypedOperationBase & {
+    "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation";
+    zones: SpatialAnalysisPersonDistanceZoneEvents[];
+};
+
+// @public (undocumented)
+export interface SpatialAnalysisPersonDistanceZoneEvents {
+    events?: SpatialAnalysisPersonDistanceEvent[];
+    zone: NamedPolygonBaseUnion;
+}
+
+// @public
+export type SpatialAnalysisPersonLineCrossingEvent = SpatialAnalysisOperationEventBase & {};
+
+// @public (undocumented)
+export interface SpatialAnalysisPersonLineCrossingLineEvents {
+    events?: SpatialAnalysisPersonLineCrossingEvent[];
+    line: NamedLineBaseUnion;
+}
+
+// @public
+export type SpatialAnalysisPersonLineCrossingOperation = SpatialAnalysisTypedOperationBase & {
+    "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation";
+    lines: SpatialAnalysisPersonLineCrossingLineEvents[];
+};
+
+// @public
+export type SpatialAnalysisPersonZoneCrossingEvent = SpatialAnalysisOperationEventBase & {
+    eventType?: SpatialAnalysisPersonZoneCrossingEventType;
+};
+
+// @public
+export type SpatialAnalysisPersonZoneCrossingEventType = string;
+
+// @public
+export type SpatialAnalysisPersonZoneCrossingOperation = SpatialAnalysisTypedOperationBase & {
+    "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation";
+    zones: SpatialAnalysisPersonZoneCrossingZoneEvents[];
+};
+
+// @public (undocumented)
+export interface SpatialAnalysisPersonZoneCrossingZoneEvents {
+    events?: SpatialAnalysisPersonZoneCrossingEvent[];
+    zone: NamedPolygonBaseUnion;
+}
+
+// @public
+export type SpatialAnalysisTypedOperationBase = SpatialAnalysisOperationBase & {
+    "@type": "SpatialAnalysisTypedOperationBase";
+    debug?: string;
+    cameraConfiguration?: string;
+    detectorNodeConfiguration?: string;
+    enableFaceMaskClassifier?: string;
+};
+
+// @public (undocumented)
+export type SpatialAnalysisTypedOperationBaseUnion = SpatialAnalysisTypedOperationBase | SpatialAnalysisPersonCountOperation | SpatialAnalysisPersonZoneCrossingOperation | SpatialAnalysisPersonDistanceOperation | SpatialAnalysisPersonLineCrossingOperation;
 
 // @public
 export interface SystemData {
@@ -565,7 +699,7 @@ export interface SystemData {
 }
 
 // @public
-export type TlsEndpoint = Endpoint & {
+export type TlsEndpoint = EndpointBase & {
     "@type": "#Microsoft.VideoAnalyzer.TlsEndpoint";
     trustedCertificates?: CertificateSourceUnion;
     validationOptions?: TlsValidationOptions;
@@ -578,15 +712,31 @@ export interface TlsValidationOptions {
 }
 
 // @public
-export type UnsecuredEndpoint = Endpoint & {
+export type UnsecuredEndpoint = EndpointBase & {
     "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint";
 };
 
 // @public
-export type UsernamePasswordCredentials = Credentials & {
+export type UsernamePasswordCredentials = CredentialsBase & {
     "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials";
     username: string;
     password: string;
+};
+
+// @public
+export interface VideoCreationProperties {
+    description?: string;
+    segmentLength?: string;
+    title?: string;
+}
+
+// @public
+export type VideoSink = SinkNodeBase & {
+    "@type": "#Microsoft.VideoAnalyzer.VideoSink";
+    videoName: string;
+    videoCreationProperties?: VideoCreationProperties;
+    localMediaCachePath: string;
+    localMediaCacheMaximumSizeMiB: string;
 };
 
 
