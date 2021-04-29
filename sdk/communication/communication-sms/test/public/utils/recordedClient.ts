@@ -81,9 +81,9 @@ function createTestHttpClient(): HttpClient {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
     console.log(
-      `MS-CV header for request: ${requestResponse.headers.get("ms-cv")} (${
+      `MS-CV header for request: ${httpRequest.url} (${
         requestResponse.status
-      } - ${httpRequest.url})`
+      } - ${requestResponse.headers.get("ms-cv")})`
     );
 
     return requestResponse;
