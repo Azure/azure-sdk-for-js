@@ -35,10 +35,10 @@ function buildPipelineTopology() {
 
   const msgSink: IotHubMessageSink = {
     name: "msgSink",
-    inputs: [nodeInput],  
+    inputs: [nodeInput],
     hubOutputName: "${hubSinkOutputName}",
     "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink"
-  }
+  };
 
   const pipelineTopology: PipelineTopology = {
     name: "jsTestGraph",
@@ -48,7 +48,7 @@ function buildPipelineTopology() {
         { name: "rtspUserName", type: "String", default: "dummyUsername" },
         { name: "rtspPassword", type: "SecretString", default: "dummyPassword" },
         { name: "rtspUrl", type: "String" },
-        { name: "hubSinkOutputName", type:"String"}
+        { name: "hubSinkOutputName", type: "String" }
       ],
       sources: [rtspSource],
       sinks: [msgSink]

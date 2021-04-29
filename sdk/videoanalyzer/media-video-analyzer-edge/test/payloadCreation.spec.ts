@@ -26,16 +26,16 @@ describe("test", () => {
       "@type": "#Microsoft.VideoAnalyzer.RtspSource"
     };
 
-    const graphNodeInput: NodeInput = {
+    const nodeInput: NodeInput = {
       nodeName: "rtspSource"
     };
 
     const msgSink: IotHubMessageSink = {
       name: "msgSink",
-      inputs: [nodeInput],  
+      inputs: [nodeInput],
       hubOutputName: "${hubSinkOutputName}",
       "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink"
-    }
+    };
 
     const graphTopology: PipelineTopology = {
       name: "jsTestGraph",
