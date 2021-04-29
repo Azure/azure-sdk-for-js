@@ -44,7 +44,7 @@ describe("Challenge based authentication tests", () => {
 
   // The tests follow
 
-  it("Authentication should work for parallel requests", async function(this: Context) {
+  it.skip("Authentication should work for parallel requests", async function(this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
