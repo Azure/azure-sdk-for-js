@@ -4,14 +4,14 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createConnectionContextForTests } from "./unittestUtils";
-import { ProcessErrorArgs } from "../../../src";
+import { ProcessErrorArgs, ServiceBusReceivedMessage } from "../../../src";
 import { ReceiveMode } from "../../../src/models";
 import { StreamingReceiver } from "../../../src/core/streamingReceiver";
 import sinon from "sinon";
 import { EventContext } from "rhea-promise";
 import { Constants, MessagingError, RetryConfig, RetryMode } from "@azure/core-amqp";
-import { createAndInitStreamingReceiverForTest } from "../utils/testUtils";
 import { AbortError } from "@azure/abort-controller";
+import { ReceiveOptions } from "../../../src/core/messageReceiver";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -24,6 +24,16 @@ describe("StreamingReceiver unit tests", () => {
   };
 
   let closeables: { close(): Promise<void> }[];
+
+  function createTestStreamingReceiver(
+    entityPath: string,
+    options: ReceiveOptions
+  ): StreamingReceiver {
+    const connectionContext = createConnectionContextForTests();
+    const streamingReceiver = new StreamingReceiver(connectionContext, entityPath, options);
+    closeables.push(streamingReceiver);
+    return streamingReceiver;
+  }
 
   const defaultInitArgs = {
     connectionId: "connection-id",
@@ -53,8 +63,7 @@ describe("StreamingReceiver unit tests", () => {
 
   describe("receive(), close() and stopReceivingMessages() interactions", () => {
     it("off by default", async () => {
-      const streamingReceiver = new StreamingReceiver(
-        createConnectionContextForTests(),
+      const streamingReceiver = createTestStreamingReceiver(
         "fakeEntityPath",
         defaultConstructorOptions
       );
@@ -63,7 +72,7 @@ describe("StreamingReceiver unit tests", () => {
 
       // init() is considered the start of the receive operation (from StreamingReceiver's point of
       // view)
-      await streamingReceiver.init({
+      await streamingReceiver.initWithRetries({
         useNewName: true,
         ...defaultInitArgs
       });
@@ -81,7 +90,7 @@ describe("StreamingReceiver unit tests", () => {
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init({
+      await streamingReceiver.initWithRetries({
         useNewName: true,
         ...defaultInitArgs
       });
@@ -124,7 +133,7 @@ describe("StreamingReceiver unit tests", () => {
 
       assert.equal(streamingReceiver["link"]?.credit, 0, "All receiver credits have been drained"); // ie, receiver drained
 
-      await streamingReceiver.init({
+      await streamingReceiver.initWithRetries({
         useNewName: false,
         ...defaultInitArgs
       });
@@ -153,14 +162,13 @@ describe("StreamingReceiver unit tests", () => {
     });
 
     it("isReceivingMessages set to false by close()'ing", async () => {
-      const streamingReceiver = new StreamingReceiver(
-        createConnectionContextForTests(),
+      const streamingReceiver = createTestStreamingReceiver(
         "fakeEntityPath",
         defaultConstructorOptions
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init({
+      await streamingReceiver.initWithRetries({
         useNewName: true,
         ...defaultInitArgs
       });
@@ -190,7 +198,7 @@ describe("StreamingReceiver unit tests", () => {
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init({
+      await streamingReceiver.initWithRetries({
         useNewName: true,
         ...defaultInitArgs
       });
@@ -213,14 +221,13 @@ describe("StreamingReceiver unit tests", () => {
     });
 
     it("isReceivingMessages is set to true if onDetach succeeds in reconnecting", async () => {
-      const streamingReceiver = new StreamingReceiver(
-        createConnectionContextForTests(),
+      const streamingReceiver = createTestStreamingReceiver(
         "fakeEntityPath",
         defaultConstructorOptions
       );
       closeables.push(streamingReceiver);
 
-      await streamingReceiver.init({
+      await streamingReceiver.initWithRetries({
         useNewName: true,
         ...defaultInitArgs
       });
@@ -274,12 +281,15 @@ describe("StreamingReceiver unit tests", () => {
         };
 
         streamingReceiver.subscribe(
-          async (_message) => {
-            throw new Error("Error thrown from the user's processMessage callback");
+          {
+            processMessage: async (_message) => {
+              throw new Error("Error thrown from the user's processMessage callback");
+            },
+            processError: async (_args) => {
+              args = _args;
+            }
           },
-          async (_args) => {
-            args = _args;
-          }
+          undefined
         );
 
         await streamingReceiver["_onAmqpMessage"]((eventContext as any) as EventContext);
@@ -312,7 +322,7 @@ describe("StreamingReceiver unit tests", () => {
     });
 
     it("forever if initial connection fails to establish", async () => {
-      streamingReceiver = new StreamingReceiver(createConnectionContextForTests(), "entity path", {
+      streamingReceiver = createTestStreamingReceiver("entity path", {
         receiveMode: "peekLock",
         lockRenewer: undefined,
         retryOptions: {
@@ -352,7 +362,7 @@ describe("StreamingReceiver unit tests", () => {
 
       const errorsAfterRetryCycle: (Error | MessagingError | undefined)[] = [];
 
-      await streamingReceiver.init({
+      await streamingReceiver.initWithRetries({
         useNewName: false,
         connectionId: "connection-id",
         onError: (args) => {
@@ -392,7 +402,7 @@ describe("StreamingReceiver unit tests", () => {
     });
 
     it("forever loop immediately propagates AbortError", async () => {
-      streamingReceiver = new StreamingReceiver(createConnectionContextForTests(), "entity path", {
+      streamingReceiver = createTestStreamingReceiver("entity path", {
         receiveMode: "peekLock",
         lockRenewer: undefined,
         retryOptions: {
@@ -413,7 +423,7 @@ describe("StreamingReceiver unit tests", () => {
       let errorPassedToProcessError: Error | MessagingError | undefined;
 
       try {
-        await streamingReceiver.init({
+        await streamingReceiver.initWithRetries({
           useNewName: false,
           connectionId: "connection-id",
           onError: (args) => {
@@ -439,8 +449,7 @@ describe("StreamingReceiver unit tests", () => {
   });
 
   it("onDetach calls through to init", async () => {
-    const streamingReceiver = new StreamingReceiver(
-      createConnectionContextForTests(),
+    const streamingReceiver = createTestStreamingReceiver(
       "fakeEntityPath",
       defaultConstructorOptions
     );
@@ -450,7 +459,7 @@ describe("StreamingReceiver unit tests", () => {
     const onErrorMock = sinon.mock();
     const addCreditMock = sinon.mock();
 
-    streamingReceiver["init"] = initMock;
+    streamingReceiver["initWithRetries"] = initMock;
     streamingReceiver["_onError"] = onErrorMock;
     streamingReceiver["_receiverHelper"]["addCredit"] = addCreditMock;
 
@@ -478,6 +487,86 @@ describe("StreamingReceiver unit tests", () => {
     );
     assert.isFalse(initMock.called); // we don't do parallel detaches - subsequent ones are just stopped
     streamingReceiver["_isDetaching"] = false;
+  });
+
+  /**
+   * _setMessageHandlers wraps the individual message handler methods so they properly
+   * funnel errors to processError and so (for instance with processInitialize) that all
+   * functions are defined.
+   */
+  it("_setMessageHandlers", async () => {
+    const streamingReceiver = createTestStreamingReceiver("entitypath", {
+      lockRenewer: undefined,
+      receiveMode: "peekLock"
+    });
+
+    let processErrorArgs: ProcessErrorArgs[] = [];
+    const processMessages = [];
+
+    streamingReceiver["_setMessageHandlers"](
+      {
+        processError: async (args) => {
+          processErrorArgs.push(args);
+          // these errors are logged and there's no programatic way to detect them.
+          // this reduces the possiblity of a user ending up in an infinite set of `processError` calls.
+          throw new Error("processError");
+        },
+        processMessage: async (msg) => {
+          processMessages.push(msg);
+          throw new Error("processMessage");
+        },
+        processInitialize: async () => {
+          throw new Error("processInitialize");
+        }
+      },
+      {}
+    );
+
+    const wrappedMessageHandlers = streamingReceiver["_messageHandlers"];
+
+    if (wrappedMessageHandlers == null) {
+      throw new Error("No message handlers were set!");
+    }
+
+    await wrappedMessageHandlers.processInitialize();
+
+    assert.deepEqual(processErrorArgs, [
+      {
+        entityPath: "entitypath",
+        error: new Error("processInitialize"),
+        errorSource: "receive",
+        fullyQualifiedNamespace: "fakehost"
+      }
+    ]);
+
+    processErrorArgs = [];
+    await wrappedMessageHandlers.processMessage({} as ServiceBusReceivedMessage);
+
+    assert.deepEqual(processErrorArgs, [
+      {
+        entityPath: "entitypath",
+        error: new Error("processMessage"),
+        errorSource: "receive",
+        fullyQualifiedNamespace: "fakehost"
+      }
+    ]);
+
+    processErrorArgs = [];
+    await wrappedMessageHandlers.processError({
+      entityPath: "hello",
+      error: new Error(),
+      errorSource: "receive",
+      fullyQualifiedNamespace: "fqns"
+    });
+
+    assert.deepEqual(processErrorArgs, [
+      {
+        entityPath: "hello",
+        error: new Error(),
+        errorSource: "receive",
+        fullyQualifiedNamespace: "fqns"
+      }
+    ]);
   });
 });
 

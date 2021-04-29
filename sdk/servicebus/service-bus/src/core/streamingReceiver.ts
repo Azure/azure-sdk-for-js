@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  MessageReceiver,
-  OnAmqpEventAsPromise,
-  OnError,
-  OnMessage,
-  ReceiveOptions
-} from "./messageReceiver";
+import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 
 import { ReceiverHelper } from "./receiverHelper";
@@ -15,20 +9,24 @@ import { ReceiverHelper } from "./receiverHelper";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import {
   RetryOperationType,
-  RetryConfig,
-  retry,
   MessagingError,
   RetryOptions,
   ConditionErrorNameMapper
 } from "@azure/core-amqp";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
-import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
+import { abandonMessage, completeMessage, retryForever } from "../receivers/receiverCommon";
 import { ReceiverHandlers } from "./shared";
+import {
+  InternalMessageHandlers,
+  MessageHandlers,
+  ProcessErrorArgs,
+  SubscribeOptions
+} from "../models";
+import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 
 /**
  * @internal
@@ -36,7 +34,7 @@ import { ReceiverHandlers } from "./shared";
 export interface StreamingReceiverInitArgs
   extends ReceiveOptions,
     Pick<OperationOptionsBase, "abortSignal"> {
-  onError: OnError;
+  messageHandlers: MessageHandlers;
 }
 
 /**
@@ -68,9 +66,22 @@ export class StreamingReceiver extends MessageReceiver {
   private _receiverHelper: ReceiverHelper;
 
   /**
+   * The user's message handlers, wrapped so any thrown exceptions are properly logged
+   * or forwarded to the user's processError handler.
+   */
+  private _messageHandlers: Required<InternalMessageHandlers> | undefined;
+
+  /**
+   * The subscribe(options) passed when the subscribe call originally happened. Stored
+   * so _subscribeImpl() can re-use them later if we have to restart our subscription
+   * when detach/reattaching.
+   */
+  private _subscribeOptions: SubscribeOptions | undefined;
+
+  /**
    * Used so we can stub out retry in tests.
    */
-  private _retry: typeof retry;
+  private _retryForeverFn: typeof retryForever = retryForever;
 
   /**
    * The message handler that will be set as the handler on the
@@ -125,7 +136,6 @@ export class StreamingReceiver extends MessageReceiver {
     }
 
     this._retryOptions = options?.retryOptions || {};
-    this._retry = retry;
 
     this._receiverHelper = new ReceiverHelper(() => ({
       receiver: this.link,
@@ -224,18 +234,16 @@ export class StreamingReceiver extends MessageReceiver {
       );
 
       this._lockRenewer?.start(this, bMessage, (err) => {
-        if (this._onError) {
-          this._onError({
-            error: err,
-            errorSource: "renewLock",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
-          });
-        }
+        this._messageHandlers?.processError({
+          error: err,
+          errorSource: "renewLock",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        });
       });
 
       try {
-        await this._onMessage(bMessage);
+        await this._messageHandlers?.processMessage(bMessage);
       } catch (err) {
         logger.logError(
           err,
@@ -245,12 +253,6 @@ export class StreamingReceiver extends MessageReceiver {
           bMessage.messageId,
           this.name
         );
-        this._onError!({
-          error: err,
-          errorSource: "processMessageCallback",
-          entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host
-        });
 
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
@@ -290,7 +292,7 @@ export class StreamingReceiver extends MessageReceiver {
               bMessage.messageId,
               this.name
             );
-            this._onError!({
+            this._messageHandlers?.processError({
               error: translatedError,
               errorSource: "abandon",
               entityPath: this.entityPath,
@@ -327,7 +329,7 @@ export class StreamingReceiver extends MessageReceiver {
             bMessage.messageId,
             this.name
           );
-          this._onError!({
+          this._messageHandlers?.processError({
             error: translatedError,
             errorSource: "complete",
             entityPath: this.entityPath,
@@ -362,93 +364,136 @@ export class StreamingReceiver extends MessageReceiver {
   }
 
   /**
-   * Initializes the link. This method will retry infinitely until a connection is established.
+   * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
    *
-   * The retries are broken up into cycles. For each cycle we do a set of retries, using the user's
-   * configured retryOptions. If that retry call fails we will report the error and then go into a
-   * new cycle, repeating the retries the same as before.
-   *
-   * It is completely up to the user to break out of this retry cycle in their error handler by either:
+   * NOTE: This function retries _infinitely_ until success! It is completely up to the user to break
+   * out of this retry cycle otherwise by:
    * 1. closing the receiver
    * 2. Calling `close` on the subscription instance they received when they initially called subscribe().
-   * 3. aborting the abortSignal they passed in when calling subscribe (this does not apply in onDetached, however)
-   */
-  async init(
-    args: { useNewName: boolean; connectionId: string; onError: OnError } & Pick<
-      OperationOptionsBase,
-      "abortSignal"
-    >
-  ): Promise<void> {
-    let numRetryCycles = 0;
-
-    while (true) {
-      ++numRetryCycles;
-
-      const config: RetryConfig<void> = {
-        operation: () => this._initOnce(args),
-        connectionId: args.connectionId,
-        operationType: RetryOperationType.receiverLink,
-        // even though we're going to loop infinitely we allow them to control the pattern we use on each
-        // retry run. This lets them toggle things like exponential retries, etc..
-        retryOptions: this._retryOptions,
-        abortSignal: args.abortSignal
-      };
-
-      try {
-        await this._retry<void>(config);
-        break;
-      } catch (err) {
-        // we only report the error here - this avoids spamming the user with too many
-        // redundant reports of errors while still providing them incremental status on failures.
-        args.onError({
-          errorSource: "receive",
-          entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host,
-          error: err
-        });
-
-        // if the user aborts the operation we're immediately done.
-        if (err.name === "AbortError") {
-          throw err;
-        }
-
-        logger.logError(
-          err,
-          `${this.logPrefix} Error thrown in retry cycle ${numRetryCycles}, restarting retry cycle with retry options`,
-          this._retryOptions
-        );
-
-        continue;
-      }
-    }
-  }
-
-  private async _initOnce(args: {
-    useNewName: boolean;
-    abortSignal?: AbortSignalLike;
-  }): Promise<void> {
-    const options = this._createReceiverOptions(args.useNewName, this._getHandlers());
-    await this._init(options, args.abortSignal);
-
-    // this might seem odd but in reality this entire class is like one big function call that
-    // results in a receive(). Once we're being initialized we should consider ourselves the
-    // "owner" of the receiver and that it's now being locked into being the actual receiver.
-    this._receiverHelper.resume();
-  }
-
-  /**
-   * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
+   * 3. aborting the abortSignal they passed in when calling subscribe (this also applies to initialization calls in onDetach)
    *
    * @param onMessage - The message handler to receive servicebus messages.
    * @param onError - The error handler to receive an error that occurs while receivin messages.
    */
-  subscribe(onMessage: OnMessage, onError: OnError): void {
-    throwErrorIfConnectionClosed(this._context);
+  async subscribe(
+    messageHandlers: InternalMessageHandlers,
+    subscribeOptions: SubscribeOptions | undefined
+  ): Promise<void> {
+    // these options and message handlers will be re-used if/when onDetach is called.
+    this._subscribeOptions = subscribeOptions;
+    this._setMessageHandlers(messageHandlers, subscribeOptions);
 
-    this._onMessage = onMessage;
-    this._onError = onError;
+    return this._subscribeImpl("subscribe");
+  }
 
-    this._receiverHelper.addCredit(this.maxConcurrentCalls);
+  /**
+   * Wraps the individual message handlers with tracing and proper error handling
+   * and assigns them to `this._messageHandlers`
+   *
+   * @param userHandlers The user's message handlers
+   * @param operationOptions The subscribe(options)
+   */
+  private _setMessageHandlers(
+    userHandlers: InternalMessageHandlers,
+    operationOptions: OperationOptionsBase | undefined
+  ) {
+    this._messageHandlers = {
+      processError: async (args: ProcessErrorArgs) => {
+        try {
+          args.error = translateServiceBusError(args.error);
+          await userHandlers.processError(args);
+        } catch (err) {
+          logger.logError(err, `An error was thrown from the user's processError handler`);
+        }
+      },
+      processMessage: async (message: ServiceBusMessageImpl) => {
+        try {
+          const span = createProcessingSpan(message, this, this._context.config, operationOptions);
+          return await trace(() => userHandlers.processMessage(message), span);
+        } catch (err) {
+          this._messageHandlers?.processError({
+            error: err,
+            errorSource: "processMessageCallback",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
+          throw err;
+        }
+      },
+      processInitialize: async () => {
+        if (!userHandlers.processInitialize) {
+          return;
+        }
+
+        return userHandlers.processInitialize().catch((err) =>
+          this._messageHandlers?.processError({
+            error: err,
+            errorSource: "processMessageCallback",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          })
+        );
+      }
+    };
+  }
+
+  /**
+   * Subscribes using the already assigned `this._messageHandlers` and `this._subscribeOptions`
+   *
+   * @returns A promise that will resolve when a link is created and we successfully add credits to it.
+   */
+  private _subscribeImpl(caller: "detach" | "subscribe"): Promise<void> {
+    const catchAndReportError = <T>(promise: Promise<T>) =>
+      promise.catch((err) =>
+        this._messageHandlers?.processError({
+          error: err,
+          errorSource: "receive",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        })
+      );
+
+    const initAndAddCreditOperation = async () => {
+      throwErrorIfConnectionClosed(this._context);
+
+      await this._init(
+        this._createReceiverOptions(caller === "detach", this._getHandlers()),
+        this._subscribeOptions?.abortSignal
+      );
+
+      await this._messageHandlers?.processInitialize();
+
+      try {
+        this._receiverHelper.resume(); // (needed if we're resuming after someone has called streamingReceiver.stopReceivingMessages())
+        this._receiverHelper.addCredit(this.maxConcurrentCalls);
+      } catch (err) {
+        await catchAndReportError(this.closeLink());
+        throw err;
+      }
+    };
+
+    // we don't expect to ever get an error from retryForever but bugs
+    // do happen.
+    return catchAndReportError(
+      this._retryForeverFn({
+        retryConfig: {
+          connectionId: this._context.connection.id,
+          operationType: RetryOperationType.receiverLink,
+          abortSignal: this._subscribeOptions?.abortSignal,
+          retryOptions: this._retryOptions,
+          operation: initAndAddCreditOperation
+        },
+        onError: (err) =>
+          this._messageHandlers?.processError({
+            error: err,
+            errorSource: "receive",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          }),
+        logPrefix: this.logPrefix,
+        logger
+      })
+    );
   }
 
   /**
@@ -456,41 +501,43 @@ export class StreamingReceiver extends MessageReceiver {
    * @param receiverError - The receiver error or connection error, if any.
    */
   async onDetached(receiverError?: AmqpError | Error): Promise<void> {
-    logger.verbose(`${this.logPrefix} onDetached: reinitializing link.`);
-
-    // User explicitly called `close` on the receiver, so link is already closed
-    // and we can exit early.
-    if (this.wasClosedPermanently) {
-      logger.verbose(
-        `${this.logPrefix} onDetached: link has been closed permanently, not reinitializing. `
-      );
-      return;
-    }
-
-    // Prevent multiple onDetached invocations from running concurrently.
-    if (this._isDetaching) {
-      // This can happen when the network connection goes down for some amount of time.
-      // The first connection `disconnect` will trigger `onDetached` and attempt to retry
-      // creating the connection/receiver link.
-      // While those retry attempts fail (until the network connection comes back up),
-      // we'll continue to see connection `disconnect` errors.
-      // These should be ignored until the already running `onDetached` completes
-      // its retry attempts or errors.
-      logger.verbose(
-        `${this.logPrefix} onDetached: Call to detached on streaming receiver '${this.name}' is already in progress.`
-      );
-      return;
-    }
-
-    this._isDetaching = true;
-
-    const translatedError = receiverError ? translateServiceBusError(receiverError) : receiverError;
-    logger.logError(
-      translatedError,
-      `${this.logPrefix} onDetached: Reinitializing receiver because of error`
-    );
-
     try {
+      logger.verbose(`${this.logPrefix} onDetached: reinitializing link.`);
+
+      // User explicitly called `close` on the receiver, so link is already closed
+      // and we can exit early.
+      if (this.wasClosedPermanently) {
+        logger.verbose(
+          `${this.logPrefix} onDetached: link has been closed permanently, not reinitializing. `
+        );
+        return;
+      }
+
+      // Prevent multiple onDetached invocations from running concurrently.
+      if (this._isDetaching) {
+        // This can happen when the network connection goes down for some amount of time.
+        // The first connection `disconnect` will trigger `onDetached` and attempt to retry
+        // creating the connection/receiver link.
+        // While those retry attempts fail (until the network connection comes back up),
+        // we'll continue to see connection `disconnect` errors.
+        // These should be ignored until the already running `onDetached` completes
+        // its retry attempts or errors.
+        logger.verbose(
+          `${this.logPrefix} onDetached: Call to detached on streaming receiver '${this.name}' is already in progress.`
+        );
+        return;
+      }
+
+      this._isDetaching = true;
+
+      const translatedError = receiverError
+        ? translateServiceBusError(receiverError)
+        : receiverError;
+      logger.logError(
+        translatedError,
+        `${this.logPrefix} onDetached: Reinitializing receiver because of error`
+      );
+
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this.closeLink();
@@ -502,18 +549,7 @@ export class StreamingReceiver extends MessageReceiver {
     }
 
     try {
-      await this.init({
-        // provide a new name to the link while re-connecting it. This ensures that
-        // the service does not send an error stating that the link is still open.
-        useNewName: true,
-        connectionId: this._context.connectionId,
-        onError: (args) => this._onError && this._onError(args)
-      });
-
-      this._receiverHelper.addCredit(this.maxConcurrentCalls);
-      logger.verbose(
-        `${this.logPrefix} onDetached: link has been reestablished, added ${this.maxConcurrentCalls} credits.`
-      );
+      await this._subscribeImpl("detach");
     } finally {
       this._isDetaching = false;
     }

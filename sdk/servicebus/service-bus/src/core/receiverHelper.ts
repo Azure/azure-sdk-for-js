@@ -3,6 +3,7 @@
 
 import { Receiver, ReceiverEvents } from "rhea-promise";
 import { receiverLogger as logger } from "../log";
+import { ServiceBusError } from "../serviceBusError";
 
 /**
  * Wraps the receiver with some higher level operations for managing state
@@ -34,6 +35,14 @@ export class ReceiverHelper {
         `${logPrefix} Asked to add ${credits} credits but the receiver is not able to receive messages`
       );
       return false;
+    }
+
+    if (!this._isValidReceiver(receiver)) {
+      // this is a retryable error (they can recreate a receiver and do this again)
+      throw new ServiceBusError(
+        "Can't add credits to the receiver. Link will be reinitialized.",
+        "GeneralError"
+      );
     }
 
     if (receiver != null) {

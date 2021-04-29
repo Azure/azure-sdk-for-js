@@ -187,6 +187,13 @@ describe("shared receiver code", () => {
       );
     });
   });
+
+  it("retryForever", () => {
+    // TODO: respects AbortSignal
+    // TODO: uses retry<> properly and retries if retry<> throws
+    // TODO: exits if operation is successful
+    assert.fail("retryForever tests not yet implemented");
+  });
 });
 
 it("error handler wrapper", () => {

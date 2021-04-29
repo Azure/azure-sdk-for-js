@@ -348,7 +348,7 @@ describe("Receiver unit tests", () => {
       const expectedAbortSignal = createAbortSignalForTest();
 
       const existingReceiver = {
-        init: async (_args) => {
+        initWithRetries: async (_args) => {
           assert.equal(
             _args.abortSignal,
             expectedAbortSignal,

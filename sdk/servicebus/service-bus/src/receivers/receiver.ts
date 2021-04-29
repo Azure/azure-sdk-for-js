@@ -6,10 +6,9 @@ import {
   GetMessageIteratorOptions,
   MessageHandlers,
   ReceiveMessagesOptions,
-  SubscribeOptions,
-  InternalMessageHandlers
+  SubscribeOptions
 } from "../models";
-import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceivedMessage } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -22,8 +21,8 @@ import {
   throwErrorIfInvalidOperationOnMessage,
   throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
-import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
-import { StreamingReceiverInitArgs, StreamingReceiver } from "../core/streamingReceiver";
+import { ReceiveOptions } from "../core/messageReceiver";
+import { StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
 import {
   abandonMessage,
@@ -31,15 +30,13 @@ import {
   completeMessage,
   deadLetterMessage,
   deferMessage,
-  getMessageIterator,
-  wrapProcessErrorHandler
+  getMessageIterator
 } from "./receiverCommon";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
-import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
 
@@ -289,8 +286,6 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   private _streamingReceiver?: StreamingReceiver;
   private _lockRenewer: LockRenewer | undefined;
 
-  private _createProcessingSpan: typeof createProcessingSpan;
-
   private get logPrefix(): string {
     return `[${this._context.connectionId}|receiver:${this.entityPath}]`;
   }
@@ -312,7 +307,6 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       maxAutoRenewLockDurationInMs,
       receiveMode
     );
-    this._createProcessingSpan = createProcessingSpan;
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -336,119 +330,6 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
   public get isClosed(): boolean {
     return this._isClosed || this._context.wasConnectionCloseCalled;
-  }
-
-  /**
-   * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
-   * from a Queue/Subscription.
-   * To stop receiving messages, call `close()` on the Receiver.
-   *
-   * Throws an error if there is another receive operation in progress on the same receiver. If you
-   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
-   * property on the receiver.
-   *
-   * @param onMessage - Handler for processing each incoming message.
-   * @param onError - Handler for any error that occurs while receiving or processing messages.
-   * @param options - Options to control if messages should be automatically completed, and/or have
-   * their locks automatically renewed. You can control the maximum number of messages that should
-   * be concurrently processed. You can also provide a timeout in milliseconds to denote the
-   * amount of time to wait for a new message before closing the receiver.
-   *
-   * @throws Error if the underlying connection or receiver is closed.
-   * @throws Error if current receiver is already in state of receiving messages.
-   * @throws ServiceBusError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
-   */
-  private _registerMessageHandler(
-    onInitialize: () => Promise<void>,
-    onMessage: OnMessage,
-    onError: OnError,
-    options: SubscribeOptions
-  ): void {
-    this._throwIfReceiverOrConnectionClosed();
-    this._throwIfAlreadyReceiving();
-    const connId = this._context.connectionId;
-    throwTypeErrorIfParameterMissing(connId, "onMessage", onMessage);
-    throwTypeErrorIfParameterMissing(connId, "onError", onError);
-    if (typeof onMessage !== "function") {
-      throw new TypeError("The parameter 'onMessage' must be of type 'function'.");
-    }
-    if (typeof onError !== "function") {
-      throw new TypeError("The parameter 'onError' must be of type 'function'.");
-    }
-
-    this._createStreamingReceiver({
-      ...options,
-      receiveMode: this.receiveMode,
-      retryOptions: this._retryOptions,
-      lockRenewer: this._lockRenewer,
-      onError
-    })
-      .then(async (sReceiver) => {
-        if (!sReceiver) {
-          return;
-        }
-        this._streamingReceiver = sReceiver;
-
-        try {
-          await onInitialize();
-        } catch (err) {
-          onError({
-            error: err,
-            errorSource: "receive",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
-          });
-        }
-
-        if (!this.isClosed) {
-          sReceiver.subscribe(onMessage, onError);
-        } else {
-          await sReceiver.close();
-        }
-        return;
-      })
-      .catch((err) => {
-        // TODO: being a bit broad here but the only errors that should filter out this
-        // far are going to be bootstrapping the subscription.
-        onError({
-          error: err,
-          errorSource: "receive",
-          entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host
-        });
-      });
-  }
-
-  private async _createStreamingReceiver(
-    options: StreamingReceiverInitArgs
-  ): Promise<StreamingReceiver> {
-    throwErrorIfConnectionClosed(this._context);
-    if (options.autoCompleteMessages == null) options.autoCompleteMessages = true;
-
-    // When the user "stops" a streaming receiver (via the returned instance from 'subscribe' we just suspend
-    // it, leaving the link open). This allows users to stop the flow of messages but still be able to settle messages
-    // since the link itself hasn't been shut down.
-    //
-    // Users can, if they want, restart their subscription (since we've got a link already established).
-    // So you'll have an instance here if the user has done:
-    // 1. const subscription = receiver.subscribe()
-    // 2. subscription.stop()
-    // 3. receiver.subscribe()
-    this._streamingReceiver =
-      this._streamingReceiver ?? new StreamingReceiver(this._context, this.entityPath, options);
-
-    // this ensures that if the outer service bus client is closed that  this receiver is cleaned up.
-    // this mostly affects us if we're in the middle of init() - the connection (and receiver) are not yet
-    // open but we do need to close the receiver to exit the init() loop.
-    this._context.messageReceivers[this._streamingReceiver.name] = this._streamingReceiver;
-
-    await this._streamingReceiver.init({
-      connectionId: this._context.connectionId,
-      useNewName: false,
-      ...options
-    });
-
-    return this._streamingReceiver;
   }
 
   async receiveMessages(
@@ -603,25 +484,45 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     close(): Promise<void>;
   } {
     assertValidMessageHandlers(handlers);
-    options = options ?? {};
+    throwErrorIfConnectionClosed(this._context);
+    this._throwIfReceiverOrConnectionClosed();
+    this._throwIfAlreadyReceiving();
 
-    const processError = wrapProcessErrorHandler(handlers);
+    options = {
+      ...(options ?? {}),
+      autoCompleteMessages: options?.autoCompleteMessages ?? true
+    };
 
-    const internalMessageHandlers = handlers as InternalMessageHandlers;
+    // When the user "stops" a streaming receiver (via the returned instance from 'subscribe' we just suspend
+    // it, leaving the link open). This allows users to stop the flow of messages but still be able to settle messages
+    // since the link itself hasn't been shut down.
+    //
+    // Users can, if they want, restart their subscription (since we've got a link already established).
+    // So you'll have an instance here if the user has done:
+    // 1. const subscription = receiver.subscribe()
+    // 2. subscription.stop()
+    // 3. receiver.subscribe()
 
-    this._registerMessageHandler(
-      async () => {
-        if (internalMessageHandlers?.processInitialize) {
-          await internalMessageHandlers.processInitialize();
-        }
-      },
-      async (message: ServiceBusMessageImpl) => {
-        const span = this._createProcessingSpan(message, this, this._context.config, options);
-        return trace(() => handlers.processMessage(message), span);
-      },
-      processError,
-      options
-    );
+    this._streamingReceiver =
+      this._streamingReceiver ??
+      new StreamingReceiver(this._context, this.entityPath, {
+        ...options,
+        receiveMode: this.receiveMode,
+        retryOptions: this._retryOptions,
+        lockRenewer: this._lockRenewer
+      });
+
+    // this ensures that if the outer service bus client is closed that  this receiver is cleaned up.
+    // this mostly affects us if we're in the middle of init() - the connection (and receiver) are not yet
+    // open but we do need to close the receiver to exit the init() loop.
+    this._context.messageReceivers[this._streamingReceiver.name] = this._streamingReceiver;
+
+    this._streamingReceiver.subscribe(handlers, options).catch((_) => {
+      // (the error will already have been reported to the user)
+      if (this._streamingReceiver) {
+        delete this._context.messageReceivers[this._streamingReceiver.name];
+      }
+    });
 
     return {
       close: async (): Promise<void> => {
