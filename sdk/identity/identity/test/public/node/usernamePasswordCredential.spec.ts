@@ -10,18 +10,18 @@ import { UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { Context } from "mocha";
 
-describe("UsernamePasswordCredential", function() {
+describe.skip("UsernamePasswordCredential", function () {
   let cleanup: MsalTestCleanup;
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates", async function() {
+  it("authenticates", async function () {
     const credential = new UsernamePasswordCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -34,7 +34,7 @@ describe("UsernamePasswordCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("allows cancelling the authentication", async function() {
+  it("allows cancelling the authentication", async function () {
     const credential = new UsernamePasswordCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,

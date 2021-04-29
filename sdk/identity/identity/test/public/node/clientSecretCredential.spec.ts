@@ -10,18 +10,18 @@ import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestU
 import { ClientSecretCredential } from "../../../src";
 import { Context } from "mocha";
 
-describe("ClientSecretCredential", function() {
+describe.skip("ClientSecretCredential", function () {
   let cleanup: MsalTestCleanup;
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates", async function() {
+  it("authenticates", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -33,7 +33,7 @@ describe("ClientSecretCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("allows cancelling the authentication", async function() {
+  it("allows cancelling the authentication", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
