@@ -52,7 +52,7 @@ Another way to authenticate is to set up 3 environment variables called `AZURE_C
 
 If you are testing against a personal resource, you can check the [Managed Identity Quickstart Guide for ACS](https://docs.microsoft.com/azure/communication-services/quickstarts/managed-identity-from-cli) for an easy ramp-up process.
 
-For a more in-depth look on how to authenticate using managed identity, refer to the [Azure Identity client library for JavaScript](https://docs.microsoft.com/en-us/javascript/api/overview/azure/identity-readme?view=azure-node-latest) documentation. This document also has more ways for you to authenticate using the `DefaultAzureCredential` object besides the ones we discussed in this contributing file.
+For a more in-depth look on how to authenticate using managed identity, refer to the [Azure Identity client library for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) documentation. This document also has more ways for you to authenticate using the `DefaultAzureCredential` object besides the ones we discussed in this contributing file.
 
 ## Submitting a Pull Request
 
