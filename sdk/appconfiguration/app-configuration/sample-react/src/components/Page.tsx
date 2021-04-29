@@ -42,14 +42,40 @@ const featureFlag2 = {
   }
 };
 
+const featureFlag3 = {
+  id: "react-app-feature-3",
+  description: "",
+  enabled: true,
+  conditions: {
+    client_filters: [
+      {
+        name: "Microsoft.Targeting",
+        parameters: {         
+          Audience : 
+          {
+              Users : ["abc"],
+              Groups : [{
+                  Name : "microsoft.com",
+                  RolloutPercentage : 50
+              }],
+              DefaultRolloutPercentage : 50
+          }
+        }
+      }
+    ]
+  }
+};
+
 export default function Page(): JSX.Element {
   const feature1Name = "react-app-feature-1";
   const feature2Name = "react-app-feature-2";
+  const feature3Name = "react-app-feature-3";
   const [feature1, setFeature1] = useState<{ enabled: boolean }>({ enabled: false });
   const [feature2, setFeature2] = useState<{ enabled: boolean }>({ enabled: false });
+  const [feature3, setFeature3] = useState<{ enabled: boolean }>({ enabled: false });
 
   const getFeatureFlags = async (keys: string[]): Promise<void> => {
-    const [setting1, setting2] = await Promise.all(
+    const [setting1, setting2, setting3] = await Promise.all(
       keys.map((key: string) =>
         client.getConfigurationSetting({
           key: featureFlagPrefix + key
@@ -68,10 +94,69 @@ export default function Page(): JSX.Element {
         const withinRange =
           now - Date.parse(clientFilter.parameters.start) > 0 &&
           Date.parse(clientFilter.parameters.end) - now > 0;
-        setFeature2({ enabled: withinRange });
+        setFeature2({ enabled: setting2.enabled && withinRange });
+      }
+    }
+    if (isFeatureFlag(setting3)) {
+      // console.log(`${setting3.key} is enabled : ${setting3.enabled}`, setting3);
+      const clientFilter = setting3.conditions.clientFilters?.[0];
+      if (isFeatureFlagClientFilter("targeting", clientFilter)) {
+        //Targeting Logic
+        let targetingFlag = false;
+        const usersList= clientFilter.parameters.audience.users;
+        const groupsList = clientFilter.parameters.audience.groups;
+        const defaultRolloutPercentage = clientFilter.parameters.audience.defaultRolloutPercentage;
+        const userEmail = "abc@microsoft.com"; //Replace this userEmail with logged in user's email via auth email fetch logic
+        //User Alias
+        const userAlias = userEmail.split("@")[0];
+        //Forming User Groups
+        const userDomain = userEmail.split("@")[1];
+        const userGroups = [];
+        userGroups.push(userDomain);
+
+         //Check if user is targeted directly
+         if(usersList.includes(userAlias)) targetingFlag = true;
+
+        // Check if the user is in a group that is being targeted
+        if(!targetingFlag){
+
+        for( var userGroup of userGroups )
+        {
+        const groupRollout = groupsList.map((group) => { if(group.name === userGroup) return group.rolloutPercentage; })
+        if( groupRollout.length !== 0)
+          {
+            const audienceContextId = `${userAlias}\n${featureFlag3.id}\n${userGroup}`;
+            targetingFlag =  isTargeted(audienceContextId ,groupRollout[0]!);
+          }
+        } 
+      }
+
+      if(!targetingFlag){
+      // Check if the user is being targeted by a default rollout percentage
+      const defaultContextId = `${userAlias}\n${featureFlag3.id}`;
+      targetingFlag = isTargeted(defaultContextId, defaultRolloutPercentage);
+      }
+
+        setFeature3({ enabled: setting3.enabled && targetingFlag});
       }
     }
   };
+
+  const isTargeted = (contextId: string, percentage: number) =>
+{
+const CryptoJS = require("crypto-js");
+const hash = CryptoJS.SHA256(contextId);
+const hexhash = hash.toString(CryptoJS.enc.Hex).slice(0,8);
+const data = hexhash.match(/../g);
+const buf = new ArrayBuffer(4);
+const view = new DataView(buf);
+data.forEach(function (b: string, i: number) {
+    view.setUint8(i, parseInt(b, 16));
+});
+const contextMarker = view.getUint32(0, true);
+const contextPercentage = ((contextMarker/4294967295.0)*100);
+return (contextPercentage < percentage);
+}
 
   useEffect(() => {
     const endpoint = getEnvironmentVariable("REACT_APP_APPCONFIG_ENDPOINT");
@@ -79,7 +164,7 @@ export default function Page(): JSX.Element {
     const tenantId = getEnvironmentVariable("REACT_APP_AZURE_TENANT_ID");
     const credential = new InteractiveBrowserCredential({ clientId, tenantId });
     client = new AppConfigurationClient(endpoint, credential);
-    getFeatureFlags([feature1Name, feature2Name]);
+    getFeatureFlags([feature1Name, feature2Name, feature3Name]);
   }, []);
 
   return (
@@ -109,6 +194,14 @@ export default function Page(): JSX.Element {
                 href="#"
               >
                 Beta Feature (Feature 2 - Time Window)
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                className={(feature3.enabled ? "" : "cursor-disabled").concat(" nav-link")}
+                href="#"
+              >
+                Beta Feature (Feature 3 - Targeting)
               </a>
             </li>
           </ul>
@@ -157,6 +250,27 @@ export default function Page(): JSX.Element {
                   <p>
                     "Another action (Feature 2 - Time Window)" button in the dropdown will be
                     enabled based on the time window from the client filter.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="alert alert-light">
+          <h4 className="alert-heading">Feature Flag 3</h4>
+          <div className="container">
+            <div className="row">
+              <div className="col">
+                <pre>{JSON.stringify(featureFlag3, null, 2)}</pre>
+              </div>
+              <div className="col">
+                <div className="row">
+                  <h4>== Description ==</h4>
+                </div>
+                <div className="row">
+                  <p>
+                    "Another action (Feature 3 - Targeting)" button in the dropdown will be
+                    enabled based on the targeting parameters from the client filter.
                   </p>
                 </div>
               </div>
