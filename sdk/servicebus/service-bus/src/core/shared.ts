@@ -123,10 +123,18 @@ export function incomingBufferProperties(
   numberOfFilledSlots: number; // number of unsettled messages
 } {
   const incomingDeliveries = receiver?.session?.incoming?.deliveries;
+  let numberOfEmptySlots = 0;
+  if (incomingDeliveries && incomingDeliveries.capacity - 1 > incomingDeliveries.size) {
+    // Exmpty slots should have been `incomingDeliveries.capacity - 1 - incomingDeliveries.size`. Why -1?
+    // - If the number of slots is set to (capacity - size),
+    //   the number of unsettled messages that can be held in the buffer would equal to the "capacity".
+    //   At that limiting point, service doesn't respond to the drain request for unpartitioned queues.
+    //   Service team is tracking the issue.
+    // -1 allows us to not fill up the buffer entirely, it fills up to 2047 if the capacity is 2048
+    numberOfEmptySlots = incomingDeliveries.capacity - 1 - incomingDeliveries.size;
+  }
   return {
-    numberOfEmptySlots: incomingDeliveries
-      ? incomingDeliveries.capacity - incomingDeliveries.size - 1
-      : 0,
+    numberOfEmptySlots,
     numberOfFilledSlots: incomingDeliveries ? incomingDeliveries.size : 0
   };
 }
