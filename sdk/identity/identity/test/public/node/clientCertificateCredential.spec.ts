@@ -13,19 +13,19 @@ import { Context } from "mocha";
 
 const ASSET_PATH = "assets";
 
-describe.skip("ClientCertificateCredential", function () {
+describe.skip("ClientCertificateCredential", function() {
   let cleanup: MsalTestCleanup;
-  beforeEach(function (this: Context) {
+  beforeEach(function(this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
   });
-  afterEach(async function () {
+  afterEach(async function() {
     await cleanup();
   });
 
   const certificatePath = path.join(ASSET_PATH, "cert.pem");
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates", async function (this: Context) {
+  it("authenticates", async function(this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -44,7 +44,7 @@ describe.skip("ClientCertificateCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with sendCertificateChain", async function (this: Context) {
+  it("authenticates with sendCertificateChain", async function(this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -64,7 +64,7 @@ describe.skip("ClientCertificateCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("allows cancelling the authentication", async function () {
+  it("allows cancelling the authentication", async function() {
     const credential = new ClientCertificateCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -89,7 +89,7 @@ describe.skip("ClientCertificateCredential", function () {
     assert.ok(error?.message.includes("could not resolve endpoints"));
   });
 
-  it("supports tracing", async function (this: Context) {
+  it("supports tracing", async function(this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,

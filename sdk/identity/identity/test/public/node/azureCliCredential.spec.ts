@@ -4,8 +4,8 @@
 import assert from "assert";
 import { MockAzureCliCredentialClient } from "../../mockAzureCliCredentialClient";
 
-describe.skip("AzureCliCredential", function () {
-  it("get access token without error", async function () {
+describe.skip("AzureCliCredential", function() {
+  it("get access token without error", async function() {
     const mockCliCredentialClient = new MockAzureCliCredentialClient({
       stdout: '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}',
       stderr: ""
