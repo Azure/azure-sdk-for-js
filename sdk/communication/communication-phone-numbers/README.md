@@ -110,7 +110,10 @@ Use the `beginSearchAvailablePhoneNumbers` method to search for phone numbers an
 `beginSearchAvailablePhoneNumbers` is a long running operation and returns a poller.
 
 ```typescript
-import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "@azure/communication-phone-numbers";
+import {
+  PhoneNumbersClient,
+  SearchAvailablePhoneNumbersRequest
+} from "@azure/communication-phone-numbers";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
@@ -209,7 +212,10 @@ Use the `beginUpdatePhoneNumberCapabilities` method to update the capabilities o
 `beginUpdatePhoneNumberCapabilities` is a long running operation and returns a poller.
 
 ```typescript
-import { PhoneNumbersClient, PhoneNumberCapabilitiesRequest } from "@azure/communication-phone-numbers";
+import {
+  PhoneNumbersClient,
+  PhoneNumberCapabilitiesRequest
+} from "@azure/communication-phone-numbers";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
