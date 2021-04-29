@@ -6,13 +6,23 @@
 import Sinon from "sinon";
 import assert from "assert";
 import { PublicClientApplication } from "@azure/msal-node";
-import { env, isLiveMode } from "@azure/test-utils-recorder";
+import { env, isLiveMode, isPlaybackMode } from "@azure/test-utils-recorder";
 import { DeviceCodeCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
 
 describe("DeviceCodeCredential (internal)", function() {
+  // DeviceCodeCredential tests may hang. They are disabled on playback until the underlying bug is fixed.
+  // The underlying bug: https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/3476
+  // I still want to keep these tests on live tests for the upcoming Identity releases.
+  if (isPlaybackMode()) {
+    console.log(
+      "DeviceCodeCredential tests may hang. They are disabled on playback until the underlying bug is fixed."
+    );
+    return;
+  }
+
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;

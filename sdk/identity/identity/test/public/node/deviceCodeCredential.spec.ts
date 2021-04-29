@@ -11,6 +11,16 @@ import { msalNodeTestSetup, MsalTestCleanup, testTracing } from "../../msalTestU
 import { Context } from "mocha";
 
 describe("DeviceCodeCredential", function() {
+  // DeviceCodeCredential tests may hang. They are disabled on playback until the underlying bug is fixed.
+  // The underlying bug: https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/3476
+  // I still want to keep these tests on live tests for the upcoming Identity releases.
+  if (isPlaybackMode()) {
+    console.log(
+      "DeviceCodeCredential tests may hang. They are disabled on playback until the underlying bug is fixed."
+    );
+    return;
+  }
+
   let cleanup: MsalTestCleanup;
   beforeEach(function(this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
