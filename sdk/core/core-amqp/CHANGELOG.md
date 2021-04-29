@@ -1,5 +1,8 @@
 # Release History
 
+## 2.3.1 (Unreleased)
+
+
 ## 2.3.0 (2021-04-29)
 
 - Updates `AmqpAnnotatedMessage` to identify the AMQP section where body data was decoded from. [PR 14703](https://github.com/Azure/azure-sdk-for-js/pull/14703).
