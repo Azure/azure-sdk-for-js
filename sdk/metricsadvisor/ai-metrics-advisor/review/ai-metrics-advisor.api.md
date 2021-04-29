@@ -709,8 +709,8 @@ export type MetricAnomalyAlertScope = {
 // @public
 export type MetricAnomalyFeedback = {
     feedbackType: "Anomaly";
-    startTime?: Date;
-    endTime?: Date;
+    startTime: Date;
+    endTime: Date;
     value: "AutoDetect" | "Anomaly" | "NotAnomaly";
     readonly anomalyDetectionConfigurationId?: string;
     readonly anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
@@ -738,7 +738,7 @@ export type MetricBoundaryCondition = {
 // @public
 export type MetricChangePointFeedback = {
     feedbackType: "ChangePoint";
-    startTime?: Date;
+    startTime: Date;
     value: "AutoDetect" | "ChangePoint" | "NotChangePoint";
 } & MetricFeedbackCommon;
 
