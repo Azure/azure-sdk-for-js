@@ -213,7 +213,7 @@ export const StorageAccountCheckNameAvailabilityParameters: msRest.CompositeMapp
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.Storage/storageAccounts',
+        defaultValue: "Microsoft.Storage/storageAccounts",
         type: {
           name: "String"
         }
@@ -298,10 +298,7 @@ export const SkuInformation: msRest.CompositeMapper = {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Standard",
-            "Premium"
-          ]
+          allowedValues: ["Standard", "Premium"]
         }
       },
       resourceType: {
@@ -377,10 +374,7 @@ export const CheckNameAvailabilityResult: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "AccountNameInvalid",
-            "AlreadyExists"
-          ]
+          allowedValues: ["AccountNameInvalid", "AlreadyExists"]
         }
       },
       message: {
@@ -411,6 +405,71 @@ export const CustomDomain: msRest.CompositeMapper = {
         serializedName: "useSubDomainName",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const SasPolicy: msRest.CompositeMapper = {
+  serializedName: "SasPolicy",
+  type: {
+    name: "Composite",
+    className: "SasPolicy",
+    modelProperties: {
+      sasExpirationPeriod: {
+        required: true,
+        serializedName: "sasExpirationPeriod",
+        type: {
+          name: "String"
+        }
+      },
+      expirationAction: {
+        required: true,
+        isConstant: true,
+        serializedName: "expirationAction",
+        defaultValue: "Log",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyPolicy: msRest.CompositeMapper = {
+  serializedName: "KeyPolicy",
+  type: {
+    name: "Composite",
+    className: "KeyPolicy",
+    modelProperties: {
+      keyExpirationPeriodInDays: {
+        required: true,
+        serializedName: "keyExpirationPeriodInDays",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const KeyCreationTime: msRest.CompositeMapper = {
+  serializedName: "KeyCreationTime",
+  type: {
+    name: "Composite",
+    className: "KeyCreationTime",
+    modelProperties: {
+      key1: {
+        serializedName: "key1",
+        type: {
+          name: "DateTime"
+        }
+      },
+      key2: {
+        serializedName: "key2",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -558,7 +617,7 @@ export const Encryption: msRest.CompositeMapper = {
       keySource: {
         required: true,
         serializedName: "keySource",
-        defaultValue: 'Microsoft.Storage',
+        defaultValue: "Microsoft.Storage",
         type: {
           name: "String"
         }
@@ -648,12 +707,10 @@ export const VirtualNetworkRule: msRest.CompositeMapper = {
       },
       action: {
         serializedName: "action",
-        defaultValue: 'Allow',
+        defaultValue: "Allow",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Allow"
-          ]
+          allowedValues: ["Allow"]
         }
       },
       state: {
@@ -681,12 +738,10 @@ export const IPRule: msRest.CompositeMapper = {
       },
       action: {
         serializedName: "action",
-        defaultValue: 'Allow',
+        defaultValue: "Allow",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Allow"
-          ]
+          allowedValues: ["Allow"]
         }
       }
     }
@@ -701,7 +756,7 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
     modelProperties: {
       bypass: {
         serializedName: "bypass",
-        defaultValue: 'AzureServices',
+        defaultValue: "AzureServices",
         type: {
           name: "String"
         }
@@ -745,13 +800,10 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
       defaultAction: {
         required: true,
         serializedName: "defaultAction",
-        defaultValue: 'Allow',
+        defaultValue: "Allow",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Allow",
-            "Deny"
-          ]
+          allowedValues: ["Allow", "Deny"]
         }
       }
     }
@@ -944,10 +996,7 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Standard",
-            "Premium"
-          ]
+          allowedValues: ["Standard", "Premium"]
         }
       }
     }
@@ -1007,6 +1056,20 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
           className: "Identity"
         }
       },
+      sasPolicy: {
+        serializedName: "properties.sasPolicy",
+        type: {
+          name: "Composite",
+          className: "SasPolicy"
+        }
+      },
+      keyPolicy: {
+        serializedName: "properties.keyPolicy",
+        type: {
+          name: "Composite",
+          className: "KeyPolicy"
+        }
+      },
       customDomain: {
         serializedName: "properties.customDomain",
         type: {
@@ -1032,10 +1095,7 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         serializedName: "properties.accessTier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Hot",
-            "Cool"
-          ]
+          allowedValues: ["Hot", "Cool"]
         }
       },
       azureFilesIdentityBasedAuthentication: {
@@ -1613,11 +1673,7 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Creating",
-            "ResolvingDNS",
-            "Succeeded"
-          ]
+          allowedValues: ["Creating", "ResolvingDNS", "Succeeded"]
         }
       },
       primaryEndpoints: {
@@ -1640,10 +1696,7 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.statusOfPrimary",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "unavailable"
-          ]
+          allowedValues: ["available", "unavailable"]
         }
       },
       lastGeoFailoverTime: {
@@ -1665,10 +1718,7 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.statusOfSecondary",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "unavailable"
-          ]
+          allowedValues: ["available", "unavailable"]
         }
       },
       creationTime: {
@@ -1684,6 +1734,30 @@ export const StorageAccount: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CustomDomain"
+        }
+      },
+      sasPolicy: {
+        readOnly: true,
+        serializedName: "properties.sasPolicy",
+        type: {
+          name: "Composite",
+          className: "SasPolicy"
+        }
+      },
+      keyPolicy: {
+        readOnly: true,
+        serializedName: "properties.keyPolicy",
+        type: {
+          name: "Composite",
+          className: "KeyPolicy"
+        }
+      },
+      keyCreationTime: {
+        readOnly: true,
+        serializedName: "properties.keyCreationTime",
+        type: {
+          name: "Composite",
+          className: "KeyCreationTime"
         }
       },
       secondaryEndpoints: {
@@ -1707,10 +1781,7 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.accessTier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Hot",
-            "Cool"
-          ]
+          allowedValues: ["Hot", "Cool"]
         }
       },
       azureFilesIdentityBasedAuthentication: {
@@ -1842,10 +1913,14 @@ export const StorageAccountKey: msRest.CompositeMapper = {
         serializedName: "permissions",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Read",
-            "Full"
-          ]
+          allowedValues: ["Read", "Full"]
+        }
+      },
+      creationTime: {
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -1937,14 +2012,25 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
           className: "Encryption"
         }
       },
+      sasPolicy: {
+        serializedName: "properties.sasPolicy",
+        type: {
+          name: "Composite",
+          className: "SasPolicy"
+        }
+      },
+      keyPolicy: {
+        serializedName: "properties.keyPolicy",
+        type: {
+          name: "Composite",
+          className: "KeyPolicy"
+        }
+      },
       accessTier: {
         serializedName: "properties.accessTier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Hot",
-            "Cool"
-          ]
+          allowedValues: ["Hot", "Cool"]
         }
       },
       azureFilesIdentityBasedAuthentication: {
@@ -2116,10 +2202,7 @@ export const AccountSasParameters: msRest.CompositeMapper = {
         serializedName: "signedProtocol",
         type: {
           name: "Enum",
-          allowedValues: [
-            "https,http",
-            "https"
-          ]
+          allowedValues: ["https,http", "https"]
         }
       },
       sharedAccessStartTime: {
@@ -2197,10 +2280,7 @@ export const ServiceSasParameters: msRest.CompositeMapper = {
         serializedName: "signedProtocol",
         type: {
           name: "Enum",
-          allowedValues: [
-            "https,http",
-            "https"
-          ]
+          allowedValues: ["https,http", "https"]
         }
       },
       sharedAccessStartTime: {
@@ -2618,7 +2698,7 @@ export const ManagementPolicyRule: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Lifecycle',
+        defaultValue: "Lifecycle",
         type: {
           name: "String"
         }
@@ -2998,7 +3078,7 @@ export const BlobInventoryPolicySchema: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Inventory',
+        defaultValue: "Inventory",
         type: {
           name: "String"
         }
@@ -3446,11 +3526,7 @@ export const BlobContainer: msRest.CompositeMapper = {
         serializedName: "properties.publicAccess",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Container",
-            "Blob",
-            "None"
-          ]
+          allowedValues: ["Container", "Blob", "None"]
         }
       },
       lastModifiedTime: {
@@ -3636,11 +3712,7 @@ export const ListContainerItem: msRest.CompositeMapper = {
         serializedName: "properties.publicAccess",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Container",
-            "Blob",
-            "None"
-          ]
+          allowedValues: ["Container", "Blob", "None"]
         }
       },
       lastModifiedTime: {

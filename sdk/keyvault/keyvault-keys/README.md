@@ -828,8 +828,8 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/javascript)
-- [KeyVault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/typescript)
+- [KeyVault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/v4/javascript)
+- [KeyVault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/v4/typescript)
 - [KeyVault Keys Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/test/)
 
 ## Contributing

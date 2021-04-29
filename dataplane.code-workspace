@@ -53,6 +53,14 @@
       "path": "sdk/core/core-client"
     },
     {
+      "name": "rest-core-client",
+      "path": "sdk/core-rest/core-client"
+    },
+    {
+      "name": "ai-document-translator",
+      "path": "sdk/documenttranslator/ai-document-translator-rest"
+    },
+    {
       "name": "core-crypto",
       "path": "sdk/core/core-crypto"
     },
@@ -265,6 +273,7 @@
       "**/*.map": true,
       "**/dist-*/*": true,
       "**/test-dist/*": true,
+      "**/dist-test/*": true,
       "**/node_modules": true,
       "**/bower_components": true,
       "**/*.code-search": true,

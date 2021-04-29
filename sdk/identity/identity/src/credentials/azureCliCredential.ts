@@ -3,10 +3,11 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { createSpan } from "../util/tracing";
-import { CredentialUnavailable } from "../client/errors";
+import { CredentialUnavailableError } from "../client/errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import * as child_process from "child_process";
+import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 
 function getSafeWorkingDir(): string {
   if (process.platform === "win32") {
@@ -71,14 +72,8 @@ export class AzureCliCredential implements TokenCredential {
       const scope = typeof scopes === "string" ? scopes : scopes[0];
       logger.getToken.info(`Using the scope ${scope}`);
 
-      const resource = scope.replace(/\/.default$/, "");
-
-      // Check to make sure the scope we get back is a valid scope
-      if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
-        const error = new Error("Invalid scope was specified by the user or calling client");
-        logger.getToken.info(formatError(scopes, error));
-        throw error;
-      }
+      ensureValidScope(scope, logger);
+      const resource = getScopeResource(scope);
 
       let responseData = "";
 
@@ -91,19 +86,19 @@ export class AzureCliCredential implements TokenCredential {
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
             if (isNotInstallError) {
-              const error = new CredentialUnavailable(
+              const error = new CredentialUnavailableError(
                 "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
               );
               logger.getToken.info(formatError(scopes, error));
               throw error;
             } else if (isLoginError) {
-              const error = new CredentialUnavailable(
+              const error = new CredentialUnavailableError(
                 "Please run 'az login' from a command prompt to authenticate before using this credential."
               );
               logger.getToken.info(formatError(scopes, error));
               throw error;
             }
-            const error = new CredentialUnavailable(obj.stderr);
+            const error = new CredentialUnavailableError(obj.stderr);
             logger.getToken.info(formatError(scopes, error));
             throw error;
           } else {

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-http";
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
-import { CredentialUnavailable } from "../client/errors";
+import { CredentialUnavailableError } from "../client/errors";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
-import { AuthenticationRequired } from "./errors";
+import { AuthenticationRequiredError } from "./errors";
 import { MsalFlowOptions } from "./flows";
+import { AbortError } from "@azure/abort-controller";
 
 /**
  * Latest AuthenticationRecord version
@@ -30,7 +30,7 @@ export function ensureValidMsalToken(
 ): void {
   const error = (message: string): Error => {
     logger.getToken.info(message);
-    return new AuthenticationRequired(
+    return new AuthenticationRequiredError(
       Array.isArray(scopes) ? scopes : [scopes],
       getTokenOptions,
       message
@@ -84,16 +84,16 @@ export const defaultLoggerCallback: (logger: CredentialLogger) => msalCommon.ILo
     return;
   }
   switch (level) {
-    case msalNode.LogLevel.Error:
+    case msalCommon.LogLevel.Error:
       logger.info(`MSAL Browser V2 error: ${message}`);
       return;
-    case msalNode.LogLevel.Info:
+    case msalCommon.LogLevel.Info:
       logger.info(`MSAL Browser V2 info message: ${message}`);
       return;
-    case msalNode.LogLevel.Verbose:
+    case msalCommon.LogLevel.Verbose:
       logger.info(`MSAL Browser V2 verbose message: ${message}`);
       return;
-    case msalNode.LogLevel.Warning:
+    case msalCommon.LogLevel.Warning:
       logger.info(`MSAL Browser V2 warning: ${message}`);
       return;
   }
@@ -149,16 +149,23 @@ export class MsalBaseUtilities {
    * Handles MSAL errors.
    */
   protected handleError(scopes: string[], error: Error, getTokenOptions?: GetTokenOptions): Error {
-    if (error instanceof msalCommon.AuthError) {
-      switch (error.errorCode) {
+    if (
+      error.name === "AuthError" ||
+      error.name === "ClientAuthError" ||
+      error.name === "BrowserAuthError"
+    ) {
+      const msalError = error as msalCommon.AuthError;
+      switch (msalError.errorCode) {
         case "endpoints_resolution_error":
           this.logger.info(formatError(scopes, error.message));
-          return new CredentialUnavailable(error.message);
+          return new CredentialUnavailableError(error.message);
+        case "device_code_polling_cancelled":
+          return new AbortError("The authentication has been aborted by the caller.");
         case "consent_required":
         case "interaction_required":
         case "login_required":
           this.logger.info(
-            formatError(scopes, `Authentication returned errorCode ${error.errorCode}`)
+            formatError(scopes, `Authentication returned errorCode ${msalError.errorCode}`)
           );
           break;
         default:
@@ -166,13 +173,14 @@ export class MsalBaseUtilities {
           break;
       }
     }
-    if (error instanceof msalCommon.ClientConfigurationError) {
+    if (
+      error.name === "ClientConfigurationError" ||
+      error.name === "BrowserConfigurationAuthError" ||
+      error.name === "AbortError"
+    ) {
       return error;
     }
-    if (error.name === "AbortError") {
-      return error;
-    }
-    return new AuthenticationRequired(scopes, getTokenOptions, error.message);
+    return new AuthenticationRequiredError(scopes, getTokenOptions, error.message);
   }
 }
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { URLBuilder } from "@azure/core-http";
+import { RequestBodyTransformsType } from "./requestBodyTransform";
 
 export { testHasChanged } from "./recordings";
 
@@ -45,6 +46,14 @@ export interface RecorderEnvironmentSetup {
    * @memberof RecorderEnvironmentSetup
    */
   customizationsOnRecordings: Array<(content: string) => string>;
+  /**
+   * Used in record and playback modes
+   *
+   *  Array of callback functions provided to customize the request body
+   *  - Record mode: These callbacks will be applied on the request body before the recording is saved
+   *  - Playback mode: These callbacks will be applied on the request body of the new requests
+   */
+  requestBodyTransformations?: RequestBodyTransformsType;
   /**
    * Used in record and playback modes
    *
@@ -505,10 +514,14 @@ export function maskAccessTokenInBrowserRecording(fixtures: string): string {
     // Replaces only if the content-type is json
     if (isContentTypeInBrowserRecording(fixtures[i], jsonContentTypes)) {
       if ((fixtures[i] as any).response) {
-        const parsedResponse = JSON.parse((fixtures[i] as any).response);
-        if (parsedResponse["access_token"]) {
-          parsedResponse["access_token"] = "access_token";
-          (fixtures[i] as any).response = JSON.stringify(parsedResponse);
+        try {
+          const parsedResponse = JSON.parse((fixtures[i] as any).response);
+          if (parsedResponse["access_token"]) {
+            parsedResponse["access_token"] = "access_token";
+            (fixtures[i] as any).response = JSON.stringify(parsedResponse);
+          }
+        } catch (_) {
+          // Skip for non-JSON parsable content
         }
       }
     }

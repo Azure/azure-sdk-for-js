@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-certificates",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.2.0-beta.3",
+  "version": "4.2.0-beta.4",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/README.md",
@@ -40,19 +40,19 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
+    "build:samples": "echo Obsolete.",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist-esm dist-test typings *.tgz *.log samples/typescript/dist",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/keyvault-certificates/dist-samples/typescript/src/",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 250000 --full-trace \"dist-esm/**/*.spec.js\"",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 300000 --full-trace \"dist-esm/**/*.spec.js\"",
     "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace \"dist-esm/**/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
@@ -64,7 +64,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 250000 --full-trace \"dist-test/index.node.js\"",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 300000 --full-trace \"dist-test/index.node.js\"",
     "unit-test:node:no-timeout": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace \"dist-test/index.node.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
@@ -83,13 +83,24 @@
     ]
   },
   "//sampleConfiguration": {
+    "productName": "Azure Key Vault Certificates",
+    "productSlugs": [
+      "azure",
+      "azure-key-vault"
+    ],
     "skip": [
       "backupAndRestore.js",
       "listCertificates.js",
       "mergeCertificate.js",
       "contacts.js",
       "deleteAndRecover.js"
-    ]
+    ],
+    "requiredResources": {
+      "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+    },
+    "customSnippets": {
+      "prerequisites": "samples-dev/snippets/_prerequisites.md"
+    }
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
@@ -103,7 +114,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "2.0.0-beta.3",
     "@azure/keyvault-secrets": "^4.2.0-beta.4",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",

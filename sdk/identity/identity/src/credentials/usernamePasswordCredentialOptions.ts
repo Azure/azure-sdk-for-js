@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
+import { TokenCredentialOptions } from "../client/identityClient";
 
 /**
  * Defines options for the {@link UsernamePasswordCredential} class.
  */
-export interface UsernamePasswordCredentialOptions extends InteractiveCredentialOptions {}
+export interface UsernamePasswordCredentialOptions extends TokenCredentialOptions {}

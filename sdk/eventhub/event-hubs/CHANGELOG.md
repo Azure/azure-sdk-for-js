@@ -1,5 +1,13 @@
 # Release History
 
+## 5.5.1 (2021-04-29)
+
+- Fixes a race condition that would cause connection recovery to sometimes fail if a consumer or producer was closed at the same time a connection was disconnected.
+
+- Fixes issue [#14606](https://github.com/Azure/azure-sdk-for-js/issues/14606) where the `EventHubConsumerClient` could call subscribe's `processError` callback with a "Too much pending tasks" error. This could occur if the consumer was unable to connect to the service for an extended period of time.
+
+- Fixes issue [#15002](https://github.com/Azure/azure-sdk-for-js/issues/15002) where in rare cases an unexpected `TypeError` could be thrown from `EventHubProducerClient.sendBatch` when the connection was disconnected while sending events was in progress.
+
 ## 5.5.0 (2021-04-06)
 
 - Updates the methods on the `CheckpointStore` interface to accept

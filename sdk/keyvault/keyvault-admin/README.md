@@ -52,13 +52,15 @@ Use the [Azure CLI][azure-cli] snippet below to create/get client secret credent
   ```
 - Use the returned credentials above to set **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables.
 
-#### Get or create an Azure Key Vault with the Azure CLI
+#### Get or create an Azure Managed HSM with the Azure CLI
 
-- Create the Key Vault and grant the above mentioned application authorization to perform administrative operations on the Azure Key Vault (replace `<your-resource-group-name>` and `<your-key-vault-name>` with your own, unique names and `<your-service-principal-object-id>` with the value from above):
+- Create the Managed HSM and grant the above mentioned service principal authorization to perform administrative operations on the Azure Key Vault (replace `<your-resource-group-name>` and `<your-key-vault-name>` with your own, unique names and `<your-service-principal-object-id>` with the value from above):
 
   ```
   az keyvault create --hsm-name <your-key-vault-name> --resource-group <your-resource-group-name> --administrators <your-service-principal-object-id> --location <your-azure-location>
   ```
+
+  The service principal is automatically added to the "Managed HSM Administrators" [built-in role][built_in_roles].
 
 - Use the above mentioned Azure Key Vault name to retrieve details of your Vault which also contains your Azure Key Vault URL:
   ```PowerShell
@@ -89,6 +91,19 @@ Use the az keyvault security-domain download command to download the security do
 ```PowerShell
 az keyvault security-domain download --hsm-name <your-key-vault-name> --sd-wrapping-keys ./certs/cert_0.cer ./certs/cert_1.cer ./certs/cert_2.cer --sd-quorum 2 --security-domain-file ContosoMHSM-SD.json
 ```
+
+#### Controlling access to your managed HSM
+
+The designated administrators assigned during creation are automatically added to the "Managed HSM Administrators" [built-in role][built_in_roles],
+who are able to download a security domain and [manage roles for data plane access][access_control], among other limited permissions.
+
+To perform other actions on keys, you need to assign principals to other roles such as "Managed HSM Crypto User", which can perform non-destructive key operations:
+
+```PowerShell
+az keyvault role assignment create --hsm-name <your-key-vault-name> --role "Managed HSM Crypto User" --scope / --assignee-object-id <principal-or-user-object-ID> --assignee-principal-type <principal-type>
+```
+
+Please read [best practices][best_practices] for properly securing your managed HSM.
 
 #### Get or create an Azure Storage Account with the Azure CLI
 
@@ -190,22 +205,8 @@ The methods that begin long running operations return a poller that allows you t
 
 We have samples both in JavaScript and TypeScript that show the access control and backup/restore features in this package. Please follow the corresponding readmes for detailed steps to run the samples.
 
-- [Readme for JavaScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/README.md)
-- [Readme for TypeScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/README.md)
-
-Direct links to the specific JavaScript samples follow:
-
-- Access control (RBAC):
-  - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Creating a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Getting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-  - [Deleting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-- Backup and restore:
-  - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
-  - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
-  - [Performing a selective key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
-  - [Performing a selective key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
+- [Readme for JavaScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/javascript/README.md)
+- [Readme for TypeScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/typescript/README.md)
 
 ## Troubleshooting
 
@@ -233,31 +234,34 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 <!-- LINKS -->
 
+[dac]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/README.md
+[jwk]: https://tools.ietf.org/html/rfc7517
+[access_control]: https://docs.microsoft.com/azure/key-vault/managed-hsm/access-control
+[api-rest]: https://docs.microsoft.com/rest/api/keyvault/
+[azure-cli]: https://docs.microsoft.com/cli/azure
+[azure-identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
+[azure-sub]: https://azure.microsoft.com/free/
+[backup_client]: ./src/KeyVaultBackupClient.cs
+[best_practices]: https://docs.microsoft.com/azure/key-vault/managed-hsm/best-practices
+[built_in_roles]: https://docs.microsoft.com/azure/key-vault/managed-hsm/built-in-roles
+[code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
+[compiler-options]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
+[core-lro]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro
+[docs-overview]: https://docs.microsoft.com/azure/key-vault/key-vault-overview
+[docs-service]: https://azure.microsoft.com/services/key-vault/
+[docs]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
+
+[dotenv]: https://www.npmjs.com/package/dotenv]
+[identity-npm]: https://www.npmjs.com/package/@azure/identity
+[keyvault_docs]: https://docs.microsoft.com/azure/key-vault/
+[logging]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Diagnostics.ts.com/Azure/azure-sdk-for-net/blob/master/sdk/keyvault/Microsoft.Azure.KeyVault/CONTRIBUTING.md
+[managedhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
 [npm]: https://www.npmjs.com/
 [package-gh]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin
 [package-npm]: https://www.npmjs.com/package/@azure/keyvault-admin
-[identity-npm]: https://www.npmjs.com/package/@azure/identity
-[docs]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
-[docs-service]: https://azure.microsoft.com/services/key-vault/
-[docs-overview]: https://docs.microsoft.com/azure/key-vault/key-vault-overview
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples
-[azure-sub]: https://azure.microsoft.com/free/
-[azure-cli]: https://docs.microsoft.com/cli/azure
-[azure-identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
-[api-rest]: https://docs.microsoft.com/rest/api/keyvault/
-[compiler-options]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
-
-[dotenv]: https://www.npmjs.com/package/dotenv]
-[DAC]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/README.md
-[storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
 [storage-account-create-cli]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli
 [storage-account-create-portal]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal
-[core-lro]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro
-[code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
-[backup_client]: ./src/KeyVaultBackupClient.cs
-[keyvault_docs]: https://docs.microsoft.com/azure/key-vault/
-[JWK]: https://tools.ietf.org/html/rfc7517
-[logging]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Diagnostics.ts.com/Azure/azure-sdk-for-net/blob/master/sdk/keyvault/Microsoft.Azure.KeyVault/CONTRIBUTING.md
-[managedhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
+[storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-net%2Fsdk%2Ftables%2FAzure.Data.Tables%2FREADME.png)

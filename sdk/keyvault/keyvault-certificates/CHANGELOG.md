@@ -1,5 +1,9 @@
 # Release History
 
+## 4.2.0-beta.4 (Unreleased)
+
+- Marked `ErrorModel` as deprecated. It was erronously exported publicly in 4.1 and should not be used. Please change the type to use `CertificateOperationError` instead.
+
 ## 4.2.0-beta.3 (2021-04-06)
 
 - Updated the Latest service version to 7.2.

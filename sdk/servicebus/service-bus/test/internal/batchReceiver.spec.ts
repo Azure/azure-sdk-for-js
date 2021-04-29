@@ -4,17 +4,8 @@
 import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
-import {
-  ServiceBusMessage,
-  delay,
-  ProcessErrorArgs,
-  ServiceBusSender,
-  ServiceBusReceivedMessage
-} from "../../src";
-import {
-  getAlreadyReceivingErrorMsg,
-  InvalidOperationForPeekedMessage
-} from "../../src/util/errors";
+import { ServiceBusMessage, delay, ServiceBusSender, ServiceBusReceivedMessage } from "../../src";
+import { InvalidOperationForPeekedMessage } from "../../src/util/errors";
 import { TestClientType, TestMessage } from "../public/utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import {
@@ -571,73 +562,6 @@ describe("Batching Receiver", () => {
     afterEach(async () => {
       await afterEachTest();
     });
-
-    // We use an empty queue/topic here so that the first receiveMessages call takes time to return
-    async function testParallelReceiveCalls(): Promise<void> {
-      const firstBatchPromise = receiver.receiveMessages(1, { maxWaitTimeInMs: 10000 });
-      await delay(5000);
-
-      let errorMessage;
-      const expectedErrorMessage = getAlreadyReceivingErrorMsg(
-        receiver.entityPath,
-        entityNames.usesSessions ? TestMessage.sessionId : undefined
-      );
-
-      try {
-        await receiver.receiveMessages(1);
-      } catch (err) {
-        errorMessage = err && err.message;
-      }
-      should.equal(
-        errorMessage,
-        expectedErrorMessage,
-        "Unexpected error message for receiveMessages"
-      );
-
-      let unexpectedError;
-      try {
-        receiver.subscribe({
-          async processMessage(): Promise<void> {
-            // process message here - it's basically a ServiceBusMessage minus any settlement related methods
-          },
-          async processError(args: ProcessErrorArgs): Promise<void> {
-            unexpectedError = args.error;
-          }
-        });
-      } catch (err) {
-        errorMessage = err && err.message;
-      }
-      should.equal(
-        errorMessage,
-        expectedErrorMessage,
-        "Unexpected error message for registerMessageHandler"
-      );
-      should.equal(
-        unexpectedError,
-        undefined,
-        "Unexpected error found in errorHandler for registerMessageHandler"
-      );
-
-      await firstBatchPromise;
-    }
-
-    it(
-      noSessionTestClientType +
-        ": Throws error when ReceiveBatch is called while the previous call is not done",
-      async function(): Promise<void> {
-        await beforeEachTest(noSessionTestClientType);
-        await testParallelReceiveCalls();
-      }
-    );
-
-    it(
-      withSessionTestClientType +
-        ": Throws error when ReceiveBatch is called while the previous call is not done",
-      async function(): Promise<void> {
-        await beforeEachTest(withSessionTestClientType);
-        await testParallelReceiveCalls();
-      }
-    );
 
     const messages: ServiceBusMessage[] = [
       {

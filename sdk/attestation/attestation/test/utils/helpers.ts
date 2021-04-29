@@ -44,7 +44,7 @@ export async function verifyAttestationToken(
       }
     }
     if (signingCertx5C !== null && signingCertx5C !== undefined) {
-      // Convert the inbound certificate to PEM format so the verify function is happy.dir dist
+      // Convert the inbound certificate to PEM format so the verify function is happy.
       let pemCert: string;
       pemCert = "-----BEGIN CERTIFICATE-----\r\n";
       pemCert += signingCertx5C[0];

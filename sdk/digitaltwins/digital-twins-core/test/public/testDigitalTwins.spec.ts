@@ -39,7 +39,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Mocha.Context) {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
@@ -52,7 +52,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(BUILDING_MODEL_ID);
-    } catch (Exception) {}
+    } catch (Exception) {
+      console.error("deleteModel failure during test setup or cleanup");
+    }
   }
 
   async function createModel(): Promise<void> {
@@ -68,7 +70,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   async function deleteDigitalTwin(digitalTwinId: string): Promise<void> {
     try {
       await client.deleteDigitalTwin(digitalTwinId);
-    } catch (Exception) {}
+    } catch (Exception) {
+      console.error("deleteDigitalTwin failure during test setup or cleanup");
+    }
   }
 
   async function deleteDigitalTwins(): Promise<void> {
@@ -77,7 +81,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       for await (const item of queryResult) {
         await client.deleteDigitalTwin(item.$dtId);
       }
-    } catch (Exception) {}
+    } catch (Exception) {
+      console.error("deleteDigitalTwin failure during test setup or cleanup");
+    }
   }
 
   it("create a simple digital twin", async function() {
@@ -891,6 +897,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       const query = "foo";
       const queryResult = client.queryTwins(query);
       for await (const _ of queryResult) {
+        /* ignored */
       }
     } catch (error) {
       errorWasThrown = true;
