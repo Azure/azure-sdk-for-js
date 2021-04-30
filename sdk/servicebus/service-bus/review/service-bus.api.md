@@ -370,11 +370,7 @@ export type ServiceBusErrorCode =
 /**
  * The user doesn't have access to the entity.
  */
- | "UnauthorizedAccess"
-/**
- * The number of unsettled messages that can be held is reached, please settle the received messages.
- */
- | "UnsettledMessagesLimitExceeded";
+ | "UnauthorizedAccess";
 
 // @public
 export interface ServiceBusMessage {
