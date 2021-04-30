@@ -51,6 +51,6 @@ The following steps will help you setup the AAD credentials.
 - For the `Select principal` field, click on the `None selected`. A panel will appear at the right of the window. Search for your Azure Active Directory application, click the application on the search results, then click "Select" at the bottom.
 - Once your application is selected, click the "Add" button.
 - Click the `Save` button at the top of the Access Policies section of your Key Vault.
-- For more information on securing your Key Vault: [Learn more](https://docs.microsoft.com/azure/key-vault/managed-hsm/access-controls)
+- For more information on securing your Key Vault: [Learn more](https://docs.microsoft.com/azure/key-vault/managed-hsm/access-control)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-admin%2Ftest%2FREADME.png)
