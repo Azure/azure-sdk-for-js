@@ -13,6 +13,7 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DataFactoryManagementClientContext } from "./dataFactoryManagementClientContext";
 
+
 class DataFactoryManagementClient extends DataFactoryManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -42,11 +43,7 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
    * @param subscriptionId The subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials,
-    subscriptionId: string,
-    options?: Models.DataFactoryManagementClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DataFactoryManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.factories = new operations.Factories(this);
