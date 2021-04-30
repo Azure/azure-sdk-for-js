@@ -233,7 +233,7 @@ export interface ManifestAttributesManifestReferences {
   /** Manifest digest */
   digest: string;
   /** CPU architecture */
-  cpuArchitecture: string;
+  architecture: string;
   /** Operating system */
   operatingSystem: string;
 }

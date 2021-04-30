@@ -490,7 +490,7 @@ export const ManifestAttributesManifestReferences: coreClient.CompositeMapper = 
           name: "String"
         }
       },
-      cpuArchitecture: {
+      architecture: {
         serializedName: "architecture",
         required: true,
         type: {

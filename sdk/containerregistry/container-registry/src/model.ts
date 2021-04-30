@@ -3,16 +3,25 @@
 
 import { PipelineOptions } from "@azure/core-rest-pipeline";
 import {
+  ArtifactArchitecture,
+  ArtifactOperatingSystem,
   ContentProperties,
   DeleteRepositoryResult,
   RepositoryProperties,
-  TagProperties
+  ArtifactTagProperties
 } from "./generated";
 
 /**
  * Re-export generated types that are used as public interfaces.
  */
-export { ContentProperties, DeleteRepositoryResult, RepositoryProperties, TagProperties };
+export {
+  ContentProperties,
+  DeleteRepositoryResult,
+  RepositoryProperties,
+  ArtifactTagProperties,
+  ArtifactArchitecture,
+  ArtifactOperatingSystem
+};
 
 /**
  * Client options used to configure Container Registry Repository API requests.
@@ -22,27 +31,54 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 }
 
 /** Manifest attributes details */
-export interface RegistryArtifactProperties {
-  /** Image name */
-  repository?: string;
-  /** Manifest */
-  digest?: string;
-  /** Image size */
-  size?: number;
-  /** Created time */
-  createdOn?: Date;
-  /** Last update time */
-  lastUpdatedOn?: Date;
-  /** CPU architecture */
-  cpuArchitecture?: string;
-  /** Operating system */
-  operatingSystem?: string;
+export interface ArtifactManifestProperties {
+  /**
+   * Repository name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly repositoryName?: string;
+  /**
+   * Manifest
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly digest?: string;
+  /**
+   * Image size
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: number;
+  /**
+   * Created time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * Last update time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedOn?: Date;
+  /**
+   * CPU architecture
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly architecture?: ArtifactArchitecture | null;
+  /**
+   * Operating system
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operatingSystem?: ArtifactOperatingSystem | null;
   /** List of manifest attributes details */
-  registryArtifacts?: RegistryArtifactProperties[];
-  /** List of tags */
-  tags?: string[];
-  /** Writeable properties of the resource */
-  writeableProperties?: ContentProperties;
+  manifests?: ArtifactManifestProperties[];
+  /**
+   * List of tags
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tags?: string[];
+  /**
+   * Writeable properties of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly writeableProperties?: ContentProperties;
 }
 
 /**
@@ -61,4 +97,4 @@ export type TagOrderBy = "timedesc" | "timeasc";
  * **timedesc**: Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated.
  * **timeasc**: Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated.
  */
-export type RegistryArtifactOrderBy = "timedesc" | "timeasc";
+export type ManifestOrderBy = "timedesc" | "timeasc";
