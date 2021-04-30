@@ -622,7 +622,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         this.receiveMode,
         this.maxConcurrentCalls
       );
-      this.settlementNotifierForSubscribe = creditManager.postProcessing;
+      this.settlementNotifierForSubscribe = () => creditManager.postProcessing();
       const onSessionMessage = async (context: EventContext): Promise<void> => {
         // If the receiver got closed in PeekLock mode, avoid processing the message as we
         // cannot settle the message.
