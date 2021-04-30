@@ -6,7 +6,7 @@ import { ConnectionContext } from "../connectionContext";
 
 import { ReceiverHelper } from "./receiverHelper";
 
-import { getAlreadyReceivingErrorMsg, throwErrorIfConnectionClosed } from "../util/errors";
+import { throwErrorIfConnectionClosed } from "../util/errors";
 import {
   RetryOperationType,
   MessagingError,
