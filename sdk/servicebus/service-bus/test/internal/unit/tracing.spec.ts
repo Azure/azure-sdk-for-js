@@ -122,7 +122,7 @@ describe("Tracing tests", () => {
 
       streamingReceiver["_subscribeImpl"] = async () => {
         // at this point the message handlers have been fully wrapped.
-        messageHandlers = streamingReceiver["_messageHandlers"];
+        messageHandlers = streamingReceiver["_messageHandlers"]();
       };
 
       await streamingReceiver.subscribe(

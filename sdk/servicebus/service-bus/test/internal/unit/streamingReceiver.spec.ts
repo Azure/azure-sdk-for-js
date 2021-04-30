@@ -183,7 +183,7 @@ describe("StreamingReceiver unit tests", () => {
       {}
     );
 
-    const wrappedMessageHandlers = streamingReceiver["_messageHandlers"];
+    const wrappedMessageHandlers = streamingReceiver["_messageHandlers"]();
 
     if (wrappedMessageHandlers == null) {
       throw new Error("No message handlers were set!");

@@ -69,7 +69,9 @@ export class StreamingReceiver extends MessageReceiver {
    * The user's message handlers, wrapped so any thrown exceptions are properly logged
    * or forwarded to the user's processError handler.
    */
-  private _messageHandlers: Required<InternalMessageHandlers> | undefined;
+  private _messageHandlers: () => Required<InternalMessageHandlers> = () => {
+    throw new Error("messageHandlers are not set.");
+  };
 
   /**
    * The subscribe(options) passed when the subscribe call originally happened. Stored
@@ -236,7 +238,7 @@ export class StreamingReceiver extends MessageReceiver {
       );
 
       this._lockRenewer?.start(this, bMessage, (err) => {
-        this._messageHandlers?.processError({
+        this._messageHandlers().processError({
           error: err,
           errorSource: "renewLock",
           entityPath: this.entityPath,
@@ -245,7 +247,7 @@ export class StreamingReceiver extends MessageReceiver {
       });
 
       try {
-        await this._messageHandlers?.processMessage(bMessage);
+        await this._messageHandlers().processMessage(bMessage);
       } catch (err) {
         logger.logError(
           err,
@@ -294,7 +296,7 @@ export class StreamingReceiver extends MessageReceiver {
               bMessage.messageId,
               this.name
             );
-            this._messageHandlers?.processError({
+            this._messageHandlers().processError({
               error: translatedError,
               errorSource: "abandon",
               entityPath: this.entityPath,
@@ -331,7 +333,7 @@ export class StreamingReceiver extends MessageReceiver {
             bMessage.messageId,
             this.name
           );
-          this._messageHandlers?.processError({
+          this._messageHandlers().processError({
             error: translatedError,
             errorSource: "complete",
             entityPath: this.entityPath,
@@ -411,7 +413,7 @@ export class StreamingReceiver extends MessageReceiver {
     userHandlers: InternalMessageHandlers,
     operationOptions: OperationOptionsBase | undefined
   ) {
-    this._messageHandlers = {
+    const messageHandlers = {
       processError: async (args: ProcessErrorArgs) => {
         try {
           args.error = translateServiceBusError(args.error);
@@ -425,7 +427,7 @@ export class StreamingReceiver extends MessageReceiver {
           const span = createProcessingSpan(message, this, this._context.config, operationOptions);
           return await trace(() => userHandlers.processMessage(message), span);
         } catch (err) {
-          this._messageHandlers?.processError({
+          this._messageHandlers().processError({
             error: err,
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
@@ -440,7 +442,7 @@ export class StreamingReceiver extends MessageReceiver {
         }
 
         return userHandlers.processInitialize().catch((err) =>
-          this._messageHandlers?.processError({
+          this._messageHandlers().processError({
             error: err,
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
@@ -449,6 +451,8 @@ export class StreamingReceiver extends MessageReceiver {
         );
       }
     };
+
+    this._messageHandlers = () => messageHandlers;
   }
 
   private _isSubscribeActive = false;
@@ -467,7 +471,7 @@ export class StreamingReceiver extends MessageReceiver {
 
       const catchAndReportError = <T>(promise: Promise<T>) =>
         promise.catch((err) =>
-          this._messageHandlers?.processError({
+          this._messageHandlers().processError({
             error: err,
             errorSource: "receive",
             entityPath: this.entityPath,
@@ -484,7 +488,7 @@ export class StreamingReceiver extends MessageReceiver {
         );
 
         try {
-          await this._messageHandlers?.processInitialize();
+          await this._messageHandlers().processInitialize();
           this._receiverHelper.addCredit(this.maxConcurrentCalls);
         } catch (err) {
           await catchAndReportError(this.closeLink());
@@ -503,7 +507,7 @@ export class StreamingReceiver extends MessageReceiver {
           operation: initAndAddCreditOperation
         },
         onError: (err) =>
-          this._messageHandlers?.processError({
+          this._messageHandlers().processError({
             error: err,
             errorSource: "receive",
             entityPath: this.entityPath,
