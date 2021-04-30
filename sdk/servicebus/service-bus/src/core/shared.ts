@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Delivery, ReceiverOptions, Source } from "rhea-promise";
-import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
+import { ServiceBusError, ServiceBusErrorCode, translateServiceBusError } from "../serviceBusError";
 import { logger, receiverLogger } from "../log";
 import { ReceiveMode } from "../models";
 import { Receiver } from "rhea-promise";
@@ -203,7 +203,7 @@ export class StreamingReceiverCreditManager {
       notifyError?.({
         error: new ServiceBusError(
           UnsettledMessagesLimitExceededError,
-          "UnsettledMessagesLimitExceeded"
+          "UnsettledMessagesLimitExceeded" as ServiceBusErrorCode
         ),
         errorSource: "receive",
         entityPath: this.entityPath,

@@ -20,7 +20,7 @@ import { checkAndRegisterWithAbortSignal } from "../util/utils";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { ReceiveMode } from "../models";
-import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
+import { ServiceBusError, ServiceBusErrorCode, translateServiceBusError } from "../serviceBusError";
 import { incomingBufferProperties, UnsettledMessagesLimitExceededError } from "./shared";
 
 /**
@@ -501,7 +501,7 @@ export class BatchingReceiverLite {
     if (numberOfEmptySlots === 0) {
       throw new ServiceBusError(
         UnsettledMessagesLimitExceededError,
-        "UnsettledMessagesLimitExceeded"
+        "UnsettledMessagesLimitExceeded" as ServiceBusErrorCode
       );
     }
     const creditsToAdd =
