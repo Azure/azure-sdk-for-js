@@ -620,8 +620,6 @@ export class MessageSession extends LinkEntity<Receiver> {
         }),
         this._streamingReceiverHelper,
         this.receiveMode,
-        this.entityPath,
-        this._context.config.host,
         this.maxConcurrentCalls
       );
       this.settlementNotifierForSubscribe = () => {

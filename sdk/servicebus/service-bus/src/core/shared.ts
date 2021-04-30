@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Delivery, ReceiverOptions, Source } from "rhea-promise";
-import { ServiceBusError, ServiceBusErrorCode, translateServiceBusError } from "../serviceBusError";
+import { translateServiceBusError } from "../serviceBusError";
 import { logger, receiverLogger } from "../log";
 import { ReceiveMode } from "../models";
 import { Receiver } from "rhea-promise";
@@ -151,8 +151,6 @@ export class StreamingReceiverCreditManager {
     private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string },
     private streamingReceiverHelper: StreamingReceiverHelper,
     private receiveMode: ReceiveMode,
-    private entityPath: string,
-    private fullyQualifiedNamespace: string,
     private maxConcurrentCalls: number
   ) {}
 
@@ -175,7 +173,7 @@ export class StreamingReceiverCreditManager {
    *
    * @internal
    */
-  onReceive(notifyError: OnError | undefined) {
+  onReceive(_notifyError: OnError | undefined) {
     const { receiver, logPrefix } = this._getCurrentReceiver();
     if (this.receiveMode === "receiveAndDelete") {
       this.streamingReceiverHelper.addCredit(1);
@@ -198,21 +196,22 @@ export class StreamingReceiverCreditManager {
       return;
     }
 
-    if (receiver) {
-      // No empty slots left, so notify the user with an error
-      notifyError?.({
-        error: new ServiceBusError(
-          UnsettledMessagesLimitExceededError,
-          "UnsettledMessagesLimitExceeded" as ServiceBusErrorCode
-        ),
-        errorSource: "receive",
-        entityPath: this.entityPath,
-        fullyQualifiedNamespace: this.fullyQualifiedNamespace
-      });
-    } else {
-      // receiver is not defined
-      // SessionLockLost for sessions/onAMQPError for non-sessions will be notified in one of the listeners - nothing to do here
-    }
+    // if (receiver) {
+    // No empty slots left, so notify the user with an error
+    // Commented out because we want to be consistent with other languages
+    // notifyError?.({
+    //   error: new ServiceBusError(
+    //     UnsettledMessagesLimitExceededError,
+    //     "UnsettledMessagesLimitExceeded" as ServiceBusErrorCode
+    //   ),
+    //   errorSource: "receive",
+    //   entityPath: this.entityPath,
+    //   fullyQualifiedNamespace: this.fullyQualifiedNamespace
+    // });
+    // } else {
+    // receiver is not defined
+    // SessionLockLost for sessions/onAMQPError for non-sessions will be notified in one of the listeners - nothing to do here
+    // }
   }
 
   /**

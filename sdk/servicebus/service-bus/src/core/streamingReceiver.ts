@@ -144,8 +144,6 @@ export class StreamingReceiver extends MessageReceiver {
       }),
       this._streamingReceiverHelper,
       this.receiveMode,
-      this.entityPath,
-      this._context.config.host,
       this.maxConcurrentCalls
     );
 
