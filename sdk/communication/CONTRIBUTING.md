@@ -8,8 +8,8 @@ Let's get started with how to set up the repo itself.
 
 ## Building
 
-Install and link all dependencies `rush update`, and build the code base `rush rebuild`.
-You can then `rush build -t <packagename>` to build a single project.
+Install and link all dependencies `rush update`, and to build a single project `rush build -t <packagename>`.
+You can also build with `rush rebuild` or `rush build` to build all packages.
 Once the package has been built, let's jump on how to run the tests to see that everything is in order.
 
 ## Testing
@@ -18,7 +18,7 @@ Make sure to check out the general contributing guide the Azure SDK repo has for
 
 When you go inside the package you are working with, you will see folders called `recordings\browsers` and `recordings\node`. In JS we performs tests in the node and browser environments. Each folder contains, as its name suggests, recordings of successful calls to the API that allow us to run the tests in PLAYBACK mode and remove the necessity of hitting the actual resources every time we may want to test.
 
-To test with environment variables, JS has a `sample.env` for developers to use as a template. You can rename the file to `.env` and add the appropriate environment variables.
+To test with environment variables, JS has a `sample.env` for developers to use as a template. Create your own `.env` using `sample.env` as reference.
 
 ### Playback mode
 
