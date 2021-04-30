@@ -628,7 +628,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     if (
       this._streamingReceiver &&
       this._streamingReceiver.isOpen() &&
-      this._streamingReceiver.isReceivingMessages
+      this._streamingReceiver.isSubscribeActive
     ) {
       return true;
     }

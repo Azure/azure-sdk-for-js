@@ -73,7 +73,7 @@ export class ReceiverHelper {
   }
 
   /**
-   * Resets tracking so `addCredit` works again.
+   * Resets tracking so `addCredit` works again by toggling the `_isSuspended` flag.
    */
   resume(): void {
     this._isSuspended = false;
@@ -94,11 +94,20 @@ export class ReceiverHelper {
   /**
    * Initiates a drain for the current receiver and resolves when
    * the drain has completed.
+   *
+   * NOTE: This method returns immediately if the receiver is not valid or if there
+   * are no pending credits on the receiver (ie: `receiver.credit === 0`).
    */
   async drain(): Promise<void> {
     const { receiver, logPrefix } = this._getCurrentReceiver();
 
     if (!this._isValidReceiver(receiver)) {
+      // TODO: should we throw?
+      return;
+    }
+
+    if (receiver.credit === 0) {
+      // nothing to drain
       return;
     }
 

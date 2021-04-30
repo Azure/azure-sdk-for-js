@@ -6,7 +6,7 @@ import { ConnectionContext } from "../connectionContext";
 
 import { ReceiverHelper } from "./receiverHelper";
 
-import { throwErrorIfConnectionClosed } from "../util/errors";
+import { getAlreadyReceivingErrorMsg, throwErrorIfConnectionClosed } from "../util/errors";
 import {
   RetryOperationType,
   MessagingError,
@@ -113,13 +113,15 @@ export class StreamingReceiver extends MessageReceiver {
   protected _onAmqpMessage: OnAmqpEventAsPromise;
 
   /**
-   * Whether we are currently registered for receiving messages.
+   * Whether we are currently subscribed (or subscribing) for receiving messages.
+   * (this is irrespective of receiver state, etc... - it's just a simple flag to prevent
+   * multiple subscribe() calls from happening on this instance)
    */
-  public get isReceivingMessages(): boolean {
+  public get isSubscribeActive(): boolean {
     // for the streaming receiver so long as we can receive messages then we
     // _are_ receiving messages - there's no in-between state like there is
     // with BatchingReceiver.
-    return this._receiverHelper.canReceiveMessages();
+    return this._isSubscribeActive;
   }
 
   /**
@@ -360,7 +362,13 @@ export class StreamingReceiver extends MessageReceiver {
   }
 
   async stopReceivingMessages(): Promise<void> {
+    this._isSubscribeActive = false;
     await this._receiverHelper.suspend();
+  }
+
+  async close(): Promise<void> {
+    this._isSubscribeActive = false;
+    return super.close();
   }
 
   /**
@@ -379,6 +387,12 @@ export class StreamingReceiver extends MessageReceiver {
     messageHandlers: InternalMessageHandlers,
     subscribeOptions: SubscribeOptions | undefined
   ): Promise<void> {
+    if (this._isSubscribeActive) {
+      const error = new Error(getAlreadyReceivingErrorMsg(this.entityPath));
+      logger.logError(error, `${this.logPrefix} StreamingReceiver is already subscribed.`);
+      throw error;
+    }
+
     // these options and message handlers will be re-used if/when onDetach is called.
     this._subscribeOptions = subscribeOptions;
     this._setMessageHandlers(messageHandlers, subscribeOptions);
@@ -437,45 +451,50 @@ export class StreamingReceiver extends MessageReceiver {
     };
   }
 
+  private _isSubscribeActive = false;
+
   /**
    * Subscribes using the already assigned `this._messageHandlers` and `this._subscribeOptions`
    *
    * @returns A promise that will resolve when a link is created and we successfully add credits to it.
    */
-  private _subscribeImpl(caller: "detach" | "subscribe"): Promise<void> {
-    const catchAndReportError = <T>(promise: Promise<T>) =>
-      promise.catch((err) =>
-        this._messageHandlers?.processError({
-          error: err,
-          errorSource: "receive",
-          entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host
-        })
-      );
+  private async _subscribeImpl(caller: "detach" | "subscribe"): Promise<void> {
+    try {
+      // this allows external callers (ie: ServiceBusReceiver) to prevent concurrent `subscribe` calls
+      // by not starting new receiving options while this one has started.
+      this._receiverHelper.resume();
+      this._isSubscribeActive = true;
 
-    const initAndAddCreditOperation = async () => {
-      throwErrorIfConnectionClosed(this._context);
+      const catchAndReportError = <T>(promise: Promise<T>) =>
+        promise.catch((err) =>
+          this._messageHandlers?.processError({
+            error: err,
+            errorSource: "receive",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          })
+        );
 
-      await this._init(
-        this._createReceiverOptions(caller === "detach", this._getHandlers()),
-        this._subscribeOptions?.abortSignal
-      );
+      const initAndAddCreditOperation = async () => {
+        throwErrorIfConnectionClosed(this._context);
 
-      await this._messageHandlers?.processInitialize();
+        await this._init(
+          this._createReceiverOptions(caller === "detach", this._getHandlers()),
+          this._subscribeOptions?.abortSignal
+        );
 
-      try {
-        this._receiverHelper.resume(); // (needed if we're resuming after someone has called streamingReceiver.stopReceivingMessages())
-        this._receiverHelper.addCredit(this.maxConcurrentCalls);
-      } catch (err) {
-        await catchAndReportError(this.closeLink());
-        throw err;
-      }
-    };
+        try {
+          await this._messageHandlers?.processInitialize();
+          this._receiverHelper.addCredit(this.maxConcurrentCalls);
+        } catch (err) {
+          await catchAndReportError(this.closeLink());
+          throw err;
+        }
+      };
 
-    // we don't expect to ever get an error from retryForever but bugs
-    // do happen.
-    return catchAndReportError(
-      this._retryForeverFn({
+      // we don't expect to ever get an error from retryForever but bugs
+      // do happen.
+      return await this._retryForeverFn({
         retryConfig: {
           connectionId: this._context.connection.id,
           operationType: RetryOperationType.receiverLink,
@@ -492,8 +511,17 @@ export class StreamingReceiver extends MessageReceiver {
           }),
         logPrefix: this.logPrefix,
         logger
-      })
-    );
+      });
+    } catch (err) {
+      try {
+        this._isSubscribeActive = false;
+        await this._receiverHelper.suspend();
+      } catch (err) {
+        logger.logError(err, `${this.logPrefix} receiver.suspend threw an error`);
+      }
+
+      throw err;
+    }
   }
 
   /**

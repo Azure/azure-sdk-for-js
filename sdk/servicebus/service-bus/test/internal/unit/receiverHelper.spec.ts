@@ -42,11 +42,6 @@ describe("ReceiverHelper unit tests", () => {
       helper.resume();
       // our internal state is now set so we can receive messages but...
       assert.isFalse(helper["_isSuspended"]);
-      // ...we still won't _because_ the receiver is not open.
-      assert.isFalse(
-        helper.canReceiveMessages(),
-        "We still can't receive messages because the receiver is either invalid _or_ isn't open"
-      );
 
       // should still do nothing.
       helper.addCredit(101);

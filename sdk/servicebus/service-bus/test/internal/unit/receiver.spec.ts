@@ -11,6 +11,7 @@ import { BatchingReceiver } from "../../../src/core/batchingReceiver";
 import { StreamingReceiver } from "../../../src/core/streamingReceiver";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import {
+  addTestStreamingReceiver,
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
@@ -19,6 +20,7 @@ import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtil
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
 import { MessageSession } from "../../../src/session/messageSession";
+import sinon from "sinon";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
@@ -264,7 +266,7 @@ describe("Receiver unit tests", () => {
       );
 
       assert.isTrue(
-        receiver["_streamingReceiver"]?.isReceivingMessages,
+        receiver["_streamingReceiver"]?.isSubscribeActive,
         "streaming receiver should indicate it's receiving messages"
       );
 
@@ -335,6 +337,7 @@ describe("Receiver unit tests", () => {
 
   describe("createStreamingReceiver", () => {
     let impl: ServiceBusReceiverImpl | undefined;
+    const createStreamingReceiver = addTestStreamingReceiver();
 
     afterEach(async () => {
       await impl?.close();
@@ -344,33 +347,10 @@ describe("Receiver unit tests", () => {
       const context = createConnectionContextForTests();
       impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
 
-      let initWasCalled = false;
-      const expectedAbortSignal = createAbortSignalForTest();
+      const existingStreamingReceiver = createStreamingReceiver("entityPath");
+      const subscribeStub = sinon.spy(existingStreamingReceiver, "subscribe");
 
-      const existingReceiver = {
-        initWithRetries: async (_args) => {
-          assert.equal(
-            _args.abortSignal,
-            expectedAbortSignal,
-            "abortSignal should be properly passed through."
-          );
-
-          assert.equal(
-            "my pre-existing receiver",
-            context.messageReceivers["my pre-existing receiver"].name,
-            "Before init() is called we should have registered our receiver in the context's map so it can get cleaned up later."
-          );
-
-          initWasCalled = true;
-          return;
-        },
-        close: async () => {
-          /** Nothing to do here */
-        },
-        name: "my pre-existing receiver"
-      } as Pick<StreamingReceiver, "init" | "close" | "name">;
-
-      impl["_streamingReceiver"] = (existingReceiver as any) as StreamingReceiver;
+      impl["_streamingReceiver"] = existingStreamingReceiver;
 
       // we're going to stub this out and make sure that prior to calling init() on our
       // internal receiver we have registered it into the connection context so (if the user
@@ -378,21 +358,15 @@ describe("Receiver unit tests", () => {
       // terminating it's streaming forever loop for initialization).
       context.messageReceivers["my pre-existing receiver"] = {} as StreamingReceiver;
 
-      await impl["_createStreamingReceiver"]({
-        lockRenewer: undefined,
-        receiveMode: "peekLock",
-        abortSignal: expectedAbortSignal,
-        onError: (_args) => {
-          /** Nothing to do here */
-        }
-      });
+      await subscribeAndWaitForInit(impl);
 
-      assert.isTrue(initWasCalled, "initialize should be called on the original receiver");
       assert.equal(
         impl["_streamingReceiver"],
-        existingReceiver,
+        existingStreamingReceiver,
         "original receiver should be intact - we should not create a new one.."
       );
+
+      assert.isTrue(subscribeStub.calledOnce);
     });
 
     it("create() with an existing receiver and that receiver is NOT open()", async () => {
@@ -400,16 +374,26 @@ describe("Receiver unit tests", () => {
 
       impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
 
-      await impl["_createStreamingReceiver"]({
-        lockRenewer: undefined,
-        receiveMode: "peekLock",
-        onError: (_args) => {
-          /** Nothing to do here */
-        }
-      });
+      await subscribeAndWaitForInit(impl);
 
       assert.exists(impl["_streamingReceiver"], "new streaming receiver should be called");
       assert.exists(context.messageReceivers[impl["_streamingReceiver"]!.name]);
     });
   });
 });
+
+function subscribeAndWaitForInit(impl: ServiceBusReceiverImpl) {
+  let initWasCalledResolve: (() => void) | undefined;
+
+  const initWasCalled = new Promise<void>((resolve) => (initWasCalledResolve = resolve));
+
+  impl.subscribe({
+    processInitialize: async () => {
+      initWasCalledResolve!();
+    },
+    processMessage: async () => {},
+    processError: async () => {}
+  } as InternalMessageHandlers);
+
+  return initWasCalled;
+}
