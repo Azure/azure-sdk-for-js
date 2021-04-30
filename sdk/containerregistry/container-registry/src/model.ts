@@ -3,8 +3,6 @@
 
 import { PipelineOptions } from "@azure/core-rest-pipeline";
 import {
-  ArtifactArchitecture,
-  ArtifactOperatingSystem,
   ContentProperties,
   DeleteRepositoryResult,
   RepositoryProperties,
@@ -14,14 +12,7 @@ import {
 /**
  * Re-export generated types that are used as public interfaces.
  */
-export {
-  ContentProperties,
-  DeleteRepositoryResult,
-  RepositoryProperties,
-  ArtifactTagProperties,
-  ArtifactArchitecture,
-  ArtifactOperatingSystem
-};
+export { ContentProperties, DeleteRepositoryResult, RepositoryProperties, ArtifactTagProperties };
 
 /**
  * Client options used to configure Container Registry Repository API requests.
@@ -29,6 +20,77 @@ export {
 export interface ContainerRegistryClientOptions extends PipelineOptions {
   // Any custom options configured at the client level go here.
 }
+
+/**
+ * Defines values for ArtifactArchitecture. \
+ * {@link KnownArtifactArchitecture} can be used interchangeably with ArtifactArchitecture,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **386** \
+ * **amd64** \
+ * **arm** \
+ * **arm64** \
+ * **mips** \
+ * **mipsle** \
+ * **mips64** \
+ * **mips64le** \
+ * **ppc64** \
+ * **ppc64le** \
+ * **riscv64** \
+ * **s390x** \
+ * **wasm**
+ */
+export type ArtifactArchitecture =
+  | "386"
+  | "amd64"
+  | "arm"
+  | "arm64"
+  | "mips"
+  | "mipsle"
+  | "mips64"
+  | "mips64le"
+  | "ppc64"
+  | "ppc64le"
+  | "riscv64"
+  | "s390x"
+  | "wasm"
+  | string;
+
+/**
+ * Defines values for ArtifactOperatingSystem. \
+ *  this contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **aix** \
+ * **android** \
+ * **darwin** \
+ * **dragonfly** \
+ * **freebsd** \
+ * **illumos** \
+ * **ios** \
+ * **js** \
+ * **linux** \
+ * **netbsd** \
+ * **openbsd** \
+ * **plan9** \
+ * **solaris** \
+ * **windows**
+ */
+export type ArtifactOperatingSystem =
+  | "aix"
+  | "android"
+  | "darwin"
+  | "dragonfly"
+  | "freebsd"
+  | "illumos"
+  | "ios"
+  | "js"
+  | "linux"
+  | "netbsd"
+  | "openbsd"
+  | "plan9"
+  | "solaris"
+  | "windows"
+  | string;
 
 /** Manifest attributes details */
 export interface ArtifactManifestProperties {
@@ -88,7 +150,7 @@ export interface ArtifactManifestProperties {
  * **timedesc**: Order tags by LastUpdatedOn field, from most recently updated to least recently updated.
  * **timeasc**: Order tags by LastUpdatedOn field, from least recently updated to most recently updated.
  */
-export type TagOrderBy = "timedesc" | "timeasc";
+export type TagOrderBy = "timeDesc" | "timeAsc";
 
 /**
  * Defines values for RegistryArtifactOrderBy.
@@ -97,4 +159,4 @@ export type TagOrderBy = "timedesc" | "timeasc";
  * **timedesc**: Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated.
  * **timeasc**: Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated.
  */
-export type ManifestOrderBy = "timedesc" | "timeasc";
+export type ManifestOrderBy = "timeDesc" | "timeAsc";

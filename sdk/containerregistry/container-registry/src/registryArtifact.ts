@@ -325,11 +325,17 @@ export class RegistryArtifact {
     continuationState: PageSettings,
     options: ListTagsOptions = {}
   ): AsyncIterableIterator<ArtifactTagProperties[]> {
+    const orderby =
+      options.orderBy === "timeAsc"
+        ? "timeasc"
+        : options.orderBy === "timeDesc"
+        ? "timedesc"
+        : undefined;
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
         n: continuationState.maxPageSize,
-        orderby: options.orderBy
+        orderby
       };
       const currentPage = await this.client.containerRegistry.getTags(
         this.repositoryName,

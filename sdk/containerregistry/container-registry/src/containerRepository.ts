@@ -205,11 +205,17 @@ export class ContainerRepository {
     continuationState: PageSettings,
     options: ListManifestsOptions = {}
   ): AsyncIterableIterator<ArtifactManifestProperties[]> {
+    const orderby =
+      options.orderBy === "timeAsc"
+        ? "timeasc"
+        : options.orderBy === "timeDesc"
+        ? "timedesc"
+        : undefined;
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
         n: continuationState.maxPageSize,
-        orderby: options.orderBy
+        orderby
       };
       const currentPage = await this.client.containerRegistry.getManifests(
         this.name,
