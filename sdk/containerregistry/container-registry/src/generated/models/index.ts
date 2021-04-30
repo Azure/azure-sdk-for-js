@@ -230,12 +230,21 @@ export interface ManifestAttributesBase {
 
 /** Manifest attributes details */
 export interface ManifestAttributesManifestReferences {
-  /** Manifest digest */
-  digest: string;
-  /** CPU architecture */
-  architecture: string;
-  /** Operating system */
-  operatingSystem: string;
+  /**
+   * Manifest digest
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly digest: string;
+  /**
+   * CPU architecture
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly architecture: ArtifactArchitecture;
+  /**
+   * Operating system
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operatingSystem: ArtifactOperatingSystem;
 }
 
 /** Manifest attributes details */

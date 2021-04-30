@@ -486,13 +486,16 @@ export const ManifestAttributesManifestReferences: coreClient.CompositeMapper = 
       digest: {
         serializedName: "digest",
         required: true,
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       architecture: {
+        defaultValue: "none",
         serializedName: "architecture",
         required: true,
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -500,6 +503,7 @@ export const ManifestAttributesManifestReferences: coreClient.CompositeMapper = 
       operatingSystem: {
         serializedName: "os",
         required: true,
+        readOnly: true,
         type: {
           name: "String"
         }
