@@ -41,7 +41,11 @@ import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
-import { InternalServiceBusErrorCode, isServiceBusError, translateServiceBusError } from "../serviceBusError";
+import {
+  InternalServiceBusErrorCode,
+  isServiceBusError,
+  translateServiceBusError
+} from "../serviceBusError";
 
 /**
  * The default time to wait for messages _after_ the first message

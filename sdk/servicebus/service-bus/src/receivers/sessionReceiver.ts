@@ -41,7 +41,11 @@ import "@azure/core-asynciterator-polyfill";
 import { AmqpError } from "rhea-promise";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
-import { InternalServiceBusErrorCode, isServiceBusError, translateServiceBusError } from "../serviceBusError";
+import {
+  InternalServiceBusErrorCode,
+  isServiceBusError,
+  translateServiceBusError
+} from "../serviceBusError";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
