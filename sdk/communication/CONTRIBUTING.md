@@ -16,7 +16,7 @@ Once the package has been built, let's jump on how to run the tests to see that 
 
 Make sure to check out the general contributing guide the Azure SDK repo has for a more in-depth look at testing and setting up your dev environment. You can check out the contributing file [here](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md)
 
-When you go inside the package you are working with, you will see a folders called `recordings\browsers` and `recordings\node`. In JS we performs tests in the node and browser environment. Each folder contains, as its name suggests, recordings of successful calls to the API that allow us to run the tests in PLAYBACK mode and remove the necessity of hitting the actual resources every time we may want to test.
+When you go inside the package you are working with, you will see folders called `recordings\browsers` and `recordings\node`. In JS we performs tests in the node and browser environments. Each folder contains, as its name suggests, recordings of successful calls to the API that allow us to run the tests in PLAYBACK mode and remove the necessity of hitting the actual resources every time we may want to test.
 
 To test with environment variables, JS has a `sample.env` for developers to use as a template. You can rename the file to `.env` and add the appropriate environment variables.
 
