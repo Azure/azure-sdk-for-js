@@ -13,14 +13,14 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
+    "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c 2>&1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript --v3 swagger/README.md",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
@@ -112,6 +112,22 @@
     "typedoc": "0.15.2"
   },
   "//sampleConfiguration": {
-    "skipFolder": true
+    "disableDocsMs": false,
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+    "skipFolder": true,
+    "productName": "Azure Mixed Reality Authentication",
+    "productSlugs": [
+      "azure",
+      "azure-remote-rendering",
+      "azure-spatial-anchors"
+    ],
+    "requiredResources": {
+      "Azure Object Anchors account": "https://docs.microsoft.com/azure/object-anchors/quickstarts/get-started-model-conversion#create-an-object-anchors-account",
+      "Azure Remote Rendering account": "https://docs.microsoft.com/azure/remote-rendering/quickstarts/convert-model#azure-setup",
+      "Azure Spatial Anchors account": "https://docs.microsoft.com/azure/spatial-anchors/quickstarts/get-started-hololens?tabs=azure-portal#create-a-spatial-anchors-resource"
+    },
+    "customSnippets": {
+      "prerequisites": "snippets/prerequisites.md"
+    }
   }
 }
