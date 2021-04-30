@@ -28,7 +28,8 @@ To run the live tests, you will also need to set the below environment variables
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
 - `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
 - `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
-- `KEYVAULT_URI`: The name of the KeyVault to use.
+- `KEYVAULT_URI`: The URI of the KeyVault to use.
+- `AZURE_MANAGEDHSM_URI`: The URI of the Azure Managed HSM to use in the Managed HSM tests.
 
 The live tests in this project will create, modify and delete [keys](https://docs.microsoft.com/azure/key-vault/keys/about-keys) inside of the provided Azure Key Vault.
 

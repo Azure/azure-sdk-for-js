@@ -26,7 +26,7 @@ To run the live tests, you will also need to set the below environment variables
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
 - `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
 - `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
-- `AZURE_MANAGEDHSM_URI`: The name of the key vault managed HSM to use in the tests.
+- `AZURE_MANAGEDHSM_URI`: The URI of the Azure Managed HSM to use in the tests.
 - `BLOB_STORAGE_URI`: URI of the Blob Storage instance, with the name of the container where the Key Vault backups will be generated.
 - `BLOB_STORAGE_SAS_TOKEN`: URI of the Blob Storage instance, with the name of the container where the Key Vault backups will be generated.
 - `CLIENT_OBJECT_ID`: Object ID of the application, tenant or principal to whom the role will be assigned to. These tests add and remove roles to and from this ID. **Do not use the same Object Id of the application, tenant or principal you're using to authenticate the client.**
