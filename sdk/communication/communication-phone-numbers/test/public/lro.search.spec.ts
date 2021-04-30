@@ -74,6 +74,6 @@ matrix([[true, false]], async function(useAad) {
       }
 
       assert.fail("beginSearchAvailablePhoneNumbers should have thrown an exception.");
-    }).timeout(35000);
+    }).timeout(60000);
   });
 });
