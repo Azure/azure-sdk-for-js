@@ -9,10 +9,10 @@ import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  EntityName
+  EntityName,
+  getRandomTestClientType
 } from "../public/utils/testutils2";
 import { verifyMessageCount } from "../public/utils/managementUtils";
-import { delay } from "rhea-promise";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 
 chai.use(chaiAsPromised);
@@ -24,12 +24,7 @@ let receiver: ServiceBusReceiver;
 const retryOptions = { maxRetries: 3, retryDelayInMs: 10 };
 const numberOfMessagesToSend = 3000;
 
-const testClientTypes = [
-  TestClientType.PartitionedQueue,
-  TestClientType.PartitionedQueueWithSessions,
-  TestClientType.UnpartitionedQueue,
-  TestClientType.UnpartitionedQueueWithSessions
-];
+const testClientTypes = [getRandomTestClientType()];
 
 async function beforeEachTest(
   entityType: TestClientType,
@@ -314,7 +309,6 @@ describe("2048 scenarios - subscribe", function(): void {
           1000,
           100000
         );
-        await delay(10000);
         chai.assert.equal(
           numberOfMessagesReceived,
           2047,
