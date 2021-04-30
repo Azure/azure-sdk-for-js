@@ -1,8 +1,16 @@
-# Azure Template client library for JavaScript
+# Azure Remote Rendering client library for JavaScript
 
-<!-- NOTE: This README file is a template. Read through it and replace the instructions (keeping an eye out for package names like "@azure/template") with the ones that pertain to your package. For a complete example based on the real Azure App Configuration SDK, see README-TEMPLATE.md in this directory. -->
+Azure Remote Rendering (ARR) is a service that enables you to render high-quality, interactive 3D content in the cloud and stream it in real time to devices, such as the HoloLens 2.
 
-This project is used as a template package for the Azure SDK for JavaScript. It is intended to help Azure SDK developers bootstrap new packages, and it provides an example of how to organize the code and documentation of a client library for an Azure service.
+This SDK offers functionality to convert assets to the format expected by the runtime, and also to manage
+the lifetime of remote rendering sessions.
+
+> NOTE: Once a session is running, a client application will connect to it using one of the "runtime SDKs".
+> These SDKs are designed to best support the needs of an interactive application doing 3d rendering.
+> They are available in ([.net](https://docs.microsoft.com/dotnet/api/microsoft.azure.remoterendering)
+> or ([C++](https://docs.microsoft.com/cpp/api/remote-rendering/)).
+
+[Product documentation](https://docs.microsoft.com/azure/remote-rendering/)
 
 ## Getting started
 
@@ -12,16 +20,14 @@ This project is used as a template package for the Azure SDK for JavaScript. It 
 
 ### Prerequisites
 
-- An [Azure subscription][azure_sub].
-
-Usually you'd put a shell command for provisioning the necessary Azure services here.
+You will need an [Azure subscription](https://azure.microsoft.com/free/) and an [Azure Remote Rendering account](https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account) to use this package.
 
 ### Install the `@azure/template` package
 
 Install the Template client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/template
+npm install @azure/remoterendering
 ```
 
 ### Browser support
@@ -30,15 +36,15 @@ npm install @azure/template
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-#### CORS
 
 <!--
+
+#### CORS
 
 NOTE: if your service supports CORS natively please provide instructions for enabling CORS at the service level (similar to the sample below), otherwise replace this section with guidance such as:
 
 Due to Azure template service CORS limitation this library cannot be used to make direct calls to the template service from a browser. Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/cors/ts/README.md) for guidance.
 
--->
 
 You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
 
@@ -49,28 +55,314 @@ For example, you can create the following CORS settings for debugging. But pleas
 - Allowed headers: \*
 - Exposed headers: \*
 - Maximum age (seconds): 86400
+-->
 
-### Further examples
+### Authenticate the client
 
-Top-level examples usually include things like creating and authenticating the main Client. If your service supports multiple means of authenticating (e.g. key-based and Azure Active Directory) you can give a separate example of each.
+Constructing a remote rendering client requires an authenticated account, and a remote rendering endpoint.
+For an account created in the eastus region, the account domain will have the form "eastus.mixedreality.azure.com".
+There are several different forms of authentication:
+
+- Account Key authentication
+  - Account keys enable you to get started quickly with using Azure Remote Rendering. But before you deploy your application
+    to production, we recommend that you update your app to use Azure AD authentication.
+- Azure Active Directory (AD) token authentication
+  - If you're building an enterprise application and your company is using Azure AD as its identity system, you can use
+    user-based Azure AD authentication in your app. You then grant access to your Azure Remote Rendering accounts by using
+    your existing Azure AD security groups. You can also grant access directly to users in your organization.
+  - Otherwise, we recommend that you obtain Azure AD tokens from a web service that supports your app. We recommend this
+    method for production applications because it allows you to avoid embedding the credentials for access to Azure Spatial
+    Anchors in your client application.
+
+See [here](https://docs.microsoft.com/azure/remote-rendering/how-tos/authentication) for detailed instructions and information.
+
+In all the following examples, the client is constructed with a `remoteRenderingEndpoint` Uri object.
+The available endpoints correspond to regions, and the choice of endpoint determines the region in which the service performs its work.
+An example is `https://remoterendering.eastus2.mixedreality.azure.com`.
+
+> NOTE: For converting assets, it is preferable to pick a region close to the storage containing the assets.
+
+> NOTE: For rendering, it is strongly recommended that you pick the closest region to the devices using the service.
+> The time taken to communicate with the server impacts the quality of the experience.
+
+#### Authenticating with account key authentication
+
+Use the `AccountKeyCredential` object to use an account identifier and account key to authenticate:
+
+```typescript Snippet:CreateAClient
+const accountKey = new AzureKeyCredential(accountKey);
+
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, accountKey);
+```
+
+#### Authenticating with an AAD client secret
+
+Use the `ClientSecretCredential` object to perform client secret authentication.
+
+<!-- TODO
+
+```csharp Snippet:CreateAClientWithAAD
+
+TokenCredential credential = new ClientSecretCredential(tenantId, clientId, clientSecret, new TokenCredentialOptions
+{
+    AuthorityHost = new Uri($"https://login.microsoftonline.com/{tenantId}")
+});
+
+RemoteRenderingClient client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accountDomain, credential);
+```
+-->
+
+#### Authenticating a user using device code authentication
+
+Use the `DeviceCodeCredential` object to perform device code authentication.
+
+<!-- TODO
+```csharp Snippet:CreateAClientWithDeviceCode
+Task deviceCodeCallback(DeviceCodeInfo deviceCodeInfo, CancellationToken cancellationToken)
+{
+    Debug.WriteLine(deviceCodeInfo.Message);
+    Console.WriteLine(deviceCodeInfo.Message);
+    return Task.FromResult(0);
+}
+
+TokenCredential credential = new DeviceCodeCredential(deviceCodeCallback, tenantId, clientId, new TokenCredentialOptions
+{
+    AuthorityHost = new Uri($"https://login.microsoftonline.com/{tenantId}"),
+});
+
+RemoteRenderingClient client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accountDomain, credential);
+```
+-->
+
+See [here](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Device-Code-Flow) for more
+information about using device code authentication flow.
+
+#### Interactive authentication with DefaultAzureCredential
+
+Use the `DefaultAzureCredential` object with `includeInteractiveCredentials: true` to use default interactive authentication
+flow:
+
+<!-- TODO
+```csharp Snippet:CreateAClientWithAzureCredential
+TokenCredential credential = new DefaultAzureCredential(includeInteractiveCredentials: true);
+
+RemoteRenderingClient client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accountDomain, credential);
+```
+-->
+
+#### Authenticating with a static access token
+
+You can pass a Mixed Reality access token as an `AccessToken` previously retrieved from the
+[Mixed Reality STS service](https://github.com/Azure/azure-sdk-for-net/tree/master/sdk/mixedreality/Azure.MixedReality.Authentication)
+to be used with a Mixed Reality client library:
+
+```typescript Snippet:CreateAClientWithStaticAccessToken
+// GetMixedRealityAccessTokenFromWebService is a hypothetical method that retrieves
+// a Mixed Reality access token from a web service. The web service would use the
+// MixedRealityStsClient and credentials to obtain an access token to be returned
+// to the client.
+const accessToken = GetMixedRealityAccessTokenFromWebService();
+
+RemoteRenderingClient client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accountDomain, accessToken);
+```
 
 ## Key concepts
 
-### ConfigurationClient
+### RemoteRenderingClient
 
-Describe your primary client here. Talk about what operations it can do and when a developer would want to use it.
-
-### Additional Examples
-
-Create a section for each top-level service concept you want to explain.
+The `RemoteRenderingClient` is the client library used to access the RemoteRenderingService.
+It provides methods to create and manage asset conversions and rendering sessions.
 
 ## Examples
 
-### First Example
+- [Convert a simple asset](#convert-a-simple-asset)
+- [Convert a more complex asset](#convert-a-more-complex-asset)
+- [Get the output when an asset conversion has finished](#get-the-output-when-an-asset-conversion-has-finished)
+- [List conversions](#list-conversions)
+- [Create a session](#create-a-session)
+- [Extend the lease time of a session](#extend-the-lease-time-of-a-session)
+- [List sessions](#list-sessions)
+- [Stop a session](#stop-a-session)
 
-<!-- Examples should showcase the primary, or "champion" scenarios of the client SDK. -->
+### Convert a simple asset
 
-Create several code examples for how someone would use your library to accomplish a common task with the service.
+We assume that a RemoteRenderingClient has been constructed as described in the [Authenticate the Client](#authenticate-the-client) section.
+The following snippet describes how to request that "box.fbx", found at the root of the blob container at the given URI, gets converted.
+
+```typescript Snippet:StartAnAssetConversion
+  const inputSettings: AssetConversionInputSettings = {
+    storageContainerUrl,
+    relativeInputAssetPath: "box.fbx",
+  };
+  const outputSettings: AssetConversionOutputSettings = {
+    storageContainerUrl,
+  };
+  const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
+
+  // A randomly generated UUID is a good choice for a conversionId.
+  const conversionId = uuid();
+
+  const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
+    conversionId,
+    conversionSettings
+  );
+```
+
+The output files will be placed beside the input asset.
+
+### Convert a more complex asset
+
+Assets can reference other files, and blob containers can contain files belonging to many different assets.
+In this example, we show how prefixes can be used to organize your blobs and how to convert an asset to take account of that organization.
+Assume that the blob container at `inputStorageUrl` contains many files, including "Bicycle/bicycle.gltf", "Bicycle/bicycle.bin" and "Bicycle/saddleTexture.jpg".
+(So the prefix "Bicycle" is acting very like a folder.)
+We want to convert the glTF so that it has access to the other files which share the prefix, without requiring the conversion service to access any other files.
+To keep things tidy, we also want the output files to be written to a different storage container and given a common prefix: "ConvertedBicycle".
+The code is as follows:
+
+```typescript Snippet:StartAComplexAssetConversion
+  const inputSettings: AssetConversionInputSettings = {
+    storageContainerUrl: inputStorageUrl,
+    blobPrefix: "Bicycle"
+    relativeInputAssetPath: "bicycle.gltf"
+  };
+  const outputSettings: AssetConversionOutputSettings = {
+    storageContainerUrl: outputStorageUrl,
+    blobPrefix: "ConvertedBicycle"
+  };
+  const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
+
+  const conversionId = uuid();
+
+  const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
+    conversionId,
+    conversionSettings
+  );
+```
+
+> NOTE: when a prefix is given in the input options, then the input file parameter is assumed to be relative to that prefix.
+> The same applies to the output file parameter in output options.
+
+### Get the output when an asset conversion has finished
+
+Converting an asset can take anywhere from seconds to hours.
+This code uses the conversionPoller returned by beginConversion to poll regularly until the conversion has finished or failed.
+The default polling period is 10 seconds.
+
+```typescript Snippet:QueryConversionStatus
+  const conversion = await conversionPoller.pollUntilDone();
+
+  console.log("== Check results ==");
+
+  if (conversion.status === "Succeeded") {
+    console.log("Conversion succeeded: Output written to " + conversion.output?.outputAssetUrl);
+  } else if (conversion.status === "Failed") {
+    console.log("Conversion failed: " + conversion.error.code + " " + conversion.error.message);
+  }
+```
+
+Note that the state of a AssetConversionPollerLike can be serialized by calling conversionPoller.toString().
+That value can later be passed into beginConversion as a `resumeFrom` value, to construct a new poller
+which carries on from where the earlier one left off:
+
+```typescript
+  const serializedPollerString = conversionPoller.toString();
+  // ... 
+  const resumedPoller = client.beginConversion({ resumeFrom: serializedPollerString });
+```
+
+### List conversions
+
+You can get information about your conversions using the `getConversions` method.
+This method may return conversions which have yet to start, conversions which are running and conversions which have finished.
+In this example, we just list the output URIs of successful conversions started in the last day.
+
+```typescript Snippet:ListConversions
+  for await (const conversion of client.listConversions()) {
+    if (conversion.status === "Succeeded") {
+      console.log(
+        `Conversion ${conversion.conversionId} succeeded: Output written to ${conversion.output?.outputAssetUrl}`
+      );
+    } else if (conversion.status === "Failed") {
+      console.log(
+        `Conversion ${conversion.conversionId} failed: ${conversion.error.code} ${conversion.error.message}`
+      );
+    }
+  }
+```
+
+### Create a session
+
+We assume that a RemoteRenderingClient has been constructed as described in the [Authenticate the Client](#authenticate-the-client) section.
+The following snippet describes how to request that a new rendering session be started.
+
+```typescript Snippet:CreateASession
+  const sessionSettings: RenderingSessionSettings = {
+    maxLeaseTimeInMinutes: 4,
+    size: "Standard"
+  };
+
+  // A randomly generated UUID is a good choice for a conversionId.
+  const sessionId = uuid();
+
+  const sessionPoller: RenderingSessionPollerLike = await client.beginSession(
+    sessionId,
+    sessionSettings
+  );
+```
+
+Note that the state of a RenderingSessionPollerLike can be serialized by calling toString().
+That value can later be passed into beginSession as a `resumeFrom` value, to construct a new poller
+which carries on from where the earlier one left off:
+
+```typescript
+  const serializedPollerString = sessionPoller.toString();
+  // ... 
+  const resumedPoller = client.beginSession({ resumeFrom: serializedPollerString });
+```
+
+### Extend the lease time of a session
+
+If a session is approaching its maximum lease time, but you want to keep it alive, you will need to make a call to increase
+its maximum lease time.
+This example shows how to query the current properties and then extend the lease if it will expire soon.
+
+> NOTE: The runtime SDKs also offer this functionality, and in many typical scenarios, you would use them to
+> extend the session lease.
+
+```typescript Snippet:UpdateSession
+    if (currentSession.maxLeaseTimeInMinutes - ((Date.now() - currentSession.createdOn) / 1000 * 60) < 2)
+    {
+        TimeSpan newLeaseTime = currentSession.maxLeaseTimeInMinutes + 30;
+
+        const longerLeaseSettings = { maxLeaseTimeInMinutes: newLeaseTime });
+
+        await client.updateSession(sessionId, longerLeaseSettings);
+    }
+```
+
+### List sessions
+
+You can get information about your sessions using the `getSessions` method.
+This method may return sessions which have yet to start and sessions which are ready.
+
+```typescript Snippet:ListSessions
+  for await (const session of client.listSessions()) {
+    if (session.status === "Starting") {
+        console.log(`Session ${session.sessionId} is starting`);
+    } else if (session.status === "Ready") {
+        console.log(`Session ${session.sessionId} is ready`);
+    }
+  }
+```
+
+### Stop a session
+
+The following code will stop a running session with given id.
+
+```typescript Snippet:StopSession
+    client.endSession(sessionId);
+```
 
 ## Troubleshooting
 

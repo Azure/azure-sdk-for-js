@@ -46,23 +46,19 @@ export async function main() {
   let storageContainerUrl =
     "https://" + storageAccountName + ".blob.core.windows.net/" + blobContainerName;
 
+  console.log("== Starting the conversion ==");
+
   const inputSettings: AssetConversionInputSettings = {
     storageContainerUrl,
-    storageContainerReadListSas: sasToken,
-    relativeInputAssetPath: "testBox.fbx",
-    blobPrefix: "Input"
+    relativeInputAssetPath: "box.fbx"
   };
   const outputSettings: AssetConversionOutputSettings = {
-    storageContainerUrl,
-    storageContainerWriteSas: sasToken,
-    blobPrefix: "Output"
+    storageContainerUrl
   };
   const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
-  // A randomly generated GUID is a good choice for a conversionId.
+  // A randomly generated UUID is a good choice for a conversionId.
   const conversionId = uuid();
-
-  console.log("== Starting the conversion ==");
 
   const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
     conversionId,
@@ -75,11 +71,10 @@ export async function main() {
 
   console.log("== Check results ==");
 
-  // Use a string for the enum.
   if (conversion.status === "Succeeded") {
     console.log("Conversion succeeded: Output written to " + conversion.output?.outputAssetUrl);
   } else if (conversion.status === "Failed") {
-    console.log("Conversion failed: " + conversion.error?.code + " " + conversion.error?.message);
+    console.log("Conversion failed: " + conversion.error.code + " " + conversion.error.message);
   }
 }
 

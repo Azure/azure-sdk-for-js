@@ -30,7 +30,7 @@ describe("RemoteRenderingClient construction", () => {
   const accountDomain = "mixedreality.azure.com";
   const accountId = "00000000-0000-0000-0000-000000000000";
   const accountKey = "00000000-0000-0000-0000-000000000000";
-  const serviceEndpoint = "https://sts.mixedreality.azure.com";
+  const serviceEndpoint = "https://remoterendering.mixedreality.azure.com";
   const keyCredential = new AzureKeyCredential(accountKey);
 
   it("can create", () => {

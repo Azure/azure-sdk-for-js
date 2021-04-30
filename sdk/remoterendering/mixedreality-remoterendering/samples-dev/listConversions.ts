@@ -38,7 +38,7 @@ export async function main() {
       );
     } else if (conversion.status === "Failed") {
       console.log(
-        `Conversion ${conversion.conversionId} failed: ${conversion.error?.code} ${conversion.error?.message}`
+        `Conversion ${conversion.conversionId} failed: ${conversion.error.code} ${conversion.error.message}`
       );
     }
   }
