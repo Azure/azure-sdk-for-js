@@ -2,14 +2,14 @@ let nock = require('nock');
 
 module.exports.hash = "15351b68172a2a7defdf4f33342ade03";
 
-module.exports.testInfo = {"uniqueName":{"conversionId":"conversionId161960623149001403"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"conversionId":"conversionId161979083179608548"},"newDate":{}}
 
 nock('https://sts.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
   .get('/Accounts/00000000-1111-2222-3333-444455556666/token')
   .query(true)
   .reply(200, {"AccessToken":"<access_token>"}, [
   'Date',
-  'Wed, 28 Apr 2021 10:37:13 GMT',
+  'Fri, 30 Apr 2021 13:53:52 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
@@ -19,59 +19,39 @@ nock('https://sts.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":tru
   'Pragma',
   'no-cache',
   'MS-CV',
-  'sMIjBEIxQkuNoL+AC6a+Ag.0',
+  'hLKiQk2b6kizt8jQ8JvE4g.0',
   'X-Content-Type-Options',
   'nosniff'
 ]);
 
 nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .put('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161960623149001403', {"settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","storageContainerReadListSas":"arr_sas_token","blobPrefix":"Input","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","storageContainerWriteSas":"arr_sas_token","blobPrefix":"Output"}}})
+  .put('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979083179608548', {"settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","storageContainerReadListSas":"arr_sas_token","blobPrefix":"Input","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","storageContainerWriteSas":"arr_sas_token","blobPrefix":"Output"}}})
   .query(true)
-  .reply(201, {"id":"conversionId161960623149001403","creationTime":"2021-04-28T10:37:13.7693394Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"NotStarted"}, [
+  .reply(201, {"id":"conversionId161979083179608548","creationTime":"2021-04-30T13:53:53.963195Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"NotStarted"}, [
   'Date',
-  'Wed, 28 Apr 2021 10:37:13 GMT',
+  'Fri, 30 Apr 2021 13:53:53 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '429',
+  '428',
   'X-Content-Type-Options',
   'nosniff',
   'MS-CV',
-  'NqExo3SFkECPxQTW5rftUQ.0',
+  'DDi+ubROTEu0aE1SNhJD3A.0',
   'api-supported-versions',
   '2021-01-01-preview, 2021-01-01'
 ]);
 
-nock('https://sts.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/Accounts/00000000-1111-2222-3333-444455556666/token')
-  .query(true)
-  .reply(200, {"AccessToken":"<access_token>"}, [
-  'Date',
-  'Wed, 28 Apr 2021 10:37:13 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Content-Length',
-  '1219',
-  'Cache-Control',
-  'no-store,no-cache',
-  'Pragma',
-  'no-cache',
-  'MS-CV',
-  'mBBjVxvwaEOCVKyqVQoS/g.0',
-  'X-Content-Type-Options',
-  'nosniff'
-]);
-
 nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161960623149001403')
+  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979083179608548')
   .query(true)
-  .reply(200, {"id":"conversionId161960623149001403","creationTime":"2021-04-28T10:37:13.7693394Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"NotStarted"}, [
+  .reply(200, {"id":"conversionId161979083179608548","creationTime":"2021-04-30T13:53:53.963195Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"NotStarted"}, [
   'Date',
-  'Wed, 28 Apr 2021 10:37:13 GMT',
+  'Fri, 30 Apr 2021 13:53:53 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '429',
+  '428',
   'Cache-Control',
   'no-store,no-cache',
   'Pragma',
@@ -79,41 +59,21 @@ nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQuer
   'X-Content-Type-Options',
   'nosniff',
   'MS-CV',
-  'n7LmyGxolkO03JpsMgEJcw.0',
+  'MvGf6F9Nz0m4i15pE1M+wQ.0',
   'api-supported-versions',
   '2021-01-01-preview, 2021-01-01'
 ]);
 
-nock('https://sts.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/Accounts/00000000-1111-2222-3333-444455556666/token')
-  .query(true)
-  .reply(200, {"AccessToken":"<access_token>"}, [
-  'Date',
-  'Wed, 28 Apr 2021 10:37:14 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Content-Length',
-  '1219',
-  'Cache-Control',
-  'no-store,no-cache',
-  'Pragma',
-  'no-cache',
-  'MS-CV',
-  '9daUQGXPuU6B0FpF9o1BEw.0',
-  'X-Content-Type-Options',
-  'nosniff'
-]);
-
 nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161960623149001403')
+  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979083179608548')
   .query(true)
-  .reply(200, {"id":"conversionId161960623149001403","creationTime":"2021-04-28T10:37:13.7693394Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"Running"}, [
+  .reply(200, {"id":"conversionId161979083179608548","creationTime":"2021-04-30T13:53:53.963195Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"NotStarted"}, [
   'Date',
-  'Wed, 28 Apr 2021 10:37:14 GMT',
+  'Fri, 30 Apr 2021 13:53:53 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '426',
+  '428',
   'Cache-Control',
   'no-store,no-cache',
   'Pragma',
@@ -121,41 +81,21 @@ nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQuer
   'X-Content-Type-Options',
   'nosniff',
   'MS-CV',
-  '1y69Dkle6kyUOxLuoGMuiQ.0',
+  'jgxsOMIX1kix9UpTTpQ7IQ.0',
   'api-supported-versions',
   '2021-01-01-preview, 2021-01-01'
 ]);
 
-nock('https://sts.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/Accounts/00000000-1111-2222-3333-444455556666/token')
-  .query(true)
-  .reply(200, {"AccessToken":"<access_token>"}, [
-  'Date',
-  'Wed, 28 Apr 2021 10:37:14 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Content-Length',
-  '1219',
-  'Cache-Control',
-  'no-store,no-cache',
-  'Pragma',
-  'no-cache',
-  'MS-CV',
-  'cLzFbZD4d0GwaiZt51lspA.0',
-  'X-Content-Type-Options',
-  'nosniff'
-]);
-
 nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161960623149001403')
+  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979083179608548')
   .query(true)
-  .reply(200, {"id":"conversionId161960623149001403","creationTime":"2021-04-28T10:37:13.7693394Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"Running"}, [
+  .reply(200, {"id":"conversionId161979083179608548","creationTime":"2021-04-30T13:53:53.963195Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"NotStarted"}, [
   'Date',
-  'Wed, 28 Apr 2021 10:37:15 GMT',
+  'Fri, 30 Apr 2021 13:53:53 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '426',
+  '428',
   'Cache-Control',
   'no-store,no-cache',
   'Pragma',
@@ -163,41 +103,21 @@ nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQuer
   'X-Content-Type-Options',
   'nosniff',
   'MS-CV',
-  'oVCsYwZnLEeJm+doT9YUnw.0',
+  'Xg0RBqUtaEeSeI/LC49TIw.0',
   'api-supported-versions',
   '2021-01-01-preview, 2021-01-01'
 ]);
 
-nock('https://sts.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/Accounts/00000000-1111-2222-3333-444455556666/token')
-  .query(true)
-  .reply(200, {"AccessToken":"<access_token>"}, [
-  'Date',
-  'Wed, 28 Apr 2021 10:37:25 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Content-Length',
-  '1219',
-  'Cache-Control',
-  'no-store,no-cache',
-  'Pragma',
-  'no-cache',
-  'MS-CV',
-  'lvI063DC2E6O7EuwhRNCTw.0',
-  'X-Content-Type-Options',
-  'nosniff'
-]);
-
 nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161960623149001403')
+  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979083179608548')
   .query(true)
-  .reply(200, {"id":"conversionId161960623149001403","creationTime":"2021-04-28T10:37:13.7693394Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"Running"}, [
+  .reply(200, {"id":"conversionId161979083179608548","creationTime":"2021-04-30T13:53:53.963195Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"Running"}, [
   'Date',
-  'Wed, 28 Apr 2021 10:37:25 GMT',
+  'Fri, 30 Apr 2021 13:54:03 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '426',
+  '425',
   'Cache-Control',
   'no-store,no-cache',
   'Pragma',
@@ -205,41 +125,21 @@ nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQuer
   'X-Content-Type-Options',
   'nosniff',
   'MS-CV',
-  '8l43gSrD20e1+FbWgDC7aQ.0',
+  'Gn3enW/73EyOxMcoUWPaIw.0',
   'api-supported-versions',
   '2021-01-01-preview, 2021-01-01'
 ]);
 
-nock('https://sts.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/Accounts/00000000-1111-2222-3333-444455556666/token')
-  .query(true)
-  .reply(200, {"AccessToken":"<access_token>"}, [
-  'Date',
-  'Wed, 28 Apr 2021 10:37:36 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Content-Length',
-  '1219',
-  'Cache-Control',
-  'no-store,no-cache',
-  'Pragma',
-  'no-cache',
-  'MS-CV',
-  'XyIhpZYH00qQpFphz+RtWQ.0',
-  'X-Content-Type-Options',
-  'nosniff'
-]);
-
 nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161960623149001403')
+  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979083179608548')
   .query(true)
-  .reply(200, {"id":"conversionId161960623149001403","creationTime":"2021-04-28T10:37:13.7693394Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"Running"}, [
+  .reply(200, {"id":"conversionId161979083179608548","creationTime":"2021-04-30T13:53:53.963195Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"Running"}, [
   'Date',
-  'Wed, 28 Apr 2021 10:37:36 GMT',
+  'Fri, 30 Apr 2021 13:54:14 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '426',
+  '425',
   'Cache-Control',
   'no-store,no-cache',
   'Pragma',
@@ -247,41 +147,21 @@ nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQuer
   'X-Content-Type-Options',
   'nosniff',
   'MS-CV',
-  'qBoSp1klt0i9739hKDMvAA.0',
+  'xS7ApSxOCUK/Q6PDoVDisg.0',
   'api-supported-versions',
   '2021-01-01-preview, 2021-01-01'
 ]);
 
-nock('https://sts.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/Accounts/00000000-1111-2222-3333-444455556666/token')
-  .query(true)
-  .reply(200, {"AccessToken":"<access_token>"}, [
-  'Date',
-  'Wed, 28 Apr 2021 10:37:47 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Content-Length',
-  '1219',
-  'Cache-Control',
-  'no-store,no-cache',
-  'Pragma',
-  'no-cache',
-  'MS-CV',
-  'SjnkbnduTkeD14VKfEemWA.0',
-  'X-Content-Type-Options',
-  'nosniff'
-]);
-
 nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161960623149001403')
+  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979083179608548')
   .query(true)
-  .reply(200, {"id":"conversionId161960623149001403","creationTime":"2021-04-28T10:37:13.7693394Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"Running"}, [
+  .reply(200, {"id":"conversionId161979083179608548","creationTime":"2021-04-30T13:53:53.963195Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"Running"}, [
   'Date',
-  'Wed, 28 Apr 2021 10:37:48 GMT',
+  'Fri, 30 Apr 2021 13:54:24 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '426',
+  '425',
   'Cache-Control',
   'no-store,no-cache',
   'Pragma',
@@ -289,41 +169,21 @@ nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQuer
   'X-Content-Type-Options',
   'nosniff',
   'MS-CV',
-  '8KmpjfQ7MUi2vx0F6ZwaRA.0',
+  'EniRq3UL00WusW1BElYY4w.0',
   'api-supported-versions',
   '2021-01-01-preview, 2021-01-01'
 ]);
 
-nock('https://sts.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/Accounts/00000000-1111-2222-3333-444455556666/token')
-  .query(true)
-  .reply(200, {"AccessToken":"<access_token>"}, [
-  'Date',
-  'Wed, 28 Apr 2021 10:37:58 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Content-Length',
-  '1219',
-  'Cache-Control',
-  'no-store,no-cache',
-  'Pragma',
-  'no-cache',
-  'MS-CV',
-  'dewSylb9cUerWcV9mtNNOg.0',
-  'X-Content-Type-Options',
-  'nosniff'
-]);
-
 nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161960623149001403')
+  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979083179608548')
   .query(true)
-  .reply(200, {"id":"conversionId161960623149001403","creationTime":"2021-04-28T10:37:13.7693394Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"Running"}, [
+  .reply(200, {"id":"conversionId161979083179608548","creationTime":"2021-04-30T13:53:53.963195Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"Running"}, [
   'Date',
-  'Wed, 28 Apr 2021 10:37:59 GMT',
+  'Fri, 30 Apr 2021 13:54:34 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '426',
+  '425',
   'Cache-Control',
   'no-store,no-cache',
   'Pragma',
@@ -331,41 +191,21 @@ nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQuer
   'X-Content-Type-Options',
   'nosniff',
   'MS-CV',
-  'vzNqfdfwpU+o6xczQ4bxyA.0',
+  'ycUTD3OImUitbOwJ9Nb++Q.0',
   'api-supported-versions',
   '2021-01-01-preview, 2021-01-01'
 ]);
 
-nock('https://sts.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/Accounts/00000000-1111-2222-3333-444455556666/token')
-  .query(true)
-  .reply(200, {"AccessToken":"<access_token>"}, [
-  'Date',
-  'Wed, 28 Apr 2021 10:38:09 GMT',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Content-Length',
-  '1219',
-  'Cache-Control',
-  'no-store,no-cache',
-  'Pragma',
-  'no-cache',
-  'MS-CV',
-  'slQLanQn8UeKxcLLfPLfRA.0',
-  'X-Content-Type-Options',
-  'nosniff'
-]);
-
 nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161960623149001403')
+  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979083179608548')
   .query(true)
-  .reply(200, {"id":"conversionId161960623149001403","creationTime":"2021-04-28T10:37:13.7693394Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"}, [
+  .reply(200, {"id":"conversionId161979083179608548","creationTime":"2021-04-30T13:53:53.963195Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"error":null,"status":"Running"}, [
   'Date',
-  'Wed, 28 Apr 2021 10:38:09 GMT',
+  'Fri, 30 Apr 2021 13:54:44 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '525',
+  '425',
   'Cache-Control',
   'no-store,no-cache',
   'Pragma',
@@ -373,45 +213,47 @@ nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQuer
   'X-Content-Type-Options',
   'nosniff',
   'MS-CV',
-  '7D2WxTPJ2UiZ6XXosIrAUw.0',
+  'heKLRAtPw0u1YXF2YNWs9Q.0',
   'api-supported-versions',
   '2021-01-01-preview, 2021-01-01'
 ]);
 
-nock('https://sts.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
-  .get('/Accounts/00000000-1111-2222-3333-444455556666/token')
+nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
+  .get('/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979083179608548')
   .query(true)
-  .reply(200, {"AccessToken":"<access_token>"}, [
+  .reply(200, {"id":"conversionId161979083179608548","creationTime":"2021-04-30T13:53:53.963195Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"}, [
   'Date',
-  'Wed, 28 Apr 2021 10:38:09 GMT',
+  'Fri, 30 Apr 2021 13:54:55 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '1219',
+  '524',
   'Cache-Control',
   'no-store,no-cache',
   'Pragma',
   'no-cache',
-  'MS-CV',
-  'wxrETwgSpUGjPs+5Trdi8A.0',
   'X-Content-Type-Options',
-  'nosniff'
+  'nosniff',
+  'MS-CV',
+  '/znX+vvagUqPszc5AZNohg.0',
+  'api-supported-versions',
+  '2021-01-01-preview, 2021-01-01'
 ]);
 
 nock('https://remoterendering.eastus2.mixedreality.azure.com:443', {"encodedQueryParams":true})
   .get('/accounts/00000000-1111-2222-3333-444455556666/conversions')
   .query(true)
-  .reply(200, {"conversions":[{"id":"conversionId161953782173201356","creationTime":"2021-04-27T15:37:02.4170052Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"conversionId161953867312805204","creationTime":"2021-04-27T15:51:12.8757221Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"boxWhichDoesNotExist.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"boxWhichDoesNotExist.arrAsset"}},"error":{"code":"ConversionProcessFailed","message":"Invalid input provided. Check logs in output container for details."},"status":"Failed"},{"id":"conversionId161959842804702186","creationTime":"2021-04-28T08:27:10.0095407Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"conversionId161959937948300631","creationTime":"2021-04-28T08:43:00.0756524Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"boxWhichDoesNotExist.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"boxWhichDoesNotExist.arrAsset"}},"error":{"code":"ConversionProcessFailed","message":"Invalid input provided. Check logs in output container for details."},"status":"Failed"},{"id":"conversionId161959980529100367","creationTime":"2021-04-28T08:50:06.6275053Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"conversionId161959988466101111","creationTime":"2021-04-28T08:51:26.204359Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"conversionId161959995214407550","creationTime":"2021-04-28T08:52:32.6961017Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"boxWhichDoesNotExist.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"boxWhichDoesNotExist.arrAsset"}},"error":{"code":"ConversionProcessFailed","message":"Invalid input provided. Check logs in output container for details."},"status":"Failed"},{"id":"conversionId161960363691906183","creationTime":"2021-04-28T09:53:59.196695Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"conversionId161960454825009485","creationTime":"2021-04-28T10:09:08.7915038Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"boxWhichDoesNotExist.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"boxWhichDoesNotExist.arrAsset"}},"error":{"code":"ConversionProcessFailed","message":"Invalid input provided. Check logs in output container for details."},"status":"Failed"},{"id":"conversionId161960623149001403","creationTime":"2021-04-28T10:37:13.7693394Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"}],"@nextLink":null}, [
+  .reply(200, {"conversions":[{"id":"9456e78f-4e86-45d5-9a3a-42f32d98ebfa","creationTime":"2021-04-30T09:42:54.4006831Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"4bd0faf2-7279-4351-8255-ff7b1852aa77","creationTime":"2021-04-30T11:04:28.3608266Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"5853b38a-a174-44e4-9018-7c324e2d2ba7","creationTime":"2021-04-30T11:17:01.4900529Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"9e063aff-0aeb-4ca5-8796-b708680fcf32","creationTime":"2021-04-30T11:25:43.4274107Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"conversionId161978216546004121","creationTime":"2021-04-30T11:29:27.2323156Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"conversionId161978242766201357","creationTime":"2021-04-30T11:33:47.8966192Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"boxWhichDoesNotExist.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"boxWhichDoesNotExist.arrAsset"}},"error":{"code":"ConversionProcessFailed","message":"Invalid input provided. Check logs in output container for details."},"status":"Failed"},{"id":"conversionId161978289255208378","creationTime":"2021-04-30T11:41:35.9073281Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"conversionId161978296301000875","creationTime":"2021-04-30T11:42:43.2118581Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"boxWhichDoesNotExist.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"boxWhichDoesNotExist.arrAsset"}},"error":{"code":"ConversionProcessFailed","message":"Invalid input provided. Check logs in output container for details."},"status":"Failed"},{"id":"a6faf3bc-3c10-4ce3-9548-545da9ef2423","creationTime":"2021-04-30T11:49:50.4940039Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"b57d6ad3-0077-478b-967a-0219a0fab5cc","creationTime":"2021-04-30T13:12:21.8193622Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"},{"id":"conversionId161979083179608548","creationTime":"2021-04-30T13:53:53.963195Z","settings":{"inputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Input/","relativeInputAssetPath":"testBox.fbx"},"outputLocation":{"storageContainerUri":"https://sdktest.blob.core.windows.net/test","blobPrefix":"Output/","outputAssetFilename":"testBox.arrAsset"}},"output":{"outputAssetUri":"https://sdktest.blob.core.windows.net/test/Output/testBox.arrAsset"},"error":null,"status":"Succeeded"}],"@nextLink":null}, [
   'Date',
-  'Wed, 28 Apr 2021 10:38:10 GMT',
+  'Fri, 30 Apr 2021 13:54:55 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '5436',
+  '5927',
   'X-Content-Type-Options',
   'nosniff',
   'MS-CV',
-  'FMGP1RQzPUm3XLXwAnbufA.0',
+  '/Vs8TjEAAEagOBhmF6bWuA.0',
   'api-supported-versions',
   '2021-01-01-preview, 2021-01-01'
 ]);
