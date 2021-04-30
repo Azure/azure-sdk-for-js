@@ -300,6 +300,10 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
    */
   curve?: KeyCurveName;
+  /**
+   * Whether to import as a hardware key (HSM) or software key.
+   */
+  hsm?: boolean;
 }
 
 /**
@@ -333,23 +337,13 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
  * An interface representing the optional parameters that can be
  * passed to {@link createEcKey}
  */
-export interface CreateEcKeyOptions extends CreateKeyOptions {
-  /**
-   * Whether to import as a hardware key (HSM) or software key.
-   */
-  hsm?: boolean;
-}
+export interface CreateEcKeyOptions extends CreateKeyOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link createRsaKey}
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
-  /**
-   * Whether to import as a hardware key (HSM) or software key.
-   */
-  hsm?: boolean;
-
   /** The public exponent for a RSA key. */
   publicExponent?: number;
 }
@@ -358,12 +352,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
  * An interface representing the optional parameters that can be
  * passed to {@link createOctKey}
  */
-export interface CreateOctKeyOptions extends CreateKeyOptions {
-  /**
-   * Whether to create a hardware-protected key in a hardware security module (HSM).
-   */
-  hsm?: boolean;
-}
+export interface CreateOctKeyOptions extends CreateKeyOptions {}
 
 /**
  * An interface representing the optional parameters that can be
