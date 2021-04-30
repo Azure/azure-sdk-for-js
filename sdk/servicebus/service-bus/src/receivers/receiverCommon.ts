@@ -15,6 +15,7 @@ import {
 import { DispositionStatusOptions } from "../core/managementClient";
 import { ConnectionContext } from "../connectionContext";
 import {
+  delay,
   ErrorNameConditionMapper,
   retry,
   RetryOperationType,
@@ -260,6 +261,8 @@ export async function settleMessageOperation(
     }
 
     await receiver!.settleMessage(message, operation, options);
+    // delay (setTimeout) ensures that the delivery is popped, size is decremented with respect to the settlement that was done
+    await delay(0);
     receiver!.settlementNotifierForSubscribe?.();
   } catch (err) {
     throw translateServiceBusError(err);

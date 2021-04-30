@@ -220,7 +220,7 @@ export class StreamingReceiverCreditManager {
    *
    * @internal
    */
-  async postProcessing() {
+  postProcessing() {
     const { receiver, logPrefix } = this._getCurrentReceiver();
     const { numberOfEmptySlots } = incomingBufferProperties(receiver);
     if (this.receiveMode === "peekLock") {
