@@ -472,7 +472,7 @@ async function makeSamplesFactory(
         // We also need to clean up extra blank lines that might be left behind by
         // removing azsdk tags. These regular expressions are extremely frustrating
         // because they deal almost exclusively in the literal "/" and "*" characters.
-        .replace(/(\s+\*\s+)*\*\//s, EOL + " */")
+        .replace(/(\s+\*)+\//s, EOL + " */")
         // Clean up blank lines at the beginning
         .replace(/\/\*\*(\s+\*)*/s, `/**${EOL} *`)
         // Finally remove empty doc comments.
