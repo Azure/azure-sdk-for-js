@@ -13,7 +13,7 @@ import {
 } from "../../../src/credentials/azurePowerShellCredential";
 import { processUtils } from "../../../src/util/processUtils";
 
-describe.only("AzurePowerShellCredential", function() {
+describe.skip("AzurePowerShellCredential", function() {
   const scope = "https://vault.azure.net/.default";
 
   it("throws an expected error if the user hasn't logged in through PowerShell", async function() {

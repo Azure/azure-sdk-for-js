@@ -14,7 +14,7 @@ class TestMockCredential implements TokenCredential {
   }
 }
 
-describe.only("ChainedTokenCredential", function() {
+describe.skip("ChainedTokenCredential", function() {
   it("Logs the expected successful message", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
       new TestMockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 }))
