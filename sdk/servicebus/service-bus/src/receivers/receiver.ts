@@ -515,8 +515,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         (error.code as InternalServiceBusErrorCode) === "UnsettledMessagesLimitExceeded"
       ) {
         // To be consistent with other languages, not throwing for UnsettledMessagesLimitExceeded case.
-        // If the unsettled messages limit is exceeded, we'd just return 0 messages instead of throwing
-        // until service fixes the "draining" bug with at terminal case and we extend the 2048 limit in rhea
+        // If the unsettled messages limit is reached, we'd just return 0 messages instead of throwing
+        // (until the service fixes the "draining" bug at the terminal case and we extend the 2048 limit in rhea)
         return [];
       } else {
         throw error;
