@@ -15,7 +15,7 @@ if (isNode) {
   dotenv.config();
 }
 
-describe("ContainerRegistryClient functional tests", function() {
+describe("ContainerRegistryClient tests", function() {
   // Declare the client and recorder instances.  We will set them using the
   // beforeEach hook.
   let client: ContainerRegistryClient;

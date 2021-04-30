@@ -14,7 +14,7 @@ if (isNode) {
   dotenv.config();
 }
 
-describe("ContainerRepositoryClient functional tests", function() {
+describe("Repository and artifact tests", function() {
   // Declare the client and recorder instances.  We will set them using the
   // beforeEach hook.
   let registryClient: ContainerRegistryClient;
@@ -39,8 +39,14 @@ describe("ContainerRepositoryClient functional tests", function() {
     await recorder.stop();
   });
 
+  it("should list registry manifests", async () => {
+    const iter = repository.listManifests();
+    const first = await iter.next();
+    assert.ok(first.value, "Expecting a valid manifest");
+  });
+
   let artifactDigest: string;
-  it("should list registry artifacts by pages", async () => {
+  it("should list registry manifests by pages", async () => {
     const iterator = repository.listManifests().byPage({ maxPageSize: 1 });
     let result = await iterator.next();
     assert.equal(result.value.length, 1, "Expecting one artifact in first page");
@@ -116,12 +122,6 @@ describe("ContainerRepositoryClient functional tests", function() {
     assert.equal(result.value.length, 1, "Expecting one tag in first page");
     result = await iterator.next();
     assert.equal(result.value.length, 1, "Expecting one tag in second page");
-  });
-
-  it("should list registry artifacts", async () => {
-    const iter = repository.listManifests();
-    const first = await iter.next();
-    assert.ok(first.value, "Expecting a valid artifact");
   });
 
   it("should retrive tag properties", async () => {
