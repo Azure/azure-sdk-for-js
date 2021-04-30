@@ -36,7 +36,6 @@ npm install @azure/remoterendering
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-
 <!--
 
 #### CORS
@@ -190,22 +189,22 @@ We assume that a RemoteRenderingClient has been constructed as described in the 
 The following snippet describes how to request that "box.fbx", found at the root of the blob container at the given URI, gets converted.
 
 ```typescript Snippet:StartAnAssetConversion
-  const inputSettings: AssetConversionInputSettings = {
-    storageContainerUrl,
-    relativeInputAssetPath: "box.fbx",
-  };
-  const outputSettings: AssetConversionOutputSettings = {
-    storageContainerUrl,
-  };
-  const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
+const inputSettings: AssetConversionInputSettings = {
+  storageContainerUrl,
+  relativeInputAssetPath: "box.fbx"
+};
+const outputSettings: AssetConversionOutputSettings = {
+  storageContainerUrl
+};
+const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
-  // A randomly generated UUID is a good choice for a conversionId.
-  const conversionId = uuid();
+// A randomly generated UUID is a good choice for a conversionId.
+const conversionId = uuid();
 
-  const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
-    conversionId,
-    conversionSettings
-  );
+const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
+  conversionId,
+  conversionSettings
+);
 ```
 
 The output files will be placed beside the input asset.
@@ -250,15 +249,15 @@ This code uses the conversionPoller returned by beginConversion to poll regularl
 The default polling period is 10 seconds.
 
 ```typescript Snippet:QueryConversionStatus
-  const conversion = await conversionPoller.pollUntilDone();
+const conversion = await conversionPoller.pollUntilDone();
 
-  console.log("== Check results ==");
+console.log("== Check results ==");
 
-  if (conversion.status === "Succeeded") {
-    console.log("Conversion succeeded: Output written to " + conversion.output?.outputAssetUrl);
-  } else if (conversion.status === "Failed") {
-    console.log("Conversion failed: " + conversion.error.code + " " + conversion.error.message);
-  }
+if (conversion.status === "Succeeded") {
+  console.log("Conversion succeeded: Output written to " + conversion.output?.outputAssetUrl);
+} else if (conversion.status === "Failed") {
+  console.log("Conversion failed: " + conversion.error.code + " " + conversion.error.message);
+}
 ```
 
 Note that the state of a AssetConversionPollerLike can be serialized by calling conversionPoller.toString().
@@ -266,9 +265,9 @@ That value can later be passed into beginConversion as a `resumeFrom` value, to 
 which carries on from where the earlier one left off:
 
 ```typescript
-  const serializedPollerString = conversionPoller.toString();
-  // ... 
-  const resumedPoller = client.beginConversion({ resumeFrom: serializedPollerString });
+const serializedPollerString = conversionPoller.toString();
+// ...
+const resumedPoller = client.beginConversion({ resumeFrom: serializedPollerString });
 ```
 
 ### List conversions
@@ -278,17 +277,17 @@ This method may return conversions which have yet to start, conversions which ar
 In this example, we just list the output URIs of successful conversions started in the last day.
 
 ```typescript Snippet:ListConversions
-  for await (const conversion of client.listConversions()) {
-    if (conversion.status === "Succeeded") {
-      console.log(
-        `Conversion ${conversion.conversionId} succeeded: Output written to ${conversion.output?.outputAssetUrl}`
-      );
-    } else if (conversion.status === "Failed") {
-      console.log(
-        `Conversion ${conversion.conversionId} failed: ${conversion.error.code} ${conversion.error.message}`
-      );
-    }
+for await (const conversion of client.listConversions()) {
+  if (conversion.status === "Succeeded") {
+    console.log(
+      `Conversion ${conversion.conversionId} succeeded: Output written to ${conversion.output?.outputAssetUrl}`
+    );
+  } else if (conversion.status === "Failed") {
+    console.log(
+      `Conversion ${conversion.conversionId} failed: ${conversion.error.code} ${conversion.error.message}`
+    );
   }
+}
 ```
 
 ### Create a session
@@ -297,18 +296,18 @@ We assume that a RemoteRenderingClient has been constructed as described in the 
 The following snippet describes how to request that a new rendering session be started.
 
 ```typescript Snippet:CreateASession
-  const sessionSettings: RenderingSessionSettings = {
-    maxLeaseTimeInMinutes: 4,
-    size: "Standard"
-  };
+const sessionSettings: RenderingSessionSettings = {
+  maxLeaseTimeInMinutes: 4,
+  size: "Standard"
+};
 
-  // A randomly generated UUID is a good choice for a conversionId.
-  const sessionId = uuid();
+// A randomly generated UUID is a good choice for a conversionId.
+const sessionId = uuid();
 
-  const sessionPoller: RenderingSessionPollerLike = await client.beginSession(
-    sessionId,
-    sessionSettings
-  );
+const sessionPoller: RenderingSessionPollerLike = await client.beginSession(
+  sessionId,
+  sessionSettings
+);
 ```
 
 Note that the state of a RenderingSessionPollerLike can be serialized by calling toString().
@@ -316,9 +315,9 @@ That value can later be passed into beginSession as a `resumeFrom` value, to con
 which carries on from where the earlier one left off:
 
 ```typescript
-  const serializedPollerString = sessionPoller.toString();
-  // ... 
-  const resumedPoller = client.beginSession({ resumeFrom: serializedPollerString });
+const serializedPollerString = sessionPoller.toString();
+// ...
+const resumedPoller = client.beginSession({ resumeFrom: serializedPollerString });
 ```
 
 ### Extend the lease time of a session
@@ -347,13 +346,13 @@ You can get information about your sessions using the `getSessions` method.
 This method may return sessions which have yet to start and sessions which are ready.
 
 ```typescript Snippet:ListSessions
-  for await (const session of client.listSessions()) {
-    if (session.status === "Starting") {
-        console.log(`Session ${session.sessionId} is starting`);
-    } else if (session.status === "Ready") {
-        console.log(`Session ${session.sessionId} is ready`);
-    }
+for await (const session of client.listSessions()) {
+  if (session.status === "Starting") {
+    console.log(`Session ${session.sessionId} is starting`);
+  } else if (session.status === "Ready") {
+    console.log(`Session ${session.sessionId} is ready`);
   }
+}
 ```
 
 ### Stop a session
@@ -361,7 +360,7 @@ This method may return sessions which have yet to start and sessions which are r
 The following code will stop a running session with given id.
 
 ```typescript Snippet:StopSession
-    client.endSession(sessionId);
+client.endSession(sessionId);
 ```
 
 ## Troubleshooting
