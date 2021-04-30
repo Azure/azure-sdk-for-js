@@ -65,11 +65,7 @@ export type ServiceBusErrorCode =
   /**
    * The user doesn't have access to the entity.
    */
-  | "UnauthorizedAccess"
-  /**
-   * The number of unsettled messages that can be held is reached, please settle the received messages.
-   */
-  | "UnsettledMessagesLimitExceeded";
+  | "UnauthorizedAccess";
 
 /**
  * Translation between the MessagingErrorCodes into a ServiceBusCode
@@ -94,6 +90,16 @@ export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusError
 ]);
 
 /**
+ * Extends the ServiceBusErrorCode with the codes that we don't want to expose to the users.
+ */
+export type InternalServiceBusErrorCode =
+  | ServiceBusErrorCode
+  /**
+   * The number of unsettled messages that can be held is reached, please settle the received messages.
+   */
+  | "UnsettledMessagesLimitExceeded";
+
+/**
  * Errors that occur within Service Bus.
  */
 export class ServiceBusError extends MessagingError {
@@ -114,7 +120,6 @@ export class ServiceBusError extends MessagingError {
    * - **SessionCannotBeLocked**: The requested session cannot be locked.
    * - **SessionLockLost**: The lock on the session has expired. Callers should request the session again.
    * - **UnauthorizedAccess"**: The user doesn't have access to the entity.
-   * - **UnsettledMessagesLimitExceeded**: The number of unsettled messages that can be held is reached, received messages need to be settled.
    */
   // NOTE: make sure this list and the list above are properly kept in sync.
   code: ServiceBusErrorCode;
