@@ -45,11 +45,11 @@ matrix([[true, false]], async function(useAad) {
       let smsCapabilityType: PhoneNumberCapabilityType = "inbound+outbound";
       const currentPhoneNumber = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
 
-      if (currentPhoneNumber.capabilities.calling == callingCapabilityType) {
+      if (currentPhoneNumber.capabilities.calling === callingCapabilityType) {
         callingCapabilityType = "inbound";
       }
 
-      if (currentPhoneNumber.capabilities.sms == smsCapabilityType) {
+      if (currentPhoneNumber.capabilities.sms === smsCapabilityType) {
         smsCapabilityType = "outbound";
       }
 
