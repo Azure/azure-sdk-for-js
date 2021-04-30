@@ -18,9 +18,9 @@ export async function main(): Promise<void> {
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
-  const url = process.env["KEYVAULT_URI"];
+  const url = process.env["AZURE_MANAGEDHSM_URI"];
   if (!url) {
-    throw new Error("Missing environment variable KEYVAULT_URI.");
+    throw new Error("Missing environment variable AZURE_MANAGEDHSM_URI.");
   }
   const client = new KeyVaultBackupClient(url, credential);
 
