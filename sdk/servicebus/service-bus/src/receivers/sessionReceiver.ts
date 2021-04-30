@@ -41,7 +41,7 @@ import "@azure/core-asynciterator-polyfill";
 import { AmqpError } from "rhea-promise";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
-import { translateServiceBusError } from "../serviceBusError";
+import { isServiceBusError, translateServiceBusError } from "../serviceBusError";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -410,7 +410,15 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       abortSignal: options?.abortSignal
     };
     return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
-      throw translateServiceBusError(err);
+      const error = translateServiceBusError(err);
+      if (isServiceBusError(error) && error.code === "UnsettledMessagesLimitExceeded") {
+        // To be consistent with other languages, not throwing for UnsettledMessagesLimitExceeded case.
+        // If the unsettled messages limit is exceeded, we'd just return 0 messages instead of throwing
+        // until service fixes the "draining" bug with at terminal case and we extend the 2048 limit in rhea
+        return [];
+      } else {
+        throw error;
+      }
     });
   }
 

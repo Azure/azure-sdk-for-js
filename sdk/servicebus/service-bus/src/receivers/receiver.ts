@@ -41,7 +41,7 @@ import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
-import { translateServiceBusError } from "../serviceBusError";
+import { isServiceBusError, translateServiceBusError } from "../serviceBusError";
 
 /**
  * The default time to wait for messages _after_ the first message
@@ -505,7 +505,15 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       retryOptions: this._retryOptions
     };
     return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
-      throw translateServiceBusError(err);
+      const error = translateServiceBusError(err);
+      if (isServiceBusError(error) && error.code === "UnsettledMessagesLimitExceeded") {
+        // To be consistent with other languages, not throwing for UnsettledMessagesLimitExceeded case.
+        // If the unsettled messages limit is exceeded, we'd just return 0 messages instead of throwing
+        // until service fixes the "draining" bug with at terminal case and we extend the 2048 limit in rhea
+        return [];
+      } else {
+        throw error;
+      }
     });
   }
 
