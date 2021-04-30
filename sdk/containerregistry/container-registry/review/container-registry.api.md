@@ -12,7 +12,7 @@ import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type ArtifactArchitecture = string;
+export type ArtifactArchitecture = "386" | "amd64" | "arm" | "arm64" | "mips" | "mipsle" | "mips64" | "mips64le" | "ppc64" | "ppc64le" | "riscv64" | "s390x" | "wasm" | string;
 
 // @public
 export interface ArtifactManifestProperties {
@@ -29,7 +29,7 @@ export interface ArtifactManifestProperties {
 }
 
 // @public
-export type ArtifactOperatingSystem = string;
+export type ArtifactOperatingSystem = "aix" | "android" | "darwin" | "dragonfly" | "freebsd" | "illumos" | "ios" | "js" | "linux" | "netbsd" | "openbsd" | "plan9" | "solaris" | "windows" | string;
 
 // @public
 export interface ArtifactTagProperties {
@@ -44,9 +44,9 @@ export interface ArtifactTagProperties {
 // @public
 export class ContainerRegistryClient {
     constructor(endpointUrl: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
-    deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
-    getArtifact(repositoryName: string, tagOrDigest: string): Promise<import("./registryArtifact").RegistryArtifact>;
-    getRepository(name: string): ContainerRepository;
+    deleteRepository(repositoryName: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
+    getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact;
+    getRepository(repositoryName: string): ContainerRepository;
     listRepositoryNames(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, string[]>;
     loginServer: string;
     name: string;
@@ -126,7 +126,7 @@ export interface ListTagsOptions extends OperationOptions {
 }
 
 // @public
-export type ManifestOrderBy = "timedesc" | "timeasc";
+export type ManifestOrderBy = "timeDesc" | "timeAsc";
 
 // @public
 export class RegistryArtifact {
@@ -166,7 +166,7 @@ export type SetRepositoryPropertiesOptions = ContentProperties & OperationOption
 export type SetTagPropertiesOptions = ContentProperties & OperationOptions;
 
 // @public
-export type TagOrderBy = "timedesc" | "timeasc";
+export type TagOrderBy = "timeDesc" | "timeAsc";
 
 
 // (No @packageDocumentation comment for this package)

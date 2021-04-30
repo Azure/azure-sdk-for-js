@@ -23,6 +23,7 @@ import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 import { ContainerRepository, DeleteRepositoryOptions } from "./containerRepository";
 import { URL } from "./url";
+import { RegistryArtifact } from "./registryArtifact";
 
 /**
  * Options for the `listRepositories` method of `ContainerRegistryClient`.
@@ -109,11 +110,11 @@ export class ContainerRegistryClient {
   /**
    * Deletes the repository identified by the given name.
    *
-   * @param name - the name of repository to delete
+   * @param repositoryName - the name of repository to delete
    * @param options - optional configuration for the operation
    */
   public async deleteRepository(
-    name: string,
+    repositoryName: string,
     options: DeleteRepositoryOptions = {}
   ): Promise<DeleteRepositoryResult> {
     const { span, updatedOptions } = createSpan(
@@ -122,7 +123,10 @@ export class ContainerRegistryClient {
     );
 
     try {
-      const result = await this.client.containerRegistry.deleteRepository(name, updatedOptions);
+      const result = await this.client.containerRegistry.deleteRepository(
+        repositoryName,
+        updatedOptions
+      );
       return result;
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
@@ -138,7 +142,7 @@ export class ContainerRegistryClient {
    * @param repositoryName - the name of repository
    * @param tagOrDigest - tag or digest of the artifact to retrieve
    */
-  public async getArtifact(repositoryName: string, tagOrDigest: string) {
+  public getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact {
     return new ContainerRepository(this.registryUrl, repositoryName, this.client).getArtifact(
       tagOrDigest
     );
@@ -147,11 +151,11 @@ export class ContainerRegistryClient {
   /**
    * Returns a ContainerRepositoryClient instance for the given repository.
    *
-   * @param name - the name of repository to delete
+   * @param repositoryName - the name of repository to delete
    * @param options - optional configuration for the operation
    */
-  public getRepository(name: string): ContainerRepository {
-    return new ContainerRepository(this.registryUrl, name, this.client);
+  public getRepository(repositoryName: string): ContainerRepository {
+    return new ContainerRepository(this.registryUrl, repositoryName, this.client);
   }
 
   /**
