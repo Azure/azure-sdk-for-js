@@ -12,7 +12,7 @@ import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
 
-describe.skip("ClientSecretCredential (internal)", function() {
+describe.only("ClientSecretCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;

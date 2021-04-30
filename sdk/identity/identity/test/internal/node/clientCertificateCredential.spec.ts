@@ -15,7 +15,7 @@ import { Context } from "mocha";
 
 const ASSET_PATH = "assets";
 
-describe.skip("ClientCertificateCredential (internal)", function() {
+describe.only("ClientCertificateCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
