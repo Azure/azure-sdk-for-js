@@ -389,12 +389,6 @@ export class StreamingReceiver extends MessageReceiver {
     messageHandlers: InternalMessageHandlers,
     subscribeOptions: SubscribeOptions | undefined
   ): Promise<void> {
-    if (this._isSubscribeActive) {
-      const error = new Error(getAlreadyReceivingErrorMsg(this.entityPath));
-      logger.logError(error, `${this.logPrefix} StreamingReceiver is already subscribed.`);
-      throw error;
-    }
-
     // these options and message handlers will be re-used if/when onDetach is called.
     this._subscribeOptions = subscribeOptions;
     this._setMessageHandlers(messageHandlers, subscribeOptions);
