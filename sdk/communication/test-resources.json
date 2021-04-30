@@ -28,7 +28,7 @@
       }
     },
     "tenantId": {
-      "type": "String",
+      "type": "string",
       "metadata": {
         "description": "The tenant id to which the application and resources belong."
       }
