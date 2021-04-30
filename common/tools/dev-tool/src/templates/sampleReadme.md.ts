@@ -214,10 +214,8 @@ ${fence(
   "bash",
   `node ${(() => {
     const firstSource = filterModules(info)[0].relativeSourcePath;
-    const fileName = info.useTypeScript
-      ? "dist/" + firstSource
-      : firstSource.replace(/\.ts$/, ".js");
-    return fileName;
+    const filePath = info.useTypeScript ? "dist/" : "";
+    return filePath + firstSource.replace(/\.ts$/, ".js");
   })()}`
 )}
 
