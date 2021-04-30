@@ -142,7 +142,7 @@ export class CryptographyClient {
   /**
    * The ID of the key used to perform cryptographic operations for the client.
    */
-  get keyId(): string | undefined {
+  get keyID(): string | undefined {
     if (this.key.kind === "identifier") {
       return this.key.value;
     } else if (this.key.kind === "KeyVaultKey") {
