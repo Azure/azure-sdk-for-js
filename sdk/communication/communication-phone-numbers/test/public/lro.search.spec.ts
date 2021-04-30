@@ -68,11 +68,11 @@ matrix([[true, false]], async function(useAad) {
         const searchPoller = await client.beginSearchAvailablePhoneNumbers(invalidSearchRequest);
         await searchPoller.pollUntilDone();
       } catch (error) {
-        assert.equal(error.statusCode, 400);
+        assert.equal(error.statusCode, 500);
         return;
       }
 
       assert.fail("beginSearchAvailablePhoneNumbers should have thrown an exception.");
-    }).timeout(20000);
+    }).timeout(35000);
   });
 });
