@@ -147,9 +147,7 @@ export class StreamingReceiver extends MessageReceiver {
       this.maxConcurrentCalls
     );
 
-    this.settlementNotifierForSubscribe = () => {
-      this._creditManager.postProcessing();
-    };
+    this.settlementNotifierForSubscribe = this._creditManager.postProcessing;
 
     this._onAmqpClose = async (context: EventContext) => {
       const receiverError = context.receiver && context.receiver.error;
