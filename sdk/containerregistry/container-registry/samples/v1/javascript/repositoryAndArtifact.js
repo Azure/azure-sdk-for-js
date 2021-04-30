@@ -5,7 +5,7 @@
  * @summary Demonstrates the use of ContainerRepository and RegistryArtifact.
  */
 
-const { ContainerRegistryClient } = require("../../../dist");
+const { ContainerRegistryClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -26,8 +26,11 @@ async function main() {
   if (manifests && manifests.length) {
     const digest = manifests[0].digest;
     if (digest) {
-      await getArtifactProperties(repository, digest);
       const artifact = repository.getArtifact(digest);
+
+      console.log(`Retrieving registry artifact properties for ${digest}`);
+      await getArtifactProperties(artifact);
+
       console.log(`Listing tags for ${digest}`);
       await listTags(artifact);
 
@@ -36,7 +39,7 @@ async function main() {
       await listTagsByPages(artifact, pageSize);
 
       console.log(`Deleting registry artifact for ${digest}`);
-      // await artifact.delete();
+      await artifact.delete();
     }
   }
   // Advanced: listing by pages
@@ -118,9 +121,7 @@ async function getProperties(repository) {
   }
 }
 
-async function getArtifactProperties(repository, digest) {
-  console.log(`Retrieving registry artifact properties for ${digest}`);
-  const artifact = repository.getArtifact(digest);
+async function getArtifactProperties(artifact) {
   const properties = await artifact.getManifestProperties();
   console.log(`  created on: ${properties.createdOn}`);
   console.log(`  last updated on: ${properties.lastUpdatedOn}`);

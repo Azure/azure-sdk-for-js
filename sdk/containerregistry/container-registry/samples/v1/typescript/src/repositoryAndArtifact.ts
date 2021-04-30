@@ -8,11 +8,11 @@
 import {
   ContainerRepository,
   ArtifactManifestProperties,
-  ContainerRegistryClient
+  ContainerRegistryClient,
+  RegistryArtifact
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
-import { RegistryArtifact } from "../src/registryArtifact";
 dotenv.config();
 
 export async function main() {
@@ -31,8 +31,11 @@ export async function main() {
   if (manifests && manifests.length) {
     const digest = manifests[0].digest;
     if (digest) {
-      await getArtifactProperties(repository, digest);
       const artifact = repository.getArtifact(digest);
+
+      console.log(`Retrieving registry artifact properties for ${digest}`);
+      await getArtifactProperties(artifact);
+
       console.log(`Listing tags for ${digest}`);
       await listTags(artifact);
 
@@ -127,9 +130,7 @@ async function getProperties(repository: ContainerRepository) {
   }
 }
 
-async function getArtifactProperties(repository: ContainerRepository, digest: string) {
-  console.log(`Retrieving registry artifact properties for ${digest}`);
-  const artifact = repository.getArtifact(digest);
+async function getArtifactProperties(artifact: RegistryArtifact) {
   const properties = await artifact.getManifestProperties();
   console.log(`  created on: ${properties.createdOn}`);
   console.log(`  last updated on: ${properties.lastUpdatedOn}`);
