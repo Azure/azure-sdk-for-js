@@ -74,6 +74,7 @@ export interface PollOperation<TState, TResult> {
 // @public
 export interface PollOperationState<TResult> {
     error?: Error;
+    initialRawResponse?: unknown;
     isCancelled?: boolean;
     isCompleted?: boolean;
     isStarted?: boolean;

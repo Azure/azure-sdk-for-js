@@ -35,6 +35,11 @@ export interface PollOperationState<TResult> {
    * Will exist if the operation concluded in a result of an expected type.
    */
   result?: TResult;
+  /**
+   * The response of the initial begin operation. It is used to calculate polling
+   * details such as the polling URL and the provisioned resource location.
+   */
+  initialRawResponse?: unknown;
 }
 
 /**
