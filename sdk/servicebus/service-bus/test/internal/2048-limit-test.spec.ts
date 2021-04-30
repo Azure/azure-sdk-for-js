@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai, { assert } from "chai";
+import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import {
   ProcessErrorArgs,
@@ -10,7 +10,7 @@ import {
   ServiceBusSender
 } from "../../src";
 import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
-import { ServiceBusReceiver } from "../../src/receivers/receiver";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -18,6 +18,8 @@ import {
 } from "../public/utils/testutils2";
 import { verifyMessageCount } from "../public/utils/managementUtils";
 import { delay } from "rhea-promise";
+import { InternalServiceBusErrorCode } from "../../src/serviceBusError";
+import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 
 chai.use(chaiAsPromised);
 
@@ -25,6 +27,7 @@ let serviceBusClient: ServiceBusClientForTests;
 let entityName: EntityName;
 let sender: ServiceBusSender;
 let receiver: ServiceBusReceiver;
+const retryOptions = { maxRetries: 3, retryDelayInMs: 10 };
 const numberOfMessagesToSend = 3000;
 
 const testClientTypes = [
@@ -81,7 +84,7 @@ async function sendMessages(numberOfMessagesToSend: number) {
 describe("2048 scenarios - receiveBatch in a loop", function(): void {
   before(() => {
     serviceBusClient = createServiceBusClientForTests({
-      retryOptions: { maxRetries: 1, retryDelayInMs: 10 }
+      retryOptions
     });
   });
 
@@ -154,6 +157,34 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
         }
       ).timeout(200000);
 
+      function mockBachingReceive(receiver: ServiceBusReceiver, receiveCalled: { count: number }) {
+        if (entityName.usesSessions) {
+          const sessionReceiverTemp = receiver as ServiceBusSessionReceiverImpl;
+          if (sessionReceiverTemp["_messageSession"]) {
+            const tempFunc =
+              sessionReceiverTemp["_messageSession"]["_batchingReceiverLite"].receiveMessages;
+            sessionReceiverTemp["_messageSession"][
+              "_batchingReceiverLite"
+            ].receiveMessages = function(...args: any) {
+              receiveCalled.count++;
+              return tempFunc.apply(this, args);
+            };
+          }
+        } else {
+          const receiverTemp = receiver as ServiceBusReceiverImpl;
+          if (receiverTemp["_batchingReceiver"]) {
+            const tempFunc =
+              receiverTemp["_batchingReceiver"]["_batchingReceiverLite"].receiveMessages;
+            receiverTemp["_batchingReceiver"]["_batchingReceiverLite"].receiveMessages = function(
+              ...args: any
+            ) {
+              receiveCalled.count++;
+              return tempFunc.apply(this, args);
+            };
+          }
+        }
+      }
+
       it(
         clientType + ": new messageBatch returns zero after 2047 messages",
         async function(): Promise<void> {
@@ -161,16 +192,19 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           await sendMessages(numberOfMessagesToSend);
           const firstBatch = await receiveMessages(2047);
           await verifyMessageCount(numberOfMessagesToSend, entityName);
-          try {
-            await receiver.receiveMessages(1, { maxWaitTimeInMs: 2000 });
-            assert.fail("receiveMessages should have reached failed");
-          } catch (error) {
-            chai.assert.equal(
-              error.code,
-              "UnsettledMessagesLimitExceeded",
-              "Something went wrong - error code should have been UnsettledMessagesLimitExceeded"
-            );
-          }
+
+          const receiveCalled = { count: 0 };
+          mockBachingReceive(receiver, receiveCalled);
+          chai.assert.equal(
+            (await receiver.receiveMessages(1, { maxWaitTimeInMs: 2000 })).length,
+            0,
+            "Should have received 0 messages!"
+          );
+          chai.assert.equal(
+            receiveCalled.count,
+            retryOptions.maxRetries + 1,
+            "Unexpected number of times receive called"
+          );
           await verifyMessageCount(numberOfMessagesToSend, entityName);
           await Promise.all(firstBatch.map((msg) => receiver.completeMessage(msg)));
           const leftOver = await receiveMessages(numberOfMessagesToSend - 2047);
@@ -269,7 +303,10 @@ describe("2048 scenarios - subscribe", function(): void {
               }
             },
             async processError(args: ProcessErrorArgs) {
-              if ((args.error as ServiceBusError).code === "UnsettledMessagesLimitExceeded") {
+              if (
+                ((args.error as ServiceBusError).code as InternalServiceBusErrorCode) ===
+                "UnsettledMessagesLimitExceeded"
+              ) {
                 unsettledMessagesLimitErrorSeen = true;
               }
             }
