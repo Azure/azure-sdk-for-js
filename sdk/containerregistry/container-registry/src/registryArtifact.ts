@@ -39,12 +39,12 @@ export interface GetTagPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `setTagProperties` method of `RegistryArtifact`.
  */
-export interface SetTagPropertiesOptions extends OperationOptions {}
+export type SetTagPropertiesOptions = ContentProperties & OperationOptions;
 
 /**
  * Options for the `setManifestProperties` method of `RegistryArtifact`.
  */
-export interface SetManifestPropertiesOptions extends OperationOptions {}
+export type SetManifestPropertiesOptions = ContentProperties & OperationOptions;
 
 /**
  * Options for the `listTags` method of `RegistryArtifact`.
@@ -184,12 +184,16 @@ export class RegistryArtifact {
    * @param options -
    */
   public async setManifestProperties(
-    value: ContentProperties,
     options: SetManifestPropertiesOptions = {}
   ): Promise<ArtifactManifestProperties> {
     const { span, updatedOptions } = createSpan("RegistryArtifact-setManifestProperties", {
       ...options,
-      value: value
+      value: {
+        canDelete: options.canDelete,
+        canWrite: options.canWrite,
+        canList: options.canList,
+        canRead: options.canRead
+      }
     });
 
     let digest: string = this.tagOrDigest;
@@ -253,12 +257,16 @@ export class RegistryArtifact {
    */
   public async setTagProperties(
     tag: string,
-    value: ContentProperties,
     options: SetTagPropertiesOptions = {}
   ): Promise<ArtifactTagProperties> {
     const { span, updatedOptions } = createSpan("RegistryArtifact-setTagProperties", {
       ...options,
-      value: value
+      value: {
+        canDelete: options.canDelete,
+        canWrite: options.canWrite,
+        canList: options.canList,
+        canRead: options.canRead
+      }
     });
 
     try {

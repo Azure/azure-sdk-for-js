@@ -38,7 +38,7 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `setProperties` method of `ContainerRepository`.
  */
-export interface SetRepositoryPropertiesOptions extends OperationOptions {}
+export type SetRepositoryPropertiesOptions = ContentProperties & OperationOptions;
 
 /**
  * The client class used to interact with the Container Registry service.
@@ -130,12 +130,16 @@ export class ContainerRepository {
    * @param options -
    */
   public async setProperties(
-    value: ContentProperties,
     options: SetRepositoryPropertiesOptions = {}
   ): Promise<RepositoryProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepository-setProperties", {
       ...options,
-      value: value
+      value: {
+        canDelete: options.canDelete,
+        canWrite: options.canWrite,
+        canList: options.canList,
+        canRead: options.canRead
+      }
     });
 
     try {

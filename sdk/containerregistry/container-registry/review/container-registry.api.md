@@ -70,7 +70,7 @@ export class ContainerRepository {
     listManifests(options?: ListManifestsOptions): PagedAsyncIterableIterator<ArtifactManifestProperties>;
     name: string;
     registryUrl: string;
-    setProperties(value: ContentProperties, options?: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+    setProperties(options?: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
 }
 
 // @public
@@ -82,7 +82,7 @@ export interface ContentProperties {
 }
 
 // @public
-export interface DeleteRegistryArtifactOptions extends OperationOptions {
+export interface DeleteArtifactOptions extends OperationOptions {
 }
 
 // @public
@@ -132,7 +132,7 @@ export type ManifestOrderBy = "timedesc" | "timeasc";
 export class RegistryArtifact {
     // @internal
     constructor(registryUrl: string, repositoryName: string, tagOrDigest: string, client: GeneratedClient);
-    delete(options?: DeleteRegistryArtifactOptions): Promise<void>;
+    delete(options?: DeleteArtifactOptions): Promise<void>;
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
     // (undocumented)
     fullyQualifiedName: string;
@@ -141,8 +141,8 @@ export class RegistryArtifact {
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
     registryUrl: string;
     repositoryName: string;
-    setManifestProperties(value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
-    setTagProperties(tag: string, value: ContentProperties, options?: SetTagPropertiesOptions): Promise<ArtifactTagProperties>;
+    setManifestProperties(options?: SetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
+    setTagProperties(tag: string, options?: SetTagPropertiesOptions): Promise<ArtifactTagProperties>;
     tagOrDigest: string;
 }
 
@@ -157,16 +157,13 @@ export interface RepositoryProperties {
 }
 
 // @public
-export interface SetManifestPropertiesOptions extends OperationOptions {
-}
+export type SetManifestPropertiesOptions = ContentProperties & OperationOptions;
 
 // @public
-export interface SetRepositoryPropertiesOptions extends OperationOptions {
-}
+export type SetRepositoryPropertiesOptions = ContentProperties & OperationOptions;
 
 // @public
-export interface SetTagPropertiesOptions extends OperationOptions {
-}
+export type SetTagPropertiesOptions = ContentProperties & OperationOptions;
 
 // @public
 export type TagOrderBy = "timedesc" | "timeasc";
