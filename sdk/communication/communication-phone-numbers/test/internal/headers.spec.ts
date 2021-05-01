@@ -3,15 +3,14 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { isNode, WebResourceLike } from "@azure/core-http";
-import { DefaultAzureCredential } from "@azure/identity";
-import { isPlaybackMode } from "@azure/test-utils-recorder";
+import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import sinon from "sinon";
 import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
 import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
 import { SDK_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
-import { canCreateRecordedClientWithToken } from "../public/utils/recordedClient";
 
 describe("PhoneNumbersClient - headers", function() {
   const endpoint = "https://contoso.spool.azure.local";
@@ -79,11 +78,18 @@ describe("PhoneNumbersClient - headers", function() {
   });
 
   it("sets bearer authorization header with TokenCredential", async function(this: Context) {
-    if (!canCreateRecordedClientWithToken() || isPlaybackMode()) {
+    if (isPlaybackMode()) {
       this.skip();
     }
+    let credential: TokenCredential = isNode
+      ? new DefaultAzureCredential()
+      : new ClientSecretCredential(
+          env.AZURE_TENANT_ID,
+          env.AZURE_CLIENT_ID,
+          env.AZURE_CLIENT_SECRET
+        );
 
-    client = new PhoneNumbersClient(endpoint, new DefaultAzureCredential(), {
+    client = new PhoneNumbersClient(endpoint, credential, {
       httpClient: getPhoneNumberHttpClient
     });
 
