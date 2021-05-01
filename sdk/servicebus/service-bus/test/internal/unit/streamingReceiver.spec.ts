@@ -150,6 +150,87 @@ describe("StreamingReceiver unit tests", () => {
     streamingReceiver["_isDetaching"] = false;
   });
 
+  describe("subscribe + subscription.stop() in different phases", () => {
+    it("subscription.stop() happens after init() should cause addCredit() to fail", async () => {
+      const streamingReceiver = createTestStreamingReceiver("testEntity");
+      assert.isFalse(streamingReceiver.isSubscribeActive);
+
+      const errors = [];
+
+      const subscribePromise = streamingReceiver.subscribe(
+        {
+          postInitialize: async () => {
+            // this functions as if the user called subscription.stop() immediately and it got
+            // sequenced _after_ init() completed.
+            await streamingReceiver["_receiverHelper"].suspend();
+          },
+          processError: async (pae) => {
+            errors.push({ message: pae.error.message, errorSource: pae.errorSource });
+          },
+          processMessage: async () => {},
+          forwardInternalErrors: true
+        },
+        {}
+      );
+
+      const closeLinkSpy = sinon.spy(
+        (streamingReceiver as any) as { closeLink(): Promise<void> },
+        "closeLink"
+      );
+
+      await assertThrows(() => subscribePromise, {
+        name: "AbortError",
+        message: "Can't add credits to the receiver since it is suspended."
+      });
+
+      // closeLink is called on cleanup when we fail to add credits (which we would because our receiver
+      // was suspended, which will cause us to fail to add credits)
+      assert.isTrue(closeLinkSpy.called);
+    });
+
+    it("subscription.stop() happens after pre-init() should trigger an AbortError since the receiver is suspended", async () => {
+      const streamingReceiver = createTestStreamingReceiver("testEntity");
+      assert.isFalse(streamingReceiver.isSubscribeActive);
+
+      const errors: { message: string; errorSource: string }[] = [];
+
+      const subscribePromise = streamingReceiver.subscribe(
+        {
+          preInitialize: async () => {
+            // this functions as if the user called subscription.stop() immediately and it got
+            // sequenced _after_ init() completed.
+            await streamingReceiver["_receiverHelper"].suspend();
+          },
+          processError: async (pae) => {
+            errors.push({ message: pae.error.message, errorSource: pae.errorSource });
+          },
+          processMessage: async () => {},
+          forwardInternalErrors: true
+        },
+        {}
+      );
+
+      const closeLinkSpy = sinon.spy(
+        (streamingReceiver as any) as { closeLink(): Promise<void> },
+        "closeLink"
+      );
+
+      await assertThrows(() => subscribePromise, {
+        name: "AbortError",
+        message: "Receiver was suspended during initialization."
+      });
+
+      assert.isTrue(!closeLinkSpy.called, "closeLink should not be called if no link was created");
+
+      assert.deepEqual(errors, [
+        {
+          message: "Receiver was suspended during initialization.",
+          errorSource: "receive"
+        }
+      ]);
+    });
+  });
+
   /**
    * _setMessageHandlers wraps the individual message handler methods so they properly
    * funnel errors to processError and so (for instance with processInitialize) that all
@@ -176,7 +257,7 @@ describe("StreamingReceiver unit tests", () => {
           processMessages.push(msg);
           throw new Error("processMessage");
         },
-        processInitialize: async () => {
+        postInitialize: async () => {
           throw new Error("processInitialize");
         }
       },
@@ -189,7 +270,7 @@ describe("StreamingReceiver unit tests", () => {
       throw new Error("No message handlers were set!");
     }
 
-    await wrappedMessageHandlers.processInitialize();
+    await wrappedMessageHandlers.postInitialize();
 
     assert.deepEqual(processErrorMessages, ["processInitialize"]);
 

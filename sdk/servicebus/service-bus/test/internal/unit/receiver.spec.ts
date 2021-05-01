@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { Receiver, ReceiverEvents, ReceiverOptions } from "rhea-promise";
+import { ReceiverOptions } from "rhea-promise";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -89,46 +89,6 @@ describe("Receiver unit tests", () => {
 
     afterEach(async () => {
       await receiverImpl.close();
-    });
-
-    it("subscribe and subscription.close()", async () => {
-      let receiverWasDrained = false;
-
-      let createdRheaReceiver: Receiver | undefined;
-
-      receiverImpl = new ServiceBusReceiverImpl(
-        createConnectionContextForTests({
-          onCreateReceiverCalled: (receiver) => {
-            createdRheaReceiver = receiver;
-            receiver.addListener(ReceiverEvents.receiverDrained, () => {
-              receiverWasDrained = true;
-            });
-          }
-        }),
-        "fakeEntityPath",
-        "peekLock",
-        0
-      );
-
-      const subscription = await subscribeAndWaitForInitialize(receiverImpl);
-      assert.isFalse(receiverWasDrained, "receiver hasn't drained yet (but will when we close)");
-
-      await subscription.close();
-
-      // closing a subscription doesn't close out the receiver created for it.
-      // this allows the user a chance to resolve any outstanding messages.
-      assert.isFalse(
-        createdRheaReceiver?.isClosed(),
-        "sanity check, subscription.close() does not close the receiver"
-      );
-      assert.isTrue(
-        receiverWasDrained,
-        "receiver should drain when subscription.close() is called"
-      );
-
-      await receiverImpl.close();
-      // rhea receiver is finally closed when the overall Receiver class is closed.
-      assert.isTrue(createdRheaReceiver?.isClosed(), "receiver should note that we closed");
     });
 
     it("can't subscribe while another subscribe is active", async () => {
@@ -240,38 +200,6 @@ describe("Receiver unit tests", () => {
       await subscription2.close();
       await receiverImpl.close();
     });
-
-    async function subscribeAndWaitForInitialize(
-      receiver: ServiceBusReceiverImpl
-    ): Promise<ReturnType<typeof receiver["subscribe"]>> {
-      const sub = await new Promise<{
-        close(): Promise<void>;
-      }>((resolve, reject) => {
-        const subscription = receiver.subscribe({
-          processInitialize: async () => {
-            resolve(subscription);
-          },
-          processError: async (err) => {
-            reject(err);
-          },
-          processMessage: async (_msg) => {
-            /** Nothing to do here */
-          }
-        } as InternalMessageHandlers);
-      });
-
-      assert.exists(
-        receiver["_streamingReceiver"],
-        "streaming receiver has been initialized in the context"
-      );
-
-      assert.isTrue(
-        receiver["_streamingReceiver"]?.isSubscribeActive,
-        "streaming receiver should indicate it's receiving messages"
-      );
-
-      return sub;
-    }
   });
 
   describe("getMessageIterator", () => {
@@ -358,7 +286,7 @@ describe("Receiver unit tests", () => {
       // terminating it's streaming forever loop for initialization).
       context.messageReceivers["my pre-existing receiver"] = {} as StreamingReceiver;
 
-      await subscribeAndWaitForInit(impl);
+      await subscribeAndWaitForInitialize(impl);
 
       assert.equal(
         impl["_streamingReceiver"],
@@ -374,7 +302,7 @@ describe("Receiver unit tests", () => {
 
       impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
 
-      await subscribeAndWaitForInit(impl);
+      await subscribeAndWaitForInitialize(impl);
 
       assert.exists(impl["_streamingReceiver"], "new streaming receiver should be called");
       assert.exists(context.messageReceivers[impl["_streamingReceiver"]!.name]);
@@ -382,18 +310,34 @@ describe("Receiver unit tests", () => {
   });
 });
 
-function subscribeAndWaitForInit(impl: ServiceBusReceiverImpl) {
-  let initWasCalledResolve: (() => void) | undefined;
+async function subscribeAndWaitForInitialize(
+  receiver: ServiceBusReceiverImpl
+): Promise<ReturnType<typeof receiver["subscribe"]>> {
+  const sub = await new Promise<{
+    close(): Promise<void>;
+  }>((resolve, reject) => {
+    const subscription = receiver.subscribe({
+      postInitialize: async () => {
+        resolve(subscription);
+      },
+      processError: async (err) => {
+        reject(err);
+      },
+      processMessage: async (_msg) => {
+        /** Nothing to do here */
+      }
+    } as InternalMessageHandlers);
+  });
 
-  const initWasCalled = new Promise<void>((resolve) => (initWasCalledResolve = resolve));
+  assert.exists(
+    receiver["_streamingReceiver"],
+    "streaming receiver has been initialized in the context"
+  );
 
-  impl.subscribe({
-    processInitialize: async () => {
-      initWasCalledResolve!();
-    },
-    processMessage: async () => {},
-    processError: async () => {}
-  } as InternalMessageHandlers);
+  assert.isTrue(
+    receiver["_streamingReceiver"]?.isSubscribeActive,
+    "streaming receiver should indicate it's receiving messages"
+  );
 
-  return initWasCalled;
+  return sub;
 }

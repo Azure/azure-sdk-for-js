@@ -302,19 +302,19 @@ export async function retryForever<T>(
     try {
       return await retryFn(args.retryConfig);
     } catch (err) {
+      // if the user aborts the operation we're immediately done.
+      // AbortError is also thrown by linkEntity.init() if the connection has been
+      // permanently closed.
+      if (err.name === "AbortError") {
+        throw err;
+      }
+
       // we only report the error here - this avoids spamming the user with too many
       // redundant reports of errors while still providing them incremental status on failures.
       try {
         args.onError(err);
       } catch (err) {
         logger.error("args.onerror has thrown", err);
-      }
-
-      // if the user aborts the operation we're immediately done.
-      // AbortError is also thrown by linkEntity.init() if the connection has been
-      // permanently closed.
-      if (err.name === "AbortError") {
-        throw err;
       }
 
       args.logger.logError(

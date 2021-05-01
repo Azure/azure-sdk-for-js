@@ -588,7 +588,20 @@ export class MessageSession extends LinkEntity<Receiver> {
    * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
    * before closing the receiver.
    */
-  subscribe(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {
+  public async subscribe(
+    onMessage: OnMessage,
+    onError: OnError,
+    options: SubscribeOptions
+  ): Promise<void> {
+    try {
+      this.receiverHelper.resume();
+      return this._subscribeImpl(onMessage, onError, options);
+    } finally {
+      await this.receiverHelper.suspend();
+    }
+  }
+
+  private _subscribeImpl(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {
     if (!options) options = {};
 
     if (options.abortSignal?.aborted) {
@@ -684,7 +697,14 @@ export class MessageSession extends LinkEntity<Receiver> {
           }
           return;
         } finally {
-          this.receiverHelper.addCredit(1);
+          try {
+            this.receiverHelper.addCredit(1);
+          } catch (err) {
+            logger.logError(
+              err,
+              `[${this.logPrefix}] Failed to add credit after receiving message`
+            );
+          }
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try

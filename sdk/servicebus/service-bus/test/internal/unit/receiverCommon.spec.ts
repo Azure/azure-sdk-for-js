@@ -217,15 +217,9 @@ describe("shared receiver code", () => {
         message: "Purposefully abort"
       });
 
-      assert.deepEqual(
-        {
-          name: onErrorError?.name,
-          message: onErrorError?.message
-        },
-        {
-          name: "AbortError",
-          message: "Purposefully abort"
-        }
+      assert.notOk(
+        onErrorError,
+        "AbortErrors should not be reported to onError since they are thrown"
       );
     });
 

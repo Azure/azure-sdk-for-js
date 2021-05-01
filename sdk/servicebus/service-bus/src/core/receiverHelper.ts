@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortError } from "@azure/abort-controller";
 import { Receiver, ReceiverEvents } from "rhea-promise";
 import { receiverLogger as logger } from "../log";
 import { ServiceBusError } from "../serviceBusError";
@@ -12,11 +13,33 @@ import { ServiceBusError } from "../serviceBusError";
  * @internal
  */
 export class ReceiverHelper {
-  private _isSuspended: boolean = false;
+  private _isSuspended: boolean = true;
 
   constructor(
     private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string }
   ) {}
+
+  private _getCurrentReceiverOrError():
+    | "is undefined"
+    | "is not open"
+    | "is suspended"
+    | { receiver: Receiver | undefined; logPrefix: string } {
+    const currentReceiverData = this._getCurrentReceiver();
+
+    if (currentReceiverData.receiver == null) {
+      return "is undefined";
+    }
+
+    if (!currentReceiverData.receiver.isOpen()) {
+      return "is not open";
+    }
+
+    if (this._isSuspended) {
+      return "is suspended";
+    }
+
+    return currentReceiverData;
+  }
 
   /**
    * Adds credits to the receiver, respecting any state that
@@ -27,30 +50,25 @@ export class ReceiverHelper {
    * @returns true if credits were added, false if there is no current receiver instance
    * or `stopReceivingMessages` has been called.
    */
-  addCredit(credits: number): boolean {
-    const { receiver, logPrefix } = this._getCurrentReceiver();
+  addCredit(credits: number): void {
+    const currentReceiverOrError = this._getCurrentReceiverOrError();
 
-    if (!this.canReceiveMessages()) {
-      logger.verbose(
-        `${logPrefix} Asked to add ${credits} credits but the receiver is not able to receive messages`
-      );
-      return false;
+    if (typeof currentReceiverOrError === "string") {
+      const errorMessage = `Can't add credits to the receiver since it ${currentReceiverOrError}.`;
+
+      if (currentReceiverOrError === "is suspended") {
+        // if a user has suspended the receiver we should consider this a non-retryable
+        // error since it absolutely requires user intervention.
+        throw new AbortError(errorMessage);
+      }
+
+      throw new ServiceBusError(errorMessage, "GeneralError");
     }
 
-    if (!this._isValidReceiver(receiver)) {
-      // this is a retryable error (they can recreate a receiver and do this again)
-      throw new ServiceBusError(
-        "Can't add credits to the receiver. Link will be reinitialized.",
-        "GeneralError"
-      );
+    if (currentReceiverOrError.receiver != null) {
+      logger.verbose(`${currentReceiverOrError.logPrefix} Adding ${credits} credits`);
+      currentReceiverOrError.receiver.addCredit(credits);
     }
-
-    if (receiver != null) {
-      logger.verbose(`${logPrefix} Adding ${credits} credits`);
-      receiver.addCredit(credits);
-    }
-
-    return true;
   }
 
   /**
@@ -69,6 +87,7 @@ export class ReceiverHelper {
     logger.verbose(
       `${logPrefix} User has requested to stop receiving new messages, attempting to drain.`
     );
+
     return this.drain();
   }
 
@@ -89,6 +108,10 @@ export class ReceiverHelper {
   canReceiveMessages(): boolean {
     const { receiver } = this._getCurrentReceiver();
     return !this._isSuspended && this._isValidReceiver(receiver);
+  }
+
+  isSuspended(): boolean {
+    return this._isSuspended;
   }
 
   /**

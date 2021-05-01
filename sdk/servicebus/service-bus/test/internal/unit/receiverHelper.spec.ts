@@ -5,6 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverEvents } from "rhea-promise";
 import { ReceiverHelper } from "../../../src/core/receiverHelper";
+import { assertThrows } from "../../public/utils/testUtils";
 import { createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -16,35 +17,78 @@ describe("ReceiverHelper unit tests", () => {
     },
     toString(): string {
       return "a closed receiver";
+    },
+    addCredit: (_credits: number): void => {
+      throw new Error("Should never be called");
     }
   } as Receiver;
 
-  [undefined, closedReceiver].forEach((invalidReceiver: Receiver | undefined) => {
-    /**
-     * Even if the underlying receiver is invalid we still track the logical state of the receiver.
-     *
-     * Note that since all the relevant methods are non-existent that any usage of the receiver
-     * in an invalid way would just result in a crash in this test which is why I don't have much
-     * checking.
-     */
-    it(`operations on an invalid receiver should just no-op harmlessly: ${invalidReceiver}`, async () => {
-      const helper = new ReceiverHelper(() => ({
-        receiver: invalidReceiver,
-        logPrefix: "whatever"
-      }));
+  const openReceiver = () => {
+    const fakeOpenReceiver = {
+      _addedCredits: 0,
+      credit: 0,
+      isOpen(): boolean {
+        return true;
+      },
+      addCredit: (credits: number): void => {
+        fakeOpenReceiver._addedCredits += credits;
+      }
+    };
 
-      assert.isFalse(helper.addCredit(101));
-      await helper.drain();
+    return (fakeOpenReceiver as any) as Receiver & { _addedCredits: number };
+  };
 
-      await helper.suspend();
-      assert.isTrue(helper["_isSuspended"]);
+  it("addCredit works with a non-suspended open receiver", () => {
+    const receiver = openReceiver();
+    let helper = new ReceiverHelper(() => ({
+      receiver,
+      logPrefix: "whatever"
+    }));
 
-      helper.resume();
-      // our internal state is now set so we can receive messages but...
-      assert.isFalse(helper["_isSuspended"]);
+    // the one case that should work
+    helper.resume();
+    helper.addCredit(101);
+    assert.equal(receiver._addedCredits, 101);
+  });
 
-      // should still do nothing.
-      helper.addCredit(101);
+  it("addCredit throws if the underlying receiver is invalid for a variety of conditions", async () => {
+    // and now the various failure cases.
+    let helper = new ReceiverHelper(() => ({
+      receiver: undefined,
+      logPrefix: "whatever"
+    }));
+
+    await assertThrows(async () => helper.addCredit(101), {
+      name: "ServiceBusError",
+      code: "GeneralError",
+      message: "Can't add credits to the receiver since it is undefined.",
+      retryable: true
+    });
+
+    helper = new ReceiverHelper(() => ({
+      receiver: closedReceiver,
+      logPrefix: "whatever"
+    }));
+
+    await assertThrows(async () => helper.addCredit(101), {
+      name: "ServiceBusError",
+      code: "GeneralError",
+      message: "Can't add credits to the receiver since it is not open.",
+      retryable: true
+    });
+
+    const receiver = openReceiver();
+    helper = new ReceiverHelper(() => ({
+      receiver: receiver,
+      logPrefix: "whatever"
+    }));
+
+    await helper.suspend();
+
+    await assertThrows(async () => helper.addCredit(101), {
+      name: "AbortError",
+      message: "Can't add credits to the receiver since it is suspended.",
+      retryable: undefined
     });
   });
 
@@ -76,14 +120,6 @@ describe("ReceiverHelper unit tests", () => {
     assert.isTrue(drainWasCalled);
     assert.isFalse(receiver.drain);
     assert.equal(receiver.credit, 0);
-
-    // if we suspend() a receiver it will no longer have credits added.
-    helper.addCredit(101);
-    assert.equal(
-      receiver.credit,
-      0,
-      "when a receiver is suspended the addCredit() calls do nothing"
-    );
 
     helper.resume();
     assert.isFalse(helper["_isSuspended"]);
