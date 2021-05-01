@@ -306,7 +306,7 @@ export async function retryForever<T>(
       // AbortError is also thrown by linkEntity.init() if the connection has been
       // permanently closed.
       if (err.name === "AbortError") {
-        logger.warning(`${args.logPrefix} AbortError caught, ending retries.`)
+        logger.warning(`${args.logPrefix} AbortError caught, ending retries.`);
         throw err;
       }
 
