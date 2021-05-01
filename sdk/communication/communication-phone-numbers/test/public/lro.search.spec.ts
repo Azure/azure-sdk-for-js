@@ -6,10 +6,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src";
 import { matrix } from "./utils/matrix";
-import {
-  createRecordedClient,
-  createRecordedClientWithToken
-} from "./utils/recordedClient";
+import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function(useAad) {
   describe(`PhoneNumbersClient - lro - search${useAad ? " [AAD]" : ""}`, function() {
