@@ -103,6 +103,7 @@ describe("ReceiverHelper unit tests", () => {
     });
 
     // we can explicitly drain
+    helper.resume();
     helper.addCredit(101);
 
     await helper.drain();

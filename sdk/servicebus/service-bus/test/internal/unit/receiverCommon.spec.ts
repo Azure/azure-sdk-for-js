@@ -217,10 +217,7 @@ describe("shared receiver code", () => {
         message: "Purposefully abort"
       });
 
-      assert.notOk(
-        onErrorError,
-        "AbortErrors should not be reported to onError since they are thrown"
-      );
+      assert.notOk(onErrorError?.message);
     });
 
     it("exits if operation is successful", async () => {

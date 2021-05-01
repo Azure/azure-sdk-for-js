@@ -588,17 +588,13 @@ export class MessageSession extends LinkEntity<Receiver> {
    * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
    * before closing the receiver.
    */
-  public async subscribe(
+  public subscribe(
     onMessage: OnMessage,
     onError: OnError,
     options: SubscribeOptions
-  ): Promise<void> {
-    try {
-      this.receiverHelper.resume();
-      return this._subscribeImpl(onMessage, onError, options);
-    } finally {
-      await this.receiverHelper.suspend();
-    }
+  ): void {
+    this.receiverHelper.resume();
+    this._subscribeImpl(onMessage, onError, options);
   }
 
   private _subscribeImpl(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {

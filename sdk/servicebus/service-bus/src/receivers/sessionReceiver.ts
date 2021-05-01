@@ -481,14 +481,16 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    this._messageSession.subscribe(onMessage, onError, options).catch((err) => {
+    try {
+      this._messageSession.subscribe(onMessage, onError, options)
+    } catch(err) {
       onError({
         error: err,
         errorSource: "receive",
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host
       });
-    });
+    };
   }
 
   getMessageIterator(
