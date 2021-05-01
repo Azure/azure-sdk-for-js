@@ -21,7 +21,7 @@ import {
 } from "@azure/core-http";
 import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
-import { DefaultAzureCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 
 if (isNode) {
   dotenv.config();
@@ -65,15 +65,6 @@ export function createRecordedClient(context: Context): RecordedClient<PhoneNumb
   };
 }
 
-export const canCreateRecordedClientWithToken = (): boolean => {
-  try {
-    new DefaultAzureCredential();
-    return true;
-  } catch {
-    return false;
-  }
-};
-
 export function createRecordedClientWithToken(
   context: Context
 ): RecordedClient<PhoneNumbersClient> | undefined {
@@ -100,7 +91,11 @@ export function createRecordedClientWithToken(
   try {
     credential = new DefaultAzureCredential();
   } catch {
-    return undefined;
+    credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
   }
 
   // casting is a workaround to enable min-max testing

@@ -7,7 +7,6 @@ import { Context } from "mocha";
 import { PhoneNumbersClient, PhoneNumberCapabilitiesRequest } from "../../src";
 import { matrix } from "./utils/matrix";
 import {
-  canCreateRecordedClientWithToken,
   createRecordedClient,
   createRecordedClientWithToken
 } from "./utils/recordedClient";
@@ -18,12 +17,6 @@ matrix([[true, false]], async function(useAad) {
     const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" };
     let recorder: Recorder;
     let client: PhoneNumbersClient;
-
-    before(function(this: Context) {
-      if (useAad && !canCreateRecordedClientWithToken()) {
-        this.skip();
-      }
-    });
 
     beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
