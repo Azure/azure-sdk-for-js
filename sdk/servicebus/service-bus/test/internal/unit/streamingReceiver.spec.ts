@@ -88,7 +88,7 @@ describe("StreamingReceiver unit tests", () => {
           }
         };
 
-        streamingReceiver.subscribe(
+        await streamingReceiver.subscribe(
           {
             processMessage: async (_message) => {
               throw new Error("Error thrown from the user's processMessage callback");
