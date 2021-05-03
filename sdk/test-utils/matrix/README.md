@@ -66,7 +66,9 @@ After that, we recommend you to update rush and install the dependencies again, 
 rush update
 ```
 
-And you're ready to test your library for multiple service API versions!
+## Key concepts
+
+Most Azure SDK for JavaScript libraries support multiple methods of authentication. This library gives the ability to write a single test suite and construct your client with a different authentication method for test runs.
 
 ## Examples
 
@@ -101,6 +103,10 @@ matrix(
 Besides the usual debugging of your code and tests, if you ever encounter a problem, please follow
 up the [contributing](#contributing) guidelines on how to write an issue for us. We'll make sure to
 handle it as soon as we find the time.
+
+## Next steps
+
+For a more examples on ways you can use this library check out how [`@azure/ai-form-recognizer`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer) uses it in their testing.
 
 ## Contributing
 
