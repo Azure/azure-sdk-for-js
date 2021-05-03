@@ -117,6 +117,16 @@ export function setStrEncodingParam<X extends { stringIndexType?: GeneratedStrin
 }
 
 /**
+ * Set the opinion mining property
+ * @internal
+ */
+ export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
+  x: X
+): X & { opinionMining?: boolean } {
+  return { ...x, opinionMining: x.includeOpinionMining };
+}
+
+/**
  * @internal
  */
 export function AddParamsToTask<X>(action: X): { parameters?: X } {

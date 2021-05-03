@@ -1160,6 +1160,71 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
         }
       });
 
+      it("single sentiment analysis action", async function() {
+        const docs = [
+          "The food was unacceptable",
+          "The rooms were beautiful. The AC was good and quiet.",
+          "The breakfast was good, but the toilet was smelly.",
+          "Loved this hotel - good breakfast - nice shuttle service - clean rooms.",
+          "I had a great unobstructed view of the Microsoft campus.",
+          "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
+          "The toilet smelled."
+        ];
+
+        const poller = await client.beginAnalyzeBatchActions(
+          docs,
+          {
+            analyzeSentimentActions: [{ includeOpinionMining: true }]
+          },
+          "en",
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        const result = await poller.pollUntilDone();
+        for await (const page of result) {
+          const entitiesResult = page.analyzeSentimentResults;
+          if (entitiesResult.length === 1) {
+            const action = entitiesResult[0];
+            if (!action.error) {
+              const actionResults = action.results;
+              assert.equal(actionResults.length, 7);
+              const result1 = actionResults[0];
+              const result6 = actionResults[5];
+              const result7 = actionResults[6];
+              if (
+                result1.error === undefined &&
+                result6.error === undefined &&
+                result7.error === undefined
+              ) {
+                const Assessment1 = result1.sentences[0].opinions[0].assessments[0];
+                const Assessment2 = result6.sentences[0].opinions[0].assessments[0];
+                assert.notDeepEqual(Assessment1, Assessment2);
+
+                const listAllAssessments = (acc: string[], sentence: SentenceSentiment): string[] =>
+                  acc.concat(
+                    sentence.opinions.reduce(
+                      (assessments: string[], opinion: Opinion) =>
+                        assessments.concat(
+                          opinion.assessments.map(
+                            (assessment: AssessmentSentiment) => assessment.text
+                          )
+                        ),
+                      []
+                    )
+                  );
+                const allAssessments1 = result1.sentences.reduce(listAllAssessments, []);
+                assert.deepEqual(allAssessments1, ["unacceptable"]);
+                const allAssessments2 = result6.sentences.reduce(listAllAssessments, []);
+                assert.deepEqual(allAssessments2, ["nice", "old", "dirty"]);
+                const allAssessments7 = result7.sentences.reduce(listAllAssessments, []);
+                assert.deepEqual(allAssessments7, ["smelled"]);
+              }
+            }
+          }
+        }
+      });
+
       it("bad request empty string", async function() {
         const docs = [""];
         try {
@@ -1869,7 +1934,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
               updateIntervalInMs: pollingInterval
             }
           );
-          throw new Error("Expected an error to occur")
+          throw new Error("Expected an error to occur");
         } catch (e) {
           assert.equal(e.statusCode, 400);
           assert.equal(e.code, "InvalidRequest");

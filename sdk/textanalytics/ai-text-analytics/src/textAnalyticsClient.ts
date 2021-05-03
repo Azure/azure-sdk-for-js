@@ -51,6 +51,7 @@ import {
   compose,
   handleInvalidDocumentBatch,
   setModelVersionParam,
+  setOpinionMining,
   setStrEncodingParam,
   StringIndexType
 } from "./util";
@@ -1104,7 +1105,7 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
       compose(setStrEncodingParam, compose(setModelVersionParam, AddParamsToTask))
     ),
     sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
-      compose(setStrEncodingParam, AddParamsToTask)
+      compose(setStrEncodingParam, compose(setOpinionMining, AddParamsToTask))
     )
   };
 }
