@@ -8,6 +8,7 @@
  *  These tests will be skipped in Live Mode since the public tests run in live mode only.
  */
 
+import { matrix } from "@azure/test-utils-matrix";
 import { isLiveMode, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
@@ -21,7 +22,6 @@ import {
 } from "../public/utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "../public/suites/smsClient.send";
-import { matrix } from "../public/utils/matrix";
 
 if (isNode) {
   dotenv.config();

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { matrix } from "@azure/test-utils-matrix";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
@@ -12,7 +13,6 @@ import {
 } from "./utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "./suites/smsClient.send";
-import { matrix } from "./utils/matrix";
 
 if (isNode) {
   dotenv.config();
