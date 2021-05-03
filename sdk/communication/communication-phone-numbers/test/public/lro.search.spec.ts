@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { matrix } from "@azure/test-utils-matrix";
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src";
-import { matrix } from "./utils/matrix";
 import {
   canCreateRecordedClientWithToken,
   createRecordedClient,
