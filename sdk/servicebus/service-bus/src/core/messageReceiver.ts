@@ -136,6 +136,11 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    */
   protected _lockRenewer: LockRenewer | undefined;
 
+  /**
+   * Method to be called after the message is settled when receiving messages through subscribe.
+   *
+   * Currently, more credits will be added at this spot based on the maxConcurrentCalls and empty slots.
+   */
   public settlementNotifierForSubscribe: (() => void) | undefined;
 
   constructor(

@@ -125,6 +125,11 @@ export class MessageSession extends LinkEntity<Receiver> {
     return this._batchingReceiverLite.isReceivingMessages || this._isReceivingMessagesForSubscriber;
   }
 
+  /**
+   * Method to be called after the message is settled when receiving messages through subscribe.
+   *
+   * Currently, more credits will be added at this spot based on the maxConcurrentCalls and empty slots.
+   */
   public settlementNotifierForSubscribe: (() => void) | undefined;
   private _batchingReceiverLite: BatchingReceiverLite;
   private _isReceivingMessagesForSubscriber: boolean;
