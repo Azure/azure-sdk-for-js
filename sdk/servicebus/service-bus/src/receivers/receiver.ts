@@ -516,7 +516,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       ) {
         // To be consistent with other languages, not throwing for UnsettledMessagesLimitExceeded case.
         // If the unsettled messages limit is reached, we'd just return 0 messages instead of throwing
-        // (until the service fixes the "draining" bug at the terminal case and we extend the 2048 limit in rhea)
+        // (until the service fixes the "draining" bug at the terminal case and/or we extend the 2048 limit in rhea to infinite like the .NET SDK)
         return [];
       } else {
         throw error;
