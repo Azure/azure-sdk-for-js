@@ -41,17 +41,13 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("can update a phone number's capabilities", async function() {
-      let callingCapabilityType: PhoneNumberCapabilityType = "outbound";
-      let smsCapabilityType: PhoneNumberCapabilityType = "inbound+outbound";
       const currentPhoneNumber = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
-
-      if (currentPhoneNumber.capabilities.calling === callingCapabilityType) {
-        callingCapabilityType = "inbound";
-      }
-
-      if (currentPhoneNumber.capabilities.sms === smsCapabilityType) {
-        smsCapabilityType = "outbound";
-      }
+      let callingCapabilityType: PhoneNumberCapabilityType =
+        currentPhoneNumber.capabilities.calling === "outbound" ? "inbound" : "outbound";
+      let smsCapabilityType: PhoneNumberCapabilityType =
+        currentPhoneNumber.capabilities.sms === "inbound+outbound"
+          ? "outbound"
+          : "inbound+outbound";
 
       const update: PhoneNumberCapabilitiesRequest = {
         calling: callingCapabilityType,
