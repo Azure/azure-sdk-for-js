@@ -28,12 +28,16 @@ describe("ReceiverHelper unit tests", () => {
      * checking.
      */
     it(`operations on an invalid receiver should just no-op harmlessly: ${invalidReceiver}`, async () => {
-      const helper = new StreamingReceiverHelper(() => ({
-        receiver: invalidReceiver,
-        logPrefix: "whatever"
-      }));
+      const helper = new StreamingReceiverHelper(
+        () => ({
+          receiver: invalidReceiver,
+          logPrefix: "whatever"
+        }),
+        "peekLock",
+        1000
+      );
 
-      assert.isFalse(helper.addCredit(101));
+      assert.isFalse(helper["addCredit"](101));
       await helper.drain();
 
       await helper.suspend();
@@ -49,13 +53,17 @@ describe("ReceiverHelper unit tests", () => {
       );
 
       // should still do nothing.
-      helper.addCredit(101);
+      helper["addCredit"](101);
     });
   });
 
   it("operations on an open receiver", async () => {
     const receiver = createRheaReceiverForTests();
-    const helper = new StreamingReceiverHelper(() => ({ receiver, logPrefix: "hello" }));
+    const helper = new StreamingReceiverHelper(
+      () => ({ receiver, logPrefix: "hello" }),
+      "peekLock",
+      1000
+    );
 
     let drainWasCalled = false;
 
@@ -64,7 +72,7 @@ describe("ReceiverHelper unit tests", () => {
     });
 
     // we can explicitly drain
-    helper.addCredit(101);
+    helper["addCredit"](101);
 
     await helper.drain();
     assert.isTrue(drainWasCalled);
@@ -74,7 +82,7 @@ describe("ReceiverHelper unit tests", () => {
 
     // or we can drain as part of suspending a receiver.
     drainWasCalled = false;
-    helper.addCredit(101);
+    helper["addCredit"](101);
 
     await helper.suspend();
     assert.isTrue(helper["_isSuspended"]);
@@ -83,7 +91,7 @@ describe("ReceiverHelper unit tests", () => {
     assert.equal(receiver.credit, 0);
 
     // if we suspend() a receiver it will no longer have credits added.
-    helper.addCredit(101);
+    helper["addCredit"](101);
     assert.equal(
       receiver.credit,
       0,
@@ -92,7 +100,7 @@ describe("ReceiverHelper unit tests", () => {
 
     helper.resume();
     assert.isFalse(helper["_isSuspended"]);
-    helper.addCredit(101);
+    helper["addCredit"](101);
     assert.equal(receiver.credit, 101);
   });
 });
