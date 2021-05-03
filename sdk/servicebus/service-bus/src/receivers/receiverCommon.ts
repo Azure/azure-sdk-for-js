@@ -241,41 +241,46 @@ export async function settleMessageOperation(
     error = new Error(MessageAlreadySettled);
     logError(error);
   }
-  if (isDeferredMessage) {
-    // Message Settlement with managementLink
-    // 1. If the received message is deferred as such messages can only be settled using managementLink
-    return settlementWithManagementLink();
-  }
 
-  if (!isDefined(receiver)) {
-    error = new ServiceBusError(
-      `Failed to ${operation} the message as the receiver is undefined.`,
-      "GeneralError"
-    );
-    logError(error);
-    throw error;
-  }
-
-  if (!receiver.isOpen()) {
-    if (!isDefined(message.sessionId)) {
+  try {
+    if (isDeferredMessage) {
       // Message Settlement with managementLink
-      // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
-      return settlementWithManagementLink();
+      // 1. If the received message is deferred as such messages can only be settled using managementLink
+      return await settlementWithManagementLink();
     }
-    if (isDefined(message.sessionId)) {
-      error = translateServiceBusError({
-        description:
-          `Failed to ${operation} the message as the AMQP link with which the message was ` +
-          `received is no longer alive.`,
-        condition: ErrorNameConditionMapper.SessionLockLostError
-      });
+
+    if (!isDefined(receiver)) {
+      error = new ServiceBusError(
+        `Failed to ${operation} the message as the receiver is undefined.`,
+        "GeneralError"
+      );
       logError(error);
       throw error;
     }
-  }
 
-  await receiver.settleMessage(message, operation, options);
-  // delay (setTimeout) ensures that the delivery is popped, size is decremented with respect to the settlement that was done
-  await delay(0);
-  receiver.settlementNotifierForSubscribe?.();
+    if (!receiver.isOpen()) {
+      if (!isDefined(message.sessionId)) {
+        // Message Settlement with managementLink
+        // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
+        return await settlementWithManagementLink();
+      }
+      if (isDefined(message.sessionId)) {
+        error = translateServiceBusError({
+          description:
+            `Failed to ${operation} the message as the AMQP link with which the message was ` +
+            `received is no longer alive.`,
+          condition: ErrorNameConditionMapper.SessionLockLostError
+        });
+        logError(error);
+        throw error;
+      }
+    }
+
+    await receiver.settleMessage(message, operation, options);
+    // delay (setTimeout) ensures that the delivery is popped, size is decremented with respect to the settlement that was done
+    await delay(0);
+    receiver.settlementNotifierForSubscribe?.();
+  } catch (err) {
+    throw translateServiceBusError(err);
+  }
 }
