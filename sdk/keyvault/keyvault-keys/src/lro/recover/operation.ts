@@ -99,6 +99,8 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
         } else if (error.statusCode !== 404) {
           state.error = error;
           state.isCompleted = true;
+        } else {
+          throw error;
         }
       }
     }
