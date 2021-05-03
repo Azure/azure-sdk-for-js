@@ -5,7 +5,7 @@ import { MessageHandlers, ProcessErrorArgs } from "../models";
 import { ServiceBusReceiver } from "./receiver";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger, ServiceBusLogger } from "../log";
-import { translateServiceBusError } from "../serviceBusError";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import {
   DeadLetterOptions,
   DispositionType,
@@ -220,51 +220,62 @@ export async function settleMessageOperation(
     : context.getReceiverFromCache(message.delivery.link.name, message.sessionId);
   const associatedLinkName = receiver?.name;
 
-  let error: Error | undefined;
-  if (message.delivery.remote_settled) {
-    error = new Error(MessageAlreadySettled);
-  } else if (
-    !isDeferredMessage &&
-    (!receiver || !receiver.isOpen()) &&
-    isDefined(message.sessionId)
-  ) {
-    error = translateServiceBusError({
-      description:
-        `Failed to ${operation} the message as the AMQP link with which the message was ` +
-        `received is no longer alive.`,
-      condition: ErrorNameConditionMapper.SessionLockLostError
+  const settlementWithManagementLink = () =>
+    context.getManagementClient(entityPath).updateDispositionStatus(message.lockToken!, operation, {
+      ...options,
+      associatedLinkName,
+      sessionId: message.sessionId
     });
-  }
 
-  if (error) {
+  const logError = (error: Error) => {
     receiverLogger.logError(
       error,
       "[%s] An error occurred when settling a message with id '%s'",
       context.connectionId,
       message.messageId
     );
+  };
+
+  let error: Error | undefined;
+  if (message.delivery.remote_settled) {
+    error = new Error(MessageAlreadySettled);
+    logError(error);
+  }
+  if (isDeferredMessage) {
+    // Message Settlement with managementLink
+    // 1. If the received message is deferred as such messages can only be settled using managementLink
+    return settlementWithManagementLink();
+  }
+
+  if (!isDefined(receiver)) {
+    error = new ServiceBusError(
+      `Failed to ${operation} the message as the receiver is undefined.`,
+      "GeneralError"
+    );
+    logError(error);
     throw error;
   }
 
-  try {
-    // Message Settlement with managementLink
-    // 1. If the received message is deferred as such messages can only be settled using managementLink
-    // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
-    if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && !isDefined(message.sessionId))) {
-      return context
-        .getManagementClient(entityPath)
-        .updateDispositionStatus(message.lockToken!, operation, {
-          ...options,
-          associatedLinkName,
-          sessionId: message.sessionId
-        });
+  if (!receiver.isOpen()) {
+    if (!isDefined(message.sessionId)) {
+      // Message Settlement with managementLink
+      // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
+      return settlementWithManagementLink();
     }
-
-    await receiver!.settleMessage(message, operation, options);
-    // delay (setTimeout) ensures that the delivery is popped, size is decremented with respect to the settlement that was done
-    await delay(0);
-    receiver!.settlementNotifierForSubscribe?.();
-  } catch (err) {
-    throw translateServiceBusError(err);
+    if (isDefined(message.sessionId)) {
+      error = translateServiceBusError({
+        description:
+          `Failed to ${operation} the message as the AMQP link with which the message was ` +
+          `received is no longer alive.`,
+        condition: ErrorNameConditionMapper.SessionLockLostError
+      });
+      logError(error);
+      throw error;
+    }
   }
+
+  await receiver.settleMessage(message, operation, options);
+  // delay (setTimeout) ensures that the delivery is popped, size is decremented with respect to the settlement that was done
+  await delay(0);
+  receiver.settlementNotifierForSubscribe?.();
 }
