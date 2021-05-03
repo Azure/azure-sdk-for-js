@@ -214,7 +214,7 @@ export class StreamingReceiverCreditManager {
 
   /**
    * Meant to be called after a message is settled with the receive link.
-   * Replenishes the number of credits on the link to receive more messages.
+   * Replenishes the number of credits on the link based on the maxConcurrentCalls and the numberOfEmptySlots to receive more messages.
    *
    * @internal
    */
