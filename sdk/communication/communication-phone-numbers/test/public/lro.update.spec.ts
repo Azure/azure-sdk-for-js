@@ -51,7 +51,7 @@ matrix([[true, false]], async function(useAad) {
       // assert.deepEqual(phoneNumber.capabilities, update);
     }).timeout(60000);
 
-    it("throws on invalid update request", async function() {
+    it("update throws when phone number isn't owned", async function() {
       const fakeNumber = "+14155550100";
       try {
         const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
