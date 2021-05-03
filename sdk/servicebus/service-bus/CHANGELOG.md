@@ -14,6 +14,7 @@
 - If there are many(2047) outstanding messages that are not settled, 
   - `receiveMessages` hangs forever and doesn't return for unpartitioned queues [Issue #11633](https://github.com/Azure/azure-sdk-for-js/issues/11633), 
   - `subscribe` doesn't receive more messages even after settling the unsettled messages [Issue #15114](https://github.com/Azure/azure-sdk-for-js/issues/15114)
+  
   [#14060](https://github.com/Azure/azure-sdk-for-js/pull/14060) fixes the problem by returning an empty array for receiveMessages. If used `subscribe`, more messages will be received after the outstanding messages are settled.
 - Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug w.r.t the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
 - Settling messages now use the `retryOptions` passed to `ServiceBusClient`, making it more resilient against network failures.
