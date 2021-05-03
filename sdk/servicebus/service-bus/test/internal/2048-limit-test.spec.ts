@@ -16,7 +16,6 @@ import {
 import { verifyMessageCount } from "../public/utils/managementUtils";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 import { MinimalReceiver } from "../../src/core/batchingReceiver";
-import { Receiver } from "rhea-promise";
 import { InternalMessageHandlers } from "../../src/models";
 
 chai.use(chaiAsPromised);
@@ -86,8 +85,7 @@ function setIncomingCapacityOnLink(link: MinimalReceiver | undefined, newCapacit
 function reduceBufferCapacity(receiver: ServiceBusReceiver, newCapacity: number) {
   if (entityName.usesSessions) {
     const receiverTemp = receiver as ServiceBusSessionReceiverImpl;
-    const messageReceiver = receiverTemp["_messageSession"];
-    const link = messageReceiver["link"] as Receiver;
+    const link = receiverTemp["_messageSession"]["link"];
     return setIncomingCapacityOnLink(link, newCapacity);
   }
 
