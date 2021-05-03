@@ -28,7 +28,7 @@ import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
-import { ReceiverHandlers, StreamingReceiverCreditManager } from "./shared";
+import { ReceiverHandlers } from "./shared";
 
 /**
  * @internal
@@ -96,11 +96,6 @@ export class StreamingReceiver extends MessageReceiver {
   private _onAmqpError: OnAmqpEvent;
 
   /**
-   * Provides helper methods to allow adding credits during initialization, on receiving a message, and after processing a message.
-   */
-  private _creditManager: StreamingReceiverCreditManager;
-
-  /**
    * The message handler that will be set as the handler on the
    * underlying rhea receiver for the "message" event.
    */
@@ -132,22 +127,16 @@ export class StreamingReceiver extends MessageReceiver {
     this._retryOptions = options?.retryOptions || {};
     this._retry = retry;
 
-    this._streamingReceiverHelper = new StreamingReceiverHelper(() => ({
-      receiver: this.link,
-      logPrefix: this.logPrefix
-    }));
-
-    this._creditManager = new StreamingReceiverCreditManager(
+    this._streamingReceiverHelper = new StreamingReceiverHelper(
       () => ({
         receiver: this.link,
         logPrefix: this.logPrefix
       }),
-      this._streamingReceiverHelper,
       this.receiveMode,
       this.maxConcurrentCalls
     );
 
-    this.settlementNotifierForSubscribe = () => this._creditManager.postProcessing();
+    this.settlementNotifierForSubscribe = () => this._streamingReceiverHelper.postProcessing();
 
     this._onAmqpClose = async (context: EventContext) => {
       const receiverError = context.receiver && context.receiver.error;
@@ -317,7 +306,7 @@ export class StreamingReceiver extends MessageReceiver {
         }
         return;
       } finally {
-        this._creditManager.onReceive();
+        this._streamingReceiverHelper.onReceive();
       }
 
       // If we've made it this far, then user's message handler completed fine. Let us try
@@ -464,7 +453,7 @@ export class StreamingReceiver extends MessageReceiver {
 
     this._onMessage = onMessage;
     this._onError = onError;
-    this._creditManager.addInitialCredits();
+    this._streamingReceiverHelper.addInitialCredits();
   }
 
   /**
@@ -529,7 +518,7 @@ export class StreamingReceiver extends MessageReceiver {
       logger.verbose(
         `${this.logPrefix} onDetached: link has been reestablished, attempting to add credits.`
       );
-      this._creditManager.addInitialCredits();
+      this._streamingReceiverHelper.addInitialCredits();
     } finally {
       this._isDetaching = false;
     }

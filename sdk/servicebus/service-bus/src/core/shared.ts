@@ -3,10 +3,9 @@
 
 import { Delivery, ReceiverOptions, Source } from "rhea-promise";
 import { translateServiceBusError } from "../serviceBusError";
-import { logger, receiverLogger } from "../log";
+import { receiverLogger } from "../log";
 import { ReceiveMode } from "../models";
 import { Receiver } from "rhea-promise";
-import { StreamingReceiverHelper } from "./streamingReceiverHelper";
 
 /**
  * @internal
@@ -139,84 +138,4 @@ export function incomingBufferProperties(
     numberOfEmptySlots,
     numberOfFilledSlots: incomingDeliveries ? incomingDeliveries.size : 0
   };
-}
-
-/**
- * Provides helper methods to manage the credits on the link for the
- * streaming messages scenarios.
- * (Used by both sessions(MessageSession) and non-sessions(StreamingReceiver))
- *
- * @internal
- */
-export class StreamingReceiverCreditManager {
-  constructor(
-    private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string },
-    private streamingReceiverHelper: StreamingReceiverHelper,
-    private receiveMode: ReceiveMode,
-    private maxConcurrentCalls: number
-  ) {}
-
-  addInitialCredits() {
-    const { receiver, logPrefix } = this._getCurrentReceiver();
-    const emptySlots = incomingBufferProperties(receiver).numberOfEmptySlots;
-    const creditsToAdd =
-      this.receiveMode === "peekLock"
-        ? Math.min(this.maxConcurrentCalls, emptySlots)
-        : this.maxConcurrentCalls;
-    this.streamingReceiverHelper.addCredit(creditsToAdd);
-    logger.verbose(
-      `${logPrefix} creditManager: added ${creditsToAdd} credits (initial); total credits = ${receiver?.credit}`
-    );
-  }
-  /**
-   * Upon receiving a new message, this method is to be called in the streaming receiver logic to add credits to receive more messages.
-   *
-   * @internal
-   */
-  onReceive() {
-    const { receiver, logPrefix } = this._getCurrentReceiver();
-    if (this.receiveMode === "receiveAndDelete") {
-      this.streamingReceiverHelper.addCredit(1);
-      logger.verbose(
-        `${logPrefix} creditManager: added 1 credits upon receiving a message; total credits = ${receiver?.credit}`
-      );
-      return;
-    }
-
-    const { numberOfEmptySlots } = incomingBufferProperties(receiver);
-    if (receiver && numberOfEmptySlots > 0) {
-      const possibleMaxCredits = Math.min(this.maxConcurrentCalls, numberOfEmptySlots);
-      if (possibleMaxCredits > receiver.credit) {
-        const creditsToAdd = possibleMaxCredits - receiver.credit;
-        this.streamingReceiverHelper.addCredit(creditsToAdd);
-        logger.verbose(
-          `${logPrefix} creditManager: added ${creditsToAdd} credits upon receiving a message; total credits = ${receiver?.credit}`
-        );
-      }
-      return;
-    }
-  }
-
-  /**
-   * Meant to be called after a message is settled with the receive link.
-   * Replenishes the number of credits on the link based on the maxConcurrentCalls and the numberOfEmptySlots to receive more messages.
-   *
-   * @internal
-   */
-  postProcessing() {
-    const { receiver, logPrefix } = this._getCurrentReceiver();
-    const { numberOfEmptySlots } = incomingBufferProperties(receiver);
-    if (this.receiveMode === "peekLock") {
-      if (receiver && numberOfEmptySlots > 0) {
-        const possibleMaxCredits = Math.min(this.maxConcurrentCalls, numberOfEmptySlots);
-        if (possibleMaxCredits > receiver.credit) {
-          const creditsToAdd = possibleMaxCredits - receiver.credit;
-          this.streamingReceiverHelper.addCredit(creditsToAdd);
-          logger.verbose(
-            `${logPrefix} creditManager: added ${creditsToAdd} credits after message settlement; total credits = ${receiver?.credit}`
-          );
-        }
-      }
-    }
-  }
 }

@@ -25,12 +25,7 @@ import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
-import {
-  onMessageSettled,
-  DeferredPromiseAndTimer,
-  createReceiverOptions,
-  StreamingReceiverCreditManager
-} from "../core/shared";
+import { onMessageSettled, DeferredPromiseAndTimer, createReceiverOptions } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { StreamingReceiverHelper } from "../core/streamingReceiverHelper";
 import {
@@ -378,14 +373,18 @@ export class MessageSession extends LinkEntity<Receiver> {
       address: entityPath,
       audience: `${connectionContext.config.endpoint}${entityPath}`
     });
-    this._streamingReceiverHelper = new StreamingReceiverHelper(() => ({
-      receiver: this.link,
-      logPrefix: this.logPrefix
-    }));
+    this.receiveMode = options.receiveMode || "peekLock";
+    this._streamingReceiverHelper = new StreamingReceiverHelper(
+      () => ({
+        receiver: this.link,
+        logPrefix: this.logPrefix
+      }),
+      this.receiveMode,
+      this.maxConcurrentCalls
+    );
     this._retryOptions = options.retryOptions;
     this.autoComplete = false;
     if (isDefined(this._providedSessionId)) this.sessionId = this._providedSessionId;
-    this.receiveMode = options.receiveMode || "peekLock";
     this.maxAutoRenewDurationInMs =
       options.maxAutoLockRenewalDurationInMs != null
         ? options.maxAutoLockRenewalDurationInMs
@@ -618,16 +617,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     this._onError = onError;
 
     if (this.link && this.link.isOpen()) {
-      const creditManager = new StreamingReceiverCreditManager(
-        () => ({
-          receiver: this.link,
-          logPrefix: this.logPrefix
-        }),
-        this._streamingReceiverHelper,
-        this.receiveMode,
-        this.maxConcurrentCalls
-      );
-      this.settlementNotifierForSubscribe = () => creditManager.postProcessing();
+      this.settlementNotifierForSubscribe = () => this._streamingReceiverHelper.postProcessing();
       const onSessionMessage = async (context: EventContext): Promise<void> => {
         // If the receiver got closed in PeekLock mode, avoid processing the message as we
         // cannot settle the message.
@@ -705,7 +695,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           }
           return;
         } finally {
-          creditManager.onReceive();
+          this._streamingReceiverHelper.onReceive();
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try
@@ -742,7 +732,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      creditManager.addInitialCredits();
+      this._streamingReceiverHelper.addInitialCredits();
     } else {
       this._isReceivingMessagesForSubscriber = false;
       const msg =
