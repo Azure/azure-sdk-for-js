@@ -292,7 +292,10 @@ matrix([[true, false]] as const, async (useAad) => {
             expectedAlertConfig.metricAlertConfigurations[0].alertScope
           );
           assert.deepStrictEqual(actual.hookIds, expectedAlertConfig.hookIds);
-          assert.deepStrictEqual(actual.splitAlertByDimensions,expectedAlertConfig.splitAlertByDimensions);
+          assert.deepStrictEqual(
+            actual.splitAlertByDimensions,
+            expectedAlertConfig.splitAlertByDimensions
+          );
         });
 
         it("retrieves an alert configuration", async function() {
