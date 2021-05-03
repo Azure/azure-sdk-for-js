@@ -91,6 +91,7 @@ export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusError
 
 /**
  * Extends the ServiceBusErrorCode with the codes that we don't want to expose to the users.
+ * @internal
  */
 export type InternalServiceBusErrorCode =
   | ServiceBusErrorCode
