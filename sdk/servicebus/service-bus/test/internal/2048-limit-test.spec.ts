@@ -168,21 +168,17 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           await verifyMessageCount(numberOfMessagesToSend, entityName);
           receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityName);
           const messages = await receiveMessages(numberOfMessagesToSend);
-          if (!entityName.usesSessions) {
-            // Delivery count isn't incremented for sessionful messages.
-            // TODO: Log an issue, check with the service team?
-            const delCount = new Array(10).fill(0, 0, 10);
-            for (const message of messages) {
-              if (message.deliveryCount) {
-                delCount[message.deliveryCount]++;
-              }
+          const delCount = new Array(10).fill(0, 0, 10);
+          for (const message of messages) {
+            if (message.deliveryCount) {
+              delCount[message.deliveryCount]++;
             }
-            chai.assert.equal(
-              delCount[1],
-              bufferCapacityToSet - 1,
-              "Unexpected number of messages have deliveryCount = 1"
-            );
           }
+          chai.assert.equal(
+            delCount[1],
+            bufferCapacityToSet - 1,
+            "Unexpected number of messages have deliveryCount = 1"
+          );
           await verifyMessageCount(0, entityName);
         }
       );
