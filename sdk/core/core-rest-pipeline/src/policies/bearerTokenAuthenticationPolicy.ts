@@ -43,7 +43,7 @@ export function bearerTokenAuthenticationPolicy(
   return {
     name: bearerTokenAuthenticationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const { token } = await cycler.getToken(scopes, {
+      const { token } = await cycler(scopes, {
         abortSignal: request.abortSignal,
         tracingOptions: request.tracingOptions
       });

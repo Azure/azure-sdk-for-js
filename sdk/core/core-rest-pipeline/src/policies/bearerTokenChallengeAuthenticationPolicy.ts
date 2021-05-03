@@ -157,7 +157,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
       await callbacks.authorizeRequest({
         scopes,
         request,
-        getAccessToken: cycler.getToken
+        getAccessToken: cycler
       });
 
       let response: PipelineResponse;
@@ -179,7 +179,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
           scopes,
           request,
           response,
-          getAccessToken: cycler.getToken
+          getAccessToken: cycler
         });
 
         if (shouldSendRequest) {

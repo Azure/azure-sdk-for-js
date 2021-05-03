@@ -15,14 +15,6 @@ export type AccessTokenGetter = (
   options: GetTokenOptions
 ) => Promise<AccessToken>;
 
-/**
- * The response of the
- */
-export interface AccessTokenRefresher {
-  cachedToken: AccessToken | null;
-  getToken: AccessTokenGetter;
-}
-
 export interface TokenCyclerOptions {
   /**
    * The window of time before token expiration during which the token will be
@@ -52,50 +44,61 @@ export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
 };
 
 /**
- * Converts an an unreliable access token getter (which may resolve with null)
- * into an AccessTokenGetter by retrying the unreliable getter in a regular
- * interval.
+ * Calls to asyncFn until the timeout is reached.
+ * Prevents errors from bubbling up until the refresh timeout is reached.
+ * Once the timeout is reached, errors will bubble up, and null return values will throw with the received "errorMessage".
  *
- * @param getAccessToken - A function that produces a promise of an access token that may fail by returning null.
+ * @param asyncFn - The asynchronous function to call.
+ * @param timeout - Unix time when to stop ignoring errors or null values.
+ * @param errorMessage - Message to be used if the final value after the timeout is reached is still "null".
+ * @returns - A promise that can be resolved with T or null until the time is reached, after which it will throw if it can't resolve with a value of the type T.
+ */
+async function tryUntilTimeout<T>(
+  asyncFn: () => Promise<T | null>,
+  timeout: number,
+  errorMessage: string
+): Promise<T | null> {
+  if (Date.now() < timeout) {
+    try {
+      return asyncFn();
+    } catch {
+      return null;
+    }
+  } else {
+    const result = await asyncFn();
+
+    // Timeout is up, so throw if it's still null
+    if (result === null) {
+      throw new Error(errorMessage);
+    }
+    return result;
+  }
+}
+
+/**
+ * Retries an asynchronous function as often as the provided interval milliseconds,
+ * until the provided Unix date timeout is reached.
+ * Once the timeout is reached, errors will bubble up, and null return values will throw with the received "errorMessage".
+ *
+ * @param asyncFn - The asynchronous function to call.
  * @param retryIntervalInMs - The time (in milliseconds) to wait between retry attempts.
  * @param refreshTimeout - The timestamp after which the refresh attempt will fail, throwing an exception.
- * @returns - A promise that, if it resolves, will resolve with an access token.
+ * @returns - A promise that, if it resolves, will resolve with the T type.
  */
-async function beginRefresh(
-  getAccessToken: () => Promise<AccessToken | null>,
+async function retryUntilTimeout<T>(
+  asyncFn: () => Promise<T | null>,
   retryIntervalInMs: number,
-  refreshTimeout: number
-): Promise<AccessToken> {
-  // This wrapper handles exceptions gracefully as long as we haven't exceeded
-  // the timeout.
-  async function tryGetAccessToken(): Promise<AccessToken | null> {
-    if (Date.now() < refreshTimeout) {
-      try {
-        return await getAccessToken();
-      } catch {
-        return null;
-      }
-    } else {
-      const finalToken = await getAccessToken();
+  retryTimeout: number,
+  errorMessage: string
+): Promise<T> {
+  let result = await tryUntilTimeout<T>(asyncFn, retryTimeout, errorMessage);
 
-      // Timeout is up, so throw if it's still null
-      if (finalToken === null) {
-        throw new Error("Failed to refresh access token.");
-      }
-
-      return finalToken;
-    }
-  }
-
-  let token: AccessToken | null = await tryGetAccessToken();
-
-  while (token === null) {
+  while (result === null) {
     await delay(retryIntervalInMs);
-
-    token = await tryGetAccessToken();
+    result = await tryUntilTimeout(asyncFn, retryTimeout, errorMessage);
   }
 
-  return token;
+  return result;
 }
 
 /**
@@ -115,7 +118,7 @@ async function beginRefresh(
 export function createTokenCycler(
   credential: TokenCredential,
   tokenCyclerOptions?: Partial<TokenCyclerOptions>
-): AccessTokenRefresher {
+): AccessTokenGetter {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
 
@@ -124,11 +127,13 @@ export function createTokenCycler(
     ...tokenCyclerOptions
   };
 
+  const errorMessage = "Failed to refresh access token.";
+
   /**
    * This little holder defines several predicates that we use to construct
    * the rules of refreshing the token.
    */
-  const cycler = {
+  const cyclerState = {
     /**
      * Produces true if a refresh job is currently in progress.
      */
@@ -141,7 +146,7 @@ export function createTokenCycler(
      */
     get shouldRefresh(): boolean {
       return (
-        !cycler.isRefreshing &&
+        !cyclerState.isRefreshing &&
         (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now()
       );
     },
@@ -164,18 +169,19 @@ export function createTokenCycler(
     scopes: string | string[],
     getTokenOptions: GetTokenOptions
   ): Promise<AccessToken> {
-    if (!cycler.isRefreshing) {
+    if (!cyclerState.isRefreshing) {
       // We bind `scopes` here to avoid passing it around a lot
       const tryGetAccessToken = (): Promise<AccessToken | null> =>
         credential.getToken(scopes, getTokenOptions);
 
       // Take advantage of promise chaining to insert an assignment to `token`
       // before the refresh can be considered done.
-      refreshWorker = beginRefresh(
+      refreshWorker = retryUntilTimeout<AccessToken>(
         tryGetAccessToken,
         options.retryIntervalInMs,
         // If we don't have a token, then we should timeout immediately
-        token?.expiresOnTimestamp ?? Date.now()
+        token?.expiresOnTimestamp ?? Date.now(),
+        errorMessage
       )
         .then((_token) => {
           refreshWorker = null;
@@ -195,31 +201,26 @@ export function createTokenCycler(
     return refreshWorker as Promise<AccessToken>;
   }
 
-  return {
-    get cachedToken(): AccessToken | null {
-      return token;
-    },
-    getToken: async (
-      scopes: string | string[],
-      tokenOptions: GetTokenOptions
-    ): Promise<AccessToken> => {
-      //
-      // Simple rules:
-      // - If we MUST refresh, then return the refresh task, blocking
-      //   the pipeline until a token is available.
-      // - If we SHOULD refresh, then run refresh but don't return it
-      //   (we can still use the cached token).
-      // - Return the token, since it's fine if we didn't return in
-      //   step 1.
-      //
+  return async function(
+    scopes: string | string[],
+    tokenOptions: GetTokenOptions
+  ): Promise<AccessToken> {
+    //
+    // Simple rules:
+    // - If we MUST refresh, then return the refresh task, blocking
+    //   the pipeline until a token is available.
+    // - If we SHOULD refresh, then run refresh but don't return it
+    //   (we can still use the cached token).
+    // - Return the token, since it's fine if we didn't return in
+    //   step 1.
+    //
 
-      if (cycler.mustRefresh) return refresh(scopes, tokenOptions);
+    if (cyclerState.mustRefresh) return refresh(scopes, tokenOptions);
 
-      if (cycler.shouldRefresh) {
-        refresh(scopes, tokenOptions);
-      }
-
-      return token as AccessToken;
+    if (cyclerState.shouldRefresh) {
+      refresh(scopes, tokenOptions);
     }
+
+    return token as AccessToken;
   };
 }
