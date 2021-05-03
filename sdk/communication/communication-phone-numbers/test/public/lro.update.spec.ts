@@ -42,9 +42,9 @@ matrix([[true, false]], async function(useAad) {
 
     it("can update a phone number's capabilities", async function() {
       const currentPhoneNumber = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
-      let callingCapabilityType: PhoneNumberCapabilityType =
+      const callingCapabilityType: PhoneNumberCapabilityType =
         currentPhoneNumber.capabilities.calling === "outbound" ? "inbound" : "outbound";
-      let smsCapabilityType: PhoneNumberCapabilityType =
+      const smsCapabilityType: PhoneNumberCapabilityType =
         currentPhoneNumber.capabilities.sms === "inbound+outbound"
           ? "outbound"
           : "inbound+outbound";
