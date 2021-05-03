@@ -9,7 +9,9 @@ import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  EntityName
+  EntityName,
+  getRandomTestClientTypeWithNoSessions,
+  getRandomTestClientTypeWithSessions
 } from "../public/utils/testutils2";
 import { verifyMessageCount } from "../public/utils/managementUtils";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
@@ -27,12 +29,8 @@ const retryOptions = { maxRetries: 1, retryDelayInMs: 10 };
 const bufferCapacityToSet = 20;
 const numberOfMessagesToSend = bufferCapacityToSet * 1.5;
 const getTestClientTypes = () => [
-  TestClientType.PartitionedQueue,
-  TestClientType.UnpartitionedQueue,
-  TestClientType.PartitionedQueueWithSessions,
-  TestClientType.UnpartitionedQueueWithSessions
-  // getRandomTestClientTypeWithNoSessions(),
-  // getRandomTestClientTypeWithSessions()
+  getRandomTestClientTypeWithNoSessions(),
+  getRandomTestClientTypeWithSessions()
 ];
 
 async function beforeEachTest(
@@ -114,7 +112,7 @@ function reduceBufferCapacity(receiver: ServiceBusReceiver, newCapacity: number)
   };
 }
 
-describe.only("2048 scenarios - receiveBatch in a loop", function(): void {
+describe("2048 scenarios - receiveBatch in a loop", function(): void {
   beforeEach(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions
@@ -255,7 +253,7 @@ describe.only("2048 scenarios - receiveBatch in a loop", function(): void {
   });
 });
 
-describe.only("2048 scenarios - subscribe", function(): void {
+describe("2048 scenarios - subscribe", function(): void {
   beforeEach(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions
