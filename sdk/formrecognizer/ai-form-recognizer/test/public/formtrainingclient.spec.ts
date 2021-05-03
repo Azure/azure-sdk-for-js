@@ -15,7 +15,7 @@ import {
   FormRecognizerClient
 } from "../../src";
 
-import { matrix } from "../utils/matrix";
+import { matrix } from "@azure/test-utils-matrix";
 
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
 const containerSasUrl = (): string => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
@@ -59,7 +59,7 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       /*
-       * This `matrix` creates a test comination that will repeat training
+       * This `matrix` creates a test combination that will repeat training
        * and recognition against those models for all combinations of the
        * following training settings:
        *
