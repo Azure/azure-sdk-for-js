@@ -37,7 +37,7 @@ import {
   GeneratedClientSentimentResponse
 } from "./models";
 
-/** @hidden */
+/** @internal */
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
