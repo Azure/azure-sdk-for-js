@@ -34,13 +34,13 @@
       }
     },
     "testApplicationId": {
-      "type": "String",
+      "type": "string",
       "metadata": {
         "description": "The application client id used to run tests."
       }
     },
     "testApplicationSecret": {
-      "type": "String",
+      "type": "string",
       "metadata": {
         "description": "The application client secret used to run tests."
       }
@@ -72,16 +72,20 @@
     }
   ],
   "outputs": {
+    "AZURE_SUBSCRIPTION_ID": {
+      "type": "string",
+      "value": "[parameters('subscriptionId')]"
+    },
     "AZURE_TENANT_ID": {
-      "type": "String",
+      "type": "string",
       "value": "[parameters('tenantId')]"
     },
     "AZURE_CLIENT_ID": {
-      "type": "String",
+      "type": "string",
       "value": "[parameters('testApplicationId')]"
     },
     "AZURE_CLIENT_SECRET": {
-      "type": "String",
+      "type": "string",
       "value": "[parameters('testApplicationSecret')]"
     },
     "COMMUNICATION_ENDPOINT": {
