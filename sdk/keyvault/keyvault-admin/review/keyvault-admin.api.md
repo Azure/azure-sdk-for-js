@@ -93,7 +93,7 @@ export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationS
 
 // @public
 export class KeyVaultBackupClient {
-    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: BackupClientOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, options?: BackupClientOptions);
     beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, BackupResult>>;
     beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, RestoreResult>>;
     beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, RestoreResult>>;

@@ -9,7 +9,7 @@ describe("jwt", () => {
     // Note: The trailing "." on the end indicates an empty signature indicating that this JWT is not signed.
     const jwtValue =
       "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJlbWFpbCI6IkJvYkBjb250b3NvLmNvbSIsImdpdmVuX25hbWUiOiJCb2IiLCJpc3MiOiJodHRwOi8vRGVmYXVsdC5Jc3N1ZXIuY29tIiwiYXVkIjoiaHR0cDovL0RlZmF1bHQuQXVkaWVuY2UuY29tIiwiaWF0IjoiMTYxMDgxMjI1MCIsIm5iZiI6IjE2MTA4MTI1NTAiLCJleHAiOiIxNjEwODk4NjUwIn0.";
-    const expectedExpirationTimestamp = 1610898650; // 1/17/2021 3:50:50 PM UTC
+    const expectedExpirationTimestamp = 1610898650000; // 1/17/2021 3:50:50 PM UTC
 
     const expirationTimestamp = retrieveJwtExpirationTimestamp(jwtValue);
 

@@ -81,9 +81,11 @@ function createTestHttpClient(): HttpClient {
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
-    if (requestResponse.status < 200 || requestResponse.status > 299) {
-      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
-    }
+    console.log(
+      `MS-CV header for request: ${httpRequest.url} (${
+        requestResponse.status
+      } - ${requestResponse.headers.get("ms-cv")})`
+    );
 
     return requestResponse;
   };

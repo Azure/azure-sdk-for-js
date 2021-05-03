@@ -15,7 +15,6 @@ import * as dotenv from "dotenv";
 import * as sinon from "sinon";
 import { Uuid } from "../../src/utils/uuid";
 import {
-  createCredential,
   createSmsClient,
   createSmsClientWithToken,
   recorderConfiguration
@@ -42,8 +41,7 @@ matrix([[true, false]], async function(useAad) {
       }
 
       if (useAad) {
-        const token = createCredential() || this.skip();
-        this.smsClient = createSmsClientWithToken(token);
+        this.smsClient = createSmsClientWithToken();
       } else {
         this.smsClient = createSmsClient();
       }

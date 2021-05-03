@@ -4,41 +4,41 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query",
    "query": {
-    "$top": "2"
+    "$maxpagesize": "2"
    },
    "requestBody": "{\"startTime\":\"2020-08-01T00:00:00.000Z\",\"endTime\":\"2020-09-01T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2020-08-31T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"},{\"timestamp\":\"2020-08-30T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$top=2&$skip=2\"}",
+   "response": "{\"value\":[{\"timestamp\":\"2020-08-31T00:00:00Z\",\"status\":\"Failed\",\"message\":\"Cannot fetch data from source. \",\"lastAttemptTime\":\"2021-04-24T06:19:37Z\"},{\"timestamp\":\"2020-08-30T00:00:00Z\",\"status\":\"Failed\",\"message\":\"Cannot fetch data from source. \",\"lastAttemptTime\":\"2021-04-24T06:19:36Z\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "ef3748a2-12b6-4c9e-857f-eacbe2e14213",
-    "content-length": "330",
+    "apim-request-id": "a1a208b8-22e6-4c87-a313-4eacfbdc17be",
+    "content-length": "476",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:39:34 GMT",
+    "date": "Sat, 24 Apr 2021 06:29:23 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "245",
-    "x-request-id": "ef3748a2-12b6-4c9e-857f-eacbe2e14213"
+    "x-envoy-upstream-service-time": "356",
+    "x-request-id": "a1a208b8-22e6-4c87-a313-4eacfbdc17be"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query",
    "query": {
-    "$top": "2",
+    "$maxpagesize": "2",
     "$skip": "2"
    },
    "requestBody": "{\"startTime\":\"2020-08-01T00:00:00.000Z\",\"endTime\":\"2020-09-01T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2020-08-29T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"},{\"timestamp\":\"2020-08-28T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$top=2&$skip=4\"}",
+   "response": "{\"value\":[{\"timestamp\":\"2020-08-29T00:00:00Z\",\"status\":\"Failed\",\"message\":\"Cannot fetch data from source. \",\"lastAttemptTime\":\"2021-04-24T06:19:36Z\"},{\"timestamp\":\"2020-08-28T00:00:00Z\",\"status\":\"Failed\",\"message\":\"Cannot fetch data from source. \",\"lastAttemptTime\":\"2021-04-24T06:19:41Z\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "4969dc7e-fb0e-41a8-8769-a22ee140531d",
-    "content-length": "330",
+    "apim-request-id": "59a08380-9bdc-4790-b73f-a58a44aff5c8",
+    "content-length": "476",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:39:35 GMT",
+    "date": "Sat, 24 Apr 2021 06:29:23 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "265",
-    "x-request-id": "4969dc7e-fb0e-41a8-8769-a22ee140531d"
+    "x-envoy-upstream-service-time": "344",
+    "x-request-id": "59a08380-9bdc-4790-b73f-a58a44aff5c8"
    }
   }
  ],
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "07fbde01b253c61bae5c61c2f2fa812e"
+ "hash": "d0e53776168c476ac0341b9b256a5035"
 }

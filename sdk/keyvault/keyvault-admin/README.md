@@ -183,15 +183,15 @@ A Role Assignment is the association of a Role Definition to a service principal
 
 ### KeyVaultAccessControlClient
 
-A `KeyVaultAccessControlClient` provides both synchronous and asynchronous operations allowing for management of Role Definitions (instances of `KeyVaultRoleDefinition`) and Role Assignments (instances of `KeyVaultRoleAssignment`).
+A `KeyVaultAccessControlClient` provides operations allowing for management of Role Definitions (instances of `KeyVaultRoleDefinition`) and Role Assignments (instances of `KeyVaultRoleAssignment`).
 
 ### KeyVaultBackupClient
 
-A `KeyVaultBackupClient` provides both synchronous and asynchronous operations for performing full key backups, full key restores, and selective key restores.
+A `KeyVaultBackupClient` provides operations for performing full key backups, full key restores, and selective key restores.
 
 ### Long running operations
 
-The operations done by the `KeyVaultBackupClient` may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish. This is done via a common abstraction through the package [@azure/core-lro][core-lro].
+The operations done by the `KeyVaultBackupClient` may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize, and resume the operations through the lifecycle of the programs that wait for them to finish. This is done via a common abstraction through the package [@azure/core-lro][core-lro].
 
 The `KeyVaultBackupClient` offers three methods that execute long running operations:
 

@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ *  These tests only run in Live Mode because Http Requests with Randomized UUIDs do not play well with the recorder
+ *  They are duplicated in an internal test which contains workaround logic to record/playback the tests
+ */
+
 import { matrix } from "@azure/test-utils-matrix";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import {
-  createCredential,
   createSmsClient,
   createSmsClientWithToken,
   recorderConfiguration
@@ -30,8 +34,7 @@ matrix([[true, false]], async function(useAad) {
       );
 
       if (useAad) {
-        const token = createCredential() || this.skip();
-        this.smsClient = createSmsClientWithToken(token);
+        this.smsClient = createSmsClientWithToken();
       } else {
         this.smsClient = createSmsClient();
       }
