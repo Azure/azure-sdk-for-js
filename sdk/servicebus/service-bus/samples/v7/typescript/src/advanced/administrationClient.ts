@@ -7,7 +7,6 @@
  * See https://docs.microsoft.com/rest/api/servicebus/resource-provider-apis to learn more.
  *
  * @summary Demonstrates how to manage the resources of a service bus namespace.
- * @azsdk-weight 40
  */
 
 import { ServiceBusAdministrationClient } from "@azure/service-bus";

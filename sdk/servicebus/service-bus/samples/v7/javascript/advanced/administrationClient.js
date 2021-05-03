@@ -7,20 +7,19 @@
  * See https://docs.microsoft.com/rest/api/servicebus/resource-provider-apis to learn more.
  *
  * @summary Demonstrates how to manage the resources of a service bus namespace.
- * @azsdk-weight 40
  */
 
-import { ServiceBusAdministrationClient } from "@azure/service-bus";
+const { ServiceBusAdministrationClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+async function main() {
   // You can also use AAD credentials from `@azure/identity` along with the host url
   // instead of the connection string for authentication.
   const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);

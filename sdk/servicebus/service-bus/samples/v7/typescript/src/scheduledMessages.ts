@@ -9,7 +9,6 @@
  * to learn about scheduling messages.
  *
  * @summary Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time
- * @azsdk-weight 40
  */
 import {
   delay,

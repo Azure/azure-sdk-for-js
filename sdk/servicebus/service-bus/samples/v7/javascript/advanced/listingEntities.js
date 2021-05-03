@@ -7,18 +7,17 @@
  * See https://docs.microsoft.com/rest/api/servicebus/resource-provider-apis to learn more.
  *
  * @summary Demonstrates how the ServiceBusAdministrationClient can be used to list the entities of a service bus namespace
- * @azsdk-weight 40
  */
-import { ServiceBusAdministrationClient } from "@azure/service-bus";
+const { ServiceBusAdministrationClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
-export async function main() {
+async function main() {
   const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
   const baseQueueName = "random-queue";
   const numberOfQueues = 7;

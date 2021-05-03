@@ -8,8 +8,6 @@
  * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to receive Service Bus messages in a loop
- * @azsdk-weight 40
- * @azsdk-ignore true
  */
 import { ServiceBusClient } from "@azure/service-bus";
 

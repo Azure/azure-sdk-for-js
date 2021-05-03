@@ -18,14 +18,13 @@
  *        tab. Here, assign "Azure Service Bus Data Owner" role to the registered application.
  *
  * @summary This sample how to create a namespace using AAD token credentials
- * @azsdk-weight 40
  */
 
-import { ServiceBusClient } from "@azure/service-bus";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ServiceBusClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define Service Bus Endpoint here and related entity names here
@@ -38,7 +37,7 @@ const tenantId = process.env.AZURE_TENANT_ID || "<azure tenant id>";
 const clientSecret = process.env.AZURE_CLIENT_SECRET || "<azure client secret>";
 const clientId = process.env.AZURE_CLIENT_ID || "<azure client id>";
 
-export async function main() {
+async function main() {
   if (
     tenantId === "<azure tenant id>" ||
     clientSecret === "<azure client secret>" ||
@@ -55,9 +54,9 @@ export async function main() {
   const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
 
   /*
-   Refer to other samples, and place your code here
-   to create queue/subscription receivers.
-  */
+     Refer to other samples, and place your code here
+     to create queue/subscription receivers.
+    */
   const sender = sbClient.createSender(queueName);
 
   await sender.sendMessages({

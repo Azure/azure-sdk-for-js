@@ -19,7 +19,6 @@
  * to learn about session state.
  *
  * @summary Demonstrates usage of SessionState.
- * @azsdk-weight 40
  */
 
 import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";

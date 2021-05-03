@@ -9,18 +9,11 @@
  * to learn about scheduling messages.
  *
  * @summary Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time
- * @azsdk-weight 40
  */
-import {
-  delay,
-  ProcessErrorArgs,
-  ServiceBusClient,
-  ServiceBusMessage,
-  ServiceBusReceivedMessage
-} from "@azure/service-bus";
+const { delay, ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
@@ -40,7 +33,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-export async function main() {
+async function main() {
   const sbClient = new ServiceBusClient(connectionString);
   try {
     await sendScheduledMessages(sbClient);
@@ -52,16 +45,14 @@ export async function main() {
 }
 
 // Scheduling messages to be sent after 10 seconds from now
-async function sendScheduledMessages(sbClient: ServiceBusClient) {
+async function sendScheduledMessages(sbClient) {
   // createSender() handles sending to a queue or a topic
   const sender = sbClient.createSender(queueName);
 
-  const messages: ServiceBusMessage[] = listOfScientists.map(
-    (scientist): ServiceBusMessage => ({
-      body: `${scientist.firstName} ${scientist.lastName}`,
-      subject: "Scientist"
-    })
-  );
+  const messages = listOfScientists.map((scientist) => ({
+    body: `${scientist.firstName} ${scientist.lastName}`,
+    subject: "Scientist"
+  }));
 
   const timeNowUtc = new Date(Date.now());
   const scheduledEnqueueTimeUtc = new Date(Date.now() + 10000);
@@ -73,18 +64,18 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
   await sender.scheduleMessages(messages, scheduledEnqueueTimeUtc);
 }
 
-async function receiveMessages(sbClient: ServiceBusClient) {
+async function receiveMessages(sbClient) {
   // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
   // instead.
   let queueReceiver = sbClient.createReceiver(queueName);
 
   let numOfMessagesReceived = 0;
-  const processMessage = async (brokeredMessage: ServiceBusReceivedMessage) => {
+  const processMessage = async (brokeredMessage) => {
     numOfMessagesReceived++;
     console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.subject}`);
     await queueReceiver.completeMessage(brokeredMessage);
   };
-  const processError = async (args: ProcessErrorArgs) => {
+  const processError = async (args) => {
     console.log(`Error from error source ${args.errorSource} occurred: `, args.error);
   };
 

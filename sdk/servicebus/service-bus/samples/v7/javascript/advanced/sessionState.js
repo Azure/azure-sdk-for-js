@@ -19,13 +19,12 @@
  * to learn about session state.
  *
  * @summary Demonstrates usage of SessionState.
- * @azsdk-weight 40
  */
 
-import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+const { ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
@@ -33,7 +32,7 @@ const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connectio
 const userEventsQueueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
 
-export async function main() {
+async function main() {
   try {
     await runScenario();
   } finally {
@@ -81,7 +80,7 @@ async function runScenario() {
   await getSessionState("bob");
 }
 
-async function getSessionState(sessionId: string) {
+async function getSessionState(sessionId) {
   // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
   const sessionReceiver = await sbClient.acceptSession(userEventsQueueName, sessionId);
 
@@ -96,12 +95,12 @@ async function getSessionState(sessionId: string) {
   await sessionReceiver.close();
 }
 
-async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) {
+async function sendMessagesForSession(shoppingEvents, sessionId) {
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(userEventsQueueName);
 
   for (let index = 0; index < shoppingEvents.length; index++) {
-    const message: ServiceBusMessage = {
+    const message = {
       sessionId: sessionId,
       body: shoppingEvents[index],
       subject: "Shopping Step"
@@ -111,7 +110,7 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) 
   await sender.close();
 }
 
-async function processMessageFromSession(sessionId: string) {
+async function processMessageFromSession(sessionId) {
   // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
   const sessionReceiver = await sbClient.acceptSession(userEventsQueueName, sessionId);
 
@@ -128,7 +127,7 @@ async function processMessageFromSession(sessionId: string) {
     } else if (messages[0].body.event_name === "Add Item") {
       // Update cart if customer adds items and store it in session state.
       const currentSessionState = await sessionReceiver.getSessionState();
-      let newSessionState: string[] = [];
+      let newSessionState = [];
       if (currentSessionState) {
         newSessionState = JSON.parse(currentSessionState);
       }

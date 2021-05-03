@@ -4,7 +4,6 @@
 /**
  * @summary This sample demonstrates how to create a ServiceBusClient meant to be used in an environment
  * where outgoing network requests have to go through a proxy server
- * @azsdk-weight 40
  */
 
 import { ServiceBusClient } from "@azure/service-bus";

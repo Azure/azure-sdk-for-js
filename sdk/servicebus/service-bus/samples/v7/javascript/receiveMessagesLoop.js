@@ -8,20 +8,18 @@
  * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to receive Service Bus messages in a loop
- * @azsdk-weight 40
- * @azsdk-ignore true
  */
-import { ServiceBusClient } from "@azure/service-bus";
+const { ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload

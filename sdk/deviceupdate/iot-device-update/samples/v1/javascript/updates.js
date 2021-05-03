@@ -17,7 +17,6 @@ const instanceId = process.env["INSTANCE_ID"] || "<INSTANCE_ID>";
  * Get a list of all update providers that have been imported to Device Update for IoT Hub
  */
 async function main() {
-  console.log("JS");
   const credentials = new DefaultAzureCredential();
   const client = new DeviceUpdateClient(credentials, accountEndpoint, instanceId);
 

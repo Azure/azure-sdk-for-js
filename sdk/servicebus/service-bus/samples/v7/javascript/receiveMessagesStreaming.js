@@ -8,26 +8,19 @@
  * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to receive Service Bus messages in a stream
- * @azsdk-weight 40
  */
 
-import {
-  delay,
-  isServiceBusError,
-  ProcessErrorArgs,
-  ServiceBusClient,
-  ServiceBusReceivedMessage
-} from "@azure/service-bus";
+const { delay, isServiceBusError, ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // - If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
@@ -41,12 +34,12 @@ export async function main() {
       // have not already settled the message in your callback.
       // You can disable this by passing `false` to the `autoCompleteMessages` option in the `subscribe()` method.
       // If your callback _does_ throw an error before the message is settled, then it will be abandoned.
-      processMessage: async (brokeredMessage: ServiceBusReceivedMessage) => {
+      processMessage: async (brokeredMessage) => {
         console.log(`Received message: ${brokeredMessage.body}`);
       },
       // This callback will be called for any error that occurs when either in the receiver when receiving the message
       // or when executing your `processMessage` callback or when the receiver automatically completes or abandons the message.
-      processError: async (args: ProcessErrorArgs) => {
+      processError: async (args) => {
         console.log(`Error from source ${args.errorSource} occurred: `, args.error);
 
         // the `subscribe() call will not stop trying to receive messages without explicit intervention from you.

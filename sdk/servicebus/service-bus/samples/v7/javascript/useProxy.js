@@ -4,22 +4,21 @@
 /**
  * @summary This sample demonstrates how to create a ServiceBusClient meant to be used in an environment
  * where outgoing network requests have to go through a proxy server
- * @azsdk-weight 40
  */
 
-import { ServiceBusClient } from "@azure/service-bus";
-import WebSocket from "ws";
-import { HttpsProxyAgent } from "https-proxy-agent";
+const { ServiceBusClient } = require("@azure/service-bus");
+const WebSocket = require("ws");
+const { HttpsProxyAgent } = require("https-proxy-agent");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define connection string for your Service Bus instance here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+async function main() {
   const proxyInfo = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
 
   if (!proxyInfo) {

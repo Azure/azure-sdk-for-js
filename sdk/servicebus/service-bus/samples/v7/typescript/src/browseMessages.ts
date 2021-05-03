@@ -2,14 +2,13 @@
 // Licensed under the MIT Licence.
 
 /**
- * This sample demonstrates how the receiveMessages() function can be used to receive Service Bus
- * messages in a loop.
+ * This sample demonstrates how the peekMessages() function can be used to browse a Service Bus message.
+ *
+ * See https://docs.microsoft.com/azure/service-bus-messaging/message-browsing to learn about message browsing.
  *
  * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
  *
- * @summary Demonstrates how to receive Service Bus messages in a loop
- * @azsdk-weight 40
- * @azsdk-ignore true
+ * @summary Demonstrates how to browse a Service Bus message
  */
 import { ServiceBusClient } from "@azure/service-bus";
 
@@ -25,24 +24,16 @@ export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
-  // instead.
   const queueReceiver = sbClient.createReceiver(queueName);
 
-  // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
-  // the sample in sessions.ts file
   try {
-    for (let i = 0; i < 10; i++) {
-      const messages = await queueReceiver.receiveMessages(1, {
-        maxWaitTimeInMs: 5000
-      });
-
-      if (!messages.length) {
-        console.log("No more messages to receive");
+    for (let i = 0; i < 20; i++) {
+      const [message] = await queueReceiver.peekMessages(1);
+      if (!message) {
+        console.log("No more messages to peek");
         break;
       }
-
-      console.log(`Received message #${i}: ${messages[0].body}`);
-      await queueReceiver.completeMessage(messages[0]);
+      console.log(`Peeking message #${i}: ${message.body}`);
     }
     await queueReceiver.close();
   } finally {
@@ -51,6 +42,6 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.log("ReceiveMessageLoop Sample - Error occurred: ", err);
+  console.log("BrowseMessages Sample - Error occurred: ", err);
   process.exit(1);
 });

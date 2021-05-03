@@ -10,22 +10,21 @@
  *
  * @summary Demonstrates retrieving a message from a dead letter queue, editing it and
  * sending it back to the main queue
- * @azsdk-weight 50
  */
 
-import { ServiceBusMessage, ServiceBusClient } from "@azure/service-bus";
+const { ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-const sbClient: ServiceBusClient = new ServiceBusClient(connectionString);
+const sbClient = new ServiceBusClient(connectionString);
 
-export async function main() {
+async function main() {
   try {
     await processDeadletterMessageQueue();
   } finally {
@@ -55,7 +54,7 @@ async function processDeadletterMessageQueue() {
 }
 
 // Send repaired message back to the current queue / topic
-async function fixAndResendMessage(oldMessage: ServiceBusMessage) {
+async function fixAndResendMessage(oldMessage) {
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
 

@@ -8,18 +8,11 @@
  * Run the sendMessages sample with different session ids before running this sample.
  *
  * @summary Demonstrates how to continually read through all the available sessions
- * @azsdk-weight 40
  */
 
-import {
-  ServiceBusClient,
-  delay,
-  ServiceBusSessionReceiver,
-  ServiceBusReceivedMessage,
-  isServiceBusError
-} from "@azure/service-bus";
-import * as dotenv from "dotenv";
-import { AbortController } from "@azure/abort-controller";
+const { ServiceBusClient, delay, isServiceBusError } = require("@azure/service-bus");
+const dotenv = require("dotenv");
+const { AbortController } = require("@azure/abort-controller");
 
 dotenv.config();
 
@@ -39,20 +32,20 @@ const abortController = new AbortController();
 
 // Called just before we start processing the first message of a session.
 // NOTE: This function is used only in the sample and is not part of the Service Bus library.
-async function sessionAccepted(sessionId: string) {
+async function sessionAccepted(sessionId) {
   console.log(`[${sessionId}] will start processing...`);
 }
 
 // Called by the ServiceBusSessionReceiver when a message is received.
 // This is passed as part of the handlers when calling `ServiceBusSessionReceiver.subscribe()`.
-async function processMessage(msg: ServiceBusReceivedMessage) {
+async function processMessage(msg) {
   console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
 }
 
 // Called by the ServiceBusSessionReceiver when an error occurs.
 // This will be called in the handlers we pass in `ServiceBusSessionReceiver.subscribe()`
 // and by the sample when we encounter an error opening a session.
-async function processError(err: Error, sessionId?: string) {
+async function processError(err, sessionId) {
   if (sessionId) {
     console.log(`Error when receiving messages from the session ${sessionId}: `, err);
   } else {
@@ -67,13 +60,13 @@ async function processError(err: Error, sessionId?: string) {
 // * 'idle_timeout' if `sessionIdleTimeoutMs` milliseconds pass without
 //   any messages being received (ie, session can be considered empty).
 // NOTE: This function is used only in the sample and is not part of the Service Bus library.
-async function sessionClosed(reason: "error" | "idle_timeout", sessionId: string) {
+async function sessionClosed(reason, sessionId) {
   console.log(`[${sessionId}] was closed because of ${reason}`);
 }
 
 // utility function to create a timer that can be refreshed
-function createRefreshableTimer(timeoutMs: number, resolve: Function): () => void {
-  let timer: any;
+function createRefreshableTimer(timeoutMs, resolve) {
+  let timer;
 
   return () => {
     clearTimeout(timer);
@@ -82,8 +75,8 @@ function createRefreshableTimer(timeoutMs: number, resolve: Function): () => voi
 }
 
 // Queries Service Bus for the next available session and processes it.
-async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promise<void> {
-  let sessionReceiver: ServiceBusSessionReceiver;
+async function receiveFromNextSession(serviceBusClient) {
+  let sessionReceiver;
 
   try {
     sessionReceiver = await serviceBusClient.acceptNextSession(queueName, {
@@ -136,10 +129,10 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
   }
 }
 
-async function roundRobinThroughAvailableSessions(): Promise<void> {
+async function roundRobinThroughAvailableSessions() {
   const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
 
-  const receiverPromises: Promise<void>[] = [];
+  const receiverPromises = [];
 
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
     receiverPromises.push(

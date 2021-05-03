@@ -11,26 +11,19 @@
  * message deferral.
  *
  * @summary Demonstrates how to defer a message for later processing.
- * @azsdk-weight 40
  */
 
-import {
-  ServiceBusClient,
-  delay,
-  ProcessErrorArgs,
-  ServiceBusReceivedMessage,
-  ServiceBusMessage
-} from "@azure/service-bus";
+const { ServiceBusClient, delay } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+async function main() {
   await sendMessages();
   await receiveMessage();
 }
@@ -50,7 +43,7 @@ async function sendMessages() {
   ];
   const promises = new Array();
   for (let index = 0; index < data.length; index++) {
-    const message: ServiceBusMessage = {
+    const message = {
       body: data[index],
       subject: "RecipeStep",
       contentType: "application/json"
@@ -82,7 +75,7 @@ async function receiveMessage() {
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
   try {
-    const processMessage = async (brokeredMessage: ServiceBusReceivedMessage) => {
+    const processMessage = async (brokeredMessage) => {
       if (
         brokeredMessage.subject === "RecipeStep" &&
         brokeredMessage.contentType === "application/json"
@@ -110,7 +103,7 @@ async function receiveMessage() {
         await receiver.deadLetterMessage(brokeredMessage);
       }
     };
-    const processError = async (args: ProcessErrorArgs) => {
+    const processError = async (args) => {
       console.log(`>>>>> Error from error source ${args.errorSource} occurred: `, args.error);
     };
 

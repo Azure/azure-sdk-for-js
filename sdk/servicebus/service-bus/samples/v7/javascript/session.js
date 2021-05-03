@@ -12,13 +12,12 @@
  *
  * @summary Demonstrates how to send/receive messages to/from session enabled queues/subscriptions
  * in Service Bus
- * @azsdk-weight 40
  */
 
-import { delay, ProcessErrorArgs, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+const { delay, ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
@@ -39,7 +38,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-export async function main() {
+async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   try {
@@ -62,11 +61,11 @@ export async function main() {
   }
 }
 
-async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId: string) {
+async function sendMessage(sbClient, scientist, sessionId) {
   // createSender() also works with topics
   const sender = sbClient.createSender(queueName);
 
-  const message: ServiceBusMessage = {
+  const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
     subject: "Scientist",
     sessionId: sessionId
@@ -78,14 +77,14 @@ async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId
   await sender.close();
 }
 
-async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
+async function receiveMessages(sbClient, sessionId) {
   // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
   const receiver = await sbClient.acceptSession(queueName, sessionId);
 
-  const processMessage = async (message: ServiceBusMessage) => {
+  const processMessage = async (message) => {
     console.log(`Received: ${message.sessionId} - ${message.body} `);
   };
-  const processError = async (args: ProcessErrorArgs) => {
+  const processError = async (args) => {
     console.log(`>>>>> Error from error source ${args.errorSource} occurred: `, args.error);
   };
   receiver.subscribe({

@@ -10,7 +10,6 @@
  *
  * @summary Demonstrates retrieving a message from a dead letter queue, editing it and
  * sending it back to the main queue
- * @azsdk-weight 50
  */
 
 import { ServiceBusMessage, ServiceBusClient } from "@azure/service-bus";

@@ -10,20 +10,19 @@
  *
  * @summary Demonstrates scenarios as to how a Service Bus message can be explicitly moved to
  * the DLQ
- * @azsdk-weight 45
  */
-import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+const { ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
-const sbClient: ServiceBusClient = new ServiceBusClient(connectionString);
+const sbClient = new ServiceBusClient(connectionString);
 
-export async function main() {
+async function main() {
   try {
     // Sending a message to ensure that there is atleast one message in the main queue
     await sendMessage();
@@ -38,7 +37,7 @@ async function sendMessage() {
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
 
-  const message: ServiceBusMessage = {
+  const message = {
     body: {
       name: "Creamy Chicken Pasta",
       type: "Dinner"
