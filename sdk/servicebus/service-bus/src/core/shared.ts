@@ -107,6 +107,9 @@ export function createReceiverOptions(
   return rcvrOptions;
 }
 
+/**
+ * @internal
+ */
 export const UnsettledMessagesLimitExceededError =
   "Failed to fetch new messages as the limit for unsettled messages is reached. Please settle received messages using settlement methods(such as `completeMessage()`) on the receiver to receive the next message.";
 
