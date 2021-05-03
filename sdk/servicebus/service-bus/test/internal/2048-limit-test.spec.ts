@@ -9,11 +9,13 @@ import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  EntityName,
-  getRandomTestClientType
+  EntityName
 } from "../public/utils/testutils2";
 import { verifyMessageCount } from "../public/utils/managementUtils";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
+import { MinimalReceiver } from "../../src/core/batchingReceiver";
+import { Receiver } from "rhea-promise";
+import { InternalMessageHandlers } from "../../src/models";
 
 chai.use(chaiAsPromised);
 
@@ -21,10 +23,17 @@ let serviceBusClient: ServiceBusClientForTests;
 let entityName: EntityName;
 let sender: ServiceBusSender;
 let receiver: ServiceBusReceiver;
-const retryOptions = { maxRetries: 3, retryDelayInMs: 10 };
-const numberOfMessagesToSend = 3000;
-
-const testClientTypes = [getRandomTestClientType()];
+const retryOptions = { maxRetries: 1, retryDelayInMs: 10 };
+const bufferCapacityToSet = 20;
+const numberOfMessagesToSend = bufferCapacityToSet * 1.5;
+const getTestClientTypes = () => [
+  TestClientType.PartitionedQueue,
+  TestClientType.UnpartitionedQueue,
+  TestClientType.PartitionedQueueWithSessions,
+  TestClientType.UnpartitionedQueueWithSessions
+  // getRandomTestClientTypeWithNoSessions(),
+  // getRandomTestClientTypeWithSessions()
+];
 
 async function beforeEachTest(
   entityType: TestClientType,
@@ -42,10 +51,8 @@ async function beforeEachTest(
   sender = serviceBusClient.test.addToCleanup(
     serviceBusClient.createSender(entityName.queue ?? entityName.topic!)
   );
-}
 
-function afterEachTest(): Promise<void> {
-  return serviceBusClient.test.afterEach();
+  reduceBufferCapacity(receiver, bufferCapacityToSet);
 }
 
 async function sendMessages(numberOfMessagesToSend: number) {
@@ -56,9 +63,11 @@ async function sendMessages(numberOfMessagesToSend: number) {
     let body = `message-${current}`;
     while (
       current < numberOfMessagesToSend &&
-      batch.tryAddMessage(
-        entityName.usesSessions ? { body, sessionId: TestMessage.sessionId } : { body }
-      )
+      batch.tryAddMessage({
+        body,
+        timeToLive: 10000,
+        sessionId: entityName.usesSessions ? TestMessage.sessionId : undefined
+      })
     ) {
       messageBodies.push(body);
       current++;
@@ -70,25 +79,57 @@ async function sendMessages(numberOfMessagesToSend: number) {
   return messageBodies;
 }
 
-describe("2048 scenarios - receiveBatch in a loop", function(): void {
-  before(() => {
+function setIncomingCapacityOnLink(link: MinimalReceiver | undefined, newCapacity: number) {
+  if (link && link.session.incoming.deliveries.capacity > 0) {
+    link.session.incoming.deliveries.capacity = newCapacity;
+  }
+}
+
+function reduceBufferCapacity(receiver: ServiceBusReceiver, newCapacity: number) {
+  if (entityName.usesSessions) {
+    const receiverTemp = receiver as ServiceBusSessionReceiverImpl;
+    const messageReceiver = receiverTemp["_messageSession"];
+    const link = messageReceiver["link"] as Receiver;
+    return setIncomingCapacityOnLink(link, newCapacity);
+  }
+
+  const receiverTemp = receiver as ServiceBusReceiverImpl;
+  if (receiverTemp["_streamingReceiver"]) {
+    const link = receiverTemp["_streamingReceiver"]["link"];
+    return setIncomingCapacityOnLink(link, newCapacity);
+  }
+
+  const createBatchingReceiver = receiverTemp["_createBatchingReceiver"];
+  (receiver as ServiceBusReceiverImpl)["_createBatchingReceiver"] = function(...args: any) {
+    const batchingReceiver = createBatchingReceiver.apply(this, args);
+    const _getCurrentReceiver = batchingReceiver["_batchingReceiverLite"]["_getCurrentReceiver"];
+    batchingReceiver["_batchingReceiverLite"]["_getCurrentReceiver"] = async function(
+      ...newArgs: any
+    ) {
+      const link = await _getCurrentReceiver.apply(this, newArgs);
+      setIncomingCapacityOnLink(link, newCapacity);
+      return link;
+    };
+    return batchingReceiver;
+  };
+}
+
+describe.only("2048 scenarios - receiveBatch in a loop", function(): void {
+  beforeEach(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions
     });
   });
 
-  after(() => {
-    return serviceBusClient.test.after();
-  });
-
   afterEach(async () => {
-    await afterEachTest();
+    await serviceBusClient.test.afterEach();
+    return serviceBusClient.test.after();
   });
 
   async function receiveMessages(numberOfMessagesToReceive: number) {
     let messages: ServiceBusReceivedMessage[] = [];
     while (messages.length < numberOfMessagesToReceive) {
-      messages = messages.concat(await receiver.receiveMessages(50));
+      messages = messages.concat(await receiver.receiveMessages(50, { maxWaitTimeInMs: 5000 }));
     }
     chai.assert.equal(
       messages.length,
@@ -99,28 +140,32 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
   }
 
   describe("receiveAndDelete", () => {
-    testClientTypes.forEach((clientType) => {
+    getTestClientTypes().forEach((clientType) => {
       it(
-        clientType + ": would be able to receive more than 2047 messages",
+        clientType + ": would be able to receive more than bufferCapacity messages",
         async function(): Promise<void> {
           await beforeEachTest(clientType, "receiveAndDelete");
           await sendMessages(numberOfMessagesToSend);
           await receiveMessages(numberOfMessagesToSend);
           await verifyMessageCount(0, entityName);
         }
-      ).timeout(300000);
+      );
     });
   });
 
-  describe("peekLock: can receive a max of 2047 messages when not being settled", () => {
-    testClientTypes.forEach((clientType) => {
+  describe("peekLock: can receive a max of (bufferCapacity-1) messages when not being settled", () => {
+    getTestClientTypes().forEach((clientType) => {
       it(
         clientType +
-          ": deliveryCount will be incremented for 2047 messages if closed the receiver and received again",
+          ": deliveryCount will be incremented for (bufferCapacity-1) messages if closed the receiver and received again",
         async function(): Promise<void> {
           await beforeEachTest(clientType);
           await sendMessages(numberOfMessagesToSend);
-          await receiveMessages(2047);
+          await Promise.all(
+            (await receiveMessages(bufferCapacityToSet - 1)).map((msg) =>
+              receiver.abandonMessage(msg)
+            )
+          );
           await verifyMessageCount(numberOfMessagesToSend, entityName);
           await serviceBusClient.close();
           serviceBusClient = createServiceBusClientForTests();
@@ -138,13 +183,13 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
             }
             chai.assert.equal(
               delCount[1],
-              2047,
+              bufferCapacityToSet - 1,
               "Unexpected number of messages have deliveryCount = 1"
             );
           }
           await verifyMessageCount(0, entityName);
         }
-      ).timeout(200000);
+      );
 
       function mockBachingReceive(receiver: ServiceBusReceiver, receiveCalled: { count: number }) {
         if (entityName.usesSessions) {
@@ -175,11 +220,11 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
       }
 
       it(
-        clientType + ": new messageBatch returns zero after 2047 messages",
+        clientType + ": new messageBatch returns zero after (bufferCapacity-1) messages",
         async function(): Promise<void> {
           await beforeEachTest(clientType);
           await sendMessages(numberOfMessagesToSend);
-          const firstBatch = await receiveMessages(2047);
+          const firstBatch = await receiveMessages(bufferCapacityToSet - 1);
           await verifyMessageCount(numberOfMessagesToSend, entityName);
 
           const receiveCalled = { count: 0 };
@@ -196,35 +241,36 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           );
           await verifyMessageCount(numberOfMessagesToSend, entityName);
           await Promise.all(firstBatch.map((msg) => receiver.completeMessage(msg)));
-          const leftOver = await receiveMessages(numberOfMessagesToSend - 2047);
+          const leftOver = await receiveMessages(
+            numberOfMessagesToSend - (bufferCapacityToSet - 1)
+          );
           chai.assert.equal(
             leftOver.length,
-            numberOfMessagesToSend - 2047,
+            numberOfMessagesToSend - (bufferCapacityToSet - 1),
             "Unexpected leftover number of messages received"
           );
         }
-      ).timeout(200000);
+      );
     });
   });
 });
 
-describe("2048 scenarios - subscribe", function(): void {
-  before(() => {
-    serviceBusClient = createServiceBusClientForTests();
-  });
-
-  after(() => {
-    return serviceBusClient.test.after();
+describe.only("2048 scenarios - subscribe", function(): void {
+  beforeEach(() => {
+    serviceBusClient = createServiceBusClientForTests({
+      retryOptions
+    });
   });
 
   afterEach(async () => {
-    await afterEachTest();
+    await serviceBusClient.test.afterEach();
+    await serviceBusClient.test.after();
   });
 
   describe("receiveAndDelete", () => {
-    testClientTypes.forEach((clientType) => {
+    getTestClientTypes().forEach((clientType) => {
       it(
-        clientType + ": would be able to receive more than 2048 messages",
+        clientType + ": would be able to receive more than bufferCapacity messages",
         async function(): Promise<void> {
           await beforeEachTest(clientType, "receiveAndDelete");
           await sendMessages(numberOfMessagesToSend);
@@ -234,8 +280,11 @@ describe("2048 scenarios - subscribe", function(): void {
               async processMessage(_msg: ServiceBusReceivedMessage) {
                 numberOfMessagesReceived++;
               },
-              async processError() {}
-            },
+              async processError() {},
+              async processInitialize() {
+                reduceBufferCapacity(receiver, bufferCapacityToSet); // Used for non-sessions only, sessions being mocked at beforeEachTest
+              }
+            } as InternalMessageHandlers,
             { maxConcurrentCalls: 2000 }
           );
           chai.assert.equal(
@@ -255,93 +304,101 @@ describe("2048 scenarios - subscribe", function(): void {
   });
 
   describe("peekLock", () => {
-    testClientTypes.forEach((clientType) => {
-      it(clientType + ": receives more than 2048 messages once settled", async function(): Promise<
-        void
-      > {
-        // subscribe - peekLock
-        // - send
-        // - receive 2048 messages
-        // - do not settle them
-        // - wait for 10 seconds
-        // - make sure no new messages were received
-        // - settle one message
-        // - wait for 30 seconds
-        // - we should receive one new message by now
-        // - settle all the messages
-        // - rest would have been received
-        // - settle all of them
-        // - verifyMessageCount
-        await beforeEachTest(clientType);
-        let sentBodies = await sendMessages(numberOfMessagesToSend);
-        const receivedBodies: any[] = [];
-        let numberOfMessagesReceived = 0;
-        let received2047 = false;
-        const firstBatch: ServiceBusReceivedMessage[] = [];
-        const secondBatch: ServiceBusReceivedMessage[] = [];
-        receiver.subscribe(
-          {
-            async processMessage(msg: ServiceBusReceivedMessage) {
-              numberOfMessagesReceived++;
-              receivedBodies.push(msg.body);
-              if (!received2047) {
-                firstBatch.push(msg);
-              } else {
-                secondBatch.push(msg);
+    getTestClientTypes().forEach((clientType) => {
+      it(
+        clientType + ": receives more than bufferCapacity messages once settled",
+        async function(): Promise<void> {
+          // subscribe - peekLock
+          // - send
+          // - receive 2048 messages
+          // - do not settle them
+          // - wait for 10 seconds
+          // - make sure no new messages were received
+          // - settle one message
+          // - wait for 30 seconds
+          // - we should receive one new message by now
+          // - settle all the messages
+          // - rest would have been received
+          // - settle all of them
+          // - verifyMessageCount
+          await beforeEachTest(clientType);
+          let sentBodies = await sendMessages(numberOfMessagesToSend);
+          const receivedBodies: any[] = [];
+          let numberOfMessagesReceived = 0;
+          let reachedBufferCapacity = false;
+          const firstBatch: ServiceBusReceivedMessage[] = [];
+          const secondBatch: ServiceBusReceivedMessage[] = [];
+          receiver.subscribe(
+            {
+              async processMessage(msg: ServiceBusReceivedMessage) {
+                numberOfMessagesReceived++;
+                receivedBodies.push(msg.body);
+                if (!reachedBufferCapacity) {
+                  firstBatch.push(msg);
+                } else {
+                  secondBatch.push(msg);
+                }
+              },
+              async processError(_args: ProcessErrorArgs) {
+                // if (
+                //   ((args.error as ServiceBusError).code as InternalServiceBusErrorCode) ===
+                //   "UnsettledMessagesLimitExceeded"
+                // ) {
+                //   unsettledMessagesLimitErrorSeen = true;
+                // }
+              },
+              async processInitialize() {
+                reduceBufferCapacity(receiver, bufferCapacityToSet); // Used for non-sessions only, sessions being mocked at beforeEachTest
               }
-            },
-            async processError(_args: ProcessErrorArgs) {
-              // if (
-              //   ((args.error as ServiceBusError).code as InternalServiceBusErrorCode) ===
-              //   "UnsettledMessagesLimitExceeded"
-              // ) {
-              //   unsettledMessagesLimitErrorSeen = true;
-              // }
+            } as InternalMessageHandlers,
+            {
+              maxConcurrentCalls: 2000,
+              autoCompleteMessages: false
             }
-          },
-          {
-            maxConcurrentCalls: 2000,
-            autoCompleteMessages: false
-          }
-        );
-        received2047 = await checkWithTimeout(
-          () => numberOfMessagesReceived === 2047,
-          1000,
-          100000
-        );
-        chai.assert.equal(
-          numberOfMessagesReceived,
-          2047,
-          "Unexpected - messages were not settled, so new messages should not have been received"
-        );
-        // chai.assert.equal(
-        //   unsettledMessagesLimitErrorSeen,
-        //   true,
-        //   "UnsettledMessagesLimitExceeded should have been observed in the processError callback"
-        // );
-        await receiver.completeMessage(firstBatch.shift()!); // settle the first message
-        chai.assert.equal(
-          await checkWithTimeout(() => numberOfMessagesReceived >= 2048, 1000, 30000),
-          true,
-          "Unexpected - one message was settled, count should have been 2048"
-        );
-        await Promise.all(firstBatch.map((msg) => receiver.completeMessage(msg)));
-        chai.assert.equal(
-          await checkWithTimeout(
-            () => {
-              sentBodies = sentBodies.filter((sentBody) => !receivedBodies.includes(sentBody));
-              return sentBodies.length === 0;
-            },
+          );
+          reachedBufferCapacity = await checkWithTimeout(
+            () => numberOfMessagesReceived === bufferCapacityToSet - 1,
             1000,
             100000
-          ),
-          true,
-          "Unexpected - all the sent messages should have been received"
-        );
-        await Promise.all(secondBatch.map((msg) => receiver.completeMessage(msg)));
-        await verifyMessageCount(0, entityName);
-        await receiver.close();
-      }).timeout(200000);
+          );
+          chai.assert.equal(
+            numberOfMessagesReceived,
+            bufferCapacityToSet - 1,
+            "Unexpected - messages were not settled, so new messages should not have been received"
+          );
+          // chai.assert.equal(
+          //   unsettledMessagesLimitErrorSeen,
+          //   true,
+          //   "UnsettledMessagesLimitExceeded should have been observed in the processError callback"
+          // );
+          await receiver.completeMessage(firstBatch.shift()!); // settle the first message
+          chai.assert.equal(
+            await checkWithTimeout(
+              () => numberOfMessagesReceived >= bufferCapacityToSet,
+              1000,
+              30000
+            ),
+            true,
+            `Unexpected - one message was settled, count should have been bufferCapacityToSet: ${bufferCapacityToSet}`
+          );
+          await Promise.all(firstBatch.map((msg) => receiver.completeMessage(msg)));
+          chai.assert.equal(
+            await checkWithTimeout(
+              () => {
+                sentBodies = sentBodies.filter((sentBody) => !receivedBodies.includes(sentBody));
+                return sentBodies.length === 0;
+              },
+              1000,
+              100000
+            ),
+            true,
+            "Unexpected - all the sent messages should have been received"
+          );
+          await Promise.all(secondBatch.map((msg) => receiver.completeMessage(msg)));
+          await verifyMessageCount(0, entityName);
+          await receiver.close();
+        }
+      );
     });
   });
 });
