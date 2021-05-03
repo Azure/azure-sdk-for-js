@@ -643,6 +643,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/test-utils-matrix",
+      "projectFolder": "sdk/test-utils/matrix",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
       "versionPolicyName": "client"

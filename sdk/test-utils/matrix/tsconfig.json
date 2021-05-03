@@ -1,0 +1,11 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@azure/test-utils-matrix": ["./src/index"]
+    }
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}
