@@ -1,4 +1,4 @@
-# Azure for JavaScript test-util-matrix
+# Azure test-utils-matrix client library for JavaScript
 
 The Azure SDk for JavaSCript is composed of a multitude of repositories that attempt to deliver a common, homogenous SDK to make use of all the services that Azure can provide.
 
