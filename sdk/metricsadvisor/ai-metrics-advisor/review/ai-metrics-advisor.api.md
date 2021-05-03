@@ -64,6 +64,7 @@ export interface AnomalyAlertConfiguration {
     id: string;
     metricAlertConfigurations: MetricAlertConfiguration[];
     name: string;
+    splitAlertByDimensions?: string[];
 }
 
 // @public
@@ -722,17 +723,20 @@ export type MetricBoundaryCondition = {
     lower: number;
     metricId?: string;
     triggerForMissing?: boolean;
+    type?: "Value" | "Mean";
 } | {
     direction: "Up";
     upper: number;
     metricId?: string;
     triggerForMissing?: boolean;
+    type?: "Value" | "Mean";
 } | {
     lower: number;
     upper: number;
     direction: "Both";
     metricId?: string;
     triggerForMissing?: boolean;
+    type?: "Value" | "Mean";
 };
 
 // @public
