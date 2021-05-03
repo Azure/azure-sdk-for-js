@@ -167,7 +167,7 @@ export class StreamingReceiverCreditManager {
     );
   }
   /**
-   * Upon receiving a new message, this method can be called to add credits to receive more messages.
+   * Upon receiving a new message, this method is to be called in the streaming receiver logic to add credits to receive more messages.
    *
    * @internal
    */
