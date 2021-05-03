@@ -8,9 +8,9 @@ products:
 urlFragment: iot-device-update-javascript
 ---
 
-# Azure Text Analytics client library samples for JavaScript
+# Azure IoT Hub Device Update client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Text Analytics in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure IoT Hub Device Update in some common scenarios.
 
 | **File Name**         | **Description**                                                                                                                    |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |

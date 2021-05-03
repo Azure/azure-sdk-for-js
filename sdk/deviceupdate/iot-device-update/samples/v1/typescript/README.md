@@ -8,9 +8,9 @@ products:
 urlFragment: iot-device-update-typescript
 ---
 
-# Azure Text Analytics client library samples for TypeScript
+# Azure IoT Hub Device Update client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Text Analytics in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure IoT Hub Device Update in some common scenarios.
 
 | **File Name**         | **Description**                                                                                                                    |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
