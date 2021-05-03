@@ -8,6 +8,7 @@ import { nodeRequireRecordingIfExists } from "./utils/recordings";
 import { config as readEnvFile } from "dotenv";
 import fs from "fs-extra";
 import { applyRequestBodyTransformations } from "./utils/requestBodyTransform";
+import { mockMsalAuth } from "./utils/msalAuth.node";
 
 let nock: typeof import("nock");
 
@@ -25,6 +26,7 @@ export class NockRecorder extends BaseRecorder {
 
   public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup, testFilePath: string): void {
     super.init(recorderEnvironmentSetup);
+
     /**
      * `@azure/test-utils-recorder` package is used for both the browser and node tests
      *
@@ -38,6 +40,7 @@ export class NockRecorder extends BaseRecorder {
       this.relativeTestRecordingFilePath,
       testFilePath
     ).testInfo;
+    mockMsalAuth();
   }
 
   public async stop(): Promise<void> {
