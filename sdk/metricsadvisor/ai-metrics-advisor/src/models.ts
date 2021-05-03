@@ -1008,6 +1008,10 @@ export type MetricBoundaryCondition =
        * should be specified only when using other metric to filter
        */
       triggerForMissing?: boolean;
+      /** 
+       * data used to implement value filter
+       */
+      type?: "Value" | "Mean";
     }
   | {
       /**
@@ -1028,6 +1032,10 @@ export type MetricBoundaryCondition =
        * should be specified only when using other metric to filter
        */
       triggerForMissing?: boolean;
+      /** 
+       * data used to implement value filter
+       */
+      type?: "Value" | "Mean";
     }
   | {
       /**
@@ -1052,6 +1060,10 @@ export type MetricBoundaryCondition =
        * should be specified only when using other metric to filter
        */
       triggerForMissing?: boolean;
+      /** 
+       * data used to implement value filter
+       */
+      type?: "Value" | "Mean";
     };
 
 export interface MetricAlertConditions {
@@ -1119,6 +1131,10 @@ export interface AnomalyAlertConfiguration {
    * Anomaly alerting configurations
    */
   metricAlertConfigurations: MetricAlertConfiguration[];
+  /** 
+   * dimensions used to split alert
+   */
+  splitAlertByDimensions?: string[];
 }
 
 /**
