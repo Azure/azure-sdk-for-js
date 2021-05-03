@@ -6,7 +6,6 @@ import { translateServiceBusError } from "../serviceBusError";
 import { logger, receiverLogger } from "../log";
 import { ReceiveMode } from "../models";
 import { Receiver } from "rhea-promise";
-import { OnError } from "./messageReceiver";
 import { StreamingReceiverHelper } from "./streamingReceiverHelper";
 
 /**
@@ -174,7 +173,7 @@ export class StreamingReceiverCreditManager {
    *
    * @internal
    */
-  onReceive(_notifyError: OnError | undefined) {
+  onReceive() {
     const { receiver, logPrefix } = this._getCurrentReceiver();
     if (this.receiveMode === "receiveAndDelete") {
       this.streamingReceiverHelper.addCredit(1);
@@ -196,23 +195,6 @@ export class StreamingReceiverCreditManager {
       }
       return;
     }
-
-    // if (receiver) {
-    // No empty slots left, so notify the user with an error
-    // Commented out because we want to be consistent with other languages
-    // notifyError?.({
-    //   error: new ServiceBusError(
-    //     UnsettledMessagesLimitExceededError,
-    //     "UnsettledMessagesLimitExceeded" as ServiceBusErrorCode
-    //   ),
-    //   errorSource: "receive",
-    //   entityPath: this.entityPath,
-    //   fullyQualifiedNamespace: this.fullyQualifiedNamespace
-    // });
-    // } else {
-    // receiver is not defined
-    // SessionLockLost for sessions/onAMQPError for non-sessions will be notified in one of the listeners - nothing to do here
-    // }
   }
 
   /**

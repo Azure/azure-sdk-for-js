@@ -317,7 +317,7 @@ export class StreamingReceiver extends MessageReceiver {
         }
         return;
       } finally {
-        this._creditManager.onReceive(this._onError);
+        this._creditManager.onReceive();
       }
 
       // If we've made it this far, then user's message handler completed fine. Let us try
