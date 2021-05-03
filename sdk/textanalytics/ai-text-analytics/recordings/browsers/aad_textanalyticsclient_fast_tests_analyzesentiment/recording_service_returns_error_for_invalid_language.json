@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:13:48 GMT",
+    "date": "Mon, 03 May 2021 21:45:08 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -21,12 +21,12 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.11654.16 - EUS ProdSlices",
-    "x-ms-request-id": "9ab5bd22-49c3-46e1-9587-d9e7c4315001"
+    "x-ms-request-id": "e8d14d94-04c3-4179-95f4-fae9e4821702"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/sentiment",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/sentiment",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -34,13 +34,13 @@
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: de,en,es,fr,hi,it,ja,ko,nl,no,pt-BR,pt-PT,tr,zh-Hans,zh-Hant. For additional details see https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support?tabs=sentiment-analysis\"}}}],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "a34ef27d-e992-4ec5-ab57-10dff3f56d85",
+    "apim-request-id": "8a6e9e68-f9df-49a8-80e7-5be27fed4418",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:13:48 GMT",
+    "date": "Mon, 03 May 2021 21:45:09 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
+    "x-envoy-upstream-service-time": "3"
    }
   }
  ],

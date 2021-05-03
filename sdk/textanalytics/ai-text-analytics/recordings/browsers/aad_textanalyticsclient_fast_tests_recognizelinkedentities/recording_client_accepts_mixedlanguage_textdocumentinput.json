@@ -11,22 +11,22 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:14:23 GMT",
+    "date": "Mon, 03 May 2021 21:12:44 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11654.16 - SCUS ProdSlices",
-    "x-ms-request-id": "30ce2827-5a47-4b81-ab01-115eec953701"
+    "x-ms-ests-server": "2.1.11654.16 - NCUS ProdSlices",
+    "x-ms-request-id": "529c6b7d-58c8-4f59-b894-24bb7400ba00"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/linking",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/linking",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -34,14 +34,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"1\",\"entities\":[{\"bingId\":\"5fbba6b8-85e1-4d41-9444-d9055436e473\",\"name\":\"Seattle\",\"matches\":[{\"text\":\"Seattle\",\"offset\":26,\"length\":7,\"confidenceScore\":0.21}],\"language\":\"en\",\"id\":\"Seattle\",\"url\":\"https://en.wikipedia.org/wiki/Seattle\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"f8dd5b08-206d-2554-6e4a-893f51f4de7e\",\"name\":\"Space Needle\",\"matches\":[{\"text\":\"Space Needle\",\"offset\":65,\"length\":12,\"confidenceScore\":0.42}],\"language\":\"en\",\"id\":\"Space Needle\",\"url\":\"https://en.wikipedia.org/wiki/Space_Needle\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"bingId\":\"5fbba6b8-85e1-4d41-9444-d9055436e473\",\"name\":\"Seattle\",\"matches\":[{\"text\":\"Seattle\",\"offset\":50,\"length\":7,\"confidenceScore\":0.2}],\"language\":\"en\",\"id\":\"Seattle\",\"url\":\"https://en.wikipedia.org/wiki/Seattle\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"f8dd5b08-206d-2554-6e4a-893f51f4de7e\",\"name\":\"Space Needle\",\"matches\":[{\"text\":\"Space Needle\",\"offset\":90,\"length\":12,\"confidenceScore\":0.36}],\"language\":\"en\",\"id\":\"Space Needle\",\"url\":\"https://en.wikipedia.org/wiki/Space_Needle\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"bingId\":\"296617ab-4ddb-cc10-beba-56e0f42af76b\",\"name\":\"Saturday\",\"matches\":[{\"text\":\"Saturday\",\"offset\":25,\"length\":8,\"confidenceScore\":0.05}],\"language\":\"en\",\"id\":\"Saturday\",\"url\":\"https://en.wikipedia.org/wiki/Saturday\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"4\",\"entities\":[{\"bingId\":\"9ae3e6ca-81ea-6fa1-ffa0-42e1d7890906\",\"name\":\"Monte Rainier\",\"matches\":[{\"text\":\"Monte Rainier\",\"offset\":29,\"length\":13,\"confidenceScore\":0.81}],\"language\":\"es\",\"id\":\"Monte Rainier\",\"url\":\"https://es.wikipedia.org/wiki/Monte_Rainier\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"5\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-02-01\"}",
    "responseHeaders": {
-    "apim-request-id": "46ce6aad-c6f1-415c-839c-98d6b6c45c67",
+    "apim-request-id": "403d689d-a7a1-4014-816a-30e34570870f",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5,CognitiveServices.TextAnalytics.TextRecords=5",
-    "date": "Wed, 28 Apr 2021 21:14:28 GMT",
+    "date": "Mon, 03 May 2021 21:12:47 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5045"
+    "x-envoy-upstream-service-time": "2659"
    }
   }
  ],
