@@ -167,9 +167,7 @@ export class StreamingReceiverCreditManager {
     );
   }
   /**
-   * Upon receiving a new message, this method can be called to add credits to receive more messages.
-   * If no empty slots(peeklock mode), calls the onError callback with the `UnsettledMessagesLimitExceeded` error to
-   * let users know about the excess unsettled messages.
+   * Upon receiving a new message, this method is to be called in the streaming receiver logic to add credits to receive more messages.
    *
    * @internal
    */
@@ -216,7 +214,7 @@ export class StreamingReceiverCreditManager {
 
   /**
    * Meant to be called after a message is settled with the receive link.
-   * Replenishes the number of credits on the link to receive more messages.
+   * Replenishes the number of credits on the link based on the maxConcurrentCalls and the numberOfEmptySlots to receive more messages.
    *
    * @internal
    */
