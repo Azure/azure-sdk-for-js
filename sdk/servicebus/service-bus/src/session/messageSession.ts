@@ -705,7 +705,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           }
           return;
         } finally {
-          creditManager.onReceive(this._notifyError);
+          creditManager.onReceive();
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try
@@ -742,7 +742,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      creditManager.addCreditsInit();
+      creditManager.addInitialCredits();
     } else {
       this._isReceivingMessagesForSubscriber = false;
       const msg =

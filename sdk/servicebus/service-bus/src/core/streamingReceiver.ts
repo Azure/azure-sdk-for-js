@@ -464,7 +464,7 @@ export class StreamingReceiver extends MessageReceiver {
 
     this._onMessage = onMessage;
     this._onError = onError;
-    this._creditManager.addCreditsInit();
+    this._creditManager.addInitialCredits();
   }
 
   /**
@@ -529,7 +529,7 @@ export class StreamingReceiver extends MessageReceiver {
       logger.verbose(
         `${this.logPrefix} onDetached: link has been reestablished, attempting to add credits.`
       );
-      this._creditManager.addCreditsInit();
+      this._creditManager.addInitialCredits();
     } finally {
       this._isDetaching = false;
     }

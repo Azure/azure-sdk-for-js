@@ -156,7 +156,7 @@ export class StreamingReceiverCreditManager {
     private maxConcurrentCalls: number
   ) {}
 
-  addCreditsInit() {
+  addInitialCredits() {
     const { receiver, logPrefix } = this._getCurrentReceiver();
     const emptySlots = incomingBufferProperties(receiver).numberOfEmptySlots;
     const creditsToAdd =
