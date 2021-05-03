@@ -187,6 +187,7 @@ function Update-javascript-CIConfig($ciRepo, $locationInDocRepo) {
       $preview_object_target_config = New-Object psobject -Property $properties
     }
     $preview_object_target_config.name = "$($previewMetadata[$i].Package)@$($previewMetadata[$i].VersionPreview)"
+    Write-Host "Adding preview package: $($preview_object_target_config.name)"
     $previewPackageList += $preview_object_target_config
   }
   for ($i = 0; $i -lt $latestMetadata.Length; $i++) {
@@ -195,6 +196,7 @@ function Update-javascript-CIConfig($ciRepo, $locationInDocRepo) {
       $latest_object_target_config = New-Object psobject -Property $properties
     }
     $latest_object_target_config.name = $latestMetadata[$i].Package
+    Write-Host "Adding latest package: $($latestMetadata[$i].Package)"
     $latestPackageList += $latest_object_target_config
   }
 
