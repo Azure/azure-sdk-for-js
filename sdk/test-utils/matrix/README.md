@@ -1,6 +1,6 @@
 # Azure for JavaScript test-util-matrix
 
-The Azure SDk for JavaSCript is composed of a multitude of repositories that attempt to deliver a common, homogenous SDK to make use of all the services that Azure can provide. 
+The Azure SDk for JavaSCript is composed of a multitude of repositories that attempt to deliver a common, homogenous SDK to make use of all the services that Azure can provide.
 
 This non-shipping library `@azure/test-utils-matrix` attempts to add testing support for libraries that want to run full test suites with value changes without duplicating test code. It is supposed to be added only as a devDependency and should be used only for the tests of an SDK library.
 
@@ -66,7 +66,7 @@ After that, we recommend you to update rush and install the dependencies again, 
 rush update
 ```
 
-And you're ready to test your library for multiple service API versions! 
+And you're ready to test your library for multiple service API versions!
 
 ## Examples
 
@@ -81,11 +81,17 @@ import { matrix } from "@azure/test-utils-matrix";
 Wrap the top level `describe` of a test file to run the suite with the provided values.
 
 ```typescript
-matrix([[true, false], [1, 2, 3]] as const, (enabled: boolean, attempts: number) => {
-  describe(`Run with flag ${enabled ? "" : "not "}enabled and ${attempts} attempts`, () => {
-    // ...
-  })
-})
+matrix(
+  [
+    [true, false],
+    [1, 2, 3]
+  ] as const,
+  (enabled: boolean, attempts: number) => {
+    describe(`Run with flag ${enabled ? "" : "not "}enabled and ${attempts} attempts`, () => {
+      // ...
+    });
+  }
+);
 ```
 
 `matrix` takes a jagged 2D array and a function. It then runs this function with every possible combination of elements of each of the arrays. The example above will therefore generate 6 different test suites based on the values passed.
