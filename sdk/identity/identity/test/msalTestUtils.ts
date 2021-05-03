@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const log = require("why-is-node-running");
 import {
   record,
   Recorder,
@@ -20,6 +22,10 @@ import {
 import { MsalBaseUtilities } from "../src/msal/utils";
 import * as dotenv from "dotenv";
 dotenv.config();
+
+setInterval(function() {
+  log(); // logs out active handles that are keeping node running
+}, 5000);
 
 export type MsalTestCleanup = () => Promise<void>;
 

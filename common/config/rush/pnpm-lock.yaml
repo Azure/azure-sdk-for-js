@@ -2304,7 +2304,7 @@ packages:
     resolution:
       integrity: sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==
   /core-js/2.6.12:
-    deprecated: core-js@<3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.
+    deprecated: core-js@<3.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
     dev: false
     requiresBuild: true
     resolution:
@@ -6540,6 +6540,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==
+  /siginfo/2.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g==
   /signal-exit/3.0.3:
     dev: false
     resolution:
@@ -6792,6 +6796,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-HXXqVUq7+pcKeLqqZj6mHFUMvXtOJt1uoUx09pFW6011inTMxqI8BA8PM95myrIyyKwdnzjdFjLiE6KBPVtJIg==
+  /stackback/0.0.2:
+    dev: false
+    resolution:
+      integrity: sha1-Gsig2Ug4SNFpXkGLbQMaPDzmjjs=
   /statuses/1.5.0:
     dev: false
     engines:
@@ -7528,6 +7536,16 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
+  /why-is-node-running/2.2.0:
+    dependencies:
+      siginfo: 2.0.0
+      stackback: 0.0.2
+    dev: false
+    engines:
+      node: '>=8'
+    hasBin: true
+    resolution:
+      integrity: sha512-rxtN9D0lJaYyP92BR5yoyWecK2txBKmBIuS7GRbOPP5bXsT37/hBqcmTrlrt25DBr9p4WJb6c9LuYSJd89vHRQ==
   /wide-align/1.1.3:
     dependencies:
       string-width: 2.1.1
@@ -7930,7 +7948,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-form-recognizer'
     resolution:
-      integrity: sha512-i9w0AQc62Mt1TRd0IW5zLvoY1HBKywb6l/hFzniHBqXPa+yTBVXYuFguM/H50U0PBx6UUkj95bzGkONbBFKr/g==
+      integrity: sha512-VUg3WW2hjXkXhUUR5y4Q+vo2JwDmiRra8U2e6NRVM/c7ffPm0vgCOglfXtm1g92GQxoGAhSL5VGpmAswIGqWxg==
       tarball: file:projects/ai-form-recognizer.tgz
     version: 0.0.0
   file:projects/ai-metrics-advisor.tgz:
@@ -8023,7 +8041,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-a/yZ1UURt9He/DEYvd2KXDJrFKEDp07mEJXB3xl/wcEBPA5fieJvyA/DHUd5NNxyRjcnTA2o/5CdDQ/3SvRJcg==
+      integrity: sha512-EJERTY6ZQCm5t6JLGsEAGtpRb6ukOqYa+UPEJ9Q8BjMsYCwaZUsfs9YM2sA/ThEe5OL3w0CSL31bexT5Xuw0wA==
       tarball: file:projects/ai-text-analytics.tgz
     version: 0.0.0
   file:projects/app-configuration.tgz:
@@ -8705,6 +8723,7 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.16
       '@types/express': 4.17.11
       '@types/glob': 7.1.3
@@ -8761,7 +8780,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-eMAAgtKqqU7D05NWN5bHakktFTX6jz0KHj/Rkn3xbT/zmJ/WUZzz1poNZz75cA0GWvMFt2MFr5K/yd5dnEwsvA==
+      integrity: sha512-YFvwMJDL9Pya78VAH07hLmZ1DVHukjjIeOaNKvShcV2EodrYLNqRqjQN+LuDDI5K7B+OJGRVGWOeCZ/dJJWDVQ==
       tarball: file:projects/core-http.tgz
     version: 0.0.0
   file:projects/core-lro.tgz:
@@ -9324,7 +9343,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-8kvTC/cK5o9v8o0ZupbFtRjjOGERHFFr3srAOwWo+27nBCMo8F5hw9o9oHBMghESkh0uZFaiAzZG79/g7pFNxg==
+      integrity: sha512-7VxEPA1R44PvmiFSo7e0HzqO96D8jAdWLr5N5RjCspCTPnp9gnkhg/QmYlOIY+n2iZ1jzbgtJrwubncFEQbyuA==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
@@ -9547,12 +9566,13 @@ packages:
       typescript: 4.2.4
       util: 0.12.3
       uuid: 8.3.2
+      why-is-node-running: 2.2.0
     dev: false
     name: '@rush-temp/identity'
     optionalDependencies:
       keytar: 7.6.0
     resolution:
-      integrity: sha512-sEvBei3gVktijypQM6FLi74OeRLYeUlJMgmHXoAyYOaJDE+SbowgsRYQeEwhvloeNACGBX6ERgp6GmeEG/UEcg==
+      integrity: sha512-msVVhe/CDaoc2r4fMyKOrWxOfB1PHGpEuMUx6VId2rCyYKEoDiGala7/7gjMmXR2O2YuXYAp4OKOuuHR79XN6g==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
@@ -9625,7 +9645,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-admin'
     resolution:
-      integrity: sha512-TjTulyn5sh+azdHJh6GDWR9k7lgzWR8tj+ei5Kq9POeucNXlJ/fVbTmp2Z20wNTXAHOjGxq17G2j/nOnTYnmEA==
+      integrity: sha512-I7JLwXItagIzgip+GVdSbCLY/fFQ1n5SV5UaqqEtmoZVnOunvxM+bB1BWxmYuychsKyXtqmlvLyjz2yI4UYgpw==
       tarball: file:projects/keyvault-admin.tgz
     version: 0.0.0
   file:projects/keyvault-certificates.tgz:
@@ -9683,7 +9703,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-CaA2BasCWbxEUhdf/mJ6V1HZkTXhigYkNmJiPN0h2W0I/lPKdzIiHBRZdedesrwnyHofkcczkf6EQmMgVacdGQ==
+      integrity: sha512-ahJ74kmFRzvSuqEQLIAYOexRMF6d6UhHyggxYp21KeHInkOEqimdngf3wXf6gaJUoDGGqJg006FHpZsW1o9cmw==
       tarball: file:projects/keyvault-certificates.tgz
     version: 0.0.0
   file:projects/keyvault-common.tgz:
@@ -9757,7 +9777,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-YpRyojpWpxqV8joiplBq2zm0ISpEbJc7NUHg3TKrtZkPr0HyuA1G7mFH8lIqtZga3x90zh61Vsa2wsFYhyng0g==
+      integrity: sha512-2VnrPfz4Ta5eSVtA4QGG2scSRzouYS+c09uQl7q1omukgYdgp371DVi5ZPdSOCIPHvGh33sri1PyLfCdPm0XiQ==
       tarball: file:projects/keyvault-keys.tgz
     version: 0.0.0
   file:projects/keyvault-secrets.tgz:
@@ -10051,7 +10071,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-identity'
     resolution:
-      integrity: sha512-dGWFtEBT8TQxKH65+/OO266Cj2gcGgXT/bdyjq3MCENgBQ5MiD01quuKiPncS1BUA2iEieCvxlE5T5dJvgxWTw==
+      integrity: sha512-qoL2JCDZGx5EwC5nKNuGEz1qwK06iiT2IP99eqch2lfUYBubn77dqGlyGCgwczDPfaFbJX7LZxUq902fWG1LIg==
       tarball: file:projects/perf-identity.tgz
     version: 0.0.0
   file:projects/perf-keyvault-certificates.tgz:
@@ -10341,7 +10361,7 @@ packages:
     dev: false
     name: '@rush-temp/schema-registry'
     resolution:
-      integrity: sha512-PfosQpd4CbfdyFXBKAJsZFUJ9P+YwX131MiYGCUQwdWamWfKg4fSGo7+fPAOENODNf9rPe4gahmmonDYuke+IQ==
+      integrity: sha512-Z6DdJ5M950jRXFV5hYeTxTC1LfUYi83QVK6Y+gV4uDYLnVxYzq/+Qs8XknpMRs0BC1gJXDTolj8n1MAcBeAFlQ==
       tarball: file:projects/schema-registry.tgz
     version: 0.0.0
   file:projects/search-documents.tgz:
@@ -10471,7 +10491,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-wYyGEJH+Xk4XpboHfLFEgWMQdfUDhpdU3xcykhlEN4knMb9GIyaKbAttspaHPQ8+g4xB7Mjh5BneIhyZKkiFCA==
+      integrity: sha512-L88QmVwasxTuDCx0680kE/wVLfgvKpRpOGsI5rIxYRJRFVwzMzeHqzr8MMFgKs4ZLrAj9HJ7NobCYOEW1DxleQ==
       tarball: file:projects/service-bus.tgz
     version: 0.0.0
   file:projects/storage-blob-changefeed.tgz:
@@ -10649,7 +10669,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-0NClo8xWcTdIobuN51EuCMnHN/M2fHzsas3lCP9H3dZ+UXRWRqBGjGPZzcuJtgqiu+kp7Be0xlRklw5/OSyReQ==
+      integrity: sha512-pMvj6JrTbyo6BV6X2cxSo94ZTNqcWNb537CnppjobrDHv9E/VuX8GFhk+g4FouJujgItOSj52EAZTGGSFEQfDQ==
       tarball: file:projects/storage-file-datalake.tgz
     version: 0.0.0
   file:projects/storage-file-share.tgz:
