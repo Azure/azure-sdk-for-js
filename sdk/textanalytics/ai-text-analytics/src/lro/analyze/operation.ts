@@ -82,7 +82,7 @@ interface BeginAnalyzeInternalOptions extends OperationOptions {
 }
 
 /**
- * Options for the begin analyze Actions operation.
+ * Options for the begin analyze actions operation.
  */
 export interface BeginAnalyzeActionsOptions extends OperationOptions {
   /**
@@ -147,7 +147,7 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
   }
 
   /**
-   * should be called only after all the status of the analyze Actions operations became
+   * should be called only after all the status of the analyze actions operations became
    * "succeeded" and it returns an iterator for the results and provides a
    * byPage method to return the results paged.
    */
@@ -171,7 +171,7 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
   }
 
   /**
-   * returns an iterator to arrays of the results of an analyze Actions operation.
+   * returns an iterator to arrays of the results of an analyze actions operation.
    */
   private async *_listAnalyzeActionsResultsPaged(
     operationId: string,
@@ -194,7 +194,7 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
   }
 
   /**
-   * returns an iterator to arrays of the sorted results of an analyze Actions operation.
+   * returns an iterator to arrays of the sorted results of an analyze actions operation.
    */
   private async _listAnalyzeActionsResultsSinglePage(
     operationId: string,
@@ -222,7 +222,7 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
   }
 
   /**
-   * returns whether the analyze Actions operation is done and if so returns also
+   * returns whether the analyze actions operation is done and if so returns also
    * statistics.
    */
   private async getAnalyzeActionsOperationStatus(

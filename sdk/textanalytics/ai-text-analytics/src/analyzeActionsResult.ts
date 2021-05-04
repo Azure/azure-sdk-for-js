@@ -201,7 +201,7 @@ export type PagedAsyncIterableAnalyzeActionsResult = PagedAsyncIterableIterator<
 >;
 
 /**
- * The results of an analyze Actions operation represented as a paged iterator that
+ * The results of an analyze actions operation represented as a paged iterator that
  * iterates over the results of the requested actions.
  */
 export interface PagedAnalyzeActionsResult
@@ -215,7 +215,7 @@ export interface PagedAnalyzeActionsResult
 }
 
 /**
- * The type of different actions supported by the begin analyze Actions operation.
+ * The type of different actions supported by the begin analyze actions operation.
  * @internal
  */
 type TextAnalyticsActionType =
@@ -375,7 +375,7 @@ type ActionResult<TSuccess> =
   | TextAnalyticsActionErrorResult;
 
 /**
- * Creates a list of results for recognize pii entities actions.
+ * Creates a list of results for any action.
  * @param documents - list of input documents
  * @param makeResultsArray - a function to convert the results of a service response to the SDK's one
  * @param succeededTasks - list of succeeded action results
@@ -411,8 +411,8 @@ function makeActionResult<TTaskResult, TActionResult>(
 }
 
 /**
- * Creates the user-friendly action results object for the begin analyze Actions operation.
- * @param response - the begin analyze Actions operation response
+ * Creates the user-friendly action results object for the begin analyze actions operation.
+ * @param response - the begin analyze actions operation response
  * @param documents - the list of input documents
  * @returns - the user-friendly action results object
  * @internal

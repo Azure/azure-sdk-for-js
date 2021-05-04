@@ -49,11 +49,11 @@ export async function main() {
   });
 
   console.log(
-    `The analyze Actions operation created on ${poller.getOperationState().createdOn}`
+    `The analyze actions operation created on ${poller.getOperationState().createdOn}`
   );
 
   console.log(
-    `The analyze Actions operation results will expire on ${
+    `The analyze actions operation results will expire on ${
       poller.getOperationState().expiresOn
     }`
   );
