@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
+
+/**
+ * isValidDtmi
+ * @description given a dtmi it will validate it matches the convention.
+ * 
+ * @param dtmi 
+ * @returns {boolean}
+ */
 export function isValidDtmi(dtmi: string): boolean {
   if (dtmi) {
     const re = /^dtmi:[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$/;
@@ -9,6 +17,15 @@ export function isValidDtmi(dtmi: string): boolean {
   return false; // if not a string return false.
 }
 
+/**
+ * getModelUri
+ * @description given the dtmi and repository uri, will get a fully qualified model uri.
+ * 
+ * @param dtmi 
+ * @param repositoryUri 
+ * @param expanded 
+ * @returns 
+ */
 export function getModelUri(dtmi: string, repositoryUri: string, expanded: boolean = false): string {
   // TODO: Make sure this works with Windows UNC Filesystem Path.
   if (!repositoryUri.endsWith("/")) {
@@ -18,6 +35,15 @@ export function getModelUri(dtmi: string, repositoryUri: string, expanded: boole
   return modelUri;
 }
 
+
+/**
+ * convertDtmiToPath
+ * @description converts a dtmi into the model path format.
+ * 
+ * @param dtmi 
+ * @param expanded 
+ * @returns 
+ */
 export function convertDtmiToPath(dtmi: string, expanded: boolean): string {
   // presently this dtmi to path function does not return the path with a
   // file format at the end, i.e. does not append .json or .expanded.json.

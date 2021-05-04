@@ -124,16 +124,16 @@ console.log(`${dtmis.toString()} resolved in ${models.keys().length} interfaces.
 
 ## DtmiConventions utility functions
 
-The IoT Models Repository applies a set of conventions for organizing digital twin models. This package exposes a class called `DtmiConventions` which exposes utility functions supporting these conventions. These same functions are used throughout the client.
+The IoT Models Repository applies a set of conventions for organizing digital twin models. This package exposes two auxiliary functions related to `DtmiConventions`, `getModelUri` and `isValidDtmi`. These same functions are used throughout the client.
 
 ```ts
 // This snippet shows how to validate a given DTMI string is well-formed.
 
 // Returns true
-DtmiConventions.isValidDtmi("dtmi:com:example:Thermostat;1");
+isValidDtmi("dtmi:com:example:Thermostat;1");
 
 // Returns false
-DtmiConventions.isValidDtmi("dtmi:com:example:Thermostat");
+isValidDtmi("dtmi:com:example:Thermostat");
 ```
 
 ```ts
@@ -142,7 +142,7 @@ DtmiConventions.isValidDtmi("dtmi:com:example:Thermostat");
 // Local repository example
 const localRepositoryUri: string = "file:///path/to/repository/";
 const fullyQualifiedModelPath: string =
-    DtmiConventions.getModelUri("dtmi:com:example:Thermostat;1", localRepositoryUri);
+    getModelUri("dtmi:com:example:Thermostat;1", localRepositoryUri);
 
 // Prints '/path/to/repository/dtmi/com/example/thermostat-1.json'
 console.log(fullyQualifiedModelPath);
@@ -150,7 +150,7 @@ console.log(fullyQualifiedModelPath);
 // Remote repository example
 const remoteRepositoryUri: string = "https://contoso.com/models/";
 const fullyQualifiedModelPath: string =
-    DtmiConventions.GetModelUri("dtmi:com:example:Thermostat;1", remoteRepositoryUri);
+    GetModelUri("dtmi:com:example:Thermostat;1", remoteRepositoryUri);
 
 // Prints 'https://contoso.com/models/dtmi/com/example/thermostat-1.json'
 console.log(fullyQualifiedModelPath);

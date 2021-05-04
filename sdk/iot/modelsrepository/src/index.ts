@@ -41,5 +41,7 @@ export {
   ModelsRepositoryClient, 
   ModelsRepositoryClientOptions, 
   GetModelsOptions,
-  dependencyResolutionType, 
-} from "./internal"
+  dependencyResolutionType,
+  isValidDtmi,
+  getModelUri,
+} from "./internal";

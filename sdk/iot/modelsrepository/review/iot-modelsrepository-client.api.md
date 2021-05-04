@@ -15,6 +15,12 @@ export interface GetModelsOptions {
 }
 
 // @public
+export function getModelUri(dtmi: string, repositoryUri: string, expanded?: boolean): string;
+
+// @public
+export function isValidDtmi(dtmi: string): boolean;
+
+// @public
 export class ModelsRepositoryClient {
     constructor(options?: ModelsRepositoryClientOptions);
     get apiVersion(): string;
