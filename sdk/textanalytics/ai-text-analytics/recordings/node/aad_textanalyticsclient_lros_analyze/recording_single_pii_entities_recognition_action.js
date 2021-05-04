@@ -10,6 +10,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .reply(200, {"tenant_discovery_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}, [
   'Cache-Control',
   'max-age=86400, private',
+  'Content-Length',
+  '980',
   'Content-Type',
   'application/json; charset=utf-8',
   'Strict-Transport-Security',
@@ -23,21 +25,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '36d3a470-2e78-4b72-8fae-56a089135903',
+  '2e70ce54-9c01-4e6c-a181-26523cbda600',
   'x-ms-ests-server',
-  '2.1.11654.16 - EUS ProdSlices',
+  '2.1.11654.16 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AqXUpo7Eg7lIkX24TbKl-dNz_bg1DgAAAErQItgOAAAA; expires=Thu, 03-Jun-2021 05:22:49 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsaaPmMomjBDsg-6UB1UCM5z_bg1FAAAAIinI9gOAAAA; expires=Thu, 03-Jun-2021 20:40:43 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrrzkvc4xIsJd_TewVmWjKtADQJRAfAtcbBCrvRxDdi1UcSYYp0vMjOxuD-QFHVbfZZQQ9B49DSxFXmQ3DcArAg4dG-zvtUi9eZ9vdvhpQub5mY7ASO-da0Kr7G8Fbf-6LIksLi_fVm4EvORXL194FqjIz0BL68EjO2fPjc3hnYb8gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrYMNOJfesXFDss1mJZ0LtCPNRZYBycdVbVQH1prY1H2T0sPtRwsLnGsU0cUwYHUkge1xH_5zUhi2zbstNXxQEnrs90ahfL6hRDXgAGs8WowOmhUFxenI_0mixwbcHKpWlThtcPqUxrKxyJ63nJTxzEjc36hqXsSGX8XJfijssEh8gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 04 May 2021 05:22:49 GMT',
-  'Content-Length',
-  '980'
+  'Tue, 04 May 2021 20:40:42 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -45,8 +45,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .reply(200, {"token_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"tenant_region_scope":"WW","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
   'Cache-Control',
   'max-age=86400, private',
-  'Content-Length',
-  '1651',
   'Content-Type',
   'application/json; charset=utf-8',
   'Strict-Transport-Security',
@@ -60,19 +58,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd13a3e31-c427-4310-bc4e-85f8d7700002',
+  '72cfe758-efc9-49ed-953d-094c88e83300',
   'x-ms-ests-server',
-  '2.1.11654.16 - SCUS ProdSlices',
+  '2.1.11654.25 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AqXUpo7Eg7lIkX24TbKl-dNz_bg1DgAAAErQItgOAAAA; expires=Thu, 03-Jun-2021 05:22:50 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsaaPmMomjBDsg-6UB1UCM5z_bg1FAAAAIinI9gOAAAA; expires=Thu, 03-Jun-2021 20:40:43 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrq_KUZMddGAcDRoFCa7mMSOEe6xhtL6jfMPk5-ux_DyCZ3trBybRrHux_P1QMVshoRv2hWaLlI9nJ8sZawUI1KvCxP1EN-3THKNN21gEG7YZYiKPe1RzEjl63FoENTEQS_GLBQlYS4ymNLo9yAY3R_aXMvY29AzMVZDa64f6HTywgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrYYRT4SSLYUki5JInp8V2jiGYA7CzQIwxcX2aH-FsBDvxOvyT_fywZXdxVp4vibQf-CaMLk0F5QI-MtDYSTYVQNmgbN0t3MGJGEie5R04e5uXDFuVLL-wio64LKTcPUWjUMsO9N1v48zmUR3saP2tu2Wv1K9D5rCCU_cCt2ZiPH8gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 04 May 2021 05:22:49 GMT'
+  'Tue, 04 May 2021 20:40:42 GMT',
+  'Content-Length',
+  '1651'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -98,19 +98,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a274e931-2794-49e4-8a63-4a3ffff20002',
+  '2f9620cc-c40d-4fcb-a9b0-c84e37920800',
   'x-ms-ests-server',
-  '2.1.11654.16 - EUS ProdSlices',
+  '2.1.11654.25 - NCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AqXUpo7Eg7lIkX24TbKl-dNz_bg1DgAAAErQItgOAAAA; expires=Thu, 03-Jun-2021 05:22:50 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsaaPmMomjBDsg-6UB1UCM5z_bg1FAAAAIinI9gOAAAA; expires=Thu, 03-Jun-2021 20:40:43 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 04 May 2021 05:22:49 GMT'
+  'Tue, 04 May 2021 20:40:43 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -119,23 +119,23 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Transfer-Encoding',
   'chunked',
   'operation-location',
-  'https://endpoint/text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4',
+  'https://endpoint/text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0',
   'x-envoy-upstream-service-time',
-  '83',
+  '123',
   'apim-request-id',
-  '7325c43b-ea16-4eb1-b215-1d8137161cf9',
+  'd6775be8-cfd5-4383-8521-eefe44bd7f5b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 04 May 2021 05:22:49 GMT'
+  'Tue, 04 May 2021 20:40:42 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
   .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:22:50Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:22:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:43Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:43Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -143,99 +143,19 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '7',
   'apim-request-id',
-  '3ed3ebe2-af50-4b9f-a249-e8068e740080',
+  '77044d4e-e1ef-41ec-99f7-0b54d45ab92c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 04 May 2021 05:22:49 GMT'
+  'Tue, 04 May 2021 20:40:42 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
   .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:22:50Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:22:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '7',
-  'apim-request-id',
-  'bb207e04-2ca3-4395-809d-7a1d4434647a',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Tue, 04 May 2021 05:22:49 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
-  .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:22:50Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:22:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '7',
-  'apim-request-id',
-  '30b64f3f-41a9-4d49-8db9-084d07d60e8f',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Tue, 04 May 2021 05:22:52 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
-  .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:22:50Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:22:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '8',
-  'apim-request-id',
-  '0993e403-2376-4449-925d-38ca29c7623b',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Tue, 04 May 2021 05:22:54 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
-  .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:22:50Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:22:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '7',
-  'apim-request-id',
-  '1ebfe39f-0144-41a3-affa-b2067e5856cf',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Tue, 04 May 2021 05:22:56 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
-  .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:22:50Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:22:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:43Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:43Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -243,99 +163,39 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '6',
   'apim-request-id',
-  '304fe715-997c-44f0-9afc-27ded0a1a757',
+  '1d25f80e-98ab-43d6-9cd8-824a18b9c75f',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 04 May 2021 05:22:58 GMT'
+  'Tue, 04 May 2021 20:40:42 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
   .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:22:50Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:22:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:43Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:43Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '6',
+  '5',
   'apim-request-id',
-  '76e3c02a-700f-4f15-b13b-4eb868b67172',
+  'e18ae167-0746-4a51-aa0e-597bb0208ad3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 04 May 2021 05:23:00 GMT'
+  'Tue, 04 May 2021 20:40:44 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
   .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:22:50Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:22:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '11',
-  'apim-request-id',
-  'b524a050-3b2f-4251-aa07-e838fb0c385a',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Tue, 04 May 2021 05:23:02 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
-  .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:22:50Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:22:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '9',
-  'apim-request-id',
-  '67354339-0699-4bea-b950-74f1d9cb416a',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Tue, 04 May 2021 05:23:03 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
-  .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:22:50Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:22:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '8',
-  'apim-request-id',
-  '4748a853-78bd-4484-84cb-96151aaa64cf',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Tue, 04 May 2021 05:23:06 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
-  .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:22:50Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:22:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:46Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:46Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -343,19 +203,179 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '7',
   'apim-request-id',
-  '6cef7719-c919-43c8-ad00-1d2d3fc181a0',
+  '352862be-07b4-4854-bce9-312c5b4f61b3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 04 May 2021 05:23:08 GMT'
+  'Tue, 04 May 2021 20:40:47 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
   .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:23:08Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:23:08Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-05-04T05:23:08.8696264Z","name":"NA","state":"succeeded","results":{"documents":[{"redactedText":"My SSN is ***********.","id":"1","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":10,"length":11,"confidenceScore":0.65}],"warnings":[]},{"redactedText":"Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.","id":"2","entities":[{"text":"111000025","category":"PhoneNumber","offset":18,"length":9,"confidenceScore":0.8},{"text":"111000025","category":"ABARoutingNumber","offset":18,"length":9,"confidenceScore":0.75},{"text":"111000025","category":"NZSocialWelfareNumber","offset":18,"length":9,"confidenceScore":0.65}],"warnings":[]},{"redactedText":"Is 998.214.865-68 your Brazilian CPF number?","id":"3","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:46Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:46Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '7',
+  'apim-request-id',
+  'b96d78dd-5972-4c59-8ffd-7133c50c1a31',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 20:40:49 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
+  .query(true)
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:46Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:46Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '13',
+  'apim-request-id',
+  'a4f413ff-06b5-4218-aaf7-2cc6e7a0ff8e',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 20:40:51 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
+  .query(true)
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:46Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:46Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '6',
+  'apim-request-id',
+  '6ba84b1c-8250-4194-af71-cb624e9f8c84',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 20:40:53 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
+  .query(true)
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:46Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:46Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '7',
+  'apim-request-id',
+  '856d5399-89af-4747-bf07-2eff71ae062c',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 20:40:55 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
+  .query(true)
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:46Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:46Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '5',
+  'apim-request-id',
+  '71f4f319-785e-4201-bc13-e62ad766dd15',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 20:40:57 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
+  .query(true)
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:46Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:46Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '7',
+  'apim-request-id',
+  '3a4b9af1-0eed-411d-abfd-38b81a57964e',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 20:40:59 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
+  .query(true)
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:46Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:46Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '6',
+  'apim-request-id',
+  '236c987d-1fd8-493a-bf3d-c4d40b78f93d',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 20:41:01 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
+  .query(true)
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:40:46Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:40:46Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '6',
+  'apim-request-id',
+  '42f3bec6-ac07-4723-87bc-8e0a67a577a3',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 20:41:03 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
+  .query(true)
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:41:05Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:41:05Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-05-04T20:41:05.4957533Z","name":"NA","state":"succeeded","results":{"documents":[{"redactedText":"My SSN is ***********.","id":"1","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":10,"length":11,"confidenceScore":0.65}],"warnings":[]},{"redactedText":"Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.","id":"2","entities":[{"text":"111000025","category":"PhoneNumber","offset":18,"length":9,"confidenceScore":0.8},{"text":"111000025","category":"ABARoutingNumber","offset":18,"length":9,"confidenceScore":0.75},{"text":"111000025","category":"NZSocialWelfareNumber","offset":18,"length":9,"confidenceScore":0.65}],"warnings":[]},{"redactedText":"Is 998.214.865-68 your Brazilian CPF number?","id":"3","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -363,31 +383,31 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '51',
   'apim-request-id',
-  '9c71ea3a-2d11-4a6d-baf6-86be68718fa8',
+  '991201d8-318a-4c54-ab1d-f0cb17e84c69',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 04 May 2021 05:23:10 GMT'
+  'Tue, 04 May 2021 20:41:05 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/a18aab52-b4ff-4032-9f8e-73a5da9ac3d4')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/51343ee0-48e3-4537-9f48-b6324ab8c6b0')
   .query(true)
-  .reply(200, {"jobId":"a18aab52-b4ff-4032-9f8e-73a5da9ac3d4","lastUpdateDateTime":"2021-05-04T05:23:08Z","createdDateTime":"2021-05-04T05:22:50Z","expirationDateTime":"2021-05-05T05:22:50Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:23:08Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-05-04T05:23:08.8696264Z","name":"NA","state":"succeeded","results":{"documents":[{"redactedText":"My SSN is ***********.","id":"1","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":10,"length":11,"confidenceScore":0.65}],"warnings":[]},{"redactedText":"Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.","id":"2","entities":[{"text":"111000025","category":"PhoneNumber","offset":18,"length":9,"confidenceScore":0.8},{"text":"111000025","category":"ABARoutingNumber","offset":18,"length":9,"confidenceScore":0.75},{"text":"111000025","category":"NZSocialWelfareNumber","offset":18,"length":9,"confidenceScore":0.65}],"warnings":[]},{"redactedText":"Is 998.214.865-68 your Brazilian CPF number?","id":"3","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
+  .reply(200, {"jobId":"51343ee0-48e3-4537-9f48-b6324ab8c6b0","lastUpdateDateTime":"2021-05-04T20:41:05Z","createdDateTime":"2021-05-04T20:40:43Z","expirationDateTime":"2021-05-05T20:40:43Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T20:41:05Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionPiiTasks":[{"lastUpdateDateTime":"2021-05-04T20:41:05.4957533Z","name":"NA","state":"succeeded","results":{"documents":[{"redactedText":"My SSN is ***********.","id":"1","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":10,"length":11,"confidenceScore":0.65}],"warnings":[]},{"redactedText":"Your ABA number - ********* - is the first 9 digits in the lower left hand corner of your personal check.","id":"2","entities":[{"text":"111000025","category":"PhoneNumber","offset":18,"length":9,"confidenceScore":0.8},{"text":"111000025","category":"ABARoutingNumber","offset":18,"length":9,"confidenceScore":0.75},{"text":"111000025","category":"NZSocialWelfareNumber","offset":18,"length":9,"confidenceScore":0.65}],"warnings":[]},{"redactedText":"Is 998.214.865-68 your Brazilian CPF number?","id":"3","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '49',
+  '57',
   'apim-request-id',
-  'eed12cdb-3a76-4a40-a73b-67fbc9f3fa6a',
+  'abef4a45-1a21-453f-b816-9927ed0234b2',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 04 May 2021 05:23:10 GMT'
+  'Tue, 04 May 2021 20:41:05 GMT'
 ]);
