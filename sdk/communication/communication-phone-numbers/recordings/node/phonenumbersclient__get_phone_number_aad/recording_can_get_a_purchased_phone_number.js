@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "8c038731046781a9e29a78b4d4a229af";
+module.exports.hash = "7c385414847089140bc9b5a744d55b6a";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,6 +11,8 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1327',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,23 +26,21 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-request-id',
   'sanitized',
   'x-ms-ests-server',
-  '2.1.11622.22 - EUS ProdSlices',
+  '2.1.11654.16 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AhuoueNwlX1KtEq5fHxGsQhWyo4SAQAAABX9B9gOAAAA; expires=Thu, 13-May-2021 20:59:02 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aq040a5pj01LqvJshzrUH9aMQo4QAQAAAHg0DNgOAAAA; expires=Mon, 17-May-2021 01:44:24 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 13 Apr 2021 20:59:01 GMT',
-  'Content-Length',
-  '1327'
+  'Sat, 17 Apr 2021 01:44:23 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/phoneNumbers/%2B14155550100')
   .query(true)
-  .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound+outbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-03-26T22:41:03.6935096+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}}, [
+  .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"outbound"},"assignmentType":"application","purchaseDate":"2021-02-10T17:52:41.818335+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -48,13 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  '5tgjCFAA602vIgZHIPsZEQ.0',
+  'u7PKQqLaIkmVK/6iVU4AnA.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '1731ms',
+  '1155ms',
   'X-Azure-Ref',
-  '0FgZ2YAAAAAB8ebc4BD8JTa0k3PRQZrVdWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0eD16YAAAAABY4N4ofzgrTI0ABvXuCEAMWVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 13 Apr 2021 20:59:03 GMT'
+  'Sat, 17 Apr 2021 01:44:25 GMT'
 ]);
