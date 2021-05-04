@@ -854,6 +854,12 @@ export interface AnomalyIncident {
    */
   rootDimensionKey: DimensionKey;
   /**
+   * data feed unique id
+   *
+   * only return for alerting incident result
+   */
+  readonly dataFeedId?: string;
+  /**
    * metric unique id
    *
    * only return for alerting incident result
@@ -897,6 +903,12 @@ export interface AnomalyIncident {
  * Represents an anomaly point detected by Metrics Advisor service.
  */
 export interface DataPointAnomaly {
+  /**
+   * data feed unique id
+   *
+   * only return for alerting anomaly result
+   */
+  readonly dataFeedId?: string;
   /**
    * metric unique id
    *
