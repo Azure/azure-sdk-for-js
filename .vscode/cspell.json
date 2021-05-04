@@ -17,8 +17,9 @@
     "*.tiff",
     "*.svg",
     "*.crt",
-    "*.key"
+    "*.key",
+    ".vscode/cspell.json"
   ],
-  "words": [],
+  "words": ["deps", "pwsh"],
   "allowCompoundWords": true
 }
