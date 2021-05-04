@@ -289,6 +289,9 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
 export type CreateSkillsetOptions = OperationOptions;
 
 // @public
+export function createSynonymMapFromFile(name: string, filePath: string): SynonymMap;
+
+// @public
 export type CreateSynonymMapOptions = OperationOptions;
 
 // @public
