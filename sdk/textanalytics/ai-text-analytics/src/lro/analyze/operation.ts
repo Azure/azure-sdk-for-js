@@ -84,7 +84,7 @@ interface BeginAnalyzeInternalOptions extends OperationOptions {
 /**
  * Options for the begin analyze Actions operation.
  */
-export interface beginAnalyzeActionsOptions extends OperationOptions {
+export interface BeginAnalyzeActionsOptions extends OperationOptions {
   /**
    * Delay to wait until next poll, in milliseconds.
    */
@@ -131,7 +131,7 @@ function getMetaInfoFromResponse(response: AnalyzeJobState): AnalyzeActionsOpera
  * operation.
  * @internal
  */
-export class beginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
+export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
   AnalyzeActionsOperationState,
   PagedAnalyzeActionsResult
 > {
@@ -141,7 +141,7 @@ export class beginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
     private client: Client,
     private documents: TextDocumentInput[],
     private actions: GeneratedActions,
-    private options: beginAnalyzeActionsOptions = {}
+    private options: BeginAnalyzeActionsOptions = {}
   ) {
     super(state);
   }
@@ -295,7 +295,7 @@ export class beginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: AnalyzeActionsOperationState) => void;
     } = {}
-  ): Promise<beginAnalyzeActionsPollerOperation> {
+  ): Promise<BeginAnalyzeActionsPollerOperation> {
     const state = this.state;
     const updatedAbortSignal = options.abortSignal;
     if (!state.isStarted) {
@@ -352,7 +352,7 @@ export class beginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
     return this;
   }
 
-  async cancel(): Promise<beginAnalyzeActionsPollerOperation> {
+  async cancel(): Promise<BeginAnalyzeActionsPollerOperation> {
     const state = this.state;
     logger.warning(`The service does not yet support cancellation for beginAnalyze.`);
     state.isCancelled = true;

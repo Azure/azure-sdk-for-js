@@ -21,7 +21,7 @@ export {
   RecognizeCategorizedEntitiesAction,
   RecognizePiiEntitiesAction,
   ExtractKeyPhrasesAction,
-  beginAnalyzeActionsOptions,
+  BeginAnalyzeActionsOptions,
   AnalyzeActionsPollerLike,
   BeginAnalyzeHealthcareEntitiesOptions,
   AnalyzeHealthcareEntitiesPollerLike,

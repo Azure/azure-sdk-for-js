@@ -13,8 +13,12 @@ import { logger } from "./logger";
 import {
   JobManifestTasks as GeneratedActions,
   DetectLanguageInput,
-  GeneratedClientEntitiesRecognitionPiiOptionalParams,
-  GeneratedClientSentimentOptionalParams,
+  GeneratedClientEntitiesRecognitionPiiOptionalParams as GeneratedRecognizePiiEntitiesOptions,
+  GeneratedClientSentimentOptionalParams as GeneratedAnalyzeSentimentOptions,
+  GeneratedClientEntitiesRecognitionGeneralOptionalParams as GeneratedRecognizeCategorizedEntitiesOptions,
+  GeneratedClientEntitiesLinkingOptionalParams as GeneratedRecognizeLinkedEntitiesOptions,
+  GeneratedClientKeyPhrasesOptionalParams as GeneratedExtractKeyPhrasesOptions,
+  GeneratedClientLanguagesOptionalParams as GeneratedDetectLanguageOptions,
   TextDocumentInput,
   PiiCategory
 } from "./generated/models";
@@ -47,12 +51,12 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
   AddParamsToTask,
-  addStrEncodingParam,
   compose,
   handleInvalidDocumentBatch,
   setModelVersionParam,
   setOpinionMining,
   setStrEncodingParam,
+  setStrEncodingParamValue,
   StringIndexType
 } from "./util";
 import {
@@ -64,19 +68,16 @@ import {
   AnalyzeHealthcareOperationState
 } from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
-import {
-  AnalyzeActionsPollerLike,
-  beginAnalyzeActionsPoller
-} from "./lro/analyze/poller";
+import { AnalyzeActionsPollerLike, beginAnalyzeActionsPoller } from "./lro/analyze/poller";
 import {
   AnalyzeActionsOperationMetadata,
-  beginAnalyzeActionsOptions,
+  BeginAnalyzeActionsOptions,
   AnalyzeActionsOperationState
 } from "./lro/analyze/operation";
 import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
 
 export {
-  beginAnalyzeActionsOptions,
+  BeginAnalyzeActionsOptions,
   AnalyzeActionsPollerLike,
   AnalyzeActionsOperationState,
   BeginAnalyzeHealthcareEntitiesOptions,
@@ -114,7 +115,7 @@ export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
    * disables input logging and may limit our ability to remediate issues that occur.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
 }
 
 /**
@@ -132,7 +133,7 @@ export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperat
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
    * disables input logging and may limit our ability to remediate issues that occur.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
 }
 
 /**
@@ -159,7 +160,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
    * disables input logging and may limit our ability to remediate issues that occur.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
 }
 
 /**
@@ -197,7 +198,7 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * will not log your input text for pii entities recognition. Setting this parameter to false,
    * enables input logging.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
 }
 
 /**
@@ -209,7 +210,7 @@ export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions 
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
    * disables input logging and may limit our ability to remediate issues that occur.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
 }
 
 /**
@@ -227,7 +228,7 @@ export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOp
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
    * disables input logging and may limit our ability to remediate issues that occur.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
 }
 
 /**
@@ -250,7 +251,7 @@ export type RecognizeCategorizedEntitiesAction = {
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
    * disables input logging and may limit our ability to remediate issues that occur.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
 };
 
 /**
@@ -279,7 +280,7 @@ export type RecognizePiiEntitiesAction = {
    * will not log your input text for pii entities recognition. Setting this parameter to false,
    * enables input logging.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
 };
 
 /**
@@ -296,7 +297,7 @@ export interface ExtractKeyPhrasesAction {
    * will not log your input text for pii entities recognition. Setting this parameter to false,
    * enables input logging.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
 }
 
 /**
@@ -319,7 +320,7 @@ export type RecognizeLinkedEntitiesAction = {
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
    * disables input logging and may limit our ability to remediate issues that occur.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
 };
 
 /**
@@ -342,7 +343,7 @@ export type AnalyzeSentimentAction = {
    * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
    * disables input logging and may limit our ability to remediate issues that occur.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
   /**
    * Whether to mine the opinions of a sentence and conduct more  granular
    * analysis around the aspects of a product or service (also known as
@@ -520,7 +521,7 @@ export class TextAnalyticsClient {
 
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-detectLanguages",
-      realOptions
+      makeGeneratedDetectLanguageOptions(realOptions)
     );
 
     try {
@@ -605,7 +606,7 @@ export class TextAnalyticsClient {
 
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-recognizeEntities",
-      realOptions
+      makeGeneratedRecognizeCategorizedEntitiesOptions(realOptions)
     );
 
     try {
@@ -613,7 +614,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        addStrEncodingParam(finalOptions)
+        finalOptions
       );
 
       return makeRecognizeCategorizedEntitiesResultArray(realInputs, result);
@@ -676,7 +677,7 @@ export class TextAnalyticsClient {
     languageOrOptions?: string | AnalyzeSentimentOptions,
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultArray> {
-    let realOptions: GeneratedClientSentimentOptionalParams;
+    let realOptions: AnalyzeSentimentOptions;
     let realInputs: TextDocumentInput[];
 
     if (!Array.isArray(documents) || documents.length === 0) {
@@ -686,17 +687,15 @@ export class TextAnalyticsClient {
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(documents, language);
-      realOptions = makeAnalyzeSentimentOptionsModel(options || {});
+      realOptions = options || {};
     } else {
       realInputs = documents;
-      realOptions = makeAnalyzeSentimentOptionsModel(
-        (languageOrOptions as AnalyzeSentimentOptions) || {}
-      );
+      realOptions = (languageOrOptions as AnalyzeSentimentOptions) || {};
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-analyzeSentiment",
-      realOptions
+      makeGeneratedAnalyzeSentimentOptions(realOptions)
     );
 
     try {
@@ -704,7 +703,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        setStrEncodingParam(finalOptions)
+        finalOptions
       );
 
       return makeAnalyzeSentimentResultArray(realInputs, result);
@@ -772,7 +771,7 @@ export class TextAnalyticsClient {
 
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-extractKeyPhrases",
-      realOptions
+      makeGeneratedExtractKeyPhrasesOptions(realOptions)
     );
 
     try {
@@ -834,23 +833,23 @@ export class TextAnalyticsClient {
     languageOrOptions?: string | RecognizePiiEntitiesOptions,
     options?: RecognizePiiEntitiesOptions
   ): Promise<RecognizePiiEntitiesResultArray> {
-    let realOptions: GeneratedClientEntitiesRecognitionPiiOptionalParams;
+    let realOptions: RecognizePiiEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
     if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(inputs, language);
-      realOptions = makePiiEntitiesOptionsModel(options || {});
+      realOptions = (options || {});
     } else {
       realInputs = inputs;
-      realOptions = makePiiEntitiesOptionsModel(
+      realOptions = (
         (languageOrOptions as RecognizePiiEntitiesOptions) || {}
       );
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-recognizePiiEntities",
-      realOptions
+      makeGeneratedRecognizePiiEntitiesOptions(realOptions)
     );
 
     try {
@@ -858,7 +857,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        setStrEncodingParam(finalOptions)
+        finalOptions
       );
 
       return makeRecognizePiiEntitiesResultArray(realInputs, result);
@@ -928,7 +927,7 @@ export class TextAnalyticsClient {
 
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-recognizeLinkedEntities",
-      realOptions
+      makeGeneratedRecognizeLinkingEntitiesOptions(realOptions)
     );
 
     try {
@@ -936,7 +935,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        addStrEncodingParam(finalOptions)
+        finalOptions
       );
 
       return makeRecognizeLinkedEntitiesResultArray(realInputs, result);
@@ -994,21 +993,13 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as BeginAnalyzeHealthcareEntitiesOptions) || {};
     }
 
+    const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
     const poller = new BeginAnalyzeHealthcarePoller({
       client: this.client,
       documents: realInputs,
-      analysisOptions: {
-        requestOptions: realOptions.requestOptions,
-        tracingOptions: realOptions.tracingOptions,
-        abortSignal: realOptions.abortSignal,
-        onResponse: realOptions.onResponse,
-        serializerOptions: realOptions.serializerOptions
-      },
-      updateIntervalInMs: realOptions.updateIntervalInMs,
-      resumeFrom: realOptions.resumeFrom,
-      includeStatistics: realOptions.includeStatistics,
-      modelVersion: realOptions.modelVersion,
-      stringIndexType: realOptions.stringIndexType
+      options: restOptions,
+      updateIntervalInMs: updateIntervalInMs,
+      resumeFrom: resumeFrom,
     });
 
     await poller.poll();
@@ -1030,7 +1021,7 @@ export class TextAnalyticsClient {
     documents: string[],
     actions: TextAnalyticsActions,
     language?: string,
-    options?: beginAnalyzeActionsOptions
+    options?: BeginAnalyzeActionsOptions
   ): Promise<AnalyzeActionsPollerLike>;
   /**
    * Submit a collection of text documents for analysis. Specify one or more unique actions to be executed.
@@ -1041,15 +1032,15 @@ export class TextAnalyticsClient {
   public async beginAnalyzeActions(
     documents: TextDocumentInput[],
     actions: TextAnalyticsActions,
-    options?: beginAnalyzeActionsOptions
+    options?: BeginAnalyzeActionsOptions
   ): Promise<AnalyzeActionsPollerLike>;
   public async beginAnalyzeActions(
     documents: string[] | TextDocumentInput[],
     actions: TextAnalyticsActions,
-    languageOrOptions?: string | beginAnalyzeActionsOptions,
-    options?: beginAnalyzeActionsOptions
+    languageOrOptions?: string | BeginAnalyzeActionsOptions,
+    options?: BeginAnalyzeActionsOptions
   ): Promise<AnalyzeActionsPollerLike> {
-    let realOptions: beginAnalyzeActionsOptions;
+    let realOptions: BeginAnalyzeActionsOptions;
     let realInputs: TextDocumentInput[];
 
     if (!Array.isArray(documents) || documents.length === 0) {
@@ -1062,24 +1053,17 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as beginAnalyzeActionsOptions) || {};
+      realOptions = (languageOrOptions as BeginAnalyzeActionsOptions) || {};
     }
     const compiledActions = compileAnalyzeInput(actions);
+    const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
     const poller = new beginAnalyzeActionsPoller({
       client: this.client,
       documents: realInputs,
       actions: compiledActions,
-      analysisOptions: {
-        requestOptions: realOptions.requestOptions,
-        tracingOptions: realOptions.tracingOptions,
-        abortSignal: realOptions.abortSignal,
-        onResponse: realOptions.onResponse,
-        serializerOptions: realOptions.serializerOptions
-      },
-      displayName: realOptions.displayName,
-      includeStatistics: realOptions.includeStatistics,
-      updateIntervalInMs: realOptions.updateIntervalInMs,
-      resumeFrom: realOptions.resumeFrom
+      options: restOptions,
+      resumeFrom: resumeFrom,
+      updateIntervalInMs: updateIntervalInMs
     });
 
     await poller.poll();
@@ -1155,20 +1139,20 @@ function convertToTextDocumentInput(inputs: string[], language: string): TextDoc
  * @param params - the user friendly parameters
  * @internal
  */
-function makeAnalyzeSentimentOptionsModel(
+function makeGeneratedAnalyzeSentimentOptions(
   params: AnalyzeSentimentOptions
-): GeneratedClientSentimentOptionalParams {
+): GeneratedAnalyzeSentimentOptions {
   return {
     abortSignal: params.abortSignal,
     opinionMining: params.includeOpinionMining,
     includeStatistics: params.includeStatistics,
     modelVersion: params.modelVersion,
     requestOptions: params.requestOptions,
-    stringIndexType: params.stringIndexType,
+    stringIndexType: setStrEncodingParamValue(params.stringIndexType),
     tracingOptions: params.tracingOptions,
     onResponse: params.onResponse,
     serializerOptions: params.serializerOptions,
-    loggingOptOut: params.loggingOptOut
+    loggingOptOut: params.disableServiceLogs
   };
 }
 
@@ -1177,20 +1161,102 @@ function makeAnalyzeSentimentOptionsModel(
  * @param params - the user friendly parameters
  * @internal
  */
-function makePiiEntitiesOptionsModel(
+function makeGeneratedRecognizePiiEntitiesOptions(
   params: RecognizePiiEntitiesOptions
-): GeneratedClientEntitiesRecognitionPiiOptionalParams {
+): GeneratedRecognizePiiEntitiesOptions {
   return {
     abortSignal: params.abortSignal,
     domain: params.domainFilter,
     includeStatistics: params.includeStatistics,
     modelVersion: params.modelVersion,
     requestOptions: params.requestOptions,
-    stringIndexType: params.stringIndexType,
+    stringIndexType: setStrEncodingParamValue(params.stringIndexType),
     tracingOptions: params.tracingOptions,
     piiCategories: params.categoriesFilter,
     onResponse: params.onResponse,
     serializerOptions: params.serializerOptions,
-    loggingOptOut: params.loggingOptOut
+    loggingOptOut: params.disableServiceLogs
+  };
+}
+
+/**
+ * Creates the options the service expects for the recognize entities API from the user friendly ones.
+ * @param params - the user friendly parameters
+ * @internal
+ */
+function makeGeneratedRecognizeCategorizedEntitiesOptions(
+  params: RecognizeCategorizedEntitiesOptions
+): GeneratedRecognizeCategorizedEntitiesOptions {
+  return {
+    abortSignal: params.abortSignal,
+    includeStatistics: params.includeStatistics,
+    modelVersion: params.modelVersion,
+    requestOptions: params.requestOptions,
+    stringIndexType: setStrEncodingParamValue(params.stringIndexType),
+    tracingOptions: params.tracingOptions,
+    onResponse: params.onResponse,
+    serializerOptions: params.serializerOptions,
+    loggingOptOut: params.disableServiceLogs
+  };
+}
+
+/**
+ * Creates the options the service expects for the detect language API from the user friendly ones.
+ * @param params - the user friendly parameters
+ * @internal
+ */
+ function makeGeneratedDetectLanguageOptions(
+  params: DetectLanguageOptions
+): GeneratedDetectLanguageOptions {
+  return {
+    abortSignal: params.abortSignal,
+    includeStatistics: params.includeStatistics,
+    modelVersion: params.modelVersion,
+    requestOptions: params.requestOptions,
+    tracingOptions: params.tracingOptions,
+    onResponse: params.onResponse,
+    serializerOptions: params.serializerOptions,
+    loggingOptOut: params.disableServiceLogs
+  };
+}
+
+/**
+ * Creates the options the service expects for the extract key phrases API from the user friendly ones.
+ * @param params - the user friendly parameters
+ * @internal
+ */
+ function makeGeneratedExtractKeyPhrasesOptions(
+  params: ExtractKeyPhrasesOptions
+): GeneratedExtractKeyPhrasesOptions {
+  return {
+    abortSignal: params.abortSignal,
+    includeStatistics: params.includeStatistics,
+    modelVersion: params.modelVersion,
+    requestOptions: params.requestOptions,
+    tracingOptions: params.tracingOptions,
+    onResponse: params.onResponse,
+    serializerOptions: params.serializerOptions,
+    loggingOptOut: params.disableServiceLogs
+  };
+}
+
+/**
+ * Creates the options the service expects for the recognize linked entities API from the user friendly ones.
+ * @param params - the user friendly parameters
+ * @internal
+ */
+ function makeGeneratedRecognizeLinkingEntitiesOptions(
+  params: RecognizeLinkedEntitiesOptions
+): GeneratedRecognizeLinkedEntitiesOptions {
+  return {
+    abortSignal: params.abortSignal,
+    includeStatistics: params.includeStatistics,
+    modelVersion: params.modelVersion,
+    requestOptions: params.requestOptions,
+    tracingOptions: params.tracingOptions,
+    onResponse: params.onResponse,
+    serializerOptions: params.serializerOptions,
+    loggingOptOut: params.disableServiceLogs,
+    stringIndexType: setStrEncodingParamValue(params.stringIndexType)
   };
 }

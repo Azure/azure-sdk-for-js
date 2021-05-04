@@ -114,7 +114,7 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
    * will not log your input text for pii entities recognition. Setting this parameter to false,
    * enables input logging.
    */
-  loggingOptOut?: boolean;
+  disableServiceLogs?: boolean;
 }
 
 /**
@@ -337,7 +337,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal,
         modelVersion: this.options.modelVersion,
         stringIndexType: this.options.stringIndexType,
-        loggingOptOut: this.options.loggingOptOut
+        loggingOptOut: this.options.disableServiceLogs
       });
       if (!response.operationLocation) {
         throw new Error(

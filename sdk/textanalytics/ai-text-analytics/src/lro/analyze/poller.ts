@@ -8,8 +8,9 @@ import { delay } from "../../util";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
 import {
-  beginAnalyzeActionsPollerOperation,
-  AnalyzeActionsOperationState
+  BeginAnalyzeActionsPollerOperation,
+  AnalyzeActionsOperationState,
+  BeginAnalyzeActionsOptions
 } from "./operation";
 
 /**
@@ -17,8 +18,7 @@ import {
  */
 export interface AnalyzeActionsPollerOptions extends AnalysisPollerOptions {
   actions: GeneratedActions;
-  readonly displayName?: string;
-  readonly includeStatistics?: boolean;
+  readonly options: BeginAnalyzeActionsOptions
 }
 
 /**
@@ -42,10 +42,8 @@ export class beginAnalyzeActionsPoller extends AnalysisPoller<
     const {
       client,
       documents,
-      analysisOptions,
       actions,
-      displayName,
-      includeStatistics,
+      options,
       updateIntervalInMs = 5000,
       resumeFrom
     } = pollerOptions;
@@ -55,21 +53,12 @@ export class beginAnalyzeActionsPoller extends AnalysisPoller<
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
-    const { requestOptions, tracingOptions, abortSignal } = analysisOptions || {};
-    const operation = new beginAnalyzeActionsPollerOperation(
+    const operation = new BeginAnalyzeActionsPollerOperation(
       state || {},
       client,
       documents,
       actions,
-      {
-        displayName,
-        requestOptions,
-        tracingOptions,
-        updateIntervalInMs,
-        resumeFrom,
-        includeStatistics,
-        abortSignal
-      }
+      options
     );
 
     super(operation);

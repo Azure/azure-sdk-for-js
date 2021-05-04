@@ -68,7 +68,7 @@ export interface AnalyzeHealthcareOperationState extends AnalysisPollOperationSt
 export type AnalyzeSentimentAction = {
     modelVersion?: string;
     stringIndexType?: StringIndexType;
-    loggingOptOut?: boolean;
+    disableServiceLogs?: boolean;
     includeOpinionMining?: boolean;
 };
 
@@ -88,8 +88,8 @@ export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
+    disableServiceLogs?: boolean;
     includeOpinionMining?: boolean;
-    loggingOptOut?: boolean;
     stringIndexType?: StringIndexType;
 }
 
@@ -116,7 +116,7 @@ export interface AssessmentSentiment extends SentenceAssessment {
 export { AzureKeyCredential }
 
 // @public
-export interface beginAnalyzeActionsOptions extends OperationOptions {
+export interface BeginAnalyzeActionsOptions extends OperationOptions {
     displayName?: string;
     includeStatistics?: boolean;
     resumeFrom?: string;
@@ -125,7 +125,7 @@ export interface beginAnalyzeActionsOptions extends OperationOptions {
 
 // @public
 export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOperationOptions {
-    loggingOptOut?: boolean;
+    disableServiceLogs?: boolean;
     resumeFrom?: string;
     stringIndexType?: StringIndexType;
     updateIntervalInMs?: number;
@@ -156,7 +156,7 @@ export interface DetectLanguageInput {
 
 // @public
 export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {
-    loggingOptOut?: boolean;
+    disableServiceLogs?: boolean;
 }
 
 // @public
@@ -216,7 +216,7 @@ export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalSer
 
 // @public
 export interface ExtractKeyPhrasesAction {
-    loggingOptOut?: boolean;
+    disableServiceLogs?: boolean;
     modelVersion?: string;
 }
 
@@ -236,7 +236,7 @@ export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {
-    loggingOptOut?: boolean;
+    disableServiceLogs?: boolean;
 }
 
 // @public
@@ -377,7 +377,7 @@ export enum PiiEntityDomainType {
 export type RecognizeCategorizedEntitiesAction = {
     modelVersion?: string;
     stringIndexType?: StringIndexType;
-    loggingOptOut?: boolean;
+    disableServiceLogs?: boolean;
 };
 
 // @public
@@ -396,7 +396,7 @@ export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperationOptions {
-    loggingOptOut?: boolean;
+    disableServiceLogs?: boolean;
     stringIndexType?: StringIndexType;
 }
 
@@ -418,7 +418,7 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
 export type RecognizeLinkedEntitiesAction = {
     modelVersion?: string;
     stringIndexType?: StringIndexType;
-    loggingOptOut?: boolean;
+    disableServiceLogs?: boolean;
 };
 
 // @public
@@ -437,7 +437,7 @@ export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
-    loggingOptOut?: boolean;
+    disableServiceLogs?: boolean;
     stringIndexType?: StringIndexType;
 }
 
@@ -460,7 +460,7 @@ export type RecognizePiiEntitiesAction = {
     domain?: PiiEntityDomainType;
     modelVersion?: string;
     stringIndexType?: StringIndexType;
-    loggingOptOut?: boolean;
+    disableServiceLogs?: boolean;
 };
 
 // @public
@@ -480,8 +480,8 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
     categoriesFilter?: PiiEntityCategory[];
+    disableServiceLogs?: boolean;
     domainFilter?: PiiEntityDomainType;
-    loggingOptOut?: boolean;
     stringIndexType?: StringIndexType;
 }
 
@@ -579,8 +579,8 @@ export class TextAnalyticsClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
     analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
-    beginAnalyzeActions(documents: string[], actions: TextAnalyticsActions, language?: string, options?: beginAnalyzeActionsOptions): Promise<AnalyzeActionsPollerLike>;
-    beginAnalyzeActions(documents: TextDocumentInput[], actions: TextAnalyticsActions, options?: beginAnalyzeActionsOptions): Promise<AnalyzeActionsPollerLike>;
+    beginAnalyzeActions(documents: string[], actions: TextAnalyticsActions, language?: string, options?: BeginAnalyzeActionsOptions): Promise<AnalyzeActionsPollerLike>;
+    beginAnalyzeActions(documents: TextDocumentInput[], actions: TextAnalyticsActions, options?: BeginAnalyzeActionsOptions): Promise<AnalyzeActionsPollerLike>;
     beginAnalyzeHealthcareEntities(documents: string[], language?: string, options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
     beginAnalyzeHealthcareEntities(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
     defaultCountryHint: string;
