@@ -4,7 +4,6 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { TokenCredential, AccessToken } from "@azure/core-auth";
-import {} from "../src/policies/bearerTokenAuthenticationPolicy";
 import {
   PipelinePolicy,
   createPipelineRequest,

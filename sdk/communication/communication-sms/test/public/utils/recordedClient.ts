@@ -1,9 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-http";
-import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { parseConnectionString } from "@azure/communication-common";
+import {
+  DefaultHttpClient,
+  HttpClient,
+  HttpOperationResponse,
+  isNode,
+  WebResourceLike
+} from "@azure/core-http";
+import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { SmsClient, SmsClientOptions } from "../../../src";
 
 export const recorderConfiguration: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -31,18 +39,59 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createCredential(): TokenCredential | undefined {
-  if (isPlaybackMode() && isNode) {
+function createCredential(): TokenCredential {
+  if (isPlaybackMode()) {
     return {
       getToken: async (_scopes) => {
         return { token: "testToken", expiresOnTimestamp: 11111 };
       }
     };
   } else {
-    try {
+    if (isNode) {
       return new DefaultAzureCredential();
-    } catch {
-      return undefined;
+    } else {
+      return new ClientSecretCredential(
+        env.AZURE_TENANT_ID,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_CLIENT_SECRET
+      );
     }
   }
+}
+
+export function createSmsClient(): SmsClient {
+  // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
+  return new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING, {
+    httpClient: createTestHttpClient()
+  } as SmsClientOptions);
+}
+
+export function createSmsClientWithToken(): SmsClient {
+  const { endpoint } = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING);
+  const credential: TokenCredential = createCredential();
+  // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
+  return new SmsClient(endpoint, credential, {
+    httpClient: createTestHttpClient()
+  } as SmsClientOptions);
+}
+
+function createTestHttpClient(): HttpClient {
+  const customHttpClient = new DefaultHttpClient();
+
+  const originalSendRequest = customHttpClient.sendRequest;
+  customHttpClient.sendRequest = async function(
+    httpRequest: WebResourceLike
+  ): Promise<HttpOperationResponse> {
+    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
+
+    console.log(
+      `MS-CV header for request: ${httpRequest.url} (${
+        requestResponse.status
+      } - ${requestResponse.headers.get("ms-cv")})`
+    );
+
+    return requestResponse;
+  };
+
+  return customHttpClient;
 }

@@ -1,4 +1,4 @@
-const fs = require("fs").promises;
+const fs = require("fs");
 
 // Runs smoke tests from manifest
 async function main() {
@@ -22,7 +22,7 @@ async function main() {
     }
 
     const skipFiles = smokeTestConfig.skip || [];
-    const jsFiles = (await fs.readdir(entry.SamplesDirectory))
+    const jsFiles = fs.readdirSync(entry.SamplesDirectory)
       .filter((name) => name.endsWith(".js"))
       .filter((name) => !skipFiles.includes(name));
 

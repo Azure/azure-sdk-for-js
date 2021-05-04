@@ -11,15 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:17:41 GMT",
+    "date": "Wed, 28 Apr 2021 21:14:03 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - NCUS ProdSlices",
-    "x-ms-request-id": "f57d81b8-756d-4604-8bef-0db2490e2000"
+    "x-ms-ests-server": "2.1.11654.16 - WUS2 ProdSlices",
+    "x-ms-request-id": "06eddcf6-9993-42fc-8c86-b63ed25bb500"
    }
   },
   {
@@ -30,14 +32,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"week\",\"Space Needle\",\"wonderful trip\",\"Seattle\",\"times\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"entire trip\",\"Seattle\",\"Space Needle\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"movie\"],\"warnings\":[]},{\"id\":\"4\",\"keyPhrases\":[\"book\"],\"warnings\":[]},{\"id\":\"5\",\"keyPhrases\":[\"Monte Rainier\",\"caminos\"],\"warnings\":[]},{\"id\":\"6\",\"keyPhrases\":[\"carretera\",\"tráfico\",\"día\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "08642fab-6958-410f-bd02-5660fc10d65a",
+    "apim-request-id": "a6f96160-a7e1-4ad2-9174-8198c90f782e",
     "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6",
-    "date": "Wed, 24 Feb 2021 02:17:41 GMT",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
+    "date": "Wed, 28 Apr 2021 21:14:05 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "79"
+    "x-envoy-upstream-service-time": "2522"
    }
   }
  ],
@@ -45,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "012fc8ece14b768409caa333e47c04df"
+ "hash": "5b8ceb69c9f9f5f56aa9a2ea9b7290bd"
 }

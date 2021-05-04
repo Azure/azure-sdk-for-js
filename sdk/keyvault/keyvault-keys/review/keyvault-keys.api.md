@@ -62,7 +62,6 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {
 
 // @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
-    hsm?: boolean;
 }
 
 // @public
@@ -70,6 +69,7 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
     curve?: KeyCurveName;
     enabled?: boolean;
     readonly expiresOn?: Date;
+    hsm?: boolean;
     keyOps?: KeyOperation[];
     keySize?: number;
     notBefore?: Date;
@@ -80,12 +80,10 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface CreateOctKeyOptions extends CreateKeyOptions {
-    hsm?: boolean;
 }
 
 // @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
-    hsm?: boolean;
     publicExponent?: number;
 }
 
@@ -99,7 +97,7 @@ export class CryptographyClient {
     encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
     // @deprecated
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
-    get keyId(): string | undefined;
+    get keyID(): string | undefined;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
@@ -118,7 +116,7 @@ export interface CryptographyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface DecryptOptions extends KeyOperationsOptions {
+export interface DecryptOptions extends CryptographyOptions {
 }
 
 // @public
@@ -152,7 +150,7 @@ export type DeletionRecoveryLevel = string;
 export type EncryptionAlgorithm = string;
 
 // @public
-export interface EncryptOptions extends KeyOperationsOptions {
+export interface EncryptOptions extends CryptographyOptions {
 }
 
 // @public
@@ -240,10 +238,6 @@ export type KeyCurveName = string;
 
 // @public
 export type KeyOperation = string;
-
-// @public
-export interface KeyOperationsOptions extends CryptographyOptions {
-}
 
 // @public
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
@@ -431,7 +425,7 @@ export interface SignResult {
 }
 
 // @public
-export interface UnwrapKeyOptions extends KeyOperationsOptions {
+export interface UnwrapKeyOptions extends CryptographyOptions {
 }
 
 // @public
@@ -467,7 +461,7 @@ export interface VerifyResult {
 }
 
 // @public
-export interface WrapKeyOptions extends KeyOperationsOptions {
+export interface WrapKeyOptions extends CryptographyOptions {
 }
 
 // @public

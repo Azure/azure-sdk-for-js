@@ -8,17 +8,19 @@
  *  These tests will be skipped in Live Mode since the public tests run in live mode only.
  */
 
-import { SmsClient } from "../../src/smsClient";
-import { env, isLiveMode, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { isLiveMode, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import * as sinon from "sinon";
 import { Uuid } from "../../src/utils/uuid";
-import { createCredential, recorderConfiguration } from "../public/utils/recordedClient";
+import {
+  createSmsClient,
+  createSmsClientWithToken,
+  recorderConfiguration
+} from "../public/utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "../public/suites/smsClient.send";
 import { matrix } from "../public/utils/matrix";
-import { parseConnectionString } from "@azure/communication-common";
 
 if (isNode) {
   dotenv.config();
@@ -37,13 +39,11 @@ matrix([[true, false]], async function(useAad) {
         sinon.stub(Uuid, "generateUuid").returns("sanitized");
         sinon.stub(Date, "now").returns(0);
       }
-      const connectionString = env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string;
+
       if (useAad) {
-        const token = createCredential() || this.skip();
-        const { endpoint } = parseConnectionString(connectionString);
-        this.smsClient = new SmsClient(endpoint, token);
+        this.smsClient = createSmsClientWithToken();
       } else {
-        this.smsClient = new SmsClient(connectionString);
+        this.smsClient = createSmsClient();
       }
     });
 

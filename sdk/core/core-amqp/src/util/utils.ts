@@ -6,6 +6,7 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
 import { isDefined } from "./typeGuards";
 import { StandardAbortMessage } from "../errors";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
 
 export { AsyncLock };
 /**
@@ -127,6 +128,11 @@ export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
  * The async lock instance with default settings.
  */
 export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
+
+/**
+ * The cancellable async lock instance.
+ */
+export const defaultCancellableLock: CancellableAsyncLock = new CancellableAsyncLockImpl();
 
 /**
  * @internal

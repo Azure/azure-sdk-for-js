@@ -69,18 +69,6 @@ export const modelRequest: OperationParameter = {
   mapper: ModelInfoMapper
 };
 
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const modelId: OperationURLParameter = {
   parameterPath: "modelId",
   mapper: {
@@ -108,7 +96,7 @@ export const resultId: OperationURLParameter = {
   }
 };
 
-export const accept2: OperationParameter = {
+export const accept1: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/zip",

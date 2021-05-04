@@ -236,17 +236,25 @@ export namespace ConnectionContext {
         try {
           if (this.connection.isOpen()) {
             // Close all the senders.
-            for (const senderName of Object.keys(this.senders)) {
-              await this.senders[senderName].close();
-            }
+            await Promise.all(
+              Object.keys(connectionContext.senders).map((name) =>
+                connectionContext.senders[name]?.close().catch(() => {
+                  /* error already logged, swallow it here */
+                })
+              )
+            );
             // Close all the receivers.
-            for (const receiverName of Object.keys(this.receivers)) {
-              await this.receivers[receiverName].close();
-            }
+            await Promise.all(
+              Object.keys(connectionContext.receivers).map((name) =>
+                connectionContext.receivers[name]?.close().catch(() => {
+                  /* error already logged, swallow it here */
+                })
+              )
+            );
             // Close the cbs session;
             await this.cbsSession.close();
             // Close the management session
-            await this.managementSession!.close();
+            await this.managementSession?.close();
             await this.connection.close();
             this.wasConnectionCloseCalled = true;
             logger.info("Closed the amqp connection '%s' on the client.", this.connectionId);
@@ -281,73 +289,90 @@ export namespace ConnectionContext {
       waitForConnectionRefreshPromise = new Promise((resolve) => {
         waitForConnectionRefreshResolve = resolve;
       });
-
-      logger.verbose(
-        "[%s] 'disconnected' event occurred on the amqp connection.",
-        connectionContext.connection.id
-      );
-
-      if (context.connection && context.connection.error) {
+      try {
         logger.verbose(
-          "[%s] Accompanying error on the context.connection: %O",
+          "[%s] 'disconnected' event occurred on the amqp connection.",
+          connectionContext.connection.id
+        );
+
+        if (context.connection && context.connection.error) {
+          logger.verbose(
+            "[%s] Accompanying error on the context.connection: %O",
+            connectionContext.connection.id,
+            context.connection && context.connection.error
+          );
+        }
+        if (context.error) {
+          logger.verbose(
+            "[%s] Accompanying error on the context: %O",
+            connectionContext.connection.id,
+            context.error
+          );
+        }
+        const state: Readonly<{
+          wasConnectionCloseCalled: boolean;
+          numSenders: number;
+          numReceivers: number;
+        }> = {
+          wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
+          numSenders: Object.keys(connectionContext.senders).length,
+          numReceivers: Object.keys(connectionContext.receivers).length
+        };
+        logger.verbose(
+          "[%s] Closing all open senders and receivers in the state: %O",
           connectionContext.connection.id,
-          context.connection && context.connection.error
+          state
+        );
+
+        // Clear internal map maintained by rhea to avoid reconnecting of old links once the
+        // connection is back up.
+        connectionContext.connection.removeAllSessions();
+
+        // Close the cbs session to ensure all the event handlers are released.
+        await connectionContext.cbsSession?.close().catch(() => {
+          /* error already logged, swallow it here */
+        });
+        // Close the management session to ensure all the event handlers are released.
+        await connectionContext.managementSession?.close().catch(() => {
+          /* error already logged, swallow it here */
+        });
+
+        // Close all senders and receivers to ensure clean up of timers & other resources.
+        if (state.numSenders || state.numReceivers) {
+          await Promise.all(
+            Object.keys(connectionContext.senders).map((name) =>
+              connectionContext.senders[name]?.close().catch(() => {
+                /* error already logged, swallow it here */
+              })
+            )
+          );
+
+          await Promise.all(
+            Object.keys(connectionContext.receivers).map((name) =>
+              connectionContext.receivers[name]?.close().catch(() => {
+                /* error already logged, swallow it here */
+              })
+            )
+          );
+        }
+      } catch (err) {
+        logger.verbose(
+          `[${connectionContext.connectionId}] An error occurred while closing the connection in 'disconnected'. %O`,
+          err
         );
       }
-      if (context.error) {
+
+      try {
+        await refreshConnection(connectionContext);
+      } catch (err) {
         logger.verbose(
-          "[%s] Accompanying error on the context: %O",
-          connectionContext.connection.id,
-          context.error
+          `[${connectionContext.connectionId}] An error occurred while refreshing the connection in 'disconnected'. %O`,
+          err
         );
+      } finally {
+        waitForConnectionRefreshResolve();
+        waitForConnectionRefreshPromise = undefined;
       }
-      const state: Readonly<{
-        wasConnectionCloseCalled: boolean;
-        numSenders: number;
-        numReceivers: number;
-      }> = {
-        wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
-        numSenders: Object.keys(connectionContext.senders).length,
-        numReceivers: Object.keys(connectionContext.receivers).length
-      };
-      logger.verbose(
-        "[%s] Closing all open senders and receivers in the state: %O",
-        connectionContext.connection.id,
-        state
-      );
-
-      // Clear internal map maintained by rhea to avoid reconnecting of old links once the
-      // connection is back up.
-      connectionContext.connection.removeAllSessions();
-
-      // Close the cbs session to ensure all the event handlers are released.
-      await connectionContext.cbsSession.close().catch(() => {
-        /* error already logged, swallow it here */
-      });
-      // Close the management session to ensure all the event handlers are released.
-      await connectionContext.managementSession!.close().catch(() => {
-        /* error already logged, swallow it here */
-      });
-
-      // Close all senders and receivers to ensure clean up of timers & other resources.
-      if (state.numSenders || state.numReceivers) {
-        for (const senderName of Object.keys(connectionContext.senders)) {
-          const sender = connectionContext.senders[senderName];
-          await sender.close().catch(() => {
-            /* error already logged, swallow it here */
-          });
-        }
-        for (const receiverName of Object.keys(connectionContext.receivers)) {
-          const receiver = connectionContext.receivers[receiverName];
-          await receiver.close().catch(() => {
-            /* error already logged, swallow it here */
-          });
-        }
-      }
-
-      await refreshConnection(connectionContext);
-      waitForConnectionRefreshResolve();
-      waitForConnectionRefreshPromise = undefined;
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {

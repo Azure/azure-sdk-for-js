@@ -210,7 +210,8 @@ export enum EntityNames {
  */
 export async function assertThrows<T>(
   fn: () => Promise<T>,
-  expectedErr: Record<string, any>
+  expectedErr: Record<string, any>,
+  assertMessage?: string
 ): Promise<Error> {
   try {
     await fn();
@@ -225,5 +226,5 @@ export async function assertThrows<T>(
     return err;
   }
 
-  throw new Error("assert failure: error was expected, but none was thrown");
+  throw new Error(`assert failure, an error was expected, but none was thrown: ${assertMessage}`);
 }

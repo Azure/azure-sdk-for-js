@@ -475,6 +475,8 @@ export interface SearchIndexerSkillset {
   skills: SearchIndexerSkillUnion[];
   /** Details about cognitive services to be used when running skills. */
   cognitiveServicesAccount?: CognitiveServicesAccountUnion;
+  /** Definition of additional projections to azure blob, table, or files, of enriched data. */
+  knowledgeStore?: SearchIndexerKnowledgeStore;
   /** The ETag of the skillset. */
   etag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your skillset definition when you want full assurance that no one, not even Microsoft, can decrypt your skillset definition in Azure Cognitive Search. Once you have encrypted your skillset definition, it will always remain encrypted. Azure Cognitive Search will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your skillset definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
@@ -539,6 +541,38 @@ export interface CognitiveServicesAccount {
     | "#Microsoft.Azure.Search.CognitiveServicesByKey";
   /** Description of the cognitive service resource attached to a skillset. */
   description?: string;
+}
+
+/** Definition of additional projections to azure blob, table, or files, of enriched data. */
+export interface SearchIndexerKnowledgeStore {
+  /** The connection string to the storage account projections will be stored in. */
+  storageConnectionString: string;
+  /** A list of additional projections to perform during indexing. */
+  projections: SearchIndexerKnowledgeStoreProjection[];
+}
+
+/** Container object for various projection selectors. */
+export interface SearchIndexerKnowledgeStoreProjection {
+  /** Projections to Azure Table storage. */
+  tables?: SearchIndexerKnowledgeStoreTableProjectionSelector[];
+  /** Projections to Azure Blob storage. */
+  objects?: SearchIndexerKnowledgeStoreObjectProjectionSelector[];
+  /** Projections to Azure File storage. */
+  files?: SearchIndexerKnowledgeStoreFileProjectionSelector[];
+}
+
+/** Abstract class to share properties between concrete selectors. */
+export interface SearchIndexerKnowledgeStoreProjectionSelector {
+  /** Name of reference key to different projection. */
+  referenceKeyName?: string;
+  /** Name of generated key to store projection under. */
+  generatedKeyName?: string;
+  /** Source data to project. */
+  source?: string;
+  /** Source context for complex projections. */
+  sourceContext?: string;
+  /** Nested inputs for complex projections. */
+  inputs?: InputFieldMappingEntry[];
 }
 
 /** Response from a list skillset request. If successful, it includes the full definitions of all skillsets. */
@@ -866,7 +900,7 @@ export interface ServiceCounters {
   /** Total number of synonym maps. */
   synonymMapCounter: ResourceCounter;
   /** Total number of skillsets. */
-  skillsetCounter: ResourceCounter;
+  skillsetCounter?: ResourceCounter;
 }
 
 /** Represents a resource's usage and quota. */
@@ -1155,6 +1189,18 @@ export type CognitiveServicesAccountKey = CognitiveServicesAccount & {
   odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
   /** The key used to provision the cognitive service resource attached to a skillset. */
   key: string;
+};
+
+/** Description for what data to store in Azure Tables. */
+export type SearchIndexerKnowledgeStoreTableProjectionSelector = SearchIndexerKnowledgeStoreProjectionSelector & {
+  /** Name of the Azure table to store projected data in. */
+  tableName: string;
+};
+
+/** Abstract class to share properties between concrete selectors. */
+export type SearchIndexerKnowledgeStoreBlobProjectionSelector = SearchIndexerKnowledgeStoreProjectionSelector & {
+  /** Blob container to store projections in. */
+  storageContainer: string;
 };
 
 /** Defines a function that boosts scores based on distance from a geographic location. */
@@ -1678,6 +1724,12 @@ export type BM25Similarity = Similarity & {
   /** This property controls how the length of a document affects the relevance score. By default, a value of 0.75 is used. A value of 0.0 means no length normalization is applied, while a value of 1.0 means the score is fully normalized by the length of the document. */
   b?: number | null;
 };
+
+/** Projection definition for what data to store in Azure Blob. */
+export type SearchIndexerKnowledgeStoreObjectProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
+
+/** Projection definition for what data to store in Azure Files. */
+export type SearchIndexerKnowledgeStoreFileProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
 
 /** Parameter group */
 export interface RequestOptions {
