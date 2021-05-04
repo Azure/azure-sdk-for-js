@@ -76,7 +76,7 @@ export interface BearerTokenChallengeAuthenticationPolicyOptions {
   /**
    * The TokenCredential implementation that can supply the bearer token.
    */
-  credential: TokenCredential;
+  credential?: TokenCredential;
   /**
    * The scopes for which the bearer token applies.
    */
@@ -136,7 +136,9 @@ export function bearerTokenChallengeAuthenticationPolicy(
   // The options are left out of the public API until there's demand to configure this.
   // Remember to extend `BearerTokenChallengeAuthenticationPolicyOptions` with `TokenCyclerOptions`
   // in order to pass through the `options` object.
-  const cycler = createTokenCycler(credential /* , options */);
+  const getAccessToken = credential
+    ? createTokenCycler(credential /* , options */).getToken
+    : (_scopes: string | string[], _options: GetTokenOptions) => Promise.resolve(null);
 
   return {
     name: bearerTokenChallengeAuthenticationPolicyName,
@@ -157,7 +159,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
       await callbacks.authorizeRequest({
         scopes,
         request,
-        getAccessToken: cycler.getToken
+        getAccessToken
       });
 
       let response: PipelineResponse;
@@ -179,7 +181,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
           scopes,
           request,
           response,
-          getAccessToken: cycler.getToken
+          getAccessToken
         });
 
         if (shouldSendRequest) {
