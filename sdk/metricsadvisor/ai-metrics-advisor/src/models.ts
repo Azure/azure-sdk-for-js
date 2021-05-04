@@ -883,7 +883,7 @@ export interface AnomalyIncident {
   severity: AnomalySeverity;
 
   /**
-   * value of the root node 
+   * value of the root node
    */
   readonly valueOfRootNode?: number;
 
