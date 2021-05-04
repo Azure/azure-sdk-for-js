@@ -20,7 +20,7 @@
   ],
   "license": "MIT",
   "main": "./dist/index.js",
-  "module": "./dist-esm/index.js",
+  "module": "./dist-esm/src/index.js",
   "types": "./types/iot-device-update.d.ts",
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -51,7 +51,7 @@
   },
   "files": [
     "dist/",
-    "dist-esm/",
+    "dist-esm/src/",
     "types/iot-device-update.d.ts",
     "README.md",
     "LICENSE"
