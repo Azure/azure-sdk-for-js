@@ -881,6 +881,16 @@ export interface AnomalyIncident {
    * severity of the incident
    */
   severity: AnomalySeverity;
+
+  /**
+   * value of the root node 
+   */
+  readonly valueOfRootNode?: number;
+
+  /**
+   * expected value of the root node given by smart detector
+   */
+  readonly expectedValueOfRootNode?: number;
 }
 
 /**
@@ -927,6 +937,14 @@ export interface DataPointAnomaly {
    * only return for alerting anomaly result
    */
   status?: AnomalyStatus;
+  /**
+   * value of the anomaly
+   */
+  value?: number;
+  /**
+   * expected value of the anomaly given by smart detector
+   */
+  expectedValue?: number;
 }
 
 /**
