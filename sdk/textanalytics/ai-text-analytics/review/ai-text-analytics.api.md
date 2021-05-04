@@ -18,7 +18,7 @@ export interface AnalysisPollOperationState<TResult> extends PollOperationState<
 }
 
 // @public
-export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata {
+export interface AnalyzeActionsOperationMetadata extends OperationMetadata {
     actionsFailedCount?: number;
     actionsInProgressCount?: number;
     actionsSucceededCount?: number;
@@ -26,14 +26,14 @@ export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata 
 }
 
 // @public
-export interface AnalyzeBatchActionsOperationState extends AnalysisPollOperationState<PagedAnalyzeBatchActionsResult>, AnalyzeBatchActionsOperationMetadata {
+export interface AnalyzeActionsOperationState extends AnalysisPollOperationState<PagedAnalyzeActionsResult>, AnalyzeActionsOperationMetadata {
 }
 
 // @public
-export type AnalyzeBatchActionsPollerLike = PollerLike<AnalyzeBatchActionsOperationState, PagedAnalyzeBatchActionsResult>;
+export type AnalyzeActionsPollerLike = PollerLike<AnalyzeActionsOperationState, PagedAnalyzeActionsResult>;
 
 // @public
-export interface AnalyzeBatchActionsResult {
+export interface AnalyzeActionsResult {
     analyzeSentimentResults: AnalyzeSentimentActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
@@ -116,7 +116,7 @@ export interface AssessmentSentiment extends SentenceAssessment {
 export { AzureKeyCredential }
 
 // @public
-export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
+export interface beginAnalyzeActionsOptions extends OperationOptions {
     displayName?: string;
     includeStatistics?: boolean;
     resumeFrom?: string;
@@ -346,7 +346,7 @@ export interface Opinion {
 }
 
 // @public
-export interface PagedAnalyzeBatchActionsResult extends PagedAsyncIterableAnalyzeBatchActionsResult {
+export interface PagedAnalyzeActionsResult extends PagedAsyncIterableAnalyzeActionsResult {
 }
 
 // @public
@@ -356,7 +356,7 @@ export interface PagedAnalyzeHealthcareEntitiesResult extends PagedAsyncIterable
 }
 
 // @public
-export type PagedAsyncIterableAnalyzeBatchActionsResult = PagedAsyncIterableIterator<AnalyzeBatchActionsResult, AnalyzeBatchActionsResult>;
+export type PagedAsyncIterableAnalyzeActionsResult = PagedAsyncIterableIterator<AnalyzeActionsResult, AnalyzeActionsResult>;
 
 // @public
 export type PagedAsyncIterableAnalyzeHealthcareEntitiesResult = PagedAsyncIterableIterator<AnalyzeHealthcareEntitiesResult, AnalyzeHealthcareEntitiesResultArray>;
@@ -579,8 +579,8 @@ export class TextAnalyticsClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
     analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
-    beginAnalyzeBatchActions(documents: string[], actions: TextAnalyticsActions, language?: string, options?: BeginAnalyzeBatchActionsOptions): Promise<AnalyzeBatchActionsPollerLike>;
-    beginAnalyzeBatchActions(documents: TextDocumentInput[], actions: TextAnalyticsActions, options?: BeginAnalyzeBatchActionsOptions): Promise<AnalyzeBatchActionsPollerLike>;
+    beginAnalyzeActions(documents: string[], actions: TextAnalyticsActions, language?: string, options?: beginAnalyzeActionsOptions): Promise<AnalyzeActionsPollerLike>;
+    beginAnalyzeActions(documents: TextDocumentInput[], actions: TextAnalyticsActions, options?: beginAnalyzeActionsOptions): Promise<AnalyzeActionsPollerLike>;
     beginAnalyzeHealthcareEntities(documents: string[], language?: string, options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
     beginAnalyzeHealthcareEntities(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
     defaultCountryHint: string;

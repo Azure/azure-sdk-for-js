@@ -2,43 +2,43 @@
 // Licensed under the MIT license.
 
 import { PollerLike } from "@azure/core-lro";
-import { PagedAnalyzeBatchActionsResult } from "../../analyzeBatchActionsResult";
+import { PagedAnalyzeActionsResult } from "../../analyzeActionsResult";
 import { JobManifestTasks as GeneratedActions } from "../../generated/models";
 import { delay } from "../../util";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
 import {
-  BeginAnalyzeBatchActionsPollerOperation,
-  AnalyzeBatchActionsOperationState
+  beginAnalyzeActionsPollerOperation,
+  AnalyzeActionsOperationState
 } from "./operation";
 
 /**
  * @internal
  */
-export interface AnalyzeBatchActionsPollerOptions extends AnalysisPollerOptions {
+export interface AnalyzeActionsPollerOptions extends AnalysisPollerOptions {
   actions: GeneratedActions;
   readonly displayName?: string;
   readonly includeStatistics?: boolean;
 }
 
 /**
- * Result type of the Begin Analyze Batch Actions Long-Running-Operation (LRO).
+ * Result type of the Begin Analyze Actions Long-Running-Operation (LRO).
  */
-export type AnalyzeBatchActionsPollerLike = PollerLike<
-  AnalyzeBatchActionsOperationState,
-  PagedAnalyzeBatchActionsResult
+export type AnalyzeActionsPollerLike = PollerLike<
+  AnalyzeActionsOperationState,
+  PagedAnalyzeActionsResult
 >;
 
 /**
- * Class that represents a poller that waits for the analyze batch actions results.
+ * Class that represents a poller that waits for the analyze Actions results.
  * @internal
  */
-export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
-  AnalyzeBatchActionsOperationState,
-  PagedAnalyzeBatchActionsResult
+export class beginAnalyzeActionsPoller extends AnalysisPoller<
+  AnalyzeActionsOperationState,
+  PagedAnalyzeActionsResult
 > {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  constructor(pollerOptions: AnalyzeBatchActionsPollerOptions) {
+  constructor(pollerOptions: AnalyzeActionsPollerOptions) {
     const {
       client,
       documents,
@@ -50,13 +50,13 @@ export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
       resumeFrom
     } = pollerOptions;
 
-    let state: AnalyzeBatchActionsOperationState | undefined;
+    let state: AnalyzeActionsOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
     const { requestOptions, tracingOptions, abortSignal } = analysisOptions || {};
-    const operation = new BeginAnalyzeBatchActionsPollerOperation(
+    const operation = new beginAnalyzeActionsPollerOperation(
       state || {},
       client,
       documents,

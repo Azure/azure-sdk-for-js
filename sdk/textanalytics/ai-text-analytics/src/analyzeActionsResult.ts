@@ -26,9 +26,9 @@ import {
 import { ErrorCode, intoTextAnalyticsError, TextAnalyticsError } from "./textAnalyticsResult";
 
 /**
- * The results of an analyze batch actions operation.
+ * The results of an analyze Actions operation.
  */
-export interface AnalyzeBatchActionsResult {
+export interface AnalyzeActionsResult {
   /**
    * Array of the results for each categorized entities recognition action.
    */
@@ -192,20 +192,20 @@ export type AnalyzeSentimentActionResult =
   | AnalyzeSentimentActionErrorResult;
 
 /**
- * The results of an analyze batch actions operation represented as a paged iterator that
+ * The results of an analyze Actions operation represented as a paged iterator that
  * iterates over the results of the requested actions.
  */
-export type PagedAsyncIterableAnalyzeBatchActionsResult = PagedAsyncIterableIterator<
-  AnalyzeBatchActionsResult,
-  AnalyzeBatchActionsResult
+export type PagedAsyncIterableAnalyzeActionsResult = PagedAsyncIterableIterator<
+  AnalyzeActionsResult,
+  AnalyzeActionsResult
 >;
 
 /**
- * The results of an analyze batch actions operation represented as a paged iterator that
+ * The results of an analyze Actions operation represented as a paged iterator that
  * iterates over the results of the requested actions.
  */
-export interface PagedAnalyzeBatchActionsResult
-  extends PagedAsyncIterableAnalyzeBatchActionsResult {
+export interface PagedAnalyzeActionsResult
+  extends PagedAsyncIterableAnalyzeActionsResult {
   // /**
   //  * Statistics about the input document batch and how it was processed
   //  * by the service. This property will have a value when includeStatistics is set to true
@@ -215,7 +215,7 @@ export interface PagedAnalyzeBatchActionsResult
 }
 
 /**
- * The type of different actions supported by the begin analyze batch actions operation.
+ * The type of different actions supported by the begin analyze Actions operation.
  * @internal
  */
 type TextAnalyticsActionType =
@@ -411,16 +411,16 @@ function makeActionResult<TTaskResult, TActionResult>(
 }
 
 /**
- * Creates the user-friendly action results object for the begin analyze batch actions operation.
- * @param response - the begin analyze batch actions operation response
+ * Creates the user-friendly action results object for the begin analyze Actions operation.
+ * @param response - the begin analyze Actions operation response
  * @param documents - the list of input documents
  * @returns - the user-friendly action results object
  * @internal
  */
-export function createAnalyzeBatchActionsResult(
+export function createAnalyzeActionsResult(
   response: GeneratedResponse,
   documents: TextDocumentInput[]
-): AnalyzeBatchActionsResult {
+): AnalyzeActionsResult {
   const recognizeEntitiesActionErrors: TextAnalyticsActionError[] = [];
   const recognizePiiEntitiesActionErrors: TextAnalyticsActionError[] = [];
   const extractKeyPhrasesActionErrors: TextAnalyticsActionError[] = [];

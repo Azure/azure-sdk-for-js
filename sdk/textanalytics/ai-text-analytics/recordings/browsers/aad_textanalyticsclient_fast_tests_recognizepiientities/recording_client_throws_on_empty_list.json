@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 03 May 2021 21:12:25 GMT",
+    "date": "Tue, 04 May 2021 05:31:58 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11654.16 - NCUS ProdSlices",
-    "x-ms-request-id": "95fc9c31-8a0f-43cb-a01f-213b895fb800"
+    "x-ms-ests-server": "2.1.11654.16 - SCUS ProdSlices",
+    "x-ms-request-id": "d7d07f53-70da-4e8c-8dff-9827803a1102"
    }
   },
   {
@@ -34,9 +34,9 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid Request.\",\"innererror\":{\"code\":\"MissingInputRecords\",\"message\":\"Missing input records.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "14d55a87-b144-4c27-b10e-ae9f6de58159",
+    "apim-request-id": "10f3f8b4-0234-47e7-8e8a-8abc559d3cd4",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 03 May 2021 21:12:25 GMT",
+    "date": "Tue, 04 May 2021 05:31:58 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",

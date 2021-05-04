@@ -21,15 +21,15 @@ export {
   RecognizeCategorizedEntitiesAction,
   RecognizePiiEntitiesAction,
   ExtractKeyPhrasesAction,
-  BeginAnalyzeBatchActionsOptions,
-  AnalyzeBatchActionsPollerLike,
+  beginAnalyzeActionsOptions,
+  AnalyzeActionsPollerLike,
   BeginAnalyzeHealthcareEntitiesOptions,
   AnalyzeHealthcareEntitiesPollerLike,
-  AnalyzeBatchActionsOperationState,
+  AnalyzeActionsOperationState,
   AnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
   OperationMetadata,
-  AnalyzeBatchActionsOperationMetadata,
+  AnalyzeActionsOperationMetadata,
   StringIndexType,
   RecognizeLinkedEntitiesAction,
   AnalyzeSentimentAction
@@ -91,9 +91,9 @@ export {
   HealthcareEntityRelationRoleType
 } from "./analyzeHealthcareEntitiesResult";
 export {
-  PagedAnalyzeBatchActionsResult,
-  PagedAsyncIterableAnalyzeBatchActionsResult,
-  AnalyzeBatchActionsResult,
+  PagedAnalyzeActionsResult,
+  PagedAsyncIterableAnalyzeActionsResult,
+  AnalyzeActionsResult,
   RecognizeCategorizedEntitiesActionResult,
   RecognizePiiEntitiesActionResult,
   ExtractKeyPhrasesActionResult,
@@ -111,7 +111,7 @@ export {
   AnalyzeSentimentActionErrorResult,
   AnalyzeSentimentActionResult,
   AnalyzeSentimentActionSuccessResult
-} from "./analyzeBatchActionsResult";
+} from "./analyzeActionsResult";
 export {
   ErrorCode,
   TextAnalyticsError,

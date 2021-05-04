@@ -5,7 +5,7 @@
  * This sample extracts key phrases, entities, and pii entities from several
  * documents using a long-running operation. This functionality uses the
  * generic analysis endpoint, which provides a way to group several different
- * Text Analytics operations into a single batch job.
+ * Text Analytics operations into a single job.
  *
  * @summary applies multiple Text Analytics actions per document
  * @azsdk-weight 40
@@ -39,7 +39,7 @@ export async function main() {
     recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
     extractKeyPhrasesActions: [{ modelVersion: "latest" }]
   };
-  const poller = await client.beginAnalyzeBatchActions(documents, actions, "en", {
+  const poller = await client.beginAnalyzeActions(documents, actions, "en", {
     includeStatistics: true
   });
 
@@ -50,11 +50,11 @@ export async function main() {
   });
 
   console.log(
-    `The analyze batch actions operation created on ${poller.getOperationState().createdOn}`
+    `The analyze Actions operation created on ${poller.getOperationState().createdOn}`
   );
 
   console.log(
-    `The analyze batch actions operation results will expire on ${
+    `The analyze Actions operation results will expire on ${
       poller.getOperationState().expiresOn
     }`
   );

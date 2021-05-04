@@ -5,15 +5,15 @@
  * This sample extracts key phrases, entities, and pii entities from several
  * documents using a long-running operation. This functionality uses the
  * generic analysis endpoint, which provides a way to group several different
- * Text Analytics operations into a single batch job.
+ * Text Analytics operations into a single job.
  *
  * @summary applies multiple Text Analytics actions per document
  */
 
-const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
@@ -28,7 +28,7 @@ const documents = [
   "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!"
 ];
 
-async function main() {
+export async function main() {
   console.log("== Analyze Sample ==");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
@@ -38,7 +38,7 @@ async function main() {
     recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
     extractKeyPhrasesActions: [{ modelVersion: "latest" }]
   };
-  const poller = await client.beginAnalyzeBatchActions(documents, actions, "en", {
+  const poller = await client.beginAnalyzeActions(documents, actions, "en", {
     includeStatistics: true
   });
 
@@ -49,11 +49,11 @@ async function main() {
   });
 
   console.log(
-    `The analyze batch actions operation created on ${poller.getOperationState().createdOn}`
+    `The analyze Actions operation created on ${poller.getOperationState().createdOn}`
   );
 
   console.log(
-    `The analyze batch actions operation results will expire on ${
+    `The analyze Actions operation results will expire on ${
       poller.getOperationState().expiresOn
     }`
   );

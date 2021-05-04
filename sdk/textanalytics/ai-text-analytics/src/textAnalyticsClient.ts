@@ -65,26 +65,26 @@ import {
 } from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 import {
-  AnalyzeBatchActionsPollerLike,
-  BeginAnalyzeBatchActionsPoller
+  AnalyzeActionsPollerLike,
+  beginAnalyzeActionsPoller
 } from "./lro/analyze/poller";
 import {
-  AnalyzeBatchActionsOperationMetadata,
-  BeginAnalyzeBatchActionsOptions,
-  AnalyzeBatchActionsOperationState
+  AnalyzeActionsOperationMetadata,
+  beginAnalyzeActionsOptions,
+  AnalyzeActionsOperationState
 } from "./lro/analyze/operation";
 import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
 
 export {
-  BeginAnalyzeBatchActionsOptions,
-  AnalyzeBatchActionsPollerLike,
-  AnalyzeBatchActionsOperationState,
+  beginAnalyzeActionsOptions,
+  AnalyzeActionsPollerLike,
+  AnalyzeActionsOperationState,
   BeginAnalyzeHealthcareEntitiesOptions,
   AnalyzeHealthcareEntitiesPollerLike,
   AnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
   OperationMetadata,
-  AnalyzeBatchActionsOperationMetadata,
+  AnalyzeActionsOperationMetadata,
   StringIndexType
 };
 
@@ -1026,30 +1026,30 @@ export class TextAnalyticsClient {
         where the language is explicitly set to "None".
    * @param options - Options for the operation.
    */
-  public async beginAnalyzeBatchActions(
+  public async beginAnalyzeActions(
     documents: string[],
     actions: TextAnalyticsActions,
     language?: string,
-    options?: BeginAnalyzeBatchActionsOptions
-  ): Promise<AnalyzeBatchActionsPollerLike>;
+    options?: beginAnalyzeActionsOptions
+  ): Promise<AnalyzeActionsPollerLike>;
   /**
    * Submit a collection of text documents for analysis. Specify one or more unique actions to be executed.
    * @param documents - Collection of documents to analyze
    * @param actions - TextAnalyticsActions to execute.
    * @param options - Options for the operation.
    */
-  public async beginAnalyzeBatchActions(
+  public async beginAnalyzeActions(
     documents: TextDocumentInput[],
     actions: TextAnalyticsActions,
-    options?: BeginAnalyzeBatchActionsOptions
-  ): Promise<AnalyzeBatchActionsPollerLike>;
-  public async beginAnalyzeBatchActions(
+    options?: beginAnalyzeActionsOptions
+  ): Promise<AnalyzeActionsPollerLike>;
+  public async beginAnalyzeActions(
     documents: string[] | TextDocumentInput[],
     actions: TextAnalyticsActions,
-    languageOrOptions?: string | BeginAnalyzeBatchActionsOptions,
-    options?: BeginAnalyzeBatchActionsOptions
-  ): Promise<AnalyzeBatchActionsPollerLike> {
-    let realOptions: BeginAnalyzeBatchActionsOptions;
+    languageOrOptions?: string | beginAnalyzeActionsOptions,
+    options?: beginAnalyzeActionsOptions
+  ): Promise<AnalyzeActionsPollerLike> {
+    let realOptions: beginAnalyzeActionsOptions;
     let realInputs: TextDocumentInput[];
 
     if (!Array.isArray(documents) || documents.length === 0) {
@@ -1062,10 +1062,10 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as BeginAnalyzeBatchActionsOptions) || {};
+      realOptions = (languageOrOptions as beginAnalyzeActionsOptions) || {};
     }
     const compiledActions = compileAnalyzeInput(actions);
-    const poller = new BeginAnalyzeBatchActionsPoller({
+    const poller = new beginAnalyzeActionsPoller({
       client: this.client,
       documents: realInputs,
       actions: compiledActions,

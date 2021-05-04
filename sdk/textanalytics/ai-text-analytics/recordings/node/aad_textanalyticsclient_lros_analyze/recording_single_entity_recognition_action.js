@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "c6b29871814e2ed17055893a0e240b0f";
+module.exports.hash = "ae79441bf32559a7def951fb3464feb3";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a18756c1-d7e5-4a5f-8962-926cfb9dc600',
+  '9c604f41-23fd-4658-8977-594d02b91c00',
   'x-ms-ests-server',
-  '2.1.11654.16 - NCUS ProdSlices',
+  '2.1.11654.25 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=Au3fDaWoqVVGk4LeapOLqsNz_bg1EAAAAP1FItgOAAAA; expires=Wed, 02-Jun-2021 19:31:11 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AqXUpo7Eg7lIkX24TbKl-dNz_bg1DgAAAErQItgOAAAA; expires=Thu, 03-Jun-2021 05:21:01 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr7UsvUnR4fuZ1UbNa1SSokynomx6wH0cTQPP3D77p3SEJfejq3i35FoFos_SsnlXcYdgOlXKXyFGJ5m30okJkeAQEnmczMVxSnSf0B8JfeMOCADm5H_UZDkVPM5kvRWnNpjxjn-91LpVKvKTyUEWtHxQMigruFdMwdDPoP8kpM4ggAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrBwpGubuTGfdJSz-5UJQbCg3GLC3jTeKRhcR7Y60nS4bVhTTF5AN5a7X47Vij-oSjQ6bmMX4Pjvv0xpYzykzBCH0hhdyiEZxNJMGifME5HNgxJWo6PnvKDKmvn2dhej8NsaJKc1lyZXhz5W9ZU6taMWLq5CauvzLPRu9OsrYKiTQgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 03 May 2021 19:31:11 GMT',
+  'Tue, 04 May 2021 05:21:00 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,19 +58,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8a0cdaac-2cf3-4928-85c4-988317670700',
+  '3e8cfc9d-70e7-4a28-849d-cf689db0e500',
   'x-ms-ests-server',
-  '2.1.11654.25 - WUS2 ProdSlices',
+  '2.1.11654.16 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Au3fDaWoqVVGk4LeapOLqsNz_bg1EAAAAP1FItgOAAAA; expires=Wed, 02-Jun-2021 19:31:11 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AqXUpo7Eg7lIkX24TbKl-dNz_bg1DgAAAErQItgOAAAA; expires=Thu, 03-Jun-2021 05:21:01 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrJTfaiW5x2Ka3GPbPCRBBbpfEjQirSP0co5YPvkvFOhCMjAg-M5QOCLZmFW66G0jrhdfb-G3AyieyIx0IS2ClvES5zxH-EroGtCg1ZE5_JyW7ZKm8isBgMu0_z09qJeoPsyIy8ujPx2yUeHm5LtftqcQWH_HA2vNO2K466nRR9dwgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr8cgruzHiGr-nQZiZzD1sdf4CI5OrHsqBoJvXrDCksotW5l54qGPH5Y1Pg2_am6R1U2XrvqdY-CM6Edch0W4lP-Tk-VCUCmCFtXPSdr3scJNfvjAHhu45PIBsR4kk1Mu51pCE5qnsgipAnUOaOeVc0J8SgSicaDB1pi1S5Mi9i30gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 03 May 2021 19:31:11 GMT',
+  'Tue, 04 May 2021 05:21:00 GMT',
   'Content-Length',
   '1651'
 ]);
@@ -96,19 +96,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '5526f16f-988d-46cd-8b46-6c4e71e30600',
+  '9344c809-d294-4bf4-9093-4ecc0263fa01',
   'x-ms-ests-server',
-  '2.1.11654.25 - WUS2 ProdSlices',
+  '2.1.11654.16 - SCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Au3fDaWoqVVGk4LeapOLqsNz_bg1EAAAAP1FItgOAAAA; expires=Wed, 02-Jun-2021 19:31:12 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AqXUpo7Eg7lIkX24TbKl-dNz_bg1DgAAAErQItgOAAAA; expires=Thu, 03-Jun-2021 05:21:01 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 03 May 2021 19:31:11 GMT',
+  'Tue, 04 May 2021 05:21:00 GMT',
   'Content-Length',
   '1331'
 ]);
@@ -119,115 +119,235 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Transfer-Encoding',
   'chunked',
   'operation-location',
-  'https://endpoint/text/analytics/v3.1-preview.5/analyze/jobs/ad55ddcb-8b60-484a-8c26-b78a31c77f7b',
+  'https://endpoint/text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51',
   'x-envoy-upstream-service-time',
-  '12852',
+  '5327',
   'apim-request-id',
-  '89a0bd15-ac3f-4d67-bcfe-d48af840efa3',
+  '9c5157e4-b903-4547-85d0-c161dab3dc94',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 03 May 2021 19:31:24 GMT'
+  'Tue, 04 May 2021 05:21:06 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/ad55ddcb-8b60-484a-8c26-b78a31c77f7b')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51')
   .query(true)
-  .reply(200, {"jobId":"ad55ddcb-8b60-484a-8c26-b78a31c77f7b","lastUpdateDateTime":"2021-05-03T19:31:28Z","createdDateTime":"2021-05-03T19:31:12Z","expirationDateTime":"2021-05-04T19:31:12Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-03T19:31:28Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"88543b54-241d-424d-96df-02488679bc51","lastUpdateDateTime":"2021-05-04T05:21:06Z","createdDateTime":"2021-05-04T05:21:01Z","expirationDateTime":"2021-05-05T05:21:01Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:21:06Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '3166',
+  '152',
   'apim-request-id',
-  '407bb4f3-5187-45f5-a562-c9e702a288a2',
+  '88b96c9a-7487-408e-84ca-f73b0a7ad274',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 03 May 2021 19:31:28 GMT'
+  'Tue, 04 May 2021 05:21:06 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/ad55ddcb-8b60-484a-8c26-b78a31c77f7b')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51')
   .query(true)
-  .reply(200, {"jobId":"ad55ddcb-8b60-484a-8c26-b78a31c77f7b","lastUpdateDateTime":"2021-05-03T19:31:28Z","createdDateTime":"2021-05-03T19:31:12Z","expirationDateTime":"2021-05-04T19:31:12Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-03T19:31:28Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"88543b54-241d-424d-96df-02488679bc51","lastUpdateDateTime":"2021-05-04T05:21:06Z","createdDateTime":"2021-05-04T05:21:01Z","expirationDateTime":"2021-05-05T05:21:01Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:21:06Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '3227',
+  '156',
   'apim-request-id',
-  'c03af045-e310-46d2-b7be-a4582b6b26db',
+  'f27f71ce-f1ea-42da-94e5-4e9e507b6390',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 03 May 2021 19:31:32 GMT'
+  'Tue, 04 May 2021 05:21:06 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/ad55ddcb-8b60-484a-8c26-b78a31c77f7b')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51')
   .query(true)
-  .reply(200, {"jobId":"ad55ddcb-8b60-484a-8c26-b78a31c77f7b","lastUpdateDateTime":"2021-05-03T19:31:28Z","createdDateTime":"2021-05-03T19:31:12Z","expirationDateTime":"2021-05-04T19:31:12Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-03T19:31:28Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"88543b54-241d-424d-96df-02488679bc51","lastUpdateDateTime":"2021-05-04T05:21:08Z","createdDateTime":"2021-05-04T05:21:01Z","expirationDateTime":"2021-05-05T05:21:01Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:21:08Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '10559',
+  '102',
   'apim-request-id',
-  'a753e5eb-e1b9-417c-93fe-96e9f10f8459',
+  '2155e7a5-25db-4d9f-b182-7a8c69803186',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 03 May 2021 19:31:44 GMT'
+  'Tue, 04 May 2021 05:21:08 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/ad55ddcb-8b60-484a-8c26-b78a31c77f7b')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51')
   .query(true)
-  .reply(200, {"jobId":"ad55ddcb-8b60-484a-8c26-b78a31c77f7b","lastUpdateDateTime":"2021-05-03T19:31:55Z","createdDateTime":"2021-05-03T19:31:12Z","expirationDateTime":"2021-05-04T19:31:12Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-03T19:31:55Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionTasks":[{"lastUpdateDateTime":"2021-05-03T19:31:55.4566301Z","name":"NA","state":"succeeded","results":{"documents":[{"id":"1","entities":[{"text":"Microsoft","category":"Organization","offset":0,"length":9,"confidenceScore":0.95},{"text":"Bill Gates","category":"Person","offset":25,"length":10,"confidenceScore":0.99},{"text":"Paul Allen","category":"Person","offset":40,"length":10,"confidenceScore":0.99}],"warnings":[]},{"id":"2","entities":[{"text":"Microsoft","category":"Organization","offset":0,"length":9,"confidenceScore":0.96},{"text":"Bill Gates","category":"Person","offset":26,"length":10,"confidenceScore":0.99},{"text":"Paul Allen","category":"Person","offset":39,"length":10,"confidenceScore":0.99}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
+  .reply(200, {"jobId":"88543b54-241d-424d-96df-02488679bc51","lastUpdateDateTime":"2021-05-04T05:21:08Z","createdDateTime":"2021-05-04T05:21:01Z","expirationDateTime":"2021-05-05T05:21:01Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:21:08Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '13861',
+  '6',
   'apim-request-id',
-  '570c1499-db9a-4fb8-94fb-1efc727d0ccb',
+  '7683011b-bda3-4c58-806e-00e9144b5ef2',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 03 May 2021 19:32:00 GMT'
+  'Tue, 04 May 2021 05:21:10 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('//text/analytics/v3.1-preview.5/analyze/jobs/ad55ddcb-8b60-484a-8c26-b78a31c77f7b')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51')
   .query(true)
-  .reply(200, {"jobId":"ad55ddcb-8b60-484a-8c26-b78a31c77f7b","lastUpdateDateTime":"2021-05-03T19:31:55Z","createdDateTime":"2021-05-03T19:31:12Z","expirationDateTime":"2021-05-04T19:31:12Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-03T19:31:55Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionTasks":[{"lastUpdateDateTime":"2021-05-03T19:31:55.4566301Z","name":"NA","state":"succeeded","results":{"documents":[{"id":"1","entities":[{"text":"Microsoft","category":"Organization","offset":0,"length":9,"confidenceScore":0.95},{"text":"Bill Gates","category":"Person","offset":25,"length":10,"confidenceScore":0.99},{"text":"Paul Allen","category":"Person","offset":40,"length":10,"confidenceScore":0.99}],"warnings":[]},{"id":"2","entities":[{"text":"Microsoft","category":"Organization","offset":0,"length":9,"confidenceScore":0.96},{"text":"Bill Gates","category":"Person","offset":26,"length":10,"confidenceScore":0.99},{"text":"Paul Allen","category":"Person","offset":39,"length":10,"confidenceScore":0.99}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
+  .reply(200, {"jobId":"88543b54-241d-424d-96df-02488679bc51","lastUpdateDateTime":"2021-05-04T05:21:08Z","createdDateTime":"2021-05-04T05:21:01Z","expirationDateTime":"2021-05-05T05:21:01Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:21:08Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '44',
+  '6',
   'apim-request-id',
-  '6c1909aa-dd28-4dd4-b8f2-cfd1b4517243',
+  'aceddb83-f36d-49fe-b040-f703c453cc09',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 03 May 2021 19:32:01 GMT'
+  'Tue, 04 May 2021 05:21:13 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51')
+  .query(true)
+  .reply(200, {"jobId":"88543b54-241d-424d-96df-02488679bc51","lastUpdateDateTime":"2021-05-04T05:21:08Z","createdDateTime":"2021-05-04T05:21:01Z","expirationDateTime":"2021-05-05T05:21:01Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:21:08Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '6',
+  'apim-request-id',
+  '9dc9775b-499d-49e4-bd4f-4c2b382d4b81',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 05:21:15 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51')
+  .query(true)
+  .reply(200, {"jobId":"88543b54-241d-424d-96df-02488679bc51","lastUpdateDateTime":"2021-05-04T05:21:08Z","createdDateTime":"2021-05-04T05:21:01Z","expirationDateTime":"2021-05-05T05:21:01Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:21:08Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '7582',
+  'apim-request-id',
+  '281df81f-e39b-4905-ac97-69a246574cda',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 05:21:24 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51')
+  .query(true)
+  .reply(200, {"jobId":"88543b54-241d-424d-96df-02488679bc51","lastUpdateDateTime":"2021-05-04T05:21:08Z","createdDateTime":"2021-05-04T05:21:01Z","expirationDateTime":"2021-05-05T05:21:01Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:21:08Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '5916',
+  'apim-request-id',
+  '15b8b384-b615-44f0-be90-c76c170b96eb',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 05:21:33 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51')
+  .query(true)
+  .reply(200, {"jobId":"88543b54-241d-424d-96df-02488679bc51","lastUpdateDateTime":"2021-05-04T05:21:08Z","createdDateTime":"2021-05-04T05:21:01Z","expirationDateTime":"2021-05-05T05:21:01Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:21:08Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '9',
+  'apim-request-id',
+  '38a4f1ff-5597-4d51-b211-8a1dc5cf1b90',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 05:21:35 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51')
+  .query(true)
+  .reply(200, {"jobId":"88543b54-241d-424d-96df-02488679bc51","lastUpdateDateTime":"2021-05-04T05:21:36Z","createdDateTime":"2021-05-04T05:21:01Z","expirationDateTime":"2021-05-05T05:21:01Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:21:36Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionTasks":[{"lastUpdateDateTime":"2021-05-04T05:21:36.4336903Z","name":"NA","state":"succeeded","results":{"documents":[{"id":"1","entities":[{"text":"Microsoft","category":"Organization","offset":0,"length":9,"confidenceScore":0.95},{"text":"Bill Gates","category":"Person","offset":25,"length":10,"confidenceScore":0.99},{"text":"Paul Allen","category":"Person","offset":40,"length":10,"confidenceScore":0.99}],"warnings":[]},{"id":"2","entities":[{"text":"Microsoft","category":"Organization","offset":0,"length":9,"confidenceScore":0.96},{"text":"Bill Gates","category":"Person","offset":26,"length":10,"confidenceScore":0.99},{"text":"Paul Allen","category":"Person","offset":39,"length":10,"confidenceScore":0.99}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '102',
+  'apim-request-id',
+  '07b0478a-3f9c-4a0c-b82b-7f520b46ec16',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 05:21:37 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/88543b54-241d-424d-96df-02488679bc51')
+  .query(true)
+  .reply(200, {"jobId":"88543b54-241d-424d-96df-02488679bc51","lastUpdateDateTime":"2021-05-04T05:21:36Z","createdDateTime":"2021-05-04T05:21:01Z","expirationDateTime":"2021-05-05T05:21:01Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-04T05:21:36Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityRecognitionTasks":[{"lastUpdateDateTime":"2021-05-04T05:21:36.4336903Z","name":"NA","state":"succeeded","results":{"documents":[{"id":"1","entities":[{"text":"Microsoft","category":"Organization","offset":0,"length":9,"confidenceScore":0.95},{"text":"Bill Gates","category":"Person","offset":25,"length":10,"confidenceScore":0.99},{"text":"Paul Allen","category":"Person","offset":40,"length":10,"confidenceScore":0.99}],"warnings":[]},{"id":"2","entities":[{"text":"Microsoft","category":"Organization","offset":0,"length":9,"confidenceScore":0.96},{"text":"Bill Gates","category":"Person","offset":26,"length":10,"confidenceScore":0.99},{"text":"Paul Allen","category":"Person","offset":39,"length":10,"confidenceScore":0.99}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}}]}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '10141',
+  'apim-request-id',
+  '87528d5f-b8df-4669-9245-619694fa17b8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 04 May 2021 05:21:46 GMT'
 ]);

@@ -938,7 +938,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }]
@@ -974,7 +974,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             extractKeyPhrasesActions: [{ modelVersion: "latest" }]
@@ -1024,7 +1024,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }]
@@ -1064,7 +1064,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella."
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeLinkedEntitiesActions: [{}]
@@ -1110,7 +1110,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           { id: "3", text: "Is 998.214.865-68 your Brazilian CPF number?" }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
@@ -1171,7 +1171,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           "The toilet smelled."
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             analyzeSentimentActions: [{ includeOpinionMining: true }]
@@ -1228,7 +1228,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
       it("bad request empty string", async function() {
         const docs = [""];
         try {
-          const poller = await client.beginAnalyzeBatchActions(
+          const poller = await client.beginAnalyzeActions(
             docs,
             {
               recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
@@ -1262,7 +1262,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -1337,7 +1337,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -1403,7 +1403,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           { id: "5", text: "five" }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -1469,7 +1469,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           { id: "1", text: ":D" }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -1537,7 +1537,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           { id: "1", text: ":D" }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -1581,7 +1581,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           "The restaurant was not as good as I hoped."
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -1615,7 +1615,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           "The restaurant was not as good as I hoped."
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -1649,7 +1649,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           { id: "3", text: "The restaurant had really good food." }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -1682,7 +1682,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           { id: "3", text: "猫は幸せ" }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -1711,7 +1711,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
       it("invalid language hint", async function() {
         const docs = ["This should fail because we're passing in an invalid language hint"];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -1754,7 +1754,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "bad" }],
@@ -1791,7 +1791,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
         const totalDocs = 25;
         const docs = Array(totalDocs - 1).fill("random text");
         docs.push("Microsoft was founded by Bill Gates and Paul Allen");
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizeEntitiesActions: [{ modelVersion: "latest" }],
@@ -1834,7 +1834,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           { id: "3", text: "猫は幸せ" }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
@@ -1868,7 +1868,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
           { id: "3", text: "猫は幸せ" }
         ];
 
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           docs,
           {
             recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
@@ -1893,7 +1893,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
       });
 
       it("family emoji wit skin tone modifier", async function() {
-        const poller = await client.beginAnalyzeBatchActions(
+        const poller = await client.beginAnalyzeActions(
           [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }],
           {
             recognizePiiEntitiesActions: [
@@ -1917,11 +1917,11 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
         }
       });
 
-      it("action failures are returned", async function() {
+      it("malformed actions", async function() {
         const docs = [{ id: "1", text: "I will go to the park." }];
 
         try {
-          await client.beginAnalyzeBatchActions(
+          await client.beginAnalyzeActions(
             docs,
             {
               recognizePiiEntitiesActions: [

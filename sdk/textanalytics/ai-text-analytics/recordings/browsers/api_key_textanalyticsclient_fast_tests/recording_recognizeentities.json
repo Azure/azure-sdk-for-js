@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"entities\":[{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":26,\"length\":7,\"confidenceScore\":0.99},{\"text\":\"last weekend\",\"category\":\"DateTime\",\"subcategory\":\"DateRange\",\"offset\":34,\"length\":12,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "43d763cb-e4c8-49b2-968d-0355b9374f47",
+    "apim-request-id": "e43c8fe9-4123-4e49-aac4-b8606d4631fc",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Mon, 03 May 2021 21:45:04 GMT",
+    "date": "Tue, 04 May 2021 05:31:19 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "33"
+    "x-envoy-upstream-service-time": "63"
    }
   }
  ],

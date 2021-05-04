@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 03 May 2021 21:15:19 GMT",
+    "date": "Tue, 04 May 2021 05:34:53 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11654.16 - EUS ProdSlices",
-    "x-ms-request-id": "cda45f29-c2d1-4ffa-bcae-a62b5524fc01"
+    "x-ms-ests-server": "2.1.11654.25 - WUS2 ProdSlices",
+    "x-ms-request-id": "4383f902-0355-437f-a0a0-11a9cc381a00"
    }
   },
   {
@@ -32,9 +32,9 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Missing input documents.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "f07b8ea3-6ce4-41f3-a110-36144c90de0b",
+    "apim-request-id": "2f75ad0f-5c03-4302-9cb1-efb60dfa3eaf",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 03 May 2021 21:15:20 GMT",
+    "date": "Tue, 04 May 2021 05:34:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "734e4070bf0e5eb72a26e71f87866c02"
+ "hash": "df4c50f939c2f492603cb35f015630f7"
 }
