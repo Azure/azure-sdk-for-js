@@ -338,14 +338,14 @@ export interface DataPointAnomaly {
     createdOn?: Date;
     readonly dataFeedId?: string;
     detectionConfigurationId: string;
-    expectedValue?: number;
+    readonly expectedValue?: number;
     metricId?: string;
     modifiedOn?: Date;
     seriesKey: DimensionKey;
     severity: AnomalySeverity;
     status?: AnomalyStatus;
     timestamp: number;
-    value?: number;
+    readonly value?: number;
 }
 
 // @public
