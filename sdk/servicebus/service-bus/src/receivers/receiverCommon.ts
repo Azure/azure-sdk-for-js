@@ -240,6 +240,7 @@ export async function settleMessageOperation(
   if (message.delivery.remote_settled) {
     error = new Error(MessageAlreadySettled);
     logError(error);
+    throw error;
   }
 
   try {
