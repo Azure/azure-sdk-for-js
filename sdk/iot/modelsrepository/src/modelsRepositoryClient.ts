@@ -181,7 +181,7 @@ export class ModelsRepositoryClient {
       logger.info(`Getting models w/ dependency resolution mode: enabled`);
       logger.info(`Retreiving model(s): ${dtmis}...`);
       const baseModelMap = await this._resolver.resolve(dtmis);
-      const baseModelList = [baseModelMap.values()];
+      const baseModelList = Object.keys(baseModelMap).map((key) => baseModelMap[key])
       logger.info(`Retreiving model dependencies for ${dtmis}...`);
       modelMap = await this._pseudoParser.expand(baseModelList);
     } else if (dependencyResolution === cnst.DEPENDENCY_MODE_TRY_FROM_EXPANDED) {

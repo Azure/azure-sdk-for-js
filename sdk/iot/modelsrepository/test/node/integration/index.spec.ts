@@ -31,7 +31,7 @@ const remoteResolutionScenarios: remoteResolutionScenario[] = [
     name: "dependencyResolution: disabled, single DTMI, no dependencies",
     clientOptions: {
       dependencyResolution: "disabled",
-      repositoryLocation: "devicemodels.contoso.com"
+      repositoryLocation: "https://www.devicemodels.contoso.com"
     },
     getModelsOptions: {},
     dtmis: [
@@ -47,7 +47,7 @@ const remoteResolutionScenarios: remoteResolutionScenario[] = [
     name: "dependencyResolution: enabled, single DTMI, no dependencies",
     clientOptions: {
       dependencyResolution: "enabled",
-      repositoryLocation: "devicemodels.contoso.com"
+      repositoryLocation: "https://www.devicemodels.contoso.com"
     },
     getModelsOptions: {},
     dtmis: [
@@ -63,7 +63,7 @@ const remoteResolutionScenarios: remoteResolutionScenario[] = [
     name: "dependencyResolution: tryFromExpanded, single DTMI, no dependencies",
     clientOptions: {
       dependencyResolution: "tryFromExpanded",
-      repositoryLocation: "devicemodels.contoso.com"
+      repositoryLocation: "https://www.devicemodels.contoso.com"
     },
     getModelsOptions: {},
     dtmis: [
@@ -79,7 +79,7 @@ const remoteResolutionScenarios: remoteResolutionScenario[] = [
     name: "dependencyResolution: disabled, multiple DTMI, no dependencies",
     clientOptions: {
       dependencyResolution: "tryFromExpanded",
-      repositoryLocation: "devicemodels.contoso.com"
+      repositoryLocation: "https://www.devicemodels.contoso.com"
     },
     getModelsOptions: {},
     dtmis: [

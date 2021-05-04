@@ -3,65 +3,99 @@
 
 import * as lib from '../../../src/dtmiConventions'
 
-import * as sinon from 'sinon'
 import { assert, expect } from 'chai'
 
+interface TestCase {
+  dtmi: string,
+  valid: boolean,
+  expectedPath?: string
+  expectedURL?: string
+}
+
+const testCases: TestCase[] = [
+  {
+    dtmi: 'dtmi:azure:DeviceManagement:DeviceInformation;1',
+    valid: true,
+    expectedPath: 'dtmi/azure/devicemanagement/deviceinformation-1.json',
+    expectedURL: 'https://contoso.com/dtmi/azure/devicemanagement/deviceinformation-1.json'
+  },
+  { 
+    dtmi: 'dtmiazure:DeviceManagement:DeviceInformation;1',
+    valid: false,
+  },
+  { 
+    dtmi: 'dtmi:foobar:DeviceInformation;1',
+    valid: true,
+    expectedPath: 'dtmi/foobar/deviceinformation-1.json',
+    expectedURL: 'https://contoso.com/dtmi/foobar/deviceinformation-1.json'
+  }
+]
+
+const fakeBasePath = 'https://contoso.com'
+
+
 describe('dtmiConventions', function () {
-  afterEach(() => {
-    sinon.restore()
-  })
-  describe('isValidDtmi', function () {
-    // TODO: Will implement more rigorous testing of DTMI validation over multiple different valid DTMIs.
-    it('should validate a correctly formatted dtmi', function () {
-      const validDtmi = 'dtmi:azure:DeviceManagement:DeviceInformation;1'
-      const result = lib.isValidDtmi(validDtmi)
-      assert(result, 'valid dtmi not found as valid')
-    })
+  testCases.forEach((testCase) => {
+    describe('isValidDtmi', function () {
+      if (testCase.valid) {
+        it(`valid dtmi - ${testCase.dtmi}`, function () {
+          const result = lib.isValidDtmi(testCase.dtmi);
+          assert(result, `${testCase.dtmi} was incorrectly labelled invalid.`)
+        });
+      } else {
+        it(`invalid dtmi - ${testCase.dtmi}`, function () {
+          const result = lib.isValidDtmi(testCase.dtmi);
+          expect(result, `${testCase.dtmi} was incorrectly labelled as valid.`).to.be.false
+        })
+      }
+    });
+  });
 
-    // TODO: Will implement more rigorous testing of DTMI validation over multiple different invalid DTMIs.
-    it('should invalidate an incorrectly formatted dtmi', function () {
-      const invalidDtmi = 'dtmiazure:DeviceManagement:DeviceInformation;1'
-      const result = lib.isValidDtmi(invalidDtmi)
-      assert(!result, 'invalid dtmi incorrectly labelled as valid')
+  testCases.forEach((testCase) => {
+    describe('convertDtmiToPath', function () {
+      if (testCase.valid) {
+        it(`converts dtmi to path - ${testCase.dtmi}`, function () {
+          const result = lib.convertDtmiToPath(testCase.dtmi, false)
+          expect(result).to.deep.equal(testCase.expectedPath);
+        })
+        it(`converts dtmi to expanded path - ${testCase.dtmi}`, function () {
+          const result = lib.convertDtmiToPath(testCase.dtmi, true)
+          const expected = testCase.expectedPath?.replace('.json', '.expanded.json');
+          expect(result).to.deep.equal(expected);
+        })
+      } else {
+        it(`throw error on invalid dtmi - ${testCase.dtmi}`, function () {
+          expect(() => {
+            lib.convertDtmiToPath(testCase.dtmi, false)
+          }).to.throw('DTMI provided is invalid. Ensure it follows DTMI conventions.')
+        })
+      }
     })
-  })
+  });
 
-  describe('convertDtmiToPath', function () {
-    it('should fail if the dtmi is not formatted correctly', function () {
-      expect(() => {
-        const invalidDtmi = 'dtmiazure:DeviceManagement:DeviceInformation;1'
-        lib.convertDtmiToPath(invalidDtmi, false)
-      }).to.throw('DTMI is incorrectly formatted. Ensure DTMI follows conventions.')
-    })
+  testCases.forEach((testCase) => {
+    describe('getModelUri', function () {
+      if (testCase.valid) {
+        it(`generates model uri - ${testCase.dtmi}`, function () {
+          const result = lib.getModelUri(testCase.dtmi, fakeBasePath, false);
+          expect(result).to.equal(testCase.expectedURL);
+        })
 
-    it('should reformat a DTMI to a generic path', function () {
-      const validDtmi = 'dtmi:azure:DeviceManagement:DeviceInformation;1'
-      const result = lib.convertDtmiToPath(validDtmi, false)
-      assert.deepEqual(result, '/dtmi/azure/devicemanagement/deviceinformation-1.json')
-    })
-  })
+        it(`generates expanded model uri - ${testCase.dtmi}`, function () {
+          const result = lib.getModelUri(testCase.dtmi, fakeBasePath, true)
+          const expected = testCase.expectedURL?.replace('.json', '.expanded.json');
+          expect(result).to.equal(expected);
+        })
+      } else {
+        it('should fail if the dtmi is not formatted correctly', function () {
+          expect(() => {
+            lib.getModelUri(testCase.dtmi, fakeBasePath, false)
+          }).to.throw('DTMI provided is invalid. Ensure it follows DTMI conventions.')
+        })
+      }
 
-  describe('getModelUri', function () {
-    it('should fail if the dtmi is not formatted correctly', function () {
-      expect(() => {
-        const invalidDtmi = 'dtmiazure:DeviceManagement:DeviceInformation;1'
-        const fakeBasePath = 'https://contoso.com'
-        lib.getModelUri(invalidDtmi, fakeBasePath, false)
-      }).to.throw('DTMI is incorrectly formatted. Ensure DTMI follows conventions.')
-    })
 
-    it('should reformat a DTMI to a qualified URL path', function () {
-      const validDtmi = 'dtmi:foobar:DeviceInformation;1'
-      const fakeBasePath = 'https://contoso.com'
-      const result = lib.getModelUri(validDtmi, fakeBasePath, false)
-      assert.deepEqual(result, 'https://contoso.com/dtmi/foobar/deviceinformation-1.json')
-    })
 
-    it('should add expanded to the path if specified', function () {
-      const validDtmi = 'dtmi:foobar:DeviceInformation;1'
-      const fakeBasePath = 'https://contoso.com'
-      const result = lib.getModelUri(validDtmi, fakeBasePath, true)
-      assert.deepEqual(result, 'https://contoso.com/dtmi/foobar/deviceinformation-1.expanded.json')
-    })
-  })
+    }) 
+  });
 })

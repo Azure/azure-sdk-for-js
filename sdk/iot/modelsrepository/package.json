@@ -9,7 +9,7 @@
     "stream": "./node_modules/stream-browserify/index.js",
     "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js"
   },
-  "types": "types/template.d.ts",
+  "types": "types/iot-models-repository.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -33,14 +33,14 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}/*.spec.ts\"",
+    "unit-test:node": "mocha --require esm --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "temp-unit-test": "mocha -r ts-node/register --timeout 1200000 test/node/*.spec.ts"
   },
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/template.d.ts",
+    "types/iot-models-repository.d.ts",
     "README.md",
     "LICENSE",
     "rollup.config.js",

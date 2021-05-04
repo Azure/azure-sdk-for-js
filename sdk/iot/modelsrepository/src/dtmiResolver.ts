@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import { convertDtmiToPath, logger, ModelError } from "./internal";
+import { convertDtmiToPath, DTDL, logger, ModelError } from "./internal";
 
 export class ResolverError extends Error {
   cause: Error | undefined;
@@ -18,7 +18,7 @@ export class DtmiResolver {
     this._fetcher = fetcher;
   }
 
-  async resolve(dtmis: string[], expandedModel: boolean = false) {
+  async resolve(dtmis: string[], expandedModel: boolean = false): Promise<{[dtmi: string]: DTDL}> {
     let modelMap: any = {};
 
     for (let dtmi of dtmis) {
@@ -29,8 +29,9 @@ export class DtmiResolver {
 
       
       if (expandedModel) {
-        if (!((dtdl as any[]).includes((model: any) => model["id"] === dtmi))) {
-          throw new ModelError(`DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${dtdl.map((model:any) => model["id"])}`);
+        const modelIds: string[] = (dtdl as any[]).map((model:any) => model["@id"]);
+        if (!modelIds.includes(dtmi)) {
+          throw new ModelError(`DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${modelIds}`);
         }
         for (let model of dtdl) {
           modelMap[model["@id"]] = model;
@@ -48,5 +49,3 @@ export class DtmiResolver {
     return modelMap;
   }
 }
-
-// TODO: 

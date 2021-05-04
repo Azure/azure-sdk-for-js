@@ -13,16 +13,17 @@ logger.setLogLevel('info');
 
 // You can change the endpoint and dtmi you'd like to access
 const repositoryLocation = "https://devicemodels.azure.com/";
-const dtmi = process.argv[2] || "dtmi:rigado:FlicButton;2";
+const dtmi = process.argv[2] || "dtmi:com:example:TemperatureController;1";
 
 console.log(repositoryLocation, dtmi);
 
 async function main() {
   // This is where you can change the options for how you want to resolve the dependencies.
-  const client = new lib.ModelsRepositoryClient(repositoryLocation);
-  const result = client.getModels(dtmi);
+  const client = new lib.ModelsRepositoryClient({repositoryLocation: repositoryLocation, dependencyResolution: 'enabled'});
+  const result = await client.getModels(dtmi);
   console.log(result);
   Object.keys(result).forEach((fetchedDtmi) => {
+    console.log("------------------------------------------------");
     console.log(`DTMI is: ${fetchedDtmi}`);
     console.log(`DTDL Display Name is: ${result[fetchedDtmi].displayName}`);
     console.log(`DTDL Description is: ${result[fetchedDtmi].description}`);

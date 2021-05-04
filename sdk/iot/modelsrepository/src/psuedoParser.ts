@@ -32,7 +32,7 @@ export class PseudoParser {
       logger.info(`Outstanding dependencies found: ${dependenciesToResolve}`);
       let resolvedDependenciesMap = await this._resolver.resolve(dependenciesToResolve);
       modelMap = { ...modelMap, ...resolvedDependenciesMap };
-      for (let dependencyModel of resolvedDependenciesMap.values()) {
+      for (let dependencyModel of Object.values(resolvedDependenciesMap)) {
         await this._expand(dependencyModel, modelMap);
       }
     }
