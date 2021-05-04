@@ -11,7 +11,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class ContainerRegistryClient {
-    constructor(endpointUrl: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
+    constructor(endpointUrl: string, credential?: TokenCredential, options?: ContainerRegistryClientOptions);
     deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
     endpoint: string;
     getRepositoryClient(repository: string): ContainerRepositoryClient;
@@ -24,7 +24,7 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 
 // @public
 export class ContainerRepositoryClient {
-    constructor(endpointUrl: string, repository: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
+    constructor(endpointUrl: string, repository: string, credential?: TokenCredential, options?: ContainerRegistryClientOptions);
     delete(options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
     deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<void>;
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;

@@ -137,7 +137,7 @@ export class ContainerRepositoryClient {
   constructor(
     endpointUrl: string,
     repository: string,
-    credential: TokenCredential,
+    credential?: TokenCredential,
     options: ContainerRegistryClientOptions = {}
   ) {
     this.endpoint = endpointUrl;
@@ -173,7 +173,7 @@ export class ContainerRepositoryClient {
       credential,
       scopes: ["https://management.core.windows.net/.default"],
       challengeCallbacks: new ChallengeHandler(
-        new ContainerRegistryRefreshTokenCredential(credential, this.authClient)
+        new ContainerRegistryRefreshTokenCredential(this.authClient, credential)
       )
     });
     this.client.pipeline.addPolicy(authPolicy);

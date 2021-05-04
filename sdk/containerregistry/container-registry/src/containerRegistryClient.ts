@@ -37,7 +37,7 @@ export class ContainerRegistryClient {
    * The Azure Container Registry endpoint.
    */
   public endpoint: string;
-  private credential: TokenCredential;
+  private credential?: TokenCredential;
   private clientOptions: ContainerRegistryClientOptions;
   private client: GeneratedClient;
   private authClient: GeneratedClient;
@@ -61,7 +61,7 @@ export class ContainerRegistryClient {
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential,
+    credential?: TokenCredential,
     options: ContainerRegistryClientOptions = {}
   ) {
     this.endpoint = endpointUrl;
@@ -96,7 +96,7 @@ export class ContainerRegistryClient {
         credential,
         scopes: ["https://management.core.windows.net/.default"],
         challengeCallbacks: new ChallengeHandler(
-          new ContainerRegistryRefreshTokenCredential(credential, this.authClient)
+          new ContainerRegistryRefreshTokenCredential(this.authClient, credential)
         )
       })
     );

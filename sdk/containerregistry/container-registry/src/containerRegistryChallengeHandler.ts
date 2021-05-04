@@ -69,15 +69,19 @@ export class ChallengeHandler implements ChallengeCallbacks {
       throw new Error("Failed to retrieve 'scope' from challenge");
     }
 
+    const grantType = this.credential.isAnonymousAccess ? "password" : "refresh_token";
     // Step 3: Exchange AAD Access Token for ACR Refresh Token
     // ACR refresh token is cached.
-    const acrRefreshToken = await this.cycler.getToken(scope, { ...options, service });
+    const acrRefreshToken = this.credential.isAnonymousAccess
+      ? ""
+      : (await this.cycler.getToken(scope, { ...options, service })).token;
 
     // Step 4: Send in acrRefreshToken and get back acrAccessToken
     const acrAccessToken = await this.credential.tokenService.ExchangeAcrRefreshTokenForAcrAccessTokenAsync(
-      acrRefreshToken.token,
+      acrRefreshToken,
       service,
       scope,
+      grantType,
       this.options
     );
 
