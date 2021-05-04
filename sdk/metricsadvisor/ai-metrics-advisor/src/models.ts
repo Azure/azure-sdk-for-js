@@ -952,7 +952,7 @@ export interface DataPointAnomaly {
   /**
    * value of the anomaly
    */
-  value?: number;
+  readonly value?: number;
   /**
    * expected value of the anomaly given by smart detector
    */
