@@ -20,32 +20,32 @@ export class DtmiResolver {
 
   async resolve(dtmis: string[], expandedModel: boolean = false): Promise<{[dtmi: string]: DTDL}> {
     let modelMap: any = {};
-
+    let promiseList = []; 
     for (let dtmi of dtmis) {
-      let dtdl: any[] | any;
       let dtdlPath = convertDtmiToPath(dtmi, expandedModel);
       logger.info(`Model ${dtmi} located in repository at ${dtdlPath}`);
-      dtdl = await this._fetcher.fetch(dtdlPath);
-
-      
-      if (expandedModel) {
-        const modelIds: string[] = (dtdl as any[]).map((model:any) => model["@id"]);
-        if (!modelIds.includes(dtmi)) {
-          throw new ModelError(`DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${modelIds}`);
+      let mypromise = this._fetcher.fetch(dtdlPath).then((dtdl: any[] | any) => {
+        if (expandedModel) {
+          const modelIds: string[] = (dtdl as any[]).map((model:any) => model["@id"]);
+          if (!modelIds.includes(dtmi)) {
+            throw new ModelError(`DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${modelIds}`);
+          }
+          for (let model of dtdl) {
+            modelMap[model["@id"]] = model;
+          }
+        } else {
+          let model = dtdl;
+          if (model["@id"] != dtmi) {
+            new ModelError(`DTMI mismatch - Request: ${dtmi}, Response ${model["@id"]}`);
+          }
+  
+          modelMap[`${dtmi}`] = dtdl;
         }
-        for (let model of dtdl) {
-          modelMap[model["@id"]] = model;
-        }
-      } else {
-        let model = dtdl;
-        if (model["@id"] != dtmi) {
-          new ModelError(`DTMI mismatch - Request: ${dtmi}, Response ${model["@id"]}`);
-        }
-
-        modelMap[`${dtmi}`] = dtdl;
-      }
+      });
+      promiseList.push(mypromise);
     }
 
+    await Promise.all(promiseList);
     return modelMap;
   }
 }

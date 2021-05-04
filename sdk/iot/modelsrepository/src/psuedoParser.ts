@@ -22,7 +22,7 @@ export class PseudoParser {
     return expandedMap;
   }
 
-  private async _expand(model: DTDL, modelMap: any) {
+  private async _expand(model: DTDL, modelMap: any): Promise<void> {
     logger.info(`Expanding model: ${model["@id"]}`);
     let dependencies = this._getModelDependencies(model);
     let dependenciesToResolve = dependencies.filter((dependency: string) => {
@@ -31,10 +31,14 @@ export class PseudoParser {
     if (dependenciesToResolve.length !== 0) {
       logger.info(`Outstanding dependencies found: ${dependenciesToResolve}`);
       let resolvedDependenciesMap = await this._resolver.resolve(dependenciesToResolve);
-      modelMap = { ...modelMap, ...resolvedDependenciesMap };
-      for (let dependencyModel of Object.values(resolvedDependenciesMap)) {
-        await this._expand(dependencyModel, modelMap);
-      }
+      Object.keys(resolvedDependenciesMap).forEach((key) => {
+        modelMap[key] = resolvedDependenciesMap[key];
+      })
+      const promiseList: Promise<void>[] = [];
+      Object.values(resolvedDependenciesMap).forEach((dependencyModel) => {
+        promiseList.push(this._expand(dependencyModel, modelMap));
+      });
+      await Promise.all(promiseList);
     }
   }
 
