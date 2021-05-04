@@ -17,13 +17,15 @@ export type BodyPrimitive = number | string | boolean | Date | Uint8Array | unde
  */
 export function isPrimitiveBody(value: unknown, mapperTypeName?: string): value is BodyPrimitive {
   return (
-    typeof value === "string" ||
-    typeof value === "number" ||
-    typeof value === "boolean" ||
-    mapperTypeName?.match(/^(Date|DateTime|DateTimeRfc1123|UnixTime|ByteArray|Base64Url)$/i) !==
-      null ||
-    value === undefined ||
-    value === null
+    mapperTypeName !== "Composite" &&
+    mapperTypeName !== "Dictionary" &&
+    (typeof value === "string" ||
+      typeof value === "number" ||
+      typeof value === "boolean" ||
+      mapperTypeName?.match(/^(Date|DateTime|DateTimeRfc1123|UnixTime|ByteArray|Base64Url)$/i) !==
+        null ||
+      value === undefined ||
+      value === null)
   );
 }
 
@@ -175,9 +177,6 @@ export function flattenResponse(
     body: fullResponse.parsedBody,
     headers: parsedHeaders,
     hasNullableType: isNullable,
-    shouldWrapBody:
-      expectedBodyTypeName !== "Composite" &&
-      expectedBodyTypeName !== "Dictionary" &&
-      isPrimitiveBody(fullResponse.parsedBody, expectedBodyTypeName)
+    shouldWrapBody: isPrimitiveBody(fullResponse.parsedBody, expectedBodyTypeName)
   });
 }
