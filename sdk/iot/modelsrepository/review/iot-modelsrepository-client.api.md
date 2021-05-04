@@ -18,12 +18,14 @@ export interface GetModelsOptions {
 export class ModelsRepositoryClient {
     constructor(options?: ModelsRepositoryClientOptions);
     get apiVersion(): string;
+    get dependencyResolution(): dependencyResolutionType;
     getModels(dtmis: string, options?: GetModelsOptions): Promise<{
         [dtmi: string]: any;
     }>;
     getModels(dtmis: string[], options?: GetModelsOptions): Promise<{
         [dtmi: string]: any;
     }>;
+    get repositoryLocation(): string;
     }
 
 // @public

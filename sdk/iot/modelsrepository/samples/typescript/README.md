@@ -10,64 +10,148 @@ products:
 urlFragment: template-typescript
 --- -->
 
-# Azure Template client library samples for TypeScript
+# Azure IoT Models Repository Samples
 
-These sample programs show how to use the TypeScript client libraries for Azure Template in some common scenarios.
+The Azure IoT Models Repository enables builders to manage and share digital twin models for global consumption. The models are [JSON-LD](https://json-ld.org/) documents defined using the Digital Twins Definition Language [(DTDL)](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md).
+
+For more info about the Azure IoT Models Repository checkout the [docs](https://docs.microsoft.com/en-us/azure/iot-pnp/concepts-model-repository).
+
 
 | **File Name**                       | **Description** |
 | ----------------------------------- | --------------- |
-| [sampleTemplate.ts][sampletemplate] | sample template |
+| [remoteExample.ts][remoteexample] | sample template |
+
+## Introduction
+
+You can explore the models repository APIs with the client library using the samples project.
+
+The samples project demonstrates the following:
+
+- Instantiate the client
+- Get models and their dependencies from either a remote endpoint or local repository.
+- Integration with the Digital Twins Model Parser
 
 ## Prerequisites
 
 The samples are compatible with Node.js >= 8.0.0.
 
-Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
-
-```bash
-npm install -g typescript
-```
-
-You need [an Azure subscription][freesub] to run these sample programs. Samples retrieve credentials to access the endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
-
 Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
 
-## Setup
+## Initializing the Models Repository Client
 
-To run the samples using the published version of the package:
-
-1. Install the dependencies using `npm`:
-
-```bash
-npm install
+```ts
+// When no URI is provided for instantiation, the Azure IoT Models Repository global endpoint
+// https://devicemodels.azure.com/ is used and the model dependency resolution
+// configuration is set to TryFromExpanded.
+const client = new ModelsRepositoryClient();
+console.log(`Initialized client point to global endpoint: ${client.repositoryLocation}`);
+```
+```ts
+// The client will also work with a local filesystem URI. This example shows initalization
+// with a local URI and disabling model dependency resolution.
+const client = new ModelsRepositoryClient({repositoryLocation: 'file:///path/to/repository/', dependencyResolution: 'disabled'});
+console.log(`Initialized client pointing to local path: ${client.repositoryLocation}`);
 ```
 
-2. Compile the samples
+## Override options
 
-```bash
-npm run build
+If you need to override pipeline behavior, such as provide your own HttpClient instance, you can do that via constructor that takes a ModelsRepositoryClientOptions parameter. It provides an opportunity to override default behavior including:
+
+- Overriding [transport](https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Pipeline.md)
+- Enabling [diagnostics](https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Pipeline.md)
+- Controlling [retry strategy](https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Pipeline.md)
+
+## Publish Models
+
+Publishing models to the models repository requires [exercising](https://docs.microsoft.com/en-us/azure/iot-pnp/concepts-model-repository#publish-a-model) common GitHub workflows.
+
+## Get Models
+
+After publishing, your model(s) will be available for consumption from the global repository endpoint. The following snippet shows how to retrieve the corresponding JSON-LD content.
+
+```ts
+// Global endpoint client
+const client = new ModelsRepositoryClient();
+
+// The output of GetModelsAsync() will include at least the definition for the target dtmi.
+// If the model dependency resolution configuration is not disabled, then models in which the
+// target dtmi depends on will also be included in the returned IDictionary<string, string>.
+const dtmi = "dtmi:com:example:TemperatureController;1";
+const models = await client.getModels(dtmi, {dependencyResolution: 'tryFromExpanded'});
+
+// In this case the above dtmi has 2 model dependencies.
+// dtmi:com:example:Thermostat;1 and dtmi:azure:DeviceManagement:DeviceInformation;1
+console.log(`${dtmi} resolved in ${models.keys().length} interfaces.`);
 ```
 
-3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+GitHub pull-request workflows are a core aspect of the IoT Models Repository service. To submit models, the user is expected to fork and clone the global [models repository project](https://github.com/Azure/iot-plugandplay-models) then iterate against the local copy. Changes would then be pushed to the fork (ideally in a new branch) and a PR created against the global repository.
 
-4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+To support this workflow and similar use cases, the client supports initialization with a local file-system URI. You can use this for example, to test and ensure newly added models to the locally cloned models repository are in their proper locations.
 
-```bash
-node dist/sampleTemplate.js
+```ts
+// Local sample repository client
+const client = new ModelsRepositoryClient(`file:///path/to/repository/`);
+
+// The output of GetModelsAsync() will include at least the definition for the target dtmi.
+// If the model dependency resolution configuration is not disabled, then models in which the
+// target dtmi depends on will also be included in the returned IDictionary<string, string>.
+const dtmi = "dtmi:com:example:TemperatureController;1";
+const models = await client.getModels(dtmi);
+
+// In this case the above dtmi has 2 model dependencies.
+// dtmi:com:example:Thermostat;1 and dtmi:azure:DeviceManagement:DeviceInformation;1
+console.log(`${dtmi} resolved in ${models.keys().length} interfaces.`);
 ```
 
-Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
+You are also able to get definitions for multiple root models at a time by leveraging the `GetModels` overload.
 
-```bash
-npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node dist/sampleTemplate.js
+```ts
+// Global endpoint client
+const client = new ModelsRepositoryClient();
+
+const dtmis = ["dtmi:com:example:TemperatureController;1", "dtmi:com:example:azuresphere:sampledevice;1"];
+const models = await client.getModels(dtmis);
+
+// In this case the dtmi "dtmi:com:example:TemperatureController;1" has 2 model dependencies
+// and the dtmi "dtmi:com:example:azuresphere:sampledevice;1" has no additional dependencies.
+// The returned IDictionary will include 4 models.
+console.log(`${dtmis.toString()} resolved in ${models.keys().length} interfaces.`);
 ```
 
-## Next Steps
+## Digital Twins Model Parser Integration
 
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+*When the Digital Twins Model Parser is completed, we will update you with information on how to integrate this client.*
 
-[sampletemplate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples/typescript/src/sampleTemplate.ts
-[apiref]: https://docs.microsoft.com/javascript/api
-[freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/README.md
-[typescript]: https://www.typescriptlang.org/docs/home.html
+## DtmiConventions utility functions
+
+The IoT Models Repository applies a set of conventions for organizing digital twin models. This package exposes a class called `DtmiConventions` which exposes utility functions supporting these conventions. These same functions are used throughout the client.
+
+```ts
+// This snippet shows how to validate a given DTMI string is well-formed.
+
+// Returns true
+DtmiConventions.isValidDtmi("dtmi:com:example:Thermostat;1");
+
+// Returns false
+DtmiConventions.isValidDtmi("dtmi:com:example:Thermostat");
+```
+
+```ts
+// This snippet shows obtaining a fully qualified path to a model file.
+
+// Local repository example
+const localRepositoryUri: string = "file:///path/to/repository/";
+const fullyQualifiedModelPath: string =
+    DtmiConventions.getModelUri("dtmi:com:example:Thermostat;1", localRepositoryUri);
+
+// Prints '/path/to/repository/dtmi/com/example/thermostat-1.json'
+console.log(fullyQualifiedModelPath);
+
+// Remote repository example
+const remoteRepositoryUri: string = "https://contoso.com/models/";
+const fullyQualifiedModelPath: string =
+    DtmiConventions.GetModelUri("dtmi:com:example:Thermostat;1", remoteRepositoryUri);
+
+// Prints 'https://contoso.com/models/dtmi/com/example/thermostat-1.json'
+console.log(fullyQualifiedModelPath);
+```

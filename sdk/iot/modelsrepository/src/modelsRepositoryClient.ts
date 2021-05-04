@@ -76,6 +76,20 @@ export class ModelsRepositoryClient {
   }
 
   /**
+   * Configured repository location for this instance. Will be used as the endpoint to get the models from.
+   */
+  get repositoryLocation() {
+    return this._repositoryLocation;
+  }
+
+  /**
+   * Configured type of dependency resolution for this instance. Dictates how the client deals with model dependencies.
+   */
+  get dependencyResolution() {
+    return this._dependencyResolution;
+  }
+
+  /**
    * Because of the local / remote optionality of this client, the service client 
    * must be dynamically generated based on the repository location. If the provided
    * repository location is a remote location, then this private method will be used

@@ -1,27 +1,19 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-/**
- * Demonstrates resolving/obtaining a particular model definition from a remote model repository
- */
+import {ModelsRepositoryClient} from "../../../src";
 
-const lib = require("../../dist/index.js");
+const repositoryEndpoint = "devicemodels.azure.com";
+const dtmi = process.argv[2] || "dtmi:azure:DeviceManagement:DeviceInformation;1";
 
-const logger = require('@azure/logger');
-logger.setLogLevel('info');
-
-
-// You can change the endpoint and dtmi you'd like to access
-const repositoryLocation = "https://devicemodels.azure.com/";
-const dtmi = process.argv[2] || "dtmi:com:example:TemperatureController;1";
-
-console.log(repositoryLocation, dtmi);
+console.log(repositoryEndpoint, dtmi);
 
 async function main() {
-  // This is where you can change the options for how you want to resolve the dependencies.
-  const client = new lib.ModelsRepositoryClient({repositoryLocation: repositoryLocation, dependencyResolution: 'enabled'});
-  const result = await client.getModels(dtmi);
-  console.log(result);
+  // When no URI is provided for instantiation, the Azure IoT Models Repository global endpoint
+  // https://devicemodels.azure.com/ is used and the model dependency resolution
+  // configuration is set to TryFromExpanded.
+  const client = new ModelsRepositoryClient({repositoryLocation: repositoryEndpoint});
+  const result = await client.getModels(dtmi, {dependencyResolution: 'tryFromExpanded'});
   Object.keys(result).forEach((fetchedDtmi) => {
     console.log("------------------------------------------------");
     console.log(`DTMI is: ${fetchedDtmi}`);

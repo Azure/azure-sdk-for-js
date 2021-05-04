@@ -5,19 +5,26 @@
  * Demonstrates resolving/obtaining a particular model definition from a remote model repository
  */
 
-const resolver = require("../../out/src/index.js");
+const lib = require("../../dist/index.js");
+
+const logger = require('@azure/logger');
+logger.setLogLevel('info');
+
 
 // You can change the endpoint and dtmi you'd like to access
-const directory = process.argv[2] || "C:/";
-const dtmi = "dtmi:com:example:TemperatureController;1";
+const repositoryLocation = "https://devicemodels.azure.com/";
+// const repositoryLocation = process.argv[2] || "C:/";
+const dtmi = process.argv[2] || "dtmi:com:example:TemperatureController;1";
 
-console.log(directory, dtmi);
+console.log(repositoryLocation, dtmi);
 
 async function main() {
   // This is where you can change the options for how you want to resolve the dependencies.
-  const result = await resolver.resolve(dtmi, directory, { resolveDependencies: "enabled" });
+  const client = new lib.ModelsRepositoryClient({repositoryLocation: repositoryLocation, dependencyResolution: 'enabled'});
+  const result = await client.getModels(dtmi);
   console.log(result);
   Object.keys(result).forEach((fetchedDtmi) => {
+    console.log("------------------------------------------------");
     console.log(`DTMI is: ${fetchedDtmi}`);
     console.log(`DTDL Display Name is: ${result[fetchedDtmi].displayName}`);
     console.log(`DTDL Description is: ${result[fetchedDtmi].description}`);
