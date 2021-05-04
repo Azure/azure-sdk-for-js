@@ -7,7 +7,7 @@
       "@azure/iot-device-update": ["./src/index"]
     }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "samples-dev/**/*.ts"],
   "exclude": [
     "node_modules",
     "types",
