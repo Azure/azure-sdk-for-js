@@ -34,7 +34,6 @@ const storageAccountName =
   process.env["REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME"] || "<storageAccountName>";
 const blobContainerName =
   process.env["REMOTERENDERING_ARR_BLOB_CONTAINER_NAME"] || "<blobStorageName>";
-const sasToken = process.env["REMOTERENDERING_ARR_SAS_TOKEN"] || "<sasToken>";
 
 export async function main() {
   console.log("== Convert an asset example ==");

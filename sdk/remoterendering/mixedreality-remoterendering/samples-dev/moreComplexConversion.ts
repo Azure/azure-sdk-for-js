@@ -34,6 +34,12 @@ const storageAccountName =
   process.env["REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME"] || "<storageAccountName>";
 const blobContainerName =
   process.env["REMOTERENDERING_ARR_BLOB_CONTAINER_NAME"] || "<blobStorageName>";
+// Fall back to the same storage account.
+const storageAccountName2 =
+  process.env["REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME2"] || storageAccountName;
+// Fall back to the same blob container.
+const blobContainerName2 =
+  process.env["REMOTERENDERING_ARR_BLOB_CONTAINER_NAME2"] || blobContainerName;
 
 export async function main() {
   console.log("== Convert an asset example ==");
@@ -45,7 +51,7 @@ export async function main() {
   let inputStorageUrl =
     "https://" + storageAccountName + ".blob.core.windows.net/" + blobContainerName;
   let outputStorageUrl =
-    "https://" + storageAccountName + ".blob.core.windows.net/" + blobContainerName;
+    "https://" + storageAccountName2 + ".blob.core.windows.net/" + blobContainerName2;
 
   const inputSettings: AssetConversionInputSettings = {
     storageContainerUrl: inputStorageUrl,
