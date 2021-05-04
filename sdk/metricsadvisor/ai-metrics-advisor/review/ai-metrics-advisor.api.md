@@ -83,6 +83,7 @@ export type AnomalyDetectorDirection = "Both" | "Down" | "Up";
 
 // @public
 export interface AnomalyIncident {
+    readonly dataFeedId?: string;
     detectionConfigurationId: string;
     readonly expectedValueOfRootNode?: number;
     id: string;
@@ -335,6 +336,7 @@ export type DataFeedStatus = "Paused" | "Active";
 // @public
 export interface DataPointAnomaly {
     createdOn?: Date;
+    readonly dataFeedId?: string;
     detectionConfigurationId: string;
     expectedValue?: number;
     metricId?: string;
