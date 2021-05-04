@@ -25,7 +25,6 @@ const replaceableVariables: Record<string, string> = {
   REMOTERENDERING_ARR_BLOB_CONTAINER_NAME: "test",
   REMOTERENDERING_ARR_SAS_TOKEN: "arr_sas_token",
   REMOTERENDERING_ARR_SERVICE_ENDPOINT: "https://remoterendering.eastus2.mixedreality.azure.com",
-  REMOTERENDERING_ARR_STORAGE_ACCOUNT_KEY: "arr_storage_account_key",
   REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME: "sdktest"
 };
 
