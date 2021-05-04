@@ -1244,10 +1244,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
         }
       });
 
-      /**
-       * Analyze responds with an InvalidArgument error instead of an InvalidDocument one
-       */
-      it.skip("some documents with errors and multiple actions", async function() {
+      it("some documents with errors and multiple actions", async function() {
         const docs = [
           { id: "1", language: "", text: "" },
           {
@@ -1319,10 +1316,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
         }
       });
 
-      /**
-       * Analyze responds with an InvalidArgument error instead of an InvalidDocument one
-       */
-      it.skip("all documents with errors and multiple actions", async function() {
+      it("all documents with errors and multiple actions", async function() {
         const docs = [
           { id: "1", language: "", text: "" },
           {
@@ -1741,48 +1735,6 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
         if (!keyPhrasesTaskDocs.error) {
           for (const doc of keyPhrasesTaskDocs.results) {
             assert.equal(doc.error?.code, "UnsupportedLanguageCode");
-          }
-        }
-      });
-
-      it.skip("bad model", async function() {
-        const docs = [
-          {
-            id: "1",
-            language: "en",
-            text: "This should fail because we're passing in an invalid language hint"
-          }
-        ];
-
-        const poller = await client.beginAnalyzeActions(
-          docs,
-          {
-            recognizeEntitiesActions: [{ modelVersion: "bad" }],
-            recognizePiiEntitiesActions: [{ modelVersion: "bad" }],
-            extractKeyPhrasesActions: [{ modelVersion: "bad" }]
-          },
-          {
-            updateIntervalInMs: pollingInterval
-          }
-        );
-        const result = await poller.pollUntilDone();
-        const firstResult = (await result.next()).value;
-        const entitiesTaskDocs = firstResult?.recognizeEntitiesResults[0];
-        if (!entitiesTaskDocs.error) {
-          for (const doc of entitiesTaskDocs.results) {
-            assert.equal(doc.error?.code, "UnknownError");
-          }
-        }
-        const piiEntitiesTaskDocs = firstResult?.recognizePiiEntitiesResults[0];
-        if (!piiEntitiesTaskDocs.error) {
-          for (const doc of piiEntitiesTaskDocs.results) {
-            assert.equal(doc.error?.code, "UnknownError");
-          }
-        }
-        const keyPhrasesTaskDocs = firstResult?.extractKeyPhrasesResults[0];
-        if (!keyPhrasesTaskDocs.error) {
-          for (const doc of keyPhrasesTaskDocs.results) {
-            assert.equal(doc.error?.code, "UnknownError");
           }
         }
       });
