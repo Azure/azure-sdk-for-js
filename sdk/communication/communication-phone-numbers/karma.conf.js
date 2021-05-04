@@ -61,7 +61,8 @@ module.exports = function(config) {
       "AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING",
       "INCLUDE_PHONENUMBER_LIVE_TESTS",
       "AZURE_PHONE_NUMBER",
-      "COMMUNICATION_ENDPOINT"
+      "COMMUNICATION_ENDPOINT",
+      "SKIP_PHONENUMBERS_TESTS"
     ],
 
     // test results reporter to use
