@@ -2,15 +2,11 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createSynonymMapFromFile, isBrowser } from "../../src/synonymMapHelper";
+import { createSynonymMapFromFile } from "../../src";
 import { SynonymMap } from "../../src/serviceModels";
 
 describe("synonymmap", () => {
   it("create synonymmap from file", async function() {
-    if (isBrowser()) {
-      this.skip();
-    }
-
     const synonymMap: SynonymMap = await createSynonymMapFromFile(
       "my-synonym-map-1",
       "./test/internal/synonymMap.txt"
