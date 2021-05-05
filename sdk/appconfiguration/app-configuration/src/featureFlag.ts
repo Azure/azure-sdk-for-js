@@ -242,7 +242,7 @@ export function deserializeFeatureFlag(setting: ConfigurationSetting): FeatureFl
  * @internal
  */
 export function serializeFeatureFlagParam(setting: FeatureFlagParam): ConfigurationSettingParam {
-  if (!setting.key.startsWith(featureFlagPrefix) && typeof setting.key === "string") {
+  if (typeof setting.key === "string" && !setting.key.startsWith(featureFlagPrefix)) {
     setting.key = featureFlagPrefix + setting.key;
   }
   const value: JsonFeatureFlag & { id: string } = {
