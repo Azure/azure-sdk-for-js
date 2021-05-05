@@ -2,7 +2,6 @@
 
 ## 12.5.1 (Unreleased)
 
-
 ## 12.5.0 (2021-03-10)
 
 - Includes all features released in 12.5.0-beta.1.
