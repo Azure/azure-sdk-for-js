@@ -6,7 +6,10 @@
  */
 
 const { ChatClient } = require("@azure/communication-chat");
-const { AzureCommunicationTokenCredential, parseConnectionString } = require("@azure/communication-common");
+const {
+  AzureCommunicationTokenCredential,
+  parseConnectionString
+} = require("@azure/communication-common");
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
 // Load the .env file if it exists
