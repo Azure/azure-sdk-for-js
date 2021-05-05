@@ -23,9 +23,13 @@ import { MsalBaseUtilities } from "../src/msal/utils";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-setInterval(function() {
+const interval = setInterval(function() {
   log(); // logs out active handles that are keeping node running
 }, 5000);
+
+after(() => {
+  clearInterval(interval);
+});
 
 export type MsalTestCleanup = () => Promise<void>;
 
