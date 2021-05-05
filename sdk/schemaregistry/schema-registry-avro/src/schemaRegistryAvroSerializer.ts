@@ -26,7 +26,7 @@ import * as avro from "avsc";
 // - [Remaining bytes: Avro payload (in general, format-specific payload)]
 //     - Avro Binary Encoding
 //     - NOT Avro Object Container File, which includes the schema and defeats
-//       the purpose of this serialzer to move the schema out of the message
+//       the purpose of this serializer to move the schema out of the message
 //       payload and into the schema registry.
 //
 const FORMAT_INDICATOR = 0;
@@ -167,6 +167,10 @@ export class SchemaRegistryAvroSerializer {
     }
 
     const schemaResponse = await this.registry.getSchemaById(schemaId);
+    if (!schemaResponse) {
+      throw new Error(`Schema with ID '${schemaId}' not found`);
+    }
+
     if (!schemaResponse.serializationType.match(/^avro$/i)) {
       throw new Error(
         `Schema with ID '${schemaResponse.id}' has serialization type '${schemaResponse.serializationType}', not 'avro'.`
@@ -195,11 +199,18 @@ export class SchemaRegistryAvroSerializer {
       content: schema
     };
 
-    const schemaIdResponse = this.autoRegisterSchemas
-      ? await this.registry.registerSchema(description)
-      : await this.registry.getSchemaId(description);
+    let id: string;
+    if (this.autoRegisterSchemas) {
+      id = (await this.registry.registerSchema(description)).id;
+    } else {
+      const response = await this.registry.getSchemaId(description);
+      if (!response) {
+        throw new Error("Schema not found in registry.");
+      }
+      id = response.id;
+    }
 
-    return this.cache(schemaIdResponse.id, schema, avroType);
+    return this.cache(id, schema, avroType);
   }
 
   private cache(id: string, schema: string, type: avro.Type): CacheEntry {
