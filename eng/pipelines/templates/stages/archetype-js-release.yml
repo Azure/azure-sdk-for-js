@@ -231,6 +231,11 @@ stages:
       pool:
         name: azsdk-pool-mms-ubuntu-1804-general
         vmImage: MMSUbuntu18.04
+
+      variables:
+        # TODO: DRY this up
+        CIConfigs: "{'targets':[{'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview','content_folder':'docs-ref-services/preview'},{'path_to_config':'ci-configs/packages-latest.json','mode':'Latest','content_folder':'docs-ref-services/latest'}]}"
+
       steps:
         - checkout: self
         - download: current
@@ -259,6 +264,16 @@ stages:
                 targetType: filePath
                 filePath: "eng/tools/publish-to-npm.ps1"
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
+
+            # - template: /eng/pipelines/templates/steps/stage-artifacts.yml
+            #   parameters:
+            #     SourceFolder: ${{parameters.ArtifactName}}
+            #     TargetFolder: ${{artifact.safeName}}
+            #     PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
+            # - pwsh: |
+            #     Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
+            #   workingDirectory: $(Pipeline.Workspace)
+            #   displayName: Output Visible Artifacts
 
             - pwsh: |
                 $branchName = "daily/$(Get-Date -Format 'yyyy-MM-dd')"
