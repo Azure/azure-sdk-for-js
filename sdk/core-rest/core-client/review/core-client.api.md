@@ -24,6 +24,8 @@ export interface Client {
         options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
         trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
     };
+    // (undocumented)
+    pipeline: Pipeline;
 }
 
 // @public

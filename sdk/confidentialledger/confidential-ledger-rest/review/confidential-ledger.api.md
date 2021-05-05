@@ -13,7 +13,7 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-function ConfidentialLedger(credentials: TokenCredential | KeyCredential, options?: ClientOptions): ConfidentialLedgerClient;
+function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, credentials: TokenCredential, options?: ClientOptions): ConfidentialLedgerClient;
 
 export default ConfidentialLedger;
 
@@ -25,7 +25,7 @@ export type ConfidentialLedgerClient = Client & {
 // @public (undocumented)
 export interface ConfidentialLedgerEnclaves {
     currentNodeId: string;
-    enclaveQuotes: EnclaveQuotes;
+    enclaveQuotes: EnclaveQuotesDictionary;
 }
 
 // @public (undocumented)
@@ -43,7 +43,7 @@ export interface ConfidentialLedgerErrorBody {
 // @public (undocumented)
 export interface ConfidentialLedgerFactory {
     // (undocumented)
-    (credentials: TokenCredential | KeyCredential, options?: ClientOptions): void;
+    (ledgerBaseUrl: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): void;
 }
 
 // @public (undocumented)
@@ -96,7 +96,7 @@ export interface EnclaveQuote {
 }
 
 // @public (undocumented)
-export type EnclaveQuotes = Record<string, EnclaveQuote>;
+export type EnclaveQuotesDictionary = Record<string, EnclaveQuote>;
 
 // @public (undocumented)
 export interface GetConsortiumMembers {
@@ -238,12 +238,12 @@ export interface GetLedgerEntriesQueryParamProperties {
 }
 
 // @public (undocumented)
-export interface GetLedgerEntryForTransactionId {
-    get(options?: GetLedgerEntryForTransactionIdParameters): Promise<GetLedgerEntryForTransactionId200Response | GetLedgerEntryForTransactionIddefaultResponse>;
+export interface GetLedgerEntry {
+    get(options?: GetLedgerEntryParameters): Promise<GetLedgerEntry200Response | GetLedgerEntrydefaultResponse>;
 }
 
 // @public
-export interface GetLedgerEntryForTransactionId200Response extends HttpResponse {
+export interface GetLedgerEntry200Response extends HttpResponse {
     // (undocumented)
     body: LedgerQueryResult;
     // (undocumented)
@@ -251,7 +251,7 @@ export interface GetLedgerEntryForTransactionId200Response extends HttpResponse 
 }
 
 // @public
-export interface GetLedgerEntryForTransactionIddefaultResponse extends HttpResponse {
+export interface GetLedgerEntrydefaultResponse extends HttpResponse {
     // (undocumented)
     body: ConfidentialLedgerError;
     // (undocumented)
@@ -259,18 +259,21 @@ export interface GetLedgerEntryForTransactionIddefaultResponse extends HttpRespo
 }
 
 // @public (undocumented)
-export type GetLedgerEntryForTransactionIdParameters = RequestParameters & GetLedgerEntryForTransactionIdQueryParam;
+export type GetLedgerEntryParameters = RequestParameters & GetLedgerEntryQueryParam;
 
 // @public (undocumented)
-export interface GetLedgerEntryForTransactionIdQueryParam {
+export interface GetLedgerEntryQueryParam {
     // (undocumented)
-    queryParameters?: GetLedgerEntryForTransactionIdQueryParamProperties;
+    queryParameters?: GetLedgerEntryQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface GetLedgerEntryForTransactionIdQueryParamProperties {
+export interface GetLedgerEntryQueryParamProperties {
     subLedgerId?: string;
 }
+
+// @public (undocumented)
+export function getLedgerIdentity(ledgerId: string, identityServiceBaseUrl?: string): Promise<LedgerIdentity>;
 
 // @public (undocumented)
 export interface GetReceipt {
@@ -344,6 +347,14 @@ export interface LedgerEntry {
     contents: string;
     subLedgerId?: string;
     transactionId?: string;
+}
+
+// @public (undocumented)
+export interface LedgerIdentity {
+    // (undocumented)
+    ledgerId: string;
+    // (undocumented)
+    ledgerTlsCertificate: string;
 }
 
 // @public (undocumented)
@@ -480,7 +491,7 @@ export interface Routes {
     (path: "/app/governance/members"): GetConsortiumMembers;
     (path: "/app/enclaveQuotes"): GetEnclaveQuotes;
     (path: "/app/transactions"): PostLedgerEntry;
-    (path: "/app/transactions/{transactionId}", transactionId: string): GetLedgerEntryForTransactionId;
+    (path: "/app/transactions/{transactionId}", transactionId: string): GetLedgerEntry;
     (path: "/app/transactions/{transactionId}/receipt", transactionId: string): GetReceipt;
     (path: "/app/transactions/{transactionId}/status", transactionId: string): GetTransactionStatus;
     (path: "/app/transactions/current"): GetCurrentLedgerEntry;

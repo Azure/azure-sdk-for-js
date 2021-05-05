@@ -23,7 +23,6 @@ export interface ConfidentialLedgerErrorBody {
 }
 
 export interface Consortium {
-  /** */
   members: ConsortiumMember[];
 }
 
@@ -38,7 +37,7 @@ export interface ConfidentialLedgerEnclaves {
   /** Id of the Confidential Ledger node responding to the request. */
   currentNodeId: string;
   /** Dictionary of enclave quotes, indexed by node id. */
-  enclaveQuotes: EnclaveQuotes;
+  enclaveQuotes: EnclaveQuotesDictionary;
 }
 
 export interface EnclaveQuote {
@@ -105,9 +104,7 @@ export interface ReceiptContents {
 }
 
 export interface MerkleProofElement {
-  /** */
   left?: string;
-  /** */
   right?: string;
 }
 
@@ -138,4 +135,4 @@ export type ConfidentialLedgerUserRoleName =
   | "Administrator"
   | "Contributor"
   | "Reader";
-export type EnclaveQuotes = Record<string, EnclaveQuote>;
+export type EnclaveQuotesDictionary = Record<string, EnclaveQuote>;

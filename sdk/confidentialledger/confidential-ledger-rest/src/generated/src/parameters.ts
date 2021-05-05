@@ -41,17 +41,17 @@ export type PostLedgerEntryParameters = RequestParameters &
   PostLedgerEntryQueryParam &
   PostLedgerEntryBodyParam;
 
-export interface GetLedgerEntryForTransactionIdQueryParamProperties {
+export interface GetLedgerEntryQueryParamProperties {
   /** The sub-ledger id. */
   subLedgerId?: string;
 }
 
-export interface GetLedgerEntryForTransactionIdQueryParam {
-  queryParameters?: GetLedgerEntryForTransactionIdQueryParamProperties;
+export interface GetLedgerEntryQueryParam {
+  queryParameters?: GetLedgerEntryQueryParamProperties;
 }
 
-export type GetLedgerEntryForTransactionIdParameters = RequestParameters &
-  GetLedgerEntryForTransactionIdQueryParam;
+export type GetLedgerEntryParameters = RequestParameters &
+  GetLedgerEntryQueryParam;
 export type GetReceiptParameters = RequestParameters;
 export type GetTransactionStatusParameters = RequestParameters;
 

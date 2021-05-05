@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import ConfidentialLedger from "./confidentialLedger";
-
-export * from "./confidentialLedger";
-export * from "./models";
-export * from "./parameters";
-export * from "./responses";
-
+export * from "./generated/src/confidentialLedger";
+export * from "./generated/src/models";
+export * from "./generated/src/parameters";
+export * from "./generated/src/responses";
+export { LedgerIdentity, getLedgerIdentity } from "./getLedgerIdentity";
 export default ConfidentialLedger;

@@ -4,7 +4,7 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure-rest/ai-document-translator": ["./src/index"]
+      "@azure-rest/confidential-ledger": ["./src/index"]
     }
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts", "../documentTranslation.ts"]

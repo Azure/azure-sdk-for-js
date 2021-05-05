@@ -84,15 +84,13 @@ export interface PostLedgerEntrydefaultResponse extends HttpResponse {
 }
 
 /** To return older ledger entries, the relevant sections of the ledger must be read from disk and validated. To prevent blocking within the enclave, the response will indicate whether the entry is ready and part of the response, or if the loading is still ongoing. */
-export interface GetLedgerEntryForTransactionId200Response
-  extends HttpResponse {
+export interface GetLedgerEntry200Response extends HttpResponse {
   status: "200";
   body: LedgerQueryResult;
 }
 
 /** To return older ledger entries, the relevant sections of the ledger must be read from disk and validated. To prevent blocking within the enclave, the response will indicate whether the entry is ready and part of the response, or if the loading is still ongoing. */
-export interface GetLedgerEntryForTransactionIddefaultResponse
-  extends HttpResponse {
+export interface GetLedgerEntrydefaultResponse extends HttpResponse {
   status: "500";
   body: ConfidentialLedgerError;
 }

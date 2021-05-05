@@ -19,6 +19,10 @@ export type PathUncheckedResponse = HttpResponse & { body: any };
  */
 export interface Client {
   /**
+   * The pipeline used by this client to make requests
+   */
+  pipeline: Pipeline;
+  /**
    * This method will be used to send request that would check the path to provide
    * strong types
    */
@@ -107,6 +111,7 @@ export function getClient(
   return {
     path: client,
     pathUnchecked: client,
+    pipeline,
   };
 }
 
