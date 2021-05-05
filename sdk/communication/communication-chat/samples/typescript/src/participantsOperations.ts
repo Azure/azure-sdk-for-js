@@ -19,7 +19,7 @@ dotenv.config();
 
 export async function main() {
   const connectionString =
-    process.env["COMMUNICATION_SAMPLES_CONNECTION_STRING"] ||
+    process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
   const endpoint = parseConnectionString(connectionString).endpoint;
 
