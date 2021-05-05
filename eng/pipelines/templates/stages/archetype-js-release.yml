@@ -260,10 +260,15 @@ stages:
                 filePath: "eng/tools/publish-to-npm.ps1"
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
 
+            - pwsh: |
+                $branchName = "daily/$(Get-Date -Format 'yyyy-MM-dd')"
+                Write-Host "Branch Name: $branchName" 
+                Write-Host "##vso[task.setvariable variable=DailyDocsBranchName;]$branchName"
+
             - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
               parameters:
                 ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
-                BaseRepoBranch: daily-docs
+                BaseRepoBranch: DailyDocsBranchName
                 PackageRepository: NPM
                 ReleaseSha: $(Build.SourceVersion)
                 RepoId: Azure/azure-sdk-for-js
