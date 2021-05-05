@@ -2,9 +2,12 @@
 
 ## 5.1.0-beta.6 (Unreleased)
 
-- We are now targeting the service's v3.1-preview.5 API as the default instead of v3.1-preview.4.
-- `beginAnalyzeBatchActions` adds support for analyze sentiment actions.
-- `loggingOptOut` parameter is added to most actions in `beginAnalyzeBatchActions` that controls logging.
+New Features:
+    - We are now targeting the service's v3.1-preview.5 API as the default instead of v3.1-preview.4.
+    - `beginAnalyzeActions` adds support for analyze sentiment actions.
+    - `disableServiceLogs` parameter is added to most actions in `beginAnalyzeActions` that controls logging.
+Breaking Changes:
+    - `beginAnalyzeBatchActions` was renamed to `beginAnalyzeActions`.
 
 
 ## 5.1.0-beta.5 (2021-03-11)

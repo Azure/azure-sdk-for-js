@@ -35,6 +35,7 @@ async function main() {
 
   const actions = {
     recognizeEntitiesActions: [{ modelVersion: "latest" }],
+    analyzeSentimentActions: [{ modelVersion: "latest", includeOpinionMining: true }],
     recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
     extractKeyPhrasesActions: [{ modelVersion: "latest" }]
   };
@@ -106,6 +107,37 @@ async function main() {
       }
       console.log("Action statistics: ");
       console.log(JSON.stringify(piiEntitiesAction.results.statistics));
+    }
+
+    const analyzeSentimentAction = page.analyzeSentimentResults[0];
+    if (!analyzeSentimentAction.error) {
+      for (const doc of analyzeSentimentAction.results) {
+        console.log(`- Document ${doc.id}`);
+        if (!doc.error) {
+          console.log(`\tOverall Sentiment: ${doc.sentiment}`);
+          console.log("\tSentiment confidence scores:", doc.confidenceScores);
+          console.log("\tSentences");
+          for (const { sentiment, confidenceScores, opinions } of doc.sentences) {
+            console.log(`\t- Sentence sentiment: ${sentiment}`);
+            console.log("\t  Confidence scores:", confidenceScores);
+            console.log("\t  Mined opinions");
+            for (const { target, assessments } of opinions) {
+              console.log(`\t\t- Target text: ${target.text}`);
+              console.log(`\t\t  Target sentiment: ${target.sentiment}`);
+              console.log("\t\t  Target confidence scores:", target.confidenceScores);
+              console.log("\t\t  Target assessments");
+              for (const { text, sentiment } of assessments) {
+                console.log(`\t\t\t- Text: ${text}`);
+                console.log(`\t\t\t  Sentiment: ${sentiment}`);
+              }
+            }
+          }
+        } else {
+          console.error("\tError:", doc.error);
+        }
+      }
+      console.log("Action statistics: ");
+      console.log(JSON.stringify(analyzeSentimentAction.results.statistics));
     }
   }
 }

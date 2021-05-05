@@ -423,9 +423,9 @@ async function main() {
 main();
 ```
 
-### Analyze Batch Actions
+### Analyze Actions
 
-Analyze batch actions enables the application of multiple analyses (named actions) at once.
+Analyze actions enables the application of multiple analyses (named actions) at once.
 
 ```javascript
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
@@ -500,7 +500,7 @@ main();
 
 ## Known Issues
 
-- `beginAnalyzeHealthcare` is still in gated preview and can not be used with AAD credentials. For more information, see [the Text Analytics for Health documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-for-health?tabs=ner#request-access-to-the-public-preview).
+- `beginAnalyzeHealthcareEntities` is still in gated preview and can not be used with AAD credentials. For more information, see [the Text Analytics for Health documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-for-health?tabs=ner#request-access-to-the-public-preview).
 - At time of this SDK release, the `modelVersion` option to `beginAnalyzeHealthcareEntities` is ignored by the service. The service always processes the operation using the "latest" model.
 
 ## Troubleshooting
