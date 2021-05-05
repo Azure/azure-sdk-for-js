@@ -7,7 +7,7 @@
  * See https://docs.microsoft.com/rest/api/servicebus/resource-provider-apis to learn more.
  *
  * @summary Demonstrates how the ServiceBusAdministrationClient can be used to list the entities of a service bus namespace
- * @azsdk-weight 40
+ * @azsdk-weight 55
  */
 import { ServiceBusAdministrationClient } from "@azure/service-bus";
 

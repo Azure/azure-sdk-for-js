@@ -10,6 +10,7 @@
  *
  * @summary Demonstrates how to browse a Service Bus message
  */
+
 const { ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists

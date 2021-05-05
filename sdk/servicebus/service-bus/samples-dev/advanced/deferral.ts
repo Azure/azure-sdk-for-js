@@ -11,7 +11,7 @@
  * message deferral.
  *
  * @summary Demonstrates how to defer a message for later processing.
- * @azsdk-weight 40
+ * @azsdk-weight 55
  */
 
 import {

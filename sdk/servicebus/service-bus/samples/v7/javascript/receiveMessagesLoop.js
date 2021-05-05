@@ -9,6 +9,7 @@
  *
  * @summary Demonstrates how to receive Service Bus messages in a loop
  */
+
 const { ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists

@@ -11,7 +11,7 @@
  *
  *
  * @summary Demonstrates how to send messages to Service Bus Queue/Topic
- * @azsdk-weight 10
+ * @azsdk-weight 100
  */
 
 import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";

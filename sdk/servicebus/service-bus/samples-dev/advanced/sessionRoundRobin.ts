@@ -8,7 +8,7 @@
  * Run the sendMessages sample with different session ids before running this sample.
  *
  * @summary Demonstrates how to continually read through all the available sessions
- * @azsdk-weight 40
+ * @azsdk-weight 60
  */
 
 import {

@@ -12,7 +12,7 @@
  *
  * @summary Demonstrates how to send/receive messages to/from session enabled queues/subscriptions
  * in Service Bus
- * @azsdk-weight 40
+ * @azsdk-weight 75
  */
 
 import { delay, ProcessErrorArgs, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";

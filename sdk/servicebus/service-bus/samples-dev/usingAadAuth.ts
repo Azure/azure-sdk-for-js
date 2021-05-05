@@ -18,7 +18,7 @@
  *        tab. Here, assign "Azure Service Bus Data Owner" role to the registered application.
  *
  * @summary This sample how to create a namespace using AAD token credentials
- * @azsdk-weight 40
+ * @azsdk-weight 85
  */
 
 import { ServiceBusClient } from "@azure/service-bus";

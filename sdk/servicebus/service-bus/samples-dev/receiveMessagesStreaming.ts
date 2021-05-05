@@ -8,7 +8,7 @@
  * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to receive Service Bus messages in a stream
- * @azsdk-weight 40
+ * @azsdk-weight 90
  */
 
 import {

@@ -10,7 +10,7 @@
  *
  * @summary Demonstrates scenarios as to how a Service Bus message can be explicitly moved to
  * the DLQ
- * @azsdk-weight 45
+ * @azsdk-weight 50
  */
 import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
 

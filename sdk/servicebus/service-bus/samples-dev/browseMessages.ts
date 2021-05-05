@@ -9,9 +9,9 @@
  * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to browse a Service Bus message
- * @azsdk-weight 40
+ * @azsdk-weight 80
  */
- 
+
 import { ServiceBusClient } from "@azure/service-bus";
 
 // Load the .env file if it exists
