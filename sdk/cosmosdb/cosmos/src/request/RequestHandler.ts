@@ -18,7 +18,6 @@ import { bodyFromData } from "./request";
 import { RequestContext } from "./RequestContext";
 import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
-import { URL } from "url";
 
 /** @hidden */
 const log = logger("RequestHandler");
