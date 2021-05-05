@@ -2,6 +2,7 @@
 
 ## 1.2.5 (Unreleased)
 
+- Delay loading of NO_PROXY environment variable until  when request pipeline is being created. This fixes [issue 14873](https://github.com/Azure/azure-sdk-for-js/issues/14873)
 
 ## 1.2.4 (2021-03-30)
 

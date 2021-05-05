@@ -37,6 +37,18 @@ export interface AnalyzeResult {
 export type AnalyzeTextOptions = OperationOptions & AnalyzeRequest;
 
 // @public
+export interface AnswerResult {
+    [property: string]: any;
+    readonly highlights?: string | null;
+    readonly key: string;
+    readonly score: number;
+    readonly text: string;
+}
+
+// @public
+export type Answers = string;
+
+// @public
 export type AsciiFoldingTokenFilter = BaseTokenFilter & {
     odatatype: "#Microsoft.Azure.Search.AsciiFoldingTokenFilter";
     preserveOriginal?: boolean;
@@ -162,6 +174,13 @@ export type BM25Similarity = Similarity & {
     k1?: number | null;
     b?: number | null;
 };
+
+// @public
+export interface CaptionResult {
+    [property: string]: any;
+    readonly highlights?: string | null;
+    readonly text?: string;
+}
 
 // @public
 export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;
@@ -783,6 +802,12 @@ export enum KnownAnalyzerNames {
 }
 
 // @public
+export const enum KnownAnswers {
+    Extractive = "extractive",
+    None = "none"
+}
+
+// @public
 export const enum KnownBlobIndexerDataToExtract {
     AllMetadata = "allMetadata",
     ContentAndMetadata = "contentAndMetadata",
@@ -1045,6 +1070,12 @@ export const enum KnownOcrSkillLanguage {
 }
 
 // @public
+export const enum KnownQueryLanguage {
+    EnUs = "en-us",
+    None = "none"
+}
+
+// @public
 export const enum KnownRegexFlags {
     CanonEq = "CANON_EQ",
     CaseInsensitive = "CASE_INSENSITIVE",
@@ -1083,6 +1114,12 @@ export const enum KnownSentimentSkillLanguage {
     Ru = "ru",
     Sv = "sv",
     Tr = "tr"
+}
+
+// @public
+export const enum KnownSpeller {
+    Lexicon = "lexicon",
+    None = "none"
 }
 
 // @public
@@ -1495,6 +1532,9 @@ export type PhoneticTokenFilter = BaseTokenFilter & {
 };
 
 // @public
+export type QueryLanguage = string;
+
+// @public
 export type QueryType = "simple" | "full" | "semantic";
 
 // @public
@@ -1569,6 +1609,7 @@ export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
 
 // @public
 export interface SearchDocumentsResultBase {
+    readonly answers?: AnswerResult[] | null;
     readonly count?: number;
     readonly coverage?: number;
     readonly facets?: {
@@ -1709,6 +1750,44 @@ export interface SearchIndexerError {
     readonly statusCode: number;
 }
 
+// @public
+export interface SearchIndexerKnowledgeStore {
+    projections: SearchIndexerKnowledgeStoreProjection[];
+    storageConnectionString: string;
+}
+
+// @public
+export type SearchIndexerKnowledgeStoreBlobProjectionSelector = SearchIndexerKnowledgeStoreProjectionSelector & {
+    storageContainer: string;
+};
+
+// @public
+export type SearchIndexerKnowledgeStoreFileProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
+
+// @public
+export type SearchIndexerKnowledgeStoreObjectProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
+
+// @public
+export interface SearchIndexerKnowledgeStoreProjection {
+    files?: SearchIndexerKnowledgeStoreFileProjectionSelector[];
+    objects?: SearchIndexerKnowledgeStoreObjectProjectionSelector[];
+    tables?: SearchIndexerKnowledgeStoreTableProjectionSelector[];
+}
+
+// @public
+export interface SearchIndexerKnowledgeStoreProjectionSelector {
+    generatedKeyName?: string;
+    inputs?: InputFieldMappingEntry[];
+    referenceKeyName?: string;
+    source?: string;
+    sourceContext?: string;
+}
+
+// @public
+export type SearchIndexerKnowledgeStoreTableProjectionSelector = SearchIndexerKnowledgeStoreProjectionSelector & {
+    tableName: string;
+};
+
 // @public (undocumented)
 export interface SearchIndexerLimits {
     readonly maxDocumentContentCharactersToExtract?: number;
@@ -1725,6 +1804,7 @@ export interface SearchIndexerSkillset {
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey | null;
     etag?: string;
+    knowledgeStore?: SearchIndexerKnowledgeStore;
     name: string;
     skills: SearchIndexerSkill[];
 }
@@ -1813,6 +1893,7 @@ export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fiel
 
 // @public
 export interface SearchRequest {
+    answers?: Answers;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -1821,6 +1902,7 @@ export interface SearchRequest {
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string;
+    queryLanguage?: QueryLanguage;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -1831,11 +1913,13 @@ export interface SearchRequest {
     select?: string;
     sessionId?: string;
     skip?: number;
+    speller?: Speller;
     top?: number;
 }
 
 // @public
 export interface SearchRequestOptions<Fields> {
+    answers?: Answers;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -1844,6 +1928,7 @@ export interface SearchRequestOptions<Fields> {
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string[];
+    queryLanguage?: QueryLanguage;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -1853,6 +1938,7 @@ export interface SearchRequestOptions<Fields> {
     select?: Fields[];
     sessionId?: string;
     skip?: number;
+    speller?: Speller;
     top?: number;
 }
 
@@ -1868,9 +1954,11 @@ export interface SearchResourceEncryptionKey {
 // @public
 export type SearchResult<T> = {
     readonly score: number;
+    readonly rerankerScore?: number;
     readonly highlights?: {
         [k in keyof T]?: string[];
     };
+    readonly captions?: CaptionResult[] | null;
     document: T;
 };
 
@@ -1902,7 +1990,7 @@ export interface ServiceCounters {
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
     indexerCounter: ResourceCounter;
-    skillsetCounter: ResourceCounter;
+    skillsetCounter?: ResourceCounter;
     storageSizeCounter: ResourceCounter;
     synonymMapCounter: ResourceCounter;
 }
@@ -1971,6 +2059,9 @@ export type SoftDeleteColumnDeletionDetectionPolicy = BaseDataDeletionDetectionP
     softDeleteColumnName?: string;
     softDeleteMarkerValue?: string;
 };
+
+// @public
+export type Speller = string;
 
 // @public
 export type SplitSkill = BaseSearchIndexerSkill & {

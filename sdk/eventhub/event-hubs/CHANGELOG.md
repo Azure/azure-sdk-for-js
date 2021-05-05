@@ -1,6 +1,9 @@
 # Release History
 
-## 5.5.1 (Unreleased)
+## 5.5.2 (Unreleased)
+
+
+## 5.5.1 (2021-04-29)
 
 - Fixes a race condition that would cause connection recovery to sometimes fail if a consumer or producer was closed at the same time a connection was disconnected.
 

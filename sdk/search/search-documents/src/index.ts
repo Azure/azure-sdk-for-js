@@ -126,7 +126,15 @@ export {
   IndexingResult,
   QueryType,
   SearchMode,
-  ScoringStatistics
+  ScoringStatistics,
+  Answers,
+  KnownAnswers,
+  QueryLanguage,
+  KnownQueryLanguage,
+  Speller,
+  KnownSpeller,
+  CaptionResult,
+  AnswerResult
 } from "./generated/data/models";
 export {
   RegexFlags,
@@ -283,6 +291,13 @@ export {
   KnownTokenFilterName,
   CharFilterName,
   KnownCharFilterName,
-  LexicalNormalizer as BaseLexicalNormalizer
+  LexicalNormalizer as BaseLexicalNormalizer,
+  SearchIndexerKnowledgeStore,
+  SearchIndexerKnowledgeStoreProjection,
+  SearchIndexerKnowledgeStoreFileProjectionSelector,
+  SearchIndexerKnowledgeStoreBlobProjectionSelector,
+  SearchIndexerKnowledgeStoreProjectionSelector,
+  SearchIndexerKnowledgeStoreObjectProjectionSelector,
+  SearchIndexerKnowledgeStoreTableProjectionSelector
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";

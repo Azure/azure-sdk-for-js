@@ -7,7 +7,7 @@
 
 - Stable release of `@azure/communication-sms`.
 
-## 1.0.0-beta.4 (2020-03-09)
+## 1.0.0-beta.4 (2021-03-09)
 
 ### Added
 
