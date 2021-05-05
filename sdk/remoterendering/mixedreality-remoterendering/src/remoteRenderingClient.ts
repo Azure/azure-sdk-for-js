@@ -246,7 +246,7 @@ export class RemoteRenderingClient {
       credential instanceof AzureKeyCredential
         ? new MixedRealityAccountKeyCredential(accountId, credential as AzureKeyCredential)
         : // TODO Make this more type safe.
-        credential.hasOwnProperty("token") !== undefined
+        credential.hasOwnProperty("token")
         ? new StaticAccessTokenCredential(credential as AccessToken)
         : (credential as TokenCredential);
 
