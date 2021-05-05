@@ -1165,6 +1165,35 @@ describe("ServiceClient", function() {
       operationSpec
     );
   });
+
+  it("should wrap body when bodyWrapper is specified", async function() {
+    const operationSpec: OperationSpec = {
+      path: "/datetime/invalid",
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: { type: { name: "DateTime" } }
+        }
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          return Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: `"201O-18-90D00:89:56.9AX"`
+          });
+        }
+      }
+    });
+    const response = await client.sendOperationRequest<{ body: Date }>({}, operationSpec);
+    assert.ok(response.body);
+  });
 });
 
 async function testSendOperationRequest(
