@@ -77,7 +77,6 @@ import {
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
   SearchResult as GeneratedSearchResult
 } from "./generated/data/models";
-import * as fs from "fs";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
@@ -664,19 +663,4 @@ export function getRandomIntegerInclusive(min: number, max: number): number {
   // in order to be inclusive of the maximum value after we take the floor.
   const offset = Math.floor(Math.random() * (max - min + 1));
   return offset + min;
-}
-
-/**
- * Helper method to create a SynonymMap object.
- *
- * @param name - Name of the SynonymMap.
- * @param filePath - Path of the file that contains the Synonyms (seperated by new lines)
- * @returns SynonymMap object
- */
-export function createSynonymMapFromFile(name: string, filePath: string): SynonymMap {
-  const synonyms: string[] = fs.readFileSync(filePath, "utf-8").split("\n");
-  return {
-    name,
-    synonyms
-  };
 }
