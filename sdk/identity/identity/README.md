@@ -20,7 +20,6 @@ npm install --save @azure/identity
 
 - An [Azure subscription](https://azure.microsoft.com/free/).
 - Optional: The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment and managing account roles.
-- As of v2.0.0-beta.1, the credentials `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` allow specifying `tokenCachePersistenceOptions` to enable persistent caching. To use this feature, developers will also need to install [@azure/msal-node-extensions](https://www.npmjs.com/package/@azure/msal-node-extensions).
 
 #### Supported Node.js versions
 
