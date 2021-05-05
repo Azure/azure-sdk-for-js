@@ -8,17 +8,10 @@ parameters:
   ScriptDirectory: eng/common/scripts
   TargetDocRepoName: ''
   TargetDocRepoOwner: ''
-  PRBranchName: 'master-rdme'
-  PRLabels: 'auto-merge'
   ArtifactName: ''
   Language: ''
-  DocRepoDestinationPath: '' #usually docs-ref-services/
   CIConfigs: '[]'
-  GHReviewersVariable: '' 
-  GHTeamReviewersVariable: '' # externally set, as eng-common does not have the identity-resolver. Run as pre-step
-  OnboardingBranch: ''
-  CloseAfterOpenForTesting: false
-  SkipPackageJson: false
+  BaseRepoBranch: $(DefaultBranch)
 
 steps:
 - pwsh: |
@@ -35,9 +28,6 @@ steps:
     git clone https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} ${{ parameters.WorkingDirectory }}/repo
   displayName: Clone Documentation Repository
   ignoreLASTEXITCODE: false
-- template: /eng/common/pipelines/templates/steps/set-default-branch.yml
-  parameters:
-    WorkingDirectory: ${{ parameters.WorkingDirectory }}/repo 
 - task: PowerShell@2
   displayName: 'Apply Documentation Updates From Artifact'
   inputs:
@@ -58,9 +48,9 @@ steps:
 
 - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
   parameters:
-    BaseRepoBranch: $(DefaultBranch)
+    BaseRepoBranch: ${{ parameters.BaseRepoBranch }}
     BaseRepoOwner: ${{ parameters.TargetDocRepoOwner }}
-    CommitMsg: "Update docs metadata and targeting for release of ${{ parameters.ArtifactName }}"
+    CommitMsg: "Update docs metadata for release of ${{ parameters.ArtifactName }}"
     TargetRepoName: ${{ parameters.TargetDocRepoName }}
     TargetRepoOwner: ${{ parameters.TargetDocRepoOwner }}
     WorkingDirectory: ${{ parameters.WorkingDirectory }}/repo

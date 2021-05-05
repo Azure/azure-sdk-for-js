@@ -116,26 +116,22 @@ stages:
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)
                         displayName: Output Visible Artifacts
-                      - template: /eng/common/pipelines/templates/steps/get-pr-owners.yml
+                      - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
                         parameters:
-                          TargetVariable: "OwningGHUser"
-                          ServiceDirectory: ${{parameters.ServiceDirectory}}
+                          WorkingDirectory: ${{ parameters.WorkingDirectory }}/repo
                       - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
                         parameters:
                           ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
+                          BaseRepoBranch: $(DefaultBranch)
                           PackageRepository: NPM
                           ReleaseSha: $(Build.SourceVersion)
                           RepoId: Azure/azure-sdk-for-js
                           WorkingDirectory: $(System.DefaultWorkingDirectory)
                           TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
                           TargetDocRepoName: ${{parameters.TargetDocRepoName}}
-                          PRBranchName: onboarding-${{artifact.name}}-$(Build.BuildId)
                           ArtifactName: ${{artifact.name}}
                           Language: 'javascript'
-                          DocRepoDestinationPath: 'docs-ref-services/'
-                          GHReviewersVariable: 'OwningGHUser'
                           CIConfigs: $(CIConfigs)
-                          CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
 
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
@@ -263,3 +259,17 @@ stages:
                 targetType: filePath
                 filePath: "eng/tools/publish-to-npm.ps1"
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
+
+            - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
+              parameters:
+                ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
+                BaseRepoBranch: daily-docs
+                PackageRepository: NPM
+                ReleaseSha: $(Build.SourceVersion)
+                RepoId: Azure/azure-sdk-for-js
+                WorkingDirectory: $(System.DefaultWorkingDirectory)
+                TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
+                TargetDocRepoName: ${{parameters.TargetDocRepoName}}
+                ArtifactName: ${{artifact.name}}
+                Language: 'javascript'
+                CIConfigs: $(CIConfigs)
