@@ -5,6 +5,7 @@
  * @summary Demonstrates the use of a DeviceUpdateClient to list all the update providers that have been imported to Device Update for IoT Hub
  * @azsdk-weight 40
  */
+ 
 import { DeviceUpdateClient } from "@azure/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 import { config } from "dotenv";
