@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "03462f630cc0e2c677645148f9d6c62d";
+module.exports.hash = "a029440b94d74f4bb37d8021fa55d003";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -26,35 +26,33 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-request-id',
   'sanitized',
   'x-ms-ests-server',
-  '2.1.11654.13 - SCUS ProdSlices',
+  '2.1.11654.25 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Aq040a5pj01LqvJshzrUH9aMQo4QAgAAAHg0DNgOAAAA; expires=Mon, 17-May-2021 01:44:26 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Au9AWOhX-ShJmJqryqBqqsSMQo4QBQAAAAeGI9gOAAAA; expires=Thu, 03-Jun-2021 18:17:02 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 17 Apr 2021 01:44:25 GMT'
+  'Tue, 04 May 2021 18:17:01 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/phoneNumbers/%2B14155550100')
+  .patch('/phoneNumbers/%2B14155550100/capabilities', {"calling":"none","sms":"outbound"})
   .query(true)
-  .reply(404, {"error":{"code":"PhoneNumberNotFound","message":"The specified phone number +14155550100 cannot be found.","target":"phonenumber"}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json',
+  .reply(404, "", [
   'Request-Context',
   'appId=',
   'MS-CV',
-  'fiD26Hyh5U64hQ4eyUNfSA.0',
+  'i3CqIxxrfUyuqjUaxa3qGw.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '534ms',
+  '596ms',
   'X-Azure-Ref',
-  '0ej16YAAAAAA/vS5rVH7KTo6M5BWbinRFWVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0no+RYAAAAAAcUq4TNfeBSJCVYxfCVwi+WVZSMzBFREdFMDMxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Sat, 17 Apr 2021 01:44:26 GMT'
+  'Tue, 04 May 2021 18:17:02 GMT',
+  'Content-Length',
+  '0'
 ]);
