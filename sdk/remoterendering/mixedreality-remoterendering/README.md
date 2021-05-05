@@ -89,49 +89,40 @@ An example is `https://remoterendering.eastus2.mixedreality.azure.com`.
 Use the `AccountKeyCredential` object to use an account identifier and account key to authenticate:
 
 ```typescript Snippet:CreateAClient
-const accountKey = new AzureKeyCredential(accountKey);
+const credential = new AzureKeyCredential(accountKey);
 
-const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, accountKey);
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 ```
 
 #### Authenticating with an AAD client secret
 
 Use the `ClientSecretCredential` object to perform client secret authentication.
 
-<!-- TODO
+```typescript Snippet:CreateAClientWithAAD
+  let credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
+    authorityHost: "https://login.microsoftonline.com/" + tenantId
+  });
 
-```csharp Snippet:CreateAClientWithAAD
-
-TokenCredential credential = new ClientSecretCredential(tenantId, clientId, clientSecret, new TokenCredentialOptions
-{
-    AuthorityHost = new Uri($"https://login.microsoftonline.com/{tenantId}")
-});
-
-RemoteRenderingClient client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accountDomain, credential);
+  const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 ```
--->
 
 #### Authenticating a user using device code authentication
 
 Use the `DeviceCodeCredential` object to perform device code authentication.
 
-<!-- TODO
-```csharp Snippet:CreateAClientWithDeviceCode
-Task deviceCodeCallback(DeviceCodeInfo deviceCodeInfo, CancellationToken cancellationToken)
-{
-    Debug.WriteLine(deviceCodeInfo.Message);
-    Console.WriteLine(deviceCodeInfo.Message);
-    return Task.FromResult(0);
-}
-
-TokenCredential credential = new DeviceCodeCredential(deviceCodeCallback, tenantId, clientId, new TokenCredentialOptions
-{
-    AuthorityHost = new Uri($"https://login.microsoftonline.com/{tenantId}"),
-});
-
-RemoteRenderingClient client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accountDomain, credential);
+```typescript Snippet:CreateAClientWithDeviceCode
+  let deviceCodeCallback = (deviceCodeInfo: DeviceCodeInfo) => {
+    console.debug(deviceCodeInfo.message);
+    console.log(deviceCodeInfo.message);
+  };
+  
+  let credential = new DeviceCodeCredential(tenantId, clientId, deviceCodeCallback,
+  {
+    authorityHost: "https://login.microsoftonline.com/" + tenantId
+  });
+  
+  const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 ```
--->
 
 See [here](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Device-Code-Flow) for more
 information about using device code authentication flow.
@@ -141,13 +132,13 @@ information about using device code authentication flow.
 Use the `DefaultAzureCredential` object with `includeInteractiveCredentials: true` to use default interactive authentication
 flow:
 
-<!-- TODO
-```csharp Snippet:CreateAClientWithAzureCredential
-TokenCredential credential = new DefaultAzureCredential(includeInteractiveCredentials: true);
+```typescript Snippet:CreateAClientWithAzureCredential
+  let credential = new DefaultAzureCredential();
 
-RemoteRenderingClient client = new RemoteRenderingClient(remoteRenderingEndpoint, accountId, accountDomain, credential);
+  return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
+    authenticationEndpointUrl: "https://sts.mixedreality.azure.com"
+  });
 ```
--->
 
 #### Authenticating with a static access token
 
@@ -330,14 +321,16 @@ This example shows how to query the current properties and then extend the lease
 > extend the session lease.
 
 ```typescript Snippet:UpdateSession
-    if (currentSession.maxLeaseTimeInMinutes - ((Date.now() - currentSession.createdOn) / 1000 * 60) < 2)
+  /// When the lease is within 2 minutes of expiring, extend it by 15 minutes. 
+  let currentSession = await client.getSession(sessionId);
+  if (currentSession.status == "Ready") {
+    if (currentSession.maxLeaseTimeInMinutes - ((Date.now() - currentSession.properties.createdOn.valueOf()) / 60000) < 2)
     {
-        TimeSpan newLeaseTime = currentSession.maxLeaseTimeInMinutes + 30;
-
-        const longerLeaseSettings = { maxLeaseTimeInMinutes: newLeaseTime });
-
-        await client.updateSession(sessionId, longerLeaseSettings);
+        let newLeaseTime = currentSession.maxLeaseTimeInMinutes + 15;
+  
+        await client.updateSession(sessionId, { maxLeaseTimeInMinutes: newLeaseTime });
     }
+  }
 ```
 
 ### List sessions
@@ -375,9 +368,29 @@ You can set the following environment variable to see debug logs when using this
 export DEBUG=azure*
 ```
 
+### Azure Remote Rendering troubleshooting
+
+For general troubleshooting advice concerning Azure Remote Rendering, see [the Troubleshoot page](https://docs.microsoft.com/azure/remote-rendering/resources/troubleshoot) for remote rendering at docs.microsoft.com.
+
+The client methods will throw exceptions if the request cannot be made.
+However, in the case of both conversions and sessions, the requests can succeed but the requested operation may not be successful.
+In this case, no exception will be thrown, but the returned objects can be inspected to understand what happened.
+
+If the asset in a conversion is invalid, the conversion operation will return an AssetConversion object
+with a Failed status and carrying a RemoteRenderingServiceError with details.
+Once the conversion service is able to process the file, a &lt;assetName&gt;.result.json file will be written to the output container.
+If the input asset is invalid, then that file will contain a more detailed description of the problem.
+
+Similarly, sometimes when a session is requested, the session ends up in an error state.
+The startSessionOperation method will return a RenderingSession object, but that object will have an Error status and carry a
+RemoteRenderingServiceError with details.
+
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples) directory for detailed examples that demonstrate how to use the client libraries.
+- Read the [Product documentation](https://docs.microsoft.com/azure/remote-rendering/)
+- Learn about the runtime SDKs:
+  - .NET: https://docs.microsoft.com/dotnet/api/microsoft.azure.remoterendering
+  - C++: https://docs.microsoft.com/cpp/api/remote-rendering/
 
 ## Contributing
 

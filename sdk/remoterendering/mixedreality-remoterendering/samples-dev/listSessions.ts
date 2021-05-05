@@ -20,9 +20,7 @@ dotenv.config();
 // You will need to set this environment variables or edit the following values
 const accountDomain = process.env["REMOTERENDERING_ARR_ACCOUNT_DOMAIN"] || "<account domain>";
 const accountId = process.env["REMOTERENDERING_ARR_ACCOUNT_ID"] || "<account ID>";
-const accountKey = new AzureKeyCredential(
-  process.env["REMOTERENDERING_ARR_ACCOUNT_KEY"] || "<account key>"
-);
+const accountKey = process.env["REMOTERENDERING_ARR_ACCOUNT_KEY"] || "<account key>";
 const serviceEndpoint = process.env["REMOTERENDERING_ARR_SERVICE_ENDPOINT"] || "<serviceEndpoint>";
 
 export async function main() {
@@ -30,7 +28,9 @@ export async function main() {
 
   console.log("== Creating a client ==");
 
-  const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, accountKey);
+  let credential = new AzureKeyCredential(accountKey);
+
+  const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 
   console.log("== Creating a test session to query ==");
 
