@@ -1,8 +1,8 @@
-/*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-  This sample demonstrates how to create a custom `Pipeline` that the
+/**
+ * @summary Demonstrates how to create a custom `Pipeline` that the
   Storage Blob Container Client uses to change the API version used
   when communicating with the service.
 
@@ -16,7 +16,7 @@
 
   For more information on the Azure Storage versions supported on Azure Stack,
   please refer to https://docs.microsoft.com/azure-stack/user/azure-stack-acs-differences.
-*/
+ */
 
 const { newPipeline } = require("@azure/storage-blob");
 
@@ -46,5 +46,3 @@ export function createCustomPipeline(credentials) {
 
   return storagePipeline;
 }
-
-exports.createCustomPipeline = createCustomPipeline;
