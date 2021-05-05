@@ -6,7 +6,7 @@
  */
 
 const { ChatClient } = require("@azure/communication-chat");
-const { AzureCommunicationTokenCredential } = require("@azure/communication-common");
+const { AzureCommunicationTokenCredential, parseConnectionString } = require("@azure/communication-common");
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
 // Load the .env file if it exists
@@ -14,10 +14,9 @@ require("dotenv").config();
 
 async function main() {
   const connectionString =
-    process.env["COMMUNICATION_CONNECTION_STRING"] ||
+    process.env["COMMUNICATION_SAMPLES_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
-  const endpoint =
-    process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
+  const endpoint = parseConnectionString(connectionString).endpoint;
 
   const identityClient = new CommunicationIdentityClient(connectionString);
   const user = await identityClient.createUser();
