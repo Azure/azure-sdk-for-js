@@ -42,3 +42,9 @@ Run the test file:
 ```bash
 node dist/index.js
 ```
+
+az group create --name AzureFunctionsIdentity-rg --location westus2
+
+az storage account create --name storageidentityfunctions --location westus2 --resource-group AzureFunctionsIdentity-rg --sku Standard_LRS
+
+az functionapp create --resource-group AzureFunctionsIdentity-rg --consumption-plan-location westus2 --runtime node --runtime-version 12 --functions-version 3 --name identityendtoendtest --storage-account storageidentityfunctions
