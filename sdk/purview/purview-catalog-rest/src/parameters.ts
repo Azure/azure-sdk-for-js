@@ -3,33 +3,33 @@
 
 import { RequestParameters } from "@azure-rest/core-client";
 import {
-  JsonAtlasEntityWithExtInfo,
-  JsonAtlasEntitiesWithExtInfo,
-  JsonClassificationAssociateRequest,
-  JsonAtlasClassification,
-  JsonAtlasEntityHeaders,
-  JsonAtlasGlossary,
-  JsonAtlasGlossaryCategory,
+  AtlasEntityWithExtInfo,
+  AtlasEntitiesWithExtInfo,
+  ClassificationAssociateRequest,
+  AtlasClassification,
+  AtlasEntityHeaders,
+  AtlasGlossary,
+  AtlasGlossaryCategory,
   DictionaryOfStringDictionary,
-  JsonAtlasGlossaryTerm,
-  JsonAtlasRelatedObjectId,
-  JsonSearchRequest,
-  JsonSuggestRequest,
-  JsonAutoCompleteRequest,
-  Enum7,
-  JsonAtlasRelationship,
-  Enum14,
-  JsonAtlasTypesDef,
+  AtlasGlossaryTerm,
+  AtlasRelatedObjectId,
+  SearchRequest,
+  SuggestRequest,
+  AutoCompleteRequest,
+  Direction,
+  AtlasRelationship,
+  Type,
+  AtlasTypesDef
 } from "./models";
 
-export interface EntityRestCreateOrUpdateBodyParam {
-  body: JsonAtlasEntityWithExtInfo;
+export interface EntityCreateOrUpdateBodyParam {
+  body: AtlasEntityWithExtInfo;
 }
 
-export type EntityRestCreateOrUpdateParameters = RequestParameters &
-  EntityRestCreateOrUpdateBodyParam;
+export type EntityCreateOrUpdateParameters = RequestParameters &
+  EntityCreateOrUpdateBodyParam;
 
-export interface EntityRestGetByGuidsQueryParamProperties {
+export interface EntityGetByGuidsQueryParamProperties {
   /** An array of GUIDs of entities to create. */
   guid: string[];
   /** Whether to return minimal information for referred entities. */
@@ -40,86 +40,89 @@ export interface EntityRestGetByGuidsQueryParamProperties {
   excludeRelationshipTypes?: string[];
 }
 
-export interface EntityRestGetByGuidsQueryParam {
-  queryParameters: EntityRestGetByGuidsQueryParamProperties;
+export interface EntityGetByGuidsQueryParam {
+  queryParameters: EntityGetByGuidsQueryParamProperties;
 }
 
-export type EntityRestGetByGuidsParameters = RequestParameters & EntityRestGetByGuidsQueryParam;
+export type EntityGetByGuidsParameters = RequestParameters &
+  EntityGetByGuidsQueryParam;
 
-export interface EntityRestCreateOrUpdateBulkBodyParam {
-  body: JsonAtlasEntitiesWithExtInfo;
+export interface EntityCreateOrUpdateBulkBodyParam {
+  body: AtlasEntitiesWithExtInfo;
 }
 
-export type EntityRestCreateOrUpdateBulkParameters = RequestParameters &
-  EntityRestCreateOrUpdateBulkBodyParam;
+export type EntityCreateOrUpdateBulkParameters = RequestParameters &
+  EntityCreateOrUpdateBulkBodyParam;
 
-export interface EntityRestBulkDeleteQueryParamProperties {
+export interface EntityDeleteByGuidsQueryParamProperties {
   /** An array of GUIDs of entities to delete. */
   guid: string[];
 }
 
-export interface EntityRestBulkDeleteQueryParam {
-  queryParameters: EntityRestBulkDeleteQueryParamProperties;
+export interface EntityDeleteByGuidsQueryParam {
+  queryParameters: EntityDeleteByGuidsQueryParamProperties;
 }
 
-export type EntityRestBulkDeleteParameters = RequestParameters & EntityRestBulkDeleteQueryParam;
+export type EntityDeleteByGuidsParameters = RequestParameters &
+  EntityDeleteByGuidsQueryParam;
 
-export interface EntityRestAddClassificationBodyParam {
-  body: JsonClassificationAssociateRequest;
+export interface EntityAddClassificationBodyParam {
+  body: ClassificationAssociateRequest;
 }
 
-export type EntityRestAddClassificationParameters = RequestParameters &
-  EntityRestAddClassificationBodyParam;
+export type EntityAddClassificationParameters = RequestParameters &
+  EntityAddClassificationBodyParam;
 
-export interface EntityRestGetByIdQueryParamProperties {
+export interface EntityGetByIdQueryParamProperties {
   /** Whether to return minimal information for referred entities. */
   minExtInfo?: boolean;
   /** Whether to ignore relationship attributes. */
   ignoreRelationships?: boolean;
 }
 
-export interface EntityRestGetByIdQueryParam {
-  queryParameters?: EntityRestGetByIdQueryParamProperties;
+export interface EntityGetByIdQueryParam {
+  queryParameters?: EntityGetByIdQueryParamProperties;
 }
 
-export type EntityRestGetByIdParameters = RequestParameters & EntityRestGetByIdQueryParam;
+export type EntityGetByIdParameters = RequestParameters &
+  EntityGetByIdQueryParam;
 
-export interface EntityRestPartialUpdateEntityAttrByGuidQueryParamProperties {
+export interface EntityPartialUpdateEntityAttrByGuidQueryParamProperties {
   /** The name of the attribute. */
   name: string;
 }
 
-export interface EntityRestPartialUpdateEntityAttrByGuidQueryParam {
-  queryParameters: EntityRestPartialUpdateEntityAttrByGuidQueryParamProperties;
+export interface EntityPartialUpdateEntityAttrByGuidQueryParam {
+  queryParameters: EntityPartialUpdateEntityAttrByGuidQueryParamProperties;
 }
 
-export interface EntityRestPartialUpdateEntityAttrByGuidBodyParam {
+export interface EntityPartialUpdateEntityAttrByGuidBodyParam {
   body: any;
 }
 
-export type EntityRestPartialUpdateEntityAttrByGuidParameters = RequestParameters &
-  EntityRestPartialUpdateEntityAttrByGuidQueryParam &
-  EntityRestPartialUpdateEntityAttrByGuidBodyParam;
-export type EntityRestDeleteByGuidParameters = RequestParameters;
-export type EntityRestGetClassificationParameters = RequestParameters;
-export type EntityRestDeleteClassificationParameters = RequestParameters;
-export type EntityRestGetClassificationsParameters = RequestParameters;
+export type EntityPartialUpdateEntityAttrByGuidParameters = RequestParameters &
+  EntityPartialUpdateEntityAttrByGuidQueryParam &
+  EntityPartialUpdateEntityAttrByGuidBodyParam;
+export type EntityDeleteByGuidParameters = RequestParameters;
+export type EntityGetClassificationParameters = RequestParameters;
+export type EntityDeleteClassificationParameters = RequestParameters;
+export type EntityGetClassificationsParameters = RequestParameters;
 
-export interface EntityRestAddClassificationsBodyParam {
-  body: JsonAtlasClassification[];
+export interface EntityAddClassificationsBodyParam {
+  body: AtlasClassification[];
 }
 
-export type EntityRestAddClassificationsParameters = RequestParameters &
-  EntityRestAddClassificationsBodyParam;
+export type EntityAddClassificationsParameters = RequestParameters &
+  EntityAddClassificationsBodyParam;
 
-export interface EntityRestUpdateClassificationsBodyParam {
-  body: JsonAtlasClassification[];
+export interface EntityUpdateClassificationsBodyParam {
+  body: AtlasClassification[];
 }
 
-export type EntityRestUpdateClassificationsParameters = RequestParameters &
-  EntityRestUpdateClassificationsBodyParam;
+export type EntityUpdateClassificationsParameters = RequestParameters &
+  EntityUpdateClassificationsBodyParam;
 
-export interface EntityRestGetByUniqueAttributesQueryParamProperties {
+export interface EntityGetByUniqueAttributesQueryParamProperties {
   /** Whether to return minimal information for referred entities. */
   minExtInfo?: boolean;
   /** Whether to ignore relationship attributes. */
@@ -128,96 +131,96 @@ export interface EntityRestGetByUniqueAttributesQueryParamProperties {
   "attr:qualifiedName"?: string;
 }
 
-export interface EntityRestGetByUniqueAttributesQueryParam {
-  queryParameters?: EntityRestGetByUniqueAttributesQueryParamProperties;
+export interface EntityGetByUniqueAttributesQueryParam {
+  queryParameters?: EntityGetByUniqueAttributesQueryParamProperties;
 }
 
-export type EntityRestGetByUniqueAttributesParameters = RequestParameters &
-  EntityRestGetByUniqueAttributesQueryParam;
+export type EntityGetByUniqueAttributesParameters = RequestParameters &
+  EntityGetByUniqueAttributesQueryParam;
 
-export interface EntityRestPartialUpdateEntityByUniqueAttrsQueryParamProperties {
+export interface EntityPartialUpdateEntityByUniqueAttrsQueryParamProperties {
   /** The qualified name of the entity. */
   "attr:qualifiedName"?: string;
 }
 
-export interface EntityRestPartialUpdateEntityByUniqueAttrsQueryParam {
-  queryParameters?: EntityRestPartialUpdateEntityByUniqueAttrsQueryParamProperties;
+export interface EntityPartialUpdateEntityByUniqueAttrsQueryParam {
+  queryParameters?: EntityPartialUpdateEntityByUniqueAttrsQueryParamProperties;
 }
 
-export interface EntityRestPartialUpdateEntityByUniqueAttrsBodyParam {
-  body: JsonAtlasEntityWithExtInfo;
+export interface EntityPartialUpdateEntityByUniqueAttrsBodyParam {
+  body: AtlasEntityWithExtInfo;
 }
 
-export type EntityRestPartialUpdateEntityByUniqueAttrsParameters = RequestParameters &
-  EntityRestPartialUpdateEntityByUniqueAttrsQueryParam &
-  EntityRestPartialUpdateEntityByUniqueAttrsBodyParam;
+export type EntityPartialUpdateEntityByUniqueAttrsParameters = RequestParameters &
+  EntityPartialUpdateEntityByUniqueAttrsQueryParam &
+  EntityPartialUpdateEntityByUniqueAttrsBodyParam;
 
-export interface EntityRestDeleteByUniqueAttributeQueryParamProperties {
+export interface EntityDeleteByUniqueAttributeQueryParamProperties {
   /** The qualified name of the entity. */
   "attr:qualifiedName"?: string;
 }
 
-export interface EntityRestDeleteByUniqueAttributeQueryParam {
-  queryParameters?: EntityRestDeleteByUniqueAttributeQueryParamProperties;
+export interface EntityDeleteByUniqueAttributeQueryParam {
+  queryParameters?: EntityDeleteByUniqueAttributeQueryParamProperties;
 }
 
-export type EntityRestDeleteByUniqueAttributeParameters = RequestParameters &
-  EntityRestDeleteByUniqueAttributeQueryParam;
+export type EntityDeleteByUniqueAttributeParameters = RequestParameters &
+  EntityDeleteByUniqueAttributeQueryParam;
 
-export interface EntityRestDeleteClassificationByUniqueAttributeQueryParamProperties {
+export interface EntityDeleteClassificationByUniqueAttributeQueryParamProperties {
   /** The qualified name of the entity. */
   "attr:qualifiedName"?: string;
 }
 
-export interface EntityRestDeleteClassificationByUniqueAttributeQueryParam {
-  queryParameters?: EntityRestDeleteClassificationByUniqueAttributeQueryParamProperties;
+export interface EntityDeleteClassificationByUniqueAttributeQueryParam {
+  queryParameters?: EntityDeleteClassificationByUniqueAttributeQueryParamProperties;
 }
 
-export type EntityRestDeleteClassificationByUniqueAttributeParameters = RequestParameters &
-  EntityRestDeleteClassificationByUniqueAttributeQueryParam;
+export type EntityDeleteClassificationByUniqueAttributeParameters = RequestParameters &
+  EntityDeleteClassificationByUniqueAttributeQueryParam;
 
-export interface EntityRestAddClassificationsByUniqueAttributeQueryParamProperties {
+export interface EntityAddClassificationsByUniqueAttributeQueryParamProperties {
   /** The qualified name of the entity. */
   "attr:qualifiedName"?: string;
 }
 
-export interface EntityRestAddClassificationsByUniqueAttributeQueryParam {
-  queryParameters?: EntityRestAddClassificationsByUniqueAttributeQueryParamProperties;
+export interface EntityAddClassificationsByUniqueAttributeQueryParam {
+  queryParameters?: EntityAddClassificationsByUniqueAttributeQueryParamProperties;
 }
 
-export interface EntityRestAddClassificationsByUniqueAttributeBodyParam {
-  body: JsonAtlasClassification[];
+export interface EntityAddClassificationsByUniqueAttributeBodyParam {
+  body: AtlasClassification[];
 }
 
-export type EntityRestAddClassificationsByUniqueAttributeParameters = RequestParameters &
-  EntityRestAddClassificationsByUniqueAttributeQueryParam &
-  EntityRestAddClassificationsByUniqueAttributeBodyParam;
+export type EntityAddClassificationsByUniqueAttributeParameters = RequestParameters &
+  EntityAddClassificationsByUniqueAttributeQueryParam &
+  EntityAddClassificationsByUniqueAttributeBodyParam;
 
-export interface EntityRestUpdateClassificationsByUniqueAttributeQueryParamProperties {
+export interface EntityUpdateClassificationsByUniqueAttributeQueryParamProperties {
   /** The qualified name of the entity. */
   "attr:qualifiedName"?: string;
 }
 
-export interface EntityRestUpdateClassificationsByUniqueAttributeQueryParam {
-  queryParameters?: EntityRestUpdateClassificationsByUniqueAttributeQueryParamProperties;
+export interface EntityUpdateClassificationsByUniqueAttributeQueryParam {
+  queryParameters?: EntityUpdateClassificationsByUniqueAttributeQueryParamProperties;
 }
 
-export interface EntityRestUpdateClassificationsByUniqueAttributeBodyParam {
-  body: JsonAtlasClassification[];
+export interface EntityUpdateClassificationsByUniqueAttributeBodyParam {
+  body: AtlasClassification[];
 }
 
-export type EntityRestUpdateClassificationsByUniqueAttributeParameters = RequestParameters &
-  EntityRestUpdateClassificationsByUniqueAttributeQueryParam &
-  EntityRestUpdateClassificationsByUniqueAttributeBodyParam;
+export type EntityUpdateClassificationsByUniqueAttributeParameters = RequestParameters &
+  EntityUpdateClassificationsByUniqueAttributeQueryParam &
+  EntityUpdateClassificationsByUniqueAttributeBodyParam;
 
-export interface EntityRestSetClassificationsBodyParam {
-  body: JsonAtlasEntityHeaders;
+export interface EntitySetClassificationsBodyParam {
+  body: AtlasEntityHeaders;
 }
 
-export type EntityRestSetClassificationsParameters = RequestParameters &
-  EntityRestSetClassificationsBodyParam;
+export type EntitySetClassificationsParameters = RequestParameters &
+  EntitySetClassificationsBodyParam;
 
-export interface EntityRestGetEntitiesByUniqueAttributesQueryParamProperties {
+export interface EntityGetEntitiesByUniqueAttributesQueryParamProperties {
   /** Whether to return minimal information for referred entities. */
   minExtInfo?: boolean;
   /** Whether to ignore relationship attributes. */
@@ -226,15 +229,15 @@ export interface EntityRestGetEntitiesByUniqueAttributesQueryParamProperties {
   "attr_N:qualifiedName"?: string;
 }
 
-export interface EntityRestGetEntitiesByUniqueAttributesQueryParam {
-  queryParameters?: EntityRestGetEntitiesByUniqueAttributesQueryParamProperties;
+export interface EntityGetEntitiesByUniqueAttributesQueryParam {
+  queryParameters?: EntityGetEntitiesByUniqueAttributesQueryParamProperties;
 }
 
-export type EntityRestGetEntitiesByUniqueAttributesParameters = RequestParameters &
-  EntityRestGetEntitiesByUniqueAttributesQueryParam;
-export type EntityRestGetHeaderByIdParameters = RequestParameters;
+export type EntityGetEntitiesByUniqueAttributesParameters = RequestParameters &
+  EntityGetEntitiesByUniqueAttributesQueryParam;
+export type EntityGetHeaderByIdParameters = RequestParameters;
 
-export interface GlossaryRestGetGlossariesQueryParamProperties {
+export interface GlossaryGetGlossariesQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -243,51 +246,51 @@ export interface GlossaryRestGetGlossariesQueryParamProperties {
   sort?: string;
 }
 
-export interface GlossaryRestGetGlossariesQueryParam {
-  queryParameters?: GlossaryRestGetGlossariesQueryParamProperties;
+export interface GlossaryGetGlossariesQueryParam {
+  queryParameters?: GlossaryGetGlossariesQueryParamProperties;
 }
 
-export type GlossaryRestGetGlossariesParameters = RequestParameters &
-  GlossaryRestGetGlossariesQueryParam;
+export type GlossaryGetGlossariesParameters = RequestParameters &
+  GlossaryGetGlossariesQueryParam;
 
-export interface GlossaryRestCreateGlossaryBodyParam {
-  body: JsonAtlasGlossary;
+export interface GlossaryCreateGlossaryBodyParam {
+  body: AtlasGlossary;
 }
 
-export type GlossaryRestCreateGlossaryParameters = RequestParameters &
-  GlossaryRestCreateGlossaryBodyParam;
+export type GlossaryCreateGlossaryParameters = RequestParameters &
+  GlossaryCreateGlossaryBodyParam;
 
-export interface GlossaryRestCreateGlossaryCategoriesBodyParam {
-  body: JsonAtlasGlossaryCategory[];
+export interface GlossaryCreateGlossaryCategoriesBodyParam {
+  body: AtlasGlossaryCategory[];
 }
 
-export type GlossaryRestCreateGlossaryCategoriesParameters = RequestParameters &
-  GlossaryRestCreateGlossaryCategoriesBodyParam;
+export type GlossaryCreateGlossaryCategoriesParameters = RequestParameters &
+  GlossaryCreateGlossaryCategoriesBodyParam;
 
-export interface GlossaryRestCreateGlossaryCategoryBodyParam {
-  body: JsonAtlasGlossaryCategory;
+export interface GlossaryCreateGlossaryCategoryBodyParam {
+  body: AtlasGlossaryCategory;
 }
 
-export type GlossaryRestCreateGlossaryCategoryParameters = RequestParameters &
-  GlossaryRestCreateGlossaryCategoryBodyParam;
-export type GlossaryRestGetGlossaryCategoryParameters = RequestParameters;
+export type GlossaryCreateGlossaryCategoryParameters = RequestParameters &
+  GlossaryCreateGlossaryCategoryBodyParam;
+export type GlossaryGetGlossaryCategoryParameters = RequestParameters;
 
-export interface GlossaryRestUpdateGlossaryCategoryBodyParam {
-  body: JsonAtlasGlossaryCategory;
+export interface GlossaryUpdateGlossaryCategoryBodyParam {
+  body: AtlasGlossaryCategory;
 }
 
-export type GlossaryRestUpdateGlossaryCategoryParameters = RequestParameters &
-  GlossaryRestUpdateGlossaryCategoryBodyParam;
-export type GlossaryRestDeleteGlossaryCategoryParameters = RequestParameters;
+export type GlossaryUpdateGlossaryCategoryParameters = RequestParameters &
+  GlossaryUpdateGlossaryCategoryBodyParam;
+export type GlossaryDeleteGlossaryCategoryParameters = RequestParameters;
 
-export interface GlossaryRestPartialUpdateGlossaryCategoryBodyParam {
+export interface GlossaryPartialUpdateGlossaryCategoryBodyParam {
   body: DictionaryOfStringDictionary;
 }
 
-export type GlossaryRestPartialUpdateGlossaryCategoryParameters = RequestParameters &
-  GlossaryRestPartialUpdateGlossaryCategoryBodyParam;
+export type GlossaryPartialUpdateGlossaryCategoryParameters = RequestParameters &
+  GlossaryPartialUpdateGlossaryCategoryBodyParam;
 
-export interface GlossaryRestGetRelatedCategoriesQueryParamProperties {
+export interface GlossaryGetRelatedCategoriesQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -296,14 +299,14 @@ export interface GlossaryRestGetRelatedCategoriesQueryParamProperties {
   sort?: string;
 }
 
-export interface GlossaryRestGetRelatedCategoriesQueryParam {
-  queryParameters?: GlossaryRestGetRelatedCategoriesQueryParamProperties;
+export interface GlossaryGetRelatedCategoriesQueryParam {
+  queryParameters?: GlossaryGetRelatedCategoriesQueryParamProperties;
 }
 
-export type GlossaryRestGetRelatedCategoriesParameters = RequestParameters &
-  GlossaryRestGetRelatedCategoriesQueryParam;
+export type GlossaryGetRelatedCategoriesParameters = RequestParameters &
+  GlossaryGetRelatedCategoriesQueryParam;
 
-export interface GlossaryRestGetCategoryTermsQueryParamProperties {
+export interface GlossaryGetCategoryTermsQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -312,266 +315,353 @@ export interface GlossaryRestGetCategoryTermsQueryParamProperties {
   sort?: string;
 }
 
-export interface GlossaryRestGetCategoryTermsQueryParam {
-  queryParameters?: GlossaryRestGetCategoryTermsQueryParamProperties;
+export interface GlossaryGetCategoryTermsQueryParam {
+  queryParameters?: GlossaryGetCategoryTermsQueryParamProperties;
 }
 
-export type GlossaryRestGetCategoryTermsParameters = RequestParameters &
-  GlossaryRestGetCategoryTermsQueryParam;
+export type GlossaryGetCategoryTermsParameters = RequestParameters &
+  GlossaryGetCategoryTermsQueryParam;
 
-export interface GlossaryRestCreateGlossaryTermBodyParam {
-  body: JsonAtlasGlossaryTerm;
-}
-
-export type GlossaryRestCreateGlossaryTermParameters = RequestParameters &
-  GlossaryRestCreateGlossaryTermBodyParam;
-export type GlossaryRestGetGlossaryTermParameters = RequestParameters;
-
-export interface GlossaryRestUpdateGlossaryTermBodyParam {
-  body: JsonAtlasGlossaryTerm;
-}
-
-export type GlossaryRestUpdateGlossaryTermParameters = RequestParameters &
-  GlossaryRestUpdateGlossaryTermBodyParam;
-export type GlossaryRestDeleteGlossaryTermParameters = RequestParameters;
-
-export interface GlossaryRestPartialUpdateGlossaryTermBodyParam {
-  body: DictionaryOfStringDictionary;
-}
-
-export type GlossaryRestPartialUpdateGlossaryTermParameters = RequestParameters &
-  GlossaryRestPartialUpdateGlossaryTermBodyParam;
-
-export interface GlossaryRestCreateGlossaryTermsBodyParam {
-  body: JsonAtlasGlossaryTerm[];
-}
-
-export type GlossaryRestCreateGlossaryTermsParameters = RequestParameters &
-  GlossaryRestCreateGlossaryTermsBodyParam;
-
-export interface GlossaryRestGetEntitiesAssignedWithTermQueryParamProperties {
-  /** The page size - by default there is no paging. */
-  limit?: number;
-  /** The offset for pagination purpose. */
-  offset?: number;
-  /** The sort order, ASC (default) or DESC. */
-  sort?: string;
-}
-
-export interface GlossaryRestGetEntitiesAssignedWithTermQueryParam {
-  queryParameters?: GlossaryRestGetEntitiesAssignedWithTermQueryParamProperties;
-}
-
-export type GlossaryRestGetEntitiesAssignedWithTermParameters = RequestParameters &
-  GlossaryRestGetEntitiesAssignedWithTermQueryParam;
-
-export interface GlossaryRestAssignTermToEntitiesBodyParam {
-  body: JsonAtlasRelatedObjectId[];
-}
-
-export type GlossaryRestAssignTermToEntitiesParameters = RequestParameters &
-  GlossaryRestAssignTermToEntitiesBodyParam;
-
-export interface GlossaryRestRemoveTermAssignmentFromEntitiesBodyParam {
-  body: JsonAtlasRelatedObjectId[];
-}
-
-export type GlossaryRestRemoveTermAssignmentFromEntitiesParameters = RequestParameters &
-  GlossaryRestRemoveTermAssignmentFromEntitiesBodyParam;
-
-export interface GlossaryRestDeleteTermAssignmentFromEntitiesBodyParam {
-  body: JsonAtlasRelatedObjectId[];
-}
-
-export type GlossaryRestDeleteTermAssignmentFromEntitiesParameters = RequestParameters &
-  GlossaryRestDeleteTermAssignmentFromEntitiesBodyParam;
-
-export interface GlossaryRestGetRelatedTermsQueryParamProperties {
-  /** The page size - by default there is no paging. */
-  limit?: number;
-  /** The offset for pagination purpose. */
-  offset?: number;
-  /** The sort order, ASC (default) or DESC. */
-  sort?: string;
-}
-
-export interface GlossaryRestGetRelatedTermsQueryParam {
-  queryParameters?: GlossaryRestGetRelatedTermsQueryParamProperties;
-}
-
-export type GlossaryRestGetRelatedTermsParameters = RequestParameters &
-  GlossaryRestGetRelatedTermsQueryParam;
-export type GlossaryRestGetGlossaryParameters = RequestParameters;
-
-export interface GlossaryRestUpdateGlossaryBodyParam {
-  body: JsonAtlasGlossary;
-}
-
-export type GlossaryRestUpdateGlossaryParameters = RequestParameters &
-  GlossaryRestUpdateGlossaryBodyParam;
-export type GlossaryRestDeleteGlossaryParameters = RequestParameters;
-
-export interface GlossaryRestGetGlossaryCategoriesQueryParamProperties {
-  /** The page size - by default there is no paging. */
-  limit?: number;
-  /** The offset for pagination purpose. */
-  offset?: number;
-  /** The sort order, ASC (default) or DESC. */
-  sort?: string;
-}
-
-export interface GlossaryRestGetGlossaryCategoriesQueryParam {
-  queryParameters?: GlossaryRestGetGlossaryCategoriesQueryParamProperties;
-}
-
-export type GlossaryRestGetGlossaryCategoriesParameters = RequestParameters &
-  GlossaryRestGetGlossaryCategoriesQueryParam;
-
-export interface GlossaryRestGetGlossaryCategoriesHeadersQueryParamProperties {
-  /** The page size - by default there is no paging. */
-  limit?: number;
-  /** The offset for pagination purpose. */
-  offset?: number;
-  /** The sort order, ASC (default) or DESC. */
-  sort?: string;
-}
-
-export interface GlossaryRestGetGlossaryCategoriesHeadersQueryParam {
-  queryParameters?: GlossaryRestGetGlossaryCategoriesHeadersQueryParamProperties;
-}
-
-export type GlossaryRestGetGlossaryCategoriesHeadersParameters = RequestParameters &
-  GlossaryRestGetGlossaryCategoriesHeadersQueryParam;
-export type GlossaryRestGetDetailedGlossaryParameters = RequestParameters;
-
-export interface GlossaryRestPartialUpdateGlossaryBodyParam {
-  body: DictionaryOfStringDictionary;
-}
-
-export type GlossaryRestPartialUpdateGlossaryParameters = RequestParameters &
-  GlossaryRestPartialUpdateGlossaryBodyParam;
-
-export interface GlossaryRestGetGlossaryTermsQueryParamProperties {
-  /** The page size - by default there is no paging. */
-  limit?: number;
-  /** The offset for pagination purpose. */
-  offset?: number;
-  /** The sort order, ASC (default) or DESC. */
-  sort?: string;
-}
-
-export interface GlossaryRestGetGlossaryTermsQueryParam {
-  queryParameters?: GlossaryRestGetGlossaryTermsQueryParamProperties;
-}
-
-export type GlossaryRestGetGlossaryTermsParameters = RequestParameters &
-  GlossaryRestGetGlossaryTermsQueryParam;
-
-export interface GlossaryRestGetGlossaryTermHeadersQueryParamProperties {
-  /** The page size - by default there is no paging. */
-  limit?: number;
-  /** The offset for pagination purpose. */
-  offset?: number;
-  /** The sort order, ASC (default) or DESC. */
-  sort?: string;
-}
-
-export interface GlossaryRestGetGlossaryTermHeadersQueryParam {
-  queryParameters?: GlossaryRestGetGlossaryTermHeadersQueryParamProperties;
-}
-
-export type GlossaryRestGetGlossaryTermHeadersParameters = RequestParameters &
-  GlossaryRestGetGlossaryTermHeadersQueryParam;
-
-export interface GlossaryRestImportGlossaryTermsViaCSVBodyParam {
-  body: string;
-}
-
-export type GlossaryRestImportGlossaryTermsViaCSVParameters = RequestParameters &
-  GlossaryRestImportGlossaryTermsViaCSVBodyParam;
-
-export interface GlossaryRestImportGlossaryTermsViaCSVByGlossaryNameQueryParamProperties {
+export interface GlossaryCreateGlossaryTermQueryParamProperties {
   /** Whether include term hierarchy */
   includeTermHierarchy?: boolean;
 }
 
-export interface GlossaryRestImportGlossaryTermsViaCSVByGlossaryNameQueryParam {
-  queryParameters?: GlossaryRestImportGlossaryTermsViaCSVByGlossaryNameQueryParamProperties;
+export interface GlossaryCreateGlossaryTermQueryParam {
+  queryParameters?: GlossaryCreateGlossaryTermQueryParamProperties;
 }
 
-export interface GlossaryRestImportGlossaryTermsViaCSVByGlossaryNameBodyParam {
-  body: string;
+export interface GlossaryCreateGlossaryTermBodyParam {
+  body: AtlasGlossaryTerm;
 }
 
-export type GlossaryRestImportGlossaryTermsViaCSVByGlossaryNameParameters = RequestParameters &
-  GlossaryRestImportGlossaryTermsViaCSVByGlossaryNameQueryParam &
-  GlossaryRestImportGlossaryTermsViaCSVByGlossaryNameBodyParam;
-export type GlossaryRestGetImportCSVOperationStatusParameters = RequestParameters;
+export type GlossaryCreateGlossaryTermParameters = RequestParameters &
+  GlossaryCreateGlossaryTermQueryParam &
+  GlossaryCreateGlossaryTermBodyParam;
 
-export interface GlossaryRestExportGlossaryTermsAsCSVBodyParam {
-  body: string[];
+export interface GlossaryGetGlossaryTermQueryParamProperties {
+  /** Whether include term hierarchy */
+  includeTermHierarchy?: boolean;
 }
 
-export type GlossaryRestExportGlossaryTermsAsCSVParameters = RequestParameters &
-  GlossaryRestExportGlossaryTermsAsCSVBodyParam;
+export interface GlossaryGetGlossaryTermQueryParam {
+  queryParameters?: GlossaryGetGlossaryTermQueryParamProperties;
+}
 
-export interface GlossaryRestGetTermsByGlossaryNameQueryParamProperties {
+export type GlossaryGetGlossaryTermParameters = RequestParameters &
+  GlossaryGetGlossaryTermQueryParam;
+
+export interface GlossaryUpdateGlossaryTermBodyParam {
+  body: AtlasGlossaryTerm;
+}
+
+export type GlossaryUpdateGlossaryTermParameters = RequestParameters &
+  GlossaryUpdateGlossaryTermBodyParam;
+export type GlossaryDeleteGlossaryTermParameters = RequestParameters;
+
+export interface GlossaryPartialUpdateGlossaryTermQueryParamProperties {
+  /** Whether include term hierarchy */
+  includeTermHierarchy?: boolean;
+}
+
+export interface GlossaryPartialUpdateGlossaryTermQueryParam {
+  queryParameters?: GlossaryPartialUpdateGlossaryTermQueryParamProperties;
+}
+
+export interface GlossaryPartialUpdateGlossaryTermBodyParam {
+  body: DictionaryOfStringDictionary;
+}
+
+export type GlossaryPartialUpdateGlossaryTermParameters = RequestParameters &
+  GlossaryPartialUpdateGlossaryTermQueryParam &
+  GlossaryPartialUpdateGlossaryTermBodyParam;
+
+export interface GlossaryCreateGlossaryTermsQueryParamProperties {
+  /** Whether include term hierarchy */
+  includeTermHierarchy?: boolean;
+}
+
+export interface GlossaryCreateGlossaryTermsQueryParam {
+  queryParameters?: GlossaryCreateGlossaryTermsQueryParamProperties;
+}
+
+export interface GlossaryCreateGlossaryTermsBodyParam {
+  body: AtlasGlossaryTerm[];
+}
+
+export type GlossaryCreateGlossaryTermsParameters = RequestParameters &
+  GlossaryCreateGlossaryTermsQueryParam &
+  GlossaryCreateGlossaryTermsBodyParam;
+
+export interface GlossaryGetEntitiesAssignedWithTermQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
   offset?: number;
+  /** The sort order, ASC (default) or DESC. */
+  sort?: string;
 }
 
-export interface GlossaryRestGetTermsByGlossaryNameQueryParam {
-  queryParameters?: GlossaryRestGetTermsByGlossaryNameQueryParamProperties;
+export interface GlossaryGetEntitiesAssignedWithTermQueryParam {
+  queryParameters?: GlossaryGetEntitiesAssignedWithTermQueryParamProperties;
 }
 
-export type GlossaryRestGetTermsByGlossaryNameParameters = RequestParameters &
-  GlossaryRestGetTermsByGlossaryNameQueryParam;
+export type GlossaryGetEntitiesAssignedWithTermParameters = RequestParameters &
+  GlossaryGetEntitiesAssignedWithTermQueryParam;
 
-export interface DiscoveryRestSearchAdvancedBodyParam {
-  body: JsonSearchRequest;
+export interface GlossaryAssignTermToEntitiesBodyParam {
+  body: AtlasRelatedObjectId[];
 }
 
-export type DiscoveryRestSearchAdvancedParameters = RequestParameters &
-  DiscoveryRestSearchAdvancedBodyParam;
+export type GlossaryAssignTermToEntitiesParameters = RequestParameters &
+  GlossaryAssignTermToEntitiesBodyParam;
 
-export interface DiscoveryRestSuggestBodyParam {
-  body: JsonSuggestRequest;
+export interface GlossaryRemoveTermAssignmentFromEntitiesBodyParam {
+  body: AtlasRelatedObjectId[];
 }
 
-export type DiscoveryRestSuggestParameters = RequestParameters & DiscoveryRestSuggestBodyParam;
+export type GlossaryRemoveTermAssignmentFromEntitiesParameters = RequestParameters &
+  GlossaryRemoveTermAssignmentFromEntitiesBodyParam;
 
-export interface DiscoveryRestAutoCompleteBodyParam {
-  body: JsonAutoCompleteRequest;
+export interface GlossaryDeleteTermAssignmentFromEntitiesBodyParam {
+  body: AtlasRelatedObjectId[];
 }
 
-export type DiscoveryRestAutoCompleteParameters = RequestParameters &
-  DiscoveryRestAutoCompleteBodyParam;
+export type GlossaryDeleteTermAssignmentFromEntitiesParameters = RequestParameters &
+  GlossaryDeleteTermAssignmentFromEntitiesBodyParam;
 
-export interface LineageRestGetLineageGraphQueryParamProperties {
+export interface GlossaryGetRelatedTermsQueryParamProperties {
+  /** The page size - by default there is no paging. */
+  limit?: number;
+  /** The offset for pagination purpose. */
+  offset?: number;
+  /** The sort order, ASC (default) or DESC. */
+  sort?: string;
+}
+
+export interface GlossaryGetRelatedTermsQueryParam {
+  queryParameters?: GlossaryGetRelatedTermsQueryParamProperties;
+}
+
+export type GlossaryGetRelatedTermsParameters = RequestParameters &
+  GlossaryGetRelatedTermsQueryParam;
+export type GlossaryGetGlossaryParameters = RequestParameters;
+
+export interface GlossaryUpdateGlossaryBodyParam {
+  body: AtlasGlossary;
+}
+
+export type GlossaryUpdateGlossaryParameters = RequestParameters &
+  GlossaryUpdateGlossaryBodyParam;
+export type GlossaryDeleteGlossaryParameters = RequestParameters;
+
+export interface GlossaryGetGlossaryCategoriesQueryParamProperties {
+  /** The page size - by default there is no paging. */
+  limit?: number;
+  /** The offset for pagination purpose. */
+  offset?: number;
+  /** The sort order, ASC (default) or DESC. */
+  sort?: string;
+}
+
+export interface GlossaryGetGlossaryCategoriesQueryParam {
+  queryParameters?: GlossaryGetGlossaryCategoriesQueryParamProperties;
+}
+
+export type GlossaryGetGlossaryCategoriesParameters = RequestParameters &
+  GlossaryGetGlossaryCategoriesQueryParam;
+
+export interface GlossaryGetGlossaryCategoriesHeadersQueryParamProperties {
+  /** The page size - by default there is no paging. */
+  limit?: number;
+  /** The offset for pagination purpose. */
+  offset?: number;
+  /** The sort order, ASC (default) or DESC. */
+  sort?: string;
+}
+
+export interface GlossaryGetGlossaryCategoriesHeadersQueryParam {
+  queryParameters?: GlossaryGetGlossaryCategoriesHeadersQueryParamProperties;
+}
+
+export type GlossaryGetGlossaryCategoriesHeadersParameters = RequestParameters &
+  GlossaryGetGlossaryCategoriesHeadersQueryParam;
+
+export interface GlossaryGetDetailedGlossaryQueryParamProperties {
+  /** Whether include term hierarchy */
+  includeTermHierarchy?: boolean;
+}
+
+export interface GlossaryGetDetailedGlossaryQueryParam {
+  queryParameters?: GlossaryGetDetailedGlossaryQueryParamProperties;
+}
+
+export type GlossaryGetDetailedGlossaryParameters = RequestParameters &
+  GlossaryGetDetailedGlossaryQueryParam;
+
+export interface GlossaryPartialUpdateGlossaryQueryParamProperties {
+  /** Whether include term hierarchy */
+  includeTermHierarchy?: boolean;
+}
+
+export interface GlossaryPartialUpdateGlossaryQueryParam {
+  queryParameters?: GlossaryPartialUpdateGlossaryQueryParamProperties;
+}
+
+export interface GlossaryPartialUpdateGlossaryBodyParam {
+  body: DictionaryOfStringDictionary;
+}
+
+export type GlossaryPartialUpdateGlossaryParameters = RequestParameters &
+  GlossaryPartialUpdateGlossaryQueryParam &
+  GlossaryPartialUpdateGlossaryBodyParam;
+
+export interface GlossaryGetGlossaryTermsQueryParamProperties {
+  /** Whether include term hierarchy */
+  includeTermHierarchy?: boolean;
+  /** The page size - by default there is no paging. */
+  limit?: number;
+  /** The offset for pagination purpose. */
+  offset?: number;
+  /** The sort order, ASC (default) or DESC. */
+  sort?: string;
+}
+
+export interface GlossaryGetGlossaryTermsQueryParam {
+  queryParameters?: GlossaryGetGlossaryTermsQueryParamProperties;
+}
+
+export type GlossaryGetGlossaryTermsParameters = RequestParameters &
+  GlossaryGetGlossaryTermsQueryParam;
+
+export interface GlossaryGetGlossaryTermHeadersQueryParamProperties {
+  /** The page size - by default there is no paging. */
+  limit?: number;
+  /** The offset for pagination purpose. */
+  offset?: number;
+  /** The sort order, ASC (default) or DESC. */
+  sort?: string;
+}
+
+export interface GlossaryGetGlossaryTermHeadersQueryParam {
+  queryParameters?: GlossaryGetGlossaryTermHeadersQueryParamProperties;
+}
+
+export type GlossaryGetGlossaryTermHeadersParameters = RequestParameters &
+  GlossaryGetGlossaryTermHeadersQueryParam;
+
+export interface GlossaryImportGlossaryTermsViaCSVQueryParamProperties {
+  /** Whether include term hierarchy */
+  includeTermHierarchy?: boolean;
+}
+
+export interface GlossaryImportGlossaryTermsViaCSVQueryParam {
+  queryParameters?: GlossaryImportGlossaryTermsViaCSVQueryParamProperties;
+}
+
+export interface GlossaryImportGlossaryTermsViaCSVBodyParam {
+  body: string;
+}
+
+export type GlossaryImportGlossaryTermsViaCSVParameters = RequestParameters &
+  GlossaryImportGlossaryTermsViaCSVQueryParam &
+  GlossaryImportGlossaryTermsViaCSVBodyParam;
+
+export interface GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParamProperties {
+  /** Whether include term hierarchy */
+  includeTermHierarchy?: boolean;
+}
+
+export interface GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParam {
+  queryParameters?: GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParamProperties;
+}
+
+export interface GlossaryImportGlossaryTermsViaCSVByGlossaryNameBodyParam {
+  body: string;
+}
+
+export type GlossaryImportGlossaryTermsViaCSVByGlossaryNameParameters = RequestParameters &
+  GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParam &
+  GlossaryImportGlossaryTermsViaCSVByGlossaryNameBodyParam;
+export type GlossaryGetImportCSVOperationStatusParameters = RequestParameters;
+
+export interface GlossaryExportGlossaryTermsAsCSVQueryParamProperties {
+  /** Whether include term hierarchy */
+  includeTermHierarchy?: boolean;
+}
+
+export interface GlossaryExportGlossaryTermsAsCSVQueryParam {
+  queryParameters?: GlossaryExportGlossaryTermsAsCSVQueryParamProperties;
+}
+
+export interface GlossaryExportGlossaryTermsAsCSVBodyParam {
+  body: string[];
+}
+
+export type GlossaryExportGlossaryTermsAsCSVParameters = RequestParameters &
+  GlossaryExportGlossaryTermsAsCSVQueryParam &
+  GlossaryExportGlossaryTermsAsCSVBodyParam;
+
+export interface GlossaryGetTermsByGlossaryNameQueryParamProperties {
+  /** The page size - by default there is no paging. */
+  limit?: number;
+  /** The offset for pagination purpose. */
+  offset?: number;
+  /** Whether include term hierarchy */
+  includeTermHierarchy?: boolean;
+}
+
+export interface GlossaryGetTermsByGlossaryNameQueryParam {
+  queryParameters?: GlossaryGetTermsByGlossaryNameQueryParamProperties;
+}
+
+export type GlossaryGetTermsByGlossaryNameParameters = RequestParameters &
+  GlossaryGetTermsByGlossaryNameQueryParam;
+
+export interface DiscoveryQueryBodyParam {
+  body: SearchRequest;
+}
+
+export type DiscoveryQueryParameters = RequestParameters &
+  DiscoveryQueryBodyParam;
+
+export interface DiscoverySuggestBodyParam {
+  body: SuggestRequest;
+}
+
+export type DiscoverySuggestParameters = RequestParameters &
+  DiscoverySuggestBodyParam;
+
+export interface DiscoveryAutoCompleteBodyParam {
+  body: AutoCompleteRequest;
+}
+
+export type DiscoveryAutoCompleteParameters = RequestParameters &
+  DiscoveryAutoCompleteBodyParam;
+
+export interface LineageGetLineageGraphQueryParamProperties {
   /** The number of hops for lineage. */
   depth?: number;
   /** The number of max expanding width in lineage. */
   width?: number;
   /** The direction of the lineage, which could be INPUT, OUTPUT or BOTH. */
-  direction: Enum7;
+  direction: Direction;
   /** True to include the parent chain in the response. */
   includeParent?: boolean;
   /** True to include derived lineage in the response */
   getDerivedLineage?: boolean;
 }
 
-export interface LineageRestGetLineageGraphQueryParam {
-  queryParameters: LineageRestGetLineageGraphQueryParamProperties;
+export interface LineageGetLineageGraphQueryParam {
+  queryParameters: LineageGetLineageGraphQueryParamProperties;
 }
 
-export type LineageRestGetLineageGraphParameters = RequestParameters &
-  LineageRestGetLineageGraphQueryParam;
+export type LineageGetLineageGraphParameters = RequestParameters &
+  LineageGetLineageGraphQueryParam;
 
-export interface LineageRestNextLevelLineageQueryParamProperties {
+export interface LineageNextPageLineageQueryParamProperties {
   /** The direction of the lineage, which could be INPUT, OUTPUT or BOTH. */
-  direction: Enum7;
+  direction: Direction;
   /** True to include derived lineage in the response */
   getDerivedLineage?: boolean;
   /** The offset for pagination purpose. */
@@ -580,104 +670,106 @@ export interface LineageRestNextLevelLineageQueryParamProperties {
   limit?: number;
 }
 
-export interface LineageRestNextLevelLineageQueryParam {
-  queryParameters: LineageRestNextLevelLineageQueryParamProperties;
+export interface LineageNextPageLineageQueryParam {
+  queryParameters: LineageNextPageLineageQueryParamProperties;
 }
 
-export type LineageRestNextLevelLineageParameters = RequestParameters &
-  LineageRestNextLevelLineageQueryParam;
+export type LineageNextPageLineageParameters = RequestParameters &
+  LineageNextPageLineageQueryParam;
 
-export interface RelationshipRestCreateBodyParam {
-  body: JsonAtlasRelationship;
+export interface RelationshipCreateBodyParam {
+  body: AtlasRelationship;
 }
 
-export type RelationshipRestCreateParameters = RequestParameters & RelationshipRestCreateBodyParam;
+export type RelationshipCreateParameters = RequestParameters &
+  RelationshipCreateBodyParam;
 
-export interface RelationshipRestUpdateBodyParam {
-  body: JsonAtlasRelationship;
+export interface RelationshipUpdateBodyParam {
+  body: AtlasRelationship;
 }
 
-export type RelationshipRestUpdateParameters = RequestParameters & RelationshipRestUpdateBodyParam;
+export type RelationshipUpdateParameters = RequestParameters &
+  RelationshipUpdateBodyParam;
 
-export interface RelationshipRestGetById2QueryParamProperties {
+export interface RelationshipGetByIdQueryParamProperties {
   /** Limits whether includes extended information. */
   extendedInfo?: boolean;
 }
 
-export interface RelationshipRestGetById2QueryParam {
-  queryParameters?: RelationshipRestGetById2QueryParamProperties;
+export interface RelationshipGetByIdQueryParam {
+  queryParameters?: RelationshipGetByIdQueryParamProperties;
 }
 
-export type RelationshipRestGetById2Parameters = RequestParameters &
-  RelationshipRestGetById2QueryParam;
-export type RelationshipRestDeleteByIdParameters = RequestParameters;
-export type TypesRestGetClassificationDefByGuidParameters = RequestParameters;
-export type TypesRestGetClassificationDefByNameParameters = RequestParameters;
-export type TypesRestGetEntityDefByGuidParameters = RequestParameters;
-export type TypesRestGetEntityDefByNameParameters = RequestParameters;
-export type TypesRestGetEnumDefByGuidParameters = RequestParameters;
-export type TypesRestGetEnumDefByNameParameters = RequestParameters;
-export type TypesRestGetRelationshipDefByGuidParameters = RequestParameters;
-export type TypesRestGetRelationshipDefByNameParameters = RequestParameters;
-export type TypesRestGetStructDefByGuidParameters = RequestParameters;
-export type TypesRestGetStructDefByNameParameters = RequestParameters;
-export type TypesRestGetTypeDefByGuidParameters = RequestParameters;
-export type TypesRestGetTypeDefByNameParameters = RequestParameters;
-export type TypesRestDeleteTypeByNameParameters = RequestParameters;
+export type RelationshipGetByIdParameters = RequestParameters &
+  RelationshipGetByIdQueryParam;
+export type RelationshipDeleteByIdParameters = RequestParameters;
+export type TypesGetClassificationDefByGuidParameters = RequestParameters;
+export type TypesGetClassificationDefByNameParameters = RequestParameters;
+export type TypesGetEntityDefByGuidParameters = RequestParameters;
+export type TypesGetEntityDefByNameParameters = RequestParameters;
+export type TypesGetEnumDefByGuidParameters = RequestParameters;
+export type TypesGetEnumDefByNameParameters = RequestParameters;
+export type TypesGetRelationshipDefByGuidParameters = RequestParameters;
+export type TypesGetRelationshipDefByNameParameters = RequestParameters;
+export type TypesGetStructDefByGuidParameters = RequestParameters;
+export type TypesGetStructDefByNameParameters = RequestParameters;
+export type TypesGetTypeDefByGuidParameters = RequestParameters;
+export type TypesGetTypeDefByNameParameters = RequestParameters;
+export type TypesDeleteTypeByNameParameters = RequestParameters;
 
-export interface TypesRestGetAllTypeDefsQueryParamProperties {
+export interface TypesGetAllTypeDefsQueryParamProperties {
   /**
    * Whether include termtemplatedef when return all typedefs.
    * This is always true when search filter type=term_template
    */
   includeTermTemplate?: boolean;
   /** Typedef name as search filter when get typedefs. */
-  type?: Enum14;
+  type?: Type;
 }
 
-export interface TypesRestGetAllTypeDefsQueryParam {
-  queryParameters?: TypesRestGetAllTypeDefsQueryParamProperties;
+export interface TypesGetAllTypeDefsQueryParam {
+  queryParameters?: TypesGetAllTypeDefsQueryParamProperties;
 }
 
-export type TypesRestGetAllTypeDefsParameters = RequestParameters &
-  TypesRestGetAllTypeDefsQueryParam;
+export type TypesGetAllTypeDefsParameters = RequestParameters &
+  TypesGetAllTypeDefsQueryParam;
 
-export interface TypesRestCreateTypeDefsBodyParam {
-  body: JsonAtlasTypesDef;
+export interface TypesCreateTypeDefsBodyParam {
+  body: AtlasTypesDef;
 }
 
-export type TypesRestCreateTypeDefsParameters = RequestParameters &
-  TypesRestCreateTypeDefsBodyParam;
+export type TypesCreateTypeDefsParameters = RequestParameters &
+  TypesCreateTypeDefsBodyParam;
 
-export interface TypesRestUpdateAtlasTypeDefsBodyParam {
-  body: JsonAtlasTypesDef;
+export interface TypesUpdateAtlasTypeDefsBodyParam {
+  body: AtlasTypesDef;
 }
 
-export type TypesRestUpdateAtlasTypeDefsParameters = RequestParameters &
-  TypesRestUpdateAtlasTypeDefsBodyParam;
+export type TypesUpdateAtlasTypeDefsParameters = RequestParameters &
+  TypesUpdateAtlasTypeDefsBodyParam;
 
-export interface TypesRestDeleteTypeDefsBodyParam {
-  body: JsonAtlasTypesDef;
+export interface TypesDeleteTypeDefsBodyParam {
+  body: AtlasTypesDef;
 }
 
-export type TypesRestDeleteTypeDefsParameters = RequestParameters &
-  TypesRestDeleteTypeDefsBodyParam;
+export type TypesDeleteTypeDefsParameters = RequestParameters &
+  TypesDeleteTypeDefsBodyParam;
 
-export interface TypesRestGetTypeDefHeadersQueryParamProperties {
+export interface TypesGetTypeDefHeadersQueryParamProperties {
   /**
    * Whether include termtemplatedef when return all typedefs.
    * This is always true when search filter type=term_template
    */
   includeTermTemplate?: boolean;
   /** Typedef name as search filter when get typedefs. */
-  type?: Enum14;
+  type?: Type;
 }
 
-export interface TypesRestGetTypeDefHeadersQueryParam {
-  queryParameters?: TypesRestGetTypeDefHeadersQueryParamProperties;
+export interface TypesGetTypeDefHeadersQueryParam {
+  queryParameters?: TypesGetTypeDefHeadersQueryParamProperties;
 }
 
-export type TypesRestGetTypeDefHeadersParameters = RequestParameters &
-  TypesRestGetTypeDefHeadersQueryParam;
-export type TypesRestGetTermTemplateDefByGuidParameters = RequestParameters;
-export type TypesRestGetTermTemplateDefByNameParameters = RequestParameters;
+export type TypesGetTypeDefHeadersParameters = RequestParameters &
+  TypesGetTypeDefHeadersQueryParam;
+export type TypesGetTermTemplateDefByGuidParameters = RequestParameters;
+export type TypesGetTermTemplateDefByNameParameters = RequestParameters;

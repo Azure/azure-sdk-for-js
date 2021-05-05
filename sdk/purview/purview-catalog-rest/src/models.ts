@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export type JsonAtlasEntityWithExtInfo = JsonAtlasEntityWithExtInfoBase & JsonAtlasEntityExtInfo;
+export type AtlasEntityWithExtInfo = AtlasEntityWithExtInfoBase &
+  AtlasEntityExtInfo;
 
-export interface JsonAtlasEntityWithExtInfoBase {
+export interface AtlasEntityWithExtInfoBase {
   /** An instance of an entity - like hive_table, hive_database. */
-  entity?: JsonAtlasEntity;
+  entity?: AtlasEntity;
 }
 
-export type JsonAtlasEntity = JsonAtlasEntityBase & JsonAtlasStruct;
+export type AtlasEntity = AtlasEntityBase & AtlasStruct;
 
-export interface JsonAtlasEntityBase {
+export interface AtlasEntityBase {
   /** An array of classifications. */
-  classifications?: JsonAtlasClassification[];
+  classifications?: AtlasClassification[];
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -22,15 +23,15 @@ export interface JsonAtlasEntityBase {
   /** The home ID of the entity. */
   homeId?: string;
   /** An array of term assignment headers indicating the meanings of the entity. */
-  meanings?: JsonAtlasTermAssignmentHeader[];
+  meanings?: AtlasTermAssignmentHeader[];
   /** Used to record the provenance of an instance of an entity or relationship. */
   provenanceType?: number;
   /** Determines if there's a proxy. */
   proxy?: boolean;
   /** The attributes of relationship. */
-  relationshipAttributes?: JsonAtlasEntityRelationshipAttributesDictionary;
+  relationshipAttributes?: AtlasEntityRelationshipAttributesDictionary;
   /** Status of the entity - can be active or deleted. Deleted entities are not removed from Atlas store. */
-  status?: JsonStatus;
+  status?: Status;
   /** The update time of the record. */
   updateTime?: number;
   /** The user who updated the record. */
@@ -40,31 +41,29 @@ export interface JsonAtlasEntityBase {
   /** indicate the source who create the classification detail */
   source?: string;
   /** more detail on source information */
-  sourceDetails?: JsonAtlasEntitySourceDetailsDictionary;
+  sourceDetails?: AtlasEntitySourceDetailsDictionary;
   /** The dictionary of contacts for terms. Key could be Expert or Owner. */
-  contacts?: JsonAtlasEntityContactsDictionary;
+  contacts?: AtlasEntityContactsDictionary;
 }
 
-export type JsonAtlasClassification = JsonAtlasClassificationBase & JsonAtlasStruct;
+export type AtlasClassification = AtlasClassificationBase & AtlasStruct;
 
-export interface JsonAtlasClassificationBase {
+export interface AtlasClassificationBase {
   /** The GUID of the entity. */
   entityGuid?: string;
   /** Status of the entity - can be active or deleted. Deleted entities are not removed from Atlas store. */
-  entityStatus?: JsonStatus;
-  /** Determines if the classification will be propagated. */
-  propagate?: boolean;
+  entityStatus?: Status;
   /** Determines if propagations will be removed on entity deletion. */
   removePropagationsOnEntityDelete?: boolean;
   /** An array of time boundaries indicating validity periods. */
-  validityPeriods?: JsonTimeBoundary[];
+  validityPeriods?: TimeBoundary[];
   /** indicate the source who create the classification detail */
   source?: string;
   /** more detail on source information */
-  sourceDetails?: JsonAtlasClassificationSourceDetailsDictionary;
+  sourceDetails?: AtlasClassificationSourceDetailsDictionary;
 }
 
-export interface JsonTimeBoundary {
+export interface TimeBoundary {
   /** The end of the time boundary. */
   endTime?: string;
   /** The start of the time boundary. */
@@ -73,16 +72,16 @@ export interface JsonTimeBoundary {
   timeZone?: string;
 }
 
-export interface JsonAtlasStruct {
+export interface AtlasStruct {
   /** The attributes of the struct. */
-  attributes?: JsonAtlasStructAttributesDictionary;
+  attributes?: AtlasStructAttributesDictionary;
   /** The name of the type. */
   typeName?: string;
   /** ETag for concurrency control. */
   lastModifiedTS?: string;
 }
 
-export interface JsonAtlasTermAssignmentHeader {
+export interface AtlasTermAssignmentHeader {
   /** The confidence of the term assignment. */
   confidence?: number;
   /** The user who created the record. */
@@ -98,41 +97,41 @@ export interface JsonAtlasTermAssignmentHeader {
   /** The source of the term. */
   source?: string;
   /** The status of terms assignment. */
-  status?: JsonAtlasTermAssignmentStatus;
+  status?: AtlasTermAssignmentStatus;
   /** The steward of the term. */
   steward?: string;
   /** The GUID of the term. */
   termGuid?: string;
 }
 
-export interface JsonContactBasic {
+export interface ContactBasic {
   /** Azure Active Directory object Id. */
   id?: string;
   /** additional information to describe this contact. */
   info?: string;
 }
 
-export interface JsonAtlasEntityExtInfo {
+export interface AtlasEntityExtInfo {
   /** The referred entities. */
-  referredEntities?: JsonAtlasEntityExtInfoReferredEntitiesDictionary;
+  referredEntities?: AtlasEntityExtInfoReferredEntitiesDictionary;
 }
 
-export interface JsonEntityMutationResponse {
+export interface EntityMutationResponse {
   /** A map of GUID assignments with entities. */
-  guidAssignments?: JsonEntityMutationResponseGuidAssignmentsDictionary;
+  guidAssignments?: EntityMutationResponseGuidAssignmentsDictionary;
   /** The entity headers of mutated entities. */
-  mutatedEntities?: JsonEntityMutationResponseMutatedEntitiesDictionary;
+  mutatedEntities?: EntityMutationResponseMutatedEntitiesDictionary;
   /** An array of entity headers that partially updated. */
-  partialUpdatedEntities?: JsonAtlasEntityHeader[];
+  partialUpdatedEntities?: AtlasEntityHeader[];
 }
 
-export type JsonAtlasEntityHeader = JsonAtlasEntityHeaderBase & JsonAtlasStruct;
+export type AtlasEntityHeader = AtlasEntityHeaderBase & AtlasStruct;
 
-export interface JsonAtlasEntityHeaderBase {
+export interface AtlasEntityHeaderBase {
   /** An array of classification names. */
   classificationNames?: string[];
   /** An array of classifications. */
-  classifications?: JsonAtlasClassification[];
+  classifications?: AtlasClassification[];
   /** The display text. */
   displayText?: string;
   /** The GUID of the record. */
@@ -140,31 +139,31 @@ export interface JsonAtlasEntityHeaderBase {
   /** An array of meanings. */
   meaningNames?: string[];
   /** An array of term assignment headers. */
-  meanings?: JsonAtlasTermAssignmentHeader[];
+  meanings?: AtlasTermAssignmentHeader[];
   /** Status of the entity - can be active or deleted. Deleted entities are not removed from Atlas store. */
-  status?: JsonStatus;
+  status?: Status;
 }
 
-export type JsonAtlasEntitiesWithExtInfo = JsonAtlasEntitiesWithExtInfoBase &
-  JsonAtlasEntityExtInfo;
+export type AtlasEntitiesWithExtInfo = AtlasEntitiesWithExtInfoBase &
+  AtlasEntityExtInfo;
 
-export interface JsonAtlasEntitiesWithExtInfoBase {
+export interface AtlasEntitiesWithExtInfoBase {
   /** An array of entities. */
-  entities?: JsonAtlasEntity[];
+  entities?: AtlasEntity[];
 }
 
-export interface JsonClassificationAssociateRequest {
+export interface ClassificationAssociateRequest {
   /** An instance of a classification; it doesn't have an identity, this object exists only when associated with an entity. */
-  classification?: JsonAtlasClassification;
+  classification?: AtlasClassification;
   /** The GUID of the entity. */
   entityGuids?: string[];
 }
 
-export type JsonAtlasClassifications = JsonAtlasClassificationsBase & JsonPlist;
+export type AtlasClassifications = AtlasClassificationsBase & PList;
 
-export interface JsonAtlasClassificationsBase {}
+export interface AtlasClassificationsBase {}
 
-export interface JsonPlist {
+export interface PList {
   /** An array of objects. */
   list?: any[];
   /** The size of the page. */
@@ -172,32 +171,32 @@ export interface JsonPlist {
   /** The sorted by field. */
   sortBy?: string;
   /** to specify whether the result should be sorted? If yes, whether asc or desc. */
-  sortType?: JsonSortType;
+  sortType?: SortType;
   /** The start index of the page. */
   startIndex?: number;
   /** The total count of items. */
   totalCount?: number;
 }
 
-export interface JsonAtlasEntityHeaders {
+export interface AtlasEntityHeaders {
   /** The description of the guid header map, */
-  guidHeaderMap?: JsonAtlasEntityHeadersGuidHeaderMapDictionary;
+  guidHeaderMap?: AtlasEntityHeadersGuidHeaderMapDictionary;
 }
 
-export type JsonAtlasGlossary = JsonAtlasGlossaryBase & JsonAtlasGlossaryBaseObject;
+export type AtlasGlossary = AtlasGlossaryBase & AtlasGlossaryBaseObject;
 
-export interface JsonAtlasGlossaryBase {
+export interface AtlasGlossaryBase {
   /** An array of categories. */
-  categories?: JsonAtlasRelatedCategoryHeader[];
+  categories?: AtlasRelatedCategoryHeader[];
   /** The language of the glossary. */
   language?: string;
   /** An array of related term headers. */
-  terms?: JsonAtlasRelatedTermHeader[];
+  terms?: AtlasRelatedTermHeader[];
   /** The usage of the glossary. */
   usage?: string;
 }
 
-export interface JsonAtlasRelatedCategoryHeader {
+export interface AtlasRelatedCategoryHeader {
   /** The GUID of the category. */
   categoryGuid?: string;
   /** The description of the category header. */
@@ -210,7 +209,7 @@ export interface JsonAtlasRelatedCategoryHeader {
   relationGuid?: string;
 }
 
-export interface JsonAtlasRelatedTermHeader {
+export interface AtlasRelatedTermHeader {
   /** The description of the related term. */
   description?: string;
   /** The display text. */
@@ -222,19 +221,19 @@ export interface JsonAtlasRelatedTermHeader {
   /** The source of the term. */
   source?: string;
   /** The status of term relationship. */
-  status?: JsonAtlasTermRelationshipStatus;
+  status?: AtlasTermRelationshipStatus;
   /** The steward of the term. */
   steward?: string;
   /** The GUID of the term. */
   termGuid?: string;
 }
 
-export type JsonAtlasGlossaryBaseObject = JsonAtlasGlossaryBaseObjectBase &
-  JsonAtlasBaseModelObject;
+export type AtlasGlossaryBaseObject = AtlasGlossaryBaseObjectBase &
+  AtlasBaseModelObject;
 
-export interface JsonAtlasGlossaryBaseObjectBase {
+export interface AtlasGlossaryBaseObjectBase {
   /** An array of classifications. */
-  classifications?: JsonAtlasClassification[];
+  classifications?: AtlasClassification[];
   /** The long version description. */
   longDescription?: string;
   /** The name of the glossary object. */
@@ -247,25 +246,26 @@ export interface JsonAtlasGlossaryBaseObjectBase {
   lastModifiedTS?: string;
 }
 
-export interface JsonAtlasBaseModelObject {
+export interface AtlasBaseModelObject {
   /** The GUID of the object. */
   guid?: string;
 }
 
-export type JsonAtlasGlossaryCategory = JsonAtlasGlossaryCategoryBase & JsonAtlasGlossaryBaseObject;
+export type AtlasGlossaryCategory = AtlasGlossaryCategoryBase &
+  AtlasGlossaryBaseObject;
 
-export interface JsonAtlasGlossaryCategoryBase {
+export interface AtlasGlossaryCategoryBase {
   /** The glossary header with basic information. */
-  anchor?: JsonAtlasGlossaryHeader;
+  anchor?: AtlasGlossaryHeader;
   /** An array of children categories. */
-  childrenCategories?: JsonAtlasRelatedCategoryHeader[];
+  childrenCategories?: AtlasRelatedCategoryHeader[];
   /** The header of the related category. */
-  parentCategory?: JsonAtlasRelatedCategoryHeader;
+  parentCategory?: AtlasRelatedCategoryHeader;
   /** An array of related term headers. */
-  terms?: JsonAtlasRelatedTermHeader[];
+  terms?: AtlasRelatedTermHeader[];
 }
 
-export interface JsonAtlasGlossaryHeader {
+export interface AtlasGlossaryHeader {
   /** The display text. */
   displayText?: string;
   /** The GUID of the glossary. */
@@ -274,16 +274,16 @@ export interface JsonAtlasGlossaryHeader {
   relationGuid?: string;
 }
 
-export type JsonAtlasGlossaryTerm = JsonAtlasGlossaryTermBase & JsonAtlasGlossaryBaseObject;
+export type AtlasGlossaryTerm = AtlasGlossaryTermBase & AtlasGlossaryBaseObject;
 
-export interface JsonAtlasGlossaryTermBase {
+export interface AtlasGlossaryTermBase {
   /** The abbreviation of the term. */
   abbreviation?: string;
   templateName?: any[];
   /** The glossary header with basic information. */
-  anchor?: JsonAtlasGlossaryHeader;
+  anchor?: AtlasGlossaryHeader;
   /** An array of related term headers as antonyms. */
-  antonyms?: JsonAtlasRelatedTermHeader[];
+  antonyms?: AtlasRelatedTermHeader[];
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
@@ -293,83 +293,83 @@ export interface JsonAtlasGlossaryTermBase {
   /** The user who updated the record. */
   updatedBy?: string;
   /** Status of the AtlasGlossaryTerm */
-  status?: JsonTermStatus;
+  status?: TermStatus;
   /** An array of resource link for term */
-  resources?: JsonResourceLink[];
+  resources?: ResourceLink[];
   /** The dictionary of contacts for terms. Key could be Expert or Steward. */
-  contacts?: JsonAtlasGlossaryTermContactsDictionary;
+  contacts?: AtlasGlossaryTermContactsDictionary;
   /**
    * The custom attributes of the term, which is map<string,map<string,object>>.
    * The key of the first layer map is term template name.
    */
-  attributes?: JsonTermCustomAttributesDictionary;
+  attributes?: TermCustomAttributesDictionary;
   /** An array of related object IDs. */
-  assignedEntities?: JsonAtlasRelatedObjectId[];
+  assignedEntities?: AtlasRelatedObjectId[];
   /** An array of term categorization headers. */
-  categories?: JsonAtlasTermCategorizationHeader[];
+  categories?: AtlasTermCategorizationHeader[];
   /** An array of related term headers. */
-  classifies?: JsonAtlasRelatedTermHeader[];
+  classifies?: AtlasRelatedTermHeader[];
   /** An array of examples. */
   examples?: string[];
   /** An array of related term headers indicating the is-a relationship. */
-  isA?: JsonAtlasRelatedTermHeader[];
+  isA?: AtlasRelatedTermHeader[];
   /** An array of preferred related term headers. */
-  preferredTerms?: JsonAtlasRelatedTermHeader[];
+  preferredTerms?: AtlasRelatedTermHeader[];
   /** An array of related term headers that are preferred to. */
-  preferredToTerms?: JsonAtlasRelatedTermHeader[];
+  preferredToTerms?: AtlasRelatedTermHeader[];
   /** An array of related term headers that are replaced by. */
-  replacedBy?: JsonAtlasRelatedTermHeader[];
+  replacedBy?: AtlasRelatedTermHeader[];
   /** An array of related term headers for replacement. */
-  replacementTerms?: JsonAtlasRelatedTermHeader[];
+  replacementTerms?: AtlasRelatedTermHeader[];
   /** An array of related term headers for see also. */
-  seeAlso?: JsonAtlasRelatedTermHeader[];
+  seeAlso?: AtlasRelatedTermHeader[];
   /** An array of related term headers as synonyms. */
-  synonyms?: JsonAtlasRelatedTermHeader[];
+  synonyms?: AtlasRelatedTermHeader[];
   /** An array of translated related term headers. */
-  translatedTerms?: JsonAtlasRelatedTermHeader[];
+  translatedTerms?: AtlasRelatedTermHeader[];
   /** An array of related term headers for translation. */
-  translationTerms?: JsonAtlasRelatedTermHeader[];
+  translationTerms?: AtlasRelatedTermHeader[];
   /** The usage of the term. */
   usage?: string;
   /** An array of related term headers as valid values. */
-  validValues?: JsonAtlasRelatedTermHeader[];
+  validValues?: AtlasRelatedTermHeader[];
   /** An array of related term headers as valid values for other records. */
-  validValuesFor?: JsonAtlasRelatedTermHeader[];
+  validValuesFor?: AtlasRelatedTermHeader[];
 }
 
-export interface JsonResourceLink {
+export interface ResourceLink {
   /** Display name for url. */
   displayName?: string;
   /** web url. http or https */
   url?: string;
 }
 
-export type JsonAtlasRelatedObjectId = JsonAtlasRelatedObjectIdBase & JsonAtlasObjectId;
+export type AtlasRelatedObjectId = AtlasRelatedObjectIdBase & AtlasObjectId;
 
-export interface JsonAtlasRelatedObjectIdBase {
+export interface AtlasRelatedObjectIdBase {
   /** The display text. */
   displayText?: string;
   /** Status of the entity - can be active or deleted. Deleted entities are not removed from Atlas store. */
-  entityStatus?: JsonStatus;
+  entityStatus?: Status;
   relationshipType?: string;
   /** Captures details of struct contents. Not instantiated directly, used only via AtlasEntity, AtlasClassification. */
-  relationshipAttributes?: JsonAtlasStruct;
+  relationshipAttributes?: AtlasStruct;
   /** The GUID of the relationship. */
   relationshipGuid?: string;
   /** The enum of relationship status. */
-  relationshipStatus?: JsonStatusAtlasRelationship;
+  relationshipStatus?: StatusAtlasRelationship;
 }
 
-export interface JsonAtlasObjectId {
+export interface AtlasObjectId {
   /** The GUID of the object. */
   guid?: string;
   /** The name of the type. */
   typeName?: string;
   /** The unique attributes of the object. */
-  uniqueAttributes?: JsonAtlasObjectIdUniqueAttributesDictionary;
+  uniqueAttributes?: AtlasObjectIdUniqueAttributesDictionary;
 }
 
-export interface JsonAtlasTermCategorizationHeader {
+export interface AtlasTermCategorizationHeader {
   /** The GUID of the category. */
   categoryGuid?: string;
   /** The description of the record. */
@@ -379,46 +379,46 @@ export interface JsonAtlasTermCategorizationHeader {
   /** The GUID of the relationship. */
   relationGuid?: string;
   /** The status of term relationship. */
-  status?: JsonAtlasTermRelationshipStatus;
+  status?: AtlasTermRelationshipStatus;
 }
 
-export type JsonAtlasGlossaryExtInfo = JsonAtlasGlossaryExtInfoBase & JsonAtlasGlossary;
+export type AtlasGlossaryExtInfo = AtlasGlossaryExtInfoBase & AtlasGlossary;
 
-export interface JsonAtlasGlossaryExtInfoBase {
+export interface AtlasGlossaryExtInfoBase {
   /** The glossary category information. */
-  categoryInfo?: JsonAtlasGlossaryExtInfoCategoryInfoDictionary;
+  categoryInfo?: AtlasGlossaryExtInfoCategoryInfoDictionary;
   /** The glossary term information. */
-  termInfo?: JsonAtlasGlossaryExtInfoTermInfoDictionary;
+  termInfo?: AtlasGlossaryExtInfoTermInfoDictionary;
 }
 
-export interface JsonImportCSVOperation {
+export interface ImportCSVOperation {
   /** guid string */
   id?: string;
   /** Enum of the status of import csv operation. */
-  status?: JsonImportCSVOperationStatus;
+  status?: ImportCSVOperationStatus;
   /** The created time of the record. */
   createTime?: string;
   /** The last updated time of the record. */
   lastUpdateTime?: string;
-  properties?: JsonImportCSVOperationProperties;
-  error?: JsonImportCSVOperationError;
+  properties?: ImportCSVOperationProperties;
+  error?: ImportCSVOperationError;
 }
 
-export interface JsonImportCSVOperationProperties {
+export interface ImportCSVOperationProperties {
   /** Term numbers that already imported successfully */
   importedTerms?: string;
   /** Total term numbers that detected in csv */
   totalTermsDetected?: string;
 }
 
-export interface JsonImportCSVOperationError {
+export interface ImportCSVOperationError {
   /** Error code from async import job if fail */
   errorCode?: number;
   /** Error message from async import job if fail */
   errorMessage?: string;
 }
 
-export interface JsonSearchRequest {
+export interface SearchRequest {
   /** The keywords applied to all searchable fields. */
   keywords?: string;
   /** The offset. The default value is 0. */
@@ -427,11 +427,11 @@ export interface JsonSearchRequest {
   limit?: number;
   /** The filter for the search. See examples for the usage of supported filters. */
   filter?: any;
-  facets?: JsonSearchFacetItem[];
-  taxonomySetting?: JsonSearchRequestTaxonomySetting;
+  facets?: SearchFacetItem[];
+  taxonomySetting?: SearchRequestTaxonomySetting;
 }
 
-export interface JsonSearchFacetItem {
+export interface SearchFacetItem {
   /** The count of the facet item. */
   count?: number;
   /** The name of the facet item. */
@@ -440,42 +440,42 @@ export interface JsonSearchFacetItem {
   sort?: any;
 }
 
-export interface JsonSearchRequestTaxonomySetting {
+export interface SearchRequestTaxonomySetting {
   assetTypes?: string[];
   /** The content of a search facet result item. */
-  facet?: JsonSearchFacetItem;
+  facet?: SearchFacetItem;
 }
 
-export interface JsonSearchResult {
+export interface SearchResult {
   /** The total number of search results (not the number of documents in a single page). */
   searchCount?: number;
   /** A facet list that consists of index fields assetType ,classification, classificationCategory, contactId, fileExtension, label, and label. When the facet is specified in the request, the value of the facet is returned as an element of @search.facets. */
-  searchFacets?: JsonSearchFacetResultValue;
-  value?: JsonSearchResultValue[];
+  searchFacets?: SearchFacetResultValue;
+  value?: SearchResultValue[];
 }
 
-export interface JsonSearchFacetResultValue {
-  assetType?: JsonSearchFacetItemValue[];
-  classification?: JsonSearchFacetItemValue[];
-  classificationCategory?: JsonSearchFacetItemValue[];
-  contactId?: JsonSearchFacetItemValue[];
-  fileExtension?: JsonSearchFacetItemValue[];
-  label?: JsonSearchFacetItemValue[];
-  term?: JsonSearchFacetItemValue[];
+export interface SearchFacetResultValue {
+  assetType?: SearchFacetItemValue[];
+  classification?: SearchFacetItemValue[];
+  classificationCategory?: SearchFacetItemValue[];
+  contactId?: SearchFacetItemValue[];
+  fileExtension?: SearchFacetItemValue[];
+  label?: SearchFacetItemValue[];
+  term?: SearchFacetItemValue[];
 }
 
-export interface JsonSearchFacetItemValue {
+export interface SearchFacetItemValue {
   /** The count of the facet item. */
   count?: number;
   /** The name of the facet item. */
   value?: string;
 }
 
-export interface JsonSearchResultValue {
+export interface SearchResultValue {
   /** The search score calculated by the search engine. The results are ordered by search score by default. */
   searchScore?: number;
   /** A highlight list that consists of index fields id ,qualifiedName, name, description, entityType. When the keyword appears in those fields, the value of the field, attached with emphasis mark, is returned as an element of @search.highlights. */
-  searchHighlights?: JsonSearchHighlights;
+  searchHighlights?: SearchHighlights;
   /** The target text that contains the keyword as prefix. The keyword is wrapped with emphasis mark. */
   searchText?: string;
   /** The description of the record. */
@@ -495,14 +495,14 @@ export interface JsonSearchResultValue {
   /** The labels of the record. */
   label?: string[];
   /** The terms assigned to the record. */
-  term?: JsonTermSearchResultValue[];
+  term?: TermSearchResultValue[];
   /** The contacts of the record. */
-  contact?: JsonContactSearchResultValue[];
+  contact?: ContactSearchResultValue[];
   /** The asset types of the record. */
   assetType?: string[];
 }
 
-export interface JsonSearchHighlights {
+export interface SearchHighlights {
   id?: string[];
   qualifiedName?: string[];
   name?: string[];
@@ -510,7 +510,7 @@ export interface JsonSearchHighlights {
   entityType?: string[];
 }
 
-export interface JsonTermSearchResultValue {
+export interface TermSearchResultValue {
   /** The name of the term. */
   name?: string;
   /** The name of the glossary which contains the term. */
@@ -519,7 +519,7 @@ export interface JsonTermSearchResultValue {
   guid?: string;
 }
 
-export interface JsonContactSearchResultValue {
+export interface ContactSearchResultValue {
   /** The GUID of the contact. */
   id?: string;
   /** The description of the contact. */
@@ -528,7 +528,7 @@ export interface JsonContactSearchResultValue {
   contactType?: string;
 }
 
-export interface JsonSuggestRequest {
+export interface SuggestRequest {
   /** The keywords applied to all fields that support suggest operation. It must be at least 1 character, and no more than 100 characters. In the index schema we defined a default suggester which lists all the supported fields and specifies a search mode. */
   keywords?: string;
   /** The number of suggestions we hope to return. The default value is 5. The value must be a number between 1 and 100. */
@@ -537,11 +537,11 @@ export interface JsonSuggestRequest {
   filter?: any;
 }
 
-export interface JsonSuggestResult {
-  value?: JsonSuggestResultValue[];
+export interface SuggestResult {
+  value?: SuggestResultValue[];
 }
 
-export interface JsonSuggestResultValue {
+export interface SuggestResultValue {
   /** The search score calculated by the search engine. The results are ordered by search score by default. */
   searchScore?: number;
   /** The target text that contains the keyword as prefix. The keyword is wrapped with emphasis mark. */
@@ -563,14 +563,14 @@ export interface JsonSuggestResultValue {
   /** The labels of the record. */
   label?: string[];
   /** The terms assigned to the record. */
-  term?: JsonTermSearchResultValue[];
+  term?: TermSearchResultValue[];
   /** The contacts of the record. */
-  contact?: JsonContactSearchResultValue[];
+  contact?: ContactSearchResultValue[];
   /** The asset types of the record. */
   assetType?: string[];
 }
 
-export interface JsonAutoCompleteRequest {
+export interface AutoCompleteRequest {
   /** The keywords applied to all fields that support autocomplete operation. It must be at least 1 character, and no more than 100 characters. */
   keywords?: string;
   /** The number of autocomplete results we hope to return. The default value is 50. The value must be a number between 1 and 100. */
@@ -579,24 +579,24 @@ export interface JsonAutoCompleteRequest {
   filter?: any;
 }
 
-export interface JsonAutocompleteResult {
-  value?: JsonAutocompleteResultValue[];
+export interface AutoCompleteResult {
+  value?: AutoCompleteResultValue[];
 }
 
-export interface JsonAutocompleteResultValue {
+export interface AutoCompleteResultValue {
   /** The completed term or phrase. */
   text?: string;
   /** The completed search query text. */
   queryPlusText?: string;
 }
 
-export interface JsonAtlasLineageInfo {
+export interface AtlasLineageInfo {
   /** The GUID of the base entity. */
   baseEntityGuid?: string;
   /** The GUID entity map. */
-  guidEntityMap?: JsonAtlasLineageInfoGuidEntityMapDictionary;
+  guidEntityMap?: AtlasLineageInfoGuidEntityMapDictionary;
   /** The entity count in specific direction. */
-  widthCounts?: JsonAtlasLineageInfoWidthCountsDictionary;
+  widthCounts?: AtlasLineageInfoWidthCountsDictionary;
   /** The depth of lineage. */
   lineageDepth?: number;
   /** The width of lineage. */
@@ -606,14 +606,14 @@ export interface JsonAtlasLineageInfo {
   /** The number of children node. */
   childrenCount?: number;
   /** The enum of lineage direction. */
-  lineageDirection?: JsonLineageDirection;
+  lineageDirection?: LineageDirection;
   /** An array of parentRelations relations. */
-  parentRelations?: JsonParentRelation[];
+  parentRelations?: ParentRelation[];
   /** An array of lineage relations. */
-  relations?: JsonLineageRelation[];
+  relations?: LineageRelation[];
 }
 
-export interface JsonParentRelation {
+export interface ParentRelation {
   /** The GUID of child entity. */
   childEntityId?: string;
   /** The GUID of relationship. */
@@ -622,7 +622,7 @@ export interface JsonParentRelation {
   parentEntityId?: string;
 }
 
-export interface JsonLineageRelation {
+export interface LineageRelation {
   /** The GUID of from-entity. */
   fromEntityId?: string;
   /** The GUID of relationship. */
@@ -631,50 +631,27 @@ export interface JsonLineageRelation {
   toEntityId?: string;
 }
 
-export type JsonAtlasRelationship = JsonAtlasRelationshipBase & JsonAtlasStruct;
+export type AtlasRelationship = AtlasRelationshipBase & AtlasStruct;
 
-export interface JsonAtlasRelationshipBase {
-  /** An array of blocked propagated classifications. */
-  blockedPropagatedClassifications?: JsonAtlasClassification[];
+export interface AtlasRelationshipBase {
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
   createdBy?: string;
   /** Reference to an object-instance of an Atlas type - like entity. */
-  end1?: JsonAtlasObjectId;
+  end1?: AtlasObjectId;
   /** Reference to an object-instance of an Atlas type - like entity. */
-  end2?: JsonAtlasObjectId;
+  end2?: AtlasObjectId;
   /** The GUID of the relationship. */
   guid?: string;
   /** The home ID of the relationship. */
   homeId?: string;
   /** The label of the relationship. */
   label?: string;
-  /**
-   * PropagateTags indicates whether tags should propagate across the relationship instance.
-   * <p>
-   * Tags can propagate:
-   * <p>
-   * NONE - not at all <br>
-   * ONE_TO_TWO - from end 1 to 2 <br>
-   * TWO_TO_ONE - from end 2 to 1  <br>
-   * BOTH - both ways
-   * <p>
-   * Care needs to be taken when specifying. The use cases we are aware of where this flag is useful:
-   * <p>
-   * - propagating confidentiality classifications from a table to columns - ONE_TO_TWO could be used here <br>
-   * - propagating classifications around Glossary synonyms - BOTH could be used here.
-   * <p>
-   * There is an expectation that further enhancements will allow more granular control of tag propagation and will
-   * address how to resolve conflicts.
-   */
-  propagateTags?: JsonPropagateTags;
-  /** An array of propagated classifications. */
-  propagatedClassifications?: JsonAtlasClassification[];
   /** Used to record the provenance of an instance of an entity or relationship */
   provenanceType?: number;
   /** The enum of relationship status. */
-  status?: JsonStatusAtlasRelationship;
+  status?: StatusAtlasRelationship;
   /** The update time of the record. */
   updateTime?: number;
   /** The user who updated the record. */
@@ -683,16 +660,17 @@ export interface JsonAtlasRelationshipBase {
   version?: number;
 }
 
-export interface JsonAtlasRelationshipWithExtInfo {
+export interface AtlasRelationshipWithExtInfo {
   /** The referred entity header. */
-  referredEntities?: JsonAtlasRelationshipWithExtInfoReferredEntitiesDictionary;
+  referredEntities?: AtlasRelationshipWithExtInfoReferredEntitiesDictionary;
   /** Atlas relationship instance. */
-  relationship?: JsonAtlasRelationship;
+  relationship?: AtlasRelationship;
 }
 
-export type JsonAtlasClassificationDef = JsonAtlasClassificationDefBase & JsonAtlasStructDef;
+export type AtlasClassificationDef = AtlasClassificationDefBase &
+  AtlasStructDef;
 
-export interface JsonAtlasClassificationDefBase {
+export interface AtlasClassificationDefBase {
   /**
    * Specifying a list of entityType names in the classificationDef, ensures that classifications can
    * only be applied to those entityTypes.
@@ -712,18 +690,18 @@ export interface JsonAtlasClassificationDefBase {
   superTypes?: string[];
 }
 
-export type JsonAtlasStructDef = JsonAtlasStructDefBase & JsonAtlasBaseTypeDef;
+export type AtlasStructDef = AtlasStructDefBase & AtlasBaseTypeDef;
 
-export interface JsonAtlasStructDefBase {
+export interface AtlasStructDefBase {
   /** An array of attribute definitions. */
-  attributeDefs?: JsonAtlasAttributeDef[];
+  attributeDefs?: AtlasAttributeDef[];
 }
 
-export interface JsonAtlasAttributeDef {
+export interface AtlasAttributeDef {
   /** single-valued attribute or multi-valued attribute. */
-  cardinality?: JsonCardinality;
+  cardinality?: Cardinality;
   /** An array of constraints. */
-  constraints?: JsonAtlasConstraintDef[];
+  constraints?: AtlasConstraintDef[];
   /** The default value of the attribute. */
   defaultValue?: string;
   /** The description of the attribute. */
@@ -739,7 +717,7 @@ export interface JsonAtlasAttributeDef {
   /** The name of the attribute. */
   name?: string;
   /** The options for the attribute. */
-  options?: JsonAtlasAttributeDefOptionsDictionary;
+  options?: AtlasAttributeDefOptionsDictionary;
   /** The name of the type. */
   typeName?: string;
   /** The maximum count of the values. */
@@ -748,22 +726,22 @@ export interface JsonAtlasAttributeDef {
   valuesMinCount?: number;
 }
 
-export interface JsonAtlasConstraintDef {
+export interface AtlasConstraintDef {
   /** The parameters of the constraint definition. */
-  params?: JsonAtlasConstraintDefParamsDictionary;
+  params?: AtlasConstraintDefParamsDictionary;
   /** The type of the constraint. */
   type?: string;
 }
 
-export interface JsonAtlasBaseTypeDef {
+export interface AtlasBaseTypeDef {
   /** The enum of type category. */
-  category?: JsonTypeCategory;
+  category?: TypeCategory;
   /** The created time of the record. */
   createTime?: number;
   /** The user who created the record. */
   createdBy?: string;
   /** The date format. */
-  dateFormatter?: JsonDateFormat;
+  dateFormatter?: DateFormat;
   /** The description of the type definition. */
   description?: string;
   /** The GUID of the type definition. */
@@ -771,7 +749,7 @@ export interface JsonAtlasBaseTypeDef {
   /** The name of the type definition. */
   name?: string;
   /** The options for the type definition. */
-  options?: JsonAtlasBaseTypeDefOptionsDictionary;
+  options?: AtlasBaseTypeDefOptionsDictionary;
   /** The service type. */
   serviceType?: string;
   /** The version of the type. */
@@ -786,39 +764,39 @@ export interface JsonAtlasBaseTypeDef {
   lastModifiedTS?: string;
 }
 
-export interface JsonDateFormat {
+export interface DateFormat {
   /** An array of available locales. */
   availableLocales?: string[];
   calendar?: number;
   /** The date format. */
-  dateInstance?: JsonDateFormat;
+  dateInstance?: DateFormat;
   /** The date format. */
-  dateTimeInstance?: JsonDateFormat;
+  dateTimeInstance?: DateFormat;
   /** The date format. */
-  instance?: JsonDateFormat;
+  instance?: DateFormat;
   /** Determines the leniency of the date format. */
   lenient?: boolean;
   /** The number format. */
-  numberFormat?: JsonNumberFormat;
+  numberFormat?: NumberFormat;
   /** The date format. */
-  timeInstance?: JsonDateFormat;
+  timeInstance?: DateFormat;
   /** The timezone information. */
-  timeZone?: JsonTimeZone;
+  timeZone?: TimeZone;
 }
 
-export interface JsonNumberFormat {
+export interface NumberFormat {
   /** The number format. */
   availableLocales?: string[];
   /** The currency. */
   currency?: string;
   /** The number format. */
-  currencyInstance?: JsonNumberFormat;
+  currencyInstance?: NumberFormat;
   /** Determines if grouping is used. */
   groupingUsed?: boolean;
   /** The number format. */
-  instance?: JsonNumberFormat;
+  instance?: NumberFormat;
   /** The number format. */
-  integerInstance?: JsonNumberFormat;
+  integerInstance?: NumberFormat;
   /** The maximum of fraction digits. */
   maximumFractionDigits?: number;
   /** The maximum of integer digits. */
@@ -828,16 +806,16 @@ export interface JsonNumberFormat {
   /** The minimum of integer digits. */
   minimumIntegerDigits?: number;
   /** The number format. */
-  numberInstance?: JsonNumberFormat;
+  numberInstance?: NumberFormat;
   /** Determines if only integer is parsed. */
   parseIntegerOnly?: boolean;
   /** The number format. */
-  percentInstance?: JsonNumberFormat;
+  percentInstance?: NumberFormat;
   /** The enum of rounding mode. */
-  roundingMode?: JsonRoundingMode;
+  roundingMode?: RoundingMode;
 }
 
-export interface JsonTimeZone {
+export interface TimeZone {
   /** The value of the daylight saving time. */
   dstSavings?: number;
   /** The ID of the timezone. */
@@ -845,44 +823,44 @@ export interface JsonTimeZone {
   /** An array of available IDs. */
   availableIds?: string[];
   /** The timezone information. */
-  default?: JsonTimeZone;
+  default?: TimeZone;
   /** The display name of the timezone. */
   displayName?: string;
   /** The raw offset of the timezone. */
   rawOffset?: number;
 }
 
-export type JsonAtlasEntityDef = JsonAtlasEntityDefBase & JsonAtlasStructDef;
+export type AtlasEntityDef = AtlasEntityDefBase & AtlasStructDef;
 
-export interface JsonAtlasEntityDefBase {
+export interface AtlasEntityDefBase {
   /** An array of sub types. */
   subTypes?: string[];
   /** An array of super types. */
   superTypes?: string[];
   /** An array of relationship attributes. */
-  relationshipAttributeDefs?: JsonAtlasRelationshipAttributeDef[];
+  relationshipAttributeDefs?: AtlasRelationshipAttributeDef[];
 }
 
-export type JsonAtlasRelationshipAttributeDef = JsonAtlasRelationshipAttributeDefBase &
-  JsonAtlasAttributeDef;
+export type AtlasRelationshipAttributeDef = AtlasRelationshipAttributeDefBase &
+  AtlasAttributeDef;
 
-export interface JsonAtlasRelationshipAttributeDefBase {
+export interface AtlasRelationshipAttributeDefBase {
   /** Determines if it is a legacy attribute. */
   isLegacyAttribute?: boolean;
   /** The name of the relationship type. */
   relationshipTypeName?: string;
 }
 
-export type JsonAtlasEnumDef = JsonAtlasEnumDefBase & JsonAtlasBaseTypeDef;
+export type AtlasEnumDef = AtlasEnumDefBase & AtlasBaseTypeDef;
 
-export interface JsonAtlasEnumDefBase {
+export interface AtlasEnumDefBase {
   /** The default value. */
   defaultValue?: string;
   /** An array of enum element definitions. */
-  elementDefs?: JsonAtlasEnumElementDef[];
+  elementDefs?: AtlasEnumElementDef[];
 }
 
-export interface JsonAtlasEnumElementDef {
+export interface AtlasEnumElementDef {
   /** The description of the enum element definition. */
   description?: string;
   /** The ordinal of the enum element definition. */
@@ -891,38 +869,19 @@ export interface JsonAtlasEnumElementDef {
   value?: string;
 }
 
-export type JsonAtlasRelationshipDef = JsonAtlasRelationshipDefBase & JsonAtlasStructDef;
+export type AtlasRelationshipDef = AtlasRelationshipDefBase & AtlasStructDef;
 
-export interface JsonAtlasRelationshipDefBase {
+export interface AtlasRelationshipDefBase {
   /**
    * The relationshipEndDef represents an end of the relationship. The end of the relationship is defined by a type, an
    * attribute name, cardinality and whether it  is the container end of the relationship.
    */
-  endDef1?: JsonAtlasRelationshipEndDef;
+  endDef1?: AtlasRelationshipEndDef;
   /**
    * The relationshipEndDef represents an end of the relationship. The end of the relationship is defined by a type, an
    * attribute name, cardinality and whether it  is the container end of the relationship.
    */
-  endDef2?: JsonAtlasRelationshipEndDef;
-  /**
-   * PropagateTags indicates whether tags should propagate across the relationship instance.
-   * <p>
-   * Tags can propagate:
-   * <p>
-   * NONE - not at all <br>
-   * ONE_TO_TWO - from end 1 to 2 <br>
-   * TWO_TO_ONE - from end 2 to 1  <br>
-   * BOTH - both ways
-   * <p>
-   * Care needs to be taken when specifying. The use cases we are aware of where this flag is useful:
-   * <p>
-   * - propagating confidentiality classifications from a table to columns - ONE_TO_TWO could be used here <br>
-   * - propagating classifications around Glossary synonyms - BOTH could be used here.
-   * <p>
-   * There is an expectation that further enhancements will allow more granular control of tag propagation and will
-   * address how to resolve conflicts.
-   */
-  propagateTags?: JsonPropagateTags;
+  endDef2?: AtlasRelationshipEndDef;
   /**
    * The Relationship category determines the style of relationship around containment and lifecycle.
    * UML terminology is used for the values.
@@ -934,14 +893,14 @@ export interface JsonAtlasRelationshipDefBase {
    * the children cannot exist without the container. For AGGREGATION, the life cycles
    * of the container and children are totally independent.
    */
-  relationshipCategory?: JsonRelationshipCategory;
+  relationshipCategory?: RelationshipCategory;
   /** The label of the relationship. */
   relationshipLabel?: string;
 }
 
-export interface JsonAtlasRelationshipEndDef {
+export interface AtlasRelationshipEndDef {
   /** single-valued attribute or multi-valued attribute. */
-  cardinality?: JsonCardinality;
+  cardinality?: Cardinality;
   /** The description of the relationship end definition. */
   description?: string;
   /** Determines if it is container. */
@@ -954,11 +913,13 @@ export interface JsonAtlasRelationshipEndDef {
   type?: string;
 }
 
-export type JsonAtlasTypeDef = JsonAtlasTypeDefBase & JsonAtlasBaseTypeDef & JsonAtlasExtraTypeDef;
+export type AtlasTypeDef = AtlasTypeDefBase &
+  AtlasBaseTypeDef &
+  AtlasExtraTypeDef;
 
-export interface JsonAtlasTypeDefBase {}
+export interface AtlasTypeDefBase {}
 
-export interface JsonAtlasExtraTypeDef {
+export interface AtlasExtraTypeDef {
   /**
    * Specifying a list of entityType names in the classificationDef, ensures that classifications can
    * only be applied to those entityTypes.
@@ -977,40 +938,21 @@ export interface JsonAtlasExtraTypeDef {
   /** An array of super types. */
   superTypes?: string[];
   /** An array of relationship attributes. */
-  relationshipAttributeDefs?: JsonAtlasRelationshipAttributeDef[];
+  relationshipAttributeDefs?: AtlasRelationshipAttributeDef[];
   /** The default value. */
   defaultValue?: string;
   /** An array of enum element definitions. */
-  elementDefs?: JsonAtlasEnumElementDef[];
+  elementDefs?: AtlasEnumElementDef[];
   /**
    * The relationshipEndDef represents an end of the relationship. The end of the relationship is defined by a type, an
    * attribute name, cardinality and whether it  is the container end of the relationship.
    */
-  endDef1?: JsonAtlasRelationshipEndDef;
+  endDef1?: AtlasRelationshipEndDef;
   /**
    * The relationshipEndDef represents an end of the relationship. The end of the relationship is defined by a type, an
    * attribute name, cardinality and whether it  is the container end of the relationship.
    */
-  endDef2?: JsonAtlasRelationshipEndDef;
-  /**
-   * PropagateTags indicates whether tags should propagate across the relationship instance.
-   * <p>
-   * Tags can propagate:
-   * <p>
-   * NONE - not at all <br>
-   * ONE_TO_TWO - from end 1 to 2 <br>
-   * TWO_TO_ONE - from end 2 to 1  <br>
-   * BOTH - both ways
-   * <p>
-   * Care needs to be taken when specifying. The use cases we are aware of where this flag is useful:
-   * <p>
-   * - propagating confidentiality classifications from a table to columns - ONE_TO_TWO could be used here <br>
-   * - propagating classifications around Glossary synonyms - BOTH could be used here.
-   * <p>
-   * There is an expectation that further enhancements will allow more granular control of tag propagation and will
-   * address how to resolve conflicts.
-   */
-  propagateTags?: JsonPropagateTags;
+  endDef2?: AtlasRelationshipEndDef;
   /**
    * The Relationship category determines the style of relationship around containment and lifecycle.
    * UML terminology is used for the values.
@@ -1022,73 +964,74 @@ export interface JsonAtlasExtraTypeDef {
    * the children cannot exist without the container. For AGGREGATION, the life cycles
    * of the container and children are totally independent.
    */
-  relationshipCategory?: JsonRelationshipCategory;
+  relationshipCategory?: RelationshipCategory;
   /** The label of the relationship. */
   relationshipLabel?: string;
   /** An array of attribute definitions. */
-  attributeDefs?: JsonAtlasAttributeDef[];
+  attributeDefs?: AtlasAttributeDef[];
 }
 
-export interface JsonAtlasTypesDef {
+export interface AtlasTypesDef {
   /** An array of classification definitions. */
-  classificationDefs?: JsonAtlasClassificationDef[];
+  classificationDefs?: AtlasClassificationDef[];
   /** An array of entity definitions. */
-  entityDefs?: JsonAtlasEntityDef[];
+  entityDefs?: AtlasEntityDef[];
   /** An array of enum definitions. */
-  enumDefs?: JsonAtlasEnumDef[];
+  enumDefs?: AtlasEnumDef[];
   /** An array of relationship definitions. */
-  relationshipDefs?: JsonAtlasRelationshipDef[];
+  relationshipDefs?: AtlasRelationshipDef[];
   /** An array of struct definitions. */
-  structDefs?: JsonAtlasStructDef[];
+  structDefs?: AtlasStructDef[];
   /** An array of term template definitions. */
-  termTemplateDefs?: JsonTermTemplateDef[];
+  termTemplateDefs?: TermTemplateDef[];
 }
 
-export type JsonTermTemplateDef = JsonTermTemplateDefBase & JsonAtlasStructDef;
+export type TermTemplateDef = TermTemplateDefBase & AtlasStructDef;
 
-export interface JsonTermTemplateDefBase {}
+export interface TermTemplateDefBase {}
 
-export interface JsonAtlasTypeDefHeader {
+export interface AtlasTypeDefHeader {
   /** The enum of type category. */
-  category?: JsonTypeCategory;
+  category?: TypeCategory;
   /** The GUID of the type definition. */
   guid?: string;
   /** The name of the type definition. */
   name?: string;
 }
 
-export interface JsonTypeStatistics {
+export interface TypeStatistics {
   /** An map with type and corresponding statistics. */
-  typeStatistics?: JsonTypeStatisticsDictionary;
+  typeStatistics?: TypeStatisticsDictionary;
 }
 
-export interface JsonTypeStatisticsExtraProperties {
+export interface TypeStatisticsExtraProperties {
   /** The entity count of this type. */
   count?: number;
 }
 
-export type JsonAtlasUserSavedSearch = JsonAtlasUserSavedSearchBase & JsonAtlasBaseModelObject;
+export type AtlasUserSavedSearch = AtlasUserSavedSearchBase &
+  AtlasBaseModelObject;
 
-export interface JsonAtlasUserSavedSearchBase {
+export interface AtlasUserSavedSearchBase {
   /** The name of the saved search. */
   name?: string;
   /** The owner name of the saved search. */
   ownerName?: string;
   /** The parameters used for search. */
-  searchParameters?: JsonSearchParameters;
+  searchParameters?: SearchParameters;
   /** The enum of saved search type. */
-  searchType?: JsonSavedSearchType;
+  searchType?: SavedSearchType;
   /** The UI parameters. */
   uiParameters?: string;
 }
 
-export interface JsonSearchParameters {
+export interface SearchParameters {
   /** Attribute values included in the results */
   attributes?: string[];
   /** The classification to search. */
   classification?: string;
   /** The filter criteria with attributes and condition. */
-  entityFilters?: JsonFilterCriteria;
+  entityFilters?: FilterCriteria;
   /** Determines if exclude deleted entities. */
   excludeDeletedEntities?: boolean;
   /** Determines if include classification attributes. */
@@ -1104,51 +1047,51 @@ export interface JsonSearchParameters {
   /** The search query. */
   query?: string;
   /** The filter criteria with attributes and condition. */
-  tagFilters?: JsonFilterCriteria;
+  tagFilters?: FilterCriteria;
   /** The name of the term for search. */
   termName?: string;
   /** The name of the type for search. */
   typeName?: string;
 }
 
-export interface JsonFilterCriteria {
+export interface FilterCriteria {
   /** The name of the attribute. */
   attributeName?: string;
   /** The value of the attribute. */
   attributeValue?: string;
   /** The enum for condition. */
-  condition?: JsonCondition;
+  condition?: Condition;
   /** An array of filter criteria. */
-  criterion?: JsonFilterCriteria[];
+  criterion?: FilterCriteria[];
   /**
    * Supported search operations
    * Logical comparison operators can only be used with numbers or dates
    * IN, LIKE, startsWith, endsWith, CONTAINS can only be used with strings or text
    */
-  operator?: JsonOperator;
+  operator?: Operator;
 }
 
-export interface JsonSearchFilter {
+export interface SearchFilter {
   /** Determines if get the count. */
   getCount?: boolean;
   /** The maximum of rows. */
   maxRows?: number;
   /** The parameters of the search filter. */
-  params?: JsonSearchFilterParamsDictionary;
+  params?: SearchFilterParamsDictionary;
   /** The sorted by field. */
   sortBy?: string;
   /** to specify whether the result should be sorted? If yes, whether asc or desc. */
-  sortType?: JsonSortType;
+  sortType?: SortType;
   /** The start index of the search. */
   startIndex?: number;
 }
 
-export interface JsonAzureCatalogUser {
+export interface AzureCatalogUser {
   /** User ID of the Azure catalog user. */
   userId?: string;
 }
 
-export interface JsonCatalogCreationRequest {
+export interface CatalogCreationRequest {
   /** Name of the catalog. */
   catalogName?: string;
   /** ID of the catalog. */
@@ -1159,97 +1102,97 @@ export interface JsonCatalogCreationRequest {
   eventHubConnectionString?: string;
 }
 
-export interface JsonCatalogDeletionRequest {
+export interface CatalogDeletionRequest {
   /** Name of the catalog. */
   catalogName?: string;
 }
 
-export interface JsonDataScanPermissionCheckRequest {
+export interface DataScanPermissionCheckRequest {
   /** Name of the catalog. */
   catalogName?: string;
   /** User ID of the catalog. */
   userId?: string;
 }
 
-export interface JsonDataScanPermissionCheckResponse {
+export interface DataScanPermissionCheckResponse {
   /** The result of the response. */
   result?: string;
 }
 
-export interface JsonContext {
+export interface Context {
   /** The value of the context. */
   value?: string;
 }
 
-export interface JsonError {
+export interface Error {
   /** The error message. */
   errorMessage?: string;
 }
 
-export interface JsonAtlasError {
+export interface AtlasError {
   /** Error code */
   errorCode?: string;
   /** Error message */
   errorMessage?: string;
 }
 
-export interface JsonHookNotification {
+export interface HookNotification {
   /** Enum of hook notification type. Different behavior will be invoked by the value. */
-  type?: JsonHookNotificationType;
+  type?: HookNotificationType;
   /** The user of the notification. Default to be "UNKNOWN". */
   user?: string;
 }
 
-export interface JsonEntityCreateRequestV2 {
+export interface EntityCreateRequestV2 {
   /** Enum of hook notification type. Different behavior will be invoked by the value. */
-  type?: JsonHookNotificationType;
-  /** The user of the notification. Default to be "UNKNOWN". */
-  user?: string;
-  /** An instance of an entity along with extended info - like hive_table, hive_database. */
-  entities?: JsonAtlasEntitiesWithExtInfo;
-}
-
-export interface JsonEntityUpdateRequestV2 {
-  /** Enum of hook notification type. Different behavior will be invoked by the value. */
-  type?: JsonHookNotificationType;
+  type?: HookNotificationType;
   /** The user of the notification. Default to be "UNKNOWN". */
   user?: string;
   /** An instance of an entity along with extended info - like hive_table, hive_database. */
-  entities?: JsonAtlasEntitiesWithExtInfo;
+  entities?: AtlasEntitiesWithExtInfo;
 }
 
-export interface JsonEntityPartialUpdateRequestV2 {
+export interface EntityUpdateRequestV2 {
   /** Enum of hook notification type. Different behavior will be invoked by the value. */
-  type?: JsonHookNotificationType;
+  type?: HookNotificationType;
+  /** The user of the notification. Default to be "UNKNOWN". */
+  user?: string;
+  /** An instance of an entity along with extended info - like hive_table, hive_database. */
+  entities?: AtlasEntitiesWithExtInfo;
+}
+
+export interface EntityPartialUpdateRequestV2 {
+  /** Enum of hook notification type. Different behavior will be invoked by the value. */
+  type?: HookNotificationType;
   /** The user of the notification. Default to be "UNKNOWN". */
   user?: string;
   /** Reference to an object-instance of an Atlas type - like entity. */
-  entityId?: JsonAtlasObjectId;
+  entityId?: AtlasObjectId;
   /** An instance of an entity along with extended info - like hive_table, hive_database. */
-  entity?: JsonAtlasEntitiesWithExtInfo;
+  entity?: AtlasEntitiesWithExtInfo;
 }
 
-export interface JsonEntityDeleteRequestV2 {
+export interface EntityDeleteRequestV2 {
   /** Enum of hook notification type. Different behavior will be invoked by the value. */
-  type?: JsonHookNotificationType;
+  type?: HookNotificationType;
   /** The user of the notification. Default to be "UNKNOWN". */
   user?: string;
-  entities?: JsonAtlasObjectId[];
+  entities?: AtlasObjectId[];
 }
 
-export interface JsonRoleAssignmentEntry {
+export interface RoleAssignmentEntry {
   /** The object ID of the AAD user. */
   principalId?: string;
   /** The name of the role. */
   role?: string;
 }
 
-export interface JsonUpdateRoleAssignmentRequest {
-  roleAssignmentList?: JsonRoleAssignmentEntry[];
+export interface UpdateRoleAssignmentRequest {
+  roleAssignmentList?: RoleAssignmentEntry[];
 }
 
-export interface JsonListRoleAssignmentResponse {
-  roleAssignmentList?: JsonRoleAssignmentEntry[];
+export interface ListRoleAssignmentResponse {
+  roleAssignmentList?: RoleAssignmentEntry[];
 }
 
 export interface XmlNs0Plist {
@@ -1301,8 +1244,8 @@ export interface Paths1Fy5A17GlossaryNameGlossarynameTermsImportPostRequestbodyC
   file: string;
 }
 
-export type JsonStatus = "ACTIVE" | "DELETED";
-export type JsonAtlasTermAssignmentStatus =
+export type Status = "ACTIVE" | "DELETED";
+export type AtlasTermAssignmentStatus =
   | "DISCOVERED"
   | "PROPOSED"
   | "IMPORTED"
@@ -1310,21 +1253,24 @@ export type JsonAtlasTermAssignmentStatus =
   | "DEPRECATED"
   | "OBSOLETE"
   | "OTHER";
-export type JsonSortType = "NONE" | "ASC" | "DESC";
-export type JsonAtlasTermRelationshipStatus =
+export type SortType = "NONE" | "ASC" | "DESC";
+export type AtlasTermRelationshipStatus =
   | "DRAFT"
   | "ACTIVE"
   | "DEPRECATED"
   | "OBSOLETE"
   | "OTHER";
-export type JsonTermStatus = "Draft" | "Approved" | "Alert" | "Expired";
-export type JsonStatusAtlasRelationship = "ACTIVE" | "DELETED";
-export type JsonImportCSVOperationStatus = "INIT" | "SUCCEED" | "FAILED" | "RUNNING";
-export type Enum7 = "BOTH" | "INPUT" | "OUTPUT";
-export type JsonLineageDirection = "INPUT" | "OUTPUT" | "BOTH";
-export type JsonPropagateTags = "NONE" | "ONE_TO_TWO" | "TWO_TO_ONE" | "BOTH";
-export type JsonCardinality = "SINGLE" | "LIST" | "SET";
-export type JsonTypeCategory =
+export type TermStatus = "Draft" | "Approved" | "Alert" | "Expired";
+export type StatusAtlasRelationship = "ACTIVE" | "DELETED";
+export type ImportCSVOperationStatus =
+  | "NotStarted"
+  | "Succeeded"
+  | "Failed"
+  | "Running";
+export type Direction = "BOTH" | "INPUT" | "OUTPUT";
+export type LineageDirection = "INPUT" | "OUTPUT" | "BOTH";
+export type Cardinality = "SINGLE" | "LIST" | "SET";
+export type TypeCategory =
   | "PRIMITIVE"
   | "OBJECT_ID_TYPE"
   | "ENUM"
@@ -1335,7 +1281,7 @@ export type JsonTypeCategory =
   | "MAP"
   | "RELATIONSHIP"
   | "TERM_TEMPLATE";
-export type JsonRoundingMode =
+export type RoundingMode =
   | "UP"
   | "DOWN"
   | "CEILING"
@@ -1344,16 +1290,19 @@ export type JsonRoundingMode =
   | "HALF_DOWN"
   | "HALF_EVEN"
   | "UNNECESSARY";
-export type JsonRelationshipCategory = "ASSOCIATION" | "AGGREGATION" | "COMPOSITION";
-export type Enum14 =
+export type RelationshipCategory =
+  | "ASSOCIATION"
+  | "AGGREGATION"
+  | "COMPOSITION";
+export type Type =
   | "enum"
   | "entity"
   | "classification"
   | "relationship"
   | "struct"
   | "term_template";
-export type JsonCondition = "AND" | "OR";
-export type JsonOperator =
+export type Condition = "AND" | "OR";
+export type Operator =
   | "LT"
   | "GT"
   | "LTE"
@@ -1369,8 +1318,8 @@ export type JsonOperator =
   | "CONTAINS_ALL"
   | "IS_NULL"
   | "NOT_NULL";
-export type JsonSavedSearchType = "BASIC" | "ADVANCED";
-export type JsonHookNotificationType =
+export type SavedSearchType = "BASIC" | "ADVANCED";
+export type HookNotificationType =
   | "TYPE_CREATE"
   | "TYPE_UPDATE"
   | "ENTITY_CREATE"
@@ -1382,8 +1331,8 @@ export type JsonHookNotificationType =
   | "ENTITY_FULL_UPDATE_V2"
   | "ENTITY_DELETE_V2";
 export type XmlNs0SortType = "NONE" | "ASC" | "DESC";
-export type JsonEntityOperation = "CREATE" | "UPDATE" | "PARTIAL_UPDATE" | "DELETE";
-export type JsonRelation =
+export type EntityOperation = "CREATE" | "UPDATE" | "PARTIAL_UPDATE" | "DELETE";
+export type Relation =
   | "SEE_ALSO"
   | "SYNONYMS"
   | "ANTONYMS"
@@ -1397,51 +1346,72 @@ export type JsonRelation =
   | "CLASSIFIES"
   | "VALID_VALUES"
   | "VALID_VALUES_FOR";
-export type JsonAtlasClassificationSourceDetailsDictionary = Record<string, any>;
-export type JsonAtlasStructAttributesDictionary = Record<string, any>;
-export type JsonAtlasEntityRelationshipAttributesDictionary = Record<string, any>;
-export type JsonAtlasEntitySourceDetailsDictionary = Record<string, any>;
-export type JsonAtlasEntityContactsDictionary = Record<string, JsonContactBasic[]>;
-export type JsonAtlasEntityExtInfoReferredEntitiesDictionary = Record<string, JsonAtlasEntity>;
-export type JsonEntityMutationResponseGuidAssignmentsDictionary = Record<string, string>;
-export type JsonEntityMutationResponseMutatedEntitiesDictionary = Record<
+export type AtlasClassificationSourceDetailsDictionary = Record<string, any>;
+export type AtlasStructAttributesDictionary = Record<string, any>;
+export type AtlasEntityRelationshipAttributesDictionary = Record<string, any>;
+export type AtlasEntitySourceDetailsDictionary = Record<string, any>;
+export type AtlasEntityContactsDictionary = Record<string, ContactBasic[]>;
+export type AtlasEntityExtInfoReferredEntitiesDictionary = Record<
   string,
-  JsonAtlasEntityHeader[]
+  AtlasEntity
 >;
-export type JsonAtlasEntityHeadersGuidHeaderMapDictionary = Record<string, JsonAtlasEntityHeader>;
+export type EntityMutationResponseGuidAssignmentsDictionary = Record<
+  string,
+  string
+>;
+export type EntityMutationResponseMutatedEntitiesDictionary = Record<
+  string,
+  AtlasEntityHeader[]
+>;
+export type AtlasEntityHeadersGuidHeaderMapDictionary = Record<
+  string,
+  AtlasEntityHeader
+>;
 export type DictionaryOfStringDictionary = Record<string, string>;
 export type DictionaryOfpathsCic80AAtlasV2GlossaryCategoryCategoryguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary = Record<
   string,
-  JsonAtlasRelatedCategoryHeader[]
+  AtlasRelatedCategoryHeader[]
 >;
-export type JsonAtlasGlossaryTermContactsDictionary = Record<string, JsonContactBasic[]>;
-export type JsonTermCustomAttributesExtraPropertiesDictionary = Record<string, any>;
-export type JsonTermCustomAttributesDictionary = Record<
+export type AtlasGlossaryTermContactsDictionary = Record<
   string,
-  JsonTermCustomAttributesExtraPropertiesDictionary
+  ContactBasic[]
 >;
-export type JsonAtlasObjectIdUniqueAttributesDictionary = Record<string, any>;
+export type TermCustomAttributesExtraPropertiesDictionary = Record<string, any>;
+export type TermCustomAttributesDictionary = Record<
+  string,
+  TermCustomAttributesExtraPropertiesDictionary
+>;
+export type AtlasObjectIdUniqueAttributesDictionary = Record<string, any>;
 export type DictionaryOfpathsV84KwqAtlasV2GlossaryTermsTermguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary = Record<
   string,
-  JsonAtlasRelatedTermHeader[]
+  AtlasRelatedTermHeader[]
 >;
-export type JsonAtlasGlossaryExtInfoCategoryInfoDictionary = Record<
+export type AtlasGlossaryExtInfoCategoryInfoDictionary = Record<
   string,
-  JsonAtlasGlossaryCategory
+  AtlasGlossaryCategory
 >;
-export type JsonAtlasGlossaryExtInfoTermInfoDictionary = Record<string, JsonAtlasGlossaryTerm>;
-export type JsonAtlasLineageInfoGuidEntityMapDictionary = Record<string, JsonAtlasEntityHeader>;
-export type JsonAtlasLineageInfoExtraPropertiesDictionary = Record<string, any>;
-export type JsonAtlasLineageInfoWidthCountsDictionary = Record<
+export type AtlasGlossaryExtInfoTermInfoDictionary = Record<
   string,
-  JsonAtlasLineageInfoExtraPropertiesDictionary
+  AtlasGlossaryTerm
 >;
-export type JsonAtlasRelationshipWithExtInfoReferredEntitiesDictionary = Record<
+export type AtlasLineageInfoGuidEntityMapDictionary = Record<
   string,
-  JsonAtlasEntityHeader
+  AtlasEntityHeader
 >;
-export type JsonAtlasConstraintDefParamsDictionary = Record<string, any>;
-export type JsonAtlasAttributeDefOptionsDictionary = Record<string, string>;
-export type JsonAtlasBaseTypeDefOptionsDictionary = Record<string, string>;
-export type JsonTypeStatisticsDictionary = Record<string, JsonTypeStatisticsExtraProperties>;
-export type JsonSearchFilterParamsDictionary = Record<string, string[]>;
+export type AtlasLineageInfoExtraPropertiesDictionary = Record<string, any>;
+export type AtlasLineageInfoWidthCountsDictionary = Record<
+  string,
+  AtlasLineageInfoExtraPropertiesDictionary
+>;
+export type AtlasRelationshipWithExtInfoReferredEntitiesDictionary = Record<
+  string,
+  AtlasEntityHeader
+>;
+export type AtlasConstraintDefParamsDictionary = Record<string, any>;
+export type AtlasAttributeDefOptionsDictionary = Record<string, string>;
+export type AtlasBaseTypeDefOptionsDictionary = Record<string, string>;
+export type TypeStatisticsDictionary = Record<
+  string,
+  TypeStatisticsExtraProperties
+>;
+export type SearchFilterParamsDictionary = Record<string, string[]>;

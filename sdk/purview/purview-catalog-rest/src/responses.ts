@@ -2,37 +2,37 @@
 // Licensed under the MIT license.
 
 import {
-  JsonEntityMutationResponse,
-  JsonAtlasEntitiesWithExtInfo,
-  JsonAtlasEntityWithExtInfo,
-  JsonAtlasClassification,
-  JsonAtlasClassifications,
-  JsonAtlasEntityHeader,
-  JsonAtlasGlossary,
-  JsonAtlasGlossaryCategory,
+  EntityMutationResponse,
+  AtlasEntitiesWithExtInfo,
+  AtlasEntityWithExtInfo,
+  AtlasClassification,
+  AtlasClassifications,
+  AtlasEntityHeader,
+  AtlasGlossary,
+  AtlasGlossaryCategory,
   DictionaryOfpathsCic80AAtlasV2GlossaryCategoryCategoryguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary,
-  JsonAtlasRelatedTermHeader,
-  JsonAtlasGlossaryTerm,
-  JsonAtlasRelatedObjectId,
+  AtlasRelatedTermHeader,
+  AtlasGlossaryTerm,
+  AtlasRelatedObjectId,
   DictionaryOfpathsV84KwqAtlasV2GlossaryTermsTermguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary,
-  JsonAtlasRelatedCategoryHeader,
-  JsonAtlasGlossaryExtInfo,
-  JsonImportCSVOperation,
-  JsonSearchResult,
-  JsonSuggestResult,
-  JsonAutocompleteResult,
-  JsonAtlasLineageInfo,
-  JsonAtlasRelationship,
-  JsonAtlasRelationshipWithExtInfo,
-  JsonAtlasClassificationDef,
-  JsonAtlasEntityDef,
-  JsonAtlasEnumDef,
-  JsonAtlasRelationshipDef,
-  JsonAtlasStructDef,
-  JsonAtlasTypeDef,
-  JsonAtlasTypesDef,
-  JsonAtlasTypeDefHeader,
-  JsonTermTemplateDef,
+  AtlasRelatedCategoryHeader,
+  AtlasGlossaryExtInfo,
+  ImportCSVOperation,
+  SearchResult,
+  SuggestResult,
+  AutoCompleteResult,
+  AtlasLineageInfo,
+  AtlasRelationship,
+  AtlasRelationshipWithExtInfo,
+  AtlasClassificationDef,
+  AtlasEntityDef,
+  AtlasEnumDef,
+  AtlasRelationshipDef,
+  AtlasStructDef,
+  AtlasTypeDef,
+  AtlasTypesDef,
+  AtlasTypeDefHeader,
+  TermTemplateDef
 } from "./models";
 import { HttpResponse } from "@azure-rest/core-client";
 
@@ -41,15 +41,15 @@ import { HttpResponse } from "@azure-rest/core-client";
  * Existing entity is matched using its unique guid if supplied or by its unique attributes eg: qualifiedName.
  * Map and array of collections are not well supported. E.g., array<array<int>>, array<map<string, int>>.
  */
-export interface EntityRestCreateOrUpdate200Response extends HttpResponse {
+export interface EntityCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: JsonEntityMutationResponse;
+  body: EntityMutationResponse;
 }
 
 /** List entities in bulk identified by its GUIDs. */
-export interface EntityRestGetByGuids200Response extends HttpResponse {
+export interface EntityGetByGuids200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasEntitiesWithExtInfo;
+  body: AtlasEntitiesWithExtInfo;
 }
 
 /**
@@ -57,26 +57,26 @@ export interface EntityRestGetByGuids200Response extends HttpResponse {
  * Existing entity is matched using its unique guid if supplied or by its unique attributes eg: qualifiedName.
  * Map and array of collections are not well supported. E.g., array<array<int>>, array<map<string, int>>.
  */
-export interface EntityRestCreateOrUpdateBulk200Response extends HttpResponse {
+export interface EntityCreateOrUpdateBulk200Response extends HttpResponse {
   status: "200";
-  body: JsonEntityMutationResponse;
+  body: EntityMutationResponse;
 }
 
 /** Delete a list of entities in bulk identified by their GUIDs or unique attributes. */
-export interface EntityRestBulkDelete200Response extends HttpResponse {
+export interface EntityDeleteByGuids200Response extends HttpResponse {
   status: "200";
-  body: JsonEntityMutationResponse;
+  body: EntityMutationResponse;
 }
 
 /** Associate a classification to multiple entities in bulk. */
-export interface EntityRestAddClassification204Response extends HttpResponse {
+export interface EntityAddClassification204Response extends HttpResponse {
   status: "204";
 }
 
 /** Get complete definition of an entity given its GUID. */
-export interface EntityRestGetById200Response extends HttpResponse {
+export interface EntityGetById200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasEntityWithExtInfo;
+  body: AtlasEntityWithExtInfo;
 }
 
 /**
@@ -85,41 +85,42 @@ export interface EntityRestGetById200Response extends HttpResponse {
  * It does not support updating complex types like arrays, and maps.
  * Null updates are not possible.
  */
-export interface EntityRestPartialUpdateEntityAttrByGuid200Response extends HttpResponse {
+export interface EntityPartialUpdateEntityAttrByGuid200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonEntityMutationResponse;
+  body: EntityMutationResponse;
 }
 
 /** Delete an entity identified by its GUID. */
-export interface EntityRestDeleteByGuid200Response extends HttpResponse {
+export interface EntityDeleteByGuid200Response extends HttpResponse {
   status: "200";
-  body: JsonEntityMutationResponse;
+  body: EntityMutationResponse;
 }
 
 /** List classifications for a given entity represented by a GUID. */
-export interface EntityRestGetClassification200Response extends HttpResponse {
+export interface EntityGetClassification200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasClassification;
+  body: AtlasClassification;
 }
 
 /** Delete a given classification from an existing entity represented by a GUID. */
-export interface EntityRestDeleteClassification204Response extends HttpResponse {
+export interface EntityDeleteClassification204Response extends HttpResponse {
   status: "204";
 }
 
 /** List classifications for a given entity represented by a GUID. */
-export interface EntityRestGetClassifications200Response extends HttpResponse {
+export interface EntityGetClassifications200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasClassifications;
+  body: AtlasClassifications;
 }
 
 /** Add classifications to an existing entity represented by a GUID. */
-export interface EntityRestAddClassifications204Response extends HttpResponse {
+export interface EntityAddClassifications204Response extends HttpResponse {
   status: "204";
 }
 
 /** Update classifications to an existing entity represented by a guid. */
-export interface EntityRestUpdateClassifications204Response extends HttpResponse {
+export interface EntityUpdateClassifications204Response extends HttpResponse {
   status: "204";
 }
 
@@ -131,9 +132,9 @@ export interface EntityRestUpdateClassifications204Response extends HttpResponse
  * The REST request would look something like this:
  * GET /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
  */
-export interface EntityRestGetByUniqueAttributes200Response extends HttpResponse {
+export interface EntityGetByUniqueAttributes200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasEntityWithExtInfo;
+  body: AtlasEntityWithExtInfo;
 }
 
 /**
@@ -146,9 +147,10 @@ export interface EntityRestGetByUniqueAttributes200Response extends HttpResponse
  * The REST request would look something like this:
  * PUT /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
  */
-export interface EntityRestPartialUpdateEntityByUniqueAttrs200Response extends HttpResponse {
+export interface EntityPartialUpdateEntityByUniqueAttrs200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonEntityMutationResponse;
+  body: EntityMutationResponse;
 }
 
 /**
@@ -159,28 +161,31 @@ export interface EntityRestPartialUpdateEntityByUniqueAttrs200Response extends H
  * The REST request would look something like this:
  * DELETE /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
  */
-export interface EntityRestDeleteByUniqueAttribute200Response extends HttpResponse {
+export interface EntityDeleteByUniqueAttribute200Response extends HttpResponse {
   status: "200";
-  body: JsonEntityMutationResponse;
+  body: EntityMutationResponse;
 }
 
 /** Delete a given classification from an entity identified by its type and unique attributes. */
-export interface EntityRestDeleteClassificationByUniqueAttribute204Response extends HttpResponse {
+export interface EntityDeleteClassificationByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
 }
 
 /** Add classification to the entity identified by its type and unique attributes. */
-export interface EntityRestAddClassificationsByUniqueAttribute204Response extends HttpResponse {
+export interface EntityAddClassificationsByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
 }
 
 /** Update classification on an entity identified by its type and unique attributes. */
-export interface EntityRestUpdateClassificationsByUniqueAttribute204Response extends HttpResponse {
+export interface EntityUpdateClassificationsByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
 }
 
 /** Set classifications on entities in bulk. */
-export interface EntityRestSetClassifications200Response extends HttpResponse {
+export interface EntitySetClassifications200Response extends HttpResponse {
   status: "200";
   body: string[];
 }
@@ -198,391 +203,410 @@ export interface EntityRestSetClassifications200Response extends HttpResponse {
  *
  * GET /v2/entity/bulk/uniqueAttribute/type/hive_db?attr_0:qualifiedName=db1\@cl1&attr_2:qualifiedName=db2\@cl1
  */
-export interface EntityRestGetEntitiesByUniqueAttributes200Response extends HttpResponse {
+export interface EntityGetEntitiesByUniqueAttributes200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasEntitiesWithExtInfo;
+  body: AtlasEntitiesWithExtInfo;
 }
 
 /** Get entity header given its GUID. */
-export interface EntityRestGetHeaderById200Response extends HttpResponse {
+export interface EntityGetHeaderById200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasEntityHeader;
+  body: AtlasEntityHeader;
 }
 
 /** Get all glossaries registered with Atlas. */
-export interface GlossaryRestGetGlossaries200Response extends HttpResponse {
+export interface GlossaryGetGlossaries200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossary[];
+  body: AtlasGlossary[];
 }
 
 /** Create a glossary. */
-export interface GlossaryRestCreateGlossary200Response extends HttpResponse {
+export interface GlossaryCreateGlossary200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossary;
+  body: AtlasGlossary;
 }
 
 /** Create glossary category in bulk. */
-export interface GlossaryRestCreateGlossaryCategories200Response extends HttpResponse {
+export interface GlossaryCreateGlossaryCategories200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryCategory[];
+  body: AtlasGlossaryCategory[];
 }
 
 /** Create a glossary category. */
-export interface GlossaryRestCreateGlossaryCategory200Response extends HttpResponse {
+export interface GlossaryCreateGlossaryCategory200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryCategory;
+  body: AtlasGlossaryCategory;
 }
 
 /** Get specific glossary category by its GUID. */
-export interface GlossaryRestGetGlossaryCategory200Response extends HttpResponse {
+export interface GlossaryGetGlossaryCategory200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryCategory;
+  body: AtlasGlossaryCategory;
 }
 
 /** Update the given glossary category by its GUID. */
-export interface GlossaryRestUpdateGlossaryCategory200Response extends HttpResponse {
+export interface GlossaryUpdateGlossaryCategory200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryCategory;
+  body: AtlasGlossaryCategory;
 }
 
 /** Delete a glossary category. */
-export interface GlossaryRestDeleteGlossaryCategory204Response extends HttpResponse {
+export interface GlossaryDeleteGlossaryCategory204Response
+  extends HttpResponse {
   status: "204";
 }
 
 /** Update the glossary category partially. */
-export interface GlossaryRestPartialUpdateGlossaryCategory200Response extends HttpResponse {
+export interface GlossaryPartialUpdateGlossaryCategory200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryCategory;
+  body: AtlasGlossaryCategory;
 }
 
 /** Get all related categories (parent and children). Limit, offset, and sort parameters are currently not being enabled and won't work even they are passed. */
-export interface GlossaryRestGetRelatedCategories200Response extends HttpResponse {
+export interface GlossaryGetRelatedCategories200Response extends HttpResponse {
   status: "200";
   body: DictionaryOfpathsCic80AAtlasV2GlossaryCategoryCategoryguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary;
 }
 
 /** Get all terms associated with the specific category. */
-export interface GlossaryRestGetCategoryTerms200Response extends HttpResponse {
+export interface GlossaryGetCategoryTerms200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasRelatedTermHeader[];
+  body: AtlasRelatedTermHeader[];
 }
 
 /** Create a glossary term. */
-export interface GlossaryRestCreateGlossaryTerm200Response extends HttpResponse {
+export interface GlossaryCreateGlossaryTerm200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryTerm;
+  body: AtlasGlossaryTerm;
 }
 
 /** Get a specific glossary term by its GUID. */
-export interface GlossaryRestGetGlossaryTerm200Response extends HttpResponse {
+export interface GlossaryGetGlossaryTerm200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryTerm;
+  body: AtlasGlossaryTerm;
 }
 
 /** Update the given glossary term by its GUID. */
-export interface GlossaryRestUpdateGlossaryTerm200Response extends HttpResponse {
+export interface GlossaryUpdateGlossaryTerm200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryTerm;
+  body: AtlasGlossaryTerm;
 }
 
 /** Delete a glossary term. */
-export interface GlossaryRestDeleteGlossaryTerm204Response extends HttpResponse {
+export interface GlossaryDeleteGlossaryTerm204Response extends HttpResponse {
   status: "204";
 }
 
 /** Update the glossary term partially. */
-export interface GlossaryRestPartialUpdateGlossaryTerm200Response extends HttpResponse {
+export interface GlossaryPartialUpdateGlossaryTerm200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryTerm;
+  body: AtlasGlossaryTerm;
 }
 
 /** Create glossary terms in bulk. */
-export interface GlossaryRestCreateGlossaryTerms200Response extends HttpResponse {
+export interface GlossaryCreateGlossaryTerms200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryTerm[];
+  body: AtlasGlossaryTerm[];
 }
 
 /** Get all related objects assigned with the specified term. */
-export interface GlossaryRestGetEntitiesAssignedWithTerm200Response extends HttpResponse {
+export interface GlossaryGetEntitiesAssignedWithTerm200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasRelatedObjectId[];
+  body: AtlasRelatedObjectId[];
 }
 
 /** Assign the given term to the provided list of related objects. */
-export interface GlossaryRestAssignTermToEntities204Response extends HttpResponse {
+export interface GlossaryAssignTermToEntities204Response extends HttpResponse {
   status: "204";
 }
 
 /** Delete the term assignment for the given list of related objects. */
-export interface GlossaryRestRemoveTermAssignmentFromEntities204Response extends HttpResponse {
+export interface GlossaryRemoveTermAssignmentFromEntities204Response
+  extends HttpResponse {
   status: "204";
 }
 
 /** Delete the term assignment for the given list of related objects. */
-export interface GlossaryRestDeleteTermAssignmentFromEntities204Response extends HttpResponse {
+export interface GlossaryDeleteTermAssignmentFromEntities204Response
+  extends HttpResponse {
   status: "204";
 }
 
 /** Get all related terms for a specific term by its GUID. Limit, offset, and sort parameters are currently not being enabled and won't work even they are passed. */
-export interface GlossaryRestGetRelatedTerms200Response extends HttpResponse {
+export interface GlossaryGetRelatedTerms200Response extends HttpResponse {
   status: "200";
   body: DictionaryOfpathsV84KwqAtlasV2GlossaryTermsTermguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary;
 }
 
 /** Get a specific Glossary by its GUID. */
-export interface GlossaryRestGetGlossary200Response extends HttpResponse {
+export interface GlossaryGetGlossary200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossary;
+  body: AtlasGlossary;
 }
 
 /** Update the given glossary. */
-export interface GlossaryRestUpdateGlossary200Response extends HttpResponse {
+export interface GlossaryUpdateGlossary200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossary;
+  body: AtlasGlossary;
 }
 
 /** Delete a glossary. */
-export interface GlossaryRestDeleteGlossary204Response extends HttpResponse {
+export interface GlossaryDeleteGlossary204Response extends HttpResponse {
   status: "204";
 }
 
 /** Get the categories belonging to a specific glossary. */
-export interface GlossaryRestGetGlossaryCategories200Response extends HttpResponse {
+export interface GlossaryGetGlossaryCategories200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryCategory[];
+  body: AtlasGlossaryCategory[];
 }
 
 /** Get the category headers belonging to a specific glossary. */
-export interface GlossaryRestGetGlossaryCategoriesHeaders200Response extends HttpResponse {
+export interface GlossaryGetGlossaryCategoriesHeaders200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasRelatedCategoryHeader[];
+  body: AtlasRelatedCategoryHeader[];
 }
 
 /** Get a specific glossary with detailed information. */
-export interface GlossaryRestGetDetailedGlossary200Response extends HttpResponse {
+export interface GlossaryGetDetailedGlossary200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryExtInfo;
+  body: AtlasGlossaryExtInfo;
 }
 
 /** Update the glossary partially. Some properties such as qualifiedName are not allowed to be updated. */
-export interface GlossaryRestPartialUpdateGlossary200Response extends HttpResponse {
+export interface GlossaryPartialUpdateGlossary200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossary;
+  body: AtlasGlossary;
 }
 
 /** Get terms belonging to a specific glossary. */
-export interface GlossaryRestGetGlossaryTerms200Response extends HttpResponse {
+export interface GlossaryGetGlossaryTerms200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryTerm[];
+  body: AtlasGlossaryTerm[];
 }
 
 /** Get term headers belonging to a specific glossary. */
-export interface GlossaryRestGetGlossaryTermHeaders200Response extends HttpResponse {
+export interface GlossaryGetGlossaryTermHeaders200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasRelatedTermHeader[];
+  body: AtlasRelatedTermHeader[];
 }
 
 /** Import Glossary Terms from local csv file */
-export interface GlossaryRestImportGlossaryTermsViaCSV202Response extends HttpResponse {
+export interface GlossaryImportGlossaryTermsViaCSV202Response
+  extends HttpResponse {
   status: "202";
-  body: JsonImportCSVOperation;
+  body: ImportCSVOperation;
 }
 
 /** Import Glossary Terms from local csv file by glossaryName */
-export interface GlossaryRestImportGlossaryTermsViaCSVByGlossaryName202Response
+export interface GlossaryImportGlossaryTermsViaCSVByGlossaryName202Response
   extends HttpResponse {
   status: "202";
-  body: JsonImportCSVOperation;
+  body: ImportCSVOperation;
 }
 
 /** Get the status of import csv operation */
-export interface GlossaryRestGetImportCSVOperationStatus200Response extends HttpResponse {
+export interface GlossaryGetImportCSVOperationStatus200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonImportCSVOperation;
+  body: ImportCSVOperation;
 }
 
 /** Export Glossary Terms as csv file */
-export interface GlossaryRestExportGlossaryTermsAsCSV200Response extends HttpResponse {
+export interface GlossaryExportGlossaryTermsAsCSV200Response
+  extends HttpResponse {
   status: "200";
+  body: string;
 }
 
 /** Get terms by glossary name. */
-export interface GlossaryRestGetTermsByGlossaryName200Response extends HttpResponse {
+export interface GlossaryGetTermsByGlossaryName200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasGlossaryTerm[];
+  body: AtlasGlossaryTerm[];
 }
 
 /** Gets data using search. */
-export interface DiscoveryRestSearchAdvanced200Response extends HttpResponse {
+export interface DiscoveryQuery200Response extends HttpResponse {
   status: "200";
-  body: JsonSearchResult;
+  body: SearchResult;
 }
 
 /** Get search suggestions by query criteria. */
-export interface DiscoveryRestSuggest200Response extends HttpResponse {
+export interface DiscoverySuggest200Response extends HttpResponse {
   status: "200";
-  body: JsonSuggestResult;
+  body: SuggestResult;
 }
 
 /** Get auto complete options. */
-export interface DiscoveryRestAutoComplete200Response extends HttpResponse {
+export interface DiscoveryAutoComplete200Response extends HttpResponse {
   status: "200";
-  body: JsonAutocompleteResult;
+  body: AutoCompleteResult;
 }
 
-/** Get lineage info about the specified entity by GUID. */
-export interface LineageRestGetLineageGraph200Response extends HttpResponse {
+/** Get lineage info of the entity specified by GUID. */
+export interface LineageGetLineageGraph200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasLineageInfo;
+  body: AtlasLineageInfo;
 }
 
-/** Return immediate next level lineage info about entity with pagination */
-export interface LineageRestNextLevelLineage200Response extends HttpResponse {
+/** Return immediate next page lineage info about entity with pagination */
+export interface LineageNextPageLineage200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasLineageInfo;
+  body: AtlasLineageInfo;
 }
 
 /** Create a new relationship between entities. */
-export interface RelationshipRestCreate200Response extends HttpResponse {
+export interface RelationshipCreate200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasRelationship;
+  body: AtlasRelationship;
 }
 
 /** Update an existing relationship between entities. */
-export interface RelationshipRestUpdate200Response extends HttpResponse {
+export interface RelationshipUpdate200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasRelationship;
+  body: AtlasRelationship;
 }
 
 /** Get relationship information between entities by its GUID. */
-export interface RelationshipRestGetById2200Response extends HttpResponse {
+export interface RelationshipGetById200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasRelationshipWithExtInfo;
+  body: AtlasRelationshipWithExtInfo;
 }
 
 /** Delete a relationship between entities by its GUID. */
-export interface RelationshipRestDeleteById204Response extends HttpResponse {
+export interface RelationshipDeleteById204Response extends HttpResponse {
   status: "204";
 }
 
 /** Get the classification definition for the given GUID. */
-export interface TypesRestGetClassificationDefByGuid200Response extends HttpResponse {
+export interface TypesGetClassificationDefByGuid200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasClassificationDef;
+  body: AtlasClassificationDef;
 }
 
 /** Get the classification definition by its name (unique). */
-export interface TypesRestGetClassificationDefByName200Response extends HttpResponse {
+export interface TypesGetClassificationDefByName200Response
+  extends HttpResponse {
   status: "200";
-  body: JsonAtlasClassificationDef;
+  body: AtlasClassificationDef;
 }
 
 /** Get the Entity definition for the given GUID. */
-export interface TypesRestGetEntityDefByGuid200Response extends HttpResponse {
+export interface TypesGetEntityDefByGuid200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasEntityDef;
+  body: AtlasEntityDef;
 }
 
 /** Get the entity definition by its name (unique). */
-export interface TypesRestGetEntityDefByName200Response extends HttpResponse {
+export interface TypesGetEntityDefByName200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasEntityDef;
+  body: AtlasEntityDef;
 }
 
 /** Get the enum definition for the given GUID. */
-export interface TypesRestGetEnumDefByGuid200Response extends HttpResponse {
+export interface TypesGetEnumDefByGuid200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasEnumDef;
+  body: AtlasEnumDef;
 }
 
 /** Get the enum definition by its name (unique). */
-export interface TypesRestGetEnumDefByName200Response extends HttpResponse {
+export interface TypesGetEnumDefByName200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasEnumDef;
+  body: AtlasEnumDef;
 }
 
 /** Get the relationship definition for the given GUID. */
-export interface TypesRestGetRelationshipDefByGuid200Response extends HttpResponse {
+export interface TypesGetRelationshipDefByGuid200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasRelationshipDef;
+  body: AtlasRelationshipDef;
 }
 
 /** Get the relationship definition by its name (unique). */
-export interface TypesRestGetRelationshipDefByName200Response extends HttpResponse {
+export interface TypesGetRelationshipDefByName200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasRelationshipDef;
+  body: AtlasRelationshipDef;
 }
 
 /** Get the struct definition for the given GUID. */
-export interface TypesRestGetStructDefByGuid200Response extends HttpResponse {
+export interface TypesGetStructDefByGuid200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasStructDef;
+  body: AtlasStructDef;
 }
 
 /** Get the struct definition by its name (unique). */
-export interface TypesRestGetStructDefByName200Response extends HttpResponse {
+export interface TypesGetStructDefByName200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasStructDef;
+  body: AtlasStructDef;
 }
 
 /** Get the type definition for the given GUID. */
-export interface TypesRestGetTypeDefByGuid200Response extends HttpResponse {
+export interface TypesGetTypeDefByGuid200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasTypeDef;
+  body: AtlasTypeDef;
 }
 
 /** Get the type definition by its name (unique). */
-export interface TypesRestGetTypeDefByName200Response extends HttpResponse {
+export interface TypesGetTypeDefByName200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasTypeDef;
+  body: AtlasTypeDef;
 }
 
 /** Delete API for type identified by its name. */
-export interface TypesRestDeleteTypeByName204Response extends HttpResponse {
+export interface TypesDeleteTypeByName204Response extends HttpResponse {
   status: "204";
 }
 
 /** Get all type definitions in Atlas in bulk. */
-export interface TypesRestGetAllTypeDefs200Response extends HttpResponse {
+export interface TypesGetAllTypeDefs200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasTypesDef;
+  body: AtlasTypesDef;
 }
 
 /**
  * Create all atlas type definitions in bulk, only new definitions will be created.
  * Any changes to the existing definitions will be discarded.
  */
-export interface TypesRestCreateTypeDefs200Response extends HttpResponse {
+export interface TypesCreateTypeDefs200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasTypesDef;
+  body: AtlasTypesDef;
 }
 
 /** Update all types in bulk, changes detected in the type definitions would be persisted. */
-export interface TypesRestUpdateAtlasTypeDefs200Response extends HttpResponse {
+export interface TypesUpdateAtlasTypeDefs200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasTypesDef;
+  body: AtlasTypesDef;
 }
 
 /** Delete API for all types in bulk. */
-export interface TypesRestDeleteTypeDefs204Response extends HttpResponse {
+export interface TypesDeleteTypeDefs204Response extends HttpResponse {
   status: "204";
 }
 
 /** List all type definitions returned as a list of minimal information header. */
-export interface TypesRestGetTypeDefHeaders200Response extends HttpResponse {
+export interface TypesGetTypeDefHeaders200Response extends HttpResponse {
   status: "200";
-  body: JsonAtlasTypeDefHeader[];
+  body: AtlasTypeDefHeader[];
 }
 
 /** Get the term template definition for the given GUID. */
-export interface TypesRestGetTermTemplateDefByGuid200Response extends HttpResponse {
+export interface TypesGetTermTemplateDefByGuid200Response extends HttpResponse {
   status: "200";
-  body: JsonTermTemplateDef;
+  body: TermTemplateDef;
 }
 
 /** Get the term template definition by its name (unique). */
-export interface TypesRestGetTermTemplateDefByName200Response extends HttpResponse {
+export interface TypesGetTermTemplateDefByName200Response extends HttpResponse {
   status: "200";
-  body: JsonTermTemplateDef;
+  body: TermTemplateDef;
 }
