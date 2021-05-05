@@ -29,4 +29,7 @@ export async function main() {
   }
 }
 
-main().catch(console.error);
+main().catch((error) => {
+  console.error("An error occurred in the sample:", error);
+  process.exit(1);
+});
