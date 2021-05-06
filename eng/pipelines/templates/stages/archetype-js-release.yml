@@ -118,7 +118,7 @@ stages:
                         displayName: Output Visible Artifacts
                       - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
                         parameters:
-                          WorkingDirectory: ${{ parameters.WorkingDirectory }}/repo
+                          WorkingDirectory: $(System.DefaultWorkingDirectory)/repo
                       - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
                         parameters:
                           ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
@@ -249,7 +249,7 @@ stages:
           displayName: Set daily docs branch name
 
         - pwsh: |
-            git clone https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} ${{ parameters.WorkingDirectory }}/repo
+            git clone https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} $(System.DefaultWorkingDirectory)/repo
           displayName: Clone Documentation Repository
           ignoreLASTEXITCODE: false
 
@@ -259,7 +259,7 @@ stages:
             $LASTEXITCODE = 0 # This ignores any error from git checkout
             git status
           displayName: Checkout daily branch if it exists
-          workingDirectory: ${{ parameters.WorkingDirectory }}/repo
+          workingDirectory: $(System.DefaultWorkingDirectory)/repo
 
         - ${{ each artifact in parameters.Artifacts }}:
           - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
