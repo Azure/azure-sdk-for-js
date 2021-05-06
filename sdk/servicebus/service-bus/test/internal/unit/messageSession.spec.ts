@@ -5,6 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { MessageSession } from "../../../src/session/messageSession";
 import {
+  addCloseablesCleanup,
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId,
   defer
@@ -20,7 +21,7 @@ import {
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
-import { ProcessErrorArgs } from "../../../src";
+import { ProcessErrorArgs, ServiceBusError } from "../../../src";
 import { ReceiveMode } from "../../../src/models";
 import { Constants } from "@azure/core-amqp";
 
@@ -349,7 +350,9 @@ describe("Message session unit tests", () => {
     }
   });
 
-  describe("errorSource", () => {
+  describe("errors", () => {
+    const closeables = addCloseablesCleanup();
+
     it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {
       const messageSession = await MessageSession.create(
         createConnectionContextForTestsWithSessionId("session id"),
@@ -361,59 +364,94 @@ describe("Message session unit tests", () => {
         }
       );
 
-      try {
-        let errorArgs: ProcessErrorArgs | undefined;
+      closeables.push(messageSession);
 
-        const eventContext = {
-          delivery: {},
-          message: {
-            message_annotations: {
-              [Constants.enqueuedTime]: new Date()
-            }
+      let errorArgs: ProcessErrorArgs | undefined;
+
+      const eventContext = {
+        delivery: {},
+        message: {
+          message_annotations: {
+            [Constants.enqueuedTime]: new Date()
           }
-        };
+        }
+      };
 
-        const subscribePromise = new Promise<void>((resolve) => {
-          messageSession.subscribe(
-            async (_message) => {
-              throw new Error("Error thrown from the user's processMessage callback");
-            },
-            async (args) => {
-              errorArgs = args;
-              resolve();
-            },
-            {}
-          );
-        });
-
-        messageSession["_link"]?.emit(
-          ReceiverEvents.message,
-          (eventContext as any) as EventContext
-        );
-
-        // once we emit the event we need to wait for it to be processed (and then in turn
-        // generate an error)
-        await subscribePromise;
-
-        assert.exists(errorArgs, "We should have triggered processError.");
-
-        assert.deepEqual(
-          {
-            message: errorArgs!.error.message,
-            errorSource: errorArgs!.errorSource,
-            entityPath: errorArgs!.entityPath,
-            fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace
+      const subscribePromise = new Promise<void>((resolve) => {
+        messageSession.subscribe(
+          async (_message) => {
+            throw new Error("Error thrown from the user's processMessage callback");
           },
-          {
-            message: "Error thrown from the user's processMessage callback",
-            errorSource: "processMessageCallback",
-            entityPath: "entity path",
-            fullyQualifiedNamespace: "fakeHost"
-          }
+          async (args) => {
+            errorArgs = args;
+            resolve();
+          },
+          {}
         );
-      } finally {
-        await messageSession.close();
-      }
+      });
+
+      messageSession["_link"]?.emit(ReceiverEvents.message, (eventContext as any) as EventContext);
+
+      // once we emit the event we need to wait for it to be processed (and then in turn
+      // generate an error)
+      await subscribePromise;
+
+      assert.exists(errorArgs, "We should have triggered processError.");
+
+      assert.deepEqual(
+        {
+          message: errorArgs!.error.message,
+          errorSource: errorArgs!.errorSource,
+          entityPath: errorArgs!.entityPath,
+          fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace
+        },
+        {
+          message: "Error thrown from the user's processMessage callback",
+          errorSource: "processMessageCallback",
+          entityPath: "entity path",
+          fullyQualifiedNamespace: "fakeHost"
+        }
+      );
+    });
+
+    it("failing to add credits results in a SessionLockLost error", async () => {
+      // we fabricate this error (there is no actual link activity here) but it's a more
+      // sensible error type for sessions since it'll indicate that the link itself is bad.
+      const messageSession = await MessageSession.create(
+        createConnectionContextForTestsWithSessionId("session id"),
+        "entity path",
+        "session id",
+        {
+          receiveMode: "receiveAndDelete",
+          retryOptions: undefined
+        }
+      );
+
+      closeables.push(messageSession);
+
+      const errors: { message: string; code: string }[] = [];
+
+      messageSession["_receiverHelper"]["addCredit"] = () => {
+        throw new Error("addCredit had an error!");
+      };
+
+      messageSession.subscribe(
+        async (_message) => {},
+        (errorArgs) => {
+          errors.push({
+            message: errorArgs.error.message,
+            code: (errorArgs.error as ServiceBusError).code
+          });
+        },
+        {}
+      );
+
+      assert.deepEqual(errors, [
+        {
+          message: "Failed to add credits to receiver",
+          code: "SessionLockLost"
+        }
+      ]);
     });
   });
 });

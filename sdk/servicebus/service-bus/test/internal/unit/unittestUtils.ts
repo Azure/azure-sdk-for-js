@@ -256,7 +256,7 @@ export const retryableErrorForTests = (() => {
  * are closed when each test completes.
  */
 export function addTestStreamingReceiver() {
-  let closeables: { close(): Promise<void> }[];
+  const closeables = addCloseablesCleanup();
 
   function createTestStreamingReceiver(
     entityPath: string,
@@ -277,15 +277,29 @@ export function addTestStreamingReceiver() {
     return streamingReceiver;
   }
 
-  beforeEach(() => {
-    closeables = [];
-  });
+  return createTestStreamingReceiver;
+}
+
+/**
+ * Adds an afterEach() handler that handles closing any objects added to
+ * the array it returns.
+ *
+ * @returns An array that where each item will be close'd after each test.
+ */
+export function addCloseablesCleanup(): { close(): Promise<void> }[] {
+  const closeables: { close(): Promise<void> }[] = [];
 
   afterEach(async () => {
     for (const closeable of closeables) {
-      await closeable.close();
+      try {
+        await closeable.close();
+      } catch (err) {
+        console.log(`Error while closing test object ${err.message}`);
+      }
     }
+
+    closeables.length = 0;
   });
 
-  return createTestStreamingReceiver;
+  return closeables;
 }

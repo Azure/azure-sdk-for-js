@@ -35,7 +35,7 @@ import {
   SubscribeOptions
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { translateServiceBusError } from "../serviceBusError";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
 import { isDefined } from "../util/typeGuards";
 
@@ -732,8 +732,23 @@ export class MessageSession extends LinkEntity<Receiver> {
       };
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);
-      // adding credit
-      this.receiverHelper.addCredit(this.maxConcurrentCalls);
+
+      try {
+        this.receiverHelper.addCredit(this.maxConcurrentCalls);
+      } catch (err) {
+        // this isn't something we expect in normal operation - we'd only get here
+        // because of a bug in our code.
+        logger.logError(err, "Failed to add credits to receiver");
+
+        // from the user's perspective this is a fatal link error and they should retry
+        // opening the link.
+        this._onError!({
+          error: new ServiceBusError("Failed to add credits to receiver", "SessionLockLost"),
+          errorSource: "processMessageCallback",
+          entityPath: this.entityPath,
+          fullyQualifiedNamespace: this._context.config.host
+        });
+      }
     } else {
       this._isReceivingMessagesForSubscriber = false;
       const msg =
