@@ -114,5 +114,35 @@ describe("AMQP message encoding", () => {
         );
       }
     });
+
+    ([
+      ["sequence", [1, 2, 3]],
+      ["value", "hello"],
+      ["data", "hello"]
+    ] as ["sequence" | "data" | "value", any][]).forEach(([expectedBodyType, expectedBody]) => {
+      it("receive ServiceBusMessage and resend", async () => {
+        // if we receive a message that was encoded to a non-data section
+        // and then re-send it (again, as a ServiceBusMessage) we should
+        // respect it.
+        await sender.sendMessages({
+          body: expectedBody,
+          bodyType: expectedBodyType
+        });
+
+        const messages = await receiver.receiveMessages(1);
+        const message = messages[0];
+
+        assert.equal(message._rawAmqpMessage.bodyType, expectedBodyType);
+
+        // now let's just resend it, unaltered
+        await sender.sendMessages(message);
+
+        const reencodedMessages = await receiver.receiveMessages(1);
+        const reencodedMessage = reencodedMessages[0];
+
+        assert.equal(reencodedMessage._rawAmqpMessage.bodyType, expectedBodyType);
+        assert.deepEqual(reencodedMessage.body, expectedBody);
+      });
+    });
   });
 });
