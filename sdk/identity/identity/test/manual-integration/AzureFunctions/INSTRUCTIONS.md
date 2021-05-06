@@ -14,37 +14,8 @@
 
 ## Run the azure-identity Tests on the Azure Functions
 
-> **Note:** The following steps are specific to JavaScript.
-
-In a terminal window, run:
-
-```bash
-git clone https://github.com/Azure/azure-sdk-for-js --single-branch --depth 1
-cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration/AzureArc
-```
-
-Set the environment variable `KEYVAULT_URI` to the vault URI of your key vault.
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Compile the test file using TypeScript:
-
-```bash
-npm run build
-```
-
-Run the test file:
-
-```bash
-node dist/index.js
-```
-
-az group create --name AzureFunctionsIdentity-rg --location westus2
-
-az storage account create --name storageidentityfunctions --location westus2 --resource-group AzureFunctionsIdentity-rg --sku Standard_LRS
-
-az functionapp create --resource-group AzureFunctionsIdentity-rg --consumption-plan-location westus2 --runtime node --runtime-version 12 --functions-version 3 --name identityendtoendtest --storage-account storageidentityfunctions
+1. go to the code in the repo
+2. follow the instructions here to create RG and deploy to RG - https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-first-function-resource-manager?tabs=command-line%2Cazure-cli#deploy-the-template
+3. publish the function app - func azure functionapp publish <FUNCTION_APP_NAME>
+4. On the portal go to the created function app in the resource group - Go to Features -> Managed Identity -> System Assigned -> Set status to On and create a role assignment for Kweyvault and select the keyvault created fro mthe resource name dropdown, you can assign the role of Keyvault Administrator
+5. Go to the created keyvault and set permissions for this function app resource (Add access policy)
