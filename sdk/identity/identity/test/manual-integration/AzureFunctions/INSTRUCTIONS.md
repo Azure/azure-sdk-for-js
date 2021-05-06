@@ -43,4 +43,4 @@ Note -> if 3 gives error, try 5 first then do 3 to 4
 -> Take note of the invoke url
 
 ## Run the azure-identity Tests on the Azure Functions
-Go to the invoke url which will look something like - https://<func app name>.azurewebsites.net/api/httpexample
+Go to the invoke url which will look something like - `https://<func app name>.azurewebsites.net/api/httpexample`
