@@ -685,8 +685,8 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.featured,
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -755,8 +755,8 @@ const listHistoryForHostingEnvironmentOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expiredOnly,
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -782,8 +782,8 @@ const listRecommendedRulesForHostingEnvironmentOperationSpec: msRest.OperationSp
   ],
   queryParameters: [
     Parameters.featured,
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -910,8 +910,8 @@ const listHistoryForWebAppOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expiredOnly,
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -937,8 +937,8 @@ const listRecommendedRulesForWebAppOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.featured,
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1061,8 +1061,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.featured,
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1087,8 +1087,8 @@ const listHistoryForHostingEnvironmentNextOperationSpec: msRest.OperationSpec = 
   ],
   queryParameters: [
     Parameters.expiredOnly,
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1113,8 +1113,8 @@ const listRecommendedRulesForHostingEnvironmentNextOperationSpec: msRest.Operati
   ],
   queryParameters: [
     Parameters.featured,
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1139,8 +1139,8 @@ const listHistoryForWebAppNextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expiredOnly,
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1165,8 +1165,8 @@ const listRecommendedRulesForWebAppNextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.featured,
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage

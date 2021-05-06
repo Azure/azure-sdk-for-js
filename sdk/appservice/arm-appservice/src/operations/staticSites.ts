@@ -35,22 +35,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesPreviewWorkflowResponse>
    */
-  previewWorkflow(
-    location: string,
-    staticSitesWorkflowPreviewRequest: Models.StaticSitesWorkflowPreviewRequest,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesPreviewWorkflowResponse>;
+  previewWorkflow(location: string, staticSitesWorkflowPreviewRequest: Models.StaticSitesWorkflowPreviewRequest, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesPreviewWorkflowResponse>;
   /**
    * @param location Location where you plan to create the static site.
    * @param staticSitesWorkflowPreviewRequest A JSON representation of the
    * StaticSitesWorkflowPreviewRequest properties. See example.
    * @param callback The callback
    */
-  previewWorkflow(
-    location: string,
-    staticSitesWorkflowPreviewRequest: Models.StaticSitesWorkflowPreviewRequest,
-    callback: msRest.ServiceCallback<Models.StaticSitesWorkflowPreview>
-  ): void;
+  previewWorkflow(location: string, staticSitesWorkflowPreviewRequest: Models.StaticSitesWorkflowPreviewRequest, callback: msRest.ServiceCallback<Models.StaticSitesWorkflowPreview>): void;
   /**
    * @param location Location where you plan to create the static site.
    * @param staticSitesWorkflowPreviewRequest A JSON representation of the
@@ -58,18 +50,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  previewWorkflow(
-    location: string,
-    staticSitesWorkflowPreviewRequest: Models.StaticSitesWorkflowPreviewRequest,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSitesWorkflowPreview>
-  ): void;
-  previewWorkflow(
-    location: string,
-    staticSitesWorkflowPreviewRequest: Models.StaticSitesWorkflowPreviewRequest,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSitesWorkflowPreview>,
-    callback?: msRest.ServiceCallback<Models.StaticSitesWorkflowPreview>
-  ): Promise<Models.StaticSitesPreviewWorkflowResponse> {
+  previewWorkflow(location: string, staticSitesWorkflowPreviewRequest: Models.StaticSitesWorkflowPreviewRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSitesWorkflowPreview>): void;
+  previewWorkflow(location: string, staticSitesWorkflowPreviewRequest: Models.StaticSitesWorkflowPreviewRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSitesWorkflowPreview>, callback?: msRest.ServiceCallback<Models.StaticSitesWorkflowPreview>): Promise<Models.StaticSitesPreviewWorkflowResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -77,8 +59,7 @@ export class StaticSites {
         options
       },
       previewWorkflowOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesPreviewWorkflowResponse>;
+      callback) as Promise<Models.StaticSitesPreviewWorkflowResponse>;
   }
 
   /**
@@ -96,21 +77,14 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteCollection>
-  ): void;
-  list(
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteCollection>
-  ): Promise<Models.StaticSitesListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteCollection>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteCollection>): Promise<Models.StaticSitesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListResponse>;
+      callback) as Promise<Models.StaticSitesListResponse>;
   }
 
   /**
@@ -120,41 +94,26 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetStaticSitesByResourceGroupResponse>
    */
-  getStaticSitesByResourceGroup(
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetStaticSitesByResourceGroupResponse>;
+  getStaticSitesByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetStaticSitesByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param callback The callback
    */
-  getStaticSitesByResourceGroup(
-    resourceGroupName: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteCollection>
-  ): void;
+  getStaticSitesByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.StaticSiteCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStaticSitesByResourceGroup(
-    resourceGroupName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteCollection>
-  ): void;
-  getStaticSitesByResourceGroup(
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteCollection>
-  ): Promise<Models.StaticSitesGetStaticSitesByResourceGroupResponse> {
+  getStaticSitesByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteCollection>): void;
+  getStaticSitesByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteCollection>): Promise<Models.StaticSitesGetStaticSitesByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       getStaticSitesByResourceGroupOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetStaticSitesByResourceGroupResponse>;
+      callback) as Promise<Models.StaticSitesGetStaticSitesByResourceGroupResponse>;
   }
 
   /**
@@ -165,39 +124,21 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetStaticSiteResponse>
    */
-  getStaticSite(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetStaticSiteResponse>;
+  getStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetStaticSiteResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param callback The callback
    */
-  getStaticSite(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteARMResource>
-  ): void;
+  getStaticSite(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StaticSiteARMResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStaticSite(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteARMResource>
-  ): void;
-  getStaticSite(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteARMResource>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteARMResource>
-  ): Promise<Models.StaticSitesGetStaticSiteResponse> {
+  getStaticSite(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteARMResource>): void;
+  getStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteARMResource>): Promise<Models.StaticSitesGetStaticSiteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -205,8 +146,7 @@ export class StaticSites {
         options
       },
       getStaticSiteOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetStaticSiteResponse>;
+      callback) as Promise<Models.StaticSitesGetStaticSiteResponse>;
   }
 
   /**
@@ -220,20 +160,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteResponse>
    */
-  createOrUpdateStaticSite(
-    resourceGroupName: string,
-    name: string,
-    staticSiteEnvelope: Models.StaticSiteARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesCreateOrUpdateStaticSiteResponse> {
-    return this.beginCreateOrUpdateStaticSite(
-      resourceGroupName,
-      name,
-      staticSiteEnvelope,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.StaticSitesCreateOrUpdateStaticSiteResponse
-    >;
+  createOrUpdateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSiteARMResource, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteResponse> {
+    return this.beginCreateOrUpdateStaticSite(resourceGroupName,name,staticSiteEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteResponse>;
   }
 
   /**
@@ -244,14 +173,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteStaticSite(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteStaticSite(resourceGroupName, name, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    );
+  deleteStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteStaticSite(resourceGroupName,name,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -265,24 +189,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesUpdateStaticSiteResponse>
    */
-  updateStaticSite(
-    resourceGroupName: string,
-    name: string,
-    staticSiteEnvelope: Models.StaticSitePatchResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesUpdateStaticSiteResponse>;
+  updateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSitePatchResource, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesUpdateStaticSiteResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to create or update.
    * @param staticSiteEnvelope A JSON representation of the staticsite properties. See example.
    * @param callback The callback
    */
-  updateStaticSite(
-    resourceGroupName: string,
-    name: string,
-    staticSiteEnvelope: Models.StaticSitePatchResource,
-    callback: msRest.ServiceCallback<Models.StaticSiteARMResource>
-  ): void;
+  updateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSitePatchResource, callback: msRest.ServiceCallback<Models.StaticSiteARMResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to create or update.
@@ -290,20 +204,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateStaticSite(
-    resourceGroupName: string,
-    name: string,
-    staticSiteEnvelope: Models.StaticSitePatchResource,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteARMResource>
-  ): void;
-  updateStaticSite(
-    resourceGroupName: string,
-    name: string,
-    staticSiteEnvelope: Models.StaticSitePatchResource,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteARMResource>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteARMResource>
-  ): Promise<Models.StaticSitesUpdateStaticSiteResponse> {
+  updateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSitePatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteARMResource>): void;
+  updateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSitePatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteARMResource>): Promise<Models.StaticSitesUpdateStaticSiteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -312,8 +214,7 @@ export class StaticSites {
         options
       },
       updateStaticSiteOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesUpdateStaticSiteResponse>;
+      callback) as Promise<Models.StaticSitesUpdateStaticSiteResponse>;
   }
 
   /**
@@ -325,24 +226,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteUsersResponse>
    */
-  listStaticSiteUsers(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteUsersResponse>;
+  listStaticSiteUsers(resourceGroupName: string, name: string, authprovider: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteUsersResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param authprovider The auth provider for the users.
    * @param callback The callback
    */
-  listStaticSiteUsers(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserCollection>
-  ): void;
+  listStaticSiteUsers(resourceGroupName: string, name: string, authprovider: string, callback: msRest.ServiceCallback<Models.StaticSiteUserCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -350,20 +241,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteUsers(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserCollection>
-  ): void;
-  listStaticSiteUsers(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteUserCollection>
-  ): Promise<Models.StaticSitesListStaticSiteUsersResponse> {
+  listStaticSiteUsers(resourceGroupName: string, name: string, authprovider: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserCollection>): void;
+  listStaticSiteUsers(resourceGroupName: string, name: string, authprovider: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteUserCollection>): Promise<Models.StaticSitesListStaticSiteUsersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -372,8 +251,7 @@ export class StaticSites {
         options
       },
       listStaticSiteUsersOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteUsersResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteUsersResponse>;
   }
 
   /**
@@ -386,13 +264,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteStaticSiteUser(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    userid: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse>;
+  deleteStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the staticsite.
@@ -400,13 +272,7 @@ export class StaticSites {
    * @param userid The user id of the user.
    * @param callback The callback
    */
-  deleteStaticSiteUser(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    userid: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  deleteStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the staticsite.
@@ -415,22 +281,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteStaticSiteUser(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    userid: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  deleteStaticSiteUser(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    userid: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<msRest.RestResponse> {
+  deleteStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -440,8 +292,7 @@ export class StaticSites {
         options
       },
       deleteStaticSiteUserOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -456,14 +307,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesUpdateStaticSiteUserResponse>
    */
-  updateStaticSiteUser(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    userid: string,
-    staticSiteUserEnvelope: Models.StaticSiteUserARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesUpdateStaticSiteUserResponse>;
+  updateStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, staticSiteUserEnvelope: Models.StaticSiteUserARMResource, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesUpdateStaticSiteUserResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -473,14 +317,7 @@ export class StaticSites {
    * example.
    * @param callback The callback
    */
-  updateStaticSiteUser(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    userid: string,
-    staticSiteUserEnvelope: Models.StaticSiteUserARMResource,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserARMResource>
-  ): void;
+  updateStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, staticSiteUserEnvelope: Models.StaticSiteUserARMResource, callback: msRest.ServiceCallback<Models.StaticSiteUserARMResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -491,24 +328,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateStaticSiteUser(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    userid: string,
-    staticSiteUserEnvelope: Models.StaticSiteUserARMResource,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserARMResource>
-  ): void;
-  updateStaticSiteUser(
-    resourceGroupName: string,
-    name: string,
-    authprovider: string,
-    userid: string,
-    staticSiteUserEnvelope: Models.StaticSiteUserARMResource,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserARMResource>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteUserARMResource>
-  ): Promise<Models.StaticSitesUpdateStaticSiteUserResponse> {
+  updateStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, staticSiteUserEnvelope: Models.StaticSiteUserARMResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserARMResource>): void;
+  updateStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, staticSiteUserEnvelope: Models.StaticSiteUserARMResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteUserARMResource>): Promise<Models.StaticSitesUpdateStaticSiteUserResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -519,8 +340,7 @@ export class StaticSites {
         options
       },
       updateStaticSiteUserOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesUpdateStaticSiteUserResponse>;
+      callback) as Promise<Models.StaticSitesUpdateStaticSiteUserResponse>;
   }
 
   /**
@@ -531,39 +351,21 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetStaticSiteBuildsResponse>
    */
-  getStaticSiteBuilds(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetStaticSiteBuildsResponse>;
+  getStaticSiteBuilds(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetStaticSiteBuildsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param callback The callback
    */
-  getStaticSiteBuilds(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteBuildCollection>
-  ): void;
+  getStaticSiteBuilds(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StaticSiteBuildCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStaticSiteBuilds(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteBuildCollection>
-  ): void;
-  getStaticSiteBuilds(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteBuildCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteBuildCollection>
-  ): Promise<Models.StaticSitesGetStaticSiteBuildsResponse> {
+  getStaticSiteBuilds(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteBuildCollection>): void;
+  getStaticSiteBuilds(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteBuildCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteBuildCollection>): Promise<Models.StaticSitesGetStaticSiteBuildsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -571,8 +373,7 @@ export class StaticSites {
         options
       },
       getStaticSiteBuildsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetStaticSiteBuildsResponse>;
+      callback) as Promise<Models.StaticSitesGetStaticSiteBuildsResponse>;
   }
 
   /**
@@ -584,24 +385,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetStaticSiteBuildResponse>
    */
-  getStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetStaticSiteBuildResponse>;
+  getStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetStaticSiteBuildResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
    * @param callback The callback
    */
-  getStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>
-  ): void;
+  getStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, callback: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -609,20 +400,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>
-  ): void;
-  getStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteBuildARMResource>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>
-  ): Promise<Models.StaticSitesGetStaticSiteBuildResponse> {
+  getStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>): void;
+  getStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteBuildARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>): Promise<Models.StaticSitesGetStaticSiteBuildResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -631,8 +410,7 @@ export class StaticSites {
         options
       },
       getStaticSiteBuildOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetStaticSiteBuildResponse>;
+      callback) as Promise<Models.StaticSitesGetStaticSiteBuildResponse>;
   }
 
   /**
@@ -644,18 +422,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteStaticSiteBuild(
-      resourceGroupName,
-      name,
-      environmentName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteStaticSiteBuild(resourceGroupName,name,environmentName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -668,13 +437,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>
    */
-  createOrUpdateStaticSiteBuildAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    appSettings: Models.StringDictionary,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>;
+  createOrUpdateStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -682,13 +445,7 @@ export class StaticSites {
    * @param appSettings The dictionary containing the static site app settings to update.
    * @param callback The callback
    */
-  createOrUpdateStaticSiteBuildAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    appSettings: Models.StringDictionary,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
+  createOrUpdateStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -697,22 +454,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateStaticSiteBuildAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    appSettings: Models.StringDictionary,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
-  createOrUpdateStaticSiteBuildAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    appSettings: Models.StringDictionary,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>,
-    callback?: msRest.ServiceCallback<Models.StringDictionary>
-  ): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse> {
+  createOrUpdateStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  createOrUpdateStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -722,8 +465,7 @@ export class StaticSites {
         options
       },
       createOrUpdateStaticSiteBuildAppSettingsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>;
+      callback) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>;
   }
 
   /**
@@ -736,13 +478,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>
    */
-  createOrUpdateStaticSiteBuildFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    appSettings: Models.StringDictionary,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>;
+  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -750,13 +486,7 @@ export class StaticSites {
    * @param appSettings The dictionary containing the static site function app settings to update.
    * @param callback The callback
    */
-  createOrUpdateStaticSiteBuildFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    appSettings: Models.StringDictionary,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
+  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -765,22 +495,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateStaticSiteBuildFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    appSettings: Models.StringDictionary,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
-  createOrUpdateStaticSiteBuildFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    appSettings: Models.StringDictionary,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>,
-    callback?: msRest.ServiceCallback<Models.StringDictionary>
-  ): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse> {
+  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -790,8 +506,7 @@ export class StaticSites {
         options
       },
       createOrUpdateStaticSiteBuildFunctionAppSettingsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>;
+      callback) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>;
   }
 
   /**
@@ -803,24 +518,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse>
    */
-  listStaticSiteBuildFunctions(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse>;
+  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
    * @param callback The callback
    */
-  listStaticSiteBuildFunctions(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): void;
+  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, environmentName: string, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -828,22 +533,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteBuildFunctions(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): void;
-  listStaticSiteBuildFunctions(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse> {
+  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
+  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -852,8 +543,7 @@ export class StaticSites {
         options
       },
       listStaticSiteBuildFunctionsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse>;
   }
 
   /**
@@ -865,24 +555,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteBuildAppSettingsResponse>
    */
-  listStaticSiteBuildAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteBuildAppSettingsResponse>;
+  listStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteBuildAppSettingsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
    * @param callback The callback
    */
-  listStaticSiteBuildAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
+  listStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -890,20 +570,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteBuildAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
-  listStaticSiteBuildAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>,
-    callback?: msRest.ServiceCallback<Models.StringDictionary>
-  ): Promise<Models.StaticSitesListStaticSiteBuildAppSettingsResponse> {
+  listStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  listStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesListStaticSiteBuildAppSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -912,8 +580,7 @@ export class StaticSites {
         options
       },
       listStaticSiteBuildAppSettingsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteBuildAppSettingsResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteBuildAppSettingsResponse>;
   }
 
   /**
@@ -925,24 +592,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse>
    */
-  listStaticSiteBuildFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse>;
+  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
    * @param callback The callback
    */
-  listStaticSiteBuildFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
+  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -950,20 +607,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteBuildFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
-  listStaticSiteBuildFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>,
-    callback?: msRest.ServiceCallback<Models.StringDictionary>
-  ): Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse> {
+  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -972,8 +617,7 @@ export class StaticSites {
         options
       },
       listStaticSiteBuildFunctionAppSettingsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse>;
   }
 
   /**
@@ -986,24 +630,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse>
    */
-  getUserProvidedFunctionAppsForStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse>;
+  getUserProvidedFunctionAppsForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
    * @param callback The callback
    */
-  getUserProvidedFunctionAppsForStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): void;
+  getUserProvidedFunctionAppsForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -1011,22 +645,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUserProvidedFunctionAppsForStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): void;
-  getUserProvidedFunctionAppsForStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse> {
+  getUserProvidedFunctionAppsForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  getUserProvidedFunctionAppsForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1035,8 +655,7 @@ export class StaticSites {
         options
       },
       getUserProvidedFunctionAppsForStaticSiteBuildOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse>;
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse>;
   }
 
   /**
@@ -1050,13 +669,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse>
    */
-  getUserProvidedFunctionAppForStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse>;
+  getUserProvidedFunctionAppForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -1064,13 +677,7 @@ export class StaticSites {
    * @param functionAppName Name of the function app registered with the static site build.
    * @param callback The callback
    */
-  getUserProvidedFunctionAppForStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>
-  ): void;
+  getUserProvidedFunctionAppForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -1079,24 +686,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUserProvidedFunctionAppForStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>
-  ): void;
-  getUserProvidedFunctionAppForStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse> {
+  getUserProvidedFunctionAppForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): void;
+  getUserProvidedFunctionAppForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1106,8 +697,7 @@ export class StaticSites {
         options
       },
       getUserProvidedFunctionAppForStaticSiteBuildOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse>;
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse>;
   }
 
   /**
@@ -1122,24 +712,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse>
    */
-  registerUserProvidedFunctionAppWithStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource,
-    options?: Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams
-  ): Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse> {
-    return this.beginRegisterUserProvidedFunctionAppWithStaticSiteBuild(
-      resourceGroupName,
-      name,
-      environmentName,
-      functionAppName,
-      staticSiteUserProvidedFunctionEnvelope,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse
-    >;
+  registerUserProvidedFunctionAppWithStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource, options?: Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams): Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse> {
+    return this.beginRegisterUserProvidedFunctionAppWithStaticSiteBuild(resourceGroupName,name,environmentName,functionAppName,staticSiteUserProvidedFunctionEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse>;
   }
 
   /**
@@ -1152,13 +727,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  detachUserProvidedFunctionAppFromStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse>;
+  detachUserProvidedFunctionAppFromStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -1166,13 +735,7 @@ export class StaticSites {
    * @param functionAppName Name of the function app registered with the static site build.
    * @param callback The callback
    */
-  detachUserProvidedFunctionAppFromStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  detachUserProvidedFunctionAppFromStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -1181,22 +744,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detachUserProvidedFunctionAppFromStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  detachUserProvidedFunctionAppFromStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<msRest.RestResponse> {
+  detachUserProvidedFunctionAppFromStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  detachUserProvidedFunctionAppFromStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1206,8 +755,7 @@ export class StaticSites {
         options
       },
       detachUserProvidedFunctionAppFromStaticSiteBuildOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -1221,20 +769,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  createZipDeploymentForStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginCreateZipDeploymentForStaticSiteBuild(
-      resourceGroupName,
-      name,
-      environmentName,
-      staticSiteZipDeploymentEnvelope,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  createZipDeploymentForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginCreateZipDeploymentForStaticSiteBuild(resourceGroupName,name,environmentName,staticSiteZipDeploymentEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -1246,24 +783,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>
    */
-  createOrUpdateStaticSiteAppSettings(
-    resourceGroupName: string,
-    name: string,
-    appSettings: Models.StringDictionary,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>;
+  createOrUpdateStaticSiteAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param appSettings The dictionary containing the static site app settings to update.
    * @param callback The callback
    */
-  createOrUpdateStaticSiteAppSettings(
-    resourceGroupName: string,
-    name: string,
-    appSettings: Models.StringDictionary,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
+  createOrUpdateStaticSiteAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -1271,20 +798,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateStaticSiteAppSettings(
-    resourceGroupName: string,
-    name: string,
-    appSettings: Models.StringDictionary,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
-  createOrUpdateStaticSiteAppSettings(
-    resourceGroupName: string,
-    name: string,
-    appSettings: Models.StringDictionary,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>,
-    callback?: msRest.ServiceCallback<Models.StringDictionary>
-  ): Promise<Models.StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse> {
+  createOrUpdateStaticSiteAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  createOrUpdateStaticSiteAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1293,8 +808,7 @@ export class StaticSites {
         options
       },
       createOrUpdateStaticSiteAppSettingsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>;
+      callback) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>;
   }
 
   /**
@@ -1306,24 +820,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse>
    */
-  createOrUpdateStaticSiteFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    appSettings: Models.StringDictionary,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse>;
+  createOrUpdateStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param appSettings The dictionary containing the static site function app settings to update.
    * @param callback The callback
    */
-  createOrUpdateStaticSiteFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    appSettings: Models.StringDictionary,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
+  createOrUpdateStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -1331,20 +835,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateStaticSiteFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    appSettings: Models.StringDictionary,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
-  createOrUpdateStaticSiteFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    appSettings: Models.StringDictionary,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>,
-    callback?: msRest.ServiceCallback<Models.StringDictionary>
-  ): Promise<Models.StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse> {
+  createOrUpdateStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  createOrUpdateStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1353,8 +845,7 @@ export class StaticSites {
         options
       },
       createOrUpdateStaticSiteFunctionAppSettingsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse>;
+      callback) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse>;
   }
 
   /**
@@ -1366,24 +857,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesCreateUserRolesInvitationLinkResponse>
    */
-  createUserRolesInvitationLink(
-    resourceGroupName: string,
-    name: string,
-    staticSiteUserRolesInvitationEnvelope: Models.StaticSiteUserInvitationRequestResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesCreateUserRolesInvitationLinkResponse>;
+  createUserRolesInvitationLink(resourceGroupName: string, name: string, staticSiteUserRolesInvitationEnvelope: Models.StaticSiteUserInvitationRequestResource, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateUserRolesInvitationLinkResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param staticSiteUserRolesInvitationEnvelope
    * @param callback The callback
    */
-  createUserRolesInvitationLink(
-    resourceGroupName: string,
-    name: string,
-    staticSiteUserRolesInvitationEnvelope: Models.StaticSiteUserInvitationRequestResource,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserInvitationResponseResource>
-  ): void;
+  createUserRolesInvitationLink(resourceGroupName: string, name: string, staticSiteUserRolesInvitationEnvelope: Models.StaticSiteUserInvitationRequestResource, callback: msRest.ServiceCallback<Models.StaticSiteUserInvitationResponseResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -1391,22 +872,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createUserRolesInvitationLink(
-    resourceGroupName: string,
-    name: string,
-    staticSiteUserRolesInvitationEnvelope: Models.StaticSiteUserInvitationRequestResource,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserInvitationResponseResource>
-  ): void;
-  createUserRolesInvitationLink(
-    resourceGroupName: string,
-    name: string,
-    staticSiteUserRolesInvitationEnvelope: Models.StaticSiteUserInvitationRequestResource,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteUserInvitationResponseResource>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteUserInvitationResponseResource>
-  ): Promise<Models.StaticSitesCreateUserRolesInvitationLinkResponse> {
+  createUserRolesInvitationLink(resourceGroupName: string, name: string, staticSiteUserRolesInvitationEnvelope: Models.StaticSiteUserInvitationRequestResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserInvitationResponseResource>): void;
+  createUserRolesInvitationLink(resourceGroupName: string, name: string, staticSiteUserRolesInvitationEnvelope: Models.StaticSiteUserInvitationRequestResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserInvitationResponseResource>, callback?: msRest.ServiceCallback<Models.StaticSiteUserInvitationResponseResource>): Promise<Models.StaticSitesCreateUserRolesInvitationLinkResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1415,8 +882,7 @@ export class StaticSites {
         options
       },
       createUserRolesInvitationLinkOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesCreateUserRolesInvitationLinkResponse>;
+      callback) as Promise<Models.StaticSitesCreateUserRolesInvitationLinkResponse>;
   }
 
   /**
@@ -1427,41 +893,21 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteCustomDomainsResponse>
    */
-  listStaticSiteCustomDomains(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteCustomDomainsResponse>;
+  listStaticSiteCustomDomains(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteCustomDomainsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site resource to search in.
    * @param callback The callback
    */
-  listStaticSiteCustomDomains(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>
-  ): void;
+  listStaticSiteCustomDomains(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site resource to search in.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteCustomDomains(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>
-  ): void;
-  listStaticSiteCustomDomains(
-    resourceGroupName: string,
-    name: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>
-  ): Promise<Models.StaticSitesListStaticSiteCustomDomainsResponse> {
+  listStaticSiteCustomDomains(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>): void;
+  listStaticSiteCustomDomains(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>): Promise<Models.StaticSitesListStaticSiteCustomDomainsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1469,8 +915,7 @@ export class StaticSites {
         options
       },
       listStaticSiteCustomDomainsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteCustomDomainsResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteCustomDomainsResponse>;
   }
 
   /**
@@ -1482,24 +927,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetStaticSiteCustomDomainResponse>
    */
-  getStaticSiteCustomDomain(
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetStaticSiteCustomDomainResponse>;
+  getStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetStaticSiteCustomDomainResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site resource to search in.
    * @param domainName The custom domain name.
    * @param callback The callback
    */
-  getStaticSiteCustomDomain(
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>
-  ): void;
+  getStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site resource to search in.
@@ -1507,22 +942,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStaticSiteCustomDomain(
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>
-  ): void;
-  getStaticSiteCustomDomain(
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>
-  ): Promise<Models.StaticSitesGetStaticSiteCustomDomainResponse> {
+  getStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>): void;
+  getStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>): Promise<Models.StaticSitesGetStaticSiteCustomDomainResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1531,8 +952,7 @@ export class StaticSites {
         options
       },
       getStaticSiteCustomDomainOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetStaticSiteCustomDomainResponse>;
+      callback) as Promise<Models.StaticSitesGetStaticSiteCustomDomainResponse>;
   }
 
   /**
@@ -1547,22 +967,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>
    */
-  createOrUpdateStaticSiteCustomDomain(
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse> {
-    return this.beginCreateOrUpdateStaticSiteCustomDomain(
-      resourceGroupName,
-      name,
-      domainName,
-      staticSiteCustomDomainRequestPropertiesEnvelope,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse
-    >;
+  createOrUpdateStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse> {
+    return this.beginCreateOrUpdateStaticSiteCustomDomain(resourceGroupName,name,domainName,staticSiteCustomDomainRequestPropertiesEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>;
   }
 
   /**
@@ -1574,18 +981,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteStaticSiteCustomDomain(
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteStaticSiteCustomDomain(
-      resourceGroupName,
-      name,
-      domainName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteStaticSiteCustomDomain(resourceGroupName,name,domainName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -1599,20 +997,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  validateCustomDomainCanBeAddedToStaticSite(
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginValidateCustomDomainCanBeAddedToStaticSite(
-      resourceGroupName,
-      name,
-      domainName,
-      staticSiteCustomDomainRequestPropertiesEnvelope,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  validateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginValidateCustomDomainCanBeAddedToStaticSite(resourceGroupName,name,domainName,staticSiteCustomDomainRequestPropertiesEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -1623,14 +1010,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  detachStaticSite(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDetachStaticSite(resourceGroupName, name, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    );
+  detachStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDetachStaticSite(resourceGroupName,name,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -1641,41 +1023,21 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteFunctionsResponse>
    */
-  listStaticSiteFunctions(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteFunctionsResponse>;
+  listStaticSiteFunctions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteFunctionsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param callback The callback
    */
-  listStaticSiteFunctions(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): void;
+  listStaticSiteFunctions(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteFunctions(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): void;
-  listStaticSiteFunctions(
-    resourceGroupName: string,
-    name: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): Promise<Models.StaticSitesListStaticSiteFunctionsResponse> {
+  listStaticSiteFunctions(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
+  listStaticSiteFunctions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): Promise<Models.StaticSitesListStaticSiteFunctionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1683,8 +1045,7 @@ export class StaticSites {
         options
       },
       listStaticSiteFunctionsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteFunctionsResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteFunctionsResponse>;
   }
 
   /**
@@ -1695,39 +1056,21 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteAppSettingsResponse>
    */
-  listStaticSiteAppSettings(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteAppSettingsResponse>;
+  listStaticSiteAppSettings(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteAppSettingsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param callback The callback
    */
-  listStaticSiteAppSettings(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
+  listStaticSiteAppSettings(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteAppSettings(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
-  listStaticSiteAppSettings(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>,
-    callback?: msRest.ServiceCallback<Models.StringDictionary>
-  ): Promise<Models.StaticSitesListStaticSiteAppSettingsResponse> {
+  listStaticSiteAppSettings(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  listStaticSiteAppSettings(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesListStaticSiteAppSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1735,8 +1078,7 @@ export class StaticSites {
         options
       },
       listStaticSiteAppSettingsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteAppSettingsResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteAppSettingsResponse>;
   }
 
   /**
@@ -1747,39 +1089,21 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteConfiguredRolesResponse>
    */
-  listStaticSiteConfiguredRoles(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteConfiguredRolesResponse>;
+  listStaticSiteConfiguredRoles(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteConfiguredRolesResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param callback The callback
    */
-  listStaticSiteConfiguredRoles(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.StringList>
-  ): void;
+  listStaticSiteConfiguredRoles(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StringList>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteConfiguredRoles(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StringList>
-  ): void;
-  listStaticSiteConfiguredRoles(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringList>,
-    callback?: msRest.ServiceCallback<Models.StringList>
-  ): Promise<Models.StaticSitesListStaticSiteConfiguredRolesResponse> {
+  listStaticSiteConfiguredRoles(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringList>): void;
+  listStaticSiteConfiguredRoles(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringList>, callback?: msRest.ServiceCallback<Models.StringList>): Promise<Models.StaticSitesListStaticSiteConfiguredRolesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1787,8 +1111,7 @@ export class StaticSites {
         options
       },
       listStaticSiteConfiguredRolesOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteConfiguredRolesResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteConfiguredRolesResponse>;
   }
 
   /**
@@ -1799,39 +1122,21 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteFunctionAppSettingsResponse>
    */
-  listStaticSiteFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteFunctionAppSettingsResponse>;
+  listStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteFunctionAppSettingsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param callback The callback
    */
-  listStaticSiteFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
+  listStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
-  listStaticSiteFunctionAppSettings(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>,
-    callback?: msRest.ServiceCallback<Models.StringDictionary>
-  ): Promise<Models.StaticSitesListStaticSiteFunctionAppSettingsResponse> {
+  listStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  listStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesListStaticSiteFunctionAppSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1839,8 +1144,7 @@ export class StaticSites {
         options
       },
       listStaticSiteFunctionAppSettingsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteFunctionAppSettingsResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteFunctionAppSettingsResponse>;
   }
 
   /**
@@ -1851,39 +1155,21 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteSecretsResponse>
    */
-  listStaticSiteSecrets(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteSecretsResponse>;
+  listStaticSiteSecrets(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteSecretsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param callback The callback
    */
-  listStaticSiteSecrets(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
+  listStaticSiteSecrets(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteSecrets(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StringDictionary>
-  ): void;
-  listStaticSiteSecrets(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>,
-    callback?: msRest.ServiceCallback<Models.StringDictionary>
-  ): Promise<Models.StaticSitesListStaticSiteSecretsResponse> {
+  listStaticSiteSecrets(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  listStaticSiteSecrets(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesListStaticSiteSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1891,8 +1177,7 @@ export class StaticSites {
         options
       },
       listStaticSiteSecretsOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteSecretsResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteSecretsResponse>;
   }
 
   /**
@@ -1903,41 +1188,21 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetPrivateEndpointConnectionListResponse>
    */
-  getPrivateEndpointConnectionList(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetPrivateEndpointConnectionListResponse>;
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetPrivateEndpointConnectionListResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param callback The callback
    */
-  getPrivateEndpointConnectionList(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>
-  ): void;
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrivateEndpointConnectionList(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>
-  ): void;
-  getPrivateEndpointConnectionList(
-    resourceGroupName: string,
-    name: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>,
-    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>
-  ): Promise<Models.StaticSitesGetPrivateEndpointConnectionListResponse> {
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): Promise<Models.StaticSitesGetPrivateEndpointConnectionListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1945,8 +1210,7 @@ export class StaticSites {
         options
       },
       getPrivateEndpointConnectionListOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetPrivateEndpointConnectionListResponse>;
+      callback) as Promise<Models.StaticSitesGetPrivateEndpointConnectionListResponse>;
   }
 
   /**
@@ -1958,24 +1222,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetPrivateEndpointConnectionResponse>
    */
-  getPrivateEndpointConnection(
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetPrivateEndpointConnectionResponse>;
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetPrivateEndpointConnectionResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
    * @param callback The callback
    */
-  getPrivateEndpointConnection(
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>
-  ): void;
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -1983,22 +1237,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrivateEndpointConnection(
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>
-  ): void;
-  getPrivateEndpointConnection(
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>,
-    callback?: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>
-  ): Promise<Models.StaticSitesGetPrivateEndpointConnectionResponse> {
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): void;
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>, callback?: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): Promise<Models.StaticSitesGetPrivateEndpointConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -2007,8 +1247,7 @@ export class StaticSites {
         options
       },
       getPrivateEndpointConnectionOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetPrivateEndpointConnectionResponse>;
+      callback) as Promise<Models.StaticSitesGetPrivateEndpointConnectionResponse>;
   }
 
   /**
@@ -2021,22 +1260,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>
    */
-  approveOrRejectPrivateEndpointConnection(
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesApproveOrRejectPrivateEndpointConnectionResponse> {
-    return this.beginApproveOrRejectPrivateEndpointConnection(
-      resourceGroupName,
-      name,
-      privateEndpointConnectionName,
-      privateEndpointWrapper,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.StaticSitesApproveOrRejectPrivateEndpointConnectionResponse
-    >;
+  approveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesApproveOrRejectPrivateEndpointConnectionResponse> {
+    return this.beginApproveOrRejectPrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,privateEndpointWrapper,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>;
   }
 
   /**
@@ -2048,20 +1274,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesDeletePrivateEndpointConnectionResponse>
    */
-  deletePrivateEndpointConnection(
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesDeletePrivateEndpointConnectionResponse> {
-    return this.beginDeletePrivateEndpointConnection(
-      resourceGroupName,
-      name,
-      privateEndpointConnectionName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.StaticSitesDeletePrivateEndpointConnectionResponse
-    >;
+  deletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesDeletePrivateEndpointConnectionResponse> {
+    return this.beginDeletePrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesDeletePrivateEndpointConnectionResponse>;
   }
 
   /**
@@ -2072,41 +1287,21 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetPrivateLinkResourcesResponse>
    */
-  getPrivateLinkResources(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetPrivateLinkResourcesResponse>;
+  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetPrivateLinkResourcesResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param callback The callback
    */
-  getPrivateLinkResources(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>
-  ): void;
+  getPrivateLinkResources(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrivateLinkResources(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>
-  ): void;
-  getPrivateLinkResources(
-    resourceGroupName: string,
-    name: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>,
-    callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>
-  ): Promise<Models.StaticSitesGetPrivateLinkResourcesResponse> {
+  getPrivateLinkResources(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): Promise<Models.StaticSitesGetPrivateLinkResourcesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -2114,8 +1309,7 @@ export class StaticSites {
         options
       },
       getPrivateLinkResourcesOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetPrivateLinkResourcesResponse>;
+      callback) as Promise<Models.StaticSitesGetPrivateLinkResourcesResponse>;
   }
 
   /**
@@ -2127,24 +1321,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resetStaticSiteApiKey(
-    resourceGroupName: string,
-    name: string,
-    resetPropertiesEnvelope: Models.StaticSiteResetPropertiesARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse>;
+  resetStaticSiteApiKey(resourceGroupName: string, name: string, resetPropertiesEnvelope: Models.StaticSiteResetPropertiesARMResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param resetPropertiesEnvelope
    * @param callback The callback
    */
-  resetStaticSiteApiKey(
-    resourceGroupName: string,
-    name: string,
-    resetPropertiesEnvelope: Models.StaticSiteResetPropertiesARMResource,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  resetStaticSiteApiKey(resourceGroupName: string, name: string, resetPropertiesEnvelope: Models.StaticSiteResetPropertiesARMResource, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -2152,20 +1336,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  resetStaticSiteApiKey(
-    resourceGroupName: string,
-    name: string,
-    resetPropertiesEnvelope: Models.StaticSiteResetPropertiesARMResource,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  resetStaticSiteApiKey(
-    resourceGroupName: string,
-    name: string,
-    resetPropertiesEnvelope: Models.StaticSiteResetPropertiesARMResource,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<msRest.RestResponse> {
+  resetStaticSiteApiKey(resourceGroupName: string, name: string, resetPropertiesEnvelope: Models.StaticSiteResetPropertiesARMResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  resetStaticSiteApiKey(resourceGroupName: string, name: string, resetPropertiesEnvelope: Models.StaticSiteResetPropertiesARMResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -2174,8 +1346,7 @@ export class StaticSites {
         options
       },
       resetStaticSiteApiKeyOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -2187,41 +1358,21 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse>
    */
-  getUserProvidedFunctionAppsForStaticSite(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse>;
+  getUserProvidedFunctionAppsForStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param callback The callback
    */
-  getUserProvidedFunctionAppsForStaticSite(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): void;
+  getUserProvidedFunctionAppsForStaticSite(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUserProvidedFunctionAppsForStaticSite(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): void;
-  getUserProvidedFunctionAppsForStaticSite(
-    resourceGroupName: string,
-    name: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse> {
+  getUserProvidedFunctionAppsForStaticSite(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  getUserProvidedFunctionAppsForStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -2229,8 +1380,7 @@ export class StaticSites {
         options
       },
       getUserProvidedFunctionAppsForStaticSiteOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse>;
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse>;
   }
 
   /**
@@ -2242,24 +1392,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse>
    */
-  getUserProvidedFunctionAppForStaticSite(
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse>;
+  getUserProvidedFunctionAppForStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param functionAppName Name of the function app registered with the static site.
    * @param callback The callback
    */
-  getUserProvidedFunctionAppForStaticSite(
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>
-  ): void;
+  getUserProvidedFunctionAppForStaticSite(resourceGroupName: string, name: string, functionAppName: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -2267,22 +1407,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUserProvidedFunctionAppForStaticSite(
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>
-  ): void;
-  getUserProvidedFunctionAppForStaticSite(
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse> {
+  getUserProvidedFunctionAppForStaticSite(resourceGroupName: string, name: string, functionAppName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): void;
+  getUserProvidedFunctionAppForStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -2291,8 +1417,7 @@ export class StaticSites {
         options
       },
       getUserProvidedFunctionAppForStaticSiteOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse>;
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse>;
   }
 
   /**
@@ -2306,22 +1431,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse>
    */
-  registerUserProvidedFunctionAppWithStaticSite(
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource,
-    options?: Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams
-  ): Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse> {
-    return this.beginRegisterUserProvidedFunctionAppWithStaticSite(
-      resourceGroupName,
-      name,
-      functionAppName,
-      staticSiteUserProvidedFunctionEnvelope,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse
-    >;
+  registerUserProvidedFunctionAppWithStaticSite(resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource, options?: Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams): Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse> {
+    return this.beginRegisterUserProvidedFunctionAppWithStaticSite(resourceGroupName,name,functionAppName,staticSiteUserProvidedFunctionEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse>;
   }
 
   /**
@@ -2333,24 +1445,14 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  detachUserProvidedFunctionAppFromStaticSite(
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse>;
+  detachUserProvidedFunctionAppFromStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param functionAppName Name of the function app registered with the static site.
    * @param callback The callback
    */
-  detachUserProvidedFunctionAppFromStaticSite(
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  detachUserProvidedFunctionAppFromStaticSite(resourceGroupName: string, name: string, functionAppName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -2358,20 +1460,8 @@ export class StaticSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detachUserProvidedFunctionAppFromStaticSite(
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  detachUserProvidedFunctionAppFromStaticSite(
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<msRest.RestResponse> {
+  detachUserProvidedFunctionAppFromStaticSite(resourceGroupName: string, name: string, functionAppName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  detachUserProvidedFunctionAppFromStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -2380,8 +1470,7 @@ export class StaticSites {
         options
       },
       detachUserProvidedFunctionAppFromStaticSiteOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -2394,18 +1483,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  createZipDeploymentForStaticSite(
-    resourceGroupName: string,
-    name: string,
-    staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginCreateZipDeploymentForStaticSite(
-      resourceGroupName,
-      name,
-      staticSiteZipDeploymentEnvelope,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  createZipDeploymentForStaticSite(resourceGroupName: string, name: string, staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginCreateZipDeploymentForStaticSite(resourceGroupName,name,staticSiteZipDeploymentEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -2419,12 +1499,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdateStaticSite(
-    resourceGroupName: string,
-    name: string,
-    staticSiteEnvelope: Models.StaticSiteARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSiteARMResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2433,8 +1508,7 @@ export class StaticSites {
         options
       },
       beginCreateOrUpdateStaticSiteOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2445,11 +1519,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteStaticSite(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2457,8 +1527,7 @@ export class StaticSites {
         options
       },
       beginDeleteStaticSiteOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2470,12 +1539,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2484,8 +1548,7 @@ export class StaticSites {
         options
       },
       beginDeleteStaticSiteBuildOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2500,14 +1563,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRegisterUserProvidedFunctionAppWithStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    functionAppName: string,
-    staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource,
-    options?: Models.StaticSitesBeginRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams
-  ): Promise<msRestAzure.LROPoller> {
+  beginRegisterUserProvidedFunctionAppWithStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource, options?: Models.StaticSitesBeginRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2518,8 +1574,7 @@ export class StaticSites {
         options
       },
       beginRegisterUserProvidedFunctionAppWithStaticSiteBuildOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2533,13 +1588,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateZipDeploymentForStaticSiteBuild(
-    resourceGroupName: string,
-    name: string,
-    environmentName: string,
-    staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateZipDeploymentForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2549,8 +1598,7 @@ export class StaticSites {
         options
       },
       beginCreateZipDeploymentForStaticSiteBuildOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2565,13 +1613,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdateStaticSiteCustomDomain(
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdateStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2581,8 +1623,7 @@ export class StaticSites {
         options
       },
       beginCreateOrUpdateStaticSiteCustomDomainOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2594,12 +1635,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteStaticSiteCustomDomain(
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2608,8 +1644,7 @@ export class StaticSites {
         options
       },
       beginDeleteStaticSiteCustomDomainOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2623,13 +1658,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginValidateCustomDomainCanBeAddedToStaticSite(
-    resourceGroupName: string,
-    name: string,
-    domainName: string,
-    staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginValidateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2639,8 +1668,7 @@ export class StaticSites {
         options
       },
       beginValidateCustomDomainCanBeAddedToStaticSiteOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2651,11 +1679,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDetachStaticSite(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDetachStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2663,8 +1687,7 @@ export class StaticSites {
         options
       },
       beginDetachStaticSiteOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2677,13 +1700,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginApproveOrRejectPrivateEndpointConnection(
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2693,8 +1710,7 @@ export class StaticSites {
         options
       },
       beginApproveOrRejectPrivateEndpointConnectionOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2706,12 +1722,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeletePrivateEndpointConnection(
-    resourceGroupName: string,
-    name: string,
-    privateEndpointConnectionName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2720,8 +1731,7 @@ export class StaticSites {
         options
       },
       beginDeletePrivateEndpointConnectionOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2735,13 +1745,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRegisterUserProvidedFunctionAppWithStaticSite(
-    resourceGroupName: string,
-    name: string,
-    functionAppName: string,
-    staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource,
-    options?: Models.StaticSitesBeginRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams
-  ): Promise<msRestAzure.LROPoller> {
+  beginRegisterUserProvidedFunctionAppWithStaticSite(resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource, options?: Models.StaticSitesBeginRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2751,8 +1755,7 @@ export class StaticSites {
         options
       },
       beginRegisterUserProvidedFunctionAppWithStaticSiteOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2765,12 +1768,7 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateZipDeploymentForStaticSite(
-    resourceGroupName: string,
-    name: string,
-    staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateZipDeploymentForStaticSite(resourceGroupName: string, name: string, staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -2779,8 +1777,7 @@ export class StaticSites {
         options
       },
       beginCreateZipDeploymentForStaticSiteOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -2790,41 +1787,26 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListNextResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteCollection>
-  ): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StaticSiteCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteCollection>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteCollection>
-  ): Promise<Models.StaticSitesListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteCollection>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteCollection>): Promise<Models.StaticSitesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListNextResponse>;
+      callback) as Promise<Models.StaticSitesListNextResponse>;
   }
 
   /**
@@ -2834,41 +1816,26 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetStaticSitesByResourceGroupNextResponse>
    */
-  getStaticSitesByResourceGroupNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetStaticSitesByResourceGroupNextResponse>;
+  getStaticSitesByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetStaticSitesByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getStaticSitesByResourceGroupNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteCollection>
-  ): void;
+  getStaticSitesByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StaticSiteCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStaticSitesByResourceGroupNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteCollection>
-  ): void;
-  getStaticSitesByResourceGroupNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteCollection>
-  ): Promise<Models.StaticSitesGetStaticSitesByResourceGroupNextResponse> {
+  getStaticSitesByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteCollection>): void;
+  getStaticSitesByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteCollection>): Promise<Models.StaticSitesGetStaticSitesByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getStaticSitesByResourceGroupNextOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetStaticSitesByResourceGroupNextResponse>;
+      callback) as Promise<Models.StaticSitesGetStaticSitesByResourceGroupNextResponse>;
   }
 
   /**
@@ -2878,41 +1845,26 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteUsersNextResponse>
    */
-  listStaticSiteUsersNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteUsersNextResponse>;
+  listStaticSiteUsersNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteUsersNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listStaticSiteUsersNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserCollection>
-  ): void;
+  listStaticSiteUsersNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StaticSiteUserCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteUsersNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserCollection>
-  ): void;
-  listStaticSiteUsersNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteUserCollection>
-  ): Promise<Models.StaticSitesListStaticSiteUsersNextResponse> {
+  listStaticSiteUsersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserCollection>): void;
+  listStaticSiteUsersNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteUserCollection>): Promise<Models.StaticSitesListStaticSiteUsersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listStaticSiteUsersNextOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteUsersNextResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteUsersNextResponse>;
   }
 
   /**
@@ -2922,41 +1874,26 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetStaticSiteBuildsNextResponse>
    */
-  getStaticSiteBuildsNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetStaticSiteBuildsNextResponse>;
+  getStaticSiteBuildsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetStaticSiteBuildsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getStaticSiteBuildsNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteBuildCollection>
-  ): void;
+  getStaticSiteBuildsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StaticSiteBuildCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStaticSiteBuildsNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteBuildCollection>
-  ): void;
-  getStaticSiteBuildsNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteBuildCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteBuildCollection>
-  ): Promise<Models.StaticSitesGetStaticSiteBuildsNextResponse> {
+  getStaticSiteBuildsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteBuildCollection>): void;
+  getStaticSiteBuildsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteBuildCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteBuildCollection>): Promise<Models.StaticSitesGetStaticSiteBuildsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getStaticSiteBuildsNextOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetStaticSiteBuildsNextResponse>;
+      callback) as Promise<Models.StaticSitesGetStaticSiteBuildsNextResponse>;
   }
 
   /**
@@ -2966,43 +1903,26 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteBuildFunctionsNextResponse>
    */
-  listStaticSiteBuildFunctionsNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteBuildFunctionsNextResponse>;
+  listStaticSiteBuildFunctionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteBuildFunctionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listStaticSiteBuildFunctionsNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): void;
+  listStaticSiteBuildFunctionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteBuildFunctionsNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): void;
-  listStaticSiteBuildFunctionsNext(
-    nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): Promise<Models.StaticSitesListStaticSiteBuildFunctionsNextResponse> {
+  listStaticSiteBuildFunctionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
+  listStaticSiteBuildFunctionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): Promise<Models.StaticSitesListStaticSiteBuildFunctionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listStaticSiteBuildFunctionsNextOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteBuildFunctionsNextResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteBuildFunctionsNextResponse>;
   }
 
   /**
@@ -3013,43 +1933,26 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse>
    */
-  getUserProvidedFunctionAppsForStaticSiteBuildNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse>;
+  getUserProvidedFunctionAppsForStaticSiteBuildNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getUserProvidedFunctionAppsForStaticSiteBuildNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): void;
+  getUserProvidedFunctionAppsForStaticSiteBuildNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUserProvidedFunctionAppsForStaticSiteBuildNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): void;
-  getUserProvidedFunctionAppsForStaticSiteBuildNext(
-    nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse> {
+  getUserProvidedFunctionAppsForStaticSiteBuildNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  getUserProvidedFunctionAppsForStaticSiteBuildNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getUserProvidedFunctionAppsForStaticSiteBuildNextOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse>;
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse>;
   }
 
   /**
@@ -3059,43 +1962,26 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteCustomDomainsNextResponse>
    */
-  listStaticSiteCustomDomainsNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteCustomDomainsNextResponse>;
+  listStaticSiteCustomDomainsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteCustomDomainsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listStaticSiteCustomDomainsNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>
-  ): void;
+  listStaticSiteCustomDomainsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteCustomDomainsNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>
-  ): void;
-  listStaticSiteCustomDomainsNext(
-    nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>
-  ): Promise<Models.StaticSitesListStaticSiteCustomDomainsNextResponse> {
+  listStaticSiteCustomDomainsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>): void;
+  listStaticSiteCustomDomainsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewCollection>): Promise<Models.StaticSitesListStaticSiteCustomDomainsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listStaticSiteCustomDomainsNextOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteCustomDomainsNextResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteCustomDomainsNextResponse>;
   }
 
   /**
@@ -3105,43 +1991,26 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteFunctionsNextResponse>
    */
-  listStaticSiteFunctionsNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesListStaticSiteFunctionsNextResponse>;
+  listStaticSiteFunctionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteFunctionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listStaticSiteFunctionsNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): void;
+  listStaticSiteFunctionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteFunctionsNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): void;
-  listStaticSiteFunctionsNext(
-    nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>
-  ): Promise<Models.StaticSitesListStaticSiteFunctionsNextResponse> {
+  listStaticSiteFunctionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
+  listStaticSiteFunctionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): Promise<Models.StaticSitesListStaticSiteFunctionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listStaticSiteFunctionsNextOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesListStaticSiteFunctionsNextResponse>;
+      callback) as Promise<Models.StaticSitesListStaticSiteFunctionsNextResponse>;
   }
 
   /**
@@ -3151,43 +2020,26 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetPrivateEndpointConnectionListNextResponse>
    */
-  getPrivateEndpointConnectionListNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetPrivateEndpointConnectionListNextResponse>;
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetPrivateEndpointConnectionListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getPrivateEndpointConnectionListNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>
-  ): void;
+  getPrivateEndpointConnectionListNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrivateEndpointConnectionListNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>
-  ): void;
-  getPrivateEndpointConnectionListNext(
-    nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>,
-    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>
-  ): Promise<Models.StaticSitesGetPrivateEndpointConnectionListNextResponse> {
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): Promise<Models.StaticSitesGetPrivateEndpointConnectionListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getPrivateEndpointConnectionListNextOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetPrivateEndpointConnectionListNextResponse>;
+      callback) as Promise<Models.StaticSitesGetPrivateEndpointConnectionListNextResponse>;
   }
 
   /**
@@ -3198,43 +2050,26 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse>
    */
-  getUserProvidedFunctionAppsForStaticSiteNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse>;
+  getUserProvidedFunctionAppsForStaticSiteNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getUserProvidedFunctionAppsForStaticSiteNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): void;
+  getUserProvidedFunctionAppsForStaticSiteNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUserProvidedFunctionAppsForStaticSiteNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): void;
-  getUserProvidedFunctionAppsForStaticSiteNext(
-    nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>,
-    callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>
-  ): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse> {
+  getUserProvidedFunctionAppsForStaticSiteNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  getUserProvidedFunctionAppsForStaticSiteNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getUserProvidedFunctionAppsForStaticSiteNextOperationSpec,
-      callback
-    ) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse>;
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse>;
   }
 }
 
@@ -3242,11 +2077,17 @@ export class StaticSites {
 const serializer = new msRest.Serializer(Mappers);
 const previewWorkflowOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/previewStaticSiteWorkflowFile",
-  urlParameters: [Parameters.location, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/previewStaticSiteWorkflowFile",
+  urlParameters: [
+    Parameters.location,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "staticSitesWorkflowPreviewRequest",
     mapper: {
@@ -3268,9 +2109,15 @@ const previewWorkflowOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/staticSites",
-  urlParameters: [Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteCollection
@@ -3284,11 +2131,17 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getStaticSitesByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites",
-  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteCollection
@@ -3302,11 +2155,18 @@ const getStaticSitesByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getStaticSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteARMResource
@@ -3320,11 +2180,18 @@ const getStaticSiteOperationSpec: msRest.OperationSpec = {
 
 const updateStaticSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "staticSiteEnvelope",
     mapper: {
@@ -3348,16 +2215,19 @@ const updateStaticSiteOperationSpec: msRest.OperationSpec = {
 
 const listStaticSiteUsersOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/listUsers",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/listUsers",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.authprovider,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteUserCollection
@@ -3371,8 +2241,7 @@ const listStaticSiteUsersOperationSpec: msRest.OperationSpec = {
 
 const deleteStaticSiteUserOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/users/{userid}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/users/{userid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -3380,8 +2249,12 @@ const deleteStaticSiteUserOperationSpec: msRest.OperationSpec = {
     Parameters.userid,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     default: {
@@ -3393,8 +2266,7 @@ const deleteStaticSiteUserOperationSpec: msRest.OperationSpec = {
 
 const updateStaticSiteUserOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/users/{userid}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/users/{userid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -3402,8 +2274,12 @@ const updateStaticSiteUserOperationSpec: msRest.OperationSpec = {
     Parameters.userid,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "staticSiteUserEnvelope",
     mapper: {
@@ -3424,11 +2300,18 @@ const updateStaticSiteUserOperationSpec: msRest.OperationSpec = {
 
 const getStaticSiteBuildsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteBuildCollection
@@ -3442,16 +2325,19 @@ const getStaticSiteBuildsOperationSpec: msRest.OperationSpec = {
 
 const getStaticSiteBuildOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.environmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteBuildARMResource
@@ -3465,16 +2351,19 @@ const getStaticSiteBuildOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateStaticSiteBuildAppSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/appsettings",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/appsettings",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.environmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "appSettings",
     mapper: {
@@ -3495,16 +2384,19 @@ const createOrUpdateStaticSiteBuildAppSettingsOperationSpec: msRest.OperationSpe
 
 const createOrUpdateStaticSiteBuildFunctionAppSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/functionappsettings",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/functionappsettings",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.environmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "appSettings",
     mapper: {
@@ -3525,16 +2417,19 @@ const createOrUpdateStaticSiteBuildFunctionAppSettingsOperationSpec: msRest.Oper
 
 const listStaticSiteBuildFunctionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/functions",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/functions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.environmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteFunctionOverviewCollection
@@ -3548,16 +2443,19 @@ const listStaticSiteBuildFunctionsOperationSpec: msRest.OperationSpec = {
 
 const listStaticSiteBuildAppSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/listAppSettings",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/listAppSettings",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.environmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StringDictionary
@@ -3571,16 +2469,19 @@ const listStaticSiteBuildAppSettingsOperationSpec: msRest.OperationSpec = {
 
 const listStaticSiteBuildFunctionAppSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/listFunctionAppSettings",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/listFunctionAppSettings",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.environmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StringDictionary
@@ -3594,16 +2495,19 @@ const listStaticSiteBuildFunctionAppSettingsOperationSpec: msRest.OperationSpec 
 
 const getUserProvidedFunctionAppsForStaticSiteBuildOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.environmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection
@@ -3617,8 +2521,7 @@ const getUserProvidedFunctionAppsForStaticSiteBuildOperationSpec: msRest.Operati
 
 const getUserProvidedFunctionAppForStaticSiteBuildOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -3626,8 +2529,12 @@ const getUserProvidedFunctionAppForStaticSiteBuildOperationSpec: msRest.Operatio
     Parameters.functionAppName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource
@@ -3641,8 +2548,7 @@ const getUserProvidedFunctionAppForStaticSiteBuildOperationSpec: msRest.Operatio
 
 const detachUserProvidedFunctionAppFromStaticSiteBuildOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -3650,8 +2556,12 @@ const detachUserProvidedFunctionAppFromStaticSiteBuildOperationSpec: msRest.Oper
     Parameters.functionAppName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     204: {},
@@ -3664,11 +2574,18 @@ const detachUserProvidedFunctionAppFromStaticSiteBuildOperationSpec: msRest.Oper
 
 const createOrUpdateStaticSiteAppSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/appsettings",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/appsettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "appSettings",
     mapper: {
@@ -3689,11 +2606,18 @@ const createOrUpdateStaticSiteAppSettingsOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateStaticSiteFunctionAppSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/functionappsettings",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/functionappsettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "appSettings",
     mapper: {
@@ -3714,11 +2638,18 @@ const createOrUpdateStaticSiteFunctionAppSettingsOperationSpec: msRest.Operation
 
 const createUserRolesInvitationLinkOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/createUserInvitation",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/createUserInvitation",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "staticSiteUserRolesInvitationEnvelope",
     mapper: {
@@ -3739,11 +2670,18 @@ const createUserRolesInvitationLinkOperationSpec: msRest.OperationSpec = {
 
 const listStaticSiteCustomDomainsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteCustomDomainOverviewCollection
@@ -3757,16 +2695,19 @@ const listStaticSiteCustomDomainsOperationSpec: msRest.OperationSpec = {
 
 const getStaticSiteCustomDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.domainName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource
@@ -3780,11 +2721,18 @@ const getStaticSiteCustomDomainOperationSpec: msRest.OperationSpec = {
 
 const listStaticSiteFunctionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/functions",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/functions",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteFunctionOverviewCollection
@@ -3798,11 +2746,18 @@ const listStaticSiteFunctionsOperationSpec: msRest.OperationSpec = {
 
 const listStaticSiteAppSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listAppSettings",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listAppSettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StringDictionary
@@ -3816,11 +2771,18 @@ const listStaticSiteAppSettingsOperationSpec: msRest.OperationSpec = {
 
 const listStaticSiteConfiguredRolesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listConfiguredRoles",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listConfiguredRoles",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StringList
@@ -3834,11 +2796,18 @@ const listStaticSiteConfiguredRolesOperationSpec: msRest.OperationSpec = {
 
 const listStaticSiteFunctionAppSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listFunctionAppSettings",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listFunctionAppSettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StringDictionary
@@ -3852,11 +2821,18 @@ const listStaticSiteFunctionAppSettingsOperationSpec: msRest.OperationSpec = {
 
 const listStaticSiteSecretsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listSecrets",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listSecrets",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StringDictionary
@@ -3870,11 +2846,18 @@ const listStaticSiteSecretsOperationSpec: msRest.OperationSpec = {
 
 const getPrivateEndpointConnectionListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionCollection
@@ -3888,16 +2871,19 @@ const getPrivateEndpointConnectionListOperationSpec: msRest.OperationSpec = {
 
 const getPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.privateEndpointConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
@@ -3911,11 +2897,18 @@ const getPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
 
 const getPrivateLinkResourcesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateLinkResources",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateLinkResources",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourcesWrapper
@@ -3929,11 +2922,18 @@ const getPrivateLinkResourcesOperationSpec: msRest.OperationSpec = {
 
 const resetStaticSiteApiKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/resetapikey",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/resetapikey",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "resetPropertiesEnvelope",
     mapper: {
@@ -3952,11 +2952,18 @@ const resetStaticSiteApiKeyOperationSpec: msRest.OperationSpec = {
 
 const getUserProvidedFunctionAppsForStaticSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection
@@ -3970,16 +2977,19 @@ const getUserProvidedFunctionAppsForStaticSiteOperationSpec: msRest.OperationSpe
 
 const getUserProvidedFunctionAppForStaticSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.functionAppName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource
@@ -3993,16 +3003,19 @@ const getUserProvidedFunctionAppForStaticSiteOperationSpec: msRest.OperationSpec
 
 const detachUserProvidedFunctionAppFromStaticSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.functionAppName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     204: {},
@@ -4015,11 +3028,18 @@ const detachUserProvidedFunctionAppFromStaticSiteOperationSpec: msRest.Operation
 
 const beginCreateOrUpdateStaticSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "staticSiteEnvelope",
     mapper: {
@@ -4043,11 +3063,18 @@ const beginCreateOrUpdateStaticSiteOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteStaticSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -4060,16 +3087,19 @@ const beginDeleteStaticSiteOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteStaticSiteBuildOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.environmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -4083,8 +3113,7 @@ const beginDeleteStaticSiteBuildOperationSpec: msRest.OperationSpec = {
 
 const beginRegisterUserProvidedFunctionAppWithStaticSiteBuildOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -4092,8 +3121,13 @@ const beginRegisterUserProvidedFunctionAppWithStaticSiteBuildOperationSpec: msRe
     Parameters.functionAppName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.isForced, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.isForced,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "staticSiteUserProvidedFunctionEnvelope",
     mapper: {
@@ -4117,16 +3151,19 @@ const beginRegisterUserProvidedFunctionAppWithStaticSiteBuildOperationSpec: msRe
 
 const beginCreateZipDeploymentForStaticSiteBuildOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/zipdeploy",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/zipdeploy",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.environmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "staticSiteZipDeploymentEnvelope",
     mapper: {
@@ -4146,16 +3183,19 @@ const beginCreateZipDeploymentForStaticSiteBuildOperationSpec: msRest.OperationS
 
 const beginCreateOrUpdateStaticSiteCustomDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.domainName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "staticSiteCustomDomainRequestPropertiesEnvelope",
     mapper: {
@@ -4179,16 +3219,19 @@ const beginCreateOrUpdateStaticSiteCustomDomainOperationSpec: msRest.OperationSp
 
 const beginDeleteStaticSiteCustomDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.domainName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -4201,16 +3244,19 @@ const beginDeleteStaticSiteCustomDomainOperationSpec: msRest.OperationSpec = {
 
 const beginValidateCustomDomainCanBeAddedToStaticSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}/validate",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}/validate",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.domainName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "staticSiteCustomDomainRequestPropertiesEnvelope",
     mapper: {
@@ -4230,11 +3276,18 @@ const beginValidateCustomDomainCanBeAddedToStaticSiteOperationSpec: msRest.Opera
 
 const beginDetachStaticSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/detach",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/detach",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -4247,16 +3300,19 @@ const beginDetachStaticSiteOperationSpec: msRest.OperationSpec = {
 
 const beginApproveOrRejectPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.privateEndpointConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "privateEndpointWrapper",
     mapper: {
@@ -4280,16 +3336,19 @@ const beginApproveOrRejectPrivateEndpointConnectionOperationSpec: msRest.Operati
 
 const beginDeletePrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.privateEndpointConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -4324,16 +3383,20 @@ const beginDeletePrivateEndpointConnectionOperationSpec: msRest.OperationSpec = 
 
 const beginRegisterUserProvidedFunctionAppWithStaticSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.functionAppName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.isForced, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.isForced,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "staticSiteUserProvidedFunctionEnvelope",
     mapper: {
@@ -4357,11 +3420,18 @@ const beginRegisterUserProvidedFunctionAppWithStaticSiteOperationSpec: msRest.Op
 
 const beginCreateZipDeploymentForStaticSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/zipdeploy",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/zipdeploy",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "staticSiteZipDeploymentEnvelope",
     mapper: {
@@ -4383,9 +3453,15 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteCollection
@@ -4401,9 +3477,15 @@ const getStaticSitesByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteCollection
@@ -4419,9 +3501,15 @@ const listStaticSiteUsersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteUserCollection
@@ -4437,9 +3525,15 @@ const getStaticSiteBuildsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteBuildCollection
@@ -4455,9 +3549,15 @@ const listStaticSiteBuildFunctionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteFunctionOverviewCollection
@@ -4473,9 +3573,15 @@ const getUserProvidedFunctionAppsForStaticSiteBuildNextOperationSpec: msRest.Ope
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection
@@ -4491,9 +3597,15 @@ const listStaticSiteCustomDomainsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteCustomDomainOverviewCollection
@@ -4509,9 +3621,15 @@ const listStaticSiteFunctionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteFunctionOverviewCollection
@@ -4527,9 +3645,15 @@ const getPrivateEndpointConnectionListNextOperationSpec: msRest.OperationSpec = 
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionCollection
@@ -4545,9 +3669,15 @@ const getUserProvidedFunctionAppsForStaticSiteNextOperationSpec: msRest.Operatio
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection

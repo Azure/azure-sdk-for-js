@@ -40,23 +40,14 @@ export class Certificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    options: Models.CertificatesListOptionalParams,
-    callback: msRest.ServiceCallback<Models.CertificateCollection>
-  ): void;
-  list(
-    options?:
-      | Models.CertificatesListOptionalParams
-      | msRest.ServiceCallback<Models.CertificateCollection>,
-    callback?: msRest.ServiceCallback<Models.CertificateCollection>
-  ): Promise<Models.CertificatesListResponse> {
+  list(options: Models.CertificatesListOptionalParams, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
+  list(options?: Models.CertificatesListOptionalParams | msRest.ServiceCallback<Models.CertificateCollection>, callback?: msRest.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificatesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.CertificatesListResponse>;
+      callback) as Promise<Models.CertificatesListResponse>;
   }
 
   /**
@@ -66,41 +57,26 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesListByResourceGroupResponse>
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CertificatesListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificatesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param callback The callback
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    callback: msRest.ServiceCallback<Models.CertificateCollection>
-  ): void;
+  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CertificateCollection>
-  ): void;
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateCollection>,
-    callback?: msRest.ServiceCallback<Models.CertificateCollection>
-  ): Promise<Models.CertificatesListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateCollection>, callback?: msRest.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificatesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback
-    ) as Promise<Models.CertificatesListByResourceGroupResponse>;
+      callback) as Promise<Models.CertificatesListByResourceGroupResponse>;
   }
 
   /**
@@ -111,39 +87,21 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CertificatesGetResponse>;
+  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificatesGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<Models.Certificate>
-  ): void;
+  get(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.Certificate>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.Certificate>
-  ): void;
-  get(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>,
-    callback?: msRest.ServiceCallback<Models.Certificate>
-  ): Promise<Models.CertificatesGetResponse> {
+  get(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificatesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -151,8 +109,7 @@ export class Certificates {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.CertificatesGetResponse>;
+      callback) as Promise<Models.CertificatesGetResponse>;
   }
 
   /**
@@ -164,24 +121,14 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesCreateOrUpdateResponse>
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    name: string,
-    certificateEnvelope: Models.Certificate,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CertificatesCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, name: string, certificateEnvelope: Models.Certificate, options?: msRest.RequestOptionsBase): Promise<Models.CertificatesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param certificateEnvelope Details of certificate, if it exists already.
    * @param callback The callback
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    name: string,
-    certificateEnvelope: Models.Certificate,
-    callback: msRest.ServiceCallback<Models.Certificate>
-  ): void;
+  createOrUpdate(resourceGroupName: string, name: string, certificateEnvelope: Models.Certificate, callback: msRest.ServiceCallback<Models.Certificate>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
@@ -189,20 +136,8 @@ export class Certificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    name: string,
-    certificateEnvelope: Models.Certificate,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.Certificate>
-  ): void;
-  createOrUpdate(
-    resourceGroupName: string,
-    name: string,
-    certificateEnvelope: Models.Certificate,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>,
-    callback?: msRest.ServiceCallback<Models.Certificate>
-  ): Promise<Models.CertificatesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, name: string, certificateEnvelope: Models.Certificate, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  createOrUpdate(resourceGroupName: string, name: string, certificateEnvelope: Models.Certificate, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificatesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,8 +146,7 @@ export class Certificates {
         options
       },
       createOrUpdateOperationSpec,
-      callback
-    ) as Promise<Models.CertificatesCreateOrUpdateResponse>;
+      callback) as Promise<Models.CertificatesCreateOrUpdateResponse>;
   }
 
   /**
@@ -223,39 +157,21 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param callback The callback
    */
-  deleteMethod(
-    resourceGroupName: string,
-    name: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  deleteMethod(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(
-    resourceGroupName: string,
-    name: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  deleteMethod(
-    resourceGroupName: string,
-    name: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -263,8 +179,7 @@ export class Certificates {
         options
       },
       deleteMethodOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -276,24 +191,14 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesUpdateResponse>
    */
-  update(
-    resourceGroupName: string,
-    name: string,
-    certificateEnvelope: Models.CertificatePatchResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CertificatesUpdateResponse>;
+  update(resourceGroupName: string, name: string, certificateEnvelope: Models.CertificatePatchResource, options?: msRest.RequestOptionsBase): Promise<Models.CertificatesUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param certificateEnvelope Details of certificate, if it exists already.
    * @param callback The callback
    */
-  update(
-    resourceGroupName: string,
-    name: string,
-    certificateEnvelope: Models.CertificatePatchResource,
-    callback: msRest.ServiceCallback<Models.Certificate>
-  ): void;
+  update(resourceGroupName: string, name: string, certificateEnvelope: Models.CertificatePatchResource, callback: msRest.ServiceCallback<Models.Certificate>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
@@ -301,20 +206,8 @@ export class Certificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(
-    resourceGroupName: string,
-    name: string,
-    certificateEnvelope: Models.CertificatePatchResource,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.Certificate>
-  ): void;
-  update(
-    resourceGroupName: string,
-    name: string,
-    certificateEnvelope: Models.CertificatePatchResource,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>,
-    callback?: msRest.ServiceCallback<Models.Certificate>
-  ): Promise<Models.CertificatesUpdateResponse> {
+  update(resourceGroupName: string, name: string, certificateEnvelope: Models.CertificatePatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  update(resourceGroupName: string, name: string, certificateEnvelope: Models.CertificatePatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificatesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -323,8 +216,7 @@ export class Certificates {
         options
       },
       updateOperationSpec,
-      callback
-    ) as Promise<Models.CertificatesUpdateResponse>;
+      callback) as Promise<Models.CertificatesUpdateResponse>;
   }
 
   /**
@@ -334,43 +226,26 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesListNextResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: Models.CertificatesListNextOptionalParams
-  ): Promise<Models.CertificatesListNextResponse>;
+  listNext(nextPageLink: string, options?: Models.CertificatesListNextOptionalParams): Promise<Models.CertificatesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.CertificateCollection>
-  ): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: Models.CertificatesListNextOptionalParams,
-    callback: msRest.ServiceCallback<Models.CertificateCollection>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?:
-      | Models.CertificatesListNextOptionalParams
-      | msRest.ServiceCallback<Models.CertificateCollection>,
-    callback?: msRest.ServiceCallback<Models.CertificateCollection>
-  ): Promise<Models.CertificatesListNextResponse> {
+  listNext(nextPageLink: string, options: Models.CertificatesListNextOptionalParams, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
+  listNext(nextPageLink: string, options?: Models.CertificatesListNextOptionalParams | msRest.ServiceCallback<Models.CertificateCollection>, callback?: msRest.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificatesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.CertificatesListNextResponse>;
+      callback) as Promise<Models.CertificatesListNextResponse>;
   }
 
   /**
@@ -380,41 +255,26 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CertificatesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificatesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.CertificateCollection>
-  ): void;
+  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CertificateCollection>
-  ): void;
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateCollection>,
-    callback?: msRest.ServiceCallback<Models.CertificateCollection>
-  ): Promise<Models.CertificatesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateCollection>, callback?: msRest.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificatesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback
-    ) as Promise<Models.CertificatesListByResourceGroupNextResponse>;
+      callback) as Promise<Models.CertificatesListByResourceGroupNextResponse>;
   }
 }
 
@@ -423,9 +283,16 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/certificates",
-  urlParameters: [Parameters.subscriptionId],
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateCollection
@@ -439,11 +306,17 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates",
-  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateCollection
@@ -457,11 +330,18 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.Certificate
@@ -475,11 +355,18 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "certificateEnvelope",
     mapper: {
@@ -500,11 +387,18 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     204: {},
@@ -517,11 +411,18 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}",
-  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "certificateEnvelope",
     mapper: {
@@ -544,9 +445,16 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateCollection
@@ -562,9 +470,15 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateCollection

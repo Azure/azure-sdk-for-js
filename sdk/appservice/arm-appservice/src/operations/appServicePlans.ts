@@ -1552,10 +1552,10 @@ const listWebAppsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.skipToken,
     Parameters.filter,
-    Parameters.top,
-    Parameters.apiVersion
+    Parameters.top
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1610,8 +1610,8 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2089,10 +2089,10 @@ const listWebAppsNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.skipToken,
     Parameters.filter,
-    Parameters.top,
-    Parameters.apiVersion
+    Parameters.top
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -2116,8 +2116,8 @@ const listUsagesNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
