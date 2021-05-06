@@ -35,6 +35,12 @@ export class AzureSASCredential implements SASCredential {
 }
 
 // @public
+export interface CertificateCredential {
+    cert: string;
+    certKey: string;
+}
+
+// @public
 export interface Context {
     deleteValue(key: symbol): Context;
     getValue(key: symbol): unknown;
@@ -52,6 +58,9 @@ export interface GetTokenOptions {
         tracingContext?: Context;
     };
 }
+
+// @public
+export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
 
 // @public
 export function isNamedKeyCredential(credential: unknown): credential is NamedKeyCredential;

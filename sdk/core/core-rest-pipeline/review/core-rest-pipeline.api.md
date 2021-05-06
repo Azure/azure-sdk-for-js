@@ -24,9 +24,13 @@ export interface Agent {
     destroy(): void;
     maxFreeSockets: number;
     maxSockets: number;
+    options?: AgentOptions;
     requests: unknown;
     sockets: unknown;
 }
+
+// @public
+export type AgentOptions = SecureContextOptions;
 
 // @public
 export interface AuthorizeRequestOnChallengeOptions {
@@ -297,6 +301,13 @@ export interface RestErrorOptions {
     request?: PipelineRequest;
     response?: PipelineResponse;
     statusCode?: number;
+}
+
+// @public
+export interface SecureContextOptions {
+    ca?: string | Buffer | Array<string | Buffer>;
+    cert?: string | Buffer | Array<string | Buffer>;
+    key?: string | Buffer | Array<Buffer | Object>;
 }
 
 // @public

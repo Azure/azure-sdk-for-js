@@ -9,12 +9,13 @@
  * @azsdk-weight 40
  */
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
-import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
 // const endpoint = process.env["ENDPOINT"] || "document-translator endpoint";
+
+const cert = process.env["USER_CERT"] || "";
 
 export async function main() {
   console.log("== Confidential Ledger ==");
@@ -26,7 +27,7 @@ export async function main() {
   const confidentialLedger = ConfidentialLedger(
     "https://sdk-test-ledger-prod.eastus.cloudapp.azure.com",
     ledgerIdentity.ledgerTlsCertificate,
-    new DefaultAzureCredential()
+    { cert: cert, certKey: cert }
   );
 
   // Get enclave quotes

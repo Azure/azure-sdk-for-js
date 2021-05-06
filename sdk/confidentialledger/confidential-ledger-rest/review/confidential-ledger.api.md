@@ -4,6 +4,7 @@
 
 ```ts
 
+import { CertificateCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
@@ -13,7 +14,7 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, credentials: TokenCredential, options?: ClientOptions): ConfidentialLedgerClient;
+function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, credentials: TokenCredential | CertificateCredential, options?: ClientOptions): ConfidentialLedgerClient;
 
 export default ConfidentialLedger;
 

@@ -9,6 +9,8 @@ export {
 } from "./azureNamedKeyCredential";
 export { AzureSASCredential, SASCredential, isSASCredential } from "./azureSASCredential";
 
+export { CertificateCredential, isCertificateCredential } from "./certificateCredential";
+
 export {
   TokenCredential,
   GetTokenOptions,
