@@ -16,7 +16,7 @@ Azure PowerShell version 5.0 or later.
 
 Node.js, Active LTS and Maintenance LTS versions (8.11.1 and 10.14.1 recommended).
 
-- Prerequisites and Configuration of local env same as this - https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-cli-typescript?tabs=azure-cli%2Cbrowser#configure-your-local-environment
+- Prerequisites and Configuration of local env same as this - https://docs.microsoft.com/azure/azure-functions/create-first-function-cli-typescript?tabs=azure-cli%2Cbrowser#configure-your-local-environment
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ Run az login to sign in to Azure and verify an active subscription.
 ## Give the Azure Functions access to the key vault
 
 1. go to the code in the repo,
-2. follow the instructions here to create RG and deploy to RG - https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-first-function-resource-manager?tabs=command-line%2Cazure-cli#deploy-the-template
+2. follow the instructions here to create RG and deploy to RG - https://docs.microsoft.com/azure/azure-functions/functions-create-first-function-resource-manager?tabs=command-line%2Cazure-cli#deploy-the-template
 
 Note -> if 3 gives error, try 5 first then do 3 to 4
 
