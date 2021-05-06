@@ -265,15 +265,15 @@ stages:
                 filePath: "eng/tools/publish-to-npm.ps1"
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
 
-            # - template: /eng/pipelines/templates/steps/stage-artifacts.yml
-            #   parameters:
-            #     SourceFolder: ${{parameters.ArtifactName}}
-            #     TargetFolder: ${{artifact.safeName}}
-            #     PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
-            # - pwsh: |
-            #     Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
-            #   workingDirectory: $(Pipeline.Workspace)
-            #   displayName: Output Visible Artifacts
+            - template: /eng/pipelines/templates/steps/stage-artifacts.yml
+              parameters:
+                SourceFolder: ${{parameters.ArtifactName}}
+                TargetFolder: ${{artifact.safeName}}
+                PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
+            - pwsh: |
+                Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
+              workingDirectory: $(Pipeline.Workspace)
+              displayName: Output Visible Artifacts
 
             - pwsh: |
                 $branchName = "daily/$(Get-Date -Format 'yyyy-MM-dd')"
