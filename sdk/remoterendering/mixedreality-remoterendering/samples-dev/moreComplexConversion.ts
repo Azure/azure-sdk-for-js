@@ -51,13 +51,13 @@ const tenantId = process.env["REMOTERENDERING_TENANT_ID"] || "<tenantId>";
 const clientId = process.env["REMOTERENDERING_CLIENT_ID"] || "<clientId>";
 const clientSecret = process.env["REMOTERENDERING_CLIENT_SECRET"] || "<clientSecret>";
 
-function getClientWithAccountKey() {
+export function getClientWithAccountKey() {
   let credential = new AzureKeyCredential(accountKey);
 
   return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 }
 
-function getClientWithAAD() {
+export function getClientWithAAD() {
   let credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
     authorityHost: "https://login.microsoftonline.com/" + tenantId
   });
@@ -67,7 +67,7 @@ function getClientWithAAD() {
   });
 }
 
-function getClientWithDeviceCode() {
+export function getClientWithDeviceCode() {
   let deviceCodeCallback = (deviceCodeInfo: DeviceCodeInfo) => {
     console.debug(deviceCodeInfo.message);
     console.log(deviceCodeInfo.message);
@@ -87,7 +87,7 @@ function getClientWithDeviceCode() {
   });
 }
 
-function getClientWithDefaultAzureCredential() {
+export function getClientWithDefaultAzureCredential() {
   let credential: TokenCredential = new DefaultAzureCredential();
 
   return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
