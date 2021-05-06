@@ -34,18 +34,24 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
   // replacements within recordings.
   customizationsOnRecordings: [
     (recording: string): string =>
-      recording.replace(/"refresh_token":"[^"]*"/g, `"refresh_token":"refresh_token"`),
+      recording.replace(/"refresh_token":"[^"]+"/g, `"refresh_token":"refresh_token"`),
     (recording: string): string =>
       recording.replace(/access_token=(.+?)(&|")/, `access_token=access_token$2`),
     (recording: string): string =>
-      recording.replace(/refresh_token=(.+?)(&|")/, `refresh_token=refresh_token$2`)
+      recording.replace(/refresh_token=([^&]+?)(&|")/, `refresh_token=refresh_token$2`)
   ]
 };
 
-export function createRegistryClient(): ContainerRegistryClient {
+export function createRegistryClient(
+  options: { anonymous: boolean } = { anonymous: false }
+): ContainerRegistryClient {
   // Retrieve the endpoint from the environment variable
   // we saved to the .env file earlier
   const endpoint = env.CONTAINER_REGISTRY_ENDPOINT;
+
+  if (options.anonymous) {
+    return new ContainerRegistryClient(endpoint);
+  }
 
   // We use ClientSecretCredential instead of DefaultAzureCredential in order
   // to ensure that the requests made to the AAD server are always the same. If

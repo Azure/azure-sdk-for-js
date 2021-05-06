@@ -31,7 +31,9 @@
   },
   "variables": {
     "apiVersion": "2019-05-01",
-    "endpointValue": "[format('https://{0}.azurecr.io', parameters('baseName'))]"
+    "endpointValue": "[format('https://{0}.azurecr.io', parameters('baseName'))]",
+    "anonRegistryName": "[format('{0}anon', parameters('baseName'))]",
+    "anonEndpointValue": "[format('https://{0}.azurecr.io', variables('anonRegistryName'))]"
   },
   "resources": [
     {
@@ -40,12 +42,25 @@
       "name": "[parameters('baseName')]",
       "location": "[parameters('location')]",
       "properties": {
-        "endpoint": "[variables('endpointValue')]",
-        "adminUserEnabled": true
+        "endpoint": "[variables('endpointValue')]"
       },
       "sku": {
         "name": "Basic",
         "tier": "Basic"
+      }
+    },
+    {
+      "type": "Microsoft.ContainerRegistry/registries",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[variables('anonRegistryName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "endpoint": "[variables('anonEndpointValue')]",
+        "anonymousPullEnabled": true
+      },
+      "sku": {
+        "name": "Standard",
+        "tier": "Standard"
       }
     }
   ],
@@ -57,6 +72,14 @@
     "CONTAINER_REGISTRY_ENDPOINT": {
       "type": "string",
       "value": "[variables('endpointValue')]"
+    },
+    "CONTAINERREGISTRY_ANONREGISTRY_NAME": {
+      "type": "string",
+      "value": "[variables('anonRegistryName')]"
+    },
+    "CONTAINERREGISTRY_ANONREGISTRY_ENDPOINT": {
+      "type": "string",
+      "value": "[variables('anonEndpointValue')]"
     }
   }
 }
