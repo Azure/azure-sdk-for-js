@@ -126,7 +126,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [scanning_product_documentation]: https://azure.microsoft.com/services/purview/
 [rest_client]: https://github.com/joheredi/azure-sdk-for-js/wiki/Rest-Level-Client
-[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/purview/purview-scanning
+[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/purview/purview-scanning-rest
 [scanning_npm]: https://www.npmjs.com/package/@azure-rest/purview-scanning
 [scanning_ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/
