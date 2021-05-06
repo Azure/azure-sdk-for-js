@@ -302,36 +302,10 @@ export interface RegexClassificationRulePatternBase {
   pattern?: string;
 }
 
-export interface DataSourceReference {
-  type?: string;
-  referenceName?: string;
-}
-
 export interface DataSourceProperties {
   createdAt?: Date;
   lastModifiedAt?: Date;
-  parentCollection?: DataSourcePropertiesParentCollection;
 }
-
-export type DataSourcePropertiesParentCollection = DataSourcePropertiesParentCollectionBase &
-  DataSourceReference;
-
-export interface DataSourcePropertiesParentCollectionBase {}
-
-export type CollectionProperties = CollectionPropertiesBase & DataSourceProperties;
-
-export interface CollectionPropertiesBase {}
-
-export type CollectionDataSource = CollectionDataSourceBase & DataSource;
-
-export interface CollectionDataSourceBase {
-  properties?: CollectionDataSourceProperties;
-}
-
-export type CollectionDataSourceProperties = CollectionDataSourcePropertiesBase &
-  CollectionProperties;
-
-export interface CollectionDataSourcePropertiesBase {}
 
 export type AzureSubscriptionProperties = AzureSubscriptionPropertiesBase & DataSourceProperties;
 
@@ -1301,7 +1275,6 @@ export interface ExpandingResourceScanPropertiesBase {
 
 export interface ExpandingResourceScanPropertiesResourceTypes {
   none?: ResourceTypeFilter;
-  collection?: ResourceTypeFilter;
   azureSubscription?: ResourceTypeFilter;
   azureResourceGroup?: ResourceTypeFilter;
   azureSynapseWorkspace?: ResourceTypeFilter;
@@ -2507,7 +2480,6 @@ export type OperationStatus =
   | "Canceled";
 export type DataSourceType =
   | "None"
-  | "Collection"
   | "AzureSubscription"
   | "AzureResourceGroup"
   | "AzureSynapseWorkspace"

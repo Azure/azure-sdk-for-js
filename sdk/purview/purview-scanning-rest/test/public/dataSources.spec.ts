@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PurviewScanningClient } from "../../src";
+import { PurviewScanningRestClient } from "../../src";
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { assert } from "chai";
@@ -9,7 +9,7 @@ import { Context } from "mocha";
 
 describe("List data sources", () => {
   let recorder: Recorder;
-  let client: PurviewScanningClient;
+  let client: PurviewScanningRestClient;
 
   beforeEach(function (this: Context) {
     recorder = createRecorder(this);

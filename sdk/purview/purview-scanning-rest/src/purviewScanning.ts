@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  AzureKeyVaultsGetAzureKeyVaultParameters,
-  AzureKeyVaultsCreateAzureKeyVaultParameters,
-  AzureKeyVaultsDeleteAzureKeyVaultParameters,
-  AzureKeyVaultsListByAccountParameters,
+  KeyVaultConnectionsGetParameters,
+  KeyVaultConnectionsCreateParameters,
+  KeyVaultConnectionsDeleteParameters,
+  KeyVaultConnectionsListAllParameters,
   ClassificationRulesGetParameters,
   ClassificationRulesCreateOrUpdateParameters,
   ClassificationRulesDeleteParameters,
@@ -15,18 +15,16 @@ import {
   DataSourcesCreateOrUpdateParameters,
   DataSourcesGetParameters,
   DataSourcesDeleteParameters,
-  DataSourcesListByAccountParameters,
-  DataSourcesListChildrenByCollectionParameters,
-  DataSourceListUnparentedDataSourcesByAccountParameters,
+  DataSourcesListAllParameters,
   FiltersGetParameters,
   FiltersCreateOrUpdateParameters,
   ScansCreateOrUpdateParameters,
   ScansGetParameters,
   ScansDeleteParameters,
   ScansListByDataSourceParameters,
-  ScansRunScanParameters,
-  ScansCancelScanParameters,
-  ScansListScanHistoryParameters,
+  ScanResultRunScanParameters,
+  ScanResultCancelScanParameters,
+  ScanResultListScanHistoryParameters,
   ScanRulesetsGetParameters,
   ScanRulesetsCreateOrUpdateParameters,
   ScanRulesetsDeleteParameters,
@@ -41,15 +39,15 @@ import {
   TriggersDeleteTriggerParameters,
 } from "./parameters";
 import {
-  AzureKeyVaultsGetAzureKeyVault200Response,
-  AzureKeyVaultsGetAzureKeyVaultdefaultResponse,
-  AzureKeyVaultsCreateAzureKeyVault200Response,
-  AzureKeyVaultsCreateAzureKeyVaultdefaultResponse,
-  AzureKeyVaultsDeleteAzureKeyVault200Response,
-  AzureKeyVaultsDeleteAzureKeyVault204Response,
-  AzureKeyVaultsDeleteAzureKeyVaultdefaultResponse,
-  AzureKeyVaultsListByAccount200Response,
-  AzureKeyVaultsListByAccountdefaultResponse,
+  KeyVaultConnectionsGet200Response,
+  KeyVaultConnectionsGetdefaultResponse,
+  KeyVaultConnectionsCreate200Response,
+  KeyVaultConnectionsCreatedefaultResponse,
+  KeyVaultConnectionsDelete200Response,
+  KeyVaultConnectionsDelete204Response,
+  KeyVaultConnectionsDeletedefaultResponse,
+  KeyVaultConnectionsListAll200Response,
+  KeyVaultConnectionsListAlldefaultResponse,
   ClassificationRulesGet200Response,
   ClassificationRulesGetdefaultResponse,
   ClassificationRulesCreateOrUpdate200Response,
@@ -72,12 +70,8 @@ import {
   DataSourcesDelete200Response,
   DataSourcesDelete204Response,
   DataSourcesDeletedefaultResponse,
-  DataSourcesListByAccount200Response,
-  DataSourcesListByAccountdefaultResponse,
-  DataSourcesListChildrenByCollection200Response,
-  DataSourcesListChildrenByCollectiondefaultResponse,
-  DataSourceListUnparentedDataSourcesByAccount200Response,
-  DataSourceListUnparentedDataSourcesByAccountdefaultResponse,
+  DataSourcesListAll200Response,
+  DataSourcesListAlldefaultResponse,
   FiltersGet200Response,
   FiltersGetdefaultResponse,
   FiltersCreateOrUpdate200Response,
@@ -93,12 +87,12 @@ import {
   ScansDeletedefaultResponse,
   ScansListByDataSource200Response,
   ScansListByDataSourcedefaultResponse,
-  ScansRunScan202Response,
-  ScansRunScandefaultResponse,
-  ScansCancelScan202Response,
-  ScansCancelScandefaultResponse,
-  ScansListScanHistory200Response,
-  ScansListScanHistorydefaultResponse,
+  ScanResultRunScan202Response,
+  ScanResultRunScandefaultResponse,
+  ScanResultCancelScan202Response,
+  ScanResultCancelScandefaultResponse,
+  ScanResultListScanHistory200Response,
+  ScanResultListScanHistorydefaultResponse,
   ScanRulesetsGet200Response,
   ScanRulesetsGetdefaultResponse,
   ScanRulesetsCreateOrUpdate200Response,
@@ -129,36 +123,32 @@ import {
   TriggersDeleteTriggerdefaultResponse,
 } from "./responses";
 import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { TokenCredential } from "@azure/core-auth";
 
-export interface AzureKeyVaultsDeleteAzureKeyVault {
-  /** Gets azureKeyVault information */
+export interface KeyVaultConnectionsDelete {
+  /** Gets key vault information */
   get(
-    options?: AzureKeyVaultsGetAzureKeyVaultParameters
-  ): Promise<
-    AzureKeyVaultsGetAzureKeyVault200Response | AzureKeyVaultsGetAzureKeyVaultdefaultResponse
-  >;
-  /** Creates an instance of a azureKeyVault */
+    options?: KeyVaultConnectionsGetParameters
+  ): Promise<KeyVaultConnectionsGet200Response | KeyVaultConnectionsGetdefaultResponse>;
+  /** Creates an instance of a key vault connection */
   put(
-    options: AzureKeyVaultsCreateAzureKeyVaultParameters
-  ): Promise<
-    AzureKeyVaultsCreateAzureKeyVault200Response | AzureKeyVaultsCreateAzureKeyVaultdefaultResponse
-  >;
-  /** Deletes the azureKeyVault associated with the account */
+    options: KeyVaultConnectionsCreateParameters
+  ): Promise<KeyVaultConnectionsCreate200Response | KeyVaultConnectionsCreatedefaultResponse>;
+  /** Deletes the key vault connection associated with the account */
   delete(
-    options?: AzureKeyVaultsDeleteAzureKeyVaultParameters
+    options?: KeyVaultConnectionsDeleteParameters
   ): Promise<
-    | AzureKeyVaultsDeleteAzureKeyVault200Response
-    | AzureKeyVaultsDeleteAzureKeyVault204Response
-    | AzureKeyVaultsDeleteAzureKeyVaultdefaultResponse
+    | KeyVaultConnectionsDelete200Response
+    | KeyVaultConnectionsDelete204Response
+    | KeyVaultConnectionsDeletedefaultResponse
   >;
 }
 
-export interface AzureKeyVaultsListByAccount {
-  /** List azureKeyVaults in account */
+export interface KeyVaultConnectionsListAll {
+  /** List key vault connections in account */
   get(
-    options?: AzureKeyVaultsListByAccountParameters
-  ): Promise<AzureKeyVaultsListByAccount200Response | AzureKeyVaultsListByAccountdefaultResponse>;
+    options?: KeyVaultConnectionsListAllParameters
+  ): Promise<KeyVaultConnectionsListAll200Response | KeyVaultConnectionsListAlldefaultResponse>;
 }
 
 export interface ClassificationRulesDelete {
@@ -232,31 +222,11 @@ export interface DataSourcesDelete {
   >;
 }
 
-export interface DataSourcesListByAccount {
+export interface DataSourcesListAll {
   /** List data sources in Data catalog */
   get(
-    options?: DataSourcesListByAccountParameters
-  ): Promise<DataSourcesListByAccount200Response | DataSourcesListByAccountdefaultResponse>;
-}
-
-export interface DataSourcesListChildrenByCollection {
-  /** Lists the children of the collection. */
-  get(
-    options?: DataSourcesListChildrenByCollectionParameters
-  ): Promise<
-    | DataSourcesListChildrenByCollection200Response
-    | DataSourcesListChildrenByCollectiondefaultResponse
-  >;
-}
-
-export interface DataSourceListUnparentedDataSourcesByAccount {
-  /** Lists the data sources in the account that do not belong to any collection. */
-  get(
-    options?: DataSourceListUnparentedDataSourcesByAccountParameters
-  ): Promise<
-    | DataSourceListUnparentedDataSourcesByAccount200Response
-    | DataSourceListUnparentedDataSourcesByAccountdefaultResponse
-  >;
+    options?: DataSourcesListAllParameters
+  ): Promise<DataSourcesListAll200Response | DataSourcesListAlldefaultResponse>;
 }
 
 export interface FiltersCreateOrUpdate {
@@ -296,25 +266,25 @@ export interface ScansListByDataSource {
   ): Promise<ScansListByDataSource200Response | ScansListByDataSourcedefaultResponse>;
 }
 
-export interface ScansRunScan {
+export interface ScanResultRunScan {
   /** Runs the scan */
   put(
-    options?: ScansRunScanParameters
-  ): Promise<ScansRunScan202Response | ScansRunScandefaultResponse>;
+    options?: ScanResultRunScanParameters
+  ): Promise<ScanResultRunScan202Response | ScanResultRunScandefaultResponse>;
 }
 
-export interface ScansCancelScan {
+export interface ScanResultCancelScan {
   /** Cancels a scan */
   post(
-    options?: ScansCancelScanParameters
-  ): Promise<ScansCancelScan202Response | ScansCancelScandefaultResponse>;
+    options?: ScanResultCancelScanParameters
+  ): Promise<ScanResultCancelScan202Response | ScanResultCancelScandefaultResponse>;
 }
 
-export interface ScansListScanHistory {
+export interface ScanResultListScanHistory {
   /** Lists the scan history of a scan */
   get(
-    options?: ScansListScanHistoryParameters
-  ): Promise<ScansListScanHistory200Response | ScansListScanHistorydefaultResponse>;
+    options?: ScanResultListScanHistoryParameters
+  ): Promise<ScanResultListScanHistory200Response | ScanResultListScanHistorydefaultResponse>;
 }
 
 export interface ScanRulesetsDelete {
@@ -411,13 +381,10 @@ export interface TriggersDeleteTrigger {
 }
 
 export interface Routes {
-  /** Resource for '/azureKeyVaults/\{azureKeyVaultName\}' has methods for the following verbs: get, put, delete */
-  (
-    path: "/azureKeyVaults/{azureKeyVaultName}",
-    azureKeyVaultName: string
-  ): AzureKeyVaultsDeleteAzureKeyVault;
+  /** Resource for '/azureKeyVaults/\{keyVaultName\}' has methods for the following verbs: get, put, delete */
+  (path: "/azureKeyVaults/{keyVaultName}", keyVaultName: string): KeyVaultConnectionsDelete;
   /** Resource for '/azureKeyVaults' has methods for the following verbs: get */
-  (path: "/azureKeyVaults"): AzureKeyVaultsListByAccount;
+  (path: "/azureKeyVaults"): KeyVaultConnectionsListAll;
   /** Resource for '/classificationrules/\{classificationRuleName\}' has methods for the following verbs: get, put, delete */
   (
     path: "/classificationrules/{classificationRuleName}",
@@ -439,14 +406,7 @@ export interface Routes {
   /** Resource for '/datasources/\{dataSourceName\}' has methods for the following verbs: put, get, delete */
   (path: "/datasources/{dataSourceName}", dataSourceName: string): DataSourcesDelete;
   /** Resource for '/datasources' has methods for the following verbs: get */
-  (path: "/datasources"): DataSourcesListByAccount;
-  /** Resource for '/datasources/\{dataSourceName\}/listChildren' has methods for the following verbs: get */
-  (
-    path: "/datasources/{dataSourceName}/listChildren",
-    dataSourceName: string
-  ): DataSourcesListChildrenByCollection;
-  /** Resource for '/listUnparentedDataSources' has methods for the following verbs: get */
-  (path: "/listUnparentedDataSources"): DataSourceListUnparentedDataSourcesByAccount;
+  (path: "/datasources"): DataSourcesListAll;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/filters/custom' has methods for the following verbs: get, put */
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}/filters/custom",
@@ -467,20 +427,20 @@ export interface Routes {
     dataSourceName: string,
     scanName: string,
     runId: string
-  ): ScansRunScan;
+  ): ScanResultRunScan;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/runs/\{runId\}/:cancel' has methods for the following verbs: post */
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}/runs/{runId}/:cancel",
     dataSourceName: string,
     scanName: string,
     runId: string
-  ): ScansCancelScan;
+  ): ScanResultCancelScan;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/runs' has methods for the following verbs: get */
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}/runs",
     dataSourceName: string,
     scanName: string
-  ): ScansListScanHistory;
+  ): ScanResultListScanHistory;
   /** Resource for '/scanrulesets/\{scanRulesetName\}' has methods for the following verbs: get, put, delete */
   (path: "/scanrulesets/{scanRulesetName}", scanRulesetName: string): ScanRulesetsDelete;
   /** Resource for '/scanrulesets' has methods for the following verbs: get */
@@ -506,19 +466,15 @@ export interface Routes {
   ): TriggersDeleteTrigger;
 }
 
-export type PurviewScanningClient = Client & {
+export type PurviewScanningRestClient = Client & {
   path: Routes;
 };
 
-export interface PurviewScanningFactory {
-  (Endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): void;
-}
-
 export default function PurviewScanning(
   Endpoint: string,
-  credentials: TokenCredential | KeyCredential,
+  credentials: TokenCredential,
   options: ClientOptions = {}
-): PurviewScanningClient {
+): PurviewScanningRestClient {
   const baseUrl = options.baseUrl ?? `${Endpoint}`;
   options.apiVersion = options.apiVersion ?? "2018-12-01-preview";
   options = {
@@ -528,5 +484,5 @@ export default function PurviewScanning(
     },
   };
 
-  return getClient(baseUrl, credentials, options) as PurviewScanningClient;
+  return getClient(baseUrl, credentials, options) as PurviewScanningRestClient;
 }

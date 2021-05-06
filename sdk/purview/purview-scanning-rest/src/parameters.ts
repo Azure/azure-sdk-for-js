@@ -15,16 +15,16 @@ import {
   Trigger,
 } from "./models";
 
-export type AzureKeyVaultsGetAzureKeyVaultParameters = RequestParameters;
+export type KeyVaultConnectionsGetParameters = RequestParameters;
 
-export interface AzureKeyVaultsCreateAzureKeyVaultBodyParam {
+export interface KeyVaultConnectionsCreateBodyParam {
   body: AzureKeyVault;
 }
 
-export type AzureKeyVaultsCreateAzureKeyVaultParameters = RequestParameters &
-  AzureKeyVaultsCreateAzureKeyVaultBodyParam;
-export type AzureKeyVaultsDeleteAzureKeyVaultParameters = RequestParameters;
-export type AzureKeyVaultsListByAccountParameters = RequestParameters;
+export type KeyVaultConnectionsCreateParameters = RequestParameters &
+  KeyVaultConnectionsCreateBodyParam;
+export type KeyVaultConnectionsDeleteParameters = RequestParameters;
+export type KeyVaultConnectionsListAllParameters = RequestParameters;
 export type ClassificationRulesGetParameters = RequestParameters;
 
 export interface ClassificationRulesCreateOrUpdateBodyParam {
@@ -56,9 +56,7 @@ export type DataSourcesCreateOrUpdateParameters = RequestParameters &
   DataSourcesCreateOrUpdateBodyParam;
 export type DataSourcesGetParameters = RequestParameters;
 export type DataSourcesDeleteParameters = RequestParameters;
-export type DataSourcesListByAccountParameters = RequestParameters;
-export type DataSourcesListChildrenByCollectionParameters = RequestParameters;
-export type DataSourceListUnparentedDataSourcesByAccountParameters = RequestParameters;
+export type DataSourcesListAllParameters = RequestParameters;
 export type FiltersGetParameters = RequestParameters;
 
 export interface FiltersCreateOrUpdateBodyParam {
@@ -76,17 +74,17 @@ export type ScansGetParameters = RequestParameters;
 export type ScansDeleteParameters = RequestParameters;
 export type ScansListByDataSourceParameters = RequestParameters;
 
-export interface ScansRunScanQueryParamProperties {
+export interface ScanResultRunScanQueryParamProperties {
   scanLevel?: ScanLevelType;
 }
 
-export interface ScansRunScanQueryParam {
-  queryParameters?: ScansRunScanQueryParamProperties;
+export interface ScanResultRunScanQueryParam {
+  queryParameters?: ScanResultRunScanQueryParamProperties;
 }
 
-export type ScansRunScanParameters = RequestParameters & ScansRunScanQueryParam;
-export type ScansCancelScanParameters = RequestParameters;
-export type ScansListScanHistoryParameters = RequestParameters;
+export type ScanResultRunScanParameters = RequestParameters & ScanResultRunScanQueryParam;
+export type ScanResultCancelScanParameters = RequestParameters;
+export type ScanResultListScanHistoryParameters = RequestParameters;
 export type ScanRulesetsGetParameters = RequestParameters;
 
 export interface ScanRulesetsCreateOrUpdateBodyParam {

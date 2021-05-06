@@ -22,55 +22,55 @@ import {
 } from "./models";
 import { HttpResponse } from "@azure-rest/core-client";
 
-/** Gets azureKeyVault information */
-export interface AzureKeyVaultsGetAzureKeyVault200Response extends HttpResponse {
+/** Gets key vault information */
+export interface KeyVaultConnectionsGet200Response extends HttpResponse {
   status: "200";
   body: AzureKeyVault;
 }
 
-/** Gets azureKeyVault information */
-export interface AzureKeyVaultsGetAzureKeyVaultdefaultResponse extends HttpResponse {
+/** Gets key vault information */
+export interface KeyVaultConnectionsGetdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
-/** Creates an instance of a azureKeyVault */
-export interface AzureKeyVaultsCreateAzureKeyVault200Response extends HttpResponse {
+/** Creates an instance of a key vault connection */
+export interface KeyVaultConnectionsCreate200Response extends HttpResponse {
   status: "200";
   body: AzureKeyVault;
 }
 
-/** Creates an instance of a azureKeyVault */
-export interface AzureKeyVaultsCreateAzureKeyVaultdefaultResponse extends HttpResponse {
+/** Creates an instance of a key vault connection */
+export interface KeyVaultConnectionsCreatedefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
-/** Deletes the azureKeyVault associated with the account */
-export interface AzureKeyVaultsDeleteAzureKeyVault200Response extends HttpResponse {
+/** Deletes the key vault connection associated with the account */
+export interface KeyVaultConnectionsDelete200Response extends HttpResponse {
   status: "200";
   body: AzureKeyVault;
 }
 
-/** Deletes the azureKeyVault associated with the account */
-export interface AzureKeyVaultsDeleteAzureKeyVault204Response extends HttpResponse {
+/** Deletes the key vault connection associated with the account */
+export interface KeyVaultConnectionsDelete204Response extends HttpResponse {
   status: "204";
 }
 
-/** Deletes the azureKeyVault associated with the account */
-export interface AzureKeyVaultsDeleteAzureKeyVaultdefaultResponse extends HttpResponse {
+/** Deletes the key vault connection associated with the account */
+export interface KeyVaultConnectionsDeletedefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
-/** List azureKeyVaults in account */
-export interface AzureKeyVaultsListByAccount200Response extends HttpResponse {
+/** List key vault connections in account */
+export interface KeyVaultConnectionsListAll200Response extends HttpResponse {
   status: "200";
   body: AzureKeyVaultList;
 }
 
-/** List azureKeyVaults in account */
-export interface AzureKeyVaultsListByAccountdefaultResponse extends HttpResponse {
+/** List key vault connections in account */
+export interface KeyVaultConnectionsListAlldefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
@@ -208,37 +208,13 @@ export interface DataSourcesDeletedefaultResponse extends HttpResponse {
 }
 
 /** List data sources in Data catalog */
-export interface DataSourcesListByAccount200Response extends HttpResponse {
+export interface DataSourcesListAll200Response extends HttpResponse {
   status: "200";
   body: DataSourceList;
 }
 
 /** List data sources in Data catalog */
-export interface DataSourcesListByAccountdefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** Lists the children of the collection. */
-export interface DataSourcesListChildrenByCollection200Response extends HttpResponse {
-  status: "200";
-  body: DataSourceList;
-}
-
-/** Lists the children of the collection. */
-export interface DataSourcesListChildrenByCollectiondefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** Lists the data sources in the account that do not belong to any collection. */
-export interface DataSourceListUnparentedDataSourcesByAccount200Response extends HttpResponse {
-  status: "200";
-  body: DataSourceList;
-}
-
-/** Lists the data sources in the account that do not belong to any collection. */
-export interface DataSourceListUnparentedDataSourcesByAccountdefaultResponse extends HttpResponse {
+export interface DataSourcesListAlldefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
@@ -333,37 +309,37 @@ export interface ScansListByDataSourcedefaultResponse extends HttpResponse {
 }
 
 /** Runs the scan */
-export interface ScansRunScan202Response extends HttpResponse {
+export interface ScanResultRunScan202Response extends HttpResponse {
   status: "202";
   body: OperationResponse;
 }
 
 /** Runs the scan */
-export interface ScansRunScandefaultResponse extends HttpResponse {
+export interface ScanResultRunScandefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Cancels a scan */
-export interface ScansCancelScan202Response extends HttpResponse {
+export interface ScanResultCancelScan202Response extends HttpResponse {
   status: "202";
   body: OperationResponse;
 }
 
 /** Cancels a scan */
-export interface ScansCancelScandefaultResponse extends HttpResponse {
+export interface ScanResultCancelScandefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
 
 /** Lists the scan history of a scan */
-export interface ScansListScanHistory200Response extends HttpResponse {
+export interface ScanResultListScanHistory200Response extends HttpResponse {
   status: "200";
   body: ScanHistoryList;
 }
 
 /** Lists the scan history of a scan */
-export interface ScansListScanHistorydefaultResponse extends HttpResponse {
+export interface ScanResultListScanHistorydefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }

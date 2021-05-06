@@ -6,7 +6,7 @@
 import { Context } from "mocha";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import PurviewScanning, { PurviewScanningClient } from "../../../src";
+import PurviewScanning, { PurviewScanningRestClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
 
 import "./env";
@@ -36,7 +36,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export function createClient(options?: ClientOptions): PurviewScanningClient {
+export function createClient(options?: ClientOptions): PurviewScanningRestClient {
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
