@@ -23,7 +23,7 @@ import {
   ClientSecretCredential,
   TokenCredential,
   DefaultAzureCredential
-} from "@azure/identity"
+} from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
@@ -72,11 +72,15 @@ function getClientWithDeviceCode() {
     console.debug(deviceCodeInfo.message);
     console.log(deviceCodeInfo.message);
   };
-  
-  let credential: TokenCredential = new DeviceCodeCredential(tenantId, clientId, deviceCodeCallback,
-  {
-    authorityHost: "https://login.microsoftonline.com/" + tenantId
-  });
+
+  let credential: TokenCredential = new DeviceCodeCredential(
+    tenantId,
+    clientId,
+    deviceCodeCallback,
+    {
+      authorityHost: "https://login.microsoftonline.com/" + tenantId
+    }
+  );
 
   return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
     authenticationEndpointUrl: "https://sts.mixedreality.azure.com/mixedreality.signin"

@@ -99,11 +99,11 @@ const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDoma
 Use the `ClientSecretCredential` object to perform client secret authentication.
 
 ```typescript Snippet:CreateAClientWithAAD
-  let credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
-    authorityHost: "https://login.microsoftonline.com/" + tenantId
-  });
+let credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
+  authorityHost: "https://login.microsoftonline.com/" + tenantId
+});
 
-  const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 ```
 
 #### Authenticating a user using device code authentication
@@ -111,17 +111,16 @@ Use the `ClientSecretCredential` object to perform client secret authentication.
 Use the `DeviceCodeCredential` object to perform device code authentication.
 
 ```typescript Snippet:CreateAClientWithDeviceCode
-  let deviceCodeCallback = (deviceCodeInfo: DeviceCodeInfo) => {
-    console.debug(deviceCodeInfo.message);
-    console.log(deviceCodeInfo.message);
-  };
-  
-  let credential = new DeviceCodeCredential(tenantId, clientId, deviceCodeCallback,
-  {
-    authorityHost: "https://login.microsoftonline.com/" + tenantId
-  });
-  
-  const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
+let deviceCodeCallback = (deviceCodeInfo: DeviceCodeInfo) => {
+  console.debug(deviceCodeInfo.message);
+  console.log(deviceCodeInfo.message);
+};
+
+let credential = new DeviceCodeCredential(tenantId, clientId, deviceCodeCallback, {
+  authorityHost: "https://login.microsoftonline.com/" + tenantId
+});
+
+const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 ```
 
 See [here](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Device-Code-Flow) for more
@@ -133,11 +132,11 @@ Use the `DefaultAzureCredential` object with `includeInteractiveCredentials: tru
 flow:
 
 ```typescript Snippet:CreateAClientWithAzureCredential
-  let credential = new DefaultAzureCredential();
+let credential = new DefaultAzureCredential();
 
-  return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
-    authenticationEndpointUrl: "https://sts.mixedreality.azure.com"
-  });
+return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
+  authenticationEndpointUrl: "https://sts.mixedreality.azure.com"
+});
 ```
 
 #### Authenticating with a static access token
@@ -321,16 +320,19 @@ This example shows how to query the current properties and then extend the lease
 > extend the session lease.
 
 ```typescript Snippet:UpdateSession
-  /// When the lease is within 2 minutes of expiring, extend it by 15 minutes. 
-  let currentSession = await client.getSession(sessionId);
-  if (currentSession.status == "Ready") {
-    if (currentSession.maxLeaseTimeInMinutes - ((Date.now() - currentSession.properties.createdOn.valueOf()) / 60000) < 2)
-    {
-        let newLeaseTime = currentSession.maxLeaseTimeInMinutes + 15;
-  
-        await client.updateSession(sessionId, { maxLeaseTimeInMinutes: newLeaseTime });
-    }
+/// When the lease is within 2 minutes of expiring, extend it by 15 minutes.
+let currentSession = await client.getSession(sessionId);
+if (currentSession.status == "Ready") {
+  if (
+    currentSession.maxLeaseTimeInMinutes -
+      (Date.now() - currentSession.properties.createdOn.valueOf()) / 60000 <
+    2
+  ) {
+    let newLeaseTime = currentSession.maxLeaseTimeInMinutes + 15;
+
+    await client.updateSession(sessionId, { maxLeaseTimeInMinutes: newLeaseTime });
   }
+}
 ```
 
 ### List sessions
