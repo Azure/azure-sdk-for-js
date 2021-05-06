@@ -2,20 +2,19 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "serverfarms_WestUS2Plan_name": {
+    "serverfarms_name": {
       "defaultValue": "WestUS2Plan",
       "type": "String"
     },
-    "sites_identityendtoendtest_name": {
+    "sites_name": {
       "defaultValue": "identityendtoendtest",
       "type": "String"
     },
-    "vaults_kaghiya_test_identity_name": {
+    "vaults_name": {
       "defaultValue": "kaghiya-test-identity",
       "type": "String"
     },
-    "storageAccounts_storageidentityfunctions_name": {
-      "defaultValue": "storageidentityfunctions",
+    "storageAccounts_name": {
       "type": "String"
     }
   },
@@ -24,7 +23,7 @@
     {
       "type": "Microsoft.KeyVault/vaults",
       "apiVersion": "2020-04-01-preview",
-      "name": "[parameters('vaults_kaghiya_test_identity_name')]",
+      "name": "[parameters('vaults_name')]",
       "location": "westus2",
       "properties": {
         "sku": {
@@ -110,14 +109,14 @@
         "enableSoftDelete": true,
         "softDeleteRetentionInDays": 90,
         "enableRbacAuthorization": false,
-        "vaultUri": "[concat('https://', parameters('vaults_kaghiya_test_identity_name'), '.vault.azure.net/')]",
+        "vaultUri": "[concat('https://', parameters('vaults_name'), '.vault.azure.net/')]",
         "provisioningState": "Succeeded"
       }
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2021-01-01",
-      "name": "[parameters('storageAccounts_storageidentityfunctions_name')]",
+      "name": "[parameters('storageAccounts_name')]",
       "location": "westus2",
       "sku": {
         "name": "Standard_LRS",
@@ -151,7 +150,7 @@
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2018-02-01",
-      "name": "[parameters('serverfarms_WestUS2Plan_name')]",
+      "name": "[parameters('serverfarms_name')]",
       "location": "West US 2",
       "sku": {
         "name": "Y1",
@@ -175,10 +174,10 @@
     {
       "type": "Microsoft.KeyVault/vaults/secrets",
       "apiVersion": "2020-04-01-preview",
-      "name": "[concat(parameters('vaults_kaghiya_test_identity_name'), '/secret-name-system')]",
+      "name": "[concat(parameters('vaults_name'), '/secret-name-system')]",
       "location": "westus2",
       "dependsOn": [
-        "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_kaghiya_test_identity_name'))]"
+        "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_name'))]"
       ],
       "properties": {
         "attributes": {
@@ -189,9 +188,9 @@
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices",
       "apiVersion": "2021-01-01",
-      "name": "[concat(parameters('storageAccounts_storageidentityfunctions_name'), '/default')]",
+      "name": "[concat(parameters('storageAccounts_name'), '/default')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storageidentityfunctions_name'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
       ],
       "sku": {
         "name": "Standard_LRS",
@@ -209,9 +208,9 @@
     {
       "type": "Microsoft.Storage/storageAccounts/fileServices",
       "apiVersion": "2021-01-01",
-      "name": "[concat(parameters('storageAccounts_storageidentityfunctions_name'), '/default')]",
+      "name": "[concat(parameters('storageAccounts_name'), '/default')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storageidentityfunctions_name'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
       ],
       "sku": {
         "name": "Standard_LRS",
@@ -233,9 +232,9 @@
     {
       "type": "Microsoft.Storage/storageAccounts/queueServices",
       "apiVersion": "2021-01-01",
-      "name": "[concat(parameters('storageAccounts_storageidentityfunctions_name'), '/default')]",
+      "name": "[concat(parameters('storageAccounts_name'), '/default')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storageidentityfunctions_name'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
       ],
       "properties": {
         "cors": {
@@ -246,9 +245,9 @@
     {
       "type": "Microsoft.Storage/storageAccounts/tableServices",
       "apiVersion": "2021-01-01",
-      "name": "[concat(parameters('storageAccounts_storageidentityfunctions_name'), '/default')]",
+      "name": "[concat(parameters('storageAccounts_name'), '/default')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storageidentityfunctions_name'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
       ],
       "properties": {
         "cors": {
@@ -259,10 +258,10 @@
     {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2018-11-01",
-      "name": "[parameters('sites_identityendtoendtest_name')]",
+      "name": "[parameters('sites_name')]",
       "location": "West US 2",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_WestUS2Plan_name'))]"
+        "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]"
       ],
       "kind": "functionapp",
       "identity": {
@@ -274,17 +273,17 @@
         "enabled": true,
         "hostNameSslStates": [
           {
-            "name": "[concat(parameters('sites_identityendtoendtest_name'), '.azurewebsites.net')]",
+            "name": "[concat(parameters('sites_name'), '.azurewebsites.net')]",
             "sslState": "Disabled",
             "hostType": "Standard"
           },
           {
-            "name": "[concat(parameters('sites_identityendtoendtest_name'), '.scm.azurewebsites.net')]",
+            "name": "[concat(parameters('sites_name'), '.scm.azurewebsites.net')]",
             "sslState": "Disabled",
             "hostType": "Repository"
           }
         ],
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_WestUS2Plan_name'))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]",
         "reserved": false,
         "isXenon": false,
         "hyperV": false,
@@ -302,10 +301,10 @@
     {
       "type": "Microsoft.Web/sites/config",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('sites_identityendtoendtest_name'), '/web')]",
+      "name": "[concat(parameters('sites_name'), '/web')]",
       "location": "West US 2",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_identityendtoendtest_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"
       ],
       "properties": {
         "numberOfWorkers": 1,
@@ -384,10 +383,10 @@
     {
       "type": "Microsoft.Web/sites/deployments",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('sites_identityendtoendtest_name'), '/b996c78a67ec4f53abab1a7b311d423a')]",
+      "name": "[concat(parameters('sites_name'), '/b996c78a67ec4f53abab1a7b311d423a')]",
       "location": "West US 2",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_identityendtoendtest_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"
       ],
       "properties": {
         "status": 4,
@@ -403,10 +402,10 @@
     {
       "type": "Microsoft.Web/sites/functions",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('sites_identityendtoendtest_name'), '/HttpExample')]",
+      "name": "[concat(parameters('sites_name'), '/HttpExample')]",
       "location": "West US 2",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_identityendtoendtest_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"
       ],
       "properties": {
         "script_root_path_href": "https://identityendtoendtest.azurewebsites.net/admin/vfs/site/wwwroot/HttpExample/",
@@ -419,10 +418,10 @@
     {
       "type": "Microsoft.Web/sites/hostNameBindings",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('sites_identityendtoendtest_name'), '/', parameters('sites_identityendtoendtest_name'), '.azurewebsites.net')]",
+      "name": "[concat(parameters('sites_name'), '/', parameters('sites_name'), '.azurewebsites.net')]",
       "location": "West US 2",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_identityendtoendtest_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"
       ],
       "properties": {
         "siteName": "identityendtoendtest",
@@ -432,10 +431,10 @@
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
       "apiVersion": "2021-01-01",
-      "name": "[concat(parameters('storageAccounts_storageidentityfunctions_name'), '/default/azure-webjobs-hosts')]",
+      "name": "[concat(parameters('storageAccounts_name'), '/default/azure-webjobs-hosts')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_storageidentityfunctions_name'), 'default')]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storageidentityfunctions_name'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
       ],
       "properties": {
         "defaultEncryptionScope": "$account-encryption-key",
@@ -446,10 +445,10 @@
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
       "apiVersion": "2021-01-01",
-      "name": "[concat(parameters('storageAccounts_storageidentityfunctions_name'), '/default/azure-webjobs-secrets')]",
+      "name": "[concat(parameters('storageAccounts_name'), '/default/azure-webjobs-secrets')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_storageidentityfunctions_name'), 'default')]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storageidentityfunctions_name'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
       ],
       "properties": {
         "defaultEncryptionScope": "$account-encryption-key",
@@ -460,10 +459,10 @@
     {
       "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
       "apiVersion": "2021-01-01",
-      "name": "[concat(parameters('storageAccounts_storageidentityfunctions_name'), '/default/identityendtoendtest')]",
+      "name": "[concat(parameters('storageAccounts_name'), '/default/identityendtoendtest')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_storageidentityfunctions_name'), 'default')]",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_storageidentityfunctions_name'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccounts_name'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
       ],
       "properties": {
         "accessTier": "TransactionOptimized",
