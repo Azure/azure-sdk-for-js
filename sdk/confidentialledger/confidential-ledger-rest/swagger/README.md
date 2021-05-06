@@ -18,5 +18,5 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: "https://confidential-ledger.azure.com/.default"
 use-extension:
-  "@autorest/typescript": "~/projects/autorest.typescript"
+  "@autorest/typescript": "https://aka.ms/azsdk/typescript/rlc"
 ```
