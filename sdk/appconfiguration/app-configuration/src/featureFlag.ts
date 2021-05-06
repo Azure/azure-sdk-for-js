@@ -367,3 +367,108 @@ export function convertToJsonConditions(
     client_filters
   };
 }
+
+export class FeatureFlagImpl implements FeatureFlag {
+  constructor(private _setting: FeatureFlag) {}
+  get conditions() {
+    return this._setting.conditions;
+  }
+  get enabled() {
+    return this._setting.enabled;
+  }
+  get isReadOnly() {
+    return this._setting.isReadOnly;
+  }
+  get key() {
+    return this._setting.key;
+  }
+  get contentType() {
+    return this._setting.contentType;
+  }
+  get description() {
+    return this._setting.description;
+  }
+  get etag() {
+    return this._setting.etag;
+  }
+  get label() {
+    return this._setting.label;
+  }
+  get lastModified() {
+    return this._setting.lastModified;
+  }
+  get tags() {
+    return this._setting.tags;
+  }
+  get value() {
+    return this._setting.value;
+  }
+
+  set conditions(conditions: {
+    clientFilters: (
+      | FeatureFlagTargetingClientFilter
+      | FeatureFlagTimeWindowClientFilter
+      | FeatureFlagPercentageClientFilter
+      | Record<string, unknown>
+    )[];
+  }) {
+    // Make sure the value is updated
+    this._setting.conditions = conditions;
+  }
+
+  set enabled(enabled: boolean) {
+    // Make sure the value is updated
+    console.log("enabled flag");
+    this._setting.enabled = enabled;
+  }
+
+  set isReadOnly(isReadOnly: boolean) {
+    // Make sure the value is updated
+    this._setting.isReadOnly = isReadOnly;
+  }
+
+  set key(key: string) {
+    // Make sure the value is updated
+    this._setting.key = key;
+  }
+
+  set contentType(contentType: string | undefined) {
+    this._setting.contentType = contentType;
+  }
+
+  set description(description: string | undefined) {
+    this._setting.description = description;
+  }
+
+  set etag(etag: string | undefined) {
+    this._setting.etag = etag;
+  }
+
+  set label(label: string | undefined) {
+    this._setting.label = label;
+  }
+
+  set lastModified(value: Date | undefined) {
+    this._setting.lastModified = value;
+  }
+
+  set tags(
+    value:
+      | {
+          [propertyName: string]: string;
+        }
+      | undefined
+  ) {
+    this._setting.tags = value;
+  }
+
+  set value(value: string | undefined) {
+    this._setting.value = value;
+  }
+
+  //.. and so on
+}
+
+export function createFeatureFlag(setting: FeatureFlag): FeatureFlag {
+  return new FeatureFlagImpl(setting);
+}

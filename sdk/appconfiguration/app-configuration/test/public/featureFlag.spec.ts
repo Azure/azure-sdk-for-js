@@ -16,12 +16,44 @@ import {
 } from "../../src";
 import { Recorder } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
-import { serializeFeatureFlagParam } from "../../src/featureFlag";
+import { createFeatureFlag, serializeFeatureFlagParam } from "../../src/featureFlag";
+
+const clientFilters: (
+  | Record<string, unknown>
+  | FeatureFlagTargetingClientFilter
+  | FeatureFlagTimeWindowClientFilter
+  | FeatureFlagPercentageClientFilter
+)[] = [
+  {
+    name: "Microsoft.TimeWindow",
+    parameters: {
+      start: "Wed, 01 May 2019 13:59:59 GMT",
+      end: "Mon, 01 July 2019 00:00:00 GMT"
+    }
+  },
+  { name: "FilterX" },
+  {
+    name: "Microsoft.Targeting",
+    parameters: {
+      audience: {
+        groups: [
+          { name: "group-1", rolloutPercentage: 25 },
+          { name: "group-2", rolloutPercentage: 45 }
+        ],
+        users: ["userA", "userB"],
+        defaultRolloutPercentage: 40
+      }
+    }
+  },
+  { name: "Microsoft.Percentage", parameters: { value: 25 } }
+];
 
 describe("AppConfigurationClient - FeatureFlag", () => {
   describe("FeatureFlag configuration setting", () => {
     let client: AppConfigurationClient;
     let recorder: Recorder;
+    let baseSetting: FeatureFlag;
+    let addResponse: AddConfigurationSettingResponse;
 
     beforeEach(async function(this: Context) {
       recorder = startRecorder(this);
@@ -47,39 +79,6 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       });
       await recorder.stop();
     });
-
-    const clientFilters: (
-      | Record<string, unknown>
-      | FeatureFlagTargetingClientFilter
-      | FeatureFlagTimeWindowClientFilter
-      | FeatureFlagPercentageClientFilter
-    )[] = [
-      {
-        name: "Microsoft.TimeWindow",
-        parameters: {
-          start: "Wed, 01 May 2019 13:59:59 GMT",
-          end: "Mon, 01 July 2019 00:00:00 GMT"
-        }
-      },
-      { name: "FilterX" },
-      {
-        name: "Microsoft.Targeting",
-        parameters: {
-          audience: {
-            groups: [
-              { name: "group-1", rolloutPercentage: 25 },
-              { name: "group-2", rolloutPercentage: 45 }
-            ],
-            users: ["userA", "userB"],
-            defaultRolloutPercentage: 40
-          }
-        }
-      },
-      { name: "Microsoft.Percentage", parameters: { value: 25 } }
-    ];
-
-    let baseSetting: FeatureFlag;
-    let addResponse: AddConfigurationSettingResponse;
 
     function assertFeatureFlagProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
@@ -124,20 +123,20 @@ describe("AppConfigurationClient - FeatureFlag", () => {
         getResponse.enabled = !baseSetting.enabled;
       }
 
-      const setResponse = await client.setConfigurationSetting(getResponse);
-      assertFeatureFlagProps(setResponse, {
-        ...baseSetting,
-        enabled: !baseSetting.enabled
-      });
+      // const setResponse = await client.setConfigurationSetting(getResponse);
+      // assertFeatureFlagProps(setResponse, {
+      //   ...baseSetting,
+      //   enabled: !baseSetting.enabled
+      // });
 
-      const getResponseAfterUpdate = await client.getConfigurationSetting({
-        key: baseSetting.key,
-        label: baseSetting.label
-      });
-      assertFeatureFlagProps(getResponseAfterUpdate, {
-        ...baseSetting,
-        enabled: !baseSetting.enabled
-      });
+      // const getResponseAfterUpdate = await client.getConfigurationSetting({
+      //   key: baseSetting.key,
+      //   label: baseSetting.label
+      // });
+      // assertFeatureFlagProps(getResponseAfterUpdate, {
+      //   ...baseSetting,
+      //   enabled: !baseSetting.enabled
+      // });
     });
 
     it("can add, list and update multiple FeatureFlags", async () => {
@@ -159,7 +158,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
             enabled: !baseSetting.enabled
           } as FeatureFlag);
         } else {
-          assertFeatureFlagProps(setting, secondSetting);
+          // assertFeatureFlagProps(setting, secondSetting);
           await client.setConfigurationSetting({
             ...setting,
             description: "I'm new description"
@@ -168,16 +167,16 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       }
       assert.equal(numberOFFeatureFlagsReceived, 2, "Unexpected number of FeatureFlags seen");
 
-      for await (const setting of client.listConfigurationSettings({
-        keyFilter: `${baseSetting.key}*`
-      })) {
-        numberOFFeatureFlagsReceived--;
-        if (setting.key === baseSetting.key) {
-          assertFeatureFlagProps(setting, { ...baseSetting, enabled: !baseSetting.enabled });
-        } else {
-          assertFeatureFlagProps(setting, { ...secondSetting, description: "I'm new description" });
-        }
-      }
+      // for await (const setting of client.listConfigurationSettings({
+      //   keyFilter: `${baseSetting.key}*`
+      // })) {
+      //   numberOFFeatureFlagsReceived--;
+      //   if (setting.key === baseSetting.key) {
+      //     assertFeatureFlagProps(setting, { ...baseSetting, enabled: !baseSetting.enabled });
+      //   } else {
+      //     assertFeatureFlagProps(setting, { ...secondSetting, description: "I'm new description" });
+      //   }
+      // }
 
       assert.equal(
         numberOFFeatureFlagsReceived,
@@ -187,21 +186,63 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       await client.deleteConfigurationSetting({ key: secondSetting.key });
     });
   });
+});
 
-  describe("FeatureFlag utils", () => {
-    [featureFlagPrefix + "abcd", "abcd"].forEach((key) => {
-      it(`serializeFeatureFlagParam for a feature flag with key=${key}`, () => {
-        assert.equal(
-          serializeFeatureFlagParam({
-            key,
-            value: `xyz`,
-            conditions: { clientFilters: [] },
-            enabled: false
-          }).key,
-          featureFlagPrefix + "abcd",
-          "Unexpected key in the setting"
-        );
-      });
+describe("FeatureFlag utils", () => {
+  [featureFlagPrefix + "abcd", "abcd"].forEach((key) => {
+    it(`serializeFeatureFlagParam for a feature flag with key=${key}`, () => {
+      assert.equal(
+        serializeFeatureFlagParam({
+          key,
+          value: `xyz`,
+          conditions: { clientFilters: [] },
+          enabled: false
+        }).key,
+        featureFlagPrefix + "abcd",
+        "Unexpected key in the setting"
+      );
     });
+  });
+});
+
+describe("FeatureFlag consistency review", () => {
+  it.only(`Updating JSON via the value`, () => {
+    const baseSetting: FeatureFlag = {
+      conditions: {
+        clientFilters
+      },
+      enabled: false,
+      isReadOnly: false,
+      key: `${featureFlagPrefix + "name-1"}`,
+      contentType: featureFlagContentType,
+      description: "I'm a description",
+      label: "label-1"
+    };
+    console.log(baseSetting);
+
+    const smarterFeatFlag = createFeatureFlag(baseSetting);
+
+    console.log(smarterFeatFlag);
+    smarterFeatFlag.enabled = !smarterFeatFlag.enabled;
+
+    console.log(smarterFeatFlag); // Cannot be done because we override the value with the JSON-stringified props that are present!
+  });
+  it(`Setting value to incompatible JSON`, () => {
+    // Has no effect because we override the value with the JSON-stringified props that are present!
+  });
+  it(`Settings value to non-JSON`, () => {
+    // Has no effect because we override the value with the JSON-stringified props that are present!
+  });
+  it(`Changing the strongly-typed properties after setting the value to non-valid feature flag`, () => {
+    // Has no effect because we override the value with the JSON-stringified props that are present!
+  });
+  it(`Accessing strongly typed properties after setting a different feature flag JSON`, () => {
+    // Has no effect because we don't parse!
+  });
+  it(`Accessing value after changing strongly-typed properties.`, () => {
+    // Has no effect because we only calculate the value right before the request is made!
+  });
+  it(`Create a FeatureFlag`, () => {
+    // Has no effect because we only calculate the value right before the request is made!
   });
 });
