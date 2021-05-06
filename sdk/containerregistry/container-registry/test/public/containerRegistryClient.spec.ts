@@ -33,7 +33,7 @@ describe("ContainerRegistryClient functional tests", function() {
 
     // We'll be able to refer to the instantiated `client` in tests, since we
     // initialize it before each test
-    client = createRegistryClient(env.CONTAINER_REGISTRY_ENDPOINT);
+    client = createRegistryClient(env.CONTAINERREGISTRY_REGISTRY_ENDPOINT);
   });
 
   // After each test, we need to stop the recording.

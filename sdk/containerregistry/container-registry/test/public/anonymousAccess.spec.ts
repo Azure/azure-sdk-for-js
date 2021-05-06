@@ -15,7 +15,7 @@ if (isNode) {
   dotenv.config();
 }
 
-describe.only("Anonymous access tests", function() {
+describe("Anonymous access tests", function() {
   // Declare the client and recorder instances.  We will set them using the
   // beforeEach hook.
   let client: ContainerRegistryClient;
@@ -33,7 +33,7 @@ describe.only("Anonymous access tests", function() {
 
     // We'll be able to refer to the instantiated `client` in tests, since we
     // initialize it before each test
-    client = createRegistryClient(env.CONTAINER_ANONREGISTRY_ENDPOINT, { anonymous: true });
+    client = createRegistryClient(env.CONTAINERREGISTRY_ANONREGISTRY_ENDPOINT, { anonymous: true });
   });
 
   // After each test, we need to stop the recording.

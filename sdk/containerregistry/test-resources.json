@@ -69,7 +69,7 @@
       "type": "string",
       "value": "[parameters('baseName')]"
     },
-    "CONTAINER_REGISTRY_ENDPOINT": {
+    "CONTAINERREGISTRY_REGISTRY_ENDPOINT": {
       "type": "string",
       "value": "[variables('endpointValue')]"
     },
