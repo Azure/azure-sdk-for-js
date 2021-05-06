@@ -212,8 +212,8 @@
               "value": "[variables('functionWorkerRuntime')]"
             },
             {
-             "name": "KEYVAULT_URI",
-             "value": "[concat('https://', variables('vaultname'), '.vault.azure.net/')]"
+              "name": "KEYVAULT_URI",
+              "value": "[concat('https://', variables('vaultname'), '.vault.azure.net/')]"
             }
           ]
         }
