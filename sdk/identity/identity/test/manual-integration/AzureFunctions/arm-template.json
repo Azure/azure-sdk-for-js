@@ -15,6 +15,7 @@
       "type": "String"
     },
     "storageAccounts_name": {
+      "defaultValue": "kaghiyastorage",
       "type": "String"
     }
   },
