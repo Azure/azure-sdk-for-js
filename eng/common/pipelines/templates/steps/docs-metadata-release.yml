@@ -30,6 +30,7 @@ steps:
       git clone https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} ${{ parameters.WorkingDirectory }}/repo
     displayName: Clone Documentation Repository
     ignoreLASTEXITCODE: false
+
 - task: PowerShell@2
   displayName: 'Apply Documentation Updates From Artifact'
   inputs:
