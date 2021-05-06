@@ -12,6 +12,7 @@ parameters:
   Language: ''
   CIConfigs: '[]'
   BaseRepoBranch: $(DefaultBranch)
+  CloneDocsRepository: true
 
 steps:
 - pwsh: |
@@ -24,10 +25,11 @@ steps:
     }
   displayName: Enable Long Paths if Necessary
   
-- pwsh: |
-    git clone https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} ${{ parameters.WorkingDirectory }}/repo
-  displayName: Clone Documentation Repository
-  ignoreLASTEXITCODE: false
+- ${{ if eq(parameters.CloneDocsRepository, 'true') }}:
+  - pwsh: |
+      git clone https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} ${{ parameters.WorkingDirectory }}/repo
+    displayName: Clone Documentation Repository
+    ignoreLASTEXITCODE: false
 - task: PowerShell@2
   displayName: 'Apply Documentation Updates From Artifact'
   inputs:

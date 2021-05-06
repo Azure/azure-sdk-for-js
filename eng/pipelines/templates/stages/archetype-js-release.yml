@@ -241,6 +241,19 @@ stages:
         - download: current
           artifact: ${{parameters.ArtifactName}}
           timeoutInMinutes: 5
+
+        - template: eng/common/pipelines/templates/steps/sparse-checkout.yml
+          parameters:
+            SkipDefaultCheckout: true
+            Repositories:
+              - Name: ${{parameters.TargetDocRepoOwner}}/${{parameters.TargetDocRepoName}}
+                Commitish: master
+                WorkingDirectory: $(System.DefaultWorkingDirectory)/repo
+            Paths:
+              - docs-ref-services/preview
+              - docs-ref-services/latest
+
+
         - ${{ each artifact in parameters.Artifacts }}:
           - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
             - pwsh: |
@@ -285,6 +298,7 @@ stages:
               parameters:
                 ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
                 BaseRepoBranch: $(DailyDocsBranchName)
+                CloneDocsRepository: false
                 PackageRepository: NPM
                 ReleaseSha: $(Build.SourceVersion)
                 RepoId: Azure/azure-sdk-for-js
