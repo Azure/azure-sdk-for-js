@@ -65,6 +65,14 @@ export function createRecordedClient(context: Context): RecordedClient<PhoneNumb
   };
 }
 
+export function createMockToken(): TokenCredential {
+  return {
+    getToken: async (_scopes) => {
+      return { token: "testToken", expiresOnTimestamp: 11111 };
+    }
+  };
+}
+
 export function createRecordedClientWithToken(
   context: Context
 ): RecordedClient<PhoneNumbersClient> | undefined {
@@ -73,11 +81,7 @@ export function createRecordedClientWithToken(
   const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING)
     .endpoint;
   if (isPlaybackMode()) {
-    credential = {
-      getToken: async (_scopes) => {
-        return { token: "testToken", expiresOnTimestamp: 11111 };
-      }
-    };
+    credential = createMockToken();
 
     // casting is a workaround to enable min-max testing
     return {
