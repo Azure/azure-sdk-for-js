@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
+import { RestError } from "@azure/core-http";
 import { DeleteCertificatePoller } from "../../src/lro/delete/poller";
 import { RecoverDeletedCertificatePoller } from "../../src/lro/recover/poller";
 
@@ -19,9 +20,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getDeletedCertificate(): Promise<any> {
-          const error = new Error(`${code}`);
-          (error as any).statusCode = code;
-          throw error;
+          throw new RestError(`${code}`, undefined, code);
         }
       };
       const poller = new DeleteCertificatePoller({
@@ -32,7 +31,7 @@ describe("The LROs properly throw on unexpected errors", () => {
 
       await poller.pollUntilDone();
 
-      assert.ok(poller.getOperationState().isCompleted);
+      assert.isTrue(poller.getOperationState().isCompleted);
     });
 
     it("404 doesn't throw", async function() {
@@ -45,9 +44,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getDeletedCertificate(): Promise<any> {
-          const error = new Error(`${code}`);
-          (error as any).statusCode = code;
-          throw error;
+          throw new RestError(`${code}`, undefined, code);
         }
       };
       const poller = new DeleteCertificatePoller({
@@ -59,12 +56,12 @@ describe("The LROs properly throw on unexpected errors", () => {
       await poller.poll();
       await poller.poll();
 
-      assert.ok(!poller.getOperationState().isCompleted);
+      assert.isUndefined(poller.getOperationState().isCompleted);
     });
 
     it("Errors other than 403 and 404 throw", async function() {
       const codes = [401, 402, 405, 500];
-      for (const code in codes) {
+      for (const code of codes) {
         const client: any = {
           async deleteCertificate(): Promise<any> {
             return {
@@ -73,9 +70,7 @@ describe("The LROs properly throw on unexpected errors", () => {
             };
           },
           async getDeletedCertificate(): Promise<any> {
-            const error = new Error(`${code}`);
-            (error as any).statusCode = code;
-            throw error;
+            throw new RestError(`${code}`, undefined, code);
           }
         };
         const poller = new DeleteCertificatePoller({
@@ -111,9 +106,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getCertificate(): Promise<any> {
-          const error = new Error(`${code}`);
-          (error as any).statusCode = code;
-          throw error;
+          throw new RestError(`${code}`, undefined, code);
         }
       };
       const poller = new RecoverDeletedCertificatePoller({
@@ -124,7 +117,7 @@ describe("The LROs properly throw on unexpected errors", () => {
 
       await poller.pollUntilDone();
 
-      assert.ok(poller.getOperationState().isCompleted);
+      assert.isTrue(poller.getOperationState().isCompleted);
     });
 
     it("404 doesn't throw", async function() {
@@ -141,9 +134,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getCertificate(): Promise<any> {
-          const error = new Error(`${code}`);
-          (error as any).statusCode = code;
-          throw error;
+          throw new RestError(`${code}`, undefined, code);
         }
       };
       const poller = new RecoverDeletedCertificatePoller({
@@ -155,12 +146,12 @@ describe("The LROs properly throw on unexpected errors", () => {
       await poller.poll();
       await poller.poll();
 
-      assert.ok(!poller.getOperationState().isCompleted);
+      assert.isUndefined(poller.getOperationState().isCompleted);
     });
 
     it("Errors other than 403 and 404 throw", async function() {
       const codes = [401, 402, 405, 500];
-      for (const code in codes) {
+      for (const code of codes) {
         const client: any = {
           async recoverDeletedCertificate(): Promise<any> {
             return {
@@ -173,9 +164,7 @@ describe("The LROs properly throw on unexpected errors", () => {
             };
           },
           async getCertificate(): Promise<any> {
-            const error = new Error(`${code}`);
-            (error as any).statusCode = code;
-            throw error;
+            throw new RestError(`${code}`, undefined, code);
           }
         };
         const poller = new RecoverDeletedCertificatePoller({
