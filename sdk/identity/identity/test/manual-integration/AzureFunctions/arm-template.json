@@ -176,9 +176,7 @@
       "apiVersion": "2020-04-01-preview",
       "name": "[concat(parameters('vaults_name'), '/secret-name-system')]",
       "location": "westus2",
-      "dependsOn": [
-        "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_name'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_name'))]"],
       "properties": {
         "attributes": {
           "enabled": true
@@ -260,9 +258,7 @@
       "apiVersion": "2018-11-01",
       "name": "[parameters('sites_name')]",
       "location": "West US 2",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_name'))]"],
       "kind": "functionapp",
       "identity": {
         "principalId": "612e5e44-2c95-4bd0-96b7-3db4dae3b560",
@@ -303,9 +299,7 @@
       "apiVersion": "2018-11-01",
       "name": "[concat(parameters('sites_name'), '/web')]",
       "location": "West US 2",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"],
       "properties": {
         "numberOfWorkers": 1,
         "defaultDocuments": [
@@ -385,9 +379,7 @@
       "apiVersion": "2018-11-01",
       "name": "[concat(parameters('sites_name'), '/b996c78a67ec4f53abab1a7b311d423a')]",
       "location": "West US 2",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"],
       "properties": {
         "status": 4,
         "author_email": "N/A",
@@ -404,9 +396,7 @@
       "apiVersion": "2018-11-01",
       "name": "[concat(parameters('sites_name'), '/HttpExample')]",
       "location": "West US 2",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"],
       "properties": {
         "script_root_path_href": "https://identityendtoendtest.azurewebsites.net/admin/vfs/site/wwwroot/HttpExample/",
         "script_href": "https://identityendtoendtest.azurewebsites.net/admin/vfs/site/wwwroot/dist/HttpExample/index.js",
@@ -420,9 +410,7 @@
       "apiVersion": "2018-11-01",
       "name": "[concat(parameters('sites_name'), '/', parameters('sites_name'), '.azurewebsites.net')]",
       "location": "West US 2",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.Web/sites', parameters('sites_name'))]"],
       "properties": {
         "siteName": "identityendtoendtest",
         "hostNameType": "Verified"
