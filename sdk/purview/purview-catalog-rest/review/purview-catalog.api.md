@@ -7,7 +7,6 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -524,10 +523,32 @@ export type AtlasUserSavedSearch = AtlasUserSavedSearchBase & AtlasBaseModelObje
 export interface AtlasUserSavedSearchBase {
     name?: string;
     ownerName?: string;
-    searchParameters?: SearchParameters;
+    searchParameters?: SearchParams;
     searchType?: SavedSearchType;
     uiParameters?: string;
 }
+
+// @public (undocumented)
+export interface AutoComplete {
+    post(options: AutoCompleteParameters): Promise<AutoComplete200Response>;
+}
+
+// @public
+export interface AutoComplete200Response extends HttpResponse {
+    // (undocumented)
+    body: AutoCompleteResult;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface AutoCompleteBodyParam {
+    // (undocumented)
+    body: AutoCompleteRequest;
+}
+
+// @public (undocumented)
+export type AutoCompleteParameters = RequestParameters & AutoCompleteBodyParam;
 
 // @public (undocumented)
 export interface AutoCompleteRequest {
@@ -634,72 +655,6 @@ export type DictionaryOfStringDictionary = Record<string, string>;
 export type Direction = "BOTH" | "INPUT" | "OUTPUT";
 
 // @public (undocumented)
-export interface DiscoveryAutoComplete {
-    post(options: DiscoveryAutoCompleteParameters): Promise<DiscoveryAutoComplete200Response>;
-}
-
-// @public
-export interface DiscoveryAutoComplete200Response extends HttpResponse {
-    // (undocumented)
-    body: AutoCompleteResult;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface DiscoveryAutoCompleteBodyParam {
-    // (undocumented)
-    body: AutoCompleteRequest;
-}
-
-// @public (undocumented)
-export type DiscoveryAutoCompleteParameters = RequestParameters & DiscoveryAutoCompleteBodyParam;
-
-// @public (undocumented)
-export interface DiscoveryQuery {
-    post(options: DiscoveryQueryParameters): Promise<DiscoveryQuery200Response>;
-}
-
-// @public
-export interface DiscoveryQuery200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchResult;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface DiscoveryQueryBodyParam {
-    // (undocumented)
-    body: SearchRequest;
-}
-
-// @public (undocumented)
-export type DiscoveryQueryParameters = RequestParameters & DiscoveryQueryBodyParam;
-
-// @public (undocumented)
-export interface DiscoverySuggest {
-    post(options: DiscoverySuggestParameters): Promise<DiscoverySuggest200Response>;
-}
-
-// @public
-export interface DiscoverySuggest200Response extends HttpResponse {
-    // (undocumented)
-    body: SuggestResult;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface DiscoverySuggestBodyParam {
-    // (undocumented)
-    body: SuggestRequest;
-}
-
-// @public (undocumented)
-export type DiscoverySuggestParameters = RequestParameters & DiscoverySuggestBodyParam;
-
-// @public (undocumented)
 export interface EntityAddClassification {
     post(options: EntityAddClassificationParameters): Promise<EntityAddClassification204Response>;
 }
@@ -780,7 +735,7 @@ export interface EntityCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface EntityCreateOrUpdateBulk200Response extends HttpResponse {
+export interface EntityCreateOrUpdateByGuid200Response extends HttpResponse {
     // (undocumented)
     body: EntityMutationResponse;
     // (undocumented)
@@ -788,13 +743,69 @@ export interface EntityCreateOrUpdateBulk200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface EntityCreateOrUpdateBulkBodyParam {
+export interface EntityCreateOrUpdateByGuidBodyParam {
+    // (undocumented)
+    body: any;
+}
+
+// @public (undocumented)
+export type EntityCreateOrUpdateByGuidParameters = RequestParameters & EntityCreateOrUpdateByGuidQueryParam & EntityCreateOrUpdateByGuidBodyParam;
+
+// @public (undocumented)
+export interface EntityCreateOrUpdateByGuidQueryParam {
+    // (undocumented)
+    queryParameters: EntityCreateOrUpdateByGuidQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface EntityCreateOrUpdateByGuidQueryParamProperties {
+    name: string;
+}
+
+// @public
+export interface EntityCreateOrUpdateByUniqueAttribute200Response extends HttpResponse {
+    // (undocumented)
+    body: EntityMutationResponse;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface EntityCreateOrUpdateByUniqueAttributeBodyParam {
+    // (undocumented)
+    body: AtlasEntityWithExtInfo;
+}
+
+// @public (undocumented)
+export type EntityCreateOrUpdateByUniqueAttributeParameters = RequestParameters & EntityCreateOrUpdateByUniqueAttributeQueryParam & EntityCreateOrUpdateByUniqueAttributeBodyParam;
+
+// @public (undocumented)
+export interface EntityCreateOrUpdateByUniqueAttributeQueryParam {
+    // (undocumented)
+    queryParameters?: EntityCreateOrUpdateByUniqueAttributeQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface EntityCreateOrUpdateByUniqueAttributeQueryParamProperties {
+    "attr:qualifiedName"?: string;
+}
+
+// @public
+export interface EntityCreateOrUpdateEntities200Response extends HttpResponse {
+    // (undocumented)
+    body: EntityMutationResponse;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface EntityCreateOrUpdateEntitiesBodyParam {
     // (undocumented)
     body: AtlasEntitiesWithExtInfo;
 }
 
 // @public (undocumented)
-export type EntityCreateOrUpdateBulkParameters = RequestParameters & EntityCreateOrUpdateBulkBodyParam;
+export type EntityCreateOrUpdateEntitiesParameters = RequestParameters & EntityCreateOrUpdateEntitiesBodyParam;
 
 // @public (undocumented)
 export type EntityCreateOrUpdateParameters = RequestParameters & EntityCreateOrUpdateBodyParam;
@@ -809,8 +820,8 @@ export interface EntityCreateRequestV2 {
 // @public (undocumented)
 export interface EntityDeleteByGuid {
     delete(options?: EntityDeleteByGuidParameters): Promise<EntityDeleteByGuid200Response>;
-    get(options?: EntityGetByIdParameters): Promise<EntityGetById200Response>;
-    put(options: EntityPartialUpdateEntityAttrByGuidParameters): Promise<EntityPartialUpdateEntityAttrByGuid200Response>;
+    get(options?: EntityGetByGuidParameters): Promise<EntityGetByGuid200Response>;
+    put(options: EntityCreateOrUpdateByGuidParameters): Promise<EntityCreateOrUpdateByGuid200Response>;
 }
 
 // @public
@@ -827,8 +838,8 @@ export type EntityDeleteByGuidParameters = RequestParameters;
 // @public (undocumented)
 export interface EntityDeleteByGuids {
     delete(options?: EntityDeleteByGuidsParameters): Promise<EntityDeleteByGuids200Response>;
-    get(options?: EntityGetByGuidsParameters): Promise<EntityGetByGuids200Response>;
-    post(options: EntityCreateOrUpdateBulkParameters): Promise<EntityCreateOrUpdateBulk200Response>;
+    get(options?: EntityListByGuidsParameters): Promise<EntityListByGuids200Response>;
+    post(options: EntityCreateOrUpdateEntitiesParameters): Promise<EntityCreateOrUpdateEntities200Response>;
 }
 
 // @public
@@ -850,14 +861,14 @@ export interface EntityDeleteByGuidsQueryParam {
 
 // @public (undocumented)
 export interface EntityDeleteByGuidsQueryParamProperties {
-    guid: string[];
+    guids: string[];
 }
 
 // @public (undocumented)
 export interface EntityDeleteByUniqueAttribute {
     delete(options?: EntityDeleteByUniqueAttributeParameters): Promise<EntityDeleteByUniqueAttribute200Response>;
     get(options?: EntityGetByUniqueAttributesParameters): Promise<EntityGetByUniqueAttributes200Response>;
-    put(options: EntityPartialUpdateEntityByUniqueAttrsParameters): Promise<EntityPartialUpdateEntityByUniqueAttrs200Response>;
+    put(options: EntityCreateOrUpdateByUniqueAttributeParameters): Promise<EntityCreateOrUpdateByUniqueAttribute200Response>;
 }
 
 // @public
@@ -931,32 +942,7 @@ export interface EntityDeleteRequestV2 {
 }
 
 // @public
-export interface EntityGetByGuids200Response extends HttpResponse {
-    // (undocumented)
-    body: AtlasEntitiesWithExtInfo;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type EntityGetByGuidsParameters = RequestParameters & EntityGetByGuidsQueryParam;
-
-// @public (undocumented)
-export interface EntityGetByGuidsQueryParam {
-    // (undocumented)
-    queryParameters: EntityGetByGuidsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface EntityGetByGuidsQueryParamProperties {
-    excludeRelationshipTypes?: string[];
-    guid: string[];
-    ignoreRelationships?: boolean;
-    minExtInfo?: boolean;
-}
-
-// @public
-export interface EntityGetById200Response extends HttpResponse {
+export interface EntityGetByGuid200Response extends HttpResponse {
     // (undocumented)
     body: AtlasEntityWithExtInfo;
     // (undocumented)
@@ -964,16 +950,16 @@ export interface EntityGetById200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type EntityGetByIdParameters = RequestParameters & EntityGetByIdQueryParam;
+export type EntityGetByGuidParameters = RequestParameters & EntityGetByGuidQueryParam;
 
 // @public (undocumented)
-export interface EntityGetByIdQueryParam {
+export interface EntityGetByGuidQueryParam {
     // (undocumented)
-    queryParameters?: EntityGetByIdQueryParamProperties;
+    queryParameters?: EntityGetByGuidQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface EntityGetByIdQueryParamProperties {
+export interface EntityGetByGuidQueryParamProperties {
     ignoreRelationships?: boolean;
     minExtInfo?: boolean;
 }
@@ -1054,12 +1040,12 @@ export interface EntityGetEntitiesByUniqueAttributesQueryParamProperties {
 }
 
 // @public (undocumented)
-export interface EntityGetHeaderById {
-    get(options?: EntityGetHeaderByIdParameters): Promise<EntityGetHeaderById200Response>;
+export interface EntityGetHeader {
+    get(options?: EntityGetHeaderParameters): Promise<EntityGetHeader200Response>;
 }
 
 // @public
-export interface EntityGetHeaderById200Response extends HttpResponse {
+export interface EntityGetHeader200Response extends HttpResponse {
     // (undocumented)
     body: AtlasEntityHeader;
     // (undocumented)
@@ -1067,7 +1053,32 @@ export interface EntityGetHeaderById200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type EntityGetHeaderByIdParameters = RequestParameters;
+export type EntityGetHeaderParameters = RequestParameters;
+
+// @public
+export interface EntityListByGuids200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasEntitiesWithExtInfo;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type EntityListByGuidsParameters = RequestParameters & EntityListByGuidsQueryParam;
+
+// @public (undocumented)
+export interface EntityListByGuidsQueryParam {
+    // (undocumented)
+    queryParameters: EntityListByGuidsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface EntityListByGuidsQueryParamProperties {
+    excludeRelationshipTypes?: string[];
+    guids: string[];
+    ignoreRelationships?: boolean;
+    minExtInfo?: boolean;
+}
 
 // @public (undocumented)
 export interface EntityMutationResponse {
@@ -1084,62 +1095,6 @@ export type EntityMutationResponseMutatedEntitiesDictionary = Record<string, Atl
 
 // @public (undocumented)
 export type EntityOperation = "CREATE" | "UPDATE" | "PARTIAL_UPDATE" | "DELETE";
-
-// @public
-export interface EntityPartialUpdateEntityAttrByGuid200Response extends HttpResponse {
-    // (undocumented)
-    body: EntityMutationResponse;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EntityPartialUpdateEntityAttrByGuidBodyParam {
-    // (undocumented)
-    body: any;
-}
-
-// @public (undocumented)
-export type EntityPartialUpdateEntityAttrByGuidParameters = RequestParameters & EntityPartialUpdateEntityAttrByGuidQueryParam & EntityPartialUpdateEntityAttrByGuidBodyParam;
-
-// @public (undocumented)
-export interface EntityPartialUpdateEntityAttrByGuidQueryParam {
-    // (undocumented)
-    queryParameters: EntityPartialUpdateEntityAttrByGuidQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface EntityPartialUpdateEntityAttrByGuidQueryParamProperties {
-    name: string;
-}
-
-// @public
-export interface EntityPartialUpdateEntityByUniqueAttrs200Response extends HttpResponse {
-    // (undocumented)
-    body: EntityMutationResponse;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EntityPartialUpdateEntityByUniqueAttrsBodyParam {
-    // (undocumented)
-    body: AtlasEntityWithExtInfo;
-}
-
-// @public (undocumented)
-export type EntityPartialUpdateEntityByUniqueAttrsParameters = RequestParameters & EntityPartialUpdateEntityByUniqueAttrsQueryParam & EntityPartialUpdateEntityByUniqueAttrsBodyParam;
-
-// @public (undocumented)
-export interface EntityPartialUpdateEntityByUniqueAttrsQueryParam {
-    // (undocumented)
-    queryParameters?: EntityPartialUpdateEntityByUniqueAttrsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface EntityPartialUpdateEntityByUniqueAttrsQueryParamProperties {
-    "attr:qualifiedName"?: string;
-}
 
 // @public (undocumented)
 export interface EntityPartialUpdateRequestV2 {
@@ -1248,6 +1203,37 @@ export interface FilterCriteria {
     operator?: Operator;
 }
 
+// @public (undocumented)
+export interface GetLineageGraph {
+    get(options?: GetLineageGraphParameters): Promise<GetLineageGraph200Response>;
+}
+
+// @public
+export interface GetLineageGraph200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasLineageInfo;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type GetLineageGraphParameters = RequestParameters & GetLineageGraphQueryParam;
+
+// @public (undocumented)
+export interface GetLineageGraphQueryParam {
+    // (undocumented)
+    queryParameters: GetLineageGraphQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GetLineageGraphQueryParamProperties {
+    depth?: number;
+    direction: Direction;
+    getDerivedLineage?: boolean;
+    includeParent?: boolean;
+    width?: number;
+}
+
 // @public
 export interface GlossaryAssignTermToEntities204Response extends HttpResponse {
     // (undocumented)
@@ -1265,7 +1251,7 @@ export type GlossaryAssignTermToEntitiesParameters = RequestParameters & Glossar
 
 // @public (undocumented)
 export interface GlossaryCreateGlossary {
-    get(options?: GlossaryGetGlossariesParameters): Promise<GlossaryGetGlossaries200Response>;
+    get(options?: GlossaryListGlossariesParameters): Promise<GlossaryListGlossaries200Response>;
     post(options: GlossaryCreateGlossaryParameters): Promise<GlossaryCreateGlossary200Response>;
 }
 
@@ -1468,12 +1454,12 @@ export interface GlossaryDeleteTermAssignmentFromEntitiesBodyParam {
 export type GlossaryDeleteTermAssignmentFromEntitiesParameters = RequestParameters & GlossaryDeleteTermAssignmentFromEntitiesBodyParam;
 
 // @public (undocumented)
-export interface GlossaryExportGlossaryTermsAsCSV {
-    post(options: GlossaryExportGlossaryTermsAsCSVParameters): Promise<GlossaryExportGlossaryTermsAsCSV200Response>;
+export interface GlossaryExportGlossaryTermsAsCsv {
+    post(options: GlossaryExportGlossaryTermsAsCsvParameters): Promise<GlossaryExportGlossaryTermsAsCsv200Response>;
 }
 
 // @public
-export interface GlossaryExportGlossaryTermsAsCSV200Response extends HttpResponse {
+export interface GlossaryExportGlossaryTermsAsCsv200Response extends HttpResponse {
     // (undocumented)
     body: string;
     // (undocumented)
@@ -1481,52 +1467,23 @@ export interface GlossaryExportGlossaryTermsAsCSV200Response extends HttpRespons
 }
 
 // @public (undocumented)
-export interface GlossaryExportGlossaryTermsAsCSVBodyParam {
+export interface GlossaryExportGlossaryTermsAsCsvBodyParam {
     // (undocumented)
     body: string[];
 }
 
 // @public (undocumented)
-export type GlossaryExportGlossaryTermsAsCSVParameters = RequestParameters & GlossaryExportGlossaryTermsAsCSVQueryParam & GlossaryExportGlossaryTermsAsCSVBodyParam;
+export type GlossaryExportGlossaryTermsAsCsvParameters = RequestParameters & GlossaryExportGlossaryTermsAsCsvQueryParam & GlossaryExportGlossaryTermsAsCsvBodyParam;
 
 // @public (undocumented)
-export interface GlossaryExportGlossaryTermsAsCSVQueryParam {
+export interface GlossaryExportGlossaryTermsAsCsvQueryParam {
     // (undocumented)
-    queryParameters?: GlossaryExportGlossaryTermsAsCSVQueryParamProperties;
+    queryParameters?: GlossaryExportGlossaryTermsAsCsvQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface GlossaryExportGlossaryTermsAsCSVQueryParamProperties {
+export interface GlossaryExportGlossaryTermsAsCsvQueryParamProperties {
     includeTermHierarchy?: boolean;
-}
-
-// @public (undocumented)
-export interface GlossaryGetCategoryTerms {
-    get(options?: GlossaryGetCategoryTermsParameters): Promise<GlossaryGetCategoryTerms200Response>;
-}
-
-// @public
-export interface GlossaryGetCategoryTerms200Response extends HttpResponse {
-    // (undocumented)
-    body: AtlasRelatedTermHeader[];
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type GlossaryGetCategoryTermsParameters = RequestParameters & GlossaryGetCategoryTermsQueryParam;
-
-// @public (undocumented)
-export interface GlossaryGetCategoryTermsQueryParam {
-    // (undocumented)
-    queryParameters?: GlossaryGetCategoryTermsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface GlossaryGetCategoryTermsQueryParamProperties {
-    limit?: number;
-    offset?: number;
-    sort?: string;
 }
 
 // @public (undocumented)
@@ -1581,93 +1538,11 @@ export interface GlossaryGetEntitiesAssignedWithTermQueryParamProperties {
 }
 
 // @public
-export interface GlossaryGetGlossaries200Response extends HttpResponse {
-    // (undocumented)
-    body: AtlasGlossary[];
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type GlossaryGetGlossariesParameters = RequestParameters & GlossaryGetGlossariesQueryParam;
-
-// @public (undocumented)
-export interface GlossaryGetGlossariesQueryParam {
-    // (undocumented)
-    queryParameters?: GlossaryGetGlossariesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface GlossaryGetGlossariesQueryParamProperties {
-    limit?: number;
-    offset?: number;
-    sort?: string;
-}
-
-// @public
 export interface GlossaryGetGlossary200Response extends HttpResponse {
     // (undocumented)
     body: AtlasGlossary;
     // (undocumented)
     status: "200";
-}
-
-// @public (undocumented)
-export interface GlossaryGetGlossaryCategories {
-    get(options?: GlossaryGetGlossaryCategoriesParameters): Promise<GlossaryGetGlossaryCategories200Response>;
-}
-
-// @public
-export interface GlossaryGetGlossaryCategories200Response extends HttpResponse {
-    // (undocumented)
-    body: AtlasGlossaryCategory[];
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface GlossaryGetGlossaryCategoriesHeaders {
-    get(options?: GlossaryGetGlossaryCategoriesHeadersParameters): Promise<GlossaryGetGlossaryCategoriesHeaders200Response>;
-}
-
-// @public
-export interface GlossaryGetGlossaryCategoriesHeaders200Response extends HttpResponse {
-    // (undocumented)
-    body: AtlasRelatedCategoryHeader[];
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type GlossaryGetGlossaryCategoriesHeadersParameters = RequestParameters & GlossaryGetGlossaryCategoriesHeadersQueryParam;
-
-// @public (undocumented)
-export interface GlossaryGetGlossaryCategoriesHeadersQueryParam {
-    // (undocumented)
-    queryParameters?: GlossaryGetGlossaryCategoriesHeadersQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface GlossaryGetGlossaryCategoriesHeadersQueryParamProperties {
-    limit?: number;
-    offset?: number;
-    sort?: string;
-}
-
-// @public (undocumented)
-export type GlossaryGetGlossaryCategoriesParameters = RequestParameters & GlossaryGetGlossaryCategoriesQueryParam;
-
-// @public (undocumented)
-export interface GlossaryGetGlossaryCategoriesQueryParam {
-    // (undocumented)
-    queryParameters?: GlossaryGetGlossaryCategoriesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface GlossaryGetGlossaryCategoriesQueryParamProperties {
-    limit?: number;
-    offset?: number;
-    sort?: string;
 }
 
 // @public
@@ -1693,35 +1568,6 @@ export interface GlossaryGetGlossaryTerm200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface GlossaryGetGlossaryTermHeaders {
-    get(options?: GlossaryGetGlossaryTermHeadersParameters): Promise<GlossaryGetGlossaryTermHeaders200Response>;
-}
-
-// @public
-export interface GlossaryGetGlossaryTermHeaders200Response extends HttpResponse {
-    // (undocumented)
-    body: AtlasRelatedTermHeader[];
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type GlossaryGetGlossaryTermHeadersParameters = RequestParameters & GlossaryGetGlossaryTermHeadersQueryParam;
-
-// @public (undocumented)
-export interface GlossaryGetGlossaryTermHeadersQueryParam {
-    // (undocumented)
-    queryParameters?: GlossaryGetGlossaryTermHeadersQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface GlossaryGetGlossaryTermHeadersQueryParamProperties {
-    limit?: number;
-    offset?: number;
-    sort?: string;
-}
-
-// @public (undocumented)
 export type GlossaryGetGlossaryTermParameters = RequestParameters & GlossaryGetGlossaryTermQueryParam;
 
 // @public (undocumented)
@@ -1736,42 +1582,12 @@ export interface GlossaryGetGlossaryTermQueryParamProperties {
 }
 
 // @public (undocumented)
-export interface GlossaryGetGlossaryTerms {
-    get(options?: GlossaryGetGlossaryTermsParameters): Promise<GlossaryGetGlossaryTerms200Response>;
+export interface GlossaryGetImportCsvOperationStatus {
+    get(options?: GlossaryGetImportCsvOperationStatusParameters): Promise<GlossaryGetImportCsvOperationStatus200Response>;
 }
 
 // @public
-export interface GlossaryGetGlossaryTerms200Response extends HttpResponse {
-    // (undocumented)
-    body: AtlasGlossaryTerm[];
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type GlossaryGetGlossaryTermsParameters = RequestParameters & GlossaryGetGlossaryTermsQueryParam;
-
-// @public (undocumented)
-export interface GlossaryGetGlossaryTermsQueryParam {
-    // (undocumented)
-    queryParameters?: GlossaryGetGlossaryTermsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface GlossaryGetGlossaryTermsQueryParamProperties {
-    includeTermHierarchy?: boolean;
-    limit?: number;
-    offset?: number;
-    sort?: string;
-}
-
-// @public (undocumented)
-export interface GlossaryGetImportCSVOperationStatus {
-    get(options?: GlossaryGetImportCSVOperationStatusParameters): Promise<GlossaryGetImportCSVOperationStatus200Response>;
-}
-
-// @public
-export interface GlossaryGetImportCSVOperationStatus200Response extends HttpResponse {
+export interface GlossaryGetImportCsvOperationStatus200Response extends HttpResponse {
     // (undocumented)
     body: ImportCSVOperation;
     // (undocumented)
@@ -1779,15 +1595,251 @@ export interface GlossaryGetImportCSVOperationStatus200Response extends HttpResp
 }
 
 // @public (undocumented)
-export type GlossaryGetImportCSVOperationStatusParameters = RequestParameters;
+export type GlossaryGetImportCsvOperationStatusParameters = RequestParameters;
 
 // @public (undocumented)
-export interface GlossaryGetRelatedCategories {
-    get(options?: GlossaryGetRelatedCategoriesParameters): Promise<GlossaryGetRelatedCategories200Response>;
+export interface GlossaryImportGlossaryTermsViaCsv {
+    post(options: GlossaryImportGlossaryTermsViaCsvParameters): Promise<GlossaryImportGlossaryTermsViaCsv202Response>;
 }
 
 // @public
-export interface GlossaryGetRelatedCategories200Response extends HttpResponse {
+export interface GlossaryImportGlossaryTermsViaCsv202Response extends HttpResponse {
+    // (undocumented)
+    body: ImportCSVOperation;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface GlossaryImportGlossaryTermsViaCsvBodyParam {
+    // (undocumented)
+    body: string;
+}
+
+// @public (undocumented)
+export interface GlossaryImportGlossaryTermsViaCsvByGlossaryName {
+    post(options: GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters): Promise<GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response>;
+}
+
+// @public
+export interface GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response extends HttpResponse {
+    // (undocumented)
+    body: ImportCSVOperation;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam {
+    // (undocumented)
+    body: string;
+}
+
+// @public (undocumented)
+export type GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters = RequestParameters & GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam & GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam;
+
+// @public (undocumented)
+export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam {
+    // (undocumented)
+    queryParameters?: GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParamProperties {
+    includeTermHierarchy?: boolean;
+}
+
+// @public (undocumented)
+export type GlossaryImportGlossaryTermsViaCsvParameters = RequestParameters & GlossaryImportGlossaryTermsViaCsvQueryParam & GlossaryImportGlossaryTermsViaCsvBodyParam;
+
+// @public (undocumented)
+export interface GlossaryImportGlossaryTermsViaCsvQueryParam {
+    // (undocumented)
+    queryParameters?: GlossaryImportGlossaryTermsViaCsvQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GlossaryImportGlossaryTermsViaCsvQueryParamProperties {
+    includeTermHierarchy?: boolean;
+}
+
+// @public (undocumented)
+export interface GlossaryListCategoryTerms {
+    get(options?: GlossaryListCategoryTermsParameters): Promise<GlossaryListCategoryTerms200Response>;
+}
+
+// @public
+export interface GlossaryListCategoryTerms200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasRelatedTermHeader[];
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type GlossaryListCategoryTermsParameters = RequestParameters & GlossaryListCategoryTermsQueryParam;
+
+// @public (undocumented)
+export interface GlossaryListCategoryTermsQueryParam {
+    // (undocumented)
+    queryParameters?: GlossaryListCategoryTermsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GlossaryListCategoryTermsQueryParamProperties {
+    limit?: number;
+    offset?: number;
+    sort?: string;
+}
+
+// @public
+export interface GlossaryListGlossaries200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasGlossary[];
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type GlossaryListGlossariesParameters = RequestParameters & GlossaryListGlossariesQueryParam;
+
+// @public (undocumented)
+export interface GlossaryListGlossariesQueryParam {
+    // (undocumented)
+    queryParameters?: GlossaryListGlossariesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GlossaryListGlossariesQueryParamProperties {
+    limit?: number;
+    offset?: number;
+    sort?: string;
+}
+
+// @public (undocumented)
+export interface GlossaryListGlossaryCategories {
+    get(options?: GlossaryListGlossaryCategoriesParameters): Promise<GlossaryListGlossaryCategories200Response>;
+}
+
+// @public
+export interface GlossaryListGlossaryCategories200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasGlossaryCategory[];
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GlossaryListGlossaryCategoriesHeaders {
+    get(options?: GlossaryListGlossaryCategoriesHeadersParameters): Promise<GlossaryListGlossaryCategoriesHeaders200Response>;
+}
+
+// @public
+export interface GlossaryListGlossaryCategoriesHeaders200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasRelatedCategoryHeader[];
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type GlossaryListGlossaryCategoriesHeadersParameters = RequestParameters & GlossaryListGlossaryCategoriesHeadersQueryParam;
+
+// @public (undocumented)
+export interface GlossaryListGlossaryCategoriesHeadersQueryParam {
+    // (undocumented)
+    queryParameters?: GlossaryListGlossaryCategoriesHeadersQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GlossaryListGlossaryCategoriesHeadersQueryParamProperties {
+    limit?: number;
+    offset?: number;
+    sort?: string;
+}
+
+// @public (undocumented)
+export type GlossaryListGlossaryCategoriesParameters = RequestParameters & GlossaryListGlossaryCategoriesQueryParam;
+
+// @public (undocumented)
+export interface GlossaryListGlossaryCategoriesQueryParam {
+    // (undocumented)
+    queryParameters?: GlossaryListGlossaryCategoriesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GlossaryListGlossaryCategoriesQueryParamProperties {
+    limit?: number;
+    offset?: number;
+    sort?: string;
+}
+
+// @public (undocumented)
+export interface GlossaryListGlossaryTermHeaders {
+    get(options?: GlossaryListGlossaryTermHeadersParameters): Promise<GlossaryListGlossaryTermHeaders200Response>;
+}
+
+// @public
+export interface GlossaryListGlossaryTermHeaders200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasRelatedTermHeader[];
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type GlossaryListGlossaryTermHeadersParameters = RequestParameters & GlossaryListGlossaryTermHeadersQueryParam;
+
+// @public (undocumented)
+export interface GlossaryListGlossaryTermHeadersQueryParam {
+    // (undocumented)
+    queryParameters?: GlossaryListGlossaryTermHeadersQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GlossaryListGlossaryTermHeadersQueryParamProperties {
+    limit?: number;
+    offset?: number;
+    sort?: string;
+}
+
+// @public (undocumented)
+export interface GlossaryListGlossaryTerms {
+    get(options?: GlossaryListGlossaryTermsParameters): Promise<GlossaryListGlossaryTerms200Response>;
+}
+
+// @public
+export interface GlossaryListGlossaryTerms200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasGlossaryTerm[];
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type GlossaryListGlossaryTermsParameters = RequestParameters & GlossaryListGlossaryTermsQueryParam;
+
+// @public (undocumented)
+export interface GlossaryListGlossaryTermsQueryParam {
+    // (undocumented)
+    queryParameters?: GlossaryListGlossaryTermsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface GlossaryListGlossaryTermsQueryParamProperties {
+    includeTermHierarchy?: boolean;
+    limit?: number;
+    offset?: number;
+    sort?: string;
+}
+
+// @public (undocumented)
+export interface GlossaryListRelatedCategories {
+    get(options?: GlossaryListRelatedCategoriesParameters): Promise<GlossaryListRelatedCategories200Response>;
+}
+
+// @public
+export interface GlossaryListRelatedCategories200Response extends HttpResponse {
     // (undocumented)
     body: DictionaryOfpathsCic80AAtlasV2GlossaryCategoryCategoryguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary;
     // (undocumented)
@@ -1795,28 +1847,28 @@ export interface GlossaryGetRelatedCategories200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type GlossaryGetRelatedCategoriesParameters = RequestParameters & GlossaryGetRelatedCategoriesQueryParam;
+export type GlossaryListRelatedCategoriesParameters = RequestParameters & GlossaryListRelatedCategoriesQueryParam;
 
 // @public (undocumented)
-export interface GlossaryGetRelatedCategoriesQueryParam {
+export interface GlossaryListRelatedCategoriesQueryParam {
     // (undocumented)
-    queryParameters?: GlossaryGetRelatedCategoriesQueryParamProperties;
+    queryParameters?: GlossaryListRelatedCategoriesQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface GlossaryGetRelatedCategoriesQueryParamProperties {
+export interface GlossaryListRelatedCategoriesQueryParamProperties {
     limit?: number;
     offset?: number;
     sort?: string;
 }
 
 // @public (undocumented)
-export interface GlossaryGetRelatedTerms {
-    get(options?: GlossaryGetRelatedTermsParameters): Promise<GlossaryGetRelatedTerms200Response>;
+export interface GlossaryListRelatedTerms {
+    get(options?: GlossaryListRelatedTermsParameters): Promise<GlossaryListRelatedTerms200Response>;
 }
 
 // @public
-export interface GlossaryGetRelatedTerms200Response extends HttpResponse {
+export interface GlossaryListRelatedTerms200Response extends HttpResponse {
     // (undocumented)
     body: DictionaryOfpathsV84KwqAtlasV2GlossaryTermsTermguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary;
     // (undocumented)
@@ -1824,28 +1876,28 @@ export interface GlossaryGetRelatedTerms200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type GlossaryGetRelatedTermsParameters = RequestParameters & GlossaryGetRelatedTermsQueryParam;
+export type GlossaryListRelatedTermsParameters = RequestParameters & GlossaryListRelatedTermsQueryParam;
 
 // @public (undocumented)
-export interface GlossaryGetRelatedTermsQueryParam {
+export interface GlossaryListRelatedTermsQueryParam {
     // (undocumented)
-    queryParameters?: GlossaryGetRelatedTermsQueryParamProperties;
+    queryParameters?: GlossaryListRelatedTermsQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface GlossaryGetRelatedTermsQueryParamProperties {
+export interface GlossaryListRelatedTermsQueryParamProperties {
     limit?: number;
     offset?: number;
     sort?: string;
 }
 
 // @public (undocumented)
-export interface GlossaryGetTermsByGlossaryName {
-    get(options?: GlossaryGetTermsByGlossaryNameParameters): Promise<GlossaryGetTermsByGlossaryName200Response>;
+export interface GlossaryListTermsByGlossaryName {
+    get(options?: GlossaryListTermsByGlossaryNameParameters): Promise<GlossaryListTermsByGlossaryName200Response>;
 }
 
 // @public
-export interface GlossaryGetTermsByGlossaryName200Response extends HttpResponse {
+export interface GlossaryListTermsByGlossaryName200Response extends HttpResponse {
     // (undocumented)
     body: AtlasGlossaryTerm[];
     // (undocumented)
@@ -1853,85 +1905,19 @@ export interface GlossaryGetTermsByGlossaryName200Response extends HttpResponse 
 }
 
 // @public (undocumented)
-export type GlossaryGetTermsByGlossaryNameParameters = RequestParameters & GlossaryGetTermsByGlossaryNameQueryParam;
+export type GlossaryListTermsByGlossaryNameParameters = RequestParameters & GlossaryListTermsByGlossaryNameQueryParam;
 
 // @public (undocumented)
-export interface GlossaryGetTermsByGlossaryNameQueryParam {
+export interface GlossaryListTermsByGlossaryNameQueryParam {
     // (undocumented)
-    queryParameters?: GlossaryGetTermsByGlossaryNameQueryParamProperties;
+    queryParameters?: GlossaryListTermsByGlossaryNameQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface GlossaryGetTermsByGlossaryNameQueryParamProperties {
+export interface GlossaryListTermsByGlossaryNameQueryParamProperties {
     includeTermHierarchy?: boolean;
     limit?: number;
     offset?: number;
-}
-
-// @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCSV {
-    post(options: GlossaryImportGlossaryTermsViaCSVParameters): Promise<GlossaryImportGlossaryTermsViaCSV202Response>;
-}
-
-// @public
-export interface GlossaryImportGlossaryTermsViaCSV202Response extends HttpResponse {
-    // (undocumented)
-    body: ImportCSVOperation;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCSVBodyParam {
-    // (undocumented)
-    body: string;
-}
-
-// @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCSVByGlossaryName {
-    post(options: GlossaryImportGlossaryTermsViaCSVByGlossaryNameParameters): Promise<GlossaryImportGlossaryTermsViaCSVByGlossaryName202Response>;
-}
-
-// @public
-export interface GlossaryImportGlossaryTermsViaCSVByGlossaryName202Response extends HttpResponse {
-    // (undocumented)
-    body: ImportCSVOperation;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCSVByGlossaryNameBodyParam {
-    // (undocumented)
-    body: string;
-}
-
-// @public (undocumented)
-export type GlossaryImportGlossaryTermsViaCSVByGlossaryNameParameters = RequestParameters & GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParam & GlossaryImportGlossaryTermsViaCSVByGlossaryNameBodyParam;
-
-// @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParam {
-    // (undocumented)
-    queryParameters?: GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParamProperties {
-    includeTermHierarchy?: boolean;
-}
-
-// @public (undocumented)
-export type GlossaryImportGlossaryTermsViaCSVParameters = RequestParameters & GlossaryImportGlossaryTermsViaCSVQueryParam & GlossaryImportGlossaryTermsViaCSVBodyParam;
-
-// @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCSVQueryParam {
-    // (undocumented)
-    queryParameters?: GlossaryImportGlossaryTermsViaCSVQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCSVQueryParamProperties {
-    includeTermHierarchy?: boolean;
 }
 
 // @public (undocumented)
@@ -2128,67 +2114,6 @@ export type ImportCSVOperationStatus = "NotStarted" | "Succeeded" | "Failed" | "
 export type LineageDirection = "INPUT" | "OUTPUT" | "BOTH";
 
 // @public (undocumented)
-export interface LineageGetLineageGraph {
-    get(options?: LineageGetLineageGraphParameters): Promise<LineageGetLineageGraph200Response>;
-}
-
-// @public
-export interface LineageGetLineageGraph200Response extends HttpResponse {
-    // (undocumented)
-    body: AtlasLineageInfo;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type LineageGetLineageGraphParameters = RequestParameters & LineageGetLineageGraphQueryParam;
-
-// @public (undocumented)
-export interface LineageGetLineageGraphQueryParam {
-    // (undocumented)
-    queryParameters: LineageGetLineageGraphQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface LineageGetLineageGraphQueryParamProperties {
-    depth?: number;
-    direction: Direction;
-    getDerivedLineage?: boolean;
-    includeParent?: boolean;
-    width?: number;
-}
-
-// @public (undocumented)
-export interface LineageNextPageLineage {
-    get(options?: LineageNextPageLineageParameters): Promise<LineageNextPageLineage200Response>;
-}
-
-// @public
-export interface LineageNextPageLineage200Response extends HttpResponse {
-    // (undocumented)
-    body: AtlasLineageInfo;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type LineageNextPageLineageParameters = RequestParameters & LineageNextPageLineageQueryParam;
-
-// @public (undocumented)
-export interface LineageNextPageLineageQueryParam {
-    // (undocumented)
-    queryParameters: LineageNextPageLineageQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface LineageNextPageLineageQueryParamProperties {
-    direction: Direction;
-    getDerivedLineage?: boolean;
-    limit?: number;
-    offset?: number;
-}
-
-// @public (undocumented)
 export interface LineageRelation {
     fromEntityId?: string;
     relationshipId?: string;
@@ -2199,6 +2124,36 @@ export interface LineageRelation {
 export interface ListRoleAssignmentResponse {
     // (undocumented)
     roleAssignmentList?: RoleAssignmentEntry[];
+}
+
+// @public (undocumented)
+export interface NextPageLineage {
+    get(options?: NextPageLineageParameters): Promise<NextPageLineage200Response>;
+}
+
+// @public
+export interface NextPageLineage200Response extends HttpResponse {
+    // (undocumented)
+    body: AtlasLineageInfo;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type NextPageLineageParameters = RequestParameters & NextPageLineageQueryParam;
+
+// @public (undocumented)
+export interface NextPageLineageQueryParam {
+    // (undocumented)
+    queryParameters: NextPageLineageQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface NextPageLineageQueryParamProperties {
+    direction: Direction;
+    getDerivedLineage?: boolean;
+    limit?: number;
+    offset?: number;
 }
 
 // @public (undocumented)
@@ -2250,20 +2205,14 @@ export interface PList {
 }
 
 // @public (undocumented)
-function PurviewCatalog(Endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): PurviewCatalogClient;
+function PurviewCatalog(Endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewCatalogRestClient;
 
 export default PurviewCatalog;
 
 // @public (undocumented)
-export type PurviewCatalogClient = Client & {
+export type PurviewCatalogRestClient = Client & {
     path: Routes;
 };
-
-// @public (undocumented)
-export interface PurviewCatalogFactory {
-    // (undocumented)
-    (Endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): void;
-}
 
 // @public (undocumented)
 export type Relation = "SEE_ALSO" | "SYNONYMS" | "ANTONYMS" | "PREFERRED_TO_TERMS" | "PREFERRED_TERMS" | "REPLACEMENT_TERMS" | "REPLACED_BY" | "TRANSLATION_TERMS" | "TRANSLATED_TERMS" | "ISA" | "CLASSIFIES" | "VALID_VALUES" | "VALID_VALUES_FOR";
@@ -2289,22 +2238,22 @@ export interface RelationshipCreateBodyParam {
 export type RelationshipCreateParameters = RequestParameters & RelationshipCreateBodyParam;
 
 // @public (undocumented)
-export interface RelationshipDeleteById {
-    delete(options?: RelationshipDeleteByIdParameters): Promise<RelationshipDeleteById204Response>;
-    get(options?: RelationshipGetByIdParameters): Promise<RelationshipGetById200Response>;
+export interface RelationshipDelete {
+    delete(options?: RelationshipDeleteParameters): Promise<RelationshipDelete204Response>;
+    get(options?: RelationshipGetParameters): Promise<RelationshipGet200Response>;
 }
 
 // @public
-export interface RelationshipDeleteById204Response extends HttpResponse {
+export interface RelationshipDelete204Response extends HttpResponse {
     // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
-export type RelationshipDeleteByIdParameters = RequestParameters;
+export type RelationshipDeleteParameters = RequestParameters;
 
 // @public
-export interface RelationshipGetById200Response extends HttpResponse {
+export interface RelationshipGet200Response extends HttpResponse {
     // (undocumented)
     body: AtlasRelationshipWithExtInfo;
     // (undocumented)
@@ -2312,16 +2261,16 @@ export interface RelationshipGetById200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type RelationshipGetByIdParameters = RequestParameters & RelationshipGetByIdQueryParam;
+export type RelationshipGetParameters = RequestParameters & RelationshipGetQueryParam;
 
 // @public (undocumented)
-export interface RelationshipGetByIdQueryParam {
+export interface RelationshipGetQueryParam {
     // (undocumented)
-    queryParameters?: RelationshipGetByIdQueryParamProperties;
+    queryParameters?: RelationshipGetQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface RelationshipGetByIdQueryParamProperties {
+export interface RelationshipGetQueryParamProperties {
     extendedInfo?: boolean;
 }
 
@@ -2376,59 +2325,78 @@ export interface Routes {
     (path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications", typeName: string): EntityUpdateClassificationsByUniqueAttribute;
     (path: "/atlas/v2/entity/bulk/setClassifications"): EntitySetClassifications;
     (path: "/atlas/v2/entity/bulk/uniqueAttribute/type/{typeName}", typeName: string): EntityGetEntitiesByUniqueAttributes;
-    (path: "/atlas/v2/entity/guid/{guid}/header", guid: string): EntityGetHeaderById;
+    (path: "/atlas/v2/entity/guid/{guid}/header", guid: string): EntityGetHeader;
     (path: "/atlas/v2/glossary"): GlossaryCreateGlossary;
     (path: "/atlas/v2/glossary/categories"): GlossaryCreateGlossaryCategories;
     (path: "/atlas/v2/glossary/category"): GlossaryCreateGlossaryCategory;
     (path: "/atlas/v2/glossary/category/{categoryGuid}", categoryGuid: string): GlossaryDeleteGlossaryCategory;
     (path: "/atlas/v2/glossary/category/{categoryGuid}/partial", categoryGuid: string): GlossaryPartialUpdateGlossaryCategory;
-    (path: "/atlas/v2/glossary/category/{categoryGuid}/related", categoryGuid: string): GlossaryGetRelatedCategories;
-    (path: "/atlas/v2/glossary/category/{categoryGuid}/terms", categoryGuid: string): GlossaryGetCategoryTerms;
+    (path: "/atlas/v2/glossary/category/{categoryGuid}/related", categoryGuid: string): GlossaryListRelatedCategories;
+    (path: "/atlas/v2/glossary/category/{categoryGuid}/terms", categoryGuid: string): GlossaryListCategoryTerms;
     (path: "/atlas/v2/glossary/term"): GlossaryCreateGlossaryTerm;
     (path: "/atlas/v2/glossary/term/{termGuid}", termGuid: string): GlossaryDeleteGlossaryTerm;
     (path: "/atlas/v2/glossary/term/{termGuid}/partial", termGuid: string): GlossaryPartialUpdateGlossaryTerm;
     (path: "/atlas/v2/glossary/terms"): GlossaryCreateGlossaryTerms;
     (path: "/atlas/v2/glossary/terms/{termGuid}/assignedEntities", termGuid: string): GlossaryDeleteTermAssignmentFromEntities;
-    (path: "/atlas/v2/glossary/terms/{termGuid}/related", termGuid: string): GlossaryGetRelatedTerms;
+    (path: "/atlas/v2/glossary/terms/{termGuid}/related", termGuid: string): GlossaryListRelatedTerms;
     (path: "/atlas/v2/glossary/{glossaryGuid}", glossaryGuid: string): GlossaryDeleteGlossary;
-    (path: "/atlas/v2/glossary/{glossaryGuid}/categories", glossaryGuid: string): GlossaryGetGlossaryCategories;
-    (path: "/atlas/v2/glossary/{glossaryGuid}/categories/headers", glossaryGuid: string): GlossaryGetGlossaryCategoriesHeaders;
+    (path: "/atlas/v2/glossary/{glossaryGuid}/categories", glossaryGuid: string): GlossaryListGlossaryCategories;
+    (path: "/atlas/v2/glossary/{glossaryGuid}/categories/headers", glossaryGuid: string): GlossaryListGlossaryCategoriesHeaders;
     (path: "/atlas/v2/glossary/{glossaryGuid}/detailed", glossaryGuid: string): GlossaryGetDetailedGlossary;
     (path: "/atlas/v2/glossary/{glossaryGuid}/partial", glossaryGuid: string): GlossaryPartialUpdateGlossary;
-    (path: "/atlas/v2/glossary/{glossaryGuid}/terms", glossaryGuid: string): GlossaryGetGlossaryTerms;
-    (path: "/atlas/v2/glossary/{glossaryGuid}/terms/headers", glossaryGuid: string): GlossaryGetGlossaryTermHeaders;
-    (path: "/glossary/{glossaryGuid}/terms/import", glossaryGuid: string): GlossaryImportGlossaryTermsViaCSV;
-    (path: "/glossary/name/{glossaryName}/terms/import", glossaryName: string): GlossaryImportGlossaryTermsViaCSVByGlossaryName;
-    (path: "/glossary/terms/import/{operationGuid}", operationGuid: string): GlossaryGetImportCSVOperationStatus;
-    (path: "/glossary/{glossaryGuid}/terms/export", glossaryGuid: string): GlossaryExportGlossaryTermsAsCSV;
-    (path: "/glossary/name/{glossaryName}/terms", glossaryName: string): GlossaryGetTermsByGlossaryName;
-    (path: "/search/query"): DiscoveryQuery;
-    (path: "/search/suggest"): DiscoverySuggest;
-    (path: "/search/autocomplete"): DiscoveryAutoComplete;
-    (path: "/atlas/v2/lineage/{guid}", guid: string): LineageGetLineageGraph;
-    (path: "/lineage/{guid}/next/", guid: string): LineageNextPageLineage;
+    (path: "/atlas/v2/glossary/{glossaryGuid}/terms", glossaryGuid: string): GlossaryListGlossaryTerms;
+    (path: "/atlas/v2/glossary/{glossaryGuid}/terms/headers", glossaryGuid: string): GlossaryListGlossaryTermHeaders;
+    (path: "/glossary/{glossaryGuid}/terms/import", glossaryGuid: string): GlossaryImportGlossaryTermsViaCsv;
+    (path: "/glossary/name/{glossaryName}/terms/import", glossaryName: string): GlossaryImportGlossaryTermsViaCsvByGlossaryName;
+    (path: "/glossary/terms/import/{operationGuid}", operationGuid: string): GlossaryGetImportCsvOperationStatus;
+    (path: "/glossary/{glossaryGuid}/terms/export", glossaryGuid: string): GlossaryExportGlossaryTermsAsCsv;
+    (path: "/glossary/name/{glossaryName}/terms", glossaryName: string): GlossaryListTermsByGlossaryName;
+    (path: "/search/query"): Search;
+    (path: "/search/suggest"): Suggest;
+    (path: "/search/autocomplete"): AutoComplete;
+    (path: "/atlas/v2/lineage/{guid}", guid: string): GetLineageGraph;
+    (path: "/lineage/{guid}/next/", guid: string): NextPageLineage;
     (path: "/atlas/v2/relationship"): RelationshipUpdate;
-    (path: "/atlas/v2/relationship/guid/{guid}", guid: string): RelationshipDeleteById;
+    (path: "/atlas/v2/relationship/guid/{guid}", guid: string): RelationshipDelete;
     (path: "/atlas/v2/types/classificationdef/guid/{guid}", guid: string): TypesGetClassificationDefByGuid;
     (path: "/atlas/v2/types/classificationdef/name/{name}", name: string): TypesGetClassificationDefByName;
-    (path: "/atlas/v2/types/entitydef/guid/{guid}", guid: string): TypesGetEntityDefByGuid;
-    (path: "/atlas/v2/types/entitydef/name/{name}", name: string): TypesGetEntityDefByName;
+    (path: "/atlas/v2/types/entitydef/guid/{guid}", guid: string): TypesGetEntityDefinitionByGuid;
+    (path: "/atlas/v2/types/entitydef/name/{name}", name: string): TypesGetEntityDefinitionByName;
     (path: "/atlas/v2/types/enumdef/guid/{guid}", guid: string): TypesGetEnumDefByGuid;
     (path: "/atlas/v2/types/enumdef/name/{name}", name: string): TypesGetEnumDefByName;
     (path: "/atlas/v2/types/relationshipdef/guid/{guid}", guid: string): TypesGetRelationshipDefByGuid;
     (path: "/atlas/v2/types/relationshipdef/name/{name}", name: string): TypesGetRelationshipDefByName;
     (path: "/atlas/v2/types/structdef/guid/{guid}", guid: string): TypesGetStructDefByGuid;
     (path: "/atlas/v2/types/structdef/name/{name}", name: string): TypesGetStructDefByName;
-    (path: "/atlas/v2/types/typedef/guid/{guid}", guid: string): TypesGetTypeDefByGuid;
+    (path: "/atlas/v2/types/typedef/guid/{guid}", guid: string): TypesGetTypeDefinitionByGuid;
     (path: "/atlas/v2/types/typedef/name/{name}", name: string): TypesDeleteTypeByName;
-    (path: "/atlas/v2/types/typedefs"): TypesDeleteTypeDefs;
-    (path: "/atlas/v2/types/typedefs/headers"): TypesGetTypeDefHeaders;
+    (path: "/atlas/v2/types/typedefs"): TypesDeleteTypeDefinitions;
+    (path: "/atlas/v2/types/typedefs/headers"): TypesListTypeDefinitionHeaders;
     (path: "/types/termtemplatedef/guid/{guid}", guid: string): TypesGetTermTemplateDefByGuid;
     (path: "/types/termtemplatedef/name/{name}", name: string): TypesGetTermTemplateDefByName;
 }
 
 // @public (undocumented)
 export type SavedSearchType = "BASIC" | "ADVANCED";
+
+// @public (undocumented)
+export interface Search {
+    post(options: SearchParameters): Promise<Search200Response>;
+}
+
+// @public
+export interface Search200Response extends HttpResponse {
+    // (undocumented)
+    body: SearchResult;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface SearchBodyParam {
+    // (undocumented)
+    body: SearchRequest;
+}
 
 // @public (undocumented)
 export interface SearchFacetItem {
@@ -2489,7 +2457,10 @@ export interface SearchHighlights {
 }
 
 // @public (undocumented)
-export interface SearchParameters {
+export type SearchParameters = RequestParameters & SearchBodyParam;
+
+// @public (undocumented)
+export interface SearchParams {
     attributes?: string[];
     classification?: string;
     entityFilters?: FilterCriteria;
@@ -2558,6 +2529,28 @@ export type Status = "ACTIVE" | "DELETED";
 
 // @public (undocumented)
 export type StatusAtlasRelationship = "ACTIVE" | "DELETED";
+
+// @public (undocumented)
+export interface Suggest {
+    post(options: SuggestParameters): Promise<Suggest200Response>;
+}
+
+// @public
+export interface Suggest200Response extends HttpResponse {
+    // (undocumented)
+    body: SuggestResult;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface SuggestBodyParam {
+    // (undocumented)
+    body: SuggestRequest;
+}
+
+// @public (undocumented)
+export type SuggestParameters = RequestParameters & SuggestBodyParam;
 
 // @public (undocumented)
 export interface SuggestRequest {
@@ -2636,7 +2629,7 @@ export type Type = "enum" | "entity" | "classification" | "relationship" | "stru
 export type TypeCategory = "PRIMITIVE" | "OBJECT_ID_TYPE" | "ENUM" | "STRUCT" | "CLASSIFICATION" | "ENTITY" | "ARRAY" | "MAP" | "RELATIONSHIP" | "TERM_TEMPLATE";
 
 // @public
-export interface TypesCreateTypeDefs200Response extends HttpResponse {
+export interface TypesCreateTypeDefinitions200Response extends HttpResponse {
     // (undocumented)
     body: AtlasTypesDef;
     // (undocumented)
@@ -2644,18 +2637,18 @@ export interface TypesCreateTypeDefs200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface TypesCreateTypeDefsBodyParam {
+export interface TypesCreateTypeDefinitionsBodyParam {
     // (undocumented)
     body: AtlasTypesDef;
 }
 
 // @public (undocumented)
-export type TypesCreateTypeDefsParameters = RequestParameters & TypesCreateTypeDefsBodyParam;
+export type TypesCreateTypeDefinitionsParameters = RequestParameters & TypesCreateTypeDefinitionsBodyParam;
 
 // @public (undocumented)
 export interface TypesDeleteTypeByName {
     delete(options?: TypesDeleteTypeByNameParameters): Promise<TypesDeleteTypeByName204Response>;
-    get(options?: TypesGetTypeDefByNameParameters): Promise<TypesGetTypeDefByName200Response>;
+    get(options?: TypesGetTypeDefinitionByNameParameters): Promise<TypesGetTypeDefinitionByName200Response>;
 }
 
 // @public
@@ -2668,30 +2661,30 @@ export interface TypesDeleteTypeByName204Response extends HttpResponse {
 export type TypesDeleteTypeByNameParameters = RequestParameters;
 
 // @public (undocumented)
-export interface TypesDeleteTypeDefs {
-    delete(options: TypesDeleteTypeDefsParameters): Promise<TypesDeleteTypeDefs204Response>;
-    get(options?: TypesGetAllTypeDefsParameters): Promise<TypesGetAllTypeDefs200Response>;
-    post(options: TypesCreateTypeDefsParameters): Promise<TypesCreateTypeDefs200Response>;
-    put(options: TypesUpdateAtlasTypeDefsParameters): Promise<TypesUpdateAtlasTypeDefs200Response>;
+export interface TypesDeleteTypeDefinitions {
+    delete(options: TypesDeleteTypeDefinitionsParameters): Promise<TypesDeleteTypeDefinitions204Response>;
+    get(options?: TypesGetAllTypeDefinitionsParameters): Promise<TypesGetAllTypeDefinitions200Response>;
+    post(options: TypesCreateTypeDefinitionsParameters): Promise<TypesCreateTypeDefinitions200Response>;
+    put(options: TypesUpdateAtlasTypeDefinitionsParameters): Promise<TypesUpdateAtlasTypeDefinitions200Response>;
 }
 
 // @public
-export interface TypesDeleteTypeDefs204Response extends HttpResponse {
+export interface TypesDeleteTypeDefinitions204Response extends HttpResponse {
     // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
-export interface TypesDeleteTypeDefsBodyParam {
+export interface TypesDeleteTypeDefinitionsBodyParam {
     // (undocumented)
     body: AtlasTypesDef;
 }
 
 // @public (undocumented)
-export type TypesDeleteTypeDefsParameters = RequestParameters & TypesDeleteTypeDefsBodyParam;
+export type TypesDeleteTypeDefinitionsParameters = RequestParameters & TypesDeleteTypeDefinitionsBodyParam;
 
 // @public
-export interface TypesGetAllTypeDefs200Response extends HttpResponse {
+export interface TypesGetAllTypeDefinitions200Response extends HttpResponse {
     // (undocumented)
     body: AtlasTypesDef;
     // (undocumented)
@@ -2699,16 +2692,16 @@ export interface TypesGetAllTypeDefs200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type TypesGetAllTypeDefsParameters = RequestParameters & TypesGetAllTypeDefsQueryParam;
+export type TypesGetAllTypeDefinitionsParameters = RequestParameters & TypesGetAllTypeDefinitionsQueryParam;
 
 // @public (undocumented)
-export interface TypesGetAllTypeDefsQueryParam {
+export interface TypesGetAllTypeDefinitionsQueryParam {
     // (undocumented)
-    queryParameters?: TypesGetAllTypeDefsQueryParamProperties;
+    queryParameters?: TypesGetAllTypeDefinitionsQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface TypesGetAllTypeDefsQueryParamProperties {
+export interface TypesGetAllTypeDefinitionsQueryParamProperties {
     includeTermTemplate?: boolean;
     type?: Type;
 }
@@ -2746,12 +2739,12 @@ export interface TypesGetClassificationDefByName200Response extends HttpResponse
 export type TypesGetClassificationDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
-export interface TypesGetEntityDefByGuid {
-    get(options?: TypesGetEntityDefByGuidParameters): Promise<TypesGetEntityDefByGuid200Response>;
+export interface TypesGetEntityDefinitionByGuid {
+    get(options?: TypesGetEntityDefinitionByGuidParameters): Promise<TypesGetEntityDefinitionByGuid200Response>;
 }
 
 // @public
-export interface TypesGetEntityDefByGuid200Response extends HttpResponse {
+export interface TypesGetEntityDefinitionByGuid200Response extends HttpResponse {
     // (undocumented)
     body: AtlasEntityDef;
     // (undocumented)
@@ -2759,15 +2752,15 @@ export interface TypesGetEntityDefByGuid200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type TypesGetEntityDefByGuidParameters = RequestParameters;
+export type TypesGetEntityDefinitionByGuidParameters = RequestParameters;
 
 // @public (undocumented)
-export interface TypesGetEntityDefByName {
-    get(options?: TypesGetEntityDefByNameParameters): Promise<TypesGetEntityDefByName200Response>;
+export interface TypesGetEntityDefinitionByName {
+    get(options?: TypesGetEntityDefinitionByNameParameters): Promise<TypesGetEntityDefinitionByName200Response>;
 }
 
 // @public
-export interface TypesGetEntityDefByName200Response extends HttpResponse {
+export interface TypesGetEntityDefinitionByName200Response extends HttpResponse {
     // (undocumented)
     body: AtlasEntityDef;
     // (undocumented)
@@ -2775,7 +2768,7 @@ export interface TypesGetEntityDefByName200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type TypesGetEntityDefByNameParameters = RequestParameters;
+export type TypesGetEntityDefinitionByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetEnumDefByGuid {
@@ -2906,12 +2899,12 @@ export interface TypesGetTermTemplateDefByName200Response extends HttpResponse {
 export type TypesGetTermTemplateDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
-export interface TypesGetTypeDefByGuid {
-    get(options?: TypesGetTypeDefByGuidParameters): Promise<TypesGetTypeDefByGuid200Response>;
+export interface TypesGetTypeDefinitionByGuid {
+    get(options?: TypesGetTypeDefinitionByGuidParameters): Promise<TypesGetTypeDefinitionByGuid200Response>;
 }
 
 // @public
-export interface TypesGetTypeDefByGuid200Response extends HttpResponse {
+export interface TypesGetTypeDefinitionByGuid200Response extends HttpResponse {
     // (undocumented)
     body: AtlasTypeDef;
     // (undocumented)
@@ -2919,10 +2912,10 @@ export interface TypesGetTypeDefByGuid200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type TypesGetTypeDefByGuidParameters = RequestParameters;
+export type TypesGetTypeDefinitionByGuidParameters = RequestParameters;
 
 // @public
-export interface TypesGetTypeDefByName200Response extends HttpResponse {
+export interface TypesGetTypeDefinitionByName200Response extends HttpResponse {
     // (undocumented)
     body: AtlasTypeDef;
     // (undocumented)
@@ -2930,15 +2923,15 @@ export interface TypesGetTypeDefByName200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type TypesGetTypeDefByNameParameters = RequestParameters;
+export type TypesGetTypeDefinitionByNameParameters = RequestParameters;
 
 // @public (undocumented)
-export interface TypesGetTypeDefHeaders {
-    get(options?: TypesGetTypeDefHeadersParameters): Promise<TypesGetTypeDefHeaders200Response>;
+export interface TypesListTypeDefinitionHeaders {
+    get(options?: TypesListTypeDefinitionHeadersParameters): Promise<TypesListTypeDefinitionHeaders200Response>;
 }
 
 // @public
-export interface TypesGetTypeDefHeaders200Response extends HttpResponse {
+export interface TypesListTypeDefinitionHeaders200Response extends HttpResponse {
     // (undocumented)
     body: AtlasTypeDefHeader[];
     // (undocumented)
@@ -2946,16 +2939,16 @@ export interface TypesGetTypeDefHeaders200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export type TypesGetTypeDefHeadersParameters = RequestParameters & TypesGetTypeDefHeadersQueryParam;
+export type TypesListTypeDefinitionHeadersParameters = RequestParameters & TypesListTypeDefinitionHeadersQueryParam;
 
 // @public (undocumented)
-export interface TypesGetTypeDefHeadersQueryParam {
+export interface TypesListTypeDefinitionHeadersQueryParam {
     // (undocumented)
-    queryParameters?: TypesGetTypeDefHeadersQueryParamProperties;
+    queryParameters?: TypesListTypeDefinitionHeadersQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface TypesGetTypeDefHeadersQueryParamProperties {
+export interface TypesListTypeDefinitionHeadersQueryParamProperties {
     includeTermTemplate?: boolean;
     type?: Type;
 }
@@ -2974,7 +2967,7 @@ export interface TypeStatisticsExtraProperties {
 }
 
 // @public
-export interface TypesUpdateAtlasTypeDefs200Response extends HttpResponse {
+export interface TypesUpdateAtlasTypeDefinitions200Response extends HttpResponse {
     // (undocumented)
     body: AtlasTypesDef;
     // (undocumented)
@@ -2982,13 +2975,13 @@ export interface TypesUpdateAtlasTypeDefs200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface TypesUpdateAtlasTypeDefsBodyParam {
+export interface TypesUpdateAtlasTypeDefinitionsBodyParam {
     // (undocumented)
     body: AtlasTypesDef;
 }
 
 // @public (undocumented)
-export type TypesUpdateAtlasTypeDefsParameters = RequestParameters & TypesUpdateAtlasTypeDefsBodyParam;
+export type TypesUpdateAtlasTypeDefinitionsParameters = RequestParameters & TypesUpdateAtlasTypeDefinitionsBodyParam;
 
 // @public (undocumented)
 export interface UpdateRoleAssignmentRequest {

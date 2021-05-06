@@ -19,19 +19,18 @@ import {
   Direction,
   AtlasRelationship,
   Type,
-  AtlasTypesDef
+  AtlasTypesDef,
 } from "./models";
 
 export interface EntityCreateOrUpdateBodyParam {
   body: AtlasEntityWithExtInfo;
 }
 
-export type EntityCreateOrUpdateParameters = RequestParameters &
-  EntityCreateOrUpdateBodyParam;
+export type EntityCreateOrUpdateParameters = RequestParameters & EntityCreateOrUpdateBodyParam;
 
-export interface EntityGetByGuidsQueryParamProperties {
+export interface EntityListByGuidsQueryParamProperties {
   /** An array of GUIDs of entities to create. */
-  guid: string[];
+  guids: string[];
   /** Whether to return minimal information for referred entities. */
   minExtInfo?: boolean;
   /** Whether to ignore relationship attributes. */
@@ -40,31 +39,29 @@ export interface EntityGetByGuidsQueryParamProperties {
   excludeRelationshipTypes?: string[];
 }
 
-export interface EntityGetByGuidsQueryParam {
-  queryParameters: EntityGetByGuidsQueryParamProperties;
+export interface EntityListByGuidsQueryParam {
+  queryParameters: EntityListByGuidsQueryParamProperties;
 }
 
-export type EntityGetByGuidsParameters = RequestParameters &
-  EntityGetByGuidsQueryParam;
+export type EntityListByGuidsParameters = RequestParameters & EntityListByGuidsQueryParam;
 
-export interface EntityCreateOrUpdateBulkBodyParam {
+export interface EntityCreateOrUpdateEntitiesBodyParam {
   body: AtlasEntitiesWithExtInfo;
 }
 
-export type EntityCreateOrUpdateBulkParameters = RequestParameters &
-  EntityCreateOrUpdateBulkBodyParam;
+export type EntityCreateOrUpdateEntitiesParameters = RequestParameters &
+  EntityCreateOrUpdateEntitiesBodyParam;
 
 export interface EntityDeleteByGuidsQueryParamProperties {
   /** An array of GUIDs of entities to delete. */
-  guid: string[];
+  guids: string[];
 }
 
 export interface EntityDeleteByGuidsQueryParam {
   queryParameters: EntityDeleteByGuidsQueryParamProperties;
 }
 
-export type EntityDeleteByGuidsParameters = RequestParameters &
-  EntityDeleteByGuidsQueryParam;
+export type EntityDeleteByGuidsParameters = RequestParameters & EntityDeleteByGuidsQueryParam;
 
 export interface EntityAddClassificationBodyParam {
   body: ClassificationAssociateRequest;
@@ -73,36 +70,35 @@ export interface EntityAddClassificationBodyParam {
 export type EntityAddClassificationParameters = RequestParameters &
   EntityAddClassificationBodyParam;
 
-export interface EntityGetByIdQueryParamProperties {
+export interface EntityGetByGuidQueryParamProperties {
   /** Whether to return minimal information for referred entities. */
   minExtInfo?: boolean;
   /** Whether to ignore relationship attributes. */
   ignoreRelationships?: boolean;
 }
 
-export interface EntityGetByIdQueryParam {
-  queryParameters?: EntityGetByIdQueryParamProperties;
+export interface EntityGetByGuidQueryParam {
+  queryParameters?: EntityGetByGuidQueryParamProperties;
 }
 
-export type EntityGetByIdParameters = RequestParameters &
-  EntityGetByIdQueryParam;
+export type EntityGetByGuidParameters = RequestParameters & EntityGetByGuidQueryParam;
 
-export interface EntityPartialUpdateEntityAttrByGuidQueryParamProperties {
+export interface EntityCreateOrUpdateByGuidQueryParamProperties {
   /** The name of the attribute. */
   name: string;
 }
 
-export interface EntityPartialUpdateEntityAttrByGuidQueryParam {
-  queryParameters: EntityPartialUpdateEntityAttrByGuidQueryParamProperties;
+export interface EntityCreateOrUpdateByGuidQueryParam {
+  queryParameters: EntityCreateOrUpdateByGuidQueryParamProperties;
 }
 
-export interface EntityPartialUpdateEntityAttrByGuidBodyParam {
+export interface EntityCreateOrUpdateByGuidBodyParam {
   body: any;
 }
 
-export type EntityPartialUpdateEntityAttrByGuidParameters = RequestParameters &
-  EntityPartialUpdateEntityAttrByGuidQueryParam &
-  EntityPartialUpdateEntityAttrByGuidBodyParam;
+export type EntityCreateOrUpdateByGuidParameters = RequestParameters &
+  EntityCreateOrUpdateByGuidQueryParam &
+  EntityCreateOrUpdateByGuidBodyParam;
 export type EntityDeleteByGuidParameters = RequestParameters;
 export type EntityGetClassificationParameters = RequestParameters;
 export type EntityDeleteClassificationParameters = RequestParameters;
@@ -138,22 +134,22 @@ export interface EntityGetByUniqueAttributesQueryParam {
 export type EntityGetByUniqueAttributesParameters = RequestParameters &
   EntityGetByUniqueAttributesQueryParam;
 
-export interface EntityPartialUpdateEntityByUniqueAttrsQueryParamProperties {
+export interface EntityCreateOrUpdateByUniqueAttributeQueryParamProperties {
   /** The qualified name of the entity. */
   "attr:qualifiedName"?: string;
 }
 
-export interface EntityPartialUpdateEntityByUniqueAttrsQueryParam {
-  queryParameters?: EntityPartialUpdateEntityByUniqueAttrsQueryParamProperties;
+export interface EntityCreateOrUpdateByUniqueAttributeQueryParam {
+  queryParameters?: EntityCreateOrUpdateByUniqueAttributeQueryParamProperties;
 }
 
-export interface EntityPartialUpdateEntityByUniqueAttrsBodyParam {
+export interface EntityCreateOrUpdateByUniqueAttributeBodyParam {
   body: AtlasEntityWithExtInfo;
 }
 
-export type EntityPartialUpdateEntityByUniqueAttrsParameters = RequestParameters &
-  EntityPartialUpdateEntityByUniqueAttrsQueryParam &
-  EntityPartialUpdateEntityByUniqueAttrsBodyParam;
+export type EntityCreateOrUpdateByUniqueAttributeParameters = RequestParameters &
+  EntityCreateOrUpdateByUniqueAttributeQueryParam &
+  EntityCreateOrUpdateByUniqueAttributeBodyParam;
 
 export interface EntityDeleteByUniqueAttributeQueryParamProperties {
   /** The qualified name of the entity. */
@@ -235,9 +231,9 @@ export interface EntityGetEntitiesByUniqueAttributesQueryParam {
 
 export type EntityGetEntitiesByUniqueAttributesParameters = RequestParameters &
   EntityGetEntitiesByUniqueAttributesQueryParam;
-export type EntityGetHeaderByIdParameters = RequestParameters;
+export type EntityGetHeaderParameters = RequestParameters;
 
-export interface GlossaryGetGlossariesQueryParamProperties {
+export interface GlossaryListGlossariesQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -246,19 +242,17 @@ export interface GlossaryGetGlossariesQueryParamProperties {
   sort?: string;
 }
 
-export interface GlossaryGetGlossariesQueryParam {
-  queryParameters?: GlossaryGetGlossariesQueryParamProperties;
+export interface GlossaryListGlossariesQueryParam {
+  queryParameters?: GlossaryListGlossariesQueryParamProperties;
 }
 
-export type GlossaryGetGlossariesParameters = RequestParameters &
-  GlossaryGetGlossariesQueryParam;
+export type GlossaryListGlossariesParameters = RequestParameters & GlossaryListGlossariesQueryParam;
 
 export interface GlossaryCreateGlossaryBodyParam {
   body: AtlasGlossary;
 }
 
-export type GlossaryCreateGlossaryParameters = RequestParameters &
-  GlossaryCreateGlossaryBodyParam;
+export type GlossaryCreateGlossaryParameters = RequestParameters & GlossaryCreateGlossaryBodyParam;
 
 export interface GlossaryCreateGlossaryCategoriesBodyParam {
   body: AtlasGlossaryCategory[];
@@ -290,7 +284,7 @@ export interface GlossaryPartialUpdateGlossaryCategoryBodyParam {
 export type GlossaryPartialUpdateGlossaryCategoryParameters = RequestParameters &
   GlossaryPartialUpdateGlossaryCategoryBodyParam;
 
-export interface GlossaryGetRelatedCategoriesQueryParamProperties {
+export interface GlossaryListRelatedCategoriesQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -299,14 +293,14 @@ export interface GlossaryGetRelatedCategoriesQueryParamProperties {
   sort?: string;
 }
 
-export interface GlossaryGetRelatedCategoriesQueryParam {
-  queryParameters?: GlossaryGetRelatedCategoriesQueryParamProperties;
+export interface GlossaryListRelatedCategoriesQueryParam {
+  queryParameters?: GlossaryListRelatedCategoriesQueryParamProperties;
 }
 
-export type GlossaryGetRelatedCategoriesParameters = RequestParameters &
-  GlossaryGetRelatedCategoriesQueryParam;
+export type GlossaryListRelatedCategoriesParameters = RequestParameters &
+  GlossaryListRelatedCategoriesQueryParam;
 
-export interface GlossaryGetCategoryTermsQueryParamProperties {
+export interface GlossaryListCategoryTermsQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -315,12 +309,12 @@ export interface GlossaryGetCategoryTermsQueryParamProperties {
   sort?: string;
 }
 
-export interface GlossaryGetCategoryTermsQueryParam {
-  queryParameters?: GlossaryGetCategoryTermsQueryParamProperties;
+export interface GlossaryListCategoryTermsQueryParam {
+  queryParameters?: GlossaryListCategoryTermsQueryParamProperties;
 }
 
-export type GlossaryGetCategoryTermsParameters = RequestParameters &
-  GlossaryGetCategoryTermsQueryParam;
+export type GlossaryListCategoryTermsParameters = RequestParameters &
+  GlossaryListCategoryTermsQueryParam;
 
 export interface GlossaryCreateGlossaryTermQueryParamProperties {
   /** Whether include term hierarchy */
@@ -430,7 +424,7 @@ export interface GlossaryDeleteTermAssignmentFromEntitiesBodyParam {
 export type GlossaryDeleteTermAssignmentFromEntitiesParameters = RequestParameters &
   GlossaryDeleteTermAssignmentFromEntitiesBodyParam;
 
-export interface GlossaryGetRelatedTermsQueryParamProperties {
+export interface GlossaryListRelatedTermsQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -439,23 +433,22 @@ export interface GlossaryGetRelatedTermsQueryParamProperties {
   sort?: string;
 }
 
-export interface GlossaryGetRelatedTermsQueryParam {
-  queryParameters?: GlossaryGetRelatedTermsQueryParamProperties;
+export interface GlossaryListRelatedTermsQueryParam {
+  queryParameters?: GlossaryListRelatedTermsQueryParamProperties;
 }
 
-export type GlossaryGetRelatedTermsParameters = RequestParameters &
-  GlossaryGetRelatedTermsQueryParam;
+export type GlossaryListRelatedTermsParameters = RequestParameters &
+  GlossaryListRelatedTermsQueryParam;
 export type GlossaryGetGlossaryParameters = RequestParameters;
 
 export interface GlossaryUpdateGlossaryBodyParam {
   body: AtlasGlossary;
 }
 
-export type GlossaryUpdateGlossaryParameters = RequestParameters &
-  GlossaryUpdateGlossaryBodyParam;
+export type GlossaryUpdateGlossaryParameters = RequestParameters & GlossaryUpdateGlossaryBodyParam;
 export type GlossaryDeleteGlossaryParameters = RequestParameters;
 
-export interface GlossaryGetGlossaryCategoriesQueryParamProperties {
+export interface GlossaryListGlossaryCategoriesQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -464,14 +457,14 @@ export interface GlossaryGetGlossaryCategoriesQueryParamProperties {
   sort?: string;
 }
 
-export interface GlossaryGetGlossaryCategoriesQueryParam {
-  queryParameters?: GlossaryGetGlossaryCategoriesQueryParamProperties;
+export interface GlossaryListGlossaryCategoriesQueryParam {
+  queryParameters?: GlossaryListGlossaryCategoriesQueryParamProperties;
 }
 
-export type GlossaryGetGlossaryCategoriesParameters = RequestParameters &
-  GlossaryGetGlossaryCategoriesQueryParam;
+export type GlossaryListGlossaryCategoriesParameters = RequestParameters &
+  GlossaryListGlossaryCategoriesQueryParam;
 
-export interface GlossaryGetGlossaryCategoriesHeadersQueryParamProperties {
+export interface GlossaryListGlossaryCategoriesHeadersQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -480,12 +473,12 @@ export interface GlossaryGetGlossaryCategoriesHeadersQueryParamProperties {
   sort?: string;
 }
 
-export interface GlossaryGetGlossaryCategoriesHeadersQueryParam {
-  queryParameters?: GlossaryGetGlossaryCategoriesHeadersQueryParamProperties;
+export interface GlossaryListGlossaryCategoriesHeadersQueryParam {
+  queryParameters?: GlossaryListGlossaryCategoriesHeadersQueryParamProperties;
 }
 
-export type GlossaryGetGlossaryCategoriesHeadersParameters = RequestParameters &
-  GlossaryGetGlossaryCategoriesHeadersQueryParam;
+export type GlossaryListGlossaryCategoriesHeadersParameters = RequestParameters &
+  GlossaryListGlossaryCategoriesHeadersQueryParam;
 
 export interface GlossaryGetDetailedGlossaryQueryParamProperties {
   /** Whether include term hierarchy */
@@ -516,7 +509,7 @@ export type GlossaryPartialUpdateGlossaryParameters = RequestParameters &
   GlossaryPartialUpdateGlossaryQueryParam &
   GlossaryPartialUpdateGlossaryBodyParam;
 
-export interface GlossaryGetGlossaryTermsQueryParamProperties {
+export interface GlossaryListGlossaryTermsQueryParamProperties {
   /** Whether include term hierarchy */
   includeTermHierarchy?: boolean;
   /** The page size - by default there is no paging. */
@@ -527,14 +520,14 @@ export interface GlossaryGetGlossaryTermsQueryParamProperties {
   sort?: string;
 }
 
-export interface GlossaryGetGlossaryTermsQueryParam {
-  queryParameters?: GlossaryGetGlossaryTermsQueryParamProperties;
+export interface GlossaryListGlossaryTermsQueryParam {
+  queryParameters?: GlossaryListGlossaryTermsQueryParamProperties;
 }
 
-export type GlossaryGetGlossaryTermsParameters = RequestParameters &
-  GlossaryGetGlossaryTermsQueryParam;
+export type GlossaryListGlossaryTermsParameters = RequestParameters &
+  GlossaryListGlossaryTermsQueryParam;
 
-export interface GlossaryGetGlossaryTermHeadersQueryParamProperties {
+export interface GlossaryListGlossaryTermHeadersQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -543,66 +536,66 @@ export interface GlossaryGetGlossaryTermHeadersQueryParamProperties {
   sort?: string;
 }
 
-export interface GlossaryGetGlossaryTermHeadersQueryParam {
-  queryParameters?: GlossaryGetGlossaryTermHeadersQueryParamProperties;
+export interface GlossaryListGlossaryTermHeadersQueryParam {
+  queryParameters?: GlossaryListGlossaryTermHeadersQueryParamProperties;
 }
 
-export type GlossaryGetGlossaryTermHeadersParameters = RequestParameters &
-  GlossaryGetGlossaryTermHeadersQueryParam;
+export type GlossaryListGlossaryTermHeadersParameters = RequestParameters &
+  GlossaryListGlossaryTermHeadersQueryParam;
 
-export interface GlossaryImportGlossaryTermsViaCSVQueryParamProperties {
+export interface GlossaryImportGlossaryTermsViaCsvQueryParamProperties {
   /** Whether include term hierarchy */
   includeTermHierarchy?: boolean;
 }
 
-export interface GlossaryImportGlossaryTermsViaCSVQueryParam {
-  queryParameters?: GlossaryImportGlossaryTermsViaCSVQueryParamProperties;
+export interface GlossaryImportGlossaryTermsViaCsvQueryParam {
+  queryParameters?: GlossaryImportGlossaryTermsViaCsvQueryParamProperties;
 }
 
-export interface GlossaryImportGlossaryTermsViaCSVBodyParam {
+export interface GlossaryImportGlossaryTermsViaCsvBodyParam {
   body: string;
 }
 
-export type GlossaryImportGlossaryTermsViaCSVParameters = RequestParameters &
-  GlossaryImportGlossaryTermsViaCSVQueryParam &
-  GlossaryImportGlossaryTermsViaCSVBodyParam;
+export type GlossaryImportGlossaryTermsViaCsvParameters = RequestParameters &
+  GlossaryImportGlossaryTermsViaCsvQueryParam &
+  GlossaryImportGlossaryTermsViaCsvBodyParam;
 
-export interface GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParamProperties {
+export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParamProperties {
   /** Whether include term hierarchy */
   includeTermHierarchy?: boolean;
 }
 
-export interface GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParam {
-  queryParameters?: GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParamProperties;
+export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam {
+  queryParameters?: GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParamProperties;
 }
 
-export interface GlossaryImportGlossaryTermsViaCSVByGlossaryNameBodyParam {
+export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam {
   body: string;
 }
 
-export type GlossaryImportGlossaryTermsViaCSVByGlossaryNameParameters = RequestParameters &
-  GlossaryImportGlossaryTermsViaCSVByGlossaryNameQueryParam &
-  GlossaryImportGlossaryTermsViaCSVByGlossaryNameBodyParam;
-export type GlossaryGetImportCSVOperationStatusParameters = RequestParameters;
+export type GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters = RequestParameters &
+  GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam &
+  GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam;
+export type GlossaryGetImportCsvOperationStatusParameters = RequestParameters;
 
-export interface GlossaryExportGlossaryTermsAsCSVQueryParamProperties {
+export interface GlossaryExportGlossaryTermsAsCsvQueryParamProperties {
   /** Whether include term hierarchy */
   includeTermHierarchy?: boolean;
 }
 
-export interface GlossaryExportGlossaryTermsAsCSVQueryParam {
-  queryParameters?: GlossaryExportGlossaryTermsAsCSVQueryParamProperties;
+export interface GlossaryExportGlossaryTermsAsCsvQueryParam {
+  queryParameters?: GlossaryExportGlossaryTermsAsCsvQueryParamProperties;
 }
 
-export interface GlossaryExportGlossaryTermsAsCSVBodyParam {
+export interface GlossaryExportGlossaryTermsAsCsvBodyParam {
   body: string[];
 }
 
-export type GlossaryExportGlossaryTermsAsCSVParameters = RequestParameters &
-  GlossaryExportGlossaryTermsAsCSVQueryParam &
-  GlossaryExportGlossaryTermsAsCSVBodyParam;
+export type GlossaryExportGlossaryTermsAsCsvParameters = RequestParameters &
+  GlossaryExportGlossaryTermsAsCsvQueryParam &
+  GlossaryExportGlossaryTermsAsCsvBodyParam;
 
-export interface GlossaryGetTermsByGlossaryNameQueryParamProperties {
+export interface GlossaryListTermsByGlossaryNameQueryParamProperties {
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -611,35 +604,32 @@ export interface GlossaryGetTermsByGlossaryNameQueryParamProperties {
   includeTermHierarchy?: boolean;
 }
 
-export interface GlossaryGetTermsByGlossaryNameQueryParam {
-  queryParameters?: GlossaryGetTermsByGlossaryNameQueryParamProperties;
+export interface GlossaryListTermsByGlossaryNameQueryParam {
+  queryParameters?: GlossaryListTermsByGlossaryNameQueryParamProperties;
 }
 
-export type GlossaryGetTermsByGlossaryNameParameters = RequestParameters &
-  GlossaryGetTermsByGlossaryNameQueryParam;
+export type GlossaryListTermsByGlossaryNameParameters = RequestParameters &
+  GlossaryListTermsByGlossaryNameQueryParam;
 
-export interface DiscoveryQueryBodyParam {
+export interface SearchBodyParam {
   body: SearchRequest;
 }
 
-export type DiscoveryQueryParameters = RequestParameters &
-  DiscoveryQueryBodyParam;
+export type SearchParameters = RequestParameters & SearchBodyParam;
 
-export interface DiscoverySuggestBodyParam {
+export interface SuggestBodyParam {
   body: SuggestRequest;
 }
 
-export type DiscoverySuggestParameters = RequestParameters &
-  DiscoverySuggestBodyParam;
+export type SuggestParameters = RequestParameters & SuggestBodyParam;
 
-export interface DiscoveryAutoCompleteBodyParam {
+export interface AutoCompleteBodyParam {
   body: AutoCompleteRequest;
 }
 
-export type DiscoveryAutoCompleteParameters = RequestParameters &
-  DiscoveryAutoCompleteBodyParam;
+export type AutoCompleteParameters = RequestParameters & AutoCompleteBodyParam;
 
-export interface LineageGetLineageGraphQueryParamProperties {
+export interface GetLineageGraphQueryParamProperties {
   /** The number of hops for lineage. */
   depth?: number;
   /** The number of max expanding width in lineage. */
@@ -652,14 +642,13 @@ export interface LineageGetLineageGraphQueryParamProperties {
   getDerivedLineage?: boolean;
 }
 
-export interface LineageGetLineageGraphQueryParam {
-  queryParameters: LineageGetLineageGraphQueryParamProperties;
+export interface GetLineageGraphQueryParam {
+  queryParameters: GetLineageGraphQueryParamProperties;
 }
 
-export type LineageGetLineageGraphParameters = RequestParameters &
-  LineageGetLineageGraphQueryParam;
+export type GetLineageGraphParameters = RequestParameters & GetLineageGraphQueryParam;
 
-export interface LineageNextPageLineageQueryParamProperties {
+export interface NextPageLineageQueryParamProperties {
   /** The direction of the lineage, which could be INPUT, OUTPUT or BOTH. */
   direction: Direction;
   /** True to include derived lineage in the response */
@@ -670,54 +659,50 @@ export interface LineageNextPageLineageQueryParamProperties {
   limit?: number;
 }
 
-export interface LineageNextPageLineageQueryParam {
-  queryParameters: LineageNextPageLineageQueryParamProperties;
+export interface NextPageLineageQueryParam {
+  queryParameters: NextPageLineageQueryParamProperties;
 }
 
-export type LineageNextPageLineageParameters = RequestParameters &
-  LineageNextPageLineageQueryParam;
+export type NextPageLineageParameters = RequestParameters & NextPageLineageQueryParam;
 
 export interface RelationshipCreateBodyParam {
   body: AtlasRelationship;
 }
 
-export type RelationshipCreateParameters = RequestParameters &
-  RelationshipCreateBodyParam;
+export type RelationshipCreateParameters = RequestParameters & RelationshipCreateBodyParam;
 
 export interface RelationshipUpdateBodyParam {
   body: AtlasRelationship;
 }
 
-export type RelationshipUpdateParameters = RequestParameters &
-  RelationshipUpdateBodyParam;
+export type RelationshipUpdateParameters = RequestParameters & RelationshipUpdateBodyParam;
 
-export interface RelationshipGetByIdQueryParamProperties {
+export interface RelationshipGetQueryParamProperties {
   /** Limits whether includes extended information. */
   extendedInfo?: boolean;
 }
 
-export interface RelationshipGetByIdQueryParam {
-  queryParameters?: RelationshipGetByIdQueryParamProperties;
+export interface RelationshipGetQueryParam {
+  queryParameters?: RelationshipGetQueryParamProperties;
 }
 
-export type RelationshipGetByIdParameters = RequestParameters &
-  RelationshipGetByIdQueryParam;
-export type RelationshipDeleteByIdParameters = RequestParameters;
+export type RelationshipGetParameters = RequestParameters & RelationshipGetQueryParam;
+export type RelationshipDeleteParameters = RequestParameters;
 export type TypesGetClassificationDefByGuidParameters = RequestParameters;
 export type TypesGetClassificationDefByNameParameters = RequestParameters;
-export type TypesGetEntityDefByGuidParameters = RequestParameters;
-export type TypesGetEntityDefByNameParameters = RequestParameters;
+export type TypesGetEntityDefinitionByGuidParameters = RequestParameters;
+export type TypesGetEntityDefinitionByNameParameters = RequestParameters;
 export type TypesGetEnumDefByGuidParameters = RequestParameters;
 export type TypesGetEnumDefByNameParameters = RequestParameters;
 export type TypesGetRelationshipDefByGuidParameters = RequestParameters;
 export type TypesGetRelationshipDefByNameParameters = RequestParameters;
 export type TypesGetStructDefByGuidParameters = RequestParameters;
 export type TypesGetStructDefByNameParameters = RequestParameters;
-export type TypesGetTypeDefByGuidParameters = RequestParameters;
-export type TypesGetTypeDefByNameParameters = RequestParameters;
+export type TypesGetTypeDefinitionByGuidParameters = RequestParameters;
+export type TypesGetTypeDefinitionByNameParameters = RequestParameters;
 export type TypesDeleteTypeByNameParameters = RequestParameters;
 
-export interface TypesGetAllTypeDefsQueryParamProperties {
+export interface TypesGetAllTypeDefinitionsQueryParamProperties {
   /**
    * Whether include termtemplatedef when return all typedefs.
    * This is always true when search filter type=term_template
@@ -727,35 +712,35 @@ export interface TypesGetAllTypeDefsQueryParamProperties {
   type?: Type;
 }
 
-export interface TypesGetAllTypeDefsQueryParam {
-  queryParameters?: TypesGetAllTypeDefsQueryParamProperties;
+export interface TypesGetAllTypeDefinitionsQueryParam {
+  queryParameters?: TypesGetAllTypeDefinitionsQueryParamProperties;
 }
 
-export type TypesGetAllTypeDefsParameters = RequestParameters &
-  TypesGetAllTypeDefsQueryParam;
+export type TypesGetAllTypeDefinitionsParameters = RequestParameters &
+  TypesGetAllTypeDefinitionsQueryParam;
 
-export interface TypesCreateTypeDefsBodyParam {
+export interface TypesCreateTypeDefinitionsBodyParam {
   body: AtlasTypesDef;
 }
 
-export type TypesCreateTypeDefsParameters = RequestParameters &
-  TypesCreateTypeDefsBodyParam;
+export type TypesCreateTypeDefinitionsParameters = RequestParameters &
+  TypesCreateTypeDefinitionsBodyParam;
 
-export interface TypesUpdateAtlasTypeDefsBodyParam {
+export interface TypesUpdateAtlasTypeDefinitionsBodyParam {
   body: AtlasTypesDef;
 }
 
-export type TypesUpdateAtlasTypeDefsParameters = RequestParameters &
-  TypesUpdateAtlasTypeDefsBodyParam;
+export type TypesUpdateAtlasTypeDefinitionsParameters = RequestParameters &
+  TypesUpdateAtlasTypeDefinitionsBodyParam;
 
-export interface TypesDeleteTypeDefsBodyParam {
+export interface TypesDeleteTypeDefinitionsBodyParam {
   body: AtlasTypesDef;
 }
 
-export type TypesDeleteTypeDefsParameters = RequestParameters &
-  TypesDeleteTypeDefsBodyParam;
+export type TypesDeleteTypeDefinitionsParameters = RequestParameters &
+  TypesDeleteTypeDefinitionsBodyParam;
 
-export interface TypesGetTypeDefHeadersQueryParamProperties {
+export interface TypesListTypeDefinitionHeadersQueryParamProperties {
   /**
    * Whether include termtemplatedef when return all typedefs.
    * This is always true when search filter type=term_template
@@ -765,11 +750,11 @@ export interface TypesGetTypeDefHeadersQueryParamProperties {
   type?: Type;
 }
 
-export interface TypesGetTypeDefHeadersQueryParam {
-  queryParameters?: TypesGetTypeDefHeadersQueryParamProperties;
+export interface TypesListTypeDefinitionHeadersQueryParam {
+  queryParameters?: TypesListTypeDefinitionHeadersQueryParamProperties;
 }
 
-export type TypesGetTypeDefHeadersParameters = RequestParameters &
-  TypesGetTypeDefHeadersQueryParam;
+export type TypesListTypeDefinitionHeadersParameters = RequestParameters &
+  TypesListTypeDefinitionHeadersQueryParam;
 export type TypesGetTermTemplateDefByGuidParameters = RequestParameters;
 export type TypesGetTermTemplateDefByNameParameters = RequestParameters;

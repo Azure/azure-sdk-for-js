@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export type AtlasEntityWithExtInfo = AtlasEntityWithExtInfoBase &
-  AtlasEntityExtInfo;
+export type AtlasEntityWithExtInfo = AtlasEntityWithExtInfoBase & AtlasEntityExtInfo;
 
 export interface AtlasEntityWithExtInfoBase {
   /** An instance of an entity - like hive_table, hive_database. */
@@ -144,8 +143,7 @@ export interface AtlasEntityHeaderBase {
   status?: Status;
 }
 
-export type AtlasEntitiesWithExtInfo = AtlasEntitiesWithExtInfoBase &
-  AtlasEntityExtInfo;
+export type AtlasEntitiesWithExtInfo = AtlasEntitiesWithExtInfoBase & AtlasEntityExtInfo;
 
 export interface AtlasEntitiesWithExtInfoBase {
   /** An array of entities. */
@@ -228,8 +226,7 @@ export interface AtlasRelatedTermHeader {
   termGuid?: string;
 }
 
-export type AtlasGlossaryBaseObject = AtlasGlossaryBaseObjectBase &
-  AtlasBaseModelObject;
+export type AtlasGlossaryBaseObject = AtlasGlossaryBaseObjectBase & AtlasBaseModelObject;
 
 export interface AtlasGlossaryBaseObjectBase {
   /** An array of classifications. */
@@ -251,8 +248,7 @@ export interface AtlasBaseModelObject {
   guid?: string;
 }
 
-export type AtlasGlossaryCategory = AtlasGlossaryCategoryBase &
-  AtlasGlossaryBaseObject;
+export type AtlasGlossaryCategory = AtlasGlossaryCategoryBase & AtlasGlossaryBaseObject;
 
 export interface AtlasGlossaryCategoryBase {
   /** The glossary header with basic information. */
@@ -667,8 +663,7 @@ export interface AtlasRelationshipWithExtInfo {
   relationship?: AtlasRelationship;
 }
 
-export type AtlasClassificationDef = AtlasClassificationDefBase &
-  AtlasStructDef;
+export type AtlasClassificationDef = AtlasClassificationDefBase & AtlasStructDef;
 
 export interface AtlasClassificationDefBase {
   /**
@@ -841,8 +836,7 @@ export interface AtlasEntityDefBase {
   relationshipAttributeDefs?: AtlasRelationshipAttributeDef[];
 }
 
-export type AtlasRelationshipAttributeDef = AtlasRelationshipAttributeDefBase &
-  AtlasAttributeDef;
+export type AtlasRelationshipAttributeDef = AtlasRelationshipAttributeDefBase & AtlasAttributeDef;
 
 export interface AtlasRelationshipAttributeDefBase {
   /** Determines if it is a legacy attribute. */
@@ -913,9 +907,7 @@ export interface AtlasRelationshipEndDef {
   type?: string;
 }
 
-export type AtlasTypeDef = AtlasTypeDefBase &
-  AtlasBaseTypeDef &
-  AtlasExtraTypeDef;
+export type AtlasTypeDef = AtlasTypeDefBase & AtlasBaseTypeDef & AtlasExtraTypeDef;
 
 export interface AtlasTypeDefBase {}
 
@@ -1009,8 +1001,7 @@ export interface TypeStatisticsExtraProperties {
   count?: number;
 }
 
-export type AtlasUserSavedSearch = AtlasUserSavedSearchBase &
-  AtlasBaseModelObject;
+export type AtlasUserSavedSearch = AtlasUserSavedSearchBase & AtlasBaseModelObject;
 
 export interface AtlasUserSavedSearchBase {
   /** The name of the saved search. */
@@ -1018,14 +1009,14 @@ export interface AtlasUserSavedSearchBase {
   /** The owner name of the saved search. */
   ownerName?: string;
   /** The parameters used for search. */
-  searchParameters?: SearchParameters;
+  searchParameters?: SearchParams;
   /** The enum of saved search type. */
   searchType?: SavedSearchType;
   /** The UI parameters. */
   uiParameters?: string;
 }
 
-export interface SearchParameters {
+export interface SearchParams {
   /** Attribute values included in the results */
   attributes?: string[];
   /** The classification to search. */
@@ -1254,19 +1245,10 @@ export type AtlasTermAssignmentStatus =
   | "OBSOLETE"
   | "OTHER";
 export type SortType = "NONE" | "ASC" | "DESC";
-export type AtlasTermRelationshipStatus =
-  | "DRAFT"
-  | "ACTIVE"
-  | "DEPRECATED"
-  | "OBSOLETE"
-  | "OTHER";
+export type AtlasTermRelationshipStatus = "DRAFT" | "ACTIVE" | "DEPRECATED" | "OBSOLETE" | "OTHER";
 export type TermStatus = "Draft" | "Approved" | "Alert" | "Expired";
 export type StatusAtlasRelationship = "ACTIVE" | "DELETED";
-export type ImportCSVOperationStatus =
-  | "NotStarted"
-  | "Succeeded"
-  | "Failed"
-  | "Running";
+export type ImportCSVOperationStatus = "NotStarted" | "Succeeded" | "Failed" | "Running";
 export type Direction = "BOTH" | "INPUT" | "OUTPUT";
 export type LineageDirection = "INPUT" | "OUTPUT" | "BOTH";
 export type Cardinality = "SINGLE" | "LIST" | "SET";
@@ -1290,10 +1272,7 @@ export type RoundingMode =
   | "HALF_DOWN"
   | "HALF_EVEN"
   | "UNNECESSARY";
-export type RelationshipCategory =
-  | "ASSOCIATION"
-  | "AGGREGATION"
-  | "COMPOSITION";
+export type RelationshipCategory = "ASSOCIATION" | "AGGREGATION" | "COMPOSITION";
 export type Type =
   | "enum"
   | "entity"
@@ -1351,31 +1330,16 @@ export type AtlasStructAttributesDictionary = Record<string, any>;
 export type AtlasEntityRelationshipAttributesDictionary = Record<string, any>;
 export type AtlasEntitySourceDetailsDictionary = Record<string, any>;
 export type AtlasEntityContactsDictionary = Record<string, ContactBasic[]>;
-export type AtlasEntityExtInfoReferredEntitiesDictionary = Record<
-  string,
-  AtlasEntity
->;
-export type EntityMutationResponseGuidAssignmentsDictionary = Record<
-  string,
-  string
->;
-export type EntityMutationResponseMutatedEntitiesDictionary = Record<
-  string,
-  AtlasEntityHeader[]
->;
-export type AtlasEntityHeadersGuidHeaderMapDictionary = Record<
-  string,
-  AtlasEntityHeader
->;
+export type AtlasEntityExtInfoReferredEntitiesDictionary = Record<string, AtlasEntity>;
+export type EntityMutationResponseGuidAssignmentsDictionary = Record<string, string>;
+export type EntityMutationResponseMutatedEntitiesDictionary = Record<string, AtlasEntityHeader[]>;
+export type AtlasEntityHeadersGuidHeaderMapDictionary = Record<string, AtlasEntityHeader>;
 export type DictionaryOfStringDictionary = Record<string, string>;
 export type DictionaryOfpathsCic80AAtlasV2GlossaryCategoryCategoryguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary = Record<
   string,
   AtlasRelatedCategoryHeader[]
 >;
-export type AtlasGlossaryTermContactsDictionary = Record<
-  string,
-  ContactBasic[]
->;
+export type AtlasGlossaryTermContactsDictionary = Record<string, ContactBasic[]>;
 export type TermCustomAttributesExtraPropertiesDictionary = Record<string, any>;
 export type TermCustomAttributesDictionary = Record<
   string,
@@ -1386,18 +1350,9 @@ export type DictionaryOfpathsV84KwqAtlasV2GlossaryTermsTermguidRelatedGetRespons
   string,
   AtlasRelatedTermHeader[]
 >;
-export type AtlasGlossaryExtInfoCategoryInfoDictionary = Record<
-  string,
-  AtlasGlossaryCategory
->;
-export type AtlasGlossaryExtInfoTermInfoDictionary = Record<
-  string,
-  AtlasGlossaryTerm
->;
-export type AtlasLineageInfoGuidEntityMapDictionary = Record<
-  string,
-  AtlasEntityHeader
->;
+export type AtlasGlossaryExtInfoCategoryInfoDictionary = Record<string, AtlasGlossaryCategory>;
+export type AtlasGlossaryExtInfoTermInfoDictionary = Record<string, AtlasGlossaryTerm>;
+export type AtlasLineageInfoGuidEntityMapDictionary = Record<string, AtlasEntityHeader>;
 export type AtlasLineageInfoExtraPropertiesDictionary = Record<string, any>;
 export type AtlasLineageInfoWidthCountsDictionary = Record<
   string,
@@ -1410,8 +1365,5 @@ export type AtlasRelationshipWithExtInfoReferredEntitiesDictionary = Record<
 export type AtlasConstraintDefParamsDictionary = Record<string, any>;
 export type AtlasAttributeDefOptionsDictionary = Record<string, string>;
 export type AtlasBaseTypeDefOptionsDictionary = Record<string, string>;
-export type TypeStatisticsDictionary = Record<
-  string,
-  TypeStatisticsExtraProperties
->;
+export type TypeStatisticsDictionary = Record<string, TypeStatisticsExtraProperties>;
 export type SearchFilterParamsDictionary = Record<string, string[]>;
