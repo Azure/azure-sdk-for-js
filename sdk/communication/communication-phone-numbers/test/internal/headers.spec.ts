@@ -81,7 +81,7 @@ describe("PhoneNumbersClient - headers", function() {
     if (isPlaybackMode()) {
       this.skip();
     }
-    let credential: TokenCredential = isNode
+    const credential: TokenCredential = isNode
       ? new DefaultAzureCredential()
       : new ClientSecretCredential(
           env.AZURE_TENANT_ID,
