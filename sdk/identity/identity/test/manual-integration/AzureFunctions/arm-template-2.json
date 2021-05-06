@@ -197,7 +197,7 @@
             },
             {
               "name": "FUNCTIONS_EXTENSION_VERSION",
-              "value": "~2"
+              "value": "~3"
             },
             {
               "name": "WEBSITE_NODE_DEFAULT_VERSION",
@@ -210,6 +210,10 @@
             {
               "name": "FUNCTIONS_WORKER_RUNTIME",
               "value": "[variables('functionWorkerRuntime')]"
+            },
+            {
+             "name": "KEYVAULT_URI",
+             "value": "[concat('https://', variables('vaultname'), '.vault.azure.net/')]"
             }
           ]
         }
