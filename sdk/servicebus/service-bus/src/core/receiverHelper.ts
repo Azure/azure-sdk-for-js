@@ -97,18 +97,6 @@ export class ReceiverHelper {
     this._isSuspended = false;
   }
 
-  /**
-   * Whether the receiver can receive messages.
-   *
-   * This checks if the the caller has decided to disable adding
-   * credits via 'suspend' as well as whether the receiver itself is
-   * still open.
-   */
-  canReceiveMessages(): boolean {
-    const { receiver } = this._getCurrentReceiver();
-    return !this._isSuspended && this._isValidReceiver(receiver);
-  }
-
   isSuspended(): boolean {
     return this._isSuspended;
   }
