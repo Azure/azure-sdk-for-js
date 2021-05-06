@@ -23,7 +23,7 @@ async function main() {
   const dataSources = await client.path("/datasources").get();
 
   if (dataSources.status !== "200") {
-    throw dataSources;
+    throw dataSources.body.error;
   }
 
   console.log(dataSources.body.value?.map((ds) => ds.name).join("\n"));
