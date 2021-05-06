@@ -28,7 +28,5 @@ extends:
   parameters:
     ServiceDirectory: purview
     Artifacts:
-      - name: azure-rest-purview-scanning
-        safeName: azurerestpurviewscanning
       - name: azure-rest-purview-catalog
         safeName: azurerestpurviewcatalog
