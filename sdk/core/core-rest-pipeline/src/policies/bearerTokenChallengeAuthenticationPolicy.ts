@@ -138,7 +138,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
   // in order to pass through the `options` object.
   const getAccessToken = credential
     ? createTokenCycler(credential /* , options */).getToken
-    : (_scopes: string | string[], _options: GetTokenOptions) => Promise.resolve(null);
+    : () => Promise.resolve(null);
 
   return {
     name: bearerTokenChallengeAuthenticationPolicyName,

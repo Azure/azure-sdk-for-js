@@ -1,0 +1,40 @@
+{
+  "name": "azure-keyvault-admin-samples-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Key Vault Administration client library samples for JavaScript",
+  "engine": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/keyvault/keyvault-admin"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "keyvault",
+    "backup",
+    "restore",
+    "access",
+    "role"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin",
+  "dependencies": {
+    "@azure/keyvault-admin": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^1.1.0",
+    "uuid": "^8.3.0",
+    "@azure/keyvault-keys": "^4.2.0-beta.5"
+  }
+}

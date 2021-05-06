@@ -75,7 +75,8 @@ import {
   IndexingParameters,
   IndexingSchedule,
   LexicalNormalizerName,
-  CustomNormalizer
+  CustomNormalizer,
+  SearchIndexerKnowledgeStore
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -1077,6 +1078,10 @@ export interface SearchIndexerSkillset {
    * Details about cognitive services to be used when running skills.
    */
   cognitiveServicesAccount?: CognitiveServicesAccount;
+  /**
+   * Definition of additional projections to azure blob, table, or files, of enriched data.
+   */
+  knowledgeStore?: SearchIndexerKnowledgeStore;
   /**
    * The ETag of the skillset.
    */

@@ -726,6 +726,11 @@
       "packageName": "@azure-tests/perf-ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/perf-tests/ai-metrics-advisor",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-core-rest-pipeline",
+      "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
+      "versionPolicyName": "test"
     }
   ]
 }

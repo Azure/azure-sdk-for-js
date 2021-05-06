@@ -411,7 +411,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.value.status, "Expecting second data feed");
         });
 
-        it("lists datafeed by pages", async function() {
+        it.skip("lists datafeed by pages", async function() {
           const iterator = client
             .listDataFeeds({
               filter: {
