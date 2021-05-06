@@ -566,8 +566,8 @@ export const enum KnownLocale {
  */
 export type Locale = string;
 
-/** Known values of {@link Language} that the service accepts. */
-export const enum KnownLanguage {
+/** Known values of {@link FormLanguage} that the service accepts. */
+export const enum KnownFormLanguage {
   Af = "af",
   Ast = "ast",
   Bi = "bi",
@@ -644,8 +644,8 @@ export const enum KnownLanguage {
 }
 
 /**
- * Defines values for Language. \
- * {@link KnownLanguage} can be used interchangeably with Language,
+ * Defines values for FormLanguage. \
+ * {@link KnownFormLanguage} can be used interchangeably with FormLanguage,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **af** \
@@ -722,7 +722,7 @@ export const enum KnownLanguage {
  * **zh-Hant** \
  * **zu**
  */
-export type Language = string;
+export type FormLanguage = string;
 /** Defines values for ModelStatus. */
 export type ModelStatus = "creating" | "ready" | "invalid";
 /** Defines values for TrainStatus. */
@@ -751,8 +751,8 @@ export type FieldValueType =
   | "selectionMark"
   | "gender"
   | "country";
-/** Defines values for ReadingOrder. */
-export type ReadingOrder = "basic" | "natural";
+/** Defines values for FormReadingOrder. */
+export type FormReadingOrder = "basic" | "natural";
 
 /** Contains response data for the trainCustomModelAsync operation. */
 export type GeneratedClientTrainCustomModelAsyncResponse = GeneratedClientTrainCustomModelAsyncHeaders & {
@@ -1050,9 +1050,9 @@ export interface GeneratedClientAnalyzeLayoutAsync$binaryOptionalParams
   /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
   /** Currently, only Afrikaans (‘af’), Albanian (‘sq’), Asturian (‘ast’), Basque (‘eu’), Bislama (‘bi’), Breton (‘br’), Catalan (‘ca’), Cebuano (‘ceb’), Chamorro (‘ch’), Cornish (‘kw’), Corsican (‘co’), Crimean Tatar - Latin script(‘crh’), Czech (‘cs’), Danish (‘da’), Dutch (‘nl’), English ('en'), Estonian (‘et’), Fijian (‘fj’), Filipino (‘fil’), Finnish (‘fi’), French (‘fr’), Friulian (‘fur’), Galician (‘gl’), German (‘de’), Gilbertese (‘gil’), Greenlandic (‘kl’), Haitian Creole (‘ht’), Hani (‘hni’), Hmong Daw (‘mww’), Hungarian (‘hu’), Indonesian (‘id’), Interlingua (‘ia’), Inuktitut (‘iu’), Irish (‘ga’), Italian (‘it’), Japanese (‘ja’), Javanese (‘jv’), Kabuverdianu (‘kea’), Kachin (‘kac’), Kara-Kalpak (‘kaa’), Kashubian (‘csb’), Khasi (‘kha’), Korean (‘ko’), Kurdish - Latin script (‘ku’), K’iche’ (‘quc’), Luxembourgish (‘lb’), Malay (‘ms’), Manx (‘gv’), Neapolitan (‘nap’), Norwegian (‘no’), Occitan (‘oc’), Polish (‘pl’), Portuguese (‘pt’), Romansh (‘rm’), Scots (‘sco’), Scottish Gaelic (‘gd’), simplified Chinese (‘zh-Hans’), Slovenian (‘sl’), Spanish (‘es’), Swahili (‘sw’), Swedish (‘sv’), Tatar - Latin script (‘tt’), Tetum (‘tet’), traditional Chinese (‘zh-Hant’), Turkish (‘tr’), Upper Sorbian (‘hsb’), Uzbek (‘uz’), Volapük (‘vo’), Walser (‘wae’), Western Frisian (‘fy’), Yucatec Maya (‘yua’), Zhuang (‘za’) and Zulu (‘zu’) are supported (print – seventy-three languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language. */
-  language?: Language;
+  language?: FormLanguage;
   /** Reading order algorithm to sort the text lines returned. Supported reading orders include: basic(default), natural. */
-  readingOrder?: ReadingOrder;
+  readingOrder?: FormReadingOrder;
 }
 
 /** Optional parameters. */
@@ -1063,9 +1063,9 @@ export interface GeneratedClientAnalyzeLayoutAsync$jsonOptionalParams
   /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
   /** Currently, only Afrikaans (‘af’), Albanian (‘sq’), Asturian (‘ast’), Basque (‘eu’), Bislama (‘bi’), Breton (‘br’), Catalan (‘ca’), Cebuano (‘ceb’), Chamorro (‘ch’), Cornish (‘kw’), Corsican (‘co’), Crimean Tatar - Latin script(‘crh’), Czech (‘cs’), Danish (‘da’), Dutch (‘nl’), English ('en'), Estonian (‘et’), Fijian (‘fj’), Filipino (‘fil’), Finnish (‘fi’), French (‘fr’), Friulian (‘fur’), Galician (‘gl’), German (‘de’), Gilbertese (‘gil’), Greenlandic (‘kl’), Haitian Creole (‘ht’), Hani (‘hni’), Hmong Daw (‘mww’), Hungarian (‘hu’), Indonesian (‘id’), Interlingua (‘ia’), Inuktitut (‘iu’), Irish (‘ga’), Italian (‘it’), Japanese (‘ja’), Javanese (‘jv’), Kabuverdianu (‘kea’), Kachin (‘kac’), Kara-Kalpak (‘kaa’), Kashubian (‘csb’), Khasi (‘kha’), Korean (‘ko’), Kurdish - Latin script (‘ku’), K’iche’ (‘quc’), Luxembourgish (‘lb’), Malay (‘ms’), Manx (‘gv’), Neapolitan (‘nap’), Norwegian (‘no’), Occitan (‘oc’), Polish (‘pl’), Portuguese (‘pt’), Romansh (‘rm’), Scots (‘sco’), Scottish Gaelic (‘gd’), simplified Chinese (‘zh-Hans’), Slovenian (‘sl’), Spanish (‘es’), Swahili (‘sw’), Swedish (‘sv’), Tatar - Latin script (‘tt’), Tetum (‘tet’), traditional Chinese (‘zh-Hant’), Turkish (‘tr’), Upper Sorbian (‘hsb’), Uzbek (‘uz’), Volapük (‘vo’), Walser (‘wae’), Western Frisian (‘fy’), Yucatec Maya (‘yua’), Zhuang (‘za’) and Zulu (‘zu’) are supported (print – seventy-three languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language. */
-  language?: Language;
+  language?: FormLanguage;
   /** Reading order algorithm to sort the text lines returned. Supported reading orders include: basic(default), natural. */
-  readingOrder?: ReadingOrder;
+  readingOrder?: FormReadingOrder;
 }
 
 /** Contains response data for the analyzeLayoutAsync operation. */

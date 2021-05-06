@@ -32,7 +32,7 @@ import {
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   SourcePath,
   OperationStatus,
-  ReadingOrder
+  FormReadingOrder
 } from "./generated/models";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
@@ -89,7 +89,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
   /**
    * The BCP-47 language code of the text in the document.
    *
-   * See the `KnownLanguage` type for a list of known langauges that the
+   * See the `KnownFormLanguage` type for a list of known langauges that the
    * service supports.
    *
    * Handwritten text is only supported in English ('en').
@@ -99,7 +99,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    * override the service's default behavior and force the document to be
    * processed using a specific language.
    *
-   * @see KnownLanguage
+   * @see KnownFormLanguage
    */
   language?: string;
   /**
@@ -113,7 +113,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    * The "natural" reading order uses positional information and heuristics to
    * keep nearby lines together.
    */
-  readingOrder?: ReadingOrder;
+  readingOrder?: FormReadingOrder;
   /**
    * Custom page numbers for multi-page documents(PDF/TIFF). If a value is
    * provided, content information will only be provided for the selected

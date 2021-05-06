@@ -49,12 +49,20 @@ function toBoundingBox(original: number[]): Point2D[] {
 }
 
 export function toTextLine(original: TextLineModel, pageNumber: number): FormLine {
+  const appearance =
+    original.appearance !== undefined
+      ? {
+          styleName: original.appearance.style.name,
+          styleConfidence: original.appearance.style.confidence
+        }
+      : undefined;
+
   const line: FormLine = {
     kind: "line",
     pageNumber,
     text: original.text,
     boundingBox: toBoundingBox(original.boundingBox),
-    appearance: original.appearance,
+    appearance,
     words: original.words.map((w) => {
       return {
         kind: "word",
@@ -250,9 +258,7 @@ export function toFormFieldFromFieldValueModel(
       value = original.valuePhoneNumber;
       break;
     case "selectionMark":
-      // TODO: service issue returns `undefined` for valueSelectionMark and
-      // instead returns the value in `text`
-      value = original.text;
+      value = original.valueSelectionMark;
       break;
     case "array":
       value = original.valueArray?.map((fieldValueModel) =>
@@ -264,11 +270,15 @@ export function toFormFieldFromFieldValueModel(
         ? toFieldsFromFieldValue(original.valueObject, readResults)
         : undefined;
       break;
-    case "gender":
-      value = original.valueGender;
-      break;
     case "country":
+      // TODO: revert once the "country" type is renamed "countryRegion"
+      original.type = "countryRegion" as typeof original.type;
       value = original.valueCountry;
+      break;
+    case "gender":
+      // TODO: revert once the "gender" type is removed
+      original.type = "string";
+      value = original.valueGender;
       break;
     default:
       return unreachable(original.type);

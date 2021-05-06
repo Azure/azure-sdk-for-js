@@ -1,5 +1,14 @@
 # Release History
 
+## 3.1.0 (2021-05-26)
+
+- This General Availability (GA) release marks the stability of the changes introduced in package versions 3.1.0-beta.1 through 3.1.0-beta.3.
+- Flattened the `TextStyle` type into the `TextAppearance` type. Rather than having a `style` property with its own `name` and `confidence`, `TextAppearance` now has `styleName` and `styleConfidence` properties.
+- Removed the `FormGenderField` type. Any recognized value that was previously produced as a `FormGenderField` is now returned as a `FormStringField` instead (the `value` will remain the same).
+- Renamed the `FormCountryField` type to `FormCountryRegionField`, and changed the `valueType` discriminant property of that type to `"countryRegion:`.
+- Renamed `ReadingOrder` and `Language` to `FormReadingOrder` and `FormLanguage` to reduce the chance that these types would collide with other types having the same name from other packages.
+- Migrated to the 2.1 Form Recognizer service endpoint for all REST API calls.
+
 ## 3.1.0-beta.3 (2021-04-06)
 
 - Split `FormField` into several different interfaces. This should not cause any API compatibility issues except in certain edge cases (undefined `valueType`), but should result in more accurate type refinement when dealing with FormField values and should significantly improve documentation and code hinting of these values through IntelliSense.

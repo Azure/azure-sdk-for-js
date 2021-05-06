@@ -41,7 +41,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     resumeFrom?: string;
     contentType?: FormContentType;
     language?: string;
-    readingOrder?: ReadingOrder;
+    readingOrder?: FormReadingOrder;
     pages?: string[];
 };
 
@@ -165,10 +165,10 @@ export interface FormArrayField extends FormFieldCommon {
 export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff" | "image/bmp";
 
 // @public
-export interface FormCountryField extends FormFieldCommon {
+export interface FormCountryRegionField extends FormFieldCommon {
     value?: string;
     // (undocumented)
-    valueType: "country";
+    valueType: "countryRegion";
 }
 
 // @public
@@ -189,7 +189,7 @@ export interface FormElementCommon {
 }
 
 // @public
-export type FormField = FormUnknownField | FormStringField | FormNumberField | FormDateField | FormTimeField | FormPhoneNumberField | FormIntegerField | FormSelectionMarkField | FormArrayField | FormObjectField | FormGenderField | FormCountryField;
+export type FormField = FormUnknownField | FormStringField | FormNumberField | FormDateField | FormTimeField | FormPhoneNumberField | FormIntegerField | FormSelectionMarkField | FormArrayField | FormObjectField | FormCountryRegionField;
 
 // @public
 export interface FormFieldCommon {
@@ -206,18 +206,14 @@ export interface FormFieldsReport {
 }
 
 // @public
-export interface FormGenderField extends FormFieldCommon {
-    value?: string;
-    // (undocumented)
-    valueType: "gender";
-}
-
-// @public
 export interface FormIntegerField extends FormFieldCommon {
     value?: number;
     // (undocumented)
     valueType: "integer";
 }
+
+// @public
+export type FormLanguage = string;
 
 // @public
 export interface FormLine extends FormElementCommon {
@@ -280,6 +276,9 @@ export interface FormPhoneNumberField extends FormFieldCommon {
 
 // @public
 export type FormPollerLike = PollerLike<RecognizeFormsOperationState, RecognizedFormArray>;
+
+// @public
+export type FormReadingOrder = "basic" | "natural";
 
 // @public
 export class FormRecognizerClient {
@@ -443,25 +442,7 @@ export interface KeyValuePairModel {
 export type KeyValueType = string;
 
 // @public
-export const enum KnownGender {
-    // (undocumented)
-    F = "F",
-    // (undocumented)
-    M = "M",
-    // (undocumented)
-    X = "X"
-}
-
-// @public
-export const enum KnownKeyValueType {
-    // (undocumented)
-    SelectionMark = "selectionMark",
-    // (undocumented)
-    String = "string"
-}
-
-// @public
-export const enum KnownLanguage {
+export const enum KnownFormLanguage {
     // (undocumented)
     Af = "af",
     // (undocumented)
@@ -611,6 +592,14 @@ export const enum KnownLanguage {
 }
 
 // @public
+export const enum KnownKeyValueType {
+    // (undocumented)
+    SelectionMark = "selectionMark",
+    // (undocumented)
+    String = "string"
+}
+
+// @public
 export const enum KnownSelectionMarkState {
     // (undocumented)
     Selected = "selected",
@@ -625,9 +614,6 @@ export const enum KnownStyleName {
     // (undocumented)
     Other = "other"
 }
-
-// @public
-export type Language = string;
 
 // @public
 export type LengthUnit = "pixel" | "inch";
@@ -681,9 +667,6 @@ export interface Point2D {
 }
 
 // @public
-export type ReadingOrder = "basic" | "natural";
-
-// @public
 export type RecognizeContentOperationState = PollOperationState<FormPageArray> & {
     status: OperationStatus;
 };
@@ -724,17 +707,9 @@ export { RestResponse }
 export type SelectionMarkState = string;
 
 // @public
-export type StyleName = string;
-
-// @public
 export interface TextAppearance {
-    style: TextStyle;
-}
-
-// @public
-export interface TextStyle {
-    confidence: number;
-    name: StyleName;
+    styleConfidence: number;
+    styleName: string;
 }
 
 // @public

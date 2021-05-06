@@ -12,20 +12,16 @@ import {
   KeyValuePair as KeyValuePairModel,
   SelectionMarkState,
   KnownSelectionMarkState,
-  Language,
-  KnownLanguage,
+  FormLanguage,
+  KnownFormLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus as CustomFormModelStatus,
   TrainStatus as TrainingStatus,
   OperationStatus,
   ModelStatus,
-  TextAppearance,
-  TextStyle,
-  StyleName,
   KnownStyleName,
-  KnownFieldValueGender as KnownGender,
-  ReadingOrder
+  FormReadingOrder
 } from "./generated/models";
 
 export {
@@ -37,20 +33,16 @@ export {
   KeyValuePairModel,
   SelectionMarkState,
   KnownSelectionMarkState,
-  Language,
-  KnownLanguage,
+  FormLanguage,
+  KnownFormLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus,
   CustomFormModelStatus,
   OperationStatus,
   TrainingStatus,
-  TextAppearance,
-  TextStyle,
-  StyleName,
   KnownStyleName,
-  KnownGender,
-  ReadingOrder
+  FormReadingOrder
 };
 
 /**
@@ -123,6 +115,24 @@ export interface FormLine extends FormElementCommon {
    * Text appearance properties, such as style.
    */
   appearance?: TextAppearance;
+}
+
+/**
+ * Represents the appearance of a line of text in a form.
+ */
+export interface TextAppearance {
+  /**
+   * The identified style of writing, can be one of:
+   * - "handwriting"
+   * - "other"
+   *
+   * @see KnownStyleName
+   */
+  styleName: string;
+  /**
+   * Confidence value.
+   */
+  styleConfidence: number;
 }
 
 /**
@@ -275,8 +285,7 @@ export type FormField =
   | FormSelectionMarkField
   | FormArrayField
   | FormObjectField
-  | FormGenderField
-  | FormCountryField;
+  | FormCountryRegionField;
 
 /**
  * Fields common to all variations of FormField.
@@ -430,24 +439,14 @@ export interface FormSelectionMarkField extends FormFieldCommon {
 }
 
 /**
- * A form field with a value representing a gender.
+ * A form field with a value representing an administrative region or country
+ * in the world.
  */
-export interface FormGenderField extends FormFieldCommon {
-  valueType: "gender";
+export interface FormCountryRegionField extends FormFieldCommon {
+  valueType: "countryRegion";
   /**
-   * The recognized gender, one of "M", "F", or "X".
-   */
-  value?: string;
-}
-
-/**
- * A form field with a value representing a country in the world.
- */
-export interface FormCountryField extends FormFieldCommon {
-  valueType: "country";
-  /**
-   * The recognized country, represented by a three-letter country code string
-   * (ISO 3166-1 alpha-3).
+   * The recognized country or region, represented by a three-letter (ISO
+   * 3166-1 alpha-3) code.
    */
   value?: string;
 }
