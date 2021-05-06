@@ -43,12 +43,9 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
 };
 
 export function createRegistryClient(
+  endpoint: string,
   options: { anonymous: boolean } = { anonymous: false }
 ): ContainerRegistryClient {
-  // Retrieve the endpoint from the environment variable
-  // we saved to the .env file earlier
-  const endpoint = env.CONTAINER_REGISTRY_ENDPOINT;
-
   if (options.anonymous) {
     return new ContainerRegistryClient(endpoint);
   }

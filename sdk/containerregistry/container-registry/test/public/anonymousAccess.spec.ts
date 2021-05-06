@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 
 import { ContainerRegistryClient } from "../../src";
 
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-util";
 import { createRegistryClient, recorderEnvSetup } from "./utils";
 
@@ -33,7 +33,7 @@ describe.only("Anonymous access tests", function() {
 
     // We'll be able to refer to the instantiated `client` in tests, since we
     // initialize it before each test
-    client = createRegistryClient({ anonymous: true });
+    client = createRegistryClient(env.CONTAINER_ANONREGISTRY_ENDPOINT, { anonymous: true });
   });
 
   // After each test, we need to stop the recording.

@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 
 import { ContainerRegistryClient } from "../../src";
 
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, env, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-util";
 import { createRegistryClient, recorderEnvSetup } from "./utils";
 
@@ -33,7 +33,7 @@ describe("ContainerRegistryClient functional tests", function() {
 
     // We'll be able to refer to the instantiated `client` in tests, since we
     // initialize it before each test
-    client = createRegistryClient();
+    client = createRegistryClient(env.CONTAINER_REGISTRY_ENDPOINT);
   });
 
   // After each test, we need to stop the recording.
