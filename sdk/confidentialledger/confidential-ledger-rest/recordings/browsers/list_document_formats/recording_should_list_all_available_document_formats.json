@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://identity.accledger.azure.com/ledgerIdentity/sdk-test-ledger-prod",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"ledgerTlsCertificate\":\"-----BEGIN CERTIFICATE-----\\nMIIBtjCCAT2gAwIBAgIQSw8HaSIBHIBNCOoDjlSdTTAKBggqhkjOPQQDAzAWMRQw\\nEgYDVQQDDAtDQ0YgTmV0d29yazAeFw0yMTAzMTEwMDAwMDBaFw0yMzA2MTEyMzU5\\nNTlaMBYxFDASBgNVBAMMC0NDRiBOZXR3b3JrMHYwEAYHKoZIzj0CAQYFK4EEACID\\nYgAE+v02BHft1bJws8lZx8EANt/r2EgvdY+t4WoNJideAUyL1q5fzvkyq+KzGFKB\\ntO4ZTQswmKc6851hDSFU90TFxj+Z+8blpdTd4Kyrgm1QJeC62yeiwDDV3wuxLQdp\\nqdumo1AwTjAMBgNVHRMEBTADAQH/MB0GA1UdDgQWBBSqyU4AMIPtiTcr0sNylZeG\\nMxLOBTAfBgNVHSMEGDAWgBSqyU4AMIPtiTcr0sNylZeGMxLOBTAKBggqhkjOPQQD\\nAwNnADBkAjAvOKkxJ1ApNgnUz2AwT6ke/5zITbKleCYhsA31ydmtxKzHknFvjezV\\n71M2EfnbKkUCMAsuRjhh4B5hmu6YOyM1ZSAF6eVxkpVTM0zSD1M/t9e+I/3Ym3tG\\nG/fqaA8AvrxFiQ==\\n-----END CERTIFICATE-----\\n\\u0000\",\"ledgerId\":\"sdk-test-ledger-prod\"}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 07 May 2021 00:03:44 GMT",
+    "server": "Kestrel",
+    "status": "200",
+    "x-ms-client-request-id": "4467877b-536b-44bd-891b-b6c662480739",
+    "x-ms-correlation-request-id": "7e3be8cc-2a4a-41e0-934d-6aa2af4110bd",
+    "x-ms-image-digest": "sha256:fa916507a81260134a8d6fc8785d8166b360d5c852176bf4e114ab394516d083",
+    "x-ms-image-tag": "latest-20210505033820223-0050c5fc",
+    "x-ms-machinename": "identityservice-7588bbcd9d-g648d"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "89505c6507421965fe1bae96ef89bb54"
+}

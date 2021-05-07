@@ -2,20 +2,18 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to make a simple call to the Azure Document Translator
- * service to get a list of supported file formats
+ * This sample demonstrates how to list enclave quotes using client AAD Authentication
  *
- * @summary gets a list of all supported document formats
- * @azsdk-weight 40
+ * @summary gets a list of all enclave quotes using AAD Authentication
+ * @azsdk-weight 30
  */
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
-// const endpoint = process.env["ENDPOINT"] || "document-translator endpoint";
-
-const cert = process.env["USER_CERT"] || "";
+const endpoint = process.env["ENDPOINT"] || "";
 
 export async function main() {
   console.log("== Confidential Ledger ==");
@@ -25,9 +23,9 @@ export async function main() {
 
   // Create the Confidential Ledger Client
   const confidentialLedger = ConfidentialLedger(
-    "https://sdk-test-ledger-prod.eastus.cloudapp.azure.com",
+    endpoint,
     ledgerIdentity.ledgerTlsCertificate,
-    { cert: cert, certKey: cert }
+    new DefaultAzureCredential()
   );
 
   // Get enclave quotes

@@ -16,7 +16,7 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/confidential-ledger.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/documenttranslator/ai-document-translator/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/confidentialledger/confidential-ledger/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -44,14 +44,12 @@
     "node": ">=8.0.0"
   },
   "//sampleConfiguration": {
-    "productName": "Azure Document Translator rest",
+    "productName": "Azure Confidential Ledger rest",
     "productSlugs": [
-      "azure",
-      "azure-cognitive-services",
-      "azure-translator"
+      "azure"
     ],
     "requiredResources": {
-      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+      "Azure Confidential Compute": "https://azure.microsoft.com/solutions/confidential-compute"
     }
   },
   "browser": {

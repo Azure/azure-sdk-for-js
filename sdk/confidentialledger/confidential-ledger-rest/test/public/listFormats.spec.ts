@@ -7,6 +7,12 @@ import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
+/**
+ * A constant that indicates whether the environment the code is running is Node.JS.
+ */
+export const isNode =
+  typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
+
 describe("List Document Formats", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
@@ -25,7 +31,13 @@ describe("List Document Formats", () => {
     await recorder.stop();
   });
 
-  it("should list all available document formats", async () => {
+  it("should list all available document formats", async function () {
+    if (!isNode) {
+      // Service doesn't support CORS
+      assert.ok("Skip browser");
+      return;
+    }
+
     const result = await client.path("/app/enclaveQuotes").get();
 
     if (result.status !== "200") {
