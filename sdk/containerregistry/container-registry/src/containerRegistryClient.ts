@@ -41,13 +41,13 @@ export class ContainerRegistryClient {
   /**
    * The Azure Container Registry endpoint.
    */
-  public registryUrl: string;
+  public readonly registryUrl: string;
 
   /** The login server of the registry */
-  public loginServer: string;
+  public readonly loginServer: string;
 
   /** The name of the registry */
-  public name: string;
+  public readonly name: string;
 
   private client: GeneratedClient;
 

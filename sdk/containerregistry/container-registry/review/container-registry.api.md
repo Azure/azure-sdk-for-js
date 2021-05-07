@@ -46,9 +46,9 @@ export class ContainerRegistryClient {
     getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact;
     getRepository(repositoryName: string): ContainerRepository;
     listRepositoryNames(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, string[]>;
-    loginServer: string;
-    name: string;
-    registryUrl: string;
+    readonly loginServer: string;
+    readonly name: string;
+    readonly registryUrl: string;
 }
 
 // @public
