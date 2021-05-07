@@ -27,8 +27,8 @@ npm install @azure/media-video-analyzer-edge
 - You will need to use the version of the SDK that corresponds to the version of the Video Analyzer Edge module you are using.
 
   | SDK     | Video Analyzer Edge Module |
-  | ------- | --------------- |
-  | 1.0.0b1 | 1.0             |
+  | ------- | -------------------------- |
+  | 1.0.0b1 | 1.0                        |
 
 ### Creating a pipeline topology and making requests
 
@@ -95,14 +95,13 @@ To create a live pipeline instance, you need to have an existing pipeline topolo
 
 ```typescript
 const livePipeline: LivePipeline = {
-    name: pipelineTopologyName,
-    properties: {
-      description: "description for jsTestLivePipeline",
-      topologyName: "jsTestTopology",
-      parameters: [{ name: "rtspUrl", value: "rtsp://sample.com" }]
-    }
-  };
-
+  name: pipelineTopologyName,
+  properties: {
+    description: "description for jsTestLivePipeline",
+    topologyName: "jsTestTopology",
+    parameters: [{ name: "rtspUrl", value: "rtsp://sample.com" }]
+  }
+};
 ```
 
 ### Invoking a pipeline method request
@@ -110,9 +109,9 @@ const livePipeline: LivePipeline = {
 ```typescript
 const pipelineTopologySetRequest = createRequest("pipelineTopologySet", pipelineTopology);
 const setPipelineTopResponse = await iotHubClient.invokeDeviceMethod(device_id, module_id, {
-      methodName: pipelineTopologySetRequest.methodName,
-      payload: pipelineTopologySetRequest.payload
-    });
+  methodName: pipelineTopologySetRequest.methodName,
+  payload: pipelineTopologySetRequest.payload
+});
 ```
 
 ## Troubleshooting
@@ -151,12 +150,10 @@ additional questions or comments.
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
 [coc_contact]: mailto:opencode@microsoft.com
 [source]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/videoanalyzer/
-
 [package]: TODO://link-to-published-package
 [doc_direct_methods]: TODO
 [doc_product]: TODO
 [iot_device_connection_string]: TODO
-
 [iot-device-sdk]: https://www.npmjs.com/package/azure-iot-device
 [iot-hub-sdk]: https://github.com/Azure/azure-iot-sdk-node
 [github-page-issues]: https://github.com/Azure/azure-sdk-for-python/issues
