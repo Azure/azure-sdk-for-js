@@ -31,7 +31,10 @@ describe("ContainerRepositoryClient functional tests", function() {
     recorder = record(this, recorderEnvSetup);
 
     registryClient = createRegistryClient(env.CONTAINERREGISTRY_REGISTRY_ENDPOINT);
-    repositoryClient = createRepositoryClient(repositoryName);
+    repositoryClient = createRepositoryClient(
+      env.CONTAINERREGISTRY_REGISTRY_ENDPOINT,
+      repositoryName
+    );
   });
 
   // After each test, we need to stop the recording.

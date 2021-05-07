@@ -9,7 +9,7 @@ import { ContainerRegistryClient, ContainerRepositoryClient } from "../../src";
 // recorded HTTP request or response, it will replace them with the values they
 // are mapped to below.
 const replaceableVariables: Record<string, string> = {
-  CONTAINER_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
+  CONTAINERREGISTRY_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
   AZURE_TENANT_ID: "azure_tenant_id",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -64,10 +64,12 @@ export function createRegistryClient(
   return new ContainerRegistryClient(endpoint, credential);
 }
 
-export function createRepositoryClient(repository: string): ContainerRepositoryClient {
+export function createRepositoryClient(
+  endpoint: string,
+  repository: string
+): ContainerRepositoryClient {
   // Retrieve the endpoint from the environment variable
   // we saved to the .env file earlier
-  const endpoint = env.CONTAINER_REGISTRY_ENDPOINT;
 
   // We use ClientSecretCredential instead of DefaultAzureCredential in order
   // to ensure that the requests made to the AAD server are always the same. If

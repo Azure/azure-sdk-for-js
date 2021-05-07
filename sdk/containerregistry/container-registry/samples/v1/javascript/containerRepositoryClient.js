@@ -13,7 +13,7 @@ dotenv.config();
 async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
   // where "myregistryname" is the actual name of your registry
-  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
+  const endpoint = process.env.CONTAINERREGISTRY_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.REPOSITORY_NAME || "<repository name>";
 
   const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
