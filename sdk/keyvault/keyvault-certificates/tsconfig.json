@@ -4,8 +4,15 @@
     "declarationDir": "./types",
     "outDir": "./dist-esm",
     "lib": ["dom"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@azure/keyvault-certificates": ["./src/index"]
+    }
   },
-  "exclude": ["node_modules", "../keyvault-common/node_modules", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "../keyvault-common/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "../keyvault-common/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
 }

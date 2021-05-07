@@ -16,21 +16,38 @@ import {
 } from "../../src";
 import { Recorder } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
+import { serializeFeatureFlagParam } from "../../src/featureFlag";
 
 describe("AppConfigurationClient - FeatureFlag", () => {
-  let client: AppConfigurationClient;
-  let recorder: Recorder;
-
-  beforeEach(function(this: Context) {
-    recorder = startRecorder(this);
-    client = createAppConfigurationClientForTests() || this.skip();
-  });
-
-  afterEach(async function(this: Context) {
-    await recorder.stop();
-  });
-
   describe("FeatureFlag configuration setting", () => {
+    let client: AppConfigurationClient;
+    let recorder: Recorder;
+
+    beforeEach(async function(this: Context) {
+      recorder = startRecorder(this);
+      client = createAppConfigurationClientForTests() || this.skip();
+      baseSetting = {
+        conditions: {
+          clientFilters
+        },
+        enabled: false,
+        isReadOnly: false,
+        key: `${featureFlagPrefix + recorder.getUniqueName("name-1")}`,
+        contentType: featureFlagContentType,
+        description: "I'm a description",
+        label: "label-1"
+      };
+      addResponse = await client.addConfigurationSetting(baseSetting);
+    });
+
+    afterEach(async function(this: Context) {
+      await client.deleteConfigurationSetting({
+        key: baseSetting.key,
+        label: baseSetting.label
+      });
+      await recorder.stop();
+    });
+
     const clientFilters: (
       | Record<string, unknown>
       | FeatureFlagTargetingClientFilter
@@ -63,28 +80,6 @@ describe("AppConfigurationClient - FeatureFlag", () => {
 
     let baseSetting: FeatureFlag;
     let addResponse: AddConfigurationSettingResponse;
-
-    beforeEach(async () => {
-      baseSetting = {
-        conditions: {
-          clientFilters
-        },
-        enabled: false,
-        isReadOnly: false,
-        key: `${featureFlagPrefix + recorder.getUniqueName("name-1")}`,
-        contentType: featureFlagContentType,
-        description: "I'm a description",
-        label: "label-1"
-      };
-      addResponse = await client.addConfigurationSetting(baseSetting);
-    });
-
-    afterEach(async () => {
-      await client.deleteConfigurationSetting({
-        key: baseSetting.key,
-        label: baseSetting.label
-      });
-    });
 
     function assertFeatureFlagProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
@@ -190,6 +185,23 @@ describe("AppConfigurationClient - FeatureFlag", () => {
         "Unexpected number of FeatureFlags seen after updating"
       );
       await client.deleteConfigurationSetting({ key: secondSetting.key });
+    });
+  });
+
+  describe("FeatureFlag utils", () => {
+    [featureFlagPrefix + "abcd", "abcd"].forEach((key) => {
+      it(`serializeFeatureFlagParam for a feature flag with key=${key}`, () => {
+        assert.equal(
+          serializeFeatureFlagParam({
+            key,
+            value: `xyz`,
+            conditions: { clientFilters: [] },
+            enabled: false
+          }).key,
+          featureFlagPrefix + "abcd",
+          "Unexpected key in the setting"
+        );
+      });
     });
   });
 });

@@ -33,7 +33,7 @@ export interface RecordedClient<T> {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
@@ -58,7 +58,7 @@ export function createRecordedClient(context: Context): RecordedClient<PhoneNumb
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new PhoneNumbersClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING, {
+    client: new PhoneNumbersClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
       httpClient: createTestHttpClient()
     } as PhoneNumbersClientOptions),
     recorder
@@ -79,7 +79,7 @@ export function createRecordedClientWithToken(
 ): RecordedClient<PhoneNumbersClient> | undefined {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)
+  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING)
     .endpoint;
   if (isPlaybackMode()) {
     credential = {
@@ -125,9 +125,11 @@ function createTestHttpClient(): HttpClient {
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
-    if (requestResponse.status < 200 || requestResponse.status > 299) {
-      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
-    }
+    console.log(
+      `MS-CV header for request: ${httpRequest.url} (${
+        requestResponse.status
+      } - ${requestResponse.headers.get("ms-cv")})`
+    );
 
     return requestResponse;
   };

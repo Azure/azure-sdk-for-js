@@ -13,6 +13,12 @@ export async function generateHeaders(
 ): Promise<{
   [x: string]: string;
 }> {
+  if (masterKey.startsWith("type=sas&")) {
+    return {
+      [Constants.HttpHeaders.Authorization]: encodeURIComponent(masterKey),
+      [Constants.HttpHeaders.XDate]: date.toUTCString()
+    };
+  }
   const sig = await signature(masterKey, method, resourceType, resourceId, date);
 
   return {

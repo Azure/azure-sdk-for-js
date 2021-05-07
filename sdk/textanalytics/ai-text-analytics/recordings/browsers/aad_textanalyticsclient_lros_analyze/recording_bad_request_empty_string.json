@@ -11,15 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:22:26 GMT",
+    "date": "Wed, 28 Apr 2021 21:16:36 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11530.11 - WUS2 ProdSlices",
-    "x-ms-request-id": "e894ffaf-6bb7-474d-aff9-7872f5210400"
+    "x-ms-ests-server": "2.1.11654.16 - SCUS ProdSlices",
+    "x-ms-request-id": "ac095385-4506-4ae7-b016-dc91c5094601"
    }
   },
   {
@@ -30,9 +32,9 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Missing input documents.\",\"innerError\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "e0d75ed8-77f2-43ef-803a-91ad92abbb14",
+    "apim-request-id": "b6aad27e-1a85-4da9-ba53-c42cfeb7aea8",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:22:27 GMT",
+    "date": "Wed, 28 Apr 2021 21:16:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -44,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "47ff705c0c91d7722816aff7f8082ece"
+ "hash": "734e4070bf0e5eb72a26e71f87866c02"
 }

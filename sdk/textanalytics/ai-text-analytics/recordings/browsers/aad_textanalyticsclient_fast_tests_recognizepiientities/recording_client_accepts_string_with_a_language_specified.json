@@ -11,15 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:17:42 GMT",
+    "date": "Wed, 28 Apr 2021 21:14:09 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - SCUS ProdSlices",
-    "x-ms-request-id": "5954a5f1-efaa-41a5-87e1-9e1f019e2100"
+    "x-ms-ests-server": "2.1.11654.16 - EUS ProdSlices",
+    "x-ms-request-id": "a209898b-49cc-496f-8e6d-3c672a1e6701"
    }
   },
   {
@@ -32,14 +34,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I went to see a movie on ******** and it was perfectly average, nothing more or less than I expected.\",\"id\":\"2\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"Date\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"redactedText\":\"I didn't like the last book I read at all.\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "c3ab074b-c3c6-4577-b8f6-85f4f9acb92c",
+    "apim-request-id": "7b03c258-d1da-43c7-bb15-e29bd5a074dc",
     "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Wed, 24 Feb 2021 02:17:42 GMT",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
+    "date": "Wed, 28 Apr 2021 21:14:08 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "79"
+    "x-envoy-upstream-service-time": "78"
    }
   }
  ],
@@ -47,5 +49,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "7b200cc90653e65213074e4803f83cc5"
+ "hash": "628c680cbc79498708b61558b22479b4"
 }

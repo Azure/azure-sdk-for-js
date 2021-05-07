@@ -97,7 +97,8 @@ describe("[Mocked] ChatThreadClient", async () => {
     };
 
     const sendOptions: SendMessageOptions = {
-      senderDisplayName: mockMessage.senderDisplayName
+      senderDisplayName: mockMessage.senderDisplayName,
+      properties: mockMessage.properties
     };
 
     const response = await chatThreadClient.sendMessage(sendRequest, sendOptions);
@@ -114,7 +115,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "POST");
     assert.deepEqual(JSON.parse(request.body), {
       ...sendRequest,
-      senderDisplayName: mockMessage.senderDisplayName
+      ...sendOptions
     });
   });
 
@@ -210,7 +211,8 @@ describe("[Mocked] ChatThreadClient", async () => {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
     const sendOptions: UpdateMessageOptions = {
-      content: mockMessage.content?.message
+      content: mockMessage.content?.message,
+      properties: mockMessage.properties
     };
 
     await chatThreadClient.updateMessage(mockMessage.id!, sendOptions);
@@ -222,7 +224,10 @@ describe("[Mocked] ChatThreadClient", async () => {
       `${baseUri}/chat/threads/${threadId}/messages/${mockMessage.id}?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "PATCH");
-    assert.deepEqual(JSON.parse(request.body), { content: mockMessage.content?.message });
+    assert.deepEqual(JSON.parse(request.body), {
+      content: mockMessage.content?.message,
+      properties: mockMessage.properties
+    });
   });
 
   it("makes successful delete message request", async () => {

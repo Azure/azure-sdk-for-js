@@ -150,9 +150,9 @@ const batchSubmissionRequest: BatchSubmissionRequest = {
   inputs: [
     {
       source: { sourceUrl: "<sas_url_to_source>" },
-      targets: [{ language: "fr", targetUrl: "<sas_url_to_target_fr>" }]
-    }
-  ]
+      targets: [{ language: "fr", targetUrl: "<sas_url_to_target_fr>" }],
+    },
+  ],
 };
 ```
 
@@ -166,17 +166,17 @@ const batchSubmissionRequest: BatchSubmissionRequest = {
       source: { sourceUrl: "<sas_url_to_source_A>" },
       targets: [
         { language: "fr", targetUrl: "<sas_url_to_target_A_fr>" },
-        { language: "de", targetUrl: "<sas_url_to_target_A_de>" }
-      ]
+        { language: "de", targetUrl: "<sas_url_to_target_A_de>" },
+      ],
     },
     {
       source: { sourceUrl: "<sas_url_to_source_B>" },
       targets: [
         { language: "fr", targetUrl: "<sas_url_to_target_B_fr>" },
-        { language: "de", targetUrl: "<sas_url_to_target_B_de>" }
-      ]
-    }
-  ]
+        { language: "de", targetUrl: "<sas_url_to_target_B_de>" },
+      ],
+    },
+  ],
 };
 ```
 
@@ -188,8 +188,8 @@ See the service documentation for all [supported languages][supported_languages]
 
 Please refer to the samples folder to see code samples, including:
 
-- [List Supported Formats][https://github.com/azure/azure-sdk-for-js/tree/master/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/translatefromblob.ts]
-- [Translate documents][https://github.com/azure/azure-sdk-for-js/tree/master/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/listformats.ts]
+- [List Supported Formats](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/listFormats.ts)
+- [Translate documents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/translateFromBlob.ts)
 
 ## Troubleshooting
 

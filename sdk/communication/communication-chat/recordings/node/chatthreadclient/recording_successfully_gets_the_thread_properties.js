@@ -1,27 +1,27 @@
 let nock = require('nock');
 
-module.exports.hash = "ece92519958e051517109e9a4846c92f";
+module.exports.hash = "201b8d2e392bf67fe445ef5333d93458";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/chat/threads/19%3A9cXNBEh5NlRdVyRs5tIn9ZnKCVgwfFsmRRbW6Mn-JNM1%40thread.v2')
+  .get('/chat/threads/19%3AScCnaKuTp6GyZdIAuuv9RAobRLrkYvNn6kdQMJUJVaY1%40thread.v2')
   .query(true)
-  .reply(200, {"id":"19:9cXNBEh5NlRdVyRs5tIn9ZnKCVgwfFsmRRbW6Mn-JNM1@thread.v2","topic":"test topic","createdOn":"2021-03-23T19:17:38Z","createdByCommunicationIdentifier":{"rawId":"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000009-0067-083f-0e04-343a0d0064e0","communicationUser":{"id":"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000009-0067-083f-0e04-343a0d0064e0"}}}, [
+  .reply(200, {"id":"19:ScCnaKuTp6GyZdIAuuv9RAobRLrkYvNn6kdQMJUJVaY1@thread.v2","topic":"test topic","createdOn":"2021-04-21T23:48:34Z","createdByCommunicationIdentifier":{"rawId":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_00000009-96b7-7f4e-edbe-a43a0d0092d8","communicationUser":{"id":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_00000009-96b7-7f4e-edbe-a43a0d0092d8"}}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'MS-CV',
-  'TxvWbODxc0yahlMzFGulRQ.0',
+  'IpgWiABzKkmx8EY5VKsiNA.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'api-supported-versions',
-  '2020-09-21-preview2, 2020-11-01-preview3, 2021-01-27-preview4, 2021-03-01-preview5, 2021-03-07',
+  '2020-09-21-preview2, 2020-11-01-preview3, 2021-01-27-preview4, 2021-03-01-preview5, 2021-03-07, 2021-04-05-preview6',
   'X-Processing-Time',
-  '94ms',
+  '135ms',
   'X-Azure-Ref',
-  '00z5aYAAAAABW0J6xQY+rT7/wTl3zNt2wV1NURURHRTA4MjIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '007mAYAAAAAAwgbXzPwPSTb1dpTC3QtnSV1NURURHRTA4MDYAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Tue, 23 Mar 2021 19:17:38 GMT'
+  'Wed, 21 Apr 2021 23:48:35 GMT'
 ]);

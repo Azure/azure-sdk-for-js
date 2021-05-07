@@ -23,7 +23,7 @@ import {
   SeverityCondition,
   AlertSnoozeCondition,
   IngestionStatusType,
-  Status as DataFeedDetailStatus
+  EntityStatus as DataFeedDetailStatus
 } from "./generated/models";
 
 export {
