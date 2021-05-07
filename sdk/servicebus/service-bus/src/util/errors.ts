@@ -7,7 +7,8 @@ import { ConnectionContext } from "../connectionContext";
 import {
   isAmqpAnnotatedMessage,
   isServiceBusMessage,
-  ServiceBusReceivedMessage
+  ServiceBusReceivedMessage,
+  _featureAmqpBodyTypeEnabled
 } from "../serviceBusMessage";
 import { ReceiveMode } from "../models";
 import { isDefined } from "./typeGuards";
@@ -269,9 +270,11 @@ export function throwIfNotValidServiceBusMessage(
 }
 
 /** @internal */
-export const errorInvalidMessageTypeSingleOrArray =
-  "Provided value for 'messages' must be of type: ServiceBusMessage, AmqpAnnotatedMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage or AmqpAnnotatedMessage.";
+export const errorInvalidMessageTypeSingleOrArray = _featureAmqpBodyTypeEnabled
+  ? "Provided value for 'messages' must be of type: ServiceBusMessage, AmqpAnnotatedMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage or AmqpAnnotatedMessage."
+  : "Provided value for 'messages' must be of type: ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage";
 
 /** @internal */
-export const errorInvalidMessageTypeSingle =
-  "Provided value for 'message' must be of type: ServiceBusMessage or AmqpAnnotatedMessage.";
+export const errorInvalidMessageTypeSingle = _featureAmqpBodyTypeEnabled
+  ? "Provided value for 'message' must be of type: ServiceBusMessage or AmqpAnnotatedMessage."
+  : "Provided value for 'message' must be of type: ServiceBusMessage";

@@ -8,9 +8,22 @@ import {
   ServiceBusClientForTests
 } from "../public/utils/testutils2";
 import { TestClientType } from "../public/utils/testUtils";
+import { ServiceBusSenderImpl } from "../../src/sender";
+import { setFeatureAmqpBodyTypeEnabled } from "../../src/serviceBusMessage";
 const assert = chai.assert;
 
+export type ServiceBusSenderWithAmqpSupport = Omit<ServiceBusSender, "sendMessages"> &
+  Pick<ServiceBusSenderImpl, "sendMessages">;
+
 describe("AMQP message encoding", () => {
+  beforeEach(() => {
+    const previousState = setFeatureAmqpBodyTypeEnabled(true);
+    assert.isFalse(previousState);
+  });
+  afterEach(() => {
+    setFeatureAmqpBodyTypeEnabled(false);
+  });
+
   // Messaging format (describes the three types of encodable entities - 'data', 'sequence' or 'value')
   // http://docs.oasis-open.org/amqp/core/v1.0/csprd01/amqp-core-messaging-v1.0-csprd01.html#type-data
 
@@ -19,7 +32,7 @@ describe("AMQP message encoding", () => {
 
   describe("amqp encoding/decoding", () => {
     let client: ServiceBusClientForTests;
-    let sender: ServiceBusSender;
+    let sender: ServiceBusSenderWithAmqpSupport;
     let receiver: ServiceBusReceiver;
 
     before(() => {
