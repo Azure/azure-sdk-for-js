@@ -131,7 +131,7 @@ stages:
                           TargetDocRepoName: ${{parameters.TargetDocRepoName}}
                           ArtifactName: ${{artifact.name}}
                           Language: 'javascript'
-                          DocCiConfigs: $(DocCiConfigs)
+                          CIConfigs: $(DocCiConfigs)
 
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
@@ -315,4 +315,4 @@ stages:
                 TargetDocRepoName: ${{parameters.TargetDocRepoName}}
                 ArtifactName: ${{artifact.name}}
                 Language: 'javascript'
-                DocCiConfigs: $(DocCiConfigs)
+                CIConfigs: $(DocCiConfigs)
