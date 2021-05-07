@@ -75,13 +75,16 @@ export async function main() {
       // clientFilter.parameters.audience.users[0]         // string
       // clientFilter.parameters.audience.defaultRolloutPercentage
       console.log(
-        `  targeting feature flag client filter => name: ${clientFilter.name}, audience: ${
-          clientFilter.parameters!.audience
-        }`
+        `  targeting feature flag client filter => name: ${
+          clientFilter.name
+        }, audience: ${JSON.stringify(clientFilter.parameters!.audience, null, 2)}`
       );
       clientFilter.parameters = {
         ...clientFilter.parameters,
-        audience: { defaultRolloutPercentage: 85 }
+        audience: {
+          ...(clientFilter.parameters!.audience as { [key: string]: unknown }),
+          defaultRolloutPercentage: 85
+        }
       };
     } else if (clientFilter.name === "Microsoft.TimeWindow") {
       // clientFilter.parameters.end;
@@ -126,9 +129,9 @@ export async function main() {
   for (const clientFilter of conditions.clientFilters) {
     if (clientFilter.name === "Microsoft.Targeting") {
       console.log(
-        `  targeting feature flag client filter => name: ${clientFilter.name}, audience: ${
-          clientFilter.parameters!.audience
-        }`
+        `  targeting feature flag client filter => name: ${
+          clientFilter.name
+        }, audience: ${JSON.stringify(clientFilter.parameters!.audience, null, 2)}`
       );
     } else if (clientFilter.name === "Microsoft.TimeWindow") {
       console.log(
