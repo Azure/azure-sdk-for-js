@@ -180,7 +180,7 @@ describe("StreamingReceiver unit tests", () => {
 
       await assertThrows(() => subscribePromise, {
         name: "AbortError",
-        message: "Can't add credits to the receiver since it is suspended."
+        message: "Cannot request messages on the receiver since it is suspended."
       });
 
       // closeLink is called on cleanup when we fail to add credits (which we would because our receiver

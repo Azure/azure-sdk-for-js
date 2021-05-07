@@ -414,6 +414,78 @@ describe("Message session unit tests", () => {
       );
     });
 
+    it("errors thrown in the post-message-processing addCredit are sent to the user", async () => {
+      const messageSession = await MessageSession.create(
+        createConnectionContextForTestsWithSessionId("session id"),
+        "entity path",
+        "session id",
+        {
+          receiveMode: "receiveAndDelete",
+          retryOptions: undefined
+        }
+      );
+
+      closeables.push(messageSession);
+
+      let errorArgs: ProcessErrorArgs | undefined;
+
+      const eventContext = {
+        delivery: {},
+        message: {
+          message_annotations: {
+            [Constants.enqueuedTime]: new Date()
+          }
+        }
+      };
+
+      let addCreditWasCalled = false;
+
+      const subscribePromise = new Promise<void>((resolve) => {
+        messageSession.subscribe(
+          async (_message) => {
+            // the next addCredit call should trigger an exception now
+            messageSession["_receiverHelper"]["addCredit"] = (_credits) => {
+              addCreditWasCalled = true;
+              throw new Error("Failed to add credits to receiver");
+            };
+          },
+          async (args) => {
+            errorArgs = args;
+            resolve();
+          },
+          {}
+        );
+      });
+
+      messageSession["_link"]?.emit(ReceiverEvents.message, (eventContext as any) as EventContext);
+
+      // once we emit the event we need to wait for it to be processed (and then in turn
+      // generate an error)
+      await subscribePromise;
+
+      assert.exists(errorArgs, "We should have triggered processError.");
+
+      assert.deepEqual(
+        {
+          message: errorArgs!.error.message,
+          errorSource: errorArgs!.errorSource,
+          entityPath: errorArgs!.entityPath,
+          fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace
+        },
+        {
+          message: "Failed to add credits to receiver",
+          errorSource: "processMessageCallback",
+          entityPath: "entity path",
+          fullyQualifiedNamespace: "fakeHost"
+        }
+      );
+
+      assert.isTrue(
+        addCreditWasCalled,
+        "Error thrown should have come from the call to addCredit()"
+      );
+    });
+
     it("failing to add credits results in a SessionLockLost error", async () => {
       // we fabricate this error (there is no actual link activity here) but it's a more
       // sensible error type for sessions since it'll indicate that the link itself is bad.

@@ -61,7 +61,7 @@ describe("ReceiverHelper unit tests", () => {
     await assertThrows(async () => helper.addCredit(101), {
       name: "ServiceBusError",
       code: "GeneralError",
-      message: "Can't add credits to the receiver since it is undefined.",
+      message: "Cannot request messages on the receiver since it is undefined.",
       retryable: true
     });
 
@@ -73,7 +73,7 @@ describe("ReceiverHelper unit tests", () => {
     await assertThrows(async () => helper.addCredit(101), {
       name: "ServiceBusError",
       code: "GeneralError",
-      message: "Can't add credits to the receiver since it is not open.",
+      message: "Cannot request messages on the receiver since it is not open.",
       retryable: true
     });
 
@@ -87,7 +87,7 @@ describe("ReceiverHelper unit tests", () => {
 
     await assertThrows(async () => helper.addCredit(101), {
       name: "AbortError",
-      message: "Can't add credits to the receiver since it is suspended.",
+      message: "Cannot request messages on the receiver since it is suspended.",
       retryable: undefined
     });
   });

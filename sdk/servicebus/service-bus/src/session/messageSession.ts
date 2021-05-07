@@ -692,10 +692,9 @@ export class MessageSession extends LinkEntity<Receiver> {
           try {
             this.receiverHelper.addCredit(1);
           } catch (err) {
-            logger.logError(
-              err,
-              `[${this.logPrefix}] Failed to add credit after receiving message`
-            );
+            // this isn't something we expect in normal operation - we'd only get here
+            // because of a bug in our code.
+            this.processCreditError(err);
           }
         }
 
@@ -738,16 +737,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       } catch (err) {
         // this isn't something we expect in normal operation - we'd only get here
         // because of a bug in our code.
-        logger.logError(err, "Failed to add credits to receiver");
-
-        // from the user's perspective this is a fatal link error and they should retry
-        // opening the link.
-        this._onError!({
-          error: new ServiceBusError("Failed to add credits to receiver", "SessionLockLost"),
-          errorSource: "processMessageCallback",
-          entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host
-        });
+        this.processCreditError(err);
       }
     } else {
       this._isReceivingMessagesForSubscriber = false;
@@ -770,6 +760,19 @@ export class MessageSession extends LinkEntity<Receiver> {
         fullyQualifiedNamespace: this._context.config.host
       });
     }
+  }
+
+  private processCreditError(err: any): void {
+    logger.logError(err, "Failed to add credits to receiver");
+
+    // from the user's perspective this is a fatal link error and they should retry
+    // opening the link.
+    this._onError!({
+      error: new ServiceBusError("Failed to add credits to receiver", "SessionLockLost"),
+      errorSource: "processMessageCallback",
+      entityPath: this.entityPath,
+      fullyQualifiedNamespace: this._context.config.host
+    });
   }
 
   /**
