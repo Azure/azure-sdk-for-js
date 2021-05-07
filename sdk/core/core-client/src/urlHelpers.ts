@@ -38,7 +38,12 @@ export function getRequestUrl(
     }
   }
 
-  const queryParams = calculateQueryParameters(operationSpec, operationArguments, fallbackObject);
+  const queryParams = calculateQueryParameters(
+    operationSpec,
+    operationArguments,
+    fallbackObject,
+    requestUrl
+  );
   requestUrl = appendQueryParams(requestUrl, queryParams);
 
   return requestUrl;
@@ -123,11 +128,21 @@ function appendPath(url: string, pathToAppend?: string): string {
 function calculateQueryParameters(
   operationSpec: OperationSpec,
   operationArguments: OperationArguments,
-  fallbackObject: { [parameterName: string]: any }
+  fallbackObject: { [parameterName: string]: any },
+  requestUrl: string
 ): Map<string, string | string[]> {
   const result = new Map<string, string | string[]>();
   if (operationSpec.queryParameters?.length) {
     for (const queryParameter of operationSpec.queryParameters) {
+      const parsedUrl = new URL(requestUrl);
+      const queryParameterName =
+        queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter);
+
+      // Skip query parameter if the requestUrl already have it set to avoid overriding it.
+      if (parsedUrl.searchParams.has(queryParameterName)) {
+        continue;
+      }
+
       let queryParameterValue: string | string[] = getOperationArgumentValueFromParameter(
         operationArguments,
         queryParameter,
@@ -179,10 +194,7 @@ function calculateQueryParameters(
           queryParameterValue = queryParameterValue.join(delimiter);
         }
 
-        result.set(
-          queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
-          queryParameterValue
-        );
+        result.set(queryParameterName, queryParameterValue);
       }
     }
   }

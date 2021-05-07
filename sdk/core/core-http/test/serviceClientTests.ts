@@ -101,6 +101,67 @@ describe("ServiceClient", function() {
       }
     });
 
+    it("should add a query string parameter", async () => {
+      let request: WebResource;
+      const client = new ServiceClient(undefined, {
+        httpClient: {
+          sendRequest: (req) => {
+            request = req;
+            assert.equal(req.url, "httpbin.org?skip=5");
+            return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+          }
+        }
+      });
+      await client.sendOperationRequest(
+        { ...testArgs, options: { skip: 5 } },
+        {
+          ...testOperationSpec,
+          queryParameters: [
+            {
+              parameterPath: ["options", "skip"],
+              mapper: {
+                serializedName: "skip",
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          ]
+        }
+      );
+    });
+
+    it("should shouldn't override original qsp", async () => {
+      let request: WebResource;
+      const client = new ServiceClient(undefined, {
+        httpClient: {
+          sendRequest: (req) => {
+            request = req;
+            assert.equal(req.url, "httpbin.org?skip=5");
+            return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+          }
+        }
+      });
+      await client.sendOperationRequest(
+        { ...testArgs, options: { skip: 100 } },
+        {
+          ...testOperationSpec,
+          baseUrl: "httpbin.org?skip=5",
+          queryParameters: [
+            {
+              parameterPath: ["options", "skip"],
+              mapper: {
+                serializedName: "skip",
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          ]
+        }
+      );
+    });
+
     it("should throw when there is no credentialScopes or baseUri", async () => {
       const cred: TokenCredential = {
         getToken: async (_scopes) => {

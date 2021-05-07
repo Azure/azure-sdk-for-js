@@ -363,6 +363,15 @@ export class ServiceClient {
       }
       if (operationSpec.queryParameters && operationSpec.queryParameters.length > 0) {
         for (const queryParameter of operationSpec.queryParameters) {
+          const queryParameterName =
+            queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter);
+          const currentValue = requestUrl.getQueryParameterValue(queryParameterName);
+
+          // Skip query parameter if the requestUrl already have it set to avoid overriding it.
+          if (currentValue !== undefined) {
+            continue;
+          }
+
           let queryParameterValue: any = getOperationArgumentValueFromParameter(
             this,
             operationArguments,
@@ -421,10 +430,8 @@ export class ServiceClient {
             ) {
               queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
             }
-            requestUrl.setQueryParameter(
-              queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
-              queryParameterValue
-            );
+
+            requestUrl.setQueryParameter(queryParameterName, queryParameterValue);
           }
         }
       }

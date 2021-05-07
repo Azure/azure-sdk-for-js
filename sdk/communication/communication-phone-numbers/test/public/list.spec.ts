@@ -12,7 +12,7 @@ import {
   createRecordedClientWithToken
 } from "./utils/recordedClient";
 
-matrix([[true, false]], async function(useAad) {
+matrix([[false]], async function(useAad) {
   describe(`PhoneNumbersClient - lists${useAad ? " [AAD]" : ""}`, function() {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
@@ -35,9 +35,10 @@ matrix([[true, false]], async function(useAad) {
       }
     });
 
-    it("can list all purchased phone numbers", async function() {
+    it.only("can list all purchased phone numbers", async function() {
       let all = 0;
-      for await (const purchased of client.listPurchasedPhoneNumbers()) {
+      for await (const purchased of client.listPurchasedPhoneNumbers({ top: 5, skip: 1 })) {
+        console.log(`${purchased.id} - ${purchased.phoneNumber}`);
         assert.match(purchased.phoneNumber, /\+\d{1}\d{3}\d{3}\d{4}/g);
         all++;
       }

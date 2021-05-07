@@ -116,6 +116,31 @@ describe("getRequestUrl", function() {
     assert.strictEqual(result, "https://test.com/path?stringQuery=");
   });
 
+  it("should not override existing query parameter", function() {
+    const stringQuery: OperationQueryParameter = {
+      parameterPath: "stringQuery",
+      mapper: {
+        serializedName: "stringQuery",
+        type: {
+          name: "String"
+        }
+      }
+    };
+    const result = getRequestUrl(
+      "https://test.com?stringQuery=notOverriden",
+      {
+        path: "/path",
+        httpMethod: "GET",
+        responses: {},
+        queryParameters: [stringQuery],
+        serializer
+      },
+      { stringQuery: "shouldntbehere" },
+      {}
+    );
+    assert.strictEqual(result, "https://test.com/path?stringQuery=notOverriden");
+  });
+
   it("should work with replacement having both path and search part", function() {
     const result = getRequestUrl(
       "https://test.com/",
