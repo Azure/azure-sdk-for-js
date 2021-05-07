@@ -74,59 +74,36 @@ export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedFi
 export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
 }
 
-// @public
-export interface FeatureFlag extends FeatureFlagParam, ConfigurationSetting {
+// @public (undocumented)
+export interface FeatureFlag extends Omit<ConfigurationSetting, "value"> {
+    // (undocumented)
+    value: FeatureFlagValue;
 }
 
 // @public
 export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
 
-// @public
-export interface FeatureFlagParam extends ConfigurationSettingParam {
-    conditions: {
-        clientFilters: (FeatureFlagTargetingClientFilter | FeatureFlagTimeWindowClientFilter | FeatureFlagPercentageClientFilter | Record<string, unknown>)[];
-    };
-    description?: string;
-    enabled: boolean;
-}
-
-// @public
-export interface FeatureFlagPercentageClientFilter {
-    name: "Microsoft.Percentage";
-    parameters: {
-        value: number;
-    };
-}
+// @public (undocumented)
+export const FeatureFlagHelper: {
+    isFeatureFlagConfigurationSetting: (setting: ConfigurationSetting) => boolean;
+    fromConfigurationSetting: (setting: ConfigurationSetting) => FeatureFlag;
+    toConfigurationSetting: (featureFlag: FeatureFlag) => ConfigurationSetting;
+};
 
 // @public
 export const featureFlagPrefix = ".appconfig.featureflag/";
 
-// @public
-export interface FeatureFlagTargetingClientFilter {
-    name: "Microsoft.Targeting";
-    parameters: {
-        audience: {
-            users: string[];
-            groups: {
-                name: string;
-                rolloutPercentage: number;
-            }[];
-            defaultRolloutPercentage: number;
-        };
+// @public (undocumented)
+export interface FeatureFlagValue {
+    conditions: {
+        clientFilters: {
+            name: string;
+            parameters?: Record<string, unknown>;
+        }[];
     };
+    description?: string;
+    enabled: boolean;
 }
-
-// @public
-export interface FeatureFlagTimeWindowClientFilter {
-    name: "Microsoft.TimeWindow";
-    parameters: {
-        start: string;
-        end: string;
-    };
-}
-
-// @public
-export type FeatureFlagType<T extends "targeting" | "timeWindow" | "percentage"> = T extends "targeting" ? FeatureFlagTargetingClientFilter : T extends "timeWindow" ? FeatureFlagTimeWindowClientFilter : T extends "percentage" ? FeatureFlagPercentageClientFilter : never;
 
 // @public
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
@@ -163,12 +140,6 @@ export interface HttpResponseField<HeadersT> {
 export interface HttpResponseFields {
     statusCode: number;
 }
-
-// @public
-export function isFeatureFlag(setting: ConfigurationSetting | FeatureFlag): setting is FeatureFlag;
-
-// @public
-export function isFeatureFlagClientFilter<T extends "targeting" | "timeWindow" | "percentage">(type: T, obj: unknown): obj is FeatureFlagType<T>;
 
 // @public
 export function isSecretReference(setting: ConfigurationSetting): setting is SecretReference;

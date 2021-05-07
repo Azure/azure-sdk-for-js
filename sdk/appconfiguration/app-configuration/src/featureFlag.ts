@@ -23,7 +23,7 @@ export interface FeatureFlagValue {
    * [More Info](https://docs.microsoft.com/en-us/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
    */
   conditions: {
-    clientFilters: Record<string, unknown>[];
+    clientFilters: { name: string; parameters?: Record<string, unknown> }[];
   };
   /**
    * Description of the feature.
@@ -33,7 +33,10 @@ export interface FeatureFlagValue {
    * Boolean flag to say if the feature flag is enabled.
    */
   enabled: boolean;
-  id: string;
+}
+
+export interface FeatureFlag extends Omit<ConfigurationSetting, "value"> {
+  value: FeatureFlagValue;
 }
 
 export const FeatureFlagHelper = {
@@ -43,32 +46,46 @@ export const FeatureFlagHelper = {
   isFeatureFlagConfigurationSetting: (setting: ConfigurationSetting): boolean =>
     setting.contentType === featureFlagContentType,
   /**
-   * Takes the value (string) of a ConfigurationSetting and returns the parsed FeatureFlag value.
+   * Takes the ConfigurationSetting and returns the FeatureFlag.
    */
-  deserializeFeatureFlagValue: (value: string): FeatureFlagValue => {
+  fromConfigurationSetting: (setting: ConfigurationSetting): FeatureFlag => {
     let jsonFeatureFlagValue: JsonFeatureFlagValue;
     try {
-      jsonFeatureFlagValue = JSON.parse(value) as JsonFeatureFlagValue;
+      if (!setting.value || typeof setting.value !== "string") {
+        throw new Error("");
+      }
+      jsonFeatureFlagValue = JSON.parse(setting.value) as JsonFeatureFlagValue;
+      delete jsonFeatureFlagValue.id; // This is the stripped version of "key" - deleting to not allow multiple truths
     } catch (err) {
       // best effort - if it doesn't deserialize properly we'll just throw
       throw new Error("");
     }
 
-    const featureflagValue: FeatureFlagValue = {
-      ...jsonFeatureFlagValue,
-      conditions: { clientFilters: jsonFeatureFlagValue.conditions.client_filters }
+    const featureflag: FeatureFlag = {
+      ...setting,
+      value: {
+        ...jsonFeatureFlagValue,
+        conditions: { clientFilters: jsonFeatureFlagValue.conditions.client_filters }
+      }
+      // TODO: Add prefix if doesn't exist
+      // TODO: Add contentType if doesn't exist
     };
-    return featureflagValue;
+    return featureflag;
   },
   /**
-   * Takes the FeatureFlag value (JSON) and returns a string which is encoded with the props from the FeatureFlag value.
-   * This value can be used in the new ConfigurationSetting.
+   * Takes the FeatureFlag (JSON) and returns a ConfigurationSetting (with the props encodeed in the value).
    */
-  serializeFeatureFlagValue: (value: FeatureFlagValue): string | undefined => {
+  toConfigurationSetting: (featureFlag: FeatureFlag): ConfigurationSetting => {
+    // TODO: Add prefix if doesn't exist
+    // TODO: Add contentType if doesn't exist
     const jsonFeatureFlagValue: JsonFeatureFlagValue = {
-      ...value,
-      conditions: { client_filters: value.conditions.clientFilters }
+      ...featureFlag.value,
+      conditions: {
+        client_filters: featureFlag.value.conditions.clientFilters
+      },
+      id: featureFlag.key.replace(featureFlagPrefix, "")
     };
+
     let stringifiedValue: string;
     try {
       stringifiedValue = JSON.stringify(jsonFeatureFlagValue);
@@ -77,6 +94,10 @@ export const FeatureFlagHelper = {
       throw new Error("");
     }
 
-    return stringifiedValue;
+    const configSetting = {
+      ...featureFlag,
+      value: stringifiedValue
+    };
+    return configSetting;
   }
 };

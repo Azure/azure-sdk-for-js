@@ -6,11 +6,11 @@
  */
 export type JsonFeatureFlagValue = {
   conditions: {
-    client_filters: Record<string, unknown>[];
+    client_filters: { name: string; parameters?: Record<string, unknown> }[];
   };
   description?: string;
   enabled: boolean;
-  id: string;
+  id?: string;
 };
 
 // keyvault reference

@@ -6,7 +6,8 @@ export {
   featureFlagContentType,
   featureFlagPrefix,
   FeatureFlagHelper,
-  FeatureFlagValue
+  FeatureFlagValue,
+  FeatureFlag
 } from "./featureFlag";
 export {
   isSecretReference,
