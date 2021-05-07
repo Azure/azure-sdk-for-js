@@ -592,7 +592,7 @@ async function main() {
 
 Azure Key Vault allows users to create certificates that can be used to authenticate Azure SDK clients.
 
-Key Vault Certificates can be created through different means. For example, using the Azure CLI: [Quickstart: Set and retrieve a certificate from Azure Key Vault using Azure CLI](https://docs.microsoft.com/en-us/azure/key-vault/certificates/quick-create-cli).
+Key Vault Certificates can be created through different means. For example, using the Azure CLI: [Quickstart: Set and retrieve a certificate from Azure Key Vault using Azure CLI](https://docs.microsoft.com/azure/key-vault/certificates/quick-create-cli).
 
 Once you have a certificate, you may export the certificate with the Azure CLI following the steps at: [Export certificates from Azure Key Vault](https://docs.microsoft.com/azure/key-vault/certificates/how-to-export-certificate?tabs=azure-cli).
 
