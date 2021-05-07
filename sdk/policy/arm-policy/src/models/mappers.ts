@@ -176,10 +176,7 @@ export const AliasPattern: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Extract"
-          ]
+          allowedValues: ["NotSpecified", "Extract"]
         }
       }
     }
@@ -280,11 +277,7 @@ export const Alias: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "PlainText",
-            "Mask"
-          ]
+          allowedValues: ["NotSpecified", "PlainText", "Mask"]
         }
       },
       defaultPath: {
@@ -515,10 +508,7 @@ export const Identity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "None"]
         }
       }
     }
@@ -587,7 +577,7 @@ export const PolicyAssignment: msRest.CompositeMapper = {
       },
       enforcementMode: {
         serializedName: "properties.enforcementMode",
-        defaultValue: 'Default',
+        defaultValue: "Default",
         type: {
           name: "String"
         }
@@ -740,7 +730,7 @@ export const PolicyDefinition: msRest.CompositeMapper = {
       },
       mode: {
         serializedName: "properties.mode",
-        defaultValue: 'Indexed',
+        defaultValue: "Indexed",
         type: {
           name: "String"
         }
