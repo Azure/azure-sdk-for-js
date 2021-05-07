@@ -18,7 +18,7 @@ import {
   ArtifactManifestProperties,
   RepositoryProperties
 } from "./model";
-import { RegistryArtifact } from "./registryArtifact";
+import { RegistryArtifact, RegistryArtifactImpl } from "./registryArtifact";
 
 /**
  * Options for delete repository operation.
@@ -41,27 +41,81 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {}
 export type SetRepositoryPropertiesOptions = ContentProperties & OperationOptions;
 
 /**
- * The client class used to interact with the Container Registry service.
+ * The helper used to interact with the Container Registry service.
  */
-export class ContainerRepository {
-  private client: GeneratedClient;
+export interface ContainerRepository {
   /**
    * The Azure Container Registry endpoint.
    */
-  public registryUrl: string;
+  readonly registryUrl: string;
   /**
    * Repository name.
    */
-  public name: string;
+  readonly name: string;
   /**
    * Registry name.
    */
-  public fullyQualifiedName: string;
+  readonly fullyQualifiedName: string;
+  /**
+   * Deletes this repository.
+   *
+   * @param options - optional configuration for the operation
+   */
+  delete(options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
+  /**
+   * Returns an instance of RegistryArtifact.
+   * @param tagOrDigest - the tag or digest of the artifact
+   */
+  getArtifact(tagOrDigest: string): RegistryArtifact;
+  /**
+   * Retrieves properties of this repository.
+   * @param options -
+   */
+  getProperties(options?: GetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+  /**
+   * Updates repository attributes.
+   * @param options -
+   */
+  setProperties(options: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+  /**
+   * Iterates manifests.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new ContainerRegistryClient(url, credentials);
+   * const repository = client.getRepository(repositoryName)
+   * for await (const manifest of client.listManifests()) {
+   *   console.log("manifest: ", manifest);
+   * }
+   * ```
+   * @param options -
+   */
+  listManifests(
+    options?: ListManifestsOptions
+  ): PagedAsyncIterableIterator<ArtifactManifestProperties>;
+}
+
+/**
+ * The client class used to interact with the Container Registry service.
+ * @internal
+ */
+export class ContainerRepositoryImpl {
+  private readonly client: GeneratedClient;
+  /**
+   * The Azure Container Registry endpoint.
+   */
+  public readonly registryUrl: string;
+  /**
+   * Repository name.
+   */
+  public readonly name: string;
+  /**
+   * Registry name.
+   */
+  public readonly fullyQualifiedName: string;
 
   /**
    * Creates an instance of a ContainerRepository.
-   *
-   * @internal
    * @param registryUrl - the URL to the Container Registry endpoint
    * @param name - the name of the repository
    * @param client - the generated client that interacts with service
@@ -105,7 +159,7 @@ export class ContainerRepository {
    * @param tagOrDigest - the tag or digest of the artifact
    */
   public getArtifact(tagOrDigest: string): RegistryArtifact {
-    return new RegistryArtifact(this.registryUrl, this.name, tagOrDigest, this.client);
+    return new RegistryArtifactImpl(this.registryUrl, this.name, tagOrDigest, this.client);
   }
 
   /**
@@ -133,7 +187,7 @@ export class ContainerRepository {
    * @param options -
    */
   public async setProperties(
-    options: SetRepositoryPropertiesOptions = {}
+    options: SetRepositoryPropertiesOptions
   ): Promise<RepositoryProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepository-setProperties", {
       ...options,

@@ -4,15 +4,13 @@
 
 ```ts
 
-import * as coreClient from '@azure/core-client';
-import * as coreHttps from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type ArtifactArchitecture = "386" | "amd64" | "arm" | "arm64" | "mips" | "mipsle" | "mips64" | "mips64le" | "ppc64" | "ppc64le" | "riscv64" | "s390x" | "wasm" | string;
+export type ArtifactArchitecture = string;
 
 // @public
 export interface ArtifactManifestProperties {
@@ -29,7 +27,7 @@ export interface ArtifactManifestProperties {
 }
 
 // @public
-export type ArtifactOperatingSystem = "aix" | "android" | "darwin" | "dragonfly" | "freebsd" | "illumos" | "ios" | "js" | "linux" | "netbsd" | "openbsd" | "plan9" | "solaris" | "windows" | string;
+export type ArtifactOperatingSystem = string;
 
 // @public
 export interface ArtifactTagProperties {
@@ -58,19 +56,15 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 }
 
 // @public
-export class ContainerRepository {
-    // Warning: (ae-forgotten-export) The symbol "GeneratedClient" needs to be exported by the entry point index.d.ts
-    //
-    // @internal
-    constructor(registryUrl: string, name: string, client: GeneratedClient);
+export interface ContainerRepository {
     delete(options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
-    fullyQualifiedName: string;
+    readonly fullyQualifiedName: string;
     getArtifact(tagOrDigest: string): RegistryArtifact;
     getProperties(options?: GetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
     listManifests(options?: ListManifestsOptions): PagedAsyncIterableIterator<ArtifactManifestProperties>;
-    name: string;
-    registryUrl: string;
-    setProperties(options?: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+    readonly name: string;
+    readonly registryUrl: string;
+    setProperties(options: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
 }
 
 // @public
@@ -112,6 +106,12 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
+export type KnownArtifactArchitecture = "386" | "amd64" | "arm" | "arm64" | "mips" | "mipsle" | "mips64" | "mips64le" | "ppc64" | "ppc64le" | "riscv64" | "s390x" | "wasm";
+
+// @public
+export type KnownArtifactOperatingSystem = "aix" | "android" | "darwin" | "dragonfly" | "freebsd" | "illumos" | "ios" | "js" | "linux" | "netbsd" | "openbsd" | "plan9" | "solaris" | "windows";
+
+// @public
 export interface ListManifestsOptions extends OperationOptions {
     orderBy?: ManifestOrderBy;
 }
@@ -129,21 +129,18 @@ export interface ListTagsOptions extends OperationOptions {
 export type ManifestOrderBy = "timeDesc" | "timeAsc";
 
 // @public
-export class RegistryArtifact {
-    // @internal
-    constructor(registryUrl: string, repositoryName: string, tagOrDigest: string, client: GeneratedClient);
+export interface RegistryArtifact {
     delete(options?: DeleteArtifactOptions): Promise<void>;
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
-    // (undocumented)
-    fullyQualifiedName: string;
+    readonly fullyQualifiedName: string;
     getManifestProperties(options?: GetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
     getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<ArtifactTagProperties>;
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
-    registryUrl: string;
-    repositoryName: string;
+    readonly registryUrl: string;
+    readonly repositoryName: string;
     setManifestProperties(options?: SetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
-    setTagProperties(tag: string, options?: SetTagPropertiesOptions): Promise<ArtifactTagProperties>;
-    tagOrDigest: string;
+    setTagProperties(tag: string, options: SetTagPropertiesOptions): Promise<ArtifactTagProperties>;
+    readonly tagOrDigest: string;
 }
 
 // @public

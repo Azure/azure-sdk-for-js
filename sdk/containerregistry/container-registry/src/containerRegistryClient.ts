@@ -21,7 +21,11 @@ import { createSpan } from "./tracing";
 import { ContainerRegistryClientOptions, DeleteRepositoryResult } from "./model";
 import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
-import { ContainerRepository, DeleteRepositoryOptions } from "./containerRepository";
+import {
+  ContainerRepository,
+  ContainerRepositoryImpl,
+  DeleteRepositoryOptions
+} from "./containerRepository";
 import { URL } from "./url";
 import { RegistryArtifact } from "./registryArtifact";
 
@@ -146,7 +150,7 @@ export class ContainerRegistryClient {
    * @param tagOrDigest - tag or digest of the artifact to retrieve
    */
   public getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact {
-    return new ContainerRepository(this.registryUrl, repositoryName, this.client).getArtifact(
+    return new ContainerRepositoryImpl(this.registryUrl, repositoryName, this.client).getArtifact(
       tagOrDigest
     );
   }
@@ -158,7 +162,7 @@ export class ContainerRegistryClient {
    * @param options - optional configuration for the operation
    */
   public getRepository(repositoryName: string): ContainerRepository {
-    return new ContainerRepository(this.registryUrl, repositoryName, this.client);
+    return new ContainerRepositoryImpl(this.registryUrl, repositoryName, this.client);
   }
 
   /**

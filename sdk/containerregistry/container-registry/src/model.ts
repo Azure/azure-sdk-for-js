@@ -18,8 +18,7 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 
 /**
  * Defines values for ArtifactArchitecture.
- * {@link KnownArtifactArchitecture} can be used interchangeably with ArtifactArchitecture,
- *  this enum contains the known values that the service supports.
+ *  the following list contains the known values that the service supports.
  * ### Know values supported by the service
  * **386**
  * **amd64**
@@ -35,7 +34,11 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
  * **s390x**
  * **wasm**
  */
-export type ArtifactArchitecture =
+export type ArtifactArchitecture = string;
+/**
+ * Defines known {@link ArtifactArchitecture} that the service supports.
+ */
+export type KnownArtifactArchitecture =
   | "386"
   | "amd64"
   | "arm"
@@ -48,8 +51,7 @@ export type ArtifactArchitecture =
   | "ppc64le"
   | "riscv64"
   | "s390x"
-  | "wasm"
-  | string;
+  | "wasm";
 
 /**
  * Defines values for ArtifactOperatingSystem.
@@ -70,7 +72,11 @@ export type ArtifactArchitecture =
  * **solaris**
  * **windows**
  */
-export type ArtifactOperatingSystem =
+export type ArtifactOperatingSystem = string;
+/**
+ * Defines known {@link ArtifactOperatingSystem} values that the service supports.
+ */
+export type KnownArtifactOperatingSystem =
   | "aix"
   | "android"
   | "darwin"
@@ -84,8 +90,7 @@ export type ArtifactOperatingSystem =
   | "openbsd"
   | "plan9"
   | "solaris"
-  | "windows"
-  | string;
+  | "windows";
 
 /** Manifest attributes details */
 export interface ArtifactManifestProperties {

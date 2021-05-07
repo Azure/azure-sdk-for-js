@@ -55,29 +55,103 @@ export interface ListTagsOptions extends OperationOptions {
 }
 
 /**
- * The client class used to interact with the Container Registry service.
+ * The helper used to interact with the Container Registry service.
  */
-export class RegistryArtifact {
+export interface RegistryArtifact {
+  /**
+   * The Azure Container Registry endpoint.
+   */
+  readonly registryUrl: string;
+  /**
+   * Repository name.
+   */
+  readonly repositoryName: string;
+  /**
+   * Registry name.
+   */
+  readonly tagOrDigest: string;
+
+  /**
+   * fully qualified name of the artifact.
+   */
+  readonly fullyQualifiedName: string;
+  /**
+   * Deletes this artifact.
+   * @param options -
+   */
+  delete(options?: DeleteArtifactOptions): Promise<void>;
+  /**
+   * Deletes a tag.
+   * @param tag - the name of the tag to be deleted.
+   * @param options -
+   */
+  deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
+  /**
+   * Retrieves properties of this registry artifact.
+   * @param options -
+   */
+  getManifestProperties(
+    options?: GetManifestPropertiesOptions
+  ): Promise<ArtifactManifestProperties>;
+  /**
+   * Updates manifest artifact attributes.
+   * @param options -
+   */
+  setManifestProperties(
+    options?: SetManifestPropertiesOptions
+  ): Promise<ArtifactManifestProperties>;
+  /**
+   * Retrieves properties of a tag.
+   * @param tag - the tag to retrieve properties.
+   * @param options -
+   */
+  getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<ArtifactTagProperties>;
+  /**
+   * Updates tag properties.
+   * @param tag - name of the tag
+   * @param options -
+   */
+  setTagProperties(tag: string, options: SetTagPropertiesOptions): Promise<ArtifactTagProperties>;
+  /**
+   * Iterates tags.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new ContainerRegistryClient(url, credentials);
+   * const repository = client.getRepository(repositoryName);
+   * const artifact = repository.getArtifact(digest)
+   * for await (const tag of artifact.listTags()) {
+   *   console.log("tag: ", tag);
+   * }
+   * ```
+   * @param options -
+   */
+  listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
+}
+
+/**
+ * The client class used to interact with the Container Registry service.
+ * @internal
+ */
+export class RegistryArtifactImpl {
   private client: GeneratedClient;
   /**
    * The Azure Container Registry endpoint.
    */
-  public registryUrl: string;
+  public readonly registryUrl: string;
   /**
    * Repository name.
    */
-  public repositoryName: string;
+  public readonly repositoryName: string;
   /**
    * Registry name.
    */
-  public tagOrDigest: string;
+  public readonly tagOrDigest: string;
 
-  public fullyQualifiedName: string;
+  public readonly fullyQualifiedName: string;
 
   /**
    * Creates an instance of a RegistryArtifact.
-   *
-   * @internal
    * @param registryUrl - the URL to the Container Registry endpoint
    * @param repositoryName - the name of the repository
    * @param tagOrDigest - the tag or digest of this artifact
@@ -271,7 +345,7 @@ export class RegistryArtifact {
    */
   public async setTagProperties(
     tag: string,
-    options: SetTagPropertiesOptions = {}
+    options: SetTagPropertiesOptions
   ): Promise<ArtifactTagProperties> {
     const { span, updatedOptions } = createSpan("RegistryArtifact-setTagProperties", {
       ...options,
