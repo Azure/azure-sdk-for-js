@@ -16,7 +16,7 @@ import {
 } from "../../src";
 import { Recorder } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
-import { createFeatureFlag, serializeFeatureFlagParam } from "../../src/featureFlag";
+import { FeatureFlagHelper, serializeFeatureFlagParam } from "../../src/featureFlag";
 
 const clientFilters: (
   | Record<string, unknown>
@@ -220,7 +220,7 @@ describe("FeatureFlag consistency review", () => {
     };
     console.log(baseSetting);
 
-    const smarterFeatFlag = createFeatureFlag(baseSetting);
+    const smarterFeatFlag = FeatureFlagHelper.createFeatureFlag(baseSetting);
 
     console.log(smarterFeatFlag);
     smarterFeatFlag.enabled = !smarterFeatFlag.enabled;
