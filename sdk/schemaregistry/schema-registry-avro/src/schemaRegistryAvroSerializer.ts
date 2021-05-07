@@ -205,7 +205,9 @@ export class SchemaRegistryAvroSerializer {
     } else {
       const response = await this.registry.getSchemaId(description);
       if (!response) {
-        throw new Error(`Schema '${description.name}' not found in registry group '${description.group}', or not found to have matching content.`);
+        throw new Error(
+          `Schema '${description.name}' not found in registry group '${description.group}', or not found to have matching content.`
+        );
       }
       id = response.id;
     }
