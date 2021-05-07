@@ -137,7 +137,7 @@ export class SchemaRegistryAvroSerializer {
 
     const format = buffer.readUInt32BE(0);
     if (format !== FORMAT_INDICATOR) {
-      throw new TypeError(`Buffer has unknown format indicator: 0x${format.toString(16)}`);
+      throw new TypeError(`Buffer has unknown format indicator: 0x${format.toString(16)}.`);
     }
 
     const schemaIdBuffer = buffer.slice(SCHEMA_ID_OFFSET, PAYLOAD_OFFSET);
@@ -168,7 +168,7 @@ export class SchemaRegistryAvroSerializer {
 
     const schemaResponse = await this.registry.getSchemaById(schemaId);
     if (!schemaResponse) {
-      throw new Error(`Schema with ID '${schemaId}' not found`);
+      throw new Error(`Schema with ID '${schemaId}' not found.`);
     }
 
     if (!schemaResponse.serializationType.match(/^avro$/i)) {
@@ -205,7 +205,7 @@ export class SchemaRegistryAvroSerializer {
     } else {
       const response = await this.registry.getSchemaId(description);
       if (!response) {
-        throw new Error("Schema not found in registry.");
+        throw new Error(`Schema '${description.name}' not found in registry group '${description.group}', or not found to have matching content.`);
       }
       id = response.id;
     }
