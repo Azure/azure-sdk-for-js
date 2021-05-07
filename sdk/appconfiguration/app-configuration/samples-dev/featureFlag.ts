@@ -6,14 +6,7 @@
  *
  * @azsdk-weight 20
  */
-import {
-  AppConfigurationClient,
-  ConfigurationSetting,
-  featureFlagContentType,
-  FeatureFlagHelper,
-  featureFlagPrefix,
-  FeatureFlagValue
-} from "@azure/app-configuration";
+import { AppConfigurationClient, FeatureFlag, FeatureFlagHelper } from "@azure/app-configuration";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -22,128 +15,138 @@ dotenv.config();
 export async function main() {
   console.log(`Running featureFlag sample`);
 
-  const featureFlagValue: FeatureFlagValue = {
-    conditions: {
-      clientFilters: [
-        {
-          name: "Microsoft.TimeWindow",
-          parameters: {
-            start: "Wed, 01 May 2021 13:59:59 GMT",
-            end: "Mon, 01 July 2022 00:00:00 GMT"
-          }
-        },
-        { name: "FilterX" },
-        {
-          name: "Microsoft.Targeting",
-          parameters: {
-            audience: {
-              groups: [
-                { name: "group-1", rolloutPercentage: 25 },
-                { name: "group-2", rolloutPercentage: 45 }
-              ],
-              users: ["userA", "userB"],
-              defaultRolloutPercentage: 40
+  const originalFeatureFlag: FeatureFlag = {
+    key: `new-feature-flag-${Math.ceil(100 + Math.random() * 900)}`,
+    isReadOnly: false,
+    value: {
+      enabled: false,
+      description: "I'm a description",
+      conditions: {
+        clientFilters: [
+          {
+            name: "Microsoft.TimeWindow",
+            parameters: {
+              start: "Wed, 01 May 2021 13:59:59 GMT",
+              end: "Mon, 01 July 2022 00:00:00 GMT"
             }
-          }
-        },
-        { name: "Microsoft.Percentage", parameters: { value: 25 } }
-      ]
-    },
-    enabled: false,
-    id: `new-feature-flag-${Math.ceil(100 + Math.random() * 900)}`,
-    description: "I'm a description"
+          },
+          { name: "FilterX" },
+          {
+            name: "Microsoft.Targeting",
+            parameters: {
+              audience: {
+                groups: [
+                  { name: "group-1", rolloutPercentage: 25 },
+                  { name: "group-2", rolloutPercentage: 45 }
+                ],
+                users: ["userA", "userB"],
+                defaultRolloutPercentage: 40
+              }
+            }
+          },
+          { name: "Microsoft.Percentage", parameters: { value: 25 } }
+        ]
+      }
+    }
   };
 
   // Set the following environment variable or edit the value on the following line.
   const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
   const appConfigClient = new AppConfigurationClient(connectionString);
 
-  console.log(`Add a new featureFlag with id: ${featureFlagValue.id}`);
-  const configSetting: ConfigurationSetting = {
-    isReadOnly: false,
-    key: `${featureFlagPrefix}${featureFlagValue.id}`,
-    contentType: featureFlagContentType,
-    value: FeatureFlagHelper.serializeFeatureFlagValue(featureFlagValue)
-  };
-  console.log(`Add a new featureFlag with id: ${configSetting.key}`);
-  await cleanupSampleValues([configSetting.key], appConfigClient);
-  await appConfigClient.addConfigurationSetting(configSetting);
+  await cleanupSampleValues([originalFeatureFlag.key], appConfigClient); // Ignore - cleanup
 
-  console.log(`Get the added featureFlag with key: ${configSetting.key}`);
+  const configurationSetting = FeatureFlagHelper.toConfigurationSetting(originalFeatureFlag);
+  console.log(`Add a new configurationSetting with key: ${configurationSetting.key}`);
+  await appConfigClient.addConfigurationSetting(configurationSetting);
+
+  console.log(`Get the added configurationSetting with key: ${configurationSetting.key}`);
   const getResponse = await appConfigClient.getConfigurationSetting({
-    key: configSetting.key
+    key: configurationSetting.key
   });
-
-  if (isFeatureFlag(getResponse)) {
-    // isFeatureFlag() check for type inference to narrow down the configuration setting as a FeatureFlag
-    // setting is a `FeatureFlag`
-    const conditions = getResponse.conditions;
-
-    // the client filters are the real meat of the FeatureFlag.
-    //
-    for (const clientFilter of conditions.clientFilters) {
-      if (isFeatureFlagClientFilter("targeting", clientFilter)) {
-        // some of the fields:
-        // clientFilter.parameters.audience
-        // clientFilter.parameters.audience.groups[0].name
-        // clientFilter.parameters.audience.groups[0].rolloutPercentage
-        // clientFilter.parameters.audience.users[0]         // string
-        // clientFilter.parameters.audience.defaultRolloutPercentage
-        console.log(
-          `  targeting feature flag client filter => name: ${clientFilter.name}, defaultRolloutPercentage: ${clientFilter.parameters.audience.defaultRolloutPercentage}`
-        );
-        clientFilter.parameters.audience.defaultRolloutPercentage = 85;
-      } else if (isFeatureFlagClientFilter("timeWindow", clientFilter)) {
-        // clientFilter.parameters.end;
-        // clientFilter.parameters.start;
-        console.log(
-          `  timeWindow feature flag client filter => name: ${clientFilter.name}, start time: ${clientFilter.parameters.start}`
-        );
-        clientFilter.parameters.start = "Wed, 01 June 2021 13:59:59 GMT";
-      } else if (isFeatureFlagClientFilter("percentage", clientFilter)) {
-        console.log(
-          `  percentage feature flag client filter => name: ${clientFilter.name}, value: ${clientFilter.parameters.value}`
-        );
-        clientFilter.parameters.value = 56;
-      } else {
-        console.log(
-          `  name of the custom feature flag client filter => name : ${clientFilter.name}`
-        );
-        clientFilter.name = "FilterY";
-      }
+  const newFeatureFlag = FeatureFlagHelper.fromConfigurationSetting(getResponse); // Converts the configurationsetting into featureflag
+  // Modify the props
+  for (const clientFilter of newFeatureFlag.value.conditions.clientFilters) {
+    if (clientFilter.name === "Microsoft.Targeting") {
+      // some of the fields:
+      // clientFilter.parameters.audience
+      // clientFilter.parameters.audience.groups[0].name
+      // clientFilter.parameters.audience.groups[0].rolloutPercentage
+      // clientFilter.parameters.audience.users[0]         // string
+      // clientFilter.parameters.audience.defaultRolloutPercentage
+      console.log(
+        `  targeting feature flag client filter => name: ${clientFilter.name}, audience: ${
+          clientFilter.parameters!.audience
+        }`
+      );
+      clientFilter.parameters = {
+        ...clientFilter.parameters,
+        audience: { defaultRolloutPercentage: 85 }
+      };
+    } else if (clientFilter.name === "Microsoft.TimeWindow") {
+      // clientFilter.parameters.end;
+      // clientFilter.parameters.start;
+      console.log(
+        `  timeWindow feature flag client filter => name: ${clientFilter.name}, start time: ${
+          clientFilter.parameters!.start
+        }`
+      );
+      clientFilter.parameters = {
+        ...clientFilter.parameters,
+        start: "Wed, 01 June 2021 13:59:59 GMT"
+      };
+    } else if (clientFilter.name === "Microsoft.Percentage") {
+      console.log(
+        `  percentage feature flag client filter => name: ${clientFilter.name}, value: ${
+          clientFilter.parameters!.value
+        }`
+      );
+      clientFilter.parameters = {
+        ...clientFilter.parameters,
+        value: 56
+      };
+    } else {
+      console.log(`  name of the custom feature flag client filter => name : ${clientFilter.name}`);
+      clientFilter.name = "FilterY";
     }
   }
 
   console.log(`===> Update the featureFlag`);
-  await appConfigClient.setConfigurationSetting(getResponse);
-  const getResponseAfterUpdate = await appConfigClient.getConfigurationSetting({
-    key: featureFlag.key
-  });
-  console.log(`Get the updated featureFlag with key: ${featureFlag.key}`);
+  // Updating the config setting
+  const newConfigurationSetting = FeatureFlagHelper.toConfigurationSetting(newFeatureFlag);
+  await appConfigClient.setConfigurationSetting(newConfigurationSetting);
 
-  if (isFeatureFlag(getResponseAfterUpdate)) {
-    const conditions = getResponseAfterUpdate.conditions;
-    for (const clientFilter of conditions.clientFilters) {
-      if (isFeatureFlagClientFilter("targeting", clientFilter)) {
-        console.log(
-          `  targeting feature flag client filter => name: ${clientFilter.name}, defaultRolloutPercentage: ${clientFilter.parameters.audience.defaultRolloutPercentage}`
-        );
-      } else if (isFeatureFlagClientFilter("timeWindow", clientFilter)) {
-        console.log(
-          `  timeWindow feature flag client filter => name: ${clientFilter.name}, start time: ${clientFilter.parameters.start}`
-        );
-      } else if (isFeatureFlagClientFilter("percentage", clientFilter)) {
-        console.log(
-          `  percentage feature flag client filter => name: ${clientFilter.name}, value: ${clientFilter.parameters.value}`
-        );
-      } else {
-        console.log(
-          `  name of the custom feature flag client filter => name : ${clientFilter.name}`
-        );
-      }
+  // Get the config setting again
+  console.log(`Get the updated config setting with key: ${newConfigurationSetting.key}`);
+  const getResponseAfterUpdate = await appConfigClient.getConfigurationSetting({
+    key: newConfigurationSetting.key
+  });
+  const featureFlagAfterUpdate = FeatureFlagHelper.fromConfigurationSetting(getResponseAfterUpdate); // Converts the configurationsetting into featureflag
+  const conditions = featureFlagAfterUpdate.value.conditions;
+  for (const clientFilter of conditions.clientFilters) {
+    if (clientFilter.name === "Microsoft.Targeting") {
+      console.log(
+        `  targeting feature flag client filter => name: ${clientFilter.name}, audience: ${
+          clientFilter.parameters!.audience
+        }`
+      );
+    } else if (clientFilter.name === "Microsoft.TimeWindow") {
+      console.log(
+        `  timeWindow feature flag client filter => name: ${clientFilter.name}, start time: ${
+          clientFilter.parameters!.start
+        }`
+      );
+    } else if (clientFilter.name === "Microsoft.Percentage") {
+      console.log(
+        `  percentage feature flag client filter => name: ${clientFilter.name}, value: ${
+          clientFilter.parameters!.value
+        }`
+      );
+    } else {
+      console.log(`  name of the custom feature flag client filter => name : ${clientFilter.name}`);
     }
   }
-  await cleanupSampleValues([featureFlag.key], appConfigClient);
+  await cleanupSampleValues([originalFeatureFlag.key], appConfigClient);
 }
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
