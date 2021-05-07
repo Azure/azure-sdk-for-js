@@ -18,7 +18,10 @@ import {
   deserializeFeatureFlag,
   FeatureFlag,
   featureFlagContentType,
+  FeatureFlagImplWithResponse,
+  FeatureFlagImplWithResponseAndStatusCode,
   FeatureFlagParam,
+  isFeatureFlag,
   serializeFeatureFlagParam
 } from "../featureFlag";
 import {
@@ -208,12 +211,20 @@ export function serializeAsConfigurationSettingParam(
 export function transformKeyValueResponseWithStatusCode<
   T extends KeyValue & HttpResponseField<any>
 >(kvp: T): ConfigurationSetting & { eTag?: string } & HttpResponseField<any> & HttpResponseFields {
-  return normalizeResponse(kvp, <
+  const normalizedResponse = normalizeResponse(kvp, <
     ConfigurationSetting & HttpResponseField<any> & HttpResponseFields
   >{
     ...transformKeyValue(kvp),
     statusCode: kvp._response.status
   });
+  if (isFeatureFlag(normalizedResponse)) {
+    return new FeatureFlagImplWithResponseAndStatusCode(
+      normalizedResponse,
+      normalizedResponse._response,
+      normalizedResponse.statusCode
+    );
+  }
+  return normalizedResponse;
 }
 
 /**
@@ -222,9 +233,13 @@ export function transformKeyValueResponseWithStatusCode<
 export function transformKeyValueResponse<
   T extends KeyValue & { eTag?: string } & HttpResponseField<any>
 >(kvp: T): ConfigurationSetting & HttpResponseField<any> {
-  return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any>>{
+  const normalizedResponse = normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any>>{
     ...transformKeyValue(kvp)
   });
+  if (isFeatureFlag(normalizedResponse)) {
+    return new FeatureFlagImplWithResponse(normalizedResponse, normalizedResponse._response);
+  }
+  return normalizedResponse;
 }
 
 function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>(

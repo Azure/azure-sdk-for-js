@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { HttpResponse } from "@azure/core-http";
 import {
   isJsonFeatureFlagPercentageClientFilter,
   isJsonFeatureFlagTargetingClientFilter,
@@ -241,23 +242,30 @@ export function deserializeFeatureFlag(setting: ConfigurationSetting): FeatureFl
 /**
  * @internal
  */
-export function serializeFeatureFlagParam(setting: FeatureFlagParam): ConfigurationSettingParam {
-  if (typeof setting.key === "string" && !setting.key.startsWith(featureFlagPrefix)) {
-    setting.key = featureFlagPrefix + setting.key;
-  }
+export function encodeFeatureFlagValue(setting: FeatureFlagParam) {
   const value: JsonFeatureFlag & { id: string } = {
     id: setting.key.replace(featureFlagPrefix, ""),
     description: setting.description,
     enabled: setting.enabled,
     conditions: convertToJsonConditions(setting.conditions)
   };
+  return JSON.stringify(value);
+}
+
+/**
+ * @internal
+ */
+export function serializeFeatureFlagParam(setting: FeatureFlagParam): ConfigurationSettingParam {
+  if (typeof setting.key === "string" && !setting.key.startsWith(featureFlagPrefix)) {
+    setting.key = featureFlagPrefix + setting.key;
+  }
   const configurationSetting: ConfigurationSettingParam = {
     key: setting.key,
     label: setting.label,
     contentType: setting.contentType,
     etag: setting.etag,
     tags: setting.tags,
-    value: JSON.stringify(value)
+    value: encodeFeatureFlagValue(setting)
   };
   return configurationSetting;
 }
@@ -414,42 +422,50 @@ export class FeatureFlagImpl implements FeatureFlag {
   }) {
     // Make sure the value is updated
     this._setting.conditions = conditions;
+    this._setting.value = encodeFeatureFlagValue(this._setting);
   }
 
   set enabled(enabled: boolean) {
     // Make sure the value is updated
-    console.log("enabled flag");
     this._setting.enabled = enabled;
+    this._setting.value = encodeFeatureFlagValue(this._setting);
   }
 
   set isReadOnly(isReadOnly: boolean) {
     // Make sure the value is updated
     this._setting.isReadOnly = isReadOnly;
+    this._setting.value = encodeFeatureFlagValue(this._setting);
   }
 
   set key(key: string) {
     // Make sure the value is updated
     this._setting.key = key;
+    this._setting.value = encodeFeatureFlagValue(this._setting);
   }
 
   set contentType(contentType: string | undefined) {
     this._setting.contentType = contentType;
+    this._setting.value = encodeFeatureFlagValue(this._setting);
   }
 
   set description(description: string | undefined) {
     this._setting.description = description;
+    this._setting.value = encodeFeatureFlagValue(this._setting);
   }
 
   set etag(etag: string | undefined) {
     this._setting.etag = etag;
+    this._setting.value = encodeFeatureFlagValue(this._setting);
   }
 
   set label(label: string | undefined) {
     this._setting.label = label;
+    this._setting.value = encodeFeatureFlagValue(this._setting);
   }
 
   set lastModified(value: Date | undefined) {
     this._setting.lastModified = value;
+    this._setting.value = encodeFeatureFlagValue(this._setting);
   }
 
   set tags(
@@ -460,13 +476,52 @@ export class FeatureFlagImpl implements FeatureFlag {
       | undefined
   ) {
     this._setting.tags = value;
+    this._setting.value = encodeFeatureFlagValue(this._setting);
   }
 
   set value(value: string | undefined) {
     this._setting.value = value;
+    this._setting.value = encodeFeatureFlagValue(this._setting);
   }
+}
 
-  //.. and so on
+export class FeatureFlagImplWithResponse extends FeatureFlagImpl {
+  constructor(
+    setting: FeatureFlag,
+    public readonly _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: any;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+    }
+  ) {
+    super(setting);
+  }
+}
+
+export class FeatureFlagImplWithResponseAndStatusCode extends FeatureFlagImpl {
+  constructor(
+    setting: FeatureFlag,
+    public readonly _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: any;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+    },
+    public statusCode: number
+  ) {
+    super(setting);
+  }
 }
 
 export function createFeatureFlag(setting: FeatureFlag): FeatureFlag {
