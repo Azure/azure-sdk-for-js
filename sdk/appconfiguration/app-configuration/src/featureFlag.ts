@@ -469,6 +469,17 @@ export class FeatureFlagImpl implements FeatureFlag {
   //.. and so on
 }
 
-export function createFeatureFlag(setting: FeatureFlag): FeatureFlag {
-  return new FeatureFlagImpl(setting);
-}
+export const FeatureFlagHelper = {
+  isFeatureFlag: isFeatureFlag,
+  createFeatureFlag: (setting: FeatureFlag): FeatureFlag => {
+    return new FeatureFlagImpl(setting);
+  },
+  // To be applied on the responses to get the FeatureFlagImpl which can be modified as needed and can be passed to the update method
+  fromConfigurationSetting: (setting: ConfigurationSetting): FeatureFlag => {
+    const featureFlag = deserializeFeatureFlag(setting);
+    if (!featureFlag || !isFeatureFlag(setting)) {
+      throw new Error("");
+    }
+    return FeatureFlagHelper.createFeatureFlag(featureFlag);
+  }
+};
