@@ -142,7 +142,9 @@ function withDefaultAzureCredential() {
 
 For clients that have a default browser available and for client-side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience. In the sample below an application authenticates a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
 
-> For client side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. You will also need to configure your app registration for single-page applications. Please refer to the [Single-Page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for more information.
+For Node.js, if a `clientId` is provided, the Azure Active Directory application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://docs.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
+
+For client side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. You will also need to configure your app registration for single-page applications. Please refer to the [Single-Page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for more information.
 
 ```ts
 function withInteractiveBrowserCredential() {
@@ -455,8 +457,6 @@ async function main() {
 
 ## Advanced Examples
 
-With all the information given so far, we can explore some advanced usages of the `@azure/identity` credentials.
-
 ### Custom Credentials
 
 The `@azure/identity` library covers a broad range of Azure Active Directory authentication scenarios. However, it's possible the credential implementations provided might not meet the specific needs your application, or an application might want to avoid taking a dependency on the `@azure/identity` library.
@@ -472,7 +472,7 @@ The `@azure/identity` library does not contain a `TokenCredential` implementatio
 In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an `AccessToken` (defined on `@azure/core-http`), and simply returns that from its implementation of `getToken()`.
 
 ```ts
-import { TokenCredential, AccessToken } from '@azure/core-http';
+import { TokenCredential, AccessToken } from "@azure/core-http";
 
 class StaticTokenCredential implements TokenCredential {
   constructor(private accessToken: AccessToken) {
@@ -507,7 +507,9 @@ Some applications already use the MSAL library's `ConfidentialClientApplication`
 
 In this example the `ConfidentialClientApplicationCredential` is constructed with an instance of `ConfidentialClientApplication` it then implements `getToken()` using the `acquireTokenByClientCredential()` method to acquire a token.
 
-Make sure to install `msal-node` with: `npm install @azure/msal-node`. Then you'll be able to write code similar to the following:
+For more information aboutMSAL, please refer to [the README of the `@azure/msal-node` package][msal_node_readme].
+
+> You'll need to install the [@azure/msal-node][msal_node_npm] package for this sample.
 
 ```ts
 import { TokenCredential, AccessToken } from "@azure/core-http";
@@ -590,10 +592,7 @@ async function main() {
 
 Azure Key Vault allows users to create certificates that can be used to authenticate Azure SDK clients.
 
-Certificates can be created through different means. You may follow any of these approaches:
-
-- [Quickstart: Set and retrieve a certificate from Azure Key Vault using the Azure portal](https://docs.microsoft.com/azure/key-vault/certificates/quick-create-portal).
-- [Quickstart: Azure Key Vault certificate client library for JavaScript (version 4)](https://docs.microsoft.com/azure/key-vault/certificates/quick-create-node).
+Key Vault Certificates can be created through different means. For example, using the Azure CLI: [Quickstart: Set and retrieve a certificate from Azure Key Vault using Azure CLI](https://docs.microsoft.com/en-us/azure/key-vault/certificates/quick-create-cli).
 
 Once you have a certificate, you may export the certificate with the Azure CLI following the steps at: [Export certificates from Azure Key Vault](https://docs.microsoft.com/azure/key-vault/certificates/how-to-export-certificate?tabs=azure-cli).
 
@@ -712,3 +711,5 @@ In this example the custom credential type `RotatingCertificateCredential` again
 [quickstart-register-app]: https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
 [app-register-service-principal]: https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals
 [service_principal_azure_powershell]: https://docs.microsoft.com/powershell/azure/create-azure-service-principal-azureps
+[msal_node_readme]: https://github.com/sadasant/microsoft-authentication-library-for-js/tree/acquireWithDeviceCode-interval-fix/lib/msal-node
+[msal_node_npm]: https://www.npmjs.com/package/@azure/msal-node
