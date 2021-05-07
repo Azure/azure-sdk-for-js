@@ -15,13 +15,6 @@ import {
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 import {
-  deserializeFeatureFlag,
-  FeatureFlag,
-  featureFlagContentType,
-  FeatureFlagParam,
-  serializeFeatureFlagParam
-} from "../featureFlag";
-import {
   deserializeSecretReference,
   SecretReference,
   secretReferenceContentType,
@@ -173,9 +166,6 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
   delete setting.locked;
 
   switch (setting.contentType) {
-    case featureFlagContentType: {
-      return deserializeFeatureFlag(setting) ?? setting;
-    }
     case secretReferenceContentType: {
       return deserializeSecretReference(setting) ?? setting;
     }
@@ -188,12 +178,9 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
  * @internal
  */
 export function serializeAsConfigurationSettingParam(
-  setting: FeatureFlagParam | SecretReferenceParam | ConfigurationSettingParam
+  setting: SecretReferenceParam | ConfigurationSettingParam
 ): ConfigurationSettingParam {
   switch (setting.contentType) {
-    case featureFlagContentType: {
-      return serializeFeatureFlagParam(setting as FeatureFlag);
-    }
     case secretReferenceContentType: {
       return serializeSecretReferenceParam(setting as SecretReference);
     }
