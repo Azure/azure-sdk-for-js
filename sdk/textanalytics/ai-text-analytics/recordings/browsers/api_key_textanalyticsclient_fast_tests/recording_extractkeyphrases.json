@@ -8,14 +8,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"wonderful trip\",\"Seattle\",\"weekend\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "25db0ada-be60-4485-9bec-5dd70300fbb3",
+    "apim-request-id": "d13eeebc-1678-4d1c-aff9-4d0c507ab785",
     "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 24 Feb 2021 02:15:59 GMT",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
+    "date": "Wed, 28 Apr 2021 21:12:20 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "1230"
+    "x-envoy-upstream-service-time": "14"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "edd15bcf81be5faef0fc3807dab32783"
+ "hash": "cf1d81ad6df4fa9e5213015af7f3ea71"
 }

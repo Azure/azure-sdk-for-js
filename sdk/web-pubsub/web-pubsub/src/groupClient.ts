@@ -152,6 +152,9 @@ export interface WebPubSubGroup {
   sendToAll(message: HttpRequestBody, options?: GroupSendToAllOptions): Promise<RestResponse>;
 }
 
+/**
+ * @hidden
+ */
 export class WebPubSubGroupImpl implements WebPubSubGroup {
   private client!: GeneratedClient;
 

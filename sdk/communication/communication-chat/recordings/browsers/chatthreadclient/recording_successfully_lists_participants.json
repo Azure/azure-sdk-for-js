@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A8ucvHcBc4tyC0GEsOWiYZ5raXvPf-UMKB_8NWVcYSRg1%40thread.v2/participants",
+   "url": "https://endpoint/chat/threads/19%3AaSKCYUhRHJ1PkzKMSihIaoGRA0evhS9UmQ51OaNowYU1%40thread.v2/participants",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2021-04-05-preview6"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"communicationIdentifier\":{\"rawId\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000009-0067-40f6-f40f-343a0d006a74\",\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000009-0067-40f6-f40f-343a0d006a74\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000009-0067-4240-f40f-343a0d006a75\",\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000009-0067-4240-f40f-343a0d006a75\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000009-0067-505d-f40f-343a0d006a76\",\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000009-0067-505d-f40f-343a0d006a76\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
+   "response": "{\"value\":[{\"communicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_00000009-96b7-b18c-740a-113a0d00994c\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_00000009-96b7-b18c-740a-113a0d00994c\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_00000009-96b7-b286-740a-113a0d00994e\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_00000009-96b7-b286-740a-113a0d00994e\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"communicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_00000009-96b7-c724-570c-113a0d001be8\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_00000009-96b7-c724-570c-113a0d001be8\"}},\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "477197001df2934909394d5b2b5ec9a8"
+ "hash": "79a38c810c223a8b25e83ef1eef1419f"
 }

@@ -19,9 +19,8 @@ export interface CloseConnectionOptions extends OperationOptions {
 
 // @public
 export interface GetAuthenticationTokenOptions {
-    claims?: {
-        [key: string]: string[];
-    };
+    roles?: string[];
+    ttl?: number;
     userId?: string;
 }
 

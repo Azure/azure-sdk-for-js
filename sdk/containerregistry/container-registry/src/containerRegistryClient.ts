@@ -4,7 +4,10 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { TokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import {
+  InternalPipelineOptions,
+  bearerTokenChallengeAuthenticationPolicy
+} from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -17,7 +20,6 @@ import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
 import { ContainerRegistryClientOptions, DeleteRepositoryResult } from "./model";
 import { extractNextLink } from "./utils";
-import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChallengeAuthenticationPolicy";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 import { ContainerRepositoryClient, DeleteRepositoryOptions } from "./containerRepositoryClient";
 
@@ -91,7 +93,7 @@ export class ContainerRegistryClient {
     this.client.pipeline.addPolicy(
       bearerTokenChallengeAuthenticationPolicy({
         credential,
-        scopes: `https://management.core.windows.net/.default`,
+        scopes: [`https://management.core.windows.net/.default`],
         challengeCallbacks: new ChallengeHandler(this.authClient)
       })
     );

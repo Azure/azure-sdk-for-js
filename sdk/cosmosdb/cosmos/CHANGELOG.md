@@ -1,7 +1,8 @@
 # Release History
 
-## 3.11.1 (Unreleased)
+## 3.11.1 (2021-05-06)
 
+- BUGFIX: Import URL from Browser/Node shim rather than built-in module.
 
 ## 3.11.0 (2021-04-21)
 
@@ -675,7 +676,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Split Q promises wrapper to new repository.
 - Update to package file for npm registry.
 
-## 1.2.1 ((2015-08-15))
+## 1.2.1 (2015-08-15)
 
 - Implements ID Based Routing.
 - Fixes Issue [#49](https://github.com/Azure/azure-documentdb-node/issues/49) - current property conflicts with method current().

@@ -70,20 +70,16 @@ export class KeyVaultBackupClient {
    * ```
    * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
-   * @param pipelineOptions - Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
+   * @param options - options used to configure Key Vault API requests.
    */
-  constructor(
-    vaultUrl: string,
-    credential: TokenCredential,
-    pipelineOptions: BackupClientOptions = {}
-  ) {
+  constructor(vaultUrl: string, credential: TokenCredential, options: BackupClientOptions = {}) {
     this.vaultUrl = vaultUrl;
 
     const libInfo = `azsdk-js-keyvault-admin/${SDK_VERSION}`;
 
-    const userAgentOptions = pipelineOptions.userAgentOptions;
+    const userAgentOptions = options.userAgentOptions;
 
-    pipelineOptions.userAgentOptions = {
+    options.userAgentOptions = {
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -95,7 +91,7 @@ export class KeyVaultBackupClient {
       : signingPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
-      ...pipelineOptions,
+      ...options,
       loggingOptions: {
         logger: logger.info,
         allowedHeaderNames: [
@@ -110,7 +106,7 @@ export class KeyVaultBackupClient {
       internalPipelineOptions,
       authPolicy
     );
-    params.apiVersion = pipelineOptions.serviceVersion || LATEST_API_VERSION;
+    params.apiVersion = options.serviceVersion || LATEST_API_VERSION;
     this.client = new KeyVaultClient(params);
   }
 

@@ -57,7 +57,7 @@ module.exports = function(config) {
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
-      "AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING",
+      "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
       "AZURE_PHONE_NUMBER",
       "TEST_MODE",
       "AZURE_CLIENT_ID",
@@ -117,7 +117,7 @@ module.exports = function(config) {
     customLaunchers: {
       HeadlessChrome: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"]
+        flags: ["--no-sandbox", "--disable-web-security"]
       }
     },
 

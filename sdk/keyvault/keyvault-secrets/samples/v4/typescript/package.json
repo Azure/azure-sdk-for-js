@@ -1,0 +1,42 @@
+{
+  "name": "azure-keyvault-secrets-samples-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Key Vault Keys client library samples for TypeScript",
+  "engine": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/keyvault/keyvault-secrets"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "cloud",
+    "isomorphic",
+    "keyvault"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets",
+  "dependencies": {
+    "@azure/keyvault-secrets": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^1.1.0"
+  },
+  "devDependencies": {
+    "typescript": "~4.2.0",
+    "rimraf": "latest"
+  }
+}
