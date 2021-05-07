@@ -13,7 +13,7 @@ import {
   GetCurrentLedgerEntryParameters,
   DeleteUserParameters,
   GetUserParameters,
-  PatchUserParameters
+  CreateOrUpdateUserParameters
 } from "./parameters";
 import {
   GetConstitution200Response,
@@ -38,11 +38,11 @@ import {
   DeleteUserdefaultResponse,
   GetUser200Response,
   GetUserdefaultResponse,
-  PatchUser200Response,
-  PatchUserdefaultResponse
+  CreateOrUpdateUser200Response,
+  CreateOrUpdateUserdefaultResponse
 } from "./responses";
 import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { TokenCredential } from "@azure/core-auth";
 
 export interface GetConstitution {
   /** The constitution is a script that assesses and applies proposals from consortium members. */
@@ -110,7 +110,7 @@ export interface GetCurrentLedgerEntry {
   >;
 }
 
-export interface PatchUser {
+export interface CreateOrUpdateUser {
   /** Deletes a user from the Confidential Ledger. */
   delete(
     options?: DeleteUserParameters
@@ -121,8 +121,8 @@ export interface PatchUser {
   ): Promise<GetUser200Response | GetUserdefaultResponse>;
   /** A JSON merge patch is applied for existing users */
   patch(
-    options: PatchUserParameters
-  ): Promise<PatchUser200Response | PatchUserdefaultResponse>;
+    options: CreateOrUpdateUserParameters
+  ): Promise<CreateOrUpdateUser200Response | CreateOrUpdateUserdefaultResponse>;
 }
 
 export interface Routes {
@@ -152,27 +152,19 @@ export interface Routes {
   /** Resource for '/app/transactions/current' has methods for the following verbs: get */
   (path: "/app/transactions/current"): GetCurrentLedgerEntry;
   /** Resource for '/app/users/\{userId\}' has methods for the following verbs: delete, get, patch */
-  (path: "/app/users/{userId}", userId: string): PatchUser;
+  (path: "/app/users/{userId}", userId: string): CreateOrUpdateUser;
 }
 
-export type ConfidentialLedgerClient = Client & {
+export type ConfidentialLedgerRestClient = Client & {
   path: Routes;
 };
 
-export interface ConfidentialLedgerFactory {
-  (
-    ledgerBaseUrl: string,
-    credentials: TokenCredential | KeyCredential,
-    options?: ClientOptions
-  ): void;
-}
-
 export default function ConfidentialLedger(
-  ledgerBaseUrl: string,
-  credentials: TokenCredential | KeyCredential,
+  ledgerUri: string,
+  credentials: TokenCredential,
   options: ClientOptions = {}
-): ConfidentialLedgerClient {
-  const baseUrl = options.baseUrl ?? `${ledgerBaseUrl}`;
+): ConfidentialLedgerRestClient {
+  const baseUrl = options.baseUrl ?? `${ledgerUri}`;
   options.apiVersion = options.apiVersion ?? "0.1-preview";
   options = {
     ...options,
@@ -181,5 +173,9 @@ export default function ConfidentialLedger(
     }
   };
 
-  return getClient(baseUrl, credentials, options) as ConfidentialLedgerClient;
+  return getClient(
+    baseUrl,
+    credentials,
+    options
+  ) as ConfidentialLedgerRestClient;
 }

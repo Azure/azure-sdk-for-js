@@ -3,7 +3,7 @@ import { TokenCredential, CertificateCredential, isCertificateCredential } from 
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { Agent } from "./agent";
 import GeneratedConfidentialLedger, {
-  ConfidentialLedgerClient,
+  ConfidentialLedgerRestClient,
 } from "./generated/src/confidentialLedger";
 
 export default function ConfidentialLedger(
@@ -11,7 +11,7 @@ export default function ConfidentialLedger(
   ledgerTlsCertificate: string,
   credentials: TokenCredential | CertificateCredential,
   options?: ClientOptions
-): ConfidentialLedgerClient {
+): ConfidentialLedgerRestClient {
   const confidentialLedger = GeneratedConfidentialLedger(
     ledgerBaseUrl,
     credentials as any,

@@ -8,20 +8,14 @@ import { CertificateCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, credentials: TokenCredential | CertificateCredential, options?: ClientOptions): ConfidentialLedgerClient;
+function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, credentials: TokenCredential | CertificateCredential, options?: ClientOptions): ConfidentialLedgerRestClient;
 
 export default ConfidentialLedger;
-
-// @public (undocumented)
-export type ConfidentialLedgerClient = Client & {
-    path: Routes;
-};
 
 // @public (undocumented)
 export interface ConfidentialLedgerEnclaves {
@@ -42,13 +36,12 @@ export interface ConfidentialLedgerErrorBody {
 }
 
 // @public (undocumented)
-export interface ConfidentialLedgerFactory {
-    // (undocumented)
-    (ledgerBaseUrl: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): void;
-}
+export type ConfidentialLedgerQueryState = "Loading" | "Ready";
 
 // @public (undocumented)
-export type ConfidentialLedgerQueryState = "Loading" | "Ready";
+export type ConfidentialLedgerRestClient = Client & {
+    path: Routes;
+};
 
 // @public (undocumented)
 export type ConfidentialLedgerUserRoleName = "Administrator" | "Contributor" | "Reader";
@@ -70,6 +63,38 @@ export interface Constitution {
     digest: string;
     script: string;
 }
+
+// @public (undocumented)
+export interface CreateOrUpdateUser {
+    delete(options?: DeleteUserParameters): Promise<DeleteUser204Response | DeleteUserdefaultResponse>;
+    get(options?: GetUserParameters): Promise<GetUser200Response | GetUserdefaultResponse>;
+    patch(options: CreateOrUpdateUserParameters): Promise<CreateOrUpdateUser200Response | CreateOrUpdateUserdefaultResponse>;
+}
+
+// @public
+export interface CreateOrUpdateUser200Response extends HttpResponse {
+    // (undocumented)
+    body: LedgerUser;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface CreateOrUpdateUserBodyParam {
+    // (undocumented)
+    body: LedgerUser;
+}
+
+// @public
+export interface CreateOrUpdateUserdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerError;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type CreateOrUpdateUserParameters = RequestParameters & CreateOrUpdateUserBodyParam;
 
 // @public
 export interface DeleteUser204Response extends HttpResponse {
@@ -391,38 +416,6 @@ export interface PagedLedgerEntries {
 }
 
 // @public (undocumented)
-export interface PatchUser {
-    delete(options?: DeleteUserParameters): Promise<DeleteUser204Response | DeleteUserdefaultResponse>;
-    get(options?: GetUserParameters): Promise<GetUser200Response | GetUserdefaultResponse>;
-    patch(options: PatchUserParameters): Promise<PatchUser200Response | PatchUserdefaultResponse>;
-}
-
-// @public
-export interface PatchUser200Response extends HttpResponse {
-    // (undocumented)
-    body: LedgerUser;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface PatchUserBodyParam {
-    // (undocumented)
-    body: LedgerUser;
-}
-
-// @public
-export interface PatchUserdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ConfidentialLedgerError;
-    // (undocumented)
-    status: "500";
-}
-
-// @public (undocumented)
-export type PatchUserParameters = RequestParameters & PatchUserBodyParam;
-
-// @public (undocumented)
 export interface PostLedgerEntry {
     get(options?: GetLedgerEntriesParameters): Promise<GetLedgerEntries200Response | GetLedgerEntriesdefaultResponse>;
     post(options?: PostLedgerEntryParameters): Promise<PostLedgerEntry200Response | PostLedgerEntrydefaultResponse>;
@@ -496,7 +489,7 @@ export interface Routes {
     (path: "/app/transactions/{transactionId}/receipt", transactionId: string): GetReceipt;
     (path: "/app/transactions/{transactionId}/status", transactionId: string): GetTransactionStatus;
     (path: "/app/transactions/current"): GetCurrentLedgerEntry;
-    (path: "/app/users/{userId}", userId: string): PatchUser;
+    (path: "/app/users/{userId}", userId: string): CreateOrUpdateUser;
 }
 
 // @public (undocumented)

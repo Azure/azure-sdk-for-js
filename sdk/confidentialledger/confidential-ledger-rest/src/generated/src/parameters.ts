@@ -69,8 +69,9 @@ export type GetCurrentLedgerEntryParameters = RequestParameters &
 export type DeleteUserParameters = RequestParameters;
 export type GetUserParameters = RequestParameters;
 
-export interface PatchUserBodyParam {
+export interface CreateOrUpdateUserBodyParam {
   body: LedgerUser;
 }
 
-export type PatchUserParameters = RequestParameters & PatchUserBodyParam;
+export type CreateOrUpdateUserParameters = RequestParameters &
+  CreateOrUpdateUserBodyParam;

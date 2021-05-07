@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerClient, getLedgerIdentity } from "../../src";
+import { ConfidentialLedgerRestClient, getLedgerIdentity } from "../../src";
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { assert } from "chai";
@@ -15,7 +15,7 @@ export const isNode =
 
 describe("List Document Formats", () => {
   let recorder: Recorder;
-  let client: ConfidentialLedgerClient;
+  let client: ConfidentialLedgerRestClient;
 
   beforeEach(async function (this: Context) {
     recorder = createRecorder(this);

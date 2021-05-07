@@ -6,7 +6,7 @@
 import { Context } from "mocha";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import ConfidentialLedger, { ConfidentialLedgerClient } from "../../../src";
+import ConfidentialLedger, { ConfidentialLedgerRestClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
 
 import "./env";
@@ -38,7 +38,7 @@ export function createClient(
   ledgerBaseUrl: string,
   ledgerTlsCertificate: string,
   options?: ClientOptions
-): ConfidentialLedgerClient {
+): ConfidentialLedgerRestClient {
   const credential = new ClientSecretCredential(
     env["AZURE_TENANT_ID"],
     env["AZURE_CLIENT_ID"],

@@ -155,13 +155,13 @@ export interface GetUserdefaultResponse extends HttpResponse {
 }
 
 /** A JSON merge patch is applied for existing users */
-export interface PatchUser200Response extends HttpResponse {
+export interface CreateOrUpdateUser200Response extends HttpResponse {
   status: "200";
   body: LedgerUser;
 }
 
 /** A JSON merge patch is applied for existing users */
-export interface PatchUserdefaultResponse extends HttpResponse {
+export interface CreateOrUpdateUserdefaultResponse extends HttpResponse {
   status: "500";
   body: ConfidentialLedgerError;
 }
