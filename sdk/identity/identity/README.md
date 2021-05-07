@@ -18,11 +18,14 @@ npm install --save @azure/identity
 
 ### Prerequisites
 
-- Node.js 8 LTS or higher.
 - An [Azure subscription](https://azure.microsoft.com/free/).
-- The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment and managing account roles.
+- Optional: The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment and managing account roles.
 
-Credentials `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` allow specifying `tokenCachePersistenceOptions` to enable persistent caching. To use this feature, developers will also need to install [@azure/msal-node-extensions](https://www.npmjs.com/package/@azure/msal-node-extensions).
+#### Supported Node.js versions
+
+This version of `@azure/identity` supports stable (even numbered) versions of Node.js starting from v10. While it may run in Node.js v8, no support is guaranteed.
+
+> **Note:** If your application runs on Node.js v8 or lower, we strongly recommend you to upgrade your Node.js version to latest stable version or pin your `@azure/identity` dependency to version 1.1.0.
 
 ### Authenticate the client in development environment
 

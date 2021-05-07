@@ -11,15 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:17:41 GMT",
+    "date": "Wed, 28 Apr 2021 21:14:06 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - EUS ProdSlices",
-    "x-ms-request-id": "74937450-6f3f-4d02-9983-c42e04f62100"
+    "x-ms-ests-server": "2.1.11654.16 - EUS ProdSlices",
+    "x-ms-request-id": "9ab5bd22-49c3-46e1-9587-d9e766355001"
    }
   },
   {
@@ -32,13 +34,13 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid Request.\",\"innererror\":{\"code\":\"MissingInputRecords\",\"message\":\"Missing input records.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "042e34e6-92f5-42c9-ab27-2b4882f71804",
+    "apim-request-id": "ae5c7158-4743-4274-8ce1-16dc4bed5db3",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:17:42 GMT",
+    "date": "Wed, 28 Apr 2021 21:14:06 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5"
+    "x-envoy-upstream-service-time": "4"
    }
   }
  ],
@@ -46,5 +48,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "572a1d4bd61b8cee6d5fb893de340e69"
+ "hash": "cc302f3f2f63db389e3b21b16baf80ce"
 }
