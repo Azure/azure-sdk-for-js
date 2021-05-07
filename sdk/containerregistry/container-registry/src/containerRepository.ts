@@ -88,7 +88,10 @@ export class ContainerRepository {
         this.name,
         updatedOptions
       );
-      return result;
+      return {
+        deletedManifests: result.deletedManifests ?? [],
+        deletedTags: result.deletedTags ?? []
+      };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -232,7 +235,19 @@ export class ContainerRepository {
       if (currentPage.manifests) {
         yield currentPage.manifests.map((t) => {
           return {
-            ...t,
+            repositoryName: this.name,
+            digest: t.digest,
+            size: t.size,
+            createdOn: t.createdOn,
+            lastUpdatedOn: t.lastUpdatedOn,
+            architecture: t.architecture ?? undefined,
+            operatingSystem: t.operatingSystem ?? undefined,
+            manifests:
+              t.references?.map((r) => {
+                return { ...r, manifests: [], tags: [] };
+              }) ?? [],
+            tags: t.tags ?? [],
+            writeableProperties: t.writeableProperties,
             repository: currentPage.repository!
           };
         });
@@ -255,7 +270,19 @@ export class ContainerRepository {
       if (currentPage.manifests) {
         yield currentPage.manifests.map((t) => {
           return {
-            ...t,
+            repositoryName: this.name,
+            digest: t.digest,
+            size: t.size,
+            createdOn: t.createdOn,
+            lastUpdatedOn: t.lastUpdatedOn,
+            architecture: t.architecture ?? undefined,
+            operatingSystem: t.operatingSystem ?? undefined,
+            manifests:
+              t.references?.map((r) => {
+                return { ...r, manifests: [], tags: [] };
+              }) ?? [],
+            tags: t.tags ?? [],
+            writeableProperties: t.writeableProperties,
             repository: currentPage.repository!
           };
         });

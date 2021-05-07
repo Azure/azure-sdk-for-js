@@ -2,17 +2,12 @@
 // Licensed under the MIT license.
 
 import { PipelineOptions } from "@azure/core-rest-pipeline";
-import {
-  ContentProperties,
-  DeleteRepositoryResult,
-  RepositoryProperties,
-  ArtifactTagProperties
-} from "./generated";
+import { ContentProperties, RepositoryProperties, ArtifactTagProperties } from "./generated";
 
 /**
  * Re-export generated types that are used as public interfaces.
  */
-export { ContentProperties, DeleteRepositoryResult, RepositoryProperties, ArtifactTagProperties };
+export { ContentProperties, RepositoryProperties, ArtifactTagProperties };
 
 /**
  * Client options used to configure Container Registry Repository API requests.
@@ -123,19 +118,19 @@ export interface ArtifactManifestProperties {
    * CPU architecture
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly architecture?: ArtifactArchitecture | null;
+  readonly architecture?: ArtifactArchitecture;
   /**
    * Operating system
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operatingSystem?: ArtifactOperatingSystem | null;
+  readonly operatingSystem?: ArtifactOperatingSystem;
   /** List of manifest attributes details */
-  manifests?: ArtifactManifestProperties[];
+  manifests: ArtifactManifestProperties[];
   /**
    * List of tags
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly tags?: string[];
+  readonly tags: string[];
   /**
    * Writeable properties of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -160,3 +155,17 @@ export type TagOrderBy = "timeDesc" | "timeAsc";
  * **timeasc**: Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated.
  */
 export type ManifestOrderBy = "timeDesc" | "timeAsc";
+
+/** Deleted repository */
+export interface DeleteRepositoryResult {
+  /**
+   * SHA of the deleted image
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deletedManifests: string[];
+  /**
+   * Tag of the deleted image
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deletedTags: string[];
+}

@@ -165,10 +165,13 @@ export class RegistryArtifact {
         size: result.size,
         createdOn: result.createdOn,
         lastUpdatedOn: result.lastUpdatedOn,
-        architecture: result.architecture,
-        operatingSystem: result.operatingSystem,
-        manifests: result.references, // replace 'reference' with 'manifests'
-        tags: result.tags,
+        architecture: result.architecture ?? undefined,
+        operatingSystem: result.operatingSystem ?? undefined,
+        manifests:
+          result.references?.map((r) => {
+            return { ...r, manifests: [], tags: [] };
+          }) ?? [],
+        tags: result.tags ?? [],
         writeableProperties: result.writeableProperties
       };
     } catch (e) {
@@ -201,19 +204,30 @@ export class RegistryArtifact {
       digest = (await this.getTagProperties(this.tagOrDigest)).digest;
     }
     try {
-      const properties = await this.client.containerRegistry.updateManifestProperties(
+      const t = await this.client.containerRegistry.updateManifestProperties(
         this.repositoryName,
         digest,
         updatedOptions
       );
       return {
-        ...properties,
-        writeableProperties: properties.writeableProperties
+        repositoryName: this.repositoryName,
+        digest: t.digest,
+        size: t.size,
+        createdOn: t.createdOn,
+        lastUpdatedOn: t.lastUpdatedOn,
+        architecture: t.architecture ?? undefined,
+        operatingSystem: t.operatingSystem ?? undefined,
+        manifests:
+          t.references?.map((r) => {
+            return { ...r, manifests: [], tags: [] };
+          }) ?? [],
+        tags: t.tags ?? [],
+        writeableProperties: t.writeableProperties
           ? {
-              canDelete: properties.writeableProperties.canDelete,
-              canList: properties.writeableProperties.canList,
-              canRead: properties.writeableProperties.canRead,
-              canWrite: properties.writeableProperties.canWrite
+              canDelete: t.writeableProperties.canDelete,
+              canList: t.writeableProperties.canList,
+              canRead: t.writeableProperties.canRead,
+              canWrite: t.writeableProperties.canWrite
             }
           : undefined
       };

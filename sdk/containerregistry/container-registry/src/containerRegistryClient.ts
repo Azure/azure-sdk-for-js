@@ -127,7 +127,10 @@ export class ContainerRegistryClient {
         repositoryName,
         updatedOptions
       );
-      return result;
+      return {
+        deletedManifests: result.deletedManifests ?? [],
+        deletedTags: result.deletedTags ?? []
+      };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

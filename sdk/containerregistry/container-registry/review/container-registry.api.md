@@ -16,15 +16,15 @@ export type ArtifactArchitecture = "386" | "amd64" | "arm" | "arm64" | "mips" | 
 
 // @public
 export interface ArtifactManifestProperties {
-    readonly architecture?: ArtifactArchitecture | null;
+    readonly architecture?: ArtifactArchitecture;
     readonly createdOn?: Date;
     readonly digest?: string;
     readonly lastUpdatedOn?: Date;
-    manifests?: ArtifactManifestProperties[];
-    readonly operatingSystem?: ArtifactOperatingSystem | null;
+    manifests: ArtifactManifestProperties[];
+    readonly operatingSystem?: ArtifactOperatingSystem;
     readonly repositoryName?: string;
     readonly size?: number;
-    readonly tags?: string[];
+    readonly tags: string[];
     readonly writeableProperties?: ContentProperties;
 }
 
@@ -91,8 +91,8 @@ export interface DeleteRepositoryOptions extends OperationOptions {
 
 // @public
 export interface DeleteRepositoryResult {
-    readonly deletedManifests?: string[];
-    readonly deletedTags?: string[];
+    readonly deletedManifests: string[];
+    readonly deletedTags: string[];
 }
 
 // @public
