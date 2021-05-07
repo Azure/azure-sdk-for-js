@@ -7,7 +7,7 @@
     "build:production": "npm run prestart && npm prune --production",
     "watch": "tsc --w",
     "prestart": "npm run build && func extensions install",
-    "start:host": "func start",
+    "start:host": "func start --typescript",
     "start": "npm-run-all --parallel start:host watch",
     "test": "echo \"No tests yet...\""
   },

@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "vaults_name": {
-      "defaultValue": "kaghiya-standard-kv",
+      "defaultValue": "identity-e2e-kv",
       "type": "string"
     },
     "appName": {

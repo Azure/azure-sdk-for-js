@@ -4,34 +4,51 @@
 
 Before you begin, you must have the following:
 
-An Azure account with an active subscription.
-
-The Azure Functions Core Tools version 3.x.
-
-One of the following tools for creating Azure resources:
-
-Azure CLI version 2.4 or later.
-
-Azure PowerShell version 5.0 or later.
-
-Node.js, Active LTS and Maintenance LTS versions (8.11.1 and 10.14.1 recommended).
-
-- Prerequisites and Configuration of local env same as this - https://docs.microsoft.com/azure/azure-functions/create-first-function-cli-typescript?tabs=azure-cli%2Cbrowser#configure-your-local-environment
+- An Azure account with an active subscription
+- The Azure Functions Core Tools version 3.x
+- Node.js, Active LTS version
+- One of the following tools for creating Azure resources:
+  - Azure CLI version 2.4 or later
+  - Azure PowerShell version 5.0 or later
 
 ## Prerequisites
 
-In a terminal or command window, run func --version to check that the Azure Functions Core Tools are version 3.x.
+Verify your prerequisites, which depend on whether you are using Azure CLI or Azure PowerShell for creating Azure resources
 
-Run az --version to check that the Azure CLI version is 2.4 or later.
+For Azure CLI,
 
-Run az login to sign in to Azure and verify an active subscription.
+1. In a terminal or command window, run func --version to check that the Azure Functions Core Tools are version 3.x.
+2. Run az --version to check that the Azure CLI version is 2.4 or later.
+3. Run az login to sign in to Azure and verify an active subscription.
 
-- An Azure Key Vault.
+For Azure PowerShell,
 
-### Install Azure Functions
+1. In a terminal or command window, run func --version to check that the Azure Functions Core Tools are version 3.x.
+2. Run (Get-Module -ListAvailable Az).Version and verify version 5.0 or later.
+3. Run Connect-AzAccount to sign in to Azure and verify an active subscription.
 
-`cd IdentityTest`
-`npm install`
+### Install and Run Azure Functions locally
+
+1. Run the following commands in your console from the root folder `IdentityTest`
+   `cd IdentityTest`
+   `npm install`
+   `npm start`
+
+Towards the end of the output, you'll see this:
+
+```
+Functions:
+
+        KeyvaultAuthentication: [GET] http://localhost:7071/api/KeyvaultAuthentication
+```
+Note:
+If KeyvaultAuthentication doesn't appear as shown above, you likely started the host from outside the root folder of the project. In that case, use Ctrl+C to stop the host, navigate to the project's root folder, and run the previous command again.
+
+2. Copy the URL of your KeyvaultAuthentication function from this output to a browser and append the query string ?name=<your-name>, making the full URL like http://localhost:7071/api/KeyvaultAuthentication. The browser should display a message like:
+`Successfully authenticated with keyvault`
+The terminal in which you started your project also shows log output as you make requests.
+
+3. When you're ready, use Ctrl+C and choose y to stop the functions host.
 
 ## Give the Azure Functions access to the key vault
 
@@ -47,4 +64,4 @@ Note -> if 3 gives error, try 5 first then do 3 to 4
 
 ## Run the azure-identity Tests on the Azure Functions
 
-Go to the invoke url which will look something like - `https://<func app name>.azurewebsites.net/api/httpexample`
+Go to the invoke url which will look something like - `https://<func app name>.azurewebsites.net/api/KeyvaultAuthentication`
