@@ -53,7 +53,7 @@ export class ReceiverHelper {
     const currentReceiverOrError = this._getCurrentReceiverOrError();
 
     if (typeof currentReceiverOrError === "string") {
-      const errorMessage = `Can't add credits to the receiver since it ${currentReceiverOrError}.`;
+      const errorMessage = `Cannot request messages on the receiver since it ${currentReceiverOrError}.`;
 
       if (currentReceiverOrError === "is suspended") {
         // if a user has suspended the receiver we should consider this a non-retryable
