@@ -217,7 +217,7 @@ export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
 /**
  * Options for starting the ID document recognition operation
  */
-export type BeginRecognizeIdDocumentsOptions = BeginRecognizePrebuiltOptions;
+export type BeginRecognizeIdentityDocumentsOptions = BeginRecognizePrebuiltOptions;
 
 // #endregion
 
@@ -857,7 +857,7 @@ export class FormRecognizerClient {
    * const readStream = fs.createReadStream(path);
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeIdDocuments(readStream, {
+   * const poller = await client.beginRecognizeIdentityDocuments(readStream, {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    *
@@ -867,11 +867,11 @@ export class FormRecognizerClient {
    * @param idDocument - Input document
    * @param options - Options for the recognition operation
    */
-  public async beginRecognizeIdDocuments(
+  public async beginRecognizeIdentityDocuments(
     idDocument: FormRecognizerRequestBody,
-    options: BeginRecognizeIdDocumentsOptions = {}
+    options: BeginRecognizeIdentityDocumentsOptions = {}
   ): Promise<FormPollerLike> {
-    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdDocuments", {
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdentityDocuments", {
       ...options,
       includeTextDetails: options.includeFieldElements
     });
@@ -889,7 +889,7 @@ export class FormRecognizerClient {
           )
         );
       }),
-      getResult: span("getIdDocuments", async (finalOptions, resultId) =>
+      getResult: span("getIdentityDocuments", async (finalOptions, resultId) =>
         this.client.getAnalyzeIdDocumentResult(
           resultId,
           operationOptionsToRequestOptionsBase(finalOptions)
@@ -923,7 +923,7 @@ export class FormRecognizerClient {
    * const url = "<url to the identity document>";
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeIdDocumentsFromUrl(url, {
+   * const poller = await client.beginRecognizeIdentityDocumentsFromUrl(url, {
    *   includeFieldElements: true,
    *   onProgress: (state) => {
    *     console.log(`analyzing status: ${state.status}`);
@@ -938,15 +938,15 @@ export class FormRecognizerClient {
    * content type.
    * @param options - Options for the recognition operation
    */
-  public async beginRecognizeIdDocumentsFromUrl(
+  public async beginRecognizeIdentityDocumentsFromUrl(
     idDocumentUrl: string,
-    options: BeginRecognizeIdDocumentsOptions = {}
+    options: BeginRecognizeIdentityDocumentsOptions = {}
   ): Promise<FormPollerLike> {
     if (options.contentType) {
       logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
     }
 
-    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdDocumentsFromUrl", {
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdentityDocumentsFromUrl", {
       ...options,
       contentType: undefined,
       includeTextDetails: options.includeFieldElements

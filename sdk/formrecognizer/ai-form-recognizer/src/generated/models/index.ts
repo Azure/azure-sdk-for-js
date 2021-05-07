@@ -318,10 +318,8 @@ export interface FieldValue {
   valueObject?: { [propertyName: string]: FieldValue };
   /** Selection mark value. */
   valueSelectionMark?: FieldValueSelectionMark;
-  /** Gender value: M, F, or X. */
-  valueGender?: FieldValueGender;
   /** 3-letter country code (ISO 3166-1 alpha-3). */
-  valueCountry?: string;
+  valueCountryRegion?: string;
   /** Text content of the extracted field. */
   text?: string;
   /** Bounding box of the field value, if appropriate. */
@@ -525,24 +523,6 @@ export const enum KnownFieldValueSelectionMark {
  * **unselected**
  */
 export type FieldValueSelectionMark = string;
-
-/** Known values of {@link FieldValueGender} that the service accepts. */
-export const enum KnownFieldValueGender {
-  M = "M",
-  F = "F",
-  X = "X"
-}
-
-/**
- * Defines values for FieldValueGender. \
- * {@link KnownFieldValueGender} can be used interchangeably with FieldValueGender,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **M** \
- * **F** \
- * **X**
- */
-export type FieldValueGender = string;
 
 /** Known values of {@link Locale} that the service accepts. */
 export const enum KnownLocale {
@@ -749,8 +729,7 @@ export type FieldValueType =
   | "array"
   | "object"
   | "selectionMark"
-  | "gender"
-  | "country";
+  | "countryRegion";
 /** Defines values for FormReadingOrder. */
 export type FormReadingOrder = "basic" | "natural";
 

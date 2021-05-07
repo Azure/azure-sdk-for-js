@@ -270,15 +270,8 @@ export function toFormFieldFromFieldValueModel(
         ? toFieldsFromFieldValue(original.valueObject, readResults)
         : undefined;
       break;
-    case "country":
-      // TODO: revert once the "country" type is renamed "countryRegion"
-      original.type = "countryRegion" as typeof original.type;
-      value = original.valueCountry;
-      break;
-    case "gender":
-      // TODO: revert once the "gender" type is removed
-      original.type = "string";
-      value = original.valueGender;
+    case "countryRegion":
+      value = original.valueCountryRegion;
       break;
     default:
       return unreachable(original.type);

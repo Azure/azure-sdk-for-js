@@ -3,6 +3,7 @@
 ## 3.1.0 (2021-05-26)
 
 - This General Availability (GA) release marks the stability of the changes introduced in package versions 3.1.0-beta.1 through 3.1.0-beta.3.
+- Changed all names including `IdDocument` to use `IdentityDocument` instead, for example: `BeginRecognizeIdentityDocumentOptions`, `beginRecognizeIdentityDocuments`, and `beginRecognizeIdentityDocumentsFromUrl` for clarity.
 - Flattened the `TextStyle` type into the `TextAppearance` type. Rather than having a `style` property with its own `name` and `confidence`, `TextAppearance` now has `styleName` and `styleConfidence` properties.
 - Removed the `FormGenderField` type. Any recognized value that was previously produced as a `FormGenderField` is now returned as a `FormStringField` instead (the `value` will remain the same).
 - Renamed the `FormCountryField` type to `FormCountryRegionField`, and changed the `valueType` discriminant property of that type to `"countryRegion:`.

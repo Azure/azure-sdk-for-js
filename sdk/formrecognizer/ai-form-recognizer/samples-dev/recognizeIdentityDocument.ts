@@ -37,7 +37,7 @@ export async function main() {
   const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeIdDocuments(readStream, {
+  const poller = await client.beginRecognizeIdentityDocuments(readStream, {
     contentType: "image/jpeg",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);

@@ -646,6 +646,9 @@ export interface CustomFormModelInfo {
   trainingCompletedOn: Date;
 }
 
+/**
+ * Information about an identified field within a model.
+ */
 export interface CustomFormModelField {
   /**
    * Estimated extraction accuracy for this field.
@@ -662,7 +665,7 @@ export interface CustomFormModelField {
 }
 
 /**
- * Represents the model for a type of custom form from the training.
+ * Represents the model for a specific type of custom form from training.
  */
 export interface CustomFormSubmodel {
   /**
@@ -670,7 +673,7 @@ export interface CustomFormSubmodel {
    */
   modelId?: string;
   /**
-   * Estimated extraction accuracy for this field.
+   * Estimated extraction accuracy for this model.
    */
   accuracy?: number;
   /**
@@ -678,7 +681,7 @@ export interface CustomFormSubmodel {
    */
   fields: Record<string, CustomFormModelField>;
   /**
-   * Form type
+   * The form type associated with this submodel.
    */
   formType: string;
 }

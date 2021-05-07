@@ -1124,8 +1124,7 @@ export const FieldValue: coreHttp.CompositeMapper = {
             "array",
             "object",
             "selectionMark",
-            "gender",
-            "country"
+            "countryRegion"
           ]
         }
       },
@@ -1190,14 +1189,8 @@ export const FieldValue: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      valueGender: {
-        serializedName: "valueGender",
-        type: {
-          name: "String"
-        }
-      },
-      valueCountry: {
-        serializedName: "valueCountry",
+      valueCountryRegion: {
+        serializedName: "valueCountryRegion",
         type: {
           name: "String"
         }
