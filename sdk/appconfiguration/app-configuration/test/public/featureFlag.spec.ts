@@ -104,13 +104,21 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       }
     }
 
-    it("can add and get FeatureFlag", async () => {
+    it.only("can add and get FeatureFlag", async () => {
       assertFeatureFlagProps(addResponse, baseSetting);
       const getResponse = await client.getConfigurationSetting({
         key: baseSetting.key,
         label: baseSetting.label
       });
-      assertFeatureFlagProps(getResponse, baseSetting);
+      // console.log(`getResponse = ${JSON.stringify(getResponse, null, 2)}`);
+      console.log(getResponse.value); // "gets" the value
+      getResponse.key = "abc";
+      console.log(getResponse.value); // "gets" the value
+      const spread = { ...getResponse };
+      console.log(spread.value); // no "value" at all(or any param for that matter because the accessors are gone)
+      // Only thing remained would be the spread._setting //private of the the FeatureFlagImpl class.
+      // console.log(`getResponse(spreaded) = ${JSON.stringify(spread, null, 2)}`);
+      // assertFeatureFlagProps(getResponse, baseSetting);
     });
 
     it("can add and update FeatureFlag", async () => {
@@ -123,20 +131,20 @@ describe("AppConfigurationClient - FeatureFlag", () => {
         getResponse.enabled = !baseSetting.enabled;
       }
 
-      // const setResponse = await client.setConfigurationSetting(getResponse);
-      // assertFeatureFlagProps(setResponse, {
-      //   ...baseSetting,
-      //   enabled: !baseSetting.enabled
-      // });
+      const setResponse = await client.setConfigurationSetting(getResponse);
+      assertFeatureFlagProps(setResponse, {
+        ...baseSetting,
+        enabled: !baseSetting.enabled
+      });
 
-      // const getResponseAfterUpdate = await client.getConfigurationSetting({
-      //   key: baseSetting.key,
-      //   label: baseSetting.label
-      // });
-      // assertFeatureFlagProps(getResponseAfterUpdate, {
-      //   ...baseSetting,
-      //   enabled: !baseSetting.enabled
-      // });
+      const getResponseAfterUpdate = await client.getConfigurationSetting({
+        key: baseSetting.key,
+        label: baseSetting.label
+      });
+      assertFeatureFlagProps(getResponseAfterUpdate, {
+        ...baseSetting,
+        enabled: !baseSetting.enabled
+      });
     });
 
     it("can add, list and update multiple FeatureFlags", async () => {
@@ -167,16 +175,16 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       }
       assert.equal(numberOFFeatureFlagsReceived, 2, "Unexpected number of FeatureFlags seen");
 
-      // for await (const setting of client.listConfigurationSettings({
-      //   keyFilter: `${baseSetting.key}*`
-      // })) {
-      //   numberOFFeatureFlagsReceived--;
-      //   if (setting.key === baseSetting.key) {
-      //     assertFeatureFlagProps(setting, { ...baseSetting, enabled: !baseSetting.enabled });
-      //   } else {
-      //     assertFeatureFlagProps(setting, { ...secondSetting, description: "I'm new description" });
-      //   }
-      // }
+      for await (const setting of client.listConfigurationSettings({
+        keyFilter: `${baseSetting.key}*`
+      })) {
+        numberOFFeatureFlagsReceived--;
+        if (setting.key === baseSetting.key) {
+          assertFeatureFlagProps(setting, { ...baseSetting, enabled: !baseSetting.enabled });
+        } else {
+          assertFeatureFlagProps(setting, { ...secondSetting, description: "I'm new description" });
+        }
+      }
 
       assert.equal(
         numberOFFeatureFlagsReceived,
@@ -206,7 +214,7 @@ describe("FeatureFlag utils", () => {
 });
 
 describe("FeatureFlag consistency review", () => {
-  it.only(`Updating JSON via the value`, () => {
+  it(`Updating JSON via the value`, () => {
     const baseSetting: FeatureFlag = {
       conditions: {
         clientFilters
