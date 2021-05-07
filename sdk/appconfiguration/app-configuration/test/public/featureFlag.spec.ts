@@ -6,19 +6,15 @@ import { createAppConfigurationClientForTests, startRecorder } from "./utils/tes
 import {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
-  FeatureFlag,
+  ConfigurationSetting,
   featureFlagContentType,
-  FeatureFlagPercentageClientFilter,
-  featureFlagPrefix,
-  FeatureFlagTargetingClientFilter,
-  FeatureFlagTimeWindowClientFilter,
-  isFeatureFlag
+  featureFlagPrefix
 } from "../../src";
 import { Recorder } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
-import { serializeFeatureFlagParam } from "../../src/featureFlag";
+import { FeatureFlagHelper } from "../../src/featureFlag";
 
-describe("AppConfigurationClient - FeatureFlag", () => {
+describe.only("AppConfigurationClient - FeatureFlag", () => {
   describe("FeatureFlag configuration setting", () => {
     let client: AppConfigurationClient;
     let recorder: Recorder;
@@ -48,12 +44,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       await recorder.stop();
     });
 
-    const clientFilters: (
-      | Record<string, unknown>
-      | FeatureFlagTargetingClientFilter
-      | FeatureFlagTimeWindowClientFilter
-      | FeatureFlagPercentageClientFilter
-    )[] = [
+    const clientFilters: Record<string, unknown>[] = [
       {
         name: "Microsoft.TimeWindow",
         parameters: {
@@ -78,31 +69,35 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       { name: "Microsoft.Percentage", parameters: { value: 25 } }
     ];
 
-    let baseSetting: FeatureFlag;
+    let baseSetting: ConfigurationSetting;
     let addResponse: AddConfigurationSettingResponse;
 
     function assertFeatureFlagProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
-      expected: FeatureFlag
+      expected: ConfigurationSetting
     ) {
-      assert.equal(isFeatureFlag(actual), true, "Expected to get the feature flag");
-      if (isFeatureFlag(actual)) {
-        assert.equal(
-          actual.key,
-          expected.key,
-          "Key from the response from get request is not as expected"
-        );
-        assert.deepEqual(
-          actual.conditions,
-          expected.conditions,
-          "conditions from the response from get request is not as expected"
-        );
-        assert.equal(actual.description, expected.description);
-        assert.equal(actual.enabled, expected.enabled);
-        assert.equal(actual.isReadOnly, expected.isReadOnly);
-        assert.equal(actual.label, expected.label);
-        assert.equal(actual.contentType, expected.contentType);
-      }
+      assert.equal(
+        FeatureFlagHelper.isFeatureFlagConfigurationSetting(actual),
+        true,
+        "Expected to get the feature flag"
+      );
+      assert.isDefined(actual.value, "Expected the value to be defined");
+      const featureFlagValue = FeatureFlagHelper.deserializeFeatureFlagValue(actual.value!);
+      assert.equal(
+        actual.key,
+        expected.key,
+        "Key from the response from get request is not as expected"
+      );
+      assert.deepEqual(
+        featureFlagValue.conditions,
+        expected.conditions,
+        "conditions from the response from get request is not as expected"
+      );
+      assert.equal(featureFlagValue.description, expected.description);
+      assert.equal(featureFlagValue.enabled, expected.enabled);
+      assert.equal(actual.isReadOnly, expected.isReadOnly);
+      assert.equal(actual.label, expected.label);
+      assert.equal(actual.contentType, expected.contentType);
     }
 
     it("can add and get FeatureFlag", async () => {
@@ -120,11 +115,14 @@ describe("AppConfigurationClient - FeatureFlag", () => {
         label: baseSetting.label
       });
       assertFeatureFlagProps(getResponse, baseSetting);
-      if (isFeatureFlag(getResponse)) {
-        getResponse.enabled = !baseSetting.enabled;
-      }
 
-      const setResponse = await client.setConfigurationSetting(getResponse);
+      const featureFlagValue = FeatureFlagHelper.deserializeFeatureFlagValue(getResponse.value!);
+      featureFlagValue.enabled = !baseSetting.enabled;
+
+      const setResponse = await client.setConfigurationSetting({
+        ...getResponse,
+        value: FeatureFlagHelper.serializeFeatureFlagValue(featureFlagValue)
+      });
       assertFeatureFlagProps(setResponse, {
         ...baseSetting,
         enabled: !baseSetting.enabled
@@ -188,20 +186,20 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     });
   });
 
-  describe("FeatureFlag utils", () => {
-    [featureFlagPrefix + "abcd", "abcd"].forEach((key) => {
-      it(`serializeFeatureFlagParam for a feature flag with key=${key}`, () => {
-        assert.equal(
-          serializeFeatureFlagParam({
-            key,
-            value: `xyz`,
-            conditions: { clientFilters: [] },
-            enabled: false
-          }).key,
-          featureFlagPrefix + "abcd",
-          "Unexpected key in the setting"
-        );
-      });
-    });
-  });
+  // describe("FeatureFlag utils", () => {
+  //   [featureFlagPrefix + "abcd", "abcd"].forEach((key) => {
+  //     it(`serializeFeatureFlagParam for a feature flag with key=${key}`, () => {
+  //       assert.equal(
+  //         serializeFeatureFlagParam({
+  //           key,
+  //           value: `xyz`,
+  //           conditions: { clientFilters: [] },
+  //           enabled: false
+  //         }).key,
+  //         featureFlagPrefix + "abcd",
+  //         "Unexpected key in the setting"
+  //       );
+  //     });
+  //   });
+  // });
 });

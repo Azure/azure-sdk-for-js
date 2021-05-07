@@ -45,13 +45,13 @@ export const FeatureFlagHelper = {
   /**
    * Takes the value (string) of a ConfigurationSetting and returns the parsed FeatureFlag value.
    */
-  deserializeFeatureFlagValue: (value: string): FeatureFlagValue | undefined => {
+  deserializeFeatureFlagValue: (value: string): FeatureFlagValue => {
     let jsonFeatureFlagValue: JsonFeatureFlagValue;
     try {
       jsonFeatureFlagValue = JSON.parse(value) as JsonFeatureFlagValue;
     } catch (err) {
-      // best effort - if it doesn't deserialize properly we'll just return undefined
-      return undefined;
+      // best effort - if it doesn't deserialize properly we'll just throw
+      throw new Error("");
     }
 
     const featureflagValue: FeatureFlagValue = {
@@ -73,8 +73,8 @@ export const FeatureFlagHelper = {
     try {
       stringifiedValue = JSON.stringify(jsonFeatureFlagValue);
     } catch (err) {
-      // best effort - if it doesn't serialize properly we'll just return undefined
-      return undefined;
+      // best effort - if it doesn't serialize properly we'll just throw
+      throw new Error("");
     }
 
     return stringifiedValue;

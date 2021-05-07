@@ -8,11 +8,11 @@
  */
 import {
   AppConfigurationClient,
-  FeatureFlag,
+  ConfigurationSetting,
   featureFlagContentType,
+  FeatureFlagHelper,
   featureFlagPrefix,
-  isFeatureFlag,
-  isFeatureFlagClientFilter
+  FeatureFlagValue
 } from "@azure/app-configuration";
 
 // Load the .env file if it exists
@@ -22,7 +22,7 @@ dotenv.config();
 export async function main() {
   console.log(`Running featureFlag sample`);
 
-  const featureFlag: FeatureFlag = {
+  const featureFlagValue: FeatureFlagValue = {
     conditions: {
       clientFilters: [
         {
@@ -50,9 +50,7 @@ export async function main() {
       ]
     },
     enabled: false,
-    isReadOnly: false,
-    key: `${featureFlagPrefix}new-feature-flag-${Math.ceil(100 + Math.random() * 900)}`,
-    contentType: featureFlagContentType,
+    id: `new-feature-flag-${Math.ceil(100 + Math.random() * 900)}`,
     description: "I'm a description"
   };
 
@@ -60,14 +58,20 @@ export async function main() {
   const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
   const appConfigClient = new AppConfigurationClient(connectionString);
 
-  await cleanupSampleValues([featureFlag.key], appConfigClient);
+  console.log(`Add a new featureFlag with id: ${featureFlagValue.id}`);
+  const configSetting: ConfigurationSetting = {
+    isReadOnly: false,
+    key: `${featureFlagPrefix}${featureFlagValue.id}`,
+    contentType: featureFlagContentType,
+    value: FeatureFlagHelper.serializeFeatureFlagValue(featureFlagValue)
+  };
+  console.log(`Add a new featureFlag with id: ${configSetting.key}`);
+  await cleanupSampleValues([configSetting.key], appConfigClient);
+  await appConfigClient.addConfigurationSetting(configSetting);
 
-  console.log(`Add a new featureFlag with key: ${featureFlag.key}`);
-  await appConfigClient.addConfigurationSetting(featureFlag);
-
-  console.log(`Get the added featureFlag with key: ${featureFlag.key}`);
+  console.log(`Get the added featureFlag with key: ${configSetting.key}`);
   const getResponse = await appConfigClient.getConfigurationSetting({
-    key: featureFlag.key
+    key: configSetting.key
   });
 
   if (isFeatureFlag(getResponse)) {
