@@ -16,6 +16,7 @@ export {
   DataEffect,
   DataManifestCustomResourceFunctionDefinition,
   DataPolicyManifest,
+  DataPolicyManifestListResult,
   ErrorAdditionalInfo,
   ErrorResponse,
   Identity,
@@ -29,7 +30,6 @@ export {
   PolicyDefinitionReference,
   PolicyExemption,
   PolicySetDefinition,
-  PolicySetDefinitionListResult,
   ResourceTypeAliases,
   SystemData
 } from "../models/mappers";
