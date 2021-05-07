@@ -7,13 +7,15 @@
  */
 
 export {
+  Alias,
+  AliasPath,
+  AliasPathMetadata,
+  AliasPattern,
+  ApiProfile,
   CloudError,
-  DeploymentOperation,
-  DeploymentOperationProperties,
-  DeploymentOperationsListResult,
   ErrorAdditionalInfo,
   ErrorResponse,
-  HttpMessage,
-  StatusMessage,
-  TargetResource
+  ProviderExtendedLocation,
+  ProviderResourceType,
+  ProviderResourceTypeListResult
 } from "../models/mappers";
