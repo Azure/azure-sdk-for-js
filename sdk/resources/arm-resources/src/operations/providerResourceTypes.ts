@@ -31,26 +31,43 @@ export class ProviderResourceTypes {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProviderResourceTypesListResponse>
    */
-  list(resourceProviderNamespace: string, options?: Models.ProviderResourceTypesListOptionalParams): Promise<Models.ProviderResourceTypesListResponse>;
+  list(
+    resourceProviderNamespace: string,
+    options?: Models.ProviderResourceTypesListOptionalParams
+  ): Promise<Models.ProviderResourceTypesListResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param callback The callback
    */
-  list(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.ProviderResourceTypeListResult>): void;
+  list(
+    resourceProviderNamespace: string,
+    callback: msRest.ServiceCallback<Models.ProviderResourceTypeListResult>
+  ): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceProviderNamespace: string, options: Models.ProviderResourceTypesListOptionalParams, callback: msRest.ServiceCallback<Models.ProviderResourceTypeListResult>): void;
-  list(resourceProviderNamespace: string, options?: Models.ProviderResourceTypesListOptionalParams | msRest.ServiceCallback<Models.ProviderResourceTypeListResult>, callback?: msRest.ServiceCallback<Models.ProviderResourceTypeListResult>): Promise<Models.ProviderResourceTypesListResponse> {
+  list(
+    resourceProviderNamespace: string,
+    options: Models.ProviderResourceTypesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ProviderResourceTypeListResult>
+  ): void;
+  list(
+    resourceProviderNamespace: string,
+    options?:
+      | Models.ProviderResourceTypesListOptionalParams
+      | msRest.ServiceCallback<Models.ProviderResourceTypeListResult>,
+    callback?: msRest.ServiceCallback<Models.ProviderResourceTypeListResult>
+  ): Promise<Models.ProviderResourceTypesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ProviderResourceTypesListResponse>;
+      callback
+    ) as Promise<Models.ProviderResourceTypesListResponse>;
   }
 }
 
@@ -59,17 +76,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/resourceTypes",
-  urlParameters: [
-    Parameters.resourceProviderNamespace,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceProviderNamespace, Parameters.subscriptionId],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProviderResourceTypeListResult

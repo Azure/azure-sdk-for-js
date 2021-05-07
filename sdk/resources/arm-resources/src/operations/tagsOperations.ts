@@ -35,7 +35,11 @@ export class TagsOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteValue(
+    tagName: string,
+    tagValue: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to delete.
@@ -48,8 +52,18 @@ export class TagsOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteValue(tagName: string, tagValue: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteValue(
+    tagName: string,
+    tagValue: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteValue(
+    tagName: string,
+    tagValue: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
@@ -57,7 +71,8 @@ export class TagsOperations {
         options
       },
       deleteValueOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -69,21 +84,39 @@ export class TagsOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsCreateOrUpdateValueResponse>
    */
-  createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateValueResponse>;
+  createOrUpdateValue(
+    tagName: string,
+    tagValue: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TagsCreateOrUpdateValueResponse>;
   /**
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to create.
    * @param callback The callback
    */
-  createOrUpdateValue(tagName: string, tagValue: string, callback: msRest.ServiceCallback<Models.TagValue>): void;
+  createOrUpdateValue(
+    tagName: string,
+    tagValue: string,
+    callback: msRest.ServiceCallback<Models.TagValue>
+  ): void;
   /**
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to create.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateValue(tagName: string, tagValue: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagValue>): void;
-  createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagValue>, callback?: msRest.ServiceCallback<Models.TagValue>): Promise<Models.TagsCreateOrUpdateValueResponse> {
+  createOrUpdateValue(
+    tagName: string,
+    tagValue: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TagValue>
+  ): void;
+  createOrUpdateValue(
+    tagName: string,
+    tagValue: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagValue>,
+    callback?: msRest.ServiceCallback<Models.TagValue>
+  ): Promise<Models.TagsCreateOrUpdateValueResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
@@ -91,7 +124,8 @@ export class TagsOperations {
         options
       },
       createOrUpdateValueOperationSpec,
-      callback) as Promise<Models.TagsCreateOrUpdateValueResponse>;
+      callback
+    ) as Promise<Models.TagsCreateOrUpdateValueResponse>;
   }
 
   /**
@@ -104,7 +138,10 @@ export class TagsOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsCreateOrUpdateResponse>
    */
-  createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateResponse>;
+  createOrUpdate(
+    tagName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TagsCreateOrUpdateResponse>;
   /**
    * @param tagName The name of the tag to create.
    * @param callback The callback
@@ -115,15 +152,24 @@ export class TagsOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(tagName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagDetails>): void;
-  createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagDetails>, callback?: msRest.ServiceCallback<Models.TagDetails>): Promise<Models.TagsCreateOrUpdateResponse> {
+  createOrUpdate(
+    tagName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TagDetails>
+  ): void;
+  createOrUpdate(
+    tagName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagDetails>,
+    callback?: msRest.ServiceCallback<Models.TagDetails>
+  ): Promise<Models.TagsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.TagsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.TagsCreateOrUpdateResponse>;
   }
 
   /**
@@ -146,15 +192,24 @@ export class TagsOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(tagName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(tagName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    tagName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    tagName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -175,14 +230,21 @@ export class TagsOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TagsListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>,
+    callback?: msRest.ServiceCallback<Models.TagsListResult>
+  ): Promise<Models.TagsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.TagsListResponse>;
+      callback
+    ) as Promise<Models.TagsListResponse>;
   }
 
   /**
@@ -194,21 +256,39 @@ export class TagsOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsCreateOrUpdateAtScopeResponse>
    */
-  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, options?: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateAtScopeResponse>;
+  createOrUpdateAtScope(
+    scope: string,
+    parameters: Models.TagsResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TagsCreateOrUpdateAtScopeResponse>;
   /**
    * @param scope The resource scope.
    * @param parameters
    * @param callback The callback
    */
-  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  createOrUpdateAtScope(
+    scope: string,
+    parameters: Models.TagsResource,
+    callback: msRest.ServiceCallback<Models.TagsResource>
+  ): void;
   /**
    * @param scope The resource scope.
    * @param parameters
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
-  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsCreateOrUpdateAtScopeResponse> {
+  createOrUpdateAtScope(
+    scope: string,
+    parameters: Models.TagsResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TagsResource>
+  ): void;
+  createOrUpdateAtScope(
+    scope: string,
+    parameters: Models.TagsResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>,
+    callback?: msRest.ServiceCallback<Models.TagsResource>
+  ): Promise<Models.TagsCreateOrUpdateAtScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -216,7 +296,8 @@ export class TagsOperations {
         options
       },
       createOrUpdateAtScopeOperationSpec,
-      callback) as Promise<Models.TagsCreateOrUpdateAtScopeResponse>;
+      callback
+    ) as Promise<Models.TagsCreateOrUpdateAtScopeResponse>;
   }
 
   /**
@@ -231,21 +312,39 @@ export class TagsOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsUpdateAtScopeResponse>
    */
-  updateAtScope(scope: string, parameters: Models.TagsPatchResource, options?: msRest.RequestOptionsBase): Promise<Models.TagsUpdateAtScopeResponse>;
+  updateAtScope(
+    scope: string,
+    parameters: Models.TagsPatchResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TagsUpdateAtScopeResponse>;
   /**
    * @param scope The resource scope.
    * @param parameters
    * @param callback The callback
    */
-  updateAtScope(scope: string, parameters: Models.TagsPatchResource, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  updateAtScope(
+    scope: string,
+    parameters: Models.TagsPatchResource,
+    callback: msRest.ServiceCallback<Models.TagsResource>
+  ): void;
   /**
    * @param scope The resource scope.
    * @param parameters
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateAtScope(scope: string, parameters: Models.TagsPatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
-  updateAtScope(scope: string, parameters: Models.TagsPatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsUpdateAtScopeResponse> {
+  updateAtScope(
+    scope: string,
+    parameters: Models.TagsPatchResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TagsResource>
+  ): void;
+  updateAtScope(
+    scope: string,
+    parameters: Models.TagsPatchResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>,
+    callback?: msRest.ServiceCallback<Models.TagsResource>
+  ): Promise<Models.TagsUpdateAtScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -253,7 +352,8 @@ export class TagsOperations {
         options
       },
       updateAtScopeOperationSpec,
-      callback) as Promise<Models.TagsUpdateAtScopeResponse>;
+      callback
+    ) as Promise<Models.TagsUpdateAtScopeResponse>;
   }
 
   /**
@@ -262,7 +362,10 @@ export class TagsOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsGetAtScopeResponse>
    */
-  getAtScope(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsGetAtScopeResponse>;
+  getAtScope(
+    scope: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TagsGetAtScopeResponse>;
   /**
    * @param scope The resource scope.
    * @param callback The callback
@@ -273,15 +376,24 @@ export class TagsOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAtScope(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
-  getAtScope(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsGetAtScopeResponse> {
+  getAtScope(
+    scope: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TagsResource>
+  ): void;
+  getAtScope(
+    scope: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>,
+    callback?: msRest.ServiceCallback<Models.TagsResource>
+  ): Promise<Models.TagsGetAtScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       getAtScopeOperationSpec,
-      callback) as Promise<Models.TagsGetAtScopeResponse>;
+      callback
+    ) as Promise<Models.TagsGetAtScopeResponse>;
   }
 
   /**
@@ -301,15 +413,24 @@ export class TagsOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteAtScope(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAtScope(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAtScope(
+    scope: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteAtScope(
+    scope: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       deleteAtScopeOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -322,7 +443,10 @@ export class TagsOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TagsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -333,15 +457,24 @@ export class TagsOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TagsListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>,
+    callback?: msRest.ServiceCallback<Models.TagsListResult>
+  ): Promise<Models.TagsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.TagsListNextResponse>;
+      callback
+    ) as Promise<Models.TagsListNextResponse>;
   }
 }
 
@@ -350,17 +483,9 @@ const serializer = new msRest.Serializer(Mappers);
 const deleteValueOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}",
-  urlParameters: [
-    Parameters.tagName,
-    Parameters.tagValue,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tagName, Parameters.tagValue, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -374,17 +499,9 @@ const deleteValueOperationSpec: msRest.OperationSpec = {
 const createOrUpdateValueOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}",
-  urlParameters: [
-    Parameters.tagName,
-    Parameters.tagValue,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tagName, Parameters.tagValue, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TagValue
@@ -402,16 +519,9 @@ const createOrUpdateValueOperationSpec: msRest.OperationSpec = {
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/tagNames/{tagName}",
-  urlParameters: [
-    Parameters.tagName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tagName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TagDetails
@@ -429,16 +539,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/tagNames/{tagName}",
-  urlParameters: [
-    Parameters.tagName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tagName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -452,15 +555,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/tagNames",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TagsListResult
@@ -475,15 +572,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const createOrUpdateAtScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{scope}/providers/Microsoft.Resources/tags/default",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -505,15 +596,9 @@ const createOrUpdateAtScopeOperationSpec: msRest.OperationSpec = {
 const updateAtScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "{scope}/providers/Microsoft.Resources/tags/default",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -535,15 +620,9 @@ const updateAtScopeOperationSpec: msRest.OperationSpec = {
 const getAtScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Resources/tags/default",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TagsResource
@@ -558,15 +637,9 @@ const getAtScopeOperationSpec: msRest.OperationSpec = {
 const deleteAtScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{scope}/providers/Microsoft.Resources/tags/default",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -580,15 +653,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TagsListResult

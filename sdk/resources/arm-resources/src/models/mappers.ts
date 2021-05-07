@@ -167,10 +167,7 @@ export const OnErrorDeployment: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "LastSuccessful",
-            "SpecificDeployment"
-          ]
+          allowedValues: ["LastSuccessful", "SpecificDeployment"]
         }
       },
       deploymentName: {
@@ -236,10 +233,7 @@ export const DeploymentProperties: msRest.CompositeMapper = {
         serializedName: "mode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Incremental",
-            "Complete"
-          ]
+          allowedValues: ["Incremental", "Complete"]
         }
       },
       debugSetting: {
@@ -364,10 +358,7 @@ export const DeploymentWhatIfSettings: msRest.CompositeMapper = {
         serializedName: "resultFormat",
         type: {
           name: "Enum",
-          allowedValues: [
-            "ResourceIdOnly",
-            "FullResourcePayloads"
-          ]
+          allowedValues: ["ResourceIdOnly", "FullResourcePayloads"]
         }
       }
     }
@@ -592,10 +583,7 @@ export const AliasPattern: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Extract"
-          ]
+          allowedValues: ["NotSpecified", "Extract"]
         }
       }
     }
@@ -672,11 +660,7 @@ export const Alias: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "PlainText",
-            "Mask"
-          ]
+          allowedValues: ["NotSpecified", "PlainText", "Mask"]
         }
       },
       defaultPath: {
@@ -971,10 +955,7 @@ export const OnErrorDeploymentExtended: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "LastSuccessful",
-            "SpecificDeployment"
-          ]
+          allowedValues: ["LastSuccessful", "SpecificDeployment"]
         }
       },
       deploymentName: {
@@ -1099,10 +1080,7 @@ export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
         serializedName: "mode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Incremental",
-            "Complete"
-          ]
+          allowedValues: ["Incremental", "Complete"]
         }
       },
       debugSetting: {
@@ -1409,12 +1387,7 @@ export const Identity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned", "None"]
         }
       },
       userAssignedIdentities: {
@@ -2232,13 +2205,7 @@ export const WhatIfPropertyChange: msRest.CompositeMapper = {
         serializedName: "propertyChangeType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Create",
-            "Delete",
-            "Modify",
-            "Array",
-            "NoEffect"
-          ]
+          allowedValues: ["Create", "Delete", "Modify", "Array", "NoEffect"]
         }
       },
       before: {

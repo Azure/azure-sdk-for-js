@@ -13,7 +13,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ResourceManagementClientContext } from "./resourceManagementClientContext";
 
-
 class ResourceManagementClient extends ResourceManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -31,7 +30,11 @@ class ResourceManagementClient extends ResourceManagementClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ResourceManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ResourceManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.deployments = new operations.Deployments(this);
