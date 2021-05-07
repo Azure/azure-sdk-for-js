@@ -2,62 +2,101 @@
 // Licensed under the MIT license.
 
 import * as chai from "chai";
-import { ServiceBusReceiver, ServiceBusSender } from "../../src";
-import {
-  createServiceBusClientForTests,
-  ServiceBusClientForTests
-} from "../public/utils/testutils2";
+import { ServiceBusSender } from "../../src";
 import { TestClientType } from "../public/utils/testUtils";
 import { ServiceBusSenderImpl } from "../../src/sender";
 import { setFeatureAmqpBodyTypeEnabled } from "../../src/serviceBusMessage";
+import { addServiceBusClientForLiveTesting } from "./utils/testUtils";
 const assert = chai.assert;
 
-export type ServiceBusSenderWithAmqpSupport = Omit<ServiceBusSender, "sendMessages"> &
-  Pick<ServiceBusSenderImpl, "sendMessages">;
-
 describe("AMQP message encoding", () => {
-  beforeEach(() => {
-    const previousState = setFeatureAmqpBodyTypeEnabled(true);
-    assert.isFalse(previousState);
-  });
-  afterEach(() => {
-    setFeatureAmqpBodyTypeEnabled(false);
-  });
-
   // Messaging format (describes the three types of encodable entities - 'data', 'sequence' or 'value')
   // http://docs.oasis-open.org/amqp/core/v1.0/csprd01/amqp-core-messaging-v1.0-csprd01.html#type-data
 
   // Primitive types
   // http://docs.oasis-open.org/amqp/core/v1.0/csprd01/amqp-core-types-v1.0-csprd01.html#toc
+  const { sender: _senderImpl, receiver } = addServiceBusClientForLiveTesting(
+    TestClientType.UnpartitionedQueue
+  );
+  const sender: () => Omit<ServiceBusSender, "sendMessages"> &
+    Pick<ServiceBusSenderImpl, "sendMessages"> = () => {
+    return _senderImpl();
+  };
+
+  // NOTE: Will remove this entire test suiteonce we re-enable AMQP body type encoding.
+  describe("AMQP message encoding is disabled", () => {
+    ([
+      ["sequence", [1, 2, 3]],
+      ["value", "hello"],
+      ["data", "hello"]
+    ] as ["sequence" | "data" | "value", any][]).forEach(([originalBodyType, expectedBody]) => {
+      it("receive ServiceBusMessage and resend", async () => {
+        await (sender() as ServiceBusSender).sendMessages({
+          body: expectedBody,
+          // @ts-expect-error "`bodyType` is not a field in ServiceBusMessage. When AMQP body type encoding is disabled it won't compile"
+          bodyType: originalBodyType
+        });
+
+        const messages = await receiver().receiveMessages(1);
+        const message = messages[0];
+
+        assert.equal(
+          message._rawAmqpMessage.bodyType,
+          "data",
+          "Body type (when AMQP body type encoding is disabled) is always 'data'"
+        );
+
+        // now let's just resend it, unaltered
+        await sender().sendMessages(message);
+
+        const reencodedMessages = await receiver().receiveMessages(1);
+        const reencodedMessage = reencodedMessages[0];
+
+        assert.equal(reencodedMessage._rawAmqpMessage.bodyType, "data");
+        assert.deepEqual(reencodedMessage.body, expectedBody);
+      });
+    });
+
+    it("ServiceBusMessageBatch.tryAdd()", async () => {
+      const batch = await sender().createMessageBatch();
+
+      assert.isTrue(
+        batch.tryAddMessage({
+          body: "hello",
+          // @ts-expect-error "`bodyType` is not a field in ServiceBusMessage. When AMQP body type encoding is disabled it won't compile"
+          bodyType: "value"
+        })
+      );
+
+      await sender().sendMessages(batch);
+
+      const reencodedMessages = await receiver().receiveMessages(1);
+      const reencodedMessage = reencodedMessages[0];
+
+      assert.equal(reencodedMessage._rawAmqpMessage.bodyType, "data");
+      assert.equal(reencodedMessage.body, "hello");
+    });
+  });
 
   describe("amqp encoding/decoding", () => {
-    let client: ServiceBusClientForTests;
-    let sender: ServiceBusSenderWithAmqpSupport;
-    let receiver: ServiceBusReceiver;
-
-    before(() => {
-      client = createServiceBusClientForTests();
+    beforeEach(() => {
+      const previousState = setFeatureAmqpBodyTypeEnabled(true);
+      assert.isFalse(previousState);
     });
-
-    beforeEach(async () => {
-      const testEntities = await client.test.createTestEntities(TestClientType.UnpartitionedQueue);
-      sender = await client.test.createSender(testEntities);
-      receiver = await client.test.createReceiveAndDeleteReceiver(testEntities);
+    afterEach(() => {
+      setFeatureAmqpBodyTypeEnabled(false);
     });
-
-    afterEach(() => client.test.afterEach());
-    after(() => client.test.after());
 
     it("values", async () => {
       const valueTypes = [[1, 2, 3], 1, 1.5, "hello", { hello: "world" }];
 
       for (const valueType of valueTypes) {
-        await sender.sendMessages({
+        await sender().sendMessages({
           body: valueType,
           bodyType: "value"
         });
 
-        const messages = await receiver.receiveMessages(1);
+        const messages = await receiver().receiveMessages(1);
         const message = messages[0];
 
         assert.deepEqual(
@@ -80,12 +119,12 @@ describe("AMQP message encoding", () => {
       ];
 
       for (const sequenceType of sequenceTypes) {
-        await sender.sendMessages({
+        await sender().sendMessages({
           body: sequenceType,
           bodyType: "sequence"
         });
 
-        const messages = await receiver.receiveMessages(1);
+        const messages = await receiver().receiveMessages(1);
         const message = messages[0];
 
         assert.deepEqual(
@@ -107,12 +146,12 @@ describe("AMQP message encoding", () => {
       const dataTypes = [1, 1.5, "hello", { hello: "world" }, buff, [1, 2, 3]];
 
       for (const dataType of dataTypes) {
-        await sender.sendMessages({
+        await sender().sendMessages({
           body: dataType,
           bodyType: "data"
         });
 
-        const messages = await receiver.receiveMessages(1);
+        const messages = await receiver().receiveMessages(1);
         const message = messages[0];
 
         assert.deepEqual(
@@ -137,20 +176,20 @@ describe("AMQP message encoding", () => {
         // if we receive a message that was encoded to a non-data section
         // and then re-send it (again, as a ServiceBusMessage) we should
         // respect it.
-        await sender.sendMessages({
+        await sender().sendMessages({
           body: expectedBody,
           bodyType: expectedBodyType
         });
 
-        const messages = await receiver.receiveMessages(1);
+        const messages = await receiver().receiveMessages(1);
         const message = messages[0];
 
         assert.equal(message._rawAmqpMessage.bodyType, expectedBodyType);
 
         // now let's just resend it, unaltered
-        await sender.sendMessages(message);
+        await sender().sendMessages(message);
 
-        const reencodedMessages = await receiver.receiveMessages(1);
+        const reencodedMessages = await receiver().receiveMessages(1);
         const reencodedMessage = reencodedMessages[0];
 
         assert.equal(reencodedMessage._rawAmqpMessage.bodyType, expectedBodyType);
