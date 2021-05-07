@@ -45,13 +45,17 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export async function createTestUser(): Promise<CommunicationUserToken> {
-  const identityClient = new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
+  const identityClient = new CommunicationIdentityClient(
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING
+  );
   return identityClient.createUserAndToken(["chat"]);
 }
 
 export async function deleteTestUser(testUser: CommunicationUserIdentifier): Promise<void> {
   if (testUser) {
-    const identityClient = new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
+    const identityClient = new CommunicationIdentityClient(
+      env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING
+    );
     await identityClient.deleteUser(testUser);
   }
 }

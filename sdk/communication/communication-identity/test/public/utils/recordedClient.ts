@@ -84,7 +84,8 @@ export function createRecordedCommunicationIdentityClientWithToken(
 ): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING).endpoint;
+  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING)
+    .endpoint;
   if (isPlaybackMode()) {
     credential = {
       getToken: async (_scopes) => {
