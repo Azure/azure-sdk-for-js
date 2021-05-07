@@ -149,11 +149,11 @@ additional questions or comments.
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
 [coc_contact]: mailto:opencode@microsoft.com
-[source]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/videoanalyzer/
+[source]: TODO://link-to-published-source
 [package]: TODO://link-to-published-package
-[doc_direct_methods]: TODO
-[doc_product]: TODO
-[iot_device_connection_string]: TODO
+[doc_direct_methods]: TODO://link-to-published-package
+[doc_product]: TODO://link-to-published-package
+[iot_device_connection_string]: TODO://link-to-published-package
 [iot-device-sdk]: https://www.npmjs.com/package/azure-iot-device
 [iot-hub-sdk]: https://github.com/Azure/azure-iot-sdk-node
 [github-page-issues]: https://github.com/Azure/azure-sdk-for-python/issues
