@@ -6,7 +6,7 @@
  *  They are duplicated in an internal test which contains workaround logic to record/playback the tests
  */
 
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder, env } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import {
@@ -25,6 +25,14 @@ if (isNode) {
 matrix([[true, false]], async function(useAad) {
   describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async () => {
     let recorder: Recorder;
+
+    before(function(this: Context) {
+
+      const skipSMSTests = env.SKIP_PHONENUMBERS_TESTS === "true";
+      if (skipSMSTests) {
+        this.skip();
+      }
+    });
 
     beforeEach(async function(this: Context) {
       recorder = record(this, recorderConfiguration);

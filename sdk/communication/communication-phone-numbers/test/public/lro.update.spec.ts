@@ -24,7 +24,7 @@ matrix([[true, false]], async function(useAad) {
         this.skip();
       }
 
-      const skipPhoneNumbersTests = env.SKIP_PHONENUMBERS_TESTS === "true";
+      const skipPhoneNumbersTests = env.SKIP_INT_PHONENUMBERS_TESTS === "true";
       if (skipPhoneNumbersTests) {
         this.skip();
       }
