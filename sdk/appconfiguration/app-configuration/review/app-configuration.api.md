@@ -15,8 +15,7 @@ export interface AddConfigurationSettingOptions extends OperationOptions {
 }
 
 // @public
-export interface AddConfigurationSettingParam extends ConfigurationSettingParam {
-}
+export type AddConfigurationSettingParam<T = string> = ConfigurationSettingParam<T>;
 
 // @public
 export interface AddConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
@@ -26,12 +25,12 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
-    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
+    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
-    setConfigurationSetting(configurationSetting: SetConfigurationSettingParam, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
+    setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
     updateSyncToken(syncToken: string): void;
 }
@@ -42,10 +41,10 @@ export interface AppConfigurationClientOptions {
 }
 
 // @public
-export interface ConfigurationSetting extends ConfigurationSettingParam {
+export type ConfigurationSetting<T = string> = ConfigurationSettingParam<T> & {
     isReadOnly: boolean;
     lastModified?: Date;
-}
+};
 
 // @public
 export interface ConfigurationSettingId {
@@ -55,13 +54,16 @@ export interface ConfigurationSettingId {
 }
 
 // @public
-export interface ConfigurationSettingParam extends ConfigurationSettingId {
+export type ConfigurationSettingParam<T = string> = ConfigurationSettingId & {
     contentType?: string;
     tags?: {
         [propertyName: string]: string;
     };
+} & (T extends FeatureFlagValue ? {
+    value: T;
+} : {
     value?: string;
-}
+});
 
 // @public
 export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
@@ -74,21 +76,8 @@ export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedFi
 export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
 }
 
-// @public (undocumented)
-export interface FeatureFlag extends Omit<ConfigurationSetting, "value"> {
-    // (undocumented)
-    value: FeatureFlagValue;
-}
-
 // @public
 export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
-
-// @public (undocumented)
-export const FeatureFlagHelper: {
-    isFeatureFlagConfigurationSetting: (setting: ConfigurationSetting) => boolean;
-    fromConfigurationSetting: (setting: ConfigurationSetting) => FeatureFlag;
-    toConfigurationSetting: (featureFlag: FeatureFlag) => ConfigurationSetting;
-};
 
 // @public
 export const featureFlagPrefix = ".appconfig.featureflag/";
@@ -142,6 +131,9 @@ export interface HttpResponseFields {
 }
 
 // @public
+export const isFeatureFlagConfigurationSetting: (setting: ConfigurationSetting) => boolean;
+
+// @public
 export function isSecretReference(setting: ConfigurationSetting): setting is SecretReference;
 
 // @public
@@ -175,6 +167,9 @@ export interface OptionalFields {
 }
 
 // @public
+export const parseAsFeatureFlag: (setting: ConfigurationSetting) => ConfigurationSetting<FeatureFlagValue>;
+
+// @public
 export interface SecretReference extends SecretReferenceParam, ConfigurationSetting {
 }
 
@@ -191,8 +186,7 @@ export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField
 }
 
 // @public
-export interface SetConfigurationSettingParam extends ConfigurationSettingParam {
-}
+export type SetConfigurationSettingParam<T = string> = ConfigurationSettingParam<T>;
 
 // @public
 export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
