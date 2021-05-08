@@ -6,7 +6,7 @@ import { ServiceBusSender } from "../../src";
 import { TestClientType } from "../public/utils/testUtils";
 import { ServiceBusSenderImpl } from "../../src/sender";
 import { setFeatureAmqpBodyTypeEnabled } from "../../src/serviceBusMessage";
-import { addServiceBusClientForLiveTesting } from "./utils/testUtils";
+import { addServiceBusClientForLiveTesting } from "../public/utils/testutils2";
 const assert = chai.assert;
 
 describe("AMQP message encoding", () => {
