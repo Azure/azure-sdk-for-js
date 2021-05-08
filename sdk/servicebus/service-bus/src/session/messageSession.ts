@@ -771,10 +771,13 @@ export class MessageSession extends LinkEntity<Receiver> {
 
     logger.logError(err, "Cannot request messages on the receiver");
 
+    const error = new ServiceBusError("Cannot request messages on the receiver", "SessionLockLost");
+    error.retryable = false;
+
     // from the user's perspective this is a fatal link error and they should retry
     // opening the link.
     this._onError!({
-      error: new ServiceBusError("Cannot request messages on the receiver", "SessionLockLost"),
+      error,
       errorSource: "processMessageCallback",
       entityPath: this.entityPath,
       fullyQualifiedNamespace: this._context.config.host

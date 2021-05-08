@@ -515,5 +515,33 @@ describe("Message session unit tests", () => {
       messageSession["processCreditError"](new AbortError());
       assert.isFalse(onErrorCalled);
     });
+
+    it("processCreditError forwards non-retryable errors", () => {
+      let err: ServiceBusError | Error | undefined;
+      messageSession["_onError"] = (errArgs) => {
+        err = errArgs.error;
+      };
+
+      // We allow AbortError to no-op since the user is already aware they
+      // are suspending the connection (and thus credit errors will occur)
+      messageSession["processCreditError"](new Error("Somewthing"));
+
+      if (!err) {
+        throw new Error("Expected an error to be passed to _onError");
+      }
+
+      assert.deepEqual(
+        {
+          name: err.name,
+          code: (err as ServiceBusError).code,
+          retryable: (err as ServiceBusError).retryable
+        },
+        {
+          name: "ServiceBusError",
+          code: "SessionLockLost",
+          retryable: false
+        }
+      );
+    });
   });
 });
