@@ -1,7 +1,13 @@
 // // Copyright (c) Microsoft Corporation.
 // // Licensed under the MIT license.
 
-import { AppConfigurationClient, FeatureFlag, FeatureFlagHelper } from "../../src";
+import {
+  AppConfigurationClient,
+  ConfigurationSetting,
+  featureFlagContentType,
+  FeatureFlagValue,
+  parseAsFeatureFlag
+} from "../../src";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -211,13 +217,13 @@ dotenv.config();
 //   // });
 // });
 
-describe.only("Option 9", () => {
+describe.only("Option 8.1", () => {
   it("FeatureFlag redesign", async () => {
     console.log(`Running featureFlag sample`);
-
-    const originalFeatureFlag: FeatureFlag = {
+    const originalFeatureFlag: ConfigurationSetting<FeatureFlagValue> = {
       key: `new-feature-flag-${Math.ceil(100 + Math.random() * 900)}`,
       isReadOnly: false,
+      contentType: featureFlagContentType,
       value: {
         enabled: false,
         description: "I'm a description",
@@ -256,15 +262,14 @@ describe.only("Option 9", () => {
 
     await cleanupSampleValues([originalFeatureFlag.key], appConfigClient); // Ignore - cleanup
 
-    const configurationSetting = FeatureFlagHelper.toConfigurationSetting(originalFeatureFlag);
-    console.log(`Add a new configurationSetting with key: ${configurationSetting.key}`);
-    await appConfigClient.addConfigurationSetting(configurationSetting);
+    console.log(`Add a new featureFlag with key: ${originalFeatureFlag.key}`);
+    await appConfigClient.addConfigurationSetting(originalFeatureFlag);
 
-    console.log(`Get the added configurationSetting with key: ${configurationSetting.key}`);
+    console.log(`Get the added configurationSetting with key: ${originalFeatureFlag.key}`);
     const getResponse = await appConfigClient.getConfigurationSetting({
-      key: configurationSetting.key
+      key: originalFeatureFlag.key
     });
-    const newFeatureFlag = FeatureFlagHelper.fromConfigurationSetting(getResponse); // Converts the configurationsetting into featureflag
+    const newFeatureFlag = parseAsFeatureFlag(getResponse); // Converts the configurationsetting into featureflag
     // Modify the props
     for (const clientFilter of newFeatureFlag.value.conditions.clientFilters) {
       if (clientFilter.name === "Microsoft.Targeting") {
@@ -318,17 +323,14 @@ describe.only("Option 9", () => {
 
     console.log(`===> Update the featureFlag`);
     // Updating the config setting
-    const newConfigurationSetting = FeatureFlagHelper.toConfigurationSetting(newFeatureFlag);
-    await appConfigClient.setConfigurationSetting(newConfigurationSetting);
+    await appConfigClient.setConfigurationSetting(newFeatureFlag);
 
     // Get the config setting again
-    console.log(`Get the updated config setting with key: ${newConfigurationSetting.key}`);
+    console.log(`Get the updated config setting with key: ${newFeatureFlag.key}`);
     const getResponseAfterUpdate = await appConfigClient.getConfigurationSetting({
-      key: newConfigurationSetting.key
+      key: newFeatureFlag.key
     });
-    const featureFlagAfterUpdate = FeatureFlagHelper.fromConfigurationSetting(
-      getResponseAfterUpdate
-    ); // Converts the configurationsetting into featureflag
+    const featureFlagAfterUpdate = parseAsFeatureFlag(getResponseAfterUpdate); // Converts the configurationsetting into featureflag
     const conditions = featureFlagAfterUpdate.value.conditions;
     for (const clientFilter of conditions.clientFilters) {
       if (clientFilter.name === "Microsoft.Targeting") {
