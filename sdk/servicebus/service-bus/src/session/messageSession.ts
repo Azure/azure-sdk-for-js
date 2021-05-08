@@ -763,12 +763,18 @@ export class MessageSession extends LinkEntity<Receiver> {
   }
 
   private processCreditError(err: any): void {
-    logger.logError(err, "Failed to add credits to receiver");
+    if (err.name === "AbortError") {
+      // if we fail to add credits because the user has asked us to stop
+      // then this isn't an error - it's normal.
+      return;
+    }
+
+    logger.logError(err, "Cannot request messages on the receiver");
 
     // from the user's perspective this is a fatal link error and they should retry
     // opening the link.
     this._onError!({
-      error: new ServiceBusError("Failed to add credits to receiver", "SessionLockLost"),
+      error: new ServiceBusError("Cannot request messages on the receiver", "SessionLockLost"),
       errorSource: "processMessageCallback",
       entityPath: this.entityPath,
       fullyQualifiedNamespace: this._context.config.host

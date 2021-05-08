@@ -10,7 +10,7 @@ import {
   createConnectionContextForTestsWithSessionId,
   defer
 } from "./unittestUtils";
-import sinon from "sinon";
+import sinon, { SinonSpy } from "sinon";
 import { EventEmitter } from "events";
 import {
   ReceiverEvents,
@@ -24,6 +24,7 @@ import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 import { ProcessErrorArgs, ServiceBusError } from "../../../src";
 import { ReceiveMode } from "../../../src/models";
 import { Constants } from "@azure/core-amqp";
+import { AbortError } from "@azure/abort-controller";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -352,9 +353,19 @@ describe("Message session unit tests", () => {
 
   describe("errors", () => {
     const closeables = addCloseablesCleanup();
+    let messageSession: MessageSession;
+    const eventContextWithMessage: EventContext = ({
+      delivery: {},
+      message: {
+        message_annotations: {
+          [Constants.enqueuedTime]: new Date()
+        }
+      }
+    } as any) as EventContext;
+    let processCreditErrorSpy: SinonSpy;
 
-    it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {
-      const messageSession = await MessageSession.create(
+    beforeEach(async () => {
+      messageSession = await MessageSession.create(
         createConnectionContextForTestsWithSessionId("session id"),
         "entity path",
         "session id",
@@ -366,16 +377,14 @@ describe("Message session unit tests", () => {
 
       closeables.push(messageSession);
 
-      let errorArgs: ProcessErrorArgs | undefined;
+      processCreditErrorSpy = sinon.spy(
+        (messageSession as any) as { processCreditError: (err: any) => void },
+        "processCreditError"
+      );
+    });
 
-      const eventContext = {
-        delivery: {},
-        message: {
-          message_annotations: {
-            [Constants.enqueuedTime]: new Date()
-          }
-        }
-      };
+    it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {
+      let errorArgs: ProcessErrorArgs | undefined;
 
       const subscribePromise = new Promise<void>((resolve) => {
         messageSession.subscribe(
@@ -390,12 +399,11 @@ describe("Message session unit tests", () => {
         );
       });
 
-      messageSession["_link"]?.emit(ReceiverEvents.message, (eventContext as any) as EventContext);
+      messageSession["_link"]?.emit(ReceiverEvents.message, eventContextWithMessage);
 
       // once we emit the event we need to wait for it to be processed (and then in turn
       // generate an error)
       await subscribePromise;
-
       assert.exists(errorArgs, "We should have triggered processError.");
 
       assert.deepEqual(
@@ -415,29 +423,7 @@ describe("Message session unit tests", () => {
     });
 
     it("errors thrown in the post-message-processing addCredit are sent to the user", async () => {
-      const messageSession = await MessageSession.create(
-        createConnectionContextForTestsWithSessionId("session id"),
-        "entity path",
-        "session id",
-        {
-          receiveMode: "receiveAndDelete",
-          retryOptions: undefined
-        }
-      );
-
-      closeables.push(messageSession);
-
       let errorArgs: ProcessErrorArgs | undefined;
-
-      const eventContext = {
-        delivery: {},
-        message: {
-          message_annotations: {
-            [Constants.enqueuedTime]: new Date()
-          }
-        }
-      };
-
       let addCreditWasCalled = false;
 
       const subscribePromise = new Promise<void>((resolve) => {
@@ -446,7 +432,7 @@ describe("Message session unit tests", () => {
             // the next addCredit call should trigger an exception now
             messageSession["_receiverHelper"]["addCredit"] = (_credits) => {
               addCreditWasCalled = true;
-              throw new Error("Failed to add credits to receiver");
+              throw new Error("Purposeful failure in addCredit()");
             };
           },
           async (args) => {
@@ -457,7 +443,7 @@ describe("Message session unit tests", () => {
         );
       });
 
-      messageSession["_link"]?.emit(ReceiverEvents.message, (eventContext as any) as EventContext);
+      messageSession["_link"]?.emit(ReceiverEvents.message, eventContextWithMessage);
 
       // once we emit the event we need to wait for it to be processed (and then in turn
       // generate an error)
@@ -473,7 +459,7 @@ describe("Message session unit tests", () => {
           fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace
         },
         {
-          message: "Failed to add credits to receiver",
+          message: "Cannot request messages on the receiver",
           errorSource: "processMessageCallback",
           entityPath: "entity path",
           fullyQualifiedNamespace: "fakeHost"
@@ -484,23 +470,13 @@ describe("Message session unit tests", () => {
         addCreditWasCalled,
         "Error thrown should have come from the call to addCredit()"
       );
+
+      assert.isTrue(processCreditErrorSpy.called);
     });
 
     it("failing to add credits results in a SessionLockLost error", async () => {
       // we fabricate this error (there is no actual link activity here) but it's a more
       // sensible error type for sessions since it'll indicate that the link itself is bad.
-      const messageSession = await MessageSession.create(
-        createConnectionContextForTestsWithSessionId("session id"),
-        "entity path",
-        "session id",
-        {
-          receiveMode: "receiveAndDelete",
-          retryOptions: undefined
-        }
-      );
-
-      closeables.push(messageSession);
-
       const errors: { message: string; code: string }[] = [];
 
       messageSession["_receiverHelper"]["addCredit"] = () => {
@@ -520,10 +496,24 @@ describe("Message session unit tests", () => {
 
       assert.deepEqual(errors, [
         {
-          message: "Failed to add credits to receiver",
+          message: "Cannot request messages on the receiver",
           code: "SessionLockLost"
         }
       ]);
+
+      assert.isTrue(processCreditErrorSpy.called);
+    });
+
+    it("processCreditError doesn't log or forward AbortError's", () => {
+      let onErrorCalled = false;
+      messageSession["_onError"] = (_err) => {
+        onErrorCalled = true;
+      };
+
+      // We allow AbortError to no-op since the user is already aware they
+      // are suspending the connection (and thus credit errors will occur)
+      messageSession["processCreditError"](new AbortError());
+      assert.isFalse(onErrorCalled);
     });
   });
 });

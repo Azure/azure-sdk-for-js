@@ -308,8 +308,15 @@ export class StreamingReceiver extends MessageReceiver {
         try {
           this._receiverHelper.addCredit(1);
         } catch (err) {
-          logger.logError(err, `[${this.logPrefix}] Failed to add credit after receiving message`);
-          await this._reportInternalError(err);
+          // if we're aborting out of the receive operation we don't need to report it (the user already
+          // knows the link is being torn down or stopped)
+          if (err.name !== "AbortError") {
+            logger.logError(
+              err,
+              `[${this.logPrefix}] Failed to add credit after receiving message`
+            );
+            await this._reportInternalError(err);
+          }
         }
       }
 
