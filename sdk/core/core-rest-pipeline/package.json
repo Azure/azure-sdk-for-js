@@ -144,5 +144,12 @@
     "typescript": "~4.2.0",
     "util": "^0.12.1",
     "typedoc": "0.15.2"
+  },
+  "//sampleConfiguration": {
+    "skipFolder": true,
+    "productName": "Azure SDK Core",
+    "productSlugs": [
+      "azure"
+    ]
   }
 }
