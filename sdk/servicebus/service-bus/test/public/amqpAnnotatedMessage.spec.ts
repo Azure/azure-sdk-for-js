@@ -14,6 +14,7 @@ import {
 } from "../public/utils/testutils2";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { generateUuid } from "@azure/core-http";
+import { setFeatureAmqpBodyTypeEnabled } from "../../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -67,10 +68,12 @@ function getSampleAmqpAnnotatedMessage(randomTag?: string): AmqpAnnotatedMessage
 
 describe("AmqpAnnotatedMessage", function(): void {
   before(() => {
+    assert.isFalse(setFeatureAmqpBodyTypeEnabled(true));
     serviceBusClient = createServiceBusClientForTests();
   });
 
   after(() => {
+    setFeatureAmqpBodyTypeEnabled(false);
     return serviceBusClient.test.after();
   });
 
