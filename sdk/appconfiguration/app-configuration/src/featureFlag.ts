@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { JsonFeatureFlagValue } from "./internal/jsonModels";
-import { ConfigurationSetting } from "./models";
+import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
 
 /**
  * The prefix for feature flags.
@@ -35,20 +35,16 @@ export interface FeatureFlagValue {
   enabled: boolean;
 }
 
-export interface FeatureFlag extends Omit<ConfigurationSetting, "value"> {
-  value: FeatureFlagValue;
-}
-
 export const FeatureFlagHelper = {
-  /**
-   * Lets you know if the ConfigurationSetting is a featureFlag ConfigurationSetting based on the contentType.
-   */
-  isFeatureFlagConfigurationSetting: (setting: ConfigurationSetting): boolean =>
-    setting.contentType === featureFlagContentType,
   /**
    * Takes the ConfigurationSetting and returns the FeatureFlag.
    */
-  fromConfigurationSetting: (setting: ConfigurationSetting): FeatureFlag => {
+  fromConfigurationSetting: (
+    setting: ConfigurationSetting
+  ): ConfigurationSetting<FeatureFlagValue> => {
+    if (!isFeatureFlagConfigurationSetting(setting)) {
+      throw new Error("Not a feature flag..");
+    }
     let jsonFeatureFlagValue: JsonFeatureFlagValue;
     try {
       if (!setting.value || typeof setting.value !== "string") {
@@ -61,7 +57,7 @@ export const FeatureFlagHelper = {
       throw new Error("");
     }
 
-    const featureflag: FeatureFlag = {
+    const featureflag: ConfigurationSetting<FeatureFlagValue> = {
       ...setting,
       value: {
         ...jsonFeatureFlagValue,
@@ -75,7 +71,12 @@ export const FeatureFlagHelper = {
   /**
    * Takes the FeatureFlag (JSON) and returns a ConfigurationSetting (with the props encodeed in the value).
    */
-  toConfigurationSetting: (featureFlag: FeatureFlag): ConfigurationSetting => {
+  toConfigurationSettingParam: (
+    featureFlag: ConfigurationSettingParam<FeatureFlagValue>
+  ): ConfigurationSettingParam => {
+    if (!featureFlag.value) {
+      throw new Error("Value is not defined");
+    }
     // TODO: Add prefix if doesn't exist
     // TODO: Add contentType if doesn't exist
     const jsonFeatureFlagValue: JsonFeatureFlagValue = {
@@ -100,4 +101,16 @@ export const FeatureFlagHelper = {
     };
     return configSetting;
   }
+};
+
+/**
+ * Takes the ConfigurationSetting and returns the FeatureFlag which can be modified and sent using the `AppConfiguration.{add/set}ConfigurationSetting` methods.
+ */
+export const parseAsFeatureFlag = FeatureFlagHelper.fromConfigurationSetting;
+
+/**
+ * Lets you know if the ConfigurationSetting is a feature flag ConfigurationSetting based on the contentType.
+ */
+export const isFeatureFlagConfigurationSetting = (setting: ConfigurationSetting): boolean => {
+  return setting && setting.contentType === featureFlagContentType;
 };

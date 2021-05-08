@@ -14,13 +14,8 @@ import {
   ConfigurationSettingParam
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
-import {
-  deserializeSecretReference,
-  SecretReference,
-  secretReferenceContentType,
-  SecretReferenceParam,
-  serializeSecretReferenceParam
-} from "../keyvaultReference";
+import { deserializeSecretReference, secretReferenceContentType } from "../keyvaultReference";
+import { featureFlagContentType, FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -159,6 +154,7 @@ export function makeConfigurationSettingEmpty(
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
   const setting: ConfigurationSetting & KeyValue = {
+    value: undefined,
     ...kvp,
     isReadOnly: !!kvp.locked
   };
@@ -178,14 +174,19 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
  * @internal
  */
 export function serializeAsConfigurationSettingParam(
-  setting: SecretReferenceParam | ConfigurationSettingParam
+  setting: ConfigurationSettingParam | ConfigurationSettingParam<FeatureFlagValue>
 ): ConfigurationSettingParam {
   switch (setting.contentType) {
-    case secretReferenceContentType: {
-      return serializeSecretReferenceParam(setting as SecretReference);
+    case featureFlagContentType: {
+      return FeatureFlagHelper.toConfigurationSettingParam(
+        setting as ConfigurationSettingParam<FeatureFlagValue>
+      );
     }
+    // case secretReferenceContentType: {
+    //   return serializeSecretReferenceParam(setting as SecretReference);
+    // }
     default:
-      return setting;
+      return setting as ConfigurationSettingParam;
   }
 }
 

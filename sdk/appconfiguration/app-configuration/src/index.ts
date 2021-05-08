@@ -5,9 +5,9 @@ export { AppConfigurationClient, AppConfigurationClientOptions } from "./appConf
 export {
   featureFlagContentType,
   featureFlagPrefix,
-  FeatureFlagHelper,
-  FeatureFlagValue,
-  FeatureFlag
+  isFeatureFlagConfigurationSetting,
+  parseAsFeatureFlag,
+  FeatureFlagValue
 } from "./featureFlag";
 export {
   isSecretReference,

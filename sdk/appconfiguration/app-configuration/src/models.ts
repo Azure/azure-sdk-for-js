@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions, HttpResponse } from "@azure/core-http";
+import { FeatureFlagValue } from "./featureFlag";
 
 /**
  * Fields that uniquely identify a configuration setting
@@ -28,28 +29,35 @@ export interface ConfigurationSettingId {
 /**
  * Necessary fields for updating or creating a new configuration setting
  */
-export interface ConfigurationSettingParam extends ConfigurationSettingId {
+export type ConfigurationSettingParam<T = string> = ConfigurationSettingId & {
   /**
    * The content type of the setting's value
    */
   contentType?: string;
 
   /**
-   * The setting's value
-   */
-  value?: string;
-
-  /**
    * Tags for this key
    */
   tags?: { [propertyName: string]: string };
-}
+} & (T extends FeatureFlagValue
+    ? {
+        /**
+         * The setting's value
+         */
+        value: T;
+      }
+    : {
+        /**
+         * The setting's value
+         */
+        value?: string;
+      });
 
 /**
  * Configuration setting with extra metadata from the server, indicating
  * its etag, whether it is currently readOnly and when it was last modified.
  */
-export interface ConfigurationSetting extends ConfigurationSettingParam {
+export type ConfigurationSetting<T = string> = ConfigurationSettingParam<T> & {
   /**
    * Whether or not the setting is read-only
    */
@@ -59,7 +67,7 @@ export interface ConfigurationSetting extends ConfigurationSettingParam {
    * The date when this setting was last modified
    */
   lastModified?: Date;
-}
+};
 
 /**
  * Fields that are hoisted up  from the _response field of the object
@@ -76,12 +84,12 @@ export interface HttpResponseFields {
 /**
  * Parameters for adding a new configuration setting
  */
-export interface AddConfigurationSettingParam extends ConfigurationSettingParam {}
+export type AddConfigurationSettingParam<T = string> = ConfigurationSettingParam<T>;
 
 /**
  * Parameters for creating or updating a new configuration setting
  */
-export interface SetConfigurationSettingParam extends ConfigurationSettingParam {}
+export type SetConfigurationSettingParam<T = string> = ConfigurationSettingParam<T>;
 
 /**
  * Standard base response for getting, deleting or updating a configuration setting
