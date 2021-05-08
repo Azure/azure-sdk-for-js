@@ -1,6 +1,6 @@
 # Release History
 
-## 7.1.0-beta.1 (Unreleased)
+## 7.0.6 (Unreleased)
 
 ### New Features
 
@@ -14,7 +14,15 @@
 - [Bug Fix] `expiresAtUtc` is `Invalid Date` in the received message when the ttl is not defined. Has been fixed in [#13543](https://github.com/Azure/azure-sdk-for-js/pull/13543)
 - Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug w.r.t the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
 - Settling messages now use the `retryOptions` passed to `ServiceBusClient`, making it more resilient against network failures.
-  [PR#14867](https://github.com/Azure/azure-sdk-for-js/pull/14867/files)
+  [PR#14867](https://github.com/Azure/azure-sdk-for-js/pull/14867)
+- Fixes an issue where receiver link recovery/creation could fail, resulting in a receiver that was no longer receiving messages.
+  [PR#15098](https://github.com/Azure/azure-sdk-for-js/pull/15098)
+
+## 7.0.5 (2021-04-06)
+
+### Bug fixes
+
+- Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug with regards to the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
 
 ## 7.0.4 (2021-03-31)
 

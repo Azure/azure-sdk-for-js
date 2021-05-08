@@ -25,13 +25,14 @@ import { setTracerForTest } from "../../public/utils/misc";
 import { SpanKind } from "@azure/core-tracing";
 import { BatchingReceiverLite } from "../../../src/core/batchingReceiver";
 import { Receiver } from "rhea-promise";
-import { createConnectionContextForTests } from "./unittestUtils";
+import { addTestStreamingReceiver, createConnectionContextForTests } from "./unittestUtils";
 import sinon from "sinon";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import { OnMessage } from "../../../src/core/messageReceiver";
 import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
 import { MessageSession } from "../../../src/session/messageSession";
 import { instrumentMessage } from "../../../src/diagnostics/tracing";
+import { MessageHandlers } from "../../../src";
 const should = chai.should();
 const assert = chai.assert;
 
@@ -111,63 +112,65 @@ describe("Tracing tests", () => {
     );
   });
 
-  it("streaming (no sessions)", async () => {
-    const receiver = new ServiceBusReceiverImpl(
-      createConnectionContextForTests(),
-      "entity path",
-      "peekLock",
-      1
-    );
+  describe("streamingReceiver", () => {
+    const createStreamingReceiver = addTestStreamingReceiver();
 
-    const testData = stubCreateProcessingSpan(receiver);
+    it("streaming (no sessions)", async () => {
+      const streamingReceiver = createStreamingReceiver("entityPath");
 
-    let processMessage: OnMessage | undefined;
+      let messageHandlers: MessageHandlers | undefined;
 
-    receiver["_registerMessageHandler"] = (_pi, pm, _pe) => {
-      processMessage = pm;
-    };
+      streamingReceiver["_subscribeImpl"] = async () => {
+        // at this point the message handlers have been fully wrapped.
+        messageHandlers = streamingReceiver["_messageHandlers"]();
+      };
 
-    receiver.subscribe(
-      {
-        processMessage: async (msg) => {
-          if (msg.applicationProperties!["Diagnostic-Id"] === "should throw") {
-            throw new Error("This message failed when we tried to process it");
+      await streamingReceiver.subscribe(
+        {
+          processMessage: async (msg) => {
+            if (msg.applicationProperties!["Diagnostic-Id"] === "should throw") {
+              throw new Error("This message failed when we tried to process it");
+            }
+          },
+          processError: async (_err) => {
+            /** Nothing to do here */
           }
         },
-        processError: async (_err) => {
-          /** Nothing to do here */
+        {
+          tracingOptions
         }
-      },
-      {
-        tracingOptions
+      );
+
+      if (messageHandlers == null) {
+        throw new Error("subscribe call should have wrapped and set message handlers");
       }
-    );
 
-    assert.exists(processMessage, "subscribe call should have called _registerMessageHandler");
+      try {
+        await messageHandlers.processMessage(({
+          applicationProperties: {
+            [TRACEPARENT_PROPERTY]: "should throw"
+          }
+        } as any) as ServiceBusMessageImpl);
+        assert.fail("Error should propagate after being traced");
+      } catch (err) {
+        assert.equal(err.message, "This message failed when we tried to process it");
+        const [span] = tracer.getKnownSpans();
 
-    try {
-      await processMessage!(({
+        assert.deepEqual(span?.status, {
+          code: SpanStatusCode.ERROR,
+          message: "This message failed when we tried to process it"
+        });
+      }
+
+      await messageHandlers.processMessage!(({
         applicationProperties: {
-          [TRACEPARENT_PROPERTY]: "should throw"
+          [TRACEPARENT_PROPERTY]: "should NOT throw"
         }
       } as any) as ServiceBusMessageImpl);
-      assert.fail("Error should propagate after being traced");
-    } catch (err) {
-      assert.equal(err.message, "This message failed when we tried to process it");
 
-      assert.deepEqual(testData.span?.status, {
-        code: SpanStatusCode.ERROR,
-        message: "This message failed when we tried to process it"
-      });
-    }
-
-    await processMessage!(({
-      applicationProperties: {
-        [TRACEPARENT_PROPERTY]: "should NOT throw"
-      }
-    } as any) as ServiceBusMessageImpl);
-
-    assert.equal(testData.span!.status.code, SpanStatusCode.OK);
+      const [, span] = tracer.getKnownSpans();
+      assert.equal(span!.status.code, SpanStatusCode.OK);
+    });
   });
 
   it("streaming (sessions)", async () => {
