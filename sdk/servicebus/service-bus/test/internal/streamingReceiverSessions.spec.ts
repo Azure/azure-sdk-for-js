@@ -13,10 +13,7 @@ import {
 import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../../src/util/errors";
 import { TestMessage, checkWithTimeout } from "../public/utils/testUtils";
 import { DispositionType } from "../../src/serviceBusMessage";
-import {
-  ServiceBusSessionReceiver,
-  ServiceBusSessionReceiverImpl
-} from "../../src/receivers/sessionReceiver";
+import { ServiceBusSessionReceiver } from "../../src/receivers/sessionReceiver";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -289,31 +286,23 @@ describe("Streaming with sessions", () => {
     async function testAbandon(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
       await sender.sendMessages(testMessage);
-      let abandonFlag = 0;
+      let messageAbandoned: () => void;
+      const messageAbandonedPromise = new Promise<void>((resolve) => (messageAbandoned = resolve));
 
-      receiver.subscribe(
+      const subscription = receiver.subscribe(
         {
           async processMessage(msg: ServiceBusReceivedMessage) {
-            return receiver.abandonMessage(msg).then(async () => {
-              abandonFlag = 1;
-              if ((receiver as ServiceBusSessionReceiverImpl)["_isReceivingMessages"]()) {
-                return receiver.close();
-              }
-            });
+            await subscription.close();
+            await receiver.abandonMessage(msg);
+            messageAbandoned();
           },
           processError
         },
         { autoCompleteMessages: autoComplete }
       );
 
-      const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
-      should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
-
-      if ((receiver as ServiceBusSessionReceiverImpl)["_isReceivingMessages"]()) {
-        await receiver.close();
-      }
-
-      should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
+      await messageAbandonedPromise;
+      await receiver.close();
 
       await createReceiverForTests();
 

@@ -15,7 +15,7 @@ export {
   DataExport,
   DataSource,
   ErrorAdditionalInfo,
-  ErrorContract,
+  ErrorDetail,
   ErrorResponse,
   Identity,
   KeyVaultProperties,
