@@ -2,10 +2,12 @@
 // Licensed under the MIT license.
 import { env } from ".";
 
-export function mockMsalAuth(nock: typeof import("nock")) {
+export type NockType = typeof import("nock");
+
+export function mockMsalAuth(nock: NockType) {
   if (env.AZURE_TENANT_ID) {
     nock("https://login.microsoftonline.com:443")
-      .post(`"/${env.AZURE_TENANT_ID}/oauth2/v2.0/token"`)
+      .post(`/${env.AZURE_TENANT_ID}/oauth2/v2.0/token`)
       .reply(200, {
         token_type: "Bearer",
         expires_in: 86399,
