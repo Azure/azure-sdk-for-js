@@ -15,17 +15,6 @@ matrix([[true, false]], async function(useAad) {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
-    before(function(this: Context) {
-      if (useAad && !canCreateRecordedClientWithToken()) {
-        this.skip();
-      }
-
-      const skipPhoneNumbersTests = env.SKIP_INT_PHONENUMBERS_TESTS === "true";
-      if (skipPhoneNumbersTests) {
-        this.skip();
-      }
-    });
-
     beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
         ? createRecordedClientWithToken(this)!
