@@ -286,7 +286,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ClusterListResult
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -309,7 +309,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ClusterListResult
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -334,7 +334,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Cluster
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -366,7 +366,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Cluster
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -402,7 +402,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -426,7 +426,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -450,7 +450,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ClusterListResult
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -474,7 +474,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ClusterListResult
     },
     default: {
-      bodyMapper: Mappers.ClusterErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

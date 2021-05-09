@@ -49,14 +49,18 @@ export async function main() {
   const registered = await client.registerSchema(schemaDescription);
   console.log(`Registered schema with ID=${registered.id}`);
 
-  // Get ID for exisiting schema by its description.
+  // Get ID for existing schema by its description.
   // Note that this would throw if it had not been previously registered.
   const found = await client.getSchemaId(schemaDescription);
-  console.log(`Got schema ID=${found.id}`);
+  if (found) {
+    console.log(`Got schema ID=${found.id}`);
+  }
 
   // Get content of existing schema by its ID
   const foundSchema = await client.getSchemaById(registered.id);
-  console.log(`Got schema content=${foundSchema.content}`);
+  if (foundSchema) {
+    console.log(`Got schema content=${foundSchema.content}`);
+  }
 }
 
 main().catch((err) => {

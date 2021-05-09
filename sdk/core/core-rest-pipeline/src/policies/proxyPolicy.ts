@@ -25,7 +25,8 @@ const NO_PROXY = "NO_PROXY";
  */
 export const proxyPolicyName = "proxyPolicy";
 
-export const noProxyList: string[] = loadNoProxy();
+export const noProxyList: string[] = [];
+let noProxyListLoaded: boolean = false;
 const byPassedList: Map<string, boolean> = new Map();
 
 let httpsProxyAgent: https.Agent | undefined;
@@ -86,6 +87,7 @@ function isBypassed(uri: string): boolean | undefined {
 
 export function loadNoProxy(): string[] {
   const noProxy = getEnvironmentValue(NO_PROXY);
+  noProxyListLoaded = true;
   if (noProxy) {
     return noProxy
       .split(",")
@@ -175,6 +177,9 @@ function setProxyAgentOnRequest(request: PipelineRequest): void {
  * @param proxySettings - ProxySettings to use on each request.
  */
 export function proxyPolicy(proxySettings = getDefaultProxySettings()): PipelinePolicy {
+  if (!noProxyListLoaded) {
+    noProxyList.push(...loadNoProxy());
+  }
   return {
     name: proxyPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {

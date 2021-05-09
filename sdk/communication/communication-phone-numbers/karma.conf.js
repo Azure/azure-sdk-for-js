@@ -62,7 +62,10 @@ module.exports = function(config) {
       "INCLUDE_PHONENUMBER_LIVE_TESTS",
       "AZURE_PHONE_NUMBER",
       "COMMUNICATION_ENDPOINT",
-      "COMMUNICATION_SKIP_PHONENUMBERS_TESTS"
+      "COMMUNICATION_SKIP_PHONENUMBERS_TESTS",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TENANT_ID"
     ],
 
     // test results reporter to use
@@ -117,7 +120,7 @@ module.exports = function(config) {
     customLaunchers: {
       HeadlessChrome: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"]
+        flags: ["--no-sandbox", "--disable-web-security"]
       }
     },
 

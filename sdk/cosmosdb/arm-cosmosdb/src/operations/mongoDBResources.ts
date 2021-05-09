@@ -33,21 +33,39 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesListMongoDBDatabasesResponse>
    */
-  listMongoDBDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesListMongoDBDatabasesResponse>;
+  listMongoDBDatabases(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesListMongoDBDatabasesResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listMongoDBDatabases(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.MongoDBDatabaseListResult>): void;
+  listMongoDBDatabases(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.MongoDBDatabaseListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMongoDBDatabases(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MongoDBDatabaseListResult>): void;
-  listMongoDBDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MongoDBDatabaseListResult>, callback?: msRest.ServiceCallback<Models.MongoDBDatabaseListResult>): Promise<Models.MongoDBResourcesListMongoDBDatabasesResponse> {
+  listMongoDBDatabases(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MongoDBDatabaseListResult>
+  ): void;
+  listMongoDBDatabases(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MongoDBDatabaseListResult>,
+    callback?: msRest.ServiceCallback<Models.MongoDBDatabaseListResult>
+  ): Promise<Models.MongoDBResourcesListMongoDBDatabasesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class MongoDBResources {
         options
       },
       listMongoDBDatabasesOperationSpec,
-      callback) as Promise<Models.MongoDBResourcesListMongoDBDatabasesResponse>;
+      callback
+    ) as Promise<Models.MongoDBResourcesListMongoDBDatabasesResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesGetMongoDBDatabaseResponse>
    */
-  getMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesGetMongoDBDatabaseResponse>;
+  getMongoDBDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesGetMongoDBDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
-  getMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.MongoDBDatabaseGetResults>): void;
+  getMongoDBDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.MongoDBDatabaseGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -82,8 +111,20 @@ export class MongoDBResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MongoDBDatabaseGetResults>): void;
-  getMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MongoDBDatabaseGetResults>, callback?: msRest.ServiceCallback<Models.MongoDBDatabaseGetResults>): Promise<Models.MongoDBResourcesGetMongoDBDatabaseResponse> {
+  getMongoDBDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MongoDBDatabaseGetResults>
+  ): void;
+  getMongoDBDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MongoDBDatabaseGetResults>,
+    callback?: msRest.ServiceCallback<Models.MongoDBDatabaseGetResults>
+  ): Promise<Models.MongoDBResourcesGetMongoDBDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +133,8 @@ export class MongoDBResources {
         options
       },
       getMongoDBDatabaseOperationSpec,
-      callback) as Promise<Models.MongoDBResourcesGetMongoDBDatabaseResponse>;
+      callback
+    ) as Promise<Models.MongoDBResourcesGetMongoDBDatabaseResponse>;
   }
 
   /**
@@ -105,9 +147,22 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>
    */
-  createUpdateMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateMongoDBDatabaseParameters: Models.MongoDBDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesCreateUpdateMongoDBDatabaseResponse> {
-    return this.beginCreateUpdateMongoDBDatabase(resourceGroupName,accountName,databaseName,createUpdateMongoDBDatabaseParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>;
+  createUpdateMongoDBDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    createUpdateMongoDBDatabaseParameters: Models.MongoDBDatabaseCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesCreateUpdateMongoDBDatabaseResponse> {
+    return this.beginCreateUpdateMongoDBDatabase(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      createUpdateMongoDBDatabaseParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.MongoDBResourcesCreateUpdateMongoDBDatabaseResponse
+    >;
   }
 
   /**
@@ -118,9 +173,18 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMongoDBDatabase(resourceGroupName,accountName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMongoDBDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMongoDBDatabase(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -132,14 +196,24 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesGetMongoDBDatabaseThroughputResponse>
    */
-  getMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesGetMongoDBDatabaseThroughputResponse>;
+  getMongoDBDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesGetMongoDBDatabaseThroughputResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
-  getMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
+  getMongoDBDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -147,8 +221,22 @@ export class MongoDBResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
-  getMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>, callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): Promise<Models.MongoDBResourcesGetMongoDBDatabaseThroughputResponse> {
+  getMongoDBDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
+  getMongoDBDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>,
+    callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): Promise<Models.MongoDBResourcesGetMongoDBDatabaseThroughputResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +245,8 @@ export class MongoDBResources {
         options
       },
       getMongoDBDatabaseThroughputOperationSpec,
-      callback) as Promise<Models.MongoDBResourcesGetMongoDBDatabaseThroughputResponse>;
+      callback
+    ) as Promise<Models.MongoDBResourcesGetMongoDBDatabaseThroughputResponse>;
   }
 
   /**
@@ -170,9 +259,22 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse>
    */
-  updateMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse> {
-    return this.beginUpdateMongoDBDatabaseThroughput(resourceGroupName,accountName,databaseName,updateThroughputParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse>;
+  updateMongoDBDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse> {
+    return this.beginUpdateMongoDBDatabaseThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      updateThroughputParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse
+    >;
   }
 
   /**
@@ -183,9 +285,20 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>
    */
-  migrateMongoDBDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse> {
-    return this.beginMigrateMongoDBDatabaseToAutoscale(resourceGroupName,accountName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>;
+  migrateMongoDBDatabaseToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse> {
+    return this.beginMigrateMongoDBDatabaseToAutoscale(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse
+    >;
   }
 
   /**
@@ -196,9 +309,20 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>
    */
-  migrateMongoDBDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse> {
-    return this.beginMigrateMongoDBDatabaseToManualThroughput(resourceGroupName,accountName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>;
+  migrateMongoDBDatabaseToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse> {
+    return this.beginMigrateMongoDBDatabaseToManualThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
+    >;
   }
 
   /**
@@ -209,14 +333,24 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesListMongoDBCollectionsResponse>
    */
-  listMongoDBCollections(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesListMongoDBCollectionsResponse>;
+  listMongoDBCollections(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesListMongoDBCollectionsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
-  listMongoDBCollections(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.MongoDBCollectionListResult>): void;
+  listMongoDBCollections(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.MongoDBCollectionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -224,8 +358,22 @@ export class MongoDBResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMongoDBCollections(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MongoDBCollectionListResult>): void;
-  listMongoDBCollections(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MongoDBCollectionListResult>, callback?: msRest.ServiceCallback<Models.MongoDBCollectionListResult>): Promise<Models.MongoDBResourcesListMongoDBCollectionsResponse> {
+  listMongoDBCollections(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MongoDBCollectionListResult>
+  ): void;
+  listMongoDBCollections(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.MongoDBCollectionListResult>,
+    callback?: msRest.ServiceCallback<Models.MongoDBCollectionListResult>
+  ): Promise<Models.MongoDBResourcesListMongoDBCollectionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +382,8 @@ export class MongoDBResources {
         options
       },
       listMongoDBCollectionsOperationSpec,
-      callback) as Promise<Models.MongoDBResourcesListMongoDBCollectionsResponse>;
+      callback
+    ) as Promise<Models.MongoDBResourcesListMongoDBCollectionsResponse>;
   }
 
   /**
@@ -246,7 +395,13 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesGetMongoDBCollectionResponse>
    */
-  getMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesGetMongoDBCollectionResponse>;
+  getMongoDBCollection(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesGetMongoDBCollectionResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -254,7 +409,13 @@ export class MongoDBResources {
    * @param collectionName Cosmos DB collection name.
    * @param callback The callback
    */
-  getMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, callback: msRest.ServiceCallback<Models.MongoDBCollectionGetResults>): void;
+  getMongoDBCollection(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    callback: msRest.ServiceCallback<Models.MongoDBCollectionGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -263,8 +424,24 @@ export class MongoDBResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MongoDBCollectionGetResults>): void;
-  getMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MongoDBCollectionGetResults>, callback?: msRest.ServiceCallback<Models.MongoDBCollectionGetResults>): Promise<Models.MongoDBResourcesGetMongoDBCollectionResponse> {
+  getMongoDBCollection(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MongoDBCollectionGetResults>
+  ): void;
+  getMongoDBCollection(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.MongoDBCollectionGetResults>,
+    callback?: msRest.ServiceCallback<Models.MongoDBCollectionGetResults>
+  ): Promise<Models.MongoDBResourcesGetMongoDBCollectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -274,7 +451,8 @@ export class MongoDBResources {
         options
       },
       getMongoDBCollectionOperationSpec,
-      callback) as Promise<Models.MongoDBResourcesGetMongoDBCollectionResponse>;
+      callback
+    ) as Promise<Models.MongoDBResourcesGetMongoDBCollectionResponse>;
   }
 
   /**
@@ -288,9 +466,24 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesCreateUpdateMongoDBCollectionResponse>
    */
-  createUpdateMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, createUpdateMongoDBCollectionParameters: Models.MongoDBCollectionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesCreateUpdateMongoDBCollectionResponse> {
-    return this.beginCreateUpdateMongoDBCollection(resourceGroupName,accountName,databaseName,collectionName,createUpdateMongoDBCollectionParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesCreateUpdateMongoDBCollectionResponse>;
+  createUpdateMongoDBCollection(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    createUpdateMongoDBCollectionParameters: Models.MongoDBCollectionCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesCreateUpdateMongoDBCollectionResponse> {
+    return this.beginCreateUpdateMongoDBCollection(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      createUpdateMongoDBCollectionParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.MongoDBResourcesCreateUpdateMongoDBCollectionResponse
+    >;
   }
 
   /**
@@ -302,9 +495,20 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMongoDBCollection(resourceGroupName,accountName,databaseName,collectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMongoDBCollection(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMongoDBCollection(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -317,7 +521,13 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesGetMongoDBCollectionThroughputResponse>
    */
-  getMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesGetMongoDBCollectionThroughputResponse>;
+  getMongoDBCollectionThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesGetMongoDBCollectionThroughputResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -325,7 +535,13 @@ export class MongoDBResources {
    * @param collectionName Cosmos DB collection name.
    * @param callback The callback
    */
-  getMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
+  getMongoDBCollectionThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -334,8 +550,24 @@ export class MongoDBResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
-  getMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>, callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): Promise<Models.MongoDBResourcesGetMongoDBCollectionThroughputResponse> {
+  getMongoDBCollectionThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
+  getMongoDBCollectionThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>,
+    callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): Promise<Models.MongoDBResourcesGetMongoDBCollectionThroughputResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -345,7 +577,8 @@ export class MongoDBResources {
         options
       },
       getMongoDBCollectionThroughputOperationSpec,
-      callback) as Promise<Models.MongoDBResourcesGetMongoDBCollectionThroughputResponse>;
+      callback
+    ) as Promise<Models.MongoDBResourcesGetMongoDBCollectionThroughputResponse>;
   }
 
   /**
@@ -359,9 +592,24 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>
    */
-  updateMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesUpdateMongoDBCollectionThroughputResponse> {
-    return this.beginUpdateMongoDBCollectionThroughput(resourceGroupName,accountName,databaseName,collectionName,updateThroughputParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>;
+  updateMongoDBCollectionThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesUpdateMongoDBCollectionThroughputResponse> {
+    return this.beginUpdateMongoDBCollectionThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      updateThroughputParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.MongoDBResourcesUpdateMongoDBCollectionThroughputResponse
+    >;
   }
 
   /**
@@ -373,9 +621,22 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>
    */
-  migrateMongoDBCollectionToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse> {
-    return this.beginMigrateMongoDBCollectionToAutoscale(resourceGroupName,accountName,databaseName,collectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>;
+  migrateMongoDBCollectionToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse> {
+    return this.beginMigrateMongoDBCollectionToAutoscale(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
+    >;
   }
 
   /**
@@ -387,9 +648,22 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>
    */
-  migrateMongoDBCollectionToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse> {
-    return this.beginMigrateMongoDBCollectionToManualThroughput(resourceGroupName,accountName,databaseName,collectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>;
+  migrateMongoDBCollectionToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse> {
+    return this.beginMigrateMongoDBCollectionToManualThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
+    >;
   }
 
   /**
@@ -402,7 +676,13 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateMongoDBDatabaseParameters: Models.MongoDBDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateMongoDBDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    createUpdateMongoDBDatabaseParameters: Models.MongoDBDatabaseCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -412,7 +692,8 @@ export class MongoDBResources {
         options
       },
       beginCreateUpdateMongoDBDatabaseOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -423,7 +704,12 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMongoDBDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMongoDBDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -432,7 +718,8 @@ export class MongoDBResources {
         options
       },
       beginDeleteMongoDBDatabaseOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -445,7 +732,13 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateMongoDBDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateMongoDBDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -455,7 +748,8 @@ export class MongoDBResources {
         options
       },
       beginUpdateMongoDBDatabaseThroughputOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -466,7 +760,12 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateMongoDBDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateMongoDBDatabaseToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -475,7 +774,8 @@ export class MongoDBResources {
         options
       },
       beginMigrateMongoDBDatabaseToAutoscaleOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -486,7 +786,12 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateMongoDBDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateMongoDBDatabaseToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -495,7 +800,8 @@ export class MongoDBResources {
         options
       },
       beginMigrateMongoDBDatabaseToManualThroughputOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -509,7 +815,14 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, createUpdateMongoDBCollectionParameters: Models.MongoDBCollectionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateMongoDBCollection(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    createUpdateMongoDBCollectionParameters: Models.MongoDBCollectionCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -520,7 +833,8 @@ export class MongoDBResources {
         options
       },
       beginCreateUpdateMongoDBCollectionOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -532,7 +846,13 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMongoDBCollection(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMongoDBCollection(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -542,7 +862,8 @@ export class MongoDBResources {
         options
       },
       beginDeleteMongoDBCollectionOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -556,7 +877,14 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateMongoDBCollectionThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -567,7 +895,8 @@ export class MongoDBResources {
         options
       },
       beginUpdateMongoDBCollectionThroughputOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -579,7 +908,13 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateMongoDBCollectionToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateMongoDBCollectionToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -589,7 +924,8 @@ export class MongoDBResources {
         options
       },
       beginMigrateMongoDBCollectionToAutoscaleOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -601,7 +937,13 @@ export class MongoDBResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateMongoDBCollectionToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateMongoDBCollectionToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -611,7 +953,8 @@ export class MongoDBResources {
         options
       },
       beginMigrateMongoDBCollectionToManualThroughputOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -619,18 +962,11 @@ export class MongoDBResources {
 const serializer = new msRest.Serializer(Mappers);
 const listMongoDBDatabasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MongoDBDatabaseListResult
@@ -644,19 +980,16 @@ const listMongoDBDatabasesOperationSpec: msRest.OperationSpec = {
 
 const getMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MongoDBDatabaseGetResults
@@ -670,19 +1003,16 @@ const getMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
 
 const getMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -696,19 +1026,16 @@ const getMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = {
 
 const listMongoDBCollectionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MongoDBCollectionListResult
@@ -722,7 +1049,8 @@ const listMongoDBCollectionsOperationSpec: msRest.OperationSpec = {
 
 const getMongoDBCollectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -730,12 +1058,8 @@ const getMongoDBCollectionOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.collectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MongoDBCollectionGetResults
@@ -749,7 +1073,8 @@ const getMongoDBCollectionOperationSpec: msRest.OperationSpec = {
 
 const getMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -757,12 +1082,8 @@ const getMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.collectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -776,19 +1097,16 @@ const getMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec = {
 
 const beginCreateUpdateMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "createUpdateMongoDBDatabaseParameters",
     mapper: {
@@ -810,19 +1128,16 @@ const beginCreateUpdateMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -835,19 +1150,16 @@ const beginDeleteMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateThroughputParameters",
     mapper: {
@@ -861,7 +1173,7 @@ const beginUpdateMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = 
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -869,26 +1181,23 @@ const beginUpdateMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = 
 
 const beginMigrateMongoDBDatabaseToAutoscaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -896,26 +1205,23 @@ const beginMigrateMongoDBDatabaseToAutoscaleOperationSpec: msRest.OperationSpec 
 
 const beginMigrateMongoDBDatabaseToManualThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -923,7 +1229,8 @@ const beginMigrateMongoDBDatabaseToManualThroughputOperationSpec: msRest.Operati
 
 const beginCreateUpdateMongoDBCollectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -931,12 +1238,8 @@ const beginCreateUpdateMongoDBCollectionOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.collectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "createUpdateMongoDBCollectionParameters",
     mapper: {
@@ -958,7 +1261,8 @@ const beginCreateUpdateMongoDBCollectionOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMongoDBCollectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -966,12 +1270,8 @@ const beginDeleteMongoDBCollectionOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.collectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -984,7 +1284,8 @@ const beginDeleteMongoDBCollectionOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -992,12 +1293,8 @@ const beginUpdateMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec 
     Parameters.databaseName,
     Parameters.collectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateThroughputParameters",
     mapper: {
@@ -1019,7 +1316,8 @@ const beginUpdateMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec 
 
 const beginMigrateMongoDBCollectionToAutoscaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToAutoscale",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToAutoscale",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -1027,19 +1325,15 @@ const beginMigrateMongoDBCollectionToAutoscaleOperationSpec: msRest.OperationSpe
     Parameters.databaseName,
     Parameters.collectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1047,7 +1341,8 @@ const beginMigrateMongoDBCollectionToAutoscaleOperationSpec: msRest.OperationSpe
 
 const beginMigrateMongoDBCollectionToManualThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToManualThroughput",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToManualThroughput",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -1055,19 +1350,15 @@ const beginMigrateMongoDBCollectionToManualThroughputOperationSpec: msRest.Opera
     Parameters.databaseName,
     Parameters.collectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
