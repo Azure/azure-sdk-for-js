@@ -26,14 +26,12 @@ matrix([[true, false]], async function(useAad) {
   describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async () => {
     let recorder: Recorder;
 
-    before(function(this: Context) {
+    beforeEach(async function(this: Context) {
       const skipSMSTests = env.SKIP_INT_SMS_TESTS === "true";
       if (skipSMSTests) {
         this.skip();
       }
-    });
 
-    beforeEach(async function(this: Context) {
       recorder = record(this, recorderConfiguration);
       recorder.skip(
         undefined,
