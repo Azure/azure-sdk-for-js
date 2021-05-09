@@ -40,7 +40,7 @@ export class NockRecorder extends BaseRecorder {
       this.relativeTestRecordingFilePath,
       testFilePath
     ).testInfo;
-    mockMsalAuth();
+    mockMsalAuth(nock);
   }
 
   public async stop(): Promise<void> {

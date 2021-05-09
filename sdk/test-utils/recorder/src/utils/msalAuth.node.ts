@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import nock from "nock";
 import { env } from ".";
 
-export function mockMsalAuth() {
+export function mockMsalAuth(nock: typeof import("nock")) {
   if (env.AZURE_TENANT_ID) {
     nock("https://login.microsoftonline.com:443")
       .post(`"/${env.AZURE_TENANT_ID}/oauth2/v2.0/token"`)
