@@ -179,6 +179,9 @@
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
       ],
+      "identity": {
+        "type": "SystemAssigned"
+      },
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "siteConfig": {
