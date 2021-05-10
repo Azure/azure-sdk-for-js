@@ -13,18 +13,27 @@ param (
   $Configs, # The configuration elements informing important locations within the cloned doc repo
 
   [Parameter(Mandatory = $false)]
-  $ScriptRepository = "eng/common/scripts"# The eng/common script path
+  $ScriptRepository = "eng/common/scripts", # The eng/common script path,
+
+  [Parameter(Mandatory = $false)]
+  [switch] $UseDailyDocsVersion
 )
 
 . (Join-Path $ScriptRepository common.ps1)
 
 $docLoc = ($Configs | ConvertFrom-Json).path_to_config
 
-if ($UpdateDocCIFn -and (Test-Path "Function:$UpdateDocCIFn")) {
-  &$UpdateDocCIFn -ciRepo $DocRepoLocation -locationInDocRepo $docLoc
+# Use $UpdateDocCIFn by default, otherwise use dev if specified
+$UpdateFn = $UpdateDocCIFn
+if ($UseDailyDocsVersion) { 
+  $UpdateFn = $UpdateDocCIDailyFn
+}
+
+if ($UpdateFn -and (Test-Path "Function:$UpdateFn")) {
+  &$UpdateFn -ciRepo $DocRepoLocation -locationInDocRepo $docLoc
 }
 else {
-  LogWarning "The function for '$UpdateDocCIFn' was not found.`
+  LogWarning "The function for '$UpdateFn' was not found.`
   Make sure it is present in eng/scripts/Language-Settings.ps1 and referenced in eng/common/scripts/common.ps1.`
   See https://github.com/Azure/azure-sdk-tools/blob/master/doc/common/common_engsys.md#code-structure"
 }

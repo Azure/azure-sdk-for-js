@@ -152,6 +152,61 @@ function Get-javascript-GithubIoDocIndex() {
   GenerateDocfxTocContent -tocContent $tocContent -lang "JavaScript"
 }
 
+function Get-PackageName($packageName) { 
+  $lastIndexOfAt = $packageName.LastIndexOf('@')
+
+  if ($lastIndexOfAt -eq 0) { 
+    return $packageName
+  } elseif ($lastIndexOfAt -eq -1) {
+    return $packageName 
+  } 
+  
+  return $packageName.Substring(0, $lastIndexOfAt)
+}
+
+function Test-PackageHasTag($packageName, $tagName, $registryUrlPrefix = 'http://registry.npmjs.org/') {
+  $packageDistTagUrl = "$registryUrlPrefix/-/package/$packageName/dist-tags"
+  try { 
+    $response = Invoke-RestMethod -Uri $packageDistTagUrl
+    return $tagName -in $response.PSObject.Properties.Name
+  } catch { 
+    Write-Error "Error fetching $packageDistTagUrl"
+    Write-Error $_
+    return $false
+  }
+}
+
+# Updates CI config for daily docs build
+function Update-javascript-CIConfigForDaily($ciRepo, $locationInDocRepo) {
+  foreach ($location in $locationInDocRepo) {
+    $ciConfigLocation = Join-Path $ciRepo $location
+    Write-Host "Setting dev versions for $ciConfigLocation"
+    $packageSpecs = Get-Content $ciConfigLocation | ConvertFrom-Json -AsHashtable
+    foreach ($package in $packageSpecs.npm_package_sources) { 
+      $packageName = Get-PackageName($package.name)
+      
+      # It is possible to specify custom registry URLs
+      $registryUrlPrefix = 'http://registry.npmjs.org/'
+      if ($package.ContainsKey('registry')) {
+        $registryUrlPrefix = $package.registry
+      }
+
+      if (Test-PackageHasTag $packageName 'dev' $registryUrlPrefix)
+      {
+        Write-Host "Setting dev version for $packageName"
+        $package.name = "$packageName@dev"
+      } else { 
+        Write-Host "Could not find dev tag for $packageName"
+      }
+    }
+
+    Write-Host "Writing to $ciConfigLocation"
+    $packageSpecs `
+      | ConvertTo-Json -Depth 100 `
+      | Set-Content $ciConfigLocation
+  }
+}
+
 # Updates a js CI configuration json.
 # For "latest", we simply set a target package name
 # For "preview", we add @next to the target package name
