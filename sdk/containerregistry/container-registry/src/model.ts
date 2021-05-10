@@ -17,25 +17,6 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 }
 
 /**
- * Defines values for ArtifactArchitecture.
- *  the following list contains the known values that the service supports.
- * ### Know values supported by the service
- * **386**
- * **amd64**
- * **arm**
- * **arm64**
- * **mips**
- * **mipsle**
- * **mips64**
- * **mips64le**
- * **ppc64**
- * **ppc64le**
- * **riscv64**
- * **s390x**
- * **wasm**
- */
-export type ArtifactArchitecture = string;
-/**
  * Defines known {@link ArtifactArchitecture} that the service supports.
  */
 export type KnownArtifactArchitecture =
@@ -53,26 +34,6 @@ export type KnownArtifactArchitecture =
   | "s390x"
   | "wasm";
 
-/**
- * Defines values for ArtifactOperatingSystem.
- *  this contains the known values that the service supports.
- * ### Know values supported by the service
- * **aix**
- * **android**
- * **darwin**
- * **dragonfly**
- * **freebsd**
- * **illumos**
- * **ios**
- * **js**
- * **linux**
- * **netbsd**
- * **openbsd**
- * **plan9**
- * **solaris**
- * **windows**
- */
-export type ArtifactOperatingSystem = string;
 /**
  * Defines known {@link ArtifactOperatingSystem} values that the service supports.
  */
@@ -120,15 +81,15 @@ export interface ArtifactManifestProperties {
    */
   readonly lastUpdatedOn?: Date;
   /**
-   * CPU architecture
+   * CPU architecture. See {@link KnownArtifactArchitecture} for values supported by the service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly architecture?: ArtifactArchitecture;
+  readonly architecture?: string;
   /**
-   * Operating system
+   * Operating system. See {@link KnownArtifactOperatingSystem} for values supported by the service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operatingSystem?: ArtifactOperatingSystem;
+  readonly operatingSystem?: string;
   /** List of manifest attributes details */
   manifests: ArtifactManifestProperties[];
   /**

@@ -10,24 +10,18 @@ import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type ArtifactArchitecture = string;
-
-// @public
 export interface ArtifactManifestProperties {
-    readonly architecture?: ArtifactArchitecture;
+    readonly architecture?: string;
     readonly createdOn?: Date;
     readonly digest?: string;
     readonly lastUpdatedOn?: Date;
     manifests: ArtifactManifestProperties[];
-    readonly operatingSystem?: ArtifactOperatingSystem;
+    readonly operatingSystem?: string;
     readonly repositoryName?: string;
     readonly size?: number;
     readonly tags: string[];
     readonly writeableProperties?: ContentProperties;
 }
-
-// @public
-export type ArtifactOperatingSystem = string;
 
 // @public
 export interface ArtifactTagProperties {
