@@ -27,7 +27,7 @@ For Azure PowerShell,
 2. Run (Get-Module -ListAvailable Az).Version and verify version 5.0 or later.
 3. Run Connect-AzAccount to sign in to Azure and verify an active subscription.
 
-### Install and Run Azure Functions locally
+### Run Locally
 
 1. Run the following commands in your console from the root folder `IdentityTest`
    `cd IdentityTest`
@@ -47,13 +47,16 @@ If KeyvaultAuthentication doesn't appear as shown above, you likely started the 
 
 2. Copy the URL of your KeyvaultAuthentication function from this output to a browser and append the query string ?name=<your-name>, making the full URL like http://localhost:7071/api/KeyvaultAuthentication. The browser should display a message like:
    `Successfully authenticated with keyvault`
-The terminal in which you started your project also shows log output as you make requests.
+   The terminal in which you started your project also shows log output as you make requests.
 
 3. When you're ready, use Ctrl+C and choose y to stop the functions host.
 
-## Give the Azure Functions access to the key vault
+## Deploy to Azure
+
 1. Clone the repository azure-sdk-for-js
+
 2. `cd sdk\identity\identity\test\manual-integration\AzureFunctions`
+
 3. Follow the instructions here to create a Resource group and deploy it:
 
 ```
@@ -61,10 +64,15 @@ az group create --name <group_name> --location <resource_location>
 az deployment group create --resource-group <group_name> --template-file ./arm-template.json
 ```
 
-3. On the portal go to the created function app in the resource group - Go to Features -> Managed Identity -> System Assigned -> Set status to On and create a role assignment for Kweyvault and select the keyvault created fro mthe resource name dropdown, you can assign the role of Keyvault Administrator
-4. Go to the created keyvault and set permissions for this function app resource (Add access policy)
-5. publish the function app - func azure functionapp publish <FUNCTION_APP_NAME>
-   -> Take note of the invoke url
+4. Run the following commands in your console from the root folder `IdentityTest`
+   `cd IdentityTest`
+   `npm install`
+   `npm run build`
+
+5. Publish the function app
+   `func azure functionapp publish <FUNCTION_APP_NAME>`
+   The <FUNCTION_APP_NAME> will basically be something like - `<group_name>fnapp`
+   Take note of the invoke url that shows up on console.
 
 ## Run the azure-identity Tests on the Azure Functions
 

@@ -2,156 +2,43 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "vaults_name": {
-      "defaultValue": "identity-e2e-kv",
-      "type": "string"
-    },
-    "appName": {
+    "baseName": {
       "type": "string",
-      "defaultValue": "[concat('fnapp', uniqueString(resourceGroup().id))]",
+      "defaultValue": "[resourceGroup().name]",
       "metadata": {
-        "description": "The name of the function app that you wish to create."
+        "description": "The base resource name."
       }
     },
-    "storageAccountType": {
+    "tenantId": {
       "type": "string",
-      "defaultValue": "Standard_LRS",
-      "allowedValues": ["Standard_LRS", "Standard_GRS", "Standard_RAGRS"],
+      "defaultValue": "[subscription().tenantid]",
       "metadata": {
-        "description": "Storage Account type"
+        "description": "The tenant id."
       }
     },
     "location": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]",
       "metadata": {
-        "description": "Location for all resources."
-      }
-    },
-    "appInsightsLocation": {
-      "type": "string",
-      "metadata": {
-        "description": "Location for Application Insights"
-      }
-    },
-    "runtime": {
-      "type": "string",
-      "defaultValue": "node",
-      "allowedValues": ["node", "dotnet", "java"],
-      "metadata": {
-        "description": "The language worker runtime to load in the function app."
+        "description": "The location."
       }
     }
   },
   "variables": {
-    "vaultname": "[parameters('vaults_name')]",
-    "functionAppName": "[parameters('appName')]",
-    "hostingPlanName": "[parameters('appName')]",
-    "applicationInsightsName": "[parameters('appName')]",
+    "vaultName": "[concat(parameters('baseName'), 'kv')]",
+    "functionAppName": "[concat(parameters('baseName'), 'fnapp')]",
+    "hostingPlanName": "[concat(parameters('baseName'), 'fnapp')]",
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'azfunctions')]",
-    "functionWorkerRuntime": "[parameters('runtime')]"
+    "functionWorkerRuntime": "node"
   },
   "resources": [
-    {
-      "type": "Microsoft.KeyVault/vaults",
-      "apiVersion": "2020-04-01-preview",
-      "name": "[variables('vaultname')]",
-      "location": "westus2",
-      "properties": {
-        "sku": {
-          "family": "A",
-          "name": "Standard"
-        },
-        "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
-        "accessPolicies": [
-          {
-            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
-            "objectId": "612e5e44-2c95-4bd0-96b7-3db4dae3b560",
-            "permissions": {
-              "keys": [
-                "Get",
-                "List",
-                "Update",
-                "Create",
-                "Import",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore"
-              ],
-              "secrets": ["Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"],
-              "certificates": [
-                "Get",
-                "List",
-                "Update",
-                "Create",
-                "Import",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore",
-                "ManageContacts",
-                "ManageIssuers",
-                "GetIssuers",
-                "ListIssuers",
-                "SetIssuers",
-                "DeleteIssuers"
-              ]
-            }
-          },
-          {
-            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
-            "objectId": "55214bb9-a144-4f59-ab2c-e4bb689d91fa",
-            "permissions": {
-              "keys": [
-                "Get",
-                "List",
-                "Update",
-                "Create",
-                "Import",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore"
-              ],
-              "secrets": ["Get", "List", "Set", "Delete", "Recover", "Backup", "Restore"],
-              "certificates": [
-                "Get",
-                "List",
-                "Update",
-                "Create",
-                "Import",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore",
-                "ManageContacts",
-                "ManageIssuers",
-                "GetIssuers",
-                "ListIssuers",
-                "SetIssuers",
-                "DeleteIssuers"
-              ]
-            }
-          }
-        ],
-        "enabledForDeployment": false,
-        "enabledForDiskEncryption": false,
-        "enabledForTemplateDeployment": false,
-        "enableSoftDelete": true,
-        "softDeleteRetentionInDays": 90,
-        "enableRbacAuthorization": false,
-        "vaultUri": "[concat('https://', variables('vaultname'), '.vault.azure.net/')]",
-        "provisioningState": "Succeeded"
-      }
-    },
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2019-06-01",
       "name": "[variables('storageAccountName')]",
       "location": "[parameters('location')]",
       "sku": {
-        "name": "[parameters('storageAccountType')]"
+        "name": "Standard_LRS"
       },
       "kind": "Storage"
     },
@@ -175,13 +62,13 @@
       "name": "[variables('functionAppName')]",
       "location": "[parameters('location')]",
       "kind": "functionapp",
+      "identity": {
+        "type": "SystemAssigned"
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
       ],
-      "identity": {
-        "type": "SystemAssigned"
-      },
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "siteConfig": {
@@ -207,32 +94,41 @@
               "value": "~10"
             },
             {
-              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-              "value": "[reference(resourceId('microsoft.insights/components', variables('applicationInsightsName')), '2020-02-02-preview').InstrumentationKey]"
-            },
-            {
               "name": "FUNCTIONS_WORKER_RUNTIME",
               "value": "[variables('functionWorkerRuntime')]"
             },
             {
               "name": "KEYVAULT_URI",
-              "value": "[concat('https://', variables('vaultname'), '.vault.azure.net/')]"
+              "value": "[concat('https://', variables('vaultName'), '.vault.azure.net/')]"
             }
           ]
         }
       }
     },
     {
-      "type": "microsoft.insights/components",
-      "apiVersion": "2020-02-02-preview",
-      "name": "[variables('applicationInsightsName')]",
-      "location": "[parameters('appInsightsLocation')]",
-      "tags": {
-        "[concat('hidden-link:', resourceId('Microsoft.Web/sites', variables('applicationInsightsName')))]": "Resource"
-      },
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2020-04-01-preview",
+      "name": "[variables('vaultName')]",
+      "location": "[parameters('location')]",
       "properties": {
-        "ApplicationId": "[variables('applicationInsightsName')]",
-        "Request_Source": "IbizaWebAppExtensionCreate"
+        "sku": {
+          "family": "A",
+          "name": "standard"
+        },
+        "tenantId": "[parameters('tenantId')]",
+        "accessPolicies": [
+          {
+            "tenantId": "[parameters('tenantId')]",
+            "objectId": "[reference(resourceId('Microsoft.Web/sites', variables('functionAppName')),'2019-08-01', 'full').identity.principalId]",
+            "permissions": {
+              "secrets": ["get", "list", "set", "delete", "recover", "backup", "restore"]
+            }
+          }
+        ],
+        "dependsOn": [
+          "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]"
+        ],
+        "vaultUri": "[concat('https://', variables('vaultName'), '.vault.azure.net/')]"
       }
     }
   ]
