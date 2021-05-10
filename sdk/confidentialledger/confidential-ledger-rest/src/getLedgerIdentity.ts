@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { getClient } from "@azure-rest/core-client";
 
 export interface LedgerIdentity {

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CertificateCredential, isCertificateCredential, TokenCredential } from "@azure/core-auth";
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { Agent } from "./agent";
