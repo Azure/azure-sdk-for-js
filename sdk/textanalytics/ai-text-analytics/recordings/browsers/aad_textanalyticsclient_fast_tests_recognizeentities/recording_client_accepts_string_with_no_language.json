@@ -11,15 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:17:37 GMT",
+    "date": "Wed, 28 Apr 2021 21:14:01 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - NCUS ProdSlices",
-    "x-ms-request-id": "9723ea02-7033-456f-8b48-6abca2302300"
+    "x-ms-ests-server": "2.1.11654.16 - WUS2 ProdSlices",
+    "x-ms-request-id": "6b1c29de-22d9-46c6-a374-aaf783983600"
    }
   },
   {
@@ -32,14 +34,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"entities\":[{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":26,\"length\":7,\"confidenceScore\":0.98},{\"text\":\"last week\",\"category\":\"DateTime\",\"subcategory\":\"DateRange\",\"offset\":34,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"Space Needle\",\"category\":\"Location\",\"offset\":65,\"length\":12,\"confidenceScore\":0.73},{\"text\":\"2\",\"category\":\"Quantity\",\"subcategory\":\"Number\",\"offset\":78,\"length\":1,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":50,\"length\":7,\"confidenceScore\":0.99}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"book\",\"category\":\"Product\",\"offset\":23,\"length\":4,\"confidenceScore\":0.6}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "845f602b-ecfb-4976-92ae-7e3a129d8848",
+    "apim-request-id": "91cc05a5-ea1d-4b47-9b0a-ce787969a4c2",
     "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Wed, 24 Feb 2021 02:17:38 GMT",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
+    "date": "Wed, 28 Apr 2021 21:14:01 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "96"
+    "x-envoy-upstream-service-time": "62"
    }
   }
  ],
@@ -47,5 +49,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "32b97a37983c460edf3b1e4e84a01a4a"
+ "hash": "13433d758be6f5dcaa12d5dcbbb124be"
 }

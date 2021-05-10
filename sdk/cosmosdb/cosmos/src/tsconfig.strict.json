@@ -119,6 +119,9 @@
     "queryExecutionContext/Aggregators/index.ts",
     "queryExecutionContext/index.ts",
     "common/index.ts",
-    "routing/index.ts"
+    "routing/index.ts",
+    "utils/SasToken.ts",
+    "client/SasToken/SasTokenProperties.ts",
+    "client/SasToken/PermissionScopeValues.ts"
   ]
 }

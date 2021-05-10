@@ -11,15 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:17:36 GMT",
+    "date": "Wed, 28 Apr 2021 21:14:01 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - EUS ProdSlices",
-    "x-ms-request-id": "998d3511-f6e0-4714-897d-5d63f22a2000"
+    "x-ms-ests-server": "2.1.11654.16 - EUS ProdSlices",
+    "x-ms-request-id": "a209898b-49cc-496f-8e6d-3c678e1c6701"
    }
   },
   {
@@ -28,16 +30,16 @@
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\"},{\"id\":\"4\",\"text\":\"I didn't like the last book I read at all.\"},{\"id\":\"5\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"countryHint\":\"mx\"},{\"id\":\"6\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"countryHint\":\"mx\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"1\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"2\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"3\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"4\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"5\",\"detectedLanguage\":{\"name\":\"Spanish\",\"iso6391Name\":\"es\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"6\",\"detectedLanguage\":{\"name\":\"Spanish\",\"iso6391Name\":\"es\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-05\"}",
+   "response": "{\"documents\":[{\"id\":\"1\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"2\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"3\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"4\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"5\",\"detectedLanguage\":{\"name\":\"Spanish\",\"iso6391Name\":\"es\",\"confidenceScore\":0.99},\"warnings\":[]},{\"id\":\"6\",\"detectedLanguage\":{\"name\":\"Spanish\",\"iso6391Name\":\"es\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-05\"}",
    "responseHeaders": {
-    "apim-request-id": "eac83211-d561-4faa-b104-519524b35cc1",
+    "apim-request-id": "6741e8d4-b755-4ea2-b40c-cee708947b68",
     "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6",
-    "date": "Wed, 24 Feb 2021 02:17:37 GMT",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
+    "date": "Wed, 28 Apr 2021 21:14:01 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "891"
+    "x-envoy-upstream-service-time": "19"
    }
   }
  ],
@@ -45,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "42e016a0784fa2d90ea5cc9a945f941c"
+ "hash": "659e28ad17d34ae2a24c337cbb95d77c"
 }

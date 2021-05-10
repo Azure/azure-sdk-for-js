@@ -2,6 +2,10 @@
 
 ## 1.2.5 (Unreleased)
 
+### Fixed
+
+- Delay loading of NO_PROXY environment variable until when request pipeline is being created. This fixes [issue 14873](https://github.com/Azure/azure-sdk-for-js/issues/14873)
+- Fixed an issue where tracing spans were not setting a status correctly (on success or error) which results in the span status being `UNSET`. In addition, we will now capture the HTTP status code when a request fails in the tracing span. [PR 15061](https://github.com/Azure/azure-sdk-for-js/pull/15061)
 
 ## 1.2.4 (2021-03-30)
 

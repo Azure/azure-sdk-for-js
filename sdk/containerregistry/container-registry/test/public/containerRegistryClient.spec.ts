@@ -15,7 +15,7 @@ if (isNode) {
   dotenv.config();
 }
 
-describe("ContainerRegistryClient functional tests", function() {
+describe("ContainerRegistryClient tests", function() {
   // Declare the client and recorder instances.  We will set them using the
   // beforeEach hook.
   let client: ContainerRegistryClient;
@@ -42,7 +42,7 @@ describe("ContainerRegistryClient functional tests", function() {
   });
 
   it("should list repositories", async () => {
-    const iter = client.listRepositories();
+    const iter = client.listRepositoryNames();
     const first = await iter.next();
     assert.ok(first.value, "Expecting a valid repository");
   });
@@ -51,7 +51,7 @@ describe("ContainerRegistryClient functional tests", function() {
     const response = await client.deleteRepository(repositoryName);
     assert.ok(response);
     await delay(5 * 1000);
-    const iter = client.listRepositories();
+    const iter = client.listRepositoryNames();
     for await (const repository of iter) {
       if (repository === repositoryName) {
         assert.fail(`Unexpected: '${repositoryName}' repository should have been deleted`);

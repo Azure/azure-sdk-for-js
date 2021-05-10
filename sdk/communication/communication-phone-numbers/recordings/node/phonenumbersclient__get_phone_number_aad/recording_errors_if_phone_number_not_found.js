@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "549b167dc03a3cf6dae04aefb3aae12b";
+module.exports.hash = "03462f630cc0e2c677645148f9d6c62d";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,6 +11,8 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1327',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,17 +26,15 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-request-id',
   'sanitized',
   'x-ms-ests-server',
-  '2.1.11622.22 - EUS ProdSlices',
+  '2.1.11654.13 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AhuoueNwlX1KtEq5fHxGsQhWyo4SAgAAABX9B9gOAAAA; expires=Thu, 13-May-2021 20:59:04 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aq040a5pj01LqvJshzrUH9aMQo4QAgAAAHg0DNgOAAAA; expires=Mon, 17-May-2021 01:44:26 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 13 Apr 2021 20:59:04 GMT',
-  'Content-Length',
-  '1327'
+  'Sat, 17 Apr 2021 01:44:25 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -48,13 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'jwrEJRUuhkGtuQsNb2M+mQ.0',
+  'fiD26Hyh5U64hQ4eyUNfSA.0',
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '359ms',
+  '534ms',
   'X-Azure-Ref',
-  '0GAZ2YAAAAABYbw2ik6XPTaIfI13wOIZJWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0ej16YAAAAAA/vS5rVH7KTo6M5BWbinRFWVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 13 Apr 2021 20:59:04 GMT'
+  'Sat, 17 Apr 2021 01:44:26 GMT'
 ]);
