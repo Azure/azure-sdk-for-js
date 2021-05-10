@@ -9,6 +9,6 @@
 export {
   ErrorResponse,
   InternalError,
-  PersonalizerError,
-  RewardRequest
+  ModelProperties,
+  PersonalizerError
 } from "../models/mappers";

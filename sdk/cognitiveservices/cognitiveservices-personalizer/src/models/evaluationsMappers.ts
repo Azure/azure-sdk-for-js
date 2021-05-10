@@ -8,7 +8,13 @@
 
 export {
   ErrorResponse,
+  Evaluation,
+  EvaluationContract,
+  EvaluationsCreateHeaders,
   InternalError,
   PersonalizerError,
-  RewardRequest
+  PolicyContract,
+  PolicyResult,
+  PolicyResultSummary,
+  PolicyResultTotalSummary
 } from "../models/mappers";

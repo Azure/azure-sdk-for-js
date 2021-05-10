@@ -15,89 +15,45 @@ npm install @azure/cognitiveservices-personalizer
 
 ### How to use
 
-#### nodejs - Authentication, client creation and reward events as an example written in TypeScript.
+#### nodejs - client creation and get serviceConfiguration as an example written in TypeScript.
 
-##### Install @azure/ms-rest-azure-js
+##### Install @azure/ms-rest-nodeauth
+
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+```bash
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
+```
+
+##### Sample code
+
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
+```typescript
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { PersonalizerClient } = require("@azure/cognitiveservices-personalizer");
+const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new PersonalizerClient(creds, subscriptionId);
+  client.serviceConfiguration.get().then((result) => {
+    console.log("The result is:");
+    console.log(result);
+  });
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### browser - Authentication, client creation and get serviceConfiguration as an example written in JavaScript.
+
+##### Install @azure/ms-rest-browserauth
 
 ```bash
-npm install @azure/ms-rest-azure-js
+npm install @azure/ms-rest-browserauth
 ```
 
 ##### Sample code
-The following sample ranks a personalized request object. To know more, refer to the [Azure Documentation on Personalizer](https://docs.microsoft.com/azure/cognitive-services/personalizer/)
 
-```javascript
-const { PersonalizerClient } = require("@azure/cognitiveservices-personalizer");
-const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
-
-async function main() {
-  const personalizerKey = process.env["personalizerKey"] || "<personalizerKey>";
-  const personalizerEndPoint =
-    process.env["personalizerEndPoint"] || "<personalizerEndPoint>";
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
-    personalizerKey
-  );
-
-  const client = new PersonalizerClient(
-    cognitiveServiceCredentials,
-    personalizerEndPoint
-  );
-
-  const rankRequest = {
-    contextFeatures: [
-      {
-        timeOfDay: "Morning"
-      }
-    ],
-    actions: [
-      {
-        id: "NewsArticle",
-        features: [
-          {
-            type: "News"
-          }
-        ]
-      },
-      {
-        id: "SportsArticle",
-        features: [
-          {
-            type: "Sports"
-          }
-        ]
-      },
-      {
-        id: "EntertainmentArticle",
-        features: [
-          {
-            type: "Entertainment"
-          }
-        ]
-      }
-    ],
-    excludedActions: ["SportsArticle"],
-    eventId: "75269AD0-BFEE-4598-8196-C57383D38E10",
-    deferActivation: false
-  };
-
-  client
-    .rank(rankRequest)
-    .then(result => {
-      console.log("The result is: ");
-      console.log(result);
-    })
-    .catch(err => {
-      console.log("An error occurred:");
-      console.error(err);
-    });
-}
-
-main();
-```
-
-#### browser - Authentication, client creation and reward events as an example written in JavaScript.
-
-##### Sample code
+See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -106,67 +62,28 @@ main();
   <head>
     <title>@azure/cognitiveservices-personalizer sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-personalizer/dist/cognitiveservices-personalizer.js"></script>
     <script type="text/javascript">
-      const personalizerKey = "<YOUR_PERSONALIZER_KEY>";
-      const personalizerEndPoint = "<YOUR_PERSONALIZER_ENDPOINT>";
-      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
-        inHeader: {
-          "Ocp-Apim-Subscription-Key": personalizerKey
-        }
+      const subscriptionId = "<Subscription_Id>";
+      const authManager = new msAuth.AuthManager({
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
       });
-      const client = new Azure.CognitiveservicesPersonalizer.PersonalizerClient(
-        cognitiveServiceCredentials,
-        personalizerEndPoint
-      );
-
-      const rankRequest = {
-        contextFeatures: [
-          {
-            timeOfDay: "Morning"
-          }
-        ],
-        actions: [
-          {
-            id: "NewsArticle",
-            features: [
-              {
-                type: "News"
-              }
-            ]
-          },
-          {
-            id: "SportsArticle",
-            features: [
-              {
-                type: "Sports"
-              }
-            ]
-          },
-          {
-            id: "EntertainmentArticle",
-            features: [
-              {
-                type: "Entertainment"
-              }
-            ]
-          }
-        ],
-        excludedActions: ["SportsArticle"],
-        eventId: "75269AD0-BFEE-4598-8196-C57383D38E10",
-        deferActivation: false
-      };
-
-      client
-        .rank(rankRequest)
-        .then(result => {
-          console.log("The result is: ");
+      authManager.finalizeLogin().then((res) => {
+        if (!res.isLoggedIn) {
+          // may cause redirects
+          authManager.login();
+        }
+        const client = new Azure.CognitiveservicesPersonalizer.PersonalizerClient(res.creds, subscriptionId);
+        client.serviceConfiguration.get().then((result) => {
+          console.log("The result is:");
           console.log(result);
-        })
-        .catch(err => {
+        }).catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });
+      });
     </script>
   </head>
   <body></body>
@@ -177,4 +94,4 @@ main();
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-personalizer%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-personalizer/README.png)

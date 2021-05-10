@@ -7,8 +7,10 @@
  */
 
 export {
+  DateRange,
   ErrorResponse,
   InternalError,
-  PersonalizerError,
-  RewardRequest
+  LogsProperties,
+  LogsPropertiesDateRange,
+  PersonalizerError
 } from "../models/mappers";
