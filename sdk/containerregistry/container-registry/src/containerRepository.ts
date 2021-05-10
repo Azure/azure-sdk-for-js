@@ -86,7 +86,7 @@ export interface ContainerRepository {
    * ```ts
    * const client = new ContainerRegistryClient(url, credentials);
    * const repository = client.getRepository(repositoryName)
-   * for await (const manifest of client.listManifests()) {
+   * for await (const manifest of repository.listManifests()) {
    *   console.log("manifest: ", manifest);
    * }
    * ```
@@ -230,7 +230,7 @@ export class ContainerRepositoryImpl {
    * ```ts
    * const client = new ContainerRegistryClient(url, credentials);
    * const repository = client.getRepository(repositoryName)
-   * for await (const manifest of client.listManifests()) {
+   * for await (const manifest of repository.listManifests()) {
    *   console.log("manifest: ", manifest);
    * }
    * ```

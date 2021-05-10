@@ -171,7 +171,7 @@ export class ContainerRegistryClient {
    * Example usage:
    * ```ts
    * let client = new ContainerRegistryClient(url, credentials);
-   * for await (const repository of client.listRepositories()) {
+   * for await (const repository of client.listRepositoryNames()) {
    *   console.log("repository name: ", repository);
    * }
    * ```

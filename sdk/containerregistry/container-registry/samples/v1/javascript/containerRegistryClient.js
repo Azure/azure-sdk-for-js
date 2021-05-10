@@ -35,7 +35,7 @@ async function listRepositories(client) {
 
 async function listRepositoriesByPages(client, pageSize) {
   console.log("Listing repositories by pages");
-  const pages = client.listRepositories().byPage({ maxPageSize: pageSize });
+  const pages = client.listRepositoryNames().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");

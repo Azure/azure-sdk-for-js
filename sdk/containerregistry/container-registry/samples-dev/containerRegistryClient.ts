@@ -34,9 +34,9 @@ async function listRepositories(client: ContainerRegistryClient) {
   }
 }
 
-async function listRepositoriesByPages(client: any, pageSize: number) {
+async function listRepositoriesByPages(client: ContainerRegistryClient, pageSize: number) {
   console.log("Listing repositories by pages");
-  const pages = client.listRepositories().byPage({ maxPageSize: pageSize });
+  const pages = client.listRepositoryNames().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
