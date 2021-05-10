@@ -92,13 +92,15 @@ jobs:
         env:
           GH_TOKEN: $(azuresdk-github-pat)
 
-      - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
-        parameters:
-          WorkingDirectory: $(DocsMsRepo)
+      # - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+      #   parameters:
+      #     WorkingDirectory: $(DocsMsRepo)
+      #     OutputVariableName: DocsMsRepoDefaultBranch
 
       - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
         parameters:
-          BaseRepoBranch: 'master'
+          # TODO: $(DocsMsRepoDefaultBranch)
+          BaseRepoBranch: djurek/test-onboarding-ci 
           BaseRepoOwner: 'MicrosoftDocs'
           CommitMsg: "Update targeting packages based on release csv."
           TargetRepoName: 'azure-docs-sdk-node'
