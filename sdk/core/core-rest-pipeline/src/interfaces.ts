@@ -57,42 +57,11 @@ export type RequestBodyType =
   | null;
 
 /**
- * An interface compatible with NodeJS's `http.AgentOptions`
- *
- */
-export type AgentOptions = SecureContextOptions;
-
-/**
- * An interface compatible with NodeJS's `http.SecureContextOptions`
- *
- */
-export interface SecureContextOptions {
-  /**
-   * Optionally override the trusted CA certificates. Necessary only if the server uses a self-signed certificate
-   */
-  ca?: string | Buffer | Array<string | Buffer>;
-  /**
-   * Cert chains in PEM format. One cert chain should be provided per private key.
-   * Only necessary when using client certificate authentication
-   */
-  cert?: string | Buffer | Array<string | Buffer>;
-  /**
-   * Private keys in PEM format
-   * Only necessary when using client certificate authentication
-   */
-  key?: string | Buffer | Array<Buffer | Object>;
-}
-
-/**
  * An interface compatible with NodeJS's `http.Agent`.
  * We want to avoid publicly re-exporting the actual interface,
  * since it might vary across runtime versions.
  */
 export interface Agent {
-  /**
-   * Agent Options
-   */
-  options?: AgentOptions;
   /**
    * Destroy any sockets that are currently in use by the agent.
    */

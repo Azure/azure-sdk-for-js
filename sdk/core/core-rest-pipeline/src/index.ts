@@ -3,8 +3,6 @@
 
 export {
   Agent,
-  AgentOptions,
-  SecureContextOptions,
   HttpClient,
   PipelineRequest,
   PipelineResponse,

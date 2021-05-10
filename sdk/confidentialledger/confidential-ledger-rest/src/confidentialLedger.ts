@@ -23,6 +23,15 @@ export default function ConfidentialLedger(
   return confidentialLedger;
 }
 
+interface AgentOptions {
+  /** Custom certificate authority to trust Self-Signed certificate */
+  ca: string;
+  /** Client certificate for authentication */
+  cert?: string;
+  /** Client private key for certificate authentication */
+  key?: string;
+}
+
 function getCertValidationPolicy(
   ledgerTlsCertificate: string,
   credential: TokenCredential | CertificateCredential
@@ -31,17 +40,18 @@ function getCertValidationPolicy(
     name: "ledgerTlsCertificatePolicy",
     sendRequest: (request, next) => {
       // Create default agent and options if they don't exist
-      request.agent = request.agent ?? new Agent();
-      request.agent.options = request.agent.options ?? {};
+      let agentOptions: AgentOptions = {
+        // Add CA to trust Confidential Ledger self signed certificate
+        ca: ledgerTlsCertificate,
+      };
 
       // Add certificate for authentication if one was provided
       if (isCertificateCredential(credential)) {
-        request.agent.options.cert = credential.cert;
-        request.agent.options.key = credential.certKey;
+        agentOptions = { ...agentOptions, cert: credential.cert, key: credential.certKey };
       }
 
-      // Add CA to trust Confidential Ledger self signed certificate
-      request.agent.options.ca = ledgerTlsCertificate;
+      request.agent = new Agent(agentOptions);
+
       return next(request);
     },
   };

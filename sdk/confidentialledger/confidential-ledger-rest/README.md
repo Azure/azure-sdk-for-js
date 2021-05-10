@@ -3,7 +3,7 @@
 Azure Confidential Ledger provides a service for logging to an immutable, tamper-proof ledger. As part of the [Azure Confidential Computing][azure_confidential_computing]
 portfolio, Azure Confidential Ledger runs in SGX enclaves. It is built on Microsoft Research's [Confidential Consortium Framework][ccf].
 
-**Please rely heavily on the [service's documentation][scanning_product_documentation] and our [Rest client docs][rest_client] to use this library**
+**Please rely heavily on the [service's documentation][confidential_ledger_docs] and our [Rest client docs][rest_client] to use this library**
 
 [Source code][source_code] | [Package (NPM)][confidentialledger_npm] | [API reference documentation][ref_docs]| [Product documentation][confidential_ledger_docs]
 
