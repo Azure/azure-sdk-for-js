@@ -6,7 +6,7 @@ import {
   ConfigurationSetting,
   featureFlagContentType,
   FeatureFlagValue,
-  parseAsFeatureFlag
+  parseFeatureFlag
 } from "../../src";
 
 // Load the .env file if it exists
@@ -269,7 +269,7 @@ describe.only("Option 8.1", () => {
     const getResponse = await appConfigClient.getConfigurationSetting({
       key: originalFeatureFlag.key
     });
-    const newFeatureFlag = parseAsFeatureFlag(getResponse); // Converts the configurationsetting into featureflag
+    const newFeatureFlag = parseFeatureFlag(getResponse); // Converts the configurationsetting into featureflag
     // Modify the props
     for (const clientFilter of newFeatureFlag.value.conditions.clientFilters) {
       if (clientFilter.name === "Microsoft.Targeting") {
@@ -330,7 +330,7 @@ describe.only("Option 8.1", () => {
     const getResponseAfterUpdate = await appConfigClient.getConfigurationSetting({
       key: newFeatureFlag.key
     });
-    const featureFlagAfterUpdate = parseAsFeatureFlag(getResponseAfterUpdate); // Converts the configurationsetting into featureflag
+    const featureFlagAfterUpdate = parseFeatureFlag(getResponseAfterUpdate); // Converts the configurationsetting into featureflag
     const conditions = featureFlagAfterUpdate.value.conditions;
     for (const clientFilter of conditions.clientFilters) {
       if (clientFilter.name === "Microsoft.Targeting") {

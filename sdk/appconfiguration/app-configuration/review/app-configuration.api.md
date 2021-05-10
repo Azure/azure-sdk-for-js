@@ -167,7 +167,7 @@ export interface OptionalFields {
 }
 
 // @public
-export const parseAsFeatureFlag: (setting: ConfigurationSetting) => ConfigurationSetting<FeatureFlagValue>;
+export const parseFeatureFlag: (setting: ConfigurationSetting) => ConfigurationSetting<FeatureFlagValue>;
 
 // @public
 export interface SecretReference extends SecretReferenceParam, ConfigurationSetting {

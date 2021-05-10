@@ -104,9 +104,9 @@ export const FeatureFlagHelper = {
 };
 
 /**
- * Takes the ConfigurationSetting and returns the FeatureFlag which can be modified and sent using the `AppConfiguration.{add/set}ConfigurationSetting` methods.
+ * Takes the ConfigurationSetting as input and returns the ConfigurationSetting<FeatureFlagValue> by parsing the value string.
  */
-export const parseAsFeatureFlag = FeatureFlagHelper.fromConfigurationSetting;
+export const parseFeatureFlag = FeatureFlagHelper.fromConfigurationSetting;
 
 /**
  * Lets you know if the ConfigurationSetting is a feature flag.

@@ -6,7 +6,7 @@ export {
   featureFlagContentType,
   featureFlagPrefix,
   isFeatureFlag,
-  parseAsFeatureFlag,
+  parseFeatureFlag,
   FeatureFlagValue
 } from "./featureFlag";
 export {

@@ -10,7 +10,7 @@ import {
   AppConfigurationClient,
   ConfigurationSetting,
   FeatureFlagValue,
-  parseAsFeatureFlag
+  parseFeatureFlag
 } from "@azure/app-configuration";
 
 // Load the .env file if it exists
@@ -70,7 +70,7 @@ export async function main() {
   });
 
   // You can use the `isFeatureFlag` global method to check if the content type is featureFlagContentType ("application/vnd.microsoft.appconfig.ff+json;charset=utf-8")
-  const newFeatureFlag = parseAsFeatureFlag(getResponse); // Converts the configurationsetting into featureflag
+  const newFeatureFlag = parseFeatureFlag(getResponse); // Converts the configurationsetting into featureflag
   // Modify the props
   for (const clientFilter of newFeatureFlag.value.conditions.clientFilters) {
     if (clientFilter.name === "Microsoft.Targeting") {
@@ -133,7 +133,7 @@ export async function main() {
   });
 
   // You can use the `isFeatureFlag` global method to check if the content type is featureFlagContentType ("application/vnd.microsoft.appconfig.ff+json;charset=utf-8")
-  const featureFlagAfterUpdate = parseAsFeatureFlag(getResponseAfterUpdate); // Converts the configurationsetting into featureflag
+  const featureFlagAfterUpdate = parseFeatureFlag(getResponseAfterUpdate); // Converts the configurationsetting into featureflag
   const conditions = featureFlagAfterUpdate.value.conditions;
   for (const clientFilter of conditions.clientFilters) {
     if (clientFilter.name === "Microsoft.Targeting") {
