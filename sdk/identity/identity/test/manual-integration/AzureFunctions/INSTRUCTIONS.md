@@ -17,7 +17,7 @@ Verify your prerequisites, which depend on whether you are using Azure CLI or Az
 
 For Azure CLI,
 
-1. In a terminal or command window, run func --version to check that the Azure Functions Core Tools are version 3.x.
+1. In a terminal or command window, run `func --version` to check that the Azure Functions Core Tools are version 3.x.
 2. Run az --version to check that the Azure CLI version is 2.4 or later.
 3. Run az login to sign in to Azure and verify an active subscription.
 
