@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder, env } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src";
@@ -21,6 +21,13 @@ matrix([[true, false]], async function(useAad) {
         calling: "outbound"
       }
     };
+
+    before(function(this: Context) {
+      const skipIntPhoneNumbersLiveTests = env.COMMUNICATION_SKIP_INT_PHONENUMBERS_TEST === "true";
+      if (skipIntPhoneNumbersLiveTests) {
+        this.skip();
+      }
+    });
 
     beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
