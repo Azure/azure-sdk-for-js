@@ -78,6 +78,9 @@ export interface CancelledAssetConversion extends AssetConversionBase {
     status: "Cancelled";
 }
 
+// @public (undocumented)
+export type EndSessionOptions = OperationOptions;
+
 // @public
 export interface ErrorRenderingSession extends RenderingSessionBase {
     readonly error: RemoteRenderingServiceError;
@@ -98,6 +101,12 @@ export interface FailedAssetConversion extends AssetConversionBase {
     error: RemoteRenderingServiceError;
     status: "Failed";
 }
+
+// @public (undocumented)
+export type GetConversionOptions = OperationOptions;
+
+// @public (undocumented)
+export type GetSessionOptions = OperationOptions;
 
 // @public (undocumented)
 export type GetSessionPollerOptions = RenderingSessionPollerOptions & OperationOptions;
@@ -125,6 +134,12 @@ export const enum KnownRenderingSessionStatus {
     Starting = "Starting",
     Stopped = "Stopped"
 }
+
+// @public (undocumented)
+export type ListConversionOptions = OperationOptions;
+
+// @public (undocumented)
+export type ListSessionsOptions = OperationOptions;
 
 // @public
 export interface NonStartedAssetConversion extends AssetConversionBase {
@@ -157,11 +172,11 @@ export class RemoteRenderingClient {
     beginConversion(options: ResumeBeginConversionOptions): Promise<AssetConversionPollerLike>;
     beginSession(sessionId: string, settings: RenderingSessionSettings, options?: BeginSessionOptions): Promise<RenderingSessionPollerLike>;
     beginSession(options: ResumeBeginSessionOptions): Promise<RenderingSessionPollerLike>;
-    endSession(sessionId: string, options?: OperationOptions): Promise<void>;
-    getConversion(conversionId: string, options?: OperationOptions): Promise<AssetConversion>;
-    getSession(sessionId: string, options?: OperationOptions): Promise<RenderingSession>;
-    listConversions(options?: OperationOptions): PagedAsyncIterableIterator<AssetConversion>;
-    listSessions(options?: OperationOptions): PagedAsyncIterableIterator<RenderingSession>;
+    endSession(sessionId: string, options?: EndSessionOptions): Promise<void>;
+    getConversion(conversionId: string, options?: GetConversionOptions): Promise<AssetConversion>;
+    getSession(sessionId: string, options?: GetSessionOptions): Promise<RenderingSession>;
+    listConversions(options?: ListConversionOptions): PagedAsyncIterableIterator<AssetConversion>;
+    listSessions(options?: ListSessionsOptions): PagedAsyncIterableIterator<RenderingSession>;
     updateSession(sessionId: string, options: UpdateSessionOptions): Promise<RenderingSession>;
 }
 
