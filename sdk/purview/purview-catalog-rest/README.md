@@ -14,7 +14,7 @@ Azure Purview Catalog is a fully managed cloud service whose users can discover 
 
 ### Currently supported environments
 
-- Node.js version 13.x.x or higher
+- Node.js version 14.x.x or higher
 
 ### Prerequisites
 
@@ -118,7 +118,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fpurview%2Fpurview-catalog-rest%2FREADME.png)
 
 [catalog_product_documentation]: https://azure.microsoft.com/services/purview/
-[rest_client]: https://github.com/joheredi/azure-sdk-for-js/wiki/Rest-Level-Client
+[rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/rest-clients.md
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/purview/purview-catalog-rest
 [catalog_npm]: https://www.npmjs.com/org/azure-rest
 [catalog_ref_docs]: https://azure.github.io/azure-sdk-for-js
