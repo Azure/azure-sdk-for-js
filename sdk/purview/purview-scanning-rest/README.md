@@ -14,7 +14,7 @@ Azure Purview Scanning is a fully managed cloud service whose users can scan you
 
 ### Currently supported environments
 
-- Node.js version 13.x.x or higher
+- Node.js version 14.x.x or higher
 
 ### Prerequisites
 
@@ -125,7 +125,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 <!-- LINKS -->
 
 [scanning_product_documentation]: https://azure.microsoft.com/services/purview/
-[rest_client]: https://github.com/joheredi/azure-sdk-for-js/wiki/Rest-Level-Client
+[rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/rest-clients.md
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/purview/purview-scanning-rest
 [scanning_npm]: https://www.npmjs.com/package/@azure-rest/purview-scanning
 [scanning_ref_docs]: https://azure.github.io/azure-sdk-for-js
