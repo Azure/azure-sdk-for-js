@@ -1,0 +1,5 @@
+
+jobs:
+  - template: /eng/common/pipelines/templates/jobs/docindex.yml
+    parameters:
+      DocsCiConfig: "[{'path_to_config':'ci-configs/packages-latest.json'}, {'path_to_config':'ci-configs/packages-preview.json'}]"
