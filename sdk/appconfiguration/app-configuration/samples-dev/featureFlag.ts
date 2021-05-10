@@ -68,6 +68,8 @@ export async function main() {
   const getResponse = await appConfigClient.getConfigurationSetting({
     key: originalFeatureFlag.key
   });
+
+  // You can use the `isFeatureFlag` global method to check if the content type is featureFlagContentType ("application/vnd.microsoft.appconfig.ff+json;charset=utf-8")
   const newFeatureFlag = parseAsFeatureFlag(getResponse); // Converts the configurationsetting into featureflag
   // Modify the props
   for (const clientFilter of newFeatureFlag.value.conditions.clientFilters) {
@@ -86,7 +88,9 @@ export async function main() {
       clientFilter.parameters = {
         ...clientFilter.parameters,
         audience: {
-          ...(clientFilter.parameters!.audience as { [key: string]: unknown }),
+          ...(clientFilter.parameters!.audience as {
+            [key: string]: unknown;
+          }),
           defaultRolloutPercentage: 85
         }
       };
@@ -127,6 +131,8 @@ export async function main() {
   const getResponseAfterUpdate = await appConfigClient.getConfigurationSetting({
     key: newFeatureFlag.key
   });
+
+  // You can use the `isFeatureFlag` global method to check if the content type is featureFlagContentType ("application/vnd.microsoft.appconfig.ff+json;charset=utf-8")
   const featureFlagAfterUpdate = parseAsFeatureFlag(getResponseAfterUpdate); // Converts the configurationsetting into featureflag
   const conditions = featureFlagAfterUpdate.value.conditions;
   for (const clientFilter of conditions.clientFilters) {

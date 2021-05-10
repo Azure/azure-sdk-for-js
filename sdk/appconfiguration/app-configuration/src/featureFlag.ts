@@ -42,7 +42,7 @@ export const FeatureFlagHelper = {
   fromConfigurationSetting: (
     setting: ConfigurationSetting
   ): ConfigurationSetting<FeatureFlagValue> => {
-    if (!isFeatureFlagConfigurationSetting(setting)) {
+    if (!isFeatureFlag(setting)) {
       throw new Error("Not a feature flag..");
     }
     let jsonFeatureFlagValue: JsonFeatureFlagValue;
@@ -109,8 +109,10 @@ export const FeatureFlagHelper = {
 export const parseAsFeatureFlag = FeatureFlagHelper.fromConfigurationSetting;
 
 /**
- * Lets you know if the ConfigurationSetting is a feature flag ConfigurationSetting based on the contentType.
+ * Lets you know if the ConfigurationSetting is a feature flag.
+ *
+ * [Checks if the content type is featureFlagContentType `"application/vnd.microsoft.appconfig.ff+json;charset=utf-8"`]
  */
-export const isFeatureFlagConfigurationSetting = (setting: ConfigurationSetting): boolean => {
+export const isFeatureFlag = (setting: ConfigurationSetting): boolean => {
   return setting && setting.contentType === featureFlagContentType;
 };

@@ -131,7 +131,7 @@ export interface HttpResponseFields {
 }
 
 // @public
-export const isFeatureFlagConfigurationSetting: (setting: ConfigurationSetting) => boolean;
+export const isFeatureFlag: (setting: ConfigurationSetting) => boolean;
 
 // @public
 export function isSecretReference(setting: ConfigurationSetting): setting is SecretReference;

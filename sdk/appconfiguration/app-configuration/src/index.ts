@@ -5,7 +5,7 @@ export { AppConfigurationClient, AppConfigurationClientOptions } from "./appConf
 export {
   featureFlagContentType,
   featureFlagPrefix,
-  isFeatureFlagConfigurationSetting,
+  isFeatureFlag,
   parseAsFeatureFlag,
   FeatureFlagValue
 } from "./featureFlag";
