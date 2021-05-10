@@ -88,7 +88,6 @@ export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
-    disableServiceLogs?: boolean;
     includeOpinionMining?: boolean;
     stringIndexType?: StringIndexType;
 }
@@ -125,7 +124,6 @@ export interface BeginAnalyzeActionsOptions extends OperationOptions {
 
 // @public
 export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOperationOptions {
-    disableServiceLogs?: boolean;
     resumeFrom?: string;
     stringIndexType?: StringIndexType;
     updateIntervalInMs?: number;
@@ -156,7 +154,6 @@ export interface DetectLanguageInput {
 
 // @public
 export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {
-    disableServiceLogs?: boolean;
 }
 
 // @public
@@ -236,7 +233,6 @@ export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {
-    disableServiceLogs?: boolean;
 }
 
 // @public
@@ -396,7 +392,6 @@ export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperationOptions {
-    disableServiceLogs?: boolean;
     stringIndexType?: StringIndexType;
 }
 
@@ -437,7 +432,6 @@ export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
-    disableServiceLogs?: boolean;
     stringIndexType?: StringIndexType;
 }
 
@@ -480,7 +474,6 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
     categoriesFilter?: PiiEntityCategory[];
-    disableServiceLogs?: boolean;
     domainFilter?: PiiEntityDomainType;
     stringIndexType?: StringIndexType;
 }
@@ -619,6 +612,7 @@ export interface TextAnalyticsErrorResult {
 
 // @public
 export interface TextAnalyticsOperationOptions extends OperationOptions {
+    disableServiceLogs?: boolean;
     includeStatistics?: boolean;
     modelVersion?: string;
 }

@@ -11,7 +11,7 @@
 - Recognition of Personally Identifiable Information
 - Linked Entity Recognition
 - Healthcare Analysis
-- Batch Processing
+- Support Multiple Actions Per Document
 
 Use the client library to:
 
@@ -445,7 +445,7 @@ async function main() {
     recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
     extractKeyPhrasesActions: [{ modelVersion: "latest" }]
   };
-  const poller = await client.beginAnalyzeBatchActions(documents, actions);
+  const poller = await client.beginAnalyzeActions(documents, actions);
   const resultPages = await poller.pollUntilDone();
   for await (const page of resultPages) {
     const keyPhrasesAction = page.extractKeyPhrasesResults[0];

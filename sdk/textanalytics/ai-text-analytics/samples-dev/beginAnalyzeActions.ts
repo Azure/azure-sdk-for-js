@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample extracts key phrases, entities, and pii entities from several
- * documents using a long-running operation. This functionality uses the
- * generic analysis endpoint, which provides a way to group several different
- * Text Analytics operations into a single job.
+ * This sample extracts key phrases, entities, and pii entities as well as analyzes
+ * sentiment for several documents using a long-running operation. This 
+ * functionality uses the generic analysis endpoint, which provides a way to 
+ * group several different Text Analytics actions into a single request.
  *
  * @summary applies multiple Text Analytics actions per document
  * @azsdk-weight 40

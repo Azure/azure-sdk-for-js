@@ -109,12 +109,6 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
   resumeFrom?: string;
-  /**
-   * If set to false, you opt-in to have your text input logged for troubleshooting. By default, Text Analytics
-   * will not log your input text for pii entities recognition. Setting this parameter to false,
-   * enables input logging.
-   */
-  disableServiceLogs?: boolean;
 }
 
 /**

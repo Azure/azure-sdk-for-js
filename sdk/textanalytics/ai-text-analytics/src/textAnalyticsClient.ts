@@ -53,7 +53,6 @@ import {
   AddParamsToTask,
   compose,
   handleInvalidDocumentBatch,
-  setModelVersionParam,
   setOpinionMining,
   setStrEncodingParam,
   setStrEncodingParamValue,
@@ -110,12 +109,7 @@ export interface TextAnalyticsClientOptions extends CommonClientOptions {
  * Options for the detect languages operation.
  */
 export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {
-  /**
-   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
-   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
-   * disables input logging and may limit our ability to remediate issues that occur.
-   */
-  disableServiceLogs?: boolean;
+  
 }
 
 /**
@@ -128,12 +122,6 @@ export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperat
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-  /**
-   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
-   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
-   * disables input logging and may limit our ability to remediate issues that occur.
-   */
-  disableServiceLogs?: boolean;
 }
 
 /**
@@ -155,12 +143,6 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-  /**
-   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
-   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
-   * disables input logging and may limit our ability to remediate issues that occur.
-   */
-  disableServiceLogs?: boolean;
 }
 
 /**
@@ -193,24 +175,12 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * Specifies the list of Pii categories to return.
    */
   categoriesFilter?: PiiCategory[];
-  /**
-   * If set to false, you opt-in to have your text input logged for troubleshooting. By default, Text Analytics
-   * will not log your input text for pii entities recognition. Setting this parameter to false,
-   * enables input logging.
-   */
-  disableServiceLogs?: boolean;
 }
 
 /**
  * Options for the extract key phrases operation.
  */
 export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {
-  /**
-   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
-   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
-   * disables input logging and may limit our ability to remediate issues that occur.
-   */
-  disableServiceLogs?: boolean;
 }
 
 /**
@@ -223,12 +193,6 @@ export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOp
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
-  /**
-   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
-   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
-   * disables input logging and may limit our ability to remediate issues that occur.
-   */
-  disableServiceLogs?: boolean;
 }
 
 /**
@@ -1086,7 +1050,7 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     // setting the mode version is necessary because the service always expects it
     // https://github.com/Azure/azure-sdk-for-js/issues/14079
     entityLinkingTasks: actions.recognizeLinkedEntitiesActions?.map(
-      compose(setStrEncodingParam, compose(setModelVersionParam, AddParamsToTask))
+      compose(setStrEncodingParam, AddParamsToTask)
     ),
     sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
       compose(setStrEncodingParam, compose(setOpinionMining, AddParamsToTask))

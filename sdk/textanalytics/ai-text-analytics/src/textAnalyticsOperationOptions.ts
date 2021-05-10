@@ -18,4 +18,12 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
    * If set to true, response will contain input and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * If set to true (the default for `beginAnalyzeHealthcareEntities` and `recognizePiiEntities`),
+   * you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this
+   * parameter to true, disables input logging and may limit our ability to remediate issues that
+   * occur.
+   */
+   disableServiceLogs?: boolean;
 }

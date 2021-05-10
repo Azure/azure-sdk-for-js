@@ -1058,7 +1058,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
         }
       });
 
-      it("single entities linking action", async function() {
+      it.only("single entities linking action", async function() {
         const docs = [
           "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
           "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella."
