@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 
 import {
+  getFeatureAmqpBodyTypeEnabled,
   isAmqpAnnotatedMessage,
   isServiceBusMessage,
   ServiceBusMessage,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-  setFeatureAmqpBodyTypeEnabled,
+  setFeatureAmqpBodyTypeEnabledForTesting,
   toRheaMessage
 } from "../../../src/serviceBusMessage";
 import * as chai from "chai";
@@ -37,11 +38,13 @@ describe("AMQP message encoding", () => {
       errorInvalidMessageTypeSingle
     );
 
-    const previousState = setFeatureAmqpBodyTypeEnabled(true);
+    const previousState = getFeatureAmqpBodyTypeEnabled();
     assert.isFalse(previousState);
+
+    setFeatureAmqpBodyTypeEnabledForTesting(true);
   });
   afterEach(() => {
-    setFeatureAmqpBodyTypeEnabled(false);
+    setFeatureAmqpBodyTypeEnabledForTesting(false);
   });
 
   const exampleReceivedMessage: () => ServiceBusReceivedMessage = () =>

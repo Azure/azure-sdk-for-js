@@ -623,13 +623,20 @@ export function isServiceBusMessage(possible: unknown): possible is ServiceBusMe
 export let _featureAmqpBodyTypeEnabled = false;
 
 /**
+ * Disables preview AMQP body type support.
+ * @internal
+ */
+export function getFeatureAmqpBodyTypeEnabled(): boolean {
+  return _featureAmqpBodyTypeEnabled;
+}
+
+
+/**
  * Enables preview AMQP body type support.
  * @internal
  */
-export function setFeatureAmqpBodyTypeEnabled(enable: boolean): boolean {
-  const previousState = _featureAmqpBodyTypeEnabled;
+export function setFeatureAmqpBodyTypeEnabledForTesting(enable: boolean): void {
   _featureAmqpBodyTypeEnabled = enable;
-  return previousState;
 }
 
 /**

@@ -5,7 +5,7 @@ import * as chai from "chai";
 import { ServiceBusSender } from "../../src";
 import { TestClientType } from "../public/utils/testUtils";
 import { ServiceBusSenderImpl } from "../../src/sender";
-import { setFeatureAmqpBodyTypeEnabled } from "../../src/serviceBusMessage";
+import { getFeatureAmqpBodyTypeEnabled, setFeatureAmqpBodyTypeEnabledForTesting } from "../../src/serviceBusMessage";
 import { addServiceBusClientForLiveTesting } from "../public/utils/testutils2";
 const assert = chai.assert;
 
@@ -80,11 +80,12 @@ describe("AMQP message encoding", () => {
 
   describe("amqp encoding/decoding", () => {
     beforeEach(() => {
-      const previousState = setFeatureAmqpBodyTypeEnabled(true);
+      const previousState = getFeatureAmqpBodyTypeEnabled();
       assert.isFalse(previousState);
+      setFeatureAmqpBodyTypeEnabledForTesting(true);
     });
     afterEach(() => {
-      setFeatureAmqpBodyTypeEnabled(false);
+      setFeatureAmqpBodyTypeEnabledForTesting(false);
     });
 
     it("values", async () => {
