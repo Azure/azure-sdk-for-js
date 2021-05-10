@@ -7,5 +7,5 @@
       "@azure-rest/confidential-ledger": ["./src/index"]
     }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts", "../documentTranslation.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

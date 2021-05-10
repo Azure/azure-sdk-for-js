@@ -13,5 +13,15 @@ export async function getLedgerIdentity(
 
   const cert = await client.pathUnchecked("/ledgerIdentity/{ledgerId}", ledgerId).get();
 
-  return cert.body as LedgerIdentity;
+  if (!isLedgerIdentity(cert.body)) {
+    throw new Error(
+      "Body received from Confidential Ledger Identity is invalid. It must contain ledgerId and ledgerTlsCertificate"
+    );
+  }
+
+  return cert.body;
+}
+
+function isLedgerIdentity(identity: any): identity is LedgerIdentity {
+  return identity.ledgerTlsCertificate && identity.ledgerId;
 }

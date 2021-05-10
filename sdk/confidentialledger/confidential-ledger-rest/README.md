@@ -11,7 +11,7 @@ portfolio, Azure Confidential Ledger runs in SGX enclaves. It is built on Micros
 
 ### Currently supported environments
 
-- Node.js version 13.x.x or higher
+- Node.js version 14.x.x or higher
 
 ### Prerequisites
 
@@ -27,29 +27,17 @@ Install the Azure Condifential Ledger REST client library for JavaScript with `n
 npm install @azure-rest/confidential-ledger
 ```
 
-### Authenticate the client
+### Creating and Authenticate the client
 
 #### Using Azure Active Directory
 
 This document demonstrates using [DefaultAzureCredential][default_azure_credential] to authenticate to the Confidential Ledger via Azure Active Directory. However, `ConfidentialLedger` accepts any [@azure/identity][azure_identity_credentials] credential.
 
-#### Using a client certificate
-
-As an alternative to Azure Active Directory, clients may choose to use a client certificate to authenticate via mutual TLS. `CertificateCredential` may be used for this purpose.
-
-### Create a client
-
-`DefaultAzureCredential` will automatically handle most Azure SDK client scenarios. To get started, set environment variables for the AAD identity registered with your Confidential Ledger.
-
-```bash
-export AZURE_CLIENT_ID="generated app id"
-export AZURE_CLIENT_SECRET="random password"
-export AZURE_TENANT_ID="tenant id"
-```
+`DefaultAzureCredential` will automatically handle most Azure SDK client scenarios. To get started, set the values of client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 Then, `DefaultAzureCredential` will be able to authenticate the `ConfidentialLedger` client.
 
-Creating the client also requires your Confidential Ledger's URL and id, which you can get from the Azure CLI or the Azure Portal. When you have retrieved those values, please replace instances of `"my-ledger-id"` and `"https://my-ledger-url.confidential-ledger.azure.com"` in the examples below
+Creating the client also requires your Confidential Ledger's URL and id, which you can get from the Azure CLI or the Azure Portal.
 
 Because Confidential Ledgers use self-signed certificates securely generated and stored in an enclave, the signing certificate for each Confidential Ledger must first be retrieved from the Confidential Ledger Identity Service.
 
@@ -62,9 +50,39 @@ const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
 
 // Create the Confidential Ledger Client
 const confidentialLedger = ConfidentialLedger(
-  "https://sdk-test-ledger-prod.eastus.cloudapp.azure.com",
+  "https://<ledger-name>.eastus.cloudapp.azure.com",
   ledgerIdentity.ledgerTlsCertificate,
   new DefaultAzureCredential()
+);
+```
+
+```typescript
+import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+// Get the signing certificate from the Confidential Ledger Identity Service
+const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
+
+// Create the Confidential Ledger Client
+const confidentialLedger = ConfidentialLedger(
+  "https://<ledger-name>.eastus.cloudapp.azure.com",
+  ledgerIdentity.ledgerTlsCertificate,
+  { cert: "<CERTIFICATE_KEY_PEM_FORMAT>", certKey: "<PRIVATE_KEY_PEM_FORMAT>" }
+);
+```
+
+#### Using a client certificate
+
+As an alternative to Azure Active Directory, clients may choose to authenticate with a client certificate in mutual TLS instead of via an Azure Active Directory token. For this kind of authentication, the client needs to be passed a `CertificateCredential` which is composed of a certificate and private key, both in PEM format.
+
+```typescript
+import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
+// Get the signing certificate from the Confidential Ledger Identity Service
+const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
+
+// Create the Confidential Ledger Client
+const confidentialLedger = ConfidentialLedger(
+  "https://<ledger-name>.eastus.cloudapp.azure.com",
+  ledgerIdentity.ledgerTlsCertificate,
+  { cert: "<CERTIFICATE_KEY_PEM_FORMAT>", certKey: "<PRIVATE_KEY_PEM_FORMAT>" }
 );
 ```
 
@@ -100,25 +118,7 @@ Azure Confidential Ledger is built on Microsoft Research's open-source [Confiden
 
 This section contains code snippets for the following samples:
 
-- [Using certificate authentication](#using-certificate-authentication "Using certificate authentication")
 - [List Enclave Quotes](#list-enclave-quotes "List Enclave Quotes")
-
-### Using certificate authentication
-
-Clients may authenticate with a client certificate in mutual TLS instead of via an Azure Active Directory token. For this kind of authentication, the client needs to be passed a `CertificateCredential` which is composed of a crertificate and private key, both in PEM format.
-
-```typescript
-import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
-// Get the signing certificate from the Confidential Ledger Identity Service
-const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
-
-// Create the Confidential Ledger Client
-const confidentialLedger = ConfidentialLedger(
-  "https://sdk-test-ledger-prod.eastus.cloudapp.azure.com",
-  ledgerIdentity.ledgerTlsCertificate,
-  { cert: "<CERTIFICATE_KEY_PEM_FORMAT>", certKey: "<PRIVATE_KEY_PEM_FORMAT>" }
-);
-```
 
 ### List Enclave Quotes
 
@@ -134,7 +134,7 @@ export async function main() {
 
   // Create the Confidential Ledger Client
   const confidentialLedger = ConfidentialLedger(
-    "https://sdk-test-ledger-prod.eastus.cloudapp.azure.com",
+    "https://<ledger-name>.eastus.cloudapp.azure.com",
     ledgerIdentity.ledgerTlsCertificate,
     new DefaultAzureCredential()
   );
@@ -191,7 +191,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [ccf]: https://github.com/Microsoft/CCF
 [azure_confidential_computing]: https://azure.microsoft.com/solutions/confidential-compute
 [confidential_ledger_docs]: https://aka.ms/confidentialledger-servicedocs
-[rest_client]: https://github.com/joheredi/azure-sdk-for-js/wiki/Rest-Level-Client
+[rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/rest-clients.md
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/confidentialledger/confidential-ledger-rest
 [confidentialledger_npm]: https://www.npmjs.com/package/@azure-rest/confidential-ledger
 [ref_docs]: https://azure.github.io/azure-sdk-for-js
