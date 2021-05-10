@@ -45,7 +45,7 @@ Functions:
 Note:
 If KeyvaultAuthentication doesn't appear as shown above, you likely started the host from outside the root folder of the project. In that case, use Ctrl+C to stop the host, navigate to the project's root folder, and run the previous command again.
 
-2. Copy the URL of your KeyvaultAuthentication function from this output to a browser and append the query string ?name=<your-name>, making the full URL like http://localhost:7071/api/KeyvaultAuthentication. The browser should display a message like:
+2. Copy the URL of your KeyvaultAuthentication function from this output to a browser and append the query string ?name=<your-name>, making the full URL like `http://localhost:7071/api/KeyvaultAuthentication`. The browser should display a message like:
    `Successfully authenticated with keyvault`
    The terminal in which you started your project also shows log output as you make requests.
 
