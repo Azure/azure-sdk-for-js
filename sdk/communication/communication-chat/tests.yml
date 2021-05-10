@@ -17,4 +17,4 @@ stages:
           SubscriptionConfigurations:
             - $(sub-config-communication-int-test-resources-common)
             - $(sub-config-communication-int-test-resources-js)
-      Clouds: Int
+      Clouds: Public,Int
