@@ -27,7 +27,7 @@ matrix([[true, false]], async function(useAad) {
     let recorder: Recorder;
 
     before(function(this: Context) {
-      const skipIntSMSTests = env.COMMUNICATION_SKIP_INT_SMS_TESTS === "true";
+      const skipIntSMSTests = env.COMMUNICATION_SKIP_INT_SMS_TEST === "true";
       if (skipIntSMSTests) {
         this.skip();
       }
