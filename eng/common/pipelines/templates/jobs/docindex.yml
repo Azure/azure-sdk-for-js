@@ -83,32 +83,32 @@ jobs:
         displayName: Clone Docs.ms Repository
         ignoreLASTEXITCODE: false
 
-      - task: PowerShell@2
-        displayName: Update Docs.MS CI Targeted Packages
-        inputs:
-          targetType: filePath
-          filePath: eng/common/scripts/update-docs-ci.ps1
-          arguments: >
-            -DocRepoLocation $(DocsMsRepoLocation)
-            -Configs ${{ parameters.DocsCiConfig }}
-          pwsh: true
-        env:
-          GH_TOKEN: $(azuresdk-github-pat)
+      # - task: PowerShell@2
+      #   displayName: Update Docs.MS CI Targeted Packages
+      #   inputs:
+      #     targetType: filePath
+      #     filePath: eng/common/scripts/update-docs-ci.ps1
+      #     arguments: >
+      #       -DocRepoLocation $(DocsMsRepoLocation)
+      #       -Configs ${{ parameters.DocsCiConfig }}
+      #     pwsh: true
+      #   env:
+      #     GH_TOKEN: $(azuresdk-github-pat)
 
-      - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
-        parameters:
-          WorkingDirectory: $(DocsMsRepoLocation)
-          OutputVariableName: DocsMsRepoLocationDefaultBranch
+      # - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+      #   parameters:
+      #     WorkingDirectory: $(DocsMsRepoLocation)
+      #     OutputVariableName: DocsMsRepoLocationDefaultBranch
 
-      - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
-        parameters:
-          BaseRepoBranch: $(DocsMsRepoLocationDefaultBranch)
-          BaseRepoOwner: 'MicrosoftDocs'
-          CommitMsg: "Update targeting packages based on release csv."
-          TargetRepoName: 'azure-docs-sdk-node'
-          TargetRepoOwner: 'MicrosoftDocs'
-          WorkingDirectory: $(DocsMsRepoLocation)
-          ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
+      # - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+      #   parameters:
+      #     BaseRepoBranch: $(DocsMsRepoLocationDefaultBranch)
+      #     BaseRepoOwner: 'MicrosoftDocs'
+      #     CommitMsg: "Update targeting packages based on release csv."
+      #     TargetRepoName: 'azure-docs-sdk-node'
+      #     TargetRepoOwner: 'MicrosoftDocs'
+      #     WorkingDirectory: $(DocsMsRepoLocation)
+      #     ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
 
       # Prepare daily docs CI
       # This instance of the branch may be behind the default branch w/r/t the
