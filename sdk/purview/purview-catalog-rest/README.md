@@ -1,4 +1,4 @@
-# Azure Purview Catalog Rest-Level client library for JavaScript
+# Azure Purview Catalog REST client library for JavaScript
 
 Azure Purview Catalog is a fully managed cloud service whose users can discover the data sources they need and understand the data sources they find. At the same time, Data Catalog helps organizations get more value from their existing investments.
 
@@ -6,7 +6,7 @@ Azure Purview Catalog is a fully managed cloud service whose users can discover 
 - Browse associated technical, business, semantic, and operational metadata
 - Identify the sensitivity level of data.
 
-**Please rely heavily on the [service's documentation][catalog_product_documentation] and our [Rest client docs][rest_client] to use this library**
+**Please rely heavily on the [service's documentation][catalog_product_documentation] and our [REST client docs][rest_client] to use this library**
 
 [Source code][source_code] | [Package (NPM)][catalog_npm] | [API reference documentation][catalog_ref_docs]| [Product documentation][catalog_product_documentation]
 
@@ -61,9 +61,9 @@ const client = PurviewCatalog(
 
 ## Key concepts
 
-### Rest Client
+### REST Client
 
-This client is one of our Rest clients. We highly recommend you read how to use a Rest client [here][rest_client].
+This client is one of our REST clients. We highly recommend you read how to use a REST client [here][rest_client].
 
 ## Examples
 
