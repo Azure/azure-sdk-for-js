@@ -135,13 +135,13 @@ export type ResumeBeginSessionOptions = BeginSessionOptions & { resumeFrom: stri
 
 export type GetSessionPollerOptions = RenderingSessionPollerOptions & OperationOptions;
 
-export type UpdateSessionOptions = UpdateSessionSettings & OperationOptions;
+export type UpdateSessionOptions = OperationOptions;
 
 export type GetSessionOptions = OperationOptions;
 
 export type GetConversionOptions = OperationOptions;
 
-export type ListConversionOptions = OperationOptions;
+export type ListConversionsOptions = OperationOptions;
 
 export type EndSessionOptions = OperationOptions;
 
@@ -162,6 +162,7 @@ export class RemoteRenderingClient {
 
   /**
    * Creates an instance of a RemoteRenderingClient.
+   * @param endpoint The RemoteRendering endpoint to use.
    * @param accountId The Remote Rendering service account identifier.
    * @param accountDomain The Remote Rendering service account domain.
    * @param keyCredential The Remote Rendering service account primary or secondary key credential.
@@ -177,6 +178,7 @@ export class RemoteRenderingClient {
 
   /**
    * Creates an instance of a RemoteRenderingClient.
+   * @param endpoint The RemoteRendering endpoint to use.
    * @param accountId The Remote Rendering service account identifier.
    * @param accountDomain The Remote Rendering service account domain.
    * @param credential A token credential for authenticating the account with the Mixed Reality STS service.
@@ -192,6 +194,7 @@ export class RemoteRenderingClient {
 
   /**
    * Creates an instance of a RemoteRenderingClient.
+   * @param endpoint The RemoteRendering endpoint to use.
    * @param accountId The Remote Rendering service account identifier.
    * @param accountDomain The Remote Rendering service account domain.
    * @param credential An access token obtained from the Mixed Reality STS service.
@@ -420,7 +423,7 @@ export class RemoteRenderingClient {
    * @param options The options parameters.
    */
   public listConversions(
-    options?: ListConversionOptions
+    options?: ListConversionsOptions
   ): PagedAsyncIterableIterator<AssetConversion> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
       ...options
@@ -454,7 +457,7 @@ export class RemoteRenderingClient {
    * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
    *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
    *                  underscores, and cannot contain more than 256 characters.
-   * @param renderingSessionSettings Settings of the session to be created.
+   * @param settings Settings of the session to be created.
    * @param options The options parameters.
    */
   public async beginSession(
@@ -465,9 +468,6 @@ export class RemoteRenderingClient {
 
   /**
    * Obtains a poller for a pre-existing session
-   * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
-   *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
-   *                  underscores, and cannot contain more than 256 characters.
    * @param options The options parameters, carrying a resumeFrom value.
    */
   public async beginSession(
@@ -539,7 +539,7 @@ export class RemoteRenderingClient {
 
   /**
    * Gets the status of a particular session.
-   * @param conversionId An ID uniquely identifying the conversion for the given account. The ID is case
+   * @param sessionId An ID uniquely identifying the session for the given account. The ID is case
    *                     sensitive, can contain any combination of alphanumeric characters including hyphens and underscores,
    *                     and cannot contain more than 256 characters.
    * @param options The options parameters.
@@ -567,7 +567,8 @@ export class RemoteRenderingClient {
    */
   public async updateSession(
     sessionId: string,
-    options: UpdateSessionOptions
+    settings: UpdateSessionSettings,
+    options?: UpdateSessionOptions
   ): Promise<RenderingSession> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-UpdateSession", {
       conversionId: sessionId,
@@ -578,7 +579,7 @@ export class RemoteRenderingClient {
       const sessionProperties = await this.operations.updateSession(
         this.accountId,
         sessionId,
-        options,
+        settings,
         updatedOptions
       );
       return renderingSessionFromSessionProperties(sessionProperties);

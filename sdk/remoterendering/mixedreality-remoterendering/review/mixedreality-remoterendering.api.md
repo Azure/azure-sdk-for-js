@@ -136,7 +136,7 @@ export const enum KnownRenderingSessionStatus {
 }
 
 // @public (undocumented)
-export type ListConversionOptions = OperationOptions;
+export type ListConversionsOptions = OperationOptions;
 
 // @public (undocumented)
 export type ListSessionsOptions = OperationOptions;
@@ -175,9 +175,9 @@ export class RemoteRenderingClient {
     endSession(sessionId: string, options?: EndSessionOptions): Promise<void>;
     getConversion(conversionId: string, options?: GetConversionOptions): Promise<AssetConversion>;
     getSession(sessionId: string, options?: GetSessionOptions): Promise<RenderingSession>;
-    listConversions(options?: ListConversionOptions): PagedAsyncIterableIterator<AssetConversion>;
+    listConversions(options?: ListConversionsOptions): PagedAsyncIterableIterator<AssetConversion>;
     listSessions(options?: ListSessionsOptions): PagedAsyncIterableIterator<RenderingSession>;
-    updateSession(sessionId: string, options: UpdateSessionOptions): Promise<RenderingSession>;
+    updateSession(sessionId: string, settings: UpdateSessionSettings, options?: UpdateSessionOptions): Promise<RenderingSession>;
 }
 
 // @public
@@ -273,7 +273,7 @@ export interface SucceededAssetConversion extends AssetConversionBase {
 }
 
 // @public (undocumented)
-export type UpdateSessionOptions = UpdateSessionSettings & OperationOptions;
+export type UpdateSessionOptions = OperationOptions;
 
 // @public
 export interface UpdateSessionSettings {

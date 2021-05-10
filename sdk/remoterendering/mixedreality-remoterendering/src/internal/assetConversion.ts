@@ -63,7 +63,7 @@ export type AssetConversion =
   | CancelledAssetConversion;
 
 export function assetConversionFromConversion(conversion: Conversion): AssetConversion {
-  let baseProperties: AssetConversionBase = {
+  const baseProperties: AssetConversionBase = {
     conversionId: conversion.conversionId,
     settings: conversion.settings,
     createdOn: conversion.createdOn
