@@ -219,7 +219,7 @@ describe("RemoteRendering functional tests", () => {
       ".blob.core.windows.net/" +
       getEnv("REMOTERENDERING_ARR_BLOB_CONTAINER_NAME");
 
-      const inputSettings: AssetConversionInputSettings = {
+    const inputSettings: AssetConversionInputSettings = {
       storageContainerUrl,
       storageContainerReadListSas: getEnv("REMOTERENDERING_ARR_SAS_TOKEN"),
       relativeInputAssetPath: "boxWhichDoesNotExist.fbx",

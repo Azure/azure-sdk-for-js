@@ -419,7 +419,9 @@ export class RemoteRenderingClient {
    * Gets a list of all conversions.
    * @param options The options parameters.
    */
-  public listConversions(options?: ListConversionOptions): PagedAsyncIterableIterator<AssetConversion> {
+  public listConversions(
+    options?: ListConversionOptions
+  ): PagedAsyncIterableIterator<AssetConversion> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
       ...options
     });
