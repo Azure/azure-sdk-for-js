@@ -25,7 +25,7 @@ For Azure PowerShell,
 
 1. In a terminal or command window, run `func --version` to check that the Azure Functions Core Tools are version 3.x.
 2. Run (Get-Module -ListAvailable Az).Version and verify version 5.0 or later.
-3. Run Connect-AzAccount to sign in to Azure and verify an active subscription.
+3. Run `Connect-AzAccount` to sign in to Azure and verify an active subscription.
 
 ### Run Locally
 
