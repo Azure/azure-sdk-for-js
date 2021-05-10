@@ -620,7 +620,7 @@ export function isServiceBusMessage(possible: unknown): possible is ServiceBusMe
   return isObjectWithProperties(possible, ["body"]);
 }
 
-export let _featureAmqpBodyTypeEnabled = false;
+let _featureAmqpBodyTypeEnabled = false;
 
 /**
  * Disables preview AMQP body type support.
@@ -629,7 +629,6 @@ export let _featureAmqpBodyTypeEnabled = false;
 export function getFeatureAmqpBodyTypeEnabled(): boolean {
   return _featureAmqpBodyTypeEnabled;
 }
-
 
 /**
  * Enables preview AMQP body type support.
