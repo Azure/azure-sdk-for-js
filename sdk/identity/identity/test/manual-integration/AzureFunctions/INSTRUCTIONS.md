@@ -60,8 +60,8 @@ If KeyvaultAuthentication doesn't appear as shown above, you likely started the 
 3. Follow the instructions here to create a Resource group and deploy it:
 
 ```
-az group create --name <group_name> --location <resource_location>
-az deployment group create --resource-group <group_name> --template-file ./arm-template.json
+az group create --name <RESOURCE_GROUP_NAME> --location <resource_location>
+az deployment group create --resource-group <RESOURCE_GROUP_NAME> --template-file ./arm-template.json
 ```
 
 4. Run the following commands in your console from the root folder `IdentityTest`
@@ -70,10 +70,17 @@ az deployment group create --resource-group <group_name> --template-file ./arm-t
    `npm run build`
 
 5. Publish the function app
-   `func azure functionapp publish <FUNCTION_APP_NAME>`
-   The <FUNCTION_APP_NAME> will basically be something like - `<group_name>fnapp`
+   `func azure functionapp publish <FUNCTION_APP_NAME> --typescript`
+   The <FUNCTION_APP_NAME> will basically be something like - `<RESOURCE_GROUP_NAME>fnapp`
    Take note of the invoke url that shows up on console.
 
 ## Run the azure-identity Tests on the Azure Functions
 
 Go to the invoke url which will look something like - `https://<func app name>.azurewebsites.net/api/KeyvaultAuthentication`
+It should say something `Successfully authenticated with keyvault`
+
+## Clean up resources
+
+Use the following command to delete the resource group and all its contained resources to avoid incurring further costs
+
+`az group delete --name <RESOURCE_GROUP_NAME>`

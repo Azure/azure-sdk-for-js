@@ -125,9 +125,7 @@
             }
           }
         ],
-        "dependsOn": [
-          "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]"
-        ],
+        "dependsOn": ["[resourceId('Microsoft.Web/sites', variables('functionAppName'))]"],
         "vaultUri": "[concat('https://', variables('vaultName'), '.vault.azure.net/')]"
       }
     }
