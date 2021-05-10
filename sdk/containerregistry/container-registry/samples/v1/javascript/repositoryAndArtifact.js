@@ -47,7 +47,7 @@ async function main() {
 }
 
 async function listTags(artifact) {
-  const iterator = artifact.listTags({ orderBy: "timeasc" });
+  const iterator = artifact.listTags({ orderBy: "timeAsc" });
   for await (const tag of iterator) {
     console.log(`  tag: ${tag.name}`);
     console.log(`  digest: ${tag.digest}`);
