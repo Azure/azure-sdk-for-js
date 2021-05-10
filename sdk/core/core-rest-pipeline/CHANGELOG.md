@@ -2,6 +2,9 @@
 
 ## 1.1.0-beta.2 (Unreleased)
 
+### Fixed
+
+- Fixed an issue where tracing spans were not setting a status correctly (on success or error) which results in the span status being `UNSET`. In addition, we will now capture the HTTP status code when a request fails in the tracing span. [PR 15061](https://github.com/Azure/azure-sdk-for-js/pull/15061)
 
 ## 1.1.0-beta.1 (2021-05-06)
 
