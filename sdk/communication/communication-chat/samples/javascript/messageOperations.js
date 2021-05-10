@@ -54,7 +54,7 @@ async function main() {
 
   // delete a message
   await chatThreadClient.deleteMessage(sendMessageResult.id);
-  console.log("Deleted message.");
+  console.log("Deleted messagez.");
 }
 
 main().catch((err) => {
