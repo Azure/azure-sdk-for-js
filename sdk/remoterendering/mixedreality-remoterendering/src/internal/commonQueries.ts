@@ -21,7 +21,7 @@ export async function getConversionInternal(
   });
 
   try {
-    let conversion = await operations.getConversion(accountId, conversionId, updatedOptions);
+    const conversion = await operations.getConversion(accountId, conversionId, updatedOptions);
     return assetConversionFromConversion(conversion);
   } catch (e) {
     span.setStatus({
@@ -47,7 +47,7 @@ export async function getSessionInternal(
   });
 
   try {
-    let sessionProperties = await operations.getSession(accountId, sessionId, updatedOptions);
+    const sessionProperties = await operations.getSession(accountId, sessionId, updatedOptions);
     return renderingSessionFromSessionProperties(sessionProperties);
   } catch (e) {
     span.setStatus({

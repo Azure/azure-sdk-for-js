@@ -159,7 +159,7 @@ function partialRenderingSessionPropertiesFromSessionProperties(
 export function renderingSessionFromSessionProperties(
   session: SessionProperties
 ): RenderingSession {
-  let baseProperties: RenderingSessionBase = {
+  const baseProperties: RenderingSessionBase = {
     sessionId: session.sessionId,
     size: session.size,
     maxLeaseTimeInMinutes: session.maxLeaseTimeInMinutes!

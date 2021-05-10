@@ -32,7 +32,7 @@ export class RenderingSessionOperationStateImpl implements RenderingSessionOpera
   }
 
   get isCompleted(): boolean {
-    return this.latestResponse.status != KnownRenderingSessionStatus.Starting;
+    return this.latestResponse.status !== KnownRenderingSessionStatus.Starting;
   }
 
   get isCancelled(): boolean {
@@ -41,7 +41,7 @@ export class RenderingSessionOperationStateImpl implements RenderingSessionOpera
 
   get error(): Error | undefined {
     if (this.latestResponse.status === "Error") {
-      //TODO Add details?
+      // TODO Add details
       return new Error(this.latestResponse.error.message);
     }
     return undefined;
@@ -122,14 +122,14 @@ export class RenderingSessionPoller extends Poller<
   constructor(
     accountId: string,
     operations: RemoteRendering,
-    RenderingSession: RenderingSession,
+    renderingSession: RenderingSession,
     options: RenderingSessionPollerOptions
   ) {
     super(
       new RenderingSessionOperation(
         accountId,
         operations,
-        new RenderingSessionOperationStateImpl(RenderingSession)
+        new RenderingSessionOperationStateImpl(renderingSession)
       )
     );
     this.intervalInMs = options.intervalInMs ? options.intervalInMs : 10000;

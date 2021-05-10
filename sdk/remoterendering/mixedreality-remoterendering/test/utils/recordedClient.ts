@@ -55,10 +55,10 @@ export function createClient(): RemoteRenderingClient {
     // When playing back, we do not want to interact with the STS service, so we use
     // the AccessToken auth path.
     const maxTimestampMs = 8640000000000000;
-    let credential: AccessToken = { token: "<access_token>", expiresOnTimestamp: maxTimestampMs };
+    const credential: AccessToken = { token: "<access_token>", expiresOnTimestamp: maxTimestampMs };
     return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
   } else {
-    let credential: AzureKeyCredential = new AzureKeyCredential(accountKey);
+    const credential: AzureKeyCredential = new AzureKeyCredential(accountKey);
     return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
   }
 }

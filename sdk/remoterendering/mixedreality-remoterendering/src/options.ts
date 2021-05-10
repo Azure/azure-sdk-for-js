@@ -4,7 +4,7 @@
 import { PipelineOptions } from "@azure/core-rest-pipeline";
 
 /**
- * Options to create the MixedRealityStsClient.
+ * Options to create the RemoteRenderingClient.
  */
 export interface RemoteRenderingClientOptions extends PipelineOptions {
   /**
@@ -12,8 +12,3 @@ export interface RemoteRenderingClientOptions extends PipelineOptions {
    */
   authenticationEndpointUrl?: string;
 }
-
-/**
- * Options to create the MixedRealityStsClient.
- */
-//export interface GetTokenOptions extends OperationOptions {}

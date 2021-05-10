@@ -137,6 +137,16 @@ export type GetSessionPollerOptions = RenderingSessionPollerOptions & OperationO
 
 export type UpdateSessionOptions = UpdateSessionSettings & OperationOptions;
 
+export type GetSessionOptions = OperationOptions;
+
+export type GetConversionOptions = OperationOptions;
+
+export type ListConversionOptions = OperationOptions;
+
+export type EndSessionOptions = OperationOptions;
+
+export type ListSessionsOptions = OperationOptions;
+
 export type RenderingSessionPollerLike = PollerLike<
   RenderingSessionOperationState,
   RenderingSession
@@ -306,7 +316,7 @@ export class RemoteRenderingClient {
       settings = assetConversionSettings!;
       operationOptions = options ?? {};
     } else {
-      let assetConversion: AssetConversion = await getConversionInternal(
+      const assetConversion: AssetConversion = await getConversionInternal(
         this.accountId,
         this.operations,
         conversionIdOrResumeOptions.resumeFrom,
@@ -328,14 +338,14 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let conversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
+      const conversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
         this.accountId,
         conversionId,
         { settings: settings },
         updatedOptions
       );
 
-      let poller = new AssetConversionPoller(
+      const poller = new AssetConversionPoller(
         this.accountId,
         this.operations,
         assetConversionFromConversion(conversion),
@@ -367,7 +377,7 @@ export class RemoteRenderingClient {
    */
   public async getConversion(
     conversionId: string,
-    options?: OperationOptions
+    options?: GetConversionOptions
   ): Promise<AssetConversion> {
     return getConversionInternal(
       this.accountId,
@@ -409,7 +419,7 @@ export class RemoteRenderingClient {
    * Gets a list of all conversions.
    * @param options The options parameters.
    */
-  public listConversions(options?: OperationOptions): PagedAsyncIterableIterator<AssetConversion> {
+  public listConversions(options?: ListConversionOptions): PagedAsyncIterableIterator<AssetConversion> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
       ...options
     });
@@ -475,7 +485,7 @@ export class RemoteRenderingClient {
       settings = renderingSessionSettings!;
       operationOptions = options ?? {};
     } else {
-      let renderingSession: RenderingSession = await getSessionInternal(
+      const renderingSession: RenderingSession = await getSessionInternal(
         this.accountId,
         this.operations,
         sessionIdOrResumeOptions.resumeFrom,
@@ -496,14 +506,14 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let sessionProperties: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
+      const sessionProperties: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
         this.accountId,
         sessionId,
         settings,
         updatedOptions
       );
 
-      let poller = new RenderingSessionPoller(
+      const poller = new RenderingSessionPoller(
         this.accountId,
         this.operations,
         renderingSessionFromSessionProperties(sessionProperties),
@@ -534,7 +544,7 @@ export class RemoteRenderingClient {
    */
   public async getSession(
     sessionId: string,
-    options?: OperationOptions
+    options?: GetSessionOptions
   ): Promise<RenderingSession> {
     return getSessionInternal(
       this.accountId,
@@ -563,7 +573,7 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let sessionProperties = await this.operations.updateSession(
+      const sessionProperties = await this.operations.updateSession(
         this.accountId,
         sessionId,
         options,
@@ -588,7 +598,7 @@ export class RemoteRenderingClient {
    *                  underscores, and cannot contain more than 256 characters.
    * @param options The options parameters.
    */
-  public async endSession(sessionId: string, options?: OperationOptions): Promise<void> {
+  public async endSession(sessionId: string, options?: EndSessionOptions): Promise<void> {
     return endSessionInternal(
       this.accountId,
       this.operations,
@@ -625,7 +635,7 @@ export class RemoteRenderingClient {
    * Gets a list of all sessions.
    * @param options The options parameters.
    */
-  public listSessions(options?: OperationOptions): PagedAsyncIterableIterator<RenderingSession> {
+  public listSessions(options?: ListSessionsOptions): PagedAsyncIterableIterator<RenderingSession> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
       ...options
     });

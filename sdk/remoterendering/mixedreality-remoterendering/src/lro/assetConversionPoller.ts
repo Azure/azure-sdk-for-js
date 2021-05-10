@@ -34,8 +34,8 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
 
   get isCompleted(): boolean {
     return (
-      this.latestResponse.status != KnownAssetConversionStatus.NotStarted &&
-      this.latestResponse.status != KnownAssetConversionStatus.Running
+      this.latestResponse.status !== KnownAssetConversionStatus.NotStarted &&
+      this.latestResponse.status !== KnownAssetConversionStatus.Running
     );
   }
 
