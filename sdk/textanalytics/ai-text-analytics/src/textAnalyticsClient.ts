@@ -1047,8 +1047,6 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
       compose(setStrEncodingParam, AddParamsToTask)
     ),
     keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(AddParamsToTask),
-    // setting the mode version is necessary because the service always expects it
-    // https://github.com/Azure/azure-sdk-for-js/issues/14079
     entityLinkingTasks: actions.recognizeLinkedEntitiesActions?.map(
       compose(setStrEncodingParam, AddParamsToTask)
     ),

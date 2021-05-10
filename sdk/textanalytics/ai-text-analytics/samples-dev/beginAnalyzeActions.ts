@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample extracts key phrases, entities, and pii entities as well as analyzes
- * sentiment for several documents using a long-running operation. This 
- * functionality uses the generic analysis endpoint, which provides a way to 
- * group several different Text Analytics actions into a single request.
+ * This sample extracts key phrases, entities, and pii entities from several documents
+ *  using a long-running operation. This functionality uses the generic analysis
+ * endpoint, which provides a way to group several different Text Analytics actions
+ * into a single request.
  *
  * @summary applies multiple Text Analytics actions per document
  * @azsdk-weight 40
@@ -36,7 +36,6 @@ export async function main() {
 
   const actions = {
     recognizeEntitiesActions: [{ modelVersion: "latest" }],
-    analyzeSentimentActions: [{ modelVersion: "latest", includeOpinionMining: true }],
     recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
     extractKeyPhrasesActions: [{ modelVersion: "latest" }]
   };
@@ -108,37 +107,6 @@ export async function main() {
       }
       console.log("Action statistics: ");
       console.log(JSON.stringify(piiEntitiesAction.results.statistics));
-    }
-
-    const analyzeSentimentAction = page.analyzeSentimentResults[0];
-    if (!analyzeSentimentAction.error) {
-      for (const doc of analyzeSentimentAction.results) {
-        console.log(`- Document ${doc.id}`);
-        if (!doc.error) {
-          console.log(`\tOverall Sentiment: ${doc.sentiment}`);
-          console.log("\tSentiment confidence scores:", doc.confidenceScores);
-          console.log("\tSentences");
-          for (const { sentiment, confidenceScores, opinions } of doc.sentences) {
-            console.log(`\t- Sentence sentiment: ${sentiment}`);
-            console.log("\t  Confidence scores:", confidenceScores);
-            console.log("\t  Mined opinions");
-            for (const { target, assessments } of opinions) {
-              console.log(`\t\t- Target text: ${target.text}`);
-              console.log(`\t\t  Target sentiment: ${target.sentiment}`);
-              console.log("\t\t  Target confidence scores:", target.confidenceScores);
-              console.log("\t\t  Target assessments");
-              for (const { text, sentiment } of assessments) {
-                console.log(`\t\t\t- Text: ${text}`);
-                console.log(`\t\t\t  Sentiment: ${sentiment}`);
-              }
-            }
-          }
-        } else {
-          console.error("\tError:", doc.error);
-        }
-      }
-      console.log("Action statistics: ");
-      console.log(JSON.stringify(analyzeSentimentAction.results.statistics));
     }
   }
 }
