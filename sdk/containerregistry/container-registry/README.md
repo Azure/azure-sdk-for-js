@@ -55,12 +55,12 @@ The [Azure Identity library][identity] provides easy Azure Active Directory supp
 const { ContainerRegistryClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-const endpoint = process.env.REGISTRY_ENDPOINT;
+const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT;
 // Create a ContainerRegistryClient that will authenticate through Active Directory
 const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
 ```
 
-Note that these samples assume you have a `REGISTRY_ENDPOINT` environment variable set, which is the URL including the name of the login server and the `https://` prefix.
+Note that these samples assume you have a `CONTAINER_REGISTRY_ENDPOINT` environment variable set, which is the URL including the name of the login server and the `https://` prefix.
 
 For more information on using AAD with Azure Container Registry, please see the service's [Authentication Overview](https://docs.microsoft.com/azure/container-registry/container-registry-authentication).
 
@@ -83,11 +83,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
   // where "myregistryname" is the actual name of your registry
-  const endpoint = process.env.REGISTRY_ENDPOINT;
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
 
   console.log("Listing repositories");
-  const iterator = client.listRepositories();
+  const iterator = client.listRepositoryNames();
   for await (const repository of iterator) {
     console.log(`  repository: ${repository}`);
   }

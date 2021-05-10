@@ -2,11 +2,16 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of a ContainerRepositoryClient.
+ * @summary Demonstrates the use of ContainerRepository and RegistryArtifact.
  * @azsdk-weight 5
  */
 
-import { ContainerRepositoryClient, RegistryArtifactProperties } from "@azure/container-registry";
+import {
+  ContainerRepository,
+  ArtifactManifestProperties,
+  ContainerRegistryClient,
+  RegistryArtifact
+} from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -15,32 +20,40 @@ export async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-  const repository = process.env.REPOSITORY_NAME || "<repository name>";
+  const repositoryName = process.env.REPOSITORY_NAME || "<repository name>";
+  const pageSize = 1;
 
-  const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
-  await getProperties(client);
-  await listTags(client);
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+  const repository = client.getRepository(repositoryName);
+  await getProperties(repository);
 
-  const artifacts = await listArtifacts(client);
+  const manifests = await listManifests(repository);
 
-  if (artifacts && artifacts.length) {
-    const digest = artifacts[0].digest;
+  if (manifests && manifests.length) {
+    const digest = manifests[0].digest;
     if (digest) {
-      await getArtifactProperties(client, digest);
+      const artifact = repository.getArtifact(digest);
 
-      await deleteArtifact(client, digest);
+      console.log(`Retrieving registry artifact properties for ${digest}`);
+      await getArtifactProperties(artifact);
+
+      console.log(`Listing tags for ${digest}`);
+      await listTags(artifact);
+
+      // Advanced: listing by pages
+      console.log(`Listing tags by pages for ${digest}`);
+      await listTagsByPages(artifact, pageSize);
+
+      console.log(`Deleting registry artifact for ${digest}`);
+      await artifact.delete();
     }
   }
-
   // Advanced: listing by pages
-  const pageSize = 2;
-  await listTagsByPages(client, pageSize);
-  await listArtifactsByPages(client, pageSize);
+  await listManifestsByPages(repository, pageSize);
 }
 
-async function listTags(client: ContainerRepositoryClient) {
-  console.log("Listing tags");
-  const iterator = client.listTags({ orderBy: "timeasc" });
+async function listTags(artifact: RegistryArtifact) {
+  const iterator = artifact.listTags({ orderBy: "timeAsc" });
   for await (const tag of iterator) {
     console.log(`  tag: ${tag.name}`);
     console.log(`  digest: ${tag.digest}`);
@@ -49,9 +62,8 @@ async function listTags(client: ContainerRepositoryClient) {
   }
 }
 
-async function listTagsByPages(client: ContainerRepositoryClient, pagesSize: number) {
-  console.log("Listing tags by pages");
-  const pages = client.listTags().byPage({ maxPageSize: pagesSize });
+async function listTagsByPages(artifact: RegistryArtifact, pagesSize: number) {
+  const pages = artifact.listTags().byPage({ maxPageSize: pagesSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -66,12 +78,12 @@ async function listTagsByPages(client: ContainerRepositoryClient, pagesSize: num
   }
 }
 
-async function listArtifacts(
-  client: ContainerRepositoryClient
-): Promise<RegistryArtifactProperties[]> {
+async function listManifests(
+  repository: ContainerRepository
+): Promise<ArtifactManifestProperties[]> {
   console.log("Listing artifacts");
-  const artifacts: RegistryArtifactProperties[] = [];
-  const iterator = client.listRegistryArtifacts();
+  const artifacts: ArtifactManifestProperties[] = [];
+  const iterator = repository.listManifests();
   for await (const artifact of iterator) {
     artifacts.push(artifact);
     console.log(`  digest: ${artifact.digest}`);
@@ -82,9 +94,9 @@ async function listArtifacts(
   return artifacts;
 }
 
-async function listArtifactsByPages(client: any, pageSize: number) {
-  console.log("Listing artifacts by pages");
-  const pages = client.listRegistryArtifacts().byPage({ maxPageSize: pageSize });
+async function listManifestsByPages(repository: ContainerRepository, pageSize: number) {
+  console.log("Listing manifest by pages");
+  const pages = repository.listManifests().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -98,36 +110,34 @@ async function listArtifactsByPages(client: any, pageSize: number) {
   }
 }
 
-async function getProperties(client: ContainerRepositoryClient) {
+async function getProperties(repository: ContainerRepository) {
   console.log("Retrieving repository properties...");
-  const properties = await client.getProperties();
+  const properties = await repository.getProperties();
   console.log(`  name: ${properties.name}`);
   console.log(`  created on: ${properties.createdOn}`);
   console.log(`  last updated on: ${properties.lastUpdatedOn}`);
-  console.log(`  artifact count: ${properties.registryArtifactCount}`);
+  console.log(`  artifact count: ${properties.manifestCount}`);
   console.log(`  tag count: ${properties.tagCount}`);
   const writableProps = properties.writeableProperties;
   if (writableProps) {
-    console.log("  writable properties:");
+    console.log("  writable properties: {");
     console.log(
-      `      { canDelete: ${writableProps.canDelete}, canList: ${writableProps.canList}, canRead: ${writableProps.canRead}, canWrite: ${writableProps.canWrite}}`
+      `    canDelete: ${writableProps.canDelete},
+    canList: ${writableProps.canList},
+    canRead: ${writableProps.canRead},
+    canWrite: ${writableProps.canWrite}`
     );
+    console.log("  }");
   }
 }
 
-async function getArtifactProperties(client: ContainerRepositoryClient, digest: string) {
-  console.log(`Retrieving registry artifact properties for ${digest}`);
-  const properties = await client.getRegistryArtifactProperties(digest);
+async function getArtifactProperties(artifact: RegistryArtifact) {
+  const properties = await artifact.getManifestProperties();
   console.log(`  created on: ${properties.createdOn}`);
   console.log(`  last updated on: ${properties.lastUpdatedOn}`);
-  console.log(`  arch : ${properties.cpuArchitecture}`);
+  console.log(`  arch : ${properties.architecture}`);
   console.log(`  os : ${properties.operatingSystem}`);
   console.log(`  size : ${properties.size} bytes`);
-}
-
-async function deleteArtifact(client: ContainerRepositoryClient, digest: string) {
-  console.log(`Deleting registry artifact for ${digest}`);
-  await client.deleteRegistryArtifact(digest);
 }
 
 main().catch((err) => {
