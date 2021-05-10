@@ -19,6 +19,8 @@ import {
   RepositoryProperties
 } from "./model";
 import { RegistryArtifact, RegistryArtifactImpl } from "./registryArtifact";
+import { toArtifactManifestProperties, toServiceManifestOrderBy } from "./transformations";
+import { extractNextLink } from "./utils";
 
 /**
  * Options for delete repository operation.
@@ -262,12 +264,7 @@ export class ContainerRepositoryImpl {
     continuationState: PageSettings,
     options: ListManifestsOptions = {}
   ): AsyncIterableIterator<ArtifactManifestProperties[]> {
-    const orderby =
-      options.orderBy === "timeAsc"
-        ? "timeasc"
-        : options.orderBy === "timeDesc"
-        ? "timedesc"
-        : undefined;
+    const orderby = toServiceManifestOrderBy(options.orderBy);
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
@@ -278,33 +275,9 @@ export class ContainerRepositoryImpl {
         this.name,
         optionsComplete
       );
-      if (currentPage.link) {
-        continuationState.continuationToken = currentPage.link.substr(
-          1,
-          currentPage.link.indexOf(">") - 1
-        );
-      } else {
-        continuationState.continuationToken = undefined;
-      }
+      continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.manifests) {
-        yield currentPage.manifests.map((t) => {
-          return {
-            repositoryName: this.name,
-            digest: t.digest,
-            size: t.size,
-            createdOn: t.createdOn,
-            lastUpdatedOn: t.lastUpdatedOn,
-            architecture: t.architecture ?? undefined,
-            operatingSystem: t.operatingSystem ?? undefined,
-            manifests:
-              t.references?.map((r) => {
-                return { ...r, manifests: [], tags: [] };
-              }) ?? [],
-            tags: t.tags ?? [],
-            writeableProperties: t.writeableProperties,
-            repository: currentPage.repository!
-          };
-        });
+        yield currentPage.manifests.map((t) => toArtifactManifestProperties(t, this.name));
       }
     }
     while (continuationState.continuationToken) {
@@ -313,33 +286,9 @@ export class ContainerRepositoryImpl {
         continuationState.continuationToken,
         options
       );
-      if (currentPage.link) {
-        continuationState.continuationToken = currentPage.link.substr(
-          1,
-          currentPage.link.indexOf(">") - 1
-        );
-      } else {
-        continuationState.continuationToken = undefined;
-      }
+      continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.manifests) {
-        yield currentPage.manifests.map((t) => {
-          return {
-            repositoryName: this.name,
-            digest: t.digest,
-            size: t.size,
-            createdOn: t.createdOn,
-            lastUpdatedOn: t.lastUpdatedOn,
-            architecture: t.architecture ?? undefined,
-            operatingSystem: t.operatingSystem ?? undefined,
-            manifests:
-              t.references?.map((r) => {
-                return { ...r, manifests: [], tags: [] };
-              }) ?? [],
-            tags: t.tags ?? [],
-            writeableProperties: t.writeableProperties,
-            repository: currentPage.repository!
-          };
-        });
+        yield currentPage.manifests.map((t) => toArtifactManifestProperties(t, this.name));
       }
     }
   }

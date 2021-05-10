@@ -18,6 +18,7 @@ import { URL } from "./url";
 import { createSpan } from "./tracing";
 import { GeneratedClient } from "./generated";
 import { extractNextLink, isDigest } from "./utils";
+import { toServiceTagOrderBy } from "./transformations";
 
 /**
  * Options for the `delete` method of `RegistryArtifact`.
@@ -413,12 +414,7 @@ export class RegistryArtifactImpl {
     continuationState: PageSettings,
     options: ListTagsOptions = {}
   ): AsyncIterableIterator<ArtifactTagProperties[]> {
-    const orderby =
-      options.orderBy === "timeAsc"
-        ? "timeasc"
-        : options.orderBy === "timeDesc"
-        ? "timedesc"
-        : undefined;
+    const orderby = toServiceTagOrderBy(options.orderBy);
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
