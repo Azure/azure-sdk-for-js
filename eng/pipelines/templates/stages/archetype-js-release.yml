@@ -238,10 +238,10 @@ stages:
         # packages which have been onboarded to either moniker to receive the 
         # most recent readme docs on the doc review site.
         DocCiConfigs: >-
-          "{'targets':[
+          {'targets':[
           {'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview','content_folder':'docs-ref-services/preview'},
           {'path_to_config':'ci-configs/packages-latest.json','mode':'Preview','content_folder':'docs-ref-services/latest'}
-          ]}"
+          ]}
 
       steps:
         - checkout: self
