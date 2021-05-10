@@ -5,7 +5,10 @@ import * as chai from "chai";
 import { ServiceBusSender } from "../../src";
 import { TestClientType } from "../public/utils/testUtils";
 import { ServiceBusSenderImpl } from "../../src/sender";
-import { getFeatureAmqpBodyTypeEnabled, setFeatureAmqpBodyTypeEnabledForTesting } from "../../src/serviceBusMessage";
+import {
+  getFeatureAmqpBodyTypeEnabled,
+  setFeatureAmqpBodyTypeEnabledForTesting
+} from "../../src/serviceBusMessage";
 import { addServiceBusClientForLiveTesting } from "../public/utils/testutils2";
 const assert = chai.assert;
 
