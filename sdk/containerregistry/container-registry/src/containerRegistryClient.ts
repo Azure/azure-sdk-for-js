@@ -28,6 +28,7 @@ import {
 } from "./containerRepository";
 import { URL } from "./url";
 import { RegistryArtifact } from "./registryArtifact";
+import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
 
 /**
  * Options for the `listRepositories` method of `ContainerRegistryClient`.
@@ -107,7 +108,7 @@ export class ContainerRegistryClient {
         credential,
         scopes: ["https://management.core.windows.net/.default"],
         challengeCallbacks: new ChallengeHandler(
-          new ContainerRegistryRefreshTokenCredential(credential, this.authClient)
+          new ContainerRegistryRefreshTokenCredential(credential, authClient)
         )
       })
     );

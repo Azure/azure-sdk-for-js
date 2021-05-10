@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1361",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 16 Apr 2021 21:18:19 GMT",
+    "date": "Mon, 10 May 2021 23:19:42 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11654.13 - EUS ProdSlices",
-    "x-ms-request-id": "459cc3f2-0363-4276-aed8-2f704f884200"
+    "x-ms-ests-server": "2.1.11722.21 - SCUS ProdSlices",
+    "x-ms-request-id": "610c78a7-ce39-4e30-9f75-19a2356b0700"
    }
   },
   {
@@ -36,13 +36,37 @@
     "connection": "keep-alive",
     "content-length": "222",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 16 Apr 2021 21:18:20 GMT",
+    "date": "Mon, 10 May 2021 23:19:42 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:metadata_read\",error=\"invalid_token\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "f5724c08-25b0-46d4-9569-4c2ef7dcb481"
+    "x-ms-correlation-request-id": "0e5b9fbd-33ed-4360-abfe-4f0b2e048b75"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fmanagement.core.windows.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1361",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 10 May 2021 23:19:42 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11722.21 - SCUS ProdSlices",
+    "x-ms-request-id": "610c78a7-ce39-4e30-9f75-19a23f6b0700"
    }
   },
   {
@@ -55,11 +79,11 @@
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 16 Apr 2021 21:18:20 GMT",
+    "date": "Mon, 10 May 2021 23:19:43 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "91aab2c8-810e-4208-b283-bd188401b8a0"
+    "x-ms-correlation-request-id": "bdad05e1-69eb-42eb-8abd-0183da8eb5d4"
    }
   },
   {
@@ -72,11 +96,11 @@
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 16 Apr 2021 21:18:20 GMT",
+    "date": "Mon, 10 May 2021 23:19:43 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "94b627f0-8610-4197-8ebd-30070a10010b"
+    "x-ms-correlation-request-id": "aba1b166-1f3e-43f5-a3cb-e621751659b4"
    }
   },
   {
@@ -85,18 +109,18 @@
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"registry\":\"myregistry.azurecr.io\",\"imageName\":\"library/hello-world\",\"manifest\":{\"digest\":\"sha256:1b26826f602946860c279fce658f31050cff2c596583af237d971f4629b57792\",\"imageSize\":0,\"createdTime\":\"2021-04-16T21:16:56.8418784Z\",\"lastUpdateTime\":\"2021-04-16T21:16:56.8418784Z\",\"architecture\":\"amd64\",\"os\":\"linux\",\"mediaType\":\"application/vnd.docker.distribution.manifest.v2+json\",\"changeableAttributes\":{\"deleteEnabled\":true,\"writeEnabled\":true,\"readEnabled\":true,\"listEnabled\":true,\"quarantineDetails\":\"{\\\"state\\\":\\\"Scan InProgress\\\",\\\"link\\\":\\\"https://aka.ms/test\\\",\\\"scanner\\\":\\\"Azure Security Monitoring-Qualys Scanner\\\",\\\"result\\\":{\\\"version\\\":\\\"4/16/2021 9:16:57 PM\\\",\\\"summary\\\":[{\\\"severity\\\":\\\"High\\\",\\\"count\\\":0},{\\\"severity\\\":\\\"Medium\\\",\\\"count\\\":0},{\\\"severity\\\":\\\"Low\\\",\\\"count\\\":0}]}}\",\"quarantineState\":\"Passed\"}}}\n",
+   "response": "{\"registry\":\"myregistry.azurecr.io\",\"imageName\":\"library/hello-world\",\"manifest\":{\"digest\":\"sha256:1b26826f602946860c279fce658f31050cff2c596583af237d971f4629b57792\",\"imageSize\":525,\"createdTime\":\"2021-05-10T23:18:24.1757675Z\",\"lastUpdateTime\":\"2021-05-10T23:18:24.1757675Z\",\"architecture\":\"amd64\",\"os\":\"linux\",\"mediaType\":\"application/vnd.docker.distribution.manifest.v2+json\",\"changeableAttributes\":{\"deleteEnabled\":true,\"writeEnabled\":true,\"readEnabled\":true,\"listEnabled\":true,\"quarantineDetails\":\"{\\\"state\\\":\\\"Scan Failed\\\",\\\"link\\\":\\\"https://aka.ms/test\\\",\\\"scanner\\\":\\\"Azure Security Monitoring-Qualys Scanner\\\",\\\"result\\\":{\\\"version\\\":\\\"5/10/2021 11:18:42 PM\\\",\\\"summary\\\":[{\\\"severity\\\":\\\"High\\\",\\\"count\\\":0},{\\\"severity\\\":\\\"Medium\\\",\\\"count\\\":0},{\\\"severity\\\":\\\"Low\\\",\\\"count\\\":0}]}}\",\"quarantineState\":\"Passed\"}}}\n",
    "responseHeaders": {
     "access-control-expose-headers": "Docker-Content-Digest, WWW-Authenticate, Link, X-Ms-Correlation-Request-Id",
     "connection": "keep-alive",
-    "content-length": "824",
+    "content-length": "823",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 16 Apr 2021 21:18:20 GMT",
+    "date": "Mon, 10 May 2021 23:19:43 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "4c7cec16-ab8d-4250-ae01-52b4cf5491a2"
+    "x-ms-correlation-request-id": "83371050-be88-408f-838c-8e9fcf14ae4d"
    }
   }
  ],
@@ -104,5 +128,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "34e414b884f1d3e493275fd6071b09f0"
+ "hash": "14bd7f305c92f6899e2bea9870539ae4"
 }

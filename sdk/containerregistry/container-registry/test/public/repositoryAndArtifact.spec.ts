@@ -58,6 +58,22 @@ describe("Repository and artifact tests", function() {
     assert.equal(result.value.length, 1, "Expecting one artifact in second page");
   });
 
+  it("should list tags", async () => {
+    const artifact = repository.getArtifact(artifactDigest);
+    const iter = artifact.listTags();
+    const first = await iter.next();
+    assert.ok(first.value, "Expecting a valid tag");
+  });
+
+  it("should list tags by pages", async () => {
+    const artifact = repository.getArtifact(artifactDigest);
+    const iterator = artifact.listTags().byPage({ maxPageSize: 1 });
+    let result = await iterator.next();
+    assert.equal(result.value.length, 1, "Expecting one tag in first page");
+    result = await iterator.next();
+    assert.equal(result.value.length, 1, "Expecting one tag in second page");
+  });
+
   it("sets manifest properties", async () => {
     const artifact = repository.getArtifact(artifactDigest);
     const artifactProperties = await artifact.getManifestProperties();
@@ -106,22 +122,6 @@ describe("Repository and artifact tests", function() {
     } finally {
       await repository.setProperties(original);
     }
-  });
-
-  it("should list tags", async () => {
-    const artifact = repository.getArtifact(artifactDigest);
-    const iter = artifact.listTags();
-    const first = await iter.next();
-    assert.ok(first.value, "Expecting a valid tag");
-  });
-
-  it("should list tags by pages", async () => {
-    const artifact = repository.getArtifact(artifactDigest);
-    const iterator = artifact.listTags().byPage({ maxPageSize: 1 });
-    let result = await iterator.next();
-    assert.equal(result.value.length, 1, "Expecting one tag in first page");
-    result = await iterator.next();
-    assert.equal(result.value.length, 1, "Expecting one tag in second page");
   });
 
   it("should retrive tag properties", async () => {
