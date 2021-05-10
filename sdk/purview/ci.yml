@@ -30,3 +30,5 @@ extends:
     Artifacts:
       - name: azure-rest-purview-catalog
         safeName: azurerestpurviewcatalog
+      - name: azure-rest-purview-scanning
+        safeName: azurerestpurviewscanning

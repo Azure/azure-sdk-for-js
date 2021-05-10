@@ -237,6 +237,10 @@
       "path": "common/tools/dev-tool"
     },
     {
+      "name": "purview-scanning",
+      "path": "sdk/purview/purview-scanning-rest"
+    },
+    {
       "name": "perfstress",
       "path": "sdk/test-utils/perfstress"
     },

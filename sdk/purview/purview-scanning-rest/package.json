@@ -1,8 +1,8 @@
 {
-  "name": "@azure-rest/purview-catalog",
+  "name": "@azure-rest/purview-scanning",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "description": "An isomorphic rest level client library for the Azure Purview Catalog service.",
+  "description": "An isomorphic rest level client library for the Azure Purview Scanning service.",
   "version": "1.0.0-beta.1",
   "keywords": [
     "node",
@@ -15,8 +15,8 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/purview-catalog-rest.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/purview/purview-catalog/README.md",
+  "types": "./types/purview-scanning-rest.d.ts",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/purview/purview-scanning-rest/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -24,13 +24,10 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/purview-catalog-rest.d.ts",
+    "types/purview-scanning-rest.d.ts",
     "README.md",
     "LICENSE"
   ],
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "//metadata": {
     "constantPaths": [
       {
@@ -38,6 +35,9 @@
         "prefix": "package-version"
       }
     ]
+  },
+  "engines": {
+    "node": ">=8.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Purview Scanning rest",
