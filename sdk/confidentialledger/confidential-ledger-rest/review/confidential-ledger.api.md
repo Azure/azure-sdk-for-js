@@ -4,7 +4,7 @@
 
 ```ts
 
-import { CertificateCredential } from '@azure/core-auth';
+import { CertificateCredential } from '@azure-rest/core-client';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';

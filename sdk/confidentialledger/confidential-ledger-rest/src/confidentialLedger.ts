@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientOptions } from "@azure-rest/core-client";
-import { TokenCredential, CertificateCredential } from "@azure/core-auth";
+import { ClientOptions, CertificateCredential } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 
 import { certificatePolicy } from "./certificatePolicy";
 import GeneratedConfidentialLedger, {

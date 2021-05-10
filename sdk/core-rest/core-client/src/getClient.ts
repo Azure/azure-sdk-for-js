@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  isTokenCredential,
-  KeyCredential,
-  TokenCredential,
-  isCertificateCredential,
-} from "@azure/core-auth";
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isCertificateCredential } from "./certificateCredential";
 import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
 import { ClientOptions, HttpResponse } from "./common";

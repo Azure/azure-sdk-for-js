@@ -12,6 +12,12 @@ import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface CertificateCredential {
+    cert: string;
+    certKey: string;
+}
+
+// @public
 export interface Client {
     path: Function;
     pathUnchecked: (path: string, ...args: Array<any>) => {
@@ -53,6 +59,9 @@ export type HttpResponse = {
     body: unknown;
     status: string;
 };
+
+// @public
+export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {
