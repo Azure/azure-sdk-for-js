@@ -30,9 +30,12 @@ For Azure PowerShell,
 ### Run Locally
 
 1. Run the following commands in your console from the root folder `IdentityTest`
-   `cd IdentityTest`
-   `npm install`
-   `npm start`
+
+```
+cd IdentityTest
+npm install
+npm start
+```
 
 Towards the end of the output, you'll see this:
 
@@ -45,9 +48,19 @@ Functions:
 Note:
 If KeyvaultAuthentication doesn't appear as shown above, you likely started the host from outside the root folder of the project. In that case, use Ctrl+C to stop the host, navigate to the project's root folder, and run the previous command again.
 
-2. Copy the URL of your KeyvaultAuthentication function from this output to a browser and append the query string ?name=<your-name>, making the full URL like `http://localhost:7071/api/KeyvaultAuthentication`. The browser should display a message like:
-   `Successfully authenticated with keyvault`
-   The terminal in which you started your project also shows log output as you make requests.
+2. Copy the URL of your KeyvaultAuthentication function from this output to a browser and append the query string `?name=<your-name>`, making the full URL like
+
+```
+http://localhost:7071/api/KeyvaultAuthentication
+```
+
+The browser should display a message like:
+
+```
+Successfully authenticated with keyvault
+```
+
+The terminal in which you started your project also shows log output as you make requests.
 
 3. When you're ready, use Ctrl+C and choose y to stop the functions host.
 
@@ -65,19 +78,36 @@ az deployment group create --resource-group <RESOURCE_GROUP_NAME> --template-fil
 ```
 
 4. Run the following commands in your console from the root folder `IdentityTest`
-   `cd IdentityTest`
-   `npm install`
-   `npm run build`
+
+   ```
+   cd IdentityTest
+   npm install
+   npm run build
+   ```
 
 5. Publish the function app
-   `func azure functionapp publish <FUNCTION_APP_NAME> --typescript`
-   The <FUNCTION_APP_NAME> will basically be something like - `<RESOURCE_GROUP_NAME>fnapp`
+
+   ```
+   func azure functionapp publish <FUNCTION_APP_NAME> --typescript
+   ```
+
+   The `<FUNCTION_APP_NAME>` will basically be something like - `<RESOURCE_GROUP_NAME>fnapp`
+
    Take note of the invoke url that shows up on console.
 
 ## Run the azure-identity Tests on the Azure Functions
 
-Go to the invoke url which will look something like - `https://<func app name>.azurewebsites.net/api/KeyvaultAuthentication`
-It should say something `Successfully authenticated with keyvault`
+Go to the invoke url which will be in the following format -
+
+```
+https://<func app name>.azurewebsites.net/api/KeyvaultAuthentication
+```
+
+It will display the message -
+
+```
+Successfully authenticated with keyvault
+```
 
 ## Clean up resources
 
