@@ -10,10 +10,13 @@ import ConfidentialLedger, { ConfidentialLedgerRestClient } from "../../../src";
 import { ClientSecretCredential } from "@azure/identity";
 
 import "./env";
-import { ClientOptions } from "@azure-rest/core-client";
 
 const replaceableVariables: { [k: string]: string } = {
-  ENDPOINT: "https://endpoint/",
+  ENDPOINT: "https://endpoint",
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  LEDGER_IDENTITY: "FAKE_CERT",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -34,17 +37,14 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export function createClient(
-  ledgerBaseUrl: string,
-  ledgerTlsCertificate: string,
-  options?: ClientOptions
-): ConfidentialLedgerRestClient {
+export function createClient(): ConfidentialLedgerRestClient {
   const credential = new ClientSecretCredential(
     env["AZURE_TENANT_ID"],
     env["AZURE_CLIENT_ID"],
     env["AZURE_CLIENT_SECRET"]
   );
-  return ConfidentialLedger(ledgerBaseUrl, ledgerTlsCertificate, credential, options);
+
+  return ConfidentialLedger(env.ENDPOINT, env.LEDGER_IDENTITY, credential);
 }
 
 /**

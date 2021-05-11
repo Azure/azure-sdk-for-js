@@ -61,6 +61,7 @@ module.exports = function (config) {
       "AZURE_TENANT_ID",
       "AZURE_CLIENT_SECRET",
       "ENDPOINT",
+      "LEDGER_IDENTITY",
     ],
 
     // test results reporter to use
