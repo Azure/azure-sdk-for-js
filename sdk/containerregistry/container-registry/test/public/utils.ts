@@ -3,6 +3,7 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { URL } from "../../src/url";
 import { ContainerRegistryClient } from "../../src";
 
 // When the recorder observes the values of these environment variables in any
@@ -48,6 +49,8 @@ export function createRegistryClient(
   options: { anonymous: boolean } = { anonymous: false }
 ): ContainerRegistryClient {
   if (options.anonymous) {
+    const parsed = new URL(endpoint);
+    console.log(`creating anonymous-access client to ${parsed.hostname}`);
     return new ContainerRegistryClient(endpoint);
   }
 
