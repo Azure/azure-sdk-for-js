@@ -16,7 +16,7 @@ const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 export async function main() {
-  console.log("\n== Revoke Token sample ==\n");
+  console.log("\n== Revoke Token samplez ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
 
