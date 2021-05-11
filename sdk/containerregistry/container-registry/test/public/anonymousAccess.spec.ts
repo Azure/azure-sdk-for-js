@@ -15,7 +15,7 @@ if (isNode) {
   dotenv.config();
 }
 
-describe.only("Anonymous access tests", function() {
+describe("Anonymous access tests", function() {
   // Declare the client and recorder instances.  We will set them using the
   // beforeEach hook.
   let client: ContainerRegistryClient;

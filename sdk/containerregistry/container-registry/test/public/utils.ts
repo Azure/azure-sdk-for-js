@@ -49,12 +49,6 @@ export function createRegistryClient(
   options: { anonymous: boolean } = { anonymous: false }
 ): ContainerRegistryClient {
   if (options.anonymous) {
-    const parsed = new URL(endpoint);
-    const output = [];
-    for (let i = 0; i < parsed.hostname.length; i++) {
-      output.push(parsed.hostname[i]);
-    }
-    console.log(`creating anonymous-access client to ${output}`);
     return new ContainerRegistryClient(endpoint);
   }
 
