@@ -36,6 +36,7 @@ export interface ArtifactTagProperties {
 // @public
 export class ContainerRegistryClient {
     constructor(endpointUrl: string, credential?: TokenCredential, options?: ContainerRegistryClientOptions);
+    constructor(endpointUrl: string, options?: ContainerRegistryClientOptions);
     deleteRepository(repositoryName: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
     getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact;
     getRepository(repositoryName: string): ContainerRepository;
