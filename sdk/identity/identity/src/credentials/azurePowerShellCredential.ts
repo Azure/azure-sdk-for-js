@@ -71,8 +71,7 @@ const isNotInstalledError = (err: Error) => err.message.match(powerShellErrors.i
 /**
  * This credential will use the currently logged-in user information from the
  * Azure PowerShell module. To do so, it will read the user access token and
- * expire time with Azure PowerShell command `Get-AzAccessToken -ResourceUrl
- * {ResourceScope}`.
+ * expire time with Azure PowerShell command `Get-AzAccessToken -ResourceUrl {ResourceScope}`
  *
  * To be able to use this credential:
  * - Install the Azure Az PowerShell module with:
