@@ -17,7 +17,6 @@ import {
   FormRecognizerClient
 } from "../../src";
 
-
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
 const containerSasUrl = (): string => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
 
