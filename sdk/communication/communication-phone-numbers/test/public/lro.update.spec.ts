@@ -38,8 +38,6 @@ matrix([[true, false]], async function(useAad) {
       // const phoneNumber = await updatePoller.pollUntilDone();
       await updatePoller.pollUntilDone();
       assert.ok(updatePoller.getOperationState().isCompleted);
-      const result = updatePoller.getOperationState().result! as any;
-      assert.equal(result.status, "succeeded");
       // assert.deepEqual(phoneNumber.capabilities, update);
     }).timeout(90000);
 
