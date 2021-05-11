@@ -4,13 +4,15 @@ module.exports.hash = "0f29f16eb1ff040fd059419bbfb9bddc";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://login.windows-ppe.net:443', {"encodedQueryParams":true})
+nock('https://login.net:443', {"encodedQueryParams":true})
   .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Ffarmbeats-dogfood.azure.net%2F.default")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1340',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,17 +24,15 @@ nock('https://login.windows-ppe.net:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '7bdf6e4b-5445-4966-9704-5b1deda00300',
+  '94fb0164-575b-4160-8e8c-45178b510400',
   'x-ms-ests-server',
-  '2.1.11774.0 - DMS PPE',
+  '2.1.11774.0 - CHY PPE',
   'Set-Cookie',
-  'fpc=ArSLLyq-3BNLhxsFs9Uc6E4izVzVAQAAAIm7K9gOAAAA; expires=Wed, 09-Jun-2021 23:40:59 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Amm0Id9DckJHjmhZsbTs4kYizVzVAQAAAPXGK9gOAAAA; expires=Thu, 10-Jun-2021 00:29:41 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'stsservicecookie=estsppe; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 10 May 2021 23:40:58 GMT',
-  'Content-Length',
-  '1340'
+  'Tue, 11 May 2021 00:29:41 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -42,7 +42,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Server',
   'nginx/1.19.1',
   'Date',
-  'Mon, 10 May 2021 23:40:59 GMT',
+  'Tue, 11 May 2021 00:29:41 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
