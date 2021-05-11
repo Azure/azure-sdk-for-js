@@ -110,7 +110,7 @@ The `<FUNCTION_APP_NAME>` will basically be something like - `<RESOURCE_GROUP_NA
 
 Take note of the invoke url that shows up on console.
 
-## Run the azure-identity Tests on the Azure Functions
+## Run Identity Tests on Azure Functions
 
 Go to the invoke url which will be in the following format -
 
