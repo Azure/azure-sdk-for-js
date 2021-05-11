@@ -1,7 +1,9 @@
 # Release History
 
-## 4.1.1 (Unreleased)
+## 4.2.0 (Unreleased)
 
+- Added new System Events: "Microsoft.PolicyInsights.PolicyStateCreated", "Microsoft.PolicyInsights.PolicyStateChanged", "Microsoft.PolicyInsights.PolicyStateDeleted",
+  "Microsoft.Storage.AsyncOperationInitiated", "Microsoft.Storage.BlobTierChanged".
 
 ## 4.1.0 (2021-03-23)
 
