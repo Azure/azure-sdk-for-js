@@ -58,7 +58,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [getenclavequotescert]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/confidentialledger/confidential-ledger-rest/samples/v1/javascript/getEnclaveQuotesCert.js
 [getenclavequotesaad]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/confidentialledger/confidential-ledger-rest/samples/v1/javascript/getEnclaveQuotesAAD.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/confidential-ledger
+[apiref]: https://docs.microsoft.com/javascript/api/?term=confidential-ledger
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureconfidentialcompute]: https://azure.microsoft.com/solutions/confidential-compute
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/confidentialledger/confidential-ledger-rest/README.md
