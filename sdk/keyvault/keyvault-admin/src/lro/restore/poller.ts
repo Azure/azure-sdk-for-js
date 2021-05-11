@@ -11,7 +11,7 @@ import { RestoreResult } from "../../backupClientModels";
 import { createTraceFunction } from "../../../../keyvault-common/src";
 
 export interface RestorePollerOptions extends KeyVaultAdminPollerOptions {
-  blobStorageUri: string;
+  folderUri: string;
   sasToken: string;
   folderName: string;
 }
@@ -29,7 +29,7 @@ export class RestorePoller extends KeyVaultAdminPoller<RestoreOperationState, Re
     const {
       client,
       vaultUrl,
-      blobStorageUri,
+      folderUri,
       sasToken,
       folderName,
       requestOptions,
@@ -46,7 +46,7 @@ export class RestorePoller extends KeyVaultAdminPoller<RestoreOperationState, Re
     const operation = new RestorePollOperation(
       {
         ...state,
-        blobStorageUri,
+        folderUri,
         sasToken,
         folderName
       },

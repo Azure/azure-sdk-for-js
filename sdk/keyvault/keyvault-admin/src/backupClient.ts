@@ -191,19 +191,19 @@ export class KeyVaultBackupClient {
    * console.log(backupUri);
    * ```
    * Starts a full restore operation.
-   * @param blobStorageUri - The URL of the blob storage resource where the previous successful full backup was stored.
+   * @param folderUri - The URL of the blob storage resource where the previous successful full backup was stored.
    * @param sasToken - The SAS token.
    * @param folderName - The folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
    * @param options - The optional parameters.
    */
   public async beginRestore(
-    blobStorageUri: string,
+    folderUri: string,
     sasToken: string,
     folderName: string,
     options: BeginRestoreOptions = {}
   ): Promise<PollerLike<RestoreOperationState, RestoreResult>> {
     const poller = new RestorePoller({
-      blobStorageUri,
+      folderUri,
       sasToken,
       folderName,
       client: this.client,
@@ -248,14 +248,14 @@ export class KeyVaultBackupClient {
    * await poller.pollUntilDone();
    * ```
    * Creates a new role assignment.
-   * @param blobStorageUri - The URL of the blob storage resource, with the folder name of the blob where the previous successful full backup was stored.
+   * @param folderUri - The URL of the blob storage resource, with the folder name of the blob where the previous successful full backup was stored.
    * @param sasToken - The SAS token.
    * @param folderName - The Folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
    * @param keyName - The name of the key that wants to be restored.
    * @param options - The optional parameters.
    */
   public async beginSelectiveRestore(
-    blobStorageUri: string,
+    folderUri: string,
     sasToken: string,
     folderName: string,
     keyName: string,
@@ -263,7 +263,7 @@ export class KeyVaultBackupClient {
   ): Promise<PollerLike<SelectiveRestoreOperationState, RestoreResult>> {
     const poller = new SelectiveRestorePoller({
       keyName,
-      blobStorageUri,
+      folderUri,
       sasToken,
       folderName,
       client: this.client,

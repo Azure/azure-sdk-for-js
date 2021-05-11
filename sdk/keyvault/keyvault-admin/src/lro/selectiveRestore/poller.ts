@@ -12,7 +12,7 @@ import { createTraceFunction } from "../../../../keyvault-common/src";
 
 export interface SelectiveRestorePollerOptions extends KeyVaultAdminPollerOptions {
   keyName: string;
-  blobStorageUri: string;
+  folderUri: string;
   sasToken: string;
   folderName: string;
 }
@@ -34,7 +34,7 @@ export class SelectiveRestorePoller extends KeyVaultAdminPoller<
       client,
       vaultUrl,
       keyName,
-      blobStorageUri,
+      folderUri,
       sasToken,
       folderName,
       requestOptions,
@@ -52,7 +52,7 @@ export class SelectiveRestorePoller extends KeyVaultAdminPoller<
       {
         ...state,
         keyName,
-        blobStorageUri,
+        folderUri: folderUri,
         sasToken,
         folderName
       },

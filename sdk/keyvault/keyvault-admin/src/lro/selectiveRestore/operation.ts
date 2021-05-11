@@ -37,9 +37,9 @@ export interface SelectiveRestorePollOperationState
    */
   folderName: string;
   /**
-   * The URI of the blob storage account.
+   * The URI of the blob storage account where the previous successful full backup was stored.
    */
-  blobStorageUri: string;
+  folderUri: string;
   /**
    * The SAS token.
    */
@@ -96,7 +96,7 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
     } = {}
   ): Promise<SelectiveRestorePollOperation> {
     const state = this.state;
-    const { keyName, blobStorageUri, sasToken, folderName } = state;
+    const { keyName, folderUri, sasToken, folderName } = state;
 
     if (options.abortSignal) {
       this.requestOptions.abortSignal = options.abortSignal;
@@ -108,7 +108,7 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
         restoreBlobDetails: {
           folder: folderName,
           sasTokenParameters: {
-            storageResourceUri: blobStorageUri,
+            storageResourceUri: folderUri,
             token: sasToken
           }
         }

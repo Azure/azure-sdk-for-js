@@ -30,7 +30,7 @@ export interface RestorePollOperationState extends KeyVaultAdminPollOperationSta
   /**
    * The URI of the blob storage account.
    */
-  blobStorageUri: string;
+  folderUri: string;
   /**
    * The SAS token.
    */
@@ -92,7 +92,7 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
     } = {}
   ): Promise<RestorePollOperation> {
     const state = this.state;
-    const { blobStorageUri, sasToken, folderName } = state;
+    const { folderUri, sasToken, folderName } = state;
 
     if (options.abortSignal) {
       this.requestOptions.abortSignal = options.abortSignal;
@@ -104,7 +104,7 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
         restoreBlobDetails: {
           folderToRestore: folderName,
           sasTokenParameters: {
-            storageResourceUri: blobStorageUri,
+            storageResourceUri: folderUri,
             token: sasToken
           }
         }
