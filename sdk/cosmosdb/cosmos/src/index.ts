@@ -23,7 +23,6 @@ export {
   ReadOperationInput,
   DeleteOperationInput
 } from "./utils/batch";
-export { getCachedDefaultHttpClient } from "./utils/cachedClient";
 export {
   ConnectionMode,
   ConsistencyLevel,
