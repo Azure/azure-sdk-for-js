@@ -48,7 +48,7 @@ matrix([[true, false]], async function(useAad) {
         const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
         await searchPoller.pollUntilDone();
       } catch (error) {
-        assert.ok(error instanceof RestError);
+        assert.instanceOf(error, RestError, "error is a RestError");
         assert.equal(error.statusCode, 404);
         return;
       }

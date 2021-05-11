@@ -38,7 +38,7 @@ matrix([[true, false]], async function(useAad) {
       try {
         await client.getPurchasedPhoneNumber(fake);
       } catch (error) {
-        assert.ok(error instanceof RestError);
+        assert.instanceOf(error, RestError, "error is a RestError");
         assert.strictEqual(error.code, "PhoneNumberNotFound");
         assert.strictEqual(
           error.message,

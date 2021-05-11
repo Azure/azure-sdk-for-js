@@ -59,7 +59,7 @@ matrix([[true, false]], async function(useAad) {
         await searchPoller.pollUntilDone();
       } catch (error) {
         // TODO: Re-enable when service is fixed to return proper error code
-        assert.ok(error instanceof RestError);
+        assert.instanceOf(error, RestError, "error is a RestError");
         assert.equal(error.statusCode, 400);
         return;
       }
