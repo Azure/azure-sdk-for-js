@@ -506,7 +506,7 @@ export interface DeletedPath {
     // (undocumented)
     deletionId?: string;
     // (undocumented)
-    name?: string;
+    name: string;
     // (undocumented)
     remainingRetentionDays?: number;
 }

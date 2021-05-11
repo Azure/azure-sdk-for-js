@@ -40,7 +40,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
 import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
 import { AccountSASServices } from "./sas/AccountSASServices";
-import { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from ".";
+import { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure

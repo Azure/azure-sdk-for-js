@@ -12,11 +12,11 @@
    "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>true</Read><Write>true</Write><Delete>true</Delete><RetentionPolicy><Enabled>true</Enabled><Days>5</Days></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>true</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>3</Days></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>true</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>4</Days></RetentionPolicy></MinuteMetrics><Cors><CorsRule><AllowedMethods>DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT,PATCH</AllowedMethods><AllowedOrigins>*</AllowedOrigins><AllowedHeaders>*</AllowedHeaders><ExposedHeaders>*</ExposedHeaders><MaxAgeInSeconds>86400</MaxAgeInSeconds></CorsRule></Cors><DeleteRetentionPolicy><Enabled>true</Enabled><Days>2</Days><AllowPermanentDelete>false</AllowPermanentDelete></DeleteRetentionPolicy><StaticWebsite><Enabled>false</Enabled></StaticWebsite><DefaultServiceVersion>2018-03-28</DefaultServiceVersion></StorageServiceProperties>",
    "responseHeaders": {
     "content-type": "application/xml",
-    "date": "Mon, 10 May 2021 08:08:08 GMT",
+    "date": "Tue, 11 May 2021 07:37:55 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
-    "x-ms-client-request-id": "e0307ae3-a3c3-4d85-a9e5-5c56debba487",
-    "x-ms-request-id": "9615ca2c-f01e-0098-6473-450374000000",
+    "x-ms-client-request-id": "1cfc32c3-8dd3-47c7-be9b-6739025441a6",
+    "x-ms-request-id": "d66949d5-501e-009e-4f38-46f40c000000",
     "x-ms-version": "2020-06-12"
    }
   },
@@ -32,10 +32,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Mon, 10 May 2021 08:08:08 GMT",
+    "date": "Tue, 11 May 2021 07:37:55 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "f16afcc3-2232-4734-af54-188b27df5bc8",
-    "x-ms-request-id": "9615ca92-f01e-0098-3673-450374000000",
+    "x-ms-client-request-id": "61610620-c9a1-4a46-8068-88b2fa4c95e0",
+    "x-ms-request-id": "d6694a49-501e-009e-3438-46f40c000000",
     "x-ms-version": "2020-06-12"
    }
   },
@@ -51,11 +51,11 @@
    "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>true</Read><Write>true</Write><Delete>true</Delete><RetentionPolicy><Enabled>true</Enabled><Days>5</Days></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>true</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>3</Days></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>true</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>4</Days></RetentionPolicy></MinuteMetrics><Cors><CorsRule><AllowedMethods>DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT,PATCH</AllowedMethods><AllowedOrigins>*</AllowedOrigins><AllowedHeaders>*</AllowedHeaders><ExposedHeaders>*</ExposedHeaders><MaxAgeInSeconds>86400</MaxAgeInSeconds></CorsRule></Cors><DeleteRetentionPolicy><Enabled>true</Enabled><Days>2</Days><AllowPermanentDelete>false</AllowPermanentDelete></DeleteRetentionPolicy><StaticWebsite><Enabled>false</Enabled></StaticWebsite><DefaultServiceVersion>2018-03-28</DefaultServiceVersion></StorageServiceProperties>",
    "responseHeaders": {
     "content-type": "application/xml",
-    "date": "Mon, 10 May 2021 08:08:14 GMT",
+    "date": "Tue, 11 May 2021 07:38:00 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
-    "x-ms-client-request-id": "f3788e01-9a3d-43ea-8be6-807429db0770",
-    "x-ms-request-id": "9615d4ea-f01e-0098-2c73-450374000000",
+    "x-ms-client-request-id": "8fac8807-7397-4a6a-ad99-171563c81f1f",
+    "x-ms-request-id": "d6695434-501e-009e-7338-46f40c000000",
     "x-ms-version": "2020-06-12"
    }
   },
@@ -71,10 +71,10 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Mon, 10 May 2021 08:08:14 GMT",
+    "date": "Tue, 11 May 2021 07:38:00 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "962bf952-b7b9-4a32-80f2-9c42e49da54b",
-    "x-ms-request-id": "9615d51c-f01e-0098-5773-450374000000",
+    "x-ms-client-request-id": "40f81c41-e774-4a68-aa62-69c40489820b",
+    "x-ms-request-id": "d6695460-501e-009e-1838-46f40c000000",
     "x-ms-version": "2020-06-12"
    }
   },
@@ -90,11 +90,11 @@
    "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>true</Read><Write>true</Write><Delete>true</Delete><RetentionPolicy><Enabled>true</Enabled><Days>5</Days></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>true</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>3</Days></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>true</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>4</Days></RetentionPolicy></MinuteMetrics><Cors><CorsRule><AllowedMethods>DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT,PATCH</AllowedMethods><AllowedOrigins>*</AllowedOrigins><AllowedHeaders>*</AllowedHeaders><ExposedHeaders>*</ExposedHeaders><MaxAgeInSeconds>86400</MaxAgeInSeconds></CorsRule></Cors><DeleteRetentionPolicy><Enabled>true</Enabled><Days>2</Days><AllowPermanentDelete>false</AllowPermanentDelete></DeleteRetentionPolicy><StaticWebsite><Enabled>false</Enabled></StaticWebsite><DefaultServiceVersion>2018-03-28</DefaultServiceVersion></StorageServiceProperties>",
    "responseHeaders": {
     "content-type": "application/xml",
-    "date": "Mon, 10 May 2021 08:08:19 GMT",
+    "date": "Tue, 11 May 2021 07:38:06 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
-    "x-ms-client-request-id": "21ee7395-1416-498d-85a0-a688a4ac4a1b",
-    "x-ms-request-id": "9615dddc-f01e-0098-1873-450374000000",
+    "x-ms-client-request-id": "f53bc4b5-7482-42de-8f1b-ac983bb51688",
+    "x-ms-request-id": "d6695ee1-501e-009e-0238-46f40c000000",
     "x-ms-version": "2020-06-12"
    }
   }
@@ -103,5 +103,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "4b364eb511f1c6f78f4de9bc723d665c"
+ "hash": "38245d24c2f4b1ab1560293993ceced1"
 }

@@ -48,8 +48,8 @@ import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing"
 import { appendToURLPath, appendToURLQuery } from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
 import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
-import { DeletionIdName, PathResultTypeConstants } from "./utils/constants";
-import { UtilsPathClient } from "./utils/PathClientUtils";
+import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants";
+import { PathClientInternal } from "./utils/PathClientInternal";
 
 /**
  * A DataLakeFileSystemClient represents a URL to the Azure Storage file system
@@ -64,7 +64,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * fileSystemContext provided by protocol layer.
    */
-  private blobEndpoint_fileSystemContext: FileSystem;
+  private fileSystemContextToBlobEndpoint: FileSystem;
 
   /**
    * blobContainerClient provided by `@azure/storage-blob` package.
@@ -121,7 +121,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     }
 
     this.fileSystemContext = new FileSystem(this.storageClientContext);
-    this.blobEndpoint_fileSystemContext = new FileSystem(this.storageClientContextToBlobEndpoint);
+    this.fileSystemContextToBlobEndpoint = new FileSystem(this.storageClientContextToBlobEndpoint);
     this.blobContainerClient = new ContainerClient(this.blobEndpointUrl, this.pipeline);
   }
 
@@ -736,7 +736,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       options
     );
     try {
-      const rawResponse = await this.blobEndpoint_fileSystemContext.listBlobHierarchySegment({
+      const rawResponse = await this.fileSystemContextToBlobEndpoint.listBlobHierarchySegment({
         marker: continuation,
         ...options,
         prefix: options.prefix === "" ? undefined : options.prefix,
@@ -747,7 +747,10 @@ export class DataLakeFileSystemClient extends StorageClient {
       response.pathItems = [];
       for (const path of rawResponse.segment.blobItems || []) {
         response.pathItems.push({
-          ...path
+          name: path.name,
+          deletionId: path.deletionId,
+          deletedOn: path.properties.deletedTime,
+          remainingRetentionDays: path.properties.remainingRetentionDays
         });
       }
 
@@ -785,13 +788,13 @@ export class DataLakeFileSystemClient extends StorageClient {
   ): Promise<FileSystemUndeletePathResponse> {
     const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-undeletePath", options);
     try {
-      const pathClient = new UtilsPathClient(
+      const pathClient = new PathClientInternal(
         appendToURLPath(this.blobEndpointUrl, encodeURIComponent(deletedPath)),
         this.pipeline
       );
 
       const rawResponse = await pathClient.blobPathContext.undelete({
-        undeleteSource: "?" + DeletionIdName + "=" + deletionId,
+        undeleteSource: "?" + DeletionIdKey + "=" + deletionId,
         ...options,
         tracingOptions: updatedOptions.tracingOptions
       });

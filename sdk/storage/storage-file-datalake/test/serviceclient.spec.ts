@@ -32,7 +32,7 @@ describe("DataLakeServiceClient", () => {
     await recorder.stop();
   });
 
-  it("SetProperties", async () => {
+  it("SetProperties and GetProperties", async () => {
     const serviceClient = getDataLakeServiceClient();
     const previousProperties = await serviceClient.getProperties();
 

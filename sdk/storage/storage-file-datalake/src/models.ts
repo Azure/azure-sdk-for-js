@@ -496,7 +496,7 @@ export interface ListDeletedPathsSegmentOptions extends ListDeletedPathsOptions 
 }
 
 export interface DeletedPath {
-  name?: string;
+  name: string;
   deletionId?: string;
   deletedOn?: Date;
   remainingRetentionDays?: number;

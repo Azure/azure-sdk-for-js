@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { DataLakePathClient } from "../clients";
 import { Path } from "../generated/src/operations";
 import { Pipeline } from "../Pipeline";
-import { StorageClient } from "../StorageClient";
 
 /**
- * A UtilsPathClient represents a URL to the Azure Storage path (directory or file) to
+ * A PathClientInternal represents a URL to the Azure Storage path (directory or file) to
  * help to construct a path client to expose Path context with blob endpoint.
  */
-export class UtilsPathClient extends StorageClient {
+export class PathClientInternal extends DataLakePathClient {
   /**
    * Path context with blob endpoint.
    */
