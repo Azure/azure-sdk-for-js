@@ -1860,7 +1860,8 @@ export interface EndpointHealthDataListResult extends Array<EndpointHealthData> 
  * The list of shared access policies with a next link.
  * @extends Array<SharedAccessSignatureAuthorizationRule>
  */
-export interface SharedAccessSignatureAuthorizationRuleListResult extends Array<SharedAccessSignatureAuthorizationRule> {
+export interface SharedAccessSignatureAuthorizationRuleListResult
+  extends Array<SharedAccessSignatureAuthorizationRule> {
   /**
    * The next link.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1879,7 +1880,22 @@ export interface SharedAccessSignatureAuthorizationRuleListResult extends Array<
  * @readonly
  * @enum {string}
  */
-export type AccessRights = 'RegistryRead' | 'RegistryWrite' | 'ServiceConnect' | 'DeviceConnect' | 'RegistryRead, RegistryWrite' | 'RegistryRead, ServiceConnect' | 'RegistryRead, DeviceConnect' | 'RegistryWrite, ServiceConnect' | 'RegistryWrite, DeviceConnect' | 'ServiceConnect, DeviceConnect' | 'RegistryRead, RegistryWrite, ServiceConnect' | 'RegistryRead, RegistryWrite, DeviceConnect' | 'RegistryRead, ServiceConnect, DeviceConnect' | 'RegistryWrite, ServiceConnect, DeviceConnect' | 'RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect';
+export type AccessRights =
+  | "RegistryRead"
+  | "RegistryWrite"
+  | "ServiceConnect"
+  | "DeviceConnect"
+  | "RegistryRead, RegistryWrite"
+  | "RegistryRead, ServiceConnect"
+  | "RegistryRead, DeviceConnect"
+  | "RegistryWrite, ServiceConnect"
+  | "RegistryWrite, DeviceConnect"
+  | "ServiceConnect, DeviceConnect"
+  | "RegistryRead, RegistryWrite, ServiceConnect"
+  | "RegistryRead, RegistryWrite, DeviceConnect"
+  | "RegistryRead, ServiceConnect, DeviceConnect"
+  | "RegistryWrite, ServiceConnect, DeviceConnect"
+  | "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect";
 
 /**
  * Defines values for PublicNetworkAccess.
@@ -1887,7 +1903,7 @@ export type AccessRights = 'RegistryRead' | 'RegistryWrite' | 'ServiceConnect' |
  * @readonly
  * @enum {string}
  */
-export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+export type PublicNetworkAccess = "Enabled" | "Disabled";
 
 /**
  * Defines values for IpFilterActionType.
@@ -1895,7 +1911,7 @@ export type PublicNetworkAccess = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type IpFilterActionType = 'Accept' | 'Reject';
+export type IpFilterActionType = "Accept" | "Reject";
 
 /**
  * Defines values for DefaultAction.
@@ -1903,7 +1919,7 @@ export type IpFilterActionType = 'Accept' | 'Reject';
  * @readonly
  * @enum {string}
  */
-export type DefaultAction = 'Deny' | 'Allow';
+export type DefaultAction = "Deny" | "Allow";
 
 /**
  * Defines values for NetworkRuleIPAction.
@@ -1911,7 +1927,7 @@ export type DefaultAction = 'Deny' | 'Allow';
  * @readonly
  * @enum {string}
  */
-export type NetworkRuleIPAction = 'Allow';
+export type NetworkRuleIPAction = "Allow";
 
 /**
  * Defines values for PrivateLinkServiceConnectionStatus.
@@ -1919,7 +1935,11 @@ export type NetworkRuleIPAction = 'Allow';
  * @readonly
  * @enum {string}
  */
-export type PrivateLinkServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+export type PrivateLinkServiceConnectionStatus =
+  | "Pending"
+  | "Approved"
+  | "Rejected"
+  | "Disconnected";
 
 /**
  * Defines values for AuthenticationType.
@@ -1927,7 +1947,7 @@ export type PrivateLinkServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejec
  * @readonly
  * @enum {string}
  */
-export type AuthenticationType = 'keyBased' | 'identityBased';
+export type AuthenticationType = "keyBased" | "identityBased";
 
 /**
  * Defines values for RoutingSource.
@@ -1936,7 +1956,13 @@ export type AuthenticationType = 'keyBased' | 'identityBased';
  * @readonly
  * @enum {string}
  */
-export type RoutingSource = 'Invalid' | 'DeviceMessages' | 'TwinChangeEvents' | 'DeviceLifecycleEvents' | 'DeviceJobLifecycleEvents' | 'DeviceConnectionStateEvents';
+export type RoutingSource =
+  | "Invalid"
+  | "DeviceMessages"
+  | "TwinChangeEvents"
+  | "DeviceLifecycleEvents"
+  | "DeviceJobLifecycleEvents"
+  | "DeviceConnectionStateEvents";
 
 /**
  * Defines values for Capabilities.
@@ -1944,7 +1970,7 @@ export type RoutingSource = 'Invalid' | 'DeviceMessages' | 'TwinChangeEvents' | 
  * @readonly
  * @enum {string}
  */
-export type Capabilities = 'None' | 'DeviceManagement';
+export type Capabilities = "None" | "DeviceManagement";
 
 /**
  * Defines values for IotHubReplicaRoleType.
@@ -1952,7 +1978,7 @@ export type Capabilities = 'None' | 'DeviceManagement';
  * @readonly
  * @enum {string}
  */
-export type IotHubReplicaRoleType = 'primary' | 'secondary';
+export type IotHubReplicaRoleType = "primary" | "secondary";
 
 /**
  * Defines values for IotHubSku.
@@ -1960,7 +1986,7 @@ export type IotHubReplicaRoleType = 'primary' | 'secondary';
  * @readonly
  * @enum {string}
  */
-export type IotHubSku = 'F1' | 'S1' | 'S2' | 'S3' | 'B1' | 'B2' | 'B3';
+export type IotHubSku = "F1" | "S1" | "S2" | "S3" | "B1" | "B2" | "B3";
 
 /**
  * Defines values for IotHubSkuTier.
@@ -1968,7 +1994,7 @@ export type IotHubSku = 'F1' | 'S1' | 'S2' | 'S3' | 'B1' | 'B2' | 'B3';
  * @readonly
  * @enum {string}
  */
-export type IotHubSkuTier = 'Free' | 'Standard' | 'Basic';
+export type IotHubSkuTier = "Free" | "Standard" | "Basic";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -1977,7 +2003,11 @@ export type IotHubSkuTier = 'Free' | 'Standard' | 'Basic';
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 
 /**
  * Defines values for EndpointHealthStatus.
@@ -1985,7 +2015,7 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAs
  * @readonly
  * @enum {string}
  */
-export type EndpointHealthStatus = 'unknown' | 'healthy' | 'degraded' | 'unhealthy' | 'dead';
+export type EndpointHealthStatus = "unknown" | "healthy" | "degraded" | "unhealthy" | "dead";
 
 /**
  * Defines values for JobType.
@@ -1995,7 +2025,17 @@ export type EndpointHealthStatus = 'unknown' | 'healthy' | 'degraded' | 'unhealt
  * @readonly
  * @enum {string}
  */
-export type JobType = 'unknown' | 'export' | 'import' | 'backup' | 'readDeviceProperties' | 'writeDeviceProperties' | 'updateDeviceConfiguration' | 'rebootDevice' | 'factoryResetDevice' | 'firmwareUpdate';
+export type JobType =
+  | "unknown"
+  | "export"
+  | "import"
+  | "backup"
+  | "readDeviceProperties"
+  | "writeDeviceProperties"
+  | "updateDeviceConfiguration"
+  | "rebootDevice"
+  | "factoryResetDevice"
+  | "firmwareUpdate";
 
 /**
  * Defines values for JobStatus.
@@ -2003,7 +2043,7 @@ export type JobType = 'unknown' | 'export' | 'import' | 'backup' | 'readDevicePr
  * @readonly
  * @enum {string}
  */
-export type JobStatus = 'unknown' | 'enqueued' | 'running' | 'completed' | 'failed' | 'cancelled';
+export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "failed" | "cancelled";
 
 /**
  * Defines values for IotHubScaleType.
@@ -2011,7 +2051,7 @@ export type JobStatus = 'unknown' | 'enqueued' | 'running' | 'completed' | 'fail
  * @readonly
  * @enum {string}
  */
-export type IotHubScaleType = 'Automatic' | 'Manual' | 'None';
+export type IotHubScaleType = "Automatic" | "Manual" | "None";
 
 /**
  * Defines values for IotHubNameUnavailabilityReason.
@@ -2019,7 +2059,7 @@ export type IotHubScaleType = 'Automatic' | 'Manual' | 'None';
  * @readonly
  * @enum {string}
  */
-export type IotHubNameUnavailabilityReason = 'Invalid' | 'AlreadyExists';
+export type IotHubNameUnavailabilityReason = "Invalid" | "AlreadyExists";
 
 /**
  * Defines values for TestResultStatus.
@@ -2027,7 +2067,7 @@ export type IotHubNameUnavailabilityReason = 'Invalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type TestResultStatus = 'undefined' | 'false' | 'true';
+export type TestResultStatus = "undefined" | "false" | "true";
 
 /**
  * Defines values for RouteErrorSeverity.
@@ -2035,7 +2075,7 @@ export type TestResultStatus = 'undefined' | 'false' | 'true';
  * @readonly
  * @enum {string}
  */
-export type RouteErrorSeverity = 'error' | 'warning';
+export type RouteErrorSeverity = "error" | "warning";
 
 /**
  * Defines values for Encoding.
@@ -2043,7 +2083,7 @@ export type RouteErrorSeverity = 'error' | 'warning';
  * @readonly
  * @enum {string}
  */
-export type Encoding = 'Avro' | 'AvroDeflate' | 'JSON';
+export type Encoding = "Avro" | "AvroDeflate" | "JSON";
 
 /**
  * Contains response data for the list operation.
@@ -2053,16 +2093,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2073,16 +2113,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2093,16 +2133,16 @@ export type IotHubResourceGetResponse = IotHubDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubDescription;
+  };
 };
 
 /**
@@ -2113,16 +2153,16 @@ export type IotHubResourceCreateOrUpdateResponse = IotHubDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubDescription;
+  };
 };
 
 /**
@@ -2133,16 +2173,16 @@ export type IotHubResourceUpdateResponse = IotHubDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubDescription;
+  };
 };
 
 /**
@@ -2158,16 +2198,16 @@ export type IotHubResourceDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -2178,16 +2218,16 @@ export type IotHubResourceListBySubscriptionResponse = IotHubDescriptionListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubDescriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubDescriptionListResult;
+  };
 };
 
 /**
@@ -2198,16 +2238,16 @@ export type IotHubResourceListByResourceGroupResponse = IotHubDescriptionListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubDescriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubDescriptionListResult;
+  };
 };
 
 /**
@@ -2218,16 +2258,16 @@ export type IotHubResourceGetStatsResponse = RegistryStatistics & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryStatistics;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegistryStatistics;
+  };
 };
 
 /**
@@ -2238,16 +2278,16 @@ export type IotHubResourceGetValidSkusResponse = IotHubSkuDescriptionListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubSkuDescriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubSkuDescriptionListResult;
+  };
 };
 
 /**
@@ -2258,16 +2298,16 @@ export type IotHubResourceListEventHubConsumerGroupsResponse = EventHubConsumerG
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventHubConsumerGroupsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventHubConsumerGroupsListResult;
+  };
 };
 
 /**
@@ -2278,16 +2318,16 @@ export type IotHubResourceGetEventHubConsumerGroupResponse = EventHubConsumerGro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventHubConsumerGroupInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventHubConsumerGroupInfo;
+  };
 };
 
 /**
@@ -2298,16 +2338,16 @@ export type IotHubResourceCreateEventHubConsumerGroupResponse = EventHubConsumer
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventHubConsumerGroupInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventHubConsumerGroupInfo;
+  };
 };
 
 /**
@@ -2318,16 +2358,16 @@ export type IotHubResourceListJobsResponse = JobResponseListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResponseListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResponseListResult;
+  };
 };
 
 /**
@@ -2338,16 +2378,16 @@ export type IotHubResourceGetJobResponse = JobResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResponse;
+  };
 };
 
 /**
@@ -2358,16 +2398,16 @@ export type IotHubResourceGetQuotaMetricsResponse = IotHubQuotaMetricInfoListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubQuotaMetricInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubQuotaMetricInfoListResult;
+  };
 };
 
 /**
@@ -2378,16 +2418,16 @@ export type IotHubResourceGetEndpointHealthResponse = EndpointHealthDataListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EndpointHealthDataListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EndpointHealthDataListResult;
+  };
 };
 
 /**
@@ -2398,16 +2438,16 @@ export type IotHubResourceCheckNameAvailabilityResponse = IotHubNameAvailability
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubNameAvailabilityInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubNameAvailabilityInfo;
+  };
 };
 
 /**
@@ -2418,16 +2458,16 @@ export type IotHubResourceTestAllRoutesResponse = TestAllRoutesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TestAllRoutesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TestAllRoutesResult;
+  };
 };
 
 /**
@@ -2438,16 +2478,16 @@ export type IotHubResourceTestRouteResponse = TestRouteResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TestRouteResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TestRouteResult;
+  };
 };
 
 /**
@@ -2458,16 +2498,16 @@ export type IotHubResourceListKeysResponse = SharedAccessSignatureAuthorizationR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessSignatureAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessSignatureAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -2478,16 +2518,16 @@ export type IotHubResourceGetKeysForKeyNameResponse = SharedAccessSignatureAutho
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessSignatureAuthorizationRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessSignatureAuthorizationRule;
+  };
 };
 
 /**
@@ -2498,16 +2538,16 @@ export type IotHubResourceExportDevicesResponse = JobResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResponse;
+  };
 };
 
 /**
@@ -2518,16 +2558,16 @@ export type IotHubResourceImportDevicesResponse = JobResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResponse;
+  };
 };
 
 /**
@@ -2538,16 +2578,16 @@ export type IotHubResourceBeginCreateOrUpdateResponse = IotHubDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubDescription;
+  };
 };
 
 /**
@@ -2558,16 +2598,16 @@ export type IotHubResourceBeginUpdateResponse = IotHubDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubDescription;
+  };
 };
 
 /**
@@ -2583,16 +2623,16 @@ export type IotHubResourceBeginDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -2603,16 +2643,16 @@ export type IotHubResourceListBySubscriptionNextResponse = IotHubDescriptionList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubDescriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubDescriptionListResult;
+  };
 };
 
 /**
@@ -2623,16 +2663,16 @@ export type IotHubResourceListByResourceGroupNextResponse = IotHubDescriptionLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubDescriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubDescriptionListResult;
+  };
 };
 
 /**
@@ -2643,16 +2683,16 @@ export type IotHubResourceGetValidSkusNextResponse = IotHubSkuDescriptionListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubSkuDescriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubSkuDescriptionListResult;
+  };
 };
 
 /**
@@ -2663,16 +2703,16 @@ export type IotHubResourceListEventHubConsumerGroupsNextResponse = EventHubConsu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventHubConsumerGroupsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventHubConsumerGroupsListResult;
+  };
 };
 
 /**
@@ -2683,16 +2723,16 @@ export type IotHubResourceListJobsNextResponse = JobResponseListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResponseListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResponseListResult;
+  };
 };
 
 /**
@@ -2703,16 +2743,16 @@ export type IotHubResourceGetQuotaMetricsNextResponse = IotHubQuotaMetricInfoLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotHubQuotaMetricInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotHubQuotaMetricInfoListResult;
+  };
 };
 
 /**
@@ -2723,16 +2763,16 @@ export type IotHubResourceGetEndpointHealthNextResponse = EndpointHealthDataList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EndpointHealthDataListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EndpointHealthDataListResult;
+  };
 };
 
 /**
@@ -2743,16 +2783,16 @@ export type IotHubResourceListKeysNextResponse = SharedAccessSignatureAuthorizat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessSignatureAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessSignatureAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -2763,16 +2803,16 @@ export type ResourceProviderCommonGetSubscriptionQuotaResponse = UserSubscriptio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserSubscriptionQuotaListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserSubscriptionQuotaListResult;
+  };
 };
 
 /**
@@ -2783,16 +2823,16 @@ export type CertificatesListByIotHubResponse = CertificateListDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateListDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateListDescription;
+  };
 };
 
 /**
@@ -2803,16 +2843,16 @@ export type CertificatesGetResponse = CertificateDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateDescription;
+  };
 };
 
 /**
@@ -2823,16 +2863,16 @@ export type CertificatesCreateOrUpdateResponse = CertificateDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateDescription;
+  };
 };
 
 /**
@@ -2843,16 +2883,16 @@ export type CertificatesGenerateVerificationCodeResponse = CertificateWithNonceD
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateWithNonceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateWithNonceDescription;
+  };
 };
 
 /**
@@ -2863,16 +2903,16 @@ export type CertificatesVerifyResponse = CertificateDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateDescription;
+  };
 };
 
 /**
@@ -2883,16 +2923,16 @@ export type PrivateLinkResourcesListResponse = PrivateLinkResources & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResources;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResources;
+  };
 };
 
 /**
@@ -2903,16 +2943,16 @@ export type PrivateLinkResourcesGetResponse = GroupIdInformation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupIdInformation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupIdInformation;
+  };
 };
 
 /**
@@ -2923,16 +2963,16 @@ export type PrivateEndpointConnectionsListResponse = Array<PrivateEndpointConnec
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection[];
+  };
 };
 
 /**
@@ -2943,16 +2983,16 @@ export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -2963,16 +3003,16 @@ export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -2983,16 +3023,16 @@ export type PrivateEndpointConnectionsDeleteMethodResponse = PrivateEndpointConn
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -3003,16 +3043,16 @@ export type PrivateEndpointConnectionsBeginUpdateResponse = PrivateEndpointConne
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -3023,14 +3063,14 @@ export type PrivateEndpointConnectionsBeginDeleteMethodResponse = PrivateEndpoin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
