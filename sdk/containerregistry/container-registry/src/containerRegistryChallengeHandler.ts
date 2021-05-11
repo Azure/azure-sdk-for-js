@@ -13,6 +13,7 @@ import {
   ContainerRegistryRefreshTokenCredential
 } from "./containerRegistryTokenCredential";
 import { AccessTokenRefresher, createTokenCycler } from "./tokenCycler";
+import { logger } from "./logger";
 
 const fiveMinutesInMs = 5 * 60 * 1000;
 
@@ -69,12 +70,20 @@ export class ChallengeHandler implements ChallengeCallbacks {
       throw new Error("Failed to retrieve 'scope' from challenge");
     }
 
-    const grantType = this.credential.isAnonymousAccess ? "password" : "refresh_token";
     // Step 3: Exchange AAD Access Token for ACR Refresh Token
-    // ACR refresh token is cached.
-    const acrRefreshToken = this.credential.isAnonymousAccess
-      ? ""
-      : (await this.cycler.getToken(scope, { ...options, service })).token;
+    //   For anonymous access, we send the request with grant_type=password and an empty ACR refresh token
+    //   For non-anonymous access, we get an AAD token then exchange it for an ACR fresh token
+    let grantType: "password" | "refresh_token";
+    let acrRefreshToken: string;
+    if (this.credential.isAnonymousAccess) {
+      logger.warning("grant_type: password");
+      grantType = "password";
+      acrRefreshToken = "";
+    } else {
+      logger.warning("grant_type: refresh_token");
+      grantType = "refresh_token";
+      acrRefreshToken = (await this.cycler.getToken(scope, { ...options, service })).token;
+    }
 
     // Step 4: Send in acrRefreshToken and get back acrAccessToken
     const acrAccessToken = await this.credential.tokenService.ExchangeAcrRefreshTokenForAcrAccessTokenAsync(

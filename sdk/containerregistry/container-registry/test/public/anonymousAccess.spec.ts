@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 
 import { ContainerRegistryClient } from "../../src";
 
-import { env, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, env, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-util";
 import { createRegistryClient, recorderEnvSetup } from "./utils";
 
@@ -15,7 +15,7 @@ if (isNode) {
   dotenv.config();
 }
 
-describe.only("Anonymous access tests", function() {
+describe("Anonymous access tests", function() {
   // Declare the client and recorder instances.  We will set them using the
   // beforeEach hook.
   let client: ContainerRegistryClient;
@@ -42,6 +42,7 @@ describe.only("Anonymous access tests", function() {
   });
 
   it("should list repositories with anonymous access", async () => {
+    await delay(30 * 1000);
     const iter = client.listRepositoryNames();
     const results: string[] = [];
     for await (const name of iter) {
