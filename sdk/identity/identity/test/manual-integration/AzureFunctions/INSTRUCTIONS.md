@@ -81,7 +81,7 @@ The terminal in which you started your project also shows log output as you make
 
 5. When you're ready, use Ctrl+C and choose y to stop the functions host.
 
-## Deploy to Azure
+## Publish Azure Functions to Azure
 
 1. In the local clone of the `azure-sdk-for-js` repository, type this in the console:
 
