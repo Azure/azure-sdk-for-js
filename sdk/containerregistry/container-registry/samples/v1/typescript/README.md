@@ -62,7 +62,7 @@ node dist/containerRegistryClient.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONTAINERREGISTRY_REGISTRY_ENDPOINT="<containerregistry registry endpoint>" node dist/containerRegistryClient.js
+npx cross-env CONTAINER_REGISTRY_ENDPOINT="<container registry endpoint>" node dist/containerRegistryClient.js
 ```
 
 ## Next Steps

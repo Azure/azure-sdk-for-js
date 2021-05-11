@@ -10,8 +10,8 @@ import { ContainerRegistryClient } from "../../src";
 // recorded HTTP request or response, it will replace them with the values they
 // are mapped to below.
 const replaceableVariables: Record<string, string> = {
-  CONTAINERREGISTRY_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
-  CONTAINERREGISTRY_ANONREGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
+  CONTAINER_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
+  CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT: "https://myregistry.azurecr.io",
   AZURE_TENANT_ID: "azure_tenant_id",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -50,7 +50,11 @@ export function createRegistryClient(
 ): ContainerRegistryClient {
   if (options.anonymous) {
     const parsed = new URL(endpoint);
-    console.log(`creating anonymous-access client to ${parsed.hostname}`);
+    const output = [];
+    for (let i = 0; i < parsed.hostname.length; i++) {
+      output.push(parsed.hostname[i]);
+    }
+    console.log(`creating anonymous-access client to ${output}`);
     return new ContainerRegistryClient(endpoint);
   }
 

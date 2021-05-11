@@ -30,7 +30,7 @@ describe("Repository and artifact tests", function() {
     // `afterEach` hook.
     recorder = record(this, recorderEnvSetup);
 
-    registryClient = createRegistryClient(env.CONTAINERREGISTRY_REGISTRY_ENDPOINT);
+    registryClient = createRegistryClient(env.CONTAINER_REGISTRY_ENDPOINT);
     repository = registryClient.getRepository(repositoryName);
   });
 

@@ -9,18 +9,6 @@
         "description": "The base resource name."
       }
     },
-    "tenantId": {
-      "type": "string",
-      "metadata": {
-        "description": "The tenant ID to which the application and resources belong."
-      }
-    },
-    "testApplicationOid": {
-      "type": "string",
-      "metadata": {
-        "description": "The client OID to grant access to test resources."
-      }
-    },
     "location": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]",
@@ -65,19 +53,19 @@
     }
   ],
   "outputs": {
-    "CONTAINERREGISTRY_REGISTRY_NAME": {
+    "CONTAINER_REGISTRY_NAME": {
       "type": "string",
       "value": "[parameters('baseName')]"
     },
-    "CONTAINERREGISTRY_REGISTRY_ENDPOINT": {
+    "CONTAINER_REGISTRY_ENDPOINT": {
       "type": "string",
       "value": "[variables('endpointValue')]"
     },
-    "CONTAINERREGISTRY_ANONREGISTRY_NAME": {
+    "CONTAINER_REGISTRY_ANONYMOUS_NAME": {
       "type": "string",
       "value": "[variables('anonRegistryName')]"
     },
-    "CONTAINERREGISTRY_ANONREGISTRY_ENDPOINT": {
+    "CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT": {
       "type": "string",
       "value": "[variables('anonEndpointValue')]"
     }
