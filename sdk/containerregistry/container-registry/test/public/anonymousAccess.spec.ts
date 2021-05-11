@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 
 import { ContainerRegistryClient } from "../../src";
 
-import { delay, env, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-util";
 import { createRegistryClient, recorderEnvSetup } from "./utils";
 
@@ -15,12 +15,12 @@ if (isNode) {
   dotenv.config();
 }
 
-describe("ContainerRegistryClient tests", function() {
+describe("Anonymous access tests", function() {
   // Declare the client and recorder instances.  We will set them using the
   // beforeEach hook.
   let client: ContainerRegistryClient;
   let recorder: Recorder;
-  const repositoryName = "library/busybox";
+  const repositoryName = "library/hello-world";
 
   // NOTE: use of "function" and not ES6 arrow-style functions with the
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
@@ -33,7 +33,7 @@ describe("ContainerRegistryClient tests", function() {
 
     // We'll be able to refer to the instantiated `client` in tests, since we
     // initialize it before each test
-    client = createRegistryClient(env.CONTAINER_REGISTRY_ENDPOINT);
+    client = createRegistryClient(env.CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT, { anonymous: true });
   });
 
   // After each test, we need to stop the recording.
@@ -41,21 +41,15 @@ describe("ContainerRegistryClient tests", function() {
     await recorder.stop();
   });
 
-  it("should list repositories", async () => {
+  it("should list repositories with anonymous access", async () => {
     const iter = client.listRepositoryNames();
-    const first = await iter.next();
-    assert.ok(first.value, "Expecting a valid repository");
-  });
-
-  it("deletes repository of given name", async () => {
-    const response = await client.deleteRepository(repositoryName);
-    assert.ok(response);
-    await delay(5 * 1000);
-    const iter = client.listRepositoryNames();
-    for await (const repository of iter) {
-      if (repository === repositoryName) {
-        assert.fail(`Unexpected: '${repositoryName}' repository should have been deleted`);
-      }
+    const results: string[] = [];
+    for await (const name of iter) {
+      results.push(name);
     }
+    assert.isTrue(
+      results.indexOf(repositoryName) !== -1,
+      `Expecting '${repositoryName}' in the list`
+    );
   });
 });

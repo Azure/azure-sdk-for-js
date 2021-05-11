@@ -3,7 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
   bearerTokenChallengeAuthenticationPolicy
@@ -72,12 +72,44 @@ export class ContainerRegistryClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential,
-    options: ContainerRegistryClientOptions = {}
+    options?: ContainerRegistryClientOptions
+  );
+
+  /**
+   * Creates an instance of a ContainerRegistryClient to interact with
+   * an Azure Container Registry that has anonymous pull access enabled.
+   *
+   * Example usage:
+   * ```ts
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   *
+   * const client = new ContainerRegistryClient(
+   *    "<container registry API endpoint>",
+   * );
+   * ```
+   * @param endpointUrl - the URL to the Container Registry endpoint
+   * @param options - optional configuration used to send requests to the service
+   */
+  constructor(endpointUrl: string, options?: ContainerRegistryClientOptions);
+
+  constructor(
+    endpointUrl: string,
+    credentialOrOptions?: TokenCredential | ContainerRegistryClientOptions,
+    clientOptions: ContainerRegistryClientOptions = {}
   ) {
     this.registryUrl = endpointUrl;
     const parsedUrl = new URL(endpointUrl);
     this.loginServer = parsedUrl.hostname;
     this.name = parsedUrl.pathname;
+
+    let credential: TokenCredential | undefined;
+    let options: ContainerRegistryClientOptions | undefined;
+    if (isTokenCredential(credentialOrOptions)) {
+      credential = credentialOrOptions;
+      options = clientOptions;
+    } else {
+      options = credentialOrOptions ?? {};
+    }
 
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;
@@ -108,7 +140,7 @@ export class ContainerRegistryClient {
         credential,
         scopes: ["https://management.core.windows.net/.default"],
         challengeCallbacks: new ChallengeHandler(
-          new ContainerRegistryRefreshTokenCredential(credential, authClient)
+          new ContainerRegistryRefreshTokenCredential(authClient, credential)
         )
       })
     );

@@ -2,7 +2,6 @@
 
 ## 4.2.1 (Unreleased)
 
-
 ## 4.2.0 (2021-05-11)
 
 ### New Features
