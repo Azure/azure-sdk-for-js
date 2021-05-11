@@ -22,6 +22,11 @@ export function mockMsalAuth(importNock: NockType, plugin: (() => void) | undefi
   }
 }
 
+/**
+ * This method is enough for any test that uses ClientSecretCredential from identity to provide the fake access_token (as per the current msal configurations).
+ *
+ * If msal ever changes its behavior, this needs to change - for example path/url/reply have to be updated accordingly
+ */
 const pluginForClientSecretCredentialTests = () => {
   if (env.AZURE_TENANT_ID) {
     nock("https://login.microsoftonline.com:443")
@@ -36,6 +41,11 @@ const pluginForClientSecretCredentialTests = () => {
   }
 };
 
+/**
+ * This method is required for testing the credentials in the identity SDK to provide the fake access_token (as per the current msal configurations).
+ *
+ * If msal ever changes its behavior, this needs to change - for example path/url/reply have to be updated accordingly
+ */
 export const pluginForIdentitySDK = () => {
   nock("https://login.microsoftonline.com:443")
     .persist()
