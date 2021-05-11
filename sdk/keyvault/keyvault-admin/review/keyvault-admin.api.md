@@ -16,39 +16,6 @@ export interface AccessControlClientOptions extends coreHttp.PipelineOptions {
 }
 
 // @public
-export interface BackupClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: SUPPORTED_API_VERSIONS;
-}
-
-// @public
-export type BackupOperationState = KeyVaultAdminPollOperationState<BackupResult>;
-
-// @public
-export interface BackupPollerOptions extends coreHttp.OperationOptions {
-    intervalInMs?: number;
-    resumeFrom?: string;
-}
-
-// @public
-export interface BackupResult {
-    backupFolderUri?: string;
-    endTime?: Date;
-    startTime: Date;
-}
-
-// @public
-export interface BeginBackupOptions extends BackupPollerOptions {
-}
-
-// @public
-export interface BeginRestoreOptions extends BackupPollerOptions {
-}
-
-// @public
-export interface BeginSelectiveRestoreOptions extends BackupPollerOptions {
-}
-
-// @public
 export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
 }
 
@@ -93,11 +60,44 @@ export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationS
 
 // @public
 export class KeyVaultBackupClient {
-    constructor(vaultUrl: string, credential: TokenCredential, options?: BackupClientOptions);
-    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, BackupResult>>;
-    beginRestore(folderUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, RestoreResult>>;
-    beginSelectiveRestore(folderUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, RestoreResult>>;
+    constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultBackupClientOptions);
+    beginBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+    beginRestore(folderUri: string, sasToken: string, folderName: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
+    beginSelectiveRestore(folderUri: string, sasToken: string, folderName: string, keyName: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultSelectiveRestoreOperationState, KeyVaultRestoreResult>>;
     readonly vaultUrl: string;
+}
+
+// @public
+export interface KeyVaultBackupClientOptions extends coreHttp.PipelineOptions {
+    serviceVersion?: SUPPORTED_API_VERSIONS;
+}
+
+// @public
+export type KeyVaultBackupOperationState = KeyVaultAdminPollOperationState<KeyVaultBackupResult>;
+
+// @public
+export interface KeyVaultBackupPollerOptions extends coreHttp.OperationOptions {
+    intervalInMs?: number;
+    resumeFrom?: string;
+}
+
+// @public
+export interface KeyVaultBackupResult {
+    backupFolderUri?: string;
+    endTime?: Date;
+    startTime: Date;
+}
+
+// @public
+export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions {
+}
+
+// @public
+export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions {
+}
+
+// @public
+export interface KeyVaultBeginSelectiveRestoreOptions extends KeyVaultBackupPollerOptions {
 }
 
 // @public
@@ -109,6 +109,16 @@ export interface KeyVaultPermission {
     dataActions?: KeyVaultDataAction[];
     notActions?: string[];
     notDataActions?: KeyVaultDataAction[];
+}
+
+// @public
+export interface KeyVaultRestoreOperationState extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {
+}
+
+// @public
+export interface KeyVaultRestoreResult {
+    endTime?: Date;
+    startTime: Date;
 }
 
 // @public
@@ -148,6 +158,10 @@ export interface KeyVaultRoleDefinition {
 export type KeyVaultRoleScope = "/" | "/keys" | string;
 
 // @public
+export interface KeyVaultSelectiveRestoreOperationState extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {
+}
+
+// @public
 export const LATEST_API_VERSION = "7.2";
 
 // @public
@@ -169,21 +183,7 @@ export interface ListRoleDefinitionsPageSettings {
 }
 
 // @public
-export interface RestoreOperationState extends KeyVaultAdminPollOperationState<RestoreResult> {
-}
-
-// @public
-export interface RestoreResult {
-    endTime?: Date;
-    startTime: Date;
-}
-
-// @public
 export const SDK_VERSION: string;
-
-// @public
-export interface SelectiveRestoreOperationState extends KeyVaultAdminPollOperationState<RestoreResult> {
-}
 
 // @public
 export type SUPPORTED_API_VERSIONS = "7.2";

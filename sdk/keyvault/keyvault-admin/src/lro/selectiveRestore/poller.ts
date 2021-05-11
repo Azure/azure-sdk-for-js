@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import {
-  SelectiveRestorePollOperation,
-  SelectiveRestoreOperationState,
-  SelectiveRestorePollOperationState
+  KeyVaultSelectiveRestorePollOperation,
+  KeyVaultSelectiveRestoreOperationState,
+  KeyVaultSelectiveRestorePollOperationState
 } from "./operation";
 import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
-import { RestoreResult } from "../../backupClientModels";
+import { KeyVaultRestoreResult } from "../../backupClientModels";
 import { createTraceFunction } from "../../../../keyvault-common/src";
 
-export interface SelectiveRestorePollerOptions extends KeyVaultAdminPollerOptions {
+export interface KeyVaultSelectiveRestorePollerOptions extends KeyVaultAdminPollerOptions {
   keyName: string;
   folderUri: string;
   sasToken: string;
@@ -20,16 +20,16 @@ export interface SelectiveRestorePollerOptions extends KeyVaultAdminPollerOption
 /**
  * @internal
  */
-export const withTrace = createTraceFunction("Azure.KeyVault.Admin.SelectiveRestorePoller");
+export const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultSelectiveRestorePoller");
 
 /**
  * Class that creates a poller that waits until a key of a Key Vault backup ends up being restored.
  */
-export class SelectiveRestorePoller extends KeyVaultAdminPoller<
-  SelectiveRestoreOperationState,
-  RestoreResult
+export class KeyVaultSelectiveRestorePoller extends KeyVaultAdminPoller<
+  KeyVaultSelectiveRestoreOperationState,
+  KeyVaultRestoreResult
 > {
-  constructor(options: SelectiveRestorePollerOptions) {
+  constructor(options: KeyVaultSelectiveRestorePollerOptions) {
     const {
       client,
       vaultUrl,
@@ -42,13 +42,13 @@ export class SelectiveRestorePoller extends KeyVaultAdminPoller<
       resumeFrom
     } = options;
 
-    let state: SelectiveRestorePollOperationState | undefined;
+    let state: KeyVaultSelectiveRestorePollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = new SelectiveRestorePollOperation(
+    const operation = new KeyVaultSelectiveRestorePollOperation(
       {
         ...state,
         keyName,
