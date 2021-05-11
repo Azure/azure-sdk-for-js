@@ -17,7 +17,7 @@ matrix([[true, false]], async function(useAad) {
       const skipIntPhoneNumbersLiveTests = env.COMMUNICATION_SKIP_INT_PHONENUMBERS_TEST === "true";
       if (skipIntPhoneNumbersLiveTests) {
         this.skip();
-        }
+      } 
     });
 
     beforeEach(function(this: Context) {
