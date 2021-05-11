@@ -56,19 +56,6 @@ const confidentialLedger = ConfidentialLedger(
 );
 ```
 
-```typescript
-import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
-// Get the signing certificate from the Confidential Ledger Identity Service
-const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
-
-// Create the Confidential Ledger Client
-const confidentialLedger = ConfidentialLedger(
-  "https://<ledger-name>.eastus.cloudapp.azure.com",
-  ledgerIdentity.ledgerTlsCertificate,
-  { cert: "<CERTIFICATE_KEY_PEM_FORMAT>", certKey: "<PRIVATE_KEY_PEM_FORMAT>" }
-);
-```
-
 #### Using a client certificate
 
 As an alternative to Azure Active Directory, clients may choose to authenticate with a client certificate in mutual TLS instead of via an Azure Active Directory token. For this kind of authentication, the client needs to be passed a `CertificateCredential` which is composed of a certificate and private key, both in PEM format.

@@ -13,12 +13,13 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const endpoint = process.env["ENDPOINT"] || "";
+const ledgerId = process.env["LEDGER_ID"] || "";
 
 async function main() {
   console.log("== Confidential Ledger ==");
 
   // Get cert to verify host
-  const ledgerIdentity = await getLedgerIdentity("sdk-test-ledger-prod");
+  const ledgerIdentity = await getLedgerIdentity(ledgerId);
 
   // Create the Confidential Ledger Client
   const confidentialLedger = ConfidentialLedger(
