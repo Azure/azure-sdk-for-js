@@ -512,7 +512,7 @@ const updateTagAttributesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  requestBody: Parameters.value,
+  requestBody: Parameters.value1,
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -574,7 +574,7 @@ const updateManifestPropertiesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  requestBody: Parameters.value,
+  requestBody: Parameters.value2,
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",

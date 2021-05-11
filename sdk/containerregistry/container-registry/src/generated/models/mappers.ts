@@ -146,17 +146,17 @@ export const RepositoryProperties: coreClient.CompositeMapper = {
         serializedName: "changeableAttributes",
         type: {
           name: "Composite",
-          className: "ContentProperties"
+          className: "RepositoryWriteableProperties"
         }
       }
     }
   }
 };
 
-export const ContentProperties: coreClient.CompositeMapper = {
+export const RepositoryWriteableProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ContentProperties",
+    className: "RepositoryWriteableProperties",
     modelProperties: {
       canDelete: {
         serializedName: "deleteEnabled",
@@ -178,6 +178,12 @@ export const ContentProperties: coreClient.CompositeMapper = {
       },
       canRead: {
         serializedName: "readEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      teleportEnabled: {
+        serializedName: "teleportEnabled",
         type: {
           name: "Boolean"
         }
@@ -295,7 +301,40 @@ export const TagAttributesBase: coreClient.CompositeMapper = {
         serializedName: "changeableAttributes",
         type: {
           name: "Composite",
-          className: "ContentProperties"
+          className: "TagWriteableProperties"
+        }
+      }
+    }
+  }
+};
+
+export const TagWriteableProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagWriteableProperties",
+    modelProperties: {
+      canDelete: {
+        serializedName: "deleteEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canWrite: {
+        serializedName: "writeEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canList: {
+        serializedName: "listEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canRead: {
+        serializedName: "readEnabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -351,7 +390,7 @@ export const ArtifactTagProperties: coreClient.CompositeMapper = {
         serializedName: "tag.changeableAttributes",
         type: {
           name: "Composite",
-          className: "ContentProperties"
+          className: "TagWriteableProperties"
         }
       }
     }
@@ -471,7 +510,7 @@ export const ManifestAttributesBase: coreClient.CompositeMapper = {
         serializedName: "changeableAttributes",
         type: {
           name: "Composite",
-          className: "ContentProperties"
+          className: "ManifestWriteableProperties"
         }
       }
     }
@@ -504,6 +543,51 @@ export const ManifestAttributesManifestReferences: coreClient.CompositeMapper = 
         serializedName: "os",
         required: true,
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManifestWriteableProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManifestWriteableProperties",
+    modelProperties: {
+      canDelete: {
+        serializedName: "deleteEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canWrite: {
+        serializedName: "writeEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canList: {
+        serializedName: "listEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canRead: {
+        serializedName: "readEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      quarantineState: {
+        serializedName: "quarantineState",
+        type: {
+          name: "String"
+        }
+      },
+      quarantineDetails: {
+        serializedName: "quarantineDetails",
         type: {
           name: "String"
         }
@@ -598,7 +682,7 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
         serializedName: "manifest.changeableAttributes",
         type: {
           name: "Composite",
-          className: "ContentProperties"
+          className: "ManifestWriteableProperties"
         }
       }
     }
@@ -658,14 +742,6 @@ export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrle
     className:
       "PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema",
     modelProperties: {
-      grantType: {
-        defaultValue: "refresh_token",
-        isConstant: true,
-        serializedName: "grant_type",
-        type: {
-          name: "String"
-        }
-      },
       service: {
         serializedName: "service",
         required: true,
@@ -685,6 +761,14 @@ export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrle
         required: true,
         type: {
           name: "String"
+        }
+      },
+      grantType: {
+        serializedName: "grant_type",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["refresh_token", "password"]
         }
       }
     }
@@ -1012,51 +1096,6 @@ export const ManifestAttributesManifest: coreClient.CompositeMapper = {
       },
       quarantineTag: {
         serializedName: "quarantineTag",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManifestChangeableAttributes: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManifestChangeableAttributes",
-    modelProperties: {
-      deleteEnabled: {
-        serializedName: "deleteEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      writeEnabled: {
-        serializedName: "writeEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      listEnabled: {
-        serializedName: "listEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      readEnabled: {
-        serializedName: "readEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      quarantineState: {
-        serializedName: "quarantineState",
-        type: {
-          name: "String"
-        }
-      },
-      quarantineDetails: {
-        serializedName: "quarantineDetails",
         type: {
           name: "String"
         }

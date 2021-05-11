@@ -69,11 +69,11 @@ export interface RepositoryProperties {
    * Writeable properties of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly writeableProperties: ContentProperties;
+  readonly writeableProperties: RepositoryWriteableProperties;
 }
 
-/** Changeable attributes */
-export interface ContentProperties {
+/** Changeable attributes for Repository */
+export interface RepositoryWriteableProperties {
   /** Delete enabled */
   canDelete?: boolean;
   /** Write enabled */
@@ -82,6 +82,8 @@ export interface ContentProperties {
   canList?: boolean;
   /** Read enabled */
   canRead?: boolean;
+  /** Enables Teleport functionality on new images in the repository improving Container startup performance */
+  teleportEnabled?: boolean;
 }
 
 /** Deleted repository */
@@ -133,7 +135,19 @@ export interface TagAttributesBase {
    * Writeable properties of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly writeableProperties: ContentProperties;
+  readonly writeableProperties: TagWriteableProperties;
+}
+
+/** Changeable attributes */
+export interface TagWriteableProperties {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
 }
 
 /** Tag attributes */
@@ -167,7 +181,7 @@ export interface ArtifactTagProperties {
    * Writeable properties of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly writeableProperties: ContentProperties;
+  readonly writeableProperties: TagWriteableProperties;
 }
 
 /** Manifest attributes */
@@ -225,7 +239,7 @@ export interface ManifestAttributesBase {
    * Writeable properties of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly writeableProperties?: ContentProperties;
+  readonly writeableProperties?: ManifestWriteableProperties;
 }
 
 /** Manifest attributes details */
@@ -245,6 +259,22 @@ export interface ManifestAttributesManifestReferences {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operatingSystem: ArtifactOperatingSystem;
+}
+
+/** Changeable attributes */
+export interface ManifestWriteableProperties {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+  /** Quarantine state */
+  quarantineState?: string;
+  /** Quarantine details */
+  quarantineDetails?: string;
 }
 
 /** Manifest attributes details */
@@ -298,7 +328,7 @@ export interface ArtifactManifestProperties {
    * Writeable properties of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly writeableProperties?: ContentProperties;
+  readonly writeableProperties?: ManifestWriteableProperties;
 }
 
 export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
@@ -316,14 +346,14 @@ export interface AcrRefreshToken {
 }
 
 export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
-  /** Grant type is expected to be refresh_token */
-  grantType: "refresh_token";
   /** Indicates the name of your Azure container registry. */
   service: string;
   /** Which is expected to be a valid scope, and can be specified more than once for multiple scope requests. You obtained this from the Www-Authenticate response header from the challenge. */
   scope: string;
   /** Must be a valid ACR refresh token */
   acrRefreshToken: string;
+  /** Grant type is expected to be refresh_token */
+  grantType: TokenGrantType;
 }
 
 export interface AcrAccessToken {
@@ -439,22 +469,6 @@ export interface ManifestAttributesManifest {
   references?: ManifestAttributesManifestReferences[];
   /** Quarantine tag name */
   quarantineTag?: string;
-}
-
-/** Changeable attributes */
-export interface ManifestChangeableAttributes {
-  /** Delete enabled */
-  deleteEnabled?: boolean;
-  /** Write enabled */
-  writeEnabled?: boolean;
-  /** List enabled */
-  listEnabled?: boolean;
-  /** Read enabled */
-  readEnabled?: boolean;
-  /** Quarantine state */
-  quarantineState?: string;
-  /** Quarantine details */
-  quarantineDetails?: string;
 }
 
 export interface ManifestListAttributes {
@@ -771,6 +785,8 @@ export const enum KnownArtifactOperatingSystem {
  * **windows**
  */
 export type ArtifactOperatingSystem = string;
+/** Defines values for TokenGrantType. */
+export type TokenGrantType = "refresh_token" | "password";
 /** Defines values for TagOrderBy. */
 export type TagOrderBy = "none" | "timedesc" | "timeasc";
 /** Defines values for ManifestOrderBy. */
@@ -815,7 +831,7 @@ export type ContainerRegistryDeleteRepositoryResponse = DeleteRepositoryResult;
 export interface ContainerRegistrySetPropertiesOptionalParams
   extends coreClient.OperationOptions {
   /** Repository attribute value */
-  value?: ContentProperties;
+  value?: RepositoryWriteableProperties;
 }
 
 /** Contains response data for the setProperties operation. */
@@ -844,8 +860,8 @@ export type ContainerRegistryGetTagPropertiesResponse = ArtifactTagProperties;
 /** Optional parameters. */
 export interface ContainerRegistryUpdateTagAttributesOptionalParams
   extends coreClient.OperationOptions {
-  /** Repository attribute value */
-  value?: ContentProperties;
+  /** Tag attribute value */
+  value?: TagWriteableProperties;
 }
 
 /** Contains response data for the updateTagAttributes operation. */
@@ -872,8 +888,8 @@ export type ContainerRegistryGetManifestPropertiesResponse = ArtifactManifestPro
 /** Optional parameters. */
 export interface ContainerRegistryUpdateManifestPropertiesOptionalParams
   extends coreClient.OperationOptions {
-  /** Repository attribute value */
-  value?: ContentProperties;
+  /** Manifest attribute value */
+  value?: ManifestWriteableProperties;
 }
 
 /** Contains response data for the updateManifestProperties operation. */
