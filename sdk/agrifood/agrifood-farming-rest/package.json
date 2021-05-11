@@ -46,7 +46,7 @@
       "azure-farmbeats"
     ],
     "requiredResources": {
-      "Azure FarmBeats Service instance": "https://docs.microsoft.com/en-us/azure/industry/agriculture/install-azure-farmbeats"
+      "Azure FarmBeats Service instance": "https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats"
     }
   },
   "browser": {
