@@ -540,6 +540,38 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     assert.ok(fileClients[0].url.indexOf(listPathResult.pathItems![0].name!));
   });
 
+  it("listDeletedPaths with recreating and deletion again", async () => {
+    const fileClients = [];
+    for (let i = 0; i < 3; i++) {
+      const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`file${i}`));
+      await fileClient.create();
+      fileClients.push(fileClient);
+    }
+
+    for (const file of fileClients) {
+      await file.delete();
+      await file.create();
+      await file.delete();
+    }
+
+    const result = (
+      await fileSystemClient
+        .listDeletedPaths()
+        .byPage()
+        .next()
+    ).value as FileSystemListDeletedPathsResponse;
+
+    assert.deepStrictEqual(result.continuation, undefined);
+    assert.deepStrictEqual(result.pathItems!.length, 2 * fileClients.length);
+    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name));
+
+    for (const pathItem of result.pathItems!) {
+      assert.ok(pathItem.deletedOn);
+      assert.ok(pathItem.deletionId);
+      assert.ok(pathItem.remainingRetentionDays);
+    }
+  });
+
   it("listDeletedPaths with default parameters - empty path shouldn't throw error", async () => {
     const fileClients = [];
     for (let i = 0; i < 3; i++) {

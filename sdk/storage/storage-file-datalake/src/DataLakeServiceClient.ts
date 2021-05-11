@@ -7,7 +7,6 @@ import { getDefaultProxySettings, isNode, TokenCredential } from "@azure/core-ht
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   BlobServiceClient,
-  BlobServiceProperties,
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
   ServiceSetPropertiesResponse
@@ -448,14 +447,10 @@ export class DataLakeServiceClient extends StorageClient {
   ): Promise<DataLakeServiceGetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("DataLakeServiceClient-getProperties", options);
     try {
-      const rawResponse = await this.blobServiceClient.getProperties({
+      return await this.blobServiceClient.getProperties({
         abortSignal: options.abortSignal,
         tracingOptions: updatedOptions.tracingOptions
       });
-      return {
-        analyticsLogging: rawResponse.blobAnalyticsLogging,
-        ...rawResponse
-      };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -482,12 +477,7 @@ export class DataLakeServiceClient extends StorageClient {
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("DataLakeServiceClient-setProperties", options);
     try {
-      const serviceproperties = {
-        blobAnalyticsLogging: properties.analyticsLogging,
-        ...properties
-      } as BlobServiceProperties;
-
-      return await this.blobServiceClient.setProperties(serviceproperties, {
+      return await this.blobServiceClient.setProperties(properties, {
         abortSignal: options.abortSignal,
         tracingOptions: updatedOptions.tracingOptions
       });

@@ -39,7 +39,7 @@ describe("DataLakeServiceClient", () => {
     let serviceProperties: DataLakeServiceProperties;
 
     serviceProperties = {
-      analyticsLogging: {
+      blobAnalyticsLogging: {
         deleteProperty: true,
         read: true,
         retentionPolicy: {
@@ -92,7 +92,7 @@ describe("DataLakeServiceClient", () => {
     if (!isBrowser()) {
       assert.deepStrictEqual(serviceProperties.cors, properties.cors);
     }
-    assert.deepStrictEqual(serviceProperties.analyticsLogging, properties.analyticsLogging);
+    assert.deepStrictEqual(serviceProperties.blobAnalyticsLogging, properties.blobAnalyticsLogging);
     assert.deepStrictEqual(serviceProperties.hourMetrics, properties.hourMetrics);
     assert.deepStrictEqual(serviceProperties.minuteMetrics, properties.minuteMetrics);
     assert.deepStrictEqual(
@@ -110,7 +110,10 @@ describe("DataLakeServiceClient", () => {
 
     properties = await serviceClient.getProperties();
     assert.deepStrictEqual(previousProperties.cors, properties.cors);
-    assert.deepStrictEqual(previousProperties.analyticsLogging, properties.analyticsLogging);
+    assert.deepStrictEqual(
+      previousProperties.blobAnalyticsLogging,
+      properties.blobAnalyticsLogging
+    );
     assert.deepStrictEqual(previousProperties.hourMetrics, properties.hourMetrics);
     assert.deepStrictEqual(previousProperties.minuteMetrics, properties.minuteMetrics);
     assert.deepStrictEqual(

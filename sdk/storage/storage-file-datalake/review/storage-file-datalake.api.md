@@ -8,10 +8,11 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { BaseRequestPolicy } from '@azure/core-http';
 import { BlobLeaseClient } from '@azure/storage-blob';
 import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
-import { BlobServiceProperties } from '@azure/storage-blob';
 import { ContainerRenameResponse } from '@azure/storage-blob';
 import { ContainerUndeleteResponse } from '@azure/storage-blob';
 import * as coreHttp from '@azure/core-http';
+import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
+import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
@@ -34,7 +35,6 @@ import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { ServiceGetPropertiesHeaders } from '@azure/storage-blob';
 import { ServiceGetPropertiesOptions } from '@azure/storage-blob';
 import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
 import { ServiceRenameContainerOptions } from '@azure/storage-blob';
@@ -276,24 +276,6 @@ export class DataLakeAclChangeFailedError extends Error {
 }
 
 // @public
-export interface DataLakeAnalyticsLogging {
-    deleteProperty: boolean;
-    read: boolean;
-    retentionPolicy: DataLakeRetentionPolicy;
-    version: string;
-    write: boolean;
-}
-
-// @public
-export interface DataLakeCorsRule {
-    allowedHeaders: string;
-    allowedMethods: string;
-    allowedOrigins: string;
-    exposedHeaders: string;
-    maxAgeInSeconds: number;
-}
-
-// @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
@@ -371,14 +353,6 @@ export class DataLakeLeaseClient {
 }
 
 // @public
-export interface DataLakeMetrics {
-    enabled: boolean;
-    includeAPIs?: boolean;
-    retentionPolicy?: DataLakeRetentionPolicy;
-    version?: string;
-}
-
-// @public
 export class DataLakePathClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
@@ -407,12 +381,6 @@ export class DataLakePathClient extends StorageClient {
 
 // @public (undocumented)
 export interface DataLakeRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {
-}
-
-// @public
-export interface DataLakeRetentionPolicy {
-    days?: number;
-    enabled: boolean;
 }
 
 // @public
@@ -471,33 +439,9 @@ export class DataLakeServiceClient extends StorageClient {
     }>;
 }
 
-// @public
-export type DataLakeServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & DataLakeServiceProperties & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: BlobServiceProperties;
-        parsedHeaders: ServiceGetPropertiesHeaders;
-    };
-};
+export { DataLakeServiceGetPropertiesResponse }
 
-// @public
-export interface DataLakeServiceProperties {
-    analyticsLogging?: DataLakeAnalyticsLogging;
-    cors?: DataLakeCorsRule[];
-    defaultServiceVersion?: string;
-    deleteRetentionPolicy?: DataLakeRetentionPolicy;
-    hourMetrics?: DataLakeMetrics;
-    minuteMetrics?: DataLakeMetrics;
-    staticWebsite?: DataLakeStaticWebsite;
-}
-
-// @public
-export interface DataLakeStaticWebsite {
-    defaultIndexDocumentPath?: string;
-    enabled: boolean;
-    errorDocument404Path?: string;
-    indexDocument?: string;
-}
+export { DataLakeServiceProperties }
 
 // @public (undocumented)
 export interface DeletedPath {
