@@ -7,43 +7,43 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query', {"startTime":"2020-08-01T00:00:00.000Z","endTime":"2020-09-01T00:00:00.000Z"})
   .query(true)
-  .reply(200, {"value":[{"timestamp":"2020-08-31T00:00:00Z","status":"Succeeded","message":""},{"timestamp":"2020-08-30T00:00:00Z","status":"Succeeded","message":""}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$top=2&$skip=2"}, [
+  .reply(200, {"value":[{"timestamp":"2020-08-31T00:00:00Z","status":"Failed","message":"Cannot fetch data from source. ","lastAttemptTime":"2021-05-11T18:24:43Z"},{"timestamp":"2020-08-30T00:00:00Z","status":"Failed","message":"Cannot fetch data from source. ","lastAttemptTime":"2021-05-11T18:24:44Z"}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$maxpagesize=2&$skip=2"}, [
   'Content-Length',
-  '330',
+  '476',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'd5dedb83-c9dc-419c-9b6a-3d2db6613e5a',
+  '9ed422bc-8fac-4e2b-ab22-3576ab06410c',
   'x-envoy-upstream-service-time',
-  '229',
+  '5342',
   'apim-request-id',
-  'd5dedb83-c9dc-419c-9b6a-3d2db6613e5a',
+  '9ed422bc-8fac-4e2b-ab22-3576ab06410c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:39:14 GMT'
+  'Tue, 11 May 2021 18:44:56 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query', {"startTime":"2020-08-01T00:00:00.000Z","endTime":"2020-09-01T00:00:00.000Z"})
   .query(true)
-  .reply(200, {"value":[{"timestamp":"2020-08-29T00:00:00Z","status":"Succeeded","message":""},{"timestamp":"2020-08-28T00:00:00Z","status":"Succeeded","message":""}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$top=2&$skip=4"}, [
+  .reply(200, {"value":[{"timestamp":"2020-08-29T00:00:00Z","status":"Failed","message":"Cannot fetch data from source. ","lastAttemptTime":"2021-05-11T18:24:49Z"},{"timestamp":"2020-08-28T00:00:00Z","status":"Failed","message":"Cannot fetch data from source. ","lastAttemptTime":"2021-05-11T18:24:54Z"}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$maxpagesize=2&$skip=4"}, [
   'Content-Length',
-  '330',
+  '476',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '74236f81-2f01-4150-af5c-c2542077f026',
+  '22c7f8ff-090a-4448-888d-b505fd843cde',
   'x-envoy-upstream-service-time',
-  '281',
+  '5361',
   'apim-request-id',
-  '74236f81-2f01-4150-af5c-c2542077f026',
+  '22c7f8ff-090a-4448-888d-b505fd843cde',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:39:14 GMT'
+  'Tue, 11 May 2021 18:45:01 GMT'
 ]);
