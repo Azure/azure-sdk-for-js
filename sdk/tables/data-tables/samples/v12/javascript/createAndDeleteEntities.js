@@ -18,39 +18,47 @@ const accountKey = process.env["ACCOUNT_KEY"] || "";
 
 async function createSimpleDateEntity() {
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `createAndDeleteEntitiesTable`;
+  const tableName = `createSimpleDateEntityTable`;
 
   // See authenticationMethods sample for other options of creating a new client
   const creds = new TablesSharedKeyCredential(accountName, accountKey);
   const client = new TableClient(tablesUrl, tableName, creds);
 
+  await client.createTable();
+
   const entity = {
-    partitionKey: "",
-    rowKey: "",
+    partitionKey: "p1",
+    rowKey: "r1",
     date: new Date()
   };
 
   await client.createEntity(entity);
+
+  await client.deleteTable();
 }
 
 async function createComplexDateEntity() {
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `createAndDeleteEntitiesTable`;
+  const tableName = `createComplexDateEntityTable`;
 
   // See authenticationMethods sample for other options of creating a new client
   const creds = new TablesSharedKeyCredential(accountName, accountKey);
   const client = new TableClient(tablesUrl, tableName, creds);
+
+  await client.createTable();
 
   // For higher precision dates we need to pass the
   const date = { type: "DateTime", value: "2016-06-10T21:42:24.7607389" };
 
   const entity = {
-    partitionKey: "",
-    rowKey: "",
+    partitionKey: "p2",
+    rowKey: "r2",
     date
   };
 
   await client.createEntity(entity);
+
+  await client.deleteTable();
 }
 
 async function createAndDeleteEntities() {
@@ -64,7 +72,7 @@ async function createAndDeleteEntities() {
   const client = new TableClient(tablesUrl, tableName, creds);
 
   // Create the table
-  await client.createTableIfNotExists();
+  await client.createTable();
 
   const entity = {
     partitionKey: "Stationery",
@@ -75,14 +83,14 @@ async function createAndDeleteEntities() {
   };
 
   // Create the new entity
-  await client.createEntity({ partitionKey: "p11", rowKey: "23" });
+  await client.createEntity(entity);
 
   // Delete the entity
   await client.deleteEntity(entity.partitionKey, entity.rowKey);
 
   // Delete the table for cleanup
   // Create the table
-  await client.deleteTableIfExists();
+  await client.deleteTable();
 }
 
 async function main() {

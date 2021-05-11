@@ -25,7 +25,7 @@ async function updateAndUpsertEntities() {
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
 
   // Create the table
-  await client.createTableIfNotExists();
+  await client.createTable();
 
   const entity = {
     partitionKey: "Stationery",
@@ -57,7 +57,7 @@ async function updateAndUpsertEntities() {
   console.log(`Updated entity: ${JSON.stringify(updatedEntity)}`);
 
   // Delete the table for cleanup
-  await client.deleteTableIfExists();
+  await client.deleteTable();
 }
 
 async function main() {

@@ -7,7 +7,6 @@ export {
   ServiceSetPropertiesOptionalParams as SetPropertiesOptions,
   TableServiceProperties as ServiceProperties,
   ServiceSetPropertiesResponse as SetPropertiesResponse,
-  TableDeleteResponse as DeleteTableResponse,
   TableDeleteEntityResponse as DeleteTableEntityResponse,
   TableUpdateEntityResponse as UpdateEntityResponse,
   TableMergeEntityResponse as UpsertEntityResponse,

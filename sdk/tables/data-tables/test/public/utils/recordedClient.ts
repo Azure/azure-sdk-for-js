@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from "dotenv";
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
 import { TableClient, TableServiceClient, TablesSharedKeyCredential } from "../../../src";
 
-dotenv.config();
+import "./env";
 
 const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "fakeKey";

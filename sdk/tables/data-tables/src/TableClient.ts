@@ -11,13 +11,11 @@ import {
   UpdateMode,
   CreateTableEntityResponse,
   TableEntityQueryOptions,
-  CreateTableItemResponse,
   TableServiceClientOptions as TableClientOptions,
   TableBatch,
   TableEntityResult
 } from "./models";
 import {
-  DeleteTableResponse,
   UpdateEntityResponse,
   UpsertEntityResponse,
   DeleteTableEntityResponse,
@@ -55,8 +53,11 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
  * to perform operations on a single table.
  */
 export class TableClient {
+  /**
+   * Table Account URL
+   */
+  public url: string;
   private table: Table;
-  private url: string;
   private credential: TablesSharedKeyCredentialLike | undefined;
 
   /**
@@ -183,33 +184,17 @@ export class TableClient {
    * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async deleteTable(options: OperationOptions = {}): Promise<DeleteTableResponse> {
+  public async deleteTable(options: OperationOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableClient-deleteTable", options);
     try {
-      return await this.table.delete(this.tableName, updatedOptions);
+      await this.table.delete(this.tableName, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Permanently deletes the current table if it doesn't exist.
-   * @param options - The options parameters.
-   */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async deleteTableIfExists(
-    options: OperationOptions = {}
-  ): Promise<DeleteTableResponse | undefined> {
-    const { span, updatedOptions } = createSpan("TableClient-deleteTableIfExists", options);
-    try {
-      const result = await this.table.delete(this.tableName, updatedOptions);
-      return result;
-    } catch {
-      // Swallow error
-      return;
+      if (e.statusCode === 404) {
+        logger.info("TableClient-deleteTable: Table doesn't exist");
+      } else {
+        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+        throw e;
+      }
     } finally {
       span.end();
     }
@@ -220,32 +205,17 @@ export class TableClient {
    * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async createTable(options: OperationOptions = {}): Promise<CreateTableItemResponse> {
+  public async createTable(options: OperationOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableClient-createTable", options);
     try {
-      return await this.table.create({ name: this.tableName }, updatedOptions);
+      await this.table.create({ name: this.tableName }, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   *  Creates a table if not exists. The tableName passed to the client constructor is used for the new table name
-   * @param options - The options parameters.
-   */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async createTableIfNotExists(
-    options: OperationOptions = {}
-  ): Promise<CreateTableItemResponse | undefined> {
-    const { span, updatedOptions } = createSpan("TableClient-createTableIfNotExists", options);
-    try {
-      const response = await this.table.create({ name: this.tableName }, updatedOptions);
-      return response;
-    } catch {
-      return;
+      if (e.statusCode === 409) {
+        logger.info("TableClient-createTable: Table Already Exists");
+      } else {
+        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+        throw e;
+      }
     } finally {
       span.end();
     }
@@ -463,7 +433,7 @@ export class TableClient {
    */
   public async updateEntity<T extends object>(
     entity: TableEntity<T>,
-    mode: UpdateMode,
+    mode: UpdateMode = "Merge",
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpdateTableEntityOptions = {}
   ): Promise<UpdateEntityResponse> {
@@ -509,7 +479,7 @@ export class TableClient {
    */
   public async upsertEntity<T extends object>(
     entity: TableEntity<T>,
-    mode: UpdateMode,
+    mode: UpdateMode = "Merge",
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {}
   ): Promise<UpsertEntityResponse> {

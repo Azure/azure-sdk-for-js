@@ -25,7 +25,7 @@ async function listEntities() {
   // See authenticationMethods sample for other options of creating a new client
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
   // Create the table
-  await client.createTableIfNotExists();
+  await client.createTable();
 
   const partitionKey = "Stationery";
   const marker: Entity = {
@@ -68,7 +68,7 @@ async function listEntities() {
   }
 
   // Delete the table for cleanup
-  await client.deleteTableIfExists();
+  await client.deleteTable();
 }
 
 // Sample of how to retreive the top N entities for a query
@@ -84,7 +84,7 @@ async function listTopNEntities() {
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
 
   // Create the table
-  await client.createTableIfNotExists();
+  await client.createTable();
 
   // List all entities with PartitionKey "Stationery"
   const listResults = client.listEntities<Entity>({
@@ -108,7 +108,7 @@ async function listTopNEntities() {
   // Top entities: 1
 
   // Delete the table to cleanup
-  await client.deleteTableIfExists();
+  await client.deleteTable();
 }
 
 interface Entity {

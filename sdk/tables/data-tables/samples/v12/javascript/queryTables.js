@@ -22,7 +22,7 @@ async function queryTables() {
 
   // Create a new table
   const tableName = `queryTables`;
-  await serviceClient.createTableIfNotExists(tableName);
+  await serviceClient.createTable(tableName);
 
   // list the tables with a filter query, queryOptions is optional.
   // odata is a helper function that takes care of encoding the query
@@ -37,7 +37,7 @@ async function queryTables() {
   }
 
   // Deletes the table
-  await serviceClient.deleteTableIfExists(tableName);
+  await serviceClient.deleteTable(tableName);
 }
 
 async function main() {

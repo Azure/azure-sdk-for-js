@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableInsertEntityHeaders, TableCreateHeaders } from "./generated/models";
+import { TableInsertEntityHeaders } from "./generated/models";
 import { OperationOptions, CommonClientOptions } from "@azure/core-client";
 
 /**
@@ -11,11 +11,6 @@ export type TableServiceClientOptions = CommonClientOptions & {
   endpoint?: string;
   version?: string;
 };
-
-/**
- * Contains response data for the createTable operation.
- */
-export type CreateTableItemResponse = TableCreateHeaders;
 
 /**
  * Contains response data for the createEntity operation.

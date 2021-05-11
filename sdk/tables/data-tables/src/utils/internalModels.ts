@@ -3,7 +3,6 @@
 
 import {
   TableServiceClientOptions,
-  CreateTableItemResponse,
   TableBatch,
   TableEntity,
   CreateTableEntityResponse,
@@ -18,12 +17,7 @@ import {
 } from "../models";
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
 import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
-import {
-  DeleteTableResponse,
-  DeleteTableEntityResponse,
-  UpdateEntityResponse,
-  UpsertEntityResponse
-} from "..";
+import { DeleteTableEntityResponse, UpdateEntityResponse, UpsertEntityResponse } from "..";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { OperationOptions } from "@azure/core-client";
 
@@ -105,12 +99,7 @@ export interface TableClientLike {
    *  Creates the current table.
    * @param options - The options parameters.
    */
-  createTable(options?: OperationOptions): Promise<CreateTableItemResponse>;
-  /**
-   *  Creates the current table if it doesn't exist
-   * @param options - The options parameters.
-   */
-  createTableIfNotExists(options?: OperationOptions): Promise<CreateTableItemResponse | undefined>;
+  createTable(options?: OperationOptions): Promise<void>;
   /**
    * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
    * @param partitionKey - partitionKey to which the batch operations will be targetted to
@@ -129,16 +118,9 @@ export interface TableClientLike {
    * Permanently deletes the current table with all of its entities.
    * @param options - The options parameters.
    */
-  deleteTable(options?: OperationOptions): Promise<DeleteTableResponse>;
+  deleteTable(options?: OperationOptions): Promise<void>;
   /**
    * Permanently deletes the current table if it exists in the account.
-   * @param options - The options parameters.
-   */
-  deleteTableIfExists(options?: OperationOptions): Promise<DeleteTableResponse | undefined>;
-  /**
-   * Deletes the specified entity in the table.
-   * @param partitionKey - The partition key of the entity.
-   * @param rowKey - The row key of the entity.
    * @param options - The options parameters.
    */
   deleteEntity(

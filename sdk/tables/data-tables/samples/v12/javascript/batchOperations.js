@@ -27,7 +27,7 @@ async function batchOperations() {
   const client = TableClient.fromConnectionString(connectionString, tableName);
 
   // Create the table
-  await client.createTableIfNotExists();
+  await client.createTable();
 
   const partitionKey = "Stationery";
 
@@ -87,7 +87,7 @@ async function batchOperations() {
   // ]
 
   // Delete the table to clean up
-  await client.deleteTableIfExists();
+  await client.deleteTable();
 }
 
 batchOperations().catch((err) => {

@@ -29,18 +29,12 @@ export interface CorsRule {
 export type CreateTableEntityResponse = TableInsertEntityHeaders;
 
 // @public
-export type CreateTableItemResponse = TableCreateHeaders;
-
-// @public
 export type DeleteTableEntityOptions = OperationOptions & {
     etag?: string;
 };
 
 // @public
 export type DeleteTableEntityResponse = TableDeleteEntityHeaders;
-
-// @public
-export type DeleteTableResponse = TableDeleteHeaders;
 
 // @public
 export interface Edm<T extends EdmTypes> {
@@ -202,20 +196,19 @@ export class TableClient {
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createBatch(partitionKey: string): TableBatch;
     createEntity<T extends object>(entity: TableEntity<T>, options?: OperationOptions): Promise<CreateTableEntityResponse>;
-    createTable(options?: OperationOptions): Promise<CreateTableItemResponse>;
-    createTableIfNotExists(options?: OperationOptions): Promise<CreateTableItemResponse | undefined>;
+    createTable(options?: OperationOptions): Promise<void>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
-    deleteTable(options?: OperationOptions): Promise<DeleteTableResponse>;
-    deleteTableIfExists(options?: OperationOptions): Promise<DeleteTableResponse | undefined>;
+    deleteTable(options?: OperationOptions): Promise<void>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: OperationOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
     listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]>;
     setAccessPolicy(tableAcl: SignedIdentifier[], options?: OperationOptions): Promise<SetAccessPolicyResponse>;
     readonly tableName: string;
-    updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
-    upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: OperationOptions): Promise<UpsertEntityResponse>;
-    }
+    updateEntity<T extends object>(entity: TableEntity<T>, mode?: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
+    upsertEntity<T extends object>(entity: TableEntity<T>, mode?: UpdateMode, options?: OperationOptions): Promise<UpsertEntityResponse>;
+    url: string;
+}
 
 // @public
 export interface TableCreateHeaders {
@@ -309,16 +302,15 @@ export interface TableQueryResponse {
 export class TableServiceClient {
     constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
-    createTable(name: string, options?: OperationOptions): Promise<CreateTableItemResponse>;
-    createTableIfNotExists(name: string, options?: OperationOptions): Promise<CreateTableItemResponse | undefined>;
-    deleteTable(name: string, options?: OperationOptions): Promise<DeleteTableResponse>;
-    deleteTableIfExists(name: string, options?: OperationOptions): Promise<DeleteTableResponse | undefined>;
+    createTable(name: string, options?: OperationOptions): Promise<void>;
+    deleteTable(name: string, options?: OperationOptions): Promise<void>;
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getProperties(options?: OperationOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: OperationOptions): Promise<GetStatisticsResponse>;
     listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, TableItem[]>;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
-    }
+    url: string;
+}
 
 // @public
 export type TableServiceClientOptions = CommonClientOptions & {
