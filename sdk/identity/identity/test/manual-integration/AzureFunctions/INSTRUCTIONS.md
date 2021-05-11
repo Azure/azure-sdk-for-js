@@ -128,7 +128,7 @@ Successfully authenticated with keyvault
 
 ```
 
-## Clean up resources
+## Clean up Resources
 
 Use the following command to delete the resource group and all its contained resources to avoid incurring further costs
 
