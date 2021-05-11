@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { RestError } from "@azure/core-http";
 import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -36,9 +37,13 @@ matrix([[true, false]], async function(useAad) {
       const fake = "+14155550100";
       try {
         await client.getPurchasedPhoneNumber(fake);
-      } catch (e) {
-        assert.strictEqual(e.code, "PhoneNumberNotFound");
-        assert.strictEqual(e.message, "The specified phone number +14155550100 cannot be found.");
+      } catch (error) {
+        assert.ok(error instanceof RestError);
+        assert.strictEqual(error.code, "PhoneNumberNotFound");
+        assert.strictEqual(
+          error.message,
+          "The specified phone number +14155550100 cannot be found."
+        );
       }
     });
   });
