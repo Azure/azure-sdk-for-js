@@ -1,4 +1,4 @@
-# Azure SDK for JavaScript's test-utils
+# Azure test-utils client library for JavaScript
 
 The Azure SDk for JavaSCript is composed of a multitude of repositories that attempt to deliver a common, homogenous SDK to make use of all the services that Azure can provide.
 
@@ -242,6 +242,10 @@ matrix(
 Besides the usual debugging of your code and tests, if you ever encounter a problem, please follow
 up the [contributing](#contributing) guidelines on how to write an issue for us. We'll make sure to
 handle it as soon as we find the time.
+
+## Next steps
+
+Check out the [source folder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/test-utils/src/) and the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/test-utils/test/).
 
 ## Contributing
 

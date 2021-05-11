@@ -49,6 +49,7 @@ dependencies:
   '@rush-temp/perf-ai-form-recognizer': file:projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-metrics-advisor': file:projects/perf-ai-metrics-advisor.tgz
   '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
+  '@rush-temp/perf-core-rest-pipeline': file:projects/perf-core-rest-pipeline.tgz
   '@rush-temp/perf-eventgrid': file:projects/perf-eventgrid.tgz
   '@rush-temp/perf-identity': file:projects/perf-identity.tgz
   '@rush-temp/perf-keyvault-certificates': file:projects/perf-keyvault-certificates.tgz
@@ -58,6 +59,8 @@ dependencies:
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:projects/perf-storage-file-share.tgz
+  '@rush-temp/purview-catalog': file:projects/purview-catalog.tgz
+  '@rush-temp/purview-scanning': file:projects/purview-scanning.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -239,6 +242,22 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-GbfBQHF83RQI+LVISh8RLKpPeyufFsu6FhwB0U1inN7BWo8GuE23s0vc/D4gd5AWww7orQ20Q3zMzW5FKFs4MQ==
+  /@azure/core-rest-pipeline/1.1.0-beta.1:
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.0
+      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/logger': 1.0.2
+      form-data: 3.0.1
+      http-proxy-agent: 4.0.1
+      https-proxy-agent: 5.0.0
+      tslib: 2.2.0
+      uuid: 8.3.2
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-yHRf2h6n6pPidMOdFOdmm2a2O+xRCk9inEtx21+78tSNyVhc1C83seT7WpuE1J6YDmN3MDklAJtA/4n9WvB4Lw==
   /@azure/core-tracing/1.0.0-preview.11:
     dependencies:
       '@opencensus/web-types': 0.0.7
@@ -7843,7 +7862,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-anomaly-detector'
     resolution:
-      integrity: sha512-brftxxUrPMz0kTF4yzSTcKEulyQ+FG4co+yHqY3zvaxBTqZtLvreUYxkHEmTAEzuWuio1hQngZRPqhZ4zR6o7Q==
+      integrity: sha512-BSoBzszi0XM9x7Dv2vIqf1SCCP0HIvWzcqJgk8bryS3stf5oCFIVzJ5qpzlb8MLXhg/OiLCA1dwhTUOD0pwM8A==
       tarball: file:projects/ai-anomaly-detector.tgz
     version: 0.0.0
   file:projects/ai-document-translator.tgz:
@@ -7974,7 +7993,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-metrics-advisor'
     resolution:
-      integrity: sha512-tDR2qkusFWabAgO9vlaRyjFBs3DlEEkCFvBcImpxD0Uaf+xacnG2rbJIAAFGZcsp/YPShXR6T/AkUDouOiX10g==
+      integrity: sha512-sbco9iDzQIZH/W1ha+BQfthAqikz7j3Ykt755Uv6Vc/uRitcQdTYCKWTspEpS/TJS04RFBrQbFxVgfJQQIUlaA==
       tarball: file:projects/ai-metrics-advisor.tgz
     version: 0.0.0
   file:projects/ai-text-analytics.tgz:
@@ -8124,7 +8143,7 @@ packages:
     dev: false
     name: '@rush-temp/attestation'
     resolution:
-      integrity: sha512-mHFwGj+eb0v8zUD+YbgNfZ/Tf2fawnWNcvpN+PIqUsDPHFlouGXlTRWrbKXPoRRpMVn9xSIxNUkfsheZIgYc4Q==
+      integrity: sha512-308IFrOUbXclBJTqvF46pGIb+PckBwJ9PufzEE3dbB8mA9JIj+9838qEppUW8x9k2ENMx43+T6/FCh15qXsTgg==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -8287,7 +8306,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-identity'
     resolution:
-      integrity: sha512-WfdUEQSDBt9A2YuBuN9MH0Yy2QCb5zxqJfNSxrpI3esgYR8PNjIVr9k/SPfAtbOUVsC7whZQq5XAh0gtlSd4Lw==
+      integrity: sha512-U4Bjk3YtMSeoDLSHDDnd2W6f7UQB0krAu5glaQ6UuG3mzFrfKVB9iyyLiz9yXV45lG349GkQUCfgQbubujckIw==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-phone-numbers.tgz:
@@ -8341,7 +8360,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-phone-numbers'
     resolution:
-      integrity: sha512-ofEFM+aC32e261WB2biM3RaNq0Ax5KP6IcMOxg/stN+6u7NcD7oYHvr5QG5tbNoTOpKt8oq1QrEPQgohbuderQ==
+      integrity: sha512-h1caa+CGX7Hqtbo6Jz99z2Y3VSN4+G81SBkwkEiSYPeluok+sthLCt1C7M//8SUeCcjT+nLu+nBi4VDZnJw01w==
       tarball: file:projects/communication-phone-numbers.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
@@ -8400,7 +8419,7 @@ packages:
   file:projects/container-registry.tgz:
     dependencies:
       '@azure/arm-containerregistry': 8.0.0
-      '@azure/core-rest-pipeline': 1.0.3
+      '@azure/core-rest-pipeline': 1.1.0-beta.1
       '@azure/core-tracing': 1.0.0-preview.11
       '@azure/identity': 1.3.0
       '@azure/ms-rest-nodeauth': 3.0.9
@@ -8441,7 +8460,7 @@ packages:
     dev: false
     name: '@rush-temp/container-registry'
     resolution:
-      integrity: sha512-iYYsQn1lJgWNSOTrRBen2DvC13vCRumRHsieNimHrbvo9Cqi7AqDy0xxF55xyPREt8atUFtrTHqBWJI7zLbD8g==
+      integrity: sha512-DmUQXJ3nifpciCZKMVXUm40WJyiZ4SbM5Kv9ln5Hgki0svYqtN8fDTYbIAA2gCmy/ZaRyeusFe/3mg+ewjZnbg==
       tarball: file:projects/container-registry.tgz
     version: 0.0.0
   file:projects/core-amqp.tgz:
@@ -9215,7 +9234,7 @@ packages:
     dev: false
     name: '@rush-temp/digital-twins-core'
     resolution:
-      integrity: sha512-V0UtuepoVa9p4fiTuqKNHi5UOjfa0jVoDucviYPRBPX4d3dJK0JUA+oPTJSbS6dT0YPxB8P5ojh8AzipG0/dcg==
+      integrity: sha512-HATRz9UgjGJhJhHWrb4PL9PRfnCe/kjkDIyJZUGuA2ZFn8HIkDlR8y53sXJU32OZKTlbvCPjkq+odAQUmH5m9A==
       tarball: file:projects/digital-twins-core.tgz
     version: 0.0.0
   file:projects/eslint-plugin-azure-sdk.tgz:
@@ -9432,7 +9451,7 @@ packages:
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-TrRicEN8OEh7DFa/GvPh/oxfL821p9Yb/WQM79S5WjPuJwXCyWYemMDTqn17up550TkO98CxvBQBpzVNNFXdNA==
+      integrity: sha512-ujWup25pwpdpdOF1QJTFgrvwUbTF6itmcFy9AILoTw9QHxAUh8T0pxuR3XbMxbqDXjdk3xFayZcrIboCzsjVzw==
       tarball: file:projects/eventgrid.tgz
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
@@ -9815,7 +9834,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-z0BjfNxui81pHbY/0O0wsJBDkRsGmESce296UZ2sEHiUc/mZkchky66bHslL2CZ3Fk5tcWsPgcGg52gDxHqN6A==
+      integrity: sha512-s0dLzF1S5wyX4UbfxHMkp3HH7E6vw3WyyBhvWiS59msK0yxQj2f/gsv+ZZ6+GWU15ALexiaSIQE7RrNRrVvAfg==
       tarball: file:projects/keyvault-secrets.tgz
     version: 0.0.0
   file:projects/logger.tgz:
@@ -10006,6 +10025,23 @@ packages:
       integrity: sha512-WRKlYq5E3/zAp5qMYA5yQagbJYlfuIUsxCBp+WSfENbW/m4WzpjkNC/01TLJ6tO2CEoLc+RRPXCDFpA30H432g==
       tarball: file:projects/perf-ai-text-analytics.tgz
     version: 0.0.0
+  file:projects/perf-core-rest-pipeline.tgz:
+    dependencies:
+      '@azure/core-rest-pipeline': 1.1.0-beta.1
+      '@types/uuid': 8.3.0
+      dotenv: 8.2.0
+      eslint: 7.23.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      ts-node: 9.1.1_typescript@4.2.4
+      tslib: 2.2.0
+      typescript: 4.2.4
+    dev: false
+    name: '@rush-temp/perf-core-rest-pipeline'
+    resolution:
+      integrity: sha512-BNAP4/2YeHNhrMbvl9A1B+YX+W9MDW8PqA2WipfM5nExM9ywsJEdX7JUv69gul01revGkFoSY1Ukwhe0pSNpNQ==
+      tarball: file:projects/perf-core-rest-pipeline.tgz
+    version: 0.0.0
   file:projects/perf-eventgrid.tgz:
     dependencies:
       '@types/node': 8.10.66
@@ -10106,7 +10142,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-search-documents'
     resolution:
-      integrity: sha512-UEZdA+EPRblJfIP8D38K716j/lO/TVT3FrYzEP96rZKMWFRuOt0BDvP1FerYtWE9hieotwR69wm7v5bPPpjuyg==
+      integrity: sha512-8md3tNnXYeztxsktjQl7WZf/sspBIHUjIRhOqlP/lRyL1izcGLUn7msZCtUvcjOlKWjTypnNmk/CCQtyLAdXhQ==
       tarball: file:projects/perf-search-documents.tgz
     version: 0.0.0
   file:projects/perf-storage-blob.tgz:
@@ -10166,6 +10202,92 @@ packages:
       integrity: sha512-mjYaV8s2WtZjhutOHaUUXmi2Ne5i+O/doHq+xoMo8aqmB50wVLSdyG52mRA3JITqy667rK95QQdjyzG6LflpOw==
       tarball: file:projects/perf-storage-file-share.tgz
     version: 0.0.0
+  file:projects/purview-catalog.tgz:
+    dependencies:
+      '@azure/core-rest-pipeline': 1.0.3
+      '@azure/identity': 1.3.0
+      '@microsoft/api-extractor': 7.13.2
+      '@types/chai': 4.2.16
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      chai: 4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.2.0
+      eslint: 7.23.0
+      karma: 6.3.2
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.2
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.2
+      karma-json-preprocessor: 0.3.3_karma@6.3.2
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.2
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      source-map-support: 0.5.19
+      tslib: 2.2.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
+    dev: false
+    name: '@rush-temp/purview-catalog'
+    resolution:
+      integrity: sha512-yBPbajTzczwOowo3dWhgRF4ndHwCFqKbKLEgcCYCMrXuD+PyqP+P3s4kV6wnlr6Ii7gS+r+JNCLHnEEhw3hzHw==
+      tarball: file:projects/purview-catalog.tgz
+    version: 0.0.0
+  file:projects/purview-scanning.tgz:
+    dependencies:
+      '@azure/core-rest-pipeline': 1.0.3
+      '@azure/identity': 1.3.0
+      '@microsoft/api-extractor': 7.13.2
+      '@types/chai': 4.2.16
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      chai: 4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.2.0
+      eslint: 7.23.0
+      karma: 6.3.2
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.2
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.2
+      karma-json-preprocessor: 0.3.3_karma@6.3.2
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.2
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      source-map-support: 0.5.19
+      tslib: 2.2.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
+    dev: false
+    name: '@rush-temp/purview-scanning'
+    resolution:
+      integrity: sha512-JEBy9NjgTRXYyfkInijwhFw2aFRYRmvUA+NNDzyZaaphUN0RPfnKoXv6PmuLofbyyxHNgieCRkDuXq2kMbPOKQ==
+      tarball: file:projects/purview-scanning.tgz
+    version: 0.0.0
   file:projects/quantum-jobs.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
@@ -10217,7 +10339,7 @@ packages:
     dev: false
     name: '@rush-temp/quantum-jobs'
     resolution:
-      integrity: sha512-kqELcctIfSAZsgkMARVhBAzqyQFpJP/BImOS6XEARXRMe8kXlNDfJAn9u569nMQgegeAxZW/wMbQxbUsEHzgZw==
+      integrity: sha512-ZGwwkEsI5mFwQKjnxCWlrSWdanAQmBfWlH2GOQBaDY0Dr7+ttS6/UcgAEAUqRy5CKpwtzEOw7hCWw0328wgKvA==
       tarball: file:projects/quantum-jobs.tgz
     version: 0.0.0
   file:projects/schema-registry-avro.tgz:
@@ -10273,7 +10395,7 @@ packages:
     dev: false
     name: '@rush-temp/schema-registry-avro'
     resolution:
-      integrity: sha512-uTOsbCwfctFbxbRgGGKoz9NAuCIyMehznoMdz8noI5tZ7nUVRpnmSzh+sY1AA4/2/dKgMhTlgcVtFjGGgNU2+Q==
+      integrity: sha512-IkbCxJeQAMMEP5TNnCNwwoJpCwuxiVRh7mwTBSQF7wcsT+qQsThEG1sdGZJDN4USU47H+bOLTIn4i6HzpfAvaA==
       tarball: file:projects/schema-registry-avro.tgz
     version: 0.0.0
   file:projects/schema-registry.tgz:
@@ -10573,7 +10695,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-tPl6kzd8U3mX7Js6CS2keRFcS2SkC2FcAGff0LoZ8AkBxK6Rp5vHvG8Aqsuf6pmnPSXGHCSX1a5HWD7G8BEPuw==
+      integrity: sha512-CR55ZzmPi/l7XwTZdOY2mvJU2OF6OL6aloG8wLv+pLaljwm2uf600JhMvgD5PzCh3d4/jtctZtsNq8WDUwgrng==
       tarball: file:projects/storage-blob.tgz
     version: 0.0.0
   file:projects/storage-file-datalake.tgz:
@@ -10865,7 +10987,7 @@ packages:
     dev: false
     name: '@rush-temp/synapse-artifacts'
     resolution:
-      integrity: sha512-5P3ENKx4RYknSooxYT4OzAYg4unjEdcTgwrKXYrkXMp0y73ps3KpPJtdtOSFLESuEX/j1CNv8T7kwz2OIl4nUw==
+      integrity: sha512-Y9sYEN8tQuoziYkBrOTK+gAe4iXdFYr4/HCMPKLgqm1Q2qyh3KCpBjtse060cilZpi8mazJiQuRsN5dipDx2+Q==
       tarball: file:projects/synapse-artifacts.tgz
     version: 0.0.0
   file:projects/synapse-managed-private-endpoints.tgz:
@@ -10971,7 +11093,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-GEg0iurjiFVFHToKkPuprmMO5F5ivG6+imfPGqPYlP5HDnyOFnTdEiILEcPV/bnNpM7ItrWDQToZFFTu8d1UAQ==
+      integrity: sha512-mwHFZ1xypf2mBlIcqY/yi+3JKpTC54l/ZdImtdQ0ioOPW8ia9HXOVdK5Gc0Kmk0Bhe4Wjw+K1cnBPSbB5WlFXA==
       tarball: file:projects/template.tgz
     version: 0.0.0
   file:projects/test-utils-perfstress.tgz:
@@ -11256,6 +11378,7 @@ specifiers:
   '@rush-temp/perf-ai-form-recognizer': file:./projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-metrics-advisor': file:./projects/perf-ai-metrics-advisor.tgz
   '@rush-temp/perf-ai-text-analytics': file:./projects/perf-ai-text-analytics.tgz
+  '@rush-temp/perf-core-rest-pipeline': file:./projects/perf-core-rest-pipeline.tgz
   '@rush-temp/perf-eventgrid': file:./projects/perf-eventgrid.tgz
   '@rush-temp/perf-identity': file:./projects/perf-identity.tgz
   '@rush-temp/perf-keyvault-certificates': file:./projects/perf-keyvault-certificates.tgz
@@ -11265,6 +11388,8 @@ specifiers:
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:./projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:./projects/perf-storage-file-share.tgz
+  '@rush-temp/purview-catalog': file:./projects/purview-catalog.tgz
+  '@rush-temp/purview-scanning': file:./projects/purview-scanning.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz
