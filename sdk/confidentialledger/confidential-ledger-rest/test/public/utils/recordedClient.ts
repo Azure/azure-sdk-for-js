@@ -43,7 +43,6 @@ export function createClient(): ConfidentialLedgerRestClient {
     env["AZURE_CLIENT_ID"],
     env["AZURE_CLIENT_SECRET"]
   );
-
   return ConfidentialLedger(env.ENDPOINT, env.LEDGER_IDENTITY, credential);
 }
 

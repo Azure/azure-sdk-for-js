@@ -13,7 +13,7 @@ import {
   GetCurrentLedgerEntryParameters,
   DeleteUserParameters,
   GetUserParameters,
-  CreateOrUpdateUserParameters
+  CreateOrUpdateUserParameters,
 } from "./parameters";
 import {
   GetConstitution200Response,
@@ -39,7 +39,7 @@ import {
   GetUser200Response,
   GetUserdefaultResponse,
   CreateOrUpdateUser200Response,
-  CreateOrUpdateUserdefaultResponse
+  CreateOrUpdateUserdefaultResponse,
 } from "./responses";
 import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
@@ -55,9 +55,7 @@ export interface GetConsortiumMembers {
   /** Consortium members can manage the Confidential Ledger. */
   get(
     options?: GetConsortiumMembersParameters
-  ): Promise<
-    GetConsortiumMembers200Response | GetConsortiumMembersdefaultResponse
-  >;
+  ): Promise<GetConsortiumMembers200Response | GetConsortiumMembersdefaultResponse>;
 }
 
 export interface GetEnclaveQuotes {
@@ -87,27 +85,21 @@ export interface GetLedgerEntry {
 
 export interface GetReceipt {
   /** Gets a receipt certifying ledger contents at a particular transaction id. */
-  get(
-    options?: GetReceiptParameters
-  ): Promise<GetReceipt200Response | GetReceiptdefaultResponse>;
+  get(options?: GetReceiptParameters): Promise<GetReceipt200Response | GetReceiptdefaultResponse>;
 }
 
 export interface GetTransactionStatus {
   /** Gets the status of an entry identified by a transaction id. */
   get(
     options?: GetTransactionStatusParameters
-  ): Promise<
-    GetTransactionStatus200Response | GetTransactionStatusdefaultResponse
-  >;
+  ): Promise<GetTransactionStatus200Response | GetTransactionStatusdefaultResponse>;
 }
 
 export interface GetCurrentLedgerEntry {
   /** A sub-ledger id may optionally be specified. */
   get(
     options?: GetCurrentLedgerEntryParameters
-  ): Promise<
-    GetCurrentLedgerEntry200Response | GetCurrentLedgerEntrydefaultResponse
-  >;
+  ): Promise<GetCurrentLedgerEntry200Response | GetCurrentLedgerEntrydefaultResponse>;
 }
 
 export interface CreateOrUpdateUser {
@@ -116,9 +108,7 @@ export interface CreateOrUpdateUser {
     options?: DeleteUserParameters
   ): Promise<DeleteUser204Response | DeleteUserdefaultResponse>;
   /** Gets a user. */
-  get(
-    options?: GetUserParameters
-  ): Promise<GetUser200Response | GetUserdefaultResponse>;
+  get(options?: GetUserParameters): Promise<GetUser200Response | GetUserdefaultResponse>;
   /** A JSON merge patch is applied for existing users */
   patch(
     options: CreateOrUpdateUserParameters
@@ -135,20 +125,11 @@ export interface Routes {
   /** Resource for '/app/transactions' has methods for the following verbs: get, post */
   (path: "/app/transactions"): PostLedgerEntry;
   /** Resource for '/app/transactions/\{transactionId\}' has methods for the following verbs: get */
-  (
-    path: "/app/transactions/{transactionId}",
-    transactionId: string
-  ): GetLedgerEntry;
+  (path: "/app/transactions/{transactionId}", transactionId: string): GetLedgerEntry;
   /** Resource for '/app/transactions/\{transactionId\}/receipt' has methods for the following verbs: get */
-  (
-    path: "/app/transactions/{transactionId}/receipt",
-    transactionId: string
-  ): GetReceipt;
+  (path: "/app/transactions/{transactionId}/receipt", transactionId: string): GetReceipt;
   /** Resource for '/app/transactions/\{transactionId\}/status' has methods for the following verbs: get */
-  (
-    path: "/app/transactions/{transactionId}/status",
-    transactionId: string
-  ): GetTransactionStatus;
+  (path: "/app/transactions/{transactionId}/status", transactionId: string): GetTransactionStatus;
   /** Resource for '/app/transactions/current' has methods for the following verbs: get */
   (path: "/app/transactions/current"): GetCurrentLedgerEntry;
   /** Resource for '/app/users/\{userId\}' has methods for the following verbs: delete, get, patch */
@@ -161,7 +142,7 @@ export type ConfidentialLedgerRestClient = Client & {
 
 export default function ConfidentialLedger(
   ledgerUri: string,
-  credentials: TokenCredential,
+  credentials?: TokenCredential,
   options: ClientOptions = {}
 ): ConfidentialLedgerRestClient {
   const baseUrl = options.baseUrl ?? `${ledgerUri}`;
@@ -169,13 +150,9 @@ export default function ConfidentialLedger(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://confidential-ledger.azure.com/.default"]
-    }
+      scopes: ["https://confidential-ledger.azure.com/.default"],
+    },
   };
 
-  return getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as ConfidentialLedgerRestClient;
+  return getClient(baseUrl, credentials, options) as ConfidentialLedgerRestClient;
 }

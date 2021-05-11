@@ -4,8 +4,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { CertificateCredential, isCertificateCredential } from "@azure-rest/core-client";
-import { Agent } from "./agent";
-
+import { Agent } from "https";
 interface AgentOptions {
   /** Custom certificate authority to trust Self-Signed certificate */
   ca: string;
