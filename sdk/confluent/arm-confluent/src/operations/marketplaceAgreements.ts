@@ -50,7 +50,7 @@ export class MarketplaceAgreements {
   }
 
   /**
-   * @summary Accept marketplace terms.
+   * @summary Create Confluent Marketplace agreement in the subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplaceAgreementsCreateResponse>
    */
@@ -110,6 +110,9 @@ const listOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId
   ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
@@ -129,6 +132,9 @@ const createOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements/default",
   urlParameters: [
     Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -157,6 +163,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

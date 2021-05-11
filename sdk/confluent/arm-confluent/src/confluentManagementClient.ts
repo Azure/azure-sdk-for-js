@@ -19,6 +19,7 @@ class ConfluentManagementClient extends ConfluentManagementClientContext {
   marketplaceAgreements: operations.MarketplaceAgreements;
   organizationOperations: operations.OrganizationOperations;
   organization: operations.Organization;
+  validations: operations.Validations;
 
   /**
    * Initializes a new instance of the ConfluentManagementClient class.
@@ -31,6 +32,7 @@ class ConfluentManagementClient extends ConfluentManagementClientContext {
     this.marketplaceAgreements = new operations.MarketplaceAgreements(this);
     this.organizationOperations = new operations.OrganizationOperations(this);
     this.organization = new operations.Organization(this);
+    this.validations = new operations.Validations(this);
   }
 }
 

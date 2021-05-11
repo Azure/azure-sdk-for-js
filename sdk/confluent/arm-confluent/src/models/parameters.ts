@@ -25,7 +25,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-03-01',
+    defaultValue: '2021-03-01-preview',
     type: {
       name: "String"
     }

@@ -12,8 +12,6 @@ export {
   ErrorResponseBody,
   OfferDetail,
   OrganizationResource,
-  OrganizationResourceListResult,
-  OrganizationResourceUpdate,
   ResourceProviderDefaultErrorResponse,
   SystemData,
   UserDetail
