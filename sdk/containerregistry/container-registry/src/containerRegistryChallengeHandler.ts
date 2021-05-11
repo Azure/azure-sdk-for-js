@@ -13,7 +13,6 @@ import {
   ContainerRegistryRefreshTokenCredential
 } from "./containerRegistryTokenCredential";
 import { AccessTokenRefresher, createTokenCycler } from "./tokenCycler";
-import { logger } from "./logger";
 
 const fiveMinutesInMs = 5 * 60 * 1000;
 
@@ -76,11 +75,11 @@ export class ChallengeHandler implements ChallengeCallbacks {
     let grantType: "password" | "refresh_token";
     let acrRefreshToken: string;
     if (this.credential.isAnonymousAccess) {
-      logger.warning("grant_type: password");
+      console.log("grant_type: password");
       grantType = "password";
       acrRefreshToken = "";
     } else {
-      logger.warning("grant_type: refresh_token");
+      console.log("grant_type: refresh_token");
       grantType = "refresh_token";
       acrRefreshToken = (await this.cycler.getToken(scope, { ...options, service })).token;
     }
