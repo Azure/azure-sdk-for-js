@@ -9,6 +9,7 @@ import { config as readEnvFile } from "dotenv";
 import fs from "fs-extra";
 import { applyRequestBodyTransformations } from "./utils/requestBodyTransform";
 import { mockMsalAuth, NockType } from "./utils/msalAuth.node";
+import { isNode } from "@azure/core-http";
 
 let nock: NockType;
 
@@ -39,7 +40,11 @@ export class NockRecorder extends BaseRecorder {
       this.relativeTestRecordingFilePath,
       testFilePath
     ).testInfo;
-    mockMsalAuth(nock);
+
+    if (isNode) {
+      // TODO: Add comments
+      mockMsalAuth(nock, recorderEnvironmentSetup.onLoadCallbackForPlayback);
+    }
   }
 
   public async stop(): Promise<void> {
