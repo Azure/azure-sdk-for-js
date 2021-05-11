@@ -33,21 +33,41 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesListCassandraKeyspacesResponse>
    */
-  listCassandraKeyspaces(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesListCassandraKeyspacesResponse>;
+  listCassandraKeyspaces(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesListCassandraKeyspacesResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listCassandraKeyspaces(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.CassandraKeyspaceListResult>): void;
+  listCassandraKeyspaces(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.CassandraKeyspaceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCassandraKeyspaces(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CassandraKeyspaceListResult>): void;
-  listCassandraKeyspaces(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CassandraKeyspaceListResult>, callback?: msRest.ServiceCallback<Models.CassandraKeyspaceListResult>): Promise<Models.CassandraResourcesListCassandraKeyspacesResponse> {
+  listCassandraKeyspaces(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CassandraKeyspaceListResult>
+  ): void;
+  listCassandraKeyspaces(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CassandraKeyspaceListResult>,
+    callback?: msRest.ServiceCallback<Models.CassandraKeyspaceListResult>
+  ): Promise<Models.CassandraResourcesListCassandraKeyspacesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class CassandraResources {
         options
       },
       listCassandraKeyspacesOperationSpec,
-      callback) as Promise<Models.CassandraResourcesListCassandraKeyspacesResponse>;
+      callback
+    ) as Promise<Models.CassandraResourcesListCassandraKeyspacesResponse>;
   }
 
   /**
@@ -67,14 +88,24 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesGetCassandraKeyspaceResponse>
    */
-  getCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesGetCassandraKeyspaceResponse>;
+  getCassandraKeyspace(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesGetCassandraKeyspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param callback The callback
    */
-  getCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, callback: msRest.ServiceCallback<Models.CassandraKeyspaceGetResults>): void;
+  getCassandraKeyspace(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    callback: msRest.ServiceCallback<Models.CassandraKeyspaceGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -82,8 +113,22 @@ export class CassandraResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CassandraKeyspaceGetResults>): void;
-  getCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CassandraKeyspaceGetResults>, callback?: msRest.ServiceCallback<Models.CassandraKeyspaceGetResults>): Promise<Models.CassandraResourcesGetCassandraKeyspaceResponse> {
+  getCassandraKeyspace(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CassandraKeyspaceGetResults>
+  ): void;
+  getCassandraKeyspace(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CassandraKeyspaceGetResults>,
+    callback?: msRest.ServiceCallback<Models.CassandraKeyspaceGetResults>
+  ): Promise<Models.CassandraResourcesGetCassandraKeyspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +137,8 @@ export class CassandraResources {
         options
       },
       getCassandraKeyspaceOperationSpec,
-      callback) as Promise<Models.CassandraResourcesGetCassandraKeyspaceResponse>;
+      callback
+    ) as Promise<Models.CassandraResourcesGetCassandraKeyspaceResponse>;
   }
 
   /**
@@ -105,9 +151,22 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesCreateUpdateCassandraKeyspaceResponse>
    */
-  createUpdateCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, createUpdateCassandraKeyspaceParameters: Models.CassandraKeyspaceCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesCreateUpdateCassandraKeyspaceResponse> {
-    return this.beginCreateUpdateCassandraKeyspace(resourceGroupName,accountName,keyspaceName,createUpdateCassandraKeyspaceParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesCreateUpdateCassandraKeyspaceResponse>;
+  createUpdateCassandraKeyspace(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    createUpdateCassandraKeyspaceParameters: Models.CassandraKeyspaceCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesCreateUpdateCassandraKeyspaceResponse> {
+    return this.beginCreateUpdateCassandraKeyspace(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      createUpdateCassandraKeyspaceParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CassandraResourcesCreateUpdateCassandraKeyspaceResponse
+    >;
   }
 
   /**
@@ -118,9 +177,18 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteCassandraKeyspace(resourceGroupName,accountName,keyspaceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteCassandraKeyspace(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteCassandraKeyspace(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -132,14 +200,24 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesGetCassandraKeyspaceThroughputResponse>
    */
-  getCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesGetCassandraKeyspaceThroughputResponse>;
+  getCassandraKeyspaceThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesGetCassandraKeyspaceThroughputResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param callback The callback
    */
-  getCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
+  getCassandraKeyspaceThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -147,8 +225,22 @@ export class CassandraResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
-  getCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>, callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): Promise<Models.CassandraResourcesGetCassandraKeyspaceThroughputResponse> {
+  getCassandraKeyspaceThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
+  getCassandraKeyspaceThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>,
+    callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): Promise<Models.CassandraResourcesGetCassandraKeyspaceThroughputResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +249,8 @@ export class CassandraResources {
         options
       },
       getCassandraKeyspaceThroughputOperationSpec,
-      callback) as Promise<Models.CassandraResourcesGetCassandraKeyspaceThroughputResponse>;
+      callback
+    ) as Promise<Models.CassandraResourcesGetCassandraKeyspaceThroughputResponse>;
   }
 
   /**
@@ -170,9 +263,22 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesUpdateCassandraKeyspaceThroughputResponse>
    */
-  updateCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesUpdateCassandraKeyspaceThroughputResponse> {
-    return this.beginUpdateCassandraKeyspaceThroughput(resourceGroupName,accountName,keyspaceName,updateThroughputParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesUpdateCassandraKeyspaceThroughputResponse>;
+  updateCassandraKeyspaceThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesUpdateCassandraKeyspaceThroughputResponse> {
+    return this.beginUpdateCassandraKeyspaceThroughput(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      updateThroughputParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CassandraResourcesUpdateCassandraKeyspaceThroughputResponse
+    >;
   }
 
   /**
@@ -183,9 +289,20 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse>
    */
-  migrateCassandraKeyspaceToAutoscale(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse> {
-    return this.beginMigrateCassandraKeyspaceToAutoscale(resourceGroupName,accountName,keyspaceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse>;
+  migrateCassandraKeyspaceToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse> {
+    return this.beginMigrateCassandraKeyspaceToAutoscale(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse
+    >;
   }
 
   /**
@@ -196,9 +313,20 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse>
    */
-  migrateCassandraKeyspaceToManualThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse> {
-    return this.beginMigrateCassandraKeyspaceToManualThroughput(resourceGroupName,accountName,keyspaceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse>;
+  migrateCassandraKeyspaceToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse> {
+    return this.beginMigrateCassandraKeyspaceToManualThroughput(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse
+    >;
   }
 
   /**
@@ -209,14 +337,24 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesListCassandraTablesResponse>
    */
-  listCassandraTables(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesListCassandraTablesResponse>;
+  listCassandraTables(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesListCassandraTablesResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param callback The callback
    */
-  listCassandraTables(resourceGroupName: string, accountName: string, keyspaceName: string, callback: msRest.ServiceCallback<Models.CassandraTableListResult>): void;
+  listCassandraTables(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    callback: msRest.ServiceCallback<Models.CassandraTableListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -224,8 +362,20 @@ export class CassandraResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCassandraTables(resourceGroupName: string, accountName: string, keyspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CassandraTableListResult>): void;
-  listCassandraTables(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CassandraTableListResult>, callback?: msRest.ServiceCallback<Models.CassandraTableListResult>): Promise<Models.CassandraResourcesListCassandraTablesResponse> {
+  listCassandraTables(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CassandraTableListResult>
+  ): void;
+  listCassandraTables(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CassandraTableListResult>,
+    callback?: msRest.ServiceCallback<Models.CassandraTableListResult>
+  ): Promise<Models.CassandraResourcesListCassandraTablesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +384,8 @@ export class CassandraResources {
         options
       },
       listCassandraTablesOperationSpec,
-      callback) as Promise<Models.CassandraResourcesListCassandraTablesResponse>;
+      callback
+    ) as Promise<Models.CassandraResourcesListCassandraTablesResponse>;
   }
 
   /**
@@ -246,7 +397,13 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesGetCassandraTableResponse>
    */
-  getCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesGetCassandraTableResponse>;
+  getCassandraTable(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesGetCassandraTableResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -254,7 +411,13 @@ export class CassandraResources {
    * @param tableName Cosmos DB table name.
    * @param callback The callback
    */
-  getCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, callback: msRest.ServiceCallback<Models.CassandraTableGetResults>): void;
+  getCassandraTable(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    callback: msRest.ServiceCallback<Models.CassandraTableGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -263,8 +426,22 @@ export class CassandraResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CassandraTableGetResults>): void;
-  getCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CassandraTableGetResults>, callback?: msRest.ServiceCallback<Models.CassandraTableGetResults>): Promise<Models.CassandraResourcesGetCassandraTableResponse> {
+  getCassandraTable(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CassandraTableGetResults>
+  ): void;
+  getCassandraTable(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CassandraTableGetResults>,
+    callback?: msRest.ServiceCallback<Models.CassandraTableGetResults>
+  ): Promise<Models.CassandraResourcesGetCassandraTableResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -274,7 +451,8 @@ export class CassandraResources {
         options
       },
       getCassandraTableOperationSpec,
-      callback) as Promise<Models.CassandraResourcesGetCassandraTableResponse>;
+      callback
+    ) as Promise<Models.CassandraResourcesGetCassandraTableResponse>;
   }
 
   /**
@@ -288,9 +466,24 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesCreateUpdateCassandraTableResponse>
    */
-  createUpdateCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, createUpdateCassandraTableParameters: Models.CassandraTableCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesCreateUpdateCassandraTableResponse> {
-    return this.beginCreateUpdateCassandraTable(resourceGroupName,accountName,keyspaceName,tableName,createUpdateCassandraTableParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesCreateUpdateCassandraTableResponse>;
+  createUpdateCassandraTable(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    createUpdateCassandraTableParameters: Models.CassandraTableCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesCreateUpdateCassandraTableResponse> {
+    return this.beginCreateUpdateCassandraTable(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      tableName,
+      createUpdateCassandraTableParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CassandraResourcesCreateUpdateCassandraTableResponse
+    >;
   }
 
   /**
@@ -302,9 +495,20 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteCassandraTable(resourceGroupName,accountName,keyspaceName,tableName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteCassandraTable(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteCassandraTable(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      tableName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -317,7 +521,13 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesGetCassandraTableThroughputResponse>
    */
-  getCassandraTableThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesGetCassandraTableThroughputResponse>;
+  getCassandraTableThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesGetCassandraTableThroughputResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -325,7 +535,13 @@ export class CassandraResources {
    * @param tableName Cosmos DB table name.
    * @param callback The callback
    */
-  getCassandraTableThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
+  getCassandraTableThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -334,8 +550,24 @@ export class CassandraResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCassandraTableThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
-  getCassandraTableThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>, callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): Promise<Models.CassandraResourcesGetCassandraTableThroughputResponse> {
+  getCassandraTableThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
+  getCassandraTableThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>,
+    callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): Promise<Models.CassandraResourcesGetCassandraTableThroughputResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -345,7 +577,8 @@ export class CassandraResources {
         options
       },
       getCassandraTableThroughputOperationSpec,
-      callback) as Promise<Models.CassandraResourcesGetCassandraTableThroughputResponse>;
+      callback
+    ) as Promise<Models.CassandraResourcesGetCassandraTableThroughputResponse>;
   }
 
   /**
@@ -359,9 +592,24 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesUpdateCassandraTableThroughputResponse>
    */
-  updateCassandraTableThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesUpdateCassandraTableThroughputResponse> {
-    return this.beginUpdateCassandraTableThroughput(resourceGroupName,accountName,keyspaceName,tableName,updateThroughputParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesUpdateCassandraTableThroughputResponse>;
+  updateCassandraTableThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesUpdateCassandraTableThroughputResponse> {
+    return this.beginUpdateCassandraTableThroughput(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      tableName,
+      updateThroughputParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CassandraResourcesUpdateCassandraTableThroughputResponse
+    >;
   }
 
   /**
@@ -373,9 +621,22 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesMigrateCassandraTableToAutoscaleResponse>
    */
-  migrateCassandraTableToAutoscale(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesMigrateCassandraTableToAutoscaleResponse> {
-    return this.beginMigrateCassandraTableToAutoscale(resourceGroupName,accountName,keyspaceName,tableName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesMigrateCassandraTableToAutoscaleResponse>;
+  migrateCassandraTableToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesMigrateCassandraTableToAutoscaleResponse> {
+    return this.beginMigrateCassandraTableToAutoscale(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      tableName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CassandraResourcesMigrateCassandraTableToAutoscaleResponse
+    >;
   }
 
   /**
@@ -387,9 +648,22 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesMigrateCassandraTableToManualThroughputResponse>
    */
-  migrateCassandraTableToManualThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesMigrateCassandraTableToManualThroughputResponse> {
-    return this.beginMigrateCassandraTableToManualThroughput(resourceGroupName,accountName,keyspaceName,tableName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraResourcesMigrateCassandraTableToManualThroughputResponse>;
+  migrateCassandraTableToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraResourcesMigrateCassandraTableToManualThroughputResponse> {
+    return this.beginMigrateCassandraTableToManualThroughput(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      tableName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CassandraResourcesMigrateCassandraTableToManualThroughputResponse
+    >;
   }
 
   /**
@@ -402,7 +676,13 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, createUpdateCassandraKeyspaceParameters: Models.CassandraKeyspaceCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateCassandraKeyspace(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    createUpdateCassandraKeyspaceParameters: Models.CassandraKeyspaceCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -412,7 +692,8 @@ export class CassandraResources {
         options
       },
       beginCreateUpdateCassandraKeyspaceOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -423,7 +704,12 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteCassandraKeyspace(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -432,7 +718,8 @@ export class CassandraResources {
         options
       },
       beginDeleteCassandraKeyspaceOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -445,7 +732,13 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateCassandraKeyspaceThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -455,7 +748,8 @@ export class CassandraResources {
         options
       },
       beginUpdateCassandraKeyspaceThroughputOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -466,7 +760,12 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateCassandraKeyspaceToAutoscale(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateCassandraKeyspaceToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -475,7 +774,8 @@ export class CassandraResources {
         options
       },
       beginMigrateCassandraKeyspaceToAutoscaleOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -486,7 +786,12 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateCassandraKeyspaceToManualThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateCassandraKeyspaceToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -495,7 +800,8 @@ export class CassandraResources {
         options
       },
       beginMigrateCassandraKeyspaceToManualThroughputOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -509,7 +815,14 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, createUpdateCassandraTableParameters: Models.CassandraTableCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateCassandraTable(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    createUpdateCassandraTableParameters: Models.CassandraTableCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -520,7 +833,8 @@ export class CassandraResources {
         options
       },
       beginCreateUpdateCassandraTableOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -532,7 +846,13 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteCassandraTable(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -542,7 +862,8 @@ export class CassandraResources {
         options
       },
       beginDeleteCassandraTableOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -556,7 +877,14 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateCassandraTableThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateCassandraTableThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -567,7 +895,8 @@ export class CassandraResources {
         options
       },
       beginUpdateCassandraTableThroughputOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -579,7 +908,13 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateCassandraTableToAutoscale(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateCassandraTableToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -589,7 +924,8 @@ export class CassandraResources {
         options
       },
       beginMigrateCassandraTableToAutoscaleOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -601,7 +937,13 @@ export class CassandraResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateCassandraTableToManualThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateCassandraTableToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    keyspaceName: string,
+    tableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -611,7 +953,8 @@ export class CassandraResources {
         options
       },
       beginMigrateCassandraTableToManualThroughputOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -619,18 +962,11 @@ export class CassandraResources {
 const serializer = new msRest.Serializer(Mappers);
 const listCassandraKeyspacesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CassandraKeyspaceListResult
@@ -644,19 +980,16 @@ const listCassandraKeyspacesOperationSpec: msRest.OperationSpec = {
 
 const getCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CassandraKeyspaceGetResults
@@ -670,19 +1003,16 @@ const getCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
 
 const getCassandraKeyspaceThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -696,19 +1026,16 @@ const getCassandraKeyspaceThroughputOperationSpec: msRest.OperationSpec = {
 
 const listCassandraTablesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CassandraTableListResult
@@ -722,7 +1049,8 @@ const listCassandraTablesOperationSpec: msRest.OperationSpec = {
 
 const getCassandraTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -730,12 +1058,8 @@ const getCassandraTableOperationSpec: msRest.OperationSpec = {
     Parameters.keyspaceName,
     Parameters.tableName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CassandraTableGetResults
@@ -749,7 +1073,8 @@ const getCassandraTableOperationSpec: msRest.OperationSpec = {
 
 const getCassandraTableThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -757,12 +1082,8 @@ const getCassandraTableThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.keyspaceName,
     Parameters.tableName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -776,19 +1097,16 @@ const getCassandraTableThroughputOperationSpec: msRest.OperationSpec = {
 
 const beginCreateUpdateCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "createUpdateCassandraKeyspaceParameters",
     mapper: {
@@ -810,19 +1128,16 @@ const beginCreateUpdateCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -835,19 +1150,16 @@ const beginDeleteCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateCassandraKeyspaceThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateThroughputParameters",
     mapper: {
@@ -869,26 +1181,23 @@ const beginUpdateCassandraKeyspaceThroughputOperationSpec: msRest.OperationSpec 
 
 const beginMigrateCassandraKeyspaceToAutoscaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToAutoscale",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToAutoscale",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -896,26 +1205,23 @@ const beginMigrateCassandraKeyspaceToAutoscaleOperationSpec: msRest.OperationSpe
 
 const beginMigrateCassandraKeyspaceToManualThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToManualThroughput",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default/migrateToManualThroughput",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -923,7 +1229,8 @@ const beginMigrateCassandraKeyspaceToManualThroughputOperationSpec: msRest.Opera
 
 const beginCreateUpdateCassandraTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -931,12 +1238,8 @@ const beginCreateUpdateCassandraTableOperationSpec: msRest.OperationSpec = {
     Parameters.keyspaceName,
     Parameters.tableName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "createUpdateCassandraTableParameters",
     mapper: {
@@ -958,7 +1261,8 @@ const beginCreateUpdateCassandraTableOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteCassandraTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -966,12 +1270,8 @@ const beginDeleteCassandraTableOperationSpec: msRest.OperationSpec = {
     Parameters.keyspaceName,
     Parameters.tableName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -984,7 +1284,8 @@ const beginDeleteCassandraTableOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateCassandraTableThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -992,12 +1293,8 @@ const beginUpdateCassandraTableThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.keyspaceName,
     Parameters.tableName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateThroughputParameters",
     mapper: {
@@ -1019,7 +1316,8 @@ const beginUpdateCassandraTableThroughputOperationSpec: msRest.OperationSpec = {
 
 const beginMigrateCassandraTableToAutoscaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToAutoscale",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -1027,19 +1325,15 @@ const beginMigrateCassandraTableToAutoscaleOperationSpec: msRest.OperationSpec =
     Parameters.keyspaceName,
     Parameters.tableName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1047,7 +1341,8 @@ const beginMigrateCassandraTableToAutoscaleOperationSpec: msRest.OperationSpec =
 
 const beginMigrateCassandraTableToManualThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -1055,19 +1350,15 @@ const beginMigrateCassandraTableToManualThroughputOperationSpec: msRest.Operatio
     Parameters.keyspaceName,
     Parameters.tableName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

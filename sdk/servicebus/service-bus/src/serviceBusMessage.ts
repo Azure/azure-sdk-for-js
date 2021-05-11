@@ -620,11 +620,33 @@ export function isServiceBusMessage(possible: unknown): possible is ServiceBusMe
   return isObjectWithProperties(possible, ["body"]);
 }
 
+let _featureAmqpBodyTypeEnabled = false;
+
+/**
+ * Disables preview AMQP body type support.
+ * @internal
+ */
+export function getFeatureAmqpBodyTypeEnabled(): boolean {
+  return _featureAmqpBodyTypeEnabled;
+}
+
+/**
+ * Enables preview AMQP body type support.
+ * @internal
+ */
+export function setFeatureAmqpBodyTypeEnabledForTesting(enable: boolean): void {
+  _featureAmqpBodyTypeEnabled = enable;
+}
+
 /**
  * @internal
  * @ignore
  */
 export function isAmqpAnnotatedMessage(possible: unknown): possible is AmqpAnnotatedMessage {
+  if (!_featureAmqpBodyTypeEnabled) {
+    return false;
+  }
+
   return (
     isObjectWithProperties(possible, ["body", "bodyType"]) &&
     possible.constructor.name !== ServiceBusMessageImpl.name

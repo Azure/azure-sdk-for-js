@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 import {
+  getFeatureAmqpBodyTypeEnabled,
   isAmqpAnnotatedMessage,
   isServiceBusMessage,
   ServiceBusMessage,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
+  setFeatureAmqpBodyTypeEnabledForTesting,
   toRheaMessage
 } from "../../../src/serviceBusMessage";
 import * as chai from "chai";
@@ -18,9 +20,33 @@ import {
   isRheaAmqpSection,
   valueSectionTypeCode
 } from "../../../src/dataTransformer";
+import {
+  errorInvalidMessageTypeSingle,
+  errorInvalidMessageTypeSingleOrArray
+} from "../../../src/util/errors";
 const assert = chai.assert;
 
 describe("AMQP message encoding", () => {
+  beforeEach(() => {
+    assert.equal(
+      "Provided value for 'messages' must be of type: ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage",
+      errorInvalidMessageTypeSingleOrArray
+    );
+
+    assert.equal(
+      "Provided value for 'message' must be of type: ServiceBusMessage",
+      errorInvalidMessageTypeSingle
+    );
+
+    const previousState = getFeatureAmqpBodyTypeEnabled();
+    assert.isFalse(previousState);
+
+    setFeatureAmqpBodyTypeEnabledForTesting(true);
+  });
+  afterEach(() => {
+    setFeatureAmqpBodyTypeEnabledForTesting(false);
+  });
+
   const exampleReceivedMessage: () => ServiceBusReceivedMessage = () =>
     new ServiceBusMessageImpl(
       ({

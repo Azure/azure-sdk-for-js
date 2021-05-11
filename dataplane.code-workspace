@@ -5,6 +5,10 @@
       "path": "sdk/core/abort-controller"
     },
     {
+      "name": "purview-catalog",
+      "path": "sdk/purview/purview-catalog-rest"
+    },
+    {
       "name": "anomaly-detector",
       "path": "sdk/anomalydetector/ai-anomaly-detector"
     },
@@ -231,6 +235,10 @@
     {
       "name": "dev tool",
       "path": "common/tools/dev-tool"
+    },
+    {
+      "name": "purview-scanning",
+      "path": "sdk/purview/purview-scanning-rest"
     },
     {
       "name": "perfstress",

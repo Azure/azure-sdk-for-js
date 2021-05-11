@@ -7,7 +7,6 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient } from "../../src";
 import {
-  canCreateRecordedClientWithToken,
   createRecordedClient,
   createRecordedClientWithToken
 } from "./utils/recordedClient";
@@ -16,12 +15,6 @@ matrix([[true, false]], async function(useAad) {
   describe(`PhoneNumbersClient - get phone number${useAad ? " [AAD]" : ""}`, function() {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
-
-    before(function(this: Context) {
-      if (useAad && !canCreateRecordedClientWithToken()) {
-        this.skip();
-      }
-    });
 
     beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
