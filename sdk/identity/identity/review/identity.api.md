@@ -76,13 +76,8 @@ export class AzureCliCredential implements TokenCredential {
 
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
-    constructor(options?: AzurePowerShellCredentialOptions);
+    constructor();
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-    }
-
-// @public
-export interface AzurePowerShellCredentialOptions {
-    useLegacyPowerShell?: boolean;
 }
 
 // @public
@@ -218,7 +213,7 @@ export const logger: AzureLogger;
 export class ManagedIdentityCredential implements TokenCredential {
     constructor(clientId: string, options?: TokenCredentialOptions);
     constructor(options?: TokenCredentialOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 // @public
