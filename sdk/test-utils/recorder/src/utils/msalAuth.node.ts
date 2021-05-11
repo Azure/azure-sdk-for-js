@@ -1,12 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export type NockType = typeof import("nock");
+import { env } from ".";
 
-export function mockMsalAuth(nock: NockType) {
+export type NockType = typeof import("nock");
+let nock: NockType;
+
+export function mockMsalAuth(importNock: NockType, plugin: (() => void) | undefined) {
+  nock = importNock;
+  if (!plugin) {
+    pluginForClientSecretCredentialTests();
+  } else {
+    pluginForIdentitySDK();
+  }
+}
+
+const pluginForClientSecretCredentialTests = () => {
+  if (env.AZURE_TENANT_ID) {
+    nock("https://login.microsoftonline.com:443")
+      .persist()
+      .post(`/${env.AZURE_TENANT_ID}/oauth2/v2.0/token`)
+      .reply(200, {
+        token_type: "Bearer",
+        expires_in: 86399,
+        ext_expires_in: 86399,
+        access_token: "access_token"
+      });
+  }
+};
+
+export const pluginForIdentitySDK = () => {
   nock("https://login.microsoftonline.com:443")
     .persist()
-    .post((uri) => uri.includes("/oauth2/v2.0/token")) // Path can either be "{tenant-id}/oauth2/v2.0/token" or "/organizations/oauth2/v2.0/token"
+    .post((uri: string) => uri.includes("/oauth2/v2.0/token")) // Path can either be "{tenant-id}/oauth2/v2.0/token" or "/organizations/oauth2/v2.0/token"
     .reply(200, {
       token_type: "Bearer",
       expires_in: 86399,
@@ -19,4 +45,4 @@ export function mockMsalAuth(nock: NockType) {
     });
   // Above id_token and client_info are straight from the msal tests
   // Reference - https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/926f1c2ba0598575e23dfd8cdd8b79fa3a3d19ff/lib/msal-browser/test/utils/BrowserProtocolUtils.spec.ts#L73
-}
+};
