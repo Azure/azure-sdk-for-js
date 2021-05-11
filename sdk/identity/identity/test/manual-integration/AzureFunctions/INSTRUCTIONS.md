@@ -27,9 +27,26 @@ For Azure PowerShell,
 2. Run `(Get-Module -ListAvailable Az).Version` and verify version 5.0 or later.
 3. Run `Connect-AzAccount` to sign in to Azure and verify an active subscription.
 
-### Run Locally
+### Deploy Resources to Azure
 
-1. Run the following commands in your console from the root folder `IdentityTest`
+1. Clone the repository azure-sdk-for-js
+
+2. `cd sdk\identity\identity\test\manual-integration\AzureFunctions`
+
+3. Follow the instructions here to create a Resource group and deploy it:
+
+```
+az group create --name <RESOURCE_GROUP_NAME> --location <resource_location>
+az deployment group create --resource-group <RESOURCE_GROUP_NAME> --template-file ./arm-template.json
+```
+
+### Run Azure Functions Locally
+
+1. Clone the repository azure-sdk-for-js
+
+2. `cd sdk\identity\identity\test\manual-integration\AzureFunctions\IdentityTest`
+
+3. Run the following commands in your console from the root folder `IdentityTest`
 
 ```
 cd IdentityTest
@@ -48,7 +65,7 @@ Functions:
 Note:
 If KeyvaultAuthentication doesn't appear as shown above, you likely started the host from outside the root folder of the project. In that case, use Ctrl+C to stop the host, navigate to the project's root folder, and run the previous command again.
 
-2. Copy the URL of your KeyvaultAuthentication function from this output to a browser and append the query string `?name=<your-name>`, making the full URL like
+4. Copy the URL of your KeyvaultAuthentication function from this output to a browser
 
 ```
 http://localhost:7071/api/KeyvaultAuthentication
@@ -62,51 +79,53 @@ Successfully authenticated with keyvault
 
 The terminal in which you started your project also shows log output as you make requests.
 
-3. When you're ready, use Ctrl+C and choose y to stop the functions host.
+5. When you're ready, use Ctrl+C and choose y to stop the functions host.
 
 ## Deploy to Azure
 
-1. Clone the repository azure-sdk-for-js
-
-2. `cd sdk\identity\identity\test\manual-integration\AzureFunctions`
-
-3. Follow the instructions here to create a Resource group and deploy it:
+1. In the local clone of the `azure-sdk-for-js` repository, type this in the console:
 
 ```
-az group create --name <RESOURCE_GROUP_NAME> --location <resource_location>
-az deployment group create --resource-group <RESOURCE_GROUP_NAME> --template-file ./arm-template.json
+cd sdk\identity\identity\test\manual-integration\AzureFunctions\IdentityTest
 ```
 
-4. Run the following commands in your console from the root folder `IdentityTest`
+2. Run the following commands in your console from the root folder `IdentityTest`
 
-   ```
-   cd IdentityTest
-   npm install
-   npm run build
-   ```
+```
+cd IdentityTest
+npm install
+npm run build
 
-5. Publish the function app
+```
 
-   ```
-   func azure functionapp publish <FUNCTION_APP_NAME> --typescript
-   ```
+3. Publish the function app
 
-   The `<FUNCTION_APP_NAME>` will basically be something like - `<RESOURCE_GROUP_NAME>fnapp`
+```
 
-   Take note of the invoke url that shows up on console.
+func azure functionapp publish <FUNCTION_APP_NAME> --typescript
+
+```
+
+The `<FUNCTION_APP_NAME>` will basically be something like - `<RESOURCE_GROUP_NAME>fnapp`
+
+Take note of the invoke url that shows up on console.
 
 ## Run the azure-identity Tests on the Azure Functions
 
 Go to the invoke url which will be in the following format -
 
 ```
+
 https://<func app name>.azurewebsites.net/api/KeyvaultAuthentication
+
 ```
 
 It will display the message -
 
 ```
+
 Successfully authenticated with keyvault
+
 ```
 
 ## Clean up resources

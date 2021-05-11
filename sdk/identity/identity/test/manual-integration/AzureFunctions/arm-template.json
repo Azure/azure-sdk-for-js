@@ -91,7 +91,7 @@
             },
             {
               "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "~10"
+              "value": "~12"
             },
             {
               "name": "FUNCTIONS_WORKER_RUNTIME",
