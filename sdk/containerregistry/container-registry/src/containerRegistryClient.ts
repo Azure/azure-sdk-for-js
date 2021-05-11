@@ -71,7 +71,7 @@ export class ContainerRegistryClient {
    */
   constructor(
     endpointUrl: string,
-    credential?: TokenCredential,
+    credential: TokenCredential,
     options?: ContainerRegistryClientOptions
   );
 
