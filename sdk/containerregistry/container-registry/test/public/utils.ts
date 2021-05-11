@@ -3,7 +3,6 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { URL } from "../../src/url";
 import { ContainerRegistryClient } from "../../src";
 
 // When the recorder observes the values of these environment variables in any
