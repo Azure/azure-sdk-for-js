@@ -98,7 +98,7 @@ describe("[Mocked] ChatThreadClient", async () => {
 
     const sendOptions: SendMessageOptions = {
       senderDisplayName: mockMessage.senderDisplayName,
-      properties: mockMessage.properties
+      metadata: mockMessage.metadata
     };
 
     const response = await chatThreadClient.sendMessage(sendRequest, sendOptions);
@@ -212,7 +212,7 @@ describe("[Mocked] ChatThreadClient", async () => {
 
     const sendOptions: UpdateMessageOptions = {
       content: mockMessage.content?.message,
-      properties: mockMessage.properties
+      metadata: mockMessage.metadata
     };
 
     await chatThreadClient.updateMessage(mockMessage.id!, sendOptions);
@@ -226,7 +226,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "PATCH");
     assert.deepEqual(JSON.parse(request.body), {
       content: mockMessage.content?.message,
-      properties: mockMessage.properties
+      metadata: mockMessage.metadata
     });
   });
 
