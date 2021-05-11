@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isObjectWithProperties } from "./typeGuards";
+
 /**
  * Represents a certificate credential for authentication.
  */
@@ -21,7 +23,9 @@ export interface CertificateCredential {
  * @param credential - The assumed CertificateCredential to be tested.
  */
 export function isCertificateCredential(credential: unknown): credential is CertificateCredential {
-  const certCredential = credential as CertificateCredential;
-
-  return certCredential.certKey !== undefined && certCredential.cert !== undefined;
+  return (
+    isObjectWithProperties(credential, ["certKey", "cert"]) &&
+    typeof credential.cert === "string" &&
+    typeof credential.certKey === "string"
+  );
 }
