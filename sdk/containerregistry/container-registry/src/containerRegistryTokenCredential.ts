@@ -17,14 +17,20 @@ const credentialScopes = "https://management.core.windows.net/.default";
 
 export class ContainerRegistryRefreshTokenCredential implements TokenCredential {
   readonly tokenService: ContainerRegistryTokenService;
-  constructor(private credential: TokenCredential, authClient: GeneratedClient) {
+  readonly isAnonymousAccess: boolean;
+  constructor(authClient: GeneratedClient, private credential?: TokenCredential) {
     this.tokenService = new ContainerRegistryTokenService(authClient);
+    this.isAnonymousAccess = !this.credential;
   }
 
   async getToken(
     _scopes: string | string[],
     options: ContainerRegistryGetTokenOptions
   ): Promise<AccessToken | null> {
+    if (!this.credential) {
+      return null;
+    }
+
     const aadToken = await this.credential.getToken(credentialScopes, options);
     if (!aadToken) {
       throw new Error("Failed to retrieve AAD token.");
@@ -137,6 +143,7 @@ export class ContainerRegistryTokenService {
     acrRefreshToken: string,
     service: string,
     scope: string,
+    grantType: "refresh_token" | "password",
     options: GetTokenOptions
   ): Promise<string> {
     // const acrAccessToken = await this.authClient.authentication.exchangeAcrRefreshTokenForAcrAccessToken(
@@ -151,9 +158,9 @@ export class ContainerRegistryTokenService {
     // );
 
     // TODO: (jeremymeng) revert custom sendOperationRequest call after FormData is working in core
-    const payload = `grant_type=refresh_token&service=${encodeURIComponent(
-      service
-    )}&refresh_token=${encodeURIComponent(acrRefreshToken)}&scope=${encodeURIComponent(scope)}`;
+    const payload = `grant_type=${grantType}&service=${encodeURIComponent(service)}&refresh_token=${
+      acrRefreshToken ? encodeURIComponent(acrRefreshToken) : ""
+    }&scope=${encodeURIComponent(scope)}`;
     const customOptions: CustomAuthOptions = {
       payload
     };

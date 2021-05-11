@@ -70,14 +70,24 @@ export class ChallengeHandler implements ChallengeCallbacks {
     }
 
     // Step 3: Exchange AAD Access Token for ACR Refresh Token
-    // ACR refresh token is cached.
-    const acrRefreshToken = await this.cycler.getToken(scope, { ...options, service });
+    //   For anonymous access, we send the request with grant_type=password and an empty ACR refresh token
+    //   For non-anonymous access, we get an AAD token then exchange it for an ACR fresh token
+    let grantType: "password" | "refresh_token";
+    let acrRefreshToken: string;
+    if (this.credential.isAnonymousAccess) {
+      grantType = "password";
+      acrRefreshToken = "";
+    } else {
+      grantType = "refresh_token";
+      acrRefreshToken = (await this.cycler.getToken(scope, { ...options, service })).token;
+    }
 
     // Step 4: Send in acrRefreshToken and get back acrAccessToken
     const acrAccessToken = await this.credential.tokenService.ExchangeAcrRefreshTokenForAcrAccessTokenAsync(
-      acrRefreshToken.token,
+      acrRefreshToken,
       service,
       scope,
+      grantType,
       this.options
     );
 
