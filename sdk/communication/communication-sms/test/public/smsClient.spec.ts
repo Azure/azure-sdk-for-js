@@ -6,7 +6,7 @@
  *  They are duplicated in an internal test which contains workaround logic to record/playback the tests
  */
 
-import { matrix } from "@azure/test-utils-matrix";
+import { matrix } from "@azure/test-utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";

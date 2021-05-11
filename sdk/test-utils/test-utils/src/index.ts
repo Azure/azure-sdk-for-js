@@ -8,3 +8,5 @@ export {
   MultiVersionTestOptions,
   TestFunctionWrapper
 } from "./multiVersion";
+
+export { matrix } from "./matrix";

@@ -4,6 +4,8 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
+import { matrix } from "@azure/test-utils";
+
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 import { testPollingOptions, createRecorder, makeCredential } from "../utils/recordedClients";
@@ -15,7 +17,6 @@ import {
   FormRecognizerClient
 } from "../../src";
 
-import { matrix } from "@azure/test-utils-matrix";
 
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
 const containerSasUrl = (): string => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;

@@ -75,8 +75,7 @@ dependencies:
   '@rush-temp/synapse-monitoring': file:projects/synapse-monitoring.tgz
   '@rush-temp/synapse-spark': file:projects/synapse-spark.tgz
   '@rush-temp/template': file:projects/template.tgz
-  '@rush-temp/test-utils-matrix': file:projects/test-utils-matrix.tgz
-  '@rush-temp/test-utils-multi-version': file:projects/test-utils-multi-version.tgz
+  '@rush-temp/test-utils': file:projects/test-utils.tgz
   '@rush-temp/test-utils-perfstress': file:projects/test-utils-perfstress.tgz
   '@rush-temp/test-utils-recorder': file:projects/test-utils-recorder.tgz
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
@@ -7930,7 +7929,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-form-recognizer'
     resolution:
-      integrity: sha512-i9w0AQc62Mt1TRd0IW5zLvoY1HBKywb6l/hFzniHBqXPa+yTBVXYuFguM/H50U0PBx6UUkj95bzGkONbBFKr/g==
+      integrity: sha512-gix2/yW+PuUtSoEl+woadsMc9joyv8f1m2z34/kYTsj3qRu+B+HsEjt0uou+I8k+A2tHgjk4+gPt2C6NbTjs8w==
       tarball: file:projects/ai-form-recognizer.tgz
     version: 0.0.0
   file:projects/ai-metrics-advisor.tgz:
@@ -8023,7 +8022,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-a/yZ1UURt9He/DEYvd2KXDJrFKEDp07mEJXB3xl/wcEBPA5fieJvyA/DHUd5NNxyRjcnTA2o/5CdDQ/3SvRJcg==
+      integrity: sha512-EJERTY6ZQCm5t6JLGsEAGtpRb6ukOqYa+UPEJ9Q8BjMsYCwaZUsfs9YM2sA/ThEe5OL3w0CSL31bexT5Xuw0wA==
       tarball: file:projects/ai-text-analytics.tgz
     version: 0.0.0
   file:projects/app-configuration.tgz:
@@ -8288,7 +8287,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-identity'
     resolution:
-      integrity: sha512-s24VoSTH4Xb1UAkItnsfD+Y5LBBwm3N9NlTZxBKSB7UQyH6C6ZivQIzw3+Rw3KczJZClkebAKwVJ29gIVeipVg==
+      integrity: sha512-WfdUEQSDBt9A2YuBuN9MH0Yy2QCb5zxqJfNSxrpI3esgYR8PNjIVr9k/SPfAtbOUVsC7whZQq5XAh0gtlSd4Lw==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-phone-numbers.tgz:
@@ -8342,7 +8341,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-phone-numbers'
     resolution:
-      integrity: sha512-+1SgvQ3laTzKg96UcCZDoS6s9bLPnZsLwP7EqkGF72EPaP5zQwKijUKk8+BNALSUR6nkZqdbfI6GxwwTKJfrtQ==
+      integrity: sha512-ofEFM+aC32e261WB2biM3RaNq0Ax5KP6IcMOxg/stN+6u7NcD7oYHvr5QG5tbNoTOpKt8oq1QrEPQgohbuderQ==
       tarball: file:projects/communication-phone-numbers.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
@@ -8395,7 +8394,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-SAyHi9GG9P15Gmwma1omjZqzqiNiprTahTe1ip9rvxVstxB7WF0FZMf7UyldGGLPbXr/aXmElcti41zz1wdgwA==
+      integrity: sha512-G+1GE15e+ZEYE+icwuu1bJLWI/p5DoSJeImPFlisTesCKFdoERT2Awcf/FofNuAm20Z19+IdulY+GOvFLWlj1Q==
       tarball: file:projects/communication-sms.tgz
     version: 0.0.0
   file:projects/container-registry.tgz:
@@ -8705,6 +8704,7 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.2.16
       '@types/express': 4.17.11
       '@types/glob': 7.1.3
@@ -8761,7 +8761,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-eMAAgtKqqU7D05NWN5bHakktFTX6jz0KHj/Rkn3xbT/zmJ/WUZzz1poNZz75cA0GWvMFt2MFr5K/yd5dnEwsvA==
+      integrity: sha512-YFvwMJDL9Pya78VAH07hLmZ1DVHukjjIeOaNKvShcV2EodrYLNqRqjQN+LuDDI5K7B+OJGRVGWOeCZ/dJJWDVQ==
       tarball: file:projects/core-http.tgz
     version: 0.0.0
   file:projects/core-lro.tgz:
@@ -9324,7 +9324,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-8kvTC/cK5o9v8o0ZupbFtRjjOGERHFFr3srAOwWo+27nBCMo8F5hw9o9oHBMghESkh0uZFaiAzZG79/g7pFNxg==
+      integrity: sha512-7VxEPA1R44PvmiFSo7e0HzqO96D8jAdWLr5N5RjCspCTPnp9gnkhg/QmYlOIY+n2iZ1jzbgtJrwubncFEQbyuA==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
@@ -9757,7 +9757,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-2VnrPfz4Ta5eSVtA4QGG2scSRzouYS+c09uQl7q1omukgYdgp371DVi5ZPdSOCIPHvGh33sri1PyLfCdPm0XiQ==
+      integrity: sha512-47efGT5a/pdJBTTsYNUMHUSJvb51DQ8m7YW8OsJe4fWp+5SmjGPftej6vU8VjNEjLyiBKDgz2zSjhx4tbvRzEQ==
       tarball: file:projects/keyvault-keys.tgz
     version: 0.0.0
   file:projects/keyvault-secrets.tgz:
@@ -10035,7 +10035,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-identity'
     resolution:
-      integrity: sha512-dGWFtEBT8TQxKH65+/OO266Cj2gcGgXT/bdyjq3MCENgBQ5MiD01quuKiPncS1BUA2iEieCvxlE5T5dJvgxWTw==
+      integrity: sha512-qoL2JCDZGx5EwC5nKNuGEz1qwK06iiT2IP99eqch2lfUYBubn77dqGlyGCgwczDPfaFbJX7LZxUq902fWG1LIg==
       tarball: file:projects/perf-identity.tgz
     version: 0.0.0
   file:projects/perf-keyvault-certificates.tgz:
@@ -10325,7 +10325,7 @@ packages:
     dev: false
     name: '@rush-temp/schema-registry'
     resolution:
-      integrity: sha512-PfosQpd4CbfdyFXBKAJsZFUJ9P+YwX131MiYGCUQwdWamWfKg4fSGo7+fPAOENODNf9rPe4gahmmonDYuke+IQ==
+      integrity: sha512-Z6DdJ5M950jRXFV5hYeTxTC1LfUYi83QVK6Y+gV4uDYLnVxYzq/+Qs8XknpMRs0BC1gJXDTolj8n1MAcBeAFlQ==
       tarball: file:projects/schema-registry.tgz
     version: 0.0.0
   file:projects/search-documents.tgz:
@@ -10455,7 +10455,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-wYyGEJH+Xk4XpboHfLFEgWMQdfUDhpdU3xcykhlEN4knMb9GIyaKbAttspaHPQ8+g4xB7Mjh5BneIhyZKkiFCA==
+      integrity: sha512-L88QmVwasxTuDCx0680kE/wVLfgvKpRpOGsI5rIxYRJRFVwzMzeHqzr8MMFgKs4ZLrAj9HJ7NobCYOEW1DxleQ==
       tarball: file:projects/service-bus.tgz
     version: 0.0.0
   file:projects/storage-blob-changefeed.tgz:
@@ -10633,7 +10633,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-0NClo8xWcTdIobuN51EuCMnHN/M2fHzsas3lCP9H3dZ+UXRWRqBGjGPZzcuJtgqiu+kp7Be0xlRklw5/OSyReQ==
+      integrity: sha512-pMvj6JrTbyo6BV6X2cxSo94ZTNqcWNb537CnppjobrDHv9E/VuX8GFhk+g4FouJujgItOSj52EAZTGGSFEQfDQ==
       tarball: file:projects/storage-file-datalake.tgz
     version: 0.0.0
   file:projects/storage-file-share.tgz:
@@ -10974,76 +10974,6 @@ packages:
       integrity: sha512-GEg0iurjiFVFHToKkPuprmMO5F5ivG6+imfPGqPYlP5HDnyOFnTdEiILEcPV/bnNpM7ItrWDQToZFFTu8d1UAQ==
       tarball: file:projects/template.tgz
     version: 0.0.0
-  file:projects/test-utils-matrix.tgz:
-    dependencies:
-      '@azure/identity': 1.3.0
-      '@microsoft/api-extractor': 7.7.11
-      '@types/chai': 4.2.16
-      '@types/chai-as-promised': 7.1.3
-      '@types/mocha': 7.0.2
-      '@types/node': 8.10.66
-      chai: 4.3.4
-      chai-as-promised: 7.1.1_chai@4.3.4
-      cross-env: 7.0.3
-      dotenv: 8.2.0
-      downlevel-dts: 0.4.0
-      eslint: 7.23.0
-      esm: 3.2.25
-      inherits: 2.0.4
-      karma: 6.3.2
-      karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.3.2
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.2
-      karma-json-preprocessor: 0.3.3_karma@6.3.2
-      karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.2
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.2
-      mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
-      prettier: 1.19.1
-      rimraf: 3.0.2
-      rollup: 1.32.1
-      source-map-support: 0.5.19
-      tslib: 2.2.0
-      typedoc: 0.15.2
-      typescript: 4.2.4
-      util: 0.12.3
-    dev: false
-    name: '@rush-temp/test-utils-matrix'
-    resolution:
-      integrity: sha512-fzRZOhuQ9erP4ylqd7NW4Gr/AebvqHSeARFDPVr/xuBfLxa89egbIFukiIB7wjo3EPrwVz7Bj6Bnw6dz44SVqQ==
-      tarball: file:projects/test-utils-matrix.tgz
-    version: 0.0.0
-  file:projects/test-utils-multi-version.tgz:
-    dependencies:
-      '@microsoft/api-extractor': 7.7.11
-      '@types/chai': 4.2.16
-      '@types/mocha': 7.0.2
-      '@types/node': 8.10.66
-      chai: 4.3.4
-      chai-as-promised: 7.1.1_chai@4.3.4
-      eslint: 7.23.0
-      karma: 6.3.2
-      karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
-      karma-env-preprocessor: 0.1.1
-      mocha: 7.2.0
-      prettier: 1.19.1
-      rimraf: 3.0.2
-      rollup: 1.32.1
-      tslib: 2.2.0
-      typescript: 4.2.4
-    dev: false
-    name: '@rush-temp/test-utils-multi-version'
-    resolution:
-      integrity: sha512-uNtK2ZrbsqB4kp9hgXR4A0DT561htuu0lvY0Y5OR4qn+1iTFPtqluk57cLJaiRUjqWP/7NzD8DuAk1/RqBskTA==
-      tarball: file:projects/test-utils-multi-version.tgz
-    version: 0.0.0
   file:projects/test-utils-perfstress.tgz:
     dependencies:
       '@types/minimist': 1.2.1
@@ -11122,6 +11052,33 @@ packages:
     resolution:
       integrity: sha512-+z4Le1dPD7946nToxQrse/mrMXuoJDo2Cko9iUDRTFxF2+1vs9a2WEawBV2iW4KckezsAyswjjxTrWYFl5Vyyg==
       tarball: file:projects/test-utils-recorder.tgz
+    version: 0.0.0
+  file:projects/test-utils.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@types/chai': 4.2.16
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      '@types/sinon': 9.0.11
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      eslint: 7.23.0
+      karma: 6.3.2
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-env-preprocessor: 0.1.1
+      mocha: 7.2.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      sinon: 9.2.4
+      tslib: 2.2.0
+      typescript: 4.2.4
+    dev: false
+    name: '@rush-temp/test-utils'
+    resolution:
+      integrity: sha512-h7eNMFY99Tt6JxkzrO2RY30U4hccSzEQBiWTvyk5u/OZZu4Tzi/fUDfgBF6gMx9Y0PrhYtjQp2QTCfZoHqKZtg==
+      tarball: file:projects/test-utils.tgz
     version: 0.0.0
   file:projects/web-pubsub-express.tgz:
     dependencies:
@@ -11325,8 +11282,7 @@ specifiers:
   '@rush-temp/synapse-monitoring': file:./projects/synapse-monitoring.tgz
   '@rush-temp/synapse-spark': file:./projects/synapse-spark.tgz
   '@rush-temp/template': file:./projects/template.tgz
-  '@rush-temp/test-utils-matrix': file:./projects/test-utils-matrix.tgz
-  '@rush-temp/test-utils-multi-version': file:./projects/test-utils-multi-version.tgz
+  '@rush-temp/test-utils': file:./projects/test-utils.tgz
   '@rush-temp/test-utils-perfstress': file:./projects/test-utils-perfstress.tgz
   '@rush-temp/test-utils-recorder': file:./projects/test-utils-recorder.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz

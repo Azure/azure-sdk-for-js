@@ -8,7 +8,7 @@
  *  These tests will be skipped in Live Mode since the public tests run in live mode only.
  */
 
-import { matrix } from "@azure/test-utils-matrix";
+import { matrix } from "@azure/test-utils";
 import { isLiveMode, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";

@@ -638,13 +638,8 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-multi-version",
-      "projectFolder": "sdk/test-utils/multi-version",
-      "versionPolicyName": "utility"
-    },
-    {
-      "packageName": "@azure/test-utils-matrix",
-      "projectFolder": "sdk/test-utils/matrix",
+      "packageName": "@azure/test-utils",
+      "projectFolder": "sdk/test-utils/test-utils",
       "versionPolicyName": "utility"
     },
     {
