@@ -1,12 +1,13 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2021-05-11)
 
 ### Features Added
 
 - Added new properties to allow easier interaction with other docker tools:
   - `loginServer` in `ContainerRegistryClient`.
   - `fullyQualifiedName` in `ContainerRepository`
+- Added support for anonymous access.
 
 ### Breaking Changes
 
