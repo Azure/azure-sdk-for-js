@@ -33,14 +33,24 @@ export class Validations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ValidationsValidateOrganizationResponse>
    */
-  validateOrganization(resourceGroupName: string, organizationName: string, body: Models.OrganizationResource, options?: msRest.RequestOptionsBase): Promise<Models.ValidationsValidateOrganizationResponse>;
+  validateOrganization(
+    resourceGroupName: string,
+    organizationName: string,
+    body: Models.OrganizationResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ValidationsValidateOrganizationResponse>;
   /**
    * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
    * @param body Organization resource model
    * @param callback The callback
    */
-  validateOrganization(resourceGroupName: string, organizationName: string, body: Models.OrganizationResource, callback: msRest.ServiceCallback<Models.OrganizationResource>): void;
+  validateOrganization(
+    resourceGroupName: string,
+    organizationName: string,
+    body: Models.OrganizationResource,
+    callback: msRest.ServiceCallback<Models.OrganizationResource>
+  ): void;
   /**
    * @param resourceGroupName Resource group name
    * @param organizationName Organization resource name
@@ -48,8 +58,20 @@ export class Validations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateOrganization(resourceGroupName: string, organizationName: string, body: Models.OrganizationResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OrganizationResource>): void;
-  validateOrganization(resourceGroupName: string, organizationName: string, body: Models.OrganizationResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OrganizationResource>, callback?: msRest.ServiceCallback<Models.OrganizationResource>): Promise<Models.ValidationsValidateOrganizationResponse> {
+  validateOrganization(
+    resourceGroupName: string,
+    organizationName: string,
+    body: Models.OrganizationResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OrganizationResource>
+  ): void;
+  validateOrganization(
+    resourceGroupName: string,
+    organizationName: string,
+    body: Models.OrganizationResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OrganizationResource>,
+    callback?: msRest.ServiceCallback<Models.OrganizationResource>
+  ): Promise<Models.ValidationsValidateOrganizationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +80,8 @@ export class Validations {
         options
       },
       validateOrganizationOperationSpec,
-      callback) as Promise<Models.ValidationsValidateOrganizationResponse>;
+      callback
+    ) as Promise<Models.ValidationsValidateOrganizationResponse>;
   }
 }
 
@@ -66,18 +89,15 @@ export class Validations {
 const serializer = new msRest.Serializer(Mappers);
 const validateOrganizationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/validations/{organizationName}/orgvalidate",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/validations/{organizationName}/orgvalidate",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.organizationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {

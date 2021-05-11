@@ -25,12 +25,16 @@ export class ConfluentManagementClientContext extends msRestAzure.AzureServiceCl
    * @param subscriptionId Microsoft Azure subscription id
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ConfluentManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ConfluentManagementClientOptions
+  ) {
     if (credentials == undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+      throw new Error("'credentials' cannot be null.");
     }
     if (subscriptionId == undefined) {
-      throw new Error('\'subscriptionId\' cannot be null.');
+      throw new Error("'subscriptionId' cannot be null.");
     }
 
     if (!options) {
@@ -43,8 +47,8 @@ export class ConfluentManagementClientContext extends msRestAzure.AzureServiceCl
 
     super(credentials, options);
 
-    this.apiVersion = '2021-03-01-preview';
-    this.acceptLanguage = 'en-US';
+    this.apiVersion = "2021-03-01-preview";
+    this.acceptLanguage = "en-US";
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
@@ -54,7 +58,10 @@ export class ConfluentManagementClientContext extends msRestAzure.AzureServiceCl
     if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (
+      options.longRunningOperationRetryTimeout !== null &&
+      options.longRunningOperationRetryTimeout !== undefined
+    ) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

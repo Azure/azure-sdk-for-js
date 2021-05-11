@@ -39,14 +39,23 @@ export class MarketplaceAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>, callback?: msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>): Promise<Models.MarketplaceAgreementsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>,
+    callback?: msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>
+  ): Promise<Models.MarketplaceAgreementsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MarketplaceAgreementsListResponse>;
+      callback
+    ) as Promise<Models.MarketplaceAgreementsListResponse>;
   }
 
   /**
@@ -54,7 +63,9 @@ export class MarketplaceAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplaceAgreementsCreateResponse>
    */
-  create(options?: Models.MarketplaceAgreementsCreateOptionalParams): Promise<Models.MarketplaceAgreementsCreateResponse>;
+  create(
+    options?: Models.MarketplaceAgreementsCreateOptionalParams
+  ): Promise<Models.MarketplaceAgreementsCreateResponse>;
   /**
    * @param callback The callback
    */
@@ -63,14 +74,23 @@ export class MarketplaceAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(options: Models.MarketplaceAgreementsCreateOptionalParams, callback: msRest.ServiceCallback<Models.ConfluentAgreementResource>): void;
-  create(options?: Models.MarketplaceAgreementsCreateOptionalParams | msRest.ServiceCallback<Models.ConfluentAgreementResource>, callback?: msRest.ServiceCallback<Models.ConfluentAgreementResource>): Promise<Models.MarketplaceAgreementsCreateResponse> {
+  create(
+    options: Models.MarketplaceAgreementsCreateOptionalParams,
+    callback: msRest.ServiceCallback<Models.ConfluentAgreementResource>
+  ): void;
+  create(
+    options?:
+      | Models.MarketplaceAgreementsCreateOptionalParams
+      | msRest.ServiceCallback<Models.ConfluentAgreementResource>,
+    callback?: msRest.ServiceCallback<Models.ConfluentAgreementResource>
+  ): Promise<Models.MarketplaceAgreementsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.MarketplaceAgreementsCreateResponse>;
+      callback
+    ) as Promise<Models.MarketplaceAgreementsCreateResponse>;
   }
 
   /**
@@ -79,26 +99,43 @@ export class MarketplaceAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplaceAgreementsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplaceAgreementsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplaceAgreementsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>, callback?: msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>): Promise<Models.MarketplaceAgreementsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>,
+    callback?: msRest.ServiceCallback<Models.ConfluentAgreementResourceListResponse>
+  ): Promise<Models.MarketplaceAgreementsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.MarketplaceAgreementsListNextResponse>;
+      callback
+    ) as Promise<Models.MarketplaceAgreementsListNextResponse>;
   }
 }
 
@@ -107,15 +144,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfluentAgreementResourceListResponse
@@ -130,20 +161,11 @@ const listOperationSpec: msRest.OperationSpec = {
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements/default",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "body"
-    ],
+    parameterPath: ["options", "body"],
     mapper: Mappers.ConfluentAgreementResource
   },
   responses: {
@@ -161,15 +183,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfluentAgreementResourceListResponse
