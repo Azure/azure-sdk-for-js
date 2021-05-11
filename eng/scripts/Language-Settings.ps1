@@ -185,6 +185,11 @@ function Update-javascript-CIConfigForDaily($ciRepo, $locationInDocRepo) {
     foreach ($package in $packageSpecs.npm_package_sources) { 
       $packageName = Get-PackageName($package.name)
       
+      if (-not $packageName.StartsWith('@azure/')) {
+        Write-Host "Skipping legacy package: $packageName"
+        continue
+      }
+
       # It is possible to specify custom registry URLs
       $registryUrlPrefix = 'http://registry.npmjs.org/'
       if ($package.ContainsKey('registry')) {
@@ -193,10 +198,10 @@ function Update-javascript-CIConfigForDaily($ciRepo, $locationInDocRepo) {
 
       if (Test-PackageHasTag $packageName 'dev' $registryUrlPrefix)
       {
-        Write-Host "Setting dev version for $packageName"
+        Write-Host "Setting dev version for: $packageName"
         $package.name = "$packageName@dev"
       } else { 
-        Write-Host "Could not find dev tag for $packageName"
+        Write-Host "Could not find dev tag for: $packageName"
       }
     }
 
