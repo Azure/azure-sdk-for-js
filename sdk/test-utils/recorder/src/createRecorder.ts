@@ -42,7 +42,7 @@ export class NockRecorder extends BaseRecorder {
     ).testInfo;
 
     if (isNode) {
-      // TODO: Add comments
+      // The following call provides the fake access_token in playback for the msal /oauth2/v2.0/token requests by not matching the request body
       mockMsalAuth(nock, recorderEnvironmentSetup.onLoadCallbackForPlayback);
     }
   }

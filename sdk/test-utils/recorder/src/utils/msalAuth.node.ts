@@ -6,6 +6,13 @@ import { env } from ".";
 export type NockType = typeof import("nock");
 let nock: NockType;
 
+/**
+ *  msal auth requests where an access_token is returned are dynamic
+ *  - client_request_id is generated everytime we make a new request which makes the requestBody dynamic
+ *  - requestBody also has more properties such as the type/make of the OS which makes the requests different in different machines
+ *
+ *  This method provides the fake token during playback by not matching the request body at all
+ */
 export function mockMsalAuth(importNock: NockType, plugin: (() => void) | undefined) {
   nock = importNock;
   if (!plugin) {
