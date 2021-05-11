@@ -5,6 +5,7 @@ import { logger, receiverLogger } from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
 import {
+  getFeatureAmqpBodyTypeEnabled,
   isAmqpAnnotatedMessage,
   isServiceBusMessage,
   ServiceBusReceivedMessage
@@ -269,9 +270,11 @@ export function throwIfNotValidServiceBusMessage(
 }
 
 /** @internal */
-export const errorInvalidMessageTypeSingleOrArray =
-  "Provided value for 'messages' must be of type: ServiceBusMessage, AmqpAnnotatedMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage or AmqpAnnotatedMessage.";
+export const errorInvalidMessageTypeSingleOrArray = getFeatureAmqpBodyTypeEnabled()
+  ? "Provided value for 'messages' must be of type: ServiceBusMessage, AmqpAnnotatedMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage or AmqpAnnotatedMessage."
+  : "Provided value for 'messages' must be of type: ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage";
 
 /** @internal */
-export const errorInvalidMessageTypeSingle =
-  "Provided value for 'message' must be of type: ServiceBusMessage or AmqpAnnotatedMessage.";
+export const errorInvalidMessageTypeSingle = getFeatureAmqpBodyTypeEnabled()
+  ? "Provided value for 'message' must be of type: ServiceBusMessage or AmqpAnnotatedMessage."
+  : "Provided value for 'message' must be of type: ServiceBusMessage";

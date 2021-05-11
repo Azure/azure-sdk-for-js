@@ -3,13 +3,14 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { ContainerRegistryClient, ContainerRepositoryClient } from "../../src";
+import { ContainerRegistryClient } from "../../src";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
 // are mapped to below.
 const replaceableVariables: Record<string, string> = {
   CONTAINERREGISTRY_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
+  CONTAINERREGISTRY_ANONREGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
   AZURE_TENANT_ID: "azure_tenant_id",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -62,25 +63,4 @@ export function createRegistryClient(
   );
 
   return new ContainerRegistryClient(endpoint, credential);
-}
-
-export function createRepositoryClient(
-  endpoint: string,
-  repository: string
-): ContainerRepositoryClient {
-  // Retrieve the endpoint from the environment variable
-  // we saved to the .env file earlier
-
-  // We use ClientSecretCredential instead of DefaultAzureCredential in order
-  // to ensure that the requests made to the AAD server are always the same. If
-  // we used DefaultAzureCredential, they might be different on some machines
-  // than on others, depending on which credentials are available (such as
-  // Managed Identity or developer credentials).
-  const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
-  );
-
-  return new ContainerRepositoryClient(endpoint, repository, credential);
 }

@@ -333,6 +333,15 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-catalog",
+      "projectFolder": "sdk/purview/purview-catalog-rest"
+    },
+    {
+      "packageName": "@azure-rest/purview-scanning",
+      "projectFolder": "sdk/purview/purview-scanning-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/ai-document-translator",
       "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
       "versionPolicyName": "client"

@@ -51,12 +51,7 @@ export interface ServiceBusSender {
    * @throws `ServiceBusError` if the service returns an error while sending messages to the service.
    */
   sendMessages(
-    messages:
-      | ServiceBusMessage
-      | ServiceBusMessage[]
-      | ServiceBusMessageBatch
-      | AmqpAnnotatedMessage
-      | AmqpAnnotatedMessage[],
+    messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
     options?: OperationOptionsBase
   ): Promise<void>;
 

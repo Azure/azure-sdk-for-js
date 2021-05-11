@@ -20,7 +20,7 @@ export class ContainerRegistryRefreshTokenCredential implements TokenCredential 
   readonly isAnonymousAccess: boolean;
   constructor(authClient: GeneratedClient, private credential?: TokenCredential) {
     this.tokenService = new ContainerRegistryTokenService(authClient);
-    this.isAnonymousAccess = !Boolean(this.credential);
+    this.isAnonymousAccess = !this.credential;
   }
 
   async getToken(

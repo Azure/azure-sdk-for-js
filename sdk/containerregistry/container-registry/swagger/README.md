@@ -13,7 +13,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: ./containerregistry.json
+input-file: c:/github/jeremymeng/rest-api-specs/specification/containerregistry/data-plane/Azure.ContainerRegistry/preview/2019-08-15-preview/containerregistry.json
 add-credentials: false
 override-client-name: GeneratedClient
 disable-async-iterators: true

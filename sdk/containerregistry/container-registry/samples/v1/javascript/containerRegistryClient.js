@@ -18,7 +18,7 @@ async function main() {
   await listRepositories(client);
 
   // Advanced: listing by pages
-  const pageSize = 2;
+  const pageSize = 1;
   await listRepositoriesByPages(client, pageSize);
 
   const repositoryName = "repository-name-to-delete";
@@ -27,7 +27,7 @@ async function main() {
 
 async function listRepositories(client) {
   console.log("Listing repositories");
-  const iterator = client.listRepositories();
+  const iterator = client.listRepositoryNames();
   for await (const repository of iterator) {
     console.log(`  repository: ${repository}`);
   }
@@ -35,7 +35,7 @@ async function listRepositories(client) {
 
 async function listRepositoriesByPages(client, pageSize) {
   console.log("Listing repositories by pages");
-  const pages = client.listRepositories().byPage({ maxPageSize: pageSize });
+  const pages = client.listRepositoryNames().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -51,14 +51,12 @@ async function deleteRepository(client, repositoryName) {
   const response = await client.deleteRepository(repositoryName);
   console.log(
     `Artifacts deleted: ${(response &&
-      response.deletedRegistryArtifactDigests &&
-      response.deletedRegistryArtifactDigests.length) ||
+      response.deletedManifests &&
+      response.deletedManifests.length) ||
       0}`
   );
   console.log(
-    `Tags deleted: ${(response &&
-      response.deletedRegistryArtifactDigests &&
-      response.deletedRegistryArtifactDigests.length) ||
+    `Tags deleted: ${(response && response.deletedManifests && response.deletedManifests.length) ||
       0}`
   );
 }

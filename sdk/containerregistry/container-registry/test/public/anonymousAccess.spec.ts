@@ -42,7 +42,7 @@ describe("Anonymous access tests", function() {
   });
 
   it("should list repositories with anonymous access", async () => {
-    const iter = client.listRepositories();
+    const iter = client.listRepositoryNames();
     const results: string[] = [];
     for await (const name of iter) {
       results.push(name);
