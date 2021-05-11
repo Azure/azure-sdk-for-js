@@ -126,17 +126,11 @@ export interface KeyVaultRoleAssignment {
     readonly id: string;
     readonly kind: string;
     readonly name: string;
-    properties: KeyVaultRoleAssignmentPropertiesWithScope;
+    properties: KeyVaultRoleAssignmentProperties;
 }
 
 // @public
 export interface KeyVaultRoleAssignmentProperties {
-    principalId: string;
-    roleDefinitionId: string;
-}
-
-// @public
-export interface KeyVaultRoleAssignmentPropertiesWithScope {
     principalId: string;
     roleDefinitionId: string;
     scope?: KeyVaultRoleScope;
