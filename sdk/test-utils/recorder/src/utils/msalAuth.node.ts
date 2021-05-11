@@ -18,7 +18,7 @@ export function mockMsalAuth(importNock: NockType, plugin: (() => void) | undefi
   if (!plugin) {
     pluginForClientSecretCredentialTests();
   } else {
-    pluginForIdentitySDK();
+    plugin();
   }
 }
 
