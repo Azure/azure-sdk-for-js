@@ -205,3 +205,20 @@ directive:
     transform: >
       $["x-ms-enum"].name = "FormLanguage";
 ```
+
+### Stronger SelectionMarkState and TextStyle
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SelectionMark.properties.state
+    transform: >
+      $["x-ms-enum"] = {
+        name: "SelectionMarkState",
+        modelAsString: false
+      };
+  - from: swagger-document
+    where: $.definitions.TextStyle.properties.name
+    transform: >
+      $["x-ms-enum"].modelAsString = false;
+```

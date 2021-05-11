@@ -3,24 +3,20 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export { KnownFormLanguage } from "./generated/models";
+
 import {
   FormFieldsReport,
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValueType,
-  KnownKeyValueType,
   KeyValuePair as KeyValuePairModel,
-  SelectionMarkState,
-  KnownSelectionMarkState,
-  FormLanguage,
-  KnownFormLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus as CustomFormModelStatus,
   TrainStatus as TrainingStatus,
   OperationStatus,
   ModelStatus,
-  KnownStyleName,
   FormReadingOrder
 } from "./generated/models";
 
@@ -29,19 +25,13 @@ export {
   KeysResult,
   KeyValueElementModel,
   KeyValueType,
-  KnownKeyValueType,
   KeyValuePairModel,
-  SelectionMarkState,
-  KnownSelectionMarkState,
-  FormLanguage,
-  KnownFormLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus,
   CustomFormModelStatus,
   OperationStatus,
   TrainingStatus,
-  KnownStyleName,
   FormReadingOrder
 };
 
@@ -125,10 +115,8 @@ export interface TextAppearance {
    * The identified style of writing, can be one of:
    * - "handwriting"
    * - "other"
-   *
-   * @see KnownStyleName
    */
-  styleName: string;
+  styleName: "handwriting" | "other";
   /**
    * Confidence value.
    */
@@ -146,9 +134,11 @@ export interface FormSelectionMark extends FormElementCommon {
    */
   kind: "selectionMark";
   /**
-   * The state of the mark, either "selected" or "unselected".
+   * The state of the mark, either of:
+   * - "selected"
+   * - "unselected"
    */
-  state: SelectionMarkState;
+  state: "selected" | "unselected";
   /**
    * Confidence value.
    */
@@ -318,6 +308,13 @@ export interface FormFieldCommon {
  * reason that should be the case.
  */
 export interface FormUnknownField extends FormFieldCommon {
+  /**
+   * The type of this form value value - undefined.
+   *
+   * There is no reason this should ordinarily occur, but is provided as a way
+   * to hint to the type system that if `valueType` is not known, then the type
+   * of value is `unknown`.
+   */
   valueType?: undefined;
   /**
    * If `valueType` is undefined, then the type of the value is unknown.
@@ -329,6 +326,9 @@ export interface FormUnknownField extends FormFieldCommon {
  * A form field with a string value.
  */
 export interface FormStringField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "string"
+   */
   valueType: "string";
   /**
    * The value of the recognized string.
@@ -340,6 +340,9 @@ export interface FormStringField extends FormFieldCommon {
  * A form field with a numeric value.
  */
 export interface FormNumberField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "number"
+   */
   valueType: "number";
   /**
    * The value of the recognized number.
@@ -351,6 +354,9 @@ export interface FormNumberField extends FormFieldCommon {
  * A form field with a value representing a date.
  */
 export interface FormDateField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "date"
+   */
   valueType: "date";
   /**
    * The value of the date field, represented as a JavaScript date object.
@@ -362,6 +368,9 @@ export interface FormDateField extends FormFieldCommon {
  * A form field with a value representing a time.
  */
 export interface FormTimeField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "time"
+   */
   valueType: "time";
   /**
    * The value of the time field, represented as a string.
@@ -373,6 +382,9 @@ export interface FormTimeField extends FormFieldCommon {
  * A form field with a value representing a phone number.
  */
 export interface FormPhoneNumberField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "phoneNumber"
+   */
   valueType: "phoneNumber";
   /**
    * The value of the recognized phone number, represented as a string.
@@ -390,6 +402,9 @@ export interface FormPhoneNumberField extends FormFieldCommon {
  * A form field with an integer value.
  */
 export interface FormIntegerField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "integer"
+   */
   valueType: "integer";
   /**
    * The value of the recognized integer.
@@ -401,6 +416,9 @@ export interface FormIntegerField extends FormFieldCommon {
  * A form field with an array of FormFields as a value.
  */
 export interface FormArrayField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "array"
+   */
   valueType: "array";
   /**
    * The recognized array of nested fields. Each value in this array is its
@@ -413,6 +431,9 @@ export interface FormArrayField extends FormFieldCommon {
  * A form field with a key-value map (an "object") as a value.
  */
 export interface FormObjectField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "object"
+   */
   valueType: "object";
   /**
    * The recognized object structure of the field, represented as a JavaScript
@@ -426,16 +447,18 @@ export interface FormObjectField extends FormFieldCommon {
  * A form field with a value representing the state of a selection mark.
  */
 export interface FormSelectionMarkField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "selectionMark"
+   */
   valueType: "selectionMark";
   /**
    * The state of the recognized selection mark, represented as a string, with
    * one of the following values:
    *
-   * - "selected" - "unselected"
-   *
-   * @see KnownSelectionMarkState
+   * - "selected"
+   * - "unselected"
    */
-  value?: SelectionMarkState;
+  value?: "selected" | "unselected";
 }
 
 /**
@@ -443,6 +466,9 @@ export interface FormSelectionMarkField extends FormFieldCommon {
  * in the world.
  */
 export interface FormCountryRegionField extends FormFieldCommon {
+  /**
+   * The type of this field's value - "countryRegion"
+   */
   valueType: "countryRegion";
   /**
    * The recognized country or region, represented by a three-letter (ISO

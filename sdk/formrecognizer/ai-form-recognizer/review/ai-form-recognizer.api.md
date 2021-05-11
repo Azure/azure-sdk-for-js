@@ -113,7 +113,7 @@ export interface CustomFormModel extends CustomFormModelInfo {
     trainingDocuments?: TrainingDocumentInfo[];
 }
 
-// @public (undocumented)
+// @public
 export interface CustomFormModelField {
     accuracy?: number;
     label: string | null;
@@ -157,7 +157,6 @@ export interface FieldData {
 // @public
 export interface FormArrayField extends FormFieldCommon {
     value?: FormField[];
-    // (undocumented)
     valueType: "array";
 }
 
@@ -167,14 +166,12 @@ export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "
 // @public
 export interface FormCountryRegionField extends FormFieldCommon {
     value?: string;
-    // (undocumented)
     valueType: "countryRegion";
 }
 
 // @public
 export interface FormDateField extends FormFieldCommon {
     value?: Date;
-    // (undocumented)
     valueType: "date";
 }
 
@@ -208,12 +205,8 @@ export interface FormFieldsReport {
 // @public
 export interface FormIntegerField extends FormFieldCommon {
     value?: number;
-    // (undocumented)
     valueType: "integer";
 }
-
-// @public
-export type FormLanguage = string;
 
 // @public
 export interface FormLine extends FormElementCommon {
@@ -234,14 +227,12 @@ export type FormModelResponse = CustomFormModel & {
 // @public
 export interface FormNumberField extends FormFieldCommon {
     value?: number;
-    // (undocumented)
     valueType: "number";
 }
 
 // @public
 export interface FormObjectField extends FormFieldCommon {
     value?: Record<string, FormField>;
-    // (undocumented)
     valueType: "object";
 }
 
@@ -270,7 +261,6 @@ export interface FormPageRange {
 // @public
 export interface FormPhoneNumberField extends FormFieldCommon {
     value?: string;
-    // (undocumented)
     valueType: "phoneNumber";
 }
 
@@ -319,20 +309,18 @@ export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | N
 export interface FormSelectionMark extends FormElementCommon {
     confidence?: number;
     kind: "selectionMark";
-    state: SelectionMarkState;
+    state: "selected" | "unselected";
 }
 
 // @public
 export interface FormSelectionMarkField extends FormFieldCommon {
-    value?: SelectionMarkState;
-    // (undocumented)
+    value?: "selected" | "unselected";
     valueType: "selectionMark";
 }
 
 // @public
 export interface FormStringField extends FormFieldCommon {
     value?: string;
-    // (undocumented)
     valueType: "string";
 }
 
@@ -363,7 +351,6 @@ export interface FormTableCell {
 // @public
 export interface FormTimeField extends FormFieldCommon {
     value?: string;
-    // (undocumented)
     valueType: "time";
 }
 
@@ -392,7 +379,6 @@ export interface FormTrainingPollOperationOptions<TState extends PollOperationSt
 // @public
 export interface FormUnknownField extends FormFieldCommon {
     value?: unknown;
-    // (undocumented)
     valueType?: undefined;
 }
 
@@ -592,30 +578,6 @@ export const enum KnownFormLanguage {
 }
 
 // @public
-export const enum KnownKeyValueType {
-    // (undocumented)
-    SelectionMark = "selectionMark",
-    // (undocumented)
-    String = "string"
-}
-
-// @public
-export const enum KnownSelectionMarkState {
-    // (undocumented)
-    Selected = "selected",
-    // (undocumented)
-    Unselected = "unselected"
-}
-
-// @public
-export const enum KnownStyleName {
-    // (undocumented)
-    Handwriting = "handwriting",
-    // (undocumented)
-    Other = "other"
-}
-
-// @public
 export type LengthUnit = "pixel" | "inch";
 
 // @public
@@ -704,12 +666,9 @@ export interface RecognizeFormsOptions extends FormRecognizerOperationOptions {
 export { RestResponse }
 
 // @public
-export type SelectionMarkState = string;
-
-// @public
 export interface TextAppearance {
     styleConfidence: number;
-    styleName: string;
+    styleName: "handwriting" | "other";
 }
 
 // @public

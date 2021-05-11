@@ -684,7 +684,8 @@ export const TextStyle: coreHttp.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["other", "handwriting"]
         }
       },
       confidence: {
@@ -734,7 +735,8 @@ export const SelectionMark: coreHttp.CompositeMapper = {
         serializedName: "state",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["selected", "unselected"]
         }
       }
     }

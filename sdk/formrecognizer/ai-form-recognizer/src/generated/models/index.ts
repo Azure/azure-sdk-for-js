@@ -460,38 +460,6 @@ export interface GeneratedClientAnalyzeLayoutAsyncHeaders {
   operationLocation?: string;
 }
 
-/** Known values of {@link StyleName} that the service accepts. */
-export const enum KnownStyleName {
-  Other = "other",
-  Handwriting = "handwriting"
-}
-
-/**
- * Defines values for StyleName. \
- * {@link KnownStyleName} can be used interchangeably with StyleName,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **other** \
- * **handwriting**
- */
-export type StyleName = string;
-
-/** Known values of {@link SelectionMarkState} that the service accepts. */
-export const enum KnownSelectionMarkState {
-  Selected = "selected",
-  Unselected = "unselected"
-}
-
-/**
- * Defines values for SelectionMarkState. \
- * {@link KnownSelectionMarkState} can be used interchangeably with SelectionMarkState,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **selected** \
- * **unselected**
- */
-export type SelectionMarkState = string;
-
 /** Known values of {@link KeyValueType} that the service accepts. */
 export const enum KnownKeyValueType {
   String = "string",
@@ -718,6 +686,10 @@ export type ContentType =
 export type OperationStatus = "notStarted" | "running" | "succeeded" | "failed";
 /** Defines values for LengthUnit. */
 export type LengthUnit = "pixel" | "inch";
+/** Defines values for StyleName. */
+export type StyleName = "other" | "handwriting";
+/** Defines values for SelectionMarkState. */
+export type SelectionMarkState = "selected" | "unselected";
 /** Defines values for FieldValueType. */
 export type FieldValueType =
   | "string"
