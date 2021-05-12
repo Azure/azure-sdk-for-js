@@ -33,7 +33,7 @@ import {
 // Nise module does not have a native implementation of record/playback like Nock does
 // This class overrides requests' 'open', 'send' and 'onreadystatechange' functions, adding our own code to them to deal with requests
 export class NiseRecorder extends BaseRecorder {
-  private recordings: { [key: string]: unknown }[] = [];
+  private recordings: Record<string, unknown>[] = [];
   private recordingInFlight: Promise<void>[] = [];
   private xhr: nise.FakeXMLHttpRequestStatic | undefined;
 
