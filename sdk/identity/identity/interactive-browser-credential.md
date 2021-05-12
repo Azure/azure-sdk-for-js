@@ -28,7 +28,6 @@ Follow the instructions for [creating and configuring an Azure Active Directory 
 When using `InteractiveBrowserCredential` in the browser, you will be required to pass a `clientId` in the constructor parameters, such as:
 
 ```ts
-// After you've bundled Identity for the browser...
 const credential = new InteractiveBrowserCredential({
   // You MUST provide a client ID if you have an application configured.
   clientId: "my-client-id",
