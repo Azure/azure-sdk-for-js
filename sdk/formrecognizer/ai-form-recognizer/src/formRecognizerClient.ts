@@ -89,7 +89,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
   /**
    * The BCP-47 language code of the text in the document.
    *
-   * See the `KnownFormLanguage` type for a list of known langauges that the
+   * See the `KnownFormLanguage` type for a list of known languages that the
    * service supports.
    *
    * Handwritten text is only supported in English ('en').
