@@ -143,6 +143,16 @@ export const stringIndexType: OperationQueryParameter = {
   }
 };
 
+export const loggingOptOut: OperationQueryParameter = {
+  parameterPath: ["options", "loggingOptOut"],
+  mapper: {
+    serializedName: "loggingOptOut",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const domain: OperationQueryParameter = {
   parameterPath: ["options", "domain"],
   mapper: {

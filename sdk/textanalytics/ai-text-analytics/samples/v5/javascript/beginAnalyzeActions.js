@@ -5,16 +5,15 @@
  * This sample extracts key phrases, entities, and pii entities from several
  * documents using a long-running operation. This functionality uses the
  * generic analysis endpoint, which provides a way to group several different
- * Text Analytics operations into a single batch job.
+ * Text Analytics operations into a single job.
  *
  * @summary applies multiple Text Analytics actions per document
- * @azsdk-weight 40
  */
 
-import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
@@ -29,17 +28,18 @@ const documents = [
   "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!"
 ];
 
-export async function main() {
+async function main() {
   console.log("== Analyze Sample ==");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
   const actions = {
     recognizeEntitiesActions: [{ modelVersion: "latest" }],
+    analyzeSentimentActions: [{ modelVersion: "latest", includeOpinionMining: true }],
     recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
     extractKeyPhrasesActions: [{ modelVersion: "latest" }]
   };
-  const poller = await client.beginAnalyzeBatchActions(documents, actions, "en", {
+  const poller = await client.beginAnalyzeActions(documents, actions, "en", {
     includeStatistics: true
   });
 
@@ -49,14 +49,10 @@ export async function main() {
     );
   });
 
-  console.log(
-    `The analyze batch actions operation created on ${poller.getOperationState().createdOn}`
-  );
+  console.log(`The analyze actions operation created on ${poller.getOperationState().createdOn}`);
 
   console.log(
-    `The analyze batch actions operation results will expire on ${
-      poller.getOperationState().expiresOn
-    }`
+    `The analyze actions operation results will expire on ${poller.getOperationState().expiresOn}`
   );
 
   const resultPages = await poller.pollUntilDone();
@@ -111,6 +107,37 @@ export async function main() {
       }
       console.log("Action statistics: ");
       console.log(JSON.stringify(piiEntitiesAction.results.statistics));
+    }
+
+    const analyzeSentimentAction = page.analyzeSentimentResults[0];
+    if (!analyzeSentimentAction.error) {
+      for (const doc of analyzeSentimentAction.results) {
+        console.log(`- Document ${doc.id}`);
+        if (!doc.error) {
+          console.log(`\tOverall Sentiment: ${doc.sentiment}`);
+          console.log("\tSentiment confidence scores:", doc.confidenceScores);
+          console.log("\tSentences");
+          for (const { sentiment, confidenceScores, opinions } of doc.sentences) {
+            console.log(`\t- Sentence sentiment: ${sentiment}`);
+            console.log("\t  Confidence scores:", confidenceScores);
+            console.log("\t  Mined opinions");
+            for (const { target, assessments } of opinions) {
+              console.log(`\t\t- Target text: ${target.text}`);
+              console.log(`\t\t  Target sentiment: ${target.sentiment}`);
+              console.log("\t\t  Target confidence scores:", target.confidenceScores);
+              console.log("\t\t  Target assessments");
+              for (const { text, sentiment } of assessments) {
+                console.log(`\t\t\t- Text: ${text}`);
+                console.log(`\t\t\t  Sentiment: ${sentiment}`);
+              }
+            }
+          }
+        } else {
+          console.error("\tError:", doc.error);
+        }
+      }
+      console.log("Action statistics: ");
+      console.log(JSON.stringify(analyzeSentimentAction.results.statistics));
     }
   }
 }
