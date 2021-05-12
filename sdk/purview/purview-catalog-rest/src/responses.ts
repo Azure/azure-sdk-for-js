@@ -85,7 +85,7 @@ export interface EntityGetByGuid200Response extends HttpResponse {
  * It does not support updating complex types like arrays, and maps.
  * Null updates are not possible.
  */
-export interface EntityCreateOrUpdateByGuid200Response extends HttpResponse {
+export interface EntityPartialUpdateEntityAttributeByGuid200Response extends HttpResponse {
   status: "200";
   body: EntityMutationResponse;
 }
@@ -146,7 +146,7 @@ export interface EntityGetByUniqueAttributes200Response extends HttpResponse {
  * The REST request would look something like this:
  * PUT /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
  */
-export interface EntityCreateOrUpdateByUniqueAttribute200Response extends HttpResponse {
+export interface EntityPartialUpdateEntityByUniqueAttributes200Response extends HttpResponse {
   status: "200";
   body: EntityMutationResponse;
 }
@@ -414,19 +414,19 @@ export interface GlossaryListTermsByGlossaryName200Response extends HttpResponse
 }
 
 /** Gets data using search. */
-export interface Search200Response extends HttpResponse {
+export interface DiscoveryQuery200Response extends HttpResponse {
   status: "200";
   body: SearchResult;
 }
 
 /** Get search suggestions by query criteria. */
-export interface Suggest200Response extends HttpResponse {
+export interface DiscoverySuggest200Response extends HttpResponse {
   status: "200";
   body: SuggestResult;
 }
 
 /** Get auto complete options. */
-export interface AutoComplete200Response extends HttpResponse {
+export interface DiscoveryAutoComplete200Response extends HttpResponse {
   status: "200";
   body: AutoCompleteResult;
 }
