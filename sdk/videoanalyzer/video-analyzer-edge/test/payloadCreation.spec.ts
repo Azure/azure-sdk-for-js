@@ -1,6 +1,4 @@
 import { assert } from "chai";
-//import { helloWorld } from "../src";
-//import { assert } from "console";
 import {
   PipelineTopology,
   RtspSource,
@@ -11,7 +9,7 @@ import {
 } from "../src";
 
 describe("test", () => {
-  it("creates a graph topology and calls createMediaGraphTopologySetRequest to ensure apiVersion is added", () => {
+  it("creates a pipeline topology and calls createRequest to ensure apiVersion is added", () => {
     const rtspSource: RtspSource = {
       name: "rtspSource",
       endpoint: {
@@ -25,33 +23,34 @@ describe("test", () => {
       } as UnsecuredEndpoint,
       "@type": "#Microsoft.VideoAnalyzer.RtspSource"
     };
-
+  
     const nodeInput: NodeInput = {
       nodeName: "rtspSource"
     };
-
+  
     const msgSink: IotHubMessageSink = {
       name: "msgSink",
       inputs: [nodeInput],
       hubOutputName: "${hubSinkOutputName}",
       "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink"
     };
-
-    const graphTopology: PipelineTopology = {
-      name: "jsTestGraph",
+  
+    const pipelineTopology: PipelineTopology = {
+      name: "jsTestTopology",
       properties: {
-        description: "description for jsTestGraph",
+        description: "description for jsTestTopology",
         parameters: [
           { name: "rtspUserName", type: "String", default: "dummyUsername" },
-          { name: "rtspPassword", type: "SecretString", default: "dumyPassword" },
-          { name: "rtspUrl", type: "String" }
+          { name: "rtspPassword", type: "SecretString", default: "dummyPassword" },
+          { name: "rtspUrl", type: "String" },
+          { name: "hubSinkOutputName", type: "String" }
         ],
         sources: [rtspSource],
         sinks: [msgSink]
       }
     };
 
-    const setGraphTopRequest = createRequest("pipelineTopologySet", graphTopology);
-    assert.strictEqual(setGraphTopRequest.payload["@apiVersion"], "1.0");
+    const pipelineTopologySetRequest = createRequest("pipelineTopologySet", pipelineTopology);
+    assert.strictEqual(pipelineTopologySetRequest.payload["@apiVersion"], "1.0");
   });
 });

@@ -1,8 +1,8 @@
 {
-  "name": "@azure/video-analytics",
+  "name": "@azure/video-analyzer-edge",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure Video Analytics library for JavaScript",
+  "description": "Azure Video Analyzer library for JavaScript",
   "engine": {
     "node": ">=8.0.0"
   },

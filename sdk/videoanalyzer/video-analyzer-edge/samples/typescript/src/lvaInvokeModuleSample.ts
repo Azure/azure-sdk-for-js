@@ -41,9 +41,9 @@ function buildPipelineTopology() {
   };
 
   const pipelineTopology: PipelineTopology = {
-    name: "jsTestGraph",
+    name: "jsTestTopology",
     properties: {
-      description: "description for jsTestGraph",
+      description: "description for jsTestTopology",
       parameters: [
         { name: "rtspUserName", type: "String", default: "dummyUsername" },
         { name: "rtspPassword", type: "SecretString", default: "dummyPassword" },
@@ -58,12 +58,12 @@ function buildPipelineTopology() {
   return pipelineTopology;
 }
 
-function buildLivePipeline(PipelineTopologyName: string) {
+function buildLivePipeline(pipelineTopologyName: string) {
   const livePipeline: LivePipeline = {
-    name: PipelineTopologyName,
+    name: "jsLivePipelineTest",
     properties: {
-      description: "description for jsTestGraphInstance",
-      topologyName: "jsTestGraph",
+      description: "description",
+      topologyName: pipelineTopologyName,
       parameters: [{ name: "rtspUrl", value: "rtsp://sample.com" }]
     }
   };
@@ -91,47 +91,38 @@ export async function main() {
   const setPipelineTopResponse = await invokeMethodHelper(pipelineTopologySetRequest);
   console.log(setPipelineTopResponse);
 
-  //const listPipelineTopologyRequest = createPipelineTopologyListRequest();
   const listPipelineTopologyRequest = createRequest("pipelineTopologyList");
   const listPipelineTopologyResponse = await invokeMethodHelper(listPipelineTopologyRequest);
   console.log(listPipelineTopologyResponse);
 
-  //const getPipelineTopologyRequest = createPipelineTopologyGetRequest(pipelineTopology.name);
   const getPipelineTopologyRequest = createRequest("pipelineTopologyGet", pipelineTopology.name);
   const getPipelineTopologyResponse = await invokeMethodHelper(getPipelineTopologyRequest);
   console.log(getPipelineTopologyResponse);
 
-  //const setLivePipelineRequest = createLivePipelineSetRequest(livePipeline);
   const setLivePipelineRequest = createRequest("livePipelineSet", livePipeline);
   const setLivePipelineResponse = await invokeMethodHelper(setLivePipelineRequest);
   console.log(setLivePipelineResponse);
 
-  //const listLivePipelineRequest = createLivePipelineListRequest();
   const listLivePipelineRequest = createRequest("livePipelineList");
   const listLivePipelineResponse = await invokeMethodHelper(listLivePipelineRequest);
   console.log(listLivePipelineResponse);
 
-  //const activateLivePipelineRequest = createLivePipelineActivateRequest(livePipeline.name);
   const activateLivePipelineRequest = createRequest("livePipelineActivate", livePipeline.name);
   const activateLivePipelineResponse = await invokeMethodHelper(activateLivePipelineRequest);
   console.log(activateLivePipelineResponse);
 
-  //const getLivePipelineRequest = createLivePipelineGetRequest(livePipeline.name);
   const getLivePipelineRequest = createRequest("livePipelineGet", livePipeline.name);
   const getLivePipelineResponse = await invokeMethodHelper(getLivePipelineRequest);
   console.log(getLivePipelineResponse);
 
-  //const deactivateLivePipelineRequest = createLivePipelineDeActivateRequest(livePipeline.name);
   const deactivateLivePipelineRequest = createRequest("livePipelineDeactivate", livePipeline.name);
   const deactivateLivePipelineResponse = await invokeMethodHelper(deactivateLivePipelineRequest);
   console.log(deactivateLivePipelineResponse);
 
-  //const deleteLivePipelineRequest = createLivePipelineDeleteRequest(livePipeline.name);
   const deleteLivePipelineRequest = createRequest("livePipelineDelete", livePipeline.name);
   const deleteLivePipelineResponse = await invokeMethodHelper(deleteLivePipelineRequest);
   console.log(deleteLivePipelineResponse);
 
-  //const deletePipelineTopRequest = createPipelineTopologyDeleteRequest(pipelineTopology.name);
   const deletePipelineTopRequest = createRequest("pipelineTopologyDelete", pipelineTopology.name);
   const deletePipelineTopResponse = await invokeMethodHelper(deletePipelineTopRequest);
   console.log(deletePipelineTopResponse);
