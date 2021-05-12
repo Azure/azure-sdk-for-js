@@ -40,6 +40,7 @@ matrix([[true, false]], async function(useAad) {
 
       const results = await searchPoller.pollUntilDone();
       assert.ok(searchPoller.getOperationState().isCompleted);
+      assert.equal(results.phoneNumbers.length, 1);
     }).timeout(60000);
 
     it("throws on invalid search request", async function() {
