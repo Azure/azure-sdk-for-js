@@ -6,27 +6,16 @@ import { Service } from "./generated/operations";
 import { Table } from "./generated/operations";
 import {
   ListTableItemsOptions,
-  CreateTableOptions,
-  ListTableItemsResponse,
-  CreateTableItemResponse,
   TableServiceClientOptions,
-  TableQueryOptions
+  TableQueryOptions,
+  TableItem
 } from "./models";
 import {
-  GetStatisticsOptions,
   GetStatisticsResponse,
-  GetPropertiesOptions,
   GetPropertiesResponse,
   SetPropertiesOptions,
   ServiceProperties,
-  SetPropertiesResponse,
-  DeleteTableOptions,
-  DeleteTableResponse,
-  GetAccessPolicyOptions,
-  GetAccessPolicyResponse,
-  SetAccessPolicyResponse,
-  SetAccessPolicyOptions,
-  TableResponseProperties
+  SetPropertiesResponse
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
@@ -34,17 +23,22 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
-import { InternalClientPipelineOptions } from "@azure/core-client";
+import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 import { parseXML, stringifyXML } from "@azure/core-xml";
+import { ListTableItemsResponse } from "./utils/internalModels";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
  * to perform operations on the tables and the entities.
  */
 export class TableServiceClient {
+  /**
+   * Table Account URL
+   */
+  public url: string;
   private table: Table;
   private service: Service;
 
@@ -98,6 +92,7 @@ export class TableServiceClient {
     credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
     options?: TableServiceClientOptions
   ) {
+    this.url = url;
     const credential =
       credentialOrOptions instanceof TablesSharedKeyCredential ? credentialOrOptions : undefined;
     const clientOptions =
@@ -146,7 +141,7 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options - The options parameters.
    */
-  public getStatistics(options: GetStatisticsOptions = {}): Promise<GetStatisticsResponse> {
+  public getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
     try {
       return this.service.getStatistics(updatedOptions);
@@ -163,7 +158,7 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options - The options parameters.
    */
-  public getProperties(options: GetPropertiesOptions = {}): Promise<GetPropertiesResponse> {
+  public getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getProperties", options);
     try {
       return this.service.getProperties(updatedOptions);
@@ -198,22 +193,23 @@ export class TableServiceClient {
 
   /**
    * Creates a new table under the given account.
-   * @param tableName - The name of the table.
+   * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  public createTable(
-    tableName: string,
-    options: CreateTableOptions = {}
-  ): Promise<CreateTableItemResponse> {
+  public async createTable(name: string, options: OperationOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableServiceClient-createTable", options);
     try {
-      return this.table.create(
-        { tableName },
+      await this.table.create(
+        { name },
         { ...updatedOptions, responsePreference: "return-content" }
       );
     } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
+      if (e.statusCode === 409) {
+        logger.info("TableServiceClient-createTable: Table Already Exists");
+      } else {
+        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+        throw e;
+      }
     } finally {
       span.end();
     }
@@ -221,19 +217,20 @@ export class TableServiceClient {
 
   /**
    * Operation permanently deletes the specified table.
-   * @param tableName - The name of the table.
+   * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  public deleteTable(
-    tableName: string,
-    options: DeleteTableOptions = {}
-  ): Promise<DeleteTableResponse> {
+  public async deleteTable(name: string, options: OperationOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableServiceClient-deleteTable", options);
     try {
-      return this.table.delete(tableName, updatedOptions);
+      await this.table.delete(name, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
+      if (e.statusCode === 404) {
+        logger.info("TableServiceClient-deleteTable: Table doesn't exist");
+      } else {
+        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+        throw e;
+      }
     } finally {
       span.end();
     }
@@ -246,7 +243,7 @@ export class TableServiceClient {
   public listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListTableItemsOptions
-  ): PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse> {
+  ): PagedAsyncIterableIterator<TableItem, TableItem[]> {
     const iter = this.listTablesAll(options);
 
     return {
@@ -267,13 +264,13 @@ export class TableServiceClient {
   }
 
   private async *listTablesAll(
-    options?: ListTableItemsOptions
-  ): AsyncIterableIterator<TableResponseProperties> {
+    options?: InternalListTablesOptions
+  ): AsyncIterableIterator<TableItem> {
     const firstPage = await this._listTables(options);
     const { nextTableName } = firstPage;
     yield* firstPage;
     if (nextTableName) {
-      const optionsWithContinuation: ListTableItemsOptions = {
+      const optionsWithContinuation: InternalListTablesOptions = {
         ...options,
         nextTableName
       };
@@ -285,7 +282,7 @@ export class TableServiceClient {
 
   private async *listTablesPage(
     options: InternalListTablesOptions = {}
-  ): AsyncIterableIterator<ListTableItemsResponse> {
+  ): AsyncIterableIterator<TableItem[]> {
     const { span, updatedOptions } = createSpan("TableServiceClient-listTablesPage", options);
 
     try {
@@ -294,7 +291,7 @@ export class TableServiceClient {
       yield result;
 
       while (result.nextTableName) {
-        const optionsWithContinuation: ListTableItemsOptions = {
+        const optionsWithContinuation: InternalListTablesOptions = {
           ...updatedOptions,
           nextTableName: result.nextTableName
         };
@@ -315,48 +312,6 @@ export class TableServiceClient {
     );
 
     return Object.assign([...value], { nextTableName });
-  }
-
-  /**
-   * Retrieves details about any stored access policies specified on the table that may be used with
-   * Shared Access Signatures.
-   * @param tableName - The name of the table.
-   * @param options - The options parameters.
-   */
-  public getAccessPolicy(
-    tableName: string,
-    options: GetAccessPolicyOptions = {}
-  ): Promise<GetAccessPolicyResponse> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-getAccessPolicy", options);
-    try {
-      return this.table.getAccessPolicy(tableName, updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Sets stored access policies for the table that may be used with Shared Access Signatures.
-   * @param tableName - The name of the table.
-   * @param acl - The Access Control List for the table.
-   * @param options - The options parameters.
-   */
-  public setAccessPolicy(
-    tableName: string,
-    options: SetAccessPolicyOptions = {}
-  ): Promise<SetAccessPolicyResponse> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-setAccessPolicy", options);
-    try {
-      return this.table.setAccessPolicy(tableName, updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -392,4 +347,8 @@ export class TableServiceClient {
 
 type InternalListTablesOptions = ListTableItemsOptions & {
   queryOptions?: TableQueryOptions & { top?: number };
+  /**
+   * A table query continuation token from a previous call.
+   */
+  nextTableName?: string;
 };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableResponseProperties, TableServiceClient } from "../../src";
+import { TableItem, TableServiceClient } from "../../src";
 import { Context } from "mocha";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableServiceClient } from "./utils/recordedClient";
@@ -33,7 +33,7 @@ describe("TableServiceClient", () => {
       const result = client.listTables();
       let hasTable = false;
       for await (const table of result) {
-        if (table.tableName === tableName) {
+        if (table.name === tableName) {
           hasTable = true;
           break;
         }
@@ -78,7 +78,7 @@ describe("TableServiceClient", () => {
 
     it("should list all", async () => {
       const tables = client.listTables();
-      const all: TableResponseProperties[] = [];
+      const all: TableItem[] = [];
       for await (const table of tables) {
         all.push(table);
       }
