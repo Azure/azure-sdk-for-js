@@ -4,9 +4,29 @@
 import {
   ManifestAttributesBase,
   TagOrderBy as ServiceTagOrderBy,
-  ManifestOrderBy as ServiceManifestOrderBy
+  ManifestOrderBy as ServiceManifestOrderBy,
+  ManifestWriteableProperties as ServiceManifestWritableProperties
 } from "./generated/models";
-import { ArtifactManifestProperties, TagOrderBy, ManifestOrderBy } from "./model";
+import {
+  ArtifactManifestProperties,
+  ManifestWriteableProperties,
+  TagOrderBy,
+  ManifestOrderBy
+} from "./model";
+
+export function toManifestWritableProperties(
+  from?: ServiceManifestWritableProperties
+): ManifestWriteableProperties | undefined {
+  // don't return unwanted properties, namely `quarantineState` and `quarantineDetails`
+  return from
+    ? {
+        canDelete: from.canDelete,
+        canList: from.canList,
+        canRead: from.canRead,
+        canWrite: from.canWrite
+      }
+    : undefined;
+}
 
 export function toArtifactManifestProperties(
   from: ManifestAttributesBase,
@@ -25,16 +45,24 @@ export function toArtifactManifestProperties(
         return { ...r, manifests: [], tags: [] };
       }) ?? [],
     tags: from.tags ?? [],
-    writeableProperties: from.writeableProperties
+    writeableProperties: toManifestWritableProperties(from.writeableProperties)
   };
 }
 
 export function toServiceTagOrderBy(orderBy?: TagOrderBy): ServiceTagOrderBy | undefined {
-  return orderBy === "timeAsc" ? "timeasc" : orderBy === "timeDesc" ? "timedesc" : undefined;
+  return orderBy === "LastUpdatedOnAscending"
+    ? "timeasc"
+    : orderBy === "LastUpdatedOnDescending"
+    ? "timedesc"
+    : undefined;
 }
 
 export function toServiceManifestOrderBy(
   orderBy?: ManifestOrderBy
 ): ServiceManifestOrderBy | undefined {
-  return orderBy === "timeAsc" ? "timeasc" : orderBy === "timeDesc" ? "timedesc" : undefined;
+  return orderBy === "LastUpdatedOnAscending"
+    ? "timeasc"
+    : orderBy === "LastUpdatedOnDescending"
+    ? "timedesc"
+    : undefined;
 }

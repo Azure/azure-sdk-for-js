@@ -110,14 +110,16 @@ describe("Repository and artifact tests", function() {
         canDelete: false,
         canList: false,
         canRead: false,
-        canWrite: false
+        canWrite: false,
+        teleportEnabled: true
       });
 
       assert.deepStrictEqual(updated.writeableProperties, {
         canDelete: false,
         canList: false,
         canRead: false,
-        canWrite: false
+        canWrite: false,
+        teleportEnabled: true
       });
     } finally {
       await repository.setProperties(original);

@@ -235,8 +235,8 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
-  .patch('/acr/v1/library%2Fhello-world', {"deleteEnabled":false,"writeEnabled":false,"listEnabled":false,"readEnabled":false})
-  .reply(200, {"registry":"myregistry.azurecr.io","imageName":"library/hello-world","createdTime":"2021-05-10T23:10:46.7917965Z","lastUpdateTime":"2021-05-10T23:10:45.1457803Z","manifestCount":10,"tagCount":2,"changeableAttributes":{"deleteEnabled":false,"writeEnabled":false,"readEnabled":false,"listEnabled":false,"teleportEnabled":false}}, [
+  .patch('/acr/v1/library%2Fhello-world', {"deleteEnabled":false,"writeEnabled":false,"listEnabled":false,"readEnabled":false,"teleportEnabled":true})
+  .reply(200, {"registry":"myregistry.azurecr.io","imageName":"library/hello-world","createdTime":"2021-05-10T23:10:46.7917965Z","lastUpdateTime":"2021-05-10T23:10:45.1457803Z","manifestCount":10,"tagCount":2,"changeableAttributes":{"deleteEnabled":false,"writeEnabled":false,"readEnabled":false,"listEnabled":false,"teleportEnabled":true}}, [
   'Server',
   'openresty',
   'Date',
@@ -322,7 +322,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
-  .patch('/acr/v1/library%2Fhello-world', {"deleteEnabled":true,"writeEnabled":true,"listEnabled":true,"readEnabled":true})
+  .patch('/acr/v1/library%2Fhello-world', {"deleteEnabled":true,"writeEnabled":true,"listEnabled":true,"readEnabled":true,"teleportEnabled":false})
   .reply(200, {"registry":"myregistry.azurecr.io","imageName":"library/hello-world","createdTime":"2021-05-10T23:10:46.7917965Z","lastUpdateTime":"2021-05-10T23:10:45.1457803Z","manifestCount":10,"tagCount":2,"changeableAttributes":{"deleteEnabled":true,"writeEnabled":true,"readEnabled":true,"listEnabled":true,"teleportEnabled":false}}, [
   'Server',
   'openresty',

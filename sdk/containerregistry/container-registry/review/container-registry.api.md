@@ -20,7 +20,7 @@ export interface ArtifactManifestProperties {
     readonly repositoryName?: string;
     readonly size?: number;
     readonly tags: string[];
-    readonly writeableProperties?: ContentProperties;
+    readonly writeableProperties?: ManifestWriteableProperties;
 }
 
 // @public
@@ -30,7 +30,7 @@ export interface ArtifactTagProperties {
     readonly lastUpdatedOn: Date;
     readonly name: string;
     readonly repository: string;
-    readonly writeableProperties: ContentProperties;
+    readonly writeableProperties: TagWriteableProperties;
 }
 
 // @public
@@ -60,14 +60,6 @@ export interface ContainerRepository {
     readonly name: string;
     readonly registryUrl: string;
     setProperties(options: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
-}
-
-// @public
-export interface ContentProperties {
-    canDelete?: boolean;
-    canList?: boolean;
-    canRead?: boolean;
-    canWrite?: boolean;
 }
 
 // @public
@@ -121,7 +113,15 @@ export interface ListTagsOptions extends OperationOptions {
 }
 
 // @public
-export type ManifestOrderBy = "timeDesc" | "timeAsc";
+export type ManifestOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+
+// @public
+export interface ManifestWriteableProperties {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
+}
 
 // @public
 export interface RegistryArtifact {
@@ -145,20 +145,37 @@ export interface RepositoryProperties {
     readonly manifestCount: number;
     readonly name: string;
     readonly tagCount: number;
-    readonly writeableProperties: ContentProperties;
+    readonly writeableProperties: RepositoryWriteableProperties;
 }
 
 // @public
-export type SetManifestPropertiesOptions = ContentProperties & OperationOptions;
+export interface RepositoryWriteableProperties {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
+    teleportEnabled?: boolean;
+}
 
 // @public
-export type SetRepositoryPropertiesOptions = ContentProperties & OperationOptions;
+export type SetManifestPropertiesOptions = ManifestWriteableProperties & OperationOptions;
 
 // @public
-export type SetTagPropertiesOptions = ContentProperties & OperationOptions;
+export type SetRepositoryPropertiesOptions = RepositoryWriteableProperties & OperationOptions;
 
 // @public
-export type TagOrderBy = "timeDesc" | "timeAsc";
+export type SetTagPropertiesOptions = TagWriteableProperties & OperationOptions;
+
+// @public
+export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+
+// @public
+export interface TagWriteableProperties {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
+}
 
 
 // (No @packageDocumentation comment for this package)

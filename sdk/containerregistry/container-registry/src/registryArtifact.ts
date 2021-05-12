@@ -11,14 +11,15 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ArtifactTagProperties,
   ArtifactManifestProperties,
-  ContentProperties,
+  TagWriteableProperties,
+  ManifestWriteableProperties,
   TagOrderBy
 } from "./model";
 import { URL } from "./url";
 import { createSpan } from "./tracing";
 import { GeneratedClient } from "./generated";
 import { extractNextLink, isDigest } from "./utils";
-import { toServiceTagOrderBy } from "./transformations";
+import { toManifestWritableProperties, toServiceTagOrderBy } from "./transformations";
 
 /**
  * Options for the `delete` method of `RegistryArtifact`.
@@ -40,12 +41,12 @@ export interface GetTagPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `setTagProperties` method of `RegistryArtifact`.
  */
-export type SetTagPropertiesOptions = ContentProperties & OperationOptions;
+export type SetTagPropertiesOptions = TagWriteableProperties & OperationOptions;
 
 /**
  * Options for the `setManifestProperties` method of `RegistryArtifact`.
  */
-export type SetManifestPropertiesOptions = ContentProperties & OperationOptions;
+export type SetManifestPropertiesOptions = ManifestWriteableProperties & OperationOptions;
 
 /**
  * Options for the `listTags` method of `RegistryArtifact`.
@@ -247,7 +248,7 @@ export class RegistryArtifactImpl {
             return { ...r, manifests: [], tags: [] };
           }) ?? [],
         tags: result.tags ?? [],
-        writeableProperties: result.writeableProperties
+        writeableProperties: toManifestWritableProperties(result.writeableProperties)
       };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
@@ -297,14 +298,7 @@ export class RegistryArtifactImpl {
             return { ...r, manifests: [], tags: [] };
           }) ?? [],
         tags: t.tags ?? [],
-        writeableProperties: t.writeableProperties
-          ? {
-              canDelete: t.writeableProperties.canDelete,
-              canList: t.writeableProperties.canList,
-              canRead: t.writeableProperties.canRead,
-              canWrite: t.writeableProperties.canWrite
-            }
-          : undefined
+        writeableProperties: toManifestWritableProperties(t.writeableProperties)
       };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });

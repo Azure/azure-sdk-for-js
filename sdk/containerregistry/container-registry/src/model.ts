@@ -2,12 +2,22 @@
 // Licensed under the MIT license.
 
 import { PipelineOptions } from "@azure/core-rest-pipeline";
-import { ContentProperties, RepositoryProperties, ArtifactTagProperties } from "./generated";
+import {
+  RepositoryProperties,
+  ArtifactTagProperties,
+  RepositoryWriteableProperties,
+  TagWriteableProperties
+} from "./generated";
 
 /**
  * Re-export generated types that are used as public interfaces.
  */
-export { ContentProperties, RepositoryProperties, ArtifactTagProperties };
+export {
+  RepositoryProperties,
+  ArtifactTagProperties,
+  RepositoryWriteableProperties,
+  TagWriteableProperties
+};
 
 /**
  * Client options used to configure Container Registry Repository API requests.
@@ -52,6 +62,18 @@ export type KnownArtifactOperatingSystem =
   | "plan9"
   | "solaris"
   | "windows";
+
+/** Changeable attributes */
+export interface ManifestWriteableProperties {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+}
 
 /** Manifest attributes details */
 export interface ArtifactManifestProperties {
@@ -101,26 +123,26 @@ export interface ArtifactManifestProperties {
    * Writeable properties of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly writeableProperties?: ContentProperties;
+  readonly writeableProperties?: ManifestWriteableProperties;
 }
 
 /**
  * Defines values for TagOrderBy.
  *  this contains the known values that the service supports.
  * ### Know values supported by the service
- * **timedesc**: Order tags by LastUpdatedOn field, from most recently updated to least recently updated.
- * **timeasc**: Order tags by LastUpdatedOn field, from least recently updated to most recently updated.
+ * **LastUpdatedOnDescending**: Order tags by LastUpdatedOn field, from most recently updated to least recently updated.
+ * **LastUpdatedOnAscending**: Order tags by LastUpdatedOn field, from least recently updated to most recently updated.
  */
-export type TagOrderBy = "timeDesc" | "timeAsc";
+export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 /**
  * Defines values for RegistryArtifactOrderBy.
  *  this contains the known values that the service supports.
  * ### Know values supported by the service
- * **timedesc**: Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated.
- * **timeasc**: Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated.
+ * **LastUpdatedOnDescending**: Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated.
+ * **LastUpdatedOnAscending**: Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated.
  */
-export type ManifestOrderBy = "timeDesc" | "timeAsc";
+export type ManifestOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 /** Deleted repository */
 export interface DeleteRepositoryResult {

@@ -12,7 +12,7 @@ import { URL } from "./url";
 import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
 import {
-  ContentProperties,
+  RepositoryWriteableProperties,
   DeleteRepositoryResult,
   ManifestOrderBy,
   ArtifactManifestProperties,
@@ -40,7 +40,7 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `setProperties` method of `ContainerRepository`.
  */
-export type SetRepositoryPropertiesOptions = ContentProperties & OperationOptions;
+export type SetRepositoryPropertiesOptions = RepositoryWriteableProperties & OperationOptions;
 
 /**
  * The helper used to interact with the Container Registry service.
@@ -191,30 +191,20 @@ export class ContainerRepositoryImpl {
   public async setProperties(
     options: SetRepositoryPropertiesOptions
   ): Promise<RepositoryProperties> {
+    const value: RepositoryWriteableProperties = {
+      canDelete: options.canDelete,
+      canWrite: options.canWrite,
+      canList: options.canList,
+      canRead: options.canRead,
+      teleportEnabled: options.teleportEnabled
+    };
     const { span, updatedOptions } = createSpan("ContainerRepository-setProperties", {
       ...options,
-      value: {
-        canDelete: options.canDelete,
-        canWrite: options.canWrite,
-        canList: options.canList,
-        canRead: options.canRead
-      }
+      value
     });
 
     try {
-      const properties = await this.client.containerRegistry.setProperties(
-        this.name,
-        updatedOptions
-      );
-      return {
-        ...properties,
-        writeableProperties: {
-          canDelete: properties.writeableProperties.canDelete,
-          canList: properties.writeableProperties.canList,
-          canRead: properties.writeableProperties.canRead,
-          canWrite: properties.writeableProperties.canWrite
-        }
-      };
+      return await this.client.containerRegistry.setProperties(this.name, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

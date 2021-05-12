@@ -165,9 +165,9 @@
    "method": "PATCH",
    "url": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world",
    "query": {},
-   "requestBody": "{\"deleteEnabled\":false,\"writeEnabled\":false,\"listEnabled\":false,\"readEnabled\":false}",
+   "requestBody": "{\"deleteEnabled\":false,\"writeEnabled\":false,\"listEnabled\":false,\"readEnabled\":false,\"teleportEnabled\":true}",
    "status": 200,
-   "response": "{\"registry\":\"myregistry.azurecr.io\",\"imageName\":\"library/hello-world\",\"createdTime\":\"2021-05-10T23:18:24.1021063Z\",\"lastUpdateTime\":\"2021-05-10T23:18:22.8806059Z\",\"manifestCount\":10,\"tagCount\":2,\"changeableAttributes\":{\"deleteEnabled\":false,\"writeEnabled\":false,\"readEnabled\":false,\"listEnabled\":false,\"teleportEnabled\":false}}\n",
+   "response": "{\"registry\":\"myregistry.azurecr.io\",\"imageName\":\"library/hello-world\",\"createdTime\":\"2021-05-10T23:18:24.1021063Z\",\"lastUpdateTime\":\"2021-05-10T23:18:22.8806059Z\",\"manifestCount\":10,\"tagCount\":2,\"changeableAttributes\":{\"deleteEnabled\":false,\"writeEnabled\":false,\"readEnabled\":false,\"listEnabled\":false,\"teleportEnabled\":true}}\n",
    "responseHeaders": {
     "access-control-expose-headers": "Docker-Content-Digest, WWW-Authenticate, Link, X-Ms-Correlation-Request-Id",
     "connection": "keep-alive",
@@ -185,7 +185,7 @@
    "method": "PATCH",
    "url": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world",
    "query": {},
-   "requestBody": "{\"deleteEnabled\":true,\"writeEnabled\":true,\"listEnabled\":true,\"readEnabled\":true}",
+   "requestBody": "{\"deleteEnabled\":true,\"writeEnabled\":true,\"listEnabled\":true,\"readEnabled\":true,\"teleportEnabled\":false}",
    "status": 401,
    "response": "{\"errors\":[{\"code\":\"UNAUTHORIZED\",\"message\":\"authentication required, visit https://aka.ms/acr/authorization for more information.\",\"detail\":[{\"Type\":\"repository\",\"Name\":\"library/hello-world\",\"Action\":\"metadata_write\"}]}]}\n",
    "responseHeaders": {
@@ -223,7 +223,7 @@
    "method": "PATCH",
    "url": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world",
    "query": {},
-   "requestBody": "{\"deleteEnabled\":true,\"writeEnabled\":true,\"listEnabled\":true,\"readEnabled\":true}",
+   "requestBody": "{\"deleteEnabled\":true,\"writeEnabled\":true,\"listEnabled\":true,\"readEnabled\":true,\"teleportEnabled\":false}",
    "status": 200,
    "response": "{\"registry\":\"myregistry.azurecr.io\",\"imageName\":\"library/hello-world\",\"createdTime\":\"2021-05-10T23:18:24.1021063Z\",\"lastUpdateTime\":\"2021-05-10T23:18:22.8806059Z\",\"manifestCount\":10,\"tagCount\":2,\"changeableAttributes\":{\"deleteEnabled\":true,\"writeEnabled\":true,\"readEnabled\":true,\"listEnabled\":true,\"teleportEnabled\":false}}\n",
    "responseHeaders": {
