@@ -27,6 +27,47 @@ export class Backups {
   }
 
   /**
+   * Get the status of the backup for a volume
+   * @summary Get volume's backup status
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BackupsGetStatusResponse>
+   */
+  getStatus(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupsGetStatusResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param callback The callback
+   */
+  getStatus(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, callback: msRest.ServiceCallback<Models.BackupStatus>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getStatus(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupStatus>): void;
+  getStatus(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupStatus>, callback?: msRest.ServiceCallback<Models.BackupStatus>): Promise<Models.BackupsGetStatusResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options
+      },
+      getStatusOperationSpec,
+      callback) as Promise<Models.BackupsGetStatusResponse>;
+  }
+
+  /**
    * List all backups for a volume
    * @summary List Backups
    * @param resourceGroupName The name of the resource group.
@@ -68,7 +109,7 @@ export class Backups {
   }
 
   /**
-   * Get a particular backup of the volume
+   * Gets the specified backup of the volume
    * @summary Get a backup
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -120,12 +161,12 @@ export class Backups {
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param backupName The name of the backup
-   * @param location Resource location
+   * @param body Backup object supplied in the body of the operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupsCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, location: string, options?: Models.BackupsCreateOptionalParams): Promise<Models.BackupsCreateResponse> {
-    return this.beginCreate(resourceGroupName,accountName,poolName,volumeName,backupName,location,options)
+  create(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, body: Models.Backup, options?: msRest.RequestOptionsBase): Promise<Models.BackupsCreateResponse> {
+    return this.beginCreate(resourceGroupName,accountName,poolName,volumeName,backupName,body,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BackupsCreateResponse>;
   }
 
@@ -169,11 +210,11 @@ export class Backups {
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
    * @param backupName The name of the backup
-   * @param location Resource location
+   * @param body Backup object supplied in the body of the operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, location: string, options?: Models.BackupsBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, body: Models.Backup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -181,7 +222,7 @@ export class Backups {
         poolName,
         volumeName,
         backupName,
-        location,
+        body,
         options
       },
       beginCreateOperationSpec,
@@ -241,6 +282,33 @@ export class Backups {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const getStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backupStatus",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackupStatus
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups",
@@ -314,13 +382,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: {
-      location: "location",
-      label: [
-        "options",
-        "label"
-      ]
-    },
+    parameterPath: "body",
     mapper: {
       ...Mappers.Backup,
       required: true
@@ -359,16 +421,10 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: {
-      tags: [
-        "options",
-        "tags"
-      ],
-      label: [
-        "options",
-        "label"
-      ]
-    },
+    parameterPath: [
+      "options",
+      "body"
+    ],
     mapper: Mappers.BackupPatch
   },
   responses: {

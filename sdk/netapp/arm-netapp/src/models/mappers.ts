@@ -1473,6 +1473,13 @@ export const VolumePatchPropertiesDataProtection: msRest.CompositeMapper = {
           name: "Composite",
           className: "VolumeBackupProperties"
         }
+      },
+      snapshot: {
+        serializedName: "snapshot",
+        type: {
+          name: "Composite",
+          className: "VolumeSnapshotProperties"
+        }
       }
     }
   }
@@ -2307,6 +2314,13 @@ export const Backup: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      useExistingSnapshot: {
+        serializedName: "properties.useExistingSnapshot",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -2387,6 +2401,13 @@ export const BackupPatch: msRest.CompositeMapper = {
         serializedName: "properties.volumeName",
         type: {
           name: "String"
+        }
+      },
+      useExistingSnapshot: {
+        serializedName: "properties.useExistingSnapshot",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       }
     }

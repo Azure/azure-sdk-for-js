@@ -121,35 +121,9 @@ export class BackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupPoliciesUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, backupPolicyName: string, body: Models.BackupPolicyPatch, options?: msRest.RequestOptionsBase): Promise<Models.BackupPoliciesUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
-   * @param body Backup policy object supplied in the body of the operation.
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, accountName: string, backupPolicyName: string, body: Models.BackupPolicyPatch, callback: msRest.ServiceCallback<Models.BackupPolicy>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
-   * @param body Backup policy object supplied in the body of the operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, accountName: string, backupPolicyName: string, body: Models.BackupPolicyPatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupPolicy>): void;
-  update(resourceGroupName: string, accountName: string, backupPolicyName: string, body: Models.BackupPolicyPatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupPolicy>, callback?: msRest.ServiceCallback<Models.BackupPolicy>): Promise<Models.BackupPoliciesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        backupPolicyName,
-        body,
-        options
-      },
-      updateOperationSpec,
-      callback) as Promise<Models.BackupPoliciesUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, backupPolicyName: string, body: Models.BackupPolicyPatch, options?: msRest.RequestOptionsBase): Promise<Models.BackupPoliciesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,accountName,backupPolicyName,body,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BackupPoliciesUpdateResponse>;
   }
 
   /**
@@ -186,6 +160,29 @@ export class BackupPolicies {
         options
       },
       beginCreateOperationSpec,
+      options);
+  }
+
+  /**
+   * Patch a backup policy for Netapp Account
+   * @summary Patch a backup policy
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param backupPolicyName Backup policy Name which uniquely identify backup policy.
+   * @param body Backup policy object supplied in the body of the operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, accountName: string, backupPolicyName: string, body: Models.BackupPolicyPatch, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        backupPolicyName,
+        body,
+        options
+      },
+      beginUpdateOperationSpec,
       options);
   }
 
@@ -264,42 +261,6 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.backupPolicyName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "body",
-    mapper: {
-      ...Mappers.BackupPolicyPatch,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackupPolicy
-    },
-    202: {
-      bodyMapper: Mappers.BackupPolicy
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
@@ -330,6 +291,42 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.BackupPolicy
     },
     202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.backupPolicyName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "body",
+    mapper: {
+      ...Mappers.BackupPolicyPatch,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackupPolicy
+    },
+    202: {
+      bodyMapper: Mappers.BackupPolicy
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
