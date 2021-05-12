@@ -70,7 +70,7 @@ describe("batch operations", () => {
   });
 
   it("should send a set of create batch operations", async () => {
-    let actions: TransactionAction[] = [];
+    const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
       actions.push(["create", entity]);
@@ -88,7 +88,7 @@ describe("batch operations", () => {
   });
 
   it("should send a set of update batch operations", async () => {
-    let actions: TransactionAction[] = [];
+    const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
       actions.push(["update", { ...entity, name: "updated" }, "Replace"]);
@@ -112,7 +112,7 @@ describe("batch operations", () => {
   });
 
   it("should send a set of upsert batch operations", async () => {
-    let actions: TransactionAction[] = [];
+    const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
       // This actions will be on existing entities so they should be updated
@@ -145,7 +145,7 @@ describe("batch operations", () => {
   });
 
   it("should send a set of delete batch operations", async () => {
-    let actions: TransactionAction[] = [];
+    const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
       actions.push(["delete", entity]);
@@ -161,7 +161,7 @@ describe("batch operations", () => {
 
   it("should handle sub request error", async () => {
     const testClient = createTableClient("noExistingTable", authMode);
-    let actions: TransactionAction[] = [];
+    const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
       actions.push(["create", entity]);
