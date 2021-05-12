@@ -18,7 +18,7 @@ import {
  */
 export interface AnalyzeActionsPollerOptions extends AnalysisPollerOptions {
   actions: GeneratedActions;
-  readonly options: BeginAnalyzeActionsOptions
+  readonly options: BeginAnalyzeActionsOptions;
 }
 
 /**

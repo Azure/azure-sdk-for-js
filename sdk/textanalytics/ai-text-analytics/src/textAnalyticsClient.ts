@@ -108,9 +108,7 @@ export interface TextAnalyticsClientOptions extends CommonClientOptions {
 /**
  * Options for the detect languages operation.
  */
-export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {
-  
-}
+export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {}
 
 /**
  * Options for the recognize entities operation.
@@ -180,8 +178,7 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
 /**
  * Options for the extract key phrases operation.
  */
-export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {
-}
+export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {}
 
 /**
  * Options for the recognize linked entities operation.
@@ -803,12 +800,10 @@ export class TextAnalyticsClient {
     if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(inputs, language);
-      realOptions = (options || {});
+      realOptions = options || {};
     } else {
       realInputs = inputs;
-      realOptions = (
-        (languageOrOptions as RecognizePiiEntitiesOptions) || {}
-      );
+      realOptions = (languageOrOptions as RecognizePiiEntitiesOptions) || {};
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -963,7 +958,7 @@ export class TextAnalyticsClient {
       documents: realInputs,
       options: restOptions,
       updateIntervalInMs: updateIntervalInMs,
-      resumeFrom: resumeFrom,
+      resumeFrom: resumeFrom
     });
 
     await poller.poll();
@@ -1167,7 +1162,7 @@ function makeGeneratedRecognizeCategorizedEntitiesOptions(
  * @param params - the user friendly parameters
  * @internal
  */
- function makeGeneratedDetectLanguageOptions(
+function makeGeneratedDetectLanguageOptions(
   params: DetectLanguageOptions
 ): GeneratedDetectLanguageOptions {
   return {
@@ -1187,7 +1182,7 @@ function makeGeneratedRecognizeCategorizedEntitiesOptions(
  * @param params - the user friendly parameters
  * @internal
  */
- function makeGeneratedExtractKeyPhrasesOptions(
+function makeGeneratedExtractKeyPhrasesOptions(
   params: ExtractKeyPhrasesOptions
 ): GeneratedExtractKeyPhrasesOptions {
   return {
@@ -1207,7 +1202,7 @@ function makeGeneratedRecognizeCategorizedEntitiesOptions(
  * @param params - the user friendly parameters
  * @internal
  */
- function makeGeneratedRecognizeLinkingEntitiesOptions(
+function makeGeneratedRecognizeLinkingEntitiesOptions(
   params: RecognizeLinkedEntitiesOptions
 ): GeneratedRecognizeLinkedEntitiesOptions {
   return {

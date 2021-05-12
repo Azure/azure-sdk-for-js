@@ -25,5 +25,5 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
    * parameter to true, disables input logging and may limit our ability to remediate issues that
    * occur.
    */
-   disableServiceLogs?: boolean;
+  disableServiceLogs?: boolean;
 }

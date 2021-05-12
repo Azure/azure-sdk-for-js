@@ -37,20 +37,19 @@ export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
 > {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(inputs: HealthcarePollerOptions) {
-    const {
-      client,
-      documents,
-      options,
-      updateIntervalInMs = 5000,
-      resumeFrom
-    } = inputs;
+    const { client, documents, options, updateIntervalInMs = 5000, resumeFrom } = inputs;
 
     let state: AnalyzeHealthcareOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
-    const operation = new BeginAnalyzeHealthcarePollerOperation(state || {}, client, documents, options);
+    const operation = new BeginAnalyzeHealthcarePollerOperation(
+      state || {},
+      client,
+      documents,
+      options
+    );
 
     super(operation);
 

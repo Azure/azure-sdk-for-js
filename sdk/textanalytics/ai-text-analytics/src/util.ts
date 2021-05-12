@@ -126,7 +126,7 @@ export function setStrEncodingParamValue(
  * Set the opinion mining property
  * @internal
  */
- export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
+export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
   x: X
 ): X & { opinionMining?: boolean } {
   return { ...x, opinionMining: x.includeOpinionMining };
