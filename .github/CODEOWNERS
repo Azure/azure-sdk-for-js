@@ -80,7 +80,7 @@
 /sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @sadasant @maorleger @schaabs
+/sdk/identity/ @sadasant @witemple-msft @schaabs
 
 # PRLabel: %KeyVault
 /sdk/keyvault/ @maorleger @sadasant 
