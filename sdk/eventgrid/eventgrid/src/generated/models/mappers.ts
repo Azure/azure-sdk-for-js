@@ -638,6 +638,164 @@ export const StorageLifecyclePolicyActionSummaryDetail: CompositeMapper = {
   }
 };
 
+export const StorageBlobTierChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageBlobTierChangedEventData",
+    modelProperties: {
+      api: {
+        serializedName: "api",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "contentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentLength: {
+        serializedName: "contentLength",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      blobType: {
+        serializedName: "blobType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        serializedName: "url",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequencer: {
+        serializedName: "sequencer",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      storageDiagnostics: {
+        serializedName: "storageDiagnostics",
+        required: true,
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const StorageAsyncOperationInitiatedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageAsyncOperationInitiatedEventData",
+    modelProperties: {
+      api: {
+        serializedName: "api",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "contentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentLength: {
+        serializedName: "contentLength",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      blobType: {
+        serializedName: "blobType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        serializedName: "url",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequencer: {
+        serializedName: "sequencer",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      storageDiagnostics: {
+        serializedName: "storageDiagnostics",
+        required: true,
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
 export const EventHubCaptureFileCreatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
@@ -5531,6 +5689,180 @@ export const AcsRecordingChunkInfo: CompositeMapper = {
       },
       endReason: {
         serializedName: "endReason",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyInsightsPolicyStateCreatedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyInsightsPolicyStateCreatedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyAssignmentId: {
+        serializedName: "policyAssignmentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyDefinitionId: {
+        serializedName: "policyDefinitionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyDefinitionReferenceId: {
+        serializedName: "policyDefinitionReferenceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceState: {
+        serializedName: "complianceState",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceReasonCode: {
+        serializedName: "complianceReasonCode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyInsightsPolicyStateChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyInsightsPolicyStateChangedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyAssignmentId: {
+        serializedName: "policyAssignmentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyDefinitionId: {
+        serializedName: "policyDefinitionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyDefinitionReferenceId: {
+        serializedName: "policyDefinitionReferenceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceState: {
+        serializedName: "complianceState",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceReasonCode: {
+        serializedName: "complianceReasonCode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyInsightsPolicyStateDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyInsightsPolicyStateDeletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyAssignmentId: {
+        serializedName: "policyAssignmentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyDefinitionId: {
+        serializedName: "policyDefinitionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyDefinitionReferenceId: {
+        serializedName: "policyDefinitionReferenceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceState: {
+        serializedName: "complianceState",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceReasonCode: {
+        serializedName: "complianceReasonCode",
         required: true,
         type: {
           name: "String"

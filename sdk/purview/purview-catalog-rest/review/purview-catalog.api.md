@@ -529,28 +529,6 @@ export interface AtlasUserSavedSearchBase {
 }
 
 // @public (undocumented)
-export interface AutoComplete {
-    post(options: AutoCompleteParameters): Promise<AutoComplete200Response>;
-}
-
-// @public
-export interface AutoComplete200Response extends HttpResponse {
-    // (undocumented)
-    body: AutoCompleteResult;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface AutoCompleteBodyParam {
-    // (undocumented)
-    body: AutoCompleteRequest;
-}
-
-// @public (undocumented)
-export type AutoCompleteParameters = RequestParameters & AutoCompleteBodyParam;
-
-// @public (undocumented)
 export interface AutoCompleteRequest {
     filter?: any;
     keywords?: string;
@@ -655,6 +633,72 @@ export type DictionaryOfStringDictionary = Record<string, string>;
 export type Direction = "BOTH" | "INPUT" | "OUTPUT";
 
 // @public (undocumented)
+export interface DiscoveryAutoComplete {
+    post(options: DiscoveryAutoCompleteParameters): Promise<DiscoveryAutoComplete200Response>;
+}
+
+// @public
+export interface DiscoveryAutoComplete200Response extends HttpResponse {
+    // (undocumented)
+    body: AutoCompleteResult;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DiscoveryAutoCompleteBodyParam {
+    // (undocumented)
+    body: AutoCompleteRequest;
+}
+
+// @public (undocumented)
+export type DiscoveryAutoCompleteParameters = RequestParameters & DiscoveryAutoCompleteBodyParam;
+
+// @public (undocumented)
+export interface DiscoveryQuery {
+    post(options: DiscoveryQueryParameters): Promise<DiscoveryQuery200Response>;
+}
+
+// @public
+export interface DiscoveryQuery200Response extends HttpResponse {
+    // (undocumented)
+    body: SearchResult;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DiscoveryQueryBodyParam {
+    // (undocumented)
+    body: SearchRequest;
+}
+
+// @public (undocumented)
+export type DiscoveryQueryParameters = RequestParameters & DiscoveryQueryBodyParam;
+
+// @public (undocumented)
+export interface DiscoverySuggest {
+    post(options: DiscoverySuggestParameters): Promise<DiscoverySuggest200Response>;
+}
+
+// @public
+export interface DiscoverySuggest200Response extends HttpResponse {
+    // (undocumented)
+    body: SuggestResult;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DiscoverySuggestBodyParam {
+    // (undocumented)
+    body: SuggestRequest;
+}
+
+// @public (undocumented)
+export type DiscoverySuggestParameters = RequestParameters & DiscoverySuggestBodyParam;
+
+// @public (undocumented)
 export interface EntityAddClassification {
     post(options: EntityAddClassificationParameters): Promise<EntityAddClassification204Response>;
 }
@@ -735,62 +779,6 @@ export interface EntityCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface EntityCreateOrUpdateByGuid200Response extends HttpResponse {
-    // (undocumented)
-    body: EntityMutationResponse;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EntityCreateOrUpdateByGuidBodyParam {
-    // (undocumented)
-    body: any;
-}
-
-// @public (undocumented)
-export type EntityCreateOrUpdateByGuidParameters = RequestParameters & EntityCreateOrUpdateByGuidQueryParam & EntityCreateOrUpdateByGuidBodyParam;
-
-// @public (undocumented)
-export interface EntityCreateOrUpdateByGuidQueryParam {
-    // (undocumented)
-    queryParameters: EntityCreateOrUpdateByGuidQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface EntityCreateOrUpdateByGuidQueryParamProperties {
-    name: string;
-}
-
-// @public
-export interface EntityCreateOrUpdateByUniqueAttribute200Response extends HttpResponse {
-    // (undocumented)
-    body: EntityMutationResponse;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface EntityCreateOrUpdateByUniqueAttributeBodyParam {
-    // (undocumented)
-    body: AtlasEntityWithExtInfo;
-}
-
-// @public (undocumented)
-export type EntityCreateOrUpdateByUniqueAttributeParameters = RequestParameters & EntityCreateOrUpdateByUniqueAttributeQueryParam & EntityCreateOrUpdateByUniqueAttributeBodyParam;
-
-// @public (undocumented)
-export interface EntityCreateOrUpdateByUniqueAttributeQueryParam {
-    // (undocumented)
-    queryParameters?: EntityCreateOrUpdateByUniqueAttributeQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface EntityCreateOrUpdateByUniqueAttributeQueryParamProperties {
-    "attr:qualifiedName"?: string;
-}
-
-// @public
 export interface EntityCreateOrUpdateEntities200Response extends HttpResponse {
     // (undocumented)
     body: EntityMutationResponse;
@@ -821,7 +809,7 @@ export interface EntityCreateRequestV2 {
 export interface EntityDeleteByGuid {
     delete(options?: EntityDeleteByGuidParameters): Promise<EntityDeleteByGuid200Response>;
     get(options?: EntityGetByGuidParameters): Promise<EntityGetByGuid200Response>;
-    put(options: EntityCreateOrUpdateByGuidParameters): Promise<EntityCreateOrUpdateByGuid200Response>;
+    put(options: EntityPartialUpdateEntityAttributeByGuidParameters): Promise<EntityPartialUpdateEntityAttributeByGuid200Response>;
 }
 
 // @public
@@ -868,7 +856,7 @@ export interface EntityDeleteByGuidsQueryParamProperties {
 export interface EntityDeleteByUniqueAttribute {
     delete(options?: EntityDeleteByUniqueAttributeParameters): Promise<EntityDeleteByUniqueAttribute200Response>;
     get(options?: EntityGetByUniqueAttributesParameters): Promise<EntityGetByUniqueAttributes200Response>;
-    put(options: EntityCreateOrUpdateByUniqueAttributeParameters): Promise<EntityCreateOrUpdateByUniqueAttribute200Response>;
+    put(options: EntityPartialUpdateEntityByUniqueAttributesParameters): Promise<EntityPartialUpdateEntityByUniqueAttributes200Response>;
 }
 
 // @public
@@ -1095,6 +1083,62 @@ export type EntityMutationResponseMutatedEntitiesDictionary = Record<string, Atl
 
 // @public (undocumented)
 export type EntityOperation = "CREATE" | "UPDATE" | "PARTIAL_UPDATE" | "DELETE";
+
+// @public
+export interface EntityPartialUpdateEntityAttributeByGuid200Response extends HttpResponse {
+    // (undocumented)
+    body: EntityMutationResponse;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface EntityPartialUpdateEntityAttributeByGuidBodyParam {
+    // (undocumented)
+    body: any;
+}
+
+// @public (undocumented)
+export type EntityPartialUpdateEntityAttributeByGuidParameters = RequestParameters & EntityPartialUpdateEntityAttributeByGuidQueryParam & EntityPartialUpdateEntityAttributeByGuidBodyParam;
+
+// @public (undocumented)
+export interface EntityPartialUpdateEntityAttributeByGuidQueryParam {
+    // (undocumented)
+    queryParameters: EntityPartialUpdateEntityAttributeByGuidQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface EntityPartialUpdateEntityAttributeByGuidQueryParamProperties {
+    name: string;
+}
+
+// @public
+export interface EntityPartialUpdateEntityByUniqueAttributes200Response extends HttpResponse {
+    // (undocumented)
+    body: EntityMutationResponse;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface EntityPartialUpdateEntityByUniqueAttributesBodyParam {
+    // (undocumented)
+    body: AtlasEntityWithExtInfo;
+}
+
+// @public (undocumented)
+export type EntityPartialUpdateEntityByUniqueAttributesParameters = RequestParameters & EntityPartialUpdateEntityByUniqueAttributesQueryParam & EntityPartialUpdateEntityByUniqueAttributesBodyParam;
+
+// @public (undocumented)
+export interface EntityPartialUpdateEntityByUniqueAttributesQueryParam {
+    // (undocumented)
+    queryParameters?: EntityPartialUpdateEntityByUniqueAttributesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface EntityPartialUpdateEntityByUniqueAttributesQueryParamProperties {
+    "attr:qualifiedName"?: string;
+}
 
 // @public (undocumented)
 export interface EntityPartialUpdateRequestV2 {
@@ -2351,9 +2395,9 @@ export interface Routes {
     (path: "/glossary/terms/import/{operationGuid}", operationGuid: string): GlossaryGetImportCsvOperationStatus;
     (path: "/glossary/{glossaryGuid}/terms/export", glossaryGuid: string): GlossaryExportGlossaryTermsAsCsv;
     (path: "/glossary/name/{glossaryName}/terms", glossaryName: string): GlossaryListTermsByGlossaryName;
-    (path: "/search/query"): Search;
-    (path: "/search/suggest"): Suggest;
-    (path: "/search/autocomplete"): AutoComplete;
+    (path: "/search/query"): DiscoveryQuery;
+    (path: "/search/suggest"): DiscoverySuggest;
+    (path: "/search/autocomplete"): DiscoveryAutoComplete;
     (path: "/atlas/v2/lineage/{guid}", guid: string): GetLineageGraph;
     (path: "/lineage/{guid}/next/", guid: string): NextPageLineage;
     (path: "/atlas/v2/relationship"): RelationshipUpdate;
@@ -2378,25 +2422,6 @@ export interface Routes {
 
 // @public (undocumented)
 export type SavedSearchType = "BASIC" | "ADVANCED";
-
-// @public (undocumented)
-export interface Search {
-    post(options: SearchParameters): Promise<Search200Response>;
-}
-
-// @public
-export interface Search200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchResult;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SearchBodyParam {
-    // (undocumented)
-    body: SearchRequest;
-}
 
 // @public (undocumented)
 export interface SearchFacetItem {
@@ -2455,9 +2480,6 @@ export interface SearchHighlights {
     // (undocumented)
     qualifiedName?: string[];
 }
-
-// @public (undocumented)
-export type SearchParameters = RequestParameters & SearchBodyParam;
 
 // @public (undocumented)
 export interface SearchParams {
@@ -2529,28 +2551,6 @@ export type Status = "ACTIVE" | "DELETED";
 
 // @public (undocumented)
 export type StatusAtlasRelationship = "ACTIVE" | "DELETED";
-
-// @public (undocumented)
-export interface Suggest {
-    post(options: SuggestParameters): Promise<Suggest200Response>;
-}
-
-// @public
-export interface Suggest200Response extends HttpResponse {
-    // (undocumented)
-    body: SuggestResult;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SuggestBodyParam {
-    // (undocumented)
-    body: SuggestRequest;
-}
-
-// @public (undocumented)
-export type SuggestParameters = RequestParameters & SuggestBodyParam;
 
 // @public (undocumented)
 export interface SuggestRequest {

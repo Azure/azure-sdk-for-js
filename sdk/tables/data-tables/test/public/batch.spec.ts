@@ -34,7 +34,7 @@ describe("batch operations", () => {
 
     try {
       if (!isPlaybackMode()) {
-        await client.create();
+        await client.createTable();
       }
     } catch {
       console.warn("Table already exists");
@@ -49,7 +49,7 @@ describe("batch operations", () => {
   after(async () => {
     try {
       if (!isPlaybackMode()) {
-        await client.delete();
+        await client.deleteTable();
       }
     } catch {
       console.warn("Table was not deleted");

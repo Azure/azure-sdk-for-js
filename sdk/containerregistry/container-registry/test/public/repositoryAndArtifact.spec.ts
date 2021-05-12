@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 import { ContainerRegistryClient, ContainerRepository } from "../../src";
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, env, record, Recorder } from "@azure/test-utils-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import { createRegistryClient, recorderEnvSetup } from "./utils";
@@ -30,7 +30,7 @@ describe("Repository and artifact tests", function() {
     // `afterEach` hook.
     recorder = record(this, recorderEnvSetup);
 
-    registryClient = createRegistryClient();
+    registryClient = createRegistryClient(env.CONTAINER_REGISTRY_ENDPOINT);
     repository = registryClient.getRepository(repositoryName);
   });
 
@@ -56,6 +56,22 @@ describe("Repository and artifact tests", function() {
     }
     result = await iterator.next();
     assert.equal(result.value.length, 1, "Expecting one artifact in second page");
+  });
+
+  it("should list tags", async () => {
+    const artifact = repository.getArtifact(artifactDigest);
+    const iter = artifact.listTags();
+    const first = await iter.next();
+    assert.ok(first.value, "Expecting a valid tag");
+  });
+
+  it("should list tags by pages", async () => {
+    const artifact = repository.getArtifact(artifactDigest);
+    const iterator = artifact.listTags().byPage({ maxPageSize: 1 });
+    let result = await iterator.next();
+    assert.equal(result.value.length, 1, "Expecting one tag in first page");
+    result = await iterator.next();
+    assert.equal(result.value.length, 1, "Expecting one tag in second page");
   });
 
   it("sets manifest properties", async () => {
@@ -106,22 +122,6 @@ describe("Repository and artifact tests", function() {
     } finally {
       await repository.setProperties(original);
     }
-  });
-
-  it("should list tags", async () => {
-    const artifact = repository.getArtifact(artifactDigest);
-    const iter = artifact.listTags();
-    const first = await iter.next();
-    assert.ok(first.value, "Expecting a valid tag");
-  });
-
-  it("should list tags by pages", async () => {
-    const artifact = repository.getArtifact(artifactDigest);
-    const iterator = artifact.listTags().byPage({ maxPageSize: 1 });
-    let result = await iterator.next();
-    assert.equal(result.value.length, 1, "Expecting one tag in first page");
-    result = await iterator.next();
-    assert.equal(result.value.length, 1, "Expecting one tag in second page");
   });
 
   it("should retrive tag properties", async () => {
