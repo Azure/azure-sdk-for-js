@@ -832,7 +832,7 @@ export class FormRecognizerClient {
 
   // #endregion
 
-  // #region prebuilt::idDocument
+  // #region prebuilt::identityDocument
 
   /**
    * Recognizes data from identification documents using a pre-built ID
@@ -861,14 +861,14 @@ export class FormRecognizerClient {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    *
-   * const [idDocument] = await poller.pollUntilDone();
+   * const [identityDocument] = await poller.pollUntilDone();
    * ```
    *
-   * @param idDocument - Input document
+   * @param identityDocument - Input document
    * @param options - Options for the recognition operation
    */
   public async beginRecognizeIdentityDocuments(
-    idDocument: FormRecognizerRequestBody,
+    identityDocument: FormRecognizerRequestBody,
     options: BeginRecognizeIdentityDocumentsOptions = {}
   ): Promise<FormPollerLike> {
     const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdentityDocuments", {
@@ -878,8 +878,8 @@ export class FormRecognizerClient {
 
     const poller = new FormRecognitionPoller({
       expectedDocType: "prebuilt:idDocument",
-      createOperation: span("idDocumentsInternal", async (finalOptions) => {
-        const requestBody = await toRequestBody(idDocument);
+      createOperation: span("identityDocumentsInternal", async (finalOptions) => {
+        const requestBody = await toRequestBody(identityDocument);
         const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
         return processOperationLocation(
           await this.client.analyzeIdDocumentAsync(
@@ -930,16 +930,16 @@ export class FormRecognizerClient {
    *   }
    * });
    *
-   * const [idDocument] = await poller.pollUntilDone();
+   * const [identityDocument] = await poller.pollUntilDone();
    * ```
    *
-   * @param idDocumentUrl - Url to an identity document that is accessible from
+   * @param identityDocumentUrl - Url to an identity document that is accessible from
    * the service. Must be a valid, encoded URL to a document of a supported
    * content type.
    * @param options - Options for the recognition operation
    */
   public async beginRecognizeIdentityDocumentsFromUrl(
-    idDocumentUrl: string,
+    identityDocumentUrl: string,
     options: BeginRecognizeIdentityDocumentsOptions = {}
   ): Promise<FormPollerLike> {
     if (options.contentType) {
@@ -954,11 +954,11 @@ export class FormRecognizerClient {
 
     const poller = new FormRecognitionPoller({
       expectedDocType: "prebuilt:idDocument",
-      createOperation: span("idDocumentsInternal", async (finalOptions) => {
+      createOperation: span("identityDocumentsInternal", async (finalOptions) => {
         return processOperationLocation(
           await this.client.analyzeIdDocumentAsync("application/json", {
             fileStream: {
-              source: idDocumentUrl
+              source: identityDocumentUrl
             },
             ...operationOptionsToRequestOptionsBase(finalOptions)
           })

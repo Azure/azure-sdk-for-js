@@ -28,7 +28,7 @@ export async function main() {
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
 
-  const fileName = "./assets/idDocument/license.jpg";
+  const fileName = "./assets/identityDocument/license.jpg";
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expected file "${fileName}" to exist.`);
