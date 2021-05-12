@@ -491,7 +491,7 @@ directive:
       $["x-ms-client-request-id"]["description"] = "If a client request id header is sent in the request, this header will be present in the response with the same value.";
 ```
 
-### Add ErrorCode to response header - Blob_Download
+### Add ErrorCode and CreationTime to response header - Blob_Download
 
 ```yaml
 directive:
@@ -502,6 +502,11 @@ directive:
       $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
       $["x-ms-error-code"]["type"] = "string";
       $["x-ms-error-code"]["description"] = "Error Code";
+      $["x-ms-creation-time"] = {};
+      $["x-ms-creation-time"]["x-ms-client-name"] = "CreationTime";
+      $["x-ms-creation-time"]["type"] = "string",
+      $["x-ms-creation-time"]["format"] = "date-time-rfc1123";
+      $["x-ms-creation-time"]["description"] = "Returns the date and time the blob was created."
   - from: swagger-document
     where: $["x-ms-paths"]["/{containerName}/{blob}"]["get"]["responses"]["206"]["headers"]
     transform: >
@@ -509,6 +514,11 @@ directive:
       $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
       $["x-ms-error-code"]["type"] = "string";
       $["x-ms-error-code"]["description"] = "Error Code";
+      $["x-ms-creation-time"] = {};
+      $["x-ms-creation-time"]["x-ms-client-name"] = "CreationTime";
+      $["x-ms-creation-time"]["type"] = "string",
+      $["x-ms-creation-time"]["format"] = "date-time-rfc1123";
+      $["x-ms-creation-time"]["description"] = "Returns the date and time the blob was created."
 ```
 
 ### Add ContentCrc64 to response header - Blob_Download

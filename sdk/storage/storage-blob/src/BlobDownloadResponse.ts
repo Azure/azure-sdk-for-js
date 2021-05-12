@@ -202,6 +202,16 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
   }
 
   /**
+   * Date and time the blob was created
+   * identified by 'x-ms-creation-time'.
+   *
+   * @readonly
+   */
+  public get createdOn(): Date | undefined {
+    return this.originalResponse.createdOn;
+  }
+
+  /**
    * Only appears when
    * x-ms-copy-status is failed or pending. Describes cause of fatal or
    * non-fatal copy operation failure.

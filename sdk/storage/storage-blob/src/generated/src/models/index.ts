@@ -1170,6 +1170,8 @@ export interface BlobDownloadHeaders {
   contentCrc64?: Uint8Array;
   /** Error Code */
   errorCode?: string;
+  /** Returns the date and time the blob was created. */
+  createdOn?: Date;
 }
 
 /** Defines headers for Blob_download operation. */
