@@ -550,6 +550,10 @@ export class TableClient {
     }
   }
 
+  /**
+   * Submits a Transaction which is composed of a set of actions.
+   * @param actions - tuple that contains the action to perform, and the entity to perform the action with
+   */
   public async submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse> {
     const partitionKey = actions[0][1].partitionKey;
     const transactionId = Uuid.generateUuid();
