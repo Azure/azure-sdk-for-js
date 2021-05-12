@@ -44,7 +44,7 @@ import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { TableTransactionImpl, createInnerTransactionRequest } from "./TableTransaction";
+import { InternalTableTransaction, createInnerTransactionRequest } from "./TableTransaction";
 import { InternalTransactionClientOptions, ListEntitiesResponse } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
 import { parseXML, stringifyXML } from "@azure/core-xml";
@@ -560,7 +560,7 @@ export class TableClient {
     };
     const interceptClient = new TableClient(this.url, this.tableName, internalClientOptions);
 
-    const transactionClient = new TableTransactionImpl(
+    const transactionClient = new InternalTableTransaction(
       this.url,
       partitionKey,
       interceptClient,

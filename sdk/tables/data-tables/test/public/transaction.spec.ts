@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableClient, odata, TransactionAction } from "../../src";
+import { TableClient, odata, TransactionAction, TableTransaction } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
@@ -54,6 +54,19 @@ describe("batch operations", () => {
     } catch {
       console.warn("Table was not deleted");
     }
+  });
+
+  it("should send a set of create actions when using TableTransaction Helper", async () => {
+    const transaction = new TableTransaction();
+    transaction.createEntity({ partitionKey: "helper", rowKey: "1", value: "t1" });
+    transaction.createEntity({ partitionKey: "helper", rowKey: "2", value: "t2" });
+
+    const result = await client.submitTransaction(transaction.actions);
+
+    assert.equal(result.status, 202);
+    assert.lengthOf(result.subResponses, 2);
+    assert.equal(result.getResponseForEntity("1")?.status, 204);
+    assert.equal(result.getResponseForEntity("2")?.status, 204);
   });
 
   it("should send a set of create batch operations", async () => {

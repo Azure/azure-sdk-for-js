@@ -61,59 +61,6 @@ export interface ClientParamsFromConnectionString {
 }
 
 /**
- * Defines the shape of a TableTransaction
- */
-export interface TableTransaction {
-  /**
-   * Partition key targeted by the transaction
-   */
-  partitionKey: string;
-  /**
-   * Adds a createEntity operation to the transaction per each entity in the entities array
-   * @param entities - Array of entities to create
-   */
-  createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
-  /**
-   * Adds a createEntity operation to the transaction
-   * @param entity - Entity to create
-   */
-  createEntity: <T extends object>(entity: TableEntity<T>) => void;
-  /**
-   * Adds a deleteEntity operation to the transaction
-   * @param partitionKey - Partition key of the entity to delete
-   * @param rowKey - Row key of the entity to delete
-   * @param options - Options for the delete operation
-   */
-  deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
-  /**
-   * Adds an updateEntity operation to the transaction
-   * @param entity - Entity to update
-   * @param mode - Update mode (Merge or Replace)
-   * @param options - Options for the update operation
-   */
-  updateEntity: <T extends object>(
-    entity: TableEntity<T>,
-    mode: UpdateMode,
-    options?: UpdateTableEntityOptions
-  ) => void;
-  /**
-   * Adds an updateEntity operation to the transaction
-   * @param entity - Entity to update
-   * @param mode - Update mode (Merge or Replace)
-   * @param options - Options for the update operation
-   */
-  upsertEntity: <T extends object>(
-    entity: TableEntity<T>,
-    mode: UpdateMode,
-    options?: OperationOptions
-  ) => void;
-  /**
-   * Submits the operations in the transaction
-   */
-  submitTransaction: () => Promise<TableTransactionResponse>;
-}
-
-/**
  * Transaction request builder
  */
 export interface InnerTransactionRequest {

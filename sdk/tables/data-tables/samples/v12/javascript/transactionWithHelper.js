@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /**
- * This sample demonstrates how to send a transactional batch request
- * with multiple operations in a single request
+ * This sample demonstrates how to use the TableTransaction helper
+ * to build a transaction request.
  *
- * @summary sends transactional batch requests
- * @azsdk-weight 40
+ * @summary sends transactional request using TableTransaction helper
  */
 
-import { TableClient, TransactionAction } from "@azure/data-tables";
-import { v4 } from "uuid";
+const { TableClient, TableTransaction } = require("@azure/data-tables");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
-const tableSufix = v4().replace(/-/g, "");
-
 async function batchOperations() {
-  console.log("== Batch Operations Sample ==");
+  console.log("== TableTransaction Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `batch${tableSufix}`;
+  const tableName = `transaction_helper`;
 
   // See authenticationMethods sample for other options of creating a new client
   const client = TableClient.fromConnectionString(connectionString, tableName);
@@ -32,41 +28,33 @@ async function batchOperations() {
 
   const partitionKey = "Stationery";
 
-  const actions: TransactionAction[] = [
-    [
-      "create",
-      {
-        partitionKey,
-        rowKey: "A1",
-        name: "Marker Set",
-        price: 5.0,
-        quantity: 21
-      }
-    ],
-    [
-      "create",
-      {
-        partitionKey,
-        rowKey: "A2",
-        name: "Pen Set",
-        price: 2.0,
-        quantity: 6
-      }
-    ],
-    [
-      "create",
-      {
-        partitionKey,
-        rowKey: "A3",
-        name: "Pencil",
-        price: 1.5,
-        quantity: 100
-      }
-    ]
-  ];
+  const transaction = new TableTransaction();
 
-  // Create the new batch. All the operations within a batch must target the same partition key
-  const transactionResult = await client.submitTransaction(actions);
+  // Add actions to the transaction
+  transaction.createEntity({
+    partitionKey,
+    rowKey: "A1",
+    name: "Marker Set",
+    price: 5.0,
+    quantity: 21
+  });
+  transaction.createEntity({
+    partitionKey,
+    rowKey: "A2",
+    name: "Pen Set",
+    price: 2.0,
+    quantity: 6
+  });
+  transaction.createEntity({
+    partitionKey,
+    rowKey: "A3",
+    name: "Pencil",
+    price: 1.5,
+    quantity: 100
+  });
+
+  // Submit the transaction using the actions list built by the helper
+  const transactionResult = await client.submitTransaction(transaction.actions);
 
   console.log(transactionResult.subResponses);
   // Output:

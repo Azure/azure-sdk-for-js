@@ -1,27 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /**
- * This sample demonstrates how to send a transactional batch request
+ * This sample demonstrates how to send a transactional request
  * with multiple operations in a single request
  *
  * @summary sends transactional batch requests
  */
 
 const { TableClient } = require("@azure/data-tables");
-const { v4 } = require("uuid");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();
 
 const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
-const tableSufix = v4().replace(/-/g, "");
 
 async function batchOperations() {
   console.log("== Batch Operations Sample ==");
-
-  // Note that this sample assumes that a table with tableName exists
-  const tableName = `batch${tableSufix}`;
+  const tableName = `transactionsSample`;
 
   // See authenticationMethods sample for other options of creating a new client
   const client = TableClient.fromConnectionString(connectionString, tableName);
@@ -64,7 +60,8 @@ async function batchOperations() {
     ]
   ];
 
-  // Create the new batch. All the operations within a batch must target the same partition key
+  // Submit the transaction with the list of actions.
+  // Note that all the operations within a transaction must target the same partition key
   const transactionResult = await client.submitTransaction(actions);
 
   console.log(transactionResult.subResponses);

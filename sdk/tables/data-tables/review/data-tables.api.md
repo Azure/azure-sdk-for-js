@@ -327,6 +327,16 @@ export interface TablesSharedKeyCredentialLike {
 export function tablesSharedKeyCredentialPolicy(credential: TablesSharedKeyCredentialLike): PipelinePolicy;
 
 // @public
+export class TableTransaction {
+    constructor(actions?: TransactionAction[]);
+    actions: TransactionAction[];
+    createEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>): void;
+    deleteEntity(partitionKey: string, rowKey: string): void;
+    updateEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateMode?: UpdateMode): void;
+    upsertEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateMode?: UpdateMode): void;
+}
+
+// @public
 export interface TableTransactionEntityResponse {
     etag?: string;
     rowKey?: string;

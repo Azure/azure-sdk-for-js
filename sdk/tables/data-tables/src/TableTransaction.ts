@@ -16,13 +16,14 @@ import {
   UpdateMode,
   UpdateTableEntityOptions,
   TableTransactionResponse,
-  TableTransactionEntityResponse
+  TableTransactionEntityResponse,
+  TransactionAction
 } from "./models";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
 import { HeaderConstants } from "./utils/constants";
 import { transactionHeaderFilterPolicy, transactionRequestAssemblePolicy } from "./TablePolicies";
-import { InnerTransactionRequest, TableClientLike, TableTransaction } from "./utils/internalModels";
+import { InnerTransactionRequest, TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { URL } from "./utils/url";
@@ -30,9 +31,64 @@ import { TableServiceErrorOdataError } from "./generated";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
 
 /**
+ * Helper to build a list of transaction actions
+ */
+export class TableTransaction {
+  /**
+   * List of actions to perform in a transaction
+   */
+  public actions: TransactionAction[];
+
+  constructor(actions?: TransactionAction[]) {
+    this.actions = actions ?? [];
+  }
+
+  /**
+   * Adds a create action to the transaction
+   * @param entity - entity to create
+   */
+  createEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>): void {
+    this.actions.push(["create", entity]);
+  }
+
+  /**
+   * Adds a delete action to the transaction
+   * @param partitionKey - partition key of the entity to delete
+   * @param rowKey - rowKey of the entity to delete
+   */
+  deleteEntity(partitionKey: string, rowKey: string): void {
+    this.actions.push(["delete", { partitionKey, rowKey }]);
+  }
+
+  /**
+   * Adds an update action to the transaction
+   * @param entity - entity to update
+   * @param updateMode - update mode
+   */
+  updateEntity<T extends object = Record<string, unknown>>(
+    entity: TableEntity<T>,
+    updateMode: UpdateMode = "Merge"
+  ): void {
+    this.actions.push(["update", entity, updateMode]);
+  }
+
+  /**
+   * Adds an upsert action to the transaction, which inserts if the entity doesn't exist or updates the existing one
+   * @param entity - entity to upsert
+   * @param updateMode - update mode
+   */
+  upsertEntity<T extends object = Record<string, unknown>>(
+    entity: TableEntity<T>,
+    updateMode: UpdateMode = "Merge"
+  ): void {
+    this.actions.push(["upsert", entity, updateMode]);
+  }
+}
+
+/**
  * TableTransaction collects sub-operations that can be submitted together via submitTransaction
  */
-export class TableTransactionImpl implements TableTransaction {
+export class InternalTableTransaction {
   /**
    * Table Account URL
    */
