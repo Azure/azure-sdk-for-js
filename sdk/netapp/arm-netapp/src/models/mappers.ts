@@ -348,7 +348,7 @@ export const ActiveDirectory: msRest.CompositeMapper = {
       },
       organizationalUnit: {
         serializedName: "organizationalUnit",
-        defaultValue: 'CN=Computers',
+        defaultValue: "CN=Computers",
         type: {
           name: "String"
         }
@@ -728,7 +728,7 @@ export const CapacityPool: msRest.CompositeMapper = {
       serviceLevel: {
         required: true,
         serializedName: "properties.serviceLevel",
-        defaultValue: 'Premium',
+        defaultValue: "Premium",
         type: {
           name: "String"
         }
@@ -756,7 +756,7 @@ export const CapacityPool: msRest.CompositeMapper = {
       },
       qosType: {
         serializedName: "properties.qosType",
-        defaultValue: 'Auto',
+        defaultValue: "Auto",
         type: {
           name: "String"
         }
@@ -822,7 +822,7 @@ export const CapacityPoolPatch: msRest.CompositeMapper = {
       },
       qosType: {
         serializedName: "properties.qosType",
-        defaultValue: 'Auto',
+        defaultValue: "Auto",
         type: {
           name: "String"
         }
@@ -1195,7 +1195,7 @@ export const Volume: msRest.CompositeMapper = {
       },
       serviceLevel: {
         serializedName: "properties.serviceLevel",
-        defaultValue: 'Premium',
+        defaultValue: "Premium",
         type: {
           name: "String"
         }
@@ -1322,7 +1322,7 @@ export const Volume: msRest.CompositeMapper = {
       },
       securityStyle: {
         serializedName: "properties.securityStyle",
-        defaultValue: 'unix',
+        defaultValue: "unix",
         type: {
           name: "String"
         }
@@ -1531,7 +1531,7 @@ export const VolumePatch: msRest.CompositeMapper = {
       },
       serviceLevel: {
         serializedName: "properties.serviceLevel",
-        defaultValue: 'Premium',
+        defaultValue: "Premium",
         type: {
           name: "String"
         }

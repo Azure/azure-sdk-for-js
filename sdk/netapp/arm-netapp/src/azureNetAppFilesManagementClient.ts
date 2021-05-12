@@ -13,7 +13,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AzureNetAppFilesManagementClientContext } from "./azureNetAppFilesManagementClientContext";
 
-
 class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -35,7 +34,11 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureNetAppFilesManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AzureNetAppFilesManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.netAppResource = new operations.NetAppResource(this);
