@@ -69,6 +69,17 @@ const isLoginError = (err: Error) => err.message.match(`(.*)${powerShellErrors.l
 const isNotInstalledError = (err: Error) => err.message.match(powerShellErrors.installed);
 
 /**
+ * The PowerShell commands to be tried, in order.
+ *
+ * @internal
+ */
+export const commandStack = [formatCommand("pwsh")];
+
+if (isWindows) {
+  commandStack.push(formatCommand("powershell"));
+}
+
+/**
  * This credential will use the currently logged-in user information from the
  * Azure PowerShell module. To do so, it will read the user access token and
  * expire time with Azure PowerShell command `Get-AzAccessToken -ResourceUrl {ResourceScope}`
@@ -80,19 +91,6 @@ const isNotInstalledError = (err: Error) => err.message.match(powerShellErrors.i
  * `Connect-AzAccount` from the command line.
  */
 export class AzurePowerShellCredential implements TokenCredential {
-  private commandStack: string[] = [formatCommand("pwsh")];
-
-  /**
-   * Creates an AzurePowerShellCredential, which will authenticate against
-   * Azure Active Directory using an existing login session created using
-   * `Connect-AzAccount` in PowerShell.
-   */
-  constructor() {
-    if (isWindows) {
-      this.commandStack.push(formatCommand("powershell"));
-    }
-  }
-
   /**
    * Gets the access token from Azure PowerShell
    * @param resource - The resource to use when getting the token
@@ -100,10 +98,13 @@ export class AzurePowerShellCredential implements TokenCredential {
   private async getAzurePowerShellAccessToken(
     resource: string
   ): Promise<{ Token: string; ExpiresOn: string }> {
-    for (const powerShellCommand of this.commandStack) {
+    // Clone the stack to avoid mutating it while iterating
+    for (const powerShellCommand of [...commandStack]) {
       try {
         await runCommands([[powerShellCommand, "/?"]]);
       } catch (e) {
+        // Remove this credential from the original stack so that we don't try it again.
+        commandStack.shift();
         continue;
       }
 
