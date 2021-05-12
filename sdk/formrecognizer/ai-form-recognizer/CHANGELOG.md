@@ -8,6 +8,7 @@
 - Removed the `FormGenderField` type. Any recognized value that was previously produced as a `FormGenderField` is now returned as a `FormStringField` instead (the `value` will remain the same).
 - Renamed the `FormCountryField` type to `FormCountryRegionField`, and changed the `valueType` discriminant property of that type to `"countryRegion:`.
 - Renamed `ReadingOrder` and `Language` to `FormReadingOrder` and `FormLanguage` to reduce the chance that these types would collide with other types having the same name from other packages.
+- Removed the `KnownStyleName`, `KnownSelectionMarkState`, and `KnownKeyValueType` enums, as they represent simple string enums. The `styleName`, `state`, and `valueType` properties (respectively) now have strong string-enum types.
 - Migrated to the 2.1 Form Recognizer service endpoint for all REST API calls.
 
 ## 3.1.0-beta.3 (2021-04-06)
