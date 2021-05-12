@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-http";
 import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -38,7 +37,6 @@ matrix([[true, false]], async function(useAad) {
       try {
         await client.getPurchasedPhoneNumber(fake);
       } catch (error) {
-        assert.instanceOf(error, RestError, "error is a RestError");
         assert.strictEqual(error.code, "PhoneNumberNotFound");
         assert.strictEqual(
           error.message,

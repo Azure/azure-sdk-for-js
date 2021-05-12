@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-http";
 import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -48,7 +47,6 @@ matrix([[true, false]], async function(useAad) {
         const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
         await searchPoller.pollUntilDone();
       } catch (error) {
-        assert.instanceOf(error, RestError, "error is a RestError");
         assert.equal(error.statusCode, 404);
         return;
       }
