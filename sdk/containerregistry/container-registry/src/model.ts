@@ -88,7 +88,7 @@ export interface ArtifactManifestProperties {
    * Manifest
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly digest?: string;
+  readonly digest: string;
   /**
    * Image size
    * NOTE: This property will not be serialized. It can only be populated by the server.

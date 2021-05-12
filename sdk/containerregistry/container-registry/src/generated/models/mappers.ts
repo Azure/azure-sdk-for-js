@@ -610,6 +610,7 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
       },
       digest: {
         serializedName: "manifest.digest",
+        required: true,
         readOnly: true,
         type: {
           name: "String"

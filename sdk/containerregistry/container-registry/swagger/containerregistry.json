@@ -37,10 +37,6 @@
       "description": "Registry Operations"
     },
     {
-      "name": "ContainerRegistryRepository",
-      "description": "Repository Operations"
-    },
-    {
       "name": "ContainerRegistryBlob",
       "description": "Blob Operations"
     }
@@ -88,7 +84,7 @@
             "$ref": "./examples/GetManifest.json"
           }
         },
-        "operationId": "ContainerRegistryRepository_GetManifest",
+        "operationId": "ContainerRegistry_GetManifest",
         "parameters": [
           {
             "$ref": "#/parameters/ImageName"
@@ -133,7 +129,7 @@
         "consumes": [
           "application/vnd.docker.distribution.manifest.v2+json"
         ],
-        "operationId": "ContainerRegistryRepository_CreateManifest",
+        "operationId": "ContainerRegistry_CreateManifest",
         "parameters": [
           {
             "$ref": "#/parameters/ImageName"
@@ -149,7 +145,6 @@
           "201": {
             "description": "The manifest is updated",
             "schema": {},
-
             "headers": {
               "Docker-Content-Digest": {
                 "type": "string",
@@ -184,7 +179,7 @@
             "$ref": "./examples/DeleteManifest.json"
           }
         },
-        "operationId": "ContainerRegistryRepository_DeleteManifest",
+        "operationId": "ContainerRegistry_DeleteManifest",
         "parameters": [
           {
             "$ref": "#/parameters/ImageName"
@@ -638,7 +633,7 @@
           "Registry"
         ],
         "description": "Get repository attributes",
-        "operationId": "ContainerRegistryRepository_GetProperties",
+        "operationId": "ContainerRegistry_GetProperties",
         "x-ms-examples": {
           "Get details of repository": {
             "$ref": "./examples/GetRepositoryAttributes.json"
@@ -700,7 +695,7 @@
           "Registry"
         ],
         "description": "Update the attribute identified by `name` where `reference` is the name of the repository.",
-        "operationId": "ContainerRegistryRepository_SetProperties",
+    	"operationId": "ContainerRegistry_SetProperties",
         "x-ms-examples": {
           "Update repository attributes": {
             "$ref": "./examples/UpdateRepositoryAttributes.json"
@@ -714,13 +709,7 @@
             "$ref": "#/parameters/ImageName"
           },
           {
-            "name": "value",
-            "in": "body",
-            "description": "Repository attribute value",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/ChangeableAttributes"
-            }
+     	    "$ref": "#/parameters/RepositoryAttributeValue"
           }
         ],
         "responses": {
@@ -745,7 +734,7 @@
           "Repository"
         ],
         "description": "List tags of a repository",
-        "operationId": "ContainerRegistryRepository_GetTags",
+        "operationId": "ContainerRegistry_GetTags",
         "x-ms-examples": {
           "Get tags of a repository": {
             "$ref": "./examples/GetTagList.json"
@@ -800,7 +789,7 @@
           "Repository"
         ],
         "description": "Get tag attributes by tag",
-        "operationId": "ContainerRegistryRepository_GetTagProperties",
+        "operationId": "ContainerRegistry_GetTagProperties",
         "x-ms-examples": {
           "Get tag attributes": {
             "$ref": "./examples/GetTagAttributes.json"
@@ -834,7 +823,7 @@
           "Repository"
         ],
         "description": "Update tag attributes",
-        "operationId": "ContainerRegistryRepository_UpdateTagAttributes",
+        "operationId": "ContainerRegistry_UpdateTagAttributes",
         "consumes": [
           "application/json"
         ],
@@ -851,7 +840,7 @@
             "$ref": "#/parameters/TagReference"
           },
           {
-            "$ref": "#/parameters/RepoValue"
+            "$ref": "#/parameters/TagAttributeValue"
           }
         ],
         "responses": {
@@ -874,7 +863,7 @@
           "Repository"
         ],
         "description": "Delete tag",
-        "operationId": "ContainerRegistryRepository_DeleteTag",
+        "operationId": "ContainerRegistry_DeleteTag",
         "consumes": [
           "application/json"
         ],
@@ -910,7 +899,7 @@
           "Repository"
         ],
         "description": "List manifests of a repository",
-        "operationId": "ContainerRegistryRepository_GetManifests",
+        "operationId": "ContainerRegistry_GetManifests",
         "x-ms-examples": {
           "Get list of available manifests": {
             "$ref": "./examples/GetManifestList.json"
@@ -962,7 +951,7 @@
           "Repository"
         ],
         "description": "Get manifest attributes",
-        "operationId": "ContainerRegistryRepository_GetRegistryArtifactProperties",
+        "operationId": "ContainerRegistry_GetManifestProperties",
         "x-ms-examples": {
           "Get manifest attributes": {
             "$ref": "./examples/GetManifestAttributes.json"
@@ -995,8 +984,8 @@
         "tags": [
           "Repository"
         ],
-        "description": "Update attributes of a manifest",
-        "operationId": "ContainerRegistryRepository_UpdateManifestAttributes",
+        "description": "Update properties of a manifest",
+        "operationId": "ContainerRegistry_UpdateManifestProperties",
         "consumes": [
           "application/json"
         ],
@@ -1013,7 +1002,7 @@
             "$ref": "#/parameters/Digest"
           },
           {
-            "$ref": "#/parameters/RepoValue"
+            "$ref": "#/parameters/ManifestAttributeValue"
           }
         ],
         "responses": {
@@ -1089,16 +1078,6 @@
         ],
         "parameters": [
           {
-            "name": "grant_type",
-            "in": "formData",
-            "description": "Grant type is expected to be refresh_token",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "refresh_token"
-            ]
-          },
-          {
             "$ref": "#/parameters/Service"
           },
           {
@@ -1115,6 +1094,22 @@
             "required": true,
             "description": "Must be a valid ACR refresh token",
             "type": "string"
+          },
+          {
+            "name": "grant_type",
+            "in": "formData",
+            "description": "Grant type is expected to be refresh_token",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "refresh_token",
+              "password"
+            ],
+            "x-ms-enum": {
+              "name": "TokenGrantType"
+            },
+            "x-accessibility" : "internal",
+            "x-ms-client-default": "refresh_token"
           }
         ],
         "responses": {
@@ -1302,33 +1297,38 @@
       "properties": {
         "imageName": {
           "type": "string",
+          "readOnly": true,
           "description": "Image name",
           "x-ms-client-name": "name"
         },
         "createdTime": {
           "type": "string",
+          "readOnly": true,
           "format": "date-time",
           "description": "Image created time",
           "x-ms-client-name": "createdOn"
         },
         "lastUpdateTime": {
           "type": "string",
+          "readOnly": true,
           "format": "date-time",
           "description": "Image last update time",
           "x-ms-client-name": "lastUpdatedOn"
         },
         "manifestCount": {
           "type": "integer",
-          "description": "Number of the manifests",
-          "x-ms-client-name": "registryArtifactCount"
+          "readOnly": true,
+          "description": "Number of the manifests"
         },
         "tagCount": {
           "type": "integer",
+          "readOnly": true,
           "description": "Number of the tags"
         },
         "changeableAttributes": {
           "description": "Writeable properties of the resource",
-          "$ref": "#/definitions/ChangeableAttributes",
+          "$ref": "#/definitions/RepositoryChangeableAttributes",
+          "readOnly": true,
           "x-ms-client-name": "writeableProperties"
         }
       },
@@ -1362,7 +1362,7 @@
         },
         "tags": {
           "type": "array",
-          "description": "List of tag attribute details",      
+          "description": "List of tag attribute details",
           "x-ms-client-name": "TagAttributeBases",
           "x-accessibility": "internal",
           "items": {
@@ -1411,17 +1411,19 @@
         "imageName",
         "tag"
       ],
-      "x-ms-client-name": "TagProperties",
+      "x-ms-client-name": "ArtifactTagProperties",
       "description": "Tag attributes",
       "properties": {
         "imageName": {
           "type": "string",
+          "readOnly": true,
           "description": "Image name",
           "x-ms-client-name": "repository"
         },
         "tag": {
           "x-ms-client-flatten": true,
           "description": "List of tag attribute details",
+          "readOnly": true,
           "$ref": "#/definitions/TagAttributesBase"
         }
       },
@@ -1445,10 +1447,10 @@
     },
     "TagAttributesBase": {
       "required": [
+        "name",
+        "digest",
         "createdTime",
         "lastUpdateTime",
-        "digest",
-        "name",
         "changeableAttributes"
       ],
       "description": "Tag attribute details",
@@ -1456,27 +1458,32 @@
       "properties": {
         "name": {
           "type": "string",
+          "readOnly": true,
           "description": "Tag name"
         },
         "digest": {
           "type": "string",
+          "readOnly": true,
           "description": "Tag digest"
         },
         "createdTime": {
           "type": "string",
+          "readOnly": true,
           "format": "date-time",
           "description": "Tag created time",
           "x-ms-client-name": "createdOn"
         },
         "lastUpdateTime": {
           "type": "string",
+          "readOnly": true,
           "format": "date-time",
           "description": "Tag last update time",
           "x-ms-client-name": "lastUpdatedOn"
         },
         "changeableAttributes": {
-          "$ref": "#/definitions/ChangeableAttributes",
+          "$ref": "#/definitions/TagChangeableAttributes",
           "description": "Writeable properties of the resource",
+          "readOnly": true,
           "x-ms-client-name": "writeableProperties"
         }
       },
@@ -1497,13 +1504,18 @@
     "TagOrderBy": {
       "type": "string",
       "enum": [
+        "none",
         "timedesc",
         "timeasc"
       ],
       "x-ms-enum": {
         "name": "TagOrderBy",
-        "modelAsString": true,
         "values": [
+          {
+            "value": "none",
+            "name": "None",
+            "description": "Do not provide an orderby value in the request."
+          },
           {
             "value": "timedesc",
             "name": "LastUpdatedOnDescending",
@@ -1513,11 +1525,198 @@
             "value": "timeasc",
             "name": "LastUpdatedOnAscending",
             "description": "Order tags by LastUpdatedOn field, from least recently updated to most recently updated."
+            }
+        ]
+    },
+    "x-accessibility": "public"
+},
+"ArtifactArchitecture": {
+    "type": "string",
+    "enum": [
+        "386",
+        "amd64",
+        "arm",
+        "arm64",
+        "mips",
+        "mipsle",
+        "mips64",
+        "mips64le",
+        "ppc64",
+        "ppc641e",
+        "riscv64",
+        "s390x",
+        "wasm"
+    ],
+    "x-ms-enum": {
+        "name": "ArtifactArchitecture",
+        "modelAsString": true,
+        "values": [
+            {
+                "value": "386",
+                "name": "I386",
+                "description": ""
+            },
+            {
+                "value": "amd64",
+                "name": "Amd64",
+                "description": ""
+            },
+            {
+                "value": "arm",
+                "name": "Arm",
+                "description": ""
+            },
+            {
+                "value": "arm64",
+                "name": "Arm64",
+                "description": ""
+            },
+            {
+                "value": "mips",
+                "name": "Mips",
+                "description": ""
+            },
+            {
+                "value": "mipsle",
+                "name": "MipsLe",
+                "description": ""
+            },
+            {
+                "value": "mips64",
+                "name": "Mips64",
+                "description": ""
+            },
+            {
+                "value": "mips64le",
+                "name": "Mips64Le",
+                "description": ""
+            },
+            {
+                "value": "ppc64",
+                "name": "Ppc64",
+                "description": ""
+            },
+            {
+                "value": "ppc64le",
+                "name": "Ppc64Le",
+                "description": ""
+            },
+            {
+                "value": "riscv64",
+                "name": "RiscV64",
+                "description": ""
+            },
+            {
+                "value": "s390x",
+                "name": "S390x",
+                "description": ""
+            },
+            {
+                "value": "wasm",
+                "name": "Wasm",
+                "description": ""
+            }
+        ]
+    },
+    "default": "none",
+    "x-accessibility": "public"
+},
+"ArtifactOperatingSystem": {
+    "type": "string",
+    "enum": [
+        "aix",
+        "android",
+        "darwin",
+        "dragonfly",
+        "freebsd",
+        "illumos",
+        "ios",
+        "js",
+        "linux",
+        "netbsd",
+        "openbsd",
+        "plan9",
+        "solaris",
+        "windows"
+    ],
+    "x-ms-enum": {
+        "name": "ArtifactOperatingSystem",
+        "modelAsString": true,
+        "values": [
+            {
+                "value": "aix",
+                "name": "Aix",
+                "description": ""
+            },
+            {
+                "value": "android",
+                "name": "Android",
+                "description": ""
+            },
+            {
+                "value": "darwin",
+                "name": "Darwin",
+                "description": ""
+            },
+            {
+                "value": "dragonfly",
+                "name": "Dragonfly",
+                "description": ""
+            },
+            {
+                "value": "freebsd",
+                "name": "FreeBsd",
+                "description": ""
+            },
+            {
+                "value": "illumos",
+                "name": "Illumos",
+                "description": ""
+            },
+            {
+                "value": "ios",
+                "name": "IOs",
+                "description": ""
+            },
+            {
+                "value": "js",
+                "name": "Js",
+                "description": ""
+            },
+            {
+                "value": "linux",
+                "name": "Linux",
+                "description": ""
+            },
+            {
+                "value": "netbsd",
+                "name": "NetBsd",
+                "description": ""
+            },
+            {
+                "value": "openbsd",
+                "name": "OpenBsd",
+                "description": ""
+            },
+            {
+                "value": "plan9",
+                "name": "Plan9",
+                "description": ""
+            },
+            {
+                "value": "solaris",
+                "name": "Solaris",
+                "description": ""
+            },
+            {
+                "value": "windows",
+                "name": "Windows",
+                "description": ""
           }
         ]
-        },
-        "x-accessibility": "public"
       },
+      "x-accessibility": "public"
+    },
     "AcrManifests": {
       "description": "Manifest attributes",
       "properties": {
@@ -1591,16 +1790,21 @@
       }
     },
     "ManifestAttributes": {
-      "x-ms-client-name": "RegistryArtifactProperties",
+      "required": [
+        "manifest"
+      ],
+      "x-ms-client-name": "ArtifactManifestProperties",
       "description": "Manifest attributes details",
       "properties": {
         "imageName": {
-          "description": "Image name",
+          "description": "Repository name",
           "type": "string",
-          "x-ms-client-name": "repository"
+          "readOnly": true,
+          "x-ms-client-name": "repositoryName"
         },
         "manifest": {
           "x-ms-client-flatten": true,
+          "readOnly": true,
           "description": "Manifest attributes",
           "$ref": "#/definitions/ManifestAttributesBase"
         }
@@ -1639,39 +1843,47 @@
       "properties": {
         "digest": {
           "type": "string",
+          "readOnly": true,
           "description": "Manifest"
         },
         "imageSize": {
           "type": "integer",
+          "readOnly": true,
           "format": "int64",
           "description": "Image size",
           "x-ms-client-name": "size"
         },
         "createdTime": {
           "type": "string",
+          "readOnly": true,
           "format": "date-time",
           "description": "Created time",
           "x-ms-client-name": "createdOn"
         },
         "lastUpdateTime": {
           "type": "string",
+          "readOnly": true,
           "format": "date-time",
           "description": "Last update time",
           "x-ms-client-name": "lastUpdatedOn"
         },
         "architecture": {
-          "type": "string",
+          "$ref": "#/definitions/ArtifactArchitecture",
           "description": "CPU architecture",
-          "x-ms-client-name": "cpuArchitecture"
+          "readOnly": true,
+          "x-nullable": true
         },
         "os": {
-          "type": "string",
+          "$ref": "#/definitions/ArtifactOperatingSystem",
           "description": "Operating system",
-          "x-ms-client-name": "operatingSystem"
+          "x-ms-client-name": "operatingSystem",
+          "readOnly": true,
+          "x-nullable": true
         },
         "references": {
           "x-accessibility": "internal",
           "type": "array",
+          "readOnly": true,
           "description": "List of manifest attributes details",
           "items": {
             "$ref": "#/definitions/ManifestAttributes_manifest_references",
@@ -1680,6 +1892,7 @@
         },
         "tags": {
           "type": "array",
+          "readOnly": true,
           "description": "List of tags",
           "items": {
             "type": "string",
@@ -1687,9 +1900,10 @@
           }
         },
         "changeableAttributes": {
-          "$ref": "#/definitions/ChangeableAttributes",
-                    "description": "Writeable properties of the resource",
-                    "x-ms-client-name": "writeableProperties"
+          "$ref": "#/definitions/ManifestChangeableAttributes",
+          "description": "Writeable properties of the resource",
+          "readOnly": true,
+          "x-ms-client-name": "writeableProperties"
         }
       },
       "example": {
@@ -1727,27 +1941,32 @@
     "ManifestOrderBy": {
       "type": "string",
       "enum": [
+        "none",
         "timedesc",
         "timeasc"
       ],
       "x-ms-enum": {
-        "name": "RegistryArtifactOrderBy",
-        "modelAsString": true,
+        "name": "ManifestOrderBy",
         "values": [
+          {
+            "value": "none",
+            "name": "None",
+            "description": "Do not provide an orderby value in the request."
+          },
           {
             "value": "timedesc",
             "name": "LastUpdatedOnDescending",
-            "description": "Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated."
+            "description": "Order manifests by LastUpdatedOn field, from most recently updated to least recently updated."
           },
           {
             "value": "timeasc",
             "name": "LastUpdatedOnAscending",
-            "description": "Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated."
+            "description": "Order manifest by LastUpdatedOn field, from least recently updated to most recently updated."
           }
         ]
       },
       "default": "none",
-      "description": "Sort options for ordering registry artifacts in a collection.",
+      "description": "Sort options for ordering manifests in a collection.",
       "x-accessibility": "public"
     },
     "AccessToken": {
@@ -1910,14 +2129,16 @@
       "properties": {
         "manifestsDeleted": {
           "type": "array",
+          "readOnly": true,
           "description": "SHA of the deleted image",
           "items": {
             "type": "string"
           },
-          "x-ms-client-name": "deletedRegistryArtifactDigests"
+           "x-ms-client-name": "deletedManifests"
         },
         "tagsDeleted": {
           "type": "array",
+          "readOnly": true,
           "description": "Tag of the deleted image",
           "items": {
             "type": "string"
@@ -1991,9 +2212,9 @@
         "digest": "sha256:5d20c808ce198565ff70b3ed23a991dd49afac45dece63474b27ce6ed036adc6"
       }
     },
-    "ChangeableAttributes": {
+    "TagChangeableAttributes": {
       "description": "Changeable attributes",
-      "x-ms-client-name": "ContentProperties",
+      "x-ms-client-name": "TagWriteableProperties",
       "properties": {
         "deleteEnabled": {
           "type": "boolean",
@@ -2041,19 +2262,22 @@
         "architecture",
         "os"
       ],
+      "x-accessibility": "internal",
       "description": "Manifest attributes details",
       "properties": {
         "digest": {
           "type": "string",
+          "readOnly": true,
           "description": "Manifest digest"
         },
         "architecture": {
-          "type": "string",
-          "description": "CPU architecture",
-          "x-ms-client-name": "cpuArchitecture"
+          "$ref": "#/definitions/ArtifactArchitecture",
+          "readOnly": true,
+          "description": "CPU architecture"
         },
         "os": {
-          "type": "string",
+          "$ref": "#/definitions/ArtifactOperatingSystem",
+          "readOnly": true,
           "description": "Operating system",
           "x-ms-client-name": "operatingSystem"
         }
@@ -2098,31 +2322,37 @@
     },
     "ManifestChangeableAttributes": {
       "description": "Changeable attributes",
-      "x-accessibility": "internal",
+      "x-ms-client-name": "ManifestWriteableProperties",
       "properties": {
         "deleteEnabled": {
           "type": "boolean",
-          "description": "Delete enabled"
+          "description": "Delete enabled",
+          "x-ms-client-name": "canDelete"
         },
         "writeEnabled": {
           "type": "boolean",
-          "description": "Write enabled"
+          "description": "Write enabled",
+          "x-ms-client-name": "canWrite"
         },
         "listEnabled": {
           "type": "boolean",
-          "description": "List enabled"
+          "description": "List enabled",
+          "x-ms-client-name": "canList"
         },
         "readEnabled": {
           "type": "boolean",
-          "description": "Read enabled"
+          "description": "Read enabled",
+          "x-ms-client-name": "canRead"
         },
         "quarantineState": {
           "type": "string",
-          "description": "Quarantine state"
+          "description": "Quarantine state",
+          "x-accessibility": "internal"
         },
         "quarantineDetails": {
           "type": "string",
-          "description": "Quarantine details"
+          "description": "Quarantine details",
+          "x-accessibility": "internal"
         }
       },
       "example": {
@@ -2132,6 +2362,43 @@
         "listEnabled": true,
         "deleteEnabled": true,
         "writeEnabled": true
+      }
+    },
+    "RepositoryChangeableAttributes": {
+      "description": "Changeable attributes for Repository",
+      "x-ms-client-name": "RepositoryWriteableProperties",
+      "properties": {
+        "deleteEnabled": {
+          "type": "boolean",
+          "description": "Delete enabled",
+          "x-ms-client-name": "canDelete"
+        },
+        "writeEnabled": {
+          "type": "boolean",
+          "description": "Write enabled",
+          "x-ms-client-name": "canWrite"
+        },
+        "listEnabled": {
+          "type": "boolean",
+          "description": "List enabled",
+          "x-ms-client-name": "canList"
+        },
+        "readEnabled": {
+          "type": "boolean",
+          "description": "Read enabled",
+          "x-ms-client-name": "canRead"
+        },
+        "teleportEnabled": {
+          "type": "boolean",
+          "description": "Enables Teleport functionality on new images in the repository improving Container startup performance"
+        }
+      },
+      "example": {
+        "readEnabled": true,
+        "listEnabled": true,
+        "deleteEnabled": true,
+        "writeEnabled": true,
+        "teleportEnabled": true
       }
     },
     "Manifest": {
@@ -2562,13 +2829,33 @@
       "type": "string",
       "x-ms-parameter-location": "method"
     },
-    "RepoValue": {
+    "RepositoryAttributeValue": {
       "name": "value",
       "in": "body",
       "description": "Repository attribute value",
       "required": false,
       "schema": {
-        "$ref": "#/definitions/ChangeableAttributes"
+        "$ref": "#/definitions/RepositoryChangeableAttributes"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "TagAttributeValue": {
+      "name": "value",
+      "in": "body",
+      "description": "Tag attribute value",
+      "required": false,
+      "schema": {
+        "$ref": "#/definitions/TagChangeableAttributes"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "ManifestAttributeValue": {
+      "name": "value",
+      "in": "body",
+      "description": "Manifest attribute value",
+      "required": false,
+      "schema": {
+        "$ref": "#/definitions/ManifestChangeableAttributes"
       },
       "x-ms-parameter-location": "method"
     },
@@ -2650,7 +2937,7 @@
     },
     "AccessToken": {
       "name": "access_token",
-      "x-ms-client-name": "aadAccesstoken",
+      "x-ms-client-name": "aadAccessToken",
       "in": "formData",
       "required": true,
       "description": "AAD access token, mandatory when grant_type is access_token_refresh_token or access_token.",

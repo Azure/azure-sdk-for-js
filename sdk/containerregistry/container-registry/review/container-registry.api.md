@@ -13,7 +13,7 @@ import { TokenCredential } from '@azure/core-auth';
 export interface ArtifactManifestProperties {
     readonly architecture?: string;
     readonly createdOn?: Date;
-    readonly digest?: string;
+    readonly digest: string;
     readonly lastUpdatedOn?: Date;
     manifests: ArtifactManifestProperties[];
     readonly operatingSystem?: string;
