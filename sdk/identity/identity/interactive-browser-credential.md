@@ -2,7 +2,7 @@
 
 The `InteractiveBrowserCredential` uses [Authorization Code Flow][AuthCodeFlow], which uses [Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) both on the browser and on NodeJS. Under the hood it uses [@azure/msal-node](https://www.npmjs.com/package/@azure/msal-node) for Node.js and [@azure/msal-browser](https://www.npmjs.com/package/@azure/msal-browser) in browsers.
 
-`InteractiveBrowserCredential` can be used both in Node, and on browsers through bundlers. For each case, there are some important considerations that must be taken.
+`InteractiveBrowserCredential` can be used both in Node and in browsers. For each case, there are some important considerations that must be taken.
 
 ## For Node.js
 
@@ -25,7 +25,7 @@ const credential = new InteractiveBrowserCredential({
 
 Follow the instructions for [creating and configuring an Azure Active Directory application to authenticate a single-page application](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow) to correctly mark your redirect URI as enabled for CORS.
 
-When using `InteractiveBrowserCredential` on the browser, you will be required to pass a `clientId` in the constructor parameters, such as:
+When using `InteractiveBrowserCredential` in the browser, you will be required to pass a `clientId` in the constructor parameters, such as:
 
 ```ts
 // After you've bundled Identity for the browser...
