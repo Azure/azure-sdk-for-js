@@ -271,10 +271,10 @@ matrix([[false]] as const, async (useAad) => {
         assert.ok(page);
 
         // TODO: layout regression
-        //assert.isNotEmpty(page.tables);
-        //const [table] = page.tables!;
-        //assert.ok(table.boundingBox);
-        //assert.equal(table.pageNumber, 1);
+        // assert.isNotEmpty(page.tables);
+        // const [table] = page.tables!;
+        // assert.ok(table.boundingBox);
+        // assert.equal(table.pageNumber, 1);
 
         assert.equal(page.pageNumber, 1);
         assert.isNotEmpty(page.selectionMarks);
@@ -387,9 +387,9 @@ matrix([[false]] as const, async (useAad) => {
         Emails: "avery.smith@contoso.com",
         Websites: "https://www.contoso.com/",
         // TODO: service bug causes phone numbers not to be normalized
-        //Faxes: "+44 (0) 20 6789 2345",
-        //WorkPhones: "+44 (0) 20 9876 5432",
-        //MobilePhones: "+44 (0) 7911 123456",
+        // Faxes: "+44 (0) 20 6789 2345",
+        // WorkPhones: "+44 (0) 20 9876 5432",
+        // MobilePhones: "+44 (0) 7911 123456",
         Addresses: "2 Kingdom Street Paddington, London, W2 6BD",
         CompanyNames: "Contoso"
       };
