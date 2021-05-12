@@ -14,7 +14,7 @@ export type RequestBodyTransformsType = {
 /**
  * Provides the default RequestBodyTransforms that need to be applied on the generated recordings
  */
-export const defaultRequestBodyTransforms: RequestBodyTransformsType = {
+export const defaultRequestBodyTransforms: Required<RequestBodyTransformsType> = {
   stringTransforms: [],
   jsonTransforms: []
 };
