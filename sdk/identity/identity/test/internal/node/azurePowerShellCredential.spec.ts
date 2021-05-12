@@ -7,19 +7,33 @@ import assert from "assert";
 import Sinon from "sinon";
 import { AzurePowerShellCredential } from "../../../src";
 import {
+  formatCommand,
   powerShellErrors,
   powerShellPublicErrorMessages
 } from "../../../src/credentials/azurePowerShellCredential";
 import { processUtils } from "../../../src/util/processUtils";
 
+import { commandStack } from "../../../src/credentials/azurePowerShellCredential";
+
+function resetCommandStack() {
+  commandStack[0] = formatCommand("pwsh");
+  if (process.platform === "win32") {
+    commandStack[1] = formatCommand("powershell");
+  } else {
+    delete commandStack[1];
+  }
+}
+
 describe("AzurePowerShellCredential", function() {
   const scope = "https://vault.azure.net/.default";
 
-  it("command stack is configured correctly by platform", function() {
-    const cred = new AzurePowerShellCredential();
+  afterEach(() => {
+    resetCommandStack();
+  });
 
+  it("command stack is configured correctly by platform", function() {
     assert.deepStrictEqual(
-      (cred as any).commandStack,
+      commandStack,
       process.platform === "win32" ? ["pwsh.exe", "powershell.exe"] : ["pwsh"]
     );
   });
