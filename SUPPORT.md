@@ -2,10 +2,11 @@
 
 ## How to file issues and get help  
 
-Customers with a [support plan](https://azure.microsoft.com/en-us/support/options/) can open an Azure Support ticket [here](https://azure.microsoft.com/support/create-ticket/).
+Customers with an [Azure support plan](https://azure.microsoft.com/en-us/support/options/) can open an [Azure support ticket](https://azure.microsoft.com/support/create-ticket/).
 **We recommend this option if your problem requires immediate attention.** 
 
 ### Community resources
+- Search for similar issues in [our GitHub repository](https://github.com/Azure/azure-sdk-for-js/issues)
 - Ask a question on [StackOverflow](https://stackoverflow.com/questions/tagged/azure-sdk-js) and tag it with azure-sdk-js
 - Share or upvote feature requests on [Feedback Page](https://feedback.azure.com/forums/34192--general-feedback).
 - Take a look at the [Azure SDK blog](https://devblogs.microsoft.com/azure-sdk/).
@@ -13,7 +14,6 @@ Customers with a [support plan](https://azure.microsoft.com/en-us/support/option
 - Ask a question on [Twitter](https://twitter.com/AzureSDK)
 - Ask a question at [Microsoft Q&A](https://docs.microsoft.com/answers/products/azure?WT.mc_id=Portal-Microsoft_Azure_Support&product=all)
 - Ask a question at [Microsoft Tech Community](https://techcommunity.microsoft.com/t5/azure/ct-p/Azure)
-- Search for similar issues in [our GitHub repository](https://github.com/Azure/azure-sdk-for-js/issues)
 
 ### Security bugs
 Security issues and bugs should be reported privately, via email, to the Microsoft Security Response Center(secure@microsoft.com). 
