@@ -93,10 +93,66 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export type KnownArtifactArchitecture = "386" | "amd64" | "arm" | "arm64" | "mips" | "mipsle" | "mips64" | "mips64le" | "ppc64" | "ppc64le" | "riscv64" | "s390x" | "wasm";
+export enum KnownArtifactArchitecture {
+    // (undocumented)
+    Amd64 = "amd64",
+    // (undocumented)
+    Arm = "arm",
+    // (undocumented)
+    Arm64 = "arm64",
+    // (undocumented)
+    I386 = "386",
+    // (undocumented)
+    Mips = "mips",
+    // (undocumented)
+    Mips64 = "mips64",
+    // (undocumented)
+    Mips64Le = "mips64le",
+    // (undocumented)
+    MipsLe = "mipsle",
+    // (undocumented)
+    Ppc64 = "ppc64",
+    // (undocumented)
+    Ppc64Le = "ppc64le",
+    // (undocumented)
+    RiscV64 = "riscv64",
+    // (undocumented)
+    S390X = "s390x",
+    // (undocumented)
+    Wasm = "wasm"
+}
 
 // @public
-export type KnownArtifactOperatingSystem = "aix" | "android" | "darwin" | "dragonfly" | "freebsd" | "illumos" | "ios" | "js" | "linux" | "netbsd" | "openbsd" | "plan9" | "solaris" | "windows";
+export enum KnownArtifactOperatingSystem {
+    // (undocumented)
+    Aix = "aix",
+    // (undocumented)
+    Android = "android",
+    // (undocumented)
+    Darwin = "darwin",
+    // (undocumented)
+    Dragonfly = "dragonfly",
+    // (undocumented)
+    FreeBsd = "freebsd",
+    // (undocumented)
+    Illumos = "illumos",
+    // (undocumented)
+    IOs = "ios",
+    // (undocumented)
+    Js = "js",
+    // (undocumented)
+    Linux = "linux",
+    // (undocumented)
+    NetBsd = "netbsd",
+    // (undocumented)
+    OpenBsd = "openbsd",
+    // (undocumented)
+    Plan9 = "plan9",
+    // (undocumented)
+    Solaris = "solaris",
+    // (undocumented)
+    Windows = "windows"
+}
 
 // @public
 export interface ListManifestsOptions extends OperationOptions {

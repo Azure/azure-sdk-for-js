@@ -29,39 +29,41 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 /**
  * Defines known {@link ArtifactArchitecture} that the service supports.
  */
-export type KnownArtifactArchitecture =
-  | "386"
-  | "amd64"
-  | "arm"
-  | "arm64"
-  | "mips"
-  | "mipsle"
-  | "mips64"
-  | "mips64le"
-  | "ppc64"
-  | "ppc64le"
-  | "riscv64"
-  | "s390x"
-  | "wasm";
+export enum KnownArtifactArchitecture {
+  I386 = "386",
+  Amd64 = "amd64",
+  Arm = "arm",
+  Arm64 = "arm64",
+  Mips = "mips",
+  MipsLe = "mipsle",
+  Mips64 = "mips64",
+  Mips64Le = "mips64le",
+  Ppc64 = "ppc64",
+  Ppc64Le = "ppc64le",
+  RiscV64 = "riscv64",
+  S390X = "s390x",
+  Wasm = "wasm"
+}
 
 /**
  * Defines known {@link ArtifactOperatingSystem} values that the service supports.
  */
-export type KnownArtifactOperatingSystem =
-  | "aix"
-  | "android"
-  | "darwin"
-  | "dragonfly"
-  | "freebsd"
-  | "illumos"
-  | "ios"
-  | "js"
-  | "linux"
-  | "netbsd"
-  | "openbsd"
-  | "plan9"
-  | "solaris"
-  | "windows";
+export enum KnownArtifactOperatingSystem {
+  Aix = "aix",
+  Android = "android",
+  Darwin = "darwin",
+  Dragonfly = "dragonfly",
+  FreeBsd = "freebsd",
+  Illumos = "illumos",
+  IOs = "ios",
+  Js = "js",
+  Linux = "linux",
+  NetBsd = "netbsd",
+  OpenBsd = "openbsd",
+  Plan9 = "plan9",
+  Solaris = "solaris",
+  Windows = "windows"
+}
 
 /** Changeable attributes */
 export interface ManifestWriteableProperties {
