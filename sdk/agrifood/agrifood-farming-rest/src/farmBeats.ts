@@ -1108,7 +1108,7 @@ export default function FarmBeats(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://farmbeats-dogfood.azure.net/.default"],
+      scopes: ["https://farmbeats.azure.net/.default"],
     },
   };
 

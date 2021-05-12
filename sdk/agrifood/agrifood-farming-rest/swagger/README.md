@@ -16,8 +16,7 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/dev-agf
 package-version: 1.0.0-beta.1
 rest-level-client: true
 add-credentials: true
-credential-scopes: https://farmbeats-dogfood.azure.net/.default
+credential-scopes: https://farmbeats.azure.net/.default
 use-extension:
-  # "@autorest/typescript": "https://aka.ms/azsdk/typescript/rlc"
-  "@autorest/typescript": ~/projects/autorest.typescript
+  "@autorest/typescript": "https://aka.ms/azsdk/typescript/rlc"
 ```

@@ -14,10 +14,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const endpoint = process.env["FARMBEATS_ENDPOINT"] || "";
-const authority = process.env["FARMBEATS_AUTHORITY"] || "";
 
 async function main() {
-  const farming = FarmBeats(endpoint, new DefaultAzureCredential({ authorityHost: authority }));
+  const farming = FarmBeats(endpoint, new DefaultAzureCredential());
 
   const result = await farming.path("/farmers").get();
 

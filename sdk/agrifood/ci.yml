@@ -26,7 +26,7 @@ pr:
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: purview
+    ServiceDirectory: agrifood
     Artifacts:
       - name: azure-rest-agrifood-farming
         safeName: azurerestagrifoodfarming

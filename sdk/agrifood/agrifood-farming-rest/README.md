@@ -18,7 +18,7 @@ Azure FarmBeats is a business-to-business offering available in Azure Marketplac
 
 ### Install the `@azure-rest/agrifood-farming` package
 
-Install the Azure Purview Catalog client library for JavaScript with `npm`:
+Install the Azure FarmBeats rest client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/agrifood-farming
@@ -30,8 +30,7 @@ To use an [Azure Active Directory (AAD) token credential][authenticate_with_toke
 provide an instance of the desired credential type obtained from the
 [@azure/identity][azure_identity_credentials] library.
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`][azure_identity_npm] and
-[enable AAD authentication on your Purview resource][enable_aad]
+To authenticate with AAD, you must first `npm` install [`@azure/identity`][azure_identity_npm].
 
 After setup, you can choose which type of [credential][azure_identity_credentials] from `@azure/identity` to use.
 As an example, [DefaultAzureCredential][default_azure_credential]
@@ -46,11 +45,9 @@ Use the returned token credential to authenticate the client:
 import FarmBeats from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const authority = "https://login.windows-ppe.net";
-
 const client = FarmBeats(
-  "https://<farmbeats resource name>.farmbeats-dogfood.azure.net",
-  new DefaultAzureCredential({ authorityHost: authority })
+  "https://<farmbeats resource name>.farmbeats.azure.net",
+  new DefaultAzureCredential()
 );
 ```
 
@@ -88,7 +85,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fpurview%2Fagrifood-farming-rest%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fagrifood%2Fagrifood-farming-rest%2FREADME.png)
 
 [product_documentation]: https://docs.microsoft.com/azure/industry/agriculture/overview-azure-farmbeats
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/rest-clients.md
