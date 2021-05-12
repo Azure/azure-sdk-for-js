@@ -5,7 +5,8 @@ import {
   record,
   Recorder,
   RecorderEnvironmentSetup,
-  TestContextInterface
+  TestContextInterface,
+  pluginForIdentitySDK
 } from "@azure/test-utils-recorder";
 import Sinon, { createSandbox } from "sinon";
 import assert from "assert";
@@ -83,7 +84,8 @@ export function msalNodeTestSetup(
           `id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz`
         )
     ],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
+    onLoadCallbackForPlayback: pluginForIdentitySDK
   };
   const recorder = record(testContext, recorderEnvSetup);
   const sandbox = createSandbox();
