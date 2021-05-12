@@ -17,8 +17,7 @@ import {
   UpdateTableEntityOptions,
   TableBatch,
   TableBatchResponse,
-  TableBatchEntityResponse,
-  UpsertTableEntityOptions
+  TableBatchEntityResponse
 } from "./models";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
@@ -35,10 +34,13 @@ import { getBatchHeaders } from "./utils/batchHeaders";
  * TableBatch collects sub-operations that can be submitted together via submitBatch
  */
 export class TableBatchImpl implements TableBatch {
+  /**
+   * Table Account URL
+   */
+  public url: string;
   private interceptClient: TableClientLike;
   private batchGuid: string;
   private batchRequest: InnerBatchRequest;
-  private url: string;
   private pendingOperations: Promise<any>[];
   private credential?: TablesSharedKeyCredentialLike;
 
@@ -143,7 +145,7 @@ export class TableBatchImpl implements TableBatch {
   public upsertEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
-    options?: UpsertTableEntityOptions
+    options?: OperationOptions
   ): void {
     this.checkPartitionKey(entity.partitionKey);
     this.pendingOperations.push(this.interceptClient.upsertEntity(entity, mode, options));

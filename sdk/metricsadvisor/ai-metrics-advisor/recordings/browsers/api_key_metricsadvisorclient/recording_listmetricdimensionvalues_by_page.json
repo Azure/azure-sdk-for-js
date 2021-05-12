@@ -4,41 +4,41 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query",
    "query": {
-    "$top": "2"
+    "$maxpagesize": "2"
    },
    "requestBody": "{\"dimensionName\":\"city\"}",
    "status": 200,
-   "response": "{\"value\":[\"Abidjan\",\"Ahmadabad\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$top=2&$skip=2\"}",
+   "response": "{\"value\":[\"Abidjan\",\"Ahmadabad\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "0aca155f-110a-4fbd-b6fe-3ea13e8b8821",
-    "content-length": "202",
+    "apim-request-id": "bfb396e4-a065-4f4c-b175-c8a796784ce9",
+    "content-length": "210",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:40:53 GMT",
+    "date": "Tue, 27 Apr 2021 03:46:31 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "220",
-    "x-request-id": "0aca155f-110a-4fbd-b6fe-3ea13e8b8821"
+    "x-envoy-upstream-service-time": "106",
+    "x-request-id": "bfb396e4-a065-4f4c-b175-c8a796784ce9"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query",
    "query": {
-    "$top": "2",
+    "$maxpagesize": "2",
     "$skip": "2"
    },
    "requestBody": "{\"dimensionName\":\"city\"}",
    "status": 200,
-   "response": "{\"value\":[\"Alexandria\",\"Ankara\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$top=2&$skip=4\"}",
+   "response": "{\"value\":[\"Alexandria\",\"Ankara\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "9be77b84-608e-40c1-bf78-1d779b967acb",
-    "content-length": "202",
+    "apim-request-id": "1ebc14b5-a1b9-48f0-8622-ab56656b7b02",
+    "content-length": "210",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:40:53 GMT",
+    "date": "Tue, 27 Apr 2021 03:46:31 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "220",
-    "x-request-id": "9be77b84-608e-40c1-bf78-1d779b967acb"
+    "x-envoy-upstream-service-time": "136",
+    "x-request-id": "1ebc14b5-a1b9-48f0-8622-ab56656b7b02"
    }
   }
  ],
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "455d94b467686f3782f9d5efa50a5362"
+ "hash": "2049089f1259cb2b42fe93e42f36e70c"
 }

@@ -37,10 +37,10 @@ function fence(language: string, ...contents: string[]): string {
  * Ex. recognizePii.ts -> recognizepii
  */
 function sampleLinkTag(filePath: string): string {
-  return path
-    .basename(filePath)
+  return filePath
+    .split(path.sep)
+    .join("_")
     .replace(/\.[a-z]*$/, "")
-    .replace(/\//, "_")
     .toLowerCase();
 }
 
@@ -55,12 +55,12 @@ function fileLinks(info: SampleReadmeConfiguration) {
   ].join("/");
 
   return filterModules(info)
-    .map(({ filePath, relativeSourcePath }) => {
+    .map(({ relativeSourcePath }) => {
       const sourcePath = info.useTypeScript
         ? relativeSourcePath
         : relativeSourcePath.replace(/\.ts$/, ".js");
       return `[${sampleLinkTag(
-        filePath
+        relativeSourcePath
       )}]: https://github.com/Azure/azure-sdk-for-js/blob/master/${packageSamplesPathFragment}/${sourcePath}`;
     })
     .join("\n");
@@ -115,11 +115,11 @@ function filterModules(info: SampleReadmeConfiguration): SampleReadmeConfigurati
  * Renders the sample file table.
  */
 function table(info: SampleReadmeConfiguration) {
-  const contents = filterModules(info).map(({ filePath, summary, relativeSourcePath }) => {
+  const contents = filterModules(info).map(({ summary, relativeSourcePath }) => {
     const fileName = info.useTypeScript
       ? relativeSourcePath
       : relativeSourcePath.replace(/\.ts$/, ".js");
-    return `| [${fileName}][${sampleLinkTag(filePath)}] | ${summary} |`;
+    return `| [${fileName}][${sampleLinkTag(relativeSourcePath)}] | ${summary} |`;
   });
 
   return [
@@ -214,10 +214,8 @@ ${fence(
   "bash",
   `node ${(() => {
     const firstSource = filterModules(info)[0].relativeSourcePath;
-    const fileName = info.useTypeScript
-      ? "dist/" + firstSource
-      : firstSource.replace(/\.ts$/, ".js");
-    return fileName;
+    const filePath = info.useTypeScript ? "dist/" : "";
+    return filePath + firstSource.replace(/\.ts$/, ".js");
   })()}`
 )}
 

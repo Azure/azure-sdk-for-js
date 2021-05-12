@@ -59,7 +59,7 @@ describe("ServiceBusReceiver unit tests", () => {
     const { promise: subscriberInitializedPromise, resolve } = getPromiseResolverForTest();
 
     receiver.subscribe({
-      processInitialize: async () => {
+      postInitialize: async () => {
         resolve();
       },
       processError: async (_errArgs) => {},

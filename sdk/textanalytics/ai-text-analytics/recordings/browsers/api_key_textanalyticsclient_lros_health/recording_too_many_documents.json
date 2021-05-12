@@ -10,13 +10,13 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Batch request contains too many records. Max 10 records are permitted.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "f177f535-31a5-42af-92bf-c49c70e08c95",
+    "apim-request-id": "525e3254-599f-4e9d-9aed-f3cf0b13e131",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 04 Mar 2021 20:57:42 GMT",
+    "date": "Wed, 28 Apr 2021 21:13:05 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
+    "x-envoy-upstream-service-time": "6"
    }
   }
  ],

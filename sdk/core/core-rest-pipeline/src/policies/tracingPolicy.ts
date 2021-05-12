@@ -4,7 +4,8 @@
 import {
   getTraceParentHeader,
   OperationTracingOptions,
-  createSpanFunction
+  createSpanFunction,
+  SpanStatusCode
 } from "@azure/core-tracing";
 import { SpanKind } from "@azure/core-tracing";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
@@ -93,11 +94,19 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
         if (serviceRequestId) {
           span.setAttribute("serviceRequestId", serviceRequestId);
         }
-        span.end();
+        span.setStatus({
+          code: SpanStatusCode.OK
+        });
         return response;
       } catch (err) {
-        span.end();
+        span.setStatus({
+          code: SpanStatusCode.ERROR,
+          message: err.message
+        });
+        span.setAttribute("http.status_code", err.statusCode);
         throw err;
+      } finally {
+        span.end();
       }
     }
   };

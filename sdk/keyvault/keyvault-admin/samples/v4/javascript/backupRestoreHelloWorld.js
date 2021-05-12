@@ -17,13 +17,10 @@ async function main() {
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  // - BLOB_STORAGE_URI: URI of the Blob Storage instance, with the name of the container where the Key Vault backups will be generated
-  // - BLOB_STORAGE_SAS_TOKEN: URI of the Blob Storage instance, with the name of the container where the Key Vault backups will be generated
-  // - CLIENT_OBJECT_ID: Object ID of the application, tenant or principal to whom the role will be assigned to
   const credential = new DefaultAzureCredential();
-  const url = process.env["KEYVAULT_URI"];
+  const url = process.env["AZURE_MANAGEDHSM_URI"];
   if (!url) {
-    throw new Error("Missing environment variable KEYVAULT_URI.");
+    throw new Error("Missing environment variable AZURE_MANAGEDHSM_URI.");
   }
   const client = new KeyVaultBackupClient(url, credential);
 

@@ -1,7 +1,15 @@
 # Release History
 
-## 3.11.1 (Unreleased)
+## 3.11.3 (Unreleased)
 
+
+## 3.11.2 (2021-05-11)
+
+- BUGFIX: Cache https client between requests.
+
+## 3.11.1 (2021-05-06)
+
+- BUGFIX: Import URL from Browser/Node shim rather than built-in module.
 
 ## 3.11.0 (2021-04-21)
 

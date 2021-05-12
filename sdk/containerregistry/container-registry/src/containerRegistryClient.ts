@@ -3,7 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
   bearerTokenChallengeAuthenticationPolicy
@@ -21,7 +21,14 @@ import { createSpan } from "./tracing";
 import { ContainerRegistryClientOptions, DeleteRepositoryResult } from "./model";
 import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
-import { ContainerRepositoryClient, DeleteRepositoryOptions } from "./containerRepositoryClient";
+import {
+  ContainerRepository,
+  ContainerRepositoryImpl,
+  DeleteRepositoryOptions
+} from "./containerRepository";
+import { URL } from "./url";
+import { RegistryArtifact } from "./registryArtifact";
+import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
 
 /**
  * Options for the `listRepositories` method of `ContainerRegistryClient`.
@@ -35,11 +42,15 @@ export class ContainerRegistryClient {
   /**
    * The Azure Container Registry endpoint.
    */
-  public endpoint: string;
-  private credential: TokenCredential;
-  private clientOptions: ContainerRegistryClientOptions;
+  public readonly registryUrl: string;
+
+  /** The login server of the registry */
+  public readonly loginServer: string;
+
+  /** The name of the registry */
+  public readonly name: string;
+
   private client: GeneratedClient;
-  private authClient: GeneratedClient;
 
   /**
    * Creates an instance of a ContainerRegistryClient.
@@ -61,11 +72,45 @@ export class ContainerRegistryClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential,
-    options: ContainerRegistryClientOptions = {}
+    options?: ContainerRegistryClientOptions
+  );
+
+  /**
+   * Creates an instance of a ContainerRegistryClient to interact with
+   * an Azure Container Registry that has anonymous pull access enabled.
+   *
+   * Example usage:
+   * ```ts
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   *
+   * const client = new ContainerRegistryClient(
+   *    "<container registry API endpoint>",
+   * );
+   * ```
+   * @param endpointUrl - the URL to the Container Registry endpoint
+   * @param options - optional configuration used to send requests to the service
+   */
+  constructor(endpointUrl: string, options?: ContainerRegistryClientOptions);
+
+  constructor(
+    endpointUrl: string,
+    credentialOrOptions?: TokenCredential | ContainerRegistryClientOptions,
+    clientOptions: ContainerRegistryClientOptions = {}
   ) {
-    this.endpoint = endpointUrl;
-    this.credential = credential;
-    this.clientOptions = options;
+    this.registryUrl = endpointUrl;
+    const parsedUrl = new URL(endpointUrl);
+    this.loginServer = parsedUrl.hostname;
+    this.name = parsedUrl.pathname;
+
+    let credential: TokenCredential | undefined;
+    let options: ContainerRegistryClientOptions | undefined;
+    if (isTokenCredential(credentialOrOptions)) {
+      credential = credentialOrOptions;
+      options = clientOptions;
+    } else {
+      options = credentialOrOptions ?? {};
+    }
+
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;
     if (!options.userAgentOptions) {
@@ -88,13 +133,15 @@ export class ContainerRegistryClient {
       }
     };
 
-    this.authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
+    const authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
     this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
     this.client.pipeline.addPolicy(
       bearerTokenChallengeAuthenticationPolicy({
         credential,
-        scopes: [`https://management.core.windows.net/.default`],
-        challengeCallbacks: new ChallengeHandler(this.authClient)
+        scopes: ["https://management.core.windows.net/.default"],
+        challengeCallbacks: new ChallengeHandler(
+          new ContainerRegistryRefreshTokenCredential(authClient, credential)
+        )
       })
     );
   }
@@ -102,11 +149,11 @@ export class ContainerRegistryClient {
   /**
    * Deletes the repository identified by the given name.
    *
-   * @param name - the name of repository to delete
+   * @param repositoryName - the name of repository to delete
    * @param options - optional configuration for the operation
    */
   public async deleteRepository(
-    name: string,
+    repositoryName: string,
     options: DeleteRepositoryOptions = {}
   ): Promise<DeleteRepositoryResult> {
     const { span, updatedOptions } = createSpan(
@@ -115,8 +162,14 @@ export class ContainerRegistryClient {
     );
 
     try {
-      const result = await this.client.containerRegistry.deleteRepository(name, updatedOptions);
-      return result;
+      const result = await this.client.containerRegistry.deleteRepository(
+        repositoryName,
+        updatedOptions
+      );
+      return {
+        deletedManifests: result.deletedManifests ?? [],
+        deletedTags: result.deletedTags ?? []
+      };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -126,20 +179,25 @@ export class ContainerRegistryClient {
   }
 
   /**
+   * Returns an artifact for given repository name, and a tag or digest.
+   *
+   * @param repositoryName - the name of repository
+   * @param tagOrDigest - tag or digest of the artifact to retrieve
+   */
+  public getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact {
+    return new ContainerRepositoryImpl(this.registryUrl, repositoryName, this.client).getArtifact(
+      tagOrDigest
+    );
+  }
+
+  /**
    * Returns a ContainerRepositoryClient instance for the given repository.
    *
-   * @param name - the name of repository to delete
+   * @param repositoryName - the name of repository to delete
    * @param options - optional configuration for the operation
    */
-  // The method name follows beta.1 API design
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients
-  public getRepositoryClient(repository: string): ContainerRepositoryClient {
-    return new ContainerRepositoryClient(
-      this.endpoint,
-      repository,
-      this.credential,
-      this.clientOptions
-    );
+  public getRepository(repositoryName: string): ContainerRepository {
+    return new ContainerRepositoryImpl(this.registryUrl, repositoryName, this.client);
   }
 
   /**
@@ -148,19 +206,17 @@ export class ContainerRegistryClient {
    * Example usage:
    * ```ts
    * let client = new ContainerRegistryClient(url, credentials);
-   * for await (const repository of client.listRepositories()) {
+   * for await (const repository of client.listRepositoryNames()) {
    *   console.log("repository name: ", repository);
    * }
    * ```
    * @param options -
    */
-  public listRepositories(
+  public listRepositoryNames(
     options: ListRepositoriesOptions = {}
   ): PagedAsyncIterableIterator<string, string[]> {
-    const { span, updatedOptions } = createSpan("listRepositories", options);
-    const iter = this.listRepositoryItems(updatedOptions);
+    const iter = this.listRepositoryItems(options);
 
-    span.end();
     return {
       next() {
         return iter.next();
@@ -168,7 +224,7 @@ export class ContainerRegistryClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listRepositoriesPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) => this.listRepositoriesPage(settings, options)
     };
   }
 

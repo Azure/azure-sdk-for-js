@@ -33,7 +33,7 @@ export interface RecordedClient<T> {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
@@ -72,7 +72,7 @@ export function createRecordedCommunicationIdentityClient(
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING, {
+    client: new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {
       httpClient: createTestHttpClient()
     } as CommunicationIdentityClientOptions),
     recorder
@@ -84,7 +84,8 @@ export function createRecordedCommunicationIdentityClientWithToken(
 ): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING).endpoint;
+  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING)
+    .endpoint;
   if (isPlaybackMode()) {
     credential = {
       getToken: async (_scopes) => {
@@ -129,9 +130,11 @@ function createTestHttpClient(): HttpClient {
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
-    if (requestResponse.status < 200 || requestResponse.status > 299) {
-      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
-    }
+    console.log(
+      `MS-CV header for request: ${httpRequest.url} (${
+        requestResponse.status
+      } - ${requestResponse.headers.get("ms-cv")})`
+    );
 
     return requestResponse;
   };

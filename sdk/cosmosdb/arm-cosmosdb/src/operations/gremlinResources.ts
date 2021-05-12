@@ -33,21 +33,39 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesListGremlinDatabasesResponse>
    */
-  listGremlinDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesListGremlinDatabasesResponse>;
+  listGremlinDatabases(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesListGremlinDatabasesResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listGremlinDatabases(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.GremlinDatabaseListResult>): void;
+  listGremlinDatabases(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.GremlinDatabaseListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listGremlinDatabases(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GremlinDatabaseListResult>): void;
-  listGremlinDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinDatabaseListResult>, callback?: msRest.ServiceCallback<Models.GremlinDatabaseListResult>): Promise<Models.GremlinResourcesListGremlinDatabasesResponse> {
+  listGremlinDatabases(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GremlinDatabaseListResult>
+  ): void;
+  listGremlinDatabases(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinDatabaseListResult>,
+    callback?: msRest.ServiceCallback<Models.GremlinDatabaseListResult>
+  ): Promise<Models.GremlinResourcesListGremlinDatabasesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class GremlinResources {
         options
       },
       listGremlinDatabasesOperationSpec,
-      callback) as Promise<Models.GremlinResourcesListGremlinDatabasesResponse>;
+      callback
+    ) as Promise<Models.GremlinResourcesListGremlinDatabasesResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesGetGremlinDatabaseResponse>
    */
-  getGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesGetGremlinDatabaseResponse>;
+  getGremlinDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesGetGremlinDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
-  getGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.GremlinDatabaseGetResults>): void;
+  getGremlinDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.GremlinDatabaseGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -82,8 +111,20 @@ export class GremlinResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GremlinDatabaseGetResults>): void;
-  getGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinDatabaseGetResults>, callback?: msRest.ServiceCallback<Models.GremlinDatabaseGetResults>): Promise<Models.GremlinResourcesGetGremlinDatabaseResponse> {
+  getGremlinDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GremlinDatabaseGetResults>
+  ): void;
+  getGremlinDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinDatabaseGetResults>,
+    callback?: msRest.ServiceCallback<Models.GremlinDatabaseGetResults>
+  ): Promise<Models.GremlinResourcesGetGremlinDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +133,8 @@ export class GremlinResources {
         options
       },
       getGremlinDatabaseOperationSpec,
-      callback) as Promise<Models.GremlinResourcesGetGremlinDatabaseResponse>;
+      callback
+    ) as Promise<Models.GremlinResourcesGetGremlinDatabaseResponse>;
   }
 
   /**
@@ -105,9 +147,22 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesCreateUpdateGremlinDatabaseResponse>
    */
-  createUpdateGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateGremlinDatabaseParameters: Models.GremlinDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesCreateUpdateGremlinDatabaseResponse> {
-    return this.beginCreateUpdateGremlinDatabase(resourceGroupName,accountName,databaseName,createUpdateGremlinDatabaseParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GremlinResourcesCreateUpdateGremlinDatabaseResponse>;
+  createUpdateGremlinDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    createUpdateGremlinDatabaseParameters: Models.GremlinDatabaseCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesCreateUpdateGremlinDatabaseResponse> {
+    return this.beginCreateUpdateGremlinDatabase(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      createUpdateGremlinDatabaseParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GremlinResourcesCreateUpdateGremlinDatabaseResponse
+    >;
   }
 
   /**
@@ -118,9 +173,18 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteGremlinDatabase(resourceGroupName,accountName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteGremlinDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteGremlinDatabase(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -132,14 +196,24 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesGetGremlinDatabaseThroughputResponse>
    */
-  getGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesGetGremlinDatabaseThroughputResponse>;
+  getGremlinDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesGetGremlinDatabaseThroughputResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
-  getGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
+  getGremlinDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -147,8 +221,22 @@ export class GremlinResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
-  getGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>, callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): Promise<Models.GremlinResourcesGetGremlinDatabaseThroughputResponse> {
+  getGremlinDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
+  getGremlinDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>,
+    callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): Promise<Models.GremlinResourcesGetGremlinDatabaseThroughputResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +245,8 @@ export class GremlinResources {
         options
       },
       getGremlinDatabaseThroughputOperationSpec,
-      callback) as Promise<Models.GremlinResourcesGetGremlinDatabaseThroughputResponse>;
+      callback
+    ) as Promise<Models.GremlinResourcesGetGremlinDatabaseThroughputResponse>;
   }
 
   /**
@@ -170,9 +259,22 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesUpdateGremlinDatabaseThroughputResponse>
    */
-  updateGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesUpdateGremlinDatabaseThroughputResponse> {
-    return this.beginUpdateGremlinDatabaseThroughput(resourceGroupName,accountName,databaseName,updateThroughputParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GremlinResourcesUpdateGremlinDatabaseThroughputResponse>;
+  updateGremlinDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesUpdateGremlinDatabaseThroughputResponse> {
+    return this.beginUpdateGremlinDatabaseThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      updateThroughputParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GremlinResourcesUpdateGremlinDatabaseThroughputResponse
+    >;
   }
 
   /**
@@ -183,9 +285,20 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesMigrateGremlinDatabaseToAutoscaleResponse>
    */
-  migrateGremlinDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesMigrateGremlinDatabaseToAutoscaleResponse> {
-    return this.beginMigrateGremlinDatabaseToAutoscale(resourceGroupName,accountName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GremlinResourcesMigrateGremlinDatabaseToAutoscaleResponse>;
+  migrateGremlinDatabaseToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesMigrateGremlinDatabaseToAutoscaleResponse> {
+    return this.beginMigrateGremlinDatabaseToAutoscale(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GremlinResourcesMigrateGremlinDatabaseToAutoscaleResponse
+    >;
   }
 
   /**
@@ -196,9 +309,20 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesMigrateGremlinDatabaseToManualThroughputResponse>
    */
-  migrateGremlinDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesMigrateGremlinDatabaseToManualThroughputResponse> {
-    return this.beginMigrateGremlinDatabaseToManualThroughput(resourceGroupName,accountName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GremlinResourcesMigrateGremlinDatabaseToManualThroughputResponse>;
+  migrateGremlinDatabaseToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesMigrateGremlinDatabaseToManualThroughputResponse> {
+    return this.beginMigrateGremlinDatabaseToManualThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GremlinResourcesMigrateGremlinDatabaseToManualThroughputResponse
+    >;
   }
 
   /**
@@ -209,14 +333,24 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesListGremlinGraphsResponse>
    */
-  listGremlinGraphs(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesListGremlinGraphsResponse>;
+  listGremlinGraphs(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesListGremlinGraphsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
-  listGremlinGraphs(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.GremlinGraphListResult>): void;
+  listGremlinGraphs(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.GremlinGraphListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -224,8 +358,20 @@ export class GremlinResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listGremlinGraphs(resourceGroupName: string, accountName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GremlinGraphListResult>): void;
-  listGremlinGraphs(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinGraphListResult>, callback?: msRest.ServiceCallback<Models.GremlinGraphListResult>): Promise<Models.GremlinResourcesListGremlinGraphsResponse> {
+  listGremlinGraphs(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GremlinGraphListResult>
+  ): void;
+  listGremlinGraphs(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinGraphListResult>,
+    callback?: msRest.ServiceCallback<Models.GremlinGraphListResult>
+  ): Promise<Models.GremlinResourcesListGremlinGraphsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +380,8 @@ export class GremlinResources {
         options
       },
       listGremlinGraphsOperationSpec,
-      callback) as Promise<Models.GremlinResourcesListGremlinGraphsResponse>;
+      callback
+    ) as Promise<Models.GremlinResourcesListGremlinGraphsResponse>;
   }
 
   /**
@@ -246,7 +393,13 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesGetGremlinGraphResponse>
    */
-  getGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesGetGremlinGraphResponse>;
+  getGremlinGraph(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesGetGremlinGraphResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -254,7 +407,13 @@ export class GremlinResources {
    * @param graphName Cosmos DB graph name.
    * @param callback The callback
    */
-  getGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, callback: msRest.ServiceCallback<Models.GremlinGraphGetResults>): void;
+  getGremlinGraph(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    callback: msRest.ServiceCallback<Models.GremlinGraphGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -263,8 +422,22 @@ export class GremlinResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GremlinGraphGetResults>): void;
-  getGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinGraphGetResults>, callback?: msRest.ServiceCallback<Models.GremlinGraphGetResults>): Promise<Models.GremlinResourcesGetGremlinGraphResponse> {
+  getGremlinGraph(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GremlinGraphGetResults>
+  ): void;
+  getGremlinGraph(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GremlinGraphGetResults>,
+    callback?: msRest.ServiceCallback<Models.GremlinGraphGetResults>
+  ): Promise<Models.GremlinResourcesGetGremlinGraphResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -274,7 +447,8 @@ export class GremlinResources {
         options
       },
       getGremlinGraphOperationSpec,
-      callback) as Promise<Models.GremlinResourcesGetGremlinGraphResponse>;
+      callback
+    ) as Promise<Models.GremlinResourcesGetGremlinGraphResponse>;
   }
 
   /**
@@ -288,9 +462,24 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesCreateUpdateGremlinGraphResponse>
    */
-  createUpdateGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, createUpdateGremlinGraphParameters: Models.GremlinGraphCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesCreateUpdateGremlinGraphResponse> {
-    return this.beginCreateUpdateGremlinGraph(resourceGroupName,accountName,databaseName,graphName,createUpdateGremlinGraphParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GremlinResourcesCreateUpdateGremlinGraphResponse>;
+  createUpdateGremlinGraph(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    createUpdateGremlinGraphParameters: Models.GremlinGraphCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesCreateUpdateGremlinGraphResponse> {
+    return this.beginCreateUpdateGremlinGraph(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      graphName,
+      createUpdateGremlinGraphParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GremlinResourcesCreateUpdateGremlinGraphResponse
+    >;
   }
 
   /**
@@ -302,9 +491,20 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteGremlinGraph(resourceGroupName,accountName,databaseName,graphName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteGremlinGraph(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteGremlinGraph(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      graphName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -317,7 +517,13 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesGetGremlinGraphThroughputResponse>
    */
-  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesGetGremlinGraphThroughputResponse>;
+  getGremlinGraphThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesGetGremlinGraphThroughputResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -325,7 +531,13 @@ export class GremlinResources {
    * @param graphName Cosmos DB graph name.
    * @param callback The callback
    */
-  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
+  getGremlinGraphThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -334,8 +546,24 @@ export class GremlinResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
-  getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>, callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): Promise<Models.GremlinResourcesGetGremlinGraphThroughputResponse> {
+  getGremlinGraphThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): void;
+  getGremlinGraphThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ThroughputSettingsGetResults>,
+    callback?: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>
+  ): Promise<Models.GremlinResourcesGetGremlinGraphThroughputResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -345,7 +573,8 @@ export class GremlinResources {
         options
       },
       getGremlinGraphThroughputOperationSpec,
-      callback) as Promise<Models.GremlinResourcesGetGremlinGraphThroughputResponse>;
+      callback
+    ) as Promise<Models.GremlinResourcesGetGremlinGraphThroughputResponse>;
   }
 
   /**
@@ -359,9 +588,24 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesUpdateGremlinGraphThroughputResponse>
    */
-  updateGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesUpdateGremlinGraphThroughputResponse> {
-    return this.beginUpdateGremlinGraphThroughput(resourceGroupName,accountName,databaseName,graphName,updateThroughputParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GremlinResourcesUpdateGremlinGraphThroughputResponse>;
+  updateGremlinGraphThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesUpdateGremlinGraphThroughputResponse> {
+    return this.beginUpdateGremlinGraphThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      graphName,
+      updateThroughputParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GremlinResourcesUpdateGremlinGraphThroughputResponse
+    >;
   }
 
   /**
@@ -373,9 +617,22 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesMigrateGremlinGraphToAutoscaleResponse>
    */
-  migrateGremlinGraphToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesMigrateGremlinGraphToAutoscaleResponse> {
-    return this.beginMigrateGremlinGraphToAutoscale(resourceGroupName,accountName,databaseName,graphName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GremlinResourcesMigrateGremlinGraphToAutoscaleResponse>;
+  migrateGremlinGraphToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesMigrateGremlinGraphToAutoscaleResponse> {
+    return this.beginMigrateGremlinGraphToAutoscale(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      graphName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GremlinResourcesMigrateGremlinGraphToAutoscaleResponse
+    >;
   }
 
   /**
@@ -387,9 +644,22 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesMigrateGremlinGraphToManualThroughputResponse>
    */
-  migrateGremlinGraphToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesMigrateGremlinGraphToManualThroughputResponse> {
-    return this.beginMigrateGremlinGraphToManualThroughput(resourceGroupName,accountName,databaseName,graphName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GremlinResourcesMigrateGremlinGraphToManualThroughputResponse>;
+  migrateGremlinGraphToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GremlinResourcesMigrateGremlinGraphToManualThroughputResponse> {
+    return this.beginMigrateGremlinGraphToManualThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      graphName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GremlinResourcesMigrateGremlinGraphToManualThroughputResponse
+    >;
   }
 
   /**
@@ -402,7 +672,13 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, createUpdateGremlinDatabaseParameters: Models.GremlinDatabaseCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateGremlinDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    createUpdateGremlinDatabaseParameters: Models.GremlinDatabaseCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -412,7 +688,8 @@ export class GremlinResources {
         options
       },
       beginCreateUpdateGremlinDatabaseOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -423,7 +700,12 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteGremlinDatabase(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -432,7 +714,8 @@ export class GremlinResources {
         options
       },
       beginDeleteGremlinDatabaseOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -445,7 +728,13 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateGremlinDatabaseThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -455,7 +744,8 @@ export class GremlinResources {
         options
       },
       beginUpdateGremlinDatabaseThroughputOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -466,7 +756,12 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateGremlinDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateGremlinDatabaseToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -475,7 +770,8 @@ export class GremlinResources {
         options
       },
       beginMigrateGremlinDatabaseToAutoscaleOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -486,7 +782,12 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateGremlinDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateGremlinDatabaseToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -495,7 +796,8 @@ export class GremlinResources {
         options
       },
       beginMigrateGremlinDatabaseToManualThroughputOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -509,7 +811,14 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdateGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, createUpdateGremlinGraphParameters: Models.GremlinGraphCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdateGremlinGraph(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    createUpdateGremlinGraphParameters: Models.GremlinGraphCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -520,7 +829,8 @@ export class GremlinResources {
         options
       },
       beginCreateUpdateGremlinGraphOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -532,7 +842,13 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteGremlinGraph(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -542,7 +858,8 @@ export class GremlinResources {
         options
       },
       beginDeleteGremlinGraphOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -556,7 +873,14 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, updateThroughputParameters: Models.ThroughputSettingsUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateGremlinGraphThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    updateThroughputParameters: Models.ThroughputSettingsUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -567,7 +891,8 @@ export class GremlinResources {
         options
       },
       beginUpdateGremlinGraphThroughputOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -579,7 +904,13 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateGremlinGraphToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateGremlinGraphToAutoscale(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -589,7 +920,8 @@ export class GremlinResources {
         options
       },
       beginMigrateGremlinGraphToAutoscaleOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -601,7 +933,13 @@ export class GremlinResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateGremlinGraphToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateGremlinGraphToManualThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    graphName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -611,7 +949,8 @@ export class GremlinResources {
         options
       },
       beginMigrateGremlinGraphToManualThroughputOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -619,18 +958,11 @@ export class GremlinResources {
 const serializer = new msRest.Serializer(Mappers);
 const listGremlinDatabasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GremlinDatabaseListResult
@@ -644,19 +976,16 @@ const listGremlinDatabasesOperationSpec: msRest.OperationSpec = {
 
 const getGremlinDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GremlinDatabaseGetResults
@@ -670,19 +999,16 @@ const getGremlinDatabaseOperationSpec: msRest.OperationSpec = {
 
 const getGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -696,19 +1022,16 @@ const getGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = {
 
 const listGremlinGraphsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GremlinGraphListResult
@@ -722,7 +1045,8 @@ const listGremlinGraphsOperationSpec: msRest.OperationSpec = {
 
 const getGremlinGraphOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -730,12 +1054,8 @@ const getGremlinGraphOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.graphName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GremlinGraphGetResults
@@ -749,7 +1069,8 @@ const getGremlinGraphOperationSpec: msRest.OperationSpec = {
 
 const getGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -757,12 +1078,8 @@ const getGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.graphName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
@@ -776,19 +1093,16 @@ const getGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
 
 const beginCreateUpdateGremlinDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "createUpdateGremlinDatabaseParameters",
     mapper: {
@@ -810,19 +1124,16 @@ const beginCreateUpdateGremlinDatabaseOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteGremlinDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -835,19 +1146,16 @@ const beginDeleteGremlinDatabaseOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateThroughputParameters",
     mapper: {
@@ -869,26 +1177,23 @@ const beginUpdateGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = 
 
 const beginMigrateGremlinDatabaseToAutoscaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -896,26 +1201,23 @@ const beginMigrateGremlinDatabaseToAutoscaleOperationSpec: msRest.OperationSpec 
 
 const beginMigrateGremlinDatabaseToManualThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -923,7 +1225,8 @@ const beginMigrateGremlinDatabaseToManualThroughputOperationSpec: msRest.Operati
 
 const beginCreateUpdateGremlinGraphOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -931,12 +1234,8 @@ const beginCreateUpdateGremlinGraphOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.graphName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "createUpdateGremlinGraphParameters",
     mapper: {
@@ -958,7 +1257,8 @@ const beginCreateUpdateGremlinGraphOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteGremlinGraphOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -966,12 +1266,8 @@ const beginDeleteGremlinGraphOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.graphName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -984,7 +1280,8 @@ const beginDeleteGremlinGraphOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -992,12 +1289,8 @@ const beginUpdateGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.graphName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateThroughputParameters",
     mapper: {
@@ -1019,7 +1312,8 @@ const beginUpdateGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
 
 const beginMigrateGremlinGraphToAutoscaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToAutoscale",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToAutoscale",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -1027,19 +1321,15 @@ const beginMigrateGremlinGraphToAutoscaleOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.graphName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1047,7 +1337,8 @@ const beginMigrateGremlinGraphToAutoscaleOperationSpec: msRest.OperationSpec = {
 
 const beginMigrateGremlinGraphToManualThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToManualThroughput",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default/migrateToManualThroughput",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -1055,19 +1346,15 @@ const beginMigrateGremlinGraphToManualThroughputOperationSpec: msRest.OperationS
     Parameters.databaseName,
     Parameters.graphName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ThroughputSettingsGetResults
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

@@ -27,7 +27,7 @@ Currently supported environments:
 - Node.js version 8.x.x or higher
 - Latest versions of Safari, Chrome, Edge and Firefox
 
-You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal)  or an [Azure CosmosDB database](https://docs.microsoft.com/azure/cosmos-db/create-cosmosdb-resources-portal) to use this package.
+You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal) or an [Azure CosmosDB database](https://docs.microsoft.com/azure/cosmos-db/create-cosmosdb-resources-portal) to use this package.
 
 ### Install the `@azure/data-tables` package
 
@@ -171,7 +171,7 @@ async function main() {
   let tablesIter = serviceClient.listTables();
   let i = 1;
   for await (const table of tablesIter) {
-    console.log(`Table${i}: ${table.tableName}`);
+    console.log(`Table${i}: ${table.name}`);
     i++;
     // Output:
     // Table1: testTable1
@@ -224,16 +224,12 @@ const { TableClient, TablesSharedKeyCredential } = require("@azure/data-tables")
 // Enter your storage account name and shared key
 const account = "<account>";
 const accountKey = "<accountkey>";
-const tableName = "<tableName>"
+const tableName = "<tableName>";
 
 // Use TablesSharedKeyCredential with storage account and account key
 // TablesSharedKeyCredential is only available in Node.js runtime, not in browsers
 const credential = new TablesSharedKeyCredential(account, accountKey);
-const client = new TableClient(
-  `https://${account}.table.core.windows.net`,
-  tableName,
-  credential
-);
+const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 ```
 
 #### TableClient with SAS Token
@@ -245,12 +241,9 @@ const { TableClient } = require("@azure/data-tables");
 
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
-const tableName = "<tableName>"
+const tableName = "<tableName>";
 
-const clientWithSAS = new TableClient(
-  `https://${account}.table.core.windows.net${sas}`,
-  tableName
-);
+const clientWithSAS = new TableClient(`https://${account}.table.core.windows.net${sas}`, tableName);
 ```
 
 #### List Entities in a table
@@ -262,14 +255,10 @@ const { TableClient, TablesSharedKeyCredential } = require("@azure/data-tables")
 
 const account = "<account>";
 const accountKey = "<accountkey>";
-const tableName = "<tableName>"
+const tableName = "<tableName>";
 
 const credential = new TablesSharedKeyCredential(account, accountKey);
-const client = new TableClient(
-  `https://${account}.table.core.windows.net`,
-  tableName,
-  credential
-);
+const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 
 async function main() {
   let entitiesIter = client.listEntities();
@@ -297,22 +286,18 @@ const { TableClient, TablesSharedKeyCredential } = require("@azure/data-tables")
 
 const account = "<account>";
 const accountKey = "<accountkey>";
-const tableName = "<tableName>"
+const tableName = "<tableName>";
 
 const credential = new TablesSharedKeyCredential(account, accountKey);
-const client = new TableClient(
-  `https://${account}.table.core.windows.net`,
-  tableName,
-  credential
-);
+const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 
 async function main() {
   const testEntity = {
-      partitionKey: "P1",
-      rowKey: "R1",
-      foo: "foo",
-      bar: 123
-  }
+    partitionKey: "P1",
+    rowKey: "R1",
+    foo: "foo",
+    bar: 123
+  };
   await client.createEntity(testEntity);
 }
 
