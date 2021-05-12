@@ -92,13 +92,6 @@ if (isWindows) {
  */
 export class AzurePowerShellCredential implements TokenCredential {
   /**
-   * Creates an AzurePowerShellCredential, which will authenticate against
-   * Azure Active Directory using an existing login session created using
-   * `Connect-AzAccount` in PowerShell.
-   */
-  constructor() {}
-
-  /**
    * Gets the access token from Azure PowerShell
    * @param resource - The resource to use when getting the token
    */
