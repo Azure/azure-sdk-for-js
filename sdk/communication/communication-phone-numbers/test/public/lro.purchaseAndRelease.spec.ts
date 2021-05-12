@@ -75,6 +75,6 @@ matrix([[true, false]], async function(useAad) {
       assert.ok(releasePoller.getOperationState().isCompleted);
 
       console.log(`Released: ${purchasedPhoneNumber}`);
-    }).timeout(60000);
+    }).timeout(90000);
   });
 });
