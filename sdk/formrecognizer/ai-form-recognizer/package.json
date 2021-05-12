@@ -137,7 +137,6 @@
       "copyModel.js",
       "deleteAllModels.js"
     ],
-    "disableDocsMs": true,
     "productName": "Azure Form Recognizer",
     "productSlugs": [
       "azure",
@@ -160,9 +159,9 @@
         "typescript/assets/forms/selection_mark_form.pdf",
         "javascript/assets/forms/selection_mark_form.pdf"
       ],
-      "./assets/idDocument/license.jpg": [
-        "typescript/assets/idDocument/license.jpg",
-        "javascript/assets/idDocument/license.jpg"
+      "./assets/identityDocument/license.jpg": [
+        "typescript/assets/identityDocument/license.jpg",
+        "javascript/assets/identityDocument/license.jpg"
       ],
       "./assets/invoice/sample_invoice.jpg": [
         "typescript/assets/invoice/sample_invoice.jpg",

@@ -14,20 +14,20 @@
  * @summary extract data from an image of an identity document
  */
 
-const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
-const fs = require("fs");
+import * as fs from "fs";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main() {
+export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
 
-  const fileName = "./assets/idDocument/license.jpg";
+  const fileName = "./assets/identityDocument/license.jpg";
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expected file "${fileName}" to exist.`);
@@ -36,7 +36,7 @@ async function main() {
   const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeIdDocuments(readStream, {
+  const poller = await client.beginRecognizeIdentityDocuments(readStream, {
     contentType: "image/jpeg",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
@@ -56,7 +56,7 @@ async function main() {
 
   console.log("Identity Document Fields:");
 
-  function printField(fieldName) {
+  function printField(fieldName: string) {
     // Fields are extracted from the `fields` property of the document result
     const field = idDocument.fields[fieldName];
     console.log(
