@@ -10,7 +10,14 @@
    "status": 200,
    "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-02-10T17:52:41.818335+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}}",
    "responseHeaders": {
-    "content-type": "application/json; charset=utf-8"
+    "api-supported-versions": "2021-03-07",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 06 May 2021 20:40:36 GMT",
+    "ms-cv": "0y4VnZUfoEOBmth+TDejbA.0",
+    "request-context": "appId=",
+    "status": "200",
+    "x-azure-ref": "0Q1SUYAAAAACJQjlmwq3DQb7CqAk7bZSTWVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "1055ms"
    }
   }
  ],

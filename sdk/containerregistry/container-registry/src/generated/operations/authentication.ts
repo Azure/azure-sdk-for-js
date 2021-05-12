@@ -69,7 +69,7 @@ const exchangeAadAccessTokenForAcrRefreshTokenOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.AcrErrors
     }
   },
-  formDataParameters: [Parameters.aadAccesstoken],
+  formDataParameters: [Parameters.aadAccessToken],
   urlParameters: [Parameters.url],
   headerParameters: [Parameters.contentType3, Parameters.accept4],
   serializer

@@ -561,3 +561,34 @@ export async function testPeekMsgsLength(
     "Unexpected number of msgs found when peeking"
   );
 }
+
+export function addServiceBusClientForLiveTesting(
+  testClientType: TestClientType
+): {
+  client(): ServiceBusClientForTests;
+  sender(): ServiceBusSender;
+  receiver(): ServiceBusReceiver;
+} {
+  let client: ServiceBusClientForTests;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver;
+
+  before(() => {
+    client = createServiceBusClientForTests();
+  });
+
+  beforeEach(async () => {
+    const testEntities = await client.test.createTestEntities(testClientType);
+    sender = await client.test.createSender(testEntities);
+    receiver = await client.test.createReceiveAndDeleteReceiver(testEntities);
+  });
+
+  afterEach(() => client.test.afterEach());
+  after(() => client.test.after());
+
+  return {
+    client: () => client,
+    sender: () => sender,
+    receiver: () => receiver
+  };
+}

@@ -1,7 +1,16 @@
 # Release History
 
-## 12.0.0-beta.3 (Unreleased)
+## 12.0.0-beta.3 (UNRELEASED)
 
+- Update and Upsert operations have "merge" as default update mode. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
+- Expose Table Service url as a public client property. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
+- Make list and get entity methods have a default template type of `Record` for better UX. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
+
+### Breaking Changes
+
+- createTable and deleteTable don't throw on 409 or 404 respectively. Return type becomes `Promise<void>`. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
+- Clean up method options. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
+- Remove continuation tokens from options on list methods. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
 
 ## 12.0.0-beta.2 (2021-04-06)
 

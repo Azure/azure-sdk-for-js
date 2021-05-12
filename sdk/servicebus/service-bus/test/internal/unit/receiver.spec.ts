@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { Receiver, ReceiverEvents, ReceiverOptions } from "rhea-promise";
+import { ReceiverOptions } from "rhea-promise";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -11,6 +11,7 @@ import { BatchingReceiver } from "../../../src/core/batchingReceiver";
 import { StreamingReceiver } from "../../../src/core/streamingReceiver";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import {
+  addTestStreamingReceiver,
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
@@ -19,6 +20,7 @@ import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtil
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
 import { MessageSession } from "../../../src/session/messageSession";
+import sinon from "sinon";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
@@ -87,46 +89,6 @@ describe("Receiver unit tests", () => {
 
     afterEach(async () => {
       await receiverImpl.close();
-    });
-
-    it("subscribe and subscription.close()", async () => {
-      let receiverWasDrained = false;
-
-      let createdRheaReceiver: Receiver | undefined;
-
-      receiverImpl = new ServiceBusReceiverImpl(
-        createConnectionContextForTests({
-          onCreateReceiverCalled: (receiver) => {
-            createdRheaReceiver = receiver;
-            receiver.addListener(ReceiverEvents.receiverDrained, () => {
-              receiverWasDrained = true;
-            });
-          }
-        }),
-        "fakeEntityPath",
-        "peekLock",
-        0
-      );
-
-      const subscription = await subscribeAndWaitForInitialize(receiverImpl);
-      assert.isFalse(receiverWasDrained, "receiver hasn't drained yet (but will when we close)");
-
-      await subscription.close();
-
-      // closing a subscription doesn't close out the receiver created for it.
-      // this allows the user a chance to resolve any outstanding messages.
-      assert.isFalse(
-        createdRheaReceiver?.isClosed(),
-        "sanity check, subscription.close() does not close the receiver"
-      );
-      assert.isTrue(
-        receiverWasDrained,
-        "receiver should drain when subscription.close() is called"
-      );
-
-      await receiverImpl.close();
-      // rhea receiver is finally closed when the overall Receiver class is closed.
-      assert.isTrue(createdRheaReceiver?.isClosed(), "receiver should note that we closed");
     });
 
     it("can't subscribe while another subscribe is active", async () => {
@@ -238,38 +200,6 @@ describe("Receiver unit tests", () => {
       await subscription2.close();
       await receiverImpl.close();
     });
-
-    async function subscribeAndWaitForInitialize(
-      receiver: ServiceBusReceiverImpl
-    ): Promise<ReturnType<typeof receiver["subscribe"]>> {
-      const sub = await new Promise<{
-        close(): Promise<void>;
-      }>((resolve, reject) => {
-        const subscription = receiver.subscribe({
-          processInitialize: async () => {
-            resolve(subscription);
-          },
-          processError: async (err) => {
-            reject(err);
-          },
-          processMessage: async (_msg) => {
-            /** Nothing to do here */
-          }
-        } as InternalMessageHandlers);
-      });
-
-      assert.exists(
-        receiver["_streamingReceiver"],
-        "streaming receiver has been initialized in the context"
-      );
-
-      assert.isTrue(
-        receiver["_streamingReceiver"]?.isReceivingMessages,
-        "streaming receiver should indicate it's receiving messages"
-      );
-
-      return sub;
-    }
   });
 
   describe("getMessageIterator", () => {
@@ -335,6 +265,7 @@ describe("Receiver unit tests", () => {
 
   describe("createStreamingReceiver", () => {
     let impl: ServiceBusReceiverImpl | undefined;
+    const createStreamingReceiver = addTestStreamingReceiver();
 
     afterEach(async () => {
       await impl?.close();
@@ -344,33 +275,10 @@ describe("Receiver unit tests", () => {
       const context = createConnectionContextForTests();
       impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
 
-      let initWasCalled = false;
-      const expectedAbortSignal = createAbortSignalForTest();
+      const existingStreamingReceiver = createStreamingReceiver("entityPath");
+      const subscribeStub = sinon.spy(existingStreamingReceiver, "subscribe");
 
-      const existingReceiver = {
-        init: async (_args) => {
-          assert.equal(
-            _args.abortSignal,
-            expectedAbortSignal,
-            "abortSignal should be properly passed through."
-          );
-
-          assert.equal(
-            "my pre-existing receiver",
-            context.messageReceivers["my pre-existing receiver"].name,
-            "Before init() is called we should have registered our receiver in the context's map so it can get cleaned up later."
-          );
-
-          initWasCalled = true;
-          return;
-        },
-        close: async () => {
-          /** Nothing to do here */
-        },
-        name: "my pre-existing receiver"
-      } as Pick<StreamingReceiver, "init" | "close" | "name">;
-
-      impl["_streamingReceiver"] = (existingReceiver as any) as StreamingReceiver;
+      impl["_streamingReceiver"] = existingStreamingReceiver;
 
       // we're going to stub this out and make sure that prior to calling init() on our
       // internal receiver we have registered it into the connection context so (if the user
@@ -378,21 +286,15 @@ describe("Receiver unit tests", () => {
       // terminating it's streaming forever loop for initialization).
       context.messageReceivers["my pre-existing receiver"] = {} as StreamingReceiver;
 
-      await impl["_createStreamingReceiver"]({
-        lockRenewer: undefined,
-        receiveMode: "peekLock",
-        abortSignal: expectedAbortSignal,
-        onError: (_args) => {
-          /** Nothing to do here */
-        }
-      });
+      await subscribeAndWaitForInitialize(impl);
 
-      assert.isTrue(initWasCalled, "initialize should be called on the original receiver");
       assert.equal(
         impl["_streamingReceiver"],
-        existingReceiver,
+        existingStreamingReceiver,
         "original receiver should be intact - we should not create a new one.."
       );
+
+      assert.isTrue(subscribeStub.calledOnce);
     });
 
     it("create() with an existing receiver and that receiver is NOT open()", async () => {
@@ -400,16 +302,42 @@ describe("Receiver unit tests", () => {
 
       impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
 
-      await impl["_createStreamingReceiver"]({
-        lockRenewer: undefined,
-        receiveMode: "peekLock",
-        onError: (_args) => {
-          /** Nothing to do here */
-        }
-      });
+      await subscribeAndWaitForInitialize(impl);
 
       assert.exists(impl["_streamingReceiver"], "new streaming receiver should be called");
       assert.exists(context.messageReceivers[impl["_streamingReceiver"]!.name]);
     });
   });
 });
+
+async function subscribeAndWaitForInitialize(
+  receiver: ServiceBusReceiverImpl
+): Promise<ReturnType<typeof receiver["subscribe"]>> {
+  const sub = await new Promise<{
+    close(): Promise<void>;
+  }>((resolve, reject) => {
+    const subscription = receiver.subscribe({
+      postInitialize: async () => {
+        resolve(subscription);
+      },
+      processError: async (err) => {
+        reject(err);
+      },
+      processMessage: async (_msg) => {
+        /** Nothing to do here */
+      }
+    } as InternalMessageHandlers);
+  });
+
+  assert.exists(
+    receiver["_streamingReceiver"],
+    "streaming receiver has been initialized in the context"
+  );
+
+  assert.isTrue(
+    receiver["_streamingReceiver"]?.isSubscribeActive,
+    "streaming receiver should indicate it's receiving messages"
+  );
+
+  return sub;
+}

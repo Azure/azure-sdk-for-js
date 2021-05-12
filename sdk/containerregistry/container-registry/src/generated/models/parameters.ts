@@ -42,26 +42,6 @@ export const url: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const last: OperationQueryParameter = {
-  parameterPath: ["options", "last"],
-  mapper: {
-    serializedName: "last",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const n: OperationQueryParameter = {
-  parameterPath: ["options", "n"],
-  mapper: {
-    serializedName: "n",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
 export const name: OperationURLParameter = {
   parameterPath: "name",
   mapper: {
@@ -71,18 +51,6 @@ export const name: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 
 export const reference: OperationURLParameter = {
@@ -121,6 +89,26 @@ export const contentType: OperationParameter = {
 export const payload: OperationParameter = {
   parameterPath: "payload",
   mapper: ManifestMapper
+};
+
+export const last: OperationQueryParameter = {
+  parameterPath: ["options", "last"],
+  mapper: {
+    serializedName: "last",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const n: OperationQueryParameter = {
+  parameterPath: ["options", "n"],
+  mapper: {
+    serializedName: "n",
+    type: {
+      name: "Number"
+    }
+  }
 };
 
 export const contentType1: OperationParameter = {
@@ -169,6 +157,18 @@ export const digest1: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const accept2: OperationParameter = {
@@ -296,8 +296,8 @@ export const contentType3: OperationParameter = {
   }
 };
 
-export const aadAccesstoken: OperationParameter = {
-  parameterPath: ["options", "aadAccesstoken"],
+export const aadAccessToken: OperationParameter = {
+  parameterPath: ["options", "aadAccessToken"],
   mapper: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 };
 

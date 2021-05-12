@@ -3,13 +3,14 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { ContainerRegistryClient, ContainerRepositoryClient } from "../../src";
+import { ContainerRegistryClient } from "../../src";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
 // are mapped to below.
 const replaceableVariables: Record<string, string> = {
   CONTAINER_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
+  CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT: "https://myregistry.azurecr.io",
   AZURE_TENANT_ID: "azure_tenant_id",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -34,18 +35,21 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
   // replacements within recordings.
   customizationsOnRecordings: [
     (recording: string): string =>
-      recording.replace(/"refresh_token":"[^"]*"/g, `"refresh_token":"refresh_token"`),
+      recording.replace(/"refresh_token":"[^"]+"/g, `"refresh_token":"refresh_token"`),
     (recording: string): string =>
       recording.replace(/access_token=(.+?)(&|")/, `access_token=access_token$2`),
     (recording: string): string =>
-      recording.replace(/refresh_token=(.+?)(&|")/, `refresh_token=refresh_token$2`)
+      recording.replace(/refresh_token=([^&]+?)(&|")/, `refresh_token=refresh_token$2`)
   ]
 };
 
-export function createRegistryClient(): ContainerRegistryClient {
-  // Retrieve the endpoint from the environment variable
-  // we saved to the .env file earlier
-  const endpoint = env.CONTAINER_REGISTRY_ENDPOINT;
+export function createRegistryClient(
+  endpoint: string,
+  options: { anonymous: boolean } = { anonymous: false }
+): ContainerRegistryClient {
+  if (options.anonymous) {
+    return new ContainerRegistryClient(endpoint);
+  }
 
   // We use ClientSecretCredential instead of DefaultAzureCredential in order
   // to ensure that the requests made to the AAD server are always the same. If
@@ -59,23 +63,4 @@ export function createRegistryClient(): ContainerRegistryClient {
   );
 
   return new ContainerRegistryClient(endpoint, credential);
-}
-
-export function createRepositoryClient(repository: string): ContainerRepositoryClient {
-  // Retrieve the endpoint from the environment variable
-  // we saved to the .env file earlier
-  const endpoint = env.CONTAINER_REGISTRY_ENDPOINT;
-
-  // We use ClientSecretCredential instead of DefaultAzureCredential in order
-  // to ensure that the requests made to the AAD server are always the same. If
-  // we used DefaultAzureCredential, they might be different on some machines
-  // than on others, depending on which credentials are available (such as
-  // Managed Identity or developer credentials).
-  const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
-  );
-
-  return new ContainerRepositoryClient(endpoint, repository, credential);
 }

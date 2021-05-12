@@ -35,7 +35,7 @@ async function batchOperations() {
   const client = TableClient.fromConnectionString(connectionString, tableName);
 
   // Create the table
-  await client.create();
+  await client.createTable();
 
   const partitionKey = "Stationery";
 
@@ -66,8 +66,10 @@ async function batchOperations() {
   // Create the new batch. All the operations within a batch must target the same partition key
   const batch = client.createBatch(partitionKey);
 
-  // Add a createEntities operation to the batch
-  batch.createEntities(entities);
+  // Add each entity operation to the batch
+  for (const entity of entities) {
+    batch.createEntity(entity);
+  }
 
   // Submit the batch
   const response = await batch.submitBatch();
@@ -93,7 +95,7 @@ async function batchOperations() {
   // ]
 
   // Delete the table to clean up
-  await client.delete();
+  await client.deleteTable();
 }
 
 batchOperations().catch((err) => {

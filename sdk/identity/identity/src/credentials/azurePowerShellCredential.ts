@@ -10,12 +10,15 @@ import { processUtils } from "../util/processUtils";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
+const isWindows = process.platform === "win32";
+
 /**
- * Formats a command based on the platform executing it.
+ * Returns a platform-appropriate command name by appending ".exe" on Windows.
+ *
  * @internal
  */
 export function formatCommand(commandName: string): string {
-  if (process.platform === "win32") {
+  if (isWindows) {
     return `${commandName}.exe`;
   } else {
     return commandName;
@@ -55,7 +58,7 @@ export const powerShellErrors = {
  */
 export const powerShellPublicErrorMessages = {
   login:
-    "Please run 'Connect-AzAccount' from powershell to authenticate before using this credential.",
+    "Please run 'Connect-AzAccount' from PowerShell to authenticate before using this credential.",
   installed: `The 'Az.Account' module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force".`
 };
 
@@ -63,75 +66,69 @@ export const powerShellPublicErrorMessages = {
 const isLoginError = (err: Error) => err.message.match(`(.*)${powerShellErrors.login}(.*)`);
 
 // Az Module not Installed in Azure PowerShell check.
-const isNotInstallError = (err: Error) => err.message.match(powerShellErrors.installed);
+const isNotInstalledError = (err: Error) => err.message.match(powerShellErrors.installed);
 
 /**
- * Optional parameters for the {@link AzurePowerShellCredential} class.
- */
-export interface AzurePowerShellCredentialOptions {
-  /**
-   * If specified, this credential will use the legacy `powershell` command instead of the newest `pwsh`.
-   */
-  useLegacyPowerShell?: boolean;
-}
-
-/**
- * This credential will use the currently logged-in user login information via the Azure Power Shell command line tool.
- * To do so, it will read the user access token and expire time with Azure Power Shell command `Get-AzAccessToken -ResourceUrl {ResourceScope}`.
- * To be able to use this credential, ensure that:
- * - Install the Azure Az PowerShell module with: `Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force`.
- * - You have already logged in via the 'az' tool using the command "Connect-AzAccount" from the command line.
+ * This credential will use the currently logged-in user information from the
+ * Azure PowerShell module. To do so, it will read the user access token and
+ * expire time with Azure PowerShell command `Get-AzAccessToken -ResourceUrl {ResourceScope}`
+ *
+ * To be able to use this credential:
+ * - Install the Azure Az PowerShell module with:
+ *   `Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force`.
+ * - You have already logged in to Azure PowerShell using the command
+ * `Connect-AzAccount` from the command line.
  */
 export class AzurePowerShellCredential implements TokenCredential {
-  private readonly powerShellCommand: string;
+  private commandStack: string[] = [formatCommand("pwsh")];
 
   /**
-   * Creates an instance of the ClientCertificateCredential with the details
-   * needed to authenticate against Azure Active Directory with a certificate.
-   *
-   * @param AzurePowerShellCredentialOptions - Optional parameters. For now accepts a `useLegacyPowerShell` property to indicate if legacy powershell should be used for authentication.
+   * Creates an AzurePowerShellCredential, which will authenticate against
+   * Azure Active Directory using an existing login session created using
+   * `Connect-AzAccount` in PowerShell.
    */
-  constructor(options?: AzurePowerShellCredentialOptions) {
-    if (options?.useLegacyPowerShell) {
-      this.powerShellCommand = formatCommand("powershell");
-    } else {
-      this.powerShellCommand = formatCommand("pwsh");
+  constructor() {
+    if (isWindows) {
+      this.commandStack.push(formatCommand("powershell"));
     }
   }
+
   /**
-   * Gets the access token from Azure Power Shell
+   * Gets the access token from Azure PowerShell
    * @param resource - The resource to use when getting the token
    */
   private async getAzurePowerShellAccessToken(
     resource: string
   ): Promise<{ Token: string; ExpiresOn: string }> {
-    try {
-      await runCommands([[this.powerShellCommand, "/?"]]);
-    } catch (e) {
-      throw new Error(
-        `Unable to execute "${this.powerShellCommand}". Ensure that it is installed in your system.`
-      );
+    for (const powerShellCommand of this.commandStack) {
+      try {
+        await runCommands([[powerShellCommand, "/?"]]);
+      } catch (e) {
+        continue;
+      }
+
+      const results = await runCommands([
+        [
+          powerShellCommand,
+          "-Command",
+          "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru"
+        ],
+        [
+          powerShellCommand,
+          "-Command",
+          `Get-AzAccessToken -ResourceUrl "${resource}" | ConvertTo-Json`
+        ]
+      ]);
+
+      const result = results[1];
+      try {
+        return JSON.parse(result);
+      } catch (e) {
+        throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
+      }
     }
 
-    const results = await runCommands([
-      [
-        this.powerShellCommand,
-        "-Command",
-        "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru"
-      ],
-      [
-        this.powerShellCommand,
-        "-Command",
-        `Get-AzAccessToken -ResourceUrl "${resource}" | ConvertTo-Json`
-      ]
-    ]);
-
-    const result = results[1];
-    try {
-      return JSON.parse(result);
-    } catch (e) {
-      throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
-    }
+    throw new Error(`Unable to execute PowerShell. Ensure that it is installed in your system.`);
   }
 
   /**
@@ -163,7 +160,7 @@ export class AzurePowerShellCredential implements TokenCredential {
           expiresOnTimestamp: new Date(response.ExpiresOn).getTime()
         };
       } catch (err) {
-        if (isNotInstallError(err)) {
+        if (isNotInstalledError(err)) {
           const error = new CredentialUnavailableError(powerShellPublicErrorMessages.installed);
           logger.getToken.info(formatError(scope, error));
           throw error;

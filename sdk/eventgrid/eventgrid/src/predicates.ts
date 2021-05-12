@@ -101,7 +101,12 @@ import {
   WebSlotSwapWithPreviewStartedEventData,
   WebSlotSwapWithPreviewCancelledEventData,
   WebAppServicePlanUpdatedEventData,
-  StorageLifecyclePolicyCompletedEventData
+  StorageLifecyclePolicyCompletedEventData,
+  PolicyInsightsPolicyStateChangedEventData,
+  PolicyInsightsPolicyStateCreatedEventData,
+  PolicyInsightsPolicyStateDeletedEventData,
+  StorageAsyncOperationInitiatedEventData,
+  StorageBlobTierChangedEventData
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -254,7 +259,13 @@ export interface SystemEventNameToEventData {
   "Microsoft.Media.LiveEventIngestHeartbeat": MediaLiveEventIngestHeartbeatEventData;
   /** An interface for the event data of a "Microsoft.Media.LiveEventTrackDiscontinuityDetected" event. */
   "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
-  /** An interface for the event data of a "Microsoft.Resources.ResourceWriteSuccess" event. */
+  /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateChanged" event. */
+  "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
+  /** An interface for the event data of a " Microsoft.PolicyInsights.PolicyStateCreated" event. */
+  "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
+  /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateDeleted" event. */
+  "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Resources.ResourceDeleteSuccess" event. */
   "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
   /** An interface for the event data of a "Microsoft.Resources.ResourceWriteFailure" event. */
   "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
@@ -276,10 +287,14 @@ export interface SystemEventNameToEventData {
   "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
   /** An interface for the event data of a "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener" event. */
   "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+  /** An interface for the event data of a "Microsoft.Storage.AsyncOperationInitiated" event. */
+  "Microsoft.Storage.AsyncOperationInitiated": StorageAsyncOperationInitiatedEventData;
   /** An interface for the event data of a "Microsoft.Storage.BlobCreated" event. */
   "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
   /** An interface for the event data of a "Microsoft.Storage.BlobDeleted" event. */
   "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.BlobTierChanged" event. */
+  "Microsoft.Storage.BlobTierChanged": StorageBlobTierChangedEventData;
   /** An interface for the event data of a "Microsoft.Storage.BlobRenamed" event. */
   "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
   /** An interface for the event data of a "Microsoft.Storage.DirectoryCreated" event. */

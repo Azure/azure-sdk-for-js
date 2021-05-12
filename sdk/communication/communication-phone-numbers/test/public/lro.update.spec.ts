@@ -6,11 +6,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient, PhoneNumberCapabilitiesRequest } from "../../src";
 import { matrix } from "./utils/matrix";
-import {
-  canCreateRecordedClientWithToken,
-  createRecordedClient,
-  createRecordedClientWithToken
-} from "./utils/recordedClient";
+import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function(useAad) {
   describe(`PhoneNumbersClient - lro - update${useAad ? " [AAD]" : ""}`, function() {
@@ -18,12 +14,6 @@ matrix([[true, false]], async function(useAad) {
     const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" };
     let recorder: Recorder;
     let client: PhoneNumbersClient;
-
-    before(function(this: Context) {
-      if (useAad && !canCreateRecordedClientWithToken()) {
-        this.skip();
-      }
-    });
 
     beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
@@ -49,7 +39,7 @@ matrix([[true, false]], async function(useAad) {
       await updatePoller.pollUntilDone();
       assert.ok(updatePoller.getOperationState().isCompleted);
       // assert.deepEqual(phoneNumber.capabilities, update);
-    }).timeout(60000);
+    }).timeout(90000);
 
     it("update throws when phone number isn't owned", async function() {
       const fakeNumber = "+14155550100";
