@@ -194,7 +194,14 @@ export interface BeginRecognizePrebuiltOptions extends BeginRecognizeFormsOption
   /**
    * Locale of the document.
    *
-   * Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US (default if none provided).
+   * Supported locales include:
+   * - "en-AU"
+   * - "en-CA"
+   * - "en-GB"
+   * - "en-IN"
+   * - "en-US" (default if none provided)
+   *
+   * @see KnownFormLocale
    */
   locale?: string;
 }

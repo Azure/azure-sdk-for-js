@@ -578,6 +578,20 @@ export const enum KnownFormLanguage {
 }
 
 // @public
+export const enum KnownFormLocale {
+    // (undocumented)
+    EnAU = "en-AU",
+    // (undocumented)
+    EnCA = "en-CA",
+    // (undocumented)
+    EnGB = "en-GB",
+    // (undocumented)
+    EnIN = "en-IN",
+    // (undocumented)
+    EnUS = "en-US"
+}
+
+// @public
 export type LengthUnit = "pixel" | "inch";
 
 // @public

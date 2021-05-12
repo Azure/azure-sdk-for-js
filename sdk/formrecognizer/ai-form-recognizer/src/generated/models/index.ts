@@ -492,8 +492,8 @@ export const enum KnownFieldValueSelectionMark {
  */
 export type FieldValueSelectionMark = string;
 
-/** Known values of {@link Locale} that the service accepts. */
-export const enum KnownLocale {
+/** Known values of {@link FormLocale} that the service accepts. */
+export const enum KnownFormLocale {
   EnAU = "en-AU",
   EnCA = "en-CA",
   EnGB = "en-GB",
@@ -502,8 +502,8 @@ export const enum KnownLocale {
 }
 
 /**
- * Defines values for Locale. \
- * {@link KnownLocale} can be used interchangeably with Locale,
+ * Defines values for FormLocale. \
+ * {@link KnownFormLocale} can be used interchangeably with FormLocale,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **en-AU** \
@@ -512,7 +512,7 @@ export const enum KnownLocale {
  * **en-IN** \
  * **en-US**
  */
-export type Locale = string;
+export type FormLocale = string;
 
 /** Known values of {@link FormLanguage} that the service accepts. */
 export const enum KnownFormLanguage {
@@ -827,7 +827,7 @@ export interface GeneratedClientAnalyzeBusinessCardAsync$binaryOptionalParams
   /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Optional parameters. */
@@ -840,7 +840,7 @@ export interface GeneratedClientAnalyzeBusinessCardAsync$jsonOptionalParams
   /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Contains response data for the analyzeBusinessCardAsync operation. */
@@ -872,7 +872,7 @@ export interface GeneratedClientAnalyzeInvoiceAsync$binaryOptionalParams
   /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Optional parameters. */
@@ -885,7 +885,7 @@ export interface GeneratedClientAnalyzeInvoiceAsync$jsonOptionalParams
   /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Contains response data for the analyzeInvoiceAsync operation. */
@@ -958,7 +958,7 @@ export interface GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
   /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Optional parameters. */
@@ -971,7 +971,7 @@ export interface GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams
   /** Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma. */
   pages?: string[];
   /** Locale of the input document. Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US(default). */
-  locale?: Locale;
+  locale?: FormLocale;
 }
 
 /** Contains response data for the analyzeReceiptAsync operation. */

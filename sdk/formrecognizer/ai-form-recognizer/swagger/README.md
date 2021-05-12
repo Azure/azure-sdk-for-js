@@ -196,7 +196,7 @@ directive:
       $["x-ms-enum"].name = "FormReadingOrder";
 ```
 
-### `Language` => `FormLanguage`
+### `Language`, `Locale` => `FormLanguage`, `FormLocale`
 
 ```yaml
 directive:
@@ -204,6 +204,10 @@ directive:
     where: $.parameters.Language
     transform: >
       $["x-ms-enum"].name = "FormLanguage";
+  - from: swagger-document
+    where: $.parameters.Locale
+    transform: >
+      $["x-ms-enum"].name = "FormLocale";
 ```
 
 ### Stronger SelectionMarkState and TextStyle

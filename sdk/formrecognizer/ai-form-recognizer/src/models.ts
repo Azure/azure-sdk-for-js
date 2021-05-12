@@ -3,7 +3,7 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export { KnownFormLanguage } from "./generated/models";
+export { KnownFormLanguage, KnownFormLocale } from "./generated/models";
 
 import {
   FormFieldsReport,

@@ -6,7 +6,13 @@ import { Context } from "mocha";
 import fs from "fs";
 import path from "path";
 
-import { FormRecognizerClient, FormField, FormTrainingClient, CustomFormModel } from "../../../src";
+import {
+  FormRecognizerClient,
+  FormField,
+  FormTrainingClient,
+  CustomFormModel,
+  KnownFormLocale
+} from "../../../src";
 import { testPollingOptions, makeCredential, createRecorder } from "../../utils/recordedClients";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "../../utils/matrix";
@@ -355,7 +361,7 @@ matrix([[false]] as const, async (useAad) => {
 
         // Just make sure that this doesn't throw
         const poller = await client.beginRecognizeReceiptsFromUrl(url, {
-          locale: "en-IN",
+          locale: KnownFormLocale.EnIN,
           ...testPollingOptions
         });
 
@@ -459,7 +465,7 @@ matrix([[false]] as const, async (useAad) => {
 
         // Just make sure that this doesn't throw
         const poller = await client.beginRecognizeReceiptsFromUrl(url, {
-          locale: "en-IN",
+          locale: KnownFormLocale.EnIN,
           ...testPollingOptions
         });
 
