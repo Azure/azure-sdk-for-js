@@ -76,7 +76,6 @@ export class AzureCliCredential implements TokenCredential {
 
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
-    constructor();
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
