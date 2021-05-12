@@ -16,7 +16,7 @@ Use the client library for Video Analyzer on IoT Edge to:
 Install the Video Analyzer client library for Typescript with npm:
 
 ```bash
-npm install @azure/media-video-analyzer-edge
+npm install @azure/video-analyzer-edge
 ```
 
 ### Prerequisites

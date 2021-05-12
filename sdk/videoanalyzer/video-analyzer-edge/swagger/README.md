@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: "@azure/media-video-analyzer-edge"
+package-name: "@azure/video-analyzer-edge"
 title: GeneratedClient
 description: Example Client
 generate-metadata: false

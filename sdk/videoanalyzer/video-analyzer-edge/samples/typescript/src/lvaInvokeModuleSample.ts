@@ -1,12 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { createRequest } = require("@azure/media-video-analyzer-edge");
+import {
+  PipelineTopology,
+  Request,
+  RtspSource,
+  UnsecuredEndpoint,
+  NodeInput,
+  LivePipeline,
+  createRequest,
+  IotHubMessageSink
+} from "@azure/video-analyzer-edge";
 
-const { Client } = require("azure-iothub");
+import { Client } from "azure-iothub";
 
 function buildPipelineTopology() {
-  const rtspSource = {
+  const rtspSource: RtspSource = {
     name: "rtspSource",
     endpoint: {
       url: "${rtspUrl}",
@@ -16,28 +25,28 @@ function buildPipelineTopology() {
         password: "${rtspPassword}",
         "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials"
       }
-    },
+    } as UnsecuredEndpoint,
     "@type": "#Microsoft.VideoAnalyzer.RtspSource"
   };
 
-  const nodeInput = {
+  const nodeInput: NodeInput = {
     nodeName: "rtspSource"
   };
 
-  const msgSink = {
+  const msgSink: IotHubMessageSink = {
     name: "msgSink",
     inputs: [nodeInput],
     hubOutputName: "${hubSinkOutputName}",
     "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink"
   };
 
-  const pipelineTopology = {
+  const pipelineTopology: PipelineTopology = {
     name: "jsTestGraph",
     properties: {
       description: "description for jsTestGraph",
       parameters: [
         { name: "rtspUserName", type: "String", default: "dummyUsername" },
-        { name: "rtspPassword", type: "SecretString", default: "dumyPassword" },
+        { name: "rtspPassword", type: "SecretString", default: "dummyPassword" },
         { name: "rtspUrl", type: "String" },
         { name: "hubSinkOutputName", type: "String" }
       ],
@@ -49,8 +58,8 @@ function buildPipelineTopology() {
   return pipelineTopology;
 }
 
-function buildLivePipeline(PipelineTopologyName) {
-  const livePipeline = {
+function buildLivePipeline(PipelineTopologyName: string) {
+  const livePipeline: LivePipeline = {
     name: PipelineTopologyName,
     properties: {
       description: "description for jsTestGraphInstance",
@@ -62,13 +71,13 @@ function buildLivePipeline(PipelineTopologyName) {
   return livePipeline;
 }
 
-async function main() {
+export async function main() {
   const device_id = "lva-sample-device";
   const module_id = "mediaEdge";
   const connectionString = "connectionString";
   const iotHubClient = Client.fromConnectionString(connectionString);
 
-  const invokeMethodHelper = async (methodRequest) => {
+  const invokeMethodHelper = async (methodRequest: Request<any>) => {
     return await iotHubClient.invokeDeviceMethod(device_id, module_id, {
       methodName: methodRequest.methodName,
       payload: methodRequest.payload

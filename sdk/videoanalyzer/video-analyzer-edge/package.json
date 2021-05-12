@@ -1,12 +1,12 @@
 {
-  "name": "@azure/media-video-analyzer-edge",
+  "name": "@azure/video-analyzer-edge",
   "version": "1.0.0-beta.1",
   "description": "A JavaScript sdk for Azure Media Video Analytics Edge",
   "sdk-type": "client",
   "main": "dist/index",
   "module": "dist-esm/src/index.js",
   "browser": {},
-  "types": "types/media-video-analyzer-edge.d.ts",
+  "types": "types/video-analyzer-edge.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -37,11 +37,11 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/media-video-analyzer-edge.d.ts",
+    "types/video-analyzer-edge.d.ts",
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js/sdk/videoanalyzer/media-video-analyzer-edge",
+  "repository": "github:Azure/azure-sdk-for-js/sdk/videoanalyzer/video-analyzer-edge",
   "engines": {
     "node": ">=8.0.0"
   },

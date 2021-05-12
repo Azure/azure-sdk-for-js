@@ -1,21 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  PipelineTopology,
-  Request,
-  RtspSource,
-  UnsecuredEndpoint,
-  NodeInput,
-  LivePipeline,
-  createRequest,
-  IotHubMessageSink
-} from "@azure/media-video-analyzer-edge";
+const { createRequest } = require("@azure/video-analyzer-edge");
 
-import { Client } from "azure-iothub";
+const { Client } = require("azure-iothub");
 
 function buildPipelineTopology() {
-  const rtspSource: RtspSource = {
+  const rtspSource = {
     name: "rtspSource",
     endpoint: {
       url: "${rtspUrl}",
@@ -25,22 +16,22 @@ function buildPipelineTopology() {
         password: "${rtspPassword}",
         "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials"
       }
-    } as UnsecuredEndpoint,
+    },
     "@type": "#Microsoft.VideoAnalyzer.RtspSource"
   };
 
-  const nodeInput: NodeInput = {
+  const nodeInput = {
     nodeName: "rtspSource"
   };
 
-  const msgSink: IotHubMessageSink = {
+  const msgSink = {
     name: "msgSink",
     inputs: [nodeInput],
     hubOutputName: "${hubSinkOutputName}",
     "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink"
   };
 
-  const pipelineTopology: PipelineTopology = {
+  const pipelineTopology = {
     name: "jsTestGraph",
     properties: {
       description: "description for jsTestGraph",
@@ -58,8 +49,8 @@ function buildPipelineTopology() {
   return pipelineTopology;
 }
 
-function buildLivePipeline(PipelineTopologyName: string) {
-  const livePipeline: LivePipeline = {
+function buildLivePipeline(PipelineTopologyName) {
+  const livePipeline = {
     name: PipelineTopologyName,
     properties: {
       description: "description for jsTestGraphInstance",
@@ -71,13 +62,13 @@ function buildLivePipeline(PipelineTopologyName: string) {
   return livePipeline;
 }
 
-export async function main() {
+async function main() {
   const device_id = "lva-sample-device";
   const module_id = "mediaEdge";
   const connectionString = "connectionString";
   const iotHubClient = Client.fromConnectionString(connectionString);
 
-  const invokeMethodHelper = async (methodRequest: Request<any>) => {
+  const invokeMethodHelper = async (methodRequest) => {
     return await iotHubClient.invokeDeviceMethod(device_id, module_id, {
       methodName: methodRequest.methodName,
       payload: methodRequest.payload
