@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"Your social-security number is 078-05-1120.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "1eb6c42f-6bc5-4108-8f90-8fe645583f65",
+    "apim-request-id": "5c0461d9-c2eb-443f-b5b7-95fe78b4aa05",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Tue, 04 May 2021 22:20:12 GMT",
+    "date": "Wed, 12 May 2021 19:15:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "2571"
+    "x-envoy-upstream-service-time": "53"
    }
   }
  ],

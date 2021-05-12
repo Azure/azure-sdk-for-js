@@ -1,0 +1,104 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs",
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
+   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"This should fail because we're passing in an invalid language hint\",\"language\":\"notalanguage\"}]}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "b563b410-6c1d-4d1d-a635-3c1293be4cc0",
+    "date": "Wed, 12 May 2021 19:16:48 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.5/entities/health/jobs/65dcf052-dee9-4542-b2fd-f67c3d9a639f",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "65"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs/65dcf052-dee9-4542-b2fd-f67c3d9a639f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"65dcf052-dee9-4542-b2fd-f67c3d9a639f\",\"lastUpdateDateTime\":\"2021-05-12T19:16:48Z\",\"createdDateTime\":\"2021-05-12T19:16:48Z\",\"expirationDateTime\":\"2021-05-13T19:16:48Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "e311ddee-9016-4124-819c-ebf9d423a03b",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:16:48 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "5"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs/65dcf052-dee9-4542-b2fd-f67c3d9a639f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"65dcf052-dee9-4542-b2fd-f67c3d9a639f\",\"lastUpdateDateTime\":\"2021-05-12T19:16:48Z\",\"createdDateTime\":\"2021-05-12T19:16:48Z\",\"expirationDateTime\":\"2021-05-13T19:16:48Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "4a3a206e-63e2-4389-a9b5-ca68f9ddd456",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:16:48 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs/65dcf052-dee9-4542-b2fd-f67c3d9a639f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"65dcf052-dee9-4542-b2fd-f67c3d9a639f\",\"lastUpdateDateTime\":\"2021-05-12T19:16:49Z\",\"createdDateTime\":\"2021-05-12T19:16:48Z\",\"expirationDateTime\":\"2021-05-13T19:16:48Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support\"}}}],\"modelVersion\":\"2021-03-01\"}}",
+   "responseHeaders": {
+    "apim-request-id": "c579856b-cec4-4424-9628-ef1005b0ba5f",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:16:50 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "32"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs/65dcf052-dee9-4542-b2fd-f67c3d9a639f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"65dcf052-dee9-4542-b2fd-f67c3d9a639f\",\"lastUpdateDateTime\":\"2021-05-12T19:16:49Z\",\"createdDateTime\":\"2021-05-12T19:16:48Z\",\"expirationDateTime\":\"2021-05-13T19:16:48Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support\"}}}],\"modelVersion\":\"2021-03-01\"}}",
+   "responseHeaders": {
+    "apim-request-id": "bb51a1a9-821b-41d1-9725-4a1ed28392e3",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:16:50 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "36"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "950803c07856400abdae1e4fba405f38"
+}

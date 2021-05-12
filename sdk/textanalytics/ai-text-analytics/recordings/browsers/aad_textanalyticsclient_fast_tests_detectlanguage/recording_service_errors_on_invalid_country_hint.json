@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 04 May 2021 22:20:45 GMT",
+    "date": "Wed, 12 May 2021 19:17:31 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11654.25 - WUS2 ProdSlices",
-    "x-ms-request-id": "c94ac341-0e65-42a5-a51a-5cb3fe414100"
+    "x-ms-ests-server": "2.1.11722.21 - EUS ProdSlices",
+    "x-ms-request-id": "743b3b92-2f52-481c-a716-8c7802385200"
    }
   },
   {
@@ -32,9 +32,9 @@
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Country Hint.\",\"innererror\":{\"code\":\"InvalidCountryHint\",\"message\":\"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code.\"}}}],\"modelVersion\":\"2021-01-05\"}",
    "responseHeaders": {
-    "apim-request-id": "7de33066-653b-4835-9ed6-260b7c9d9473",
+    "apim-request-id": "ab5434a8-bde1-4c98-ba83-6fa9a4bbf6a2",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 04 May 2021 22:20:45 GMT",
+    "date": "Wed, 12 May 2021 19:17:31 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",

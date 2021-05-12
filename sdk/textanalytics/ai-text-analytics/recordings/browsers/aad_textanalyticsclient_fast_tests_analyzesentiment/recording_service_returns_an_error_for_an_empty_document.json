@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 04 May 2021 22:20:25 GMT",
+    "date": "Wed, 12 May 2021 19:17:18 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11654.25 - EUS ProdSlices",
-    "x-ms-request-id": "736f0233-c45c-4535-b054-7ec893b70c00"
+    "x-ms-ests-server": "2.1.11722.21 - EUS ProdSlices",
+    "x-ms-request-id": "066edeb7-a09f-4303-a4a3-ddc306e95500"
    }
   },
   {
@@ -34,14 +34,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.99,\"neutral\":0.01,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.99,\"neutral\":0.01,\"negative\":0.0},\"offset\":0,\"length\":86,\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\"}],\"warnings\":[]},{\"id\":\"2\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":58,\"text\":\"Unfortunately, it rained during my entire trip to Seattle.\"},{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.7,\"negative\":0.29},\"offset\":59,\"length\":43,\"text\":\"I didn't even get to visit the Space Needle\"}],\"warnings\":[]},{\"id\":\"3\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":101,\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\"}],\"warnings\":[]},{\"id\":\"4\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.03,\"negative\":0.96},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.03,\"negative\":0.96},\"offset\":0,\"length\":42,\"text\":\"I didn't like the last book I read at all.\"}],\"warnings\":[]}],\"errors\":[{\"id\":\"1\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "3f9b297c-4975-44da-87e1-4196aa213503",
+    "apim-request-id": "5141f81a-fee8-44ff-8978-8b49700c1eaa",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-    "date": "Tue, 04 May 2021 22:20:25 GMT",
+    "date": "Wed, 12 May 2021 19:17:18 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "106"
+    "x-envoy-upstream-service-time": "132"
    }
   }
  ],

@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 04 May 2021 22:21:30 GMT",
+    "date": "Wed, 12 May 2021 19:17:58 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11654.25 - SCUS ProdSlices",
-    "x-ms-request-id": "4a190b7d-62a8-42a9-aecc-86c458510d00"
+    "x-ms-ests-server": "2.1.11722.21 - EUS ProdSlices",
+    "x-ms-request-id": "d00521bc-1a92-477a-94fd-3790203c4f00"
    }
   },
   {
@@ -34,14 +34,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"Patient name is *** and SSN is ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"Joe\",\"category\":\"Person\",\"offset\":16,\"length\":3,\"confidenceScore\":0.79},{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":31,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "fb0d26eb-78da-43ae-9b45-28f4cccc0123",
+    "apim-request-id": "931d52c6-d2fb-4459-86a8-d300d65c4f1d",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Tue, 04 May 2021 22:21:29 GMT",
+    "date": "Wed, 12 May 2021 19:17:58 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "81"
+    "x-envoy-upstream-service-time": "64"
    }
   },
   {
@@ -55,14 +55,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"Patient name is Joe and SSN is ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":31,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "e8e65f44-4edf-40bc-94c2-c841be294f0c",
+    "apim-request-id": "b2b45fee-dccd-4c8e-a1d2-76539f19610b",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Tue, 04 May 2021 22:21:30 GMT",
+    "date": "Wed, 12 May 2021 19:17:58 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "73"
+    "x-envoy-upstream-service-time": "38"
    }
   }
  ],

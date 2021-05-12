@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 04 May 2021 22:21:07 GMT",
+    "date": "Wed, 12 May 2021 19:17:45 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11654.25 - NCUS ProdSlices",
-    "x-ms-request-id": "8b51cbcf-7c2c-400b-80f7-e4f660df0b00"
+    "x-ms-ests-server": "2.1.11722.21 - EUS ProdSlices",
+    "x-ms-request-id": "743b3b92-2f52-481c-a716-8c78023a5200"
    }
   },
   {
@@ -32,14 +32,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"week\",\"Space Needle\",\"wonderful trip\",\"Seattle\",\"times\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"entire trip\",\"Seattle\",\"Space Needle\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"movie\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"book\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "ed864edb-5546-4b2e-a239-d1b5fa4b1e5a",
+    "apim-request-id": "be10aa8e-9ab7-4a4d-9c62-864b3e329b3c",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-    "date": "Tue, 04 May 2021 22:21:07 GMT",
+    "date": "Wed, 12 May 2021 19:17:45 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "20"
+    "x-envoy-upstream-service-time": "19"
    }
   }
  ],
