@@ -22,10 +22,7 @@ matrix([[true, false]], async function(useAad) {
 
     beforeEach(function(this: Context) {
       if (useAad) {
-        const recordedClient =
-          createRecordedCommunicationIdentityClientWithToken(this) || this.skip();
-        client = recordedClient.client;
-        recorder = recordedClient.recorder;
+        ({ client, recorder } = createRecordedCommunicationIdentityClientWithToken(this));
       } else {
         ({ client, recorder } = createRecordedCommunicationIdentityClient(this));
       }
@@ -77,7 +74,7 @@ matrix([[true, false]], async function(useAad) {
     it("successfully deletes a user", async function() {
       const user: CommunicationUserIdentifier = await client.createUser();
       await client.deleteUser(user);
-    }).timeout(20000);
+    });
 
     describe("Error Cases: ", async function() {
       const fakeUser: CommunicationUserIdentifier = {

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as uuid } from "uuid";
 import { logErrorStackTrace, logger } from "./log";
 import {
   EventContext,
@@ -38,7 +37,6 @@ interface CreateReceiverOptions {
   onClose: OnAmqpEvent;
   onSessionError: OnAmqpEvent;
   onSessionClose: OnAmqpEvent;
-  newName?: boolean;
   eventPosition?: EventPosition;
 }
 
@@ -586,7 +584,7 @@ export class EventHubReceiver extends LinkEntity {
         // store the underlying link in a cache
         this._context.receivers[this.name] = this;
 
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
       } else {
         logger.verbose(
           "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
@@ -617,7 +615,6 @@ export class EventHubReceiver extends LinkEntity {
    * @hidden
    */
   private _createReceiverOptions(options: CreateReceiverOptions): RheaReceiverOptions {
-    if (options.newName) this.name = uuid();
     const rcvrOptions: RheaReceiverOptions = {
       name: this.name,
       autoaccept: true,
@@ -625,13 +622,11 @@ export class EventHubReceiver extends LinkEntity {
         address: this.address
       },
       credit_window: 0,
-      onMessage: options.onMessage || ((context: EventContext) => this._onAmqpMessage(context)),
-      onError: options.onError || ((context: EventContext) => this._onAmqpError(context)),
-      onClose: options.onClose || ((context: EventContext) => this._onAmqpClose(context)),
-      onSessionError:
-        options.onSessionError || ((context: EventContext) => this._onAmqpSessionError(context)),
-      onSessionClose:
-        options.onSessionClose || ((context: EventContext) => this._onAmqpSessionClose(context))
+      onMessage: options.onMessage,
+      onError: options.onError,
+      onClose: options.onClose,
+      onSessionError: options.onSessionError,
+      onSessionClose: options.onSessionClose
     };
 
     if (typeof this.ownerLevel === "number") {

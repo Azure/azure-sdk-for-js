@@ -12,17 +12,17 @@ function delay<T>(t: number, value?: T): Promise<T | void> {
  *
  * @param options - the options to pass to the underlying token provider
  */
-export type AccessTokenGetter = (
+export type AccessTokenGetter<T extends GetTokenOptions> = (
   scopes: string | string[],
-  options: GetTokenOptions
+  options: T
 ) => Promise<AccessToken>;
 
 /**
  * The response of the
  */
-export interface AccessTokenRefresher {
+export interface AccessTokenRefresher<T extends GetTokenOptions> {
   cachedToken?: AccessToken;
-  getToken: AccessTokenGetter;
+  getToken: AccessTokenGetter<T>;
 }
 
 export interface TokenCyclerOptions {
@@ -114,10 +114,10 @@ async function beginRefresh(
  *
  * @returns - a function that reliably produces a valid access token
  */
-export function createTokenCycler(
+export function createTokenCycler<T extends GetTokenOptions>(
   credential: TokenCredential,
   tokenCyclerOptions?: Partial<TokenCyclerOptions>
-): AccessTokenRefresher {
+): AccessTokenRefresher<T> {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
 
@@ -162,10 +162,7 @@ export function createTokenCycler(
    * Starts a refresh job or returns the existing job if one is already
    * running.
    */
-  function refresh(
-    scopes: string | string[],
-    getTokenOptions: GetTokenOptions
-  ): Promise<AccessToken> {
+  function refresh(scopes: string | string[], getTokenOptions: T): Promise<AccessToken> {
     if (!cycler.isRefreshing) {
       // We bind `scopes` here to avoid passing it around a lot
       const tryGetAccessToken = (): Promise<AccessToken | null> =>
@@ -201,10 +198,7 @@ export function createTokenCycler(
     get cachedToken(): AccessToken | undefined {
       return token || undefined;
     },
-    getToken: async (
-      scopes: string | string[],
-      tokenOptions: GetTokenOptions
-    ): Promise<AccessToken> => {
+    getToken: async (scopes: string | string[], tokenOptions: T): Promise<AccessToken> => {
       //
       // Simple rules:
       // - If we MUST refresh, then return the refresh task, blocking
@@ -214,7 +208,6 @@ export function createTokenCycler(
       // - Return the token, since it's fine if we didn't return in
       //   step 1.
       //
-
       if (cycler.mustRefresh) return refresh(scopes, tokenOptions);
 
       if (cycler.shouldRefresh) {

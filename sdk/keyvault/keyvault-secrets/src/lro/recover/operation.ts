@@ -110,6 +110,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
         } else if (error.statusCode !== 404) {
           state.error = error;
           state.isCompleted = true;
+          throw error;
         }
       }
     }

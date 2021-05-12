@@ -76,13 +76,7 @@ export class AzureCliCredential implements TokenCredential {
 
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
-    constructor(options?: AzurePowerShellCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-    }
-
-// @public
-export interface AzurePowerShellCredentialOptions {
-    useLegacyPowerShell?: boolean;
 }
 
 // @public
@@ -104,7 +98,6 @@ export class ClientCertificateCredential implements TokenCredential {
 // @public
 export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
     sendCertificateChain?: boolean;
-    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public
@@ -115,7 +108,6 @@ export class ClientSecretCredential implements TokenCredential {
 
 // @public
 export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
-    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public
@@ -211,7 +203,6 @@ export type InteractiveBrowserCredentialOptions = TokenCredentialOptions & Inter
 export interface InteractiveCredentialOptions extends TokenCredentialOptions {
     authenticationRecord?: AuthenticationRecord;
     disableAutomaticAuthentication?: boolean;
-    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public
@@ -226,12 +217,6 @@ export class ManagedIdentityCredential implements TokenCredential {
 
 // @public
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
-
-// @public
-export interface TokenCachePersistenceOptions {
-    allowUnencryptedStorage?: boolean;
-    name?: string;
-}
 
 export { TokenCredential }
 
@@ -248,18 +233,6 @@ export class UsernamePasswordCredential implements TokenCredential {
 
 // @public
 export interface UsernamePasswordCredentialOptions extends TokenCredentialOptions {
-    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
-}
-
-// @public
-export class VisualStudioCodeCredential implements TokenCredential {
-    constructor(options?: VisualStudioCodeCredentialOptions);
-    getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
-    }
-
-// @public
-export interface VisualStudioCodeCredentialOptions extends TokenCredentialOptions {
-    tenantId?: string;
 }
 
 

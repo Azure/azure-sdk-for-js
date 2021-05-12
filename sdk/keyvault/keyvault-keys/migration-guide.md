@@ -6,16 +6,16 @@ Familiarity with the `azure-keyvault` package is assumed. For those new to the K
 
 ## Table of contents
 
-* [Migration benefits](#migration-benefits)
-* [Important changes](#important-changes)
-    - [Separate packages and clients](#separate-packages-and-clients)
-    - [Client constructors](#client-constructors)
-    - [Create a key](#create-a-key)
-    - [Retrieve a key](#retrieve-a-key)
-    - [List properties of keys](#list-properties-of-keys)
-    - [Delete a key](#delete-a-key)
-    - [Perform cryptographic operations](#perform-cryptographic-operations)
-* [Additional samples](#additional-samples)
+- [Migration benefits](#migration-benefits)
+- [Important changes](#important-changes)
+  - [Separate packages and clients](#separate-packages-and-clients)
+  - [Client constructors](#client-constructors)
+  - [Create a key](#create-a-key)
+  - [Retrieve a key](#retrieve-a-key)
+  - [List properties of keys](#list-properties-of-keys)
+  - [Delete a key](#delete-a-key)
+  - [Perform cryptographic operations](#perform-cryptographic-operations)
+- [Additional samples](#additional-samples)
 
 ## Migration benefits
 
@@ -28,6 +28,7 @@ To try and improve the development experience across Azure services, a set of un
 ### Cross Service SDK improvements
 
 The modern Key Vault client libraries also share some of the cross-service improvements made to the Azure development experience, such as:
+
 - Using the new `@azure/identity` library to share a single authentication approach between clients.
 - A unified logging and diagnostics pipeline that offers a common view of the activities across each of the client libraries.
 - The use of promises rather than callbacks for a simplified programming experience.
@@ -37,7 +38,7 @@ The modern Key Vault client libraries also share some of the cross-service impro
 
 ### Separate packages and clients
 
-In the interest of simplifying the API for working with Key Vault keys, secrets and certificates, the `azure-keyvault`  package is split into separate packages.
+In the interest of simplifying the API for working with Key Vault keys, secrets and certificates, the `azure-keyvault` package is split into separate packages.
 
 - [`@azure/keyvault-keys`][kvk-npm] contains `KeyClient` for working with Key Vault keys, and `CryptographyClient` for performing cryptographic operations.
 - [`@azure/keyvault-secrets`][kvs-npm] contains `SecretClient` for working with Key Vault secrets.
@@ -51,10 +52,9 @@ Across all of the new Azure client libraries, clients consistently take an endpo
 
 Previously in `azure-keyvault` you could create a `KeyVaultClient` by using credentials from `ms-rest-azure` (up to the version `^2.6.0`. Higher versions are not supported).
 
-
 ```js
-var KeyVault = require('azure-keyvault');
-var msRestAzure = require('ms-rest-azure');
+var KeyVault = require("azure-keyvault");
+var msRestAzure = require("ms-rest-azure");
 
 const clientId = "client id";
 const secret = "client secret";
@@ -62,11 +62,7 @@ const domain = "tenant id";
 const vaultUrl = `https://my-vault.vault.azure.net/`;
 
 async function main() {
-  const credentials = await msRestAzure.loginWithServicePrincipalSecret(
-    clientId,
-    secret,
-    domain
-  );
+  const credentials = await msRestAzure.loginWithServicePrincipalSecret(clientId, secret, domain);
   const client = new KeyVault.KeyVaultClient(credentials);
   const keyVaultKey = await client.getKey(vaultUrl, "MyKey", "");
   console.log(keyVaultKey);
@@ -83,7 +79,7 @@ You can install them by simply running the following command at the root of your
 npm install --save @azure/identity @azure/keyvault-keys
 ```
 
-Below is a simple example using both `@azure/keyvault-keys` and [`DefaultAzureCredential`][identity-readme-DAC]:
+Below is a simple example using both `@azure/keyvault-keys` and [`DefaultAzureCredential`][identity-readme-dac]:
 
 ```ts
 // The default credential first checks environment variables for configuration as described above.
@@ -134,7 +130,7 @@ let keyBundle = await client.createKey(vaultUrl, "myRSAKey", "RSA");
 console.log(keyBundle);
 
 // create an elliptic curve key
-keyBundle = await client.createKey(vaultUrl, "myECKey", "EC")
+keyBundle = await client.createKey(vaultUrl, "myECKey", "EC");
 console.log(keyBundle);
 ```
 
@@ -180,7 +176,9 @@ console.log(keyVaultKey.properties.version);
 
 for await (let versionProperties of client.listPropertiesOfKeyVersions("MyKey")) {
   console.log("Name:", versionProperties.name, "Version:", versionProperties.version);
-  const keyVaultKey = await client.getKey(versionProperties.name, { version: versionProperties.version });
+  const keyVaultKey = await client.getKey(versionProperties.name, {
+    version: versionProperties.version
+  });
   console.log(keyVaultKey.properties.version);
 }
 ```
@@ -230,7 +228,13 @@ In `azure-keyvault` you could perform cryptographic operations with keys by usin
 ```js
 const keyName = "MyKey";
 await client.createKey(vaultUrl, keyName, "RSA");
-const operationResult = await client.encrypt(vaultUrl, keyName, "", "RSA1_5", Buffer.from("plaintext"));
+const operationResult = await client.encrypt(
+  vaultUrl,
+  keyName,
+  "",
+  "RSA1_5",
+  Buffer.from("plaintext")
+);
 console.log(operationResult.result);
 ```
 
@@ -245,14 +249,14 @@ console.log(operationResult.result);
 
 ## Additional samples
 
-* [Key Vault keys samples for JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript)
-* [General Key Vault samples for JavaScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=javascript)
-* [Key Vault keys samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/typescript)
-* [General Key Vault samples for TypeScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=typescript)
+- [Key Vault keys samples for JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/v4/javascript)
+- [General Key Vault samples for JavaScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=javascript)
+- [Key Vault keys samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/v4/typescript)
+- [General Key Vault samples for TypeScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=typescript)
 
 [kvk-npm]: https://www.npmjs.com/package/@azure/keyvault-keys
 [kvs-npm]: https://www.npmjs.com/package/@azure/keyvault-secrets
 [kvc-npm]: https://www.npmjs.com/package/@azure/keyvault-certificates
 [ts-guidelines]: https://azure.github.io/azure-sdk/typescript_introduction.html
 [identity-npm]: https://www.npmjs.com/package/@azure/identity
-[identity-readme-DAC]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential
+[identity-readme-dac]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential

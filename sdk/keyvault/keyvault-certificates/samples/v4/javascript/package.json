@@ -1,0 +1,34 @@
+{
+  "name": "azure-keyvault-certificates-samples-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Key Vault Certificates client library samples for JavaScript",
+  "engine": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/keyvault/keyvault-certificates"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "keyvault"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates",
+  "dependencies": {
+    "@azure/keyvault-certificates": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^1.1.0"
+  }
+}

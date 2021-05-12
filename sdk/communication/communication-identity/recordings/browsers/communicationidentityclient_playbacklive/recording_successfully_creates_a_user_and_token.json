@@ -8,9 +8,18 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"voip\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"sanitized\"},\"accessToken\":{\"token\":\"sanitized\",\"expiresOn\":\"2021-04-21T02:14:08.8479498+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"sanitized\"},\"accessToken\":{\"token\":\"sanitized\",\"expiresOn\":\"2021-04-25T01:34:24.1606497+00:00\"}}",
    "responseHeaders": {
-    "content-type": "application/json; charset=utf-8"
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 24 Apr 2021 01:34:24 GMT",
+    "ms-cv": "q+yc43tfBU+pZ0XNdiNRKw.0",
+    "request-context": "appId=",
+    "status": "201",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0oHWDYAAAAADiiIIRsIrWRq/PSvcAEEmLWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-ms-client-request-id": "sanitized",
+    "x-processing-time": "453ms"
    }
   }
  ],
