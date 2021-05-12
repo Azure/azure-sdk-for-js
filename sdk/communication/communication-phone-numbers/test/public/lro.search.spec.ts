@@ -40,7 +40,7 @@ matrix([[true, false]], async function(useAad) {
       const results = await searchPoller.pollUntilDone();
       assert.equal(results.phoneNumbers.length, 1);
       assert.ok(searchPoller.getOperationState().isCompleted);
-    }).timeout(20000);
+    }).timeout(60000);
 
     it("throws on invalid search request", async function() {
       // person and toll free is an invalid combination

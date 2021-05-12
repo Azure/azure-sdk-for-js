@@ -33,6 +33,6 @@ matrix([[true, false]], async function(useAad) {
       }
 
       assert.isTrue(all > 0);
-    }).timeout(20000);
+    }).timeout(60000);
   });
 });
