@@ -78,7 +78,7 @@ export async function main() {
   printField("DateOfExpiration");
   printField("Sex");
   printField("Address");
-  printField("Country");
+  printField("CountryRegion");
   printField("Region");
 }
 
