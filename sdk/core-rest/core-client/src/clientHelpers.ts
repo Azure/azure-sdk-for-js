@@ -7,7 +7,6 @@ import {
   Pipeline,
   createDefaultHttpClient,
   HttpClient,
-  PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "./common";
@@ -27,25 +26,29 @@ export function createDefaultPipeline(
   pipeline.removePolicy({ name: "exponentialRetryPolicy" });
 
   if (credential) {
-    let credentialPolicy: PipelinePolicy;
     if (isTokenCredential(credential)) {
-      credentialPolicy = bearerTokenAuthenticationPolicy({
+      const tokenPolicy = bearerTokenAuthenticationPolicy({
         credential,
         scopes: options.credentials?.scopes ?? `${baseUrl}/.default`,
       });
-    } else {
+      pipeline.addPolicy(tokenPolicy);
+    } else if (isKeyCredential(credential)) {
       if (!options.credentials?.apiKeyHeaderName) {
         throw new Error(`Missing API Key Header Name`);
       }
-      credentialPolicy = keyCredentialAuthenticationPolicy(
+      const keyPolicy = keyCredentialAuthenticationPolicy(
         credential,
         options.credentials?.apiKeyHeaderName
       );
+      pipeline.addPolicy(keyPolicy);
     }
-    pipeline.addPolicy(credentialPolicy);
   }
 
   return pipeline;
+}
+
+function isKeyCredential(credential: any): credential is KeyCredential {
+  return (credential as KeyCredential).key !== undefined;
 }
 
 export function getCachedDefaultHttpsClient(): HttpClient {
