@@ -67,7 +67,7 @@ import {
   AnalyzeHealthcareOperationState
 } from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
-import { AnalyzeActionsPollerLike, beginAnalyzeActionsPoller } from "./lro/analyze/poller";
+import { AnalyzeActionsPollerLike, BeginAnalyzeActionsPoller } from "./lro/analyze/poller";
 import {
   AnalyzeActionsOperationMetadata,
   BeginAnalyzeActionsOptions,
@@ -1021,7 +1021,7 @@ export class TextAnalyticsClient {
     }
     const compiledActions = compileAnalyzeInput(actions);
     const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
-    const poller = new beginAnalyzeActionsPoller({
+    const poller = new BeginAnalyzeActionsPoller({
       client: this.client,
       documents: realInputs,
       actions: compiledActions,

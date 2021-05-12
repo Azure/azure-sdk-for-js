@@ -33,7 +33,7 @@ export type AnalyzeActionsPollerLike = PollerLike<
  * Class that represents a poller that waits for the analyze actions results.
  * @internal
  */
-export class beginAnalyzeActionsPoller extends AnalysisPoller<
+export class BeginAnalyzeActionsPoller extends AnalysisPoller<
   AnalyzeActionsOperationState,
   PagedAnalyzeActionsResult
 > {
