@@ -2,7 +2,7 @@
 
 ## 1.0.0 (Unreleased)
 
-## 2021-04-20
+## 2021-05-12
 
 - Extended the `requestBodyTransformations` from #14897 to handle browser tests as well.
   - Adds a default transformation to strip out the scope in the request body with the string `"https://sanitized/"`
