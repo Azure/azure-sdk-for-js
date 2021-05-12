@@ -3,7 +3,6 @@
 
 import {
   TableServiceClientOptions,
-  TableBatch,
   TableEntity,
   CreateTableEntityResponse,
   DeleteTableEntityOptions,
@@ -13,7 +12,9 @@ import {
   UpdateMode,
   UpdateTableEntityOptions,
   TableEntityResult,
-  TableItem
+  TableItem,
+  TransactionAction,
+  TableTransactionResponse
 } from "../models";
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
 import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
@@ -60,11 +61,64 @@ export interface ClientParamsFromConnectionString {
 }
 
 /**
- * Batch request builder
+ * Defines the shape of a TableTransaction
  */
-export interface InnerBatchRequest {
+export interface TableTransaction {
   /**
-   * Batch request body
+   * Partition key targeted by the transaction
+   */
+  partitionKey: string;
+  /**
+   * Adds a createEntity operation to the transaction per each entity in the entities array
+   * @param entities - Array of entities to create
+   */
+  createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
+  /**
+   * Adds a createEntity operation to the transaction
+   * @param entity - Entity to create
+   */
+  createEntity: <T extends object>(entity: TableEntity<T>) => void;
+  /**
+   * Adds a deleteEntity operation to the transaction
+   * @param partitionKey - Partition key of the entity to delete
+   * @param rowKey - Row key of the entity to delete
+   * @param options - Options for the delete operation
+   */
+  deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
+  /**
+   * Adds an updateEntity operation to the transaction
+   * @param entity - Entity to update
+   * @param mode - Update mode (Merge or Replace)
+   * @param options - Options for the update operation
+   */
+  updateEntity: <T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: UpdateTableEntityOptions
+  ) => void;
+  /**
+   * Adds an updateEntity operation to the transaction
+   * @param entity - Entity to update
+   * @param mode - Update mode (Merge or Replace)
+   * @param options - Options for the update operation
+   */
+  upsertEntity: <T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: OperationOptions
+  ) => void;
+  /**
+   * Submits the operations in the transaction
+   */
+  submitTransaction: () => Promise<TableTransactionResponse>;
+}
+
+/**
+ * Transaction request builder
+ */
+export interface InnerTransactionRequest {
+  /**
+   * Transaction request body
    */
   body: string[];
   /**
@@ -73,18 +127,18 @@ export interface InnerBatchRequest {
    */
   createPipeline(): Pipeline;
   /**
-   * Adds an operation to add to the batch body
+   * Adds an operation to add to the transaction body
    * @param request - The operation to add
    */
   appendSubRequestToBody(request: PipelineRequest): void;
   /**
-   * Gets the batch request body
+   * Gets the transaction request body
    */
   getHttpRequestBody(): string;
 }
 
-export interface InternalBatchClientOptions extends TableServiceClientOptions {
-  innerBatchRequest: InnerBatchRequest;
+export interface InternalTransactionClientOptions extends TableServiceClientOptions {
+  innerTransactionRequest: InnerTransactionRequest;
 }
 
 /**
@@ -101,10 +155,10 @@ export interface TableClientLike {
    */
   createTable(options?: OperationOptions): Promise<void>;
   /**
-   * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
-   * @param partitionKey - partitionKey to which the batch operations will be targetted to
+   * Submits a Transaction which is composed of a set of actions.
+   * @param actions - tuple that contains the action to perform, and the entity to perform the action with
    */
-  createBatch(partitionKey: string): TableBatch;
+  submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;
   /**
    * Insert entity in the table.
    * @param entity - The properties for the table entity.

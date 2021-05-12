@@ -15,58 +15,57 @@ import {
   TableEntity,
   UpdateMode,
   UpdateTableEntityOptions,
-  TableBatch,
-  TableBatchResponse,
-  TableBatchEntityResponse
+  TableTransactionResponse,
+  TableTransactionEntityResponse
 } from "./models";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
 import { HeaderConstants } from "./utils/constants";
-import { batchHeaderFilterPolicy, batchRequestAssemblePolicy } from "./TableBatchPolicies";
-import { InnerBatchRequest, TableClientLike } from "./utils/internalModels";
+import { transactionHeaderFilterPolicy, transactionRequestAssemblePolicy } from "./TablePolicies";
+import { InnerTransactionRequest, TableClientLike, TableTransaction } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { URL } from "./utils/url";
 import { TableServiceErrorOdataError } from "./generated";
-import { getBatchHeaders } from "./utils/batchHeaders";
+import { getTransactionHeaders } from "./utils/transactionHeaders";
 
 /**
- * TableBatch collects sub-operations that can be submitted together via submitBatch
+ * TableTransaction collects sub-operations that can be submitted together via submitTransaction
  */
-export class TableBatchImpl implements TableBatch {
+export class TableTransactionImpl implements TableTransaction {
   /**
    * Table Account URL
    */
   public url: string;
   private interceptClient: TableClientLike;
-  private batchGuid: string;
-  private batchRequest: InnerBatchRequest;
+  private transactionGuid: string;
+  private transactionRequest: InnerTransactionRequest;
   private pendingOperations: Promise<any>[];
   private credential?: TablesSharedKeyCredentialLike;
 
   /**
-   * Partition key tagetted by the batch
+   * Partition key tagetted by the transaction
    */
   public readonly partitionKey: string;
 
   /**
    * @param url - Tables account url
    * @param partitionKey - partition key
-   * @param credential - credential to authenticate the batch request
+   * @param credential - credential to authenticate the transaction request
    */
   constructor(
     url: string,
     partitionKey: string,
     interceptClient: TableClientLike,
-    batchGuid: string,
-    batchRequest: InnerBatchRequest,
+    transactionGuid: string,
+    transactionRequest: InnerTransactionRequest,
     credential?: TablesSharedKeyCredentialLike
   ) {
     this.credential = credential;
     this.partitionKey = partitionKey;
     this.url = url;
-    this.batchGuid = batchGuid;
-    this.batchRequest = batchRequest;
+    this.transactionGuid = transactionGuid;
+    this.transactionRequest = transactionRequest;
     this.pendingOperations = [];
 
     this.interceptClient = interceptClient;
@@ -85,7 +84,7 @@ export class TableBatchImpl implements TableBatch {
   }
 
   /**
-   * Adds a createEntity operation to the batch
+   * Adds a createEntity operation to the transaction
    * @param entity - Entity to create
    */
   public createEntity<T extends object>(entity: TableEntity<T>): void {
@@ -94,7 +93,7 @@ export class TableBatchImpl implements TableBatch {
   }
 
   /**
-   * Adds a createEntity operation to the batch per each entity in the entities array
+   * Adds a createEntity operation to the transaction per each entity in the entities array
    * @param entities - Array of entities to create
    */
   public createEntities<T extends object>(entities: TableEntity<T>[]): void {
@@ -105,7 +104,7 @@ export class TableBatchImpl implements TableBatch {
   }
 
   /**
-   * Adds a deleteEntity operation to the batch
+   * Adds a deleteEntity operation to the transaction
    * @param partitionKey - Partition key of the entity to delete
    * @param rowKey - Row key of the entity to delete
    * @param options - Options for the delete operation
@@ -120,7 +119,7 @@ export class TableBatchImpl implements TableBatch {
   }
 
   /**
-   * Adds an updateEntity operation to the batch
+   * Adds an updateEntity operation to the transaction
    * @param entity - Entity to update
    * @param mode - Update mode (Merge or Replace)
    * @param options - Options for the update operation
@@ -135,7 +134,7 @@ export class TableBatchImpl implements TableBatch {
   }
 
   /**
-   * Adds an upsertEntity operation to the batch
+   * Adds an upsertEntity operation to the transaction
    * @param entity - The properties for the table entity.
    * @param mode   - The different modes for updating the entity:
    *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
@@ -152,15 +151,18 @@ export class TableBatchImpl implements TableBatch {
   }
 
   /**
-   * Submits the operations in the batch
+   * Submits the operations in the transaction
    */
-  public async submitBatch(): Promise<any> {
+  public async submitTransaction(): Promise<TableTransactionResponse> {
     await Promise.all(this.pendingOperations);
-    const body = this.batchRequest.getHttpRequestBody();
+    const body = this.transactionRequest.getHttpRequestBody();
     const client = new ServiceClient();
-    const headers = getBatchHeaders(this.batchGuid);
+    const headers = getTransactionHeaders(this.transactionGuid);
 
-    const { span, updatedOptions } = createSpan("TableBatch-submitBatch", {} as OperationOptions);
+    const { span, updatedOptions } = createSpan(
+      "TableTransaction-submitTransaction",
+      {} as OperationOptions
+    );
     const request = createPipelineRequest({
       url: this.url,
       method: "POST",
@@ -175,8 +177,8 @@ export class TableBatchImpl implements TableBatch {
     }
 
     try {
-      const rawBatchResponse = await client.sendRequest(request);
-      return parseBatchResponse(rawBatchResponse);
+      const rawTransactionResponse = await client.sendRequest(request);
+      return parseTransactionResponse(rawTransactionResponse);
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -190,21 +192,21 @@ export class TableBatchImpl implements TableBatch {
 
   private checkPartitionKey(partitionKey: string): void {
     if (this.partitionKey !== partitionKey) {
-      throw new Error("All operations in a batch must target the same partitionKey");
+      throw new Error("All operations in a transaction must target the same partitionKey");
     }
   }
 }
 
-function parseBatchResponse(batchResponse: PipelineResponse): TableBatchResponse {
+function parseTransactionResponse(transactionResponse: PipelineResponse): TableTransactionResponse {
   const subResponsePrefix = `--changesetresponse_`;
-  const status = batchResponse.status;
-  const rawBody = batchResponse.bodyAsText || "";
+  const status = transactionResponse.status;
+  const rawBody = transactionResponse.bodyAsText || "";
   const splitBody = rawBody.split(subResponsePrefix);
   // Droping the first and last elemets as they are the boundaries
   // we just care about sub request content
   const subResponses = splitBody.slice(1, splitBody.length - 1);
 
-  const responses: TableBatchEntityResponse[] = subResponses.map((subResponse) => {
+  const responses: TableTransactionEntityResponse[] = subResponses.map((subResponse) => {
     const statusMatch = subResponse.match(/HTTP\/1.1 ([0-9]*)/);
     if (statusMatch?.length !== 2) {
       throw new Error(`Couldn't extract status from sub-response:\n ${subResponse}`);
@@ -217,15 +219,15 @@ function parseBatchResponse(batchResponse: PipelineResponse): TableBatchResponse
     const bodyMatch = subResponse.match(/\{(.*)\}/);
     if (bodyMatch?.length === 2) {
       const parsedError = JSON.parse(bodyMatch[0]);
-      // Only batch sub-responses return body
+      // Only transaction sub-responses return body
       if (parsedError && parsedError["odata.error"]) {
         const error: TableServiceErrorOdataError = parsedError["odata.error"];
-        const message = error.message?.value || "One of the batch operations failed";
+        const message = error.message?.value || "One of the transaction operations failed";
         throw new RestError(message, {
           code: error.code,
           statusCode: subResponseStatus,
-          request: batchResponse.request,
-          response: batchResponse
+          request: transactionResponse.request,
+          response: transactionResponse
         });
       }
     }
@@ -259,30 +261,32 @@ function getSubRequestUrl(url: string): string {
 }
 
 /**
- * This method creates a batch request object that provides functions to build the envelope and body for a batch request
- * @param batchGuid - Id of the batch
+ * This method creates a transaction request object that provides functions to build the envelope and body for a transaction request
+ * @param transactionGuid - Id of the transaction
  */
-export function createInnerBatchRequest(batchGuid: string, changesetId: string): InnerBatchRequest {
+export function createInnerTransactionRequest(
+  transactionGuid: string,
+  changesetId: string
+): InnerTransactionRequest {
   const HTTP_LINE_ENDING = "\r\n";
   const HTTP_VERSION_1_1 = "HTTP/1.1";
-  // batch_{batchid}
-  const batchBoundary = `batch_${batchGuid}`;
+  const transactionBoundary = `batch_${transactionGuid}`;
   const changesetBoundary = `changeset_${changesetId}`;
 
   const subRequestPrefix = `--${changesetBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: application/http${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TRANSFER_ENCODING}: binary`;
   const changesetEnding = `--${changesetBoundary}--`;
-  const batchEnding = `--${batchBoundary}`;
+  const transactionEnding = `--${transactionBoundary}`;
 
   return {
     body: [
-      `--${batchBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: multipart/mixed; boundary=changeset_${changesetId}${HTTP_LINE_ENDING}${HTTP_LINE_ENDING}`
+      `--${transactionBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: multipart/mixed; boundary=changeset_${changesetId}${HTTP_LINE_ENDING}${HTTP_LINE_ENDING}`
     ],
     createPipeline() {
-      // Use batch assemble policy to assemble request and intercept request from going to wire
+      // Use transaction assemble policy to assemble request and intercept request from going to wire
       const pipeline = createEmptyPipeline();
       pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
-      pipeline.addPolicy(batchHeaderFilterPolicy());
-      pipeline.addPolicy(batchRequestAssemblePolicy(this));
+      pipeline.addPolicy(transactionHeaderFilterPolicy());
+      pipeline.addPolicy(transactionRequestAssemblePolicy(this));
       return pipeline;
     },
     appendSubRequestToBody(request: PipelineRequest) {
@@ -305,12 +309,12 @@ export function createInnerBatchRequest(batchGuid: string, changesetId: string):
         subRequest.push(String(request.body));
       }
 
-      // Add subrequest to batch body
+      // Add subrequest to transaction body
       this.body.push(subRequest.join(HTTP_LINE_ENDING));
     },
     getHttpRequestBody(): string {
       const bodyContent = this.body.join(HTTP_LINE_ENDING);
-      return `${bodyContent}${HTTP_LINE_ENDING}${changesetEnding}${HTTP_LINE_ENDING}${batchEnding}${HTTP_LINE_ENDING}`;
+      return `${bodyContent}${HTTP_LINE_ENDING}${changesetEnding}${HTTP_LINE_ENDING}${transactionEnding}${HTTP_LINE_ENDING}`;
     }
   };
 }
