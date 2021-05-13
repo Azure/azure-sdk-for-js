@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { getBaseBatchHeaders } from "./baseBatchHeaders";
+import { getBaseTransactionHeaders } from "./baseTransactionHeaders";
 
 /**
  * @internal
- * Builds an object with the required headers for a Batch request. For Node
+ * Builds an object with the required headers for a Transaction request. For Node
  */
-export function getBatchHeaders(batchGuid: string): RawHttpHeaders {
-  const baseHeaders = getBaseBatchHeaders(batchGuid);
+export function getTransactionHeaders(transactionGuid: string): RawHttpHeaders {
+  const baseHeaders = getBaseTransactionHeaders(transactionGuid);
   return {
     ...baseHeaders,
     // The below headers are not supported in the browser as they are flagged as "unsafe headers"
