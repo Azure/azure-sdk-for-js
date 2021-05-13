@@ -55,20 +55,23 @@ export const FeatureFlagHelper = {
         throw new Error("");
       }
       jsonFeatureFlagValue = JSON.parse(setting.value) as JsonFeatureFlagValue;
-      delete jsonFeatureFlagValue.id; // This is the stripped version of "key" - deleting to not allow multiple truths
     } catch (err) {
       // best effort - if it doesn't deserialize properly we'll just throw
       throw new Error("");
     }
 
+    let key = setting.key;
+    if (typeof setting.key === "string" && !setting.key.startsWith(featureFlagPrefix)) {
+      key = featureFlagPrefix + setting.key;
+    }
     const featureflag: ConfigurationSetting<FeatureFlagValue> = {
       ...setting,
       value: {
         ...jsonFeatureFlagValue,
         conditions: { clientFilters: jsonFeatureFlagValue.conditions.client_filters }
-      }
-      // TODO: Add prefix if doesn't exist
-      // TODO: Add contentType if doesn't exist
+      },
+      key,
+      contentType: featureFlagContentType
     };
     return featureflag;
   },
@@ -81,14 +84,16 @@ export const FeatureFlagHelper = {
     if (!featureFlag.value) {
       throw new Error("Value is not defined");
     }
-    // TODO: Add prefix if doesn't exist
-    // TODO: Add contentType if doesn't exist
+    let key = featureFlag.key;
+    if (typeof featureFlag.key === "string" && !featureFlag.key.startsWith(featureFlagPrefix)) {
+      key = featureFlagPrefix + featureFlag.key;
+    }
     const jsonFeatureFlagValue: JsonFeatureFlagValue = {
+      id: featureFlag.value.id ?? key.replace(featureFlagPrefix, ""),
       ...featureFlag.value,
       conditions: {
         client_filters: featureFlag.value.conditions.clientFilters
-      },
-      id: featureFlag.key.replace(featureFlagPrefix, "")
+      }
     };
 
     let stringifiedValue: string;
@@ -101,6 +106,7 @@ export const FeatureFlagHelper = {
 
     const configSetting = {
       ...featureFlag,
+      key,
       value: stringifiedValue
     };
     return configSetting;
