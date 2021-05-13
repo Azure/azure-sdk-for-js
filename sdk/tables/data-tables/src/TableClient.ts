@@ -687,7 +687,7 @@ interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
   nextRowKey?: string;
   /**
    * If true, automatic type conversion will be disabled and entity properties will
-   * be represented by full metadata types. For example, an Int32 value will be {value: "123", type: "Int32"} instead of 123.
+   * be represented by full metadata types. For example, an Int32 value will be \{value: "123", type: "Int32"\} instead of 123.
    * This option applies for all the properties
    */
   disableTypeConversion?: boolean;
