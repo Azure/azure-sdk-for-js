@@ -560,24 +560,24 @@ export class TableClient {
    * or you can use {@link TableTransaction} to help building the transaction.
    *
    * Example usage:
-   *  ```js
+   * ```js
    * const client = TableClient.fromConnectionString(connectionString, tableName);
    * const actions: TransactionAction[] = [
-   *    ["create", {partitionKey: "p1", rowKey: "1", data: "test1"}]
-   *    ["delete", {partitionKey: "p1", rowKey: "2"}],
-   *    ["update", {partitionKey: "p1", rowKey: "3", data: "newTest"}, "Merge"]
+   *    ["create", \{partitionKey: "p1", rowKey: "1", data: "test1"\}]
+   *    ["delete", \{partitionKey: "p1", rowKey: "2"\}],
+   *    ["update", \{partitionKey: "p1", rowKey: "3", data: "newTest"\}, "Merge"]
    * ]
    * const result = await client.submitTransaction(actions);
    * ```
    *
    * Example usage with TableTransaction:
-   *  ```js
+   * ```js
    * const client = TableClient.fromConnectionString(connectionString, tableName);
    * const transaction = new TableTransaction();
    * // Call the available action in the TableTransaction object
-   * transaction.create({partitionKey: "p1", rowKey: "1", data: "test1"});
+   * transaction.create(\{partitionKey: "p1", rowKey: "1", data: "test1"\});
    * transaction.delete("p1", "2");
-   * transaction.update({partitionKey: "p1", rowKey: "3", data: "newTest"}, "Merge")
+   * transaction.update(\{partitionKey: "p1", rowKey: "3", data: "newTest"\}, "Merge")
    * // submitTransaction with the actions list on the transaction.
    * const result = await client.submitTransaction(transaction.actions);
    * ```
