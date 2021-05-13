@@ -405,14 +405,11 @@ export class DataLakeServiceClient extends StorageClient {
         deleteFileSystemVersion,
         {
           ...options,
-          destinationContainerName: options.destinationFileSystemName,
           tracingOptions: updatedOptions.tracingOptions
         }
       );
 
-      const fileSystemClient = this.getFileSystemClient(
-        options.destinationFileSystemName || deletedFileSystemName
-      );
+      const fileSystemClient = this.getFileSystemClient(deletedFileSystemName);
       return {
         fileSystemClient,
         fileSystemUndeleteResponse: res.containerUndeleteResponse

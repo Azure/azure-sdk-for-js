@@ -333,11 +333,6 @@ export interface ServiceUndeleteContainerOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
-  /**
-   * Optional. Specifies the new name of the restored container.
-   * Will use its original name if this is not specified.
-   */
-  destinationContainerName?: string;
 }
 
 /**
@@ -600,9 +595,7 @@ export class BlobServiceClient extends StorageClient {
   }> {
     const { span, updatedOptions } = createSpan("BlobServiceClient-undeleteContainer", options);
     try {
-      const containerClient = this.getContainerClient(
-        options.destinationContainerName || deletedContainerName
-      );
+      const containerClient = this.getContainerClient(deletedContainerName);
       // Hack to access a protected member.
       const containerContext = new Container(containerClient["storageClientContext"]);
       const containerUndeleteResponse = await containerContext.restore({

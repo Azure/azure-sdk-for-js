@@ -1790,7 +1790,6 @@ export type ServiceRenameFileSystemOptions = ServiceRenameContainerOptions;
 // @public
 export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    destinationFileSystemName?: string;
 }
 
 // @public (undocumented)

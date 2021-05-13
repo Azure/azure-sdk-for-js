@@ -279,12 +279,6 @@ export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
-
-  /**
-   * Optional. Specifies the new name of the restored File System.
-   * Will use its original name if this is not specified.
-   */
-  destinationFileSystemName?: string;
 }
 
 /** **************************************************************/
