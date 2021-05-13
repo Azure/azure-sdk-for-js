@@ -664,7 +664,7 @@
     {
       "packageName": "@azure/video-analyzer-edge",
       "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
-      "versionPolicyName": "test"
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",

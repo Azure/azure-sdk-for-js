@@ -26,9 +26,9 @@ npm install @azure/video-analyzer-edge
 - To interact with Azure IoT Hub you will need to run `npm install azure-iothub`
 - You will need to use the version of the SDK that corresponds to the version of the Video Analyzer Edge module you are using.
 
-  | SDK     | Video Analyzer Edge Module |
-  | ------- | -------------------------- |
-  | 1.0.0b1 | 1.0                        |
+  | SDK          | Video Analyzer Edge Module |
+  | ------------ | -------------------------- |
+  | 1.0.0-beta.1 | 1.0                        |
 
 ### Creating a pipeline topology and making requests
 
@@ -78,7 +78,7 @@ const rtspSource: RtspSource = {
       description: "description for jsTestTopology",
       parameters: [
         { name: "rtspUserName", type: "String", default: "dummyUsername" },
-        { name: "rtspPassword", type: "SecretString", default: "dumyPassword" },
+        { name: "rtspPassword", type: "SecretString", default: "dummyPassword" },
         { name: "rtspUrl", type: "String" }
         { name: "hubSinkOutputName", type: "String" }
       ],
@@ -106,9 +106,11 @@ const livePipeline: LivePipeline = {
 
 ### Invoking a pipeline method request
 
+To create a pipeline method request you will need to get your deviceId and moduleId from your Azure IoT hub.
+
 ```typescript
 const pipelineTopologySetRequest = createRequest("pipelineTopologySet", pipelineTopology);
-const setPipelineTopResponse = await iotHubClient.invokeDeviceMethod(device_id, module_id, {
+const setPipelineTopResponse = await iotHubClient.invokeDeviceMethod(deviceId, moduleId, {
   methodName: pipelineTopologySetRequest.methodName,
   payload: pipelineTopologySetRequest.payload
 });

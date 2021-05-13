@@ -23,36 +23,34 @@ export type CognitiveServicesVisionProcessor = ProcessorNodeBase & {
     operation: SpatialAnalysisOperationBaseUnion;
 };
 
-// @public (undocumented)
+// @public
 export function createRequest(request: "pipelineTopologySet", payload: PipelineTopology): Request<PipelineTopology>;
 
-// Warning: (ae-forgotten-export) The symbol "NameObject" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
+// @public
 export function createRequest(request: "pipelineTopologyGet", payload: string): Request<NameObject>;
 
-// @public (undocumented)
+// @public
 export function createRequest(request: "pipelineTopologyList"): Request<{}>;
 
-// @public (undocumented)
+// @public
 export function createRequest(request: "pipelineTopologyDelete", payload: string): Request<NameObject>;
 
-// @public (undocumented)
+// @public
 export function createRequest(request: "livePipelineSet", payload: LivePipeline): Request<LivePipeline>;
 
-// @public (undocumented)
+// @public
 export function createRequest(request: "livePipelineGet", payload: string): Request<NameObject>;
 
-// @public (undocumented)
+// @public
 export function createRequest(request: "livePipelineList"): Request<{}>;
 
-// @public (undocumented)
+// @public
 export function createRequest(request: "livePipelineDelete", payload: string): Request<NameObject>;
 
-// @public (undocumented)
+// @public
 export function createRequest(request: "livePipelineActivate", payload: string): Request<NameObject>;
 
-// @public (undocumented)
+// @public
 export function createRequest(request: "livePipelineDeactivate", payload: string): Request<NameObject>;
 
 // @public
@@ -411,6 +409,12 @@ export type NamedPolygonString = NamedPolygonBase & {
     "@type": "#Microsoft.VideoAnalyzer.NamedPolygonString";
     polygon: string;
 };
+
+// @public (undocumented)
+export interface NameObject {
+    // (undocumented)
+    name: string;
+}
 
 // @public
 export interface NodeInput {

@@ -72,17 +72,17 @@ function buildLivePipeline(pipelineTopologyName: string) {
 }
 
 export async function main() {
-  const device_id = "lva-sample-device";
-  const module_id = "mediaEdge";
+  const deviceId = "lva-sample-device";
+  const moduleId = "mediaEdge";
   const connectionString = "connectionString";
   const iotHubClient = Client.fromConnectionString(connectionString);
 
-  const invokeMethodHelper = async (methodRequest: Request<any>) => {
-    return await iotHubClient.invokeDeviceMethod(device_id, module_id, {
+  async function invokeMethodHelper<T>(methodRequest: Request<T>) {
+    return await iotHubClient.invokeDeviceMethod(deviceId, moduleId, {
       methodName: methodRequest.methodName,
       payload: methodRequest.payload
     });
-  };
+  }
 
   const pipelineTopology = buildPipelineTopology();
   const livePipeline = buildLivePipeline(pipelineTopology.name);
