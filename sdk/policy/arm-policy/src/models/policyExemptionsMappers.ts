@@ -28,8 +28,8 @@ export {
   PolicyDefinitionGroup,
   PolicyDefinitionReference,
   PolicyExemption,
+  PolicyExemptionListResult,
   PolicySetDefinition,
-  PolicySetDefinitionListResult,
   ResourceTypeAliases,
   SystemData
 } from "../models/mappers";
