@@ -172,10 +172,6 @@ describe("TableClient", () => {
     });
 
     it("should createEntity with Date", async () => {
-      type TestType = {
-        testField: Edm<"DateTime">;
-      };
-
       const testDate = "2020-09-17T00:00:00.111Z";
       const testEntity = {
         partitionKey: `P2_${suffix}`,
@@ -185,7 +181,7 @@ describe("TableClient", () => {
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
-      const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
+      const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey);
       await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
         onResponse: (res) => (deleteResult = res)
       });
@@ -194,7 +190,7 @@ describe("TableClient", () => {
       assert.equal(createResult?.status, 204);
       assert.equal(result.partitionKey, testEntity.partitionKey);
       assert.equal(result.rowKey, testEntity.rowKey);
-      assert.deepEqual(result.testField.value, testDate);
+      assert.deepEqual(result.testField, new Date(testDate));
     });
 
     it("should createEntity with Guid", async () => {
@@ -242,7 +238,7 @@ describe("TableClient", () => {
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
-      const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
+      const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey);
       await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
         onResponse: (res) => (deleteResult = res)
       });
@@ -250,7 +246,8 @@ describe("TableClient", () => {
       assert.equal(deleteResult?.status, 204);
       assert.equal(createResult?.status, 204);
       assert.equal(result.rowKey, testEntity.rowKey);
-      assert.deepEqual(result.testField, testInt64);
+      assert.equal(typeof result.testField, "bigint");
+      assert.deepEqual(result.testField, BigInt(testInt64.value));
     });
 
     it("should createEntity with Int32", async () => {
@@ -344,7 +341,9 @@ describe("TableClient", () => {
       let createResult: FullOperationResponse | undefined;
       let deleteResult: FullOperationResponse | undefined;
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
-      const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
+      const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey, {
+        disableDeserialization: true
+      });
       await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
         onResponse: (res) => (deleteResult = res)
       });

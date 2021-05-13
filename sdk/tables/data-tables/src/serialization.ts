@@ -21,7 +21,7 @@ const Edm = {
   String: "Edm.String"
 } as const;
 
-type supportedTypes = boolean | string | number | Date | Uint8Array;
+type supportedTypes = boolean | string | number | Date | Uint8Array | bigint;
 
 type serializedType = {
   value: supportedTypes;
@@ -38,6 +38,9 @@ function serializePrimitive(value: any): serializedType {
     typeof value === "number"
   ) {
     serializedValue.value = value;
+  } else if (typeof value === "bigint") {
+    serializedValue.value = value.toString();
+    serializedValue.type = Edm.Int64;
   } else if (value instanceof Date) {
     serializedValue.value = value;
     serializedValue.type = Edm.DateTime;
@@ -105,27 +108,33 @@ export function serialize(obj: object): object {
   return serialized;
 }
 
-function getTypedObject(value: any, type: string): any {
+function getTypedObject(value: any, type: string, disableDeserialization: boolean): any {
   switch (type) {
     case Edm.Boolean:
+      return disableDeserialization ? { value, type: "Boolean" } : value;
     case Edm.Double:
+      return disableDeserialization ? { value, type: "Double" } : value;
     case Edm.Int32:
+      return disableDeserialization ? { value, type: "Int32" } : value;
     case Edm.String:
-      return value;
+      return disableDeserialization ? { value, type: "String" } : value;
     case Edm.DateTime:
-      return { value, type: "DateTime" };
+      return disableDeserialization ? { value, type: "DateTime" } : new Date(value);
     case Edm.Int64:
-      return { value, type: "Int64" };
+      return disableDeserialization ? { value, type: "Int64" } : BigInt(value);
     case Edm.Guid:
       return { value, type: "Guid" };
     case Edm.Binary:
-      return base64Decode(value);
+      return disableDeserialization ? { value, type: "Binary" } : base64Decode(value);
     default:
       throw new Error(`Unknown EDM type ${type}`);
   }
 }
 
-export function deserialize<T extends object>(obj: object): T {
+export function deserialize<T extends object = Record<string, any>>(
+  obj: object,
+  disableDeserialization: boolean = false
+): T {
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
     if (key.indexOf("@odata.type") === -1) {
@@ -133,7 +142,7 @@ export function deserialize<T extends object>(obj: object): T {
       let typedValue = value;
       if (`${key}@odata.type` in obj) {
         const type = (obj as any)[`${key}@odata.type`];
-        typedValue = getTypedObject(value, type);
+        typedValue = getTypedObject(value, type, disableDeserialization);
       }
       deserialized[transformedKey] = typedValue;
     }
@@ -141,6 +150,9 @@ export function deserialize<T extends object>(obj: object): T {
   return deserialized;
 }
 
-export function deserializeObjectsArray<T extends object>(objArray: object[]): T[] {
-  return objArray.map((obj) => deserialize<T>(obj));
+export function deserializeObjectsArray<T extends object>(
+  objArray: object[],
+  disableDeserialization: boolean
+): T[] {
+  return objArray.map((obj) => deserialize<T>(obj, disableDeserialization));
 }

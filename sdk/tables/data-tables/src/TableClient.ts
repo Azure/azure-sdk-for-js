@@ -233,7 +233,7 @@ export class TableClient {
    * @param rowKey - The row key of the entity.
    * @param options - The options parameters.
    */
-  public async getEntity<T extends object = Record<string, unknown>>(
+  public async getEntity<T extends object = Record<string, any>>(
     partitionKey: string,
     rowKey: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
@@ -250,13 +250,16 @@ export class TableClient {
     }
 
     try {
-      const { queryOptions, ...getEntityOptions } = updatedOptions || {};
+      const { disableDeserialization, queryOptions, ...getEntityOptions } = updatedOptions || {};
       await this.table.queryEntitiesWithPartitionAndRowKey(this.tableName, partitionKey, rowKey, {
         ...getEntityOptions,
         queryOptions: this.convertQueryOptions(queryOptions || {}),
         onResponse
       });
-      const tableEntity = deserialize<TableEntityResult<T>>(parsedBody);
+      const tableEntity = deserialize<TableEntityResult<T>>(
+        parsedBody,
+        disableDeserialization ?? false
+      );
 
       return tableEntity;
     } catch (e) {
@@ -348,9 +351,10 @@ export class TableClient {
 
   private async _listEntities<T extends object>(
     tableName: string,
-    options?: InternalListTableEntitiesOptions
+    options: InternalListTableEntitiesOptions = {}
   ): Promise<ListEntitiesResponse<TableEntityResult<T>>> {
-    const queryOptions = this.convertQueryOptions(options?.queryOptions || {});
+    const { disableDeserialization = false } = options;
+    const queryOptions = this.convertQueryOptions(options.queryOptions || {});
     const {
       xMsContinuationNextPartitionKey: nextPartitionKey,
       xMsContinuationNextRowKey: nextRowKey,
@@ -360,7 +364,10 @@ export class TableClient {
       queryOptions
     });
 
-    const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(value || []);
+    const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(
+      value ?? [],
+      disableDeserialization
+    );
 
     return Object.assign([...tableEntities], {
       nextPartitionKey,
@@ -678,6 +685,12 @@ interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
    * An entity query continuation token from a previous call.
    */
   nextRowKey?: string;
+  /**
+   * If true, automatic deserialization will be disabled and entity properties will
+   * be represented by full metadata types. For example, an Int32 value will be {value: "123", type: "Int32"} instead of 123.
+   * This option applies for all the properties
+   */
+  disableDeserialization?: boolean;
 }
 
 function isInternalClientOptions(options: any): options is InternalTransactionClientOptions {
