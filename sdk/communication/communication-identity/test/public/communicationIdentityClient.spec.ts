@@ -6,6 +6,7 @@ import {
   isCommunicationUserIdentifier
 } from "@azure/communication-common";
 import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { CommunicationIdentityClient } from "../../src";
 import {
@@ -13,7 +14,6 @@ import {
   createRecordedCommunicationIdentityClientWithToken
 } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { matrix } from "./utils/matrix";
 
 matrix([[true, false]], async function(useAad) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function() {

@@ -10,9 +10,9 @@ import {
   createPipelineRequest
 } from "@azure/core-rest-pipeline";
 import { HeaderConstants } from "./utils/constants";
-import { InnerBatchRequest } from "./utils/internalModels";
+import { InnerTransactionRequest } from "./utils/internalModels";
 
-export const batchRequestAssemblePolicyName = "batchRequestAssemblePolicy";
+export const transactionRequestAssemblePolicyName = "transactionRequestAssemblePolicy";
 
 const dummyResponse: PipelineResponse = {
   request: createPipelineRequest({ url: "FAKE" }),
@@ -20,22 +20,24 @@ const dummyResponse: PipelineResponse = {
   headers: createHttpHeaders()
 };
 
-export function batchRequestAssemblePolicy(batchRequest: InnerBatchRequest): PipelinePolicy {
+export function transactionRequestAssemblePolicy(
+  transactionRequest: InnerTransactionRequest
+): PipelinePolicy {
   return {
-    name: batchRequestAssemblePolicyName,
+    name: transactionRequestAssemblePolicyName,
     async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
-      batchRequest.appendSubRequestToBody(request);
+      transactionRequest.appendSubRequestToBody(request);
       // Intercept request from going to wire
       return dummyResponse;
     }
   };
 }
 
-export const batchHeaderFilterPolicyName = "batchHeaderFilterPolicy";
+export const transactionHeaderFilterPolicyName = "transactionHeaderFilterPolicy";
 
-export function batchHeaderFilterPolicy(): PipelinePolicy {
+export function transactionHeaderFilterPolicy(): PipelinePolicy {
   return {
-    name: batchHeaderFilterPolicyName,
+    name: transactionHeaderFilterPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       // The subrequests should not have the x-ms-version header.
       request.headers.delete(HeaderConstants.X_MS_VERSION);

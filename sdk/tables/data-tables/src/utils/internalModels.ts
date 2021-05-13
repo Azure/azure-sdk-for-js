@@ -3,7 +3,6 @@
 
 import {
   TableServiceClientOptions,
-  TableBatch,
   TableEntity,
   CreateTableEntityResponse,
   DeleteTableEntityOptions,
@@ -13,7 +12,9 @@ import {
   UpdateMode,
   UpdateTableEntityOptions,
   TableEntityResult,
-  TableItem
+  TableItem,
+  TransactionAction,
+  TableTransactionResponse
 } from "../models";
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
 import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
@@ -60,11 +61,11 @@ export interface ClientParamsFromConnectionString {
 }
 
 /**
- * Batch request builder
+ * Transaction request builder
  */
-export interface InnerBatchRequest {
+export interface InnerTransactionRequest {
   /**
-   * Batch request body
+   * Transaction request body
    */
   body: string[];
   /**
@@ -73,18 +74,18 @@ export interface InnerBatchRequest {
    */
   createPipeline(): Pipeline;
   /**
-   * Adds an operation to add to the batch body
+   * Adds an operation to add to the transaction body
    * @param request - The operation to add
    */
   appendSubRequestToBody(request: PipelineRequest): void;
   /**
-   * Gets the batch request body
+   * Gets the transaction request body
    */
   getHttpRequestBody(): string;
 }
 
-export interface InternalBatchClientOptions extends TableServiceClientOptions {
-  innerBatchRequest: InnerBatchRequest;
+export interface InternalTransactionClientOptions extends TableServiceClientOptions {
+  innerTransactionRequest: InnerTransactionRequest;
 }
 
 /**
@@ -101,10 +102,10 @@ export interface TableClientLike {
    */
   createTable(options?: OperationOptions): Promise<void>;
   /**
-   * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
-   * @param partitionKey - partitionKey to which the batch operations will be targetted to
+   * Submits a Transaction which is composed of a set of actions.
+   * @param actions - tuple that contains the action to perform, and the entity to perform the action with
    */
-  createBatch(partitionKey: string): TableBatch;
+  submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;
   /**
    * Insert entity in the table.
    * @param entity - The properties for the table entity.
