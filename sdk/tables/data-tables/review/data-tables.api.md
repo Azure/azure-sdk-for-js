@@ -69,7 +69,7 @@ export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceSt
 // @public
 export type GetTableEntityOptions = OperationOptions & {
     queryOptions?: TableEntityQueryOptions;
-    disableDeserialization?: boolean;
+    disableTypeConversion?: boolean;
 };
 
 // @public
@@ -88,7 +88,7 @@ export const enum KnownGeoReplicationStatusType {
 // @public
 export type ListTableEntitiesOptions = OperationOptions & {
     queryOptions?: TableEntityQueryOptions;
-    disableDeserialization?: boolean;
+    disableTypeConversion?: boolean;
 };
 
 // @public
@@ -180,7 +180,7 @@ export class TableClient {
     deleteTable(options?: OperationOptions): Promise<void>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: OperationOptions): Promise<GetAccessPolicyResponse>;
-    getEntity<T extends object = Record<string, any>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
+    getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
     listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]>;
     setAccessPolicy(tableAcl: SignedIdentifier[], options?: OperationOptions): Promise<SetAccessPolicyResponse>;
     submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;

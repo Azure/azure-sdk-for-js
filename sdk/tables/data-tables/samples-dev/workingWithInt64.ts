@@ -39,7 +39,7 @@ async function workingWithInt64() {
     foo: { value: "12345", type: "Int64" }
   });
 
-  const entity = await client.getEntity<FooEntity>("p1", "1", { disableDeserialization: true });
+  const entity = await client.getEntity<FooEntity>("p1", "1", { disableTypeConversion: true });
 
   // In order to do arithmetic operations with Int64 you need to use
   // bigint or a third party library such as 'long'

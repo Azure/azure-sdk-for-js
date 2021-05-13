@@ -121,11 +121,11 @@ export type ListTableEntitiesOptions = OperationOptions & {
    */
   queryOptions?: TableEntityQueryOptions;
   /**
-   * If true, automatic deserialization will be disabled and entity properties will
+   * If true, automatic type conversion will be disabled and entity properties will
    * be represented by full metadata types. For example, an Int32 value will be {value: "123", type: "Int32"} instead of 123.
    * This option applies for all the properties
    */
-  disableDeserialization?: boolean;
+  disableTypeConversion?: boolean;
 };
 
 /**
@@ -137,11 +137,11 @@ export type GetTableEntityOptions = OperationOptions & {
    */
   queryOptions?: TableEntityQueryOptions;
   /**
-   * If true, automatic deserialization will be disabled and entity properties will
+   * If true, automatic type conversion will be disabled and entity properties will
    * be represented by full metadata types. For example, an Int32 value will be {value: "123", type: "Int32"} instead of 123.
    * This option applies for all the properties
    */
-  disableDeserialization?: boolean;
+  disableTypeConversion?: boolean;
 };
 
 /**

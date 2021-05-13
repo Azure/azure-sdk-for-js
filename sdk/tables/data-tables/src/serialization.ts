@@ -108,24 +108,24 @@ export function serialize(obj: object): object {
   return serialized;
 }
 
-function getTypedObject(value: any, type: string, disableDeserialization: boolean): any {
+function getTypedObject(value: any, type: string, disableTypeConversion: boolean): any {
   switch (type) {
     case Edm.Boolean:
-      return disableDeserialization ? { value, type: "Boolean" } : value;
+      return disableTypeConversion ? { value, type: "Boolean" } : value;
     case Edm.Double:
-      return disableDeserialization ? { value, type: "Double" } : value;
+      return disableTypeConversion ? { value, type: "Double" } : value;
     case Edm.Int32:
-      return disableDeserialization ? { value, type: "Int32" } : value;
+      return disableTypeConversion ? { value, type: "Int32" } : value;
     case Edm.String:
-      return disableDeserialization ? { value, type: "String" } : value;
+      return disableTypeConversion ? { value, type: "String" } : value;
     case Edm.DateTime:
-      return disableDeserialization ? { value, type: "DateTime" } : new Date(value);
+      return disableTypeConversion ? { value, type: "DateTime" } : new Date(value);
     case Edm.Int64:
-      return disableDeserialization ? { value, type: "Int64" } : BigInt(value);
+      return disableTypeConversion ? { value, type: "Int64" } : BigInt(value);
     case Edm.Guid:
       return { value, type: "Guid" };
     case Edm.Binary:
-      return disableDeserialization ? { value, type: "Binary" } : base64Decode(value);
+      return disableTypeConversion ? { value, type: "Binary" } : base64Decode(value);
     default:
       throw new Error(`Unknown EDM type ${type}`);
   }
@@ -133,7 +133,7 @@ function getTypedObject(value: any, type: string, disableDeserialization: boolea
 
 export function deserialize<T extends object = Record<string, any>>(
   obj: object,
-  disableDeserialization: boolean = false
+  disableTypeConversion: boolean = false
 ): T {
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
@@ -142,7 +142,7 @@ export function deserialize<T extends object = Record<string, any>>(
       let typedValue = value;
       if (`${key}@odata.type` in obj) {
         const type = (obj as any)[`${key}@odata.type`];
-        typedValue = getTypedObject(value, type, disableDeserialization);
+        typedValue = getTypedObject(value, type, disableTypeConversion);
       }
       deserialized[transformedKey] = typedValue;
     }
@@ -152,7 +152,7 @@ export function deserialize<T extends object = Record<string, any>>(
 
 export function deserializeObjectsArray<T extends object>(
   objArray: object[],
-  disableDeserialization: boolean
+  disableTypeConversion: boolean
 ): T[] {
-  return objArray.map((obj) => deserialize<T>(obj, disableDeserialization));
+  return objArray.map((obj) => deserialize<T>(obj, disableTypeConversion));
 }

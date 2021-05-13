@@ -172,7 +172,7 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.int64ObjProp, BigInt(int64Value));
   });
 
-  it("should not deserialize an Int64 when disableDeserialization is true", () => {
+  it("should not deserialize an Int64 when disableTypeConversion is true", () => {
     const int64Value = "12345678910";
     const deserialized = deserialize(
       {

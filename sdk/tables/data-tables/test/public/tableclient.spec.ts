@@ -342,7 +342,7 @@ describe("TableClient", () => {
       let deleteResult: FullOperationResponse | undefined;
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey, {
-        disableDeserialization: true
+        disableTypeConversion: true
       });
       await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
         onResponse: (res) => (deleteResult = res)
