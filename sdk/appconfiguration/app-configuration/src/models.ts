@@ -3,6 +3,7 @@
 
 import { OperationOptions, HttpResponse } from "@azure/core-http";
 import { FeatureFlagValue } from "./featureFlag";
+import { SecretReferenceValue } from "./secretReference";
 
 /**
  * Fields that uniquely identify a configuration setting
@@ -39,7 +40,7 @@ export type ConfigurationSettingParam<T = string> = ConfigurationSettingId & {
    * Tags for this key
    */
   tags?: { [propertyName: string]: string };
-} & (T extends FeatureFlagValue
+} & (T extends FeatureFlagValue | SecretReferenceValue
     ? {
         /**
          * The setting's value

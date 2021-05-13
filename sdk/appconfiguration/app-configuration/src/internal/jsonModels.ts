@@ -13,11 +13,11 @@ export type JsonFeatureFlagValue = {
   id?: string;
 };
 
-// keyvault reference
+// keyvault secret reference
 
 /**
  * @internal
  */
-export interface JsonKeyVaultReference {
+export interface JsonSecretReferenceValue {
   uri: string;
 }
