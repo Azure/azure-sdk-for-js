@@ -229,7 +229,7 @@ export interface AccountSASPermissionsLike {
   write?: boolean;
 
   /**
-   * Permission to create blobs and files granted.
+   * Permission to delete blobs and files granted.
    */
   delete?: boolean;
 
