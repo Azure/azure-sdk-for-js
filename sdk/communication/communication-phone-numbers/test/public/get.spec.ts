@@ -36,9 +36,12 @@ matrix([[true, false]], async function(useAad) {
       const fake = "+14155550100";
       try {
         await client.getPurchasedPhoneNumber(fake);
-      } catch (e) {
-        assert.strictEqual(e.code, "PhoneNumberNotFound");
-        assert.strictEqual(e.message, "The specified phone number +14155550100 cannot be found.");
+      } catch (error) {
+        assert.strictEqual(error.code, "PhoneNumberNotFound");
+        assert.strictEqual(
+          error.message,
+          "The specified phone number +14155550100 cannot be found."
+        );
       }
     });
   });

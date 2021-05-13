@@ -73,6 +73,8 @@ matrix([[true, false]], async function(useAad) {
 
       await releasePoller.pollUntilDone();
       assert.ok(releasePoller.getOperationState().isCompleted);
+      const result = releasePoller.getOperationState().result! as any;
+      assert.equal(result.status, "succeeded");
 
       console.log(`Released: ${purchasedPhoneNumber}`);
     }).timeout(90000);
