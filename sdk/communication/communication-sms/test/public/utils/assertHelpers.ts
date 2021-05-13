@@ -13,6 +13,7 @@ export const assertIsSuccessResult = (
   assert.isString(actualSmsResult.messageId);
   assert.isTrue(actualSmsResult.successful);
   assert.notExists(actualSmsResult.errorMessage, "no error message for success");
+  assert.equal((actualSmsResult as any).repeatabilityResult, "accepted"); // internal field
 };
 
 export const assertIsFailureResult = (

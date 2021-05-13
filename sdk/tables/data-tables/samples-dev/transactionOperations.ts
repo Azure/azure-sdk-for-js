@@ -1,35 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /**
- * This sample demonstrates how to send a transactional batch request
+ * This sample demonstrates how to send a transactional request
  * with multiple operations in a single request
  *
  * @summary sends transactional batch requests
+ * @azsdk-weight 50
  */
 
-import { TableClient } from "@azure/data-tables";
-import { v4 } from "uuid";
+import { TableClient, TransactionAction } from "@azure/data-tables";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
-const tableSufix = v4().replace(/-/g, "");
-
-interface Entity {
-  partitionKey: string;
-  rowKey: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
 
 async function batchOperations() {
   console.log("== Batch Operations Sample ==");
-
-  // Note that this sample assumes that a table with tableName exists
-  const tableName = `batch${tableSufix}`;
+  const tableName = `transactionsSample`;
 
   // See authenticationMethods sample for other options of creating a new client
   const client = TableClient.fromConnectionString(connectionString, tableName);
@@ -39,42 +28,44 @@ async function batchOperations() {
 
   const partitionKey = "Stationery";
 
-  const entities: Entity[] = [
-    {
-      partitionKey,
-      rowKey: "A1",
-      name: "Marker Set",
-      price: 5.0,
-      quantity: 21
-    },
-    {
-      partitionKey,
-      rowKey: "A2",
-      name: "Pen Set",
-      price: 2.0,
-      quantity: 6
-    },
-    {
-      partitionKey,
-      rowKey: "A3",
-      name: "Pencil",
-      price: 1.5,
-      quantity: 100
-    }
+  const actions: TransactionAction[] = [
+    [
+      "create",
+      {
+        partitionKey,
+        rowKey: "A1",
+        name: "Marker Set",
+        price: 5.0,
+        quantity: 21
+      }
+    ],
+    [
+      "create",
+      {
+        partitionKey,
+        rowKey: "A2",
+        name: "Pen Set",
+        price: 2.0,
+        quantity: 6
+      }
+    ],
+    [
+      "create",
+      {
+        partitionKey,
+        rowKey: "A3",
+        name: "Pencil",
+        price: 1.5,
+        quantity: 100
+      }
+    ]
   ];
 
-  // Create the new batch. All the operations within a batch must target the same partition key
-  const batch = client.createBatch(partitionKey);
+  // Submit the transaction with the list of actions.
+  // Note that all the operations within a transaction must target the same partition key
+  const transactionResult = await client.submitTransaction(actions);
 
-  // Add each entity operation to the batch
-  for (const entity of entities) {
-    batch.createEntity(entity);
-  }
-
-  // Submit the batch
-  const response = await batch.submitBatch();
-
-  console.log(response.subResponses);
+  console.log(transactionResult.subResponses);
   // Output:
   // [
   //   {

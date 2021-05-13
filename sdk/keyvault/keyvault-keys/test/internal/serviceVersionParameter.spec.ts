@@ -8,7 +8,7 @@ import { LATEST_API_VERSION } from "../../src/keysModels";
 import { HttpClient, HttpOperationResponse, WebResourceLike, HttpHeaders } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure/test-utils-recorder";
-import { versionsToTest } from "@azure/test-utils-multi-version";
+import { versionsToTest } from "@azure/test-utils";
 import { serviceVersions } from "../utils/utils.common";
 
 describe("The Keys client should set the serviceVersion", () => {

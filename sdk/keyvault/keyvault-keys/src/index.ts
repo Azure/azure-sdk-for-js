@@ -99,7 +99,7 @@ import {
   VerifyDataOptions
 } from "./cryptographyClientModels";
 
-import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
+import { parseKeyVaultKeyId, KeyVaultKeyIdentifier } from "./identifier";
 import { getKeyFromKeyBundle } from "./transformations";
 import { createTraceFunction } from "../../keyvault-common/src";
 
@@ -156,7 +156,7 @@ export {
   ListDeletedKeysOptions,
   PageSettings,
   PagedAsyncIterableIterator,
-  KeyVaultKeyId,
+  KeyVaultKeyIdentifier,
   PipelineOptions,
   PollOperationState,
   PollerLike,

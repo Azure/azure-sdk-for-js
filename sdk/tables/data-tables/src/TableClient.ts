@@ -12,8 +12,9 @@ import {
   CreateTableEntityResponse,
   TableEntityQueryOptions,
   TableServiceClientOptions as TableClientOptions,
-  TableBatch,
-  TableEntityResult
+  TableEntityResult,
+  TransactionAction,
+  TableTransactionResponse
 } from "./models";
 import {
   UpdateEntityResponse,
@@ -43,8 +44,12 @@ import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
-import { InternalBatchClientOptions, ListEntitiesResponse } from "./utils/internalModels";
+import { InternalTableTransaction, createInnerTransactionRequest } from "./TableTransaction";
+import {
+  InternalTransactionClientOptions,
+  ListEntitiesResponse,
+  TableClientLike
+} from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 
@@ -59,6 +64,7 @@ export class TableClient {
   public url: string;
   private table: Table;
   private credential: TablesSharedKeyCredentialLike | undefined;
+  private interceptClient: TableClientLike | undefined;
 
   /**
    * Name of the table to perform operations on.
@@ -148,11 +154,11 @@ export class TableClient {
     };
 
     if (isInternalClientOptions(clientOptions)) {
-      // The client is meant to be an intercept client (for Batch operations), so we need to create only the intercepting
+      // The client is meant to be an intercept client (for Transaction), so we need to create only the intercepting
       // pipelines.
-      internalPipelineOptions.pipeline = clientOptions.innerBatchRequest.createPipeline();
+      internalPipelineOptions.pipeline = clientOptions.innerTransactionRequest.createPipeline();
     } else {
-      // The client is a regular client (non-batch), pass the pipeline options to create a pipeline
+      // The client is a regular client (non-transaction), pass the pipeline options to create a pipeline
       internalPipelineOptions = {
         ...internalPipelineOptions,
         ...{
@@ -550,24 +556,75 @@ export class TableClient {
   }
 
   /**
-   * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
-   * @param partitionKey - partitionKey to which the batch operations will be targetted to
+   * Submits a Transaction which is composed of a set of actions. You can provide the actions as a list
+   * or you can use {@link TableTransaction} to help building the transaction.
+   *
+   * Example usage:
+   * ```js
+   * const client = TableClient.fromConnectionString(connectionString, tableName);
+   * const actions: TransactionAction[] = [
+   *    ["create", \{partitionKey: "p1", rowKey: "1", data: "test1"\}]
+   *    ["delete", \{partitionKey: "p1", rowKey: "2"\}],
+   *    ["update", \{partitionKey: "p1", rowKey: "3", data: "newTest"\}, "Merge"]
+   * ]
+   * const result = await client.submitTransaction(actions);
+   * ```
+   *
+   * Example usage with TableTransaction:
+   * ```js
+   * const client = TableClient.fromConnectionString(connectionString, tableName);
+   * const transaction = new TableTransaction();
+   * // Call the available action in the TableTransaction object
+   * transaction.create(\{partitionKey: "p1", rowKey: "1", data: "test1"\});
+   * transaction.delete("p1", "2");
+   * transaction.update(\{partitionKey: "p1", rowKey: "3", data: "newTest"\}, "Merge")
+   * // submitTransaction with the actions list on the transaction.
+   * const result = await client.submitTransaction(transaction.actions);
+   * ```
+   *
+   * @param actions - tuple that contains the action to perform, and the entity to perform the action with
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public createBatch(partitionKey: string): TableBatch {
-    const batchId = Uuid.generateUuid();
+  public async submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse> {
+    const partitionKey = actions[0][1].partitionKey;
+    const transactionId = Uuid.generateUuid();
     const changesetId = Uuid.generateUuid();
-    const innerBatchRequest = createInnerBatchRequest(batchId, changesetId);
-    const internalClientOptions: InternalBatchClientOptions = { innerBatchRequest };
-    const interceptClient = new TableClient(this.url, this.tableName, internalClientOptions);
-    return new TableBatchImpl(
+    const innerTransactionRequest = createInnerTransactionRequest(transactionId, changesetId);
+    const internalClientOptions: InternalTransactionClientOptions = {
+      innerTransactionRequest: innerTransactionRequest
+    };
+
+    if (!this.interceptClient) {
+      // Cache intercept client so we just have to instantiate it once
+      this.interceptClient = new TableClient(this.url, this.tableName, internalClientOptions);
+    }
+
+    const transactionClient = new InternalTableTransaction(
       this.url,
       partitionKey,
-      interceptClient,
-      batchId,
-      innerBatchRequest,
+      this.interceptClient,
+      transactionId,
+      innerTransactionRequest,
       this.credential
     );
+
+    for (const item of actions) {
+      const [action, entity, updateMode = "Merge"] = item;
+      switch (action) {
+        case "create":
+          transactionClient.createEntity(entity);
+          break;
+        case "delete":
+          transactionClient.deleteEntity(entity.partitionKey, entity.rowKey);
+          break;
+        case "update":
+          transactionClient.updateEntity(entity, updateMode);
+          break;
+        case "upsert":
+          transactionClient.upsertEntity(entity, updateMode);
+      }
+    }
+
+    return transactionClient.submitTransaction();
   }
 
   private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {
@@ -623,6 +680,6 @@ interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
   nextRowKey?: string;
 }
 
-function isInternalClientOptions(options: any): options is InternalBatchClientOptions {
-  return Boolean(options.innerBatchRequest);
+function isInternalClientOptions(options: any): options is InternalTransactionClientOptions {
+  return Boolean(options.innerTransactionRequest);
 }

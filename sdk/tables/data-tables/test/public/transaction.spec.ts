@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableClient, odata } from "../../src";
+import { TableClient, odata, TransactionAction, TableTransaction } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
@@ -56,11 +56,27 @@ describe("batch operations", () => {
     }
   });
 
-  it("should send a set of create batch operations", async () => {
-    const batch = client.createBatch(partitionKey);
+  it("should send a set of create actions when using TableTransaction Helper", async () => {
+    const transaction = new TableTransaction();
+    transaction.createEntity({ partitionKey: "helper", rowKey: "1", value: "t1" });
+    transaction.createEntity({ partitionKey: "helper", rowKey: "2", value: "t2" });
 
-    await batch.createEntities(testEntities);
-    const result = await batch.submitBatch();
+    const result = await client.submitTransaction(transaction.actions);
+
+    assert.equal(result.status, 202);
+    assert.lengthOf(result.subResponses, 2);
+    assert.equal(result.getResponseForEntity("1")?.status, 204);
+    assert.equal(result.getResponseForEntity("2")?.status, 204);
+  });
+
+  it("should send a set of create batch operations", async () => {
+    const actions: TransactionAction[] = [];
+
+    for (const entity of testEntities) {
+      actions.push(["create", entity]);
+    }
+
+    const result = await client.submitTransaction(actions);
     assert.equal(result.status, 202);
     assert.lengthOf(result.subResponses, 3);
     testEntities.forEach((entity) => {
@@ -72,11 +88,14 @@ describe("batch operations", () => {
   });
 
   it("should send a set of update batch operations", async () => {
-    const batch = client.createBatch(partitionKey);
+    const actions: TransactionAction[] = [];
 
-    testEntities.forEach((entity) => batch.updateEntity({ ...entity, name: "updated" }, "Replace"));
+    for (const entity of testEntities) {
+      actions.push(["update", { ...entity, name: "updated" }, "Replace"]);
+    }
 
-    const batchResult = await batch.submitBatch();
+    const batchResult = await client.submitTransaction(actions);
+
     const updatedEntities = client.listEntities<{ name: string }>({
       queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
     });
@@ -93,17 +112,17 @@ describe("batch operations", () => {
   });
 
   it("should send a set of upsert batch operations", async () => {
-    const batch = client.createBatch(partitionKey);
+    const actions: TransactionAction[] = [];
 
-    // Upsert should update
-    testEntities.forEach((entity) =>
-      batch.upsertEntity({ ...entity, name: "upserted" }, "Replace")
-    );
+    for (const entity of testEntities) {
+      // This actions will be on existing entities so they should be updated
+      actions.push(["upsert", { ...entity, name: "upserted" }, "Replace"]);
+    }
 
-    // Upsert should create
-    batch.upsertEntity({ partitionKey, rowKey: "4", name: "upserted" }, "Replace");
+    // This is a new entity so upsert should create it
+    actions.push(["upsert", { partitionKey, rowKey: "4", name: "upserted" }, "Replace"]);
 
-    const batchResult = await batch.submitBatch();
+    const batchResult = await client.submitTransaction(actions);
     const updatedEntities = client.listEntities<{ name: string }>({
       queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
     });
@@ -126,10 +145,13 @@ describe("batch operations", () => {
   });
 
   it("should send a set of delete batch operations", async () => {
-    const batch = client.createBatch(partitionKey);
+    const actions: TransactionAction[] = [];
 
-    testEntities.forEach((entity) => batch.deleteEntity(entity.partitionKey, entity.rowKey));
-    const result = await batch.submitBatch();
+    for (const entity of testEntities) {
+      actions.push(["delete", entity]);
+    }
+
+    const result = await client.submitTransaction(actions);
     assert.equal(result.status, 202);
     assert.lengthOf(result.subResponses, 3);
     result.subResponses.forEach((subResponse) => {
@@ -139,11 +161,14 @@ describe("batch operations", () => {
 
   it("should handle sub request error", async () => {
     const testClient = createTableClient("noExistingTable", authMode);
-    const batch = testClient.createBatch(partitionKey);
-    batch.createEntities(testEntities);
+    const actions: TransactionAction[] = [];
+
+    for (const entity of testEntities) {
+      actions.push(["create", entity]);
+    }
 
     try {
-      await batch.submitBatch();
+      await testClient.submitTransaction(actions);
       assert.fail("Expected submitBatch to throw");
     } catch (error) {
       assert.equal(error.code, "TableNotFound");

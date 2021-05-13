@@ -1,19 +1,12 @@
-## Azure SDK for JavaScript's test-utils-multi-version
+# Azure test-utils client library for JavaScript
 
-The Azure SDK for JavaScript is composed of a multitude of repositories that attempt to deliver a
-common, homogenous SDK to make use of all of the services that Azure can provide. One of the
-promises of the modern Azure SDK libraries is to support the last N service API versions.
+The Azure SDk for JavaSCript is composed of a multitude of repositories that attempt to deliver a common, homogenous SDK to make use of all the services that Azure can provide.
 
-This non-shipping library `@azure/test-utils-multi-version` attempts to add testing support for
-libraries that supports multiple service API versions. It is supposed to be added only as a
-devDependency and should be used only for the tests of an SDK library.
-
-The idea employed in this library is inspired by [mocha-tags](https://www.npmjs.com/package/mocha-tags).
+This non-shipping library `@azure/test-utils` attempts to add additional testing support to libraries. It is supposed to be added only as a devDependency and should be used only for the tests of an SDK library.
 
 ## Getting started
 
-We're about to go through how to set up your project to use the `@azure/test-utils-multi-version`
-package.
+We're about to go through how to set up your project to use the `@azure/test-utils` package.
 
 This document assumes familiarity with [git](https://git-scm.com) and [rush](https://rushjs.io).
 You can read more about how we use rush in the following links:
@@ -21,12 +14,12 @@ You can read more about how we use rush in the following links:
 - Rush used for [Project Orchestration](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#project-orchestration).
 - [Rush for NPM users](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#rush-for-npm-users).
 
-Keep in mind that `@azure/test-utils-multi-version` is not a published package. It is only intended
+Keep in mind that `@azure/test-utils` is not a published package. It is only intended
 to be used by the libraries in the `azure-sdk-for-js` repository.
 
 ### Installing the package
 
-To install the `@azure/test-utils-multi-version` package, you'll need to start by cloning our
+To install the `@azure/test-utils` package, you'll need to start by cloning our
 `azure-sdk-for-js` repository. One way of doing this is by using the git command line interface, as
 follows:
 
@@ -48,14 +41,14 @@ This will optimistically assume you're in a fresh clone.
 
 From this point forward, we'll assume that you're developing (perhaps contributing!) to one of the
 `azure-sdk-for-js`'s libraries. So, your next step is to change directory to the path relevant to
-your project. Let's say you want to add the `@azure/test-utils-multi-version` package to
+your project. Let's say you want to add the `@azure/test-utils` package to
 `@azure/keyvault-keys`, you'll be doing the following:
 
 ```bash
 cd sdk/keyvault/keyvault-keys
 ```
 
-Once there, you can add the `test-utils-multi-version` package by changing your package.json
+Once there, you can add the `test-utils` package by changing your package.json
 to include the following line in the `devDependencies` section:
 
 ```bash
@@ -63,7 +56,7 @@ to include the following line in the `devDependencies` section:
   // ... your package.json properties
   "devDependencies": {
     // ... your devDependencies
-    "@azure/test-utils-multi-version": "^1.0.0",
+    "@azure/test-utils": "^1.0.0",
     // ... more of your devDependencies
   },
   // ... more of your package.json properties
@@ -76,9 +69,12 @@ After that, we recommend you to update rush and install the dependencies again, 
 rush update
 ```
 
-And you're ready to test your library for multiple service API versions!
-
 ## Key concepts
+
+### Multi-version Testing
+
+One of the promises of the modern Azure SDK libraries is to support the last N service API versions. `@azure/test-utils` attempts to add testing support for
+libraries that support multiple service API versions. The idea employed in this library is inspired by [mocha-tags](https://www.npmjs.com/package/mocha-tags).
 
 - Our guideline recommends that service client supporting multiple service API version takes an API
   version via the `serviceVersion` property of its constructor options bag `*ClientOptions`.
@@ -91,15 +87,19 @@ And you're ready to test your library for multiple service API versions!
   `it()` test case. If the version being tested is not in the range of versions supported by this
   test suite/case, then the test suite/case is skipped.
 
+### Custom Testing Matrix
+
+Most Azure SDK for JavaScript libraries support multiple methods of authentication. The `@azure/test-utils` library attempts to add testing support for writing a single test suite then running your suite multiple times based on a provided testing matrix. The most common usage is to construct your client with a different authentication method for test runs.
+
 ## Examples
 
 ### Import functions
 
 ```javascript
-import { versionsToTest } from "@azure/test-utils-multi-version";
+import { versionsToTest } from "@azure/test-utils";
 ```
 
-### Wrap top-level test suite
+### Wrap top-level test suite to test multiple versions
 
 Wrap a top level `describe()` of a test file to enable testing for multiple versions for that test suite:
 
@@ -217,11 +217,35 @@ versionsToTest(
 
 Running live tests against multiple service versions takes more time than running against a single service version. It may be desirable to only test multiple service version in non-nightly build pipelines, for example, weekly runs with a higher timeout limit. An environment variable `DISABLE_MULTI_VERSION_TESTING` is introduced to disable live testing against multiple service versions when it is set.
 
+### Wrap top-level test suite to run test matrix
+
+Wrap the top level `describe` of a test file to run the suite with the provided values.
+
+```typescript
+matrix(
+  [
+    [true, false],
+    [1, 2, 3]
+  ] as const,
+  (enabled: boolean, attempts: number) => {
+    describe(`Run with flag ${enabled ? "" : "not "}enabled and ${attempts} attempts`, () => {
+      // ...
+    });
+  }
+);
+```
+
+`matrix` takes a jagged 2D array and a function. It then runs this function with every possible combination of elements of each of the arrays. The example above will therefore generate 6 different test suites based on the values passed.
+
 ## Troubleshooting
 
 Besides the usual debugging of your code and tests, if you ever encounter a problem, please follow
 up the [contributing](#contributing) guidelines on how to write an issue for us. We'll make sure to
 handle it as soon as we find the time.
+
+## Next steps
+
+Check out the [source folder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/test-utils/src/) and the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/test-utils/test/).
 
 ## Contributing
 
