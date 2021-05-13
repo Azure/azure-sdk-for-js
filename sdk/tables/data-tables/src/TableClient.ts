@@ -45,7 +45,11 @@ import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { InternalTableTransaction, createInnerTransactionRequest } from "./TableTransaction";
-import { InternalTransactionClientOptions, ListEntitiesResponse } from "./utils/internalModels";
+import {
+  InternalTransactionClientOptions,
+  ListEntitiesResponse,
+  TableClientLike
+} from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 
@@ -60,6 +64,7 @@ export class TableClient {
   public url: string;
   private table: Table;
   private credential: TablesSharedKeyCredentialLike | undefined;
+  private interceptClient: TableClientLike | undefined;
 
   /**
    * Name of the table to perform operations on.
@@ -551,7 +556,32 @@ export class TableClient {
   }
 
   /**
-   * Submits a Transaction which is composed of a set of actions.
+   * Submits a Transaction which is composed of a set of actions. You can provide the actions as a list
+   * or you can use {@link TableTransaction} to help building the transaction.
+   *
+   * Example usage:
+   *  ```js
+   * const client = TableClient.fromConnectionString(connectionString, tableName);
+   * const actions: TransactionAction[] = [
+   *    ["create", {partitionKey: "p1", rowKey: "1", data: "test1"}]
+   *    ["delete", {partitionKey: "p1", rowKey: "2"}],
+   *    ["update", {partitionKey: "p1", rowKey: "3", data: "newTest"}, "Merge"]
+   * ]
+   * const result = await client.submitTransaction(actions);
+   * ```
+   *
+   * Example usage with TableTransaction:
+   *  ```js
+   * const client = TableClient.fromConnectionString(connectionString, tableName);
+   * const transaction = new TableTransaction();
+   * // Call the available action in the TableTransaction object
+   * transaction.create({partitionKey: "p1", rowKey: "1", data: "test1"});
+   * transaction.delete("p1", "2");
+   * transaction.update({partitionKey: "p1", rowKey: "3", data: "newTest"}, "Merge")
+   * // submitTransaction with the actions list on the transaction.
+   * const result = await client.submitTransaction(transaction.actions);
+   * ```
+   *
    * @param actions - tuple that contains the action to perform, and the entity to perform the action with
    */
   public async submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse> {
@@ -562,12 +592,16 @@ export class TableClient {
     const internalClientOptions: InternalTransactionClientOptions = {
       innerTransactionRequest: innerTransactionRequest
     };
-    const interceptClient = new TableClient(this.url, this.tableName, internalClientOptions);
+
+    if (!this.interceptClient) {
+      // Cache intercept client so we just have to instantiate it once
+      this.interceptClient = new TableClient(this.url, this.tableName, internalClientOptions);
+    }
 
     const transactionClient = new InternalTableTransaction(
       this.url,
       partitionKey,
-      interceptClient,
+      this.interceptClient,
       transactionId,
       innerTransactionRequest,
       this.credential

@@ -181,7 +181,6 @@ export class TableClient {
     getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
     listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]>;
     setAccessPolicy(tableAcl: SignedIdentifier[], options?: OperationOptions): Promise<SetAccessPolicyResponse>;
-    // (undocumented)
     submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode?: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
