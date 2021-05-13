@@ -14,12 +14,9 @@ import {
   ConfigurationSettingParam
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
-import { featureFlagContentType, FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
-import {
-  secretReferenceContentType,
-  SecretReferenceHelper,
-  SecretReferenceValue
-} from "../secretReference";
+import { FeatureFlagHelper, FeatureFlagValue, isFeatureFlag } from "../featureFlag";
+import { isSecretReference, SecretReferenceHelper, SecretReferenceValue } from "../secretReference";
+import { isDefined } from "./typeguards";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -171,26 +168,51 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
 /**
  * @internal
  */
+function isConfigSettingWithSecretReferenceValue(
+  setting: any
+): setting is ConfigurationSetting<SecretReferenceValue> {
+  return (
+    isSecretReference(setting) && isDefined(setting.value) && typeof setting.value !== "string"
+  );
+}
+
+/**
+ * @internal
+ */
+function isConfigSettingWithFeatureFlagValue(
+  setting: any
+): setting is ConfigurationSetting<FeatureFlagValue> {
+  return isFeatureFlag(setting) && isDefined(setting.value) && typeof setting.value !== "string";
+}
+
+/**
+ * @internal
+ */
+function isConfigSettingWithStringValue(setting: any): setting is ConfigurationSetting {
+  return isFeatureFlag(setting) && typeof setting.value === "string";
+}
+
+/**
+ * @internal
+ */
 export function serializeAsConfigurationSettingParam(
   setting:
     | ConfigurationSettingParam
     | ConfigurationSettingParam<FeatureFlagValue>
     | ConfigurationSettingParam<SecretReferenceValue>
 ): ConfigurationSettingParam {
-  switch (setting.contentType) {
-    case featureFlagContentType: {
-      return FeatureFlagHelper.toConfigurationSettingParam(
-        setting as ConfigurationSettingParam<FeatureFlagValue>
-      );
-    }
-    case secretReferenceContentType: {
-      return SecretReferenceHelper.toConfigurationSettingParam(
-        setting as ConfigurationSetting<SecretReferenceValue>
-      );
-    }
-    default:
-      return setting as ConfigurationSettingParam;
+  if (isConfigSettingWithFeatureFlagValue(setting)) {
+    return FeatureFlagHelper.toConfigurationSettingParam(setting);
   }
+  if (isConfigSettingWithSecretReferenceValue(setting)) {
+    return SecretReferenceHelper.toConfigurationSettingParam(setting);
+  }
+  if (isConfigSettingWithStringValue(setting)) {
+    return setting;
+  }
+  throw new TypeError(
+    `Unable to serialize the setting with key "${setting.key}" as a configuration setting`
+  );
 }
 
 /**
