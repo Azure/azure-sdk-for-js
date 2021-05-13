@@ -37,7 +37,7 @@ dependencies:
   '@rush-temp/eventhubs-checkpointstore-blob': file:projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/identity': file:projects/identity.tgz
   '@rush-temp/iot-device-update': file:projects/iot-device-update.tgz
-  '@rush-temp/iot-modelsrepository-client': file:projects/iot-modelsrepository-client.tgz
+  '@rush-temp/iot-modelsrepository': file:projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:projects/keyvault-certificates.tgz
   '@rush-temp/keyvault-common': file:projects/keyvault-common.tgz
@@ -2273,7 +2273,7 @@ packages:
     resolution:
       integrity: sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==
   /core-js/2.6.12:
-    deprecated: core-js@<3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.
+    deprecated: core-js@<3.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
     dev: false
     requiresBuild: true
     resolution:
@@ -9540,7 +9540,7 @@ packages:
       integrity: sha512-DuneImF4EvaxNJN8S5CocoKuUHCNqt/tuTYb+IHa6t1Sr+PaFyL2m1mQN1xD2WlDpgK5nf3arEXcdGPR0xVEeQ==
       tarball: file:projects/iot-device-update.tgz
     version: 0.0.0
-  file:projects/iot-modelsrepository-client.tgz:
+  file:projects/iot-modelsrepository.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
       '@microsoft/api-extractor': 7.7.11
@@ -9587,10 +9587,10 @@ packages:
       typescript: 4.2.4
       util: 0.12.3
     dev: false
-    name: '@rush-temp/iot-modelsrepository-client'
+    name: '@rush-temp/iot-modelsrepository'
     resolution:
-      integrity: sha512-c58ubMYVMjjV9XLYln6CT37okLXyKBZZMoCg3Ofe/eHEKNtUEwdQudn/G1YCMuuopJnITeH+mkp7RH0aN4beFA==
-      tarball: file:projects/iot-modelsrepository-client.tgz
+      integrity: sha512-850amf7zrHmFM6pV24CunLO8eiQx0sbvc/VV6gCuMqHtjtZUSMow71Mdmp0YdomCZInF2eBCJVOy18kdO5gEzQ==
+      tarball: file:projects/iot-modelsrepository.tgz
     version: 0.0.0
   file:projects/keyvault-admin.tgz:
     dependencies:
@@ -11125,7 +11125,7 @@ specifiers:
   '@rush-temp/eventhubs-checkpointstore-blob': file:./projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/identity': file:./projects/identity.tgz
   '@rush-temp/iot-device-update': file:./projects/iot-device-update.tgz
-  '@rush-temp/iot-modelsrepository-client': file:./projects/iot-modelsrepository-client.tgz
+  '@rush-temp/iot-modelsrepository': file:./projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:./projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:./projects/keyvault-certificates.tgz
   '@rush-temp/keyvault-common': file:./projects/keyvault-common.tgz
