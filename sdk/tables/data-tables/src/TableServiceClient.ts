@@ -29,6 +29,7 @@ import { createSpan } from "./utils/tracing";
 import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { ListTableItemsResponse } from "./utils/internalModels";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -39,6 +40,11 @@ export class TableServiceClient {
    * Table Account URL
    */
   public url: string;
+  /**
+   * Represents a pipeline for making a HTTP request to a URL.
+   * Pipelines can have multiple policies to manage manipulating each request before and after it is made to the server.
+   */
+  public pipeline: Pipeline;
   private table: Table;
   private service: Service;
 
@@ -132,6 +138,7 @@ export class TableServiceClient {
     if (credential) {
       client.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
     }
+    this.pipeline = client.pipeline;
     this.table = client.table;
     this.service = client.service;
   }

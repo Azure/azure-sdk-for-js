@@ -52,6 +52,7 @@ import {
 } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
 import { parseXML, stringifyXML } from "@azure/core-xml";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -62,6 +63,11 @@ export class TableClient {
    * Table Account URL
    */
   public url: string;
+  /**
+   * Represents a pipeline for making a HTTP request to a URL.
+   * Pipelines can have multiple policies to manage manipulating each request before and after it is made to the server.
+   */
+  public pipeline: Pipeline;
   private table: Table;
   private credential: TablesSharedKeyCredentialLike | undefined;
   private interceptClient: TableClientLike | undefined;
@@ -183,6 +189,7 @@ export class TableClient {
       generatedClient.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
     }
     this.table = generatedClient.table;
+    this.pipeline = generatedClient.pipeline;
   }
 
   /**
