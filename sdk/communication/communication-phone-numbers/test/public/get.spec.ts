@@ -6,22 +6,12 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient } from "../../src";
 import { matrix } from "./utils/matrix";
-import {
-  canCreateRecordedClientWithToken,
-  createRecordedClient,
-  createRecordedClientWithToken
-} from "./utils/recordedClient";
+import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function(useAad) {
   describe(`PhoneNumbersClient - get phone number${useAad ? " [AAD]" : ""}`, function() {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
-
-    before(function(this: Context) {
-      if (useAad && !canCreateRecordedClientWithToken()) {
-        this.skip();
-      }
-    });
 
     beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
@@ -40,7 +30,7 @@ matrix([[true, false]], async function(useAad) {
       const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
 
       assert.strictEqual(purchasedPhoneNumber, phoneNumber);
-    }).timeout(10000);
+    }).timeout(60000);
 
     it("errors if phone number not found", async function() {
       const fake = "+14155550100";

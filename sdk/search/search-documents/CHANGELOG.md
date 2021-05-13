@@ -1,5 +1,8 @@
 # Release History
 
+## 11.2.0-beta.3 (Unreleased)
+
+
 ## 11.2.0-beta.2 (2021-05-11)
 
 - Added Support for Semantic Search and introduced new properties in `SearchOptions`, `SearchRequest`, `SearchResult` and `SearchDocumentsResult` objects.

@@ -46,11 +46,19 @@ describe("DeviceCodeCredential (internal)", function() {
     });
 
     await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.callCount, 1);
+    assert.equal(getTokenSilentSpy.callCount, 1, "getTokenSilentSpy.callCount should have been 1");
+    assert.equal(doGetTokenSpy.callCount, 1, "doGetTokenSpy.callCount should have been 1");
 
     await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 2);
-    assert.equal(doGetTokenSpy.callCount, 1);
+    assert.equal(
+      getTokenSilentSpy.callCount,
+      2,
+      "getTokenSilentSpy.callCount should have been 2 (2nd time)"
+    );
+    assert.equal(
+      doGetTokenSpy.callCount,
+      1,
+      "doGetTokenSpy.callCount should have been 1 (2nd time)"
+    );
   });
 });

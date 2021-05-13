@@ -3,6 +3,21 @@
 
 /**
  * This sample demonstrates how to recognize US sales receipts from a URL.
+ * This sample demonstrates how to recognize elements of a receipt from a URL
+ * using a prebuilt model.
+ *
+ * The URL must be accessible from the Form Recognizer servers (in other words,
+ * it must be a publicly accessible URL, such as a SAS-encoded URL to a blob
+ * within Azure Storage). In this sample, we use a URL to a receipt image
+ * hosted on GitHub.
+ *
+ * The prebuilt receipt model can return several fields. For a detailed list of
+ * the fields supported by the receipt model, see the following link:
+ *
+ * https://aka.ms/formrecognizer/receiptfields
+ *
+ * @summary extract data from a receipt by providing a URL to a file rather
+ * than a file stream directly
  */
 
 import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
@@ -13,8 +28,8 @@ dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const url =
@@ -30,14 +45,18 @@ export async function main() {
   const [receipt] = await poller.pollUntilDone();
 
   if (receipt === undefined) {
-    throw new Error("Expecting at lease one receipt in analysis result");
+    throw new Error("Failed to extract data from at least one receipt.");
   }
 
-  // For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/formrecognizer/receiptfields
+  console.log("Receipt fields:");
+
+  // For a list of fields that are contained in the response, please refer to
+  // the "Supported fields" section at the following link:
+  // https://aka.ms/formrecognizer/receiptfields
   const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
     console.log(
-      `  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${
+      `  Receipt Type: '${receiptTypeField.value ?? "<missing>"}', with confidence of ${
         receiptTypeField.confidence
       }`
     );
@@ -45,7 +64,7 @@ export async function main() {
   const merchantNameField = receipt.fields["MerchantName"];
   if (merchantNameField.valueType === "string") {
     console.log(
-      `  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${
+      `  Merchant Name: '${merchantNameField.value ?? "<missing>"}', with confidence of ${
         merchantNameField.confidence
       }`
     );
@@ -53,19 +72,19 @@ export async function main() {
   const transactionDate = receipt.fields["TransactionDate"];
   if (transactionDate.valueType === "date") {
     console.log(
-      `  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${
+      `  Transaction Date: '${transactionDate.value ?? "<missing>"}', with confidence of ${
         transactionDate.confidence
       }`
     );
   }
   const itemsField = receipt.fields["Items"];
   if (itemsField.valueType === "array") {
-    for (const itemField of itemsField.value || []) {
+    for (const itemField of itemsField.value ?? []) {
       if (itemField.valueType === "object") {
         const itemNameField = itemField.value!["Name"];
         if (itemNameField.valueType === "string") {
           console.log(
-            `    Item Name: '${itemNameField.value || "<missing>"}', with confidence of ${
+            `    Item Name: '${itemNameField.value ?? "<missing>"}', with confidence of ${
               itemNameField.confidence
             }`
           );
@@ -76,7 +95,7 @@ export async function main() {
   const totalField = receipt.fields["Total"];
   if (totalField.valueType === "number") {
     console.log(
-      `  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`
+      `  Total: '${totalField.value ?? "<missing>"}', with confidence of ${totalField.confidence}`
     );
   }
 }

@@ -4,7 +4,6 @@ import AbortController from "node-abort-controller";
 import {
   createPipelineRequest,
   createHttpHeaders,
-  createDefaultHttpClient,
   PipelineResponse
 } from "@azure/core-rest-pipeline";
 import { trimSlashes } from "../common";
@@ -19,6 +18,7 @@ import { RequestContext } from "./RequestContext";
 import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 import { URL } from "../utils/url";
+import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 
 /** @hidden */
 const log = logger("RequestHandler");
@@ -63,7 +63,7 @@ async function httpRequest(
     requestContext.body = bodyFromData(requestContext.body);
   }
 
-  const httpsClient = createDefaultHttpClient();
+  const httpsClient = getCachedDefaultHttpClient();
   const url = trimSlashes(requestContext.endpoint) + requestContext.path;
   const reqHeaders = createHttpHeaders(requestContext.headers as any);
   const pipelineRequest = createPipelineRequest({

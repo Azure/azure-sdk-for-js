@@ -116,6 +116,22 @@ export function setStrEncodingParam<X extends { stringIndexType?: GeneratedStrin
   return { ...x, stringIndexType: x.stringIndexType || jsEncodingUnit };
 }
 
+export function setStrEncodingParamValue(
+  stringIndexType?: GeneratedStringIndexType
+): GeneratedStringIndexType {
+  return stringIndexType || jsEncodingUnit;
+}
+
+/**
+ * Set the opinion mining property
+ * @internal
+ */
+export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
+  x: X
+): X & { opinionMining?: boolean } {
+  return { ...x, opinionMining: x.includeOpinionMining };
+}
+
 /**
  * @internal
  */

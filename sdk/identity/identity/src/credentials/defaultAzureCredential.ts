@@ -6,6 +6,7 @@ import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
 import { AzureCliCredential } from "./azureCliCredential";
+import { AzurePowerShellCredential } from "./azurePowerShellCredential";
 
 /**
  * Provides options to configure the {@link DefaultAzureCredential} class.
@@ -30,7 +31,7 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
  * - {@link EnvironmentCredential}
  * - {@link ManagedIdentityCredential}
  * - {@link AzureCliCredential}
- * - {@link VisualStudioCodeCredential}
+ * - {@link AzurePowerShellCredential}
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
@@ -57,6 +58,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     }
 
     credentials.push(new AzureCliCredential());
+    credentials.push(new AzurePowerShellCredential());
 
     super(...credentials);
     this.UnavailableMessage =

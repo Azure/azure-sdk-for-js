@@ -10,7 +10,14 @@
    "status": 404,
    "response": "",
    "responseHeaders": {
-    "content-length": "0"
+    "api-supported-versions": "2021-03-07",
+    "content-length": "0",
+    "date": "Thu, 06 May 2021 20:43:40 GMT",
+    "ms-cv": "Hq2qy/HWh0mlWoge0/hA+A.0",
+    "request-context": "appId=",
+    "status": "404",
+    "x-azure-ref": "0/VSUYAAAAAAAYAHLFzatT5xC02Qg+2njWVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "286ms"
    }
   }
  ],
