@@ -14,6 +14,9 @@ export const featureFlagPrefix = ".appconfig.featureflag/";
  */
 export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
 
+/**
+ * Value of a feature flag
+ */
 export interface FeatureFlagValue {
   /**
    * Id for the feature flag.
