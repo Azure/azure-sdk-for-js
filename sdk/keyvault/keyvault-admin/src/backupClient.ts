@@ -252,19 +252,23 @@ export class KeyVaultBackupClient {
    * await poller.pollUntilDone();
    * ```
    * Creates a new role assignment.
+   * @param keyName - The name of the key that wants to be restored.
    * @param folderUri - The URL of the blob storage resource, with the folder name of the blob where the previous successful full backup was stored.
    * @param sasToken - The SAS token.
-   * @param folderName - The Folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
-   * @param keyName - The name of the key that wants to be restored.
    * @param options - The optional parameters.
    */
   public async beginSelectiveRestore(
+    keyName: string,
     folderUri: string,
     sasToken: string,
-    folderName: string,
-    keyName: string,
     options: KeyVaultBeginBackupOptions = {}
   ): Promise<PollerLike<KeyVaultSelectiveRestoreOperationState, KeyVaultRestoreResult>> {
+    const folderName = folderUri.split("/")[4];
+
+    if (!folderName) {
+      throw new Error("The provided folder URI is missing the folder name.");
+    }
+
     const poller = new KeyVaultSelectiveRestorePoller({
       keyName,
       folderUri,

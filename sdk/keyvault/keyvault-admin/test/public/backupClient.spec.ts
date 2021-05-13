@@ -22,7 +22,7 @@ describe("KeyVaultBackupClient", () => {
   let blobStorageUri: string;
   let blobSasToken: string;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     const authentication = await authenticate(this);
     client = authentication.backupClient;
     keyClient = authentication.keyClient;
@@ -32,12 +32,12 @@ describe("KeyVaultBackupClient", () => {
     blobSasToken = sasTokenData.blobSasToken;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  describe("beginBackup", function() {
-    it("returns the correct backup result when successful", async function() {
+  describe("beginBackup", function () {
+    it("returns the correct backup result when successful", async function () {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         blobSasToken,
@@ -64,7 +64,7 @@ describe("KeyVaultBackupClient", () => {
 
     // There is a service issue that prevents errors from showing up in the
     // error field. Pending until it's resolved. ADO 8750375
-    it.skip("returns the correct backup result when fails to authenticate", async function() {
+    it.skip("returns the correct backup result when fails to authenticate", async function () {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         "invalid_sas_token",
@@ -74,8 +74,8 @@ describe("KeyVaultBackupClient", () => {
     });
   });
 
-  describe("beginRestore", function() {
-    it("full restore completes successfully", async function() {
+  describe("beginRestore", function () {
+    it("full restore completes successfully", async function () {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         blobSasToken,
@@ -118,7 +118,7 @@ describe("KeyVaultBackupClient", () => {
       }
     });
 
-    it("selectiveRestore completes successfully", async function() {
+    it("selectiveRestore completes successfully", async function () {
       // This test can only be run in playback mode because running a backup
       // or restore puts the instance in a bad state (tracked in IcM).
       if (!isPlaybackMode()) {
@@ -133,27 +133,24 @@ describe("KeyVaultBackupClient", () => {
       );
       const backupURI = await backupPoller.pollUntilDone();
       assert.exists(backupURI.backupFolderUri);
-      const folderName = getFolderName(backupURI.backupFolderUri!);
 
       // Delete the key (purging it is required), then restore and ensure it's restored
       await (await keyClient.beginDeleteKey(keyName, testPollerProperties)).pollUntilDone();
       await keyClient.purgeDeletedKey(keyName);
 
       const selectiveRestorePoller = await client.beginSelectiveRestore(
+        keyName,
         blobStorageUri,
         blobSasToken,
-        folderName,
-        keyName,
         testPollerProperties
       );
       await selectiveRestorePoller.poll();
 
       // A poller can be serialized and then resumed
       const resumedPoller = await client.beginSelectiveRestore(
+        keyName,
         blobStorageUri,
         blobSasToken,
-        folderName,
-        keyName,
         {
           ...testPollerProperties,
           resumeFrom: selectiveRestorePoller.toString()
@@ -174,7 +171,7 @@ describe("KeyVaultBackupClient", () => {
 
     // There is a service issue that prevents errors from showing up in the
     // error field. Pending until it's resolved. ADO 8750375
-    it.skip("contains an error when fails to authenticate", async function() {
+    it.skip("contains an error when fails to authenticate", async function () {
       const restorePoller = await client.beginRestore(
         blobStorageUri,
         "bad_token",

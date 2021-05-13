@@ -145,7 +145,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
 
     if (state.isCompleted) {
       state.result = {
-        backupFolderUri: azureStorageBlobContainerUri,
+        folderUri: azureStorageBlobContainerUri,
         startTime,
         endTime
       };

@@ -2,6 +2,17 @@
 
 ## 4.0.0-beta.4 (Unreleased)
 
+- Breaking changes:
+  - Added the "KeyVault" prefix to all of the Key Vault Admin client operations.
+  - Made the AesGcmDecryptParameters authenticationTag required.
+- Collapsed `KeyVaultRoleAssignmentPropertiesWithScope` to `KeyVaultRoleAssignmentProperties`.
+- Renamed `KeyVaultKeyId` to `KeyVaultKeyIdentifier`.
+- Renamed `beginRestore`'s `blobStorageUri` to `folderUri`.
+- Renamed `beginSelectiveRestore`'s `blobStorageUri` to `folderUri`.
+- Removed `folderName` from `beginSelectiveRestore`. Now the folder name will be inferred from the `folderUri`.
+- Reordered the parameters of `beginSelectiveRestore` to `keyName`, `folderUrl`, `sasToken`, `[options]`.
+- Renamed `KeyVaultBackupResult`'s `backupFolderUri` to `folderUri`.
+
 ## 4.0.0-beta.3 (2021-04-06)
 
 - Updated the Latest service version to 7.2.

@@ -33,19 +33,19 @@ export interface KeyVaultBackupPollerOptions extends coreHttp.OperationOptions {
  * An interface representing the optional parameters that can be
  * passed to {@link beginBackup}
  */
-export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions {}
+export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions { }
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link beginRestore}
  */
-export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions {}
+export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions { }
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link beginSelectiveRestore}
  */
-export interface KeyVaultBeginSelectiveRestoreOptions extends KeyVaultBackupPollerOptions {}
+export interface KeyVaultBeginSelectiveRestoreOptions extends KeyVaultBackupPollerOptions { }
 
 /**
  * An interface representing the result of a backup operation.
@@ -54,7 +54,7 @@ export interface KeyVaultBackupResult {
   /**
    * The location of the full backup.
    */
-  backupFolderUri?: string;
+  folderUri?: string;
 
   /**
    * The start time of the backup operation.
