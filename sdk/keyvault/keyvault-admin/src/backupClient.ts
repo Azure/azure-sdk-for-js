@@ -13,27 +13,27 @@ import { PollerLike } from "@azure/core-lro";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import {
-  BackupClientOptions,
-  BackupResult,
-  BeginBackupOptions,
-  BeginRestoreOptions,
-  RestoreResult
+  KeyVaultBackupClientOptions,
+  KeyVaultBackupResult,
+  KeyVaultBeginBackupOptions,
+  KeyVaultBeginRestoreOptions,
+  KeyVaultRestoreResult
 } from "./backupClientModels";
 import { LATEST_API_VERSION, SDK_VERSION } from "./constants";
 import { logger } from "./log";
-import { BackupPoller } from "./lro/backup/poller";
-import { RestorePoller } from "./lro/restore/poller";
-import { SelectiveRestorePoller } from "./lro/selectiveRestore/poller";
-import { BackupOperationState } from "./lro/backup/operation";
-import { RestoreOperationState } from "./lro/restore/operation";
+import { KeyVaultBackupPoller } from "./lro/backup/poller";
+import { KeyVaultRestorePoller } from "./lro/restore/poller";
+import { KeyVaultSelectiveRestorePoller } from "./lro/selectiveRestore/poller";
+import { KeyVaultBackupOperationState } from "./lro/backup/operation";
+import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
-import { SelectiveRestoreOperationState } from "./lro/selectiveRestore/operation";
+import { KeyVaultSelectiveRestoreOperationState } from "./lro/selectiveRestore/operation";
 import { KeyVaultClientOptionalParams } from "./generated/models";
 
 export {
-  BackupOperationState,
-  RestoreOperationState,
-  SelectiveRestoreOperationState,
+  KeyVaultBackupOperationState,
+  KeyVaultRestoreOperationState,
+  KeyVaultSelectiveRestoreOperationState,
   KeyVaultAdminPollOperationState
 };
 
@@ -72,7 +72,11 @@ export class KeyVaultBackupClient {
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
    * @param options - options used to configure Key Vault API requests.
    */
-  constructor(vaultUrl: string, credential: TokenCredential, options: BackupClientOptions = {}) {
+  constructor(
+    vaultUrl: string,
+    credential: TokenCredential,
+    options: KeyVaultBackupClientOptions = {}
+  ) {
     this.vaultUrl = vaultUrl;
 
     const libInfo = `azsdk-js-keyvault-admin/${SDK_VERSION}`;
@@ -144,9 +148,9 @@ export class KeyVaultBackupClient {
   public async beginBackup(
     blobStorageUri: string,
     sasToken: string,
-    options: BeginBackupOptions = {}
-  ): Promise<PollerLike<BackupOperationState, BackupResult>> {
-    const poller = new BackupPoller({
+    options: KeyVaultBeginBackupOptions = {}
+  ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>> {
+    const poller = new KeyVaultBackupPoller({
       blobStorageUri,
       sasToken,
       client: this.client,
@@ -191,19 +195,19 @@ export class KeyVaultBackupClient {
    * console.log(backupUri);
    * ```
    * Starts a full restore operation.
-   * @param blobStorageUri - The URL of the blob storage resource where the previous successful full backup was stored.
+   * @param folderUri - The URL of the blob storage resource where the previous successful full backup was stored.
    * @param sasToken - The SAS token.
    * @param folderName - The folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
    * @param options - The optional parameters.
    */
   public async beginRestore(
-    blobStorageUri: string,
+    folderUri: string,
     sasToken: string,
     folderName: string,
-    options: BeginRestoreOptions = {}
-  ): Promise<PollerLike<RestoreOperationState, RestoreResult>> {
-    const poller = new RestorePoller({
-      blobStorageUri,
+    options: KeyVaultBeginRestoreOptions = {}
+  ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>> {
+    const poller = new KeyVaultRestorePoller({
+      folderUri,
       sasToken,
       folderName,
       client: this.client,
@@ -248,22 +252,22 @@ export class KeyVaultBackupClient {
    * await poller.pollUntilDone();
    * ```
    * Creates a new role assignment.
-   * @param blobStorageUri - The URL of the blob storage resource, with the folder name of the blob where the previous successful full backup was stored.
+   * @param folderUri - The URL of the blob storage resource, with the folder name of the blob where the previous successful full backup was stored.
    * @param sasToken - The SAS token.
    * @param folderName - The Folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
    * @param keyName - The name of the key that wants to be restored.
    * @param options - The optional parameters.
    */
   public async beginSelectiveRestore(
-    blobStorageUri: string,
+    folderUri: string,
     sasToken: string,
     folderName: string,
     keyName: string,
-    options: BeginBackupOptions = {}
-  ): Promise<PollerLike<SelectiveRestoreOperationState, RestoreResult>> {
-    const poller = new SelectiveRestorePoller({
+    options: KeyVaultBeginBackupOptions = {}
+  ): Promise<PollerLike<KeyVaultSelectiveRestoreOperationState, KeyVaultRestoreResult>> {
+    const poller = new KeyVaultSelectiveRestorePoller({
       keyName,
-      blobStorageUri,
+      folderUri,
       sasToken,
       folderName,
       client: this.client,
