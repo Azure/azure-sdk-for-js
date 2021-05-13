@@ -14,5 +14,5 @@ export {
   SecretReference,
   secretReferenceContentType,
   SecretReferenceParam
-} from "./keyvaultReference";
+} from "./secretReference";
 export * from "./models";

@@ -14,7 +14,7 @@ import {
   ConfigurationSettingParam
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
-import { deserializeSecretReference, secretReferenceContentType } from "../keyvaultReference";
+import { deserializeSecretReference, secretReferenceContentType } from "../secretReference";
 import { featureFlagContentType, FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
 
 /**
