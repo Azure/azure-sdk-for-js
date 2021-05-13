@@ -23,18 +23,18 @@ describe("test", () => {
       } as UnsecuredEndpoint,
       "@type": "#Microsoft.VideoAnalyzer.RtspSource"
     };
-  
+
     const nodeInput: NodeInput = {
       nodeName: "rtspSource"
     };
-  
+
     const msgSink: IotHubMessageSink = {
       name: "msgSink",
       inputs: [nodeInput],
       hubOutputName: "${hubSinkOutputName}",
       "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink"
     };
-  
+
     const pipelineTopology: PipelineTopology = {
       name: "jsTestTopology",
       properties: {
