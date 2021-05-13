@@ -20,6 +20,27 @@ modelerfour:
   naming:
     override:
       "@type": $DO_NOT_NORMALIZE$@type
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      for (const definition in $) {
+        if (definition == 'PipelineTopologySetRequest' 
+          || definition == 'PipelineTopologySetRequestBody'
+          || definition == 'LivePipelineSetRequest'
+          || definition == 'LivePipelineSetRequestBody'
+          || definition == 'MethodRequestEmptyBodyBase'
+          || definition == 'PipelineTopologyListRequest'
+          || definition == 'PipelineTopologyGetRequest'
+          || definition == 'PipelineTopologyDeleteRequest'
+          || definition == 'LivePipelineListRequest'
+          || definition == 'LivePipelineGetRequest'
+          || definition == 'LivePipelineActivateRequest'
+          || definition == 'LivePipelineDeactivateRequest'
+          || definition == 'LivePipelineDeleteRequest') {
+          delete $[definition];
+        }
+      }
 ```
 
 <!-- modelerfour:

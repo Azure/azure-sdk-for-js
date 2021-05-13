@@ -299,35 +299,10 @@ export interface LivePipeline {
 }
 
 // @public
-export type LivePipelineActivateRequest = MethodRequestEmptyBodyBase & {
-    methodName: "livePipelineActivate";
-};
-
-// @public
 export interface LivePipelineCollection {
     continuationToken?: string;
     value?: LivePipeline[];
 }
-
-// @public
-export type LivePipelineDeactivateRequest = MethodRequestEmptyBodyBase & {
-    methodName: "livePipelineDeactivate";
-};
-
-// @public
-export type LivePipelineDeleteRequest = MethodRequestEmptyBodyBase & {
-    methodName: "livePipelineDelete";
-};
-
-// @public
-export type LivePipelineGetRequest = MethodRequestEmptyBodyBase & {
-    methodName: "livePipelineGet";
-};
-
-// @public
-export type LivePipelineListRequest = MethodRequest & {
-    methodName: "livePipelineList";
-};
 
 // @public
 export interface LivePipelineProperties {
@@ -338,36 +313,13 @@ export interface LivePipelineProperties {
 }
 
 // @public
-export type LivePipelineSetRequest = MethodRequest & {
-    methodName: "livePipelineSet";
-    livePipeline: LivePipeline;
-};
-
-// @public
-export type LivePipelineSetRequestBody = MethodRequest & LivePipeline & {
-    methodName: "LivePipelineSetRequestBody";
-};
-
-// @public
 export type LivePipelineState = string;
 
 // @public
 export interface MethodRequest {
     apiVersion?: "1.0";
-    methodName: "pipelineTopologySet" | "PipelineTopologySetRequestBody" | "livePipelineSet" | "LivePipelineSetRequestBody" | "MethodRequestEmptyBodyBase" | "pipelineTopologyList" | "pipelineTopologyGet" | "pipelineTopologyDelete" | "livePipelineList" | "livePipelineGet" | "livePipelineActivate" | "livePipelineDeactivate" | "livePipelineDelete";
+    methodName: "undefined";
 }
-
-// @public (undocumented)
-export type MethodRequestEmptyBodyBase = MethodRequest & {
-    methodName: "MethodRequestEmptyBodyBase";
-    name: string;
-};
-
-// @public (undocumented)
-export type MethodRequestEmptyBodyBaseUnion = MethodRequestEmptyBodyBase | PipelineTopologyGetRequest | PipelineTopologyDeleteRequest | LivePipelineGetRequest | LivePipelineActivateRequest | LivePipelineDeactivateRequest | LivePipelineDeleteRequest;
-
-// @public (undocumented)
-export type MethodRequestUnion = MethodRequest | PipelineTopologySetRequest | PipelineTopologySetRequestBody | LivePipelineSetRequest | LivePipelineSetRequestBody | MethodRequestEmptyBodyBaseUnion | PipelineTopologyListRequest | LivePipelineListRequest;
 
 // @public
 export type MotionDetectionProcessor = ProcessorNodeBase & {
@@ -481,21 +433,6 @@ export interface PipelineTopologyCollection {
 }
 
 // @public
-export type PipelineTopologyDeleteRequest = MethodRequestEmptyBodyBase & {
-    methodName: "pipelineTopologyDelete";
-};
-
-// @public
-export type PipelineTopologyGetRequest = MethodRequestEmptyBodyBase & {
-    methodName: "pipelineTopologyGet";
-};
-
-// @public
-export type PipelineTopologyListRequest = MethodRequest & {
-    methodName: "pipelineTopologyList";
-};
-
-// @public
 export interface PipelineTopologyProperties {
     description?: string;
     parameters?: ParameterDeclaration[];
@@ -503,17 +440,6 @@ export interface PipelineTopologyProperties {
     sinks?: SinkNodeBaseUnion[];
     sources?: SourceNodeBaseUnion[];
 }
-
-// @public
-export type PipelineTopologySetRequest = MethodRequest & {
-    methodName: "pipelineTopologySet";
-    pipelineTopology: PipelineTopology;
-};
-
-// @public
-export type PipelineTopologySetRequestBody = MethodRequest & PipelineTopology & {
-    methodName: "PipelineTopologySetRequestBody";
-};
 
 // @public
 export interface ProcessorNodeBase {

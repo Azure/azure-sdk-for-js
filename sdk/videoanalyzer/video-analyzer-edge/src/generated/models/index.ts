@@ -43,15 +43,6 @@ export type SpatialAnalysisOperationBaseUnion =
   | SpatialAnalysisOperationBase
   | SpatialAnalysisCustomOperation
   | SpatialAnalysisTypedOperationBaseUnion;
-export type MethodRequestUnion =
-  | MethodRequest
-  | PipelineTopologySetRequest
-  | PipelineTopologySetRequestBody
-  | LivePipelineSetRequest
-  | LivePipelineSetRequestBody
-  | MethodRequestEmptyBodyBaseUnion
-  | PipelineTopologyListRequest
-  | LivePipelineListRequest;
 export type ExtensionProcessorBaseUnion =
   | ExtensionProcessorBase
   | GrpcExtension
@@ -62,14 +53,6 @@ export type SpatialAnalysisTypedOperationBaseUnion =
   | SpatialAnalysisPersonZoneCrossingOperation
   | SpatialAnalysisPersonDistanceOperation
   | SpatialAnalysisPersonLineCrossingOperation;
-export type MethodRequestEmptyBodyBaseUnion =
-  | MethodRequestEmptyBodyBase
-  | PipelineTopologyGetRequest
-  | PipelineTopologyDeleteRequest
-  | LivePipelineGetRequest
-  | LivePipelineActivateRequest
-  | LivePipelineDeactivateRequest
-  | LivePipelineDeleteRequest;
 
 /** Live Pipeline represents an unique instance of a pipeline topology which is used for real-time content ingestion and analysis. */
 export interface LivePipeline {
@@ -382,37 +365,10 @@ export interface SpatialAnalysisPersonLineCrossingLineEvents {
 /** Base class for direct method calls. */
 export interface MethodRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName:
-    | "pipelineTopologySet"
-    | "PipelineTopologySetRequestBody"
-    | "livePipelineSet"
-    | "LivePipelineSetRequestBody"
-    | "MethodRequestEmptyBodyBase"
-    | "pipelineTopologyList"
-    | "pipelineTopologyGet"
-    | "pipelineTopologyDelete"
-    | "livePipelineList"
-    | "livePipelineGet"
-    | "livePipelineActivate"
-    | "livePipelineDeactivate"
-    | "livePipelineDelete";
+  methodName: "undefined";
   /** Video Analyzer API version. */
   apiVersion?: "1.0";
 }
-
-/** Live pipeline resource representation. */
-export type LivePipelineSetRequestBody = MethodRequest &
-  LivePipeline & {
-    /** Polymorphic discriminator, which specifies the different types this object can be */
-    methodName: "LivePipelineSetRequestBody";
-  };
-
-/** Pipeline topology resource representation. */
-export type PipelineTopologySetRequestBody = MethodRequest &
-  PipelineTopology & {
-    /** Polymorphic discriminator, which specifies the different types this object can be */
-    methodName: "PipelineTopologySetRequestBody";
-  };
 
 /** RTSP source allows for media from an RTSP camera or generic RTSP server to be ingested into a live pipeline. */
 export type RtspSource = SourceNodeBase & {
@@ -673,48 +629,6 @@ export type SpatialAnalysisPersonDistanceEvent = SpatialAnalysisOperationEventBa
 /** Defines a Spatial Analysis person line crossing operation eventing configuration. */
 export type SpatialAnalysisPersonLineCrossingEvent = SpatialAnalysisOperationEventBase & {};
 
-/** Creates a new pipeline topology or updates an existing one. */
-export type PipelineTopologySetRequest = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "pipelineTopologySet";
-  /**
-   * Pipeline topology describes the processing steps to be applied when processing media for a particular outcome. The topology should be defined according to the scenario to be achieved and can be reused across many pipeline instances which share the same processing characteristics. For instance, a pipeline topology which acquires data from a RTSP camera, process it with an specific AI model and stored the data on the cloud can be reused across many different cameras, as long as the same processing should be applied across all the cameras. Individual instance properties can be defined through the use of user-defined parameters, which allow for a topology to be parameterized, thus allowing individual pipelines to refer to different values, such as individual cameras RTSP endpoints and credentials. Overall a topology is composed of the following:
-   *
-   *   - Parameters: list of user defined parameters that can be references across the topology nodes.
-   *   - Sources: list of one or more data sources nodes such as an RTSP source which allows for media to be ingested from cameras.
-   *   - Processors: list of nodes which perform data analysis or transformations.
-   *   -Sinks: list of one or more data sinks which allow for data to be stored or exported to other destinations.
-   */
-  pipelineTopology: PipelineTopology;
-};
-
-/** Creates a new live pipeline or updates an existing one. */
-export type LivePipelineSetRequest = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "livePipelineSet";
-  /** Live Pipeline represents an unique instance of a pipeline topology which is used for real-time content ingestion and analysis. */
-  livePipeline: LivePipeline;
-};
-
-export type MethodRequestEmptyBodyBase = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "MethodRequestEmptyBodyBase";
-  /** Resource name. */
-  name: string;
-};
-
-/** List all existing pipeline topologies. */
-export type PipelineTopologyListRequest = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "pipelineTopologyList";
-};
-
-/** List all existing live pipelines. */
-export type LivePipelineListRequest = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "livePipelineList";
-};
-
 /** GRPC extension processor allows pipeline extension plugins to be connected to the pipeline through over a gRPC channel. Extension plugins must act as an gRPC server. Please see https://aka.ms/ava-extension-grpc for details. */
 export type GrpcExtension = ExtensionProcessorBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -761,42 +675,6 @@ export type SpatialAnalysisPersonLineCrossingOperation = SpatialAnalysisTypedOpe
   "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation";
   /** The list of lines with optional events. */
   lines: SpatialAnalysisPersonLineCrossingLineEvents[];
-};
-
-/** Retrieves an existing pipeline topology. */
-export type PipelineTopologyGetRequest = MethodRequestEmptyBodyBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "pipelineTopologyGet";
-};
-
-/** Deletes an existing pipeline topology. */
-export type PipelineTopologyDeleteRequest = MethodRequestEmptyBodyBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "pipelineTopologyDelete";
-};
-
-/** Retrieves an existing live pipeline. */
-export type LivePipelineGetRequest = MethodRequestEmptyBodyBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "livePipelineGet";
-};
-
-/** Activates an existing live pipeline. */
-export type LivePipelineActivateRequest = MethodRequestEmptyBodyBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "livePipelineActivate";
-};
-
-/** Deactivates an existing live pipeline. */
-export type LivePipelineDeactivateRequest = MethodRequestEmptyBodyBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "livePipelineDeactivate";
-};
-
-/** Deletes an existing live pipeline. */
-export type LivePipelineDeleteRequest = MethodRequestEmptyBodyBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "livePipelineDelete";
 };
 
 /** Known values of {@link LivePipelineState} that the service accepts. */

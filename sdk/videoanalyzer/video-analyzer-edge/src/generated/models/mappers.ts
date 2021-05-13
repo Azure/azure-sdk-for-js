@@ -950,34 +950,6 @@ export const MethodRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const LivePipelineSetRequestBody: coreHttp.CompositeMapper = {
-  serializedName: "LivePipelineSetRequestBody",
-  type: {
-    name: "Composite",
-    className: "LivePipelineSetRequestBody",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequest.type.modelProperties,
-      ...LivePipeline.type.modelProperties
-    }
-  }
-};
-
-export const PipelineTopologySetRequestBody: coreHttp.CompositeMapper = {
-  serializedName: "PipelineTopologySetRequestBody",
-  type: {
-    name: "Composite",
-    className: "PipelineTopologySetRequestBody",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequest.type.modelProperties,
-      ...PipelineTopology.type.modelProperties
-    }
-  }
-};
-
 export const RtspSource: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.RtspSource",
   type: {
@@ -1680,95 +1652,6 @@ export const SpatialAnalysisPersonLineCrossingEvent: coreHttp.CompositeMapper = 
   }
 };
 
-export const PipelineTopologySetRequest: coreHttp.CompositeMapper = {
-  serializedName: "pipelineTopologySet",
-  type: {
-    name: "Composite",
-    className: "PipelineTopologySetRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequest.type.modelProperties,
-      pipelineTopology: {
-        serializedName: "pipelineTopology",
-        type: {
-          name: "Composite",
-          className: "PipelineTopology"
-        }
-      }
-    }
-  }
-};
-
-export const LivePipelineSetRequest: coreHttp.CompositeMapper = {
-  serializedName: "livePipelineSet",
-  type: {
-    name: "Composite",
-    className: "LivePipelineSetRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequest.type.modelProperties,
-      livePipeline: {
-        serializedName: "livePipeline",
-        type: {
-          name: "Composite",
-          className: "LivePipeline"
-        }
-      }
-    }
-  }
-};
-
-export const MethodRequestEmptyBodyBase: coreHttp.CompositeMapper = {
-  serializedName: "MethodRequestEmptyBodyBase",
-  type: {
-    name: "Composite",
-    className: "MethodRequestEmptyBodyBase",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: {
-      serializedName: "methodName",
-      clientName: "methodName"
-    },
-    modelProperties: {
-      ...MethodRequest.type.modelProperties,
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PipelineTopologyListRequest: coreHttp.CompositeMapper = {
-  serializedName: "pipelineTopologyList",
-  type: {
-    name: "Composite",
-    className: "PipelineTopologyListRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequest.type.modelProperties
-    }
-  }
-};
-
-export const LivePipelineListRequest: coreHttp.CompositeMapper = {
-  serializedName: "livePipelineList",
-  type: {
-    name: "Composite",
-    className: "LivePipelineListRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequest.type.modelProperties
-    }
-  }
-};
-
 export const GrpcExtension: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.GrpcExtension",
   type: {
@@ -1920,84 +1803,6 @@ export const SpatialAnalysisPersonLineCrossingOperation: coreHttp.CompositeMappe
   }
 };
 
-export const PipelineTopologyGetRequest: coreHttp.CompositeMapper = {
-  serializedName: "pipelineTopologyGet",
-  type: {
-    name: "Composite",
-    className: "PipelineTopologyGetRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequestEmptyBodyBase.type.modelProperties
-    }
-  }
-};
-
-export const PipelineTopologyDeleteRequest: coreHttp.CompositeMapper = {
-  serializedName: "pipelineTopologyDelete",
-  type: {
-    name: "Composite",
-    className: "PipelineTopologyDeleteRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequestEmptyBodyBase.type.modelProperties
-    }
-  }
-};
-
-export const LivePipelineGetRequest: coreHttp.CompositeMapper = {
-  serializedName: "livePipelineGet",
-  type: {
-    name: "Composite",
-    className: "LivePipelineGetRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequestEmptyBodyBase.type.modelProperties
-    }
-  }
-};
-
-export const LivePipelineActivateRequest: coreHttp.CompositeMapper = {
-  serializedName: "livePipelineActivate",
-  type: {
-    name: "Composite",
-    className: "LivePipelineActivateRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequestEmptyBodyBase.type.modelProperties
-    }
-  }
-};
-
-export const LivePipelineDeactivateRequest: coreHttp.CompositeMapper = {
-  serializedName: "livePipelineDeactivate",
-  type: {
-    name: "Composite",
-    className: "LivePipelineDeactivateRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequestEmptyBodyBase.type.modelProperties
-    }
-  }
-};
-
-export const LivePipelineDeleteRequest: coreHttp.CompositeMapper = {
-  serializedName: "livePipelineDelete",
-  type: {
-    name: "Composite",
-    className: "LivePipelineDeleteRequest",
-    uberParent: "MethodRequest",
-    polymorphicDiscriminator: MethodRequest.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MethodRequestEmptyBodyBase.type.modelProperties
-    }
-  }
-};
-
 export let discriminators = {
   SourceNodeBase: SourceNodeBase,
   ProcessorNodeBase: ProcessorNodeBase,
@@ -2009,9 +1814,7 @@ export let discriminators = {
   ImageFormatProperties: ImageFormatProperties,
   NamedPolygonBase: NamedPolygonBase,
   SpatialAnalysisOperationBase: SpatialAnalysisOperationBase,
-  MethodRequest: MethodRequest,
-  "MethodRequest.LivePipelineSetRequestBody": LivePipelineSetRequestBody,
-  "MethodRequest.PipelineTopologySetRequestBody": PipelineTopologySetRequestBody,
+  "MethodRequest.undefined": MethodRequest,
   "SourceNodeBase.#Microsoft.VideoAnalyzer.RtspSource": RtspSource,
   "SourceNodeBase.#Microsoft.VideoAnalyzer.IotHubMessageSource": IotHubMessageSource,
   "ProcessorNodeBase.#Microsoft.VideoAnalyzer.MotionDetectionProcessor": MotionDetectionProcessor,
@@ -2036,21 +1839,10 @@ export let discriminators = {
   "NamedPolygonBase.#Microsoft.VideoAnalyzer.NamedPolygonString": NamedPolygonString,
   "SpatialAnalysisOperationBase.#Microsoft.VideoAnalyzer.SpatialAnalysisCustomOperation": SpatialAnalysisCustomOperation,
   "SpatialAnalysisOperationBase.SpatialAnalysisTypedOperationBase": SpatialAnalysisTypedOperationBase,
-  "MethodRequest.pipelineTopologySet": PipelineTopologySetRequest,
-  "MethodRequest.livePipelineSet": LivePipelineSetRequest,
-  "MethodRequest.MethodRequestEmptyBodyBase": MethodRequestEmptyBodyBase,
-  "MethodRequest.pipelineTopologyList": PipelineTopologyListRequest,
-  "MethodRequest.livePipelineList": LivePipelineListRequest,
   "ProcessorNodeBase.#Microsoft.VideoAnalyzer.GrpcExtension": GrpcExtension,
   "ProcessorNodeBase.#Microsoft.VideoAnalyzer.HttpExtension": HttpExtension,
   "SpatialAnalysisOperationBase.#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation": SpatialAnalysisPersonCountOperation,
   "SpatialAnalysisOperationBase.#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation": SpatialAnalysisPersonZoneCrossingOperation,
   "SpatialAnalysisOperationBase.#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation": SpatialAnalysisPersonDistanceOperation,
-  "SpatialAnalysisOperationBase.#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation": SpatialAnalysisPersonLineCrossingOperation,
-  "MethodRequest.pipelineTopologyGet": PipelineTopologyGetRequest,
-  "MethodRequest.pipelineTopologyDelete": PipelineTopologyDeleteRequest,
-  "MethodRequest.livePipelineGet": LivePipelineGetRequest,
-  "MethodRequest.livePipelineActivate": LivePipelineActivateRequest,
-  "MethodRequest.livePipelineDeactivate": LivePipelineDeactivateRequest,
-  "MethodRequest.livePipelineDelete": LivePipelineDeleteRequest
+  "SpatialAnalysisOperationBase.#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation": SpatialAnalysisPersonLineCrossingOperation
 };
