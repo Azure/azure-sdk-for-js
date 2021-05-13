@@ -7,7 +7,7 @@ import {
 } from "@azure/communication-common";
 import { assert } from "chai";
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
-import { CommunicationIdentityClient } from "../../src";
+import { CommunicationAccessToken, CommunicationIdentityClient } from "../../src";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken
@@ -74,6 +74,12 @@ matrix([[true, false]], async function(useAad) {
     it("successfully deletes a user", async function() {
       const user: CommunicationUserIdentifier = await client.createUser();
       await client.deleteUser(user);
+    });
+
+    it("successfully exchanges an AAD token for an ACS token", async function() {
+      const { token, expiresOn }: CommunicationAccessToken = await client.exchangeAADtokenForACStoken("AADtoken");
+      assert.isString(token);
+      assert.instanceOf(expiresOn, Date);
     });
 
     describe("Error Cases: ", async function() {

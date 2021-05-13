@@ -76,4 +76,21 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     assert.equal(newUser.communicationUserId, "identity");
     assert.isFalse("_response" in newUser);
   });
+
+  it("exchanges AAD token for ACS token", async () => {
+    const client = new TestCommunicationIdentityClient();
+    const spy = sinon.spy(getTokenHttpClient, "sendRequest");
+    const response = await client.exchangeAADtokenForACStokenTest("AADtoken");
+
+    assert.equal(response.token, "token");
+    assert.equal(response.expiresOn.toDateString(), new Date("2011/11/30").toDateString());
+    sinon.assert.calledOnce(spy);
+  });
+
+  it("[exchangeAADtokenForACSToken] excludes _response from results", async () => {
+    const client = new TestCommunicationIdentityClient();
+    const response = await client.exchangeAADtokenForACStokenTest("AADtoken");
+
+    assert.isFalse("_response" in response);
+  });
 });
