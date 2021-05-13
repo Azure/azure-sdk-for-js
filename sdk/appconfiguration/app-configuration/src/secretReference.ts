@@ -28,16 +28,16 @@ export const SecretReferenceHelper = {
     setting: ConfigurationSetting
   ): ConfigurationSetting<SecretReferenceValue> => {
     if (!isSecretReference(setting)) {
-      throw new Error(`Setting ${setting.key} is not a valid secret reference`);
+      throw new TypeError(`Setting ${setting.key} is not a valid secret reference`);
     }
     let jsonSecretReferenceValue: JsonSecretReferenceValue;
     try {
       if (!setting.value || typeof setting.value !== "string") {
-        throw new Error(`secretReference has an unexpected value - ${setting.value}`);
+        throw new TypeError(`secretReference has an unexpected value - ${setting.value}`);
       }
       jsonSecretReferenceValue = JSON.parse(setting.value) as JsonSecretReferenceValue;
     } catch (err) {
-      throw new Error(
+      throw new TypeError(
         `Unable to parse (JSON.parse) the value of the secretReference - ${setting.value}`
       );
     }
@@ -55,7 +55,7 @@ export const SecretReferenceHelper = {
     secretReference: ConfigurationSettingParam<SecretReferenceValue>
   ): ConfigurationSettingParam => {
     if (!secretReference.value) {
-      throw new Error(`SecretReference has an unexpected value - ${secretReference.value}`);
+      throw new TypeError(`SecretReference has an unexpected value - ${secretReference.value}`);
     }
 
     const jsonSecretReferenceValue: JsonSecretReferenceValue = {
@@ -66,7 +66,7 @@ export const SecretReferenceHelper = {
     try {
       stringifiedValue = JSON.stringify(jsonSecretReferenceValue);
     } catch (err) {
-      throw new Error(
+      throw new TypeError(
         `Unable to do encode the value ${secretReference.value} as string (JSON.stringify)`
       );
     }
