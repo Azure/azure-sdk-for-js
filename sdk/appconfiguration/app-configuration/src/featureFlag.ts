@@ -16,6 +16,10 @@ export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+js
 
 export interface FeatureFlagValue {
   /**
+   * Id for the feature flag.
+   */
+  id?: string;
+  /**
    * A Feature filter consistently evaluates the state of a feature flag.
    * Our feature management library supports three types of built-in filters: Targeting, TimeWindow, and Percentage.
    * Custom filters can also be created based on different factors, such as device used, browser types, geographic location, etc.
