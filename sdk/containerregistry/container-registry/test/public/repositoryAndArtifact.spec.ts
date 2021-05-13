@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 import { ContainerRegistryClient, ContainerRepository } from "../../src";
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, env, record, Recorder } from "@azure/test-utils-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import { createRegistryClient, recorderEnvSetup } from "./utils";
@@ -30,7 +30,7 @@ describe("Repository and artifact tests", function() {
     // `afterEach` hook.
     recorder = record(this, recorderEnvSetup);
 
-    registryClient = createRegistryClient();
+    registryClient = createRegistryClient(env.CONTAINER_REGISTRY_ENDPOINT);
     repository = registryClient.getRepository(repositoryName);
   });
 

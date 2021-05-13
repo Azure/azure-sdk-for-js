@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "8af937f4867c7ea4ebf7fc12b63a6865";
+module.exports.hash = "32ece8444cc8213472eaf1790731a0c5";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '97041692-1207-45e7-9d23-b246deb1f701',
+  'ec0d39df-a7ae-4247-b603-3945f211c800',
   'x-ms-ests-server',
-  '2.1.11654.16 - WUS2 ProdSlices',
+  '2.1.11654.25 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Au8MJrNuQyZHoLASLJ-TetBz_bg1DgAAACnFG9gOAAAA; expires=Fri, 28-May-2021 21:08:29 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnPhe69wTYVMjcXd08qS_MNz_bg1EAAAABseLtgOAAAA; expires=Fri, 11-Jun-2021 19:09:49 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrvy7aMbm92MDT2FpxzyWlcQ8mtoJUmLgQSlDCQs3ph6vPVaU0W3Fnh2bn_B2Eb2-gYpjPhErPc0uSQVMM4Y2mKnBEihOq8p0pWYbQ96RKtFtvxsrIhYt62M0JbsW6oRYJB_lozVAHmZhlXzd2s6luuAiVGTAYSBP5T45H81cbAAUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrNru6UlMvDLXnr96QA0Ru-QIEbtw5BVmY4P9F8btF2iETUBiBqR4uPkZx0h0JiYd-L0lvz5YZsWDtaOXGFbN8Aor21T6aKZGb7dS6SDBUNSquNUr4VPV_8X3PfyU8pJDzD7rKPkHMYRWmwubFa33N6af1nCealtTFYSm1lKzUCoEgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 21:08:28 GMT',
+  'Wed, 12 May 2021 19:09:48 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,19 +58,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'df10e011-eaf8-471d-8637-d0763694c001',
+  '29a193e4-4207-4b4e-982a-fd821e9d5e00',
   'x-ms-ests-server',
-  '2.1.11654.16 - WUS2 ProdSlices',
+  '2.1.11722.21 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=Au8MJrNuQyZHoLASLJ-TetBz_bg1DgAAACnFG9gOAAAA; expires=Fri, 28-May-2021 21:08:29 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnPhe69wTYVMjcXd08qS_MNz_bg1EAAAABseLtgOAAAA; expires=Fri, 11-Jun-2021 19:09:49 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevroVO3pl_aelk-RZBnE4hDjvRhhopALQs9Hj_nzHUGWbBwhdliyIyMP7_uYmI5-5-pWlrKil6q8d0MusZl9L_45qt9EJu3UlYYaszJjbLC3roppYvZTq7zZDZj2ptOvE9QEYSTOe278-VqiBBRYmc-mFOOzn1S5UD4MVcJgdGD-IcgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr1jt-2FEusCsNHigyJV6tZyfjhd5dc6Xlu_2JHEd3VsmYR1BWxya9z6T-pRK16ngjRFTdGv1OUYlK4c6SgJJhZDIINxuVqRNr5Ywn51INfqBfSW16RI8BfnV0GWY-JzVwKJjHAZSXDyBhDuwxLoVgM5pYUqoAxM9ZxZKSy0R3-AQgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 21:08:28 GMT',
+  'Wed, 12 May 2021 19:09:48 GMT',
   'Content-Length',
   '1651'
 ]);
@@ -96,158 +96,138 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '2032fa4b-49dd-4d6b-9748-9d4022922501',
+  '85f09191-d1fd-4fd7-9a80-0d91bfa66200',
   'x-ms-ests-server',
-  '2.1.11654.16 - SCUS ProdSlices',
+  '2.1.11722.21 - SCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Au8MJrNuQyZHoLASLJ-TetBz_bg1DgAAACnFG9gOAAAA; expires=Fri, 28-May-2021 21:08:29 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnPhe69wTYVMjcXd08qS_MNz_bg1EAAAABseLtgOAAAA; expires=Fri, 11-Jun-2021 19:09:49 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 21:08:28 GMT',
+  'Wed, 12 May 2021 19:09:49 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.4/analyze', {"tasks":{"entityLinkingTasks":[{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}}]},"analysisInput":{"documents":[{"id":"0","text":"Microsoft moved its headquarters to Bellevue, Washington in January 1979.","language":"en"},{"id":"1","text":"Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.","language":"en"}]}})
+  .post('//text/analytics/v3.1-preview.5/analyze', {"tasks":{"entityLinkingTasks":[{"parameters":{"stringIndexType":"Utf16CodeUnit"}}]},"analysisInput":{"documents":[{"id":"0","text":"Microsoft moved its headquarters to Bellevue, Washington in January 1979.","language":"en"},{"id":"1","text":"Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.","language":"en"}]}})
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
   'operation-location',
-  'https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/3b55c14a-cf6e-4550-aac7-1d47b8920c6e',
+  'https://endpoint/text/analytics/v3.1-preview.5/analyze/jobs/d5d0eb1a-62dc-4546-b8f0-f30e34c67890',
   'x-envoy-upstream-service-time',
-  '54',
+  '99',
   'apim-request-id',
-  'f66f7650-cc3e-476d-8b64-569e9cbd03e8',
+  '915baec2-92fa-4661-b3d5-2055467c3dc5',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 21:08:29 GMT'
+  'Wed, 12 May 2021 19:09:48 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.4/analyze/jobs/3b55c14a-cf6e-4550-aac7-1d47b8920c6e')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/d5d0eb1a-62dc-4546-b8f0-f30e34c67890')
   .query(true)
-  .reply(200, {"jobId":"3b55c14a-cf6e-4550-aac7-1d47b8920c6e","lastUpdateDateTime":"2021-04-28T21:08:29Z","createdDateTime":"2021-04-28T21:08:29Z","expirationDateTime":"2021-04-29T21:08:29Z","status":"notStarted","errors":[],"tasks":{"details":{"lastUpdateDateTime":"2021-04-28T21:08:29Z"},"completed":0,"failed":0,"inProgress":0,"total":0}}, [
+  .reply(200, {"jobId":"d5d0eb1a-62dc-4546-b8f0-f30e34c67890","lastUpdateDateTime":"2021-05-12T19:09:49Z","createdDateTime":"2021-05-12T19:09:49Z","expirationDateTime":"2021-05-13T19:09:49Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-12T19:09:49Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '12',
+  '8',
   'apim-request-id',
-  'c9c0db5a-6ca5-418b-b03c-89349d11676a',
+  'b474ae77-7b71-46db-ba29-26a7217de464',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 21:08:29 GMT'
+  'Wed, 12 May 2021 19:09:48 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.4/analyze/jobs/3b55c14a-cf6e-4550-aac7-1d47b8920c6e')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/d5d0eb1a-62dc-4546-b8f0-f30e34c67890')
   .query(true)
-  .reply(200, {"jobId":"3b55c14a-cf6e-4550-aac7-1d47b8920c6e","lastUpdateDateTime":"2021-04-28T21:08:29Z","createdDateTime":"2021-04-28T21:08:29Z","expirationDateTime":"2021-04-29T21:08:29Z","status":"notStarted","errors":[],"tasks":{"details":{"lastUpdateDateTime":"2021-04-28T21:08:29Z"},"completed":0,"failed":0,"inProgress":0,"total":0}}, [
+  .reply(200, {"jobId":"d5d0eb1a-62dc-4546-b8f0-f30e34c67890","lastUpdateDateTime":"2021-05-12T19:09:49Z","createdDateTime":"2021-05-12T19:09:49Z","expirationDateTime":"2021-05-13T19:09:49Z","status":"notStarted","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-12T19:09:49Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '12',
+  '7',
   'apim-request-id',
-  '1ab701e6-f2b0-412f-b7b7-93d196816320',
+  '7e976ccc-1c23-4ba9-be6a-354ee7ca3e45',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 21:08:29 GMT'
+  'Wed, 12 May 2021 19:09:48 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.4/analyze/jobs/3b55c14a-cf6e-4550-aac7-1d47b8920c6e')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/d5d0eb1a-62dc-4546-b8f0-f30e34c67890')
   .query(true)
-  .reply(200, {"jobId":"3b55c14a-cf6e-4550-aac7-1d47b8920c6e","lastUpdateDateTime":"2021-04-28T21:08:29Z","createdDateTime":"2021-04-28T21:08:29Z","expirationDateTime":"2021-04-29T21:08:29Z","status":"notStarted","errors":[],"tasks":{"details":{"lastUpdateDateTime":"2021-04-28T21:08:29Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"d5d0eb1a-62dc-4546-b8f0-f30e34c67890","lastUpdateDateTime":"2021-05-12T19:09:50Z","createdDateTime":"2021-05-12T19:09:49Z","expirationDateTime":"2021-05-13T19:09:49Z","status":"running","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-12T19:09:50Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '41',
+  '9',
   'apim-request-id',
-  '273d8cb0-b68b-45b0-9454-7e001bffc687',
+  '413b7573-7c5b-453e-9492-a38cc3c650b4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 21:08:31 GMT'
+  'Wed, 12 May 2021 19:09:52 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.4/analyze/jobs/3b55c14a-cf6e-4550-aac7-1d47b8920c6e')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/d5d0eb1a-62dc-4546-b8f0-f30e34c67890')
   .query(true)
-  .reply(200, {"jobId":"3b55c14a-cf6e-4550-aac7-1d47b8920c6e","lastUpdateDateTime":"2021-04-28T21:08:29Z","createdDateTime":"2021-04-28T21:08:29Z","expirationDateTime":"2021-04-29T21:08:29Z","status":"running","errors":[],"tasks":{"details":{"lastUpdateDateTime":"2021-04-28T21:08:29Z"},"completed":0,"failed":0,"inProgress":1,"total":1}}, [
+  .reply(200, {"jobId":"d5d0eb1a-62dc-4546-b8f0-f30e34c67890","lastUpdateDateTime":"2021-05-12T19:09:53Z","createdDateTime":"2021-05-12T19:09:49Z","expirationDateTime":"2021-05-13T19:09:49Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-12T19:09:53Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityLinkingTasks":[{"lastUpdateDateTime":"2021-05-12T19:09:53.1276855Z","name":"NA","state":"succeeded","results":{"documents":[{"id":"0","entities":[{"name":"Bellevue, Washington","matches":[{"text":"Bellevue, Washington","offset":36,"length":20,"confidenceScore":0.87}],"language":"en","id":"Bellevue, Washington","url":"https://en.wikipedia.org/wiki/Bellevue,_Washington","dataSource":"Wikipedia"},{"name":"Microsoft","matches":[{"text":"Microsoft","offset":0,"length":9,"confidenceScore":0.39}],"language":"en","id":"Microsoft","url":"https://en.wikipedia.org/wiki/Microsoft","dataSource":"Wikipedia"},{"name":"Briann January","matches":[{"text":"January","offset":60,"length":7,"confidenceScore":0.14}],"language":"en","id":"Briann January","url":"https://en.wikipedia.org/wiki/Briann_January","dataSource":"Wikipedia"}],"warnings":[]},{"id":"1","entities":[{"name":"Steve Ballmer","matches":[{"text":"Steve Ballmer","offset":0,"length":13,"confidenceScore":0.92}],"language":"en","id":"Steve Ballmer","url":"https://en.wikipedia.org/wiki/Steve_Ballmer","dataSource":"Wikipedia"},{"name":"Satya Nadella","matches":[{"text":"Satya Nadella","offset":68,"length":13,"confidenceScore":0.9}],"language":"en","id":"Satya Nadella","url":"https://en.wikipedia.org/wiki/Satya_Nadella","dataSource":"Wikipedia"},{"name":"Microsoft","matches":[{"text":"Microsoft","offset":37,"length":9,"confidenceScore":0.36}],"language":"en","id":"Microsoft","url":"https://en.wikipedia.org/wiki/Microsoft","dataSource":"Wikipedia"},{"name":"Chief executive officer","matches":[{"text":"CEO","offset":30,"length":3,"confidenceScore":0.25}],"language":"en","id":"Chief executive officer","url":"https://en.wikipedia.org/wiki/Chief_executive_officer","dataSource":"Wikipedia"}],"warnings":[]}],"errors":[],"modelVersion":"2020-02-01"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '72',
+  '42',
   'apim-request-id',
-  '2154f180-6087-4d46-ab0f-d40fc9acfcab',
+  '6ebafeee-9510-4379-98be-d040e40039cd',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 21:08:33 GMT'
+  'Wed, 12 May 2021 19:09:54 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.4/analyze/jobs/3b55c14a-cf6e-4550-aac7-1d47b8920c6e')
+  .get('//text/analytics/v3.1-preview.5/analyze/jobs/d5d0eb1a-62dc-4546-b8f0-f30e34c67890')
   .query(true)
-  .reply(200, {"jobId":"3b55c14a-cf6e-4550-aac7-1d47b8920c6e","lastUpdateDateTime":"2021-04-28T21:08:29Z","createdDateTime":"2021-04-28T21:08:29Z","expirationDateTime":"2021-04-29T21:08:29Z","status":"succeeded","errors":[],"tasks":{"details":{"lastUpdateDateTime":"2021-04-28T21:08:29Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityLinkingTasks":[{"lastUpdateDateTime":"2021-04-28T21:08:29.8294383Z","state":"succeeded","results":{"documents":[{"id":"0","entities":[{"name":"Bellevue, Washington","matches":[{"text":"Bellevue, Washington","offset":36,"length":20,"confidenceScore":0.87}],"language":"en","id":"Bellevue, Washington","url":"https://en.wikipedia.org/wiki/Bellevue,_Washington","dataSource":"Wikipedia"},{"name":"Microsoft","matches":[{"text":"Microsoft","offset":0,"length":9,"confidenceScore":0.39}],"language":"en","id":"Microsoft","url":"https://en.wikipedia.org/wiki/Microsoft","dataSource":"Wikipedia"},{"name":"Briann January","matches":[{"text":"January","offset":60,"length":7,"confidenceScore":0.14}],"language":"en","id":"Briann January","url":"https://en.wikipedia.org/wiki/Briann_January","dataSource":"Wikipedia"}],"warnings":[]},{"id":"1","entities":[{"name":"Steve Ballmer","matches":[{"text":"Steve Ballmer","offset":0,"length":13,"confidenceScore":0.92}],"language":"en","id":"Steve Ballmer","url":"https://en.wikipedia.org/wiki/Steve_Ballmer","dataSource":"Wikipedia"},{"name":"Satya Nadella","matches":[{"text":"Satya Nadella","offset":68,"length":13,"confidenceScore":0.9}],"language":"en","id":"Satya Nadella","url":"https://en.wikipedia.org/wiki/Satya_Nadella","dataSource":"Wikipedia"},{"name":"Microsoft","matches":[{"text":"Microsoft","offset":37,"length":9,"confidenceScore":0.36}],"language":"en","id":"Microsoft","url":"https://en.wikipedia.org/wiki/Microsoft","dataSource":"Wikipedia"},{"name":"Chief executive officer","matches":[{"text":"CEO","offset":30,"length":3,"confidenceScore":0.25}],"language":"en","id":"Chief executive officer","url":"https://en.wikipedia.org/wiki/Chief_executive_officer","dataSource":"Wikipedia"}],"warnings":[]}],"errors":[],"modelVersion":"2020-02-01"}}]}}, [
+  .reply(200, {"jobId":"d5d0eb1a-62dc-4546-b8f0-f30e34c67890","lastUpdateDateTime":"2021-05-12T19:09:53Z","createdDateTime":"2021-05-12T19:09:49Z","expirationDateTime":"2021-05-13T19:09:49Z","status":"succeeded","errors":[],"displayName":"NA","tasks":{"details":{"name":"NA","lastUpdateDateTime":"2021-05-12T19:09:53Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityLinkingTasks":[{"lastUpdateDateTime":"2021-05-12T19:09:53.1276855Z","name":"NA","state":"succeeded","results":{"documents":[{"id":"0","entities":[{"name":"Bellevue, Washington","matches":[{"text":"Bellevue, Washington","offset":36,"length":20,"confidenceScore":0.87}],"language":"en","id":"Bellevue, Washington","url":"https://en.wikipedia.org/wiki/Bellevue,_Washington","dataSource":"Wikipedia"},{"name":"Microsoft","matches":[{"text":"Microsoft","offset":0,"length":9,"confidenceScore":0.39}],"language":"en","id":"Microsoft","url":"https://en.wikipedia.org/wiki/Microsoft","dataSource":"Wikipedia"},{"name":"Briann January","matches":[{"text":"January","offset":60,"length":7,"confidenceScore":0.14}],"language":"en","id":"Briann January","url":"https://en.wikipedia.org/wiki/Briann_January","dataSource":"Wikipedia"}],"warnings":[]},{"id":"1","entities":[{"name":"Steve Ballmer","matches":[{"text":"Steve Ballmer","offset":0,"length":13,"confidenceScore":0.92}],"language":"en","id":"Steve Ballmer","url":"https://en.wikipedia.org/wiki/Steve_Ballmer","dataSource":"Wikipedia"},{"name":"Satya Nadella","matches":[{"text":"Satya Nadella","offset":68,"length":13,"confidenceScore":0.9}],"language":"en","id":"Satya Nadella","url":"https://en.wikipedia.org/wiki/Satya_Nadella","dataSource":"Wikipedia"},{"name":"Microsoft","matches":[{"text":"Microsoft","offset":37,"length":9,"confidenceScore":0.36}],"language":"en","id":"Microsoft","url":"https://en.wikipedia.org/wiki/Microsoft","dataSource":"Wikipedia"},{"name":"Chief executive officer","matches":[{"text":"CEO","offset":30,"length":3,"confidenceScore":0.25}],"language":"en","id":"Chief executive officer","url":"https://en.wikipedia.org/wiki/Chief_executive_officer","dataSource":"Wikipedia"}],"warnings":[]}],"errors":[],"modelVersion":"2020-02-01"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '7684',
+  '35',
   'apim-request-id',
-  '01b122ab-59df-4fcb-a33a-e6e24faadd60',
+  '873d4e81-b035-4789-93fa-f4b2b58cec4e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 28 Apr 2021 21:08:43 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.4/analyze/jobs/3b55c14a-cf6e-4550-aac7-1d47b8920c6e')
-  .query(true)
-  .reply(200, {"jobId":"3b55c14a-cf6e-4550-aac7-1d47b8920c6e","lastUpdateDateTime":"2021-04-28T21:08:29Z","createdDateTime":"2021-04-28T21:08:29Z","expirationDateTime":"2021-04-29T21:08:29Z","status":"succeeded","errors":[],"tasks":{"details":{"lastUpdateDateTime":"2021-04-28T21:08:29Z"},"completed":1,"failed":0,"inProgress":0,"total":1,"entityLinkingTasks":[{"lastUpdateDateTime":"2021-04-28T21:08:29.8294383Z","state":"succeeded","results":{"documents":[{"id":"0","entities":[{"name":"Bellevue, Washington","matches":[{"text":"Bellevue, Washington","offset":36,"length":20,"confidenceScore":0.87}],"language":"en","id":"Bellevue, Washington","url":"https://en.wikipedia.org/wiki/Bellevue,_Washington","dataSource":"Wikipedia"},{"name":"Microsoft","matches":[{"text":"Microsoft","offset":0,"length":9,"confidenceScore":0.39}],"language":"en","id":"Microsoft","url":"https://en.wikipedia.org/wiki/Microsoft","dataSource":"Wikipedia"},{"name":"Briann January","matches":[{"text":"January","offset":60,"length":7,"confidenceScore":0.14}],"language":"en","id":"Briann January","url":"https://en.wikipedia.org/wiki/Briann_January","dataSource":"Wikipedia"}],"warnings":[]},{"id":"1","entities":[{"name":"Steve Ballmer","matches":[{"text":"Steve Ballmer","offset":0,"length":13,"confidenceScore":0.92}],"language":"en","id":"Steve Ballmer","url":"https://en.wikipedia.org/wiki/Steve_Ballmer","dataSource":"Wikipedia"},{"name":"Satya Nadella","matches":[{"text":"Satya Nadella","offset":68,"length":13,"confidenceScore":0.9}],"language":"en","id":"Satya Nadella","url":"https://en.wikipedia.org/wiki/Satya_Nadella","dataSource":"Wikipedia"},{"name":"Microsoft","matches":[{"text":"Microsoft","offset":37,"length":9,"confidenceScore":0.36}],"language":"en","id":"Microsoft","url":"https://en.wikipedia.org/wiki/Microsoft","dataSource":"Wikipedia"},{"name":"Chief executive officer","matches":[{"text":"CEO","offset":30,"length":3,"confidenceScore":0.25}],"language":"en","id":"Chief executive officer","url":"https://en.wikipedia.org/wiki/Chief_executive_officer","dataSource":"Wikipedia"}],"warnings":[]}],"errors":[],"modelVersion":"2020-02-01"}}]}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '120',
-  'apim-request-id',
-  'f54f7214-5e86-4535-b5f5-29f821515c26',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Wed, 28 Apr 2021 21:08:43 GMT'
+  'Wed, 12 May 2021 19:09:54 GMT'
 ]);

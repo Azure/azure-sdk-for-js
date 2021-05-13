@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceClientOptions, OperationOptions } from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
 
 /** Contains a set of input documents to be analyzed by the service. */
 export interface MultiLanguageBatchInput {
@@ -40,6 +40,7 @@ export interface JobManifestTasks {
   entityRecognitionPiiTasks?: PiiTask[];
   keyPhraseExtractionTasks?: KeyPhrasesTask[];
   entityLinkingTasks?: EntityLinkingTask[];
+  sentimentAnalysisTasks?: SentimentAnalysisTask[];
 }
 
 export interface EntitiesTask {
@@ -48,6 +49,7 @@ export interface EntitiesTask {
 
 export interface EntitiesTaskParameters {
   modelVersion?: string;
+  loggingOptOut?: boolean;
   stringIndexType?: StringIndexType;
 }
 
@@ -58,6 +60,7 @@ export interface PiiTask {
 export interface PiiTaskParameters {
   domain?: PiiTaskParametersDomain;
   modelVersion?: string;
+  loggingOptOut?: boolean;
   /** (Optional) describes the PII categories to return */
   piiCategories?: PiiCategory[];
   stringIndexType?: StringIndexType;
@@ -69,6 +72,7 @@ export interface KeyPhrasesTask {
 
 export interface KeyPhrasesTaskParameters {
   modelVersion?: string;
+  loggingOptOut?: boolean;
 }
 
 export interface EntityLinkingTask {
@@ -77,6 +81,18 @@ export interface EntityLinkingTask {
 
 export interface EntityLinkingTaskParameters {
   modelVersion?: string;
+  loggingOptOut?: boolean;
+  stringIndexType?: StringIndexType;
+}
+
+export interface SentimentAnalysisTask {
+  parameters?: SentimentAnalysisTaskParameters;
+}
+
+export interface SentimentAnalysisTaskParameters {
+  modelVersion?: string;
+  loggingOptOut?: boolean;
+  opinionMining?: boolean;
   stringIndexType?: StringIndexType;
 }
 
@@ -145,6 +161,7 @@ export interface TasksStateTasks {
   entityRecognitionPiiTasks?: TasksStateTasksEntityRecognitionPiiTasksItem[];
   keyPhraseExtractionTasks?: TasksStateTasksKeyPhraseExtractionTasksItem[];
   entityLinkingTasks?: TasksStateTasksEntityLinkingTasksItem[];
+  sentimentAnalysisTasks?: TasksStateTasksSentimentAnalysisTasksItem[];
 }
 
 export interface TaskState {
@@ -328,6 +345,104 @@ export interface Match {
   length: number;
 }
 
+export interface Components1C6O47FSchemasTasksstatePropertiesTasksPropertiesSentimentanalysistasksItemsAllof1 {
+  results?: SentimentResponse;
+}
+
+export interface SentimentResponse {
+  /** Sentiment analysis per document. */
+  documents: DocumentSentiment[];
+  /** Errors by document id. */
+  errors: DocumentError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+  /** This field indicates which model is used for scoring. */
+  modelVersion: string;
+}
+
+export interface DocumentSentiment {
+  /** Unique, non-empty document identifier. */
+  id: string;
+  /** Predicted sentiment for document (Negative, Neutral, Positive, or Mixed). */
+  sentiment: DocumentSentimentLabel;
+  /** if includeStatistics=true was specified in the request this field will contain information about the document payload. */
+  statistics?: TextDocumentStatistics;
+  /** Document level sentiment confidence scores between 0 and 1 for each sentiment class. */
+  confidenceScores: SentimentConfidenceScores;
+  /** Sentence level sentiment analysis. */
+  sentenceSentiments: SentenceSentiment[];
+  /** Warnings encountered while processing document. */
+  warnings: TextAnalyticsWarning[];
+}
+
+/** Represents the confidence scores between 0 and 1 across all sentiment classes: positive, neutral, negative. */
+export interface SentimentConfidenceScores {
+  positive: number;
+  neutral: number;
+  negative: number;
+}
+
+/** The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis. */
+export interface SentenceSentiment {
+  /** The sentence text. */
+  text: string;
+  /** The predicted Sentiment for the sentence. */
+  sentiment: SentenceSentimentLabel;
+  /** The sentiment confidence score between 0 and 1 for the sentence for all classes. */
+  confidenceScores: SentimentConfidenceScores;
+  /** The sentence offset from the start of the document. */
+  offset: number;
+  /** The length of the sentence. */
+  length: number;
+  /** The array of sentence targets for the sentence. */
+  targets?: SentenceTarget[];
+  /** The array of assessments for the sentence. */
+  assessments?: SentenceAssessment[];
+}
+
+export interface SentenceTarget {
+  /** Targeted sentiment in the sentence. */
+  sentiment: TokenSentimentValue;
+  /** Target sentiment confidence scores for the target in the sentence. */
+  confidenceScores: TargetConfidenceScoreLabel;
+  /** The target offset from the start of the sentence. */
+  offset: number;
+  /** The length of the target. */
+  length: number;
+  /** The target text detected. */
+  text: string;
+  /** The array of either assessment or target objects which is related to the target. */
+  relations: TargetRelation[];
+}
+
+/** Represents the confidence scores across all sentiment classes: positive, neutral, negative. */
+export interface TargetConfidenceScoreLabel {
+  positive: number;
+  negative: number;
+}
+
+export interface TargetRelation {
+  /** The type related to the target. */
+  relationType: TargetRelationType;
+  /** The JSON pointer indicating the linked object. */
+  ref: string;
+}
+
+export interface SentenceAssessment {
+  /** Assessment sentiment in the sentence. */
+  sentiment: TokenSentimentValue;
+  /** Assessment sentiment confidence scores in the sentence. */
+  confidenceScores: TargetConfidenceScoreLabel;
+  /** The assessment offset from the start of the sentence. */
+  offset: number;
+  /** The length of the assessment. */
+  length: number;
+  /** The assessment text detected. */
+  text: string;
+  /** The indicator representing if the assessment is negated. */
+  isNegated: boolean;
+}
+
 export interface Pagination {
   nextLink?: string;
 }
@@ -431,100 +546,6 @@ export interface DetectedLanguage {
   confidenceScore: number;
 }
 
-export interface SentimentResponse {
-  /** Sentiment analysis per document. */
-  documents: DocumentSentiment[];
-  /** Errors by document id. */
-  errors: DocumentError[];
-  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-  statistics?: TextDocumentBatchStatistics;
-  /** This field indicates which model is used for scoring. */
-  modelVersion: string;
-}
-
-export interface DocumentSentiment {
-  /** Unique, non-empty document identifier. */
-  id: string;
-  /** Predicted sentiment for document (Negative, Neutral, Positive, or Mixed). */
-  sentiment: DocumentSentimentLabel;
-  /** if includeStatistics=true was specified in the request this field will contain information about the document payload. */
-  statistics?: TextDocumentStatistics;
-  /** Document level sentiment confidence scores between 0 and 1 for each sentiment class. */
-  confidenceScores: SentimentConfidenceScores;
-  /** Sentence level sentiment analysis. */
-  sentenceSentiments: SentenceSentiment[];
-  /** Warnings encountered while processing document. */
-  warnings: TextAnalyticsWarning[];
-}
-
-/** Represents the confidence scores between 0 and 1 across all sentiment classes: positive, neutral, negative. */
-export interface SentimentConfidenceScores {
-  positive: number;
-  neutral: number;
-  negative: number;
-}
-
-/** The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis. */
-export interface SentenceSentiment {
-  /** The sentence text. */
-  text: string;
-  /** The predicted Sentiment for the sentence. */
-  sentiment: SentenceSentimentLabel;
-  /** The sentiment confidence score between 0 and 1 for the sentence for all classes. */
-  confidenceScores: SentimentConfidenceScores;
-  /** The sentence offset from the start of the document. */
-  offset: number;
-  /** The length of the sentence. */
-  length: number;
-  /** The array of sentence targets for the sentence. */
-  targets?: SentenceTarget[];
-  /** The array of assessments for the sentence. */
-  assessments?: SentenceAssessment[];
-}
-
-export interface SentenceTarget {
-  /** Targeted sentiment in the sentence. */
-  sentiment: TokenSentimentValue;
-  /** Target sentiment confidence scores for the target in the sentence. */
-  confidenceScores: TargetConfidenceScoreLabel;
-  /** The target offset from the start of the sentence. */
-  offset: number;
-  /** The length of the target. */
-  length: number;
-  /** The target text detected. */
-  text: string;
-  /** The array of either assessment or target objects which is related to the target. */
-  relations: TargetRelation[];
-}
-
-/** Represents the confidence scores across all sentiment classes: positive, neutral, negative. */
-export interface TargetConfidenceScoreLabel {
-  positive: number;
-  negative: number;
-}
-
-export interface TargetRelation {
-  /** The type related to the target. */
-  relationType: TargetRelationType;
-  /** The JSON pointer indicating the linked object. */
-  ref: string;
-}
-
-export interface SentenceAssessment {
-  /** Assessment sentiment in the sentence. */
-  sentiment: TokenSentimentValue;
-  /** Assessment sentiment confidence scores in the sentence. */
-  confidenceScores: TargetConfidenceScoreLabel;
-  /** The assessment offset from the start of the sentence. */
-  offset: number;
-  /** The length of the assessment. */
-  length: number;
-  /** The assessment text detected. */
-  text: string;
-  /** The indicator representing if the assessment is negated. */
-  isNegated: boolean;
-}
-
 export type AnalyzeBatchInput = JobDescriptor &
   JobManifest & {
     /** Contains a set of input documents to be analyzed by the service. */
@@ -563,6 +584,9 @@ export type TasksStateTasksKeyPhraseExtractionTasksItem = TaskState &
 export type TasksStateTasksEntityLinkingTasksItem = TaskState &
   ComponentsIfu7BjSchemasTasksstatePropertiesTasksPropertiesEntitylinkingtasksItemsAllof1 & {};
 
+export type TasksStateTasksSentimentAnalysisTasksItem = TaskState &
+  Components1C6O47FSchemasTasksstatePropertiesTasksPropertiesSentimentanalysistasksItemsAllof1 & {};
+
 export type HealthcareEntity = Entity & {
   assertion?: HealthcareAssertion;
   /** Preferred name for the entity. Example: 'histologically' would have a 'name' of 'histologic'. */
@@ -589,7 +613,7 @@ export interface GeneratedClientHealthHeaders {
 /** Known values of {@link StringIndexType} that the service accepts. */
 export const enum KnownStringIndexType {
   /** Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. */
-  TextElementsV8 = "TextElements_v8",
+  TextElementV8 = "TextElement_v8",
   /** Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. */
   UnicodeCodePoint = "UnicodeCodePoint",
   /** Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript. */
@@ -601,7 +625,7 @@ export const enum KnownStringIndexType {
  * {@link KnownStringIndexType} can be used interchangeably with StringIndexType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **TextElements_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. \
+ * **TextElement_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. \
  * **UnicodeCodePoint**: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. \
  * **Utf16CodeUnit**: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
  */
@@ -1097,17 +1121,6 @@ export type State =
   | "cancelled"
   | "cancelling"
   | "partiallyCompleted";
-/** Defines values for Conditionality. */
-export type Conditionality = "hypothetical" | "conditional";
-/** Defines values for Certainty. */
-export type Certainty =
-  | "positive"
-  | "positivePossible"
-  | "neutralPossible"
-  | "negativePossible"
-  | "negative";
-/** Defines values for Association. */
-export type Association = "subject" | "other";
 /** Defines values for DocumentSentimentLabel. */
 export type DocumentSentimentLabel =
   | "positive"
@@ -1120,10 +1133,21 @@ export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 export type TokenSentimentValue = "positive" | "mixed" | "negative";
 /** Defines values for TargetRelationType. */
 export type TargetRelationType = "assessment" | "target";
+/** Defines values for Conditionality. */
+export type Conditionality = "hypothetical" | "conditional";
+/** Defines values for Certainty. */
+export type Certainty =
+  | "positive"
+  | "positivePossible"
+  | "neutralPossible"
+  | "negativePossible"
+  | "negative";
+/** Defines values for Association. */
+export type Association = "subject" | "other";
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** Collection of documents to analyze and tasks to execute. */
   body?: AnalyzeBatchInput;
 }
@@ -1133,7 +1157,7 @@ export type GeneratedClientAnalyzeResponse = GeneratedClientAnalyzeHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientAnalyzeStatusOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. */
@@ -1147,7 +1171,7 @@ export type GeneratedClientAnalyzeStatusResponse = AnalyzeJobState;
 
 /** Optional parameters. */
 export interface GeneratedClientHealthStatusOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first. */
@@ -1164,11 +1188,13 @@ export type GeneratedClientCancelHealthJobResponse = GeneratedClientCancelHealth
 
 /** Optional parameters. */
 export interface GeneratedClientHealthOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
   stringIndexType?: StringIndexType;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
 }
 
 /** Contains response data for the health operation. */
@@ -1176,13 +1202,15 @@ export type GeneratedClientHealthResponse = GeneratedClientHealthHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
   stringIndexType?: StringIndexType;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
 }
 
 /** Contains response data for the entitiesRecognitionGeneral operation. */
@@ -1190,13 +1218,15 @@ export type GeneratedClientEntitiesRecognitionGeneralResponse = EntitiesResult;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
   stringIndexType?: StringIndexType;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
   /** (Optional) if specified, will set the PII domain to include only a subset of the entity categories. Possible values include: 'PHI', 'none'. */
   domain?: string;
   /** (Optional) describes the PII categories to return */
@@ -1208,13 +1238,15 @@ export type GeneratedClientEntitiesRecognitionPiiResponse = PiiResult;
 
 /** Optional parameters. */
 export interface GeneratedClientEntitiesLinkingOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
   stringIndexType?: StringIndexType;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
 }
 
 /** Contains response data for the entitiesLinking operation. */
@@ -1222,11 +1254,13 @@ export type GeneratedClientEntitiesLinkingResponse = EntityLinkingResult;
 
 /** Optional parameters. */
 export interface GeneratedClientKeyPhrasesOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
 }
 
 /** Contains response data for the keyPhrases operation. */
@@ -1234,11 +1268,13 @@ export type GeneratedClientKeyPhrasesResponse = KeyPhraseResult;
 
 /** Optional parameters. */
 export interface GeneratedClientLanguagesOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
 }
 
 /** Contains response data for the languages operation. */
@@ -1246,13 +1282,15 @@ export type GeneratedClientLanguagesResponse = LanguageResult;
 
 /** Optional parameters. */
 export interface GeneratedClientSentimentOptionalParams
-  extends OperationOptions {
+  extends coreClient.OperationOptions {
   /** (Optional) if set to true, response will contain request and document level statistics. */
   includeStatistics?: boolean;
   /** (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. */
   modelVersion?: string;
   /** (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets */
   stringIndexType?: StringIndexType;
+  /** (Optional) If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics logs your input text for 48 hours, solely to allow for troubleshooting issues in providing you with the Text Analytics natural language processing functions. Setting this parameter to true, disables input logging and may limit our ability to remediate issues that occur.  Please see Cognitive Services Compliance and Privacy notes at https://aka.ms/cs-compliance for additional details, and Microsoft Responsible AI principles at https://www.microsoft.com/en-us/ai/responsible-ai. */
+  loggingOptOut?: boolean;
   /** (Optional) if set to true, response will contain not only sentiment prediction but also opinion mining (aspect-based sentiment analysis) results. */
   opinionMining?: boolean;
 }
@@ -1261,7 +1299,8 @@ export interface GeneratedClientSentimentOptionalParams
 export type GeneratedClientSentimentResponse = SentimentResponse;
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams extends ServiceClientOptions {
+export interface GeneratedClientOptionalParams
+  extends coreClient.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

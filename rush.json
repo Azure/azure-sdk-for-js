@@ -347,6 +347,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/confidential-ledger",
+      "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-anomaly-detector",
       "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
       "versionPolicyName": "client"

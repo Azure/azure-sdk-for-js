@@ -219,3 +219,10 @@ export const ToDfsEndpointHostMappings = [
 ];
 
 export const ETagAny = "*";
+
+export const DeletionIdKey = "deletionid";
+
+export const PathResultTypeConstants = {
+  FileResourceType: "file",
+  DirectoryResourceType: "directory"
+};
