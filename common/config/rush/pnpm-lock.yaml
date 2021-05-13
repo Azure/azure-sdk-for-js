@@ -9612,7 +9612,7 @@ packages:
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-ujWup25pwpdpdOF1QJTFgrvwUbTF6itmcFy9AILoTw9QHxAUh8T0pxuR3XbMxbqDXjdk3xFayZcrIboCzsjVzw==
+      integrity: sha512-TrRicEN8OEh7DFa/GvPh/oxfL821p9Yb/WQM79S5WjPuJwXCyWYemMDTqn17up550TkO98CxvBQBpzVNNFXdNA==
       tarball: file:projects/eventgrid.tgz
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
@@ -11337,6 +11337,33 @@ packages:
     resolution:
       integrity: sha512-+z4Le1dPD7946nToxQrse/mrMXuoJDo2Cko9iUDRTFxF2+1vs9a2WEawBV2iW4KckezsAyswjjxTrWYFl5Vyyg==
       tarball: file:projects/test-utils-recorder.tgz
+    version: 0.0.0
+  file:projects/test-utils.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@types/chai': 4.2.16
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      '@types/sinon': 9.0.11
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      eslint: 7.23.0
+      karma: 6.3.2
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-env-preprocessor: 0.1.1
+      mocha: 7.2.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      sinon: 9.2.4
+      tslib: 2.2.0
+      typescript: 4.2.4
+    dev: false
+    name: '@rush-temp/test-utils'
+    resolution:
+      integrity: sha512-h7eNMFY99Tt6JxkzrO2RY30U4hccSzEQBiWTvyk5u/OZZu4Tzi/fUDfgBF6gMx9Y0PrhYtjQp2QTCfZoHqKZtg==
+      tarball: file:projects/test-utils.tgz
     version: 0.0.0
   file:projects/video-analyzer-edge.tgz:
     dependencies:
