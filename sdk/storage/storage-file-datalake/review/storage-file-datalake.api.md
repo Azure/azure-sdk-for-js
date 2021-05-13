@@ -1991,6 +1991,7 @@ export type ServiceRenameFileSystemOptions = ServiceRenameContainerOptions;
 // @public
 export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    // @deprecated
     destinationFileSystemName?: string;
 }
 

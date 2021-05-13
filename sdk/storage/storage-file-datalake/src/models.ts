@@ -294,6 +294,7 @@ export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
   /**
    * Optional. Specifies the new name of the restored File System.
    * Will use its original name if this is not specified.
+   * @deprecated Restore FileSystem to a different name is not supported by service anymore.
    */
   destinationFileSystemName?: string;
 }
