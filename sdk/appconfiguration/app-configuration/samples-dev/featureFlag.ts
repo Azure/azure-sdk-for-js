@@ -9,6 +9,7 @@
 import {
   AppConfigurationClient,
   ConfigurationSetting,
+  featureFlagContentType,
   FeatureFlagValue,
   parseFeatureFlag
 } from "@azure/app-configuration";
@@ -23,6 +24,7 @@ export async function main() {
   const originalFeatureFlag: ConfigurationSetting<FeatureFlagValue> = {
     key: `new-feature-flag-${Math.ceil(100 + Math.random() * 900)}`,
     isReadOnly: false,
+    contentType: featureFlagContentType,
     value: {
       enabled: false,
       description: "I'm a description",
