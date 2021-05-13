@@ -28,55 +28,57 @@ interface remoteResolutionScenario {
 }
 
 const remoteResolutionScenarios: remoteResolutionScenario[] = [
-  // {
-  //   name: "dependencyResolution: disabled, single DTMI, no dependencies",
-  //   clientOptions: {
-  //     dependencyResolution: "disabled",
-  //     repositoryLocation: "https://www.devicemodels.contoso.com"
-  //   },
-  //   getModelsOptions: {},
-  //   dtmis: [
-  //     {
-  //       dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-  //       expectedUri:
-  //         "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
-  //       expectedOutputJson: { fakeDtdl: "fakeBodyAsText" }
-  //     }
-  //   ]
-  // },
-  // {
-  //   name: "dependencyResolution: enabled, single DTMI, no dependencies",
-  //   clientOptions: {
-  //     dependencyResolution: "enabled",
-  //     repositoryLocation: "https://www.devicemodels.contoso.com"
-  //   },
-  //   getModelsOptions: {},
-  //   dtmis: [
-  //     {
-  //       dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-  //       expectedUri:
-  //         "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
-  //       expectedOutputJson: { "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }
-  //     }
-  //   ]
-  // },
-  // {
-  //   name: "dependencyResolution: tryFromExpanded, single DTMI, no dependencies",
-  //   clientOptions: {
-  //     dependencyResolution: "tryFromExpanded",
-  //     repositoryLocation: "https://www.devicemodels.contoso.com"
-  //   },
-  //   getModelsOptions: {},
-  //   dtmis: [
-  //     {
-  //       dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-  //       expectedUri:
-  //         "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.expanded.json",
-  //        mockedResponse: [{ "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }],
-  //       expectedOutputJson: [{ "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }]
-  //     }
-  //   ]
-  // },
+  {
+    name: "dependencyResolution: disabled, single DTMI, no dependencies",
+    clientOptions: {
+      dependencyResolution: "disabled",
+      repositoryLocation: "https://www.devicemodels.contoso.com"
+    },
+    getModelsOptions: {},
+    dtmis: [
+      {
+        dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+        expectedUri:
+          "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
+        mockedResponse: { "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" },
+        expectedOutputJson: { "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }
+      }
+    ]
+  },
+  {
+    name: "dependencyResolution: enabled, single DTMI, no dependencies",
+    clientOptions: {
+      dependencyResolution: "enabled",
+      repositoryLocation: "https://www.devicemodels.contoso.com"
+    },
+    getModelsOptions: {},
+    dtmis: [
+      {
+        dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+        expectedUri:
+          "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
+        mockedResponse: { "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" },
+        expectedOutputJson: { "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }
+      }
+    ]
+  },
+  {
+    name: "dependencyResolution: tryFromExpanded, single DTMI, no dependencies",
+    clientOptions: {
+      dependencyResolution: "tryFromExpanded",
+      repositoryLocation: "https://www.devicemodels.contoso.com"
+    },
+    getModelsOptions: {},
+    dtmis: [
+      {
+        dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+        expectedUri:
+          "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.expanded.json",
+         mockedResponse: [{ "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }],
+        expectedOutputJson: { "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }
+      }
+    ]
+  },
   {
     name: "dependencyResolution: disabled, multiple DTMI, no dependencies",
     clientOptions: {
