@@ -5,14 +5,14 @@ export { AppConfigurationClient, AppConfigurationClientOptions } from "./appConf
 export {
   featureFlagContentType,
   featureFlagPrefix,
+  FeatureFlagValue,
   isFeatureFlag,
-  parseFeatureFlag,
-  FeatureFlagValue
+  parseFeatureFlag
 } from "./featureFlag";
+export * from "./models";
 export {
   isSecretReference,
-  SecretReference,
+  parseSecretReference,
   secretReferenceContentType,
-  SecretReferenceParam
+  SecretReferenceValue
 } from "./secretReference";
-export * from "./models";
