@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JsonKeyVaultReference } from "./internal/jsonModels";
+import { JsonSecretReferenceValue } from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
 
 /**
@@ -13,63 +13,80 @@ export const secretReferenceContentType =
 /**
  * Necessary fields for updating or creating a new secret reference.
  */
-export interface SecretReferenceParam extends ConfigurationSettingParam {
+export interface SecretReferenceValue {
   /**
    * Id for the secret reference.
    */
   secretId: string;
 }
 
-/**
- * SecretReference represents a configuration setting that references as KeyVault secret.
- *
- * Secret references have "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" content-type.
- */
-export interface SecretReference extends SecretReferenceParam, ConfigurationSetting {}
+export const SecretReferenceHelper = {
+  /**
+   * Takes the ConfigurationSetting and returns the FeatureFlag.
+   */
+  fromConfigurationSetting: (
+    setting: ConfigurationSetting
+  ): ConfigurationSetting<SecretReferenceValue> => {
+    if (!isSecretReference(setting)) {
+      throw new Error("Not a SecretReference..");
+    }
+    let jsonSecretReferenceValue: JsonSecretReferenceValue;
+    try {
+      if (!setting.value || typeof setting.value !== "string") {
+        throw new Error("");
+      }
+      jsonSecretReferenceValue = JSON.parse(setting.value) as JsonSecretReferenceValue;
+    } catch (err) {
+      // best effort - if it doesn't deserialize properly we'll just throw
+      throw new Error("");
+    }
 
-/**
- * This helper method tells you if the given setting is a SecretReference configuration setting.
- */
-export function isSecretReference(setting: ConfigurationSetting): setting is SecretReference {
-  return setting.contentType === secretReferenceContentType;
-}
-
-/**
- * @internal
- */
-export function deserializeSecretReference(
-  setting: ConfigurationSetting
-): SecretReference | undefined {
-  if (!setting.value) {
-    return undefined;
-  }
-
-  try {
-    const jsonKeyVaultRef = JSON.parse(setting.value) as JsonKeyVaultReference;
-    const keyVaultRef: SecretReference = {
+    const featureflag: ConfigurationSetting<SecretReferenceValue> = {
       ...setting,
-      secretId: jsonKeyVaultRef.uri
+      value: { secretId: jsonSecretReferenceValue.uri }
+    };
+    return featureflag;
+  },
+  /**
+   * Takes the FeatureFlag (JSON) and returns a ConfigurationSetting (with the props encodeed in the value).
+   */
+  toConfigurationSettingParam: (
+    secretReference: ConfigurationSettingParam<SecretReferenceValue>
+  ): ConfigurationSettingParam => {
+    if (!secretReference.value) {
+      throw new Error("Value is not defined");
+    }
+
+    const jsonSecretReferenceValue: JsonSecretReferenceValue = {
+      uri: secretReference.value.secretId
     };
 
-    return keyVaultRef;
-  } catch (err) {
-    return undefined;
+    let stringifiedValue: string;
+    try {
+      stringifiedValue = JSON.stringify(jsonSecretReferenceValue);
+    } catch (err) {
+      // best effort - if it doesn't serialize properly we'll just throw
+      throw new Error("");
+    }
+
+    const configSetting = {
+      ...secretReference,
+      value: stringifiedValue
+    };
+    return configSetting;
   }
-}
+};
 
 /**
- * @internal
+ * Takes the ConfigurationSetting as input and returns the ConfigurationSetting<SecretReferenceValue> by parsing the value string.
  */
-export function serializeSecretReferenceParam(
-  setting: SecretReferenceParam
-): ConfigurationSettingParam {
-  const configurationSetting: ConfigurationSettingParam = {
-    key: setting.key,
-    label: setting.label,
-    contentType: setting.contentType,
-    etag: setting.etag,
-    tags: setting.tags,
-    value: JSON.stringify({ uri: setting.secretId })
-  };
-  return configurationSetting;
-}
+export const parseSecretReference = SecretReferenceHelper.fromConfigurationSetting;
+
+/**
+ * Lets you know if the ConfigurationSetting is a secret reference.
+ *
+ * [Checks if the content type is secretReferenceContentType `"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8"`]
+ */
+export const isSecretReference = (setting: ConfigurationSetting): boolean => {
+  return setting && setting.contentType === secretReferenceContentType;
+};
