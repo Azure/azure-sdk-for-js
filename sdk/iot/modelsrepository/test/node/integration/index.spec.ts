@@ -3,12 +3,14 @@
 // Licensed under the MIT license.
 
 import { ModelsRepositoryClient, ModelsRepositoryClientOptions } from "../../../src";
-import * as coreClient from "@azure/core-client";
+
 
 import { assert, expect } from "chai";
 import * as sinon from "sinon";
 
 import { dependencyResolutionType } from "../../../src/dependencyResolutionType";
+import { ServiceClient } from "@azure/core-client";
+import { PipelineRequest } from "@azure/core-rest-pipeline";
 
 interface remoteResolutionScenario {
   name: string;
@@ -20,61 +22,61 @@ interface remoteResolutionScenario {
   dtmis: {
     dtmi: string;
     expectedUri: string;
-    expectedOutputJson: {
-      fakeDtdl: string;
-    };
+    mockedResponse: unknown
+    expectedOutputJson: unknown
   }[];
 }
 
 const remoteResolutionScenarios: remoteResolutionScenario[] = [
-  {
-    name: "dependencyResolution: disabled, single DTMI, no dependencies",
-    clientOptions: {
-      dependencyResolution: "disabled",
-      repositoryLocation: "https://www.devicemodels.contoso.com"
-    },
-    getModelsOptions: {},
-    dtmis: [
-      {
-        dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-        expectedUri:
-          "https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
-        expectedOutputJson: { fakeDtdl: "fakeBodyAsText" }
-      }
-    ]
-  },
-  {
-    name: "dependencyResolution: enabled, single DTMI, no dependencies",
-    clientOptions: {
-      dependencyResolution: "enabled",
-      repositoryLocation: "https://www.devicemodels.contoso.com"
-    },
-    getModelsOptions: {},
-    dtmis: [
-      {
-        dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-        expectedUri:
-          "https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
-        expectedOutputJson: { fakeDtdl: "fakeBodyAsText" }
-      }
-    ]
-  },
-  {
-    name: "dependencyResolution: tryFromExpanded, single DTMI, no dependencies",
-    clientOptions: {
-      dependencyResolution: "tryFromExpanded",
-      repositoryLocation: "https://www.devicemodels.contoso.com"
-    },
-    getModelsOptions: {},
-    dtmis: [
-      {
-        dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-        expectedUri:
-          "https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
-        expectedOutputJson: { fakeDtdl: "fakeBodyAsText" }
-      }
-    ]
-  },
+  // {
+  //   name: "dependencyResolution: disabled, single DTMI, no dependencies",
+  //   clientOptions: {
+  //     dependencyResolution: "disabled",
+  //     repositoryLocation: "https://www.devicemodels.contoso.com"
+  //   },
+  //   getModelsOptions: {},
+  //   dtmis: [
+  //     {
+  //       dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+  //       expectedUri:
+  //         "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
+  //       expectedOutputJson: { fakeDtdl: "fakeBodyAsText" }
+  //     }
+  //   ]
+  // },
+  // {
+  //   name: "dependencyResolution: enabled, single DTMI, no dependencies",
+  //   clientOptions: {
+  //     dependencyResolution: "enabled",
+  //     repositoryLocation: "https://www.devicemodels.contoso.com"
+  //   },
+  //   getModelsOptions: {},
+  //   dtmis: [
+  //     {
+  //       dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+  //       expectedUri:
+  //         "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
+  //       expectedOutputJson: { "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }
+  //     }
+  //   ]
+  // },
+  // {
+  //   name: "dependencyResolution: tryFromExpanded, single DTMI, no dependencies",
+  //   clientOptions: {
+  //     dependencyResolution: "tryFromExpanded",
+  //     repositoryLocation: "https://www.devicemodels.contoso.com"
+  //   },
+  //   getModelsOptions: {},
+  //   dtmis: [
+  //     {
+  //       dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+  //       expectedUri:
+  //         "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.expanded.json",
+  //        mockedResponse: [{ "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }],
+  //       expectedOutputJson: [{ "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }]
+  //     }
+  //   ]
+  // },
   {
     name: "dependencyResolution: disabled, multiple DTMI, no dependencies",
     clientOptions: {
@@ -86,8 +88,16 @@ const remoteResolutionScenarios: remoteResolutionScenario[] = [
       {
         dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
         expectedUri:
-          "https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
-        expectedOutputJson: { fakeDtdl: "fakeBodyAsText" }
+          "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.expanded.json",
+        mockedResponse: [{ "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }],
+        expectedOutputJson: { "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1", fakeDtdl: "fakeBodyAsText" }
+      },
+            {
+        dtmi: "dtmi:com:FooFooFoo;4",
+        expectedUri:
+          "https://www.devicemodels.contoso.com/dtmi/com/foofoofoo-4.expanded.json",
+        mockedResponse: [{ "@id": "dtmi:com:FooFooFoo;4", fakeDtdl: "fakeBodyAsText" }],
+        expectedOutputJson: { "@id": "dtmi:com:FooFooFoo;4", fakeDtdl: "fakeBodyAsText" }
       }
     ]
   }
@@ -101,20 +111,18 @@ describe("resolver - node", function() {
   describe("remote URL resolution", function() {
     remoteResolutionScenarios.forEach((scenario: remoteResolutionScenario) => {
       it(scenario.name, function(done) {
-        let myStub = sinon.stub(coreClient, "ServiceClient");
+        console.log(scenario.name);
+        let myStub = sinon.stub(ServiceClient.prototype, "sendRequest");
         for (let i = 0; i < scenario.dtmis.length; i++) {
-          myStub.onCall(i).returns({
-            sendRequest: function(req: any) {
-              assert.deepEqual(
-                req.url,
-                scenario.dtmis[i].expectedUri,
-                "URL not formatted for request correctly."
-              );
-              return Promise.resolve({
-                bodyAsText: JSON.stringify(scenario.dtmis[i].expectedOutputJson),
-                status: 200
-              });
+          myStub.onCall(i).callsFake((request: PipelineRequest) => {
+            expect(request.url, "URL not formatted for request correctly.").to.deep.equal(scenario.dtmis[i].expectedUri);
+            const pipelineResponse: any = {
+              request: request,
+              bodyAsText: JSON.stringify(scenario.dtmis[i].mockedResponse),
+              status: 200,
+              headers: undefined
             }
+            return Promise.resolve(pipelineResponse)
           });
         }
 

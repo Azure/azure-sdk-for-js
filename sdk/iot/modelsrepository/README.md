@@ -3,8 +3,8 @@
 This package contains an isomorphic Client Library for Azure IoT Models Repository in Javascript. Use the Azure IoT Models Repository library for Javascript to pull DTDL files from remote endpoints.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iot/modelsrepository) |
-[Package (npm)](https://www.npmjs.com/package/@azure/iot-modelsrepository-client/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/iot-modelsrepository-client/samples) 
+[Package (npm)](https://www.npmjs.com/package/@azure/iot-modelsrepository/) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/iot-modelsrepository/samples) 
 
 -------------------------------------
 
@@ -22,7 +22,7 @@ The Azure IoT Models Repository library for Javascript is written to interact wi
 The preferred way to install the Azure IoT Models Repository client library for JavaScript is to use the npm package manager. Type the following into a terminal window:
 
 ```
-npm install @azure/iot-modelsrepository-client
+npm install @azure/iot-modelsrepository
 ```
 
 ### How to use
@@ -32,7 +32,7 @@ npm install @azure/iot-modelsrepository-client
 ##### Sample code
 
 ```ts
-import { ModelsRepositoryClient } from "@azure/iot-modelsrepository-client";
+import { ModelsRepositoryClient } from "@azure/iot-modelsrepository";
 
 const client = new ModelsRepositoryClient("https://devicemodels.azure.com");
 const result = await client.getModels("dtmi:azure:DeviceManagement:DeviceInformation;1");
@@ -49,8 +49,8 @@ console.log(result);
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/iot-modelsrepository-client sample</title>
-    <script src="node_modules/@azure/iot-modelsrepository-client/dist/client.browser.js"></script>
+    <title>@azure/iot-modelsrepository sample</title>
+    <script src="node_modules/@azure/iot-modelsrepository/dist/client.browser.js"></script>
     <script type="text/javascript">
       const dtmi = "<Subscription_Id>";
       const repositoryLocation = "<Repository_Location>";

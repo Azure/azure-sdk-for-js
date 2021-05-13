@@ -4,13 +4,14 @@
 
 ```ts
 
-import { InternalClientPipelineOptions } from '@azure/core-client';
+import { CommonClientOptions } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
 
 // @public
 export type dependencyResolutionType = "disabled" | "enabled" | "tryFromExpanded" | undefined;
 
 // @public
-export interface GetModelsOptions {
+export interface GetModelsOptions extends OperationOptions {
     dependencyResolution: dependencyResolutionType;
 }
 
@@ -26,16 +27,16 @@ export class ModelsRepositoryClient {
     get apiVersion(): string;
     get dependencyResolution(): dependencyResolutionType;
     getModels(dtmis: string, options?: GetModelsOptions): Promise<{
-        [dtmi: string]: any;
+        [dtmi: string]: unknown;
     }>;
     getModels(dtmis: string[], options?: GetModelsOptions): Promise<{
-        [dtmi: string]: any;
+        [dtmi: string]: unknown;
     }>;
     get repositoryLocation(): string;
     }
 
 // @public
-export interface ModelsRepositoryClientOptions extends InternalClientPipelineOptions {
+export interface ModelsRepositoryClientOptions extends CommonClientOptions {
     apiVersion?: string;
     dependencyResolution?: dependencyResolutionType;
     repositoryLocation?: string;

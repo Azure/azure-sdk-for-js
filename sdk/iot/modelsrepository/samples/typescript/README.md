@@ -73,9 +73,9 @@ After publishing, your model(s) will be available for consumption from the globa
 // Global endpoint client
 const client = new ModelsRepositoryClient();
 
-// The output of GetModelsAsync() will include at least the definition for the target dtmi.
+// The output of getModels() will include at least the definition for the target dtmi.
 // If the model dependency resolution configuration is not disabled, then models in which the
-// target dtmi depends on will also be included in the returned IDictionary<string, string>.
+// target dtmi depends on will also be included in the returned object (mapping dtmis to model objects).
 const dtmi = "dtmi:com:example:TemperatureController;1";
 const models = await client.getModels(dtmi, {dependencyResolution: 'tryFromExpanded'});
 
@@ -92,7 +92,7 @@ To support this workflow and similar use cases, the client supports initializati
 // Local sample repository client
 const client = new ModelsRepositoryClient(`file:///path/to/repository/`);
 
-// The output of GetModelsAsync() will include at least the definition for the target dtmi.
+// The output of getModels() will include at least the definition for the target dtmi.
 // If the model dependency resolution configuration is not disabled, then models in which the
 // target dtmi depends on will also be included in the returned IDictionary<string, string>.
 const dtmi = "dtmi:com:example:TemperatureController;1";

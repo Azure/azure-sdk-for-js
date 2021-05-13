@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import { InternalClientPipelineOptions } from "@azure/core-client";
+import { CommonClientOptions } from "@azure/core-client";
 import { dependencyResolutionType } from "../internal";
 
 
@@ -10,7 +10,7 @@ import { dependencyResolutionType } from "../internal";
  * It serves to configure the client itself, for instance by specifying
  * the repository location to use on any getModels call.
  */
-export interface ModelsRepositoryClientOptions extends InternalClientPipelineOptions {
+export interface ModelsRepositoryClientOptions extends CommonClientOptions {
   /**
    * This is the base location (URI or path) that requests will be made against for this client.
    */

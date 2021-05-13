@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import { ServiceClient } from "@azure/core-client";
-import { createPipelineRequest, PipelineRequest, PipelineResponse, RestError } from "@azure/core-rest-pipeline";
+import { OperationOptions, ServiceClient } from "@azure/core-client";
+import { createHttpHeaders, createPipelineRequest, HttpHeaders, HttpMethods, PipelineRequest, PipelineResponse, RestError } from "@azure/core-rest-pipeline";
 import { logger } from "./logger";
 import { Fetcher } from "./fetcherAbstract";
 
@@ -16,13 +16,20 @@ export class HttpFetcher extends Fetcher {
     this._baseURL = baseURL;
   }
 
-  async fetch(path: string) {
+  async fetch(path: string, options: OperationOptions) {
     logger.info(`Fetching ${path} from remote endpoint`);
     const myURL = this._baseURL + '/' + path;
-    const request: PipelineRequest = createPipelineRequest({
+    const requestMethod: HttpMethods = "GET";
+    const requestHeader: HttpHeaders = createHttpHeaders(options.requestOptions?.customHeaders);
+    const requestOptions = {
       url: myURL,
-      method: "GET"
-    });
+      method: requestMethod,
+      headers: requestHeader,  
+      timeout: options.requestOptions?.timeout,
+      abortSignal: options.abortSignal,
+      tracingOptions: options.tracingOptions,
+    }
+    const request: PipelineRequest = createPipelineRequest(requestOptions);
     const res: PipelineResponse = await this._client.sendRequest(request);
 
     if (res.status >= 200 && res.status < 400) {
@@ -35,3 +42,37 @@ export class HttpFetcher extends Fetcher {
     }
   }
 }
+
+// Argument of type '
+// { 
+//   url: string; 
+//   method: string; 
+//   headers: { [key: string]: string; } | undefined; 
+//   timeout: number | undefined;
+//   abortSignal: AbortSignalLike | undefined; 
+//   tracingOptions: OperationTracingOptions | undefined; 
+// }
+// ' is not assignable to parameter of type 'PipelineRequestOptions'.
+//   Types of property 'method' are incompatible.
+
+// options for PipelineRequestOptions as of 5/13/2021
+// {
+//   url: string;
+//   method?: HttpMethods;
+//   headers?: HttpHeaders;
+//   timeout?: number;
+//   withCredentials?: boolean;
+//   requestId?: string;
+//   body?: RequestBodyType;
+//   formData?: FormDataMap;
+//   streamResponseStatusCodes?: Set<number>;
+//   proxySettings?: ProxySettings;
+//   disableKeepAlive?: boolean;
+//   abortSignal?: AbortSignalLike;
+//   tracingOptions?: OperationTracingOptions;
+//   onUploadProgress?: (progress: TransferProgressEvent) => void;
+//   /** Callback which fires upon download progress. */
+//   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+//   /** Set to true if the request is sent over HTTP instead of HTTPS */
+//   allowInsecureConnection?: boolean;
+// }

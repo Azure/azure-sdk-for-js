@@ -1,5 +1,5 @@
 {
-  "name": "@azure/iot-modelsrepository-client",
+  "name": "@azure/iot-modelsrepository",
   "version": "0.0.1",
   "description": "Device Model Repository Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",

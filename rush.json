@@ -648,7 +648,7 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/iot-modelsrepository-client",
+      "packageName": "@azure/iot-modelsrepository",
       "projectFolder": "sdk/iot/modelsrepository",
       "versionPolicyName": "client"
     },

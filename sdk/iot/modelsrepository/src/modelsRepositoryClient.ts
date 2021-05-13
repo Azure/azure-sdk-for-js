@@ -11,6 +11,7 @@ import {
   PseudoParser,
   DtmiResolver,
   logger,
+  DTDL,
 } from "./internal";
 import * as cnst from './constants';
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
@@ -166,21 +167,21 @@ export class ModelsRepositoryClient {
    * Retrieve one or more models based upon on or more provided dtmis.
    * @param {string} dtmis - one dtmi represented as a string
    * @param {GetModelsOptions} options - options to govern behavior of model getter.
-   * @returns {Promise<{ [dtmi: string]: any}>} 
+   * @returns {Promise<{ [dtmi: string]: unknown}>} 
    */
-  async getModels(dtmis: string, options?: GetModelsOptions): Promise<{ [dtmi: string]: any }>;
+  async getModels(dtmis: string, options?: GetModelsOptions): Promise<{ [dtmi: string]: unknown }>;
     /**
    * Retrieve one or more models based upon on or more provided dtmis.
    * @param {string[]} dtmis - dtmi strings in an array.
    * @param {GetModelsOptions} options - options to govern behavior of model getter.
-   * @returns {Promise<{ [dtmi: string]: any}>} 
+   * @returns {Promise<{ [dtmi: string]: unknown}>} 
    */
-  async getModels(dtmis: string[], options?: GetModelsOptions): Promise<{ [dtmi: string]: any }>;
+  async getModels(dtmis: string[], options?: GetModelsOptions): Promise<{ [dtmi: string]: unknown }>;
   async getModels(
     dtmis: string | string[],
     options?: GetModelsOptions
-  ): Promise<{ [dtmi: string]: any }> {
-    let modelMap;
+  ): Promise<{ [dtmi: string]: unknown }> {
+    let modelMap: {[dtmi: string]: unknown};
     if (!Array.isArray(dtmis)) {
       dtmis = [dtmis];
     }
@@ -190,23 +191,27 @@ export class ModelsRepositoryClient {
     if (dependencyResolution === cnst.DEPENDENCY_MODE_DISABLED) {
       logger.info("Getting models w/ dependency resolution mode: disabled");
       logger.info(`Retreiving model(s): ${dtmis}...`);
-      modelMap = await this._resolver.resolve(dtmis);
+      modelMap = await this._resolver.resolve(dtmis, false, options);
     } else if (dependencyResolution === cnst.DEPENDENCY_MODE_ENABLED) {
       logger.info(`Getting models w/ dependency resolution mode: enabled`);
       logger.info(`Retreiving model(s): ${dtmis}...`);
-      const baseModelMap = await this._resolver.resolve(dtmis);
+      const baseModelMap = await this._resolver.resolve(dtmis, false, options);
       const baseModelList = Object.keys(baseModelMap).map((key) => baseModelMap[key])
       logger.info(`Retreiving model dependencies for ${dtmis}...`);
-      modelMap = await this._pseudoParser.expand(baseModelList);
+      modelMap = await this._pseudoParser.expand(baseModelList, false);
     } else if (dependencyResolution === cnst.DEPENDENCY_MODE_TRY_FROM_EXPANDED) {
       logger.info(`Getting models w/ dependency resolution mode: tryFromExpanded`);
       try {
         logger.info(`Retreiving expanded model(s): ${dtmis}...`);
-        modelMap = await this._resolver.resolve(dtmis, true);
+        modelMap = await this._resolver.resolve(dtmis, true, options);
       } catch (e) {
         if (e instanceof RestError) {
+          let baseModelMap: { [dtmi: string]: unknown; };
           logger.info("Could not retrieve model(s) from expanded model DTDL - ")
-          // TODO: What do we do if it is a ResolverError?
+          baseModelMap = await this._resolver.resolve(dtmis, false, options);
+          const baseModelList = Object.keys(baseModelMap).map((key) => baseModelMap[key])
+          logger.info(`Retreiving model dependencies for ${dtmis}...`);
+          modelMap = await this._pseudoParser.expand(baseModelList as DTDL[], true);
         } else {
           throw e;
         }
