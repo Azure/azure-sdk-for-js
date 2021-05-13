@@ -22,23 +22,24 @@ export interface SecretReferenceValue {
 
 export const SecretReferenceHelper = {
   /**
-   * Takes the ConfigurationSetting and returns the FeatureFlag.
+   * Takes the ConfigurationSetting and returns the SecretReference.
    */
   fromConfigurationSetting: (
     setting: ConfigurationSetting
   ): ConfigurationSetting<SecretReferenceValue> => {
     if (!isSecretReference(setting)) {
-      throw new Error("Not a SecretReference..");
+      throw new Error(`Setting ${setting.key} is not a valid secret reference`);
     }
     let jsonSecretReferenceValue: JsonSecretReferenceValue;
     try {
       if (!setting.value || typeof setting.value !== "string") {
-        throw new Error("");
+        throw new Error(`secretReference has an unexpected value - ${setting.value}`);
       }
       jsonSecretReferenceValue = JSON.parse(setting.value) as JsonSecretReferenceValue;
     } catch (err) {
-      // best effort - if it doesn't deserialize properly we'll just throw
-      throw new Error("");
+      throw new Error(
+        `Unable to parse (JSON.parse) the value of the secretReference - ${setting.value}`
+      );
     }
 
     const featureflag: ConfigurationSetting<SecretReferenceValue> = {
@@ -48,13 +49,13 @@ export const SecretReferenceHelper = {
     return featureflag;
   },
   /**
-   * Takes the FeatureFlag (JSON) and returns a ConfigurationSetting (with the props encodeed in the value).
+   * Takes the SecretReference (JSON) and returns a ConfigurationSetting (with the props encodeed in the value).
    */
   toConfigurationSettingParam: (
     secretReference: ConfigurationSettingParam<SecretReferenceValue>
   ): ConfigurationSettingParam => {
     if (!secretReference.value) {
-      throw new Error("Value is not defined");
+      throw new Error(`SecretReference has an unexpected value - ${secretReference.value}`);
     }
 
     const jsonSecretReferenceValue: JsonSecretReferenceValue = {
@@ -65,8 +66,9 @@ export const SecretReferenceHelper = {
     try {
       stringifiedValue = JSON.stringify(jsonSecretReferenceValue);
     } catch (err) {
-      // best effort - if it doesn't serialize properly we'll just throw
-      throw new Error("");
+      throw new Error(
+        `Unable to do encode the value ${secretReference.value} as string (JSON.stringify)`
+      );
     }
 
     const configSetting = {

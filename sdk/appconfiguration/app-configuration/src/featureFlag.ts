@@ -50,17 +50,18 @@ export const FeatureFlagHelper = {
     setting: ConfigurationSetting
   ): ConfigurationSetting<FeatureFlagValue> => {
     if (!isFeatureFlag(setting)) {
-      throw new Error("Not a feature flag..");
+      throw new Error(`Setting ${setting.key} is not a valid feature flag`);
     }
     let jsonFeatureFlagValue: JsonFeatureFlagValue;
     try {
       if (!setting.value || typeof setting.value !== "string") {
-        throw new Error("");
+        throw new Error(`featureFlag has an unexpected value - ${setting.value}`);
       }
       jsonFeatureFlagValue = JSON.parse(setting.value) as JsonFeatureFlagValue;
     } catch (err) {
-      // best effort - if it doesn't deserialize properly we'll just throw
-      throw new Error("");
+      throw new Error(
+        `Unable to parse (JSON.parse) the value of the featureFlag - ${setting.value}`
+      );
     }
 
     let key = setting.key;
@@ -85,7 +86,7 @@ export const FeatureFlagHelper = {
     featureFlag: ConfigurationSettingParam<FeatureFlagValue>
   ): ConfigurationSettingParam => {
     if (!featureFlag.value) {
-      throw new Error("Value is not defined");
+      throw new Error(`FeatureFlag has an unexpected value - ${featureFlag.value}`);
     }
     let key = featureFlag.key;
     if (typeof featureFlag.key === "string" && !featureFlag.key.startsWith(featureFlagPrefix)) {
@@ -103,8 +104,9 @@ export const FeatureFlagHelper = {
     try {
       stringifiedValue = JSON.stringify(jsonFeatureFlagValue);
     } catch (err) {
-      // best effort - if it doesn't serialize properly we'll just throw
-      throw new Error("");
+      throw new Error(
+        `Unable to do encode the value ${jsonFeatureFlagValue} as string (JSON.stringify)`
+      );
     }
 
     const configSetting = {
