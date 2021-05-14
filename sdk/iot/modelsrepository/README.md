@@ -8,7 +8,7 @@ This package contains an isomorphic Client Library for Azure IoT Models Reposito
 
 -------------------------------------
 
-# Getting Started
+# Getting started
 
 ## Key concepts
 
@@ -78,7 +78,7 @@ console.log(result);
 
 - If you run into an error, first make sure the model you are access exists at the location you are attempting to get it from.
 
-# Next Steps
+# Next steps
 
 - Review the [DTDL Spec](https://docs.microsoft.com/en-us/azure/iot-pnp/concepts-model-parser).
 - Understand the [Device Models Repository](https://devicemodels.azure.com/).
