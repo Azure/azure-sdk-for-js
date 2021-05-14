@@ -9,7 +9,6 @@ import { getEnvironmentVariable, isTimeWindowClientFilter } from "../utils";
 import {
   AppConfigurationClient,
   featureFlagPrefix,
-  FeatureFlagValue,
   isFeatureFlag,
   parseFeatureFlag
 } from "@azure/app-configuration";
@@ -17,20 +16,20 @@ import { InteractiveBrowserCredential } from "@azure/identity";
 
 let client: AppConfigurationClient;
 
-const featureFlag1: FeatureFlagValue = {
+const featureFlag1 = {
   id: "react-app-feature-1",
   description: "",
   enabled: false,
   conditions: {
-    clientFilters: []
+    client_filters: []
   }
 };
-const featureFlag2: FeatureFlagValue = {
+const featureFlag2 = {
   id: "react-app-feature-2",
   description: "",
   enabled: true,
   conditions: {
-    clientFilters: [
+    client_filters: [
       {
         name: "Microsoft.TimeWindow",
         parameters: {
