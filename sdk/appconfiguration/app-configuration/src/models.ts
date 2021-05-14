@@ -30,7 +30,9 @@ export interface ConfigurationSettingId {
 /**
  * Necessary fields for updating or creating a new configuration setting
  */
-export type ConfigurationSettingParam<T = string> = ConfigurationSettingId & {
+export type ConfigurationSettingParam<
+  T extends string | FeatureFlagValue | SecretReferenceValue = string
+> = ConfigurationSettingId & {
   /**
    * The content type of the setting's value
    */
@@ -58,7 +60,9 @@ export type ConfigurationSettingParam<T = string> = ConfigurationSettingId & {
  * Configuration setting with extra metadata from the server, indicating
  * its etag, whether it is currently readOnly and when it was last modified.
  */
-export type ConfigurationSetting<T = string> = ConfigurationSettingParam<T> & {
+export type ConfigurationSetting<
+  T extends string | FeatureFlagValue | SecretReferenceValue = string
+> = ConfigurationSettingParam<T> & {
   /**
    * Whether or not the setting is read-only
    */
@@ -85,12 +89,16 @@ export interface HttpResponseFields {
 /**
  * Parameters for adding a new configuration setting
  */
-export type AddConfigurationSettingParam<T = string> = ConfigurationSettingParam<T>;
+export type AddConfigurationSettingParam<
+  T extends string | FeatureFlagValue | SecretReferenceValue = string
+> = ConfigurationSettingParam<T>;
 
 /**
  * Parameters for creating or updating a new configuration setting
  */
-export type SetConfigurationSettingParam<T = string> = ConfigurationSettingParam<T>;
+export type SetConfigurationSettingParam<
+  T extends string | FeatureFlagValue | SecretReferenceValue = string
+> = ConfigurationSettingParam<T>;
 
 /**
  * Standard base response for getting, deleting or updating a configuration setting

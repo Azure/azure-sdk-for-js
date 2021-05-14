@@ -15,7 +15,7 @@ export interface AddConfigurationSettingOptions extends OperationOptions {
 }
 
 // @public
-export type AddConfigurationSettingParam<T = string> = ConfigurationSettingParam<T>;
+export type AddConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T>;
 
 // @public
 export interface AddConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
@@ -41,7 +41,7 @@ export interface AppConfigurationClientOptions {
 }
 
 // @public
-export type ConfigurationSetting<T = string> = ConfigurationSettingParam<T> & {
+export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T> & {
     isReadOnly: boolean;
     lastModified?: Date;
 };
@@ -54,7 +54,7 @@ export interface ConfigurationSettingId {
 }
 
 // @public
-export type ConfigurationSettingParam<T = string> = ConfigurationSettingId & {
+export type ConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingId & {
     contentType?: string;
     tags?: {
         [propertyName: string]: string;
@@ -186,7 +186,7 @@ export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField
 }
 
 // @public
-export type SetConfigurationSettingParam<T = string> = ConfigurationSettingParam<T>;
+export type SetConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T>;
 
 // @public
 export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
