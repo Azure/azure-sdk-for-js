@@ -112,6 +112,11 @@ stages:
                           SourceFolder: ${{parameters.ArtifactName}}
                           TargetFolder: ${{artifact.safeName}}
                           PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
+                      - template: /eng/pipelines/templates/steps/stage-artifacts.yml
+                        parameters:
+                          SourceFolder: ${{parameters.ArtifactName}}
+                          TargetFolder: ${{artifact.safeName}}
+                          PackageName: ${{artifact.name}}.json
                       - pwsh: |
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)
@@ -297,6 +302,11 @@ stages:
                 SourceFolder: ${{parameters.ArtifactName}}
                 TargetFolder: ${{artifact.safeName}}
                 PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
+            - template: /eng/pipelines/templates/steps/stage-artifacts.yml
+              parameters:
+                SourceFolder: ${{parameters.ArtifactName}}
+                TargetFolder: ${{artifact.safeName}}
+                PackageName: ${{artifact.name}}.json
             - pwsh: |
                 Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
               workingDirectory: $(Pipeline.Workspace)

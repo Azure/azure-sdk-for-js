@@ -7,5 +7,4 @@ steps:
   - pwsh: |
       New-Item -Type Directory -Name ${{parameters.TargetFolder}} -Path $(Pipeline.Workspace)
       Copy-Item $(Pipeline.Workspace)/${{parameters.SourceFolder}}/${{parameters.PackageName}} $(Pipeline.Workspace)/${{parameters.TargetFolder}}
-      Copy-Item $(Pipeline.Workspace)/${{parameters.SourceFolder}}/PackageInfo/${{parameters.PackageName}}.json $(Pipeline.Workspace)/${{parameters.TargetFolder}}
     displayName: Stage artifacts
