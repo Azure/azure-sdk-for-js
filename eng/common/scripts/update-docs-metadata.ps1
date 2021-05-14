@@ -75,9 +75,7 @@ function GetAdjustedReadmeContent($pkgInfo, $fileContent){
 }
 
 $apiUrl = "https://api.github.com/repos/$repoId"
-$packages = Get-ChildItem -Filter *.json -Path $ArtifactLocation | ForEach-Object { 
-  Get-Content $_ | ConvertFrom-Json # | Select-Object <projection>
-}
+$packages =  Get-Content $ArtifactLocation | ConvertFrom-Json
 
 foreach ($package in $packages) { 
   # Set the "Version" property to "DevVersion" in cases where "DevVersion" is
