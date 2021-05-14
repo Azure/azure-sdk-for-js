@@ -64,7 +64,7 @@ export interface RegistryArtifact {
   /**
    * The Azure Container Registry endpoint.
    */
-  readonly registryUrl: string;
+  readonly registryEndpoint: string;
   /**
    * Repository name.
    */
@@ -141,7 +141,7 @@ export class RegistryArtifactImpl {
   /**
    * The Azure Container Registry endpoint.
    */
-  public readonly registryUrl: string;
+  public readonly registryEndpoint: string;
   /**
    * Repository name.
    */
@@ -155,21 +155,21 @@ export class RegistryArtifactImpl {
 
   /**
    * Creates an instance of a RegistryArtifact.
-   * @param registryUrl - the URL to the Container Registry endpoint
+   * @param registryEndpoint - the URL to the Container Registry endpoint
    * @param repositoryName - the name of the repository
    * @param tagOrDigest - the tag or digest of this artifact
    * @param client - the generated client that interacts with service
    */
   constructor(
-    registryUrl: string,
+    registryEndpoint: string,
     repositoryName: string,
     tagOrDigest: string,
     client: GeneratedClient
   ) {
-    this.registryUrl = registryUrl;
+    this.registryEndpoint = registryEndpoint;
     this.repositoryName = repositoryName;
     this.tagOrDigest = tagOrDigest;
-    const parsedUrl = new URL(registryUrl);
+    const parsedUrl = new URL(registryEndpoint);
     this.fullyQualifiedName = `${parsedUrl.hostname}/${repositoryName}${
       isDigest(tagOrDigest) ? "@" : ":"
     }${tagOrDigest}`;

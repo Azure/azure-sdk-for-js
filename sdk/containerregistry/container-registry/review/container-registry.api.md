@@ -42,15 +42,15 @@ export interface ArtifactTagProperties {
 
 // @public
 export class ContainerRegistryClient {
-    constructor(endpointUrl: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
-    constructor(endpointUrl: string, options?: ContainerRegistryClientOptions);
+    constructor(registryEndpoint: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
+    constructor(registryEndpoint: string, options?: ContainerRegistryClientOptions);
     deleteRepository(repositoryName: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
     getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact;
     getRepository(repositoryName: string): ContainerRepository;
     listRepositoryNames(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, RepositoryPageResponse>;
     readonly loginServer: string;
     readonly name: string;
-    readonly registryUrl: string;
+    readonly registryEndpoint: string;
 }
 
 // @public
@@ -65,7 +65,7 @@ export interface ContainerRepository {
     getProperties(options?: GetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
     listManifests(options?: ListManifestsOptions): PagedAsyncIterableIterator<ArtifactManifestProperties>;
     readonly name: string;
-    readonly registryUrl: string;
+    readonly registryEndpoint: string;
     setProperties(options: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
 }
 
@@ -144,9 +144,9 @@ export enum KnownArtifactOperatingSystem {
     // (undocumented)
     Illumos = "illumos",
     // (undocumented)
-    IOs = "ios",
+    iOS = "ios",
     // (undocumented)
-    Js = "js",
+    JS = "js",
     // (undocumented)
     Linux = "linux",
     // (undocumented)
@@ -199,7 +199,7 @@ export interface RegistryArtifact {
     getManifestProperties(options?: GetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
     getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<ArtifactTagProperties>;
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
-    readonly registryUrl: string;
+    readonly registryEndpoint: string;
     readonly repositoryName: string;
     setManifestProperties(options?: SetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
     setTagProperties(tag: string, options: SetTagPropertiesOptions): Promise<ArtifactTagProperties>;

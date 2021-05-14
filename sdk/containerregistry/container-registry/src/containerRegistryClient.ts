@@ -46,7 +46,7 @@ export class ContainerRegistryClient {
   /**
    * The Azure Container Registry endpoint.
    */
-  public readonly registryUrl: string;
+  public readonly registryEndpoint: string;
 
   /** The login server of the registry */
   public readonly loginServer: string;
@@ -69,12 +69,12 @@ export class ContainerRegistryClient {
    *    new DefaultAzureCredential()
    * );
    * ```
-   * @param endpointUrl - the URL to the Container Registry endpoint
+   * @param registryEndpoint - the URL to the Container Registry endpoint
    * @param credential - used to authenticate requests to the service
    * @param options - optional configuration used to send requests to the service
    */
   constructor(
-    endpointUrl: string,
+    registryEndpoint: string,
     credential: TokenCredential,
     options?: ContainerRegistryClientOptions
   );
@@ -91,18 +91,18 @@ export class ContainerRegistryClient {
    *    "<container registry API endpoint>",
    * );
    * ```
-   * @param endpointUrl - the URL to the Container Registry endpoint
+   * @param registryEndpoint - the URL to the Container Registry endpoint
    * @param options - optional configuration used to send requests to the service
    */
-  constructor(endpointUrl: string, options?: ContainerRegistryClientOptions);
+  constructor(registryEndpoint: string, options?: ContainerRegistryClientOptions);
 
   constructor(
-    endpointUrl: string,
+    registryEndpoint: string,
     credentialOrOptions?: TokenCredential | ContainerRegistryClientOptions,
     clientOptions: ContainerRegistryClientOptions = {}
   ) {
-    this.registryUrl = endpointUrl;
-    const parsedUrl = new URL(endpointUrl);
+    this.registryEndpoint = registryEndpoint;
+    const parsedUrl = new URL(registryEndpoint);
     this.loginServer = parsedUrl.hostname;
     this.name = parsedUrl.pathname;
 
@@ -133,12 +133,12 @@ export class ContainerRegistryClient {
         // This array contains header names we want to log that are not already
         // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
         additionalAllowedHeaderNames: ["x-ms-correlation-request-id"],
-        additionalAllowedQueryParameters: ["last", "n"]
+        additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"]
       }
     };
 
-    const authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
-    this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
+    const authClient = new GeneratedClient(registryEndpoint, internalPipelineOptions);
+    this.client = new GeneratedClient(registryEndpoint, internalPipelineOptions);
     this.client.pipeline.addPolicy(
       bearerTokenChallengeAuthenticationPolicy({
         credential,
@@ -189,9 +189,11 @@ export class ContainerRegistryClient {
    * @param tagOrDigest - tag or digest of the artifact to retrieve
    */
   public getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact {
-    return new ContainerRepositoryImpl(this.registryUrl, repositoryName, this.client).getArtifact(
-      tagOrDigest
-    );
+    return new ContainerRepositoryImpl(
+      this.registryEndpoint,
+      repositoryName,
+      this.client
+    ).getArtifact(tagOrDigest);
   }
 
   /**
@@ -201,7 +203,7 @@ export class ContainerRegistryClient {
    * @param options - optional configuration for the operation
    */
   public getRepository(repositoryName: string): ContainerRepository {
-    return new ContainerRepositoryImpl(this.registryUrl, repositoryName, this.client);
+    return new ContainerRepositoryImpl(this.registryEndpoint, repositoryName, this.client);
   }
 
   /**
