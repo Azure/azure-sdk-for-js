@@ -14,7 +14,7 @@ urlFragment: template-typescript
 
 The Azure IoT Models Repository enables builders to manage and share digital twin models for global consumption. The models are [JSON-LD](https://json-ld.org/) documents defined using the Digital Twins Definition Language [(DTDL)](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md).
 
-For more info about the Azure IoT Models Repository checkout the [docs](https://docs.microsoft.com/en-us/azure/iot-pnp/concepts-model-repository).
+For more info about the Azure IoT Models Repository checkout the [docs](https://docs.microsoft.com/azure/iot-pnp/concepts-model-repository).
 
 
 | **File Name**                       | **Description** |
@@ -63,7 +63,7 @@ If you need to override pipeline behavior, such as provide your own HttpClient i
 
 ## Publish Models
 
-Publishing models to the models repository requires [exercising](https://docs.microsoft.com/en-us/azure/iot-pnp/concepts-model-repository#publish-a-model) common GitHub workflows.
+Publishing models to the models repository requires [exercising](https://docs.microsoft.com/azure/iot-pnp/concepts-model-repository#publish-a-model) common GitHub workflows.
 
 ## Get Models
 

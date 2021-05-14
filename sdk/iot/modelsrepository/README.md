@@ -1,6 +1,6 @@
 # Azure IoT Models Repository client library for JavaScript
 
-This package contains an isomorphic Client Library for Azure IoT Models Repository in Javascript. Use the Azure IoT Models Repository library for Javascript to pull DTDL files from remote endpoints.
+This package contains an isomorphic Client Library for Azure IoT Models Repository in JavaScript. Use the Azure IoT Models Repository library for JavaScript to pull DTDL files from remote endpoints.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iot/modelsrepository) |
 [Package (npm)](https://www.npmjs.com/package/@azure/iot-modelsrepository/) |
@@ -12,7 +12,7 @@ This package contains an isomorphic Client Library for Azure IoT Models Reposito
 
 ## Key concepts
 
-The Azure IoT Models Repository library for Javascript is written to interact with the Azure IoT PlugAndPlay Models Repository, for those developers who wish to write applications in Javascript to do so.
+The Azure IoT Models Repository library for JavaScript is written to interact with the Azure IoT PlugAndPlay Models Repository, for those developers who wish to write applications in JavaScript to do so.
 
 ### Currently supported environments
 
@@ -41,37 +41,6 @@ const result = await client.getModels("dtmi:azure:DeviceManagement:DeviceInforma
 console.log(result);
 ```
 
-## browser - Authentication, client creation and get ioTSpaces as an example written in JavaScript.
-
-### Sample code
-
-- index.html
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/iot-modelsrepository sample</title>
-    <script src="node_modules/@azure/iot-modelsrepository/dist/client.browser.js"></script>
-    <script type="text/javascript">
-      const dtmi = "<Subscription_Id>";
-      const repositoryLocation = "<Repository_Location>";
-      // async / await OR chaining can be used.
-      const client = new Azure.IotModelsrepositoryClient.ModelsRepositoryClient(repositoryLocation);
-      client
-        .getModels(dtmi)
-        .then((result) => {
-          console.log(`The result is: ${result}`);
-        })
-        .catch((err) => {
-          console.log(`An error occured: ${err}`);
-        });
-    </script>
-  </head>
-  <body></body>
-</html>
-```
-
 -----------------------------------------
 
 # Troubleshooting
@@ -86,7 +55,7 @@ console.log(result);
 
 # Related projects
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
 # Contributing
 
@@ -102,8 +71,3 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-<!-- LINKS -->
-
-[azure_portal]: https://portal.azure.com
-[npm]: https://www.npmjs.com/
-[iot_pnp_docs]: https://docs.microsoft.com/en-us/azure/iot-pnp/
