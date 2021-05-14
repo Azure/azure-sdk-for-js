@@ -31,6 +31,7 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
     }
     $pkgProp.IsNewSdk = $pkgProp.SdkType -eq "client"
     $pkgProp.ArtifactName = $jsStylePkgName
+    $pkgProp.DocsReadMeName = $projectJson.name -replace "^@azure/" , ""
     return $pkgProp
   }
   return $null

@@ -3,10 +3,22 @@ Param (
   [Parameter(Mandatory=$True)]
   [string] $serviceDirectory,
   [Parameter(Mandatory=$True)]
-  [string] $outDirectory
+  [string] $outDirectory,
+  [switch] $addDevVersion
 )
 
 . (Join-Path $PSScriptRoot common.ps1)
+
+function SetOutput($outputPath, $incomingPackageSpec) { 
+  $outputObject = $incomingPackageSpec
+  if ($addDevVersion) { 
+    $outputObject = Get-Content $outputPath | ConvertFrom-Json
+    $outputObject | Add-Member -NotePropertyName DevVersion -NotePropertyvalue $incomingPackageSpec.Version -Force
+  }
+
+  $outputObject | ConvertTo-Json -Depth 100 | Set-Content $outputPath 
+}
+
 $allPackageProperties = Get-AllPkgProperties $serviceDirectory
 if ($allPackageProperties)
 {
@@ -28,9 +40,8 @@ if ($allPackageProperties)
               $configFilePrefix = $pkg.ArtifactName
             }
             $outputPath = Join-Path -Path $outDirectory "$configFilePrefix.json"
-            $outputObject = $pkg | ConvertTo-Json
-            Set-Content -Path $outputPath -Value $outputObject
-        }        
+            SetOutput $outputPath $pkg
+        }
     }
 
     Get-ChildItem -Path $outDirectory
