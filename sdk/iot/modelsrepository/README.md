@@ -1,4 +1,4 @@
-# Azure IoT Resolver library for Javascript
+# Azure IoT Models Repository client library for JavaScript
 
 This package contains an isomorphic Client Library for Azure IoT Models Repository in Javascript. Use the Azure IoT Models Repository library for Javascript to pull DTDL files from remote endpoints.
 
@@ -7,6 +7,8 @@ This package contains an isomorphic Client Library for Azure IoT Models Reposito
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/iot-modelsrepository/samples) 
 
 -------------------------------------
+
+# Getting Started
 
 ## Key concepts
 
@@ -25,11 +27,11 @@ The preferred way to install the Azure IoT Models Repository client library for 
 npm install @azure/iot-modelsrepository
 ```
 
-### How to use
+# Examples
 
-#### nodejs - Authentication, client creation and get ioTSpaces as an example written in TypeScript.
+## nodejs - Authentication, client creation and get ioTSpaces as an example written in TypeScript.
 
-##### Sample code
+### Sample code
 
 ```ts
 import { ModelsRepositoryClient } from "@azure/iot-modelsrepository";
@@ -39,9 +41,9 @@ const result = await client.getModels("dtmi:azure:DeviceManagement:DeviceInforma
 console.log(result);
 ```
 
-#### browser - Authentication, client creation and get ioTSpaces as an example written in JavaScript.
+## browser - Authentication, client creation and get ioTSpaces as an example written in JavaScript.
 
-##### Sample code
+### Sample code
 
 - index.html
 
@@ -72,11 +74,21 @@ console.log(result);
 
 -----------------------------------------
 
-## Related projects
+# Troubleshooting
+
+- If you run into an error, first make sure the model you are access exists at the location you are attempting to get it from.
+
+# Next Steps
+
+- Review the [DTDL Spec](https://docs.microsoft.com/en-us/azure/iot-pnp/concepts-model-parser).
+- Understand the [Device Models Repository](https://devicemodels.azure.com/).
+- Code a IoT Plug and Play 'Device' using the [Azure IoT SDK for Node](https://github.com/Azure/azure-iot-sdk-node/tree/master/device/samples/pnp/readme.md).  
+
+# Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-## Contributing
+# Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
