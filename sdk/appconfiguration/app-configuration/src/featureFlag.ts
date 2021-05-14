@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { errorMessageForUnexpectedSetting } from "./internal/helpers";
 import { JsonFeatureFlagValue } from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
 
@@ -50,9 +51,7 @@ export const FeatureFlagHelper = {
     setting: ConfigurationSetting
   ): ConfigurationSetting<FeatureFlagValue> => {
     if (!isFeatureFlag(setting)) {
-      throw new TypeError(
-        `Setting with key ${setting.key} is not a valid feature flag, make sure to have the correct content-type and a valid non-null value.`
-      );
+      throw TypeError(errorMessageForUnexpectedSetting(setting.key, "FeatureFlag"));
     }
 
     const jsonFeatureFlagValue = JSON.parse(setting.value) as JsonFeatureFlagValue;

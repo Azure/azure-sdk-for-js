@@ -287,3 +287,13 @@ export function formatFieldsForSelect(
 
   return mappedFieldNames;
 }
+
+/**
+ * @internal
+ */
+export function errorMessageForUnexpectedSetting(
+  key: string,
+  expectedType: "FeatureFlag" | "SecretReference"
+) {
+  return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
+}
