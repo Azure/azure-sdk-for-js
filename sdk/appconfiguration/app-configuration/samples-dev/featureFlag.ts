@@ -43,8 +43,8 @@ export async function main() {
             parameters: {
               Audience: {
                 Groups: [
-                  { name: "group-1", RolloutPercentage: 25 },
-                  { name: "group-2", RolloutPercentage: 45 }
+                  { Name: "group-1", RolloutPercentage: 25 },
+                  { Name: "group-2", RolloutPercentage: 45 }
                 ],
                 Users: ["userA", "userB"],
                 DefaultRolloutPercentage: 40
