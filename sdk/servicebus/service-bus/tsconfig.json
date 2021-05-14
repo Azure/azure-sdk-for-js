@@ -4,7 +4,10 @@
     "declarationDir": "./types",
     "outDir": "./dist-esm",
     "lib": ["dom", "ES2018.AsyncIterable"],
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "paths": {
+      "@azure/service-bus": ["./src/index"]
+    }
   },
   "exclude": [
     "node_modules",
@@ -14,5 +17,5 @@
     "test/perf/track-1",
     "test/stress*"
   ],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }
