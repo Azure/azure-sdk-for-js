@@ -98,6 +98,95 @@ main().catch((err) => {
 });
 ```
 
+### Delete images
+
+```javascript
+const { ContainerRegistryClient } = require("@azure/container-registry");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+async function main() {
+  // Get the service endpoint from the environment
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
+  // Create a new ContainerRegistryClient
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+
+  // Iterate through repositories
+  const repositoryNames = client.listRepositoryNames();
+  for await (const repositoryName of repositoryNames) {
+    const repository = client.getRepository(repositoryName);
+    // Obtain the images ordered from newest to oldest
+    const imageManifests = repository.listManifests({
+      orderBy: "LastUpdatedOnDescending"
+    });
+    const imagesToKeep = 3;
+    let imageCount = 0;
+    // Delete images older than the first three.
+    for await (const manifest of imageManifests) {
+      if (imageCount++ > imagesToKeep) {
+        console.log(`Deleting image with digest ${manifest.digest}`);
+        console.log(`  This image has the following tags:`);
+        for (const tagName of manifest.tags) {
+          console.log(`    ${manifest.repositoryName}:${tagName}`);
+        }
+        await repository.getArtifact(manifest.digest).delete();
+      }
+    }
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+### Set artifact properties
+
+```javascript
+const { ContainerRegistryClient } = require("@azure/container-registry");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+async function main() {
+  // Get the service endpoint from the environment
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
+  // Create a new ContainerRegistryClient and RegistryArtifact to access image operations
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+  const image = client.getArtifact("library/hello-world", "v1");
+
+  // Set permissions on the image's "latest" tag
+  await image.setTagProperties("latest", { canWrite: false, canDelete: false });
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+### List tags with anonymous access
+
+```javascript
+const { ContainerRegistryClient } = require("@azure/container-registry");
+
+async function main() {
+  // Get the service endpoint from the environment
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
+  // Create a new ContainerRegistryClient for anonymous access
+  const client = new ContainerRegistryClient(endpoint);
+  const image = client.getArtifact("library/hello-world", "latest");
+  // List the set of tags on the hello_world image tagged as "latest"
+  const tags = image.listTags();
+
+  // Iterate through the image's tags, listing the tagged alias for the image
+  for await (const manifest of tags) {
+    console.log(`  digest: ${manifest.digest}`);
+    console.log(`  lastUpdatedOn: ${manifest.lastUpdatedOn}`);
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
 ## Troubleshooting
 
 ### Logging
