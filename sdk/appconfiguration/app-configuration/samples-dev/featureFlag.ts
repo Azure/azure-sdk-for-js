@@ -76,37 +76,35 @@ export async function main() {
   // Modify the props
   for (const clientFilter of newFeatureFlag.value.conditions.clientFilters) {
     clientFilter.parameters = clientFilter.parameters ?? {};
-    if (clientFilter.name === "Microsoft.Targeting") {
-      console.log(
-        `  targeting feature flag client filter => name: ${
-          clientFilter.name
-        },\n Audience: ${JSON.stringify(clientFilter.parameters["Audience"], null, 2)}`
-      );
-      const audience = clientFilter.parameters.Audience;
-      typeof audience === "object" &&
-        (clientFilter.parameters.Audience = {
-          ...audience,
-          DefaultRolloutPercentage: 85
-        });
-    } else if (clientFilter.name === "Microsoft.TimeWindow") {
-      // clientFilter.parameters.End;
-      // clientFilter.parameters.Start;
-      console.log(
-        `  timeWindow feature flag client filter => name: ${clientFilter.name}, start time: ${clientFilter.parameters.Start}`
-      );
-      clientFilter.parameters.Start = "Wed, 01 June 2021 13:59:59 GMT";
-    } else if (clientFilter.name === "Microsoft.Percentage") {
-      console.log(
-        `  percentage feature flag client filter => name: ${clientFilter.name}, value: ${clientFilter.parameters.Value}`
-      );
-      clientFilter.parameters.Value = 56;
-    } else {
-      console.log(`  name of the custom feature flag client filter => name : ${clientFilter.name}`);
-      clientFilter.name = "FilterY";
+    console.log(
+      `\n...clientFilter - "${clientFilter.name}"...\nparams => ${JSON.stringify(
+        clientFilter.parameters,
+        null,
+        1
+      )}\n`
+    );
+    switch (clientFilter.name) {
+      case "Microsoft.Targeting":
+        const audience = clientFilter.parameters.Audience;
+        typeof audience === "object" &&
+          (clientFilter.parameters.Audience = {
+            ...audience,
+            DefaultRolloutPercentage: 85
+          });
+        break;
+      case "Microsoft.TimeWindow":
+        clientFilter.parameters.Start = "Wed, 01 June 2021 13:59:59 GMT";
+        break;
+      case "Microsoft.Percentage":
+        clientFilter.parameters.Value = 56;
+        break;
+      default:
+        clientFilter.name = "FilterY";
+        break;
     }
   }
 
-  console.log(`===> Update the featureFlag`);
+  console.log(`========> Update the featureFlag <======== `);
   // Updating the config setting
   await appConfigClient.setConfigurationSetting(newFeatureFlag);
 
@@ -120,24 +118,13 @@ export async function main() {
   const featureFlagAfterUpdate = parseFeatureFlag(getResponseAfterUpdate); // Converts the configurationsetting into featureflag
   const conditions = featureFlagAfterUpdate.value.conditions;
   for (const clientFilter of conditions.clientFilters) {
-    clientFilter.parameters = clientFilter.parameters ?? {};
-    if (clientFilter.name === "Microsoft.Targeting") {
-      console.log(
-        `  targeting feature flag client filter => name: ${
-          clientFilter.name
-        },\n Audience: ${JSON.stringify(clientFilter.parameters.Audience, null, 2)}`
-      );
-    } else if (clientFilter.name === "Microsoft.TimeWindow") {
-      console.log(
-        `  timeWindow feature flag client filter => name: ${clientFilter.name}, start time: ${clientFilter.parameters.Start}`
-      );
-    } else if (clientFilter.name === "Microsoft.Percentage") {
-      console.log(
-        `  percentage feature flag client filter => name: ${clientFilter.name}, value: ${clientFilter.parameters.Value}`
-      );
-    } else {
-      console.log(`  name of the custom feature flag client filter => name : ${clientFilter.name}`);
-    }
+    console.log(
+      `\n...clientFilter - "${clientFilter.name}"...\nparams => ${JSON.stringify(
+        clientFilter.parameters,
+        null,
+        1
+      )}\n`
+    );
   }
   await cleanupSampleValues([originalFeatureFlag.key], appConfigClient);
 }
