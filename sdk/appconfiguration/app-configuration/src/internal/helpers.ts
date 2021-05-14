@@ -188,8 +188,8 @@ function isConfigSettingWithFeatureFlagValue(
 /**
  * @internal
  */
-function isConfigSettingWithStringValue(setting: any): setting is ConfigurationSetting {
-  return isFeatureFlag(setting) && typeof setting.value === "string";
+function isSimpleConfigSetting(setting: any): setting is ConfigurationSetting {
+  return typeof setting.value === "string" || !isDefined(setting.value);
 }
 
 /**
@@ -207,7 +207,7 @@ export function serializeAsConfigurationSettingParam(
   if (isConfigSettingWithSecretReferenceValue(setting)) {
     return SecretReferenceHelper.toConfigurationSettingParam(setting);
   }
-  if (isConfigSettingWithStringValue(setting)) {
+  if (isSimpleConfigSetting(setting)) {
     return setting;
   }
   throw new TypeError(
