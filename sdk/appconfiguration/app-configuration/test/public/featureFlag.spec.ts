@@ -29,25 +29,25 @@ describe("AppConfigurationClient - FeatureFlag", () => {
               {
                 name: "Microsoft.TimeWindow",
                 parameters: {
-                  start: "Wed, 01 May 2019 13:59:59 GMT",
-                  end: "Mon, 01 July 2019 00:00:00 GMT"
+                  Start: "Wed, 01 May 2019 13:59:59 GMT",
+                  End: "Mon, 01 July 2019 00:00:00 GMT"
                 }
               },
               { name: "FilterX" },
               {
                 name: "Microsoft.Targeting",
                 parameters: {
-                  audience: {
-                    groups: [
-                      { name: "group-1", rolloutPercentage: 25 },
-                      { name: "group-2", rolloutPercentage: 45 }
+                  Audience: {
+                    Groups: [
+                      { Name: "group-1", RolloutPercentage: 25 },
+                      { Name: "group-2", RolloutPercentage: 45 }
                     ],
-                    users: ["userA", "userB"],
-                    defaultRolloutPercentage: 40
+                    Users: ["userA", "userB"],
+                    DefaultRolloutPercentage: 40
                   }
                 }
               },
-              { name: "Microsoft.Percentage", parameters: { value: 25 } }
+              { name: "Microsoft.Percentage", parameters: { Value: 25 } }
             ]
           },
           enabled: false,
