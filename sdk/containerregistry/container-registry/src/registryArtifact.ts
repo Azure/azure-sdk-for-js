@@ -13,7 +13,8 @@ import {
   ArtifactManifestProperties,
   TagWriteableProperties,
   ManifestWriteableProperties,
-  TagOrderBy
+  TagOrderBy,
+  TagPageResponse
 } from "./model";
 import { URL } from "./url";
 import { createSpan } from "./tracing";
@@ -382,7 +383,7 @@ export class RegistryArtifactImpl {
    */
   public listTags(
     options: ListTagsOptions = {}
-  ): PagedAsyncIterableIterator<ArtifactTagProperties> {
+  ): PagedAsyncIterableIterator<ArtifactTagProperties, TagPageResponse> {
     const iter = this.listTagsItems(options);
 
     return {
@@ -407,7 +408,7 @@ export class RegistryArtifactImpl {
   private async *listTagsPage(
     continuationState: PageSettings,
     options: ListTagsOptions = {}
-  ): AsyncIterableIterator<ArtifactTagProperties[]> {
+  ): AsyncIterableIterator<TagPageResponse> {
     const orderby = toServiceTagOrderBy(options.orderBy);
     if (!continuationState.continuationToken) {
       const optionsComplete = {
@@ -421,11 +422,15 @@ export class RegistryArtifactImpl {
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.tagAttributeBases) {
-        yield currentPage.tagAttributeBases.map((t) => {
+        const array = currentPage.tagAttributeBases.map((t) => {
           return {
             ...t,
-            repository: currentPage.repository
+            repositoryName: currentPage.repository
           };
+        });
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
         });
       }
     }
@@ -437,11 +442,15 @@ export class RegistryArtifactImpl {
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.tagAttributeBases) {
-        yield currentPage.tagAttributeBases.map((t) => {
+        const array = currentPage.tagAttributeBases.map((t) => {
           return {
             ...t,
-            repository: currentPage.repository
+            repositoryName: currentPage.repository
           };
+        });
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
         });
       }
     }

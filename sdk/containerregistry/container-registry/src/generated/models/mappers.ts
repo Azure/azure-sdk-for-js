@@ -346,7 +346,7 @@ export const ArtifactTagProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ArtifactTagProperties",
     modelProperties: {
-      repository: {
+      repositoryName: {
         serializedName: "imageName",
         required: true,
         readOnly: true,

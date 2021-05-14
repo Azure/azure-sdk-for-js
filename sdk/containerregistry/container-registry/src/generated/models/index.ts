@@ -156,7 +156,7 @@ export interface ArtifactTagProperties {
    * Image name
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly repository: string;
+  readonly repositoryName: string;
   /**
    * Tag name
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -754,8 +754,8 @@ export const enum KnownArtifactOperatingSystem {
   Dragonfly = "dragonfly",
   FreeBsd = "freebsd",
   Illumos = "illumos",
-  IOs = "ios",
-  Js = "js",
+  IOS = "ios",
+  JS = "js",
   Linux = "linux",
   NetBsd = "netbsd",
   OpenBsd = "openbsd",

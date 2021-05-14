@@ -159,3 +159,33 @@ export interface DeleteRepositoryResult {
    */
   readonly deletedTags: string[];
 }
+
+/**
+ * Contains response data for the listRepositoryNames operation.
+ */
+export interface RepositoryPageResponse extends Array<string> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
+}
+
+/**
+ * Contains response data for the listManifests operation.
+ */
+export interface ManifestPageResponse extends Array<ArtifactManifestProperties> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
+}
+
+/**
+ * Contains response data for the listTags operation.
+ */
+export interface TagPageResponse extends Array<ArtifactTagProperties> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
+}

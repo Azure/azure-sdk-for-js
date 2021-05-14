@@ -16,7 +16,8 @@ import {
   DeleteRepositoryResult,
   ManifestOrderBy,
   ArtifactManifestProperties,
-  RepositoryProperties
+  RepositoryProperties,
+  ManifestPageResponse
 } from "./model";
 import { RegistryArtifact, RegistryArtifactImpl } from "./registryArtifact";
 import { toArtifactManifestProperties, toServiceManifestOrderBy } from "./transformations";
@@ -228,7 +229,7 @@ export class ContainerRepositoryImpl {
    */
   public listManifests(
     options: ListManifestsOptions = {}
-  ): PagedAsyncIterableIterator<ArtifactManifestProperties> {
+  ): PagedAsyncIterableIterator<ArtifactManifestProperties, ManifestPageResponse> {
     const iter = this.listManifestsItems(options);
 
     return {
@@ -253,7 +254,7 @@ export class ContainerRepositoryImpl {
   private async *listManifestsPage(
     continuationState: PageSettings,
     options: ListManifestsOptions = {}
-  ): AsyncIterableIterator<ArtifactManifestProperties[]> {
+  ): AsyncIterableIterator<ManifestPageResponse> {
     const orderby = toServiceManifestOrderBy(options.orderBy);
     if (!continuationState.continuationToken) {
       const optionsComplete = {
@@ -267,7 +268,11 @@ export class ContainerRepositoryImpl {
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.manifests) {
-        yield currentPage.manifests.map((t) => toArtifactManifestProperties(t, this.name));
+        const array = currentPage.manifests.map((t) => toArtifactManifestProperties(t, this.name));
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
+        });
       }
     }
     while (continuationState.continuationToken) {
@@ -278,7 +283,11 @@ export class ContainerRepositoryImpl {
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.manifests) {
-        yield currentPage.manifests.map((t) => toArtifactManifestProperties(t, this.name));
+        const array = currentPage.manifests.map((t) => toArtifactManifestProperties(t, this.name));
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
+        });
       }
     }
   }

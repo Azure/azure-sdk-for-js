@@ -29,7 +29,7 @@ export interface ArtifactTagProperties {
     readonly digest: string;
     readonly lastUpdatedOn: Date;
     readonly name: string;
-    readonly repository: string;
+    readonly repositoryName: string;
     readonly writeableProperties: TagWriteableProperties;
 }
 
@@ -40,7 +40,7 @@ export class ContainerRegistryClient {
     deleteRepository(repositoryName: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
     getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact;
     getRepository(repositoryName: string): ContainerRepository;
-    listRepositoryNames(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, string[]>;
+    listRepositoryNames(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, RepositoryPageResponse>;
     readonly loginServer: string;
     readonly name: string;
     readonly registryUrl: string;
@@ -172,6 +172,11 @@ export interface ListTagsOptions extends OperationOptions {
 export type ManifestOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 // @public
+export interface ManifestPageResponse extends Array<ArtifactManifestProperties> {
+    continuationToken?: string;
+}
+
+// @public
 export interface ManifestWriteableProperties {
     canDelete?: boolean;
     canList?: boolean;
@@ -192,6 +197,11 @@ export interface RegistryArtifact {
     setManifestProperties(options?: SetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
     setTagProperties(tag: string, options: SetTagPropertiesOptions): Promise<ArtifactTagProperties>;
     readonly tagOrDigest: string;
+}
+
+// @public
+export interface RepositoryPageResponse extends Array<string> {
+    continuationToken?: string;
 }
 
 // @public
@@ -224,6 +234,11 @@ export type SetTagPropertiesOptions = TagWriteableProperties & OperationOptions;
 
 // @public
 export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+
+// @public
+export interface TagPageResponse extends Array<ArtifactTagProperties> {
+    continuationToken?: string;
+}
 
 // @public
 export interface TagWriteableProperties {

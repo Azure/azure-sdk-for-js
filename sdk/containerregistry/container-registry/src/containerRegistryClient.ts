@@ -18,7 +18,11 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
-import { ContainerRegistryClientOptions, DeleteRepositoryResult } from "./model";
+import {
+  ContainerRegistryClientOptions,
+  DeleteRepositoryResult,
+  RepositoryPageResponse
+} from "./model";
 import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 import {
@@ -214,7 +218,7 @@ export class ContainerRegistryClient {
    */
   public listRepositoryNames(
     options: ListRepositoriesOptions = {}
-  ): PagedAsyncIterableIterator<string, string[]> {
+  ): PagedAsyncIterableIterator<string, RepositoryPageResponse> {
     const iter = this.listRepositoryItems(options);
 
     return {
@@ -239,7 +243,7 @@ export class ContainerRegistryClient {
   private async *listRepositoriesPage(
     continuationState: PageSettings,
     options: ListRepositoriesOptions = {}
-  ): AsyncIterableIterator<string[]> {
+  ): AsyncIterableIterator<RepositoryPageResponse> {
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
@@ -247,7 +251,11 @@ export class ContainerRegistryClient {
       };
       const currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
       if (currentPage.repositories) {
-        yield currentPage.repositories;
+        const array = currentPage.repositories;
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
+        });
       }
       continuationState.continuationToken = extractNextLink(currentPage.link);
     }
@@ -257,7 +265,11 @@ export class ContainerRegistryClient {
         options
       );
       if (currentPage.repositories) {
-        yield currentPage.repositories;
+        const array = currentPage.repositories;
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
+        });
       }
       continuationState.continuationToken = extractNextLink(currentPage.link);
     }
