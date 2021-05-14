@@ -73,7 +73,7 @@ export async function endSessionInternal(
   });
 
   try {
-    operations.stopSession(accountId, sessionId, updatedOptions);
+    await operations.stopSession(accountId, sessionId, updatedOptions);
   } catch (e) {
     span.setStatus({
       code: SpanStatusCode.ERROR,

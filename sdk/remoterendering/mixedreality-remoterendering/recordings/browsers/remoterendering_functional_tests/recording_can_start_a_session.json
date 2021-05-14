@@ -13,554 +13,412 @@
     "cache-control": "no-store,no-cache",
     "content-length": "1219",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:02:51 GMT",
-    "ms-cv": "Fz3oQvY9Lk+52P+WBV59Fg.0",
+    "date": "Fri, 14 May 2021 13:59:29 GMT",
+    "ms-cv": "WbRtn67E4EmuZcAofMWIHA.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "PUT",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": "{\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\"}",
    "status": 201,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:02:51 GMT",
-    "ms-cv": "obtl9RxeVECCgSk5gyZMsA.0",
+    "date": "Fri, 14 May 2021 13:59:29 GMT",
+    "ms-cv": "yDwn9pKWXkiJpExBySyVPQ.0",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:02:53 GMT",
-    "ms-cv": "yywgdJuZfkqgeqb0Q6e2vg.0",
+    "date": "Fri, 14 May 2021 13:59:29 GMT",
+    "ms-cv": "KOF/Pr6vE0679EMrnk/oWg.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:02:53 GMT",
-    "ms-cv": "3EShG05PFkGsuGglEQsVuQ.0",
+    "date": "Fri, 14 May 2021 13:59:29 GMT",
+    "ms-cv": "n15ENwVpv0aF3EGkvorA0g.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:02:53 GMT",
-    "ms-cv": "55Tdtkq2wUiWa4p16UTdAQ.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "PATCH",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": "{\"maxLeaseTimeMinutes\":5}",
-   "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:02:54 GMT",
-    "ms-cv": "9UrMJvu9p0mPqh9CUyxgoA.0",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:02:54 GMT",
-    "ms-cv": "ggvwuEZE5UGKjeQlWF0iBw.0",
+    "date": "Fri, 14 May 2021 13:59:39 GMT",
+    "ms-cv": "tehZfMghokCksjSaCS7DnA.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:03:04 GMT",
-    "ms-cv": "vZ/xrA/rjU+SExGNlZYobw.0",
+    "date": "Fri, 14 May 2021 13:59:50 GMT",
+    "ms-cv": "mzPZr19C0UW1SI8BuzMF2A.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:03:14 GMT",
-    "ms-cv": "1dTNA8t9YkGPZc1bLInkYw.0",
+    "date": "Fri, 14 May 2021 14:00:00 GMT",
+    "ms-cv": "KGG39w6XS0ubnVUbE5110Q.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:03:24 GMT",
-    "ms-cv": "kuUH6hSx60ur3OqtPeipow.0",
+    "date": "Fri, 14 May 2021 14:00:10 GMT",
+    "ms-cv": "/jW5mVZZl0q0X3n+sG9ztA.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:03:34 GMT",
-    "ms-cv": "92Tfm6UegUejmDrW1YDG4g.0",
+    "date": "Fri, 14 May 2021 14:00:20 GMT",
+    "ms-cv": "IJ/rMahdAUWt4wXNpRsBJw.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:03:44 GMT",
-    "ms-cv": "sXTqOeh+W0SA/jxbh6ZDLQ.0",
+    "date": "Fri, 14 May 2021 14:00:30 GMT",
+    "ms-cv": "a71g9jlWLESGzZoUZ6FYmw.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:03:55 GMT",
-    "ms-cv": "VX7+Tb623ECvCSX0no2eDQ.0",
+    "date": "Fri, 14 May 2021 14:00:40 GMT",
+    "ms-cv": "nXvqNqgCCEuMjWEIBHoozA.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:04:05 GMT",
-    "ms-cv": "mSZkTQKg1E6AOVwVSGqygg.0",
+    "date": "Fri, 14 May 2021 14:00:51 GMT",
+    "ms-cv": "23Hr/hvgYU+9z87V/g/GEg.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:04:15 GMT",
-    "ms-cv": "JQZmAZoUXE6dz/BQrXNVjw.0",
+    "date": "Fri, 14 May 2021 14:01:01 GMT",
+    "ms-cv": "I3qXUdthLUGJVjS47CSdCA.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:04:25 GMT",
-    "ms-cv": "Iho1ghUHgUKiG4yKZdbu+Q.0",
+    "date": "Fri, 14 May 2021 14:01:11 GMT",
+    "ms-cv": "OE3USjAQyEmB3hoy4SVCdw.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:04:35 GMT",
-    "ms-cv": "2tshTTBGpEWrRn4bkEFiDw.0",
+    "date": "Fri, 14 May 2021 14:01:21 GMT",
+    "ms-cv": "dR30NTU6fUeLhrLRvt3Uog.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:04:45 GMT",
-    "ms-cv": "WjbEgopdlUuCpGRaSlFTQQ.0",
+    "date": "Fri, 14 May 2021 14:01:31 GMT",
+    "ms-cv": "dR8fc7z0jEmyFDXPi/MoMA.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:04:56 GMT",
-    "ms-cv": "IcuEkLeo3keNE52d2K2jtQ.0",
+    "date": "Fri, 14 May 2021 14:01:41 GMT",
+    "ms-cv": "IsIEYem4Yk2lBEyw/nm0bA.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:05:06 GMT",
-    "ms-cv": "roZGogfmxECvI9ip57EOPA.0",
+    "date": "Fri, 14 May 2021 14:01:52 GMT",
+    "ms-cv": "a3BEad+7zk+b4YHfTZFlVQ.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "172",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:05:16 GMT",
-    "ms-cv": "ptZ+3JV58EyieeLOyJpvFg.0",
+    "date": "Fri, 14 May 2021 14:02:02 GMT",
+    "ms-cv": "OnFay9mxBUmRBHWbd83Y+w.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
    "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:05:26 GMT",
-    "ms-cv": "G46c4IBiM0q3gR41Ofnceg.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:05:36 GMT",
-    "ms-cv": "EX1zvhhm2EyJgAyXvwtoeA.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:05:46 GMT",
-    "ms-cv": "pkfLZ0kHDkiKEyhKECIhkQ.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:05:56 GMT",
-    "ms-cv": "NGGK3T9CaU2FiSTcOTmLXg.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:06:07 GMT",
-    "ms-cv": "8DRpTLPlgUmzzynj7HRUxg.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId161979137193502926",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"arrInspectorPort\":61369,\"handshakePort\":52318,\"elapsedTimeMinutes\":0,\"hostname\":\"1603318822-94b654a4-ac98-49b6-a4b7-d362aac80e82.remoterendering.vm.eastus2.mixedreality.azure.com\",\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Ready\",\"teraflops\":8.1}",
+   "response": "{\"id\":\"sessionId162100076811003434\",\"creationTime\":\"2021-05-14T13:59:30.3466049+00:00\",\"arrInspectorPort\":60045,\"handshakePort\":57176,\"elapsedTimeMinutes\":0,\"hostname\":\"1362320837-7a1040ad-6476-44f8-aab8-a4cdc9be9b62.remoterendering.vm.eastus2.mixedreality.azure.com\",\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Ready\",\"teraflops\":8.1}",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
     "cache-control": "no-store,no-cache",
     "content-length": "343",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:06:17 GMT",
-    "ms-cv": "rQU+O2RWsESmGWeka5LeHA.0",
+    "date": "Fri, 14 May 2021 14:02:14 GMT",
+    "ms-cv": "wQY7wBlNOUecRAo7BSeXIw.0",
     "pragma": "no-cache",
     "x-content-type-options": "nosniff"
    }
   },
   {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions",
+   "method": "POST",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100076811003434/:stop",
    "query": {
     "api-version": "2021-01-01"
    },
    "requestBody": null,
-   "status": 200,
-   "response": "{\"sessions\":[{\"id\":\"sessionId161979137193502926\",\"creationTime\":\"2021-04-30T14:02:52.3663544+00:00\",\"arrInspectorPort\":61369,\"handshakePort\":52318,\"elapsedTimeMinutes\":0,\"hostname\":\"1603318822-94b654a4-ac98-49b6-a4b7-d362aac80e82.remoterendering.vm.eastus2.mixedreality.azure.com\",\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Ready\",\"teraflops\":8.1}]}",
+   "status": 204,
+   "response": "",
    "responseHeaders": {
     "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "358",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 30 Apr 2021 14:06:17 GMT",
-    "ms-cv": "ItmvW1Gwx0SDD74OmVT6LQ.0",
-    "pragma": "no-cache",
+    "date": "Fri, 14 May 2021 14:02:14 GMT",
+    "ms-cv": "FLDnKwi8LkuElnVAX7foRg.0",
     "x-content-type-options": "nosniff"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "sessionId": "sessionId161979137193502926"
+   "sessionId": "sessionId162100076811003434"
   },
   "newDate": {}
  },
- "hash": "554c161ce53f4f7869f364841849d175"
+ "hash": "a01d083474b8e9059226f2d7f6d1ec83"
 }

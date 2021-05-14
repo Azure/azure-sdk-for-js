@@ -382,7 +382,7 @@ export class RemoteRenderingClient {
     conversionId: string,
     options?: GetConversionOptions
   ): Promise<AssetConversion> {
-    return getConversionInternal(
+    return await getConversionInternal(
       this.accountId,
       this.operations,
       conversionId,
@@ -548,7 +548,7 @@ export class RemoteRenderingClient {
     sessionId: string,
     options?: GetSessionOptions
   ): Promise<RenderingSession> {
-    return getSessionInternal(
+    return await getSessionInternal(
       this.accountId,
       this.operations,
       sessionId,
@@ -602,7 +602,7 @@ export class RemoteRenderingClient {
    * @param options The options parameters.
    */
   public async endSession(sessionId: string, options?: EndSessionOptions): Promise<void> {
-    return endSessionInternal(
+    return await endSessionInternal(
       this.accountId,
       this.operations,
       sessionId,
