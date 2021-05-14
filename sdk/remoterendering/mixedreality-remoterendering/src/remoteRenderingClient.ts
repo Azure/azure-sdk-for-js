@@ -19,10 +19,10 @@ import {
 
 import { RemoteRenderingClientOptions } from "./options";
 
-import { constructAuthenticationEndpointFromDomain } from "../authentication/authenticationEndpoint";
-import { MixedRealityTokenCredential } from "../authentication/mixedRealityTokenCredential";
-import { StaticAccessTokenCredential } from "../authentication/staticAccessTokenCredential";
-import { MixedRealityAccountKeyCredential } from "../authentication/mixedRealityAccountKeyCredential";
+import { constructAuthenticationEndpointFromDomain } from "./authentication/authenticationEndpoint";
+import { MixedRealityTokenCredential } from "./authentication/mixedRealityTokenCredential";
+import { StaticAccessTokenCredential } from "./authentication/staticAccessTokenCredential";
+import { MixedRealityAccountKeyCredential } from "./authentication/mixedRealityAccountKeyCredential";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
