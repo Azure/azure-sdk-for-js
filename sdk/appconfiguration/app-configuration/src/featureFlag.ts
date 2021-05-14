@@ -50,19 +50,12 @@ export const FeatureFlagHelper = {
     setting: ConfigurationSetting
   ): ConfigurationSetting<FeatureFlagValue> => {
     if (!isFeatureFlag(setting)) {
-      throw new TypeError(`Setting ${setting.key} is not a valid feature flag`);
-    }
-    let jsonFeatureFlagValue: JsonFeatureFlagValue;
-    try {
-      if (!setting.value || typeof setting.value !== "string") {
-        throw new TypeError(`featureFlag has an unexpected value - ${setting.value}`);
-      }
-      jsonFeatureFlagValue = JSON.parse(setting.value) as JsonFeatureFlagValue;
-    } catch (err) {
       throw new TypeError(
-        `Unable to parse (JSON.parse) the value of the featureFlag - ${setting.value}`
+        `Setting with key ${setting.key} is not a valid feature flag, make sure to have the correct content-type and a valid non-null value.`
       );
     }
+
+    const jsonFeatureFlagValue = JSON.parse(setting.value) as JsonFeatureFlagValue;
 
     let key = setting.key;
     if (typeof setting.key === "string" && !setting.key.startsWith(featureFlagPrefix)) {
@@ -119,6 +112,10 @@ export const parseFeatureFlag = FeatureFlagHelper.fromConfigurationSetting;
  *
  * [Checks if the content type is featureFlagContentType `"application/vnd.microsoft.appconfig.ff+json;charset=utf-8"`]
  */
-export const isFeatureFlag = (setting: ConfigurationSetting): boolean => {
-  return setting && setting.contentType === featureFlagContentType;
-};
+export function isFeatureFlag(
+  setting: ConfigurationSetting
+): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">> {
+  return (
+    setting && setting.contentType === featureFlagContentType && typeof setting.value === "string"
+  );
+}

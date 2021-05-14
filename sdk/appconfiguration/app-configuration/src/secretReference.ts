@@ -28,19 +28,12 @@ export const SecretReferenceHelper = {
     setting: ConfigurationSetting
   ): ConfigurationSetting<SecretReferenceValue> => {
     if (!isSecretReference(setting)) {
-      throw new TypeError(`Setting ${setting.key} is not a valid secret reference`);
-    }
-    let jsonSecretReferenceValue: JsonSecretReferenceValue;
-    try {
-      if (!setting.value || typeof setting.value !== "string") {
-        throw new TypeError(`secretReference has an unexpected value - ${setting.value}`);
-      }
-      jsonSecretReferenceValue = JSON.parse(setting.value) as JsonSecretReferenceValue;
-    } catch (err) {
       throw new TypeError(
-        `Unable to parse (JSON.parse) the value of the secretReference - ${setting.value}`
+        `Setting with key ${setting.key} is not a valid secret reference, make sure to have the correct content-type and a valid non-null value.`
       );
     }
+
+    const jsonSecretReferenceValue = JSON.parse(setting.value) as JsonSecretReferenceValue;
 
     const featureflag: ConfigurationSetting<SecretReferenceValue> = {
       ...setting,
@@ -80,6 +73,12 @@ export const parseSecretReference = SecretReferenceHelper.fromConfigurationSetti
  *
  * [Checks if the content type is secretReferenceContentType `"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8"`]
  */
-export const isSecretReference = (setting: ConfigurationSetting): boolean => {
-  return setting && setting.contentType === secretReferenceContentType;
-};
+export function isSecretReference(
+  setting: ConfigurationSetting
+): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">> {
+  return (
+    setting &&
+    setting.contentType === secretReferenceContentType &&
+    typeof setting.value === "string"
+  );
+}
