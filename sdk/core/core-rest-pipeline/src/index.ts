@@ -77,3 +77,4 @@ export {
   AuthorizeRequestOnChallengeOptions
 } from "./policies/bearerTokenChallengeAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
+export { AccessTokenRefresher, createTokenCycler } from "./util/tokenCycler";

@@ -5,6 +5,8 @@ import { GetTokenOptions } from "@azure/core-auth";
 import {
   AuthorizeRequestOnChallengeOptions,
   ChallengeCallbacks,
+  AccessTokenRefresher,
+  createTokenCycler,
   AuthorizeRequestOptions
 } from "@azure/core-rest-pipeline";
 import { parseWWWAuthenticate } from "./wwwAuthenticateParser";
@@ -12,7 +14,6 @@ import {
   ContainerRegistryGetTokenOptions,
   ContainerRegistryRefreshTokenCredential
 } from "./containerRegistryTokenCredential";
-import { AccessTokenRefresher, createTokenCycler } from "./tokenCycler";
 
 const fiveMinutesInMs = 5 * 60 * 1000;
 

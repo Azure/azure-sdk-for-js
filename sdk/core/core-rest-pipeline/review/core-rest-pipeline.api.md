@@ -12,6 +12,16 @@ import { OperationTracingOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AccessTokenRefresher<T extends GetTokenOptions> {
+    // (undocumented)
+    cachedToken: AccessToken | null;
+    // Warning: (ae-forgotten-export) The symbol "AccessTokenGetter" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getToken: AccessTokenGetter<T>;
+}
+
+// @public
 export interface AddPipelineOptions {
     afterPhase?: PipelinePhase;
     afterPolicies?: string[];
@@ -88,6 +98,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 
 // @public
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
+
+// Warning: (ae-forgotten-export) The symbol "TokenCyclerOptions" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function createTokenCycler<T extends GetTokenOptions>(credential: TokenCredential, tokenCyclerOptions?: Partial<TokenCyclerOptions>): AccessTokenRefresher<T>;
 
 // @public
 export function decompressResponsePolicy(): PipelinePolicy;
