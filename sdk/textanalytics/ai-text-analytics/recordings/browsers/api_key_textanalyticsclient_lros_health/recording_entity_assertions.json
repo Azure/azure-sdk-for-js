@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,47 +10,28 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "ebc76ba6-af3b-426c-b051-7241a49b84fb",
-    "date": "Wed, 28 Apr 2021 21:12:34 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
+    "apim-request-id": "d5d02b4d-c626-4af4-940c-3b7ed9c78596",
+    "date": "Wed, 12 May 2021 19:16:03 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.5/entities/health/jobs/5c78667b-c43e-47c8-ac5f-593f0515bf3a",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "70"
+    "x-envoy-upstream-service-time": "68"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs/5c78667b-c43e-47c8-ac5f-593f0515bf3a",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:35Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"5c78667b-c43e-47c8-ac5f-593f0515bf3a\",\"lastUpdateDateTime\":\"2021-05-12T19:16:03Z\",\"createdDateTime\":\"2021-05-12T19:16:03Z\",\"expirationDateTime\":\"2021-05-13T19:16:03Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "5ed3064e-b306-40a4-ba71-6d1b5c5d2692",
+    "apim-request-id": "b2377275-d5a8-4a9c-88f0-16edeea7fe64",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:34 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:35Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"notStarted\",\"errors\":[]}",
-   "responseHeaders": {
-    "apim-request-id": "b19125b0-7cfb-4af2-b184-10bd3b0e92d9",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:34 GMT",
+    "date": "Wed, 12 May 2021 19:16:03 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -59,36 +40,55 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs/5c78667b-c43e-47c8-ac5f-593f0515bf3a",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:35Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"5c78667b-c43e-47c8-ac5f-593f0515bf3a\",\"lastUpdateDateTime\":\"2021-05-12T19:16:03Z\",\"createdDateTime\":\"2021-05-12T19:16:03Z\",\"expirationDateTime\":\"2021-05-13T19:16:03Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "1f43a697-ba11-4731-ae49-b9b2512fed0d",
+    "apim-request-id": "fd031253-9948-4d6e-82e9-149edaa1d9ac",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:36 GMT",
+    "date": "Wed, 12 May 2021 19:16:03 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "8"
+    "x-envoy-upstream-service-time": "6"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs/5c78667b-c43e-47c8-ac5f-593f0515bf3a",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:35Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"5c78667b-c43e-47c8-ac5f-593f0515bf3a\",\"lastUpdateDateTime\":\"2021-05-12T19:16:03Z\",\"createdDateTime\":\"2021-05-12T19:16:03Z\",\"expirationDateTime\":\"2021-05-13T19:16:03Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "1711fca0-8775-40bc-8903-83287bf52e77",
+    "apim-request-id": "f4a0e17d-2d35-4204-8485-abc5308d3b8f",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:39 GMT",
+    "date": "Wed, 12 May 2021 19:16:05 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs/5c78667b-c43e-47c8-ac5f-593f0515bf3a",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"5c78667b-c43e-47c8-ac5f-593f0515bf3a\",\"lastUpdateDateTime\":\"2021-05-12T19:16:03Z\",\"createdDateTime\":\"2021-05-12T19:16:03Z\",\"expirationDateTime\":\"2021-05-13T19:16:03Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "d70071d9-f19a-4e0a-847d-48aadc837644",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:16:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -97,192 +97,40 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs/5c78667b-c43e-47c8-ac5f-593f0515bf3a",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:35Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"5c78667b-c43e-47c8-ac5f-593f0515bf3a\",\"lastUpdateDateTime\":\"2021-05-12T19:16:09Z\",\"createdDateTime\":\"2021-05-12T19:16:03Z\",\"expirationDateTime\":\"2021-05-13T19:16:03Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"offset\":0,\"length\":4,\"text\":\"Baby\",\"category\":\"Age\",\"confidenceScore\":0.9,\"name\":\"Infant\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0021270\"},{\"dataSource\":\"AOD\",\"id\":\"0000005273\"},{\"dataSource\":\"CCPSS\",\"id\":\"0030805\"},{\"dataSource\":\"CHV\",\"id\":\"0000006675\"},{\"dataSource\":\"DXP\",\"id\":\"U002089\"},{\"dataSource\":\"LCH\",\"id\":\"U002421\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85066022\"},{\"dataSource\":\"LNC\",\"id\":\"LA19747-7\"},{\"dataSource\":\"MDR\",\"id\":\"10021731\"},{\"dataSource\":\"MSH\",\"id\":\"D007223\"},{\"dataSource\":\"NCI\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C27956\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"133931009\"}]},{\"offset\":24,\"length\":10,\"text\":\"Meningitis\",\"category\":\"Diagnosis\",\"confidenceScore\":0.9,\"assertion\":{\"certainty\":\"negativePossible\"},\"name\":\"Meningitis\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0025289\"},{\"dataSource\":\"AOD\",\"id\":\"0000006185\"},{\"dataSource\":\"BI\",\"id\":\"BI00546\"},{\"dataSource\":\"CCPSS\",\"id\":\"1018016\"},{\"dataSource\":\"CCSR_10\",\"id\":\"NVS001\"},{\"dataSource\":\"CHV\",\"id\":\"0000007932\"},{\"dataSource\":\"COSTAR\",\"id\":\"478\"},{\"dataSource\":\"CSP\",\"id\":\"2042-5301\"},{\"dataSource\":\"CST\",\"id\":\"MENINGITIS\"},{\"dataSource\":\"DXP\",\"id\":\"U002543\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0001287\"},{\"dataSource\":\"ICD10\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD9CM\",\"id\":\"322.9\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU048434\"},{\"dataSource\":\"ICPC2P\",\"id\":\"N71002\"},{\"dataSource\":\"LCH\",\"id\":\"U002901\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85083562\"},{\"dataSource\":\"LNC\",\"id\":\"LP20756-0\"},{\"dataSource\":\"MDR\",\"id\":\"10027199\"},{\"dataSource\":\"MEDCIN\",\"id\":\"31192\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"324\"},{\"dataSource\":\"MSH\",\"id\":\"D008581\"},{\"dataSource\":\"NANDA-I\",\"id\":\"02899\"},{\"dataSource\":\"NCI\",\"id\":\"C26828\"},{\"dataSource\":\"NCI_CPTAC\",\"id\":\"C26828\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E11458\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"2389\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000471780\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C26828\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU005994\"},{\"dataSource\":\"PSY\",\"id\":\"30660\"},{\"dataSource\":\"RCD\",\"id\":\"X000H\"},{\"dataSource\":\"SNM\",\"id\":\"M-40000\"},{\"dataSource\":\"SNMI\",\"id\":\"DA-10010\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"7180009\"},{\"dataSource\":\"WHO\",\"id\":\"0955\"}]},{\"offset\":47,\"length\":5,\"text\":\"fever\",\"category\":\"SymptomOrSign\",\"confidenceScore\":0.99,\"name\":\"Fever\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0015967\"},{\"dataSource\":\"AIR\",\"id\":\"FEVER\"},{\"dataSource\":\"AOD\",\"id\":\"0000004396\"},{\"dataSource\":\"BI\",\"id\":\"BI00751\"},{\"dataSource\":\"CCC\",\"id\":\"K25.2\"},{\"dataSource\":\"CCPSS\",\"id\":\"1017166\"},{\"dataSource\":\"CCSR_10\",\"id\":\"SYM002\"},{\"dataSource\":\"CHV\",\"id\":\"0000005010\"},{\"dataSource\":\"COSTAR\",\"id\":\"300\"},{\"dataSource\":\"CPM\",\"id\":\"65287\"},{\"dataSource\":\"CSP\",\"id\":\"2871-4310\"},{\"dataSource\":\"CST\",\"id\":\"FEVER\"},{\"dataSource\":\"DXP\",\"id\":\"U001483\"},{\"dataSource\":\"GO\",\"id\":\"GO:0001660\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0001945\"},{\"dataSource\":\"ICD10\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD9CM\",\"id\":\"780.60\"},{\"dataSource\":\"ICNP\",\"id\":\"10041539\"},{\"dataSource\":\"ICPC\",\"id\":\"A03\"},{\"dataSource\":\"ICPC2EENG\",\"id\":\"A03\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU041751\"},{\"dataSource\":\"ICPC2P\",\"id\":\"A03002\"},{\"dataSource\":\"LCH\",\"id\":\"U001776\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85047994\"},{\"dataSource\":\"LNC\",\"id\":\"MTHU013518\"},{\"dataSource\":\"MDR\",\"id\":\"10005911\"},{\"dataSource\":\"MEDCIN\",\"id\":\"6005\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"511\"},{\"dataSource\":\"MSH\",\"id\":\"D005334\"},{\"dataSource\":\"MTHICD9\",\"id\":\"780.60\"},{\"dataSource\":\"NANDA-I\",\"id\":\"01128\"},{\"dataSource\":\"NCI\",\"id\":\"C3038\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E11102\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"1858\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000450108\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C3038\"},{\"dataSource\":\"NOC\",\"id\":\"070307\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU005439\"},{\"dataSource\":\"OMS\",\"id\":\"50.03\"},{\"dataSource\":\"PCDS\",\"id\":\"PRB_11020.02\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000775882\"},{\"dataSource\":\"PSY\",\"id\":\"23840\"},{\"dataSource\":\"QMR\",\"id\":\"Q0200115\"},{\"dataSource\":\"RCD\",\"id\":\"X76EI\"},{\"dataSource\":\"SNM\",\"id\":\"F-03003\"},{\"dataSource\":\"SNMI\",\"id\":\"F-03003\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"386661006\"},{\"dataSource\":\"WHO\",\"id\":\"0725\"}]},{\"offset\":60,\"length\":6,\"text\":\"mother\",\"category\":\"FamilyRelation\",\"confidenceScore\":0.99,\"name\":\"Mother (person)\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0026591\"},{\"dataSource\":\"AOD\",\"id\":\"0000027173\"},{\"dataSource\":\"CCPSS\",\"id\":\"U000286\"},{\"dataSource\":\"CHV\",\"id\":\"0000008266\"},{\"dataSource\":\"CSP\",\"id\":\"1124-5492\"},{\"dataSource\":\"HL7V3.0\",\"id\":\"MTH\"},{\"dataSource\":\"LCH\",\"id\":\"U003028\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85087526\"},{\"dataSource\":\"LNC\",\"id\":\"LA10417-6\"},{\"dataSource\":\"MSH\",\"id\":\"D009035\"},{\"dataSource\":\"NCI\",\"id\":\"C25189\"},{\"dataSource\":\"NCI_CDISC\",\"id\":\"C25189\"},{\"dataSource\":\"NCI_GDC\",\"id\":\"C25189\"},{\"dataSource\":\"PSY\",\"id\":\"32140\"},{\"dataSource\":\"RCD\",\"id\":\"X78ym\"},{\"dataSource\":\"SNMI\",\"id\":\"S-10120\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"72705000\"}]},{\"offset\":77,\"length\":10,\"text\":\"Penicillin\",\"category\":\"MedicationName\",\"confidenceScore\":0.95,\"assertion\":{\"certainty\":\"neutralPossible\"},\"name\":\"penicillins\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0030842\"},{\"dataSource\":\"AOD\",\"id\":\"0000019206\"},{\"dataSource\":\"ATC\",\"id\":\"J01C\"},{\"dataSource\":\"CCPSS\",\"id\":\"0014106\"},{\"dataSource\":\"CHV\",\"id\":\"0000009423\"},{\"dataSource\":\"CSP\",\"id\":\"0199-8025\"},{\"dataSource\":\"GS\",\"id\":\"4011\"},{\"dataSource\":\"LCH\",\"id\":\"U003521\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85099402\"},{\"dataSource\":\"LNC\",\"id\":\"LP14319-5\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40319\"},{\"dataSource\":\"MMSL\",\"id\":\"d00116\"},{\"dataSource\":\"MSH\",\"id\":\"D010406\"},{\"dataSource\":\"NCI\",\"id\":\"C1500\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0402815\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000045296\"},{\"dataSource\":\"NDDF\",\"id\":\"016121\"},{\"dataSource\":\"PSY\",\"id\":\"37190\"},{\"dataSource\":\"RCD\",\"id\":\"x009C\"},{\"dataSource\":\"SNM\",\"id\":\"E-7260\"},{\"dataSource\":\"SNMI\",\"id\":\"C-54000\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"764146007\"},{\"dataSource\":\"VANDF\",\"id\":\"4019880\"}]},{\"offset\":96,\"length\":4,\"text\":\"baby\",\"category\":\"Age\",\"confidenceScore\":0.96,\"name\":\"Infant\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0021270\"},{\"dataSource\":\"AOD\",\"id\":\"0000005273\"},{\"dataSource\":\"CCPSS\",\"id\":\"0030805\"},{\"dataSource\":\"CHV\",\"id\":\"0000006675\"},{\"dataSource\":\"DXP\",\"id\":\"U002089\"},{\"dataSource\":\"LCH\",\"id\":\"U002421\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85066022\"},{\"dataSource\":\"LNC\",\"id\":\"LA19747-7\"},{\"dataSource\":\"MDR\",\"id\":\"10021731\"},{\"dataSource\":\"MSH\",\"id\":\"D007223\"},{\"dataSource\":\"NCI\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C27956\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"133931009\"}]}],\"relations\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-03-01\"}}",
    "responseHeaders": {
-    "apim-request-id": "4f07499d-2a1e-44ea-808a-99d7582a9ff7",
+    "apim-request-id": "dfa27a00-5b99-472a-96bc-c93a2ad60c15",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:41 GMT",
+    "date": "Wed, 12 May 2021 19:16:09 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5"
+    "x-envoy-upstream-service-time": "35"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs/5c78667b-c43e-47c8-ac5f-593f0515bf3a",
    "query": {
     "$top": "20"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:35Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"5c78667b-c43e-47c8-ac5f-593f0515bf3a\",\"lastUpdateDateTime\":\"2021-05-12T19:16:09Z\",\"createdDateTime\":\"2021-05-12T19:16:03Z\",\"expirationDateTime\":\"2021-05-13T19:16:03Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"offset\":0,\"length\":4,\"text\":\"Baby\",\"category\":\"Age\",\"confidenceScore\":0.9,\"name\":\"Infant\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0021270\"},{\"dataSource\":\"AOD\",\"id\":\"0000005273\"},{\"dataSource\":\"CCPSS\",\"id\":\"0030805\"},{\"dataSource\":\"CHV\",\"id\":\"0000006675\"},{\"dataSource\":\"DXP\",\"id\":\"U002089\"},{\"dataSource\":\"LCH\",\"id\":\"U002421\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85066022\"},{\"dataSource\":\"LNC\",\"id\":\"LA19747-7\"},{\"dataSource\":\"MDR\",\"id\":\"10021731\"},{\"dataSource\":\"MSH\",\"id\":\"D007223\"},{\"dataSource\":\"NCI\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C27956\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"133931009\"}]},{\"offset\":24,\"length\":10,\"text\":\"Meningitis\",\"category\":\"Diagnosis\",\"confidenceScore\":0.9,\"assertion\":{\"certainty\":\"negativePossible\"},\"name\":\"Meningitis\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0025289\"},{\"dataSource\":\"AOD\",\"id\":\"0000006185\"},{\"dataSource\":\"BI\",\"id\":\"BI00546\"},{\"dataSource\":\"CCPSS\",\"id\":\"1018016\"},{\"dataSource\":\"CCSR_10\",\"id\":\"NVS001\"},{\"dataSource\":\"CHV\",\"id\":\"0000007932\"},{\"dataSource\":\"COSTAR\",\"id\":\"478\"},{\"dataSource\":\"CSP\",\"id\":\"2042-5301\"},{\"dataSource\":\"CST\",\"id\":\"MENINGITIS\"},{\"dataSource\":\"DXP\",\"id\":\"U002543\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0001287\"},{\"dataSource\":\"ICD10\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD9CM\",\"id\":\"322.9\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU048434\"},{\"dataSource\":\"ICPC2P\",\"id\":\"N71002\"},{\"dataSource\":\"LCH\",\"id\":\"U002901\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85083562\"},{\"dataSource\":\"LNC\",\"id\":\"LP20756-0\"},{\"dataSource\":\"MDR\",\"id\":\"10027199\"},{\"dataSource\":\"MEDCIN\",\"id\":\"31192\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"324\"},{\"dataSource\":\"MSH\",\"id\":\"D008581\"},{\"dataSource\":\"NANDA-I\",\"id\":\"02899\"},{\"dataSource\":\"NCI\",\"id\":\"C26828\"},{\"dataSource\":\"NCI_CPTAC\",\"id\":\"C26828\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E11458\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"2389\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000471780\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C26828\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU005994\"},{\"dataSource\":\"PSY\",\"id\":\"30660\"},{\"dataSource\":\"RCD\",\"id\":\"X000H\"},{\"dataSource\":\"SNM\",\"id\":\"M-40000\"},{\"dataSource\":\"SNMI\",\"id\":\"DA-10010\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"7180009\"},{\"dataSource\":\"WHO\",\"id\":\"0955\"}]},{\"offset\":47,\"length\":5,\"text\":\"fever\",\"category\":\"SymptomOrSign\",\"confidenceScore\":0.99,\"name\":\"Fever\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0015967\"},{\"dataSource\":\"AIR\",\"id\":\"FEVER\"},{\"dataSource\":\"AOD\",\"id\":\"0000004396\"},{\"dataSource\":\"BI\",\"id\":\"BI00751\"},{\"dataSource\":\"CCC\",\"id\":\"K25.2\"},{\"dataSource\":\"CCPSS\",\"id\":\"1017166\"},{\"dataSource\":\"CCSR_10\",\"id\":\"SYM002\"},{\"dataSource\":\"CHV\",\"id\":\"0000005010\"},{\"dataSource\":\"COSTAR\",\"id\":\"300\"},{\"dataSource\":\"CPM\",\"id\":\"65287\"},{\"dataSource\":\"CSP\",\"id\":\"2871-4310\"},{\"dataSource\":\"CST\",\"id\":\"FEVER\"},{\"dataSource\":\"DXP\",\"id\":\"U001483\"},{\"dataSource\":\"GO\",\"id\":\"GO:0001660\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0001945\"},{\"dataSource\":\"ICD10\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD9CM\",\"id\":\"780.60\"},{\"dataSource\":\"ICNP\",\"id\":\"10041539\"},{\"dataSource\":\"ICPC\",\"id\":\"A03\"},{\"dataSource\":\"ICPC2EENG\",\"id\":\"A03\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU041751\"},{\"dataSource\":\"ICPC2P\",\"id\":\"A03002\"},{\"dataSource\":\"LCH\",\"id\":\"U001776\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85047994\"},{\"dataSource\":\"LNC\",\"id\":\"MTHU013518\"},{\"dataSource\":\"MDR\",\"id\":\"10005911\"},{\"dataSource\":\"MEDCIN\",\"id\":\"6005\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"511\"},{\"dataSource\":\"MSH\",\"id\":\"D005334\"},{\"dataSource\":\"MTHICD9\",\"id\":\"780.60\"},{\"dataSource\":\"NANDA-I\",\"id\":\"01128\"},{\"dataSource\":\"NCI\",\"id\":\"C3038\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E11102\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"1858\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000450108\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C3038\"},{\"dataSource\":\"NOC\",\"id\":\"070307\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU005439\"},{\"dataSource\":\"OMS\",\"id\":\"50.03\"},{\"dataSource\":\"PCDS\",\"id\":\"PRB_11020.02\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000775882\"},{\"dataSource\":\"PSY\",\"id\":\"23840\"},{\"dataSource\":\"QMR\",\"id\":\"Q0200115\"},{\"dataSource\":\"RCD\",\"id\":\"X76EI\"},{\"dataSource\":\"SNM\",\"id\":\"F-03003\"},{\"dataSource\":\"SNMI\",\"id\":\"F-03003\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"386661006\"},{\"dataSource\":\"WHO\",\"id\":\"0725\"}]},{\"offset\":60,\"length\":6,\"text\":\"mother\",\"category\":\"FamilyRelation\",\"confidenceScore\":0.99,\"name\":\"Mother (person)\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0026591\"},{\"dataSource\":\"AOD\",\"id\":\"0000027173\"},{\"dataSource\":\"CCPSS\",\"id\":\"U000286\"},{\"dataSource\":\"CHV\",\"id\":\"0000008266\"},{\"dataSource\":\"CSP\",\"id\":\"1124-5492\"},{\"dataSource\":\"HL7V3.0\",\"id\":\"MTH\"},{\"dataSource\":\"LCH\",\"id\":\"U003028\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85087526\"},{\"dataSource\":\"LNC\",\"id\":\"LA10417-6\"},{\"dataSource\":\"MSH\",\"id\":\"D009035\"},{\"dataSource\":\"NCI\",\"id\":\"C25189\"},{\"dataSource\":\"NCI_CDISC\",\"id\":\"C25189\"},{\"dataSource\":\"NCI_GDC\",\"id\":\"C25189\"},{\"dataSource\":\"PSY\",\"id\":\"32140\"},{\"dataSource\":\"RCD\",\"id\":\"X78ym\"},{\"dataSource\":\"SNMI\",\"id\":\"S-10120\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"72705000\"}]},{\"offset\":77,\"length\":10,\"text\":\"Penicillin\",\"category\":\"MedicationName\",\"confidenceScore\":0.95,\"assertion\":{\"certainty\":\"neutralPossible\"},\"name\":\"penicillins\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0030842\"},{\"dataSource\":\"AOD\",\"id\":\"0000019206\"},{\"dataSource\":\"ATC\",\"id\":\"J01C\"},{\"dataSource\":\"CCPSS\",\"id\":\"0014106\"},{\"dataSource\":\"CHV\",\"id\":\"0000009423\"},{\"dataSource\":\"CSP\",\"id\":\"0199-8025\"},{\"dataSource\":\"GS\",\"id\":\"4011\"},{\"dataSource\":\"LCH\",\"id\":\"U003521\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85099402\"},{\"dataSource\":\"LNC\",\"id\":\"LP14319-5\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40319\"},{\"dataSource\":\"MMSL\",\"id\":\"d00116\"},{\"dataSource\":\"MSH\",\"id\":\"D010406\"},{\"dataSource\":\"NCI\",\"id\":\"C1500\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0402815\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000045296\"},{\"dataSource\":\"NDDF\",\"id\":\"016121\"},{\"dataSource\":\"PSY\",\"id\":\"37190\"},{\"dataSource\":\"RCD\",\"id\":\"x009C\"},{\"dataSource\":\"SNM\",\"id\":\"E-7260\"},{\"dataSource\":\"SNMI\",\"id\":\"C-54000\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"764146007\"},{\"dataSource\":\"VANDF\",\"id\":\"4019880\"}]},{\"offset\":96,\"length\":4,\"text\":\"baby\",\"category\":\"Age\",\"confidenceScore\":0.96,\"name\":\"Infant\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0021270\"},{\"dataSource\":\"AOD\",\"id\":\"0000005273\"},{\"dataSource\":\"CCPSS\",\"id\":\"0030805\"},{\"dataSource\":\"CHV\",\"id\":\"0000006675\"},{\"dataSource\":\"DXP\",\"id\":\"U002089\"},{\"dataSource\":\"LCH\",\"id\":\"U002421\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85066022\"},{\"dataSource\":\"LNC\",\"id\":\"LA19747-7\"},{\"dataSource\":\"MDR\",\"id\":\"10021731\"},{\"dataSource\":\"MSH\",\"id\":\"D007223\"},{\"dataSource\":\"NCI\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C27956\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"133931009\"}]}],\"relations\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-03-01\"}}",
    "responseHeaders": {
-    "apim-request-id": "76e6cb07-ce4c-49fb-87f4-9a8e1f87f862",
+    "apim-request-id": "b4c12aca-e39c-4d5d-b1b4-47382f4c44f6",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:43 GMT",
+    "date": "Wed, 12 May 2021 19:16:09 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:35Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"notStarted\",\"errors\":[]}",
-   "responseHeaders": {
-    "apim-request-id": "19528056-0e4e-4e2d-bdd0-c144e7048615",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:45 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:46Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"running\",\"errors\":[]}",
-   "responseHeaders": {
-    "apim-request-id": "b362f424-87ab-4d40-aabb-d3743f2604e4",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:47 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:46Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"running\",\"errors\":[]}",
-   "responseHeaders": {
-    "apim-request-id": "629fd8d0-a617-4d81-b8ae-7d2ae1983af2",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:49 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:46Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"running\",\"errors\":[]}",
-   "responseHeaders": {
-    "apim-request-id": "61bc8b01-5678-40e0-b301-b61c66d5429c",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:51 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:46Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"running\",\"errors\":[]}",
-   "responseHeaders": {
-    "apim-request-id": "3ebcc8ce-2a41-4cb3-9452-46244c5b1e31",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:53 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "8"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:46Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"running\",\"errors\":[]}",
-   "responseHeaders": {
-    "apim-request-id": "55bbd72b-db0a-4fa7-8124-916da164e556",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:55 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:56Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"offset\":0,\"length\":4,\"text\":\"Baby\",\"category\":\"Age\",\"confidenceScore\":0.9,\"name\":\"Infant\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0021270\"},{\"dataSource\":\"AOD\",\"id\":\"0000005273\"},{\"dataSource\":\"CCPSS\",\"id\":\"0030805\"},{\"dataSource\":\"CHV\",\"id\":\"0000006675\"},{\"dataSource\":\"DXP\",\"id\":\"U002089\"},{\"dataSource\":\"LCH\",\"id\":\"U002421\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85066022\"},{\"dataSource\":\"LNC\",\"id\":\"LA19747-7\"},{\"dataSource\":\"MDR\",\"id\":\"10021731\"},{\"dataSource\":\"MSH\",\"id\":\"D007223\"},{\"dataSource\":\"NCI\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C27956\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"133931009\"}]},{\"offset\":24,\"length\":10,\"text\":\"Meningitis\",\"category\":\"Diagnosis\",\"confidenceScore\":0.9,\"assertion\":{\"certainty\":\"negativePossible\"},\"name\":\"Meningitis\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0025289\"},{\"dataSource\":\"AOD\",\"id\":\"0000006185\"},{\"dataSource\":\"BI\",\"id\":\"BI00546\"},{\"dataSource\":\"CCPSS\",\"id\":\"1018016\"},{\"dataSource\":\"CCSR_10\",\"id\":\"NVS001\"},{\"dataSource\":\"CHV\",\"id\":\"0000007932\"},{\"dataSource\":\"COSTAR\",\"id\":\"478\"},{\"dataSource\":\"CSP\",\"id\":\"2042-5301\"},{\"dataSource\":\"CST\",\"id\":\"MENINGITIS\"},{\"dataSource\":\"DXP\",\"id\":\"U002543\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0001287\"},{\"dataSource\":\"ICD10\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD9CM\",\"id\":\"322.9\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU048434\"},{\"dataSource\":\"ICPC2P\",\"id\":\"N71002\"},{\"dataSource\":\"LCH\",\"id\":\"U002901\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85083562\"},{\"dataSource\":\"LNC\",\"id\":\"LP20756-0\"},{\"dataSource\":\"MDR\",\"id\":\"10027199\"},{\"dataSource\":\"MEDCIN\",\"id\":\"31192\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"324\"},{\"dataSource\":\"MSH\",\"id\":\"D008581\"},{\"dataSource\":\"NANDA-I\",\"id\":\"02899\"},{\"dataSource\":\"NCI\",\"id\":\"C26828\"},{\"dataSource\":\"NCI_CPTAC\",\"id\":\"C26828\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E11458\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"2389\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000471780\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C26828\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU005994\"},{\"dataSource\":\"PSY\",\"id\":\"30660\"},{\"dataSource\":\"RCD\",\"id\":\"X000H\"},{\"dataSource\":\"SNM\",\"id\":\"M-40000\"},{\"dataSource\":\"SNMI\",\"id\":\"DA-10010\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"7180009\"},{\"dataSource\":\"WHO\",\"id\":\"0955\"}]},{\"offset\":47,\"length\":5,\"text\":\"fever\",\"category\":\"SymptomOrSign\",\"confidenceScore\":0.99,\"name\":\"Fever\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0015967\"},{\"dataSource\":\"AIR\",\"id\":\"FEVER\"},{\"dataSource\":\"AOD\",\"id\":\"0000004396\"},{\"dataSource\":\"BI\",\"id\":\"BI00751\"},{\"dataSource\":\"CCC\",\"id\":\"K25.2\"},{\"dataSource\":\"CCPSS\",\"id\":\"1017166\"},{\"dataSource\":\"CCSR_10\",\"id\":\"SYM002\"},{\"dataSource\":\"CHV\",\"id\":\"0000005010\"},{\"dataSource\":\"COSTAR\",\"id\":\"300\"},{\"dataSource\":\"CPM\",\"id\":\"65287\"},{\"dataSource\":\"CSP\",\"id\":\"2871-4310\"},{\"dataSource\":\"CST\",\"id\":\"FEVER\"},{\"dataSource\":\"DXP\",\"id\":\"U001483\"},{\"dataSource\":\"GO\",\"id\":\"GO:0001660\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0001945\"},{\"dataSource\":\"ICD10\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD9CM\",\"id\":\"780.60\"},{\"dataSource\":\"ICNP\",\"id\":\"10041539\"},{\"dataSource\":\"ICPC\",\"id\":\"A03\"},{\"dataSource\":\"ICPC2EENG\",\"id\":\"A03\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU041751\"},{\"dataSource\":\"ICPC2P\",\"id\":\"A03002\"},{\"dataSource\":\"LCH\",\"id\":\"U001776\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85047994\"},{\"dataSource\":\"LNC\",\"id\":\"MTHU013518\"},{\"dataSource\":\"MDR\",\"id\":\"10005911\"},{\"dataSource\":\"MEDCIN\",\"id\":\"6005\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"511\"},{\"dataSource\":\"MSH\",\"id\":\"D005334\"},{\"dataSource\":\"MTHICD9\",\"id\":\"780.60\"},{\"dataSource\":\"NANDA-I\",\"id\":\"01128\"},{\"dataSource\":\"NCI\",\"id\":\"C3038\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E11102\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"1858\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000450108\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C3038\"},{\"dataSource\":\"NOC\",\"id\":\"070307\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU005439\"},{\"dataSource\":\"OMS\",\"id\":\"50.03\"},{\"dataSource\":\"PCDS\",\"id\":\"PRB_11020.02\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000775882\"},{\"dataSource\":\"PSY\",\"id\":\"23840\"},{\"dataSource\":\"QMR\",\"id\":\"Q0200115\"},{\"dataSource\":\"RCD\",\"id\":\"X76EI\"},{\"dataSource\":\"SNM\",\"id\":\"F-03003\"},{\"dataSource\":\"SNMI\",\"id\":\"F-03003\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"386661006\"},{\"dataSource\":\"WHO\",\"id\":\"0725\"}]},{\"offset\":60,\"length\":6,\"text\":\"mother\",\"category\":\"FamilyRelation\",\"confidenceScore\":0.99,\"name\":\"Mother (person)\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0026591\"},{\"dataSource\":\"AOD\",\"id\":\"0000027173\"},{\"dataSource\":\"CCPSS\",\"id\":\"U000286\"},{\"dataSource\":\"CHV\",\"id\":\"0000008266\"},{\"dataSource\":\"CSP\",\"id\":\"1124-5492\"},{\"dataSource\":\"HL7V3.0\",\"id\":\"MTH\"},{\"dataSource\":\"LCH\",\"id\":\"U003028\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85087526\"},{\"dataSource\":\"LNC\",\"id\":\"LA10417-6\"},{\"dataSource\":\"MSH\",\"id\":\"D009035\"},{\"dataSource\":\"NCI\",\"id\":\"C25189\"},{\"dataSource\":\"NCI_CDISC\",\"id\":\"C25189\"},{\"dataSource\":\"NCI_GDC\",\"id\":\"C25189\"},{\"dataSource\":\"PSY\",\"id\":\"32140\"},{\"dataSource\":\"RCD\",\"id\":\"X78ym\"},{\"dataSource\":\"SNMI\",\"id\":\"S-10120\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"72705000\"}]},{\"offset\":77,\"length\":10,\"text\":\"Penicillin\",\"category\":\"MedicationName\",\"confidenceScore\":0.95,\"assertion\":{\"certainty\":\"neutralPossible\"},\"name\":\"penicillins\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0030842\"},{\"dataSource\":\"AOD\",\"id\":\"0000019206\"},{\"dataSource\":\"ATC\",\"id\":\"J01C\"},{\"dataSource\":\"CCPSS\",\"id\":\"0014106\"},{\"dataSource\":\"CHV\",\"id\":\"0000009423\"},{\"dataSource\":\"CSP\",\"id\":\"0199-8025\"},{\"dataSource\":\"GS\",\"id\":\"4011\"},{\"dataSource\":\"LCH\",\"id\":\"U003521\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85099402\"},{\"dataSource\":\"LNC\",\"id\":\"LP14319-5\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40319\"},{\"dataSource\":\"MMSL\",\"id\":\"d00116\"},{\"dataSource\":\"MSH\",\"id\":\"D010406\"},{\"dataSource\":\"NCI\",\"id\":\"C1500\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0402815\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000045296\"},{\"dataSource\":\"NDDF\",\"id\":\"016121\"},{\"dataSource\":\"PSY\",\"id\":\"37190\"},{\"dataSource\":\"RCD\",\"id\":\"x009C\"},{\"dataSource\":\"SNM\",\"id\":\"E-7260\"},{\"dataSource\":\"SNMI\",\"id\":\"C-54000\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"764146007\"},{\"dataSource\":\"VANDF\",\"id\":\"4019880\"}]},{\"offset\":96,\"length\":4,\"text\":\"baby\",\"category\":\"Age\",\"confidenceScore\":0.96,\"name\":\"Infant\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0021270\"},{\"dataSource\":\"AOD\",\"id\":\"0000005273\"},{\"dataSource\":\"CCPSS\",\"id\":\"0030805\"},{\"dataSource\":\"CHV\",\"id\":\"0000006675\"},{\"dataSource\":\"DXP\",\"id\":\"U002089\"},{\"dataSource\":\"LCH\",\"id\":\"U002421\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85066022\"},{\"dataSource\":\"LNC\",\"id\":\"LA19747-7\"},{\"dataSource\":\"MDR\",\"id\":\"10021731\"},{\"dataSource\":\"MSH\",\"id\":\"D007223\"},{\"dataSource\":\"NCI\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C27956\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"133931009\"}]}],\"relations\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-03-01\"}}",
-   "responseHeaders": {
-    "apim-request-id": "0489c9fa-37d0-4bc6-ab59-c1033870788f",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:57 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "59"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/daeb6ff7-4e1e-45b2-adc0-38f74df49e3f",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"daeb6ff7-4e1e-45b2-adc0-38f74df49e3f\",\"lastUpdateDateTime\":\"2021-04-28T21:12:56Z\",\"createdDateTime\":\"2021-04-28T21:12:35Z\",\"expirationDateTime\":\"2021-04-29T21:12:35Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"offset\":0,\"length\":4,\"text\":\"Baby\",\"category\":\"Age\",\"confidenceScore\":0.9,\"name\":\"Infant\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0021270\"},{\"dataSource\":\"AOD\",\"id\":\"0000005273\"},{\"dataSource\":\"CCPSS\",\"id\":\"0030805\"},{\"dataSource\":\"CHV\",\"id\":\"0000006675\"},{\"dataSource\":\"DXP\",\"id\":\"U002089\"},{\"dataSource\":\"LCH\",\"id\":\"U002421\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85066022\"},{\"dataSource\":\"LNC\",\"id\":\"LA19747-7\"},{\"dataSource\":\"MDR\",\"id\":\"10021731\"},{\"dataSource\":\"MSH\",\"id\":\"D007223\"},{\"dataSource\":\"NCI\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C27956\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"133931009\"}]},{\"offset\":24,\"length\":10,\"text\":\"Meningitis\",\"category\":\"Diagnosis\",\"confidenceScore\":0.9,\"assertion\":{\"certainty\":\"negativePossible\"},\"name\":\"Meningitis\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0025289\"},{\"dataSource\":\"AOD\",\"id\":\"0000006185\"},{\"dataSource\":\"BI\",\"id\":\"BI00546\"},{\"dataSource\":\"CCPSS\",\"id\":\"1018016\"},{\"dataSource\":\"CCSR_10\",\"id\":\"NVS001\"},{\"dataSource\":\"CHV\",\"id\":\"0000007932\"},{\"dataSource\":\"COSTAR\",\"id\":\"478\"},{\"dataSource\":\"CSP\",\"id\":\"2042-5301\"},{\"dataSource\":\"CST\",\"id\":\"MENINGITIS\"},{\"dataSource\":\"DXP\",\"id\":\"U002543\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0001287\"},{\"dataSource\":\"ICD10\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"G03.9\"},{\"dataSource\":\"ICD9CM\",\"id\":\"322.9\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU048434\"},{\"dataSource\":\"ICPC2P\",\"id\":\"N71002\"},{\"dataSource\":\"LCH\",\"id\":\"U002901\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85083562\"},{\"dataSource\":\"LNC\",\"id\":\"LP20756-0\"},{\"dataSource\":\"MDR\",\"id\":\"10027199\"},{\"dataSource\":\"MEDCIN\",\"id\":\"31192\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"324\"},{\"dataSource\":\"MSH\",\"id\":\"D008581\"},{\"dataSource\":\"NANDA-I\",\"id\":\"02899\"},{\"dataSource\":\"NCI\",\"id\":\"C26828\"},{\"dataSource\":\"NCI_CPTAC\",\"id\":\"C26828\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E11458\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"2389\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000471780\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C26828\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU005994\"},{\"dataSource\":\"PSY\",\"id\":\"30660\"},{\"dataSource\":\"RCD\",\"id\":\"X000H\"},{\"dataSource\":\"SNM\",\"id\":\"M-40000\"},{\"dataSource\":\"SNMI\",\"id\":\"DA-10010\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"7180009\"},{\"dataSource\":\"WHO\",\"id\":\"0955\"}]},{\"offset\":47,\"length\":5,\"text\":\"fever\",\"category\":\"SymptomOrSign\",\"confidenceScore\":0.99,\"name\":\"Fever\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0015967\"},{\"dataSource\":\"AIR\",\"id\":\"FEVER\"},{\"dataSource\":\"AOD\",\"id\":\"0000004396\"},{\"dataSource\":\"BI\",\"id\":\"BI00751\"},{\"dataSource\":\"CCC\",\"id\":\"K25.2\"},{\"dataSource\":\"CCPSS\",\"id\":\"1017166\"},{\"dataSource\":\"CCSR_10\",\"id\":\"SYM002\"},{\"dataSource\":\"CHV\",\"id\":\"0000005010\"},{\"dataSource\":\"COSTAR\",\"id\":\"300\"},{\"dataSource\":\"CPM\",\"id\":\"65287\"},{\"dataSource\":\"CSP\",\"id\":\"2871-4310\"},{\"dataSource\":\"CST\",\"id\":\"FEVER\"},{\"dataSource\":\"DXP\",\"id\":\"U001483\"},{\"dataSource\":\"GO\",\"id\":\"GO:0001660\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0001945\"},{\"dataSource\":\"ICD10\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"R50.9\"},{\"dataSource\":\"ICD9CM\",\"id\":\"780.60\"},{\"dataSource\":\"ICNP\",\"id\":\"10041539\"},{\"dataSource\":\"ICPC\",\"id\":\"A03\"},{\"dataSource\":\"ICPC2EENG\",\"id\":\"A03\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU041751\"},{\"dataSource\":\"ICPC2P\",\"id\":\"A03002\"},{\"dataSource\":\"LCH\",\"id\":\"U001776\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85047994\"},{\"dataSource\":\"LNC\",\"id\":\"MTHU013518\"},{\"dataSource\":\"MDR\",\"id\":\"10005911\"},{\"dataSource\":\"MEDCIN\",\"id\":\"6005\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"511\"},{\"dataSource\":\"MSH\",\"id\":\"D005334\"},{\"dataSource\":\"MTHICD9\",\"id\":\"780.60\"},{\"dataSource\":\"NANDA-I\",\"id\":\"01128\"},{\"dataSource\":\"NCI\",\"id\":\"C3038\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E11102\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"1858\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000450108\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C3038\"},{\"dataSource\":\"NOC\",\"id\":\"070307\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU005439\"},{\"dataSource\":\"OMS\",\"id\":\"50.03\"},{\"dataSource\":\"PCDS\",\"id\":\"PRB_11020.02\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000775882\"},{\"dataSource\":\"PSY\",\"id\":\"23840\"},{\"dataSource\":\"QMR\",\"id\":\"Q0200115\"},{\"dataSource\":\"RCD\",\"id\":\"X76EI\"},{\"dataSource\":\"SNM\",\"id\":\"F-03003\"},{\"dataSource\":\"SNMI\",\"id\":\"F-03003\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"386661006\"},{\"dataSource\":\"WHO\",\"id\":\"0725\"}]},{\"offset\":60,\"length\":6,\"text\":\"mother\",\"category\":\"FamilyRelation\",\"confidenceScore\":0.99,\"name\":\"Mother (person)\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0026591\"},{\"dataSource\":\"AOD\",\"id\":\"0000027173\"},{\"dataSource\":\"CCPSS\",\"id\":\"U000286\"},{\"dataSource\":\"CHV\",\"id\":\"0000008266\"},{\"dataSource\":\"CSP\",\"id\":\"1124-5492\"},{\"dataSource\":\"HL7V3.0\",\"id\":\"MTH\"},{\"dataSource\":\"LCH\",\"id\":\"U003028\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85087526\"},{\"dataSource\":\"LNC\",\"id\":\"LA10417-6\"},{\"dataSource\":\"MSH\",\"id\":\"D009035\"},{\"dataSource\":\"NCI\",\"id\":\"C25189\"},{\"dataSource\":\"NCI_CDISC\",\"id\":\"C25189\"},{\"dataSource\":\"NCI_GDC\",\"id\":\"C25189\"},{\"dataSource\":\"PSY\",\"id\":\"32140\"},{\"dataSource\":\"RCD\",\"id\":\"X78ym\"},{\"dataSource\":\"SNMI\",\"id\":\"S-10120\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"72705000\"}]},{\"offset\":77,\"length\":10,\"text\":\"Penicillin\",\"category\":\"MedicationName\",\"confidenceScore\":0.95,\"assertion\":{\"certainty\":\"neutralPossible\"},\"name\":\"penicillins\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0030842\"},{\"dataSource\":\"AOD\",\"id\":\"0000019206\"},{\"dataSource\":\"ATC\",\"id\":\"J01C\"},{\"dataSource\":\"CCPSS\",\"id\":\"0014106\"},{\"dataSource\":\"CHV\",\"id\":\"0000009423\"},{\"dataSource\":\"CSP\",\"id\":\"0199-8025\"},{\"dataSource\":\"GS\",\"id\":\"4011\"},{\"dataSource\":\"LCH\",\"id\":\"U003521\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85099402\"},{\"dataSource\":\"LNC\",\"id\":\"LP14319-5\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40319\"},{\"dataSource\":\"MMSL\",\"id\":\"d00116\"},{\"dataSource\":\"MSH\",\"id\":\"D010406\"},{\"dataSource\":\"NCI\",\"id\":\"C1500\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0402815\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000045296\"},{\"dataSource\":\"NDDF\",\"id\":\"016121\"},{\"dataSource\":\"PSY\",\"id\":\"37190\"},{\"dataSource\":\"RCD\",\"id\":\"x009C\"},{\"dataSource\":\"SNM\",\"id\":\"E-7260\"},{\"dataSource\":\"SNMI\",\"id\":\"C-54000\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"764146007\"},{\"dataSource\":\"VANDF\",\"id\":\"4019880\"}]},{\"offset\":96,\"length\":4,\"text\":\"baby\",\"category\":\"Age\",\"confidenceScore\":0.96,\"name\":\"Infant\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0021270\"},{\"dataSource\":\"AOD\",\"id\":\"0000005273\"},{\"dataSource\":\"CCPSS\",\"id\":\"0030805\"},{\"dataSource\":\"CHV\",\"id\":\"0000006675\"},{\"dataSource\":\"DXP\",\"id\":\"U002089\"},{\"dataSource\":\"LCH\",\"id\":\"U002421\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85066022\"},{\"dataSource\":\"LNC\",\"id\":\"LA19747-7\"},{\"dataSource\":\"MDR\",\"id\":\"10021731\"},{\"dataSource\":\"MSH\",\"id\":\"D007223\"},{\"dataSource\":\"NCI\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"C27956\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C27956\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"133931009\"}]}],\"relations\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-03-01\"}}",
-   "responseHeaders": {
-    "apim-request-id": "e807e3dd-bf86-4296-ab59-a2d83e58bf44",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 28 Apr 2021 21:12:57 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "40"
+    "x-envoy-upstream-service-time": "44"
    }
   }
  ],

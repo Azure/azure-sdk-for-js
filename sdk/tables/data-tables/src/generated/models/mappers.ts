@@ -45,7 +45,7 @@ export const TableResponseProperties: CompositeMapper = {
     name: "Composite",
     className: "TableResponseProperties",
     modelProperties: {
-      tableName: {
+      name: {
         serializedName: "TableName",
         xmlName: "TableName",
         type: {
@@ -150,7 +150,7 @@ export const TableProperties: CompositeMapper = {
     name: "Composite",
     className: "TableProperties",
     modelProperties: {
-      tableName: {
+      name: {
         serializedName: "TableName",
         xmlName: "TableName",
         type: {

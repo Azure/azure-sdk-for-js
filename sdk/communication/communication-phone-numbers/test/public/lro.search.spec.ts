@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { matrix } from "@azure/test-utils";
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src";
-import { matrix } from "./utils/matrix";
-import {
-  canCreateRecordedClientWithToken,
-  createRecordedClient,
-  createRecordedClientWithToken
-} from "./utils/recordedClient";
+import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function(useAad) {
   describe(`PhoneNumbersClient - lro - search${useAad ? " [AAD]" : ""}`, function() {
@@ -25,12 +21,6 @@ matrix([[true, false]], async function(useAad) {
         calling: "outbound"
       }
     };
-
-    before(function(this: Context) {
-      if (useAad && !canCreateRecordedClientWithToken()) {
-        this.skip();
-      }
-    });
 
     beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
@@ -48,9 +38,9 @@ matrix([[true, false]], async function(useAad) {
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
       const results = await searchPoller.pollUntilDone();
-      assert.equal(results.phoneNumbers.length, 1);
       assert.ok(searchPoller.getOperationState().isCompleted);
-    }).timeout(20000);
+      assert.equal(results.phoneNumbers.length, 1);
+    }).timeout(60000);
 
     it("throws on invalid search request", async function() {
       // person and toll free is an invalid combination
@@ -69,7 +59,7 @@ matrix([[true, false]], async function(useAad) {
         await searchPoller.pollUntilDone();
       } catch (error) {
         // TODO: Re-enable when service is fixed to return proper error code
-        // assert.equal(error.statusCode, 400);
+        assert.equal(error.statusCode, 400);
         return;
       }
 
