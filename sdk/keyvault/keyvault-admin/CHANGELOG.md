@@ -8,6 +8,7 @@
 - Collapsed `KeyVaultRoleAssignmentPropertiesWithScope` to `KeyVaultRoleAssignmentProperties`.
 - Renamed `KeyVaultKeyId` to `KeyVaultKeyIdentifier`.
 - Renamed `beginRestore`'s `blobStorageUri` to `folderUri`.
+- Removed `folderName` from `beginRestore`. Now the folder name will be inferred from the `folderUri`.
 - Renamed `beginSelectiveRestore`'s `blobStorageUri` to `folderUri`.
 - Removed `folderName` from `beginSelectiveRestore`. Now the folder name will be inferred from the `folderUri`.
 - Reordered the parameters of `beginSelectiveRestore` to `keyName`, `folderUrl`, `sasToken`, `[options]`.
