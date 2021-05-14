@@ -7,6 +7,7 @@ const { Client } = require("azure-iothub");
 
 function buildPipelineTopology() {
   const rtspSource = {
+    //Create a source for your pipeline topology
     name: "rtspSource",
     endpoint: {
       url: "${rtspUrl}",
@@ -21,10 +22,12 @@ function buildPipelineTopology() {
   };
 
   const nodeInput = {
+    //Create an input for your sink
     nodeName: "rtspSource"
   };
 
   const msgSink = {
+    //Create a sink for your pipeline topology
     name: "msgSink",
     inputs: [nodeInput],
     hubOutputName: "${hubSinkOutputName}",
@@ -66,9 +69,10 @@ async function main() {
   const deviceId = "lva-sample-device";
   const moduleId = "mediaEdge";
   const connectionString = "connectionString";
-  const iotHubClient = Client.fromConnectionString(connectionString);
+  const iotHubClient = Client.fromConnectionString(connectionString); //Connect to your IoT Hub
 
   async function invokeMethodHelper(methodRequest) {
+    //Helper method to send a module method request to your IoT Hub device
     return await iotHubClient.invokeDeviceMethod(deviceId, moduleId, {
       methodName: methodRequest.methodName,
       payload: methodRequest.payload

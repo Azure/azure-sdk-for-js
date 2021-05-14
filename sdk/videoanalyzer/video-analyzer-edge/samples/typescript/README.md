@@ -28,4 +28,5 @@ Replace the variables `connectionString`, `deviceId`, and `moduleId` with your r
 <!-- LINKS -->
 
 [azure_sub]: https://azure.microsoft.com/free/
-[iot_device_connection_string]: TODO://link-to-published-package
+
+[iot_device_connection_string]: TODO://link-to-published-package <!--https://msazure.visualstudio.com/One/_workitems/edit/9946084 Work item to add all todo links-->

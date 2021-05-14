@@ -43,13 +43,6 @@ module.exports = function(config) {
     },
 
     envPreprocessor: [
-      "TEST_MODE",
-      "ENDPOINT",
-      "API_KEY",
-      "API_KEY_ALT",
-      "AZURE_CLIENT_ID",
-      "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
     ],
 
     // test results reporter to use

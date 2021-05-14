@@ -38,7 +38,7 @@ Please visit the [Examples](#examples) for starter code.
 
 ### Pipeline Topology vs Pipeline Instance
 
-A _pipeline topology_ is a blueprint or template for instantiating live pipelines. It defines the parameters of the pipeline using placeholders as values for them. A _live pipeline_ references a pipeline topology and specifies the parameters. This way you are able to have multiple live pipelines referencing the same topology but with different values for parameters. For more information please visit [pipeline topologies and live pipelines][doc_pipelines].
+A _pipeline topology_ is a blueprint or template for instantiating live pipelines. It defines the parameters of the pipeline using placeholders as values for them. A _live pipeline_ references a pipeline topology and specifies the parameters. This way you are able to have multiple live pipelines referencing the same topology but with different values for parameters. For more information please visit [pipeline topologies and live [pipelines][doc_pipelines].
 
 ## Examples
 
@@ -109,6 +109,13 @@ const livePipeline: LivePipeline = {
 To create a pipeline method request you will need to get your deviceId and moduleId from your Azure IoT hub.
 
 ```typescript
+import { createRequest } from "@azure/video-analyzer-edge";
+import { Client } from "azure-iothub";
+
+const deviceId = "lva-sample-device";
+const moduleId = "mediaEdge";
+const connectionString = "connectionString";
+const iotHubClient = Client.fromConnectionString(connectionString);
 const pipelineTopologySetRequest = createRequest("pipelineTopologySet", pipelineTopology);
 const setPipelineTopResponse = await iotHubClient.invokeDeviceMethod(deviceId, moduleId, {
   methodName: pipelineTopologySetRequest.methodName,
@@ -151,7 +158,8 @@ additional questions or comments.
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
 [coc_contact]: mailto:opencode@microsoft.com
-[source]: TODO://link-to-published-source
+
+[source]: TODO://link-to-published-source <!--https://msazure.visualstudio.com/One/_workitems/edit/9946084 Work item to add all todo links-->
 [package]: TODO://link-to-published-package
 [doc_direct_methods]: TODO://link-to-published-package
 [doc_product]: TODO://link-to-published-package

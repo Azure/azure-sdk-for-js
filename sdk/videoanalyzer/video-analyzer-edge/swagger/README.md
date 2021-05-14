@@ -23,7 +23,8 @@ modelerfour:
 directive:
   - from: swagger-document
     where: $.definitions
-    transform: >
+    transform:
+      > #Deleting all of the request models that are not being used. The replacement for these models is the custom `createRequest` method.
       for (const definition in $) {
         if (definition == 'PipelineTopologySetRequest' 
           || definition == 'PipelineTopologySetRequestBody'
@@ -42,8 +43,3 @@ directive:
         }
       }
 ```
-
-<!-- modelerfour:
-  naming:
-    override:
-      type: \@type  -->
