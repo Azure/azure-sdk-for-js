@@ -13,6 +13,8 @@ class PackageProps
     [string]$SdkType
     [boolean]$IsNewSdk
     [string]$ArtifactName
+    [string]$DocsReadMeName
+    [string]$Tag
 
     PackageProps([string]$name, [string]$version, [string]$directoryPath, [string]$serviceDirectory)
     {
@@ -35,6 +37,7 @@ class PackageProps
         $this.Version = $version
         $this.DirectoryPath = $directoryPath
         $this.ServiceDirectory = $serviceDirectory
+        $this.Tag = "$($name)_$($version)"
 
         if (Test-Path (Join-Path $directoryPath "README.md"))
         {
