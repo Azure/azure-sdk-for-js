@@ -225,6 +225,10 @@
           "apiVersion": "[variables('storageApiVersion')]",
           "dependsOn": ["[variables('datalakeSoftDeleteAccountName')]"],
           "properties": {
+            "deleteRetentionPolicy": {
+                  "enabled": true,
+                  "days": 7
+            },
             "containerDeleteRetentionPolicy": {
               "enabled": true,
               "days": 7
