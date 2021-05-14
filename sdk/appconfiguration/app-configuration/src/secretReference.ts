@@ -62,18 +62,9 @@ export const SecretReferenceHelper = {
       uri: secretReference.value.secretId
     };
 
-    let stringifiedValue: string;
-    try {
-      stringifiedValue = JSON.stringify(jsonSecretReferenceValue);
-    } catch (err) {
-      throw new TypeError(
-        `Unable to do encode the value ${secretReference.value} as string (JSON.stringify)`
-      );
-    }
-
     const configSetting = {
       ...secretReference,
-      value: stringifiedValue
+      value: JSON.stringify(jsonSecretReferenceValue)
     };
     return configSetting;
   }

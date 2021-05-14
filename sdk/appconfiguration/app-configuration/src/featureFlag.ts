@@ -100,19 +100,10 @@ export const FeatureFlagHelper = {
       }
     };
 
-    let stringifiedValue: string;
-    try {
-      stringifiedValue = JSON.stringify(jsonFeatureFlagValue);
-    } catch (err) {
-      throw new TypeError(
-        `Unable to do encode the value ${jsonFeatureFlagValue} as string (JSON.stringify)`
-      );
-    }
-
     const configSetting = {
       ...featureFlag,
       key,
-      value: stringifiedValue
+      value: JSON.stringify(jsonFeatureFlagValue)
     };
     return configSetting;
   }
