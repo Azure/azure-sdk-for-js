@@ -244,10 +244,7 @@ export class RegistryArtifactImpl {
         lastUpdatedOn: result.lastUpdatedOn,
         architecture: result.architecture ?? undefined,
         operatingSystem: result.operatingSystem ?? undefined,
-        manifests:
-          result.references?.map((r) => {
-            return { ...r, manifests: [], tags: [] };
-          }) ?? [],
+        manifestReferences: result.manifestReferences ?? [],
         tags: result.tags ?? [],
         writeableProperties: toManifestWritableProperties(result.writeableProperties)
       };
@@ -281,25 +278,22 @@ export class RegistryArtifactImpl {
       digest = (await this.getTagProperties(this.tagOrDigest)).digest;
     }
     try {
-      const t = await this.client.containerRegistry.updateManifestProperties(
+      const result = await this.client.containerRegistry.updateManifestProperties(
         this.repositoryName,
         digest,
         updatedOptions
       );
       return {
-        repositoryName: this.repositoryName,
-        digest: t.digest,
-        size: t.size,
-        createdOn: t.createdOn,
-        lastUpdatedOn: t.lastUpdatedOn,
-        architecture: t.architecture ?? undefined,
-        operatingSystem: t.operatingSystem ?? undefined,
-        manifests:
-          t.references?.map((r) => {
-            return { ...r, manifests: [], tags: [] };
-          }) ?? [],
-        tags: t.tags ?? [],
-        writeableProperties: toManifestWritableProperties(t.writeableProperties)
+        repositoryName: result.repositoryName,
+        digest: result.digest,
+        size: result.size,
+        createdOn: result.createdOn,
+        lastUpdatedOn: result.lastUpdatedOn,
+        architecture: result.architecture ?? undefined,
+        operatingSystem: result.operatingSystem ?? undefined,
+        manifestReferences: result.manifestReferences ?? [],
+        tags: result.tags ?? [],
+        writeableProperties: toManifestWritableProperties(result.writeableProperties)
       };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });

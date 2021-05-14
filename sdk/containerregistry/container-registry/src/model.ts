@@ -78,6 +78,25 @@ export interface ManifestWriteableProperties {
 }
 
 /** Manifest attributes details */
+export interface ArtifactManifestReference {
+  /**
+   * Manifest digest
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly digest: string;
+  /**
+   * CPU architecture. See {@link KnownArtifactArchitecture} for values supported by the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly architecture: string;
+  /**
+   * Operating system. See {@link KnownArtifactOperatingSystem} for values supported by the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operatingSystem: string;
+}
+
+/** Manifest attributes details */
 export interface ArtifactManifestProperties {
   /**
    * Repository name
@@ -114,8 +133,11 @@ export interface ArtifactManifestProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operatingSystem?: string;
-  /** List of manifest attributes details */
-  manifests: ArtifactManifestProperties[];
+  /**
+   * List of manifests referenced by this manifest list.  List will be empty if this manifest is not a manifest list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly manifestReferences: ArtifactManifestReference[];
   /**
    * List of tags
    * NOTE: This property will not be serialized. It can only be populated by the server.

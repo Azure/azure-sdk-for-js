@@ -226,10 +226,10 @@ export interface ManifestAttributesBase {
    */
   readonly operatingSystem?: ArtifactOperatingSystem | null;
   /**
-   * List of manifest attributes details
+   * List of manifests referenced by this manifest list.  List will be empty if this manifest is not a manifest list.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly references?: ManifestAttributesManifestReferences[];
+  readonly manifestReferences?: ArtifactManifestReference[];
   /**
    * List of tags
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -243,7 +243,7 @@ export interface ManifestAttributesBase {
 }
 
 /** Manifest attributes details */
-export interface ManifestAttributesManifestReferences {
+export interface ArtifactManifestReference {
   /**
    * Manifest digest
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -315,10 +315,10 @@ export interface ArtifactManifestProperties {
    */
   readonly operatingSystem?: ArtifactOperatingSystem | null;
   /**
-   * List of manifest attributes details
+   * List of manifests referenced by this manifest list.  List will be empty if this manifest is not a manifest list.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly references?: ManifestAttributesManifestReferences[];
+  readonly manifestReferences?: ArtifactManifestReference[];
   /**
    * List of tags
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -466,7 +466,7 @@ export interface TagAttributesTag {
 /** List of manifest attributes */
 export interface ManifestAttributesManifest {
   /** List of manifest attributes details */
-  references?: ManifestAttributesManifestReferences[];
+  references?: ArtifactManifestReference[];
   /** Quarantine tag name */
   quarantineTag?: string;
 }

@@ -40,10 +40,7 @@ export function toArtifactManifestProperties(
     lastUpdatedOn: from.lastUpdatedOn,
     architecture: from.architecture ?? undefined,
     operatingSystem: from.operatingSystem ?? undefined,
-    manifests:
-      from.references?.map((r) => {
-        return { ...r, manifests: [], tags: [] };
-      }) ?? [],
+    manifestReferences: from.manifestReferences ?? [],
     tags: from.tags ?? [],
     writeableProperties: toManifestWritableProperties(from.writeableProperties)
   };

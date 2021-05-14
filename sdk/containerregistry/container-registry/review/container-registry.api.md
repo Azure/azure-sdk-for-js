@@ -15,12 +15,19 @@ export interface ArtifactManifestProperties {
     readonly createdOn?: Date;
     readonly digest: string;
     readonly lastUpdatedOn?: Date;
-    manifests: ArtifactManifestProperties[];
+    readonly manifestReferences: ArtifactManifestReference[];
     readonly operatingSystem?: string;
     readonly repositoryName?: string;
     readonly size?: number;
     readonly tags: string[];
     readonly writeableProperties?: ManifestWriteableProperties;
+}
+
+// @public
+export interface ArtifactManifestReference {
+    readonly architecture: string;
+    readonly digest: string;
+    readonly operatingSystem: string;
 }
 
 // @public

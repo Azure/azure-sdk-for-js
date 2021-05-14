@@ -481,7 +481,7 @@ export const ManifestAttributesBase: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      references: {
+      manifestReferences: {
         serializedName: "references",
         readOnly: true,
         type: {
@@ -489,7 +489,7 @@ export const ManifestAttributesBase: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ManifestAttributesManifestReferences"
+              className: "ArtifactManifestReference"
             }
           }
         }
@@ -517,10 +517,10 @@ export const ManifestAttributesBase: coreClient.CompositeMapper = {
   }
 };
 
-export const ManifestAttributesManifestReferences: coreClient.CompositeMapper = {
+export const ArtifactManifestReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ManifestAttributesManifestReferences",
+    className: "ArtifactManifestReference",
     modelProperties: {
       digest: {
         serializedName: "digest",
@@ -654,7 +654,7 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      references: {
+      manifestReferences: {
         serializedName: "manifest.references",
         readOnly: true,
         type: {
@@ -662,7 +662,7 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ManifestAttributesManifestReferences"
+              className: "ArtifactManifestReference"
             }
           }
         }
@@ -1090,7 +1090,7 @@ export const ManifestAttributesManifest: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ManifestAttributesManifestReferences"
+              className: "ArtifactManifestReference"
             }
           }
         }
