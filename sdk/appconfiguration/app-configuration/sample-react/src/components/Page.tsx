@@ -5,7 +5,7 @@
 */
 
 import { useEffect, useState } from "react";
-import { getEnvironmentVariable } from "../utils";
+import { getEnvironmentVariable, isTimeWindowClientFilter } from "../utils";
 import {
   AppConfigurationClient,
   featureFlagPrefix,
@@ -65,20 +65,12 @@ export default function Page(): JSX.Element {
       const parsedFeatureFlag2 = parseFeatureFlag(setting2);
       // console.log(`${parsedFeatureFlag2.key} is enabled : ${parsedFeatureFlag2.value.enabled}`, parsedFeatureFlag2);
       const clientFilter = parsedFeatureFlag2.value.conditions.clientFilters?.[0];
-      if (clientFilter.name === "Microsoft.TimeWindow") {
-        if (
-          clientFilter.parameters &&
-          clientFilter.parameters["Start"] &&
-          clientFilter.parameters["End"] &&
-          typeof clientFilter.parameters["Start"] === "string" &&
-          typeof clientFilter.parameters["End"] === "string"
-        ) {
-          const now = Date.now();
-          const withinRange =
-            now - Date.parse(clientFilter.parameters["Start"]) > 0 &&
-            Date.parse(clientFilter.parameters["End"]) - now > 0;
-          setFeature2({ enabled: withinRange });
-        }
+      if (isTimeWindowClientFilter(clientFilter)) {
+        const now = Date.now();
+        const withinRange =
+          now - Date.parse(clientFilter.parameters["Start"]) > 0 &&
+          Date.parse(clientFilter.parameters["End"]) - now > 0;
+        setFeature2({ enabled: withinRange });
       } else {
         setFeature2({ enabled: false });
       }
