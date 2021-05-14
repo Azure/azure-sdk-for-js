@@ -70,7 +70,7 @@ export interface ServiceBusMessageBatch {
    * @param message - The message to add to the batch.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  tryAddMessage(message: ServiceBusMessage, options?: TryAddOptions): boolean;
+  tryAddMessage(message: ServiceBusMessage | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
