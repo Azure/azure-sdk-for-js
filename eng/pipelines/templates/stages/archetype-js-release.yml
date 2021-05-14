@@ -288,12 +288,12 @@ stages:
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
 
             - pwsh: |
-                Get-Content $(Pipeline.Workspace)/PackageInfo/${{artifact.name}}.json
+                Get-Content $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
               workingDirectory: $(Pipeline.Workspace)
               displayName: Output Artifact Info
             - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
               parameters:
-                ArtifactLocation: $(Pipeline.Workspace)/PackageInfo/${{artifact.name}}.json
+                ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
                 BaseRepoBranch: $(DailyDocsBranchName)
                 CloneDocsRepository: false
                 PackageRepository: NPM
