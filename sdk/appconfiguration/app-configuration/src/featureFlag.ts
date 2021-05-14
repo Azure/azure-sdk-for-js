@@ -43,6 +43,9 @@ export interface FeatureFlagValue {
   enabled: boolean;
 }
 
+/**
+ * @internal
+ */
 export const FeatureFlagHelper = {
   /**
    * Takes the ConfigurationSetting and returns the FeatureFlag.

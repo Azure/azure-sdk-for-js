@@ -21,6 +21,9 @@ export interface SecretReferenceValue {
   secretId: string;
 }
 
+/**
+ * @internal
+ */
 export const SecretReferenceHelper = {
   /**
    * Takes the ConfigurationSetting and returns the SecretReference.
