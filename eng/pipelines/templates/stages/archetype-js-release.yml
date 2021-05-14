@@ -100,7 +100,7 @@ stages:
                 name: azsdk-pool-mms-win-2019-general
                 vmImage: MMS2019
               variables:
-                DocCiConfigs: "{'targets':[{'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview','content_folder':'docs-ref-services/preview'},{'path_to_config':'ci-configs/packages-latest.json','mode':'Latest','content_folder':'docs-ref-services/latest'}]}"
+                DocCiConfigs: "{'targets':[{'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview','content_folder':'docs-ref-services/preview','metadata_location': 'metadata/preview/'},{'path_to_config':'ci-configs/packages-latest.json','mode':'Latest','content_folder':'docs-ref-services/latest','metadata_location': 'metadata/latest/'}]}"
 
               strategy:
                 runOnce:
@@ -239,8 +239,8 @@ stages:
         # most recent readme docs on the doc review site.
         DocCiConfigs: >-
           {'targets':[
-          {'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview','content_folder':'docs-ref-services/preview'},
-          {'path_to_config':'ci-configs/packages-latest.json','mode':'Preview','content_folder':'docs-ref-services/latest'}
+          {'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview','content_folder':'docs-ref-services/preview', 'metadata_location': 'metadata/preview/'},
+          {'path_to_config':'ci-configs/packages-latest.json','mode':'Preview','content_folder':'docs-ref-services/latest', 'metadata_location': 'metadata/latest/'}
           ]}
 
       steps:
