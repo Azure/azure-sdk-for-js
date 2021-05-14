@@ -321,7 +321,7 @@ export type DataFeed = {
 export type AzureApplicationInsightsDataFeedSource = {
   dataSourceType: "AzureApplicationInsights";
   dataSourceParameter: AzureApplicationInsightsParameter & {
-    authenticationType?: "Basic";
+    authenticationType: "Basic";
   };
 };
 
@@ -331,7 +331,7 @@ export type AzureApplicationInsightsDataFeedSource = {
 export type AzureBlobDataFeedSource = {
   dataSourceType: "AzureBlob";
   dataSourceParameter: AzureBlobParameter & {
-    authenticationType?: "Basic" | "ManagedIdentity";
+    authenticationType: "Basic" | "ManagedIdentity";
   };
 };
 
@@ -341,7 +341,7 @@ export type AzureBlobDataFeedSource = {
 export type AzureCosmosDBDataFeedSource = {
   dataSourceType: "AzureCosmosDB";
   dataSourceParameter: AzureCosmosDBParameter & {
-    authenticationType?: "Basic";
+    authenticationType: "Basic";
   };
 };
 
@@ -353,7 +353,7 @@ export type AzureDataExplorerDataFeedSource = {
   dataSourceParameter: SqlSourceParameter &
     (
       | {
-          authenticationType?: "Basic" | "ManagedIdentity";
+          authenticationType: "Basic" | "ManagedIdentity";
         }
       | {
           authenticationType: "ServicePrincipal" | "ServicePrincipalInKV";
@@ -370,7 +370,7 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
   dataSourceParameter: Omit<AzureDataLakeStorageGen2Parameter, "accountKey"> &
     (
       | {
-          authenticationType?: "Basic";
+          authenticationType: "Basic";
           /** Account key */
           accountKey: string;
         }
@@ -390,7 +390,7 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
 export type ElasticsearchDataFeedSource = {
   dataSourceType: "Elasticsearch";
   dataSourceParameter: ElasticsearchParameter & {
-    authenticationType?: "Basic";
+    authenticationType: "Basic";
   };
 };
 
@@ -400,7 +400,7 @@ export type ElasticsearchDataFeedSource = {
 export type AzureTableDataFeedSource = {
   dataSourceType: "AzureTable";
   dataSourceParameter: AzureTableParameter & {
-    authenticationType?: "Basic";
+    authenticationType: "Basic";
   };
 };
 
@@ -410,7 +410,7 @@ export type AzureTableDataFeedSource = {
 export type HttpRequestDataFeedSource = {
   dataSourceType: "HttpRequest";
   dataSourceParameter: HttpRequestParameter & {
-    authenticationType?: "Basic";
+    authenticationType: "Basic";
   };
 };
 
@@ -420,7 +420,7 @@ export type HttpRequestDataFeedSource = {
 export type InfluxDBDataFeedSource = {
   dataSourceType: "InfluxDB";
   dataSourceParameter: InfluxDBParameter & {
-    authenticationType?: "Basic";
+    authenticationType: "Basic";
   };
 };
 
@@ -430,7 +430,7 @@ export type InfluxDBDataFeedSource = {
 export type MySqlDataFeedSource = {
   dataSourceType: "MySql";
   dataSourceParameter: SqlSourceParameter & {
-    authenticationType?: "Basic";
+    authenticationType: "Basic";
   };
 };
 
@@ -440,7 +440,7 @@ export type MySqlDataFeedSource = {
 export type PostgreSqlDataFeedSource = {
   dataSourceType: "PostgreSql";
   dataSourceParameter: SqlSourceParameter & {
-    authenticationType?: "Basic";
+    authenticationType: "Basic";
   };
 };
 
@@ -450,7 +450,7 @@ export type PostgreSqlDataFeedSource = {
 export type MongoDBDataFeedSource = {
   dataSourceType: "MongoDB";
   dataSourceParameter: MongoDBParameter & {
-    authenticationType?: "Basic";
+    authenticationType: "Basic";
   };
 };
 

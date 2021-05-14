@@ -381,21 +381,21 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
   };
   switch (original.dataSourceType) {
     case "AzureApplicationInsights": {
-      const orig = original as AzureApplicationInsightsDataFeedSource;
+      const orig = (original as unknown) as AzureApplicationInsightsDataFeedSource;
       const result1: DataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureApplicationInsights",
           dataSourceParameter: {
             ...orig.dataSourceParameter,
-            authenticationType: original.authenticationType as "Basic" | undefined
+            authenticationType: "Basic"
           }
         }
       };
       return result1;
     }
     case "AzureBlob": {
-      const orig2 = original as AzureBlobDataFeedSource;
+      const orig2 = (original as unknown) as AzureBlobDataFeedSource;
       const result2: DataFeed = {
         ...common,
         source: {
@@ -406,21 +406,21 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       return result2;
     }
     case "AzureCosmosDB": {
-      const orig3 = original as AzureCosmosDBDataFeedSource;
+      const orig3 = (original as unknown) as AzureCosmosDBDataFeedSource;
       const result3: DataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureCosmosDB",
           dataSourceParameter: {
             ...orig3.dataSourceParameter,
-            authenticationType: original.authenticationType as "Basic" | undefined
+            authenticationType: "Basic"
           }
         }
       };
       return result3;
     }
     case "AzureDataExplorer": {
-      const orig4 = original as AzureDataExplorerDataFeedSource;
+      const orig4 = (original as unknown) as AzureDataExplorerDataFeedSource;
       let auth: object = {};
       if (
         !original.authenticationType ||
@@ -452,7 +452,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       return result4;
     }
     case "AzureDataLakeStorageGen2": {
-      const orig5 = original as AzureDataLakeStorageGen2DataFeedSource;
+      const orig5 = (original as unknown) as AzureDataLakeStorageGen2DataFeedSource;
       let auth: object = {};
       if (
         !original.authenticationType ||
@@ -485,84 +485,84 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       return result5;
     }
     case "AzureTable": {
-      const orig6 = original as AzureTableDataFeedSource;
+      const orig6 = (original as unknown) as AzureTableDataFeedSource;
       const result6: DataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureTable",
           dataSourceParameter: {
             ...orig6.dataSourceParameter,
-            authenticationType: original.authenticationType as "Basic" | undefined
+            authenticationType: "Basic"
           }
         }
       };
       return result6;
     }
     case "HttpRequest": {
-      const orig7 = original as HttpRequestDataFeedSource;
+      const orig7 = (original as unknown) as HttpRequestDataFeedSource;
       const result7: DataFeed = {
         ...common,
         source: {
           dataSourceType: "HttpRequest",
           dataSourceParameter: {
             ...orig7.dataSourceParameter,
-            authenticationType: original.authenticationType as "Basic" | undefined
+            authenticationType: "Basic"
           }
         }
       };
       return result7;
     }
     case "InfluxDB": {
-      const orig8 = original as InfluxDBDataFeedSource;
+      const orig8 = (original as unknown) as InfluxDBDataFeedSource;
       const result8: DataFeed = {
         ...common,
         source: {
           dataSourceType: "InfluxDB",
           dataSourceParameter: {
             ...orig8.dataSourceParameter,
-            authenticationType: original.authenticationType as "Basic" | undefined
+            authenticationType: "Basic"
           }
         }
       };
       return result8;
     }
     case "MongoDB": {
-      const orig9 = original as MongoDBDataFeedSource;
+      const orig9 = (original as unknown) as MongoDBDataFeedSource;
       const result9: DataFeed = {
         ...common,
         source: {
           dataSourceType: "MongoDB",
           dataSourceParameter: {
             ...orig9.dataSourceParameter,
-            authenticationType: original.authenticationType as "Basic" | undefined
+            authenticationType: "Basic"
           }
         }
       };
       return result9;
     }
     case "MySql": {
-      const orig10 = original as MySqlDataFeedSource;
+      const orig10 = (original as unknown) as MySqlDataFeedSource;
       const result10: DataFeed = {
         ...common,
         source: {
           dataSourceType: "MySql",
           dataSourceParameter: {
             ...orig10.dataSourceParameter,
-            authenticationType: original.authenticationType as "Basic" | undefined
+            authenticationType: "Basic"
           }
         }
       };
       return result10;
     }
     case "PostgreSql": {
-      const orig11 = original as PostgreSqlDataFeedSource;
+      const orig11 = (original as unknown) as PostgreSqlDataFeedSource;
       const result11: DataFeed = {
         ...common,
         source: {
           dataSourceType: "PostgreSql",
           dataSourceParameter: {
             ...orig11.dataSourceParameter,
-            authenticationType: original.authenticationType as "Basic" | undefined
+            authenticationType: "Basic"
           }
         }
       };
@@ -599,14 +599,14 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       return result12;
     }
     case "Elasticsearch": {
-      const orig13 = original as ElasticsearchDataFeedSource;
+      const orig13 = (original as unknown) as ElasticsearchDataFeedSource;
       const result13: DataFeed = {
         ...common,
         source: {
           dataSourceType: "Elasticsearch",
           dataSourceParameter: {
             ...orig13.dataSourceParameter,
-            authenticationType: original.authenticationType as "Basic" | undefined
+            authenticationType: "Basic"
           }
         }
       };

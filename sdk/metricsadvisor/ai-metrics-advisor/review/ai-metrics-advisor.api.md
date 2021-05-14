@@ -109,7 +109,7 @@ export type AnomalyValue = "AutoDetect" | "Anomaly" | "NotAnomaly";
 export type AzureApplicationInsightsDataFeedSource = {
     dataSourceType: "AzureApplicationInsights";
     dataSourceParameter: AzureApplicationInsightsParameter & {
-        authenticationType?: "Basic";
+        authenticationType: "Basic";
     };
 };
 
@@ -125,7 +125,7 @@ export interface AzureApplicationInsightsParameter {
 export type AzureBlobDataFeedSource = {
     dataSourceType: "AzureBlob";
     dataSourceParameter: AzureBlobParameter & {
-        authenticationType?: "Basic" | "ManagedIdentity";
+        authenticationType: "Basic" | "ManagedIdentity";
     };
 };
 
@@ -140,7 +140,7 @@ export interface AzureBlobParameter {
 export type AzureCosmosDBDataFeedSource = {
     dataSourceType: "AzureCosmosDB";
     dataSourceParameter: AzureCosmosDBParameter & {
-        authenticationType?: "Basic";
+        authenticationType: "Basic";
     };
 };
 
@@ -156,7 +156,7 @@ export interface AzureCosmosDBParameter {
 export type AzureDataExplorerDataFeedSource = {
     dataSourceType: "AzureDataExplorer";
     dataSourceParameter: SqlSourceParameter & ({
-        authenticationType?: "Basic" | "ManagedIdentity";
+        authenticationType: "Basic" | "ManagedIdentity";
     } | {
         authenticationType: "ServicePrincipal" | "ServicePrincipalInKV";
         credentialId: string;
@@ -167,7 +167,7 @@ export type AzureDataExplorerDataFeedSource = {
 export type AzureDataLakeStorageGen2DataFeedSource = {
     dataSourceType: "AzureDataLakeStorageGen2";
     dataSourceParameter: Omit<AzureDataLakeStorageGen2Parameter, "accountKey"> & ({
-        authenticationType?: "Basic";
+        authenticationType: "Basic";
         accountKey: string;
     } | {
         authenticationType: "ManagedIdentity";
@@ -195,7 +195,7 @@ export interface AzureSQLConnectionStringParam {
 export type AzureTableDataFeedSource = {
     dataSourceType: "AzureTable";
     dataSourceParameter: AzureTableParameter & {
-        authenticationType?: "Basic";
+        authenticationType: "Basic";
     };
 };
 
@@ -447,7 +447,7 @@ export interface DimensionValuesPageResponse extends Array<string> {
 export type ElasticsearchDataFeedSource = {
     dataSourceType: "Elasticsearch";
     dataSourceParameter: ElasticsearchParameter & {
-        authenticationType?: "Basic";
+        authenticationType: "Basic";
     };
 };
 
@@ -603,7 +603,7 @@ export interface HooksPageResponse extends Array<NotificationHookUnion> {
 export type HttpRequestDataFeedSource = {
     dataSourceType: "HttpRequest";
     dataSourceParameter: HttpRequestParameter & {
-        authenticationType?: "Basic";
+        authenticationType: "Basic";
     };
 };
 
@@ -636,7 +636,7 @@ export interface IncidentsPageResponse extends Array<AnomalyIncident> {
 export type InfluxDBDataFeedSource = {
     dataSourceType: "InfluxDB";
     dataSourceParameter: InfluxDBParameter & {
-        authenticationType?: "Basic";
+        authenticationType: "Basic";
     };
 };
 
@@ -1010,7 +1010,7 @@ export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
 export type MongoDBDataFeedSource = {
     dataSourceType: "MongoDB";
     dataSourceParameter: MongoDBParameter & {
-        authenticationType?: "Basic";
+        authenticationType: "Basic";
     };
 };
 
@@ -1025,7 +1025,7 @@ export interface MongoDBParameter {
 export type MySqlDataFeedSource = {
     dataSourceType: "MySql";
     dataSourceParameter: SqlSourceParameter & {
-        authenticationType?: "Basic";
+        authenticationType: "Basic";
     };
 };
 
@@ -1052,7 +1052,7 @@ export type NotificationHookUnion = EmailNotificationHook | WebNotificationHook;
 export type PostgreSqlDataFeedSource = {
     dataSourceType: "PostgreSql";
     dataSourceParameter: SqlSourceParameter & {
-        authenticationType?: "Basic";
+        authenticationType: "Basic";
     };
 };
 
