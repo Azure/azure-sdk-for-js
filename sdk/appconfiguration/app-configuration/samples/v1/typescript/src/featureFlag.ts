@@ -20,7 +20,7 @@ export async function main() {
   console.log(`Running featureFlag sample`);
 
   const originalFeatureFlag: ConfigurationSetting<FeatureFlagValue> = {
-    key: `new-feature-flag-${Math.ceil(100 + Math.random() * 900)}`,
+    key: `sample-feature-flag`,
     isReadOnly: false,
     contentType: featureFlagContentType,
     value: {
