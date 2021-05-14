@@ -37,41 +37,34 @@ function GetMetaData {
   return $metadataResponse
 }
 
-function GetAdjustedReadmeContent($pkgInfo){
+function GetAdjustedReadmeContent($pkgInfo, $fileContent){
     $date = Get-Date -Format "MM/dd/yyyy"
     $service = ""
 
-    # the namespace is not expected to be present for js.
-    $pkgId = $pkgInfo.PackageId.Replace("@azure/", "")
-
     try {
       $metadata = GetMetaData
-
-      $service = $metadata | ? { $_.Package -eq $pkgId }
-
+      $metadataRow = $metadata | ? { $_.Package -eq $pkgInfo.Name }
       if ($service) {
-        $service = "$($service.ServiceName)".ToLower().Replace(" ", "")
+        $service = "$($metadataRow.ServiceName)".ToLower().Replace(" ", "")
       }
     }
     catch {
       Write-Host $_
-      Write-Host "Unable to retrieve service metadata for packageId $($pkgInfo.PackageId)"
+      Write-Host "Unable to retrieve service metadata for package $($pkgInfo.Name)"
     }
-
-    $fileContent = $pkgInfo.ReadmeContent
 
     # only replace the version if the formatted header can be found
     $titleRegex = "(\#\s+(?<filetitle>Azure .+? (?:client|plugin|shared) library for (?:JavaScript|Java|Python|\.NET|C)))"
     $foundTitle = ""
     if ($fileContent -match $titleRegex) {
-      $fileContent = $fileContent -replace $titleRegex, "`${0} - Version $($pkgInfo.PackageVersion) `n"
       $foundTitle = $matches["filetitle"]
+      $fileContent = $fileContent -replace $titleRegex, "`${0} - Version $($pkgInfo.Version) `n"
     }
     # Replace github master link with release tag.
     $ReplacementPattern = "`${1}$($pkgInfo.Tag)"
     $fileContent = $fileContent -replace $releaseReplaceRegex, $ReplacementPattern
   
-    $header = "---`ntitle: $foundTitle`nkeywords: Azure, $Language, SDK, API, $($pkgInfo.PackageId), $service`nauthor: maggiepint`nms.author: magpint`nms.date: $date`nms.topic: article`nms.prod: azure`nms.technology: azure`nms.devlang: $Language`nms.service: $service`n---`n"
+    $header = "---`ntitle: $foundTitle`nkeywords: Azure, $Language, SDK, API, $($pkgInfo.Name), $service`nauthor: maggiepint`nms.author: magpint`nms.date: $date`nms.topic: article`nms.prod: azure`nms.technology: azure`nms.devlang: $Language`nms.service: $service`n---`n"
 
     if ($fileContent) {
       return "$header`n$fileContent"
@@ -82,26 +75,36 @@ function GetAdjustedReadmeContent($pkgInfo){
 }
 
 $apiUrl = "https://api.github.com/repos/$repoId"
-$pkgs = VerifyPackages -artifactLocation $ArtifactLocation `
-  -workingDirectory $WorkDirectory `
-  -apiUrl $apiUrl `
-  -releaseSha $ReleaseSHA `
-  -continueOnError $True
+$packages = Get-ChildItem -Filter *.json -Path $ArtifactLocation | ForEach-Object { 
+  Get-Content $_ | ConvertFrom-Json # | Select-Object <projection>
+}
+
+foreach ($package in $packages) { 
+  # Set the "Version" property to "DevVersion" in cases where "DevVersion" is
+  # present. This is useful to the final output to the docs repo and avoids 
+  # having to write $package.DevVersion ?? $package.Version everywhere the
+  # subsequent script logic uses the package version
+  $package.Version = $package.DevVersion ?? $package.Version 
+}
 
 $targets = ($Configs | ConvertFrom-Json).targets
 
 foreach ($config in $targets) {
-  if ($config.mode -eq "Preview") { $includePreview = $true } else { $includePreview = $false }
-  $pkgsFiltered = $pkgs | ? { $_.IsPrerelease -eq $includePreview}
-  $suffix = ""
-  if ($config.suffix) {
-    $suffix = $config.suffix
-  }
+  $includePreview = $config.mode -eq "Preview"
+  $pkgsFiltered = $packages `
+    | Where-Object { 
+      $isPrerelease = [AzureEngSemanticVersion]::ParseVersionString($_.Version).IsPrerelease 
+      return $isPrerelease -eq $includePreview
+    }
+  $suffix = $config.suffix ?? ""
 
   if ($pkgsFiltered) {
     Write-Host "Given the visible artifacts, $($config.mode) Readme updates against $($config.path_to_config) will be processed for the following packages."
-    Write-Host ($pkgsFiltered | % { $_.PackageId + " " + $_.PackageVersion })
+    Write-Host ($pkgsFiltered | % { $_.Name + " " + $_.Version })
   
+    $metadataLocation = Join-Path $DocRepoLocation $config.metadata_location 
+    New-Item -Force -ItemType Directory -Path $metadataLocation
+
     foreach ($packageInfo in $pkgsFiltered) {
       $readmeName = "$($packageInfo.DocsReadMeName.ToLower())-readme${suffix}.md"
       $readmeFolder = Join-Path $DocRepoLocation $config.content_folder
@@ -112,8 +115,9 @@ foreach ($config in $targets) {
         New-Item -ItemType Directory -Force -Path $readmeFolder
       }
 
-      if ($packageInfo.ReadmeContent) {
-        $adjustedContent = GetAdjustedReadmeContent -pkgInfo $packageInfo
+      $readmeContent = Get-Content $packageInfo.ReadMePath -Raw
+      if ($readmeContent) {
+        $adjustedContent = GetAdjustedReadmeContent -pkgInfo $packageInfo -fileContent $readmeContent
       }
   
       if ($adjustedContent) {
@@ -128,16 +132,17 @@ foreach ($config in $targets) {
           Pop-Location
         }
       } else {
-        Write-Host "Unable to parse a header out of the readmecontent for PackageId $($packageInfo.PackageId)"
+        Write-Host "Unable to parse a header out of the readmecontent for Package $($packageInfo.Name)"
       }
+
+      $metadataJsonLocation = Join-Path $metadataLocation $packageInfo.DocsReadMeName
+      Write-Host "Setting content for $($packageInfo.Name)"
+      $packageInfo `
+        | Select-Object -ExcludeProperty Name, Version, SdkType, IsNewSdk `
+        | ConvertTo-Json -Depth 100
+        | Set-Content -Force "$metadataJsonLocation.json"
     }
-  }
-  else {
+  } else {
     Write-Host "No readmes discovered for $($config.mode) doc release under folder $ArtifactLocation."
   }
-
-
 }
-
-
-
