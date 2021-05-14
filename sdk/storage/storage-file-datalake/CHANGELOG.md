@@ -2,6 +2,7 @@
 
 ## 12.4.1 (Unreleased)
 
+- Deprecated `destinationFileSystemName` in `ServiceUndeleteFileSystemOptions` for `DataLakeServiceClient.undeleteFileSystem()`.
 
 ## 12.4.0 (2021-03-10)
 

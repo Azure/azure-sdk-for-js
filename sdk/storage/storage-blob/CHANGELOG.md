@@ -2,6 +2,7 @@
 
 ## 12.5.1 (Unreleased)
 
+- Deprecated `destinationContainerName` in `ServiceUndeleteContainerOptions` for `BlobServiceClient.undeleteContainer()`.
 
 ## 12.5.0 (2021-03-10)
 
