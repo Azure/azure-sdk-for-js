@@ -85,14 +85,14 @@ describe("KeyVaultBackupClient", () => {
       assert.exists(backupResult.folderUri);
 
       const restorePoller = await client.beginRestore(
-        blobStorageUri,
+        backupResult.folderUri!,
         blobSasToken,
         testPollerProperties
       );
       await restorePoller.poll();
 
       // A poller can be serialized and then resumed
-      const resumedPoller = await client.beginRestore(blobStorageUri, blobSasToken, {
+      const resumedPoller = await client.beginRestore(backupResult.folderUri!, blobSasToken, {
         ...testPollerProperties,
         resumeFrom: restorePoller.toString()
       });
@@ -138,7 +138,7 @@ describe("KeyVaultBackupClient", () => {
 
       const selectiveRestorePoller = await client.beginSelectiveRestore(
         keyName,
-        blobStorageUri,
+        backupURI.folderUri!,
         blobSasToken,
         testPollerProperties
       );

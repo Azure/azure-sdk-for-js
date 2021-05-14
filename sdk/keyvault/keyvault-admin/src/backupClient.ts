@@ -203,14 +203,16 @@ export class KeyVaultBackupClient {
     sasToken: string,
     options: KeyVaultBeginRestoreOptions = {}
   ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>> {
-    const folderName = folderUri.split("/")[4];
+    const uriParts = folderUri.split("/");
+    const folderName = uriParts.pop();
+    const storageUri = uriParts.join("/");
 
     if (!folderName) {
       throw new Error("The provided folder URI is missing the folder name.");
     }
 
     const poller = new KeyVaultRestorePoller({
-      folderUri,
+      folderUri: storageUri,
       sasToken,
       folderName,
       client: this.client,
@@ -265,7 +267,9 @@ export class KeyVaultBackupClient {
     sasToken: string,
     options: KeyVaultBeginBackupOptions = {}
   ): Promise<PollerLike<KeyVaultSelectiveRestoreOperationState, KeyVaultRestoreResult>> {
-    const folderName = folderUri.split("/")[4];
+    const uriParts = folderUri.split("/");
+    const folderName = uriParts.pop();
+    const storageUri = uriParts.join("/");
 
     if (!folderName) {
       throw new Error("The provided folder URI is missing the folder name.");
@@ -273,7 +277,7 @@ export class KeyVaultBackupClient {
 
     const poller = new KeyVaultSelectiveRestorePoller({
       keyName,
-      folderUri,
+      folderUri: storageUri,
       sasToken,
       folderName,
       client: this.client,
