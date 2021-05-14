@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ListConfigurationSettingsOptions } from "..";
+import { featureFlagContentType, ListConfigurationSettingsOptions } from "..";
 import { URLBuilder } from "@azure/core-http";
 import {
   ListRevisionsOptions,
@@ -14,8 +14,12 @@ import {
   ConfigurationSettingParam
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
-import { FeatureFlagHelper, FeatureFlagValue, isFeatureFlag } from "../featureFlag";
-import { isSecretReference, SecretReferenceHelper, SecretReferenceValue } from "../secretReference";
+import { FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
+import {
+  secretReferenceContentType,
+  SecretReferenceHelper,
+  SecretReferenceValue
+} from "../secretReference";
 import { isDefined } from "./typeguards";
 
 /**
@@ -172,7 +176,9 @@ function isConfigSettingWithSecretReferenceValue(
   setting: any
 ): setting is ConfigurationSetting<SecretReferenceValue> {
   return (
-    isSecretReference(setting) && isDefined(setting.value) && typeof setting.value !== "string"
+    setting.contentType === secretReferenceContentType &&
+    isDefined(setting.value) &&
+    typeof setting.value !== "string"
   );
 }
 
@@ -182,7 +188,11 @@ function isConfigSettingWithSecretReferenceValue(
 function isConfigSettingWithFeatureFlagValue(
   setting: any
 ): setting is ConfigurationSetting<FeatureFlagValue> {
-  return isFeatureFlag(setting) && isDefined(setting.value) && typeof setting.value !== "string";
+  return (
+    setting.contentType === featureFlagContentType &&
+    isDefined(setting.value) &&
+    typeof setting.value !== "string"
+  );
 }
 
 /**
