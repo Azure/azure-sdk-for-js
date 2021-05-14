@@ -132,10 +132,10 @@ export interface HttpResponseFields {
 }
 
 // @public
-export const isFeatureFlag: (setting: ConfigurationSetting) => boolean;
+export function isFeatureFlag(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
-export const isSecretReference: (setting: ConfigurationSetting) => boolean;
+export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {
