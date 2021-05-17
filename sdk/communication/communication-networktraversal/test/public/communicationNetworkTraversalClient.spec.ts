@@ -7,8 +7,8 @@ import { Recorder, env } from "@azure/test-utils-recorder";
 import { CommunicationRelayClient } from "../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import {
-  createRecordedCommunicationNetworkingClient,
-  createRecordedCommunicationNetworkingClientWithToken
+  createRecordedCommunicationRelayClient,
+  createRecordedCommunicationRelayClientWithToken
 } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { matrix } from "./utils/matrix";
@@ -20,9 +20,9 @@ matrix([[true, false]], async function(useAad) {
 
     beforeEach(function(this: Context) {
       if (useAad) {
-        ({ client, recorder } = createRecordedCommunicationNetworkingClientWithToken(this));
+        ({ client, recorder } = createRecordedCommunicationRelayClientWithToken(this));
       } else {
-        ({ client, recorder } = createRecordedCommunicationNetworkingClient(this));
+        ({ client, recorder } = createRecordedCommunicationRelayClient(this));
       }
     });
 

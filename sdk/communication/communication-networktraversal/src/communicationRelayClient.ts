@@ -34,7 +34,7 @@ const isCommunicationRelayClientOptions = (
   options && !isTokenCredential(options) && !isKeyCredential(options);
 
 /**
- * Client class for interacting with Azure Communication Services User Token Management.
+ * Client class for the Azure Communication Services Relay client.
  */
 export class CommunicationRelayClient {
   /**

@@ -65,7 +65,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createRecordedCommunicationNetworkingClient(
+export function createRecordedCommunicationRelayClient(
   context: Context
 ): RecordedClient<CommunicationRelayClient> {
   const recorder = record(context, environmentSetup);
@@ -79,7 +79,7 @@ export function createRecordedCommunicationNetworkingClient(
   };
 }
 
-export function createRecordedCommunicationNetworkingClientWithToken(
+export function createRecordedCommunicationRelayClientWithToken(
   context: Context
 ): RecordedClient<CommunicationRelayClient> {
   const recorder = record(context, environmentSetup);
