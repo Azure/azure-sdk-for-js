@@ -102,6 +102,14 @@ export const RepositoryProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "RepositoryProperties",
     modelProperties: {
+      registryLoginServer: {
+        serializedName: "registry",
+        required: true,
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       name: {
         serializedName: "imageName",
         required: true,
@@ -142,11 +150,34 @@ export const RepositoryProperties: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      writeableProperties: {
-        serializedName: "changeableAttributes",
+      canDelete: {
+        serializedName: "changeableAttributes.deleteEnabled",
         type: {
-          name: "Composite",
-          className: "RepositoryWriteableProperties"
+          name: "Boolean"
+        }
+      },
+      canWrite: {
+        serializedName: "changeableAttributes.writeEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canList: {
+        serializedName: "changeableAttributes.listEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canRead: {
+        serializedName: "changeableAttributes.readEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      teleportEnabled: {
+        serializedName: "changeableAttributes.teleportEnabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -230,6 +261,13 @@ export const TagList: coreClient.CompositeMapper = {
     name: "Composite",
     className: "TagList",
     modelProperties: {
+      registryLoginServer: {
+        serializedName: "registry",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       repository: {
         serializedName: "imageName",
         required: true,
@@ -297,11 +335,28 @@ export const TagAttributesBase: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
-      writeableProperties: {
-        serializedName: "changeableAttributes",
+      canDelete: {
+        serializedName: "changeableAttributes.deleteEnabled",
         type: {
-          name: "Composite",
-          className: "TagWriteableProperties"
+          name: "Boolean"
+        }
+      },
+      canWrite: {
+        serializedName: "changeableAttributes.writeEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canList: {
+        serializedName: "changeableAttributes.listEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canRead: {
+        serializedName: "changeableAttributes.readEnabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -346,6 +401,14 @@ export const ArtifactTagProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ArtifactTagProperties",
     modelProperties: {
+      registryLoginServer: {
+        serializedName: "registry",
+        required: true,
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       repositoryName: {
         serializedName: "imageName",
         required: true,
@@ -386,11 +449,28 @@ export const ArtifactTagProperties: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
-      writeableProperties: {
-        serializedName: "tag.changeableAttributes",
+      canDelete: {
+        serializedName: "tag.changeableAttributes.deleteEnabled",
         type: {
-          name: "Composite",
-          className: "TagWriteableProperties"
+          name: "Boolean"
+        }
+      },
+      canWrite: {
+        serializedName: "tag.changeableAttributes.writeEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canList: {
+        serializedName: "tag.changeableAttributes.listEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canRead: {
+        serializedName: "tag.changeableAttributes.readEnabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -402,6 +482,12 @@ export const AcrManifests: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AcrManifests",
     modelProperties: {
+      registryLoginServer: {
+        serializedName: "registry",
+        type: {
+          name: "String"
+        }
+      },
       repository: {
         serializedName: "imageName",
         type: {
@@ -452,6 +538,7 @@ export const ManifestAttributesBase: coreClient.CompositeMapper = {
       },
       createdOn: {
         serializedName: "createdTime",
+        required: true,
         readOnly: true,
         type: {
           name: "DateTime"
@@ -459,6 +546,7 @@ export const ManifestAttributesBase: coreClient.CompositeMapper = {
       },
       lastUpdatedOn: {
         serializedName: "lastUpdateTime",
+        required: true,
         readOnly: true,
         type: {
           name: "DateTime"
@@ -506,11 +594,40 @@ export const ManifestAttributesBase: coreClient.CompositeMapper = {
           }
         }
       },
-      writeableProperties: {
-        serializedName: "changeableAttributes",
+      canDelete: {
+        serializedName: "changeableAttributes.deleteEnabled",
         type: {
-          name: "Composite",
-          className: "ManifestWriteableProperties"
+          name: "Boolean"
+        }
+      },
+      canWrite: {
+        serializedName: "changeableAttributes.writeEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canList: {
+        serializedName: "changeableAttributes.listEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canRead: {
+        serializedName: "changeableAttributes.readEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      quarantineState: {
+        serializedName: "changeableAttributes.quarantineState",
+        type: {
+          name: "String"
+        }
+      },
+      quarantineDetails: {
+        serializedName: "changeableAttributes.quarantineDetails",
+        type: {
+          name: "String"
         }
       }
     }
@@ -601,6 +718,13 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ArtifactManifestProperties",
     modelProperties: {
+      registryLoginServer: {
+        serializedName: "registry",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       repositoryName: {
         serializedName: "imageName",
         readOnly: true,
@@ -625,6 +749,7 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
       },
       createdOn: {
         serializedName: "manifest.createdTime",
+        required: true,
         readOnly: true,
         type: {
           name: "DateTime"
@@ -632,6 +757,7 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
       },
       lastUpdatedOn: {
         serializedName: "manifest.lastUpdateTime",
+        required: true,
         readOnly: true,
         type: {
           name: "DateTime"
@@ -679,11 +805,40 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
           }
         }
       },
-      writeableProperties: {
-        serializedName: "manifest.changeableAttributes",
+      canDelete: {
+        serializedName: "manifest.changeableAttributes.deleteEnabled",
         type: {
-          name: "Composite",
-          className: "ManifestWriteableProperties"
+          name: "Boolean"
+        }
+      },
+      canWrite: {
+        serializedName: "manifest.changeableAttributes.writeEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canList: {
+        serializedName: "manifest.changeableAttributes.listEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canRead: {
+        serializedName: "manifest.changeableAttributes.readEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      quarantineState: {
+        serializedName: "manifest.changeableAttributes.quarantineState",
+        type: {
+          name: "String"
+        }
+      },
+      quarantineDetails: {
+        serializedName: "manifest.changeableAttributes.quarantineDetails",
+        type: {
+          name: "String"
         }
       }
     }

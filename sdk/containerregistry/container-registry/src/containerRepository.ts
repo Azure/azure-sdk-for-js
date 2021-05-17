@@ -13,16 +13,12 @@ import { createSpan } from "./tracing";
 import {
   DeleteRepositoryResult,
   ManifestOrderBy,
-  ArtifactManifestProperties,
   RepositoryProperties,
+  ArtifactManifestProperties,
   ManifestPageResponse
 } from "./models";
 import { RegistryArtifact, RegistryArtifactImpl } from "./registryArtifact";
-import {
-  toArtifactManifestProperties,
-  toRepositoryProperties,
-  toServiceManifestOrderBy
-} from "./transformations";
+import { toArtifactManifestProperties, toServiceManifestOrderBy } from "./transformations";
 import { extractNextLink } from "./utils";
 
 /**
@@ -178,8 +174,7 @@ export class ContainerRepositoryImpl {
     const { span, updatedOptions } = createSpan("ContainerRepository-getProperties", options);
 
     try {
-      const result = await this.client.containerRegistry.getProperties(this.name, updatedOptions);
-      return toRepositoryProperties(result);
+      return await this.client.containerRegistry.getProperties(this.name, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -208,8 +203,7 @@ export class ContainerRepositoryImpl {
     });
 
     try {
-      const result = await this.client.containerRegistry.setProperties(this.name, updatedOptions);
-      return toRepositoryProperties(result);
+      return await this.client.containerRegistry.setProperties(this.name, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

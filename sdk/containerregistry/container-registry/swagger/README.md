@@ -14,7 +14,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 #input-file: ./containerregistry.json
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/2523b2ab13289ba640aa621951bc41073d3bfd3f/specification/containerregistry/data-plane/Azure.ContainerRegistry/preview/2019-08-15-preview/containerregistry.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/7d61610b5b54f21de3c95b64c341c7bde385c994/specification/containerregistry/data-plane/Azure.ContainerRegistry/preview/2019-08-15-preview/containerregistry.json
 add-credentials: false
 override-client-name: GeneratedClient
 disable-async-iterators: true

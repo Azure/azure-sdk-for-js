@@ -16,11 +16,12 @@ export interface ArtifactManifestProperties {
     canList?: boolean;
     canRead?: boolean;
     canWrite?: boolean;
-    readonly createdOn?: Date;
+    readonly createdOn: Date;
     readonly digest: string;
-    readonly lastUpdatedOn?: Date;
+    readonly lastUpdatedOn: Date;
     readonly manifestReferences: ArtifactManifestReference[];
     readonly operatingSystem?: string;
+    readonly registryLoginServer?: string;
     readonly repositoryName?: string;
     readonly size?: number;
     readonly tags: string[];
@@ -43,6 +44,7 @@ export interface ArtifactTagProperties {
     readonly digest: string;
     readonly lastUpdatedOn: Date;
     readonly name: string;
+    readonly registryLoginServer: string;
     readonly repositoryName: string;
 }
 
@@ -218,6 +220,7 @@ export interface RepositoryProperties {
     readonly lastUpdatedOn: Date;
     readonly manifestCount: number;
     readonly name: string;
+    readonly registryLoginServer: string;
     readonly tagCount: number;
     teleportEnabled?: boolean;
 }

@@ -3,6 +3,10 @@
 
 import { PipelineOptions } from "@azure/core-rest-pipeline";
 
+export { RepositoryProperties, ArtifactTagProperties } from "./generated";
+
+import { ArtifactTagProperties } from "./generated";
+
 /**
  * Client options used to configure Container Registry Repository API requests.
  */
@@ -71,6 +75,11 @@ export interface ArtifactManifestReference {
 /** Manifest attributes details */
 export interface ArtifactManifestProperties {
   /**
+   * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registryLoginServer?: string;
+  /**
    * Repository name
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -89,12 +98,12 @@ export interface ArtifactManifestProperties {
    * Created time
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly createdOn?: Date;
+  readonly createdOn: Date;
   /**
    * Last update time
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly lastUpdatedOn?: Date;
+  readonly lastUpdatedOn: Date;
   /**
    * CPU architecture. See {@link KnownArtifactArchitecture} for values supported by the service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -115,82 +124,6 @@ export interface ArtifactManifestProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tags: string[];
-  /** Delete enabled */
-  canDelete?: boolean;
-  /** Write enabled */
-  canWrite?: boolean;
-  /** List enabled */
-  canList?: boolean;
-  /** Read enabled */
-  canRead?: boolean;
-}
-
-/** Repository attributes */
-export interface RepositoryProperties {
-  /**
-   * Image name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name: string;
-  /**
-   * Image created time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdOn: Date;
-  /**
-   * Image last update time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastUpdatedOn: Date;
-  /**
-   * Number of the manifests
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly manifestCount: number;
-  /**
-   * Number of the tags
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tagCount: number;
-  /** Delete enabled */
-  canDelete?: boolean;
-  /** Write enabled */
-  canWrite?: boolean;
-  /** List enabled */
-  canList?: boolean;
-  /** Read enabled */
-  canRead?: boolean;
-  /** Enables Teleport functionality on new images in the repository improving Container startup performance */
-  teleportEnabled?: boolean;
-}
-
-/** Tag attributes */
-export interface ArtifactTagProperties {
-  /**
-   * Image name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly repositoryName: string;
-  /**
-   * Tag name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name: string;
-  /**
-   * Tag digest
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly digest: string;
-  /**
-   * Tag created time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdOn: Date;
-  /**
-   * Tag last update time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastUpdatedOn: Date;
   /** Delete enabled */
   canDelete?: boolean;
   /** Write enabled */

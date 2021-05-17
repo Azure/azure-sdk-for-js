@@ -5,17 +5,9 @@ import {
   ManifestAttributesBase,
   TagOrderBy as ServiceTagOrderBy,
   ManifestOrderBy as ServiceManifestOrderBy,
-  ManifestWriteableProperties as ServiceManifestWritableProperties,
-  RepositoryProperties as ServiceRepositoryProperties,
-  ArtifactTagProperties as ServiceArtifactTagProperties
+  ManifestWriteableProperties as ServiceManifestWritableProperties
 } from "./generated/models";
-import {
-  ArtifactManifestProperties,
-  TagOrderBy,
-  ManifestOrderBy,
-  RepositoryProperties,
-  ArtifactTagProperties
-} from "./models";
+import { ArtifactManifestProperties, TagOrderBy, ManifestOrderBy } from "./models";
 
 /** Changeable attributes. Filter out `quarantineState` and `quarantineDetails` returned by service */
 interface ManifestWriteableProperties {
@@ -57,29 +49,7 @@ export function toArtifactManifestProperties(
     operatingSystem: from.operatingSystem ?? undefined,
     manifestReferences: from.manifestReferences ?? [],
     tags: from.tags ?? [],
-    ...toManifestWritableProperties(from.writeableProperties)
-  };
-}
-
-export function toRepositoryProperties(from: ServiceRepositoryProperties): RepositoryProperties {
-  return {
-    name: from.name,
-    createdOn: from.createdOn,
-    lastUpdatedOn: from.lastUpdatedOn,
-    manifestCount: from.manifestCount,
-    tagCount: from.tagCount,
-    ...from.writeableProperties
-  };
-}
-
-export function toArtifactTagProperties(from: ServiceArtifactTagProperties): ArtifactTagProperties {
-  return {
-    repositoryName: from.repositoryName,
-    name: from.name,
-    digest: from.digest,
-    createdOn: from.createdOn,
-    lastUpdatedOn: from.lastUpdatedOn,
-    ...from.writeableProperties
+    ...toManifestWritableProperties(from)
   };
 }
 

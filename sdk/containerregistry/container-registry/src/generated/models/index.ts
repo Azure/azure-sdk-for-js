@@ -41,6 +41,11 @@ export interface Repositories {
 /** Repository attributes */
 export interface RepositoryProperties {
   /**
+   * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registryLoginServer: string;
+  /**
    * Image name
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -65,11 +70,16 @@ export interface RepositoryProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tagCount: number;
-  /**
-   * Writeable properties of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly writeableProperties: RepositoryWriteableProperties;
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+  /** Enables Teleport functionality on new images in the repository improving Container startup performance */
+  teleportEnabled?: boolean;
 }
 
 /** Changeable attributes for Repository */
@@ -102,6 +112,8 @@ export interface DeleteRepositoryResult {
 
 /** List of tag details */
 export interface TagList {
+  /** Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io */
+  registryLoginServer: string;
   /** Image name */
   repository: string;
   /** List of tag attribute details */
@@ -131,11 +143,14 @@ export interface TagAttributesBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastUpdatedOn: Date;
-  /**
-   * Writeable properties of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly writeableProperties: TagWriteableProperties;
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
 }
 
 /** Changeable attributes */
@@ -152,6 +167,11 @@ export interface TagWriteableProperties {
 
 /** Tag attributes */
 export interface ArtifactTagProperties {
+  /**
+   * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registryLoginServer: string;
   /**
    * Image name
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -177,15 +197,20 @@ export interface ArtifactTagProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastUpdatedOn: Date;
-  /**
-   * Writeable properties of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly writeableProperties: TagWriteableProperties;
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
 }
 
 /** Manifest attributes */
 export interface AcrManifests {
+  /** Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io */
+  registryLoginServer?: string;
   /** Image name */
   repository?: string;
   /** List of manifests */
@@ -209,12 +234,12 @@ export interface ManifestAttributesBase {
    * Created time
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly createdOn?: Date;
+  readonly createdOn: Date;
   /**
    * Last update time
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly lastUpdatedOn?: Date;
+  readonly lastUpdatedOn: Date;
   /**
    * CPU architecture
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -235,11 +260,18 @@ export interface ManifestAttributesBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tags?: string[];
-  /**
-   * Writeable properties of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly writeableProperties?: ManifestWriteableProperties;
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+  /** Quarantine state */
+  quarantineState?: string;
+  /** Quarantine details */
+  quarantineDetails?: string;
 }
 
 /** Manifest attributes details */
@@ -280,6 +312,11 @@ export interface ManifestWriteableProperties {
 /** Manifest attributes details */
 export interface ArtifactManifestProperties {
   /**
+   * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registryLoginServer?: string;
+  /**
    * Repository name
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -298,12 +335,12 @@ export interface ArtifactManifestProperties {
    * Created time
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly createdOn?: Date;
+  readonly createdOn: Date;
   /**
    * Last update time
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly lastUpdatedOn?: Date;
+  readonly lastUpdatedOn: Date;
   /**
    * CPU architecture
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -324,11 +361,18 @@ export interface ArtifactManifestProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tags?: string[];
-  /**
-   * Writeable properties of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly writeableProperties?: ManifestWriteableProperties;
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+  /** Quarantine state */
+  quarantineState?: string;
+  /** Quarantine details */
+  quarantineDetails?: string;
 }
 
 export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {

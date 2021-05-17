@@ -18,11 +18,7 @@ import { URL } from "./url";
 import { createSpan } from "./tracing";
 import { GeneratedClient } from "./generated";
 import { extractNextLink, isDigest } from "./utils";
-import {
-  toArtifactManifestProperties,
-  toArtifactTagProperties,
-  toServiceTagOrderBy
-} from "./transformations";
+import { toArtifactManifestProperties, toServiceTagOrderBy } from "./transformations";
 
 /**
  * Options for the `delete` method of `RegistryArtifact`.
@@ -312,12 +308,11 @@ export class RegistryArtifactImpl {
   ): Promise<ArtifactTagProperties> {
     const { span, updatedOptions } = createSpan("RegistryArtifact-getTagProperties", options);
     try {
-      const result = await this.client.containerRegistry.getTagProperties(
+      return await this.client.containerRegistry.getTagProperties(
         this.repositoryName,
         tag,
         updatedOptions
       );
-      return toArtifactTagProperties(result);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -346,12 +341,11 @@ export class RegistryArtifactImpl {
     });
 
     try {
-      const result = await this.client.containerRegistry.updateTagAttributes(
+      return await this.client.containerRegistry.updateTagAttributes(
         this.repositoryName,
         tag,
         updatedOptions
       );
-      return toArtifactTagProperties(result);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -417,8 +411,9 @@ export class RegistryArtifactImpl {
       if (currentPage.tagAttributeBases) {
         const array = currentPage.tagAttributeBases.map((t) => {
           return {
-            ...t,
-            repositoryName: currentPage.repository
+            registryLoginServer: currentPage.registryLoginServer,
+            repositoryName: currentPage.repository,
+            ...t
           };
         });
         yield Object.defineProperty(array, "continuationToken", {
@@ -437,8 +432,9 @@ export class RegistryArtifactImpl {
       if (currentPage.tagAttributeBases) {
         const array = currentPage.tagAttributeBases.map((t) => {
           return {
-            ...t,
-            repositoryName: currentPage.repository
+            registryLoginServer: currentPage.registryLoginServer,
+            repositoryName: currentPage.repository,
+            ...t
           };
         });
         yield Object.defineProperty(array, "continuationToken", {
