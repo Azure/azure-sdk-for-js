@@ -5,14 +5,18 @@ import {
   ManifestAttributesBase,
   TagOrderBy as ServiceTagOrderBy,
   ManifestOrderBy as ServiceManifestOrderBy,
-  ManifestWriteableProperties as ServiceManifestWritableProperties
+  ManifestWriteableProperties as ServiceManifestWritableProperties,
+  RepositoryProperties as ServiceRepositoryProperties,
+  ArtifactTagProperties as ServiceArtifactTagProperties
 } from "./generated/models";
 import {
   ArtifactManifestProperties,
   ManifestWriteableProperties,
   TagOrderBy,
-  ManifestOrderBy
-} from "./model";
+  ManifestOrderBy,
+  RepositoryProperties,
+  ArtifactTagProperties
+} from "./models";
 
 export function toManifestWritableProperties(
   from?: ServiceManifestWritableProperties
@@ -42,7 +46,29 @@ export function toArtifactManifestProperties(
     operatingSystem: from.operatingSystem ?? undefined,
     manifestReferences: from.manifestReferences ?? [],
     tags: from.tags ?? [],
-    writeableProperties: toManifestWritableProperties(from.writeableProperties)
+    ...toManifestWritableProperties(from.writeableProperties)
+  };
+}
+
+export function toRepositoryProperties(from: ServiceRepositoryProperties): RepositoryProperties {
+  return {
+    name: from.name,
+    createdOn: from.createdOn,
+    lastUpdatedOn: from.lastUpdatedOn,
+    manifestCount: from.manifestCount,
+    tagCount: from.tagCount,
+    ...from.writeableProperties
+  };
+}
+
+export function toArtifactTagProperties(from: ServiceArtifactTagProperties): ArtifactTagProperties {
+  return {
+    repositoryName: from.repositoryName,
+    name: from.name,
+    digest: from.digest,
+    createdOn: from.createdOn,
+    lastUpdatedOn: from.lastUpdatedOn,
+    ...from.writeableProperties
   };
 }
 

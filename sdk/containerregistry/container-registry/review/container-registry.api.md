@@ -12,6 +12,10 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export interface ArtifactManifestProperties {
     readonly architecture?: string;
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
     readonly createdOn?: Date;
     readonly digest: string;
     readonly lastUpdatedOn?: Date;
@@ -20,7 +24,6 @@ export interface ArtifactManifestProperties {
     readonly repositoryName?: string;
     readonly size?: number;
     readonly tags: string[];
-    readonly writeableProperties?: ManifestWriteableProperties;
 }
 
 // @public
@@ -32,12 +35,15 @@ export interface ArtifactManifestReference {
 
 // @public
 export interface ArtifactTagProperties {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
     readonly createdOn: Date;
     readonly digest: string;
     readonly lastUpdatedOn: Date;
     readonly name: string;
     readonly repositoryName: string;
-    readonly writeableProperties: TagWriteableProperties;
 }
 
 // @public
@@ -213,12 +219,16 @@ export interface RepositoryPageResponse extends Array<string> {
 
 // @public
 export interface RepositoryProperties {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
     readonly createdOn: Date;
     readonly lastUpdatedOn: Date;
     readonly manifestCount: number;
     readonly name: string;
     readonly tagCount: number;
-    readonly writeableProperties: RepositoryWriteableProperties;
+    teleportEnabled?: boolean;
 }
 
 // @public

@@ -22,7 +22,7 @@ import {
   ContainerRegistryClientOptions,
   DeleteRepositoryResult,
   RepositoryPageResponse
-} from "./model";
+} from "./models";
 import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 import {

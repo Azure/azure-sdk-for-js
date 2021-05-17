@@ -76,12 +76,7 @@ describe("Repository and artifact tests", function() {
 
   it("sets manifest properties", async () => {
     const artifact = repository.getArtifact(artifactDigest);
-    const artifactProperties = await artifact.getManifestProperties();
-    assert.ok(
-      artifactProperties.writeableProperties,
-      "Expect valid artifactProperties.writeableProperties"
-    );
-    const original = artifactProperties.writeableProperties!;
+    const original = await artifact.getManifestProperties();
 
     try {
       const updated = await artifact.setManifestProperties({
@@ -91,12 +86,10 @@ describe("Repository and artifact tests", function() {
         canWrite: false
       });
 
-      assert.deepStrictEqual(updated.writeableProperties, {
-        canDelete: false,
-        canList: false,
-        canRead: false,
-        canWrite: false
-      });
+      assert.strictEqual(updated.canDelete, false);
+      assert.strictEqual(updated.canList, false);
+      assert.strictEqual(updated.canRead, false);
+      assert.strictEqual(updated.canWrite, false);
     } finally {
       await artifact.setManifestProperties(original);
     }
@@ -104,7 +97,7 @@ describe("Repository and artifact tests", function() {
 
   it("sets repository properties", async () => {
     const repositoryProperties = await repository.getProperties();
-    const original = repositoryProperties.writeableProperties!;
+    const original = repositoryProperties;
     try {
       const updated = await repository.setProperties({
         canDelete: false,
@@ -114,13 +107,11 @@ describe("Repository and artifact tests", function() {
         teleportEnabled: true
       });
 
-      assert.deepStrictEqual(updated.writeableProperties, {
-        canDelete: false,
-        canList: false,
-        canRead: false,
-        canWrite: false,
-        teleportEnabled: true
-      });
+      assert.strictEqual(updated.canDelete, false);
+      assert.strictEqual(updated.canList, false);
+      assert.strictEqual(updated.canRead, false);
+      assert.strictEqual(updated.canWrite, false);
+      assert.strictEqual(updated.teleportEnabled, true);
     } finally {
       await repository.setProperties(original);
     }
@@ -149,8 +140,7 @@ describe("Repository and artifact tests", function() {
   it("sets tag properties", async () => {
     const tag = "test1";
     const artifact = repository.getArtifact(tag);
-    const tagProperties = await artifact.getTagProperties(tag);
-    const original = tagProperties.writeableProperties!;
+    const original = await artifact.getTagProperties(tag);
 
     try {
       const updated = await artifact.setTagProperties(tag, {
@@ -160,12 +150,10 @@ describe("Repository and artifact tests", function() {
         canWrite: false
       });
 
-      assert.deepStrictEqual(updated.writeableProperties, {
-        canDelete: false,
-        canList: false,
-        canRead: false,
-        canWrite: false
-      });
+      assert.strictEqual(updated.canDelete, false);
+      assert.strictEqual(updated.canList, false);
+      assert.strictEqual(updated.canRead, false);
+      assert.strictEqual(updated.canWrite, false);
     } finally {
       await artifact.setTagProperties(tag, original);
     }

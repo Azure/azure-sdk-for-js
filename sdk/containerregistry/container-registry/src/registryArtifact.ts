@@ -15,12 +15,16 @@ import {
   ManifestWriteableProperties,
   TagOrderBy,
   TagPageResponse
-} from "./model";
+} from "./models";
 import { URL } from "./url";
 import { createSpan } from "./tracing";
 import { GeneratedClient } from "./generated";
 import { extractNextLink, isDigest } from "./utils";
-import { toManifestWritableProperties, toServiceTagOrderBy } from "./transformations";
+import {
+  toArtifactManifestProperties,
+  toArtifactTagProperties,
+  toServiceTagOrderBy
+} from "./transformations";
 
 /**
  * Options for the `delete` method of `RegistryArtifact`.
@@ -236,18 +240,7 @@ export class RegistryArtifactImpl {
         digest,
         updatedOptions
       );
-      return {
-        repositoryName: result.repositoryName,
-        digest: result.digest,
-        size: result.size,
-        createdOn: result.createdOn,
-        lastUpdatedOn: result.lastUpdatedOn,
-        architecture: result.architecture ?? undefined,
-        operatingSystem: result.operatingSystem ?? undefined,
-        manifestReferences: result.manifestReferences ?? [],
-        tags: result.tags ?? [],
-        writeableProperties: toManifestWritableProperties(result.writeableProperties)
-      };
+      return toArtifactManifestProperties(result, this.repositoryName);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -283,18 +276,7 @@ export class RegistryArtifactImpl {
         digest,
         updatedOptions
       );
-      return {
-        repositoryName: result.repositoryName,
-        digest: result.digest,
-        size: result.size,
-        createdOn: result.createdOn,
-        lastUpdatedOn: result.lastUpdatedOn,
-        architecture: result.architecture ?? undefined,
-        operatingSystem: result.operatingSystem ?? undefined,
-        manifestReferences: result.manifestReferences ?? [],
-        tags: result.tags ?? [],
-        writeableProperties: toManifestWritableProperties(result.writeableProperties)
-      };
+      return toArtifactManifestProperties(result, this.repositoryName);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -319,7 +301,7 @@ export class RegistryArtifactImpl {
         tag,
         updatedOptions
       );
-      return result;
+      return toArtifactTagProperties(result);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -348,11 +330,12 @@ export class RegistryArtifactImpl {
     });
 
     try {
-      return await this.client.containerRegistry.updateTagAttributes(
+      const result = await this.client.containerRegistry.updateTagAttributes(
         this.repositoryName,
         tag,
         updatedOptions
       );
+      return toArtifactTagProperties(result);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

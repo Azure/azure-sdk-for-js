@@ -19,4 +19,4 @@ export {
   SetTagPropertiesOptions,
   ListTagsOptions
 } from "./registryArtifact";
-export * from "./model";
+export * from "./models";
