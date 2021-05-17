@@ -402,8 +402,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/communication-networktraversal",
-      "projectFolder": "sdk/communication/communication-networktraversal",
+      "packageName": "@azure/communication-network-traversal",
+      "projectFolder": "sdk/communication/communication-network-traversal",
       "versionPolicyName": "client"
     },
     {
