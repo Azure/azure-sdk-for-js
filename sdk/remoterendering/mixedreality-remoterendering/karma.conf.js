@@ -124,7 +124,8 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: 1,
 
-    browserNoActivityTimeout: 600000,
+    // TODO Experiment: Extend timeout to see if problem is really just a timeout.
+    browserNoActivityTimeout: 6000000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
