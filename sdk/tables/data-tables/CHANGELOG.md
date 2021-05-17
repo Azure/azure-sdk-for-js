@@ -9,7 +9,7 @@
 ### Breaking Changes
 
 - Enable Type conversion of `DateTime -> Date` and `Int64 -> bigint` by default. Allow disabling type conversion with `disableTypeConversion` option in the get and list operations. [#15307](https://github.com/Azure/azure-sdk-for-js/pull/15307)
-- Node.js v8 support is dropped as it has reached end of life [#14956](https://github.com/Azure/azure-sdk-for-js/pull/15307)
+- Node.js v8 support is dropped as it has reached end of life [#15307](https://github.com/Azure/azure-sdk-for-js/pull/15307)
 - Rename Batch to Transaction and redesign submitTransaction to provide a more declarative interface. [#15250](https://github.com/Azure/azure-sdk-for-js/pull/15250)
 - createTable and deleteTable don't throw on 409 or 404 respectively. Return type becomes `Promise<void>`. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956)
 - Clean up method options. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956)
