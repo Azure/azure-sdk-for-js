@@ -32,28 +32,43 @@ export class Operations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(checkNameAvailabilityParameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase): Promise<Models.OperationsCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    checkNameAvailabilityParameters: Models.CheckNameAvailabilityParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationsCheckNameAvailabilityResponse>;
   /**
    * @param checkNameAvailabilityParameters The object containing information for the availability
    * request.
    * @param callback The callback
    */
-  checkNameAvailability(checkNameAvailabilityParameters: Models.CheckNameAvailabilityParameters, callback: msRest.ServiceCallback<Models.NameAvailabilityStatus>): void;
+  checkNameAvailability(
+    checkNameAvailabilityParameters: Models.CheckNameAvailabilityParameters,
+    callback: msRest.ServiceCallback<Models.NameAvailabilityStatus>
+  ): void;
   /**
    * @param checkNameAvailabilityParameters The object containing information for the availability
    * request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(checkNameAvailabilityParameters: Models.CheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailabilityStatus>): void;
-  checkNameAvailability(checkNameAvailabilityParameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityStatus>, callback?: msRest.ServiceCallback<Models.NameAvailabilityStatus>): Promise<Models.OperationsCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    checkNameAvailabilityParameters: Models.CheckNameAvailabilityParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NameAvailabilityStatus>
+  ): void;
+  checkNameAvailability(
+    checkNameAvailabilityParameters: Models.CheckNameAvailabilityParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityStatus>,
+    callback?: msRest.ServiceCallback<Models.NameAvailabilityStatus>
+  ): Promise<Models.OperationsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         checkNameAvailabilityParameters,
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.OperationsCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.OperationsCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -70,14 +85,23 @@ export class Operations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.OperationsListOptionalParams, callback: msRest.ServiceCallback<Models.OperationDefinitionListResult>): void;
-  list(options?: Models.OperationsListOptionalParams | msRest.ServiceCallback<Models.OperationDefinitionListResult>, callback?: msRest.ServiceCallback<Models.OperationDefinitionListResult>): Promise<Models.OperationsListResponse> {
+  list(
+    options: Models.OperationsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.OperationDefinitionListResult>
+  ): void;
+  list(
+    options?:
+      | Models.OperationsListOptionalParams
+      | msRest.ServiceCallback<Models.OperationDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.OperationDefinitionListResult>
+  ): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OperationsListResponse>;
+      callback
+    ) as Promise<Models.OperationsListResponse>;
   }
 
   /**
@@ -86,26 +110,43 @@ export class Operations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.OperationsListNextOptionalParams): Promise<Models.OperationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.OperationsListNextOptionalParams
+  ): Promise<Models.OperationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationDefinitionListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.OperationDefinitionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.OperationsListNextOptionalParams, callback: msRest.ServiceCallback<Models.OperationDefinitionListResult>): void;
-  listNext(nextPageLink: string, options?: Models.OperationsListNextOptionalParams | msRest.ServiceCallback<Models.OperationDefinitionListResult>, callback?: msRest.ServiceCallback<Models.OperationDefinitionListResult>): Promise<Models.OperationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.OperationsListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.OperationDefinitionListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.OperationsListNextOptionalParams
+      | msRest.ServiceCallback<Models.OperationDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.OperationDefinitionListResult>
+  ): Promise<Models.OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.OperationsListNextResponse>;
+      callback
+    ) as Promise<Models.OperationsListNextResponse>;
   }
 }
 
@@ -114,15 +155,9 @@ const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "checkNameAvailabilityParameters",
     mapper: {
@@ -144,13 +179,8 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.AppConfiguration/operations",
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationDefinitionListResult
@@ -166,16 +196,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationDefinitionListResult

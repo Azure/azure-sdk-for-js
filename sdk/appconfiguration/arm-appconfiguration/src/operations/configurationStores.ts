@@ -31,7 +31,9 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationStoresListResponse>
    */
-  list(options?: Models.ConfigurationStoresListOptionalParams): Promise<Models.ConfigurationStoresListResponse>;
+  list(
+    options?: Models.ConfigurationStoresListOptionalParams
+  ): Promise<Models.ConfigurationStoresListResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,23 @@ export class ConfigurationStores {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ConfigurationStoresListOptionalParams, callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>): void;
-  list(options?: Models.ConfigurationStoresListOptionalParams | msRest.ServiceCallback<Models.ConfigurationStoreListResult>, callback?: msRest.ServiceCallback<Models.ConfigurationStoreListResult>): Promise<Models.ConfigurationStoresListResponse> {
+  list(
+    options: Models.ConfigurationStoresListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>
+  ): void;
+  list(
+    options?:
+      | Models.ConfigurationStoresListOptionalParams
+      | msRest.ServiceCallback<Models.ConfigurationStoreListResult>,
+    callback?: msRest.ServiceCallback<Models.ConfigurationStoreListResult>
+  ): Promise<Models.ConfigurationStoresListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ConfigurationStoresListResponse>;
+      callback
+    ) as Promise<Models.ConfigurationStoresListResponse>;
   }
 
   /**
@@ -56,26 +67,43 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationStoresListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.ConfigurationStoresListByResourceGroupOptionalParams): Promise<Models.ConfigurationStoresListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.ConfigurationStoresListByResourceGroupOptionalParams
+  ): Promise<Models.ConfigurationStoresListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.ConfigurationStoresListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.ConfigurationStoresListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.ConfigurationStoreListResult>, callback?: msRest.ServiceCallback<Models.ConfigurationStoreListResult>): Promise<Models.ConfigurationStoresListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.ConfigurationStoresListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.ConfigurationStoresListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.ConfigurationStoreListResult>,
+    callback?: msRest.ServiceCallback<Models.ConfigurationStoreListResult>
+  ): Promise<Models.ConfigurationStoresListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ConfigurationStoresListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ConfigurationStoresListByResourceGroupResponse>;
   }
 
   /**
@@ -85,21 +113,39 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationStoresGetResponse>
    */
-  get(resourceGroupName: string, configStoreName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationStoresGetResponse>;
+  get(
+    resourceGroupName: string,
+    configStoreName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConfigurationStoresGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param callback The callback
    */
-  get(resourceGroupName: string, configStoreName: string, callback: msRest.ServiceCallback<Models.ConfigurationStore>): void;
+  get(
+    resourceGroupName: string,
+    configStoreName: string,
+    callback: msRest.ServiceCallback<Models.ConfigurationStore>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, configStoreName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConfigurationStore>): void;
-  get(resourceGroupName: string, configStoreName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConfigurationStore>, callback?: msRest.ServiceCallback<Models.ConfigurationStore>): Promise<Models.ConfigurationStoresGetResponse> {
+  get(
+    resourceGroupName: string,
+    configStoreName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConfigurationStore>
+  ): void;
+  get(
+    resourceGroupName: string,
+    configStoreName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConfigurationStore>,
+    callback?: msRest.ServiceCallback<Models.ConfigurationStore>
+  ): Promise<Models.ConfigurationStoresGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +153,8 @@ export class ConfigurationStores {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ConfigurationStoresGetResponse>;
+      callback
+    ) as Promise<Models.ConfigurationStoresGetResponse>;
   }
 
   /**
@@ -118,9 +165,20 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationStoresCreateResponse>
    */
-  create(resourceGroupName: string, configStoreName: string, configStoreCreationParameters: Models.ConfigurationStore, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationStoresCreateResponse> {
-    return this.beginCreate(resourceGroupName,configStoreName,configStoreCreationParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ConfigurationStoresCreateResponse>;
+  create(
+    resourceGroupName: string,
+    configStoreName: string,
+    configStoreCreationParameters: Models.ConfigurationStore,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConfigurationStoresCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      configStoreName,
+      configStoreCreationParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ConfigurationStoresCreateResponse
+    >;
   }
 
   /**
@@ -130,9 +188,14 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, configStoreName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,configStoreName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    configStoreName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, configStoreName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -143,9 +206,20 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationStoresUpdateResponse>
    */
-  update(resourceGroupName: string, configStoreName: string, configStoreUpdateParameters: Models.ConfigurationStoreUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationStoresUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,configStoreName,configStoreUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ConfigurationStoresUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    configStoreName: string,
+    configStoreUpdateParameters: Models.ConfigurationStoreUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConfigurationStoresUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      configStoreName,
+      configStoreUpdateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ConfigurationStoresUpdateResponse
+    >;
   }
 
   /**
@@ -155,21 +229,41 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationStoresListKeysResponse>
    */
-  listKeys(resourceGroupName: string, configStoreName: string, options?: Models.ConfigurationStoresListKeysOptionalParams): Promise<Models.ConfigurationStoresListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    configStoreName: string,
+    options?: Models.ConfigurationStoresListKeysOptionalParams
+  ): Promise<Models.ConfigurationStoresListKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, configStoreName: string, callback: msRest.ServiceCallback<Models.ApiKeyListResult>): void;
+  listKeys(
+    resourceGroupName: string,
+    configStoreName: string,
+    callback: msRest.ServiceCallback<Models.ApiKeyListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, configStoreName: string, options: Models.ConfigurationStoresListKeysOptionalParams, callback: msRest.ServiceCallback<Models.ApiKeyListResult>): void;
-  listKeys(resourceGroupName: string, configStoreName: string, options?: Models.ConfigurationStoresListKeysOptionalParams | msRest.ServiceCallback<Models.ApiKeyListResult>, callback?: msRest.ServiceCallback<Models.ApiKeyListResult>): Promise<Models.ConfigurationStoresListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    configStoreName: string,
+    options: Models.ConfigurationStoresListKeysOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApiKeyListResult>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    configStoreName: string,
+    options?:
+      | Models.ConfigurationStoresListKeysOptionalParams
+      | msRest.ServiceCallback<Models.ApiKeyListResult>,
+    callback?: msRest.ServiceCallback<Models.ApiKeyListResult>
+  ): Promise<Models.ConfigurationStoresListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +271,8 @@ export class ConfigurationStores {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.ConfigurationStoresListKeysResponse>;
+      callback
+    ) as Promise<Models.ConfigurationStoresListKeysResponse>;
   }
 
   /**
@@ -188,14 +283,24 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationStoresRegenerateKeyResponse>
    */
-  regenerateKey(resourceGroupName: string, configStoreName: string, regenerateKeyParameters: Models.RegenerateKeyParameters, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationStoresRegenerateKeyResponse>;
+  regenerateKey(
+    resourceGroupName: string,
+    configStoreName: string,
+    regenerateKeyParameters: Models.RegenerateKeyParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConfigurationStoresRegenerateKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param regenerateKeyParameters The parameters for regenerating an access key.
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, configStoreName: string, regenerateKeyParameters: Models.RegenerateKeyParameters, callback: msRest.ServiceCallback<Models.ApiKey>): void;
+  regenerateKey(
+    resourceGroupName: string,
+    configStoreName: string,
+    regenerateKeyParameters: Models.RegenerateKeyParameters,
+    callback: msRest.ServiceCallback<Models.ApiKey>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
@@ -203,8 +308,20 @@ export class ConfigurationStores {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, configStoreName: string, regenerateKeyParameters: Models.RegenerateKeyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKey>): void;
-  regenerateKey(resourceGroupName: string, configStoreName: string, regenerateKeyParameters: Models.RegenerateKeyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKey>, callback?: msRest.ServiceCallback<Models.ApiKey>): Promise<Models.ConfigurationStoresRegenerateKeyResponse> {
+  regenerateKey(
+    resourceGroupName: string,
+    configStoreName: string,
+    regenerateKeyParameters: Models.RegenerateKeyParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApiKey>
+  ): void;
+  regenerateKey(
+    resourceGroupName: string,
+    configStoreName: string,
+    regenerateKeyParameters: Models.RegenerateKeyParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKey>,
+    callback?: msRest.ServiceCallback<Models.ApiKey>
+  ): Promise<Models.ConfigurationStoresRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -213,7 +330,8 @@ export class ConfigurationStores {
         options
       },
       regenerateKeyOperationSpec,
-      callback) as Promise<Models.ConfigurationStoresRegenerateKeyResponse>;
+      callback
+    ) as Promise<Models.ConfigurationStoresRegenerateKeyResponse>;
   }
 
   /**
@@ -224,7 +342,12 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, configStoreName: string, configStoreCreationParameters: Models.ConfigurationStore, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    configStoreName: string,
+    configStoreCreationParameters: Models.ConfigurationStore,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -233,7 +356,8 @@ export class ConfigurationStores {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -243,7 +367,11 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, configStoreName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    configStoreName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -251,7 +379,8 @@ export class ConfigurationStores {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -262,7 +391,12 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, configStoreName: string, configStoreUpdateParameters: Models.ConfigurationStoreUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    configStoreName: string,
+    configStoreUpdateParameters: Models.ConfigurationStoreUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -271,7 +405,8 @@ export class ConfigurationStores {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -280,26 +415,43 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationStoresListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.ConfigurationStoresListNextOptionalParams): Promise<Models.ConfigurationStoresListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.ConfigurationStoresListNextOptionalParams
+  ): Promise<Models.ConfigurationStoresListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.ConfigurationStoresListNextOptionalParams, callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>): void;
-  listNext(nextPageLink: string, options?: Models.ConfigurationStoresListNextOptionalParams | msRest.ServiceCallback<Models.ConfigurationStoreListResult>, callback?: msRest.ServiceCallback<Models.ConfigurationStoreListResult>): Promise<Models.ConfigurationStoresListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.ConfigurationStoresListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.ConfigurationStoresListNextOptionalParams
+      | msRest.ServiceCallback<Models.ConfigurationStoreListResult>,
+    callback?: msRest.ServiceCallback<Models.ConfigurationStoreListResult>
+  ): Promise<Models.ConfigurationStoresListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ConfigurationStoresListNextResponse>;
+      callback
+    ) as Promise<Models.ConfigurationStoresListNextResponse>;
   }
 
   /**
@@ -308,26 +460,43 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationStoresListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: Models.ConfigurationStoresListByResourceGroupNextOptionalParams): Promise<Models.ConfigurationStoresListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: Models.ConfigurationStoresListByResourceGroupNextOptionalParams
+  ): Promise<Models.ConfigurationStoresListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: Models.ConfigurationStoresListByResourceGroupNextOptionalParams, callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: Models.ConfigurationStoresListByResourceGroupNextOptionalParams | msRest.ServiceCallback<Models.ConfigurationStoreListResult>, callback?: msRest.ServiceCallback<Models.ConfigurationStoreListResult>): Promise<Models.ConfigurationStoresListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: Models.ConfigurationStoresListByResourceGroupNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.ConfigurationStoreListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | Models.ConfigurationStoresListByResourceGroupNextOptionalParams
+      | msRest.ServiceCallback<Models.ConfigurationStoreListResult>,
+    callback?: msRest.ServiceCallback<Models.ConfigurationStoreListResult>
+  ): Promise<Models.ConfigurationStoresListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ConfigurationStoresListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ConfigurationStoresListByResourceGroupNextResponse>;
   }
 
   /**
@@ -336,26 +505,43 @@ export class ConfigurationStores {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationStoresListKeysNextResponse>
    */
-  listKeysNext(nextPageLink: string, options?: Models.ConfigurationStoresListKeysNextOptionalParams): Promise<Models.ConfigurationStoresListKeysNextResponse>;
+  listKeysNext(
+    nextPageLink: string,
+    options?: Models.ConfigurationStoresListKeysNextOptionalParams
+  ): Promise<Models.ConfigurationStoresListKeysNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listKeysNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiKeyListResult>): void;
+  listKeysNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApiKeyListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeysNext(nextPageLink: string, options: Models.ConfigurationStoresListKeysNextOptionalParams, callback: msRest.ServiceCallback<Models.ApiKeyListResult>): void;
-  listKeysNext(nextPageLink: string, options?: Models.ConfigurationStoresListKeysNextOptionalParams | msRest.ServiceCallback<Models.ApiKeyListResult>, callback?: msRest.ServiceCallback<Models.ApiKeyListResult>): Promise<Models.ConfigurationStoresListKeysNextResponse> {
+  listKeysNext(
+    nextPageLink: string,
+    options: Models.ConfigurationStoresListKeysNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApiKeyListResult>
+  ): void;
+  listKeysNext(
+    nextPageLink: string,
+    options?:
+      | Models.ConfigurationStoresListKeysNextOptionalParams
+      | msRest.ServiceCallback<Models.ApiKeyListResult>,
+    callback?: msRest.ServiceCallback<Models.ApiKeyListResult>
+  ): Promise<Models.ConfigurationStoresListKeysNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listKeysNextOperationSpec,
-      callback) as Promise<Models.ConfigurationStoresListKeysNextResponse>;
+      callback
+    ) as Promise<Models.ConfigurationStoresListKeysNextResponse>;
   }
 }
 
@@ -364,16 +550,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/configurationStores",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationStoreListResult
@@ -387,18 +566,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationStoreListResult
@@ -412,18 +584,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationStore
@@ -437,19 +606,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/listKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/listKeys",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiKeyListResult
@@ -463,18 +628,15 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/regenerateKey",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/regenerateKey",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "regenerateKeyParameters",
     mapper: {
@@ -495,18 +657,15 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "configStoreCreationParameters",
     mapper: {
@@ -530,18 +689,15 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -555,18 +711,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "configStoreUpdateParameters",
     mapper: {
@@ -592,16 +745,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationStoreListResult
@@ -617,16 +763,9 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationStoreListResult
@@ -642,16 +781,9 @@ const listKeysNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiKeyListResult

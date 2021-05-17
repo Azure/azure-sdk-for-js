@@ -724,8 +724,7 @@ export interface PrivateLinkResource {
  * and a location
  * @summary Proxy Resource
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * The resource model definition for an Azure Resource Manager resource with an etag.
@@ -754,7 +753,8 @@ export interface ConfigurationStoresListOptionalParams extends msRest.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface ConfigurationStoresListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface ConfigurationStoresListByResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A skip token is used to continue retrieving items after an operation returns a partial result.
    * If a previous response contains a nextLink element, the value of the nextLink element will
@@ -790,7 +790,8 @@ export interface ConfigurationStoresListNextOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface ConfigurationStoresListByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
+export interface ConfigurationStoresListByResourceGroupNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A skip token is used to continue retrieving items after an operation returns a partial result.
    * If a previous response contains a nextLink element, the value of the nextLink element will
@@ -860,7 +861,8 @@ export interface KeyValuesCreateOrUpdateOptionalParams extends msRest.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface KeyValuesListByConfigurationStoreNextOptionalParams extends msRest.RequestOptionsBase {
+export interface KeyValuesListByConfigurationStoreNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A skip token is used to continue retrieving items after an operation returns a partial result.
    * If a previous response contains a nextLink element, the value of the nextLink element will
@@ -955,7 +957,11 @@ export interface KeyValueListResult extends Array<KeyValue> {
  * @readonly
  * @enum {string}
  */
-export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
+export type IdentityType =
+  | "None"
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned";
 
 /**
  * Defines values for ProvisioningState.
@@ -963,7 +969,13 @@ export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemA
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export type ProvisioningState =
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled";
 
 /**
  * Defines values for ConnectionStatus.
@@ -971,7 +983,7 @@ export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeede
  * @readonly
  * @enum {string}
  */
-export type ConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+export type ConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 /**
  * Defines values for ActionsRequired.
@@ -979,7 +991,7 @@ export type ConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnect
  * @readonly
  * @enum {string}
  */
-export type ActionsRequired = 'None' | 'Recreate';
+export type ActionsRequired = "None" | "Recreate";
 
 /**
  * Defines values for PublicNetworkAccess.
@@ -987,7 +999,7 @@ export type ActionsRequired = 'None' | 'Recreate';
  * @readonly
  * @enum {string}
  */
-export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+export type PublicNetworkAccess = "Enabled" | "Disabled";
 
 /**
  * Defines values for CreatedByType.
@@ -995,7 +1007,7 @@ export type PublicNetworkAccess = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
 
 /**
  * Contains response data for the list operation.
@@ -1005,16 +1017,16 @@ export type ConfigurationStoresListResponse = ConfigurationStoreListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationStoreListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationStoreListResult;
+  };
 };
 
 /**
@@ -1025,16 +1037,16 @@ export type ConfigurationStoresListByResourceGroupResponse = ConfigurationStoreL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationStoreListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationStoreListResult;
+  };
 };
 
 /**
@@ -1045,16 +1057,16 @@ export type ConfigurationStoresGetResponse = ConfigurationStore & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationStore;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationStore;
+  };
 };
 
 /**
@@ -1065,16 +1077,16 @@ export type ConfigurationStoresCreateResponse = ConfigurationStore & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationStore;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationStore;
+  };
 };
 
 /**
@@ -1085,16 +1097,16 @@ export type ConfigurationStoresUpdateResponse = ConfigurationStore & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationStore;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationStore;
+  };
 };
 
 /**
@@ -1105,16 +1117,16 @@ export type ConfigurationStoresListKeysResponse = ApiKeyListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiKeyListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiKeyListResult;
+  };
 };
 
 /**
@@ -1125,16 +1137,16 @@ export type ConfigurationStoresRegenerateKeyResponse = ApiKey & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiKey;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiKey;
+  };
 };
 
 /**
@@ -1145,16 +1157,16 @@ export type ConfigurationStoresBeginCreateResponse = ConfigurationStore & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationStore;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationStore;
+  };
 };
 
 /**
@@ -1165,16 +1177,16 @@ export type ConfigurationStoresBeginUpdateResponse = ConfigurationStore & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationStore;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationStore;
+  };
 };
 
 /**
@@ -1185,16 +1197,16 @@ export type ConfigurationStoresListNextResponse = ConfigurationStoreListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationStoreListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationStoreListResult;
+  };
 };
 
 /**
@@ -1205,16 +1217,16 @@ export type ConfigurationStoresListByResourceGroupNextResponse = ConfigurationSt
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationStoreListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationStoreListResult;
+  };
 };
 
 /**
@@ -1225,16 +1237,16 @@ export type ConfigurationStoresListKeysNextResponse = ApiKeyListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiKeyListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiKeyListResult;
+  };
 };
 
 /**
@@ -1245,16 +1257,16 @@ export type OperationsCheckNameAvailabilityResponse = NameAvailabilityStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NameAvailabilityStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NameAvailabilityStatus;
+  };
 };
 
 /**
@@ -1265,16 +1277,16 @@ export type OperationsListResponse = OperationDefinitionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationDefinitionListResult;
+  };
 };
 
 /**
@@ -1285,16 +1297,16 @@ export type OperationsListNextResponse = OperationDefinitionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationDefinitionListResult;
+  };
 };
 
 /**
@@ -1305,16 +1317,16 @@ export type PrivateEndpointConnectionsListByConfigurationStoreResponse = Private
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnectionListResult;
+  };
 };
 
 /**
@@ -1325,16 +1337,16 @@ export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -1345,16 +1357,16 @@ export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -1365,16 +1377,16 @@ export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -1385,16 +1397,16 @@ export type PrivateEndpointConnectionsListByConfigurationStoreNextResponse = Pri
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnectionListResult;
+  };
 };
 
 /**
@@ -1405,16 +1417,16 @@ export type PrivateLinkResourcesListByConfigurationStoreResponse = PrivateLinkRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResourceListResult;
+  };
 };
 
 /**
@@ -1425,16 +1437,16 @@ export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResource;
+  };
 };
 
 /**
@@ -1445,16 +1457,16 @@ export type PrivateLinkResourcesListByConfigurationStoreNextResponse = PrivateLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResourceListResult;
+  };
 };
 
 /**
@@ -1465,16 +1477,16 @@ export type KeyValuesListByConfigurationStoreResponse = KeyValueListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyValueListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyValueListResult;
+  };
 };
 
 /**
@@ -1485,16 +1497,16 @@ export type KeyValuesGetResponse = KeyValue & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyValue;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyValue;
+  };
 };
 
 /**
@@ -1505,16 +1517,16 @@ export type KeyValuesCreateOrUpdateResponse = KeyValue & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyValue;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyValue;
+  };
 };
 
 /**
@@ -1525,14 +1537,14 @@ export type KeyValuesListByConfigurationStoreNextResponse = KeyValueListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyValueListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyValueListResult;
+  };
 };

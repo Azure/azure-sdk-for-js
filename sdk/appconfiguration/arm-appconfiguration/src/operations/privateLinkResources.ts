@@ -32,21 +32,41 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListByConfigurationStoreResponse>
    */
-  listByConfigurationStore(resourceGroupName: string, configStoreName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListByConfigurationStoreResponse>;
+  listByConfigurationStore(
+    resourceGroupName: string,
+    configStoreName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesListByConfigurationStoreResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param callback The callback
    */
-  listByConfigurationStore(resourceGroupName: string, configStoreName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  listByConfigurationStore(
+    resourceGroupName: string,
+    configStoreName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByConfigurationStore(resourceGroupName: string, configStoreName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
-  listByConfigurationStore(resourceGroupName: string, configStoreName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.PrivateLinkResourcesListByConfigurationStoreResponse> {
+  listByConfigurationStore(
+    resourceGroupName: string,
+    configStoreName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
+  listByConfigurationStore(
+    resourceGroupName: string,
+    configStoreName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): Promise<Models.PrivateLinkResourcesListByConfigurationStoreResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -54,7 +74,8 @@ export class PrivateLinkResources {
         options
       },
       listByConfigurationStoreOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListByConfigurationStoreResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesListByConfigurationStoreResponse>;
   }
 
   /**
@@ -65,14 +86,24 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesGetResponse>
    */
-  get(resourceGroupName: string, configStoreName: string, groupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesGetResponse>;
+  get(
+    resourceGroupName: string,
+    configStoreName: string,
+    groupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param groupName The name of the private link resource group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, configStoreName: string, groupName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
+  get(
+    resourceGroupName: string,
+    configStoreName: string,
+    groupName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
@@ -80,8 +111,20 @@ export class PrivateLinkResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, configStoreName: string, groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
-  get(resourceGroupName: string, configStoreName: string, groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>, callback?: msRest.ServiceCallback<Models.PrivateLinkResource>): Promise<Models.PrivateLinkResourcesGetResponse> {
+  get(
+    resourceGroupName: string,
+    configStoreName: string,
+    groupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    configStoreName: string,
+    groupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): Promise<Models.PrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +133,8 @@ export class PrivateLinkResources {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesGetResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesGetResponse>;
   }
 
   /**
@@ -99,26 +143,43 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListByConfigurationStoreNextResponse>
    */
-  listByConfigurationStoreNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListByConfigurationStoreNextResponse>;
+  listByConfigurationStoreNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesListByConfigurationStoreNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByConfigurationStoreNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  listByConfigurationStoreNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByConfigurationStoreNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
-  listByConfigurationStoreNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.PrivateLinkResourcesListByConfigurationStoreNextResponse> {
+  listByConfigurationStoreNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
+  listByConfigurationStoreNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): Promise<Models.PrivateLinkResourcesListByConfigurationStoreNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByConfigurationStoreNextOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListByConfigurationStoreNextResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesListByConfigurationStoreNextResponse>;
   }
 }
 
@@ -126,18 +187,15 @@ export class PrivateLinkResources {
 const serializer = new msRest.Serializer(Mappers);
 const listByConfigurationStoreOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateLinkResources",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateLinkResources",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourceListResult
@@ -151,19 +209,16 @@ const listByConfigurationStoreOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateLinkResources/{groupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateLinkResources/{groupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
     Parameters.groupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResource
@@ -179,15 +234,9 @@ const listByConfigurationStoreNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourceListResult

@@ -13,7 +13,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AppConfigurationManagementClientContext } from "./appConfigurationManagementClientContext";
 
-
 class AppConfigurationManagementClient extends AppConfigurationManagementClientContext {
   // Operation groups
   configurationStores: operations.ConfigurationStores;
@@ -28,7 +27,11 @@ class AppConfigurationManagementClient extends AppConfigurationManagementClientC
    * @param subscriptionId The Microsoft Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AppConfigurationManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AppConfigurationManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.configurationStores = new operations.ConfigurationStores(this);
     this.operations = new operations.Operations(this);
