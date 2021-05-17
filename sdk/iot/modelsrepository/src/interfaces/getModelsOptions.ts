@@ -13,5 +13,5 @@ export interface GetModelsOptions extends OperationOptions {
    * resolution, resolution using the expanded json format) that will be used when retrieving 
    * models. This overwrites the default dependencyResolution settings of the client. 
    */
-  dependencyResolution: dependencyResolutionType;
+  dependencyResolution?: dependencyResolutionType;
 }

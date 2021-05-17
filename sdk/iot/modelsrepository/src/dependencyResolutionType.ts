@@ -10,4 +10,4 @@
  * or it is set to tryFromExpanded, where the client will attempt to get the expanded JSON format from the endpoint,
  * and in the event of failure will fallback on the standard enabled dependency resolution.
  */
-export type dependencyResolutionType = "disabled" | "enabled" | "tryFromExpanded" | undefined;
+export type dependencyResolutionType = "disabled" | "enabled" | "tryFromExpanded";
