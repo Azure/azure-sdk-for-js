@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the ChatThreadClient to do message operations
+ * @summary Demonstrates how to use the ChatThreadClient to do message operations
  */
 
 import { ChatClient } from "@azure/communication-chat";
@@ -58,8 +58,7 @@ export async function main() {
   console.log("Deleted message.");
 }
 
-main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
+main().catch((error) => {
+  console.error("Encountered an error in message operations: ", error);
+  process.exit(1);
 });

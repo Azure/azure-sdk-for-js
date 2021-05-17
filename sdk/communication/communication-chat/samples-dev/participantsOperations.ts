@@ -2,21 +2,22 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the ChatThreadClient to do participant operations
+ * @summary Demonstrates how to use the ChatThreadClient to do participant operations
  */
 
-const { ChatClient } = require("@azure/communication-chat");
-const {
+import { ChatClient } from "@azure/communication-chat";
+import {
   AzureCommunicationTokenCredential,
   getIdentifierKind,
   parseConnectionString
-} = require("@azure/communication-common");
-const { CommunicationIdentityClient } = require("@azure/communication-identity");
+} from "@azure/communication-common";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
@@ -72,8 +73,7 @@ async function main() {
   console.log("Removed chat participant user.");
 }
 
-main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
+main().catch((error) => {
+  console.error("Encountered an error in participants operations: ", error);
+  process.exit(1);
 });

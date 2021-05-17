@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the ChatClient to do thread operations
+ * @summary Demonstrates how to use the ChatThreadClient to do message operations
  */
 
 const { ChatClient } = require("@azure/communication-chat");
@@ -13,7 +13,8 @@ const {
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   const connectionString =
@@ -30,45 +31,34 @@ async function main() {
     endpoint,
     new AzureCommunicationTokenCredential(userToken.token)
   );
-
-  // create chat thread
-  console.log("Creating Thread...");
-  const createChatThreadRequest = {
-    topic: "Hello, World!"
-  };
-  const createChatThreadOptions = {
-    participants: [
-      {
-        id: user,
-        displayName: "Jack"
-      }
-    ]
-  };
-  const createChatThreadResult = await chatClient.createChatThread(
-    createChatThreadRequest,
-    createChatThreadOptions
-  );
+  const createChatThreadResult = await chatClient.createChatThread({ topic: "Hello, World!" });
   const threadId = createChatThreadResult.chatThread ? createChatThreadResult.chatThread.id : "";
-
-  console.log(`Created Thread with id: ${threadId}.`);
-
-  // get ChatThreadClient for thread
   const chatThreadClient = chatClient.getChatThreadClient(threadId);
 
-  // get proprerties of created chat thread
-  const chatThread = await chatThreadClient.getProperties();
-  console.log(`Retrieved created thread. Topic: ${chatThread.topic}`);
+  // send a message
+  const sendMessageResult = await chatThreadClient.sendMessage({ content: "Hello world." });
+  console.log(`Sent message with id ${sendMessageResult.id}`);
 
-  // update the thread's topic
-  await chatThreadClient.updateTopic("New Topic");
-  console.log(`Updated thread's topic.`);
+  // get a message by id
+  const message = await chatThreadClient.getMessage(sendMessageResult.id);
+  console.log(`Retrieved message.`, message);
 
-  // delete the chat thread
-  await chatClient.deleteChatThread(threadId);
+  // list all messages with newest first
+  let i = 0;
+  for await (const message of chatThreadClient.listMessages()) {
+    console.log(`Message ${++i}:`, message);
+  }
+
+  // update a message
+  await chatThreadClient.updateMessage(message.id, { content: "New content" });
+  console.log(`Updated message.`);
+
+  // delete a message
+  await chatThreadClient.deleteMessage(sendMessageResult.id);
+  console.log("Deleted message.");
 }
 
-main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
+main().catch((error) => {
+  console.error("Encountered an error in message operations: ", error);
+  process.exit(1);
 });
