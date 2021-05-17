@@ -4,15 +4,15 @@ module.exports.hash = "0f29f16eb1ff040fd059419bbfb9bddc";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://login.net:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Ffarmbeats-dogfood.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Ffarmbeats.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '1340',
+  '1321',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,25 +24,27 @@ nock('https://login.net:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '94fb0164-575b-4160-8e8c-45178b510400',
+  '5cc0a6cd-50e3-46fa-875b-e8274a7a2c01',
   'x-ms-ests-server',
-  '2.1.11774.0 - CHY PPE',
+  '2.1.11722.21 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=Amm0Id9DckJHjmhZsbTs4kYizVzVAQAAAPXGK9gOAAAA; expires=Thu, 10-Jun-2021 00:29:41 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvH7PKi0etBHh7-E4skd8s14ycTJAQAAAK50NNgOAAAA; expires=Wed, 16-Jun-2021 14:29:03 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'stsservicecookie=estsppe; path=/; secure; samesite=none; httponly',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 11 May 2021 00:29:41 GMT'
+  'Mon, 17 May 2021 14:29:03 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/farmers')
   .query(true)
-  .reply(200, ["1f8b08000000000000038c8ecd0ac2400c84df25e72e24d96e7ff6ec23ec49f110bbdbba6811eacfa5f4dd4dc15b410dc3909061f86678c9f599c01f66c8113cc820f19c2f627a99c634410129c8a00fac109db56250c760bddaba55d89c8845d643d3dd94e491e24e2de4518b8191c96069b80d8c9e54cd5e83e32de63eff4e2ec5872cdf3bc91b2c46e446c86eb15a8ed4bbbfb0acb7a547f715cba902d59ed83329d67179030000ffff","0300afc8e3283c010000"], [
+  .reply(200, ["1f8b0800000000000003848ecb0a83400c45ff256b0732331a35eb7ec2ac2c5d0467b4432b05fbd888ffde08dd55f02e2e093984b3c047eeef047c5e2047609051e235dfc40c324f6986025290510fd820fab617831a83b4d53611b63dfa66d816a5fb39c92bc59356c8933e0687ce1aac8cb5c139c68a1d750a4e8f9887bc4fba60897dc9ce77b0163fb3fcec25ff6b69fc40b4a31589eae658cb075bb1277678a4a564cd65c3a592eb65fd020000ffff","03000430be243c010000"], [
   'Server',
   'nginx/1.19.1',
   'Date',
-  'Tue, 11 May 2021 00:29:41 GMT',
+  'Mon, 17 May 2021 14:29:04 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
