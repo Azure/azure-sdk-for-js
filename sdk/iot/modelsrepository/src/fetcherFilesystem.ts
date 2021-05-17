@@ -6,6 +6,15 @@ import * as path from "path";
 import { Fetcher, DTDL, logger } from "./internal";
 import {RestError, RestErrorOptions} from '@azure/core-rest-pipeline';
 
+function readFilePromise(path: string): Promise<string> {
+  return new Promise((res, rej) => {
+    fs.readFile(path, "utf8", (err, data) => {
+      err ? rej(err) : res(data);
+      return 0;
+    });
+  });
+}
+
 export class FilesystemFetcher extends Fetcher {
   private _baseFilePath: string;
 
@@ -14,14 +23,15 @@ export class FilesystemFetcher extends Fetcher {
     this._baseFilePath = baseFilePath;
   }
 
-  fetch(filePath: string) {
+  async fetch(filePath: string) {
     logger.info(`Fetching ${filePath} from local filesystem`);
     const absolutePath = path.join(this._baseFilePath, filePath);
 
     try {
       logger.info(`File open on ${absolutePath}`);
-      const dtdlFile = fs.readFileSync(absolutePath, "utf8");
-      const parsedDtdl: DTDL | DTDL[] = JSON.parse(dtdlFile);
+      const parsedDtdl: DTDL | DTDL[] = await readFilePromise(absolutePath).then((dtdlFile) => {
+        return JSON.parse(dtdlFile);
+      });
       return parsedDtdl;
     } catch (e) {
       // TODO: Is there a ResourceNotFound Error for Filesystem + Http (Generic API for errors)
