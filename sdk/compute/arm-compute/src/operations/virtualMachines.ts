@@ -201,9 +201,9 @@ export class VirtualMachines {
    * Sets the OS state of the virtual machine to generalized. It is recommended to sysprep the
    * virtual machine before performing this operation. <br>For Windows, please refer to [Create a
    * managed image of a generalized VM in
-   * Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/capture-image-resource).<br>For
+   * Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource).<br>For
    * Linux, please refer to [How to create an image of a virtual machine or
-   * VHD](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/capture-image).
+   * VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image).
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param [options] The optional parameters

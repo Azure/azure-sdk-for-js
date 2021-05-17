@@ -99,7 +99,7 @@ export class VirtualMachineScaleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetsGetResponse>
    */
-  get(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetsGetResponse>;
+  get(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsGetOptionalParams): Promise<Models.VirtualMachineScaleSetsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -112,8 +112,8 @@ export class VirtualMachineScaleSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSet>): void;
-  get(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineScaleSet>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSet>): Promise<Models.VirtualMachineScaleSetsGetResponse> {
+  get(resourceGroupName: string, vmScaleSetName: string, options: Models.VirtualMachineScaleSetsGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineScaleSet>): void;
+  get(resourceGroupName: string, vmScaleSetName: string, options?: Models.VirtualMachineScaleSetsGetOptionalParams | msRest.ServiceCallback<Models.VirtualMachineScaleSet>, callback?: msRest.ServiceCallback<Models.VirtualMachineScaleSet>): Promise<Models.VirtualMachineScaleSetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -357,7 +357,7 @@ export class VirtualMachineScaleSets {
    * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances
    * which are not eligible for perform maintenance will be failed. Please refer to best practices
    * for more details:
-   * https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
+   * https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
@@ -675,7 +675,7 @@ export class VirtualMachineScaleSets {
    * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances
    * which are not eligible for perform maintenance will be failed. Please refer to best practices
    * for more details:
-   * https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
+   * https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param [options] The optional parameters
@@ -950,7 +950,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion0,
+    Parameters.expand0
   ],
   headerParameters: [
     Parameters.acceptLanguage

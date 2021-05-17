@@ -31,6 +31,8 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   virtualMachineScaleSets: operations.VirtualMachineScaleSets;
   virtualMachineSizes: operations.VirtualMachineSizes;
   images: operations.Images;
+  restorePointCollections: operations.RestorePointCollections;
+  restorePoints: operations.RestorePoints;
   virtualMachineScaleSetExtensions: operations.VirtualMachineScaleSetExtensions;
   virtualMachineScaleSetRollingUpgrades: operations.VirtualMachineScaleSetRollingUpgrades;
   virtualMachineScaleSetVMExtensions: operations.VirtualMachineScaleSetVMExtensions;
@@ -49,6 +51,10 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   galleryImageVersions: operations.GalleryImageVersions;
   galleryApplications: operations.GalleryApplications;
   galleryApplicationVersions: operations.GalleryApplicationVersions;
+  gallerySharingProfile: operations.GallerySharingProfile;
+  sharedGalleries: operations.SharedGalleries;
+  sharedGalleryImages: operations.SharedGalleryImages;
+  sharedGalleryImageVersions: operations.SharedGalleryImageVersions;
   cloudServiceRoleInstances: operations.CloudServiceRoleInstances;
   cloudServiceRoles: operations.CloudServiceRoles;
   cloudServices: operations.CloudServices;
@@ -79,6 +85,8 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.virtualMachineScaleSets = new operations.VirtualMachineScaleSets(this);
     this.virtualMachineSizes = new operations.VirtualMachineSizes(this);
     this.images = new operations.Images(this);
+    this.restorePointCollections = new operations.RestorePointCollections(this);
+    this.restorePoints = new operations.RestorePoints(this);
     this.virtualMachineScaleSetExtensions = new operations.VirtualMachineScaleSetExtensions(this);
     this.virtualMachineScaleSetRollingUpgrades = new operations.VirtualMachineScaleSetRollingUpgrades(this);
     this.virtualMachineScaleSetVMExtensions = new operations.VirtualMachineScaleSetVMExtensions(this);
@@ -97,6 +105,10 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.galleryImageVersions = new operations.GalleryImageVersions(this);
     this.galleryApplications = new operations.GalleryApplications(this);
     this.galleryApplicationVersions = new operations.GalleryApplicationVersions(this);
+    this.gallerySharingProfile = new operations.GallerySharingProfile(this);
+    this.sharedGalleries = new operations.SharedGalleries(this);
+    this.sharedGalleryImages = new operations.SharedGalleryImages(this);
+    this.sharedGalleryImageVersions = new operations.SharedGalleryImageVersions(this);
     this.cloudServiceRoleInstances = new operations.CloudServiceRoleInstances(this);
     this.cloudServiceRoles = new operations.CloudServiceRoles(this);
     this.cloudServices = new operations.CloudServices(this);

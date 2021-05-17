@@ -25,7 +25,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-12-01',
+    defaultValue: '2021-03-01',
     type: {
       name: "String"
     }
@@ -49,7 +49,7 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-12-01',
+    defaultValue: '2020-12-01',
     type: {
       name: "String"
     }
@@ -61,7 +61,7 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2021-03-01',
+    defaultValue: '2020-09-30',
     type: {
       name: "String"
     }
@@ -169,7 +169,8 @@ export const expand1: msRest.OperationQueryParameter = {
     type: {
       name: "Enum",
       allowedValues: [
-        "instanceView"
+        "instanceView",
+        "userData"
       ]
     }
   }
@@ -243,6 +244,16 @@ export const galleryName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "galleryName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const galleryUniqueName: msRest.OperationURLParameter = {
+  parameterPath: "galleryUniqueName",
+  mapper: {
+    required: true,
+    serializedName: "galleryUniqueName",
     type: {
       name: "String"
     }
@@ -436,6 +447,16 @@ export const restorePointCollectionName: msRest.OperationURLParameter = {
     }
   }
 };
+export const restorePointName: msRest.OperationURLParameter = {
+  parameterPath: "restorePointName",
+  mapper: {
+    required: true,
+    serializedName: "restorePointName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const roleInstanceName: msRest.OperationURLParameter = {
   parameterPath: "roleInstanceName",
   mapper: {
@@ -485,6 +506,18 @@ export const select: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "$select",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const sharedTo: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "sharedTo"
+  ],
+  mapper: {
+    serializedName: "sharedTo",
     type: {
       name: "String"
     }
