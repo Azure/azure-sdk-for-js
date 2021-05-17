@@ -1,6 +1,6 @@
 # Release History
 
-## 12.0.0-beta.3 (2021-05-17))
+## 12.0.0-beta.3 (2021-05-17)
 
 - Update and Upsert operations have "merge" as default update mode. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
 - Expose Table Service url as a public client property. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
