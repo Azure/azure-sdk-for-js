@@ -20,7 +20,8 @@ const assert = chai.assert;
 [
   // when we encode messages the partition+session queues are basically the "hardest" one
   // to do right. There's less concern with the non-session version.
-  // getRandomTestClientTypeWithNoSessions(),
+  TestClientType.UnpartitionedQueue,
+  TestClientType.UnpartitionedQueueWithSessions,
   TestClientType.PartitionedQueue,
   TestClientType.PartitionedQueueWithSessions
 ].forEach((anyRandomTestClientType) => {

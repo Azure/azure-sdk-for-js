@@ -618,9 +618,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           entry[Constants.sessionIdMapKey] = rheaMessage.group_id;
         }
 
-        if (
-          rheaMessage.message_annotations?.[Constants.partitionKey]
-        ) {
+        if (rheaMessage.message_annotations?.[Constants.partitionKey]) {
           entry["partition-key"] = rheaMessage.message_annotations[Constants.partitionKey];
         }
 
