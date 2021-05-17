@@ -8,6 +8,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/blobContainersMappers";
 import * as Parameters from "../models/parameters";
@@ -783,6 +784,57 @@ export class BlobContainers {
   }
 
   /**
+   * This operation migrates a blob container from container level WORM to object level immutability
+   * enabled container. Prerequisites require a container level immutability policy either in locked
+   * or unlocked state, Account level versioning must be enabled and there should be no Legal hold on
+   * the container.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  objectLevelWorm(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginObjectLevelWorm(resourceGroupName,accountName,containerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * This operation migrates a blob container from container level WORM to object level immutability
+   * enabled container. Prerequisites require a container level immutability policy either in locked
+   * or unlocked state, Account level versioning must be enabled and there should be no Legal hold on
+   * the container.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginObjectLevelWorm(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        containerName,
+        options
+      },
+      beginObjectLevelWormOperationSpec,
+      options);
+  }
+
+  /**
    * Lists all containers and does not support a prefix like data plane. Also SRP today does not
    * return continuation token.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -1232,6 +1284,31 @@ const leaseOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.LeaseContainerResponse
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginObjectLevelWormOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/migrate",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.containerName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

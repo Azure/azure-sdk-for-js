@@ -7,6 +7,7 @@
  */
 
 export {
+  AccessPolicy,
   AccountSasParameters,
   ActiveDirectoryProperties,
   AzureEntityResource,
@@ -47,6 +48,7 @@ export {
   Identity,
   ImmutabilityPolicy,
   ImmutabilityPolicyProperties,
+  ImmutableStorageWithVersioning,
   IPRule,
   KeyCreationTime,
   KeyPolicy,
@@ -84,6 +86,7 @@ export {
   RoutingPreference,
   SasPolicy,
   ServiceSasParameters,
+  SignedIdentifier,
   Sku,
   SmbSetting,
   StorageAccount,
