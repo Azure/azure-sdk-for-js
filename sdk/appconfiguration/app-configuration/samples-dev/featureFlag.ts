@@ -13,6 +13,7 @@ import {
   FeatureFlagValue,
   parseFeatureFlag
 } from "@azure/app-configuration";
+import { isArray } from "util";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -30,28 +31,32 @@ export async function main() {
       description: "I'm a description",
       conditions: {
         clientFilters: [
+          // {
+          // // Time window filter - Use this filter to activate the feature for a time period
+          //   name: "Microsoft.TimeWindow",
+          //   parameters: {
+          //     Start: "Wed, 01 May 2021 13:59:59 GMT",
+          //     End: "Mon, 01 July 2022 00:00:00 GMT"
+          //   }
+          // },
           {
-            name: "Microsoft.TimeWindow",
-            parameters: {
-              Start: "Wed, 01 May 2021 13:59:59 GMT",
-              End: "Mon, 01 July 2022 00:00:00 GMT"
-            }
-          },
-          { name: "FilterX" },
-          {
+            // Targeting filter - you can target users/groups of users using this filter
             name: "Microsoft.Targeting",
             parameters: {
               Audience: {
-                Groups: [
-                  { Name: "group-1", RolloutPercentage: 25 },
-                  { Name: "group-2", RolloutPercentage: 45 }
-                ],
-                Users: ["userA", "userB"],
-                DefaultRolloutPercentage: 40
+                Groups: [{ Name: "contoso.com", RolloutPercentage: 50 }], // The feature flag is enabled for 50% of other users in the contoso.com group, because contoso.com is listed in the Groups section with a Percentage of 50.
+                Users: ["test@contoso.com"], // The feature flag is always enabled for user test@contoso.com, because test@contoso.com is listed in the Users section.
+                DefaultRolloutPercentage: 0 // The feature is always disabled for all other users, because the Default percentage is set to 0.
               }
+              // You can create additional users with @contoso.com email addresses to see the behavior of the group settings. 50% of these users will see the Beta item. The other 50% won't see the Beta item.
             }
-          },
-          { name: "Microsoft.Percentage", parameters: { Value: 25 } }
+          }
+          // {
+          //   // Percentage filter - activates a feature based on a percentage, to enable the feature flag for 50% of requests
+          //   name: "Microsoft.Percentage",
+          //   parameters: { Value: 50 }
+          // },
+          // { name: "FilterX" }, // Custom filter
         ]
       }
     }
@@ -84,22 +89,26 @@ export async function main() {
       )}\n`
     );
     switch (clientFilter.name) {
+      // Tweak the client filters of the feature flag
       case "Microsoft.Targeting":
-        const audience = clientFilter.parameters.Audience;
-        typeof audience === "object" &&
-          (clientFilter.parameters.Audience = {
-            ...audience,
-            DefaultRolloutPercentage: 85
-          });
+        // Adds a new user to the group
+        if (isTargetingClientFilter(clientFilter)) {
+          clientFilter.parameters.Audience.Users = clientFilter.parameters.Audience.Users.concat(
+            "test2@contoso.com"
+          );
+        }
         break;
-      case "Microsoft.TimeWindow":
-        clientFilter.parameters.Start = "Wed, 01 June 2021 13:59:59 GMT";
-        break;
-      case "Microsoft.Percentage":
-        clientFilter.parameters.Value = 56;
-        break;
+      // case "Microsoft.TimeWindow":
+      // // Changes the start time
+      //   clientFilter.parameters.Start = "Wed, 01 June 2021 13:59:59 GMT";
+      //   break;
+      // case "Microsoft.Percentage":
+      // // Changes the percentage value from 50 to 75 - to enable the feature flag for 75% of requests
+      //   clientFilter.parameters.Value = 75;
+      //   break;
       default:
-        clientFilter.name = "FilterY";
+        // Change the filter name for all other client filters
+        // clientFilter.name = "FilterY";
         break;
     }
   }
@@ -151,6 +160,30 @@ export function getEnvVar(name: string) {
     throw `Environment variable ${name} is not defined.`;
   }
   return val;
+}
+
+/**
+ * typeguard - for targeting client filter
+ */
+export function isTargetingClientFilter(
+  clientFilter: any
+): clientFilter is {
+  parameters: {
+    Audience: {
+      Groups: Array<{ Name: string; RolloutPercentage: number }>;
+      Users: Array<string>;
+      DefaultRolloutPercentage: number;
+    };
+  };
+} {
+  return (
+    clientFilter.name === "Microsoft.Targeting" &&
+    clientFilter.parameters &&
+    clientFilter.parameters["Audience"] &&
+    isArray(clientFilter.parameters["Audience"]["Groups"]) &&
+    isArray(clientFilter.parameters["Audience"]["Users"]) &&
+    typeof clientFilter.parameters["Audience"]["DefaultRolloutPercentage"] === "number"
+  );
 }
 
 main().catch((err) => {
