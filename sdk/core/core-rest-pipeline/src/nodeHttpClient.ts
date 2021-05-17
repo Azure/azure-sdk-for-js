@@ -300,6 +300,7 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
   });
 }
 
+/** @internal */
 export function getBodyLength(body: RequestBodyType): number | null {
   if (!body) {
     return 0;
