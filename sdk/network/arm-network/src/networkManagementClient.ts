@@ -99,6 +99,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   virtualNetworkGateways: operations.VirtualNetworkGateways;
   virtualNetworkGatewayConnections: operations.VirtualNetworkGatewayConnections;
   localNetworkGateways: operations.LocalNetworkGateways;
+  virtualNetworkGatewayNatRules: operations.VirtualNetworkGatewayNatRules;
   virtualNetworkTaps: operations.VirtualNetworkTaps;
   virtualRouters: operations.VirtualRouters;
   virtualRouterPeerings: operations.VirtualRouterPeerings;
@@ -215,6 +216,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.virtualNetworkGateways = new operations.VirtualNetworkGateways(this);
     this.virtualNetworkGatewayConnections = new operations.VirtualNetworkGatewayConnections(this);
     this.localNetworkGateways = new operations.LocalNetworkGateways(this);
+    this.virtualNetworkGatewayNatRules = new operations.VirtualNetworkGatewayNatRules(this);
     this.virtualNetworkTaps = new operations.VirtualNetworkTaps(this);
     this.virtualRouters = new operations.VirtualRouters(this);
     this.virtualRouterPeerings = new operations.VirtualRouterPeerings(this);

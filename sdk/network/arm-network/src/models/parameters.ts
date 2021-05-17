@@ -25,7 +25,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-11-01',
+    defaultValue: '2021-02-01',
     type: {
       name: "String"
     }
@@ -890,6 +890,18 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const syncRemoteAddressSpace: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "syncRemoteAddressSpace"
+  ],
+  mapper: {
+    serializedName: "syncRemoteAddressSpace",
     type: {
       name: "String"
     }

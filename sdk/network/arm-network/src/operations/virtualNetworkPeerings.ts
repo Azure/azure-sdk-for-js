@@ -85,7 +85,7 @@ export class VirtualNetworkPeerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkPeeringsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, virtualNetworkPeeringParameters: Models.VirtualNetworkPeering, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkPeeringsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, virtualNetworkPeeringParameters: Models.VirtualNetworkPeering, options?: Models.VirtualNetworkPeeringsCreateOrUpdateOptionalParams): Promise<Models.VirtualNetworkPeeringsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,virtualNetworkName,virtualNetworkPeeringName,virtualNetworkPeeringParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkPeeringsCreateOrUpdateResponse>;
   }
@@ -152,7 +152,7 @@ export class VirtualNetworkPeerings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, virtualNetworkPeeringParameters: Models.VirtualNetworkPeering, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, virtualNetworkPeeringParameters: Models.VirtualNetworkPeering, options?: Models.VirtualNetworkPeeringsBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -283,6 +283,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.syncRemoteAddressSpace,
     Parameters.apiVersion0
   ],
   headerParameters: [

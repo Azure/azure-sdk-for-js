@@ -88,6 +88,7 @@ export * from "./virtualNetworkPeerings";
 export * from "./virtualNetworkGateways";
 export * from "./virtualNetworkGatewayConnections";
 export * from "./localNetworkGateways";
+export * from "./virtualNetworkGatewayNatRules";
 export * from "./virtualNetworkTaps";
 export * from "./virtualRouters";
 export * from "./virtualRouterPeerings";

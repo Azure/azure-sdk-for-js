@@ -172,6 +172,18 @@ export class LoadBalancers {
   }
 
   /**
+   * Swaps VIPs between two load balancers.
+   * @param location The region where load balancers are located at.
+   * @param parameters Parameters that define which VIPs should be swapped.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  swapPublicIpAddresses(location: string, parameters: Models.LoadBalancerVipSwapRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginSwapPublicIpAddresses(location,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Deletes the specified load balancer.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
@@ -206,6 +218,24 @@ export class LoadBalancers {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Swaps VIPs between two load balancers.
+   * @param location The region where load balancers are located at.
+   * @param parameters Parameters that define which VIPs should be swapped.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginSwapPublicIpAddresses(location: string, parameters: Models.LoadBalancerVipSwapRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        location,
+        parameters,
+        options
+      },
+      beginSwapPublicIpAddressesOperationSpec,
       options);
   }
 
@@ -426,6 +456,36 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.LoadBalancer
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginSwapPublicIpAddressesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/setLoadBalancerFrontendPublicIpAddresses",
+  urlParameters: [
+    Parameters.location0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.LoadBalancerVipSwapRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
