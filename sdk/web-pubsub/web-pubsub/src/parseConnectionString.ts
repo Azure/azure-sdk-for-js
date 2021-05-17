@@ -1,5 +1,4 @@
 import { AzureKeyCredential } from "@azure/core-auth";
-import { URL } from "url";
 
 interface ParsedConnectionString {
   credential: AzureKeyCredential;
