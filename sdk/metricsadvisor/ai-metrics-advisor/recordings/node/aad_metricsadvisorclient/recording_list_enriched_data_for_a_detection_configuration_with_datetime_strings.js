@@ -5,7 +5,7 @@ module.exports.hash = "6e976b84297774454e44d8c0136ac95a";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -24,17 +24,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '5abb8e2c-1b9c-4ab0-a3d7-bf902d834a00',
+  'a64bd16b-9227-4b1e-ab2d-878eeda5e400',
   'x-ms-ests-server',
-  '2.1.11397.13 - KRSLR1 ProdSlices',
+  '2.1.11722.21 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsoDeAShyiJLlORVED-UD3HGLH8mEAAAAGdLk9cOAAAA; expires=Sun, 14-Feb-2021 08:40:34 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AinGrRGBzI5Mg73OLQslIGHGLH8mDwAAAAZAMdgOAAAA; expires=Mon, 14-Jun-2021 04:10:07 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 15 Jan 2021 08:40:33 GMT'
+  'Sat, 15 May 2021 04:10:06 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -45,15 +45,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '613573c8-6652-4dd6-aab3-377e6b7c0c60',
+  'f8594640-f582-48bf-8849-88b6103d6e0e',
   'x-envoy-upstream-service-time',
-  '141',
+  '193',
   'apim-request-id',
-  '613573c8-6652-4dd6-aab3-377e6b7c0c60',
+  'f8594640-f582-48bf-8849-88b6103d6e0e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:40:33 GMT'
+  'Sat, 15 May 2021 04:10:06 GMT'
 ]);

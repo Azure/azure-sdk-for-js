@@ -5,12 +5,14 @@ module.exports.hash = "6b134f5d9f17ca45c75a6cabef0570f5";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,19 +24,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd8ec575f-3842-4551-9e83-48364cad4500',
+  'cef52c95-f959-404b-ad16-fef5e008c800',
   'x-ms-ests-server',
-  '2.1.11397.13 - SEASLR2 ProdSlices',
+  '2.1.11722.21 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsoDeAShyiJLlORVED-UD3HGLH8mEAAAAGdLk9cOAAAA; expires=Sun, 14-Feb-2021 08:40:39 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AinGrRGBzI5Mg73OLQslIGHGLH8mEAAAAAZAMdgOAAAA; expires=Mon, 14-Jun-2021 04:10:11 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 15 Jan 2021 08:40:39 GMT',
-  'Content-Length',
-  '1331'
+  'Sat, 15 May 2021 04:10:10 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -43,38 +43,38 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/feedback/metric/5c1b7dcd-386a-4c8f-8b08-d3a71dd6684d',
+  'https://endpoint/metricsadvisor/v1.0/feedback/metric/20182b6a-8c77-449c-8599-7ac70430517e',
   'x-request-id',
-  '8c16339f-74e9-4310-8d25-661c98a13eb4',
+  'd97c8edb-880e-4f37-8941-84a0f3619d6b',
   'x-envoy-upstream-service-time',
-  '187',
+  '193',
   'apim-request-id',
-  '8c16339f-74e9-4310-8d25-661c98a13eb4',
+  'd97c8edb-880e-4f37-8941-84a0f3619d6b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:40:39 GMT'
+  'Sat, 15 May 2021 04:10:11 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/feedback/metric/5c1b7dcd-386a-4c8f-8b08-d3a71dd6684d')
-  .reply(200, {"feedbackId":"5c1b7dcd-386a-4c8f-8b08-d3a71dd6684d","createdTime":"2021-01-15T08:40:40.119Z","userPrincipal":"azure_client_id","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","dimensionFilter":{"dimension":{"city":"Cairo","category":"Home & Garden"}},"feedbackType":"Period","value":{"periodType":"AutoDetect","periodValue":4}}, [
+  .get('/metricsadvisor/v1.0/feedback/metric/20182b6a-8c77-449c-8599-7ac70430517e')
+  .reply(200, {"feedbackId":"20182b6a-8c77-449c-8599-7ac70430517e","createdTime":"2021-05-15T04:10:11.262Z","userPrincipal":"azure_client_id","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","dimensionFilter":{"dimension":{"city":"Cairo","category":"Home & Garden"}},"feedbackType":"Period","value":{"periodType":"AutoDetect","periodValue":4}}, [
   'Content-Length',
   '351',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '8a1aec14-3f4e-4080-b971-96d08ad47597',
+  'e1d03b23-580b-4217-9d8b-2a0cfe8c927b',
   'x-envoy-upstream-service-time',
-  '40',
+  '58',
   'apim-request-id',
-  '8a1aec14-3f4e-4080-b971-96d08ad47597',
+  'e1d03b23-580b-4217-9d8b-2a0cfe8c927b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:40:39 GMT'
+  'Sat, 15 May 2021 04:10:11 GMT'
 ]);

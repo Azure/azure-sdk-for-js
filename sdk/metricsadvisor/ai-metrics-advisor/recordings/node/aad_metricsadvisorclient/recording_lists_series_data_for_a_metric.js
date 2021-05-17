@@ -5,12 +5,14 @@ module.exports.hash = "667e36199fbef7a6e7d3b10b6e56af9a";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,19 +24,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '829443e0-c7e0-44b5-85a5-588bd44e4300',
+  '0f7e6fa9-1755-482b-a71f-7944c02dec00',
   'x-ms-ests-server',
-  '2.1.11397.13 - KRSLR2 ProdSlices',
+  '2.1.11722.21 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsoDeAShyiJLlORVED-UD3HGLH8mEAAAAGdLk9cOAAAA; expires=Sun, 14-Feb-2021 08:40:32 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AinGrRGBzI5Mg73OLQslIGHGLH8mDgAAAAZAMdgOAAAA; expires=Mon, 14-Jun-2021 04:10:06 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 15 Jan 2021 08:40:31 GMT',
-  'Content-Length',
-  '1331'
+  'Sat, 15 May 2021 04:10:05 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -45,15 +45,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'c172b779-3f43-4a0e-8480-4b6b64106d7f',
+  'c60a18d1-44d1-413f-9232-959a1ab3e198',
   'x-envoy-upstream-service-time',
-  '215',
+  '530',
   'apim-request-id',
-  'c172b779-3f43-4a0e-8480-4b6b64106d7f',
+  'c60a18d1-44d1-413f-9232-959a1ab3e198',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:40:32 GMT'
+  'Sat, 15 May 2021 04:10:05 GMT'
 ]);

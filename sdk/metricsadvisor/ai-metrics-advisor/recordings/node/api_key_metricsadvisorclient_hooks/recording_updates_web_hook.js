@@ -1,45 +1,45 @@
 let nock = require('nock');
 
-module.exports.hash = "f73bb136141e744b254cea252bdc08eb";
+module.exports.hash = "a75cd018be03a8dcaf5de17b524aa38d";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/hooks/b1c3c74b-ed83-41aa-8716-dbe12c741940', {"hookType":"Webhook","hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"pass123"}})
+  .patch('/metricsadvisor/v1.0/hooks/1005f307-4cb0-40cf-8c17-e2160babcd1b', {"hookType":"Webhook","hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"pass123"}})
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  'bc733d22-5d1a-4a06-826a-5697ae690dde',
+  '81596307-edb0-4b2d-876e-c11d2e6fa2a3',
   'x-envoy-upstream-service-time',
-  '543',
+  '963',
   'apim-request-id',
-  'bc733d22-5d1a-4a06-826a-5697ae690dde',
+  '81596307-edb0-4b2d-876e-c11d2e6fa2a3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:43:04 GMT'
+  'Sat, 15 May 2021 04:10:46 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/hooks/b1c3c74b-ed83-41aa-8716-dbe12c741940')
-  .reply(200, {"hookId":"b1c3c74b-ed83-41aa-8716-dbe12c741940","hookName":"js-test-webHook-161070018056805597","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"pass123","headers":{},"certificateKey":"","certificatePassword":""}}, [
+  .get('/metricsadvisor/v1.0/hooks/1005f307-4cb0-40cf-8c17-e2160babcd1b')
+  .reply(200, {"hookId":"1005f307-4cb0-40cf-8c17-e2160babcd1b","hookName":"js-test-webHook-162105184287407101","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"pass123","headers":{},"certificateKey":"","certificatePassword":""}}, [
   'Content-Length',
   '353',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '8606e2e0-41fc-45c5-b030-dc3dbf007fb7',
+  '6b5a0f35-042e-41d1-8592-51f48f3d7833',
   'x-envoy-upstream-service-time',
-  '158',
+  '162',
   'apim-request-id',
-  '8606e2e0-41fc-45c5-b030-dc3dbf007fb7',
+  '6b5a0f35-042e-41d1-8592-51f48f3d7833',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:43:04 GMT'
+  'Sat, 15 May 2021 04:10:46 GMT'
 ]);
