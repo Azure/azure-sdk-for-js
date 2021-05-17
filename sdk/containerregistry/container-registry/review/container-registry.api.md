@@ -66,7 +66,6 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 // @public
 export interface ContainerRepository {
     delete(options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
-    readonly fullyQualifiedName: string;
     getArtifact(tagOrDigest: string): RegistryArtifact;
     getProperties(options?: GetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
     listManifests(options?: ListManifestsOptions): PagedAsyncIterableIterator<ArtifactManifestProperties>;
@@ -190,14 +189,6 @@ export interface ManifestPageResponse extends Array<ArtifactManifestProperties> 
 }
 
 // @public
-export interface ManifestWriteableProperties {
-    canDelete?: boolean;
-    canList?: boolean;
-    canRead?: boolean;
-    canWrite?: boolean;
-}
-
-// @public
 export interface RegistryArtifact {
     delete(options?: DeleteArtifactOptions): Promise<void>;
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
@@ -232,7 +223,15 @@ export interface RepositoryProperties {
 }
 
 // @public
-export interface RepositoryWriteableProperties {
+export interface SetManifestPropertiesOptions extends OperationOptions {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
+}
+
+// @public
+export interface SetRepositoryPropertiesOptions extends OperationOptions {
     canDelete?: boolean;
     canList?: boolean;
     canRead?: boolean;
@@ -241,13 +240,12 @@ export interface RepositoryWriteableProperties {
 }
 
 // @public
-export type SetManifestPropertiesOptions = ManifestWriteableProperties & OperationOptions;
-
-// @public
-export type SetRepositoryPropertiesOptions = RepositoryWriteableProperties & OperationOptions;
-
-// @public
-export type SetTagPropertiesOptions = TagWriteableProperties & OperationOptions;
+export interface SetTagPropertiesOptions extends OperationOptions {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
+}
 
 // @public
 export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
@@ -255,14 +253,6 @@ export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 // @public
 export interface TagPageResponse extends Array<ArtifactTagProperties> {
     continuationToken?: string;
-}
-
-// @public
-export interface TagWriteableProperties {
-    canDelete?: boolean;
-    canList?: boolean;
-    canRead?: boolean;
-    canWrite?: boolean;
 }
 
 

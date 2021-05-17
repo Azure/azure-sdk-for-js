@@ -7,12 +7,10 @@ import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { URL } from "./url";
 
-import { GeneratedClient } from "./generated";
+import { GeneratedClient, RepositoryWriteableProperties } from "./generated";
 import { createSpan } from "./tracing";
 import {
-  RepositoryWriteableProperties,
   DeleteRepositoryResult,
   ManifestOrderBy,
   ArtifactManifestProperties,
@@ -45,7 +43,18 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `setProperties` method of `ContainerRepository`.
  */
-export type SetRepositoryPropertiesOptions = RepositoryWriteableProperties & OperationOptions;
+export interface SetRepositoryPropertiesOptions extends OperationOptions {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+  /** Enables Teleport functionality on new images in the repository improving Container startup performance */
+  teleportEnabled?: boolean;
+}
 
 /**
  * The helper used to interact with the Container Registry service.
@@ -59,10 +68,6 @@ export interface ContainerRepository {
    * Repository name.
    */
   readonly name: string;
-  /**
-   * Registry name.
-   */
-  readonly fullyQualifiedName: string;
   /**
    * Deletes this repository.
    *
@@ -116,10 +121,6 @@ export class ContainerRepositoryImpl {
    * Repository name.
    */
   public readonly name: string;
-  /**
-   * Registry name.
-   */
-  public readonly fullyQualifiedName: string;
 
   /**
    * Creates an instance of a ContainerRepository.
@@ -130,8 +131,6 @@ export class ContainerRepositoryImpl {
   constructor(registryEndpoint: string, name: string, client: GeneratedClient) {
     this.registryEndpoint = registryEndpoint;
     this.name = name;
-    const parsedUrl = new URL(registryEndpoint);
-    this.fullyQualifiedName = `${parsedUrl.hostname}/${name}`;
 
     this.client = client;
   }

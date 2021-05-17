@@ -2,12 +2,6 @@
 // Licensed under the MIT license.
 
 import { PipelineOptions } from "@azure/core-rest-pipeline";
-import { RepositoryWriteableProperties, TagWriteableProperties } from "./generated";
-
-/**
- * Re-export generated types that are used as public interfaces.
- */
-export { RepositoryWriteableProperties, TagWriteableProperties };
 
 /**
  * Client options used to configure Container Registry Repository API requests.
@@ -53,18 +47,6 @@ export enum KnownArtifactOperatingSystem {
   Plan9 = "plan9",
   Solaris = "solaris",
   Windows = "windows"
-}
-
-/** Changeable attributes */
-export interface ManifestWriteableProperties {
-  /** Delete enabled */
-  canDelete?: boolean;
-  /** Write enabled */
-  canWrite?: boolean;
-  /** List enabled */
-  canList?: boolean;
-  /** Read enabled */
-  canRead?: boolean;
 }
 
 /** Manifest attributes details */

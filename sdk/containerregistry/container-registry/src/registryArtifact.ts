@@ -11,8 +11,6 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ArtifactTagProperties,
   ArtifactManifestProperties,
-  TagWriteableProperties,
-  ManifestWriteableProperties,
   TagOrderBy,
   TagPageResponse
 } from "./models";
@@ -46,12 +44,30 @@ export interface GetTagPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `setTagProperties` method of `RegistryArtifact`.
  */
-export type SetTagPropertiesOptions = TagWriteableProperties & OperationOptions;
+export interface SetTagPropertiesOptions extends OperationOptions {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+}
 
 /**
  * Options for the `setManifestProperties` method of `RegistryArtifact`.
  */
-export type SetManifestPropertiesOptions = ManifestWriteableProperties & OperationOptions;
+export interface SetManifestPropertiesOptions extends OperationOptions {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+}
 
 /**
  * Options for the `listTags` method of `RegistryArtifact`.

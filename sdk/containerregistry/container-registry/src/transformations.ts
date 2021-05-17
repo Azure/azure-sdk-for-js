@@ -11,12 +11,23 @@ import {
 } from "./generated/models";
 import {
   ArtifactManifestProperties,
-  ManifestWriteableProperties,
   TagOrderBy,
   ManifestOrderBy,
   RepositoryProperties,
   ArtifactTagProperties
 } from "./models";
+
+/** Changeable attributes. Filter out `quarantineState` and `quarantineDetails` returned by service */
+interface ManifestWriteableProperties {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+}
 
 export function toManifestWritableProperties(
   from?: ServiceManifestWritableProperties
