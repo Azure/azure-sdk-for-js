@@ -51,7 +51,12 @@ export interface ServiceBusSender {
    * @throws `ServiceBusError` if the service returns an error while sending messages to the service.
    */
   sendMessages(
-    messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
+    messages:
+      | ServiceBusMessage
+      | ServiceBusMessage[]
+      | ServiceBusMessageBatch
+      | AmqpAnnotatedMessage
+      | AmqpAnnotatedMessage[],
     options?: OperationOptionsBase
   ): Promise<void>;
 
@@ -98,7 +103,11 @@ export interface ServiceBusSender {
    * @throws `ServiceBusError` if the service returns an error while scheduling messages.
    */
   scheduleMessages(
-    messages: ServiceBusMessage | ServiceBusMessage[],
+    messages:
+      | ServiceBusMessage
+      | ServiceBusMessage[]
+      | AmqpAnnotatedMessage
+      | AmqpAnnotatedMessage[],
     scheduledEnqueueTimeUtc: Date,
     options?: OperationOptionsBase
   ): Promise<Long[]>;
@@ -242,7 +251,11 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
   }
 
   async scheduleMessages(
-    messages: ServiceBusMessage | ServiceBusMessage[],
+    messages:
+      | ServiceBusMessage
+      | ServiceBusMessage[]
+      | AmqpAnnotatedMessage
+      | AmqpAnnotatedMessage[],
     scheduledEnqueueTimeUtc: Date,
     options: OperationOptionsBase = {}
   ): Promise<Long[]> {
@@ -299,16 +312,14 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       ? sequenceNumbers
       : [sequenceNumbers];
     const cancelSchedulesMessagesOperationPromise = async (): Promise<void> => {
-      return this._context.getManagementClient(this._entityPath).cancelScheduledMessages(
-        sequenceNumbersToCancel,
-
-        {
+      return this._context
+        .getManagementClient(this._entityPath)
+        .cancelScheduledMessages(sequenceNumbersToCancel, {
           ...options,
           associatedLinkName: this._sender.name,
           requestName: "cancelScheduledMessages",
           timeoutInMs: this._retryOptions.timeoutInMs
-        }
-      );
+        });
     };
     const config: RetryConfig<void> = {
       operation: cancelSchedulesMessagesOperationPromise,
