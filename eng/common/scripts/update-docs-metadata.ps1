@@ -136,7 +136,7 @@ foreach ($config in $targets) {
       $metadataJsonLocation = Join-Path $metadataLocation $packageInfo.DocsReadMeName
       Write-Host "Setting content for $($packageInfo.Name)"
       $packageInfo `
-        | Select-Object -ExcludeProperty Name, Version, SdkType, IsNewSdk `
+        | Select-Object -Property Name, Version, SdkType, IsNewSdk `
         | ConvertTo-Json -Depth 100
         | Set-Content -Force "$metadataJsonLocation.json"
     }
