@@ -37,7 +37,12 @@ export class RestorePointCollections {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorePointCollectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, restorePointCollectionName: string, parameters: Models.RestorePointCollection, options?: msRest.RequestOptionsBase): Promise<Models.RestorePointCollectionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    parameters: Models.RestorePointCollection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestorePointCollectionsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection.
@@ -45,7 +50,12 @@ export class RestorePointCollections {
    * operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, restorePointCollectionName: string, parameters: Models.RestorePointCollection, callback: msRest.ServiceCallback<Models.RestorePointCollection>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    parameters: Models.RestorePointCollection,
+    callback: msRest.ServiceCallback<Models.RestorePointCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection.
@@ -54,8 +64,20 @@ export class RestorePointCollections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, restorePointCollectionName: string, parameters: Models.RestorePointCollection, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePointCollection>): void;
-  createOrUpdate(resourceGroupName: string, restorePointCollectionName: string, parameters: Models.RestorePointCollection, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointCollection>, callback?: msRest.ServiceCallback<Models.RestorePointCollection>): Promise<Models.RestorePointCollectionsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    parameters: Models.RestorePointCollection,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RestorePointCollection>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    parameters: Models.RestorePointCollection,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointCollection>,
+    callback?: msRest.ServiceCallback<Models.RestorePointCollection>
+  ): Promise<Models.RestorePointCollectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,7 +86,8 @@ export class RestorePointCollections {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.RestorePointCollectionsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.RestorePointCollectionsCreateOrUpdateResponse>;
   }
 
   /**
@@ -75,14 +98,24 @@ export class RestorePointCollections {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorePointCollectionsUpdateResponse>
    */
-  update(resourceGroupName: string, restorePointCollectionName: string, parameters: Models.RestorePointCollectionUpdate, options?: msRest.RequestOptionsBase): Promise<Models.RestorePointCollectionsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    parameters: Models.RestorePointCollectionUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestorePointCollectionsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param parameters Parameters supplied to the Update restore point collection operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, restorePointCollectionName: string, parameters: Models.RestorePointCollectionUpdate, callback: msRest.ServiceCallback<Models.RestorePointCollection>): void;
+  update(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    parameters: Models.RestorePointCollectionUpdate,
+    callback: msRest.ServiceCallback<Models.RestorePointCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection.
@@ -90,8 +123,20 @@ export class RestorePointCollections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, restorePointCollectionName: string, parameters: Models.RestorePointCollectionUpdate, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePointCollection>): void;
-  update(resourceGroupName: string, restorePointCollectionName: string, parameters: Models.RestorePointCollectionUpdate, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointCollection>, callback?: msRest.ServiceCallback<Models.RestorePointCollection>): Promise<Models.RestorePointCollectionsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    parameters: Models.RestorePointCollectionUpdate,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RestorePointCollection>
+  ): void;
+  update(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    parameters: Models.RestorePointCollectionUpdate,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointCollection>,
+    callback?: msRest.ServiceCallback<Models.RestorePointCollection>
+  ): Promise<Models.RestorePointCollectionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +145,8 @@ export class RestorePointCollections {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.RestorePointCollectionsUpdateResponse>;
+      callback
+    ) as Promise<Models.RestorePointCollectionsUpdateResponse>;
   }
 
   /**
@@ -111,9 +157,16 @@ export class RestorePointCollections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, restorePointCollectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,restorePointCollectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      restorePointCollectionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -123,21 +176,41 @@ export class RestorePointCollections {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorePointCollectionsGetResponse>
    */
-  get(resourceGroupName: string, restorePointCollectionName: string, options?: Models.RestorePointCollectionsGetOptionalParams): Promise<Models.RestorePointCollectionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    options?: Models.RestorePointCollectionsGetOptionalParams
+  ): Promise<Models.RestorePointCollectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, restorePointCollectionName: string, callback: msRest.ServiceCallback<Models.RestorePointCollection>): void;
+  get(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    callback: msRest.ServiceCallback<Models.RestorePointCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, restorePointCollectionName: string, options: Models.RestorePointCollectionsGetOptionalParams, callback: msRest.ServiceCallback<Models.RestorePointCollection>): void;
-  get(resourceGroupName: string, restorePointCollectionName: string, options?: Models.RestorePointCollectionsGetOptionalParams | msRest.ServiceCallback<Models.RestorePointCollection>, callback?: msRest.ServiceCallback<Models.RestorePointCollection>): Promise<Models.RestorePointCollectionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    options: Models.RestorePointCollectionsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.RestorePointCollection>
+  ): void;
+  get(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    options?:
+      | Models.RestorePointCollectionsGetOptionalParams
+      | msRest.ServiceCallback<Models.RestorePointCollection>,
+    callback?: msRest.ServiceCallback<Models.RestorePointCollection>
+  ): Promise<Models.RestorePointCollectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -145,7 +218,8 @@ export class RestorePointCollections {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RestorePointCollectionsGetResponse>;
+      callback
+    ) as Promise<Models.RestorePointCollectionsGetResponse>;
   }
 
   /**
@@ -154,26 +228,43 @@ export class RestorePointCollections {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorePointCollectionsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.RestorePointCollectionsListResponse>;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestorePointCollectionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>): void;
+  list(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointCollectionListResult>, callback?: msRest.ServiceCallback<Models.RestorePointCollectionListResult>): Promise<Models.RestorePointCollectionsListResponse> {
+  list(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RestorePointCollectionListResult>,
+    callback?: msRest.ServiceCallback<Models.RestorePointCollectionListResult>
+  ): Promise<Models.RestorePointCollectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RestorePointCollectionsListResponse>;
+      callback
+    ) as Promise<Models.RestorePointCollectionsListResponse>;
   }
 
   /**
@@ -183,7 +274,9 @@ export class RestorePointCollections {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorePointCollectionsListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.RestorePointCollectionsListAllResponse>;
+  listAll(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestorePointCollectionsListAllResponse>;
   /**
    * @param callback The callback
    */
@@ -192,14 +285,23 @@ export class RestorePointCollections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointCollectionListResult>, callback?: msRest.ServiceCallback<Models.RestorePointCollectionListResult>): Promise<Models.RestorePointCollectionsListAllResponse> {
+  listAll(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>
+  ): void;
+  listAll(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RestorePointCollectionListResult>,
+    callback?: msRest.ServiceCallback<Models.RestorePointCollectionListResult>
+  ): Promise<Models.RestorePointCollectionsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAllOperationSpec,
-      callback) as Promise<Models.RestorePointCollectionsListAllResponse>;
+      callback
+    ) as Promise<Models.RestorePointCollectionsListAllResponse>;
   }
 
   /**
@@ -210,7 +312,11 @@ export class RestorePointCollections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, restorePointCollectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -218,7 +324,8 @@ export class RestorePointCollections {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -227,26 +334,43 @@ export class RestorePointCollections {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorePointCollectionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RestorePointCollectionsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestorePointCollectionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointCollectionListResult>, callback?: msRest.ServiceCallback<Models.RestorePointCollectionListResult>): Promise<Models.RestorePointCollectionsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RestorePointCollectionListResult>,
+    callback?: msRest.ServiceCallback<Models.RestorePointCollectionListResult>
+  ): Promise<Models.RestorePointCollectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.RestorePointCollectionsListNextResponse>;
+      callback
+    ) as Promise<Models.RestorePointCollectionsListNextResponse>;
   }
 
   /**
@@ -257,26 +381,43 @@ export class RestorePointCollections {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorePointCollectionsListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RestorePointCollectionsListAllNextResponse>;
+  listAllNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestorePointCollectionsListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>): void;
+  listAllNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointCollectionListResult>, callback?: msRest.ServiceCallback<Models.RestorePointCollectionListResult>): Promise<Models.RestorePointCollectionsListAllNextResponse> {
+  listAllNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RestorePointCollectionListResult>
+  ): void;
+  listAllNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RestorePointCollectionListResult>,
+    callback?: msRest.ServiceCallback<Models.RestorePointCollectionListResult>
+  ): Promise<Models.RestorePointCollectionsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAllNextOperationSpec,
-      callback) as Promise<Models.RestorePointCollectionsListAllNextResponse>;
+      callback
+    ) as Promise<Models.RestorePointCollectionsListAllNextResponse>;
   }
 }
 
@@ -284,18 +425,15 @@ export class RestorePointCollections {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.restorePointCollectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -319,18 +457,15 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.restorePointCollectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -351,19 +486,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.restorePointCollectionName
   ],
-  queryParameters: [
-    Parameters.expand0,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand0, Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RestorePointCollection
@@ -377,17 +508,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RestorePointCollectionListResult
@@ -402,15 +527,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const listAllOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/restorePointCollections",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RestorePointCollectionListResult
@@ -424,18 +543,15 @@ const listAllOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.restorePointCollectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -451,15 +567,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RestorePointCollectionListResult
@@ -475,15 +585,9 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RestorePointCollectionListResult

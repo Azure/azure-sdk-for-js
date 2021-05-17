@@ -36,9 +36,18 @@ export class CloudServicesUpdateDomain {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  walkUpdateDomain(resourceGroupName: string, cloudServiceName: string, updateDomain: number, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginWalkUpdateDomain(resourceGroupName,cloudServiceName,updateDomain,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  walkUpdateDomain(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    updateDomain: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginWalkUpdateDomain(
+      resourceGroupName,
+      cloudServiceName,
+      updateDomain,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -53,7 +62,12 @@ export class CloudServicesUpdateDomain {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServicesUpdateDomainGetUpdateDomainResponse>
    */
-  getUpdateDomain(resourceGroupName: string, cloudServiceName: string, updateDomain: number, options?: msRest.RequestOptionsBase): Promise<Models.CloudServicesUpdateDomainGetUpdateDomainResponse>;
+  getUpdateDomain(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    updateDomain: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudServicesUpdateDomainGetUpdateDomainResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param cloudServiceName Name of the cloud service.
@@ -62,7 +76,12 @@ export class CloudServicesUpdateDomain {
    * an ID of 1, and so on.
    * @param callback The callback
    */
-  getUpdateDomain(resourceGroupName: string, cloudServiceName: string, updateDomain: number, callback: msRest.ServiceCallback<Models.UpdateDomain>): void;
+  getUpdateDomain(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    updateDomain: number,
+    callback: msRest.ServiceCallback<Models.UpdateDomain>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param cloudServiceName Name of the cloud service.
@@ -72,8 +91,20 @@ export class CloudServicesUpdateDomain {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUpdateDomain(resourceGroupName: string, cloudServiceName: string, updateDomain: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UpdateDomain>): void;
-  getUpdateDomain(resourceGroupName: string, cloudServiceName: string, updateDomain: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UpdateDomain>, callback?: msRest.ServiceCallback<Models.UpdateDomain>): Promise<Models.CloudServicesUpdateDomainGetUpdateDomainResponse> {
+  getUpdateDomain(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    updateDomain: number,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UpdateDomain>
+  ): void;
+  getUpdateDomain(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    updateDomain: number,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UpdateDomain>,
+    callback?: msRest.ServiceCallback<Models.UpdateDomain>
+  ): Promise<Models.CloudServicesUpdateDomainGetUpdateDomainResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +113,8 @@ export class CloudServicesUpdateDomain {
         options
       },
       getUpdateDomainOperationSpec,
-      callback) as Promise<Models.CloudServicesUpdateDomainGetUpdateDomainResponse>;
+      callback
+    ) as Promise<Models.CloudServicesUpdateDomainGetUpdateDomainResponse>;
   }
 
   /**
@@ -92,21 +124,39 @@ export class CloudServicesUpdateDomain {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServicesUpdateDomainListUpdateDomainsResponse>
    */
-  listUpdateDomains(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServicesUpdateDomainListUpdateDomainsResponse>;
+  listUpdateDomains(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudServicesUpdateDomainListUpdateDomainsResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param cloudServiceName Name of the cloud service.
    * @param callback The callback
    */
-  listUpdateDomains(resourceGroupName: string, cloudServiceName: string, callback: msRest.ServiceCallback<Models.UpdateDomainListResult>): void;
+  listUpdateDomains(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    callback: msRest.ServiceCallback<Models.UpdateDomainListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param cloudServiceName Name of the cloud service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUpdateDomains(resourceGroupName: string, cloudServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UpdateDomainListResult>): void;
-  listUpdateDomains(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UpdateDomainListResult>, callback?: msRest.ServiceCallback<Models.UpdateDomainListResult>): Promise<Models.CloudServicesUpdateDomainListUpdateDomainsResponse> {
+  listUpdateDomains(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UpdateDomainListResult>
+  ): void;
+  listUpdateDomains(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UpdateDomainListResult>,
+    callback?: msRest.ServiceCallback<Models.UpdateDomainListResult>
+  ): Promise<Models.CloudServicesUpdateDomainListUpdateDomainsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +164,8 @@ export class CloudServicesUpdateDomain {
         options
       },
       listUpdateDomainsOperationSpec,
-      callback) as Promise<Models.CloudServicesUpdateDomainListUpdateDomainsResponse>;
+      callback
+    ) as Promise<Models.CloudServicesUpdateDomainListUpdateDomainsResponse>;
   }
 
   /**
@@ -127,7 +178,12 @@ export class CloudServicesUpdateDomain {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginWalkUpdateDomain(resourceGroupName: string, cloudServiceName: string, updateDomain: number, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginWalkUpdateDomain(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    updateDomain: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -136,7 +192,8 @@ export class CloudServicesUpdateDomain {
         options
       },
       beginWalkUpdateDomainOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -145,26 +202,41 @@ export class CloudServicesUpdateDomain {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServicesUpdateDomainListUpdateDomainsNextResponse>
    */
-  listUpdateDomainsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServicesUpdateDomainListUpdateDomainsNextResponse>;
+  listUpdateDomainsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudServicesUpdateDomainListUpdateDomainsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listUpdateDomainsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.UpdateDomainListResult>): void;
+  listUpdateDomainsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.UpdateDomainListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUpdateDomainsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UpdateDomainListResult>): void;
-  listUpdateDomainsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UpdateDomainListResult>, callback?: msRest.ServiceCallback<Models.UpdateDomainListResult>): Promise<Models.CloudServicesUpdateDomainListUpdateDomainsNextResponse> {
+  listUpdateDomainsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UpdateDomainListResult>
+  ): void;
+  listUpdateDomainsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UpdateDomainListResult>,
+    callback?: msRest.ServiceCallback<Models.UpdateDomainListResult>
+  ): Promise<Models.CloudServicesUpdateDomainListUpdateDomainsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listUpdateDomainsNextOperationSpec,
-      callback) as Promise<Models.CloudServicesUpdateDomainListUpdateDomainsNextResponse>;
+      callback
+    ) as Promise<Models.CloudServicesUpdateDomainListUpdateDomainsNextResponse>;
   }
 }
 
@@ -172,19 +244,16 @@ export class CloudServicesUpdateDomain {
 const serializer = new msRest.Serializer(Mappers);
 const getUpdateDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.updateDomain,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UpdateDomain
@@ -198,18 +267,15 @@ const getUpdateDomainOperationSpec: msRest.OperationSpec = {
 
 const listUpdateDomainsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UpdateDomainListResult
@@ -223,24 +289,18 @@ const listUpdateDomainsOperationSpec: msRest.OperationSpec = {
 
 const beginWalkUpdateDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.updateDomain,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.UpdateDomain
   },
   responses: {
@@ -257,15 +317,9 @@ const listUpdateDomainsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UpdateDomainListResult
