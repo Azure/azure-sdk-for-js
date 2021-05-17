@@ -395,7 +395,7 @@ export function updateMessageId(rheaMessage: RheaMessage, messageId: RheaMessage
   if (messageId != null) {
     if (typeof messageId === "string" && messageId.length > Constants.maxMessageIdLength) {
       throw new Error(
-        "Length of 'messageId' property on the message cannot be greater than 128 characters."
+        `Length of 'messageId' property on the message cannot be greater than ${Constants.maxMessageIdLength} characters.`
       );
     }
 
