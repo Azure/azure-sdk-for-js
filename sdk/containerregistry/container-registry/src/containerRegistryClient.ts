@@ -46,7 +46,7 @@ export class ContainerRegistryClient {
   /**
    * The Azure Container Registry endpoint.
    */
-  public readonly registryEndpoint: string;
+  public readonly endpoint: string;
 
   /** The login server of the registry */
   public readonly loginServer: string;
@@ -69,12 +69,12 @@ export class ContainerRegistryClient {
    *    new DefaultAzureCredential()
    * );
    * ```
-   * @param registryEndpoint - the URL to the Container Registry endpoint
+   * @param endpoint - the URL to the Container Registry endpoint
    * @param credential - used to authenticate requests to the service
    * @param options - optional configuration used to send requests to the service
    */
   constructor(
-    registryEndpoint: string,
+    endpoint: string,
     credential: TokenCredential,
     options?: ContainerRegistryClientOptions
   );
@@ -91,18 +91,18 @@ export class ContainerRegistryClient {
    *    "<container registry API endpoint>",
    * );
    * ```
-   * @param registryEndpoint - the URL to the Container Registry endpoint
+   * @param endpoint - the URL to the Container Registry endpoint
    * @param options - optional configuration used to send requests to the service
    */
-  constructor(registryEndpoint: string, options?: ContainerRegistryClientOptions);
+  constructor(endpoint: string, options?: ContainerRegistryClientOptions);
 
   constructor(
-    registryEndpoint: string,
+    endpoint: string,
     credentialOrOptions?: TokenCredential | ContainerRegistryClientOptions,
     clientOptions: ContainerRegistryClientOptions = {}
   ) {
-    this.registryEndpoint = registryEndpoint;
-    const parsedUrl = new URL(registryEndpoint);
+    this.endpoint = endpoint;
+    const parsedUrl = new URL(endpoint);
     this.loginServer = parsedUrl.hostname;
     this.name = parsedUrl.pathname;
 
@@ -136,8 +136,8 @@ export class ContainerRegistryClient {
       }
     };
 
-    const authClient = new GeneratedClient(registryEndpoint, internalPipelineOptions);
-    this.client = new GeneratedClient(registryEndpoint, internalPipelineOptions);
+    const authClient = new GeneratedClient(endpoint, internalPipelineOptions);
+    this.client = new GeneratedClient(endpoint, internalPipelineOptions);
     this.client.pipeline.addPolicy(
       bearerTokenChallengeAuthenticationPolicy({
         credential,
@@ -188,11 +188,9 @@ export class ContainerRegistryClient {
    * @param tagOrDigest - tag or digest of the artifact to retrieve
    */
   public getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact {
-    return new ContainerRepositoryImpl(
-      this.registryEndpoint,
-      repositoryName,
-      this.client
-    ).getArtifact(tagOrDigest);
+    return new ContainerRepositoryImpl(this.endpoint, repositoryName, this.client).getArtifact(
+      tagOrDigest
+    );
   }
 
   /**
@@ -202,7 +200,7 @@ export class ContainerRegistryClient {
    * @param options - optional configuration for the operation
    */
   public getRepository(repositoryName: string): ContainerRepository {
-    return new ContainerRepositoryImpl(this.registryEndpoint, repositoryName, this.client);
+    return new ContainerRepositoryImpl(this.endpoint, repositoryName, this.client);
   }
 
   /**

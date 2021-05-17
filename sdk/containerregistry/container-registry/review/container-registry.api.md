@@ -48,15 +48,15 @@ export interface ArtifactTagProperties {
 
 // @public
 export class ContainerRegistryClient {
-    constructor(registryEndpoint: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
-    constructor(registryEndpoint: string, options?: ContainerRegistryClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
+    constructor(endpoint: string, options?: ContainerRegistryClientOptions);
     deleteRepository(repositoryName: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
+    readonly endpoint: string;
     getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact;
     getRepository(repositoryName: string): ContainerRepository;
     listRepositoryNames(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, RepositoryPageResponse>;
     readonly loginServer: string;
     readonly name: string;
-    readonly registryEndpoint: string;
 }
 
 // @public
