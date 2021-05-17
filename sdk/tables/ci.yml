@@ -23,13 +23,11 @@ pr:
     include:
       - sdk/tables/
 
-variables:
-    jobMatrixFilter: ^((?!8x_node).)*$
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     MatrixFilters:
+      # Skip Node 8 validation as Node8 doesn't support bigint
       - DisplayName=^((?!8x_node).)*$
     ServiceDirectory: tables
     Artifacts:
