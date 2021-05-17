@@ -27,7 +27,7 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     MatrixFilters:
-      - ^((?!8x_node).)*$
+      - TestType=^(?!8.x).*
     ServiceDirectory: tables
     Artifacts:
       - name: azure-data-tables
