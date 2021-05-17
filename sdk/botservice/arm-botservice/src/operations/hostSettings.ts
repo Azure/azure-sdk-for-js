@@ -39,14 +39,21 @@ export class HostSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostSettingsResponse>): void;
-  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostSettingsResponse>, callback?: msRest.ServiceCallback<Models.HostSettingsResponse>): Promise<Models.HostSettingsGetResponse> {
+  get(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HostSettingsResponse>
+  ): void;
+  get(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostSettingsResponse>,
+    callback?: msRest.ServiceCallback<Models.HostSettingsResponse>
+  ): Promise<Models.HostSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.HostSettingsGetResponse>;
+      callback
+    ) as Promise<Models.HostSettingsGetResponse>;
   }
 }
 
@@ -55,15 +62,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.BotService/hostSettings",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HostSettingsResponse
