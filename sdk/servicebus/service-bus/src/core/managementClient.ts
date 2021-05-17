@@ -619,8 +619,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         }
 
         if (
-          rheaMessage.message_annotations &&
-          rheaMessage.message_annotations[Constants.partitionKey]
+          rheaMessage.message_annotations?.[Constants.partitionKey]
         ) {
           entry["partition-key"] = rheaMessage.message_annotations[Constants.partitionKey];
         }
