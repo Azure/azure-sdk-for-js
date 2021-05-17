@@ -23,11 +23,14 @@ pr:
     include:
       - sdk/tables/
 
+variables:
+    jobMatrixFilter: ^((?!8x_node).)*$
+
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     MatrixFilters:
-      - TestType=^(?!8.x).*
+      - DisplayName=^((?!8x_node).)*$
     ServiceDirectory: tables
     Artifacts:
       - name: azure-data-tables
