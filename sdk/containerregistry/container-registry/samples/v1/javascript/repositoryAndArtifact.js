@@ -110,15 +110,12 @@ async function getProperties(repository) {
   console.log(`  last updated on: ${properties.lastUpdatedOn}`);
   console.log(`  artifact count: ${properties.manifestCount}`);
   console.log(`  tag count: ${properties.tagCount}`);
-  const writableProps = properties.writeableProperties;
-  if (writableProps) {
-    console.log("  writable properties: {");
-    console.log(`    canDelete: ${writableProps.canDelete},
-    canList: ${writableProps.canList},
-    canRead: ${writableProps.canRead},
-    canWrite: ${writableProps.canWrite}`);
-    console.log("  }");
-  }
+  console.log("  writable properties: {");
+  console.log(`    canDelete: ${properties.canDelete},
+    canList: ${properties.canList},
+    canRead: ${properties.canRead},
+    canWrite: ${properties.canWrite}`);
+  console.log("  }");
 }
 
 async function getArtifactProperties(artifact) {

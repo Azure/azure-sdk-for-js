@@ -75,7 +75,7 @@ export interface ArtifactManifestReference {
 /** Manifest attributes details */
 export interface ArtifactManifestProperties {
   /**
-   * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
+   * Registry login server name.  This is likely to be similar to <registry-name>.azurecr.io
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly registryLoginServer?: string;
