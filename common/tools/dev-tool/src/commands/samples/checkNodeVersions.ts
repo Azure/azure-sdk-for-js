@@ -170,6 +170,7 @@ async function runDockerContainer(
   stdoutListener: (chunk: string | Buffer) => void,
   stderrListener: (chunk: string | Buffer) => void
 ): Promise<void> {
+  pr.execSync(`docker pull ${dockerImageName}`);
   const args = [
     "run",
     "--name",
