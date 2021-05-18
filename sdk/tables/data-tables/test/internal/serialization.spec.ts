@@ -81,10 +81,7 @@ describe("Serializer", () => {
     assert.strictEqual(serialized["int32ObjProp@odata.type"], "Edm.Int32");
   });
 
-  it("should serialize an Int64 value", function(this: Mocha.Context) {
-    if (isNode8()) {
-      this.skip();
-    }
+  it("should serialize an Int64 value", () => {
     const int64Value = "12345678910";
     const serialized: any = serialize({
       int64ObjProp: { value: int64Value, type: "Int64" }
@@ -168,7 +165,10 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.int32Prop, int32Value);
   });
 
-  it("should deserialize an Int64 value to bigint", () => {
+  it("should deserialize an Int64 value to bigint", function(this: Mocha.Context) {
+    if (isNode8()) {
+      this.skip();
+    }
     const int64Value = "12345678910";
     const deserialized = deserialize({
       int64ObjProp: int64Value,
