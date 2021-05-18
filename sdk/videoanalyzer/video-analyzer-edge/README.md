@@ -22,7 +22,7 @@ npm install @azure/video-analyzer-edge
 ### Prerequisites
 
 - TypeScript v3.6.
-- You need an active [Azure subscription][azure_sub], and a [IoT device connection string][iot_device_connection_string] to use this package.
+- You need an active [Azure subscription][azure_sub], and a IoT device connection string to use this package.
 - To interact with Azure IoT Hub you will need to run `npm install azure-iothub`
 - You will need to use the version of the SDK that corresponds to the version of the Video Analyzer Edge module you are using.
 
@@ -38,7 +38,7 @@ Please visit the [Examples](#examples) for starter code.
 
 ### Pipeline Topology vs Pipeline Instance
 
-A _pipeline topology_ is a blueprint or template for instantiating live pipelines. It defines the parameters of the pipeline using placeholders as values for them. A _live pipeline_ references a pipeline topology and specifies the parameters. This way you are able to have multiple live pipelines referencing the same topology but with different values for parameters. For more information please visit [pipeline topologies and live [pipelines][doc_pipelines].
+A _pipeline topology_ is a blueprint or template for instantiating live pipelines. It defines the parameters of the pipeline using placeholders as values for them. A _live pipeline_ references a pipeline topology and specifies the parameters. This way you are able to have multiple live pipelines referencing the same topology but with different values for parameters. For more information please visit [pipeline topologies and live pipelines][doc_pipelines].
 
 ## Examples
 
@@ -159,11 +159,12 @@ additional questions or comments.
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
 [coc_contact]: mailto:opencode@microsoft.com
 
-[source]: TODO://link-to-published-source <!--https://msazure.visualstudio.com/One/_workitems/edit/9946084 Work item to add all todo links-->
-[package]: TODO://link-to-published-package
-[doc_direct_methods]: TODO://link-to-published-package
-[doc_product]: TODO://link-to-published-package
-[iot_device_connection_string]: TODO://link-to-published-package
+[source]: https://aka.ms/ava/sdk/client/js/source
+[samples]: https://aka.ms/video-analyzer-sample
+[package]: https://aka.ms/ava/sdk/client/js
+[doc_direct_methods]: https://go.microsoft.com/fwlink/?linkid=2162396
+[doc_product]: https://go.microsoft.com/fwlink/?linkid=2162396
+[doc_pipelines]: https://go.microsoft.com/fwlink/?linkid=2162396
 [iot-device-sdk]: https://www.npmjs.com/package/azure-iot-device
 [iot-hub-sdk]: https://github.com/Azure/azure-iot-sdk-node
 [github-page-issues]: https://github.com/Azure/azure-sdk-for-python/issues

@@ -19,7 +19,7 @@ npm install @azure/video-analyzer-edge
 
   | SDK     | Video Analyzer Edge Module |
   | ------- | -------------------------- |
-  | 1.0.0b1 | 1.0                        |
+  | 1.0.0-beta.1 | 1.0                        |
 
 ### Running the sample
 

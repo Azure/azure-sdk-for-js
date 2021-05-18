@@ -362,9 +362,8 @@ export type NamedPolygonString = NamedPolygonBase & {
     polygon: string;
 };
 
-// @public (undocumented)
+// @public
 export interface NameObject {
-    // (undocumented)
     name: string;
 }
 
@@ -451,17 +450,15 @@ export interface ProcessorNodeBase {
 // @public (undocumented)
 export type ProcessorNodeBaseUnion = ProcessorNodeBase | MotionDetectionProcessor | ObjectTrackingProcessor | LineCrossingProcessor | ExtensionProcessorBaseUnion | SignalGateProcessor | CognitiveServicesVisionProcessor;
 
-// @public (undocumented)
+// @public
 export interface Request<T> {
-    // (undocumented)
     methodName: string;
-    // (undocumented)
     payload: T & {
         "@apiVersion": string;
     };
 }
 
-// @public (undocumented)
+// @public
 export type RequestType = "pipelineTopologySet" | "pipelineTopologyGet" | "pipelineTopologyList" | "pipelineTopologyDelete" | "livePipelineSet" | "livePipelineGet" | "livePipelineList" | "livePipelineDelete" | "livePipelineActivate" | "livePipelineDeactivate";
 
 // @public

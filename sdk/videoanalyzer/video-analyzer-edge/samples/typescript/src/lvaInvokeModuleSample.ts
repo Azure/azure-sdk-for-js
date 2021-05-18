@@ -48,8 +48,8 @@ function buildPipelineTopology() {
     properties: {
       description: "description for jsTestTopology",
       parameters: [
-        { name: "rtspUserName", type: "String", default: "dummyUsername" },
-        { name: "rtspPassword", type: "SecretString", default: "dummyPassword" },
+        { name: "rtspUserName", type: "String", default: "testUsername" },
+        { name: "rtspPassword", type: "SecretString", default: "testPassword" },
         { name: "rtspUrl", type: "String" },
         { name: "hubSinkOutputName", type: "String" }
       ],

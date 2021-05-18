@@ -2,15 +2,33 @@ export * from "./generated/models";
 import { PipelineTopology, LivePipeline } from "./generated/models";
 import { MethodRequest } from "./generated/models/mappers";
 
+/**
+ * Method name and payload to send with a pipeline request. Method name determinds request type.
+ */
 export interface Request<T> {
+  /**
+   * Method name which determines type of request
+   */
   methodName: string;
+  /**
+   * Payload  data to send with request
+   */
   payload: T & { "@apiVersion": string };
 }
 
+/**
+ * Name of pipeline or live pipeline
+ */
 export interface NameObject {
+  /**
+   * name
+   */
   name: string;
 }
 
+/**
+ * All of the options for type of request to send
+ */
 export type RequestType =
   | "pipelineTopologySet"
   | "pipelineTopologyGet"
