@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  ManifestAttributesBase,
   TagOrderBy as ServiceTagOrderBy,
   ManifestOrderBy as ServiceManifestOrderBy,
-  ManifestWriteableProperties as ServiceManifestWritableProperties
+  ManifestWriteableProperties as ServiceManifestWritableProperties,
+  ArtifactManifestProperties as ServiceArtifactManifestProperties
 } from "./generated/models";
 import { ArtifactManifestProperties, TagOrderBy, ManifestOrderBy } from "./models";
 
@@ -36,10 +36,12 @@ export function toManifestWritableProperties(
 }
 
 export function toArtifactManifestProperties(
-  from: ManifestAttributesBase,
-  repositoryName: string
+  from: ServiceArtifactManifestProperties,
+  repositoryName: string,
+  registryLoginServer?: string
 ): ArtifactManifestProperties {
   return {
+    registryLoginServer: registryLoginServer ?? from.registryLoginServer,
     repositoryName: repositoryName,
     digest: from.digest,
     size: from.size,

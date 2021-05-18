@@ -97,6 +97,7 @@ describe("Repository and artifact tests", function() {
 
   it("sets repository properties", async () => {
     const repositoryProperties = await repository.getProperties();
+    assert.ok(repositoryProperties.registryLoginServer, "Expecting valid 'registryLoginServer'");
     const original = repositoryProperties;
     try {
       const updated = await repository.setProperties({
@@ -121,6 +122,7 @@ describe("Repository and artifact tests", function() {
     const artifact = repository.getArtifact(artifactDigest);
     const properties = await artifact.getTagProperties("test1");
     assert.equal(properties.name, "test1");
+    assert.ok(properties.registryLoginServer, "Expecting valid 'registryLoginServer'");
   });
 
   it("should retrive registry artifact properties for a tag", async () => {
@@ -129,6 +131,7 @@ describe("Repository and artifact tests", function() {
     assert.ok(properties.createdOn, "Expecting valid createdOn property for the artifact");
     assert.ok(properties.manifestReferences?.length, "Expecting valid registry artifacts");
     assert.ok(properties.manifestReferences![0].architecture, "Expecting valid architecture");
+    assert.ok(properties.registryLoginServer, "Expecting valid 'registryLoginServer'");
   });
 
   it("should retrive registry artifact properties for a digest", async () => {

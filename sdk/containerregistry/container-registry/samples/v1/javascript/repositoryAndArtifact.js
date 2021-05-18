@@ -32,7 +32,13 @@ async function main() {
       await getArtifactProperties(artifact);
 
       console.log(`Listing tags for ${digest}`);
-      await listTags(artifact);
+      const tags = await listTags(artifact);
+      if (tags && tags.length) {
+        console.log(`Retrieving tag properties for ${tags[0]}`);
+        const tagProperties = await artifact.getTagProperties(tags[0]);
+        console.log(`  tag properties`);
+        console.log(tagProperties);
+      }
 
       // Advanced: listing by pages
       console.log(`Listing tags by pages for ${digest}`);
@@ -47,13 +53,18 @@ async function main() {
 }
 
 async function listTags(artifact) {
+  const tags = [];
   const iterator = artifact.listTags({ orderBy: "LastUpdatedOnAscending" });
   for await (const tag of iterator) {
+    tags.push(tag.name);
+    console.log(`  registry login server: ${tag.registryLoginServer}`);
     console.log(`  tag: ${tag.name}`);
     console.log(`  digest: ${tag.digest}`);
     console.log(`  created on: ${tag.createdOn}`);
     console.log(`  last updated on: ${tag.lastUpdatedOn}`);
   }
+
+  return tags;
 }
 
 async function listTagsByPages(artifact, pagesSize) {
@@ -78,6 +89,7 @@ async function listManifests(repository) {
   const iterator = repository.listManifests();
   for await (const artifact of iterator) {
     artifacts.push(artifact);
+    console.log(`  registry login server: ${artifact.registryLoginServer}`);
     console.log(`  digest: ${artifact.digest}`);
     console.log(`  created on: ${artifact.createdOn}`);
     console.log(`  last updated on: ${artifact.lastUpdatedOn}`);
@@ -105,6 +117,7 @@ async function listManifestsByPages(repository, pageSize) {
 async function getProperties(repository) {
   console.log("Retrieving repository properties...");
   const properties = await repository.getProperties();
+  console.log(`  registry login server: ${properties.registryLoginServer}`);
   console.log(`  name: ${properties.name}`);
   console.log(`  created on: ${properties.createdOn}`);
   console.log(`  last updated on: ${properties.lastUpdatedOn}`);
@@ -120,6 +133,7 @@ async function getProperties(repository) {
 
 async function getArtifactProperties(artifact) {
   const properties = await artifact.getManifestProperties();
+  console.log(`  registry login server: ${properties.registryLoginServer}`);
   console.log(`  created on: ${properties.createdOn}`);
   console.log(`  last updated on: ${properties.lastUpdatedOn}`);
   console.log(`  arch : ${properties.architecture}`);
