@@ -28,6 +28,7 @@ export class HttpFetcher extends Fetcher {
       timeout: options.requestOptions?.timeout,
       abortSignal: options.abortSignal,
       tracingOptions: options.tracingOptions,
+      allowInsecureConnection: true
     }
     const request: PipelineRequest = createPipelineRequest(requestOptions);
     const res: PipelineResponse = await this._client.sendRequest(request);

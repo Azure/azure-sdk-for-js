@@ -7,7 +7,7 @@
 
 import {ModelsRepositoryClient} from "@azure/iot-modelsrepository";
 
-const repositoryEndpoint = "http://www.devicemodels.azure.com";
+const repositoryEndpoint = "https://devicemodels.azure.com";
 const dtmi = "dtmi:azure:DeviceManagement:DeviceInformation;1";
 
 console.log(repositoryEndpoint, dtmi);

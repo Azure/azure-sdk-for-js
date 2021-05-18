@@ -7,7 +7,6 @@ import { DEFAULT_API_VERSION } from "./internal";
 interface IoTModelsRepositoryServiceClientOptions extends ServiceClientOptions {
   version?: string;
   endpoint?: string;
-  allowInsecureConnection?: boolean
 }
 
 export class IoTModelsRepositoryServiceClient extends ServiceClient {
@@ -22,8 +21,7 @@ export class IoTModelsRepositoryServiceClient extends ServiceClient {
   constructor(url: string, options: IoTModelsRepositoryServiceClientOptions = {}) {
     const defaults: IoTModelsRepositoryServiceClientOptions = {
       baseUri: `${url}`,
-      requestContentType: "application/json; charset=utf-8",
-      allowInsecureConnection: true
+      requestContentType: "application/json; charset=utf-8"
     };
 
     const optionsWithDefaults = {
