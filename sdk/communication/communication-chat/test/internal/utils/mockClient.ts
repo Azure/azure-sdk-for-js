@@ -57,7 +57,7 @@ export const mockMessage: RestModel.ChatMessage = {
   senderDisplayName: "senderDisplayName",
   senderCommunicationIdentifier: mockCommunicationIdentifier,
   deletedOn: new Date("2020-06-26T18:06:06Z"),
-  properties: { tags: "tag" }
+  metadata: { tags: "tag" }
 };
 
 export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {

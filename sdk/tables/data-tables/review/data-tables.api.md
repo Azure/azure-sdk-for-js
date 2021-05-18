@@ -7,6 +7,7 @@
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 
 // @public
@@ -24,6 +25,9 @@ export interface CorsRule {
     exposedHeaders: string;
     maxAgeInSeconds: number;
 }
+
+// @public
+export type CreateDeleteEntityAction = ["create" | "delete", TableEntity];
 
 // @public
 export type CreateTableEntityResponse = TableInsertEntityHeaders;
@@ -66,6 +70,7 @@ export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceSt
 // @public
 export type GetTableEntityOptions = OperationOptions & {
     queryOptions?: TableEntityQueryOptions;
+    disableTypeConversion?: boolean;
 };
 
 // @public
@@ -84,6 +89,7 @@ export const enum KnownGeoReplicationStatusType {
 // @public
 export type ListTableEntitiesOptions = OperationOptions & {
     queryOptions?: TableEntityQueryOptions;
+    disableTypeConversion?: boolean;
 };
 
 // @public
@@ -166,35 +172,9 @@ export interface SignedIdentifier {
 }
 
 // @public
-export interface TableBatch {
-    createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
-    createEntity: <T extends object>(entity: TableEntity<T>) => void;
-    deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
-    partitionKey: string;
-    submitBatch: () => Promise<TableBatchResponse>;
-    updateEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions) => void;
-    upsertEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: OperationOptions) => void;
-}
-
-// @public
-export interface TableBatchEntityResponse {
-    etag?: string;
-    rowKey?: string;
-    status: number;
-}
-
-// @public
-export interface TableBatchResponse {
-    getResponseForEntity: (rowKey: string) => TableBatchEntityResponse | undefined;
-    status: number;
-    subResponses: TableBatchEntityResponse[];
-}
-
-// @public
 export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
-    createBatch(partitionKey: string): TableBatch;
     createEntity<T extends object>(entity: TableEntity<T>, options?: OperationOptions): Promise<CreateTableEntityResponse>;
     createTable(options?: OperationOptions): Promise<void>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
@@ -203,7 +183,9 @@ export class TableClient {
     getAccessPolicy(options?: OperationOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
     listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]>;
+    pipeline: Pipeline;
     setAccessPolicy(tableAcl: SignedIdentifier[], options?: OperationOptions): Promise<SetAccessPolicyResponse>;
+    submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode?: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
     upsertEntity<T extends object>(entity: TableEntity<T>, mode?: UpdateMode, options?: OperationOptions): Promise<UpsertEntityResponse>;
@@ -236,7 +218,7 @@ export interface TableDeleteHeaders {
 }
 
 // @public
-export type TableEntity<T extends object> = T & {
+export type TableEntity<T extends object = Record<string, unknown>> = T & {
     partitionKey: string;
     rowKey: string;
 };
@@ -308,6 +290,7 @@ export class TableServiceClient {
     getProperties(options?: OperationOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: OperationOptions): Promise<GetStatisticsResponse>;
     listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, TableItem[]>;
+    pipeline: Pipeline;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
     url: string;
 }
@@ -348,6 +331,30 @@ export interface TablesSharedKeyCredentialLike {
 export function tablesSharedKeyCredentialPolicy(credential: TablesSharedKeyCredentialLike): PipelinePolicy;
 
 // @public
+export class TableTransaction {
+    constructor(actions?: TransactionAction[]);
+    actions: TransactionAction[];
+    createEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>): void;
+    deleteEntity(partitionKey: string, rowKey: string): void;
+    updateEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateMode?: UpdateMode): void;
+    upsertEntity<T extends object = Record<string, unknown>>(entity: TableEntity<T>, updateMode?: UpdateMode): void;
+}
+
+// @public
+export interface TableTransactionEntityResponse {
+    etag?: string;
+    rowKey?: string;
+    status: number;
+}
+
+// @public
+export interface TableTransactionResponse {
+    getResponseForEntity: (rowKey: string) => TableTransactionEntityResponse | undefined;
+    status: number;
+    subResponses: TableTransactionEntityResponse[];
+}
+
+// @public
 export interface TableUpdateEntityHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -355,6 +362,12 @@ export interface TableUpdateEntityHeaders {
     requestId?: string;
     version?: string;
 }
+
+// @public
+export type TransactionAction = CreateDeleteEntityAction | UpdateEntityAction;
+
+// @public
+export type UpdateEntityAction = ["update" | "upsert", TableEntity] | ["update" | "upsert", TableEntity, "Merge" | "Replace"];
 
 // @public
 export type UpdateEntityResponse = TableUpdateEntityHeaders;
