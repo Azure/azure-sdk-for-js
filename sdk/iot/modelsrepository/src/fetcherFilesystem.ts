@@ -29,9 +29,8 @@ export class FilesystemFetcher extends Fetcher {
 
     try {
       logger.info(`File open on ${absolutePath}`);
-      const parsedDtdl: DTDL | DTDL[] = await readFilePromise(absolutePath).then((dtdlFile) => {
-        return JSON.parse(dtdlFile);
-      });
+      const dtdlFile = await readFilePromise(absolutePath);
+      const parsedDtdl: DTDL | DTDL[] = JSON.parse(dtdlFile);
       return parsedDtdl;
     } catch (e) {
       // TODO: Is there a ResourceNotFound Error for Filesystem + Http (Generic API for errors)
