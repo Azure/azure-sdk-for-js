@@ -42,18 +42,18 @@ export type ConfigurationSettingParam<
    * Tags for this key
    */
   tags?: { [propertyName: string]: string };
-} & (T extends FeatureFlagValue | SecretReferenceValue
+} & (T extends string
     ? {
         /**
          * The setting's value
          */
-        value: T;
+        value?: string;
       }
     : {
         /**
          * The setting's value
          */
-        value?: string;
+        value: T;
       });
 
 /**

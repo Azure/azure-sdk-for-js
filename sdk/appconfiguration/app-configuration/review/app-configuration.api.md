@@ -59,10 +59,10 @@ export type ConfigurationSettingParam<T extends string | FeatureFlagValue | Secr
     tags?: {
         [propertyName: string]: string;
     };
-} & (T extends FeatureFlagValue | SecretReferenceValue ? {
-    value: T;
-} : {
+} & (T extends string ? {
     value?: string;
+} : {
+    value: T;
 });
 
 // @public
