@@ -1265,57 +1265,25 @@ export interface WebhookHookParameter {
 export type AzureSQLConnectionStringCredential = DataSourceCredential & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "AzureSQLConnectionString";
-<<<<<<< HEAD
-<<<<<<< HEAD
   parameters: AzureSQLConnectionStringParam;
-=======
-  parameters?: AzureSQLConnectionStringParam;
->>>>>>> 065ebee67 (changes from GA swagger)
-=======
-  parameters: AzureSQLConnectionStringParam;
->>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type DataLakeGen2SharedKeyCredential = DataSourceCredential & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "DataLakeGen2SharedKey";
-<<<<<<< HEAD
-<<<<<<< HEAD
   parameters: DataLakeGen2SharedKeyParam;
-=======
-  parameters?: DataLakeGen2SharedKeyParam;
->>>>>>> 065ebee67 (changes from GA swagger)
-=======
-  parameters: DataLakeGen2SharedKeyParam;
->>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type ServicePrincipalCredential = DataSourceCredential & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "ServicePrincipal";
-<<<<<<< HEAD
-<<<<<<< HEAD
   parameters: ServicePrincipalParam;
-=======
-  parameters?: ServicePrincipalParam;
->>>>>>> 065ebee67 (changes from GA swagger)
-=======
-  parameters: ServicePrincipalParam;
->>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type ServicePrincipalInKVCredential = DataSourceCredential & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "ServicePrincipalInKV";
-<<<<<<< HEAD
-<<<<<<< HEAD
   parameters: ServicePrincipalInKVParam;
-=======
-  parameters?: ServicePrincipalInKVParam;
->>>>>>> 065ebee67 (changes from GA swagger)
-=======
-  parameters: ServicePrincipalInKVParam;
->>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type AzureSQLConnectionStringCredentialPatch = DataSourceCredentialPatch & {
@@ -1375,20 +1343,7 @@ export type AzureDataLakeStorageGen2DataFeed = DataFeedDetail & {
 export type AzureEventHubsDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureEventHubs";
-<<<<<<< HEAD
-  dataSourceParameter?: AzureEventHubsParameter;
-<<<<<<< HEAD
-};
-
-export type AzureEventHubsDataFeed = DataFeedDetail & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dataSourceType: "AzureEventHubs";
   dataSourceParameter: AzureEventHubsParameter;
-=======
->>>>>>> 065ebee67 (changes from GA swagger)
-=======
-  dataSourceParameter: AzureEventHubsParameter;
->>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type AzureTableDataFeed = DataFeedDetail & {
@@ -1527,24 +1482,10 @@ export type AnomalyFeedback = MetricFeedback & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   feedbackType: "Anomaly";
   /** the start timestamp of feedback time range */
-<<<<<<< HEAD
-<<<<<<< HEAD
   startTime: Date;
   /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
   endTime: Date;
   value: AnomalyFeedbackValue;
-=======
-  startTime?: Date;
-  /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
-  endTime?: Date;
-  value?: AnomalyFeedbackValue;
->>>>>>> 065ebee67 (changes from GA swagger)
-=======
-  startTime: Date;
-  /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
-  endTime: Date;
-  value: AnomalyFeedbackValue;
->>>>>>> 6b36e7253 (Run codegen on latest swagger)
   /** the corresponding anomaly detection configuration of this feedback */
   anomalyDetectionConfigurationId?: string;
   anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
@@ -1554,24 +1495,10 @@ export type ChangePointFeedback = MetricFeedback & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   feedbackType: "ChangePoint";
   /** the start timestamp of feedback time range */
-<<<<<<< HEAD
-<<<<<<< HEAD
   startTime: Date;
   /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
   endTime: Date;
   value: ChangePointFeedbackValue;
-=======
-  startTime?: Date;
-  /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
-  endTime?: Date;
-  value?: ChangePointFeedbackValue;
->>>>>>> 065ebee67 (changes from GA swagger)
-=======
-  startTime: Date;
-  /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
-  endTime: Date;
-  value: ChangePointFeedbackValue;
->>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type CommentFeedback = MetricFeedback & {
@@ -1809,11 +1736,7 @@ export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
 }
 
 /** Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfiguration operation. */
@@ -1834,11 +1757,7 @@ export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
 }
 
 /** Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfiguration operation. */
@@ -1963,11 +1882,7 @@ export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationResponse =
 export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesOptionalParams
   extends coreHttp.OperationOptions {
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
   /** the token for getting the next page */
   token?: string;
 }
@@ -2011,11 +1926,7 @@ export interface GeneratedClientListCredentialsOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
 }
 
 /** Contains response data for the listCredentials operation. */
@@ -2048,11 +1959,7 @@ export interface GeneratedClientListDataFeedsOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
   /** filter data feed by its name */
   dataFeedName?: string;
   /** filter data feed by its source type */
@@ -2146,11 +2053,7 @@ export interface GeneratedClientListHooksOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
   /** filter hook by its name */
   hookName?: string;
 }
@@ -2410,11 +2313,7 @@ export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
 }
 
 /** Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfigurationNext operation. */
@@ -2435,11 +2334,7 @@ export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
 }
 
 /** Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfigurationNext operation. */
@@ -2477,11 +2372,7 @@ export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextRespon
 export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesNextOptionalParams
   extends coreHttp.OperationOptions {
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
   /** the token for getting the next page */
   token?: string;
 }
@@ -2504,11 +2395,7 @@ export interface GeneratedClientListCredentialsNextOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
 }
 
 /** Contains response data for the listCredentialsNext operation. */
@@ -2529,11 +2416,7 @@ export interface GeneratedClientListDataFeedsNextOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
   /** filter data feed by its name */
   dataFeedName?: string;
   /** filter data feed by its source type */
@@ -2564,11 +2447,7 @@ export interface GeneratedClientListHooksNextOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-<<<<<<< HEAD
   maxpagesize?: number;
-=======
-  maxPageSize?: number;
->>>>>>> 065ebee67 (changes from GA swagger)
   /** filter hook by its name */
   hookName?: string;
 }
