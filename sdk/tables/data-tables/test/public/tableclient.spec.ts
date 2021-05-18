@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable no-invalid-this */
 import { TableClient, TableEntity, Edm, odata } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
