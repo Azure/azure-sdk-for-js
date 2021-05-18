@@ -68,8 +68,26 @@ async function cleanup(
   await deleteDockerImages(dockerImageNames);
 }
 
+function findSamplesDir(samplesDir: string, rootDir: string): string {
+  const dirs = [];
+  for (const file of fs.readdirSync(samplesDir)) {
+    const stats = fs.statSync(path.join(samplesDir, file));
+    if (stats.isDirectory()) {
+      const matchResult = file.match(/^v([0-9]*)$/);
+      if (matchResult !== null) {
+        dirs.push(parseInt(matchResult[1]));
+      }
+    }
+  }
+  if (dirs.length === 0) {
+    return `${rootDir}/samples`;
+  } else {
+    return `${rootDir}/samples/v${Math.max(...dirs)}`;
+  }
+}
 function buildRunSamplesScript(
   containerWorkspacePath: string,
+  samplesPath: string,
   artifactURL: string,
   envFileName: string,
   logFilePath?: string
@@ -77,10 +95,11 @@ function buildRunSamplesScript(
   function compileCMD(cmd: string, printToScreen?: boolean) {
     return printToScreen ? cmd : `${cmd} >> ${logFilePath} 2>&1`;
   }
+  const samplesDir = findSamplesDir(samplesPath, containerWorkspacePath);
   const printToScreen = logFilePath === undefined;
   const envFilePath = `${containerWorkspacePath}/${envFileName}`;
-  const javascriptSamplesPath = `${containerWorkspacePath}/samples/javascript`;
-  const typescriptCompiledSamplesPath = `${containerWorkspacePath}/samples/typescript/dist`;
+  const javascriptSamplesPath = `${samplesDir}/javascript`;
+  const typescriptCompiledSamplesPath = `${samplesDir}/typescript/dist`;
   const scriptContent = `#!/bin/sh
 
 function install_dependencies_helper() {
@@ -92,9 +111,9 @@ function install_dependencies_helper() {
 
 function install_packages() {
   echo "Using node \$(node -v) to install dependencies";
-  install_dependencies_helper ${containerWorkspacePath}/samples/javascript
-  install_dependencies_helper ${containerWorkspacePath}/samples/typescript;
-  cp ${envFilePath} ${containerWorkspacePath}/samples/javascript/;
+  install_dependencies_helper ${samplesDir}/javascript
+  install_dependencies_helper ${samplesDir}/typescript;
+  cp ${envFilePath} ${samplesDir}/javascript/;
 }
 
 function run_samples() {
@@ -108,9 +127,9 @@ function run_samples() {
 
 function build_typescript() {
   echo "Using node \$(node -v) to build the typescript samples";
-  cd ${containerWorkspacePath}/samples/typescript
+  cd ${samplesDir}/typescript
   ${compileCMD(`npm run build`, printToScreen)}
-  cp ${envFilePath} ${containerWorkspacePath}/samples/typescript/dist/
+  cp ${envFilePath} ${samplesDir}/typescript/dist/
 }
 
 function main() {
@@ -126,7 +145,7 @@ main`;
 function createDockerContextDirectory(
   dockerContextDirectory: string,
   containerWorkspacePath: string,
-  samples_path: string,
+  samplesPath: string,
   envPath: string,
   artifactPath?: string,
   logFilePath?: string
@@ -143,7 +162,7 @@ function createDockerContextDirectory(
     throw new Error("artifact_path is a required argument but it was not passed");
   }
   const envFileName = path.basename(envPath);
-  fs.copySync(samples_path, path.join(dockerContextDirectory, "samples"));
+  fs.copySync(samplesPath, path.join(dockerContextDirectory, "samples"));
   let artifactURL: string | undefined = undefined;
   if (fs.existsSync(artifactPath)) {
     const artifactName = path.basename(artifactPath);
@@ -157,7 +176,13 @@ function createDockerContextDirectory(
   fs.copyFileSync(envPath, path.join(dockerContextDirectory, envFileName));
   fs.writeFileSync(
     path.join(dockerContextDirectory, "run_samples.sh"),
-    buildRunSamplesScript(containerWorkspacePath, artifactURL, envFileName, logFilePath),
+    buildRunSamplesScript(
+      containerWorkspacePath,
+      samplesPath,
+      artifactURL,
+      envFileName,
+      logFilePath
+    ),
     { mode: S_IRWXO }
   );
 }
