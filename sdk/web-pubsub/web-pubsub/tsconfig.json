@@ -2,7 +2,6 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "lib": ["DOM"],
     "declarationDir": "./types",
     "paths": {
       "@azure/web-pubsub": ["./src/index"]

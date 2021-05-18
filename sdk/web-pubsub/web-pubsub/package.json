@@ -42,7 +42,7 @@
     "LICENSE"
   ],
   "browser": {
-    "./es/src/util/url.js": "./es/src/util/url.browser.js"
+    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
