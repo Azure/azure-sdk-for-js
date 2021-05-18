@@ -13,7 +13,6 @@ import {
   FeatureFlagValue,
   parseFeatureFlag
 } from "@azure/app-configuration";
-import { isArray } from "util";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -180,8 +179,8 @@ export function isTargetingClientFilter(
     clientFilter.name === "Microsoft.Targeting" &&
     clientFilter.parameters &&
     clientFilter.parameters["Audience"] &&
-    isArray(clientFilter.parameters["Audience"]["Groups"]) &&
-    isArray(clientFilter.parameters["Audience"]["Users"]) &&
+    Array.isArray(clientFilter.parameters["Audience"]["Groups"]) &&
+    Array.isArray(clientFilter.parameters["Audience"]["Users"]) &&
     typeof clientFilter.parameters["Audience"]["DefaultRolloutPercentage"] === "number"
   );
 }
