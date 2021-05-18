@@ -5,6 +5,7 @@ import fs from "fs-extra";
 import path from "path";
 import pr from "child_process";
 import os from "os";
+import { URL } from "url";
 
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
@@ -69,7 +70,7 @@ async function cleanup(
 
 function buildRunSamplesScript(
   containerWorkspacePath: string,
-  artifactName: string,
+  artifactURL: string,
   envFileName: string,
   logFilePath?: string
 ) {
@@ -77,7 +78,6 @@ function buildRunSamplesScript(
     return printToScreen ? cmd : `${cmd} >> ${logFilePath} 2>&1`;
   }
   const printToScreen = logFilePath === undefined;
-  const artifactPath = `${containerWorkspacePath}/${artifactName}`;
   const envFilePath = `${containerWorkspacePath}/${envFileName}`;
   const javascriptSamplesPath = `${containerWorkspacePath}/samples/javascript`;
   const typescriptCompiledSamplesPath = `${containerWorkspacePath}/samples/typescript/dist`;
@@ -86,7 +86,7 @@ function buildRunSamplesScript(
 function install_dependencies_helper() {
   local samples_path=\$1;
   cd \${samples_path};
-  ${compileCMD(`npm install ${artifactPath}`, printToScreen)}
+  ${compileCMD(`npm install ${artifactURL}`, printToScreen)}
   ${compileCMD(`npm install`, printToScreen)}
 }
 
@@ -131,19 +131,33 @@ function createDockerContextDirectory(
   artifactPath?: string,
   logFilePath?: string
 ): void {
+  const stringIsAValidUrl = (s: string) => {
+    try {
+      new URL(s);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  };
   if (artifactPath === undefined) {
     throw new Error("artifact_path is a required argument but it was not passed");
-  } else if (!fs.existsSync(artifactPath)) {
-    throw new Error(`artifact path passed does not exist: ${artifactPath}`);
   }
-  const artifactName = path.basename(artifactPath);
   const envFileName = path.basename(envPath);
   fs.copySync(samples_path, path.join(dockerContextDirectory, "samples"));
-  fs.copyFileSync(artifactPath, path.join(dockerContextDirectory, artifactName));
+  let artifactURL: string | undefined = undefined;
+  if (fs.existsSync(artifactPath)) {
+    const artifactName = path.basename(artifactPath);
+    fs.copyFileSync(artifactPath, path.join(dockerContextDirectory, artifactName));
+    artifactURL = `${containerWorkspacePath}/${artifactName}`;
+  } else if (stringIsAValidUrl(artifactPath)) {
+    artifactURL = artifactPath;
+  } else {
+    throw new Error(`artifact path passed does not exist: ${artifactPath}`);
+  }
   fs.copyFileSync(envPath, path.join(dockerContextDirectory, envFileName));
   fs.writeFileSync(
     path.join(dockerContextDirectory, "run_samples.sh"),
-    buildRunSamplesScript(containerWorkspacePath, artifactName, envFileName, logFilePath),
+    buildRunSamplesScript(containerWorkspacePath, artifactURL, envFileName, logFilePath),
     { mode: S_IRWXO }
   );
 }
