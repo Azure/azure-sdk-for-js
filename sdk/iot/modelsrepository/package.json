@@ -88,7 +88,6 @@
     "@types/sinon": "^9.0.4",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",
@@ -127,27 +126,11 @@
     "skipFolder": true
   },
   "//sampleConfiguration": {
-    // This should be the primary name of the Azure product, e.g.
-    // - Azure Text Analytics
-    // - Azure Storage Blob
-    // - Azure Key Vault
     "productName": "Azure IoT Models Repository",
-    // These are the product slugs associated with your package in docs.microsoft.com
-    // Take these from the YAML frontmatter at the top of the existing sample READMEs
-    // for your package, from the `products` array.
-    //
-    // It is _very_ important that these product slugs are correct. Please check the
-    // documentation from docs.microsoft.com to ensure that they are.
     "productSlugs": [
       "azure",
       "azure-iot-modelsrepository"
     ],
-    // These are the Azure resource instances that are required for a developer to run
-    // the sample programs. We express these as a map from resource name to a link that
-    // describes how to create the resource. The resource name is not necessarily the
-    // same as the product name. For example, Azure Text Analytics uses an "Azure
-    // Cognitive Services account". The resource name should be a noun (in other words,
-    // it should fit into the sentence "create a(n) ${resourceName}".
     "requiredResources": {
     }    
   }

@@ -19,7 +19,8 @@ For more info about the Azure IoT Models Repository checkout the [docs](https://
 
 | **File Name**                       | **Description** |
 | ----------------------------------- | --------------- |
-| [remoteExample.ts][remoteexample] | sample template |
+| [modelResolutionSample.ts](./samples/v0/typescript/src/modelResolutionSample.ts) | sample model getting |
+| [dtmiConventionsSample.ts](./samples/v0/typescript/src/dtmiConventionsSample.ts) | sample using dtmi conventions helpers |
 
 ## Introduction
 

@@ -5,7 +5,7 @@
     "declarationDir": "./types",
     "lib": ["dom", "esnext"],
     "paths": {
-      "iot-modelsrepository": ["./src/index"]
+      "@azure/iot-modelsrepository": ["./src/index"]
     }
   },
   "include": [

@@ -8,11 +8,11 @@ import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 
 // @public
-export type dependencyResolutionType = "disabled" | "enabled" | "tryFromExpanded" | undefined;
+export type dependencyResolutionType = "disabled" | "enabled" | "tryFromExpanded";
 
 // @public
 export interface GetModelsOptions extends OperationOptions {
-    dependencyResolution: dependencyResolutionType;
+    dependencyResolution?: dependencyResolutionType;
 }
 
 // @public
