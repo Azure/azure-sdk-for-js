@@ -16,36 +16,33 @@ export class DtmiResolver {
 
   async resolve(dtmis: string[], expandedModel: boolean, options?: OperationOptions): Promise<{[dtmi: string]: DTDL}> {
     const modelMap: any = {};
-    const promiseList = []; 
-    for (const dtmi of dtmis) {
+    const dtdlPromises = dtmis.map(async (dtmi) => {
       const dtdlPath = convertDtmiToPath(dtmi, expandedModel);
       logger.info(`Model ${dtmi} located in repository at ${dtdlPath}`);
-      const mypromise = this._fetcher.fetch(dtdlPath, options).then((dtdl: any[] | any) => {
-        if (expandedModel) {
-          if (Array.isArray(dtdl)) {
-            const modelIds: string[] = (dtdl as any[]).map((model:any) => model["@id"]);
-            if (!modelIds.includes(dtmi)) {
-              throw new ModelError(`DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${modelIds}`);
-            }
-            for (const model of dtdl) {
-              modelMap[model["@id"]] = model;
-            }
-          } else {
-            throw new ModelError('Expanded format should always return an array of models.');
+      const dtdl = await this._fetcher.fetch(dtdlPath, options)
+      if (expandedModel) {
+        if (Array.isArray(dtdl)) {
+          const modelIds: string[] = (dtdl as any[]).map((model:any) => model["@id"]);
+          if (!modelIds.includes(dtmi)) {
+            throw new ModelError(`DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${modelIds}`);
+          }
+          for (const model of dtdl) {
+            modelMap[model["@id"]] = model;
           }
         } else {
-          const model = dtdl;
-          if (model["@id"] != dtmi) {
-            new ModelError(`DTMI mismatch - Request: ${dtmi}, Response ${model["@id"]}`);
-          }
-  
-          modelMap[`${dtmi}`] = dtdl;
+          throw new ModelError('Expanded format should always return an array of models.');
         }
-      });
-      promiseList.push(mypromise);
-    }
+      } else {
+        const model = dtdl as DTDL;
+        if (model["@id"] != dtmi) {
+          throw new ModelError(`DTMI mismatch - Request: ${dtmi}, Response ${model["@id"]}`);
+        }
 
-    await Promise.all(promiseList);
+        modelMap[`${dtmi}`] = dtdl;
+      }
+    });
+
+    await Promise.all(dtdlPromises);
     return modelMap;
   }
 }
