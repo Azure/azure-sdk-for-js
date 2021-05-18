@@ -44,4 +44,5 @@ export {
   dependencyResolutionType,
   isValidDtmi,
   getModelUri,
+  ModelError
 } from "./internal";

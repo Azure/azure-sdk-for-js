@@ -9,6 +9,9 @@ interface IoTModelsRepositoryServiceClientOptions extends ServiceClientOptions {
   endpoint?: string;
 }
 
+/**
+ * @internal
+ */
 export class IoTModelsRepositoryServiceClient extends ServiceClient {
   url: string;
   version: string;

@@ -6,9 +6,10 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "stream": "stream-browserify",
     "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js",
-    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js"
+    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
+    "./dist-esm/src/utils/absolutePath.js": "./dist-esm/src/utils/absolutePath.browser.js",
+    "./dist-esm/src/fetcherFilesystem.js": "./dist-esm/src/utils/fetcherFilesystem.browser.js"
   },
   "types": "types/iot-models-repository.d.ts",
   "scripts": {

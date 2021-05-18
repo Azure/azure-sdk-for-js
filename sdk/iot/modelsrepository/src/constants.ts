@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
+const isBrowser = new Function("try {return this===self;}catch(e){ return false;}");
 const isNode = new Function("try {return this===global;}catch(e){return false;}");
 
 const currentPlatform = isBrowser ? "browser" : isNode ? "node" : "undefined";

@@ -34,6 +34,7 @@ export class FilesystemFetcher implements Fetcher {
     } catch (e) {
       // TODO: Is there a ResourceNotFound Error for Filesystem + Http (Generic API for errors)
       const options : RestErrorOptions = {
+        code: 'ResourceNotFound',
         statusCode: e?.status
       }
       throw new RestError("Failed to fetch from Filesystem", options);

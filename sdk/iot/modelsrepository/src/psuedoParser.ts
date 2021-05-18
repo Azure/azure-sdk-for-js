@@ -6,6 +6,9 @@ import { logger } from "./logger";
 import { DtmiResolver } from "./dtmiResolver";
 import { RestError } from "@azure/core-rest-pipeline";
 
+/**
+ * @internal
+ */
 export class PseudoParser {
   private _resolver: DtmiResolver;
 

@@ -6,6 +6,9 @@ import { createHttpHeaders, createPipelineRequest, HttpHeaders, HttpMethods, Pip
 import { logger } from "./logger";
 import { Fetcher } from "./fetcherAbstract";
 
+/**
+ * @internal
+ */
 export class HttpFetcher implements Fetcher {
   private _client: ServiceClient;
   private _baseURL: string;
@@ -37,23 +40,10 @@ export class HttpFetcher implements Fetcher {
       const parsedDtdl = JSON.parse(dtdlAsString);
       return parsedDtdl;
     } else {
-      // TODO: Validate with API Review Board that this is an accurate way to raise an error.
-      throw new RestError("Error on HTTP Request in remote model fetcher", {statusCode: res.status, response: res, request: request});
+      throw new RestError("Error on HTTP Request in remote model fetcher", {code: 'ResourceNotFound',statusCode: res.status, response: res, request: request});
     }
   }
 }
-
-// Argument of type '
-// { 
-//   url: string; 
-//   method: string; 
-//   headers: { [key: string]: string; } | undefined; 
-//   timeout: number | undefined;
-//   abortSignal: AbortSignalLike | undefined; 
-//   tracingOptions: OperationTracingOptions | undefined; 
-// }
-// ' is not assignable to parameter of type 'PipelineRequestOptions'.
-//   Types of property 'method' are incompatible.
 
 // options for PipelineRequestOptions as of 5/13/2021
 // {

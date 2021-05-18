@@ -17,13 +17,8 @@ import * as cnst from "./constants";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
 import * as path from "path";
 import { Fetcher } from "./fetcherAbstract";
-import { RestError } from "@azure/core-rest-pipeline";
 import { URL } from "./utils/url";
-
-function isLocalPath(p: string): boolean {
-  const myRegex = RegExp(/^(?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+$/g);
-  return !!p.match(myRegex);
-}
+import { isLocalPath } from "./utils/absolutePath";
 
 /**
  * Initializes a new instance of the IoT Models Repository Client.
@@ -207,7 +202,7 @@ export class ModelsRepositoryClient {
         logger.info(`Retreiving expanded model(s): ${dtmis}...`);
         modelMap = await this._resolver.resolve(dtmis, true, options);
       } catch (e) {
-        if (e instanceof RestError) {
+        if (e.name === "RestError" && e.code === "ResouceNotFound") {
           let baseModelMap: { [dtmi: string]: unknown };
           logger.info("Could not retrieve model(s) from expanded model DTDL - ");
           baseModelMap = await this._resolver.resolve(dtmis, false, options);
