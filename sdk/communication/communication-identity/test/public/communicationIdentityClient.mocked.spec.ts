@@ -10,7 +10,7 @@ import { assert } from "chai";
 import sinon from "sinon";
 import { CommunicationIdentityClient } from "../../src";
 import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdentityClient";
-import { getTokenHttpClient } from "./utils/mockHttpClients";
+import { exchangeAADtokenForACSTokenHttpClient, getTokenHttpClient } from "./utils/mockHttpClients";
 
 describe("CommunicationIdentityClient [Mocked]", () => {
   const dateHeader = isNode ? "date" : "x-ms-date";
@@ -79,7 +79,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
 
   it("exchanges AAD token for ACS token", async () => {
     const client = new TestCommunicationIdentityClient();
-    const spy = sinon.spy(getTokenHttpClient, "sendRequest");
+    const spy = sinon.spy(exchangeAADtokenForACSTokenHttpClient, "sendRequest");
     const response = await client.exchangeAADtokenForACStokenTest("AADtoken");
 
     assert.equal(response.token, "token");
