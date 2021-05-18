@@ -61,7 +61,7 @@ async function main() {
   const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
   const appConfigClient = new AppConfigurationClient(connectionString);
 
-  await cleanupSampleValues([originalFeatureFlag.key], appConfigClient); // Ignore - cleanup
+  await cleanupSampleValues([originalFeatureFlag.key], appConfigClient);
 
   console.log(`Add a new featureFlag with key: ${originalFeatureFlag.key}`);
   await appConfigClient.addConfigurationSetting(originalFeatureFlag);

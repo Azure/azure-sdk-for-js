@@ -67,8 +67,8 @@ export default function Page(): JSX.Element {
       if (isTimeWindowClientFilter(clientFilter)) {
         const now = Date.now();
         const withinRange =
-          now - Date.parse(clientFilter.parameters["Start"]) > 0 &&
-          Date.parse(clientFilter.parameters["End"]) - now > 0;
+          now - Date.parse(clientFilter.parameters.Start) > 0 &&
+          Date.parse(clientFilter.parameters.End) - now > 0;
         setFeature2({ enabled: withinRange });
       } else {
         setFeature2({ enabled: false });
