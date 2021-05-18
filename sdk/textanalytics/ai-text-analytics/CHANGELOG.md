@@ -6,7 +6,7 @@
 
 - We are now targeting the service's v3.1-preview.5 API as the default instead of v3.1-preview.4.
 - `beginAnalyzeActions` adds support for analyze sentiment actions.
-- `disableServiceLogs` parameter is added to most actions in `beginAnalyzeActions` that controls logging.
+- `disableServiceLogs` parameter is added to most actions in `beginAnalyzeActions` that controls service-side logging.
 
 ### Breaking Changes
 
