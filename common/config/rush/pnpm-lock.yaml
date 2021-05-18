@@ -47,6 +47,7 @@ dependencies:
   '@rush-temp/mixedreality-authentication': file:projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/monitor-query': file:projects/monitor-query.tgz
   '@rush-temp/perf-ai-form-recognizer': file:projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-metrics-advisor': file:projects/perf-ai-metrics-advisor.tgz
   '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
@@ -10080,6 +10081,52 @@ packages:
       integrity: sha512-mFMTlDgHaSMFSu0BtZK22iSM6WKT1Gd4mqC5kk/nq9AtxfwUMysqoxqNuar9MzPmtQWD2vFVHCO7WgVFTW3KQQ==
       tarball: file:projects/monitor-opentelemetry-exporter.tgz
     version: 0.0.0
+  file:projects/monitor-query.tgz:
+    dependencies:
+      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/identity': 1.3.0
+      '@microsoft/api-extractor': 7.7.11
+      '@types/chai': 4.2.16
+      '@types/chai-as-promised': 7.1.3
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.2.0
+      downlevel-dts: 0.4.0
+      eslint: 7.23.0
+      esm: 3.2.25
+      inherits: 2.0.4
+      karma: 6.3.2
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.2
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.2
+      karma-json-preprocessor: 0.3.3_karma@6.3.2
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.2
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      source-map-support: 0.5.19
+      tslib: 2.2.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
+      util: 0.12.3
+    dev: false
+    name: '@rush-temp/monitor-query'
+    resolution:
+      integrity: sha512-OgTEnSrcXbPqOnehEbjyHSRxfdaku+MquqGyAmo/TNE1YulYkPTwxpEysTg9oY7sbLanJ2df+9cQFs8k/f+k1w==
+      tarball: file:projects/monitor-query.tgz
+    version: 0.0.0
   file:projects/perf-ai-form-recognizer.tgz:
     dependencies:
       '@azure/ai-form-recognizer': 3.1.0-beta.3
@@ -11484,6 +11531,7 @@ specifiers:
   '@rush-temp/mixedreality-authentication': file:./projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/monitor-query': file:./projects/monitor-query.tgz
   '@rush-temp/perf-ai-form-recognizer': file:./projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-metrics-advisor': file:./projects/perf-ai-metrics-advisor.tgz
   '@rush-temp/perf-ai-text-analytics': file:./projects/perf-ai-text-analytics.tgz
