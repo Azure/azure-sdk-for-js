@@ -9,7 +9,6 @@ const {
   featureFlagContentType,
   parseFeatureFlag
 } = require("@azure/app-configuration");
-const { isArray } = require("util");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
@@ -166,8 +165,8 @@ export function isTargetingClientFilter(clientFilter) {
     clientFilter.name === "Microsoft.Targeting" &&
     clientFilter.parameters &&
     clientFilter.parameters["Audience"] &&
-    isArray(clientFilter.parameters["Audience"]["Groups"]) &&
-    isArray(clientFilter.parameters["Audience"]["Users"]) &&
+    Array.isArray(clientFilter.parameters["Audience"]["Groups"]) &&
+    Array.isArray(clientFilter.parameters["Audience"]["Users"]) &&
     typeof clientFilter.parameters["Audience"]["DefaultRolloutPercentage"] === "number"
   );
 }
