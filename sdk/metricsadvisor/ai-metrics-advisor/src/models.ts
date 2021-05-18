@@ -462,6 +462,33 @@ export type UnknownDataFeedSource = {
   dataSourceParameter: unknown;
 };
 
+export interface SQLSourceWithBasicAuthParam {
+  query: string;
+  authenticationType: "Basic";
+  connectionString: string;
+}
+export interface SQLSourceWithManagedIdentity{
+  query: string;
+  authenticationType: "ManagedIdentity";
+  connectionString: string;
+}
+export interface SQLSourceWithSQLConnectionStringParam { 
+  query: string;
+  authenticationType: "AzureSQLConnectionString";
+  credentialId: string;
+}
+export interface SQLSourceWithServicePrincipalInKVParam { 
+  query: string;
+  authenticationType: "AzureSQLConnectionString";
+  credentialId: string;
+  connectionString: string;
+}
+export interface SQLSourceWithServicePrincipalParam { 
+  query: string;
+  authenticationType: "ServicePrincipal";
+  credentialId: string;
+  connectionString: string;
+}
 /**
  * Represents a SQL Server data source.
  */
@@ -469,9 +496,8 @@ export type SQLServerDataFeedSource = {
   dataSourceType: "SqlServer";
   dataSourceParameter: SqlSourceParameter &
     (
-      | {
-          authenticationType?: "Basic" | "ManagedIdentity";
-        }
+      | SQLSourceWithBasicAuthParam
+      | SQLSourceWithSQLConnectionStringParam
       | {
           authenticationType:
             | "ServicePrincipal"
