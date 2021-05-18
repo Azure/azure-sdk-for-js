@@ -252,7 +252,7 @@ export class RegistryArtifactImpl {
         digest,
         updatedOptions
       );
-      return toArtifactManifestProperties(result, this.repositoryName);
+      return toArtifactManifestProperties(result, this.repositoryName, result.registryLoginServer!);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -288,7 +288,7 @@ export class RegistryArtifactImpl {
         digest,
         updatedOptions
       );
-      return toArtifactManifestProperties(result, this.repositoryName);
+      return toArtifactManifestProperties(result, this.repositoryName, result.registryLoginServer!);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

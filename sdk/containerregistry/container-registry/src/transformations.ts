@@ -38,11 +38,11 @@ export function toManifestWritableProperties(
 export function toArtifactManifestProperties(
   from: ServiceArtifactManifestProperties,
   repositoryName: string,
-  registryLoginServer?: string
+  registryLoginServer: string
 ): ArtifactManifestProperties {
   return {
-    registryLoginServer: registryLoginServer ?? from.registryLoginServer,
-    repositoryName: repositoryName,
+    registryLoginServer,
+    repositoryName,
     digest: from.digest,
     size: from.size,
     createdOn: from.createdOn,

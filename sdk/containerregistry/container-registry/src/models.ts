@@ -78,12 +78,12 @@ export interface ArtifactManifestProperties {
    * Registry login server name.  This is likely to be similar to <registry-name>.azurecr.io
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly registryLoginServer?: string;
+  readonly registryLoginServer: string;
   /**
    * Repository name
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly repositoryName?: string;
+  readonly repositoryName: string;
   /**
    * Manifest
    * NOTE: This property will not be serialized. It can only be populated by the server.

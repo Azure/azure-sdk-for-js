@@ -21,8 +21,8 @@ export interface ArtifactManifestProperties {
     readonly lastUpdatedOn: Date;
     readonly manifestReferences: ArtifactManifestReference[];
     readonly operatingSystem?: string;
-    readonly registryLoginServer?: string;
-    readonly repositoryName?: string;
+    readonly registryLoginServer: string;
+    readonly repositoryName: string;
     readonly size?: number;
     readonly tags: string[];
 }

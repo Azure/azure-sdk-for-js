@@ -267,7 +267,7 @@ export class ContainerRepositoryImpl {
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.manifests) {
         const array = currentPage.manifests.map((t) =>
-          toArtifactManifestProperties(t, this.name, currentPage.registryLoginServer)
+          toArtifactManifestProperties(t, this.name, currentPage.registryLoginServer!)
         );
         yield Object.defineProperty(array, "continuationToken", {
           value: continuationState.continuationToken,
@@ -284,7 +284,7 @@ export class ContainerRepositoryImpl {
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.manifests) {
         const array = currentPage.manifests.map((t) =>
-          toArtifactManifestProperties(t, this.name, currentPage.registryLoginServer)
+          toArtifactManifestProperties(t, this.name, currentPage.registryLoginServer!)
         );
         yield Object.defineProperty(array, "continuationToken", {
           value: continuationState.continuationToken,
