@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "stream": "./node_modules/stream-browserify/index.js",
+    "stream": "stream-browserify",
     "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js",
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js"
   },
