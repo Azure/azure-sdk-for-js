@@ -2,9 +2,10 @@
 
 ## 4.0.0-beta.4 (Unreleased)
 
-- Breaking changes:
-  - Added the "KeyVault" prefix to all of the Key Vault Admin client operations.
-  - Made the AesGcmDecryptParameters authenticationTag required.
+### Breaking changes:
+
+- Added the "KeyVault" prefix to all of the Key Vault Admin client operations.
+- Made the AesGcmDecryptParameters authenticationTag required.
 - Collapsed `KeyVaultRoleAssignmentPropertiesWithScope` to `KeyVaultRoleAssignmentProperties`.
 - Renamed `KeyVaultKeyId` to `KeyVaultKeyIdentifier`.
 - Renamed `beginRestore`'s `blobStorageUri` to `folderUri`.
