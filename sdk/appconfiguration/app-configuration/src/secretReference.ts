@@ -26,24 +26,6 @@ export interface SecretReferenceValue {
  */
 export const SecretReferenceHelper = {
   /**
-   * Takes the ConfigurationSetting and returns the SecretReference.
-   */
-  fromConfigurationSetting: (
-    setting: ConfigurationSetting
-  ): ConfigurationSetting<SecretReferenceValue> => {
-    if (!isSecretReference(setting)) {
-      throw TypeError(errorMessageForUnexpectedSetting(setting.key, "SecretReference"));
-    }
-
-    const jsonSecretReferenceValue = JSON.parse(setting.value) as JsonSecretReferenceValue;
-
-    const featureflag: ConfigurationSetting<SecretReferenceValue> = {
-      ...setting,
-      value: { secretId: jsonSecretReferenceValue.uri }
-    };
-    return featureflag;
-  },
-  /**
    * Takes the SecretReference (JSON) and returns a ConfigurationSetting (with the props encodeed in the value).
    */
   toConfigurationSettingParam: (
@@ -68,7 +50,21 @@ export const SecretReferenceHelper = {
 /**
  * Takes the ConfigurationSetting as input and returns the ConfigurationSetting<SecretReferenceValue> by parsing the value string.
  */
-export const parseSecretReference = SecretReferenceHelper.fromConfigurationSetting;
+export function parseSecretReference(
+  setting: ConfigurationSetting
+): ConfigurationSetting<SecretReferenceValue> {
+  if (!isSecretReference(setting)) {
+    throw TypeError(errorMessageForUnexpectedSetting(setting.key, "SecretReference"));
+  }
+
+  const jsonSecretReferenceValue = JSON.parse(setting.value) as JsonSecretReferenceValue;
+
+  const secretReference: ConfigurationSetting<SecretReferenceValue> = {
+    ...setting,
+    value: { secretId: jsonSecretReferenceValue.uri }
+  };
+  return secretReference;
+}
 
 /**
  * Lets you know if the ConfigurationSetting is a secret reference.

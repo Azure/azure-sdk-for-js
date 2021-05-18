@@ -168,10 +168,10 @@ export interface OptionalFields {
 }
 
 // @public
-export const parseFeatureFlag: (setting: ConfigurationSetting) => ConfigurationSetting<FeatureFlagValue>;
+export function parseFeatureFlag(setting: ConfigurationSetting): ConfigurationSetting<FeatureFlagValue>;
 
 // @public
-export const parseSecretReference: (setting: ConfigurationSetting) => ConfigurationSetting<SecretReferenceValue>;
+export function parseSecretReference(setting: ConfigurationSetting): ConfigurationSetting<SecretReferenceValue>;
 
 // @public
 export const secretReferenceContentType = "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";

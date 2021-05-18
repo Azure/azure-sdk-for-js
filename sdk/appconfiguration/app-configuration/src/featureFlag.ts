@@ -48,33 +48,6 @@ export interface FeatureFlagValue {
  */
 export const FeatureFlagHelper = {
   /**
-   * Takes the ConfigurationSetting and returns the FeatureFlag.
-   */
-  fromConfigurationSetting: (
-    setting: ConfigurationSetting
-  ): ConfigurationSetting<FeatureFlagValue> => {
-    if (!isFeatureFlag(setting)) {
-      throw TypeError(errorMessageForUnexpectedSetting(setting.key, "FeatureFlag"));
-    }
-
-    const jsonFeatureFlagValue = JSON.parse(setting.value) as JsonFeatureFlagValue;
-
-    let key = setting.key;
-    if (typeof setting.key === "string" && !setting.key.startsWith(featureFlagPrefix)) {
-      key = featureFlagPrefix + setting.key;
-    }
-    const featureflag: ConfigurationSetting<FeatureFlagValue> = {
-      ...setting,
-      value: {
-        ...jsonFeatureFlagValue,
-        conditions: { clientFilters: jsonFeatureFlagValue.conditions.client_filters }
-      },
-      key,
-      contentType: featureFlagContentType
-    };
-    return featureflag;
-  },
-  /**
    * Takes the FeatureFlag (JSON) and returns a ConfigurationSetting (with the props encodeed in the value).
    */
   toConfigurationSettingParam: (
@@ -107,7 +80,30 @@ export const FeatureFlagHelper = {
 /**
  * Takes the ConfigurationSetting as input and returns the ConfigurationSetting<FeatureFlagValue> by parsing the value string.
  */
-export const parseFeatureFlag = FeatureFlagHelper.fromConfigurationSetting;
+export function parseFeatureFlag(
+  setting: ConfigurationSetting
+): ConfigurationSetting<FeatureFlagValue> {
+  if (!isFeatureFlag(setting)) {
+    throw TypeError(errorMessageForUnexpectedSetting(setting.key, "FeatureFlag"));
+  }
+
+  const jsonFeatureFlagValue = JSON.parse(setting.value) as JsonFeatureFlagValue;
+
+  let key = setting.key;
+  if (typeof setting.key === "string" && !setting.key.startsWith(featureFlagPrefix)) {
+    key = featureFlagPrefix + setting.key;
+  }
+  const featureflag: ConfigurationSetting<FeatureFlagValue> = {
+    ...setting,
+    value: {
+      ...jsonFeatureFlagValue,
+      conditions: { clientFilters: jsonFeatureFlagValue.conditions.client_filters }
+    },
+    key,
+    contentType: featureFlagContentType
+  };
+  return featureflag;
+}
 
 /**
  * Lets you know if the ConfigurationSetting is a feature flag.
