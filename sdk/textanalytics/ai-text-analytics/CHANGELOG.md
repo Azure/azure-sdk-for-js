@@ -2,17 +2,17 @@
 
 ## 5.1.0-beta.6 (2021-05-18)
 
-New Features:
+### New Features
 
 - We are now targeting the service's v3.1-preview.5 API as the default instead of v3.1-preview.4.
 - `beginAnalyzeActions` adds support for analyze sentiment actions.
 - `disableServiceLogs` parameter is added to most actions in `beginAnalyzeActions` that controls logging.
 
-Breaking Changes:
+### Breaking Changes
 
 - `beginAnalyzeBatchActions` was renamed to `beginAnalyzeActions`.
 
-Key Bug Fixes:
+### Key Bug Fixes
 
 - Results of entity linking actions were not returned correctly by `beginAnalyzeActions` and that is now fixed.
 
