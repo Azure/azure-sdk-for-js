@@ -5,7 +5,7 @@ import { assert } from "chai";
 
 import { Edm } from "../../src";
 import { serialize, deserialize } from "../../src/serialization";
-import { isNode8 } from "../testUtils";
+import { isNode8 } from "@azure/test-utils";
 
 interface Entity {
   strProp?: string;
@@ -165,7 +165,7 @@ describe("Deserializer", () => {
   });
 
   it("should deserialize an Int64 value to bigint", function(this: Mocha.Context) {
-    if (isNode8()) {
+    if (isNode8) {
       this.skip();
     }
     const int64Value = "12345678910";

@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
-import { isNode, isNode8 } from "../testUtils";
+import { isNode, isNode8 } from "@azure/test-utils";
 import { FullOperationResponse } from "@azure/core-client";
 
 describe("TableClient", () => {
@@ -223,7 +223,7 @@ describe("TableClient", () => {
     });
 
     it("should createEntity with Int64", async function(this: Mocha.Context) {
-      if (isNode8()) {
+      if (isNode8) {
         this.skip();
       }
       type TestType = {
