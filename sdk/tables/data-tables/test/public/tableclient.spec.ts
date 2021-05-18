@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
-import { isNode } from "../testUtils";
+import { isNode, isNode8 } from "../testUtils";
 import { FullOperationResponse } from "@azure/core-client";
 
 describe("TableClient", () => {
@@ -222,7 +222,10 @@ describe("TableClient", () => {
       assert.deepEqual(result.testField, testGuid);
     });
 
-    it("should createEntity with Int64", async () => {
+    it("should createEntity with Int64", async function() {
+      if (isNode8()) {
+        this.skip();
+      }
       type TestType = {
         testField: Edm<"Int64">;
       };

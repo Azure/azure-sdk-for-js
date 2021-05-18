@@ -5,6 +5,7 @@ import { assert } from "chai";
 
 import { Edm } from "../../src";
 import { serialize, deserialize } from "../../src/serialization";
+import { isNode8 } from "../testUtils";
 
 interface Entity {
   strProp?: string;
@@ -79,7 +80,10 @@ describe("Serializer", () => {
     assert.strictEqual(serialized["int32ObjProp@odata.type"], "Edm.Int32");
   });
 
-  it("should serialize an Int64 value", () => {
+  it("should serialize an Int64 value", function() {
+    if (isNode8()) {
+      this.skip();
+    }
     const int64Value = "12345678910";
     const serialized: any = serialize({
       int64ObjProp: { value: int64Value, type: "Int64" }

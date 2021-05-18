@@ -9,3 +9,5 @@ export const isNode =
   !!process.version &&
   !!process.versions &&
   !!process.versions.node;
+
+export const isNode8 = () => isNode && Number(process.versions.node.split(".")[0]) === 8;
