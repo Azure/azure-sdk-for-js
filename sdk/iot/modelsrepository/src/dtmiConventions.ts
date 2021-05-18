@@ -24,7 +24,7 @@ export function isValidDtmi(dtmi: string): boolean {
  * @param dtmi 
  * @param repositoryUri 
  * @param expanded 
- * @returns 
+ * @returns {string}
  */
 export function getModelUri(dtmi: string, repositoryUri: string, expanded: boolean = false): string {
   // TODO: Make sure this works with Windows UNC Filesystem Path.
@@ -42,7 +42,7 @@ export function getModelUri(dtmi: string, repositoryUri: string, expanded: boole
  * 
  * @param dtmi 
  * @param expanded 
- * @returns 
+ * @internal 
  */
 export function convertDtmiToPath(dtmi: string, expanded: boolean): string {
   // presently this dtmi to path function does not return the path with a

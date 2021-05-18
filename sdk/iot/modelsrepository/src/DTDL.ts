@@ -7,6 +7,9 @@ interface Contents {
   schema: string;
 }
 
+/**
+ * @internal
+ */
 export interface DTDL extends JSON {
   "@context": any[];
   "@id": string;

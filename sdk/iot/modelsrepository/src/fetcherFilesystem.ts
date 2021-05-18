@@ -15,6 +15,9 @@ function readFilePromise(path: string): Promise<string> {
   });
 }
 
+/**
+ * @internal
+ */
 export class FilesystemFetcher implements Fetcher {
   private _baseFilePath: string;
 

@@ -44,25 +44,3 @@ export class HttpFetcher implements Fetcher {
     }
   }
 }
-
-// options for PipelineRequestOptions as of 5/13/2021
-// {
-//   url: string;
-//   method?: HttpMethods;
-//   headers?: HttpHeaders;
-//   timeout?: number;
-//   withCredentials?: boolean;
-//   requestId?: string;
-//   body?: RequestBodyType;
-//   formData?: FormDataMap;
-//   streamResponseStatusCodes?: Set<number>;
-//   proxySettings?: ProxySettings;
-//   disableKeepAlive?: boolean;
-//   abortSignal?: AbortSignalLike;
-//   tracingOptions?: OperationTracingOptions;
-//   onUploadProgress?: (progress: TransferProgressEvent) => void;
-//   /** Callback which fires upon download progress. */
-//   onDownloadProgress?: (progress: TransferProgressEvent) => void;
-//   /** Set to true if the request is sent over HTTP instead of HTTPS */
-//   allowInsecureConnection?: boolean;
-// }

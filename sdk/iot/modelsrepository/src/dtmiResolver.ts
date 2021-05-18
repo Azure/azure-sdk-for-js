@@ -7,7 +7,8 @@ import { convertDtmiToPath, DTDL, logger, ModelError } from "./internal";
 
 /**
  * DtmiResolver handles reformatting the DTMIs to paths and passing options down to the configured fetcher.
- */
+ * @internal 
+*/
 export class DtmiResolver {
   private _fetcher: Fetcher;
   constructor(fetcher: Fetcher) {
