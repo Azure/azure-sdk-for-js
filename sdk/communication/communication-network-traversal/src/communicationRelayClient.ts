@@ -23,10 +23,7 @@ import {
 import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
-import {
-  CommunicationRelayClientOptions,
-  CommunicationRelayConfiguration
-} from "./models";
+import { CommunicationRelayClientOptions, CommunicationRelayConfiguration } from "./models";
 
 const isCommunicationRelayClientOptions = (
   options: any

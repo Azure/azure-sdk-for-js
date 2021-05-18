@@ -25,19 +25,18 @@ export async function main() {
   console.log("Creating User");
 
   const user = await identityClient.createUser();
-  
+
   const relayClient = new CommunicationRelayClient(connectionString);
   console.log("Getting relay configuration");
 
   const config = relayClient.getRelayConfiguration(user);
   console.log(`Config expires on": ${(await config).expiresOn}`);
-  
-  for(var a of (await config).turnServers){
-    
+
+  for (const a of (await config).turnServers) {
     console.log(`Credential": ${a.credential}`);
     console.log(`Username": ${a.username}`);
-    
-    for(var url of a.urls){
+
+    for (const url of a.urls) {
       console.log(`Url": ${url}`);
     }
   }

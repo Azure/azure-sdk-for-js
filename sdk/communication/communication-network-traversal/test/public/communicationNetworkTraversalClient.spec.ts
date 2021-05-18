@@ -33,13 +33,13 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("successfully gets a turn credential", async function() {
-      const connectionString = env.COMMUNICATION_CONNECTION_STRING;
+      const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
       const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();
 
       const turnCredentialResponse = await client.getRelayConfiguration(user);
       assert.isNotNull(turnCredentialResponse);
-      
+
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
       assert.isNotNull(turnTokenExpiresOn);
 

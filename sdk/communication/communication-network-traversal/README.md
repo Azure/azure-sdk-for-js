@@ -1,6 +1,8 @@
 # Azure Communication Network Traversal client library for JavaScript
 
-Azure Communication Network Traversal is managing tokens for Azure Communication Services.
+Azure Communication Network Traversal is managing tokens for Azure Communication Services. 
+
+It will provide TURN credentials to a user.
 
 ## Getting started
 
@@ -13,6 +15,7 @@ Azure Communication Network Traversal is managing tokens for Azure Communication
 
 ```bash
 npm install @azure/communication-network-traversal
+npm install @azure/communication-identity
 ```
 
 ### Browser support
@@ -52,7 +55,7 @@ const client = new CommunicationRelayClient(connectionString);
 
 ```typescript
 import { DefaultAzureCredential } from "@azure/identity";
-import { CommunicationRelayClient } from "@azure/communication-identity";
+import { CommunicationRelayClient } from "@azure/communication-network-traversal";
 
 const credential = new DefaultAzureCredential();
 const client = new CommunicationRelayClient(ENDPOINT, credential);
@@ -69,7 +72,7 @@ import { CommunicationRelayClient } from "@azure/communication-network-traversal
 
 const client = new CommunicationRelayClient(CONNECTION_STRING);
 ```
-### Creating an instance of CommunicationIdentityClient
+### Creating an instance of CommunicationIdentityClient to create a user
 
 ```typescript
 import { CommunicationIdentityClient } from "@azure/communication-identity";
@@ -77,29 +80,21 @@ import { CommunicationIdentityClient } from "@azure/communication-identity";
 const client = new CommunicationIdentityClient(CONNECTION_STRING);
 ```
 
-### Creating a new user
-
 Use the `createUser` method to create a new user.
 
 ```typescript
 const user = await client.createUser();
 ```
 
-### Creating and refreshing a user token
+### Getting the configurationRelay 
 
-Use the `getConfigurationRelay` method to get new turn credentials
+Use the `getConfigurationRelay` method to get new TURN credentials
 
 ```typescript
 const config = relayClient.getRelayConfiguration(user);
 ```
 
 ## Troubleshooting
-
-## Next steps
-
-Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-identity/samples)
-directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -114,4 +109,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_portal]: https://portal.azure.com
 [azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-identity%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js)
