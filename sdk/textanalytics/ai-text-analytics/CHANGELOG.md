@@ -11,6 +11,7 @@
 ### Breaking Changes
 
 - `beginAnalyzeBatchActions` was renamed to `beginAnalyzeActions`.
+- `TextElementsV8` is renamed to `TextElementV8` in model `StringIndexType`.
 
 ### Key Bug Fixes
 

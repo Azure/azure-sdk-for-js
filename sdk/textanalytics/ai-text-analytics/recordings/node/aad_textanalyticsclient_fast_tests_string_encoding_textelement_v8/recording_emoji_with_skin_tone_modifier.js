@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "fb9a741739e8b2ed1e073e86cdbc9127";
+module.exports.hash = "5aa467af311d59c44591784dfb836c97";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -25,19 +25,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'eea3993b-15ef-4580-bd43-494991702c00',
+  '400a0ea5-d593-4c8b-bb44-7a2c18001a01',
   'x-ms-ests-server',
   '2.1.11722.21 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AozCHw2PCkpEmcGVqxl18u9z_bg1BgAAAB0TNtgOAAAA; expires=Thu, 17-Jun-2021 19:57:34 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AozCHw2PCkpEmcGVqxl18u9z_bg1AQAAAB0TNtgOAAAA; expires=Thu, 17-Jun-2021 19:57:23 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrrzZtBnuGfkxrJgA2tyOwGFzSIcTq2Pb1zWmCUYSG2FYw5CSjePdkF_11szsd8OoR_6RQ-gG25-GzYjwU6mk2qkj0a7MhJgLAtY_8zuW3BG2pnuNAZYOlGHsxwV-iV3yz37ci2Oc-pwhpgSiiNclSgbmzQSc8VZc1LqUE0B1Rn38gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrrokThyuHMm445yKedm41KzDPxBRo1jilrGMUVTAh_hFmLLZfu7fwh9hYfCA1Qh4I3Vgxlw1aH4dyKNPIJaM5tsNGuF1i_BC3LdZTVftaF-JAX8vd3Y-aWxz0Y4SPJ1XlbCyNZE-DcGyUF2-vI0sWq5jB62VOzpLE1HI7AGyybXggAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 18 May 2021 19:57:34 GMT'
+  'Tue, 18 May 2021 19:57:23 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -60,28 +60,30 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '5068b5c4-fa7f-439a-bfa1-386bae331400',
+  'fa2cf1f3-4432-4d86-a2ae-3b757c0d5501',
   'x-ms-ests-server',
-  '2.1.11722.21 - WUS2 ProdSlices',
+  '2.1.11722.21 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AozCHw2PCkpEmcGVqxl18u9z_bg1BgAAAB0TNtgOAAAA; expires=Thu, 17-Jun-2021 19:57:34 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AozCHw2PCkpEmcGVqxl18u9z_bg1AQAAAB0TNtgOAAAA; expires=Thu, 17-Jun-2021 19:57:23 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrrcuKqVA_5OaFji7chJD4Khvhs38kYTE34x_ikAEQ_rVZk37tyaJKN88uR30y078ljkgsgGCPw5VDlu-bwgvQx3RQWUrZZKkDxZ8pOWjLgMBQkSBQjFBuBRhEOH3lbeqJ2SlZ1EogSdpfBq_HbiO22Sa9EEqrKFULjHkLOcW4KIkgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrdi7MQf06mVI5T0hDgv31l4cYlIyInhlbjJpa-Uw60KamXdCcqw78C0vqmIIQFyg5RgntvQ8S8MpNgkwMX8Rf19DDXBYbWj0lVErZdiirLnbNLkQsSQ3gY4DoDeHK_4TkA7ClleY1dMtsjulGW4xJixnsLZJpFHWENCQsrhsXOwsgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 18 May 2021 19:57:34 GMT'
+  'Tue, 18 May 2021 19:57:23 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default%20openid%20profile%20offline_access&grant_type=client_credentials&client-request-id=5db3664b-05dc-4949-8463-ecaff5ce39d2&client_secret=azure_client_secret")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default%20openid%20profile%20offline_access&grant_type=client_credentials&client-request-id=14b4bc5f-5f4f-42ad-8b42-ad474e972f13&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -93,38 +95,39 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '1599e2b7-8ceb-4ae3-83b9-3e220b150a00',
+  '1599e2b7-8ceb-4ae3-83b9-3e225b130a00',
   'x-ms-ests-server',
   '2.1.11722.21 - NCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AozCHw2PCkpEmcGVqxl18u9z_bg1BgAAAB0TNtgOAAAA; expires=Thu, 17-Jun-2021 19:57:34 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AozCHw2PCkpEmcGVqxl18u9z_bg1AgAAAB0TNtgOAAAA; expires=Thu, 17-Jun-2021 19:57:23 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 18 May 2021 19:57:34 GMT',
-  'Content-Length',
-  '1331'
+  'Tue, 18 May 2021 19:57:23 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('//text/analytics/v3.1-preview.5/analyze', {"tasks":{"entityRecognitionPiiTasks":[{"parameters":{"model-version":"bad","stringIndexType":"Utf16CodeUnit"}},{"parameters":{"model-version":"latest","stringIndexType":"Utf16CodeUnit"}},{"parameters":{"model-version":"bad","stringIndexType":"TextElement_v8"}}]},"analysisInput":{"documents":[{"id":"1","text":"I will go to the park."}]}})
-  .reply(400, {"error":{"code":"InvalidRequest","message":"Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15."}}, [
+  .post('//text/analytics/v3.1-preview.5/entities/recognition/pii', {"documents":[{"id":"0","text":"👩🏻 SSN: 859-98-0987","language":"en"}]})
+  .query(true)
+  .reply(200, {"documents":[{"redactedText":"👩🏻 SSN: ***********","id":"0","entities":[{"text":"859-98-0987","category":"USSocialSecurityNumber","offset":8,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2021-01-15"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
+  'csp-billing-usage',
+  'CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1',
   'x-envoy-upstream-service-time',
-  '4',
+  '2568',
   'apim-request-id',
-  'c1e303cd-4dc1-4251-9cb8-2b80b02bac5a',
+  'aed92e31-c827-44fd-b404-9631050a25df',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 18 May 2021 19:57:34 GMT'
+  'Tue, 18 May 2021 19:57:26 GMT'
 ]);
