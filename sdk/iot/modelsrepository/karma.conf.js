@@ -54,13 +54,6 @@ module.exports = function(config) {
     },
 
     envPreprocessor: [
-      "TEST_MODE",
-      "APPCONFIG_ENDPOINT",
-      "APPCONFIG_TEST_SETTING_KEY",
-      "APPCONFIG_TEST_SETTING_EXPECTED_VALUE",
-      "AZURE_CLIENT_ID",
-      "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
     ],
 
     // test results reporter to use
