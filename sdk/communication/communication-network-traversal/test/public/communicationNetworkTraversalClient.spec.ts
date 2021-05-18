@@ -45,8 +45,8 @@ matrix([[true, false]], async function(useAad) {
 
       const turnServers = turnCredentialResponse.turnServers;
 
-      for (var iceServer of turnServers) {
-        for (var url of iceServer.urls) {
+      for (const iceServer of turnServers) {
+        for (const url of iceServer.urls) {
           assert.isNotNull(url);
         }
         assert.isNotNull(iceServer.username);
