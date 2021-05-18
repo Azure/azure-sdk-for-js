@@ -5,9 +5,6 @@ import { env, record, Recorder } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
 import { Table } from "../../../src/generated/logquery/src";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
 /**
  * Declare the client and recorder instances.  We will set them using the
  * beforeEach hook.

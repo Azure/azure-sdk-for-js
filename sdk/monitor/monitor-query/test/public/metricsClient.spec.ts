@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
 import { MetricsClient } from "../../src";
 
@@ -16,8 +15,6 @@ describe("MetricsClient live tests", function() {
   let metricsClient: MetricsClient;
 
   beforeEach(function(this: Context) {
-    dotenv.config();
-
     metricsArmResourceId = getMetricsArmResourceId(this);
     metricsClient = new MetricsClient(createTestClientSecretCredential());
   });

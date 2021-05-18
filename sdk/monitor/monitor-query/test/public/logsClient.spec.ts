@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
 
 import { BatchRequest, LogsClient, Table } from "../../src";
@@ -17,8 +16,6 @@ describe("LogsClient live tests", function() {
   let client: LogsClient;
 
   before(function(this: Context) {
-    dotenv.config();
-
     monitorWorkspaceId = getMonitorWorkspaceId(this);
     client = new LogsClient(createTestClientSecretCredential());
   });
