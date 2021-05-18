@@ -223,7 +223,7 @@ describe("TableClient", () => {
       assert.deepEqual(result.testField, testGuid);
     });
 
-    it("should createEntity with Int64", async function() {
+    it("should createEntity with Int64", async function(this: Mocha.Context) {
       if (isNode8()) {
         this.skip();
       }

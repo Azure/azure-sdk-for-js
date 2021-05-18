@@ -81,7 +81,7 @@ describe("Serializer", () => {
     assert.strictEqual(serialized["int32ObjProp@odata.type"], "Edm.Int32");
   });
 
-  it("should serialize an Int64 value", function() {
+  it("should serialize an Int64 value", function(this: Mocha.Context) {
     if (isNode8()) {
       this.skip();
     }
