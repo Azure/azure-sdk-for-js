@@ -5,15 +5,9 @@ import { OperationOptions } from "@azure/core-client";
 import { Fetcher } from "./fetcherAbstract";
 import { convertDtmiToPath, DTDL, logger, ModelError } from "./internal";
 
-export class ResolverError extends Error {
-  cause: Error | undefined;
-
-  constructor(message: string, cause?: Error) {
-    super(message);
-    this.cause = cause;
-  }
-}
-
+/**
+ * DtmiResolver handles reformatting the DTMIs to paths and passing options down to the configured fetcher.
+ */
 export class DtmiResolver {
   private _fetcher: Fetcher;
   constructor(fetcher: Fetcher) {
