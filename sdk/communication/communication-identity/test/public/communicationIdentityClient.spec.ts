@@ -7,6 +7,7 @@ import {
 } from "@azure/communication-common";
 import { assert } from "chai";
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import * as msal from "@azure/msal-node";
 import { CommunicationAccessToken, CommunicationIdentityClient } from "../../src";
 import {
   createRecordedCommunicationIdentityClient,
@@ -77,7 +78,25 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("successfully exchanges an AAD token for an ACS token", async function() {
-      const { token, expiresOn }: CommunicationAccessToken = await client.exchangeAADtokenForACStoken("AADtoken");
+      const msalConfig = {
+        auth: {
+            clientId: 'VAULT_CLIENT_ID',
+            authority: 'VAULT_AUTHORITY/VAULT_TENANT_ID',
+        }
+      };
+
+      var request = {
+        username: "VAULT_USERNAME",
+        password: "VAULT_PASSWORD",
+        scopes: ["VAULT_SCOPE"],
+      };
+
+      const pca = new msal.PublicClientApplication(msalConfig);
+
+      const response = await pca.acquireTokenByUsernamePassword(request);
+      assert.isNotNull(response);
+
+      const { token, expiresOn }: CommunicationAccessToken = await client.exchangeAADtokenForACStoken(response!.accessToken);
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     });
