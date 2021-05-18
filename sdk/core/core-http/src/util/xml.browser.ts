@@ -3,7 +3,11 @@
 
 import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./serializer.common";
 
-// tslint:disable-next-line:no-null-keyword
+if (!self.document || !self.DOMParser || !self.Node || !self.XMLSerializer) {
+  throw new Error(
+    `This library depends on the following DOM objects: ["document", "DOMParser", "Node", "XMLSerializer"] to parse XML, but some of these are undefined. You may provide a polyfill to make these globally available in order to support your environment. For more information, please refer to https://aka.ms/azsdk/js/web-workers. `
+  );
+}
 const doc = document.implementation.createDocument(null, null, null);
 
 const parser = new DOMParser();

@@ -104,7 +104,9 @@ const description = {
 }
 
 const found = await client.getSchemaId(description);
-console.log(`Got schema ID=${found.id}`);
+if (found) {
+  console.log(`Got schema ID=${found.id}`);
+}
 ```
 
 ### Get content of existing schema by ID
@@ -115,7 +117,9 @@ const { SchemaRegistryClient } = require("@azure/schema-registry");
 
 const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
 const foundSchema = await client.getSchemaById("<id>");
-console.log(`Got schema content=${foundSchema.content}`);
+if (foundSchema) {
+  console.log(`Got schema content=${foundSchema.content}`);
+}
 ```
 
 ## Troubleshooting

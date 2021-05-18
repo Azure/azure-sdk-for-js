@@ -101,8 +101,7 @@ export default function testCases(): void {
       );
       assert.fail("Should have thrown an error");
     } catch (e) {
-      // TODO: Re-enable this
-      // assert.equal(e.statusCode, 401);
+      assert.equal(e.statusCode, 401);
     }
   });
 

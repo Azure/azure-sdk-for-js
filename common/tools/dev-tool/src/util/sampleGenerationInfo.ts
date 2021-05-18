@@ -121,7 +121,7 @@ export interface ModuleInfo {
   /**
    * The description provided by the first doc comment.
    */
-  summary: string;
+  summary?: string;
   /**
    * A list of module specifiers that are imported by this
    * source file.
@@ -187,6 +187,10 @@ export interface AzSdkMetaTags {
    */
   ignore?: boolean;
   /**
+   * Causes the file to be omitted from the generated sample index (README).
+   */
+  util?: boolean;
+  /**
    * Causes the sample file to skip JavaScript output.
    */
   "skip-javascript"?: boolean;
@@ -206,6 +210,7 @@ export const AZSDK_META_TAG_PREFIX = "azsdk-";
 export const VALID_AZSDK_META_TAGS: Array<keyof AzSdkMetaTags> = [
   "weight",
   "ignore",
+  "util",
   "skip-javascript"
 ];
 

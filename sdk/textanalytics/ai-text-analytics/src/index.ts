@@ -21,17 +21,18 @@ export {
   RecognizeCategorizedEntitiesAction,
   RecognizePiiEntitiesAction,
   ExtractKeyPhrasesAction,
-  BeginAnalyzeBatchActionsOptions,
-  AnalyzeBatchActionsPollerLike,
+  BeginAnalyzeActionsOptions,
+  AnalyzeActionsPollerLike,
   BeginAnalyzeHealthcareEntitiesOptions,
   AnalyzeHealthcareEntitiesPollerLike,
-  AnalyzeBatchActionsOperationState,
+  AnalyzeActionsOperationState,
   AnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
   OperationMetadata,
-  AnalyzeBatchActionsOperationMetadata,
+  AnalyzeActionsOperationMetadata,
   StringIndexType,
-  RecognizeLinkedEntitiesAction
+  RecognizeLinkedEntitiesAction,
+  AnalyzeSentimentAction
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -90,9 +91,9 @@ export {
   HealthcareEntityRelationRoleType
 } from "./analyzeHealthcareEntitiesResult";
 export {
-  PagedAnalyzeBatchActionsResult,
-  PagedAsyncIterableAnalyzeBatchActionsResult,
-  AnalyzeBatchActionsResult,
+  PagedAnalyzeActionsResult,
+  PagedAsyncIterableAnalyzeActionsResult,
+  AnalyzeActionsResult,
   RecognizeCategorizedEntitiesActionResult,
   RecognizePiiEntitiesActionResult,
   ExtractKeyPhrasesActionResult,
@@ -106,8 +107,11 @@ export {
   ExtractKeyPhrasesActionSuccessResult,
   RecognizeLinkedEntitiesActionResult,
   RecognizeLinkedEntitiesActionSuccessResult,
-  RecognizeLinkedEntitiesActionErrorResult
-} from "./analyzeBatchActionsResult";
+  RecognizeLinkedEntitiesActionErrorResult,
+  AnalyzeSentimentActionErrorResult,
+  AnalyzeSentimentActionResult,
+  AnalyzeSentimentActionSuccessResult
+} from "./analyzeActionsResult";
 export {
   ErrorCode,
   TextAnalyticsError,

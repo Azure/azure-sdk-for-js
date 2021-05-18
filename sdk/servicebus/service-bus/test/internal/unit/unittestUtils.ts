@@ -13,6 +13,9 @@ import { AccessToken } from "@azure/core-auth";
 import { EventEmitter } from "events";
 import { getUniqueName } from "../../../src/util/utils";
 import { Link } from "rhea-promise/typings/lib/link";
+import { ReceiveOptions } from "../../../src/core/messageReceiver";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver";
+import { ReceiveMode } from "../../../src/models";
 
 export interface CreateConnectionContextForTestsOptions {
   host?: string;
@@ -246,3 +249,57 @@ export const retryableErrorForTests = (() => {
   (err as any).retryable = true;
   return err;
 })();
+
+/**
+ * Creates a function you can use to create streaming receivers for tests
+ * and also installs the proper cleanup handlers so all created receivers
+ * are closed when each test completes.
+ */
+export function addTestStreamingReceiver() {
+  const closeables = addCloseablesCleanup();
+
+  function createTestStreamingReceiver(
+    entityPath: string,
+    options?: ReceiveOptions
+  ): StreamingReceiver {
+    const connectionContext = createConnectionContextForTests();
+
+    if (options == null) {
+      options = {
+        lockRenewer: undefined,
+        receiveMode: <ReceiveMode>"peekLock",
+        maxConcurrentCalls: 101
+      };
+    }
+
+    const streamingReceiver = new StreamingReceiver(connectionContext, entityPath, options);
+    closeables.push(streamingReceiver);
+    return streamingReceiver;
+  }
+
+  return createTestStreamingReceiver;
+}
+
+/**
+ * Adds an afterEach() handler that handles closing any objects added to
+ * the array it returns.
+ *
+ * @returns An array that where each item will be close'd after each test.
+ */
+export function addCloseablesCleanup(): { close(): Promise<void> }[] {
+  const closeables: { close(): Promise<void> }[] = [];
+
+  afterEach(async () => {
+    for (const closeable of closeables) {
+      try {
+        await closeable.close();
+      } catch (err) {
+        console.log(`Error while closing test object ${err.message}`);
+      }
+    }
+
+    closeables.length = 0;
+  });
+
+  return closeables;
+}

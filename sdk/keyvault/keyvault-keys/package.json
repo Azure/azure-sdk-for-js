@@ -43,17 +43,17 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
+    "build:samples": "echo Obsolete.",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log dist-browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/keyvault-keys/dist-samples/typescript/src/",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/**/*.spec.js\"",
     "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace \"dist-esm/**/*.spec.js\"",
@@ -85,6 +85,19 @@
       }
     ]
   },
+  "//sampleConfiguration": {
+    "productName": "Azure Key Vault Keys",
+    "productSlugs": [
+      "azure",
+      "azure-key-vault"
+    ],
+    "requiredResources": {
+      "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+    },
+    "customSnippets": {
+      "prerequisites": "samples-dev/snippets/_prerequisites.md"
+    }
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.2.0",
@@ -97,9 +110,9 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "2.0.0-beta.3",
+    "@azure/test-utils": "^1.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
-    "@azure/test-utils-multi-version": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",

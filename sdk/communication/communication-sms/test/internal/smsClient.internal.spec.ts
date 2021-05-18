@@ -8,20 +8,19 @@
  *  These tests will be skipped in Live Mode since the public tests run in live mode only.
  */
 
+import { matrix } from "@azure/test-utils";
 import { isLiveMode, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import * as sinon from "sinon";
 import { Uuid } from "../../src/utils/uuid";
 import {
-  createCredential,
   createSmsClient,
   createSmsClientWithToken,
   recorderConfiguration
 } from "../public/utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "../public/suites/smsClient.send";
-import { matrix } from "../public/utils/matrix";
 
 if (isNode) {
   dotenv.config();
@@ -42,8 +41,7 @@ matrix([[true, false]], async function(useAad) {
       }
 
       if (useAad) {
-        const token = createCredential() || this.skip();
-        this.smsClient = createSmsClientWithToken(token);
+        this.smsClient = createSmsClientWithToken();
       } else {
         this.smsClient = createSmsClient();
       }

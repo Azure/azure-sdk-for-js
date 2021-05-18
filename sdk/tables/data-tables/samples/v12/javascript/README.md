@@ -12,15 +12,16 @@ urlFragment: data-tables-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Data Tables in some common scenarios.
 
-| **File Name**                                         | **Description**                                      |
-| ----------------------------------------------------- | ---------------------------------------------------- |
-| [authenticationMethods.js][authenticationmethods]     | authenticates using different authentication methods |
-| [batchOperations.js][batchoperations]                 | sends transactional batch requests                   |
-| [createAndDeleteEntities.js][createanddeleteentities] | creates and deletes a entities in a table            |
-| [createAndDeleteTable.js][createanddeletetable]       | creates and deletes a table                          |
-| [queryEntities.js][queryentities]                     | queries entities in a table                          |
-| [queryTables.js][querytables]                         | queries tables                                       |
-| [updateAndUpsertEntities.js][updateandupsertentities] | updates and upserts entities in a table              |
+| **File Name**                                         | **Description**                                           |
+| ----------------------------------------------------- | --------------------------------------------------------- |
+| [transactionWithHelper.js][transactionwithhelper]     | sends transactional request using TableTransaction helper |
+| [transactionOperations.js][transactionoperations]     | sends transactional batch requests                        |
+| [authenticationMethods.js][authenticationmethods]     | authenticates using different authentication methods      |
+| [createAndDeleteEntities.js][createanddeleteentities] | creates and deletes a entities in a table                 |
+| [createAndDeleteTable.js][createanddeletetable]       | creates and deletes a table                               |
+| [queryEntities.js][queryentities]                     | queries entities in a table                               |
+| [queryTables.js][querytables]                         | queries tables                                            |
+| [updateAndUpsertEntities.js][updateandupsertentities] | updates and upserts entities in a table                   |
 
 ## Prerequisites
 
@@ -49,21 +50,22 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node authenticationMethods.js
+node transactionWithHelper.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env TABLES_URL="<tables url>" ACCOUNT_CONNECTION_STRING="<account connection string>" ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" SAS_CONNECTION_STRING="<sas connection string>" SAS_TOKEN="<sas token>" node authenticationMethods.js
+npx cross-env ACCOUNT_CONNECTION_STRING="<account connection string>" node transactionWithHelper.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[transactionwithhelper]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/transactionWithHelper.js
+[transactionoperations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/transactionOperations.js
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/authenticationMethods.js
-[batchoperations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/batchOperations.js
 [createanddeleteentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/createAndDeleteEntities.js
 [createanddeletetable]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/createAndDeleteTable.js
 [queryentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/javascript/queryEntities.js

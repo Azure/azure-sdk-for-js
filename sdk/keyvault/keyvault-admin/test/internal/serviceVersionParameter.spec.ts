@@ -22,7 +22,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
           headers: new HttpHeaders(),
           request: httpRequest,
           parsedBody: {
-            id: `${env.KEYVAULT_URI}${path}`,
+            id: `${env.AZURE_MANAGEDHSM_URI}${path}`,
             startTime: new Date(),
             attributes: {}
           }
@@ -56,7 +56,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
     });
 
     it("it should default to the latest API version", async function() {
-      const client = new KeyVaultAccessControlClient(env.KEYVAULT_URI, credential, {
+      const client = new KeyVaultAccessControlClient(env.AZURE_MANAGEDHSM_URI, credential, {
         httpClient: mockHttpClient
       });
       await client.listRoleDefinitions("/").next();
@@ -69,7 +69,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
       const serviceVersion = "7.2";
-      const client = new KeyVaultAccessControlClient(env.KEYVAULT_URI, credential, {
+      const client = new KeyVaultAccessControlClient(env.AZURE_MANAGEDHSM_URI, credential, {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
       });
@@ -89,7 +89,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
     });
 
     it("it should default to the latest API version", async function() {
-      const client = new KeyVaultBackupClient(env.KEYVAULT_URI, credential, {
+      const client = new KeyVaultBackupClient(env.AZURE_MANAGEDHSM_URI, credential, {
         httpClient: mockHttpClient
       });
       await client.beginBackup("secretName", "value");
@@ -102,7 +102,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
       const serviceVersion = "7.2";
-      const client = new KeyVaultBackupClient(env.KEYVAULT_URI, credential, {
+      const client = new KeyVaultBackupClient(env.AZURE_MANAGEDHSM_URI, credential, {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
       });

@@ -231,11 +231,13 @@ describe("KeyVaultAccessControlClient", () => {
     assert.equal(assignment.name, assignmentName);
     assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
     assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
+    assert.equal(assignment.properties.scope, globalScope);
 
     assignment = await client.getRoleAssignment(globalScope, assignmentName);
     assert.equal(assignment.name, assignmentName);
     assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
     assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
+    assert.equal(assignment.properties.scope, globalScope);
 
     assignment = await client.deleteRoleAssignment(globalScope, assignmentName);
     assert.equal(assignment.name, assignmentName);

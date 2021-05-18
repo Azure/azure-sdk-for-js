@@ -18,27 +18,22 @@ npm install --save @azure/identity
 
 ### Prerequisites
 
-- Node.js 8 LTS or higher.
 - An [Azure subscription](https://azure.microsoft.com/free/).
-- The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment and managing account roles.
+- Optional: The [Azure CLI][azure_cli] and/or [Azure PowerShell][azure_powershell] can also be useful for authenticating in a development environment and managing account roles.
 
-Credentials `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` allow specifying `tokenCachePersistenceOptions` to enable persistent caching. To use this feature, developers will also need to install [@azure/msal-node-extensions](https://www.npmjs.com/package/@azure/msal-node-extensions).
+#### Supported Node.js versions
+
+This version of `@azure/identity` supports stable (even numbered) versions of Node.js starting from v10. While it may run in Node.js v8, no support is guaranteed.
+
+> **Note:** If your application runs on Node.js v8 or lower, we strongly recommend you to upgrade your Node.js version to latest stable version or pin your `@azure/identity` dependency to version 1.1.0.
 
 ### Authenticate the client in development environment
 
 While we recommend using managed identity or service principal authentication in your production application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.
 
-#### Authenticating via Visual Studio Code
-
-Developers using Visual Studio Code can use the [Azure Account Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account), to authenticate via the IDE. Applications using the `DefaultAzureCredential` or the `VisualStudioCodeCredential` can then use this account to authenticate calls in their application when running locally.
-
-To authenticate in Visual Studio Code, first ensure the [Azure Account Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) is installed. Once the extension is installed, press `F1` to open the command palette and run the `Azure: Sign In` command.
-
-![Visual Studio Code Account Sign In][vscodelogincommand_image]
-
 #### Authenticating via the Azure CLI
 
-Applications using the `AzureCliCredential`, rather directly or via the `DefaultAzureCredential`, can use the Azure CLI account to authenticate calls in the application when running locally.
+Applications using the `AzureCliCredential`, whether directly or via the `DefaultAzureCredential`, can use the Azure CLI account to authenticate calls in the application when running locally.
 
 To authenticate with the [Azure CLI][azure_cli] users can run the command `az login`. For users running on a system with a default web browser the Azure cli will launch the browser to authenticate the user.
 
@@ -47,6 +42,16 @@ To authenticate with the [Azure CLI][azure_cli] users can run the command `az lo
 For systems without a default web browser, the `az login` command will use the device code authentication flow. The user can also force the Azure CLI to use the device code flow rather than launching a browser by specifying the `--use-device-code` argument.
 
 ![Azure CLI Account Device Code Sign In][azureclilogindevicecode_image]
+
+#### Authenticating via Azure PowerShell
+
+Applications using the `AzurePowerShellCredential`, whether directly or via the `DefaultAzureCredential`, can use the account connected to Azure PowerShell to authenticate calls in the application when running locally.
+
+To authenticate with [Azure PowerShell][azure_powershell] users can run the `Connect-AzAccount` cmdlet. By default, ike the Azure CLI, `Connect-AzAccount` will launch the default web browser to authenticate a user account.
+
+![Azure PowerShell Account Sign In][azurepowershelllogin_image]
+
+If interactive authnetication cannot be supported in the session, then the `-UseDeviceAuthentication` argument will force the cmdlet to use a device code authentication flow instead, similar to the corresponding option in the Azure CLI credential.
 
 ### Authenticate the client in browsers
 
@@ -76,8 +81,8 @@ If used from NodeJS, the `DefaultAzureCredential` will attempt to authenticate v
 
 - Environment - The `DefaultAzureCredential` will read account information specified via [environment variables](#environment-variables) and use it to authenticate.
 - Managed Identity - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
-- Visual Studio Code - If the developer has authenticated via the Visual Studio Code Azure Account plugin, the `DefaultAzureCredential` will authenticate with that account.
 - Azure CLI - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
+- Azure PowerShell - If the developer has authenticated using the Azure PowerShell module `Connect-AzAccount` command, the `DefaultAzureCredential` will authenticate with that account.
 
 ## Environment Variables
 
@@ -193,7 +198,7 @@ For examples of how to use managed identity for authentication please refer to [
 | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `InteractiveBrowserCredential` | Interactively authenticates a user with the default system browser. Read more about how this happens [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md). | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-interactively-in-the-browser) | [OAuth2 authentication code](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) |
 | `DeviceCodeCredential`         | Interactively authenticates a user on devices with limited UI.                                                                                                                                                              | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-device-code-flow)        | [Device code authentication](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-device-code)    |
-| `UserPasswordCredential`       | Authenticates a user with a username and password.                                                                                                                                                                          | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-username-and-password)   | [Username + password authentication](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth-ropc)    |
+| `UsernamePasswordCredential`   | Authenticates a user with a username and password.                                                                                                                                                                          | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-username-and-password)   | [Username + password authentication](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth-ropc)    |
 | `AuthorizationCodeCredential`  | Authenticate a user with a previously obtained authorization code.                                                                                                                                                          | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-auth-code-flow)          | [OAuth2 authentication code](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) |
 
 ### Authenticating via Development Tools
@@ -201,7 +206,7 @@ For examples of how to use managed identity for authentication please refer to [
 | credential                   | usage                                                              | example                                                                                                                                                                       | reference                                                                               |
 | ---------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | `AzureCliCredential`         | Authenticate in a development environment with the Azure CLI.      | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-azure-cli)          | [Azure CLI authentication](https://docs.microsoft.com/cli/azure/authenticate-azure-cli) |
-| `VisualStudioCodeCredential` | Authenticate in a development environment with Visual Studio Code. | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-visual-studio-code) | [VS Code Azure extension](https://code.visualstudio.com/docs/azure/extensions)          |
+| `AzurePowerShellCredential`         | Authenticate in a development environment using Azure PowerShell.      | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-azure-powershell)          | [Azure PowerShell authentication](https://docs.microsoft.com/powershell/azure/authenticate-azureps) |
 
 ## Troubleshooting
 
@@ -243,9 +248,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 [8]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/interactivebrowsercredential.html
 [9]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/usernamepasswordcredential.html
 [azure_cli]: https://docs.microsoft.com/cli/azure
-[vscodelogincommand_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/VsCodeLoginCommand.png
+[azure_powershell]: https://docs.microsoft.com/powershell/azure/
 [azureclilogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLogin.png
 [azureclilogindevicecode_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLoginDeviceCode.png
+[azurepowershelllogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzurePowerShellLogin.png
 [defaultauthflow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/DefaultAzureCredentialAuthenticationFlow.png
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

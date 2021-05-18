@@ -1,7 +1,10 @@
 # Release History
 
-## 12.4.1 (Unreleased)
+## 12.5.0-beta.1 (2021-05-14)
 
+- Updated Azure Storage Service API version to 2020-08-04.
+- Added support for Path Soft Delete. You can list the deleted paths via `DataLakeFileSystemClient.listDeletedPaths()`, and restore a deleted path via `DataLakeFileSystemClient.undeletePath()`.
+- Restoring deleted FileSystem doesn't support renaming anymore, deprecated `destinationFileSystemName` in `ServiceUndeleteFileSystemOptions` for `DataLakeServiceClient.undeleteFileSystem()`.
 
 ## 12.4.0 (2021-03-10)
 

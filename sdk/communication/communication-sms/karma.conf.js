@@ -57,7 +57,7 @@ module.exports = function(config) {
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
-      "AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING",
+      "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
       "AZURE_PHONE_NUMBER",
       "TEST_MODE",
       "AZURE_CLIENT_ID",
@@ -112,7 +112,14 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    browsers: ["HeadlessChrome"],
+
+    customLaunchers: {
+      HeadlessChrome: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox", "--disable-web-security"]
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

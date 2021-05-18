@@ -7,9 +7,11 @@ import { nodeRequireRecordingIfExists } from "./utils/recordings";
 
 import { config as readEnvFile } from "dotenv";
 import fs from "fs-extra";
-import { Definition } from "nock";
+import { applyRequestBodyTransformations } from "./utils/requestBodyTransform";
+import { mockMsalAuth, NockType } from "./utils/msalAuth.node";
+import { isNode } from "@azure/core-http";
 
-let nock: typeof import("nock");
+let nock: NockType;
 
 export class NockRecorder extends BaseRecorder {
   constructor(hash: string, testSuiteTitle: string, testTitle: string) {
@@ -17,14 +19,14 @@ export class NockRecorder extends BaseRecorder {
   }
 
   public record(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
-    this.environmentSetup = recorderEnvironmentSetup;
+    super.init(recorderEnvironmentSetup);
     nock.recorder.rec({
       dont_print: true
     });
   }
 
   public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup, testFilePath: string): void {
-    this.environmentSetup = recorderEnvironmentSetup;
+    super.init(recorderEnvironmentSetup);
     /**
      * `@azure/test-utils-recorder` package is used for both the browser and node tests
      *
@@ -38,6 +40,11 @@ export class NockRecorder extends BaseRecorder {
       this.relativeTestRecordingFilePath,
       testFilePath
     ).testInfo;
+
+    if (isNode) {
+      // The following call provides the fake access_token in playback for the msal /oauth2/v2.0/token requests by not matching the request body
+      mockMsalAuth(nock, recorderEnvironmentSetup.onLoadCallbackForPlayback);
+    }
   }
 
   public async stop(): Promise<void> {
@@ -52,8 +59,7 @@ export class NockRecorder extends BaseRecorder {
         JSON.stringify(this.uniqueTestInfo) +
         "\n";
 
-      // TODO: strongly-typing nock above
-      const fixtures: string[] | Definition[] = nock.recorder.play();
+      const fixtures = nock.recorder.play() as string[]; // We know it is an array of strings at this point
 
       // Create the directories recursively incase they don't exist
       try {
@@ -84,8 +90,16 @@ export class NockRecorder extends BaseRecorder {
 
       // Saving the recording to the file
       for (const fixture of fixtures) {
+        let updatedFixture = fixture;
+        // Applying any requestBody transformations that are provided
+        updatedFixture = applyRequestBodyTransformations(
+          "node",
+          fixture,
+          this.environmentSetup.requestBodyTransformations
+        );
+
         // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
-        const updatedFixture = fixture.toString().replace(/\.query\(.*\)/, ".query(true)");
+        updatedFixture = updatedFixture.toString().replace(/\.query\(.*\)/, ".query(true)");
         file.write(this.filterSecrets(updatedFixture) + "\n");
       }
 

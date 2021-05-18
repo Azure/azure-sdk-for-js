@@ -44,8 +44,8 @@ export interface SchemaId {
 
 // @public
 export interface SchemaRegistry {
-    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
-    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined>;
+    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId | undefined>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
 }
 
@@ -53,8 +53,8 @@ export interface SchemaRegistry {
 export class SchemaRegistryClient implements SchemaRegistry {
     constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
     readonly endpoint: string;
-    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
-    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema | undefined>;
+    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId | undefined>;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
 }
 

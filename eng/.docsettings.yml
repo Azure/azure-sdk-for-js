@@ -3,6 +3,7 @@ omitted_paths:
   - eng/*
   - sdk/*/arm-*
   - sdk/*/perf-tests/*
+  - sdk/appconfiguration/app-configuration/sample-react/README.md
   - sdk/core/README.md
   - sdk/cognitiveservices/*
   - sdk/communication/*/test/README.md
@@ -21,6 +22,7 @@ omitted_paths:
   - sdk/servicebus/service-bus/test/perf-js-libs/service-bus-*
   - sdk/servicebus/service-bus/test/perf/**
   - sdk/servicebus/service-bus/test/stress/*
+  - sdk/web-pubsub/web-pubsub-express/README.md
   - sdk/eventhub/event-hubs/test/perf/track-1/*
   - sdk/eventhub/event-hubs/test/perf/track-2/*
   - sdk/schemaregistry/README.md

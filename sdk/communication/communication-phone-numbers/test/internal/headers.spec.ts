@@ -3,15 +3,14 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { isNode, WebResourceLike } from "@azure/core-http";
-import { DefaultAzureCredential } from "@azure/identity";
-import { isPlaybackMode } from "@azure/test-utils-recorder";
+import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
 import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
-import { getPhoneNumberHttpClient } from "../utils/mockHttpClients";
+import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
 import { SDK_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
-import { canCreateRecordedClientWithToken } from "../utils/recordedClient";
+import { createMockToken } from "../public/utils/recordedClient";
 
 describe("PhoneNumbersClient - headers", function() {
   const endpoint = "https://contoso.spool.azure.local";
@@ -33,7 +32,7 @@ describe("PhoneNumbersClient - headers", function() {
     request = spy.getCall(0).args[0];
   });
 
-  it("sets correct host", function(this: Context) {
+  it("[node] sets correct host", function(this: Context) {
     if (!isNode) {
       this.skip();
     }
@@ -79,11 +78,9 @@ describe("PhoneNumbersClient - headers", function() {
   });
 
   it("sets bearer authorization header with TokenCredential", async function(this: Context) {
-    if (!canCreateRecordedClientWithToken() || isPlaybackMode()) {
-      this.skip();
-    }
+    const credential: TokenCredential = createMockToken();
 
-    client = new PhoneNumbersClient(endpoint, new DefaultAzureCredential(), {
+    client = new PhoneNumbersClient(endpoint, credential, {
       httpClient: getPhoneNumberHttpClient
     });
 

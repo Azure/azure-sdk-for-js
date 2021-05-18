@@ -333,8 +333,22 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-catalog",
+      "projectFolder": "sdk/purview/purview-catalog-rest"
+    },
+    {
+      "packageName": "@azure-rest/purview-scanning",
+      "projectFolder": "sdk/purview/purview-scanning-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/ai-document-translator",
       "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/confidential-ledger",
+      "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
       "versionPolicyName": "client"
     },
     {
@@ -638,8 +652,8 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-multi-version",
-      "projectFolder": "sdk/test-utils/multi-version",
+      "packageName": "@azure/test-utils",
+      "projectFolder": "sdk/test-utils/test-utils",
       "versionPolicyName": "utility"
     },
     {
@@ -713,6 +727,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/web-pubsub",
+      "projectFolder": "sdk/web-pubsub/web-pubsub",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/web-pubsub-express",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-express",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-tests/perf-search-documents",
       "projectFolder": "sdk/search/perf-tests/search-documents",
       "versionPolicyName": "test"
@@ -720,6 +744,11 @@
     {
       "packageName": "@azure-tests/perf-ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/perf-tests/ai-metrics-advisor",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-core-rest-pipeline",
+      "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
       "versionPolicyName": "test"
     }
   ]

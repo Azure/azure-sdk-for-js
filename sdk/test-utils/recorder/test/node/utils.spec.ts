@@ -548,6 +548,7 @@ describe("NodeJS utils", () => {
       });
     });
   });
+
   describe("handleSingleQuotesInUrlPath", () => {
     [
       // {

@@ -933,6 +933,13 @@ export const SearchIndexerSkillset: coreHttp.CompositeMapper = {
           className: "CognitiveServicesAccount"
         }
       },
+      knowledgeStore: {
+        serializedName: "knowledgeStore",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerKnowledgeStore"
+        }
+      },
       etag: {
         serializedName: "@odata\\.etag",
         type: {
@@ -1098,6 +1105,125 @@ export const CognitiveServicesAccount: coreHttp.CompositeMapper = {
         serializedName: "description",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SearchIndexerKnowledgeStore: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchIndexerKnowledgeStore",
+    modelProperties: {
+      storageConnectionString: {
+        serializedName: "storageConnectionString",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      projections: {
+        serializedName: "projections",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SearchIndexerKnowledgeStoreProjection"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SearchIndexerKnowledgeStoreProjection: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchIndexerKnowledgeStoreProjection",
+    modelProperties: {
+      tables: {
+        serializedName: "tables",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SearchIndexerKnowledgeStoreTableProjectionSelector"
+            }
+          }
+        }
+      },
+      objects: {
+        serializedName: "objects",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SearchIndexerKnowledgeStoreObjectProjectionSelector"
+            }
+          }
+        }
+      },
+      files: {
+        serializedName: "files",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SearchIndexerKnowledgeStoreFileProjectionSelector"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SearchIndexerKnowledgeStoreProjectionSelector: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchIndexerKnowledgeStoreProjectionSelector",
+    modelProperties: {
+      referenceKeyName: {
+        serializedName: "referenceKeyName",
+        type: {
+          name: "String"
+        }
+      },
+      generatedKeyName: {
+        serializedName: "generatedKeyName",
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      sourceContext: {
+        serializedName: "sourceContext",
+        type: {
+          name: "String"
+        }
+      },
+      inputs: {
+        serializedName: "inputs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InputFieldMappingEntry"
+            }
+          }
         }
       }
     }
@@ -2848,6 +2974,40 @@ export const CognitiveServicesAccountKey: coreHttp.CompositeMapper = {
       ...CognitiveServicesAccount.type.modelProperties,
       key: {
         serializedName: "key",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SearchIndexerKnowledgeStoreTableProjectionSelector: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchIndexerKnowledgeStoreTableProjectionSelector",
+    modelProperties: {
+      ...SearchIndexerKnowledgeStoreProjectionSelector.type.modelProperties,
+      tableName: {
+        serializedName: "tableName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SearchIndexerKnowledgeStoreBlobProjectionSelector: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchIndexerKnowledgeStoreBlobProjectionSelector",
+    modelProperties: {
+      ...SearchIndexerKnowledgeStoreProjectionSelector.type.modelProperties,
+      storageContainer: {
+        serializedName: "storageContainer",
         required: true,
         type: {
           name: "String"
@@ -4649,6 +4809,26 @@ export const BM25Similarity: coreHttp.CompositeMapper = {
           name: "Number"
         }
       }
+    }
+  }
+};
+
+export const SearchIndexerKnowledgeStoreObjectProjectionSelector: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchIndexerKnowledgeStoreObjectProjectionSelector",
+    modelProperties: {
+      ...SearchIndexerKnowledgeStoreBlobProjectionSelector.type.modelProperties
+    }
+  }
+};
+
+export const SearchIndexerKnowledgeStoreFileProjectionSelector: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SearchIndexerKnowledgeStoreFileProjectionSelector",
+    modelProperties: {
+      ...SearchIndexerKnowledgeStoreBlobProjectionSelector.type.modelProperties
     }
   }
 };

@@ -15,7 +15,7 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/ai-document-translator-rest.d.ts",
+  "types": "./types/ai-document-translator.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/documenttranslator/ai-document-translator/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -90,7 +90,7 @@
   "autoPublish": false,
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
-    "@azure-rest/core-client": "1.0.0-beta.1",
+    "@azure-rest/core-client": "1.0.0-beta.2",
     "@azure/core-rest-pipeline": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.0.0"

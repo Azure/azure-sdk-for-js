@@ -19,8 +19,8 @@ import {
   TokenCredential,
   WebResourceLike
 } from "@azure/core-http";
-import { CommunicationIdentityClient } from "../../../src";
-import { DefaultAzureCredential } from "@azure/identity";
+import { CommunicationIdentityClient, CommunicationIdentityClientOptions } from "../../../src";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
 
 if (isNode) {
@@ -33,7 +33,7 @@ export interface RecordedClient<T> {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
@@ -70,20 +70,22 @@ export function createRecordedCommunicationIdentityClient(
 ): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
 
+  // casting is a workaround to enable min-max testing
   return {
-    client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING, {
+    client: new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {
       httpClient: createTestHttpClient()
-    }),
+    } as CommunicationIdentityClientOptions),
     recorder
   };
 }
 
 export function createRecordedCommunicationIdentityClientWithToken(
   context: Context
-): RecordedClient<CommunicationIdentityClient> | undefined {
+): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING).endpoint;
+  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING)
+    .endpoint;
   if (isPlaybackMode()) {
     credential = {
       getToken: async (_scopes) => {
@@ -91,24 +93,30 @@ export function createRecordedCommunicationIdentityClientWithToken(
       }
     };
 
+    // casting is a workaround to enable min-max testing
     return {
       client: new CommunicationIdentityClient(endpoint, credential, {
         httpClient: createTestHttpClient()
-      }),
+      } as CommunicationIdentityClientOptions),
       recorder
     };
   }
 
-  try {
+  if (isNode) {
     credential = new DefaultAzureCredential();
-  } catch {
-    return undefined;
+  } else {
+    credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
   }
 
+  // casting is a workaround to enable min-max testing
   return {
     client: new CommunicationIdentityClient(endpoint, credential, {
       httpClient: createTestHttpClient()
-    }),
+    } as CommunicationIdentityClientOptions),
     recorder
   };
 }
@@ -122,9 +130,11 @@ function createTestHttpClient(): HttpClient {
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
-    if (requestResponse.status < 200 || requestResponse.status > 299) {
-      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
-    }
+    console.log(
+      `MS-CV header for request: ${httpRequest.url} (${
+        requestResponse.status
+      } - ${requestResponse.headers.get("ms-cv")})`
+    );
 
     return requestResponse;
   };

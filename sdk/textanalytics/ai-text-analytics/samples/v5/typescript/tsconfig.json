@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2018",
     "module": "commonjs",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -10,5 +11,7 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src/**.ts"]
+  "include": [
+    "src/**.ts"
+  ]
 }

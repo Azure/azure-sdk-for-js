@@ -8,9 +8,16 @@
    },
    "requestBody": "{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"person\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"quantity\":1}",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"InvalidInput\",\"message\":\"We are unable to find phone plans to match your requested capabilities.\",\"target\":\"areacode\"}}",
+   "response": "{\"error\":{\"code\":\"InternalError\",\"message\":\"The server encountered an internal error.\",\"innererror\":{\"code\":\"BadRequest\",\"message\":\"We are unable to find phone plans to match your requested capabilities.\"}}}",
    "responseHeaders": {
-    "content-type": "application/json"
+    "api-supported-versions": "2021-03-07",
+    "content-type": "application/json",
+    "date": "Thu, 06 May 2021 20:42:55 GMT",
+    "ms-cv": "nxiMESxKHkCSFvws78nI6A.0",
+    "request-context": "appId=",
+    "status": "400",
+    "x-azure-ref": "0zlSUYAAAAACas4Db+v2PQIvWmn7Ca0XTWVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "1529ms"
    }
   }
  ],
@@ -18,5 +25,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "3e08c47962194f8a87528e88f091ed7a"
+ "hash": "0c0cd4df2ebe90fafb50cbd9dc7b6505"
 }

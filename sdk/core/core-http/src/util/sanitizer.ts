@@ -43,6 +43,7 @@ const defaultAllowedHeaderNames = [
   "Origin",
 
   "Accept",
+  "Accept-Encoding",
   "Cache-Control",
   "Connection",
   "Content-Length",
