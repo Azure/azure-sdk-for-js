@@ -2,7 +2,7 @@
 
 ## 1.1.0-beta.2 (2021-05-20)
 
-- Fixed an issue to check for the correct body length of the string and set the `Content-Length` header correctly. [PR 15314](https://github.com/Azure/azure-sdk-for-js/pull/15314)
+- Fixed an issue to set the `Content-Length` header correctly when using multibyte characters. [PR 15314](https://github.com/Azure/azure-sdk-for-js/pull/15314)
 
 ### Fixed
 
