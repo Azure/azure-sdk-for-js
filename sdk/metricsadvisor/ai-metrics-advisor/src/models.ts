@@ -1876,22 +1876,38 @@ export interface DataSourceCredentialEntity {
 
 export interface SqlConnectionStringCredentialEntity extends DataSourceCredentialEntity {
   type: "AzureSQLConnectionString";
-  parameters: AzureSQLConnectionStringParam;
+  connectionString: string;
 }
 
 export interface DataLakeGen2SharedKeyCredentialEntity extends DataSourceCredentialEntity {
   type: "DataLakeGen2SharedKey";
-  parameters: DataLakeGen2SharedKeyParam;
+  accountKey: string;
 }
 
 export interface ServicePrincipalCredentialEntity extends DataSourceCredentialEntity {
   type: "ServicePrincipal";
-  parameters: ServicePrincipalParam;
+    /** The client id of the service principal. */
+  clientId: string;
+  /** The client secret of the service principal. */
+  clientSecret: string;
+  /** The tenant id of the service principal. */
+  tenantId: string;
 }
 
 export interface ServicePrincipalInKVCredentialEntity extends DataSourceCredentialEntity {
   type: "ServicePrincipalInKV";
-  parameters: ServicePrincipalInKVParam;
+  /** The Key Vault endpoint that storing the service principal. */
+  keyVaultEndpoint: string;
+  /** The Client Id to access the Key Vault. */
+  keyVaultClientId: string;
+  /** The Client Secret to access the Key Vault. */
+  keyVaultClientSecret: string;
+  /** The secret name of the service principal's client Id in the Key Vault. */
+  servicePrincipalIdNameInKV: string;
+  /** The secret name of the service principal's client secret in the Key Vault. */
+  servicePrincipalSecretNameInKV: string;
+  /** The tenant id of your service principal. */
+  tenantId: string;
 }
 
 export type DataSourceCredentialEntityUnion =
