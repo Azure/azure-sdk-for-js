@@ -120,6 +120,12 @@ export type ListTableEntitiesOptions = OperationOptions & {
    * Query options group
    */
   queryOptions?: TableEntityQueryOptions;
+  /**
+   * If true, automatic type conversion will be disabled and entity properties will
+   * be represented by full metadata types. For example, an Int32 value will be \{value: "123", type: "Int32"\} instead of 123.
+   * This option applies for all the properties
+   */
+  disableTypeConversion?: boolean;
 };
 
 /**
@@ -130,6 +136,12 @@ export type GetTableEntityOptions = OperationOptions & {
    * Parameter group
    */
   queryOptions?: TableEntityQueryOptions;
+  /**
+   * If true, automatic type conversion will be disabled and entity properties will
+   * be represented by full metadata types. For example, an Int32 value will be \{value: "123", type: "Int32"\} instead of 123.
+   * This option applies for all the properties
+   */
+  disableTypeConversion?: boolean;
 };
 
 /**

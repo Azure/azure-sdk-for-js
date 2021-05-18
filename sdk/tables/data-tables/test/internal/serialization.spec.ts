@@ -5,6 +5,7 @@ import { assert } from "chai";
 
 import { Edm } from "../../src";
 import { serialize, deserialize } from "../../src/serialization";
+import { isNode8 } from "@azure/test-utils";
 
 interface Entity {
   strProp?: string;
@@ -163,22 +164,49 @@ describe("Deserializer", () => {
     assert.strictEqual(deserialized.int32Prop, int32Value);
   });
 
-  it("should deserialize an Int64 value", () => {
+  it("should deserialize an Int64 value to bigint", function(this: Mocha.Context) {
+    if (isNode8) {
+      this.skip();
+    }
     const int64Value = "12345678910";
-    const deserialized: Entity = deserialize<Entity>({
+    const deserialized = deserialize({
       int64ObjProp: int64Value,
       "int64ObjProp@odata.type": "Edm.Int64"
     });
-    assert.strictEqual(deserialized.int64ObjProp?.value, int64Value);
-    assert.strictEqual(deserialized.int64ObjProp?.type, "Int64");
+    assert.strictEqual(deserialized.int64ObjProp, BigInt(int64Value));
+  });
+
+  it("should not deserialize an Int64 when disableTypeConversion is true", () => {
+    const int64Value = "12345678910";
+    const deserialized = deserialize(
+      {
+        int64ObjProp: int64Value,
+        "int64ObjProp@odata.type": "Edm.Int64"
+      },
+      true
+    );
+    assert.strictEqual(deserialized.int64ObjProp.value, int64Value);
+    assert.strictEqual(deserialized.int64ObjProp.type, "Int64");
   });
 
   it("should deserialize a Date value", () => {
     const dateValue = new Date();
-    const deserialized = deserialize<{ dateProp: Edm<"DateTime"> }>({
+    const deserialized = deserialize({
       dateProp: dateValue.toJSON(),
       "dateProp@odata.type": "Edm.DateTime"
     });
+    assert.deepEqual(deserialized.dateProp, dateValue);
+  });
+
+  it("should not deserialize a Date value", () => {
+    const dateValue = new Date();
+    const deserialized = deserialize<{ dateProp: Edm<"DateTime"> }>(
+      {
+        dateProp: dateValue.toJSON(),
+        "dateProp@odata.type": "Edm.DateTime"
+      },
+      true
+    );
     assert.deepEqual(deserialized.dateProp, { type: "DateTime", value: dateValue.toISOString() });
   });
 

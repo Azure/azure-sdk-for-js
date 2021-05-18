@@ -52,6 +52,7 @@ import {
 } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
 import { parseXML, stringifyXML } from "@azure/core-xml";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -62,6 +63,11 @@ export class TableClient {
    * Table Account URL
    */
   public url: string;
+  /**
+   * Represents a pipeline for making a HTTP request to a URL.
+   * Pipelines can have multiple policies to manage manipulating each request before and after it is made to the server.
+   */
+  public pipeline: Pipeline;
   private table: Table;
   private credential: TablesSharedKeyCredentialLike | undefined;
   private interceptClient: TableClientLike | undefined;
@@ -183,6 +189,7 @@ export class TableClient {
       generatedClient.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
     }
     this.table = generatedClient.table;
+    this.pipeline = generatedClient.pipeline;
   }
 
   /**
@@ -250,13 +257,16 @@ export class TableClient {
     }
 
     try {
-      const { queryOptions, ...getEntityOptions } = updatedOptions || {};
+      const { disableTypeConversion, queryOptions, ...getEntityOptions } = updatedOptions || {};
       await this.table.queryEntitiesWithPartitionAndRowKey(this.tableName, partitionKey, rowKey, {
         ...getEntityOptions,
         queryOptions: this.convertQueryOptions(queryOptions || {}),
         onResponse
       });
-      const tableEntity = deserialize<TableEntityResult<T>>(parsedBody);
+      const tableEntity = deserialize<TableEntityResult<T>>(
+        parsedBody,
+        disableTypeConversion ?? false
+      );
 
       return tableEntity;
     } catch (e) {
@@ -348,9 +358,10 @@ export class TableClient {
 
   private async _listEntities<T extends object>(
     tableName: string,
-    options?: InternalListTableEntitiesOptions
+    options: InternalListTableEntitiesOptions = {}
   ): Promise<ListEntitiesResponse<TableEntityResult<T>>> {
-    const queryOptions = this.convertQueryOptions(options?.queryOptions || {});
+    const { disableTypeConversion = false } = options;
+    const queryOptions = this.convertQueryOptions(options.queryOptions || {});
     const {
       xMsContinuationNextPartitionKey: nextPartitionKey,
       xMsContinuationNextRowKey: nextRowKey,
@@ -360,7 +371,10 @@ export class TableClient {
       queryOptions
     });
 
-    const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(value || []);
+    const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(
+      value ?? [],
+      disableTypeConversion
+    );
 
     return Object.assign([...tableEntities], {
       nextPartitionKey,
@@ -678,6 +692,12 @@ interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
    * An entity query continuation token from a previous call.
    */
   nextRowKey?: string;
+  /**
+   * If true, automatic type conversion will be disabled and entity properties will
+   * be represented by full metadata types. For example, an Int32 value will be \{value: "123", type: "Int32"\} instead of 123.
+   * This option applies for all the properties
+   */
+  disableTypeConversion?: boolean;
 }
 
 function isInternalClientOptions(options: any): options is InternalTransactionClientOptions {

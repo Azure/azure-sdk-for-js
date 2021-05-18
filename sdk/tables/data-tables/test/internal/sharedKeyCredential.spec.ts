@@ -9,7 +9,7 @@ import {
   createHttpHeaders,
   createPipelineRequest
 } from "@azure/core-rest-pipeline";
-import { isNode } from "../testUtils";
+import { isNode } from "@azure/test-utils";
 import { assert } from "chai";
 
 import { TablesSharedKeyCredential } from "../../src/TablesSharedKeyCredential";
