@@ -23,6 +23,9 @@ pr:
     include:
       - sdk/web-pubsub/
 
+variables:
+    jobMatrixFilter: ^((?!8x_node).)*$
+
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
