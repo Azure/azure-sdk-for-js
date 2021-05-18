@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-invalid-this */
 import { assert } from "chai";
 
 import { Edm } from "../../src";
