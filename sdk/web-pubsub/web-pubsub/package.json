@@ -52,7 +52,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=8.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/",
   "sideEffects": false,
@@ -77,7 +77,7 @@
     "@rollup/plugin-replace": "^2.2.0",
     "@types/jsonwebtoken": "~8.5.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^10.0.0",
+    "@types/node": "^8.0.0",
     "@types/query-string": "6.2.0",
     "@types/sinon": "^9.0.4",
     "assert": "^1.4.1",
