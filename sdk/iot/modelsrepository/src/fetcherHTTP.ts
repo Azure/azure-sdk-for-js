@@ -6,12 +6,11 @@ import { createHttpHeaders, createPipelineRequest, HttpHeaders, HttpMethods, Pip
 import { logger } from "./logger";
 import { Fetcher } from "./fetcherAbstract";
 
-export class HttpFetcher extends Fetcher {
+export class HttpFetcher implements Fetcher {
   private _client: ServiceClient;
   private _baseURL: string;
 
   constructor(baseURL: string, client: ServiceClient) {
-    super();
     this._client = client;
     this._baseURL = baseURL;
   }

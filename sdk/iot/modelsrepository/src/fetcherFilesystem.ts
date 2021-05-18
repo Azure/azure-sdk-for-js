@@ -15,11 +15,10 @@ function readFilePromise(path: string): Promise<string> {
   });
 }
 
-export class FilesystemFetcher extends Fetcher {
+export class FilesystemFetcher implements Fetcher {
   private _baseFilePath: string;
 
   constructor(baseFilePath: string) {
-    super();
     this._baseFilePath = baseFilePath;
   }
 
