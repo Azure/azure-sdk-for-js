@@ -73,7 +73,7 @@ function findSamplesDir(samplesDir: string, rootDir: string): string {
   for (const file of fs.readdirSync(samplesDir)) {
     const stats = fs.statSync(path.join(samplesDir, file));
     if (stats.isDirectory()) {
-      if (file.match(/^v([0-9]*.*)$/)) {
+      if (file.match(/^v[0-9]*.*$/)) {
         dirs.push(file);
       }
     }
