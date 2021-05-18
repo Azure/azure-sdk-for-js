@@ -1,5 +1,8 @@
 # Release History
 
+## 7.2.0-beta.2 (Unreleased)
+
+
 ## 7.2.0-beta.1 (2021-05-18)
 
 ### New Features
