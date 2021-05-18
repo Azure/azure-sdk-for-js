@@ -10,11 +10,9 @@
  * @returns {boolean}
  */
 export function isValidDtmi(dtmi: string): boolean {
-  if (dtmi) {
-    const re = /^dtmi:[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$/;
-    return re.test(dtmi); // true if dtmi matches regular expression, false otherwise
-  }
-  return false; // if not a string return false.
+  if (typeof dtmi !== "string") return false;
+  const re = /^dtmi:[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$/;
+  return re.test(dtmi); // true if dtmi matches regular expression, false otherwise
 }
 
 /**
