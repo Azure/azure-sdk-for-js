@@ -73,16 +73,19 @@ function findSamplesDir(samplesDir: string, rootDir: string): string {
   for (const file of fs.readdirSync(samplesDir)) {
     const stats = fs.statSync(path.join(samplesDir, file));
     if (stats.isDirectory()) {
-      const matchResult = file.match(/^v([0-9]*)$/);
+      const matchResult = file.match(/^v([0-9]*.*)$/);
       if (matchResult !== null) {
-        dirs.push(parseInt(matchResult[1]));
+        dirs.push(matchResult[1]);
       }
     }
   }
   if (dirs.length === 0) {
     return `${rootDir}/samples`;
   } else {
-    return `${rootDir}/samples/v${Math.max(...dirs)}`;
+    return `${rootDir}/samples/v${dirs
+      .sort()
+      .slice(-1)
+      .pop()}`;
   }
 }
 function buildRunSamplesScript(
