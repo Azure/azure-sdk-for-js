@@ -5,6 +5,8 @@
 /**
  * isValidDtmi
  * @description given a dtmi it will validate it matches the convention.
+ * This is based on the DTMI spec:
+ * https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#digital-twin-model-identifier
  * 
  * @param dtmi 
  * @returns {boolean}
