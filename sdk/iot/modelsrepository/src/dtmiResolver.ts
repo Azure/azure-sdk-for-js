@@ -21,26 +21,26 @@ export class DtmiResolver {
   }
 
   async resolve(dtmis: string[], expandedModel: boolean, options?: OperationOptions): Promise<{[dtmi: string]: DTDL}> {
-    let modelMap: any = {};
-    let promiseList = []; 
-    for (let dtmi of dtmis) {
-      let dtdlPath = convertDtmiToPath(dtmi, expandedModel);
+    const modelMap: any = {};
+    const promiseList = []; 
+    for (const dtmi of dtmis) {
+      const dtdlPath = convertDtmiToPath(dtmi, expandedModel);
       logger.info(`Model ${dtmi} located in repository at ${dtdlPath}`);
-      let mypromise = this._fetcher.fetch(dtdlPath, options).then((dtdl: any[] | any) => {
+      const mypromise = this._fetcher.fetch(dtdlPath, options).then((dtdl: any[] | any) => {
         if (expandedModel) {
           if (Array.isArray(dtdl)) {
             const modelIds: string[] = (dtdl as any[]).map((model:any) => model["@id"]);
             if (!modelIds.includes(dtmi)) {
               throw new ModelError(`DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${modelIds}`);
             }
-            for (let model of dtdl) {
+            for (const model of dtdl) {
               modelMap[model["@id"]] = model;
             }
           } else {
             throw new ModelError('Expanded format should always return an array of models.');
           }
         } else {
-          let model = dtdl;
+          const model = dtdl;
           if (model["@id"] != dtmi) {
             new ModelError(`DTMI mismatch - Request: ${dtmi}, Response ${model["@id"]}`);
           }
