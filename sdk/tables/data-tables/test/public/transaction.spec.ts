@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
-import { isNode } from "../testUtils";
+import { isNode } from "@azure/test-utils";
 import { Uuid } from "../../src/utils/uuid";
 import * as sinon from "sinon";
 

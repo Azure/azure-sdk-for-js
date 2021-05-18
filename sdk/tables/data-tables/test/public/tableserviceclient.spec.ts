@@ -5,7 +5,7 @@ import { TableItem, TableServiceClient } from "../../src";
 import { Context } from "mocha";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableServiceClient } from "./utils/recordedClient";
-import { isNode } from "../testUtils";
+import { isNode } from "@azure/test-utils";
 import { assert } from "chai";
 import { FullOperationResponse } from "@azure/core-client";
 
