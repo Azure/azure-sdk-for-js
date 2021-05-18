@@ -5,7 +5,12 @@ import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 
-import { AccessToken, AzureKeyCredential, isTokenCredential, TokenCredential } from "@azure/core-auth";
+import {
+  AccessToken,
+  AzureKeyCredential,
+  isTokenCredential,
+  TokenCredential
+} from "@azure/core-auth";
 
 import { RemoteRenderingRestClient } from "./generated";
 import {
@@ -260,7 +265,7 @@ export class RemoteRenderingClient {
         ? new MixedRealityAccountKeyCredential(accountId, credential)
         : isTokenCredential(credential)
         ? credential
-        : new StaticAccessTokenCredential(credential as AccessToken)
+        : new StaticAccessTokenCredential(credential as AccessToken);
 
     const authenticationEndpoint =
       options.authenticationEndpointUrl ?? constructAuthenticationEndpointFromDomain(accountDomain);
