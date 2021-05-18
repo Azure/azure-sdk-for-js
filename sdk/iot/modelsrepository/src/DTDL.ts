@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 interface Contents {
-  "@type"?: string;
+  "@type": string;
   name: string;
   schema: string;
 }

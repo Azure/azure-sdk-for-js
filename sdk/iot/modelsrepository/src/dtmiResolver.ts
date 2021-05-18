@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
+import { Fetcher } from "./fetcherAbstract";
 import { convertDtmiToPath, DTDL, logger, ModelError } from "./internal";
 
 export class ResolverError extends Error {
@@ -14,8 +15,8 @@ export class ResolverError extends Error {
 }
 
 export class DtmiResolver {
-  private _fetcher;
-  constructor(fetcher: any) {
+  private _fetcher: Fetcher;
+  constructor(fetcher: Fetcher) {
     this._fetcher = fetcher;
   }
 
