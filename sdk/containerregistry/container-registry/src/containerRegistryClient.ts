@@ -30,7 +30,6 @@ import {
   ContainerRepositoryImpl,
   DeleteRepositoryOptions
 } from "./containerRepository";
-import { URL } from "./url";
 import { RegistryArtifact } from "./registryArtifact";
 import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
 
@@ -47,12 +46,6 @@ export class ContainerRegistryClient {
    * The Azure Container Registry endpoint.
    */
   public readonly endpoint: string;
-
-  /** The login server of the registry */
-  public readonly loginServer: string;
-
-  /** The name of the registry */
-  public readonly name: string;
 
   private client: GeneratedClient;
 
@@ -102,9 +95,6 @@ export class ContainerRegistryClient {
     clientOptions: ContainerRegistryClientOptions = {}
   ) {
     this.endpoint = endpoint;
-    const parsedUrl = new URL(endpoint);
-    this.loginServer = parsedUrl.hostname;
-    this.name = parsedUrl.pathname;
 
     let credential: TokenCredential | undefined;
     let options: ContainerRegistryClientOptions | undefined;
