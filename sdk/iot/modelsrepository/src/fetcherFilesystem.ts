@@ -3,8 +3,10 @@
 
 import fs from "fs";
 import * as path from "path";
-import { Fetcher, DTDL, logger } from "./internal";
-import {RestError, RestErrorOptions} from '@azure/core-rest-pipeline';
+import { RestError, RestErrorOptions } from "@azure/core-rest-pipeline";
+import { Fetcher } from "./fetcherAbstract";
+import { logger } from "./logger";
+import { DTDL } from "./DTDL";
 
 function readFilePromise(path: string): Promise<string> {
   return new Promise((res, rej) => {
@@ -36,10 +38,10 @@ export class FilesystemFetcher implements Fetcher {
       return parsedDtdl;
     } catch (e) {
       // TODO: Is there a ResourceNotFound Error for Filesystem + Http (Generic API for errors)
-      const options : RestErrorOptions = {
-        code: 'ResourceNotFound',
+      const options: RestErrorOptions = {
+        code: "ResourceNotFound",
         statusCode: e?.status
-      }
+      };
       throw new RestError("Failed to fetch from Filesystem", options);
     }
   }
