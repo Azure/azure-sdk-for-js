@@ -22,6 +22,11 @@ export function getModelUri(dtmi: string, repositoryUri: string, expanded?: bool
 export function isValidDtmi(dtmi: string): boolean;
 
 // @public
+export class ModelError extends Error {
+    constructor(message: string);
+}
+
+// @public
 export class ModelsRepositoryClient {
     constructor(options?: ModelsRepositoryClientOptions);
     get apiVersion(): string;
