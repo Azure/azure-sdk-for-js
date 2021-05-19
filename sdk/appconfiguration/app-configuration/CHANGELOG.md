@@ -3,6 +3,10 @@
 ## 1.2.0-beta.2 (Unreleased)
 
 - With [#15136](https://github.com/Azure/azure-sdk-for-js/pull/15136), if the key of a feature flag(setting with `contentType="application/vnd.microsoft.appconfig.ff+json;charset=utf-8"`) doesn't start with `".appconfig.featureflag/"` (featureFlagPrefix), SDK adds the prefix before sending the request.
+- New design for feature flags and secret references,
+  - New types for FeatureFlag and SecretReference - `ConfigurationSetting<FeatureFlagValue>` and `ConfigurationSetting<SecretReferenceValue>`
+  - Upon using `getConfigurationSetting`(or add/update), use `parseFeatureFlag` and `parseSecretReference` methods to access the properties(to translate `ConfigurationSetting` into the types above).
+  - Helper method `isFeatureFlag` (and `isSecretReference`) checks the contentType and return boolean values.
 
 ## 1.2.0-beta.1 (2021-04-06)
 

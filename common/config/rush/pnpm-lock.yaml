@@ -388,6 +388,21 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-eOHstXRBRntoqBLi3bugYBEHpYkm0JiET6y5+P1fz7dqYRFN6hJW8qMJQtYIzIbpXJfRJTJdoiOS5fDQhsez0A==
+  /@azure/keyvault-secrets/4.1.0:
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-http': 1.2.4
+      '@azure/core-lro': 1.0.5
+      '@azure/core-paging': 1.1.3
+      '@azure/core-tracing': 1.0.0-preview.9
+      '@azure/logger': 1.0.2
+      '@opentelemetry/api': 0.10.2
+      tslib: 2.2.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-26ARU97svPkv8q6QbIdwdky8ntn+Q5mxTTCjpp9FUIyA2LTXmEL0wZDPBeM3mxZLHKnMEXQxEo+KYutrJW5xPQ==
   /@azure/logger-js/1.3.2:
     dependencies:
       tslib: 1.14.1
@@ -1366,7 +1381,7 @@ packages:
       integrity: sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 10.17.13
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -7920,7 +7935,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-document-translator'
     resolution:
-      integrity: sha512-BX8NAVVWDeaidRCJbHcifDv0wPRGf8OQQyLPS2yxm0Aak6Yo8ipYqKCwoKZNJm1b4e6JAyIcmNDb5hpMyW+hHQ==
+      integrity: sha512-aLIHlcTYnBY99k8+vSh3Ejrm+a5nPeD9OJGU4VKzVsxJ472vN9UmBZow+XIl1qqTNz9ILCRMTFTDz+2LzCg2Yw==
       tarball: file:projects/ai-document-translator.tgz
     version: 0.0.0
   file:projects/ai-form-recognizer.tgz:
@@ -8057,13 +8072,14 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-KZ9I7xHh8VE63VnB8xCmrSF40tju1frLQ1BGyT/YM2w0M+q2475W9tHCRLeUl6FmAiQXLv+6aqw8FTzP5j776A==
+      integrity: sha512-FY0mVa1OEYmdy+sKK4aWOmEWKJY8gFA0BeXjAT2G5cKcADP872nek628lIzl93Vb6chnwk29PJtKzOodP/7JkQ==
       tarball: file:projects/ai-text-analytics.tgz
     version: 0.0.0
   file:projects/app-configuration.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
       '@azure/identity': 2.0.0-beta.3
+      '@azure/keyvault-secrets': 4.1.0
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
@@ -8111,7 +8127,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-4AGlm2vHpELq0J6UowxwuKKEQk6JO6jv2Vp1/aMUoVZh15O6YMoH7XwKxbKcj661lKWAe/Jc7M4zRLpLfKKupw==
+      integrity: sha512-OXADNxZbTyMJ2W/cUJWnj6NdpxdvLYbOXQR+0v1TKxFdj0lPKm2F47GhOvknGVYqDravkOV0gfsQBc4cTrFcEw==
       tarball: file:projects/app-configuration.tgz
     version: 0.0.0
   file:projects/attestation.tgz:
@@ -8673,7 +8689,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client-1'
     resolution:
-      integrity: sha512-5Yty3M7abL/LT12Huh21EOQUOR941Dw7IKn61TSC/wZ8YFRofUFshxtzw2Xmy2a7n9Z48uhhmA5tF62T9jQivg==
+      integrity: sha512-MtwDEoS29kQ1NLBo75C9CS9dpH8zBekhn3rKb7xcO5KP/UvmxKG1NoEFRLuNueVLcy2nWG8kQ/uU0TLRnvQbkg==
       tarball: file:projects/core-client-1.tgz
     version: 0.0.0
   file:projects/core-client.tgz:
@@ -9126,7 +9142,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-wCMZgt5C551rCi6HXgvD/EZVo6sl3llky3jsRCVQBcamdjmNF0qphRBDyYLlAn1cysnA7eG4clCBGzqT5wsAIg==
+      integrity: sha512-hmCf21wliEDYweLvsgf2SA0t/dRt4HJf9+30VAfPRrTF7dMIlWOawNPEn4IDtjux39Gv7g2H8RLvAOE7tYzQuA==
       tarball: file:projects/cosmos.tgz
     version: 0.0.0
   file:projects/data-tables.tgz:
@@ -9183,7 +9199,7 @@ packages:
     dev: false
     name: '@rush-temp/data-tables'
     resolution:
-      integrity: sha512-6QJIjLk3QEkqjB1He5K7rZi1jGBq5qNnjBP2unYw4hheKGnIHOLbFHfUO3qOmhF8S4OwtevS+r4sbVo1EhiOzA==
+      integrity: sha512-ZXPV9NiS8N/zpxKgkPZeZG/vVAbdr/JhtucYUkONi0tTz8x0Q3vgmbRK6Jsmoam0BK4XEboGUzDJS1w8kn3gIQ==
       tarball: file:projects/data-tables.tgz
     version: 0.0.0
   file:projects/dev-tool.tgz:
@@ -9493,7 +9509,7 @@ packages:
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-TrRicEN8OEh7DFa/GvPh/oxfL821p9Yb/WQM79S5WjPuJwXCyWYemMDTqn17up550TkO98CxvBQBpzVNNFXdNA==
+      integrity: sha512-uPwpxSWuymminStHgz0LNgqfYlykhomLYp0UyhHB85Kg2tCibv0WGFjgSkZGZ96dOJvW8p/Gp9HsH3LVsep+RA==
       tarball: file:projects/eventgrid.tgz
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
@@ -10198,7 +10214,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-storage-blob'
     resolution:
-      integrity: sha512-rqK+gX9tyH33hp2qGxsPiokHaeml96R7BTSt+g4pE4L25DXz6piSCdAvQoqQFgddUiOpJLxobsgLMUS2yL3R3Q==
+      integrity: sha512-P4LhI9+Yj8e3NAQrWVtykCHFm+TqTRyUqZJl1ByArq0iUBmMwKrSf28qas15IkBwuG/XxYhXvFPvscOOm9nyYQ==
       tarball: file:projects/perf-storage-blob.tgz
     version: 0.0.0
   file:projects/perf-storage-file-datalake.tgz:
@@ -10277,7 +10293,7 @@ packages:
     dev: false
     name: '@rush-temp/purview-catalog'
     resolution:
-      integrity: sha512-eBVNFGBBOpPmvwlw/pbKgUUYZ/m61XBMuVJ75zJV9W4xJDaGaP++iOZpmexXVEQnTdbjIRgt5h0/yGxAheu5Kw==
+      integrity: sha512-90gdClsSyw90duRDXkEft1sJJdDBQfbBZVPeys0Lu/nrDwVTq97DT5Do57pq87BL+Be+sb25P2UK8gKDer/uWQ==
       tarball: file:projects/purview-catalog.tgz
     version: 0.0.0
   file:projects/purview-scanning.tgz:
@@ -10320,7 +10336,7 @@ packages:
     dev: false
     name: '@rush-temp/purview-scanning'
     resolution:
-      integrity: sha512-tmoBhJSqMTMl7QlwQ0+Nmck7qhKtNN7pNEFqgz+zWIXsT2mOIKlczw6elNEJvQ/DjryF2/at4YAbQ+GFXe2F+g==
+      integrity: sha512-3EJ2FZLnirYAQtMOgBhhzYLPXL5ahVLJITN9bJQuE61smhx6WaofGMDcGf93Q4ZP9na2xVD//juBFVWfvNvlIw==
       tarball: file:projects/purview-scanning.tgz
     version: 0.0.0
   file:projects/quantum-jobs.tgz:
@@ -10730,7 +10746,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-Fue4hXzVsT+u7nXMd5nZvTEa5AjyhfiJ8vex1XiBzyJnWN7KO+ah6HY7JapUGt0sMRbflRQNdR4bT3lG4QiS5Q==
+      integrity: sha512-XfwGJuuweV0lPcyK1Ol1RCSZWo7zXXm6+aOS764Jppp+Mpyc3m/HUdXpwidV/9Qu+KAcOB228CSFVYFzjLbjVA==
       tarball: file:projects/storage-blob.tgz
     version: 0.0.0
   file:projects/storage-file-datalake.tgz:

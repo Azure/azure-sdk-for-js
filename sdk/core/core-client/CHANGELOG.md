@@ -1,7 +1,8 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.1.2 (2021-05-20)
 
+- Fixed an issue to check for the mandatory parameter in the header and query values. [PR 15278](https://github.com/Azure/azure-sdk-for-js/pull/15278)
 
 ## 1.1.1 (2021-05-06)
 
