@@ -64,7 +64,7 @@ More information about `@azure/identity` can be found [here](https://github.com/
 
 ## Key concepts
 
-The [`LogsClient`](msdocs_logs_client) allows you to query logs, using the [Kusto query language][kusto_query_language]. This data can be queried in the
+The [`LogsClient`][msdocs_logs_client] allows you to query logs, using the [Kusto query language][kusto_query_language]. This data can be queried in the
 portal using tables like `AppEvents`, `AppDependencies` and others.
 
 The [`MetricsClient`][msdocs_metrics_client] allows you to query metrics.
