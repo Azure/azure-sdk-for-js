@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import {
-  GetModelsOptions,
-  IoTModelsRepositoryServiceClient,
-  ModelsRepositoryClientOptions,
-  dependencyResolutionType,
-  HttpFetcher,
-  FilesystemFetcher,
-  PseudoParser,
-  DtmiResolver,
-  logger,
-  DTDL
-} from "./internal";
 import * as cnst from "./constants";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
 import { Fetcher } from "./fetcherAbstract";
 import { URL } from "./utils/url";
 import { isLocalPath } from "./utils/absolutePath";
 import { normalize } from "./utils/normalize";
+import { FilesystemFetcher } from "./fetcherFilesystem";
+import { dependencyResolutionType } from "./dependencyResolutionType";
+import { DtmiResolver } from "./dtmiResolver";
+import { PseudoParser } from "./psuedoParser";
+import { ModelsRepositoryClientOptions } from "./interfaces/modelsRepositoryClientOptions";
+import { logger } from "./logger";
+import { IoTModelsRepositoryServiceClient } from "./modelsRepositoryServiceClient";
+import { HttpFetcher } from "./fetcherHTTP";
+import { GetModelsOptions } from "./interfaces/getModelsOptions";
+import { DTDL } from "./DTDL";
 
 /**
  * Initializes a new instance of the IoT Models Repository Client.

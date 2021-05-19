@@ -10,7 +10,7 @@
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
     "./dist-esm/src/utils/absolutePath.js": "./dist-esm/src/utils/absolutePath.browser.js",
     "./dist-esm/src/fetcherFilesystem.js": "./dist-esm/src/utils/fetcherFilesystem.browser.js",
-    "./dist-esm/src/normalize.js": "./dist-esm/src/utils/normalize.browser.js"
+    "./dist-esm/src/utils/normalize.js": "./dist-esm/src/utils/normalize.browser.js"
   },
   "types": "types/iot-models-repository.d.ts",
   "scripts": {
@@ -133,7 +133,6 @@
       "azure",
       "azure-iot-modelsrepository"
     ],
-    "requiredResources": {
-    }    
+    "requiredResources": {}
   }
 }
