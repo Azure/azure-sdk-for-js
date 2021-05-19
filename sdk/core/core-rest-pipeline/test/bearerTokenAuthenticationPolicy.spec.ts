@@ -172,7 +172,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     } catch (e) {
       error = e;
     }
-    assert.equal(error?.message, "Failed to retrieve the token");
+    assert.equal(error?.message, "Failed to refresh access token: Test Error");
 
     assert.strictEqual(
       credential.authCount,
@@ -248,7 +248,7 @@ class MockRefreshAzureCredential implements TokenCredential {
     this.authCount++;
 
     if (this.shouldThrow) {
-      throw new Error("Failed to retrieve the token");
+      throw new Error("Test Error");
     }
 
     // Allowing getToken to take a while

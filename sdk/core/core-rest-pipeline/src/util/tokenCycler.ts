@@ -44,32 +44,31 @@ export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
 };
 
 /**
- * Calls to asyncFn until the timeout is reached.
+ * Calls to producer until the timeout is reached.
  * Prevents errors from bubbling up until the refresh timeout is reached.
  * Once the timeout is reached, errors will bubble up, and null return values will throw with the received "errorMessage".
  *
- * @param asyncFn - The asynchronous function to call.
+ * @param producer - The asynchronous function to call.
  * @param timeout - Unix time when to stop ignoring errors or null values.
  * @param errorMessage - Message to be used if the final value after the timeout is reached is still "null".
  * @returns - A promise that can be resolved with T or null until the time is reached, after which it will throw if it can't resolve with a value of the type T.
  */
 async function tryUntilTimeout<T>(
-  asyncFn: () => Promise<T | null>,
-  timeout: number,
-  errorMessage: string
+  producer: () => Promise<T | null>,
+  timeout: number
 ): Promise<T | null> {
   if (Date.now() < timeout) {
     try {
-      return asyncFn();
+      return await producer();
     } catch {
       return null;
     }
   } else {
-    const result = await asyncFn();
+    const result = await producer();
 
     // Timeout is up, so throw if it's still null
     if (result === null) {
-      throw new Error(errorMessage);
+      throw new Error("operation timed out");
     }
     return result;
   }
@@ -80,22 +79,21 @@ async function tryUntilTimeout<T>(
  * until the provided Unix date timeout is reached.
  * Once the timeout is reached, errors will bubble up, and null return values will throw with the received "errorMessage".
  *
- * @param asyncFn - The asynchronous function to call.
+ * @param producer - The asynchronous function to call.
  * @param retryIntervalInMs - The time (in milliseconds) to wait between retry attempts.
  * @param refreshTimeout - The timestamp after which the refresh attempt will fail, throwing an exception.
  * @returns - A promise that, if it resolves, will resolve with the T type.
  */
 async function retryUntilTimeout<T>(
-  asyncFn: () => Promise<T | null>,
+  producer: () => Promise<T | null>,
   retryIntervalInMs: number,
-  retryTimeout: number,
-  errorMessage: string
+  retryTimeout: number
 ): Promise<T> {
-  let result = await tryUntilTimeout<T>(asyncFn, retryTimeout, errorMessage);
+  let result = await tryUntilTimeout<T>(producer, retryTimeout);
 
   while (result === null) {
     await delay(retryIntervalInMs);
-    result = await tryUntilTimeout(asyncFn, retryTimeout, errorMessage);
+    result = await tryUntilTimeout(producer, retryTimeout);
   }
 
   return result;
@@ -127,13 +125,11 @@ export function createTokenCycler(
     ...tokenCyclerOptions
   };
 
-  const errorMessage = "Failed to refresh access token.";
-
   /**
    * This little holder defines several predicates that we use to construct
    * the rules of refreshing the token.
    */
-  const cyclerState = {
+  const self = {
     /**
      * Produces true if a refresh job is currently in progress.
      */
@@ -146,7 +142,7 @@ export function createTokenCycler(
      */
     get shouldRefresh(): boolean {
       return (
-        !cyclerState.isRefreshing &&
+        !self.isRefreshing &&
         (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now()
       );
     },
@@ -169,7 +165,7 @@ export function createTokenCycler(
     scopes: string | string[],
     getTokenOptions: GetTokenOptions
   ): Promise<AccessToken> {
-    if (!cyclerState.isRefreshing) {
+    if (!self.isRefreshing) {
       // We bind `scopes` here to avoid passing it around a lot
       const tryGetAccessToken = (): Promise<AccessToken | null> =>
         credential.getToken(scopes, getTokenOptions);
@@ -180,21 +176,20 @@ export function createTokenCycler(
         tryGetAccessToken,
         options.retryIntervalInMs,
         // If we don't have a token, then we should timeout immediately
-        token?.expiresOnTimestamp ?? Date.now(),
-        errorMessage
+        token?.expiresOnTimestamp ?? Date.now()
       )
         .then((_token) => {
           refreshWorker = null;
           token = _token;
           return token;
         })
-        .catch((reason) => {
+        .catch((error) => {
           // We also should reset the refresher if we enter a failed state.  All
           // existing awaiters will throw, but subsequent requests will start a
           // new retry chain.
           refreshWorker = null;
           token = null;
-          throw reason;
+          throw new Error(`Failed to refresh access token: ${error.message}`);
         });
     }
 
@@ -215,9 +210,9 @@ export function createTokenCycler(
     //   step 1.
     //
 
-    if (cyclerState.mustRefresh) return refresh(scopes, tokenOptions);
+    if (self.mustRefresh) return refresh(scopes, tokenOptions);
 
-    if (cyclerState.shouldRefresh) {
+    if (self.shouldRefresh) {
       refresh(scopes, tokenOptions);
     }
 
