@@ -18,7 +18,7 @@ describe("utils unit tests", () => {
   ];
 
   headers.forEach(([options, expectedResult]) => {
-    it(`formatPreferHeader(${JSON.stringify(headers)})`, () => {
+    it(`formatPreferHeader(${JSON.stringify(options)})`, () => {
       const actualResult = formatPreferHeader(options);
       assert.deepEqual(actualResult, expectedResult);
     });
