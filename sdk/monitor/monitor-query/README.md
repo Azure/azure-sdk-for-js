@@ -11,7 +11,7 @@ Use the client library for Azure Monitor to:
 [Package (NPM)](https://www.npmjs.com/package/@azure/monitor-query) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/monitor-query) |
 [Product documentation][azure_monitor_product_documentation]
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples)
+[Samples][samples]
 
 ## Getting started
 
@@ -26,7 +26,7 @@ npm install @azure/monitor-query
 - You must have an [Azure Subscription](https://azure.microsoft.com) and an [Azure Monitor][azure_monitor_product_documentation] resource to use this package.
 - Node.js version 10.x.x or higher
 
-### Create an App Configuration resource
+### Create an Azure Monitor resource
 
 You can use the [Azure Portal][azure_monitor_create_using_portal] or the [Azure CLI][azure_monitor_create_using_cli] to create an Azure Monitor resource.
 
@@ -45,7 +45,7 @@ Authentication via service principal is done by:
 
 - Creating a credential using the `@azure/identity` package.
 - Setting appropriate RBAC rules on your Azure Monitor resource.
-  More information on App Configuration roles can be found [here](https://docs.microsoft.com/azure/azure-app-configuration/concept-enable-rbac#azure-built-in-roles-for-azure-app-configuration).
+  More information on Azure Monitor roles can be found [here][azure_monitor_roles].
 
 Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential)
 
@@ -71,46 +71,53 @@ The [`MetricsClient`][msdocs_metrics_client] allows you to query metrics.
 
 ## Examples
 
-#### Create and get a setting
+#### Querying logs
+
+The LogsClient can be used to query a Monitor workspace using the Kusto Query language.
 
 ```javascript
-const appConfig = require("@azure/monitor-query");
+const monitorQuery = require("@azure/monitor-query");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-const client = new appConfig.AppConfigurationClient(
-  "<App Configuration connection string goes here>"
-);
+const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
+const logsClient = new monitorQuery.LogsClient(new DefaultAzureCredential());
 
 async function run() {
-  const newSetting = await client.setConfigurationSetting({
-    key: "testkey",
-    value: "testvalue",
-    // Labels allow you to create variants of a key tailored
-    // for specific use-cases like supporting multiple environments.
-    // https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
-    label: "optional-label"
-  });
+  const kustoQuery = "AppEvents | limit 1";
+  const result = logsClient.queryLogs(azureLogAnalyticsWorkspaceId, kustoQuery);
+  const tablesFromResult: Table[] | undefined = result.tables;
 
-  let retrievedSetting = await client.getConfigurationSetting({
-    key: "testkey",
-    label: "optional-label"
-  });
+  if (tablesFromResult == null) {
+    console.log(`No results for query '${kustoQuery}'`);
+    return;
+  }
 
-  console.log("Retrieved value:", retrievedSetting.value);
+  console.log(`Results for query '${kustoQuery}'`);
+
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columns
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
+  }
 }
-
 run().catch((err) => console.log("ERROR:", err));
 ```
 
+For more samples see here: [samples][samples].
+
 ## Next steps
 
-The following samples show you the various ways you can interact with App Configuration:
+The following samples show you the various ways you can query your Log Analytics workspace:
 
-- [`helloworld.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/helloworld.ts) - Get, set, and delete configuration values.
-- [`helloworldWithLabels.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/helloworldWithLabels.ts) - Use labels to add additional dimensions to your settings for scenarios like beta vs production.
-- [`optimisticConcurrencyViaEtag.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/optimisticConcurrencyViaEtag.ts) - Set values using etags to prevent accidental overwrites.
-- [`setReadOnlySample.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/setReadOnlySample.ts) - Marking settings as read-only to prevent modification.
-- [`getSettingOnlyIfChanged.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/getSettingOnlyIfChanged.ts) - Get a setting only if it changed from the last time you got it.
-- [`listRevisions.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/listRevisions.ts) - List the revisions of a key, allowing you to see previous values and when they were set.
+- [`logsQuery.ts`][samples_logsquery_ts] - Query logs in a Monitor workspace
+- [`logsQueryBatchSample.ts`][samples_logquerybatch_ts] - Run multiple queries, simultaneously, with a batch in a Monitor workspace
+- [`metricsQuerySample.ts`][samples_metricsquery_ts] - Query metrics in a Monitor workspace
 
 More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/) folder on GitHub.
 
@@ -135,7 +142,7 @@ folder for more details.
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 - [Azure Monitor][azure_monitor_overview]
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fappconfiguration%2Fapp-configuration%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmonitor%2Fmonitor-query%2FREADME.png)
 
 [azure_monitor_overview]: https://docs.microsoft.com/azure/azure-monitor/overview
 [azure_monitor_create_workspace]: https://docs.microsoft.com/en-us/azure/azure-monitor/logs/quick-create-workspace
@@ -143,6 +150,11 @@ folder for more details.
 [azure_monitor_logs_overview]: https://docs.microsoft.com/en-us/azure/azure-monitor/logs/data-platform-logs
 [azure_monitor_create_using_portal]: https://docs.microsoft.com/en-us/azure/azure-monitor/logs/quick-create-workspace
 [azure_monitor_create_using_cli]: https://docs.microsoft.com/en-us/azure/azure-monitor/logs/quick-create-workspace-cli
+[azure_monitor_roles]: https://docs.microsoft.com/azure/azure-monitor/roles-permissions-security
 [kusto_query_language]: https://docs.microsoft.com/azure/data-explorer/kusto/query/
 [msdocs_metrics_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/metricsclient
 [msdocs_logs_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/logsclient
+[samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples
+[samples_logsquery_ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logQuery.ts
+[samples_logquerybatch_ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logQueryBatch.ts
+[samples_metricsquery_ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts
