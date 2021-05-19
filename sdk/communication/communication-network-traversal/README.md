@@ -45,7 +45,7 @@ const client = new CommunicationRelayClient(ENDPOINT, credential);
 ### Using a connection string
 
 ```typescript
-import { CommunicationRelayClient } from "@azure/communication-identity";
+import { CommunicationRelayClient } from "@azure/communication-network-traversal";
 
 const connectionString = `endpoint=ENDPOINT;accessKey=KEY`;
 const client = new CommunicationRelayClient(connectionString);
@@ -95,6 +95,8 @@ const config = relayClient.getRelayConfiguration(user);
 ```
 
 ## Troubleshooting
+
+## Next steps
 
 ## Contributing
 
