@@ -120,7 +120,7 @@ describe("Repository and artifact tests", function() {
 
   it("should retrive tag properties", async () => {
     const artifact = repository.getArtifact(artifactDigest);
-    const properties = await artifact.getTagProperties("test1");
+    const properties = await artifact.getTag("test1");
     assert.equal(properties.name, "test1");
     assert.ok(properties.registryLoginServer, "Expecting valid 'registryLoginServer'");
   });
@@ -143,7 +143,7 @@ describe("Repository and artifact tests", function() {
   it("sets tag properties", async () => {
     const tag = "test1";
     const artifact = repository.getArtifact(tag);
-    const original = await artifact.getTagProperties(tag);
+    const original = await artifact.getTag(tag);
 
     try {
       const updated = await artifact.updateTagProperties(tag, {
@@ -167,7 +167,7 @@ describe("Repository and artifact tests", function() {
     await artifact.deleteTag("test-delete");
     await delay(5 * 1000);
     try {
-      await artifact.getTagProperties("test-delete");
+      await artifact.getTag("test-delete");
       assert.fail("Expecting an error but didn't get one.");
     } catch (err) {
       assert.isTrue((err as RestError).message.includes("TAG_UNKNOWN"));

@@ -41,7 +41,7 @@ export async function main() {
       const tags = await listTags(artifact);
       if (tags && tags.length) {
         console.log(`Retrieving tag properties for ${tags[0]}`);
-        const tagProperties = await artifact.getTagProperties(tags[0]);
+        const tagProperties = await artifact.getTag(tags[0]);
         console.log(`  tag properties`);
         console.log(tagProperties);
       }

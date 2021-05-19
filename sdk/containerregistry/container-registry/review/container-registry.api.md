@@ -103,7 +103,7 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface GetTagPropertiesOptions extends OperationOptions {
+export interface GetTagOptions extends OperationOptions {
 }
 
 // @public
@@ -196,7 +196,7 @@ export interface RegistryArtifact {
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
     readonly fullyQualifiedName: string;
     getManifestProperties(options?: GetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
-    getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<ArtifactTagProperties>;
+    getTag(tag: string, options?: GetTagOptions): Promise<ArtifactTagProperties>;
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
     readonly registryEndpoint: string;
     readonly repositoryName: string;

@@ -35,7 +35,7 @@ export interface GetManifestPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `getTagProperties` method of `RegistryArtifact`.
  */
-export interface GetTagPropertiesOptions extends OperationOptions {}
+export interface GetTagOptions extends OperationOptions {}
 
 /**
  * Options for the `updateTagProperties` method of `RegistryArtifact`.
@@ -124,7 +124,7 @@ export interface RegistryArtifact {
    * @param tag - the tag to retrieve properties.
    * @param options -
    */
-  getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<ArtifactTagProperties>;
+  getTag(tag: string, options?: GetTagOptions): Promise<ArtifactTagProperties>;
   /**
    * Updates tag properties.
    * @param tag - name of the tag
@@ -246,7 +246,7 @@ export class RegistryArtifactImpl {
 
     let digest: string = this.tagOrDigest;
     if (!isDigest(this.tagOrDigest)) {
-      digest = (await this.getTagProperties(this.tagOrDigest)).digest;
+      digest = (await this.getTag(this.tagOrDigest)).digest;
     }
 
     try {
@@ -283,7 +283,7 @@ export class RegistryArtifactImpl {
 
     let digest: string = this.tagOrDigest;
     if (!isDigest(this.tagOrDigest)) {
-      digest = (await this.getTagProperties(this.tagOrDigest)).digest;
+      digest = (await this.getTag(this.tagOrDigest)).digest;
     }
     try {
       const result = await this.client.containerRegistry.updateManifestProperties(
@@ -305,11 +305,8 @@ export class RegistryArtifactImpl {
    * @param tag - the tag to retrieve properties.
    * @param options -
    */
-  public async getTagProperties(
-    tag: string,
-    options: GetTagPropertiesOptions = {}
-  ): Promise<ArtifactTagProperties> {
-    const { span, updatedOptions } = createSpan("RegistryArtifact-getTagProperties", options);
+  public async getTag(tag: string, options: GetTagOptions = {}): Promise<ArtifactTagProperties> {
+    const { span, updatedOptions } = createSpan("RegistryArtifact-getTag", options);
     try {
       return await this.client.containerRegistry.getTagProperties(
         this.repositoryName,

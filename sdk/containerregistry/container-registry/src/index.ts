@@ -14,7 +14,7 @@ export {
   DeleteArtifactOptions,
   DeleteTagOptions,
   GetManifestPropertiesOptions,
-  GetTagPropertiesOptions,
+  GetTagOptions,
   UpdateManifestPropertiesOptions,
   UpdateTagPropertiesOptions,
   ListTagsOptions
