@@ -6,8 +6,9 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-//import { LogsClient } from "@azure/monitor-query";
-import { last5Minutes, last7Days, lastDay, LogsClient, Table } from "../../../..";
+// TODO: can't use this until we've published at least one rev of this package.
+// import { last5Minutes, LogsClient, Table } from "@azure/monitor-query";
+import { last5Minutes, LogsClient, Table } from "../../../..";
 import * as dotenv from "dotenv";
 dotenv.config();
 

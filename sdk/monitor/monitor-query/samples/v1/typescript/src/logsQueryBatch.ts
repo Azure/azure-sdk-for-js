@@ -6,7 +6,8 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-//import { LogsClient } from "@azure/monitor-query";
+// TODO: can't use this until we've published at least one rev of this package.
+// import { BatchRequest, LogsClient } from "@azure/monitor-query";
 import { BatchRequest, LogsClient } from "../../../..";
 import * as dotenv from "dotenv";
 dotenv.config();
