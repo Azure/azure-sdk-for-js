@@ -9,7 +9,7 @@ import { QueryLogsOptions } from "../models/logsModels";
 export function formatPreferHeader(
   args: Pick<QueryLogsOptions, "serverTimeoutInSeconds" | "includeQueryStatistics"> | undefined
 ): { Prefer: string } | undefined {
-  if (args == null) {
+  if (!args) {
     return undefined;
   }
 
