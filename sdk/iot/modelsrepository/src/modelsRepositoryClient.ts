@@ -15,10 +15,10 @@ import {
 } from "./internal";
 import * as cnst from "./constants";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
-import * as path from "path";
 import { Fetcher } from "./fetcherAbstract";
 import { URL } from "./utils/url";
 import { isLocalPath } from "./utils/absolutePath";
+import { normalize } from "./utils/normalize";
 
 /**
  * Initializes a new instance of the IoT Models Repository Client.
@@ -129,7 +129,7 @@ export class ModelsRepositoryClient {
     if (isLocalPath(location)) {
       // POSIX Filesystem Path or Windows Filesystem Path
       logger.info(`Repository location identified as filesystem path - using FilesystemFetcher`);
-      fetcher = new FilesystemFetcher(path.normalize(location));
+      fetcher = new FilesystemFetcher(normalize(location));
     } else {
       locationURL = new URL(location);
       const prot = locationURL.protocol;
