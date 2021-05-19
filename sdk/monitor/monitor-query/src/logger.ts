@@ -8,4 +8,4 @@ import { createClientLogger } from "@azure/logger";
  *
  * @internal
  */
-export const logger = createClientLogger("template");
+export const logger = createClientLogger("monitor-query");
