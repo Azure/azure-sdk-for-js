@@ -2,7 +2,7 @@
   "name": "azure-monitor-query-samples-js",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Monitor Query client library samples for JavaScript",
+  "description": "Monitor Query client library samples for JavaScript",
   "engine": {
     "node": ">=12.0.0"
   },
@@ -14,8 +14,7 @@
   "keywords": [
     "azure",
     "cloud",
-    "typescript",
-    "javascript"
+    "typescript"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",

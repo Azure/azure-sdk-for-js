@@ -1,10 +1,12 @@
-# Azure Template client library samples for JavaScript
+# Monitor Query client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Template in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Monitor Query in some common scenarios.
 
-| **File Name**                                         | **Description**                                                            |
-| ----------------------------------------------------- | -------------------------------------------------------------------------- |
-| [getConfigurationSetting.js][getconfigurationsetting] | Demonstrates the use of a ConfigurationClient to retrieve a setting value. |
+| **File Name**                       | **Description**                                                         |
+| ----------------------------------- | ----------------------------------------------------------------------- |
+| [logsQuery.js][logsquery]           | Demonstrates how to run a query against a Log Analytics workspace       |
+| [logsQueryBatch.js][logsquerybatch] | Demonstrates how to run a batch query against a Log Analytics workspace |
+| [metricsQuery.js][metricsquery]     | Demonstrates how to query metrics using the MetricsClient.              |
 
 ## Prerequisites
 
@@ -33,21 +35,23 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node getConfigurationSetting.js
+node logsQuery.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPCONFIG_ENDPOINT="<appconfig endpoint>" APPCONFIG_TEST_SETTING_KEY="<appconfig test setting key>" node getConfigurationSetting.js
+npx cross-env MONITOR_WORKSPACE_ID="<monitor workspace id>" node logsQuery.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/samples/v1/javascript/getConfigurationSetting.js
+[logsquery]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/javascript/logsQuery.js
+[logsquerybatch]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/javascript/logsQueryBatch.js
+[metricsquery]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/javascript/metricsQuery.js
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/README.md

@@ -1,10 +1,12 @@
-# Azure Template client library samples for TypeScript
+# Monitor Query client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Template in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Monitor Query in some common scenarios.
 
-| **File Name**                                         | **Description**                                                            |
-| ----------------------------------------------------- | -------------------------------------------------------------------------- |
-| [getConfigurationSetting.ts][getconfigurationsetting] | Demonstrates the use of a ConfigurationClient to retrieve a setting value. |
+| **File Name**                       | **Description**                                                         |
+| ----------------------------------- | ----------------------------------------------------------------------- |
+| [logsQuery.ts][logsquery]           | Demonstrates how to run a query against a Log Analytics workspace       |
+| [logsQueryBatch.ts][logsquerybatch] | Demonstrates how to run a batch query against a Log Analytics workspace |
+| [metricsQuery.ts][metricsquery]     | Demonstrates how to query metrics using the MetricsClient.              |
 
 ## Prerequisites
 
@@ -45,22 +47,24 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/getConfigurationSetting.ts
+node dist/logsQuery.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPCONFIG_ENDPOINT="<appconfig endpoint>" APPCONFIG_TEST_SETTING_KEY="<appconfig test setting key>" node dist/getConfigurationSetting.js
+npx cross-env MONITOR_WORKSPACE_ID="<monitor workspace id>" node dist/logsQuery.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/samples/v1/typescript/src/getConfigurationSetting.ts
+[logsquery]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQuery.ts
+[logsquerybatch]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts
+[metricsquery]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
