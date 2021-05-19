@@ -79,7 +79,7 @@ describe("Repository and artifact tests", function() {
     const original = await artifact.getManifestProperties();
 
     try {
-      const updated = await artifact.setManifestProperties({
+      const updated = await artifact.updateManifestProperties({
         canDelete: false,
         canList: false,
         canRead: false,
@@ -91,7 +91,7 @@ describe("Repository and artifact tests", function() {
       assert.strictEqual(updated.canRead, false);
       assert.strictEqual(updated.canWrite, false);
     } finally {
-      await artifact.setManifestProperties(original);
+      await artifact.updateManifestProperties(original);
     }
   });
 
@@ -100,7 +100,7 @@ describe("Repository and artifact tests", function() {
     assert.ok(repositoryProperties.registryLoginServer, "Expecting valid 'registryLoginServer'");
     const original = repositoryProperties;
     try {
-      const updated = await repository.setProperties({
+      const updated = await repository.updateProperties({
         canDelete: false,
         canList: false,
         canRead: false,
@@ -114,7 +114,7 @@ describe("Repository and artifact tests", function() {
       assert.strictEqual(updated.canWrite, false);
       assert.strictEqual(updated.teleportEnabled, true);
     } finally {
-      await repository.setProperties(original);
+      await repository.updateProperties(original);
     }
   });
 
@@ -146,7 +146,7 @@ describe("Repository and artifact tests", function() {
     const original = await artifact.getTagProperties(tag);
 
     try {
-      const updated = await artifact.setTagProperties(tag, {
+      const updated = await artifact.updateTagProperties(tag, {
         canDelete: false,
         canList: false,
         canRead: false,
@@ -158,7 +158,7 @@ describe("Repository and artifact tests", function() {
       assert.strictEqual(updated.canRead, false);
       assert.strictEqual(updated.canWrite, false);
     } finally {
-      await artifact.setTagProperties(tag, original);
+      await artifact.updateTagProperties(tag, original);
     }
   });
 

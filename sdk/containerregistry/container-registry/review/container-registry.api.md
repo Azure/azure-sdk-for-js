@@ -73,7 +73,7 @@ export interface ContainerRepository {
     listManifests(options?: ListManifestsOptions): PagedAsyncIterableIterator<ArtifactManifestProperties>;
     readonly name: string;
     readonly registryEndpoint: string;
-    setProperties(options: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+    updateProperties(options: UpdateRepositoryPropertiesOptions): Promise<RepositoryProperties>;
 }
 
 // @public
@@ -200,9 +200,9 @@ export interface RegistryArtifact {
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
     readonly registryEndpoint: string;
     readonly repositoryName: string;
-    setManifestProperties(options?: SetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
-    setTagProperties(tag: string, options: SetTagPropertiesOptions): Promise<ArtifactTagProperties>;
     readonly tagOrDigest: string;
+    updateManifestProperties(options?: UpdateManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
+    updateTagProperties(tag: string, options: UpdateTagPropertiesOptions): Promise<ArtifactTagProperties>;
 }
 
 // @public
@@ -226,7 +226,15 @@ export interface RepositoryProperties {
 }
 
 // @public
-export interface SetManifestPropertiesOptions extends OperationOptions {
+export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+
+// @public
+export interface TagPageResponse extends Array<ArtifactTagProperties> {
+    continuationToken?: string;
+}
+
+// @public
+export interface UpdateManifestPropertiesOptions extends OperationOptions {
     canDelete?: boolean;
     canList?: boolean;
     canRead?: boolean;
@@ -234,7 +242,7 @@ export interface SetManifestPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface SetRepositoryPropertiesOptions extends OperationOptions {
+export interface UpdateRepositoryPropertiesOptions extends OperationOptions {
     canDelete?: boolean;
     canList?: boolean;
     canRead?: boolean;
@@ -243,19 +251,11 @@ export interface SetRepositoryPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface SetTagPropertiesOptions extends OperationOptions {
+export interface UpdateTagPropertiesOptions extends OperationOptions {
     canDelete?: boolean;
     canList?: boolean;
     canRead?: boolean;
     canWrite?: boolean;
-}
-
-// @public
-export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
-
-// @public
-export interface TagPageResponse extends Array<ArtifactTagProperties> {
-    continuationToken?: string;
 }
 
 

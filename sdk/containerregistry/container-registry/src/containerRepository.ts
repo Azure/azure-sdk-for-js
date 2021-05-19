@@ -39,7 +39,7 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `setProperties` method of `ContainerRepository`.
  */
-export interface SetRepositoryPropertiesOptions extends OperationOptions {
+export interface UpdateRepositoryPropertiesOptions extends OperationOptions {
   /** Delete enabled */
   canDelete?: boolean;
   /** Write enabled */
@@ -84,7 +84,7 @@ export interface ContainerRepository {
    * Updates repository attributes.
    * @param options -
    */
-  setProperties(options: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+  updateProperties(options: UpdateRepositoryPropertiesOptions): Promise<RepositoryProperties>;
   /**
    * Iterates manifests.
    *
@@ -187,8 +187,8 @@ export class ContainerRepositoryImpl {
    * Updates repository attributes.
    * @param options -
    */
-  public async setProperties(
-    options: SetRepositoryPropertiesOptions
+  public async updateProperties(
+    options: UpdateRepositoryPropertiesOptions
   ): Promise<RepositoryProperties> {
     const value: RepositoryWriteableProperties = {
       canDelete: options.canDelete,
@@ -197,7 +197,7 @@ export class ContainerRepositoryImpl {
       canRead: options.canRead,
       teleportEnabled: options.teleportEnabled
     };
-    const { span, updatedOptions } = createSpan("ContainerRepository-setProperties", {
+    const { span, updatedOptions } = createSpan("ContainerRepository-updateProperties", {
       ...options,
       value
     });

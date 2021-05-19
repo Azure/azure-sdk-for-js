@@ -38,9 +38,9 @@ export interface GetManifestPropertiesOptions extends OperationOptions {}
 export interface GetTagPropertiesOptions extends OperationOptions {}
 
 /**
- * Options for the `setTagProperties` method of `RegistryArtifact`.
+ * Options for the `updateTagProperties` method of `RegistryArtifact`.
  */
-export interface SetTagPropertiesOptions extends OperationOptions {
+export interface UpdateTagPropertiesOptions extends OperationOptions {
   /** Delete enabled */
   canDelete?: boolean;
   /** Write enabled */
@@ -52,9 +52,9 @@ export interface SetTagPropertiesOptions extends OperationOptions {
 }
 
 /**
- * Options for the `setManifestProperties` method of `RegistryArtifact`.
+ * Options for the `updateManifestProperties` method of `RegistryArtifact`.
  */
-export interface SetManifestPropertiesOptions extends OperationOptions {
+export interface UpdateManifestPropertiesOptions extends OperationOptions {
   /** Delete enabled */
   canDelete?: boolean;
   /** Write enabled */
@@ -116,8 +116,8 @@ export interface RegistryArtifact {
    * Updates manifest artifact attributes.
    * @param options -
    */
-  setManifestProperties(
-    options?: SetManifestPropertiesOptions
+  updateManifestProperties(
+    options?: UpdateManifestPropertiesOptions
   ): Promise<ArtifactManifestProperties>;
   /**
    * Retrieves properties of a tag.
@@ -130,7 +130,10 @@ export interface RegistryArtifact {
    * @param tag - name of the tag
    * @param options -
    */
-  setTagProperties(tag: string, options: SetTagPropertiesOptions): Promise<ArtifactTagProperties>;
+  updateTagProperties(
+    tag: string,
+    options: UpdateTagPropertiesOptions
+  ): Promise<ArtifactTagProperties>;
   /**
    * Iterates tags.
    *
@@ -265,10 +268,10 @@ export class RegistryArtifactImpl {
    * Updates manifest artifact attributes.
    * @param options -
    */
-  public async setManifestProperties(
-    options: SetManifestPropertiesOptions = {}
+  public async updateManifestProperties(
+    options: UpdateManifestPropertiesOptions = {}
   ): Promise<ArtifactManifestProperties> {
-    const { span, updatedOptions } = createSpan("RegistryArtifact-setManifestProperties", {
+    const { span, updatedOptions } = createSpan("RegistryArtifact-updateManifestProperties", {
       ...options,
       value: {
         canDelete: options.canDelete,
@@ -326,11 +329,11 @@ export class RegistryArtifactImpl {
    * @param tag - name of the tag
    * @param options -
    */
-  public async setTagProperties(
+  public async updateTagProperties(
     tag: string,
-    options: SetTagPropertiesOptions
+    options: UpdateTagPropertiesOptions
   ): Promise<ArtifactTagProperties> {
-    const { span, updatedOptions } = createSpan("RegistryArtifact-setTagProperties", {
+    const { span, updatedOptions } = createSpan("RegistryArtifact-updateTagProperties", {
       ...options,
       value: {
         canDelete: options.canDelete,
