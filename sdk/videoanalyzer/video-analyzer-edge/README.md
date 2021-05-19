@@ -167,4 +167,4 @@ additional questions or comments.
 [doc_pipelines]: https://go.microsoft.com/fwlink/?linkid=2162396
 [iot-device-sdk]: https://www.npmjs.com/package/azure-iot-device
 [iot-hub-sdk]: https://github.com/Azure/azure-iot-sdk-node
-[github-page-issues]: https://github.com/Azure/azure-sdk-for-python/issues
+[github-page-issues]: https://github.com/Azure/azure-sdk-for-js/issues
