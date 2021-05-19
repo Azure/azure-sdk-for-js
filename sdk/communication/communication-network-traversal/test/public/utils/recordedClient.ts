@@ -48,7 +48,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string =>
       recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"sanitized"`),
     (recording: string): string =>
-      recording.replace(/"urls"\s?:\s?\[.*?\]/g, `"urls":["turn.skype.com"]}`),
+      recording.replace(/"urls"\s?:\s?\[.*?\]/g, `"urls":["turn.skype.com"]`),
     (recording: string): string =>
       recording.replace(/"username"\s?:\s?"[^"]*"/g, `"username":"sanitized_username"`),
     (recording: string): string =>
