@@ -13,12 +13,12 @@ dotenv.config();
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
 export async function main() {
-  const tokenCredential = new DefaultAzureCredential();
-  const logsClient = new LogsClient(tokenCredential);
-
   if (!monitorWorkspaceId) {
     throw new Error("MONITOR_WORKSPACE_ID must be set in the environment for this sample");
   }
+
+  const tokenCredential = new DefaultAzureCredential();
+  const logsClient = new LogsClient(tokenCredential);
 
   const kqlQuery = "AppEvents | project TimeGenerated, OperationName, AppRoleInstance | limit 1";
 

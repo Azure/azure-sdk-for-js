@@ -6,9 +6,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-// TODO: can't use this until we've published at least one rev of this package.
-// const { Metric, MetricsClient } = require("@azure/monitor-query");
-const { MetricsClient } = require("../../../..");
+const { MetricsClient } = require("@azure/monitor-query");
 const dotenv = require("dotenv");
 
 dotenv.config();

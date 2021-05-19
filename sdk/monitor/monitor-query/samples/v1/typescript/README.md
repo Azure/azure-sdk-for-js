@@ -20,7 +20,7 @@ npm install -g typescript
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
-- [Azure App Configuration][createinstance_azureappconfiguration]
+- [Azure Monitor][createinstance_azuremonitor]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -65,6 +65,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [metricsquery]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/
+[createinstance_azuremonitor]: https://docs.microsoft.com/azure/azure-monitor/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

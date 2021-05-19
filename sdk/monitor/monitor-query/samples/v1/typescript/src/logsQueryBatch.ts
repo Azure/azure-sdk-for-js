@@ -6,26 +6,23 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-// TODO: can't use this until we've published at least one rev of this package.
-// import { BatchRequest, LogsClient } from "@azure/monitor-query";
-import { BatchRequest, LogsClient } from "../../../..";
+import { LogsClient } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
 export async function main() {
-  const tokenCredential = new DefaultAzureCredential();
-  const logsClient = new LogsClient(tokenCredential);
-
   if (!monitorWorkspaceId) {
     throw new Error("MONITOR_WORKSPACE_ID must be set in the environment for this sample");
   }
 
+  const tokenCredential = new DefaultAzureCredential();
+  const logsClient = new LogsClient(tokenCredential);
+
   const kqlQuery = "AppEvents | project TimeGenerated, OperationName, AppRoleInstance | limit 1";
 
   // Use our query, and get results for the last day.
-  const batchRequest: BatchRequest = {};
   const userProvidedQueryId = "a user provided id";
 
   const result = await logsClient.queryLogsBatch({
