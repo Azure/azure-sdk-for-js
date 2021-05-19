@@ -3,8 +3,8 @@ trigger: none
 stages:
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
-      PackageName: "@azure/template"
-      ServiceDirectory: template
+      PackageName: "@azure/monitor-query"
+      ServiceDirectory: monitor
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
