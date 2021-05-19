@@ -10,3 +10,28 @@ To read in-depth design decisions made during the min-max dependency testing and
 
 The minimum and maximum semver dependency testing for Azure SDK packages runs every night along with the nightly live test pipelines.
 In order to run the minimum and maximum semver dependency testing **locally on your machine, you can follow these steps:**
+
+### Setup your local dev environment to simulate min/max testing
+1. go to the repo root (e.g. `C:\repos\azure-sdk-for-js`)
+1. `rush update`
+1. `rush build -t "package-name" --verbose`
+ 	e.g. `rush build -t "@azure/communication-sms" --verbose`
+1. `cd eng\tools\dependency-testing`
+1. `npm install` (you may not need to do this every time)
+1. `node index.js --artifact-name "package-name" --version-type "{min | max}" --source-dir "path_to_js_repo" --test-folder "test/public"`
+e.g. `node index.js --artifact-name "@azure/communication-sms" --version-type "min" --source-dir "C:\repos\azure-sdk-for-js\" --test-folder "test/public"`
+1. `rush update`
+1. Go back to your packages `test\public folder`
+1. `rushx build`
+1. `rushx integration-test:node`
+
+### Restore your local dev environment
+1. go to `public\tests`
+1. revert the modified test files: run `git checkout -- .`
+1. delete the uncommitted files added to the test folder: (package.json, tsconfig.json etc.)
+1. delete the `node_modules` folder in this repo
+1. `rush update`
+1. `rush rebuild`
+
+
+If that fails, reset the repo: `git clean -f -x -d` (Warning: this will delete all unversioned files including those ignored by gitignore. Backup any .env files etc)
