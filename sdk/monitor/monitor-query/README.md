@@ -145,11 +145,11 @@ folder for more details.
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmonitor%2Fmonitor-query%2FREADME.png)
 
 [azure_monitor_overview]: https://docs.microsoft.com/azure/azure-monitor/overview
-[azure_monitor_create_workspace]: https://docs.microsoft.com/en-us/azure/azure-monitor/logs/quick-create-workspace
+[azure_monitor_create_workspace]: https://docs.microsoft.com/azure/azure-monitor/logs/quick-create-workspace
 [azure_monitor_product_documentation]: https://docs.microsoft.com/azure/azure-monitor
-[azure_monitor_logs_overview]: https://docs.microsoft.com/en-us/azure/azure-monitor/logs/data-platform-logs
-[azure_monitor_create_using_portal]: https://docs.microsoft.com/en-us/azure/azure-monitor/logs/quick-create-workspace
-[azure_monitor_create_using_cli]: https://docs.microsoft.com/en-us/azure/azure-monitor/logs/quick-create-workspace-cli
+[azure_monitor_logs_overview]: https://docs.microsoft.com/azure/azure-monitor/logs/data-platform-logs
+[azure_monitor_create_using_portal]: https://docs.microsoft.com/azure/azure-monitor/logs/quick-create-workspace
+[azure_monitor_create_using_cli]: https://docs.microsoft.com/azure/azure-monitor/logs/quick-create-workspace-cli
 [azure_monitor_roles]: https://docs.microsoft.com/azure/azure-monitor/roles-permissions-security
 [kusto_query_language]: https://docs.microsoft.com/azure/data-explorer/kusto/query/
 [msdocs_metrics_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/metricsclient
