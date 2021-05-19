@@ -1,17 +1,17 @@
 let nock = require('nock');
 
-module.exports.hash = "0cc988c098bc8745cc267bc5c3792b4a";
+module.exports.hash = "45aafb0f8e61428424793462e80c7b16";
 
-module.exports.testInfo = {"uniqueName":{"name-1":"name-1161736249956207002"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"name-1":"name-1162095387661802616"},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/.appconfig.featureflag%2Fname-1161736249956207002', {"key":".appconfig.featureflag/name-1161736249956207002","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002\",\"description\":\"I'm a description\",\"enabled\":false,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}"})
+  .put('/kv/.appconfig.featureflag%2Fname-1162095387661802616', {"key":".appconfig.featureflag/name-1162095387661802616","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":false,\"description\":\"I'm a description\"}"})
   .query(true)
-  .reply(200, {"etag":"YzAo7BoElnaZyBpV7qQTmHF6yAL","key":".appconfig.featureflag/name-1161736249956207002","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002\",\"description\":\"I'm a description\",\"enabled\":false,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:39+00:00"}, [
+  .reply(200, {"etag":"Y7DSSKEWZaHk6sWPMaQy0YxMKtR","key":".appconfig.featureflag/name-1162095387661802616","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":false,\"description\":\"I'm a description\"}","tags":{},"locked":false,"last_modified":"2021-05-14T00:57:56+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Fri, 02 Apr 2021 11:21:39 GMT',
+  'Fri, 14 May 2021 00:57:55 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -19,15 +19,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Fri, 02 Apr 2021 11:21:39 GMT',
+  'Fri, 14 May 2021 00:57:56 GMT',
   'ETag',
-  '"YzAo7BoElnaZyBpV7qQTmHF6yAL"',
+  '"Y7DSSKEWZaHk6sWPMaQy0YxMKtR"',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzYwNTk=;sn=3036059',
+  'zAJw6V16=NToxOSMzMjY5Nzk3;sn=3269797',
   'x-ms-request-id',
-  '78a8d14e-50d8-4236-8bf2-6e84e1309fe6',
+  '392e2fcd-f6b1-4461-ae48-f89bf61608b3',
   'x-ms-correlation-request-id',
-  '78a8d14e-50d8-4236-8bf2-6e84e1309fe6',
+  '392e2fcd-f6b1-4461-ae48-f89bf61608b3',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -39,13 +39,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/.appconfig.featureflag%2Fname-1161736249956207002-2', {"key":".appconfig.featureflag/name-1161736249956207002-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002-2\",\"description\":\"I'm a description\",\"enabled\":false,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}"})
+  .put('/kv/.appconfig.featureflag%2Fname-1162095387661802616-2', {"key":".appconfig.featureflag/name-1162095387661802616-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616-2\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":false,\"description\":\"I'm a description\"}"})
   .query(true)
-  .reply(200, {"etag":"h7SXoBgaTaRLWZ7bvuIbwcl5OcZ","key":".appconfig.featureflag/name-1161736249956207002-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002-2\",\"description\":\"I'm a description\",\"enabled\":false,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:39+00:00"}, [
+  .reply(200, {"etag":"yvaZqkZa8B2XR1OyDF8KgIHM1jI","key":".appconfig.featureflag/name-1162095387661802616-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616-2\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":false,\"description\":\"I'm a description\"}","tags":{},"locked":false,"last_modified":"2021-05-14T00:57:57+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Fri, 02 Apr 2021 11:21:40 GMT',
+  'Fri, 14 May 2021 00:57:54 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -53,15 +53,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Fri, 02 Apr 2021 11:21:39 GMT',
+  'Fri, 14 May 2021 00:57:57 GMT',
   'ETag',
-  '"h7SXoBgaTaRLWZ7bvuIbwcl5OcZ"',
+  '"yvaZqkZa8B2XR1OyDF8KgIHM1jI"',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzYwNjA=;sn=3036060',
+  'zAJw6V16=NToxOSMzMjY5Nzk4;sn=3269798',
   'x-ms-request-id',
-  '2cbf20e5-12ee-4b11-b50b-07ef6b0b1f79',
+  'cda5ad42-9d4d-4e85-bd45-cfb4cf8c14a4',
   'x-ms-correlation-request-id',
-  '2cbf20e5-12ee-4b11-b50b-07ef6b0b1f79',
+  'cda5ad42-9d4d-4e85-bd45-cfb4cf8c14a4',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -75,11 +75,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   .get('/kv')
   .query(true)
-  .reply(200, {"items":[{"etag":"YzAo7BoElnaZyBpV7qQTmHF6yAL","key":".appconfig.featureflag/name-1161736249956207002","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002\",\"description\":\"I'm a description\",\"enabled\":false,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:39+00:00"},{"etag":"h7SXoBgaTaRLWZ7bvuIbwcl5OcZ","key":".appconfig.featureflag/name-1161736249956207002-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002-2\",\"description\":\"I'm a description\",\"enabled\":false,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:39+00:00"}]}, [
+  .reply(200, {"items":[{"etag":"Y7DSSKEWZaHk6sWPMaQy0YxMKtR","key":".appconfig.featureflag/name-1162095387661802616","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":false,\"description\":\"I'm a description\"}","tags":{},"locked":false,"last_modified":"2021-05-14T00:57:56+00:00"},{"etag":"yvaZqkZa8B2XR1OyDF8KgIHM1jI","key":".appconfig.featureflag/name-1162095387661802616-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616-2\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":false,\"description\":\"I'm a description\"}","tags":{},"locked":false,"last_modified":"2021-05-14T00:57:57+00:00"}]}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Fri, 02 Apr 2021 11:21:39 GMT',
+  'Fri, 14 May 2021 00:57:55 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kvset+json; charset=utf-8',
   'Transfer-Encoding',
@@ -87,11 +87,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzYwNjA=;sn=3036060',
+  'zAJw6V16=NToxOSMzMjY5Nzk4;sn=3269798',
   'x-ms-request-id',
-  'dfc4296a-5baa-4850-9ddb-6989f1df1f15',
+  '140fc8a5-9bd9-4839-84e8-0054711e66d6',
   'x-ms-correlation-request-id',
-  'dfc4296a-5baa-4850-9ddb-6989f1df1f15',
+  '140fc8a5-9bd9-4839-84e8-0054711e66d6',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -103,13 +103,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/.appconfig.featureflag%2Fname-1161736249956207002', {"key":".appconfig.featureflag/name-1161736249956207002","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002\",\"description\":\"I'm a description\",\"enabled\":true,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}"})
+  .put('/kv/.appconfig.featureflag%2Fname-1162095387661802616', {"key":".appconfig.featureflag/name-1162095387661802616","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":true,\"description\":\"I'm a description\"}"})
   .query(true)
-  .reply(200, {"etag":"YOzTU1fuA9vA5EBTNPsM1sKe0DA","key":".appconfig.featureflag/name-1161736249956207002","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002\",\"description\":\"I'm a description\",\"enabled\":true,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:40+00:00"}, [
+  .reply(200, {"etag":"1lZDBJQ7LkOkYN0J5EZRfr3KG7k","key":".appconfig.featureflag/name-1162095387661802616","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":true,\"description\":\"I'm a description\"}","tags":{},"locked":false,"last_modified":"2021-05-14T00:57:57+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Fri, 02 Apr 2021 11:21:40 GMT',
+  'Fri, 14 May 2021 00:57:55 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -117,15 +117,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Fri, 02 Apr 2021 11:21:40 GMT',
+  'Fri, 14 May 2021 00:57:57 GMT',
   'ETag',
-  '"YOzTU1fuA9vA5EBTNPsM1sKe0DA"',
+  '"1lZDBJQ7LkOkYN0J5EZRfr3KG7k"',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzYwNjE=;sn=3036061',
+  'zAJw6V16=NToxOSMzMjY5Nzk5;sn=3269799',
   'x-ms-request-id',
-  '0cf64fa0-67a2-4300-bfc3-321fd139b693',
+  'dc3f727a-fdff-4335-8c13-9d6984e3ce24',
   'x-ms-correlation-request-id',
-  '0cf64fa0-67a2-4300-bfc3-321fd139b693',
+  'dc3f727a-fdff-4335-8c13-9d6984e3ce24',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -137,13 +137,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/.appconfig.featureflag%2Fname-1161736249956207002-2', {"key":".appconfig.featureflag/name-1161736249956207002-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002-2\",\"description\":\"I'm new description\",\"enabled\":false,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}","tags":{},"etag":"h7SXoBgaTaRLWZ7bvuIbwcl5OcZ"})
+  .put('/kv/.appconfig.featureflag%2Fname-1162095387661802616-2', {"key":".appconfig.featureflag/name-1162095387661802616-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616-2\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":false,\"description\":\"I'm new description\"}","last_modified":"2021-05-14T00:57:57.000Z","tags":{},"etag":"yvaZqkZa8B2XR1OyDF8KgIHM1jI"})
   .query(true)
-  .reply(200, {"etag":"no786ahiSoamdZXNcws7U5ttPOc","key":".appconfig.featureflag/name-1161736249956207002-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002-2\",\"description\":\"I'm new description\",\"enabled\":false,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:40+00:00"}, [
+  .reply(200, {"etag":"PwmV5WJUiUclvTNaVynhKqd8oSS","key":".appconfig.featureflag/name-1162095387661802616-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616-2\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":false,\"description\":\"I'm new description\"}","tags":{},"locked":false,"last_modified":"2021-05-14T00:57:58+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Fri, 02 Apr 2021 11:21:40 GMT',
+  'Fri, 14 May 2021 00:57:56 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -151,15 +151,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Fri, 02 Apr 2021 11:21:40 GMT',
+  'Fri, 14 May 2021 00:57:58 GMT',
   'ETag',
-  '"no786ahiSoamdZXNcws7U5ttPOc"',
+  '"PwmV5WJUiUclvTNaVynhKqd8oSS"',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzYwNjI=;sn=3036062',
+  'zAJw6V16=NToxOSMzMjY5ODAw;sn=3269800',
   'x-ms-request-id',
-  'e695682e-dd93-49cf-812d-ab5cdef12c54',
+  '2efb7bef-f039-40cf-b265-369fcc50d010',
   'x-ms-correlation-request-id',
-  'e695682e-dd93-49cf-812d-ab5cdef12c54',
+  '2efb7bef-f039-40cf-b265-369fcc50d010',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -173,11 +173,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   .get('/kv')
   .query(true)
-  .reply(200, {"items":[{"etag":"YOzTU1fuA9vA5EBTNPsM1sKe0DA","key":".appconfig.featureflag/name-1161736249956207002","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002\",\"description\":\"I'm a description\",\"enabled\":true,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:40+00:00"},{"etag":"no786ahiSoamdZXNcws7U5ttPOc","key":".appconfig.featureflag/name-1161736249956207002-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002-2\",\"description\":\"I'm new description\",\"enabled\":false,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:40+00:00"}]}, [
+  .reply(200, {"items":[{"etag":"1lZDBJQ7LkOkYN0J5EZRfr3KG7k","key":".appconfig.featureflag/name-1162095387661802616","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":true,\"description\":\"I'm a description\"}","tags":{},"locked":false,"last_modified":"2021-05-14T00:57:57+00:00"},{"etag":"PwmV5WJUiUclvTNaVynhKqd8oSS","key":".appconfig.featureflag/name-1162095387661802616-2","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616-2\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":false,\"description\":\"I'm new description\"}","tags":{},"locked":false,"last_modified":"2021-05-14T00:57:58+00:00"}]}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Fri, 02 Apr 2021 11:21:40 GMT',
+  'Fri, 14 May 2021 00:57:55 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kvset+json; charset=utf-8',
   'Transfer-Encoding',
@@ -185,11 +185,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzYwNjI=;sn=3036062',
+  'zAJw6V16=NToxOSMzMjY5ODAw;sn=3269800',
   'x-ms-request-id',
-  '8ca384a5-c490-4e69-a145-712d63f403e1',
+  '4532c4ac-7fe3-494f-bfb1-d23e32b2f2ca',
   'x-ms-correlation-request-id',
-  '8ca384a5-c490-4e69-a145-712d63f403e1',
+  '4532c4ac-7fe3-494f-bfb1-d23e32b2f2ca',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -201,21 +201,21 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .delete('/kv/.appconfig.featureflag%2Fname-1161736249956207002-2')
+  .delete('/kv/.appconfig.featureflag%2Fname-1162095387661802616-2')
   .query(true)
   .reply(204, "", [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Fri, 02 Apr 2021 11:21:41 GMT',
+  'Fri, 14 May 2021 00:57:57 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Connection',
   'close',
   'x-ms-request-id',
-  '54c5dc4c-4e3e-45e8-9db0-4f4113906bad',
+  '9da73351-8649-44c0-aac7-84e78a2929b7',
   'x-ms-correlation-request-id',
-  '54c5dc4c-4e3e-45e8-9db0-4f4113906bad',
+  '9da73351-8649-44c0-aac7-84e78a2929b7',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -227,13 +227,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .delete('/kv/.appconfig.featureflag%2Fname-1161736249956207002')
+  .delete('/kv/.appconfig.featureflag%2Fname-1162095387661802616')
   .query(true)
-  .reply(200, {"etag":"YOzTU1fuA9vA5EBTNPsM1sKe0DA","key":".appconfig.featureflag/name-1161736249956207002","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1161736249956207002\",\"description\":\"I'm a description\",\"enabled\":true,\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]}}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:40+00:00"}, [
+  .reply(200, {"etag":"1lZDBJQ7LkOkYN0J5EZRfr3KG7k","key":".appconfig.featureflag/name-1162095387661802616","label":"label-1","content_type":"application/vnd.microsoft.appconfig.ff+json;charset=utf-8","value":"{\"id\":\"name-1162095387661802616\",\"conditions\":{\"client_filters\":[{\"name\":\"Microsoft.TimeWindow\",\"parameters\":{\"Start\":\"Wed, 01 May 2019 13:59:59 GMT\",\"End\":\"Mon, 01 July 2019 00:00:00 GMT\"}},{\"name\":\"FilterX\"},{\"name\":\"Microsoft.Targeting\",\"parameters\":{\"Audience\":{\"Groups\":[{\"Name\":\"group-1\",\"RolloutPercentage\":25},{\"Name\":\"group-2\",\"RolloutPercentage\":45}],\"Users\":[\"userA\",\"userB\"],\"DefaultRolloutPercentage\":40}}},{\"name\":\"Microsoft.Percentage\",\"parameters\":{\"Value\":25}}]},\"enabled\":true,\"description\":\"I'm a description\"}","tags":{},"locked":false,"last_modified":"2021-05-14T00:57:57+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Fri, 02 Apr 2021 11:21:41 GMT',
+  'Fri, 14 May 2021 00:57:56 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -241,15 +241,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Fri, 02 Apr 2021 11:21:40 GMT',
+  'Fri, 14 May 2021 00:57:57 GMT',
   'ETag',
-  '"YOzTU1fuA9vA5EBTNPsM1sKe0DA"',
+  '"1lZDBJQ7LkOkYN0J5EZRfr3KG7k"',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzYwNjM=;sn=3036063',
+  'zAJw6V16=NToxOSMzMjY5ODAx;sn=3269801',
   'x-ms-request-id',
-  '77b1a36f-1ad3-4ad7-b18d-f613b2fa6df4',
+  '196a489a-ec10-483e-9d4d-a0493f4907e6',
   'x-ms-correlation-request-id',
-  '77b1a36f-1ad3-4ad7-b18d-f613b2fa6df4',
+  '196a489a-ec10-483e-9d4d-a0493f4907e6',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',

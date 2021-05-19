@@ -15,6 +15,7 @@ export {
   BackupPolicyDetails,
   BackupPolicyPatch,
   BackupsList,
+  BackupStatus,
   BaseResource,
   CapacityPool,
   CapacityPoolPatch,

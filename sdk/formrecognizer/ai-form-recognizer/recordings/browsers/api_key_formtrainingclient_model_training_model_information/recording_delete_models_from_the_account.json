@@ -2,212 +2,212 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/caf4ee19-0d53-480c-a053-6c977e6fef1b",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/8804a26d-2888-47f4-a682-5b20fe11983d",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "4a8210fc-69b9-44dd-a8ed-054ba4d2e21c",
+    "apim-request-id": "462d2d65-0a3e-4c6b-bea0-aca688bffd1e",
     "content-length": "0",
-    "date": "Tue, 30 Mar 2021 23:56:00 GMT",
+    "date": "Wed, 12 May 2021 01:50:48 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "26"
+    "x-envoy-upstream-service-time": "58"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/70b1e5f0-256a-41cf-ac29-264f2f7679f1",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/05a0a51e-51f5-4e1e-8168-9fd1ca4d50e9",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "e7f26165-f60a-4a8f-9681-ad0ff4cbf4fe",
+    "apim-request-id": "b6224315-81d5-48c1-a4e8-8c34e9607e71",
     "content-length": "0",
-    "date": "Tue, 30 Mar 2021 23:56:00 GMT",
+    "date": "Wed, 12 May 2021 01:50:48 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "32"
+    "x-envoy-upstream-service-time": "24"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/fe2b12f0-6eb1-4fa3-a6b3-90ae4c3a74c6",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/4ba437fc-b8e9-430f-b526-dbcc9929774b",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "1e1eb406-3249-4f8c-b293-b63e73273ff7",
+    "apim-request-id": "d3e6b356-a715-406f-b4fe-32acef7af2b4",
     "content-length": "0",
-    "date": "Tue, 30 Mar 2021 23:56:00 GMT",
+    "date": "Wed, 12 May 2021 01:50:48 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "37"
+    "x-envoy-upstream-service-time": "50"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/d1381688-2ecf-4d99-a1b1-7e6616cac48e",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/24846a09-0180-404f-a14d-1f9bee6283c5",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "4cdd8328-1b81-4422-bb04-b0ad1b3849b9",
+    "apim-request-id": "44ec3b96-a5ec-4702-8fb5-fe4b22698817",
     "content-length": "0",
-    "date": "Tue, 30 Mar 2021 23:56:00 GMT",
+    "date": "Wed, 12 May 2021 01:50:48 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "30"
+    "x-envoy-upstream-service-time": "31"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/83d015f9-3a09-4a70-a192-d048a3f8205b",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/5716b9ee-5c81-4328-a68f-8dd33f80d57d",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "98e779f4-8822-41ad-a943-8cd2eb1dddd1",
+    "apim-request-id": "4079e6b8-c99e-464e-88e4-8a5d7df5641f",
     "content-length": "0",
-    "date": "Tue, 30 Mar 2021 23:56:01 GMT",
+    "date": "Wed, 12 May 2021 01:50:48 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "37"
+    "x-envoy-upstream-service-time": "86"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/7eb1ba9c-1549-46bb-a924-7fc04b30d332",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/a9cf974e-0274-44c1-ba0d-c98ad5d19ed9",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "b4ee3c7f-9ad7-473e-ab1d-81222d6528e0",
+    "apim-request-id": "837b5d17-ea42-4d1b-ac06-16cbae7ba3fb",
     "content-length": "0",
-    "date": "Tue, 30 Mar 2021 23:56:01 GMT",
+    "date": "Wed, 12 May 2021 01:50:48 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "30"
+    "x-envoy-upstream-service-time": "87"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/caf4ee19-0d53-480c-a053-6c977e6fef1b",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/8804a26d-2888-47f4-a682-5b20fe11983d",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=caf4ee19-0d53-480c-a053-6c977e6fef1b' not found.\"}}",
+   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=8804a26d-2888-47f4-a682-5b20fe11983d' not found.\"}}",
    "responseHeaders": {
-    "apim-request-id": "26babd32-a78e-4e04-8622-120bbae8abe0",
+    "apim-request-id": "0d1873e2-1c82-4dcd-a13d-ab531cbda78f",
     "content-length": "101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 30 Mar 2021 23:56:01 GMT",
+    "date": "Wed, 12 May 2021 01:50:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "16"
+    "x-envoy-upstream-service-time": "38"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/70b1e5f0-256a-41cf-ac29-264f2f7679f1",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/5716b9ee-5c81-4328-a68f-8dd33f80d57d",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=70b1e5f0-256a-41cf-ac29-264f2f7679f1' not found.\"}}",
+   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=5716b9ee-5c81-4328-a68f-8dd33f80d57d' not found.\"}}",
    "responseHeaders": {
-    "apim-request-id": "ffae9b17-b19d-4ccb-8e3c-956a53191704",
+    "apim-request-id": "25835789-99b8-4233-9824-0523828430a9",
     "content-length": "101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 30 Mar 2021 23:56:01 GMT",
+    "date": "Wed, 12 May 2021 01:50:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "19"
+    "x-envoy-upstream-service-time": "38"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/fe2b12f0-6eb1-4fa3-a6b3-90ae4c3a74c6",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/05a0a51e-51f5-4e1e-8168-9fd1ca4d50e9",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=fe2b12f0-6eb1-4fa3-a6b3-90ae4c3a74c6' not found.\"}}",
+   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=05a0a51e-51f5-4e1e-8168-9fd1ca4d50e9' not found.\"}}",
    "responseHeaders": {
-    "apim-request-id": "6dc97ea3-3585-43d4-9d13-5c82a56f3f4e",
+    "apim-request-id": "b86cd258-439f-4a6b-81de-b97665329db1",
     "content-length": "101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 30 Mar 2021 23:56:01 GMT",
+    "date": "Wed, 12 May 2021 01:50:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "16"
+    "x-envoy-upstream-service-time": "89"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/d1381688-2ecf-4d99-a1b1-7e6616cac48e",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/24846a09-0180-404f-a14d-1f9bee6283c5",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=d1381688-2ecf-4d99-a1b1-7e6616cac48e' not found.\"}}",
+   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=24846a09-0180-404f-a14d-1f9bee6283c5' not found.\"}}",
    "responseHeaders": {
-    "apim-request-id": "acf3360c-52bf-4afb-9aba-2cc6b59d474c",
+    "apim-request-id": "a019034d-e06e-4e65-958c-b50b33702867",
     "content-length": "101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 30 Mar 2021 23:56:01 GMT",
+    "date": "Wed, 12 May 2021 01:50:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "17"
+    "x-envoy-upstream-service-time": "18"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/7eb1ba9c-1549-46bb-a924-7fc04b30d332",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/a9cf974e-0274-44c1-ba0d-c98ad5d19ed9",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=7eb1ba9c-1549-46bb-a924-7fc04b30d332' not found.\"}}",
+   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=a9cf974e-0274-44c1-ba0d-c98ad5d19ed9' not found.\"}}",
    "responseHeaders": {
-    "apim-request-id": "fb291006-50ff-437a-aeb8-a26443ad6b88",
+    "apim-request-id": "52aa9ccc-9bc1-4b55-973e-158352986484",
     "content-length": "101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 30 Mar 2021 23:56:01 GMT",
+    "date": "Wed, 12 May 2021 01:50:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "51"
+    "x-envoy-upstream-service-time": "21"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/83d015f9-3a09-4a70-a192-d048a3f8205b",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/4ba437fc-b8e9-430f-b526-dbcc9929774b",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=83d015f9-3a09-4a70-a192-d048a3f8205b' not found.\"}}",
+   "response": "{\"error\":{\"code\":\"1022\",\"message\":\"Model with 'id=4ba437fc-b8e9-430f-b526-dbcc9929774b' not found.\"}}",
    "responseHeaders": {
-    "apim-request-id": "dc685fb2-ef2b-4ed3-9775-a7d17a8d3cd5",
+    "apim-request-id": "a0858726-52ab-490b-8a56-1c08c1d5753c",
     "content-length": "101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 30 Mar 2021 23:56:01 GMT",
+    "date": "Wed, 12 May 2021 01:50:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "25"
+    "x-envoy-upstream-service-time": "15"
    }
   }
  ],

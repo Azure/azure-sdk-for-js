@@ -5,6 +5,8 @@
 ## Configuration
 
 ```yaml
+use: /home/dealmaha/corev2-v6
+use-core-v2: true
 package-name: "@azure/ai-text-analytics"
 title: GeneratedClient
 description: TextAnalytics Client
@@ -12,12 +14,10 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d2982a8962885e8506b5ebc0b33cb8caf1dc7551/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.4/TextAnalytics.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1397ebcd89b83e94c674db1763b5fe97c45e74e3/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.5/TextAnalytics.json
 add-credentials: false
-package-version: 5.1.0-beta.5
+package-version: 5.1.0-beta.6
 v3: true
-use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.2"
 hide-clients: true
 ```
 

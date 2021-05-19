@@ -1,0 +1,122 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/SomeTenantId/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=SomeClientSecret&scope=https%3A%2F%2Fcommunication.azure.com%2F%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1327",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 06 May 2021 20:42:29 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://endpoint/api/report?catId=GW+estsfd+chi\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11722.17 - WUS2 ProdSlices",
+    "x-ms-request-id": "sanitized"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/availablePhoneNumbers/countries/US/:search",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"quantity\":1}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "access-control-expose-headers": "Location,Operation-Location,operation-id,search-id",
+    "api-supported-versions": "2021-03-07",
+    "content-length": "0",
+    "date": "Thu, 06 May 2021 20:42:32 GMT",
+    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07",
+    "ms-cv": "etOfmgt0o0i5G4rWk2/Zyg.0",
+    "operation-id": "search_sanitized",
+    "operation-location": "/phoneNumbers/operations/search_sanitized?api-version=2021-03-07",
+    "request-context": "appId=",
+    "search-id": "sanitized",
+    "status": "202",
+    "x-azure-ref": "0tVSUYAAAAAAgk+NNlUJfTJPyoAHMJESkWVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "2478ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/phoneNumbers/operations/search_sanitized",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"status\":\"notStarted\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07\",\"createdDateTime\":\"2021-05-06T20:42:32.005688+00:00\",\"id\":\"search_sanitized\",\"operationType\":\"search\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "responseHeaders": {
+    "access-control-expose-headers": "Location",
+    "api-supported-versions": "2021-03-07",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 06 May 2021 20:42:32 GMT",
+    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07",
+    "ms-cv": "aBHNEJu3/0uh3Cme5rWMyQ.0",
+    "request-context": "appId=",
+    "status": "200",
+    "x-azure-ref": "0uFSUYAAAAAA+/ijf+GEjSal3O1yh2G5JWVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "442ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/phoneNumbers/operations/search_sanitized",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"status\":\"succeeded\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07\",\"createdDateTime\":\"2021-05-06T20:42:32.005688+00:00\",\"id\":\"search_sanitized\",\"operationType\":\"search\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "responseHeaders": {
+    "access-control-expose-headers": "Location",
+    "api-supported-versions": "2021-03-07",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 06 May 2021 20:42:37 GMT",
+    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2021-03-07",
+    "ms-cv": "8L41/J+5wE6+22Pn4hCSWg.0",
+    "request-context": "appId=",
+    "status": "200",
+    "x-azure-ref": "0vVSUYAAAAAAYNH9YzdGFSoTwRBb43V4TWVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "358ms"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/availablePhoneNumbers/searchResults/sanitized",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[\"+14155550100\"],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2021-05-06T20:58:36.6965049+00:00\"}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-03-07",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 06 May 2021 20:42:40 GMT",
+    "ms-cv": "hVXVS+ATxke7V4z0KiUCKA.0",
+    "request-context": "appId=",
+    "status": "200",
+    "x-azure-ref": "0v1SUYAAAAACAGNZZFfdzRr3S8c3RXFruWVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "750ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "0ffca6a1d0eb0737c769d14361532cd8"
+}

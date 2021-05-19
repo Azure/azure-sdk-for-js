@@ -33,7 +33,7 @@ export interface KeyVaultRoleAssignment {
   /**
    * Role assignment properties.
    */
-  properties: KeyVaultRoleAssignmentPropertiesWithScope;
+  properties: KeyVaultRoleAssignmentProperties;
 }
 
 /**
@@ -144,6 +144,10 @@ export interface KeyVaultRoleAssignmentProperties {
    * The principal ID.
    */
   principalId: string;
+  /**
+   * The role assignment scope.
+   */
+  scope?: KeyVaultRoleScope;
 }
 
 /**
@@ -151,24 +155,6 @@ export interface KeyVaultRoleAssignmentProperties {
  * The valid scopes are: "/", "/keys" and any a specific resource Id followed by a slash, as in "ID/".
  */
 export type KeyVaultRoleScope = "/" | "/keys" | string;
-
-/**
- * Role assignment properties with the scope property.
- */
-export interface KeyVaultRoleAssignmentPropertiesWithScope {
-  /**
-   * The role assignment scope.
-   */
-  scope?: KeyVaultRoleScope;
-  /**
-   * The role definition ID.
-   */
-  roleDefinitionId: string;
-  /**
-   * The principal ID.
-   */
-  principalId: string;
-}
 
 /**
  * An interface representing the optional parameters that can be

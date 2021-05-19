@@ -11,3 +11,11 @@ export function extractNextLink(value: string | undefined): string | undefined {
   // and we only want the part inside of <...>
   return value?.substr(1, value.indexOf(">") - 1);
 }
+
+/**
+ * Checks whether a string is a digest
+ * @internal
+ */
+export function isDigest(tagOrDigest: string): boolean {
+  return tagOrDigest.includes(":");
+}

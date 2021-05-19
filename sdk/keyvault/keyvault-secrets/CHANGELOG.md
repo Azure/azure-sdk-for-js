@@ -2,6 +2,7 @@
 
 ## 4.2.0-beta.5 (Unreleased)
 
+- Fixed a bug with `beginDeleteSecret` and `beginRecoverDeletedSecret` in which unknown service errors wouldn't bubble up properly to the end users.
 
 ## 4.2.0-beta.4 (2021-04-06)
 

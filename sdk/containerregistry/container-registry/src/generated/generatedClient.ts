@@ -8,7 +8,6 @@
 
 import {
   ContainerRegistry,
-  ContainerRegistryRepository,
   ContainerRegistryBlob,
   Authentication
 } from "./operations";
@@ -25,13 +24,11 @@ export class GeneratedClient extends GeneratedClientContext {
   constructor(url: string, options?: GeneratedClientOptionalParams) {
     super(url, options);
     this.containerRegistry = new ContainerRegistry(this);
-    this.containerRegistryRepository = new ContainerRegistryRepository(this);
     this.containerRegistryBlob = new ContainerRegistryBlob(this);
     this.authentication = new Authentication(this);
   }
 
   containerRegistry: ContainerRegistry;
-  containerRegistryRepository: ContainerRegistryRepository;
   containerRegistryBlob: ContainerRegistryBlob;
   authentication: Authentication;
 }

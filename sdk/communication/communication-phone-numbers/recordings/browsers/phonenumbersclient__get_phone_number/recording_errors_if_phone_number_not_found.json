@@ -10,7 +10,14 @@
    "status": 404,
    "response": "{\"error\":{\"code\":\"PhoneNumberNotFound\",\"message\":\"The specified phone number +14155550100 cannot be found.\",\"target\":\"phonenumber\"}}",
    "responseHeaders": {
-    "content-type": "application/json"
+    "api-supported-versions": "2021-03-07",
+    "content-type": "application/json",
+    "date": "Thu, 06 May 2021 20:40:37 GMT",
+    "ms-cv": "JsEm3ZVF902FuE2TJ4DgJA.0",
+    "request-context": "appId=",
+    "status": "404",
+    "x-azure-ref": "0RFSUYAAAAAB8MOgUCy4HR47lUgmzOymVWVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "917ms"
    }
   }
  ],
