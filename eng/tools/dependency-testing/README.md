@@ -6,5 +6,7 @@ But as we keep releasing newer versions, the list of versions that we want to te
 
 To read in-depth design decisions made during the min-max dependency testing and what it does, read [the blog post](https://devblogs.microsoft.com/azure-sdk/testing-semver-dependency-ranges/).
 
+### Running dependency tests:
+
 The minimum and maximum semver dependency testing for Azure SDK packages runs every night along with the nightly live test pipelines.
-In order to run the minimum and maximum semver dependency testing locally on your macine, you can follow these steps:
+In order to run the minimum and maximum semver dependency testing **locally on your machine, you can follow these steps:**
