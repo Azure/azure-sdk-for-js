@@ -6,32 +6,68 @@ But as we keep releasing newer versions, the list of versions that we want to te
 
 To read in-depth design decisions made during the min-max dependency testing and what it does, read [the blog post](https://devblogs.microsoft.com/azure-sdk/testing-semver-dependency-ranges/).
 
-### Running dependency tests:
+### Running dependency tests
 
 The minimum and maximum semver dependency testing for Azure SDK packages runs every night along with the nightly live test pipelines.
 In order to run the minimum and maximum semver dependency testing **locally on your machine, you can follow these steps:**
 
 ### Setup your local dev environment to simulate min/max testing
-1. go to the repo root (e.g. `C:\repos\azure-sdk-for-js`)
-1. `rush update`
-1. `rush build -t "package-name" --verbose`
- 	e.g. `rush build -t "@azure/communication-sms" --verbose`
-1. `cd eng\tools\dependency-testing`
-1. `npm install` (you may not need to do this every time)
-1. `node index.js --artifact-name "package-name" --version-type "{min | max}" --source-dir "path_to_js_repo" --test-folder "test/public"`
-e.g. `node index.js --artifact-name "@azure/communication-sms" --version-type "min" --source-dir "C:\repos\azure-sdk-for-js\" --test-folder "test/public"`
-1. `rush update`
-1. Go back to your packages `test\public folder`
-1. `rushx build`
-1. `rushx integration-test:node`
+
+1. Go to the repo root (e.g. `C:\repos\azure-sdk-for-js`) and run rush update and build package along with all its dependencies.
+
+```
+   rush update
+   rush build -t "package-name" --verbose
+```
+
+For example:
+
+```
+   rush build -t "@azure/communication-sms" --verbose
+```
+
+2. Install the dependency-testing package dependencies:
+
+```
+cd eng\tools\dependency-testing
+
+npm install
+```
+
+3. Run the dependency-testing script
+
+```
+node index.js --artifact-name "package-name" --version-type "{min | max}" --source-dir "path_to_js_repo" --test-folder "test/public"
+```
+
+For example,
+
+```
+node index.js --artifact-name "@azure/communication-sms" --version-type "min" --source-dir "C:\repos\azure-sdk-for-js\" --test-folder "test/public"
+```
+
+(Note: You may not need to do `npm install` every time you are testing, only once should be enough).
+
+4. Go back to the repo root (e.g. `C:\repos\azure-sdk-for-js`) and run `rush update`
+5. Go to your package's `test\public` folder and run these steps from inside it:
+
+```
+cd sdk/communication/communication-sms/test/public
+rushx build
+rushx integration-test:node
+```
 
 ### Restore your local dev environment
-1. go to `public\tests`
-1. revert the modified test files: run `git checkout -- .`
-1. delete the uncommitted files added to the test folder: (package.json, tsconfig.json etc.)
-1. delete the `node_modules` folder in this repo
-1. `rush update`
-1. `rush rebuild`
 
+1. Go to your package's `test\public` folder
+2. Revert the modified test files: run `git checkout -- .`
+3. Delete the uncommitted files added to the test folder: (package.json, tsconfig.json etc.)
+4. Delete the `node_modules` folder under the package's `test\public` folder
+5. Run the fowing steps from the root of the repo (e.g. `C:\repos\azure-sdk-for-js`)
 
-If that fails, reset the repo: `git clean -f -x -d` (Warning: this will delete all unversioned files including those ignored by gitignore. Backup any .env files etc)
+```
+rush update
+rush rebuild
+```
+
+Note : If the above step fails, you can reset the repo: `git clean -f -x -d` (Warning: this will delete all unversioned files including those ignored by gitignore. Backup any .env files and push any commits you wanted to etc)
