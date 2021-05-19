@@ -11,6 +11,7 @@ import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { S_IRWXO } from "constants";
 import { resolveProject } from "../../util/resolveProject";
+import { findSamplesRelativeDir } from "../../util/findSamplesDir";
 
 const log = createPrinter("check-node-versions-samples");
 
@@ -68,25 +69,6 @@ async function cleanup(
   await deleteDockerImages(dockerImageNames);
 }
 
-function findSamplesDir(samplesDir: string, rootDir: string): string {
-  const dirs = [];
-  for (const file of fs.readdirSync(samplesDir)) {
-    const stats = fs.statSync(path.join(samplesDir, file));
-    if (stats.isDirectory()) {
-      if (file.match(/^v[0-9]*.*$/)) {
-        dirs.push(file);
-      }
-    }
-  }
-  if (dirs.length === 0) {
-    return `${rootDir}/samples`;
-  } else {
-    return `${rootDir}/samples/${dirs
-      .sort()
-      .slice(-1)
-      .pop()}`;
-  }
-}
 function buildRunSamplesScript(
   containerWorkspacePath: string,
   samplesPath: string,
@@ -97,7 +79,7 @@ function buildRunSamplesScript(
   function compileCMD(cmd: string, printToScreen?: boolean) {
     return printToScreen ? cmd : `${cmd} >> ${logFilePath} 2>&1`;
   }
-  const samplesDir = findSamplesDir(samplesPath, containerWorkspacePath);
+  const samplesDir = `${containerWorkspacePath}/${findSamplesRelativeDir(samplesPath)}`;
   const printToScreen = logFilePath === undefined;
   const envFilePath = `${containerWorkspacePath}/${envFileName}`;
   const javascriptSamplesPath = `${samplesDir}/javascript`;
@@ -232,7 +214,7 @@ export const commandInfo = makeCommandInfo(
   {
     "artifact-path": {
       kind: "string",
-      description: "Path to the downloaded artifact built by the release pipeline"
+      description: "The URL/path to the artifact built by the release pipeline"
     },
     directory: {
       kind: "string",
