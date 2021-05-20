@@ -19,9 +19,9 @@ export async function main() {
 
   // You will need to set this environment variable or edit the following values
   const endpoint =
-    process.env.COMMUNICATION_ENDPOINT 
-    || parseConnectionString(process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING!).endpoint
-    || "https://<resource-name>.communication.azure.com";
+    process.env.COMMUNICATION_ENDPOINT ||
+    parseConnectionString(process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING!).endpoint ||
+    "https://<resource-name>.communication.azure.com";
 
   // Azure AD Credential information is required to run this sample:
   if (
