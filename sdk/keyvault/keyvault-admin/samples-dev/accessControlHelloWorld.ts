@@ -42,6 +42,7 @@ export async function main(): Promise<void> {
   ];
   let roleDefinition = await client.upsertRoleDefinition(globalScope, {
     roleDefinitionName,
+    roleName: "Backup Manager",
     permissions,
     description: "Allow backup actions"
   });

@@ -465,7 +465,7 @@ export class KeyVaultAccessControlClient {
             description: options.description,
             permissions: options.permissions,
             assignableScopes: [roleScope],
-            roleName: options.roleName || `role_definition_name`,
+            roleName: options.roleName,
             roleType: "CustomRole"
           }
         },

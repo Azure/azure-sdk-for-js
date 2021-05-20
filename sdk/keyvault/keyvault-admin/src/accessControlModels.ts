@@ -198,7 +198,7 @@ export interface UpsertRoleDefinitionOptions extends coreHttp.OperationOptions {
    */
   roleDefinitionName?: string;
   /**
-   * Friendly display name for the role definition. Defaults to `role_definition_name`.
+   * Friendly display name for the role definition.
    */
   roleName?: string;
   /**

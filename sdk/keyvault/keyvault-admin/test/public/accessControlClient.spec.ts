@@ -91,10 +91,11 @@ describe("KeyVaultAccessControlClient", () => {
 
     it("can create, update, and delete a role definition (happy path)", async function() {
       const name = generateFakeUUID();
+      const roleName = "custom role definition name";
       const description = "custom role description";
       let roleDefinition: KeyVaultRoleDefinition = await client.upsertRoleDefinition(globalScope, {
         roleDefinitionName: name,
-        roleName: name,
+        roleName,
         permissions,
         description
       });
@@ -117,7 +118,7 @@ describe("KeyVaultAccessControlClient", () => {
 
       roleDefinition = await client.upsertRoleDefinition(globalScope, {
         roleDefinitionName: name,
-        roleName: name,
+        roleName,
         permissions,
         description
       });
@@ -140,8 +141,8 @@ describe("KeyVaultAccessControlClient", () => {
       it("errors when name is not a valid guid", async function() {
         await assert.isRejected(
           client.upsertRoleDefinition(globalScope, {
-            roleDefinitionName: "foo",
-            roleName: "foo",
+            roleDefinitionName: "foo unique value",
+            roleName: "foo role definition name",
             permissions: []
           })
         );
@@ -163,7 +164,7 @@ describe("KeyVaultAccessControlClient", () => {
         await assert.isRejected(
           client.upsertRoleDefinition(globalScope, {
             roleDefinitionName: builtInDefinition.name,
-            roleName: builtInDefinition.name,
+            roleName: builtInDefinition.roleName,
             permissions
           })
         );
