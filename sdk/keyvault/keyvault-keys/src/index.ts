@@ -278,9 +278,18 @@ export class KeyClient {
     let unflattenedOptions = {};
 
     if (options) {
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
+      const {
+        enabled,
+        notBefore,
+        expiresOn: expires,
+        curveName,
+        hardwareProtected,
+        ...remainingOptions
+      } = options;
       unflattenedOptions = {
         ...remainingOptions,
+        curve: curveName,
+        hsm: hardwareProtected,
         keyAttributes: {
           enabled,
           notBefore,

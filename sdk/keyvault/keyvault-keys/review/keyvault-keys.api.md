@@ -66,10 +66,10 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
 
 // @public
 export interface CreateKeyOptions extends coreHttp.OperationOptions {
-    curve?: KeyCurveName;
+    curveName?: KeyCurveName;
     enabled?: boolean;
     readonly expiresOn?: Date;
-    hsm?: boolean;
+    hardwareProtected?: boolean;
     keyOps?: KeyOperation[];
     keySize?: number;
     notBefore?: Date;
@@ -300,16 +300,19 @@ export const enum KnownDeletionRecoveryLevel {
 }
 
 // @public
-export const enum KnownEncryptionAlgorithms {
+export enum KnownEncryptionAlgorithms {
     A128CBC = "A128CBC",
+    A128CbcHS256 = "A128CBC-HS256",
     A128Cbcpad = "A128CBCPAD",
     A128GCM = "A128GCM",
     A128KW = "A128KW",
     A192CBC = "A192CBC",
+    A192CbcHS384 = "A192CBC-HS384",
     A192Cbcpad = "A192CBCPAD",
     A192GCM = "A192GCM",
     A192KW = "A192KW",
     A256CBC = "A256CBC",
+    A256CbcHS512 = "A256CBC-HS512",
     A256Cbcpad = "A256CBCPAD",
     A256GCM = "A256GCM",
     A256KW = "A256KW",
