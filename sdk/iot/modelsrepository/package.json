@@ -1,6 +1,6 @@
 {
   "name": "@azure/iot-modelsrepository",
-  "version": "0.0.1",
+  "version": "1.0.0-beta.1",
   "description": "Device Model Repository Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -45,9 +45,7 @@
     "dist-esm/src/",
     "types/iot-models-repository.d.ts",
     "README.md",
-    "LICENSE",
-    "rollup.config.js",
-    "tsconfig.json"
+    "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
