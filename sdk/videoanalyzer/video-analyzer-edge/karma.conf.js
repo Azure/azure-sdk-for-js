@@ -42,8 +42,7 @@ module.exports = function(config) {
       // "dist-test/index.js": ["coverage"]
     },
 
-    envPreprocessor: [
-    ],
+    envPreprocessor: [],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
