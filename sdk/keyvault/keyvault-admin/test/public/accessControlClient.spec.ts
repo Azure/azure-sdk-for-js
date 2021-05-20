@@ -92,12 +92,12 @@ describe("KeyVaultAccessControlClient", () => {
     it("can create, update, and delete a role definition (happy path)", async function() {
       const name = generateFakeUUID();
       const description = "custom role description";
-      let roleDefinition: KeyVaultRoleDefinition = await client.upsertRoleDefinition(
-        globalScope,
-        name,
+      let roleDefinition: KeyVaultRoleDefinition = await client.upsertRoleDefinition(globalScope, {
+        roleDefinitionName: name,
+        roleName: name,
         permissions,
         description
-      );
+      });
 
       assert.equal(roleDefinition.name, name);
       assert.equal(roleDefinition.description, description);
@@ -115,12 +115,12 @@ describe("KeyVaultAccessControlClient", () => {
         notDataActions: ["Microsoft.KeyVault/managedHsm/keys/encrypt/action"]
       });
 
-      roleDefinition = await client.upsertRoleDefinition(
-        globalScope,
-        name,
+      roleDefinition = await client.upsertRoleDefinition(globalScope, {
+        roleDefinitionName: name,
+        roleName: name,
         permissions,
         description
-      );
+      });
 
       assert.equal(roleDefinition.id, id);
       assert.deepEqual(roleDefinition.permissions, permissions);
@@ -138,7 +138,13 @@ describe("KeyVaultAccessControlClient", () => {
 
     describe("upsertRoleDefinition", function() {
       it("errors when name is not a valid guid", async function() {
-        await assert.isRejected(client.upsertRoleDefinition(globalScope, "foo", []));
+        await assert.isRejected(
+          client.upsertRoleDefinition(globalScope, {
+            roleDefinitionName: "foo",
+            roleName: "foo",
+            permissions: []
+          })
+        );
       });
 
       it("errors when updating a built-in role definition", async function() {
@@ -155,7 +161,11 @@ describe("KeyVaultAccessControlClient", () => {
         }
 
         await assert.isRejected(
-          client.upsertRoleDefinition(globalScope, builtInDefinition.name, permissions)
+          client.upsertRoleDefinition(globalScope, {
+            roleDefinitionName: builtInDefinition.name,
+            roleName: builtInDefinition.name,
+            permissions
+          })
         );
       });
     });

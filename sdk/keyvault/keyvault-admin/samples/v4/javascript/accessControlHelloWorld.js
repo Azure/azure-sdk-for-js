@@ -42,9 +42,7 @@ async function main() {
   ];
   let roleDefinition = await client.upsertRoleDefinition(
     globalScope,
-    roleDefinitionName,
-    permissions,
-    "Allow backup actions"
+    { roleDefinitionName, permissions, description: "Allow backup actions" }
   );
   console.log(roleDefinition);
 
