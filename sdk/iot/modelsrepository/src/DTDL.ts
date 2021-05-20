@@ -10,7 +10,7 @@ interface Contents {
 /**
  * @internal
  */
-export interface DTDL extends JSON {
+export interface DTDL {
   "@context": any[];
   "@id": string;
   extends: string | Array<any>;
