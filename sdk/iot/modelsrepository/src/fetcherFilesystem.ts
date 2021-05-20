@@ -6,7 +6,7 @@ import * as path from "path";
 import { RestError, RestErrorOptions } from "@azure/core-rest-pipeline";
 import { Fetcher } from "./fetcherAbstract";
 import { logger } from "./logger";
-import { DTDL } from "./DTDL";
+import { DTDL } from "./dtdl";
 
 function readFilePromise(path: string): Promise<string> {
   return new Promise((res, rej) => {
@@ -30,7 +30,10 @@ export class FilesystemFetcher implements Fetcher {
   async fetch(filePath: string) {
     logger.info(`Fetching ${filePath} from local filesystem`);
     const absolutePath = path.join(this._baseFilePath, filePath);
-
+    if (absolutePath.indexOf(this._baseFilePath) !== 0) {
+      throw new Error("Attempted to escape base file path");
+    }
+    
     try {
       logger.info(`File open on ${absolutePath}`);
       const dtdlFile = await readFilePromise(absolutePath);

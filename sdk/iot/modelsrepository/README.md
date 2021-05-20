@@ -12,7 +12,7 @@ Samples
 
 ## Key concepts
 
-The Azure IoT Models Repository library for JavaScript is written to interact with the Azure IoT PlugAndPlay Models Repository, for those developers who wish to write applications in JavaScript to do so.
+The Azure IoT Models Repository library for JavaScript provides functionality for working with the [Azure IoT PlugAndPlay Models Repository](https://devicemodels.azure.com/). It does not provide full CRUD operations, simply the ability to get models from the Models Repository or any other URL endpoints. It does not require any authentication.
 
 ### Currently supported environments
 
@@ -70,4 +70,3 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-

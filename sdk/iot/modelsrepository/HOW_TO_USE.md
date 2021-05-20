@@ -1,15 +1,3 @@
-<!-- The following YAML bit is needed by the docs system to publish the samples online. Uncomment/Update it when the samples can be published publically -->
-
-<!-- ---
-page_type: sample
-languages:
-  - typescript
-products:
-  - azure
-  - azure-template
-urlFragment: template-typescript
---- -->
-
 # Azure IoT Models Repository Samples
 
 The Azure IoT Models Repository enables builders to manage and share digital twin models for global consumption. The models are [JSON-LD](https://json-ld.org/) documents defined using the Digital Twins Definition Language [(DTDL)](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md).
@@ -53,14 +41,6 @@ console.log(`Initialized client point to global endpoint: ${client.repositoryLoc
 const client = new ModelsRepositoryClient({repositoryLocation: 'file:///path/to/repository/', dependencyResolution: 'disabled'});
 console.log(`Initialized client pointing to local path: ${client.repositoryLocation}`);
 ```
-
-## Override options
-
-If you need to override pipeline behavior, such as provide your own HttpClient instance, you can do that via constructor that takes a ModelsRepositoryClientOptions parameter. It provides an opportunity to override default behavior including:
-
-- Overriding [transport](https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Pipeline.md)
-- Enabling [diagnostics](https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Pipeline.md)
-- Controlling [retry strategy](https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Pipeline.md)
 
 ## Publish Models
 

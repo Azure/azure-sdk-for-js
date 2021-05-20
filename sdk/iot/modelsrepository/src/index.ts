@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * This is the ModelsRepositoryClient Library for Javascript.
- * Why Models and not Model? Because there's more than one Model.
+ * This is the ModelsRepositoryClient Library for JavaScript.
  *
  * @remarks
  * This ModelsRepositoryClient is built around getting DTDL Models from a user-specified

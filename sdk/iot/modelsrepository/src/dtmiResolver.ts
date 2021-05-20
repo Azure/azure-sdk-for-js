@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { DTDL } from "./DTDL";
+import { DTDL } from "./dtdl";
 import { convertDtmiToPath } from "./dtmiConventions";
 import { ModelError } from "./exceptions";
 import { Fetcher } from "./fetcherAbstract";
@@ -23,14 +23,14 @@ export class DtmiResolver {
     expandedModel: boolean,
     options?: OperationOptions
   ): Promise<{ [dtmi: string]: DTDL }> {
-    const modelMap: any = {};
+    const modelMap: { [dtmi: string]: DTDL } = {};
     const dtdlPromises = dtmis.map(async (dtmi) => {
       const dtdlPath = convertDtmiToPath(dtmi, expandedModel);
       logger.info(`Model ${dtmi} located in repository at ${dtdlPath}`);
       const dtdl = await this._fetcher.fetch(dtdlPath, options);
       if (expandedModel) {
         if (Array.isArray(dtdl)) {
-          const modelIds: string[] = (dtdl as any[]).map((model: any) => model["@id"]);
+          const modelIds: string[] = (dtdl as DTDL[]).map((model: DTDL) => model["@id"]);
           if (!modelIds.includes(dtmi)) {
             throw new ModelError(
               `DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${modelIds}`
@@ -48,7 +48,7 @@ export class DtmiResolver {
           throw new ModelError(`DTMI mismatch - Request: ${dtmi}, Response ${model["@id"]}`);
         }
 
-        modelMap[`${dtmi}`] = dtdl;
+        modelMap[`${dtmi}`] = model;
       }
     });
 

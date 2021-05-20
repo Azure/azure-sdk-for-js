@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import * as cnst from "./constants";
+import { DEFAULT_API_VERSION, DEFAULT_REPOSITORY_LOCATION, DEFAULT_USER_AGENT, DEPENDENCY_MODE_DISABLED, DEPENDENCY_MODE_ENABLED, DEPENDENCY_MODE_TRY_FROM_EXPANDED} from "./constants";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
 import { Fetcher } from "./fetcherAbstract";
 import { URL } from "./utils/url";
-import { isLocalPath } from "./utils/absolutePath";
-import { normalize } from "./utils/normalize";
+import { isLocalPath, normalize } from "./utils/path";
 import { FilesystemFetcher } from "./fetcherFilesystem";
 import { dependencyResolutionType } from "./dependencyResolutionType";
 import { DtmiResolver } from "./dtmiResolver";
@@ -16,7 +15,7 @@ import { logger } from "./logger";
 import { IoTModelsRepositoryServiceClient } from "./modelsRepositoryServiceClient";
 import { HttpFetcher } from "./fetcherHTTP";
 import { GetModelsOptions } from "./interfaces/getModelsOptions";
-import { DTDL } from "./DTDL";
+import { DTDL } from "./dtdl";
 
 /**
  * Initializes a new instance of the IoT Models Repository Client.
@@ -34,7 +33,7 @@ export class ModelsRepositoryClient {
    * @param options - The models repository client options that govern the behavior of the client.
    */
   constructor(options: ModelsRepositoryClientOptions = {}) {
-    this._repositoryLocation = options.repositoryLocation || cnst.DEFAULT_REPOSITORY_LOCATION;
+    this._repositoryLocation = options.repositoryLocation || DEFAULT_REPOSITORY_LOCATION;
     logger.info(`Client configured for repository location ${this._repositoryLocation}`);
     this._dependencyResolution =
       options.dependencyResolution ||
@@ -45,7 +44,7 @@ export class ModelsRepositoryClient {
     this._pseudoParser = new PseudoParser(this._resolver);
 
     // Store api version here (for now). Currently doesn't do anything
-    this._apiVersion = options.apiVersion || cnst.DEFAULT_API_VERSION;
+    this._apiVersion = options.apiVersion || DEFAULT_API_VERSION;
   }
 
   /**
@@ -95,9 +94,9 @@ export class ModelsRepositoryClient {
       pipelineOptions.userAgentOptions = {};
     }
     if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${cnst.DEFAULT_USER_AGENT}`;
+      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${DEFAULT_USER_AGENT}`;
     } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = cnst.DEFAULT_USER_AGENT;
+      pipelineOptions.userAgentOptions.userAgentPrefix = DEFAULT_USER_AGENT;
     }
 
     const internalPipelineOptions: InternalClientPipelineOptions = {
@@ -183,18 +182,18 @@ export class ModelsRepositoryClient {
 
     const dependencyResolution = options?.dependencyResolution || this._dependencyResolution;
 
-    if (dependencyResolution === cnst.DEPENDENCY_MODE_DISABLED) {
+    if (dependencyResolution === DEPENDENCY_MODE_DISABLED) {
       logger.info("Getting models w/ dependency resolution mode: disabled");
       logger.info(`Retreiving model(s): ${dtmis}...`);
       modelMap = await this._resolver.resolve(dtmis, false, options);
-    } else if (dependencyResolution === cnst.DEPENDENCY_MODE_ENABLED) {
+    } else if (dependencyResolution === DEPENDENCY_MODE_ENABLED) {
       logger.info(`Getting models w/ dependency resolution mode: enabled`);
       logger.info(`Retreiving model(s): ${dtmis}...`);
       const baseModelMap = await this._resolver.resolve(dtmis, false, options);
       const baseModelList = Object.keys(baseModelMap).map((key) => baseModelMap[key]);
       logger.info(`Retreiving model dependencies for ${dtmis}...`);
       modelMap = await this._pseudoParser.expand(baseModelList, false);
-    } else if (dependencyResolution === cnst.DEPENDENCY_MODE_TRY_FROM_EXPANDED) {
+    } else if (dependencyResolution === DEPENDENCY_MODE_TRY_FROM_EXPANDED) {
       logger.info(`Getting models w/ dependency resolution mode: tryFromExpanded`);
       try {
         logger.info(`Retreiving expanded model(s): ${dtmis}...`);

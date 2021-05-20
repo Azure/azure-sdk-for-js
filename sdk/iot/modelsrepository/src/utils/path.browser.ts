@@ -4,3 +4,7 @@
 export function isLocalPath() {
   return false;
 }
+
+export function normalize(text: string) {
+  return text;
+}
