@@ -79,7 +79,7 @@
     ],
     // @azure/container-registry is using the beta.1 version for CAE support
     "@azure/core-rest-pipeline": [
-      "1.1.0-beta.1"
+      "1.1.0-beta.2"
     ],
     // @azure/event-processor-host is on a much lower major version
     "@azure/ms-rest-nodeauth": [
