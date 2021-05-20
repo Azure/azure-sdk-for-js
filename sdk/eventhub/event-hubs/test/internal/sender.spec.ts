@@ -23,11 +23,9 @@ import {
   getStartingPositionsForTests,
   setTracerForTest
 } from "../public/utils/testUtils";
-import { AbortController } from "@azure/abort-controller";
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
-import { StandardAbortMessage } from "@azure/core-amqp";
 import { setSpan, context } from "@azure/core-tracing";
 const env = getEnvVars();
 
@@ -506,33 +504,6 @@ describe("EventHub Sender", function(): void {
       await producerClient.sendBatch(eventDataBatch);
       eventDataBatch.count.should.equal(1);
     });
-
-    // TODO: Enable this test https://github.com/Azure/azure-sdk-for-js/issues/9202 is fixed
-    it.skip("should support being cancelled", async function(): Promise<void> {
-      try {
-        // abortSignal event listeners will be triggered after synchronous paths are executed
-        const abortSignal = AbortController.timeout(0);
-        await producerClient.createBatch({ abortSignal: abortSignal });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.name.should.equal("AbortError");
-        err.message.should.equal(StandardAbortMessage);
-      }
-    });
-
-    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<
-      void
-    > {
-      const abortController = new AbortController();
-      abortController.abort();
-      try {
-        await producerClient.createBatch({ abortSignal: abortController.signal });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.name.should.equal("AbortError");
-        err.message.should.equal(StandardAbortMessage);
-      }
-    });
   });
 
   describe("Multiple sendBatch calls", function(): void {
@@ -984,45 +955,6 @@ describe("EventHub Sender", function(): void {
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
       resetTracer();
-    });
-
-    it("should support being cancelled", async function(): Promise<void> {
-      try {
-        const data: EventData[] = [
-          {
-            body: "Sender Cancellation Test - timeout 0"
-          }
-        ];
-        // call send() once to create a connection
-        await producerClient.sendBatch(data);
-        // abortSignal event listeners will be triggered after synchronous paths are executed
-        const abortSignal = AbortController.timeout(0);
-        await producerClient.sendBatch(data, { abortSignal });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.name.should.equal("AbortError");
-        err.message.should.equal(StandardAbortMessage);
-      }
-    });
-
-    it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<
-      void
-    > {
-      const abortController = new AbortController();
-      abortController.abort();
-
-      try {
-        const data: EventData[] = [
-          {
-            body: "Sender Cancellation Test - immediate"
-          }
-        ];
-        await producerClient.sendBatch(data, { abortSignal: abortController.signal });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.name.should.equal("AbortError");
-        err.message.should.equal(StandardAbortMessage);
-      }
     });
 
     it("should throw when partitionId and partitionKey are provided", async function(): Promise<

@@ -2,13 +2,21 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to recognize US sales receipts from a file.
+ * This sample demonstrates how to recognize elements of a receipt from
+ * a file using a prebuilt model.
+ *
+ * The prebuilt receipt model can return several fields. For a detailed
+ * list of the fields supported by the receipt model, see the following
+ * link:
+ *
+ * https://aka.ms/formrecognizer/receiptfields
+ *
+ * @summary extract data from an image of a receipt
  */
 
 import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
-import * as path from "path";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -16,12 +24,13 @@ dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const fileName = path.join(__dirname, "../assets/contoso-allinone.jpg");
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
+
+  const fileName = "./assets/receipt/contoso-allinone.jpg";
 
   if (!fs.existsSync(fileName)) {
-    throw new Error(`Expecting file ${fileName} exists`);
+    throw new Error(`Expected file "${fileName}" to exist.`);
   }
 
   const readStream = fs.createReadStream(fileName);
@@ -37,14 +46,18 @@ export async function main() {
   const [receipt] = await poller.pollUntilDone();
 
   if (receipt === undefined) {
-    throw new Error("Expecting at lease one receipt in analysis result");
+    throw new Error("Failed to extract data from at least one receipt.");
   }
 
-  // For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/formrecognizer/receiptfields
+  console.log("Receipt fields:");
+
+  // For a list of fields that are contained in the response, please refer to
+  // the "Supported fields" section at the following link:
+  // https://aka.ms/formrecognizer/receiptfields
   const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
     console.log(
-      `  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${
+      `  Receipt Type: '${receiptTypeField.value ?? "<missing>"}', with confidence of ${
         receiptTypeField.confidence
       }`
     );
@@ -52,7 +65,7 @@ export async function main() {
   const merchantNameField = receipt.fields["MerchantName"];
   if (merchantNameField.valueType === "string") {
     console.log(
-      `  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${
+      `  Merchant Name: '${merchantNameField.value ?? "<missing>"}', with confidence of ${
         merchantNameField.confidence
       }`
     );
@@ -60,19 +73,19 @@ export async function main() {
   const transactionDate = receipt.fields["TransactionDate"];
   if (transactionDate.valueType === "date") {
     console.log(
-      `  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${
+      `  Transaction Date: '${transactionDate.value ?? "<missing>"}', with confidence of ${
         transactionDate.confidence
       }`
     );
   }
   const itemsField = receipt.fields["Items"];
   if (itemsField.valueType === "array") {
-    for (const itemField of itemsField.value || []) {
+    for (const itemField of itemsField.value ?? []) {
       if (itemField.valueType === "object") {
         const itemNameField = itemField.value!["Name"];
         if (itemNameField.valueType === "string") {
           console.log(
-            `    Item Name: '${itemNameField.value || "<missing>"}', with confidence of ${
+            `    Item Name: '${itemNameField.value ?? "<missing>"}', with confidence of ${
               itemNameField.confidence
             }`
           );
@@ -83,7 +96,7 @@ export async function main() {
   const totalField = receipt.fields["Total"];
   if (totalField.valueType === "number") {
     console.log(
-      `  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`
+      `  Total: '${totalField.value ?? "<missing>"}', with confidence of ${totalField.confidence}`
     );
   }
 }

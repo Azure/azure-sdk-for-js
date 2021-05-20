@@ -7,7 +7,7 @@ import { SUPPORTED_API_VERSIONS } from "./constants";
 /**
  * The optional parameters accepted by the KeyVaultBackupClient
  */
-export interface BackupClientOptions extends coreHttp.PipelineOptions {
+export interface KeyVaultBackupClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the Key Vault's service API.
    */
@@ -18,7 +18,7 @@ export interface BackupClientOptions extends coreHttp.PipelineOptions {
  * An interface representing the optional parameters that can be
  * passed to {@link beginBackup}
  */
-export interface BackupPollerOptions extends coreHttp.OperationOptions {
+export interface KeyVaultBackupPollerOptions extends coreHttp.OperationOptions {
   /**
    * Time between each polling
    */
@@ -33,28 +33,28 @@ export interface BackupPollerOptions extends coreHttp.OperationOptions {
  * An interface representing the optional parameters that can be
  * passed to {@link beginBackup}
  */
-export interface BeginBackupOptions extends BackupPollerOptions {}
+export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link beginRestore}
  */
-export interface BeginRestoreOptions extends BackupPollerOptions {}
+export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link beginSelectiveRestore}
  */
-export interface BeginSelectiveRestoreOptions extends BackupPollerOptions {}
+export interface KeyVaultBeginSelectiveRestoreOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the result of a backup operation.
  */
-export interface BackupResult {
+export interface KeyVaultBackupResult {
   /**
    * The location of the full backup.
    */
-  backupFolderUri?: string;
+  folderUri?: string;
 
   /**
    * The start time of the backup operation.
@@ -70,14 +70,14 @@ export interface BackupResult {
 /**
  * An interface representing the result of a restore operation.
  */
-export interface RestoreResult {
+export interface KeyVaultRestoreResult {
   /**
-   * The start time of the backup operation.
+   * The start time of the restore operation.
    */
   startTime: Date;
 
   /**
-   * The end time of the backup operation.
+   * The end time of the restore operation.
    */
   endTime?: Date;
 }

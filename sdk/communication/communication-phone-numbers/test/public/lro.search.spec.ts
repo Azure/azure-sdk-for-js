@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { Recorder, env } from "@azure/test-utils-recorder";
+import { matrix } from "@azure/test-utils";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src";
-import { matrix } from "./utils/matrix";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function(useAad) {
@@ -45,9 +45,9 @@ matrix([[true, false]], async function(useAad) {
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
       const results = await searchPoller.pollUntilDone();
-      assert.equal(results.phoneNumbers.length, 1);
       assert.ok(searchPoller.getOperationState().isCompleted);
-    }).timeout(20000);
+      assert.equal(results.phoneNumbers.length, 1);
+    }).timeout(60000);
 
     it("throws on invalid search request", async function() {
       // person and toll free is an invalid combination
@@ -66,7 +66,7 @@ matrix([[true, false]], async function(useAad) {
         await searchPoller.pollUntilDone();
       } catch (error) {
         // TODO: Re-enable when service is fixed to return proper error code
-        // assert.equal(error.statusCode, 400);
+        assert.equal(error.statusCode, 400);
         return;
       }
 

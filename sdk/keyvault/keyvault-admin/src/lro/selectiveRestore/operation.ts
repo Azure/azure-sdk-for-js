@@ -14,20 +14,20 @@ import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
-import { RestoreResult } from "../../backupClientModels";
+import { KeyVaultRestoreResult } from "../../backupClientModels";
 import { withTrace } from "./poller";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
-export interface SelectiveRestoreOperationState
-  extends KeyVaultAdminPollOperationState<RestoreResult> {}
+export interface KeyVaultSelectiveRestoreOperationState
+  extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {}
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.
  */
-export interface SelectiveRestorePollOperationState
-  extends KeyVaultAdminPollOperationState<RestoreResult> {
+export interface KeyVaultSelectiveRestorePollOperationState
+  extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {
   /**
    * The name of a Key Vault Key.
    */
@@ -37,9 +37,9 @@ export interface SelectiveRestorePollOperationState
    */
   folderName: string;
   /**
-   * The URI of the blob storage account.
+   * The URI of the blob storage account where the previous successful full backup was stored.
    */
-  blobStorageUri: string;
+  folderUri: string;
   /**
    * The SAS token.
    */
@@ -49,12 +49,12 @@ export interface SelectiveRestorePollOperationState
 /**
  * The selective restore Key Vault's poll operation.
  */
-export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
-  SelectiveRestorePollOperationState,
+export class KeyVaultSelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
+  KeyVaultSelectiveRestorePollOperationState,
   string
 > {
   constructor(
-    public state: SelectiveRestorePollOperationState,
+    public state: KeyVaultSelectiveRestorePollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
     private requestOptions: RequestOptionsBase = {}
@@ -92,11 +92,11 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
   async update(
     options: {
       abortSignal?: AbortSignalLike;
-      fireProgress?: (state: SelectiveRestorePollOperationState) => void;
+      fireProgress?: (state: KeyVaultSelectiveRestorePollOperationState) => void;
     } = {}
-  ): Promise<SelectiveRestorePollOperation> {
+  ): Promise<KeyVaultSelectiveRestorePollOperation> {
     const state = this.state;
-    const { keyName, blobStorageUri, sasToken, folderName } = state;
+    const { keyName, folderUri, sasToken, folderName } = state;
 
     if (options.abortSignal) {
       this.requestOptions.abortSignal = options.abortSignal;
@@ -108,7 +108,7 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
         restoreBlobDetails: {
           folder: folderName,
           sasTokenParameters: {
-            storageResourceUri: blobStorageUri,
+            storageResourceUri: folderUri,
             token: sasToken
           }
         }

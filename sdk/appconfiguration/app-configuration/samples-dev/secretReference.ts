@@ -8,9 +8,10 @@
  */
 import {
   AppConfigurationClient,
-  isSecretReference,
-  SecretReference,
-  secretReferenceContentType
+  SecretReferenceValue,
+  secretReferenceContentType,
+  ConfigurationSetting,
+  parseSecretReference
 } from "@azure/app-configuration";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,9 +22,11 @@ dotenv.config();
 
 export async function main() {
   console.log(`Running secretReference sample`);
-  const secretReference: SecretReference = {
+  const secretReference: ConfigurationSetting<SecretReferenceValue> = {
     key: `secret${new Date().getTime()}`,
-    secretId: `secret-key${Math.ceil(100 + Math.random() * 900)}`,
+    value: {
+      secretId: `secret-key${Math.ceil(100 + Math.random() * 900)}`
+    },
     isReadOnly: false,
     contentType: secretReferenceContentType
   };
@@ -50,9 +53,9 @@ export async function main() {
   const secretClient = new SecretClient(url, credential);
   // Create a secret
   console.log(
-    `Create a keyvault secret with key: ${secretReference.secretId} and value: "MySecretValue"`
+    `Create a keyvault secret with key: ${secretReference.value.secretId} and value: "MySecretValue"`
   );
-  await secretClient.setSecret(secretReference.secretId, "MySecretValue");
+  await secretClient.setSecret(secretReference.value.secretId, "MySecretValue");
 
   // Set the following environment variable or edit the value on the following line.
   const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
@@ -61,7 +64,7 @@ export async function main() {
   await cleanupSampleValues([secretReference.key], appConfigClient);
 
   console.log(
-    `Add a new secretReference with key: ${secretReference.key} and secretId: ${secretReference.secretId}`
+    `Add a new secretReference with key: ${secretReference.key} and secretId: ${secretReference.value.secretId}`
   );
   await appConfigClient.addConfigurationSetting(secretReference);
 
@@ -70,16 +73,14 @@ export async function main() {
     key: secretReference.key
   });
 
-  if (isSecretReference(getResponse)) {
-    // isSecretReference() check for type inference to narrow down the configuration setting as a SecretReference
-    // setting is a `SecretReference`
-    // Read the secret we created
-    const secret = await secretClient.getSecret(getResponse.secretId);
-    console.log(`Get the secret from keyvault key: ${secret.name}, value: ${secret.value}`);
+  // You can use the `isSecretReference` global method to check if the content type is secretReferenceContentType ("application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8")
+  const parsedSecretReference = parseSecretReference(getResponse);
+  // Read the secret we created
+  const secret = await secretClient.getSecret(parsedSecretReference.value.secretId);
+  console.log(`Get the secret from keyvault key: ${secret.name}, value: ${secret.value}`);
 
-    console.log(`Deleting the secret from keyvault`);
-    await secretClient.beginDeleteSecret(getResponse.secretId);
-  }
+  console.log(`Deleting the secret from keyvault`);
+  await secretClient.beginDeleteSecret(parsedSecretReference.value.secretId);
 
   await cleanupSampleValues([secretReference.key], appConfigClient);
 }

@@ -2,16 +2,16 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/chat/threads/19%3AaSKCYUhRHJ1PkzKMSihIaoGRA0evhS9UmQ51OaNowYU1%40thread.v2/messages",
+   "url": "https://endpoint/chat/threads/19%3A46ODrtCpTL2rGAPEaHRQI75e9Jm_AyfKxyEA6HTTryQ1%40thread.v2/messages",
    "query": {
     "api-version": "2021-04-05-preview6"
    },
-   "requestBody": "{\"content\":\"content\",\"properties\":{\"tags\":\"sometag\"}}",
+   "requestBody": "{\"content\":\"content\",\"metadata\":{\"tags\":\"sometag\"}}",
    "status": 201,
-   "response": "{\"id\":\"1619048929826\"}",
+   "response": "{\"id\":\"1620757481104\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8",
-    "location": "https://endpoint/chat/threads/19%3AaSKCYUhRHJ1PkzKMSihIaoGRA0evhS9UmQ51OaNowYU1@thread.v2/messages/1619048929826"
+    "location": "https://endpoint/chat/threads/19%3A46ODrtCpTL2rGAPEaHRQI75e9Jm_AyfKxyEA6HTTryQ1@thread.v2/messages/1620757481104"
    }
   }
  ],
@@ -19,5 +19,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c96d71509861981db0413ade271e1dbf"
+ "hash": "31e2ec5a73ffe29ac1cc5548c994fab9"
 }

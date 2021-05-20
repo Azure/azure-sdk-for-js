@@ -1,10 +1,18 @@
 # Release History
 
-## 7.0.6 (Unreleased)
+## 7.2.0-beta.2 (Unreleased)
+
+
+## 7.2.0-beta.1 (2021-05-18)
 
 ### New Features
 
 - Enable encoding the body of a message to the 'value' or 'sequence' sections (via AmqpAnnotatedMessage.bodyType). Using this encoding is not required but does allow you to take advantage of native AMQP serialization for supported primitives or sequences.
+
+## 7.1.0 (2021-05-11)
+
+### New Features
+
 - Adds support for passing `NamedKeyCredential` as the credential type to `ServiceBusClient` and `ServiceBusAdminstrationClient`. Also adds support for passing `SASCredential` to `ServiceBusClient`.
   These credential types support rotation via their `update` methods and are an alternative to using the `SharedAccessKeyName/SharedAccessKey` or `SharedAccessSignature` properties in a connection string.
   Resolves [#11891](https://github.com/Azure/azure-sdk-for-js/issues/11891).
@@ -255,7 +263,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`, `getQueuesRuntimeInfo()`, etc. and renamed them to use the `list` verb.
   [PR 9951](https://github.com/Azure/azure-sdk-for-js/pull/9951)
   [PR 10223](https://github.com/Azure/azure-sdk-for-js/pull/10223)
-  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/listingEntities.ts)
+  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/listingEntities.ts)
 - `receiveMessages()`'s optional `maxWaitTimeInMs` parameter now controls how long to wait for the _first_
   message, rather than how long to wait for an entire set of messages. This change allows for a faster return
   of messages to your application.
@@ -483,7 +491,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 
 ## 1.0.0-preview.3 (2019-04-24)
 
-- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/useProxy.js)
+- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/javascript/useProxy.js)
   sample to see how you can use Websockets to run this library with a proxy server
 - Standardized error messages on errors thrown on parameter validations
 - We now have API reference docs published for this library. Checkout our README which has been updated with the relevant API reference links.

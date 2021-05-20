@@ -18,9 +18,25 @@ import {
   isRheaAmqpSection,
   valueSectionTypeCode
 } from "../../../src/dataTransformer";
+import {
+  errorInvalidMessageTypeSingle,
+  errorInvalidMessageTypeSingleOrArray
+} from "../../../src/util/errors";
 const assert = chai.assert;
 
 describe("AMQP message encoding", () => {
+  beforeEach(() => {
+    assert.equal(
+      "Provided value for 'messages' must be of type: ServiceBusMessage, AmqpAnnotatedMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage or AmqpAnnotatedMessage.",
+      errorInvalidMessageTypeSingleOrArray
+    );
+
+    assert.equal(
+      "Provided value for 'message' must be of type: ServiceBusMessage or AmqpAnnotatedMessage.",
+      errorInvalidMessageTypeSingle
+    );
+  });
+
   const exampleReceivedMessage: () => ServiceBusReceivedMessage = () =>
     new ServiceBusMessageImpl(
       ({

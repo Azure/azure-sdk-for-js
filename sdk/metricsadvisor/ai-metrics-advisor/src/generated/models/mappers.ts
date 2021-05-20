@@ -573,6 +573,13 @@ export const AnomalyResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AnomalyResult",
     modelProperties: {
+      dataFeedId: {
+        serializedName: "dataFeedId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
       metricId: {
         serializedName: "metricId",
         readOnly: true,
@@ -700,6 +707,13 @@ export const IncidentResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "IncidentResult",
     modelProperties: {
+      dataFeedId: {
+        serializedName: "dataFeedId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
       metricId: {
         serializedName: "metricId",
         readOnly: true,
