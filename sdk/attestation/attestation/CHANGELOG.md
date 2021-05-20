@@ -2,6 +2,11 @@
 
 ## 1.0.0-beta.3 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
+- Essentially completely rewritten. All existing functionality has been replaced.
 
 ## 1.0.0-beta.2 (2021-01-19)
 
