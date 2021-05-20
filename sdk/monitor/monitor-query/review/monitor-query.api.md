@@ -9,6 +9,9 @@ import { OperationOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
+
+// @public
 export interface BatchRequest {
     requests?: LogQueryRequest[];
 }
@@ -37,6 +40,20 @@ export interface BatchResponseErrorInnerError {
     message?: string;
 }
 
+// @public
+export const CommonDurations: {
+    last7Days: string;
+    last3Days: string;
+    last2Days: string;
+    lastDay: string;
+    lastHour: string;
+    last4Hours: string;
+    last24Hours: string;
+    last48Hours: string;
+    last30Minutes: string;
+    last5Minutes: string;
+};
+
 // @public (undocumented)
 export interface ErrorDetails {
     // (undocumented)
@@ -47,35 +64,11 @@ export interface ErrorDetails {
     target?: string;
 }
 
-// @public
-export const last24Hours = "P1D";
+// @public (undocumented)
+export type GetMetricDefinitionsOptions = MetricDefinitionsListOptionalParams;
 
-// @public
-export const last2Days = "P2D";
-
-// @public
-export const last30Minutes = "PT30M";
-
-// @public
-export const last3Days = "P3D";
-
-// @public
-export const last48Hours = "P2D";
-
-// @public
-export const last4Hours = "PT4H";
-
-// @public
-export const last5Minutes = "PT5M";
-
-// @public
-export const last7Days = "P7D";
-
-// @public
-export const lastDay = "P1D";
-
-// @public
-export const lastHour = "PT1H";
+// @public (undocumented)
+export type GetMetricNamespaces = MetricNamespacesListOptionalParams;
 
 // @public
 export interface LocalizableString {
@@ -136,9 +129,36 @@ export interface Metric {
 }
 
 // @public
+export interface MetricAvailability {
+    retention?: string;
+    timeGrain?: string;
+}
+
+// @public
 export interface MetricColumn {
     name?: string;
     type?: string;
+}
+
+// @public
+export interface MetricDefinition {
+    dimensions?: LocalizableString_2[];
+    id?: string;
+    isDimensionRequired?: boolean;
+    metricAvailabilities?: MetricAvailability[];
+    // Warning: (ae-forgotten-export) The symbol "LocalizableString" needs to be exported by the entry point index.d.ts
+    name?: LocalizableString_2;
+    namespace?: string;
+    primaryAggregationType?: AggregationType;
+    resourceId?: string;
+    supportedAggregationTypes?: AggregationType[];
+    // Warning: (ae-forgotten-export) The symbol "Unit" needs to be exported by the entry point index.d.ts
+    unit?: Unit_2;
+}
+
+// @public
+export interface MetricDefinitionCollection {
+    value: MetricDefinition[];
 }
 
 // @public
@@ -147,10 +167,17 @@ export interface MetricDefinitionsListOptionalParams extends coreHttp.OperationO
 }
 
 // @public
+export type MetricDefinitionsListResponse = MetricDefinitionCollection & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: MetricDefinitionCollection;
+    };
+};
+
+// @public
 export interface MetricNamespace {
     id?: string;
     name?: string;
-    // Warning: (ae-forgotten-export) The symbol "MetricNamespaceName" needs to be exported by the entry point index.d.ts
     properties?: MetricNamespaceName;
     type?: string;
 }
@@ -158,6 +185,11 @@ export interface MetricNamespace {
 // @public
 export interface MetricNamespaceCollection {
     value: MetricNamespace[];
+}
+
+// @public
+export interface MetricNamespaceName {
+    metricNamespaceName?: string;
 }
 
 // @public
@@ -176,17 +208,10 @@ export type MetricNamespacesListResponse = MetricNamespaceCollection & {
 // @public (undocumented)
 export class MetricsClient {
     constructor(tokenCredential: TokenCredential);
-    // Warning: (ae-forgotten-export) The symbol "GetMetricDefinitionsOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "MetricDefinitionsListResponse" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<MetricDefinitionsListResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetMetricNamespaces" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     getMetricNamespaces(resourceUri: string, options?: GetMetricNamespaces): Promise<MetricNamespacesListResponse>;
-    // Warning: (ae-forgotten-export) The symbol "QueryMetricsOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<MetricsListResponse>;
 }
@@ -262,6 +287,9 @@ export interface QueryLogsOptions extends OperationOptions {
 export type QueryLogsResult = QueryResults & {
     statistics?: QueryStatistics;
 };
+
+// @public (undocumented)
+export type QueryMetricsOptions = MetricsListOptionalParams;
 
 // @public
 export interface QueryResults {

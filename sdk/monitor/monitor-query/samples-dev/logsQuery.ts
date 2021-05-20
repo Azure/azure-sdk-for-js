@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { last5Minutes, LogsClient, Table } from "@azure/monitor-query";
+import { CommonDurations, LogsClient, Table } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -29,7 +29,7 @@ export async function main() {
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
     // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
-    timespan: last5Minutes,
+    timespan: CommonDurations.last5Minutes,
 
     // optionally enable returning additional statistics about the query's execution.
     // (by default this is off)

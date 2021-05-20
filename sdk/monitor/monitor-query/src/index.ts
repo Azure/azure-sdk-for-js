@@ -12,22 +12,13 @@ export {
   QueryLogsResult
 } from "./models/logsModels";
 export { MetricsClient } from "./metricsClient";
-
 export {
-  // common day increments
-  last7Days,
-  last3Days,
-  last2Days,
-  lastDay,
-  // common hour increments
-  lastHour,
-  last4Hours,
-  last24Hours,
-  last48Hours,
-  // common minute increments
-  last30Minutes,
-  last5Minutes
-} from "./models/constants";
+  GetMetricDefinitionsOptions,
+  QueryMetricsOptions,
+  GetMetricNamespaces
+} from "./models/metricsModels";
+
+export { CommonDurations } from "./models/constants";
 
 //
 // LogsClient: generated exports
@@ -70,11 +61,18 @@ export {
   Unit
 } from "./generated/metrics/src";
 
-export { MetricDefinitionsListOptionalParams } from "./generated/metricsdefinitions/src";
 export {
-  // TODO: is this type needed? It literally only contains an array. Will it ever have additional attributes?
+  AggregationType,
+  MetricAvailability,
+  MetricDefinition,
+  MetricDefinitionCollection,
+  MetricDefinitionsListOptionalParams,
+  MetricDefinitionsListResponse
+} from "./generated/metricsdefinitions/src";
+export {
   MetricNamespace,
   MetricNamespaceCollection,
+  MetricNamespaceName,
   MetricNamespacesListOptionalParams,
   MetricNamespacesListResponse
 } from "./generated/metricsnamespaces/src";

@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { BatchRequest, last30Minutes, LogsClient, QueryLogsResult, Table } from "../../src";
+import { BatchRequest, CommonDurations, LogsClient, QueryLogsResult, Table } from "../../src";
 import { runWithTelemetry } from "../setupOpenTelemetry";
 
 import { createTestClientSecretCredential, getMonitorWorkspaceId } from "./shared/testShared";
@@ -122,7 +122,7 @@ describe("LogsClient live tests", function() {
   }): Promise<QueryLogsResult> {
     for (let i = 0; i < args.maxTries; ++i) {
       const result = await client.queryLogs(monitorWorkspaceId, args.query, {
-        timespan: last30Minutes
+        timespan: CommonDurations.last30Minutes
       });
 
       const numRows = result.tables?.[0].rows?.length;
