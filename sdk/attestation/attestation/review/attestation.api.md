@@ -11,6 +11,7 @@ export class Attestation {
     constructor(client: AttestationClient);
     attestOpenEnclave(request: AttestOpenEnclaveRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestOpenEnclaveResponse>;
     attestSgxEnclave(request: AttestSgxEnclaveRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestSgxEnclaveResponse>;
+    // (undocumented)
     attestTpm(request: TpmAttestationRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestTpmResponse>;
     }
 
@@ -48,6 +49,12 @@ export class AttestationClient extends AttestationClientContext {
     constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: AttestationClientOptionalParams);
     // (undocumented)
     attestation: Attestation;
+    // Warning: (ae-forgotten-export) The symbol "AzureAttestationRestClient" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    BaseClient(): AzureAttestationRestClient;
+    // (undocumented)
+    instanceUrl: string;
     // (undocumented)
     metadataConfiguration: MetadataConfiguration;
     // (undocumented)
@@ -61,10 +68,10 @@ export class AttestationClient extends AttestationClientContext {
 // @public (undocumented)
 export class AttestationClientContext extends coreHttp.ServiceClient {
     constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: AttestationClientOptionalParams);
+    // Warning: (ae-forgotten-export) The symbol "AzureAttestationRestClientContext" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    instanceUrl: string;
+    clientContext: AzureAttestationRestClientContext;
 }
 
 // @public

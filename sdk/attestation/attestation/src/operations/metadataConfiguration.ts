@@ -7,8 +7,6 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
 import { AttestationClient } from "../attestationClient";
 import { MetadataConfigurationGetResponse } from "../models";
 
@@ -33,31 +31,6 @@ export class MetadataConfiguration {
   get(
     options?: coreHttp.OperationOptions
   ): Promise<MetadataConfigurationGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<MetadataConfigurationGetResponse>;
+    return this.client.metadataConfiguration.get(options);
   }
 }
-// Operation Specifications
-
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getOperationSpec: coreHttp.OperationSpec = {
-  path: "/.well-known/openid-configuration",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: { type: { name: "any" } }
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [Parameters.instanceUrl],
-  headerParameters: [Parameters.accept],
-  serializer
-};

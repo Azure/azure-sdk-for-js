@@ -15,6 +15,7 @@ import {
   MetadataConfiguration
 } from "./operations";
 import { AttestationClientContext } from "./attestationClientContext";
+import { AzureAttestationRestClient } from "./_generated/azureAttestationRestClient"
 import { AttestationClientOptionalParams } from "./models";
 
 export class AttestationClient extends AttestationClientContext {
@@ -30,12 +31,25 @@ export class AttestationClient extends AttestationClientContext {
     options?: AttestationClientOptionalParams
   ) {
     super(credentials, instanceUrl, options);
+
+    this._client = new AzureAttestationRestClient(credentials, instanceUrl, options);
+    this.instanceUrl = instanceUrl;
+
+    // Legacy compatibility classes functions which will be removed eventually.
     this.policy = new Policy(this);
     this.policyCertificates = new PolicyCertificates(this);
     this.attestation = new Attestation(this);
     this.signingCertificates = new SigningCertificates(this);
     this.metadataConfiguration = new MetadataConfiguration(this);
   }
+
+  public BaseClient() : AzureAttestationRestClient
+  {
+    return this._client;
+  }
+  private _client: AzureAttestationRestClient;
+
+  instanceUrl: string;
 
   policy: Policy;
   policyCertificates: PolicyCertificates;

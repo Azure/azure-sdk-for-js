@@ -7,16 +7,14 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
 import { AttestationClient } from "../attestationClient";
 import {
   AttestOpenEnclaveRequest,
   AttestationAttestOpenEnclaveResponse,
   AttestSgxEnclaveRequest,
   AttestationAttestSgxEnclaveResponse,
-  TpmAttestationRequest,
-  AttestationAttestTpmResponse
+  AttestationAttestTpmResponse,
+  TpmAttestationRequest
 } from "../models";
 
 /**
@@ -43,14 +41,7 @@ export class Attestation {
     request: AttestOpenEnclaveRequest,
     options?: coreHttp.OperationOptions
   ): Promise<AttestationAttestOpenEnclaveResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      attestOpenEnclaveOperationSpec
-    ) as Promise<AttestationAttestOpenEnclaveResponse>;
+    return this.client.BaseClient().attestation.attestOpenEnclave(request, options);
   }
 
   /**
@@ -63,91 +54,13 @@ export class Attestation {
     request: AttestSgxEnclaveRequest,
     options?: coreHttp.OperationOptions
   ): Promise<AttestationAttestSgxEnclaveResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      attestSgxEnclaveOperationSpec
-    ) as Promise<AttestationAttestSgxEnclaveResponse>;
+    return this.client.BaseClient().attestation.attestSgxEnclave(request, options);
   }
 
-  /**
-   * Processes attestation evidence from a VBS enclave, producing an attestation result. The attestation
-   * result produced is dependent upon the attestation policy.
-   * @param request Request object
-   * @param options The options parameters.
-   */
   attestTpm(
     request: TpmAttestationRequest,
     options?: coreHttp.OperationOptions
   ): Promise<AttestationAttestTpmResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      attestTpmOperationSpec
-    ) as Promise<AttestationAttestTpmResponse>;
+    return this.client.BaseClient().attestation.attestTpm(request, options);
   }
 }
-// Operation Specifications
-
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const attestOpenEnclaveOperationSpec: coreHttp.OperationSpec = {
-  path: "/attest/OpenEnclave",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AttestationResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.instanceUrl],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
-  mediaType: "json",
-  serializer
-};
-const attestSgxEnclaveOperationSpec: coreHttp.OperationSpec = {
-  path: "/attest/SgxEnclave",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AttestationResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.request1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.instanceUrl],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
-  mediaType: "json",
-  serializer
-};
-const attestTpmOperationSpec: coreHttp.OperationSpec = {
-  path: "/attest/Tpm",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TpmAttestationResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.request2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.instanceUrl],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
-  mediaType: "json",
-  serializer
-};

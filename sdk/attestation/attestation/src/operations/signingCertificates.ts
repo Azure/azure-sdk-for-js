@@ -7,8 +7,6 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
 import { AttestationClient } from "../attestationClient";
 import { SigningCertificatesGetResponse } from "../models";
 
@@ -33,31 +31,6 @@ export class SigningCertificates {
   get(
     options?: coreHttp.OperationOptions
   ): Promise<SigningCertificatesGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<SigningCertificatesGetResponse>;
+    return this.client.BaseClient().signingCertificates.get(options);
   }
-}
-// Operation Specifications
-
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getOperationSpec: coreHttp.OperationSpec = {
-  path: "/certs",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JsonWebKeySet
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [Parameters.instanceUrl],
-  headerParameters: [Parameters.accept2],
-  serializer
 };

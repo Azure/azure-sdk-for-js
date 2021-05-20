@@ -9,12 +9,10 @@
 import * as coreHttp from "@azure/core-http";
 import { AttestationClientOptionalParams } from "./models";
 
-const packageName = "@azure/attestation";
-const packageVersion = "1.0.0-beta.2";
+import {AzureAttestationRestClientContext} from "./_generated/azureAttestationRestClientContext"
 
 export class AttestationClientContext extends coreHttp.ServiceClient {
-  instanceUrl: string;
-  apiVersion: string;
+  clientContext : AzureAttestationRestClientContext;
 
   /**
    * Initializes a new instance of the AttestationClientContext class.
@@ -27,37 +25,15 @@ export class AttestationClientContext extends coreHttp.ServiceClient {
     instanceUrl: string,
     options?: AttestationClientOptionalParams
   ) {
-    if (credentials === undefined) {
-      throw new Error("'credentials' cannot be null");
-    }
-    if (instanceUrl === undefined) {
-      throw new Error("'instanceUrl' cannot be null");
-    }
+
+    super(credentials, options);
 
     // Initializing default values for options
     if (!options) {
       options = {};
     }
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    this.clientContext = new AzureAttestationRestClientContext(credentials, instanceUrl, options)
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://attest.azure.net/.default"];
-    }
-
-    super(credentials, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "{instanceUrl}";
-
-    // Parameter assignments
-    this.instanceUrl = instanceUrl;
-
-    // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2020-10-01";
   }
 }
