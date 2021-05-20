@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.0-beta.3 (Unreleased)
+
+
 ## 1.1.0-beta.2 (2021-05-20)
 
 - Fixed an issue to set the `Content-Length` header correctly when using multibyte characters. [PR 15314](https://github.com/Azure/azure-sdk-for-js/pull/15314)
