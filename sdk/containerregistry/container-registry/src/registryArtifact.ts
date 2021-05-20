@@ -74,7 +74,7 @@ export interface ListTagsOptions extends OperationOptions {
 }
 
 /**
- * The helper used to interact with the Container Registry service.
+ * The helper used to interact with the Container Registry artifact.
  */
 export interface RegistryArtifact {
   /**
@@ -86,9 +86,9 @@ export interface RegistryArtifact {
    */
   readonly repositoryName: string;
   /**
-   * Registry name.
+   * digest of this artifact.
    */
-  readonly tagOrDigest: string;
+  getDigest(): Promise<string>;
 
   /**
    * fully qualified name of the artifact.
@@ -165,13 +165,14 @@ export class RegistryArtifactImpl {
    * Repository name.
    */
   public readonly repositoryName: string;
-  /**
-   * Registry name.
-   */
-  public readonly tagOrDigest: string;
 
+  /**
+   * Name of the form 'registry-login-server/repository-name@digest' or
+   *   'registry-login-server/repository-name:tag'
+   */
   public readonly fullyQualifiedName: string;
 
+  private digest?: string;
   /**
    * Creates an instance of a RegistryArtifact.
    * @param registryEndpoint - the URL to the Container Registry endpoint
@@ -182,18 +183,38 @@ export class RegistryArtifactImpl {
   constructor(
     registryEndpoint: string,
     repositoryName: string,
-    tagOrDigest: string,
+    private tagOrDigest: string,
     client: GeneratedClient
   ) {
     this.registryEndpoint = registryEndpoint;
     this.repositoryName = repositoryName;
-    this.tagOrDigest = tagOrDigest;
+
     const parsedUrl = new URL(registryEndpoint);
-    this.fullyQualifiedName = `${parsedUrl.hostname}/${repositoryName}${
-      isDigest(tagOrDigest) ? "@" : ":"
-    }${tagOrDigest}`;
+    if (isDigest(tagOrDigest)) {
+      this.digest = tagOrDigest;
+      this.fullyQualifiedName = `${parsedUrl.hostname}/${repositoryName}@${this.digest}`;
+    } else {
+      this.fullyQualifiedName = `${parsedUrl.hostname}/${repositoryName}:${tagOrDigest}`;
+    }
 
     this.client = client;
+  }
+
+  /**
+   * digest of this artifact.
+   */
+  async getDigest(): Promise<string> {
+    if (this.digest) {
+      return this.digest;
+    }
+
+    if (!isDigest(this.tagOrDigest)) {
+      this.digest = (await this.getTag(this.tagOrDigest)).digest;
+    } else {
+      this.digest = this.tagOrDigest;
+    }
+
+    return this.digest;
   }
 
   /**
@@ -206,7 +227,7 @@ export class RegistryArtifactImpl {
     try {
       await this.client.containerRegistry.deleteManifest(
         this.repositoryName,
-        this.tagOrDigest,
+        await this.getDigest(),
         updatedOptions
       );
     } catch (e) {
@@ -244,15 +265,10 @@ export class RegistryArtifactImpl {
   ): Promise<ArtifactManifestProperties> {
     const { span, updatedOptions } = createSpan("RegistryArtifact-getManifestProperties", options);
 
-    let digest: string = this.tagOrDigest;
-    if (!isDigest(this.tagOrDigest)) {
-      digest = (await this.getTag(this.tagOrDigest)).digest;
-    }
-
     try {
       const result = await this.client.containerRegistry.getManifestProperties(
         this.repositoryName,
-        digest,
+        await this.getDigest(),
         updatedOptions
       );
       return toArtifactManifestProperties(result, this.repositoryName, result.registryLoginServer!);
@@ -281,14 +297,10 @@ export class RegistryArtifactImpl {
       }
     });
 
-    let digest: string = this.tagOrDigest;
-    if (!isDigest(this.tagOrDigest)) {
-      digest = (await this.getTag(this.tagOrDigest)).digest;
-    }
     try {
       const result = await this.client.containerRegistry.updateManifestProperties(
         this.repositoryName,
-        digest,
+        await this.getDigest(),
         updatedOptions
       );
       return toArtifactManifestProperties(result, this.repositoryName, result.registryLoginServer!);

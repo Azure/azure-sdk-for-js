@@ -193,12 +193,12 @@ export interface RegistryArtifact {
     delete(options?: DeleteArtifactOptions): Promise<void>;
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
     readonly fullyQualifiedName: string;
+    getDigest(): Promise<string>;
     getManifestProperties(options?: GetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
     getTag(tag: string, options?: GetTagOptions): Promise<ArtifactTagProperties>;
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
     readonly registryEndpoint: string;
     readonly repositoryName: string;
-    readonly tagOrDigest: string;
     updateManifestProperties(options?: UpdateManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
     updateTagProperties(tag: string, options: UpdateTagPropertiesOptions): Promise<ArtifactTagProperties>;
 }
