@@ -82,6 +82,14 @@
     ]
   },
   "//sampleConfiguration": {
+    "extraFiles": {
+      "./samples-browser": [
+        "browser"
+      ],
+      "./samples-express": [
+        "express"
+      ]
+    },
     "skip": [
       "iothubConnectionString.js",
       "useWithIotHub.js",

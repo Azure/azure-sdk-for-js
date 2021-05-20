@@ -3,7 +3,6 @@
 
 /**
  * @summary Demonstrates how to instantiate EventHubsClient using AAD token credentials obtained from using service principal secrets.
- *
  */
 
 /*

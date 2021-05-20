@@ -3,7 +3,6 @@
 
 /**
  * @summary Demonstrates how to send events to an Event Hub.
- *
  */
 
 const { EventHubProducerClient } = require("@azure/event-hubs");

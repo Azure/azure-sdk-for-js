@@ -3,7 +3,6 @@
 
 /**
  * @summary Demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hub.
- *
  */
 
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
