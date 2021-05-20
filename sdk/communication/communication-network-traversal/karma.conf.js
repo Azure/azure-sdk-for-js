@@ -59,7 +59,6 @@ module.exports = function(config) {
     envPreprocessor: [
       "TEST_MODE",
       "COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING",
-      "COMMUNICATION_ENDPOINT",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID"
