@@ -78,20 +78,20 @@ npm install --save ${pkgName} @azure/identity
 \`\`\`
 
 > **Note**: You may have used either \`@azure/ms-rest-nodeauth\` or \`@azure/ms-rest-browserauth\` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
-We strongly encourage you to upgrade to \`@azure/identity\` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
+If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to \`@azure/identity\` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
 
 ### How to use
 
 - If you are writing a client side browser application, 
-  - See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
-  - Note down the client Id from the previous step and use it in the browser sample below.
+  - Follow the instructions in the section on Authenticating client side browser applications in [Azure Identity examples](https://aka.ms/azsdk/js/identity/examples) to register your application in the Microsoft identity platform and set the right permissions.
+  - Copy the client ID and tenant ID from the Overview section of your app registration in Azure portal and use it in the browser sample below.
 - If you are writing a server side application, 
     - [Select a credential from \`@azure/identity\` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
     - Complete the set up steps required by the credential if any.
     - Use the credential you picked in the place of \`DefaultAzureCredential\` in the Node.js sample below.
-- Pass the credential and the Azure subscription id to instantiate the client. 
-- Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
 
+In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
+Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
 
 #### nodejs - Authentication, client creation, and ${operationHeader} as an example written in JavaScript.
 
