@@ -259,7 +259,7 @@ function withDeviceCodeCredential() {
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `UsernamePasswordCredential`. The user must **not** have Multi-factor auth turned on.
 
-Apart from user name and password, this credential requires you to know the tenant Id and client Id. To get the client Id, first [register your application][quickstart-register-app]
+Apart from user name and password, this credential requires you to know the tenant ID and client ID. To get the client ID, first [register your application][quickstart-register-app]
 
 ```ts
 /**
@@ -465,9 +465,9 @@ Name Resource-Manager-Url ActiveDirectory-Authority
 
 The ActiveDirectory Authority in the output will be your Azure Authority Host
 
-### Determine the Tenant Id for Azure Stack
+### Determine the Tenant ID for Azure Stack
 
-If the Identity provider of your Azure Stack is Azure Active Directory (Azure AD) then contact your Azure Stack Administrator to find out your tenant Id.
+If the Identity provider of your Azure Stack is Azure Active Directory (Azure AD) then contact your Azure Stack Administrator to find out your tenant ID.
 else, if the Identity provider of your Azure Stack is Active Directory Federation Services (AD FS) then your tenant id is `adfs`.
 
 ### Authentication example
