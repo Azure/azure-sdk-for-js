@@ -42,7 +42,7 @@ onVersions({ minVer: "7.2" }).describe(
     it("can create an OCT key with options", async function(this: Context) {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const options: CreateOctKeyOptions = {
-        hsm: true
+        hardwareProtected: true
       };
       const result = await hsmClient.createOctKey(keyName, options);
       assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");

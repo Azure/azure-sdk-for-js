@@ -32,7 +32,7 @@ async function main() {
   console.log("key: ", result);
 
   // Or using specialized key creation methods
-  const ecResult = await client.createEcKey(ecKeyName, { curve: "P-256" });
+  const ecResult = await client.createEcKey(ecKeyName, { curveName: "P-256" });
   const rsaResult = await client.createRsaKey(rsaKeyName, { keySize: 2048 });
   console.log("Elliptic curve key: ", ecResult);
   console.log("RSA Key: ", rsaResult);

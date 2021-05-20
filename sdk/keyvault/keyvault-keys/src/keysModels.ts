@@ -299,11 +299,11 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    * Elliptic curve name. For valid values, see KeyCurveName.
    * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  curve?: KeyCurveName;
+  curveName?: KeyCurveName;
   /**
    * Whether to import as a hardware key (HSM) or software key.
    */
-  hsm?: boolean;
+  hardwareProtected?: boolean;
 }
 
 /**

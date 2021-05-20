@@ -141,7 +141,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can create an EC key with curve", async function(this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const options: CreateEcKeyOptions = {
-      curve: "P-256"
+      curveName: "P-256"
     };
     const result = await client.createEcKey(keyName, options);
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");

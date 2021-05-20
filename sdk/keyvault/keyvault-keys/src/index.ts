@@ -309,7 +309,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey> {
-    const keyType = options?.hsm ? KnownJsonWebKeyType.ECHSM : KnownJsonWebKeyType.EC;
+    const keyType = options?.hardwareProtected ? KnownJsonWebKeyType.ECHSM : KnownJsonWebKeyType.EC;
     return this.createKey(name, keyType, options);
   }
 
@@ -328,7 +328,9 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey> {
-    const keyType = options?.hsm ? KnownJsonWebKeyType.RSAHSM : KnownJsonWebKeyType.RSA;
+    const keyType = options?.hardwareProtected
+      ? KnownJsonWebKeyType.RSAHSM
+      : KnownJsonWebKeyType.RSA;
     return this.createKey(name, keyType, options);
   }
 
@@ -347,7 +349,9 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public async createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey> {
-    const keyType = options?.hsm ? KnownJsonWebKeyType.OctHSM : KnownJsonWebKeyType.Oct;
+    const keyType = options?.hardwareProtected
+      ? KnownJsonWebKeyType.OctHSM
+      : KnownJsonWebKeyType.Oct;
     return this.createKey(name, keyType, options);
   }
 
