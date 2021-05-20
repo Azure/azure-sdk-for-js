@@ -14,7 +14,7 @@ import {
 export { KeyCurveName, KnownKeyCurveNames, SignatureAlgorithm, KnownSignatureAlgorithms };
 
 /**
- * Defines values for JsonWebKeyEncryptionAlgorithm. \
+ * Defines values for JsonWebKeyEncryptionAlgorithm.
  * {@link KnownEncryptionAlgorithms} can be used interchangeably with JsonWebKeyEncryptionAlgorithm,
  *  this enum contains the known values that the service supports.
  */
