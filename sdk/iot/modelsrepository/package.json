@@ -133,6 +133,7 @@
       "azure",
       "azure-iot-modelsrepository"
     ],
-    "requiredResources": {}
+    "requiredResources": {},
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/"
   }
 }
