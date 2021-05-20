@@ -2,7 +2,7 @@
 // Licensed under the MIT Licence.
 
 /**
- *   @summary Use AAD token credentials when sending a SMS message.
+ * @summary Use AAD token credentials when sending a SMS message.
  */
 
 import { parseConnectionString } from "@azure/communication-common";
