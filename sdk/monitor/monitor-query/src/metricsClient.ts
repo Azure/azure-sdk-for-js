@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
 import {
+  KnownApiVersion201801,
   MetricsListResponse,
   MonitorManagementClient as GeneratedMetricsClient
 } from "./generated/metrics/src";
@@ -10,6 +11,7 @@ import {
   MonitorManagementClient as GeneratedMetricsDefinitionsClient
 } from "./generated/metricsdefinitions/src";
 import {
+  KnownApiVersion20171201Preview,
   MetricNamespacesListResponse,
   MonitorManagementClient as GeneratedMetricsNamespacesClient
 } from "./generated/metricsnamespaces/src";
@@ -25,17 +27,21 @@ export class MetricsClient {
   private _namespacesClient: GeneratedMetricsNamespacesClient;
 
   constructor(tokenCredential: TokenCredential) {
-    this._metricsClient = new GeneratedMetricsClient(tokenCredential, "2018-01-01", {});
+    this._metricsClient = new GeneratedMetricsClient(
+      tokenCredential,
+      KnownApiVersion201801.TwoThousandEighteen0101,
+      {}
+    );
 
     this._definitionsClient = new GeneratedMetricsDefinitionsClient(
       tokenCredential,
-      "2018-01-01",
+      KnownApiVersion201801.TwoThousandEighteen0101,
       {}
     );
 
     this._namespacesClient = new GeneratedMetricsNamespacesClient(
       tokenCredential,
-      "2017-12-01-preview",
+      KnownApiVersion20171201Preview.TwoThousandSeventeen1201Preview,
       {}
     );
   }
