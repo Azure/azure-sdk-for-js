@@ -14,7 +14,6 @@ import { ClientOptions } from "@azure-rest/core-client";
 
 const replaceableVariables: { [k: string]: string } = {
   FARMBEATS_ENDPOINT: "https://endpoint",
-  FARMBEATS_AUTHORITY: "https://login.net",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
@@ -41,8 +40,7 @@ export function createClient(options?: ClientOptions): FarmBeatsRestClient {
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET,
-    { authorityHost: env.FARMBEATS_AUTHORITY }
+    env.AZURE_CLIENT_SECRET
   );
   return FarmBeats(env.FARMBEATS_ENDPOINT, credential, options);
 }

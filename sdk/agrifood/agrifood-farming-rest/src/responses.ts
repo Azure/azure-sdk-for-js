@@ -842,17 +842,6 @@ export interface OAuthTokensListdefaultResponse extends HttpResponse {
   body: ErrorResponse;
 }
 
-/** Deletes OAuth Token for given oauth provider Id and farmer Id. */
-export interface OAuthTokensDelete204Response extends HttpResponse {
-  status: "204";
-}
-
-/** Deletes OAuth Token for given oauth provider Id and farmer Id. */
-export interface OAuthTokensDeletedefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponse;
-}
-
 /** Returns Connection link needed in the OAuth flow. */
 export interface OAuthTokensGetOAuthConnectionLink200Response extends HttpResponse {
   status: "200";
@@ -861,6 +850,30 @@ export interface OAuthTokensGetOAuthConnectionLink200Response extends HttpRespon
 
 /** Returns Connection link needed in the OAuth flow. */
 export interface OAuthTokensGetOAuthConnectionLinkdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponse;
+}
+
+/** Get cascade delete job details for OAuth tokens for specified job ID. */
+export interface OAuthTokensGetCascadeDeleteJobDetails200Response extends HttpResponse {
+  status: "200";
+  body: CascadeDeleteJob;
+}
+
+/** Get cascade delete job details for OAuth tokens for specified job ID. */
+export interface OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponse;
+}
+
+/** Create a cascade delete job for OAuth tokens. */
+export interface OAuthTokensCreateCascadeDeleteJob202Response extends HttpResponse {
+  status: "202";
+  body: CascadeDeleteJob;
+}
+
+/** Create a cascade delete job for OAuth tokens. */
+export interface OAuthTokensCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponse;
 }

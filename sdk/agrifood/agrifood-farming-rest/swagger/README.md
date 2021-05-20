@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/dev-agfood-Microsoft.AgFoodPlatform-2021-03-31-preview/specification/agfood/data-plane/Microsoft.AgFoodPlatform/preview/2021-03-31-preview/agfood.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/agfood/data-plane/Microsoft.AgFoodPlatform/preview/2021-03-31-preview/agfood.json
 package-version: 1.0.0-beta.1
 rest-level-client: true
 add-credentials: true

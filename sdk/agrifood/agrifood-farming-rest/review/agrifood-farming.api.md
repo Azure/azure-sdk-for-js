@@ -769,7 +769,7 @@ export type BoundaryPropertiesDictionary = Record<string, any>;
 export interface CascadeDeleteJob {
     createdDateTime?: Date;
     description?: string;
-    durationInSeconds?: string;
+    durationInSeconds?: number;
     endTime?: Date;
     farmerId: string;
     id?: string;
@@ -1377,7 +1377,7 @@ export interface FarmOperationDataIngestionJob {
     authProviderId: string;
     createdDateTime?: Date;
     description?: string;
-    durationInSeconds?: string;
+    durationInSeconds?: number;
     endTime?: Date;
     farmerId: string;
     id?: string;
@@ -2237,7 +2237,7 @@ export type ImageProcessingGetRasterizeJobParameters = RequestParameters;
 export interface ImageProcessingRasterizeJob {
     createdDateTime?: Date;
     description?: string;
-    durationInSeconds?: string;
+    durationInSeconds?: number;
     endTime?: Date;
     farmerId: string;
     id?: string;
@@ -2461,18 +2461,21 @@ export interface OAuthTokenListResponse {
 }
 
 // @public (undocumented)
-export interface OAuthTokensDelete {
-    post(options?: OAuthTokensDeleteParameters): Promise<OAuthTokensDelete204Response | OAuthTokensDeletedefaultResponse>;
+export interface OAuthTokensCreateCascadeDeleteJob {
+    get(options?: OAuthTokensGetCascadeDeleteJobDetailsParameters): Promise<OAuthTokensGetCascadeDeleteJobDetails200Response | OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options?: OAuthTokensCreateCascadeDeleteJobParameters): Promise<OAuthTokensCreateCascadeDeleteJob202Response | OAuthTokensCreateCascadeDeleteJobdefaultResponse>;
 }
 
 // @public
-export interface OAuthTokensDelete204Response extends HttpResponse {
+export interface OAuthTokensCreateCascadeDeleteJob202Response extends HttpResponse {
     // (undocumented)
-    status: "204";
+    body: CascadeDeleteJob;
+    // (undocumented)
+    status: "202";
 }
 
 // @public
-export interface OAuthTokensDeletedefaultResponse extends HttpResponse {
+export interface OAuthTokensCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
@@ -2480,19 +2483,38 @@ export interface OAuthTokensDeletedefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type OAuthTokensDeleteParameters = RequestParameters & OAuthTokensDeleteQueryParam;
+export type OAuthTokensCreateCascadeDeleteJobParameters = RequestParameters & OAuthTokensCreateCascadeDeleteJobQueryParam;
 
 // @public (undocumented)
-export interface OAuthTokensDeleteQueryParam {
+export interface OAuthTokensCreateCascadeDeleteJobQueryParam {
     // (undocumented)
-    queryParameters: OAuthTokensDeleteQueryParamProperties;
+    queryParameters: OAuthTokensCreateCascadeDeleteJobQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface OAuthTokensDeleteQueryParamProperties {
+export interface OAuthTokensCreateCascadeDeleteJobQueryParamProperties {
     farmerId: string;
     oauthProviderId: string;
 }
+
+// @public
+export interface OAuthTokensGetCascadeDeleteJobDetails200Response extends HttpResponse {
+    // (undocumented)
+    body: CascadeDeleteJob;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type OAuthTokensGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface OAuthTokensGetOAuthConnectionLink {
@@ -2885,8 +2907,8 @@ export interface Routes {
     (path: "/oauth/providers"): OAuthProvidersList;
     (path: "/oauth/providers/{oauthProviderId}", oauthProviderId: string): OAuthProvidersDelete;
     (path: "/oauth/tokens"): OAuthTokensList;
-    (path: "/oauth/tokens/:remove"): OAuthTokensDelete;
     (path: "/oauth/tokens/:connect"): OAuthTokensGetOAuthConnectionLink;
+    (path: "/oauth/tokens/remove/{jobId}", jobId: string): OAuthTokensCreateCascadeDeleteJob;
     (path: "/farmers/{farmerId}/planting-data", farmerId: string): PlantingDataListByFarmerId;
     (path: "/planting-data"): PlantingDataList;
     (path: "/farmers/{farmerId}/planting-data/{plantingDataId}", farmerId: string, plantingDataId: string): PlantingDataDelete;
@@ -2920,7 +2942,7 @@ export interface SatelliteDataIngestionJob {
     createdDateTime?: Date;
     data?: SatelliteData;
     description?: string;
-    durationInSeconds?: string;
+    durationInSeconds?: number;
     endDateTime: Date;
     endTime?: Date;
     farmerId: string;
@@ -3873,7 +3895,7 @@ export interface WeatherDataDeleteJob {
     boundaryId: string;
     createdDateTime?: Date;
     description?: string;
-    durationInSeconds?: string;
+    durationInSeconds?: number;
     endDateTime?: Date;
     endTime?: Date;
     extensionId: string;
@@ -3898,7 +3920,7 @@ export interface WeatherDataIngestionJob {
     boundaryId: string;
     createdDateTime?: Date;
     description?: string;
-    durationInSeconds?: string;
+    durationInSeconds?: number;
     endTime?: Date;
     extensionApiInput: WeatherDataIngestionJobExtensionApiInputDictionary;
     extensionApiName: string;

@@ -65,8 +65,9 @@ import {
   OAuthProvidersCreateOrUpdateParameters,
   OAuthProvidersDeleteParameters,
   OAuthTokensListParameters,
-  OAuthTokensDeleteParameters,
   OAuthTokensGetOAuthConnectionLinkParameters,
+  OAuthTokensGetCascadeDeleteJobDetailsParameters,
+  OAuthTokensCreateCascadeDeleteJobParameters,
   PlantingDataListByFarmerIdParameters,
   PlantingDataListParameters,
   PlantingDataGetParameters,
@@ -234,10 +235,12 @@ import {
   OAuthProvidersDeletedefaultResponse,
   OAuthTokensList200Response,
   OAuthTokensListdefaultResponse,
-  OAuthTokensDelete204Response,
-  OAuthTokensDeletedefaultResponse,
   OAuthTokensGetOAuthConnectionLink200Response,
   OAuthTokensGetOAuthConnectionLinkdefaultResponse,
+  OAuthTokensGetCascadeDeleteJobDetails200Response,
+  OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse,
+  OAuthTokensCreateCascadeDeleteJob202Response,
+  OAuthTokensCreateCascadeDeleteJobdefaultResponse,
   PlantingDataListByFarmerId200Response,
   PlantingDataListByFarmerIddefaultResponse,
   PlantingDataList200Response,
@@ -712,19 +715,28 @@ export interface OAuthTokensList {
   ): Promise<OAuthTokensList200Response | OAuthTokensListdefaultResponse>;
 }
 
-export interface OAuthTokensDelete {
-  /** Deletes OAuth Token for given oauth provider Id and farmer Id. */
-  post(
-    options?: OAuthTokensDeleteParameters
-  ): Promise<OAuthTokensDelete204Response | OAuthTokensDeletedefaultResponse>;
-}
-
 export interface OAuthTokensGetOAuthConnectionLink {
   /** Returns Connection link needed in the OAuth flow. */
   post(
     options?: OAuthTokensGetOAuthConnectionLinkParameters
   ): Promise<
     OAuthTokensGetOAuthConnectionLink200Response | OAuthTokensGetOAuthConnectionLinkdefaultResponse
+  >;
+}
+
+export interface OAuthTokensCreateCascadeDeleteJob {
+  /** Get cascade delete job details for OAuth tokens for specified job ID. */
+  get(
+    options?: OAuthTokensGetCascadeDeleteJobDetailsParameters
+  ): Promise<
+    | OAuthTokensGetCascadeDeleteJobDetails200Response
+    | OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse
+  >;
+  /** Create a cascade delete job for OAuth tokens. */
+  put(
+    options?: OAuthTokensCreateCascadeDeleteJobParameters
+  ): Promise<
+    OAuthTokensCreateCascadeDeleteJob202Response | OAuthTokensCreateCascadeDeleteJobdefaultResponse
   >;
 }
 
@@ -1034,10 +1046,10 @@ export interface Routes {
   (path: "/oauth/providers/{oauthProviderId}", oauthProviderId: string): OAuthProvidersDelete;
   /** Resource for '/oauth/tokens' has methods for the following verbs: get */
   (path: "/oauth/tokens"): OAuthTokensList;
-  /** Resource for '/oauth/tokens/:remove' has methods for the following verbs: post */
-  (path: "/oauth/tokens/:remove"): OAuthTokensDelete;
   /** Resource for '/oauth/tokens/:connect' has methods for the following verbs: post */
   (path: "/oauth/tokens/:connect"): OAuthTokensGetOAuthConnectionLink;
+  /** Resource for '/oauth/tokens/remove/\{jobId\}' has methods for the following verbs: get, put */
+  (path: "/oauth/tokens/remove/{jobId}", jobId: string): OAuthTokensCreateCascadeDeleteJob;
   /** Resource for '/farmers/\{farmerId\}/planting-data' has methods for the following verbs: get */
   (path: "/farmers/{farmerId}/planting-data", farmerId: string): PlantingDataListByFarmerId;
   /** Resource for '/planting-data' has methods for the following verbs: get */

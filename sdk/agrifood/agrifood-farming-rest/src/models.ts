@@ -82,7 +82,7 @@ export interface Measure {
 export interface ErrorResponse {
   /** An error from the Azure AgPlatform service. */
   error?: Error;
-  /** Unique trace Id. */
+  /** Unique trace ID. */
   traceId?: string;
 }
 
@@ -164,9 +164,9 @@ export interface BoundaryListResponse {
 }
 
 export interface Boundary {
-  /** Farmer Id. */
+  /** Farmer ID. */
   farmerId?: string;
-  /** Id of the parent(field or seasonalField) it belongs to. */
+  /** ID of the parent(field or seasonalField) it belongs to. */
   parentId?: string;
   /** GeoJSON abstract class. */
   geometry?: GeoJsonObject;
@@ -246,7 +246,7 @@ export interface SearchBoundaryQuery {
 }
 
 export interface CascadeDeleteJob {
-  /** Farmer Id. */
+  /** Farmer ID. */
   farmerId: string;
   /** The id of the resource. */
   resourceId: string;
@@ -260,7 +260,7 @@ export interface CascadeDeleteJob {
    */
   status?: string;
   /** Duration of the job in seconds. */
-  durationInSeconds?: string;
+  durationInSeconds?: number;
   /** Status message to capture more details of the job. */
   message?: string;
   /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
@@ -338,7 +338,7 @@ export interface CropVarietyListResponse {
 }
 
 export interface CropVariety {
-  /** Id of the crop it belongs to. */
+  /** ID of the crop it belongs to. */
   cropId?: string;
   /** CropVariety Brand. */
   brand?: string;
@@ -401,9 +401,9 @@ export interface Farmer {
 }
 
 export interface FarmOperationDataIngestionJob {
-  /** Farmer Id. */
+  /** Farmer ID. */
   farmerId: string;
-  /** Authentication provider Id. */
+  /** Authentication provider ID. */
   authProviderId: string;
   /** List of operation types for which data needs to be downloaded. Available values: AllOperations, Application, Planting, Harvest, Tillage. */
   operations?: string[];
@@ -417,7 +417,7 @@ export interface FarmOperationDataIngestionJob {
    */
   status?: string;
   /** Duration of the job in seconds. */
-  durationInSeconds?: string;
+  durationInSeconds?: number;
   /** Status message to capture more details of the job. */
   message?: string;
   /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
@@ -451,7 +451,7 @@ export interface FarmListResponse {
 }
 
 export interface Farm {
-  /** Farmer Id. */
+  /** Farmer ID. */
   farmerId?: string;
   /** Unique resource ID. */
   id?: string;
@@ -486,9 +486,9 @@ export interface FieldListResponse {
 }
 
 export interface Field {
-  /** Id of the associated Farm. */
+  /** ID of the associated Farm. */
   farmId?: string;
-  /** Farmer Id. */
+  /** Farmer ID. */
   farmerId?: string;
   /** Primary boundary id. */
   primaryBoundaryId?: string;
@@ -603,9 +603,9 @@ export interface HarvestProductDetail {
 }
 
 export interface ImageProcessingRasterizeJob {
-  /** Farmer Id. */
+  /** Farmer ID. */
   farmerId: string;
-  /** Shapefile attachment Id. */
+  /** Shapefile attachment ID. */
   shapefileAttachmentId: string;
   /** List of shapefile column names to create raster attachments. */
   shapefileColumnNames: string[];
@@ -617,7 +617,7 @@ export interface ImageProcessingRasterizeJob {
    */
   status?: string;
   /** Duration of the job in seconds. */
-  durationInSeconds?: string;
+  durationInSeconds?: number;
   /** Status message to capture more details of the job. */
   message?: string;
   /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
@@ -651,7 +651,7 @@ export interface OAuthProviderListResponse {
 }
 
 export interface OAuthProvider {
-  /** OAuth App Id for given OAuth Provider. */
+  /** OAuth App ID for given OAuth Provider. */
   appId?: string;
   /**
    * OAuth App secret for given Provider.
@@ -714,9 +714,9 @@ export interface OAuthToken {
 }
 
 export interface OAuthConnectRequest {
-  /** Id of the farmer. */
+  /** ID of the farmer. */
   farmerId: string;
-  /** Id of the OAuthProvider. */
+  /** ID of the OAuthProvider. */
   oAuthProviderId: string;
   /** Link to redirect the user to, at the end of the oauth flow. */
   userRedirectLink: string;
@@ -845,7 +845,7 @@ export interface ImageFile {
 }
 
 export interface SatelliteDataIngestionJob {
-  /** Farmer Id. */
+  /** Farmer ID. */
   farmerId: string;
   /** The id of the boundary object for which satellite data is being fetched. */
   boundaryId: string;
@@ -867,7 +867,7 @@ export interface SatelliteDataIngestionJob {
    */
   status?: string;
   /** Duration of the job in seconds. */
-  durationInSeconds?: string;
+  durationInSeconds?: number;
   /** Status message to capture more details of the job. */
   message?: string;
   /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
@@ -910,21 +910,21 @@ export interface SeasonalFieldListResponse {
 }
 
 export interface SeasonalField {
-  /** Farmer Id. */
+  /** Farmer ID. */
   farmerId?: string;
   /** Primary boundary id. */
   primaryBoundaryId?: string;
   /** Boundary Ids. */
   boundaryIds?: string[];
-  /** Id of the associated Farm. */
+  /** ID of the associated Farm. */
   farmId?: string;
-  /** Id of the associated Field. */
+  /** ID of the associated Field. */
   fieldId?: string;
-  /** Id of the season it belongs to. */
+  /** ID of the season it belongs to. */
   seasonId?: string;
   /** CropVariety ids. */
   cropVarietyIds?: string[];
-  /** Id of the crop it belongs to. */
+  /** ID of the crop it belongs to. */
   cropId?: string;
   /** Average yield value of the seasonal field. */
   avgYieldValue?: number;
@@ -1143,7 +1143,7 @@ export interface WeatherDataIngestionJob {
   boundaryId: string;
   /** The id of the farmer object for which weather data is being fetched. */
   farmerId: string;
-  /** Id of the extension to be used for the providerInput. eg. DTN.ClearAg. */
+  /** ID of the extension to be used for the providerInput. eg. DTN.ClearAg. */
   extensionId: string;
   /** Extension api name to which request is to be made. */
   extensionApiName: string;
@@ -1161,7 +1161,7 @@ export interface WeatherDataIngestionJob {
    */
   status?: string;
   /** Duration of the job in seconds. */
-  durationInSeconds?: string;
+  durationInSeconds?: number;
   /** Status message to capture more details of the job. */
   message?: string;
   /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
@@ -1186,7 +1186,7 @@ export interface WeatherDataIngestionJob {
 }
 
 export interface WeatherDataDeleteJob {
-  /** Id of the extension to be used for the providerInput. eg. DTN.ClearAg. */
+  /** ID of the extension to be used for the providerInput. eg. DTN.ClearAg. */
   extensionId: string;
   /** The id of the farmer object for which weather data is being fetched. */
   farmerId: string;
@@ -1208,7 +1208,7 @@ export interface WeatherDataDeleteJob {
    */
   status?: string;
   /** Duration of the job in seconds. */
-  durationInSeconds?: string;
+  durationInSeconds?: number;
   /** Status message to capture more details of the job. */
   message?: string;
   /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */

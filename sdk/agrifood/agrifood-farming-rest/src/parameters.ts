@@ -346,7 +346,7 @@ export type BoundariesDeleteParameters = RequestParameters;
 export interface BoundariesGetOverlapQueryParamProperties {
   /** FarmerId of the other field. */
   otherFarmerId: string;
-  /** Id of the other boundary. */
+  /** ID of the other boundary. */
   otherBoundaryId: string;
 }
 
@@ -1001,25 +1001,27 @@ export interface OAuthTokensListQueryParam {
 
 export type OAuthTokensListParameters = RequestParameters & OAuthTokensListQueryParam;
 
-export interface OAuthTokensDeleteQueryParamProperties {
-  /** Id of the associated farmer. */
-  farmerId: string;
-  /** Id of the associated oauth provider. */
-  oauthProviderId: string;
-}
-
-export interface OAuthTokensDeleteQueryParam {
-  queryParameters: OAuthTokensDeleteQueryParamProperties;
-}
-
-export type OAuthTokensDeleteParameters = RequestParameters & OAuthTokensDeleteQueryParam;
-
 export interface OAuthTokensGetOAuthConnectionLinkBodyParam {
   body?: OAuthConnectRequest;
 }
 
 export type OAuthTokensGetOAuthConnectionLinkParameters = RequestParameters &
   OAuthTokensGetOAuthConnectionLinkBodyParam;
+export type OAuthTokensGetCascadeDeleteJobDetailsParameters = RequestParameters;
+
+export interface OAuthTokensCreateCascadeDeleteJobQueryParamProperties {
+  /** ID of the farmer. */
+  farmerId: string;
+  /** ID of the OAuthProvider. */
+  oauthProviderId: string;
+}
+
+export interface OAuthTokensCreateCascadeDeleteJobQueryParam {
+  queryParameters: OAuthTokensCreateCascadeDeleteJobQueryParamProperties;
+}
+
+export type OAuthTokensCreateCascadeDeleteJobParameters = RequestParameters &
+  OAuthTokensCreateCascadeDeleteJobQueryParam;
 
 export interface PlantingDataListByFarmerIdQueryParamProperties {
   /** Minimum AvgPlantingRate value(inclusive). */
