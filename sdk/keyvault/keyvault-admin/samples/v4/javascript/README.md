@@ -16,7 +16,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | [accessControlHelloWorld.js][accesscontrolhelloworld] | Uses an AccessControlClient to list, create, and assign roles to users.                               |
 | [backupRestoreHelloWorld.js][backuprestorehelloworld] | Uses a BackupClient to backup and fully restore an Azure Key Vault using Azure Storage Blob.          |
-| [backupSelectiveRestore.js][backupselectiverestore]   | Uses a BackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob. |
+| [backupSelectiveKeyRestore.js][backupselectiveKeyrestore]   | Uses a BackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob. |
 
 ## Prerequisites
 
@@ -66,7 +66,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [accesscontrolhelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/javascript/accessControlHelloWorld.js
 [backuprestorehelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/javascript/backupRestoreHelloWorld.js
-[backupselectiverestore]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/javascript/backupSelectiveRestore.js
+[backupselectiveKeyrestore]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/javascript/backupSelectiveKeyRestore.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal

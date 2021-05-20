@@ -40,12 +40,12 @@ export async function main(): Promise<void> {
   const backupPoller = await client.beginBackup(blobStorageUri, sasToken);
   await backupPoller.pollUntilDone();
 
-  const selectiveRestorePoller = await client.beginSelectiveRestore(
+  const selectiveKeyRestorePoller = await client.beginSelectiveKeyRestore(
     key.name,
     blobStorageUri,
     sasToken
   );
-  await selectiveRestorePoller.pollUntilDone();
+  await selectiveKeyRestorePoller.pollUntilDone();
 
   // Deleting and purging the key, just in case we want to create the same key again.
   const deleteKeyPoller = await keyClient.beginDeleteKey(keyName);

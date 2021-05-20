@@ -17,17 +17,18 @@ import {
   KeyVaultBackupResult,
   KeyVaultBeginBackupOptions,
   KeyVaultBeginRestoreOptions,
-  KeyVaultRestoreResult
+  KeyVaultRestoreResult,
+  KeyVaultSelectiveKeyRestoreResult
 } from "./backupClientModels";
 import { LATEST_API_VERSION, SDK_VERSION } from "./constants";
 import { logger } from "./log";
 import { KeyVaultBackupPoller } from "./lro/backup/poller";
 import { KeyVaultRestorePoller } from "./lro/restore/poller";
-import { KeyVaultSelectiveRestorePoller } from "./lro/selectiveRestore/poller";
+import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller";
 import { KeyVaultBackupOperationState } from "./lro/backup/operation";
 import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
-import { KeyVaultSelectiveRestoreOperationState } from "./lro/selectiveRestore/operation";
+import { KeyVaultSelectiveRestoreOperationState } from "./lro/selectiveKeyRestore/operation";
 import { KeyVaultClientOptionalParams } from "./generated/models";
 import { mappings } from "./mappings";
 
@@ -233,7 +234,7 @@ export class KeyVaultBackupClient {
    * const blobStorageUri = "<blob-storage-uri>";
    * const sasToken = "<sas-token>";
    * const keyName = "<key-name>";
-   * const poller = await client.beginSelectiveRestore(keyName, blobStorageUri, sasToken);
+   * const poller = await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken);
    *
    * // Serializing the poller
    * //
@@ -241,7 +242,7 @@ export class KeyVaultBackupClient {
    * //
    * // A new poller can be created with:
    * //
-   * //   await client.beginSelectiveRestore(keyName, blobStorageUri, sasToken, { resumeFrom: serialized });
+   * //   await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken, { resumeFrom: serialized });
    * //
    *
    * // Waiting until it's done
@@ -253,13 +254,15 @@ export class KeyVaultBackupClient {
    * @param sasToken - The SAS token.
    * @param options - The optional parameters.
    */
-  public async beginSelectiveRestore(
+  public async beginSelectiveKeyRestore(
     keyName: string,
     folderUri: string,
     sasToken: string,
     options: KeyVaultBeginBackupOptions = {}
-  ): Promise<PollerLike<KeyVaultSelectiveRestoreOperationState, KeyVaultRestoreResult>> {
-    const poller = new KeyVaultSelectiveRestorePoller({
+  ): Promise<
+    PollerLike<KeyVaultSelectiveRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>
+  > {
+    const poller = new KeyVaultSelectiveKeyRestorePoller({
       ...mappings.folderUriParts(folderUri),
       keyName,
       sasToken,

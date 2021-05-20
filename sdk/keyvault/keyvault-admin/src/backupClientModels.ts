@@ -81,3 +81,18 @@ export interface KeyVaultRestoreResult {
    */
   endTime?: Date;
 }
+
+/**
+ * An interface representing the result of a selective key restore operation.
+ */
+export interface KeyVaultSelectiveKeyRestoreResult {
+  /**
+   * The start time of the selective key restore operation.
+   */
+  startTime: Date;
+
+  /**
+   * The end time of the selective key restore operation.
+   */
+  endTime?: Date;
+}

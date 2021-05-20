@@ -7,7 +7,7 @@ import {
   KeyVaultSelectiveRestorePollOperationState
 } from "./operation";
 import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
-import { KeyVaultRestoreResult } from "../../backupClientModels";
+import { KeyVaultSelectiveKeyRestoreResult } from "../../backupClientModels";
 import { createTraceFunction } from "../../../../keyvault-common/src";
 
 export interface KeyVaultSelectiveRestorePollerOptions extends KeyVaultAdminPollerOptions {
@@ -25,9 +25,9 @@ export const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultSelec
 /**
  * Class that creates a poller that waits until a key of a Key Vault backup ends up being restored.
  */
-export class KeyVaultSelectiveRestorePoller extends KeyVaultAdminPoller<
+export class KeyVaultSelectiveKeyRestorePoller extends KeyVaultAdminPoller<
   KeyVaultSelectiveRestoreOperationState,
-  KeyVaultRestoreResult
+  KeyVaultSelectiveKeyRestoreResult
 > {
   constructor(options: KeyVaultSelectiveRestorePollerOptions) {
     const {

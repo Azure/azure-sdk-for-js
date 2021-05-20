@@ -5,15 +5,15 @@
  * @summary Uses a BackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob.
  */
 
-const { KeyVaultBackupClient } = require("@azure/keyvault-admin");
-const { KeyClient } = require("@azure/keyvault-keys");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+import { KeyClient } from "@azure/keyvault-keys";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main() {
+export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
@@ -40,12 +40,12 @@ async function main() {
   const backupPoller = await client.beginBackup(blobStorageUri, sasToken);
   await backupPoller.pollUntilDone();
 
-  const selectiveRestorePoller = await client.beginSelectiveRestore(
+  const selectiveKeyRestorePoller = await client.beginSelectiveKeyRestore(
     key.name,
     blobStorageUri,
     sasToken
   );
-  await selectiveRestorePoller.pollUntilDone();
+  await selectiveKeyRestorePoller.pollUntilDone();
 
   // Deleting and purging the key, just in case we want to create the same key again.
   const deleteKeyPoller = await keyClient.beginDeleteKey(keyName);

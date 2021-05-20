@@ -14,20 +14,20 @@ import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
-import { KeyVaultRestoreResult } from "../../backupClientModels";
+import { KeyVaultSelectiveKeyRestoreResult } from "../../backupClientModels";
 import { withTrace } from "./poller";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
 export interface KeyVaultSelectiveRestoreOperationState
-  extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {}
+  extends KeyVaultAdminPollOperationState<KeyVaultSelectiveKeyRestoreResult> {}
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.
  */
 export interface KeyVaultSelectiveRestorePollOperationState
-  extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {
+  extends KeyVaultAdminPollOperationState<KeyVaultSelectiveKeyRestoreResult> {
   /**
    * The name of a Key Vault Key.
    */
