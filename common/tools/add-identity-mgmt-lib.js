@@ -142,7 +142,7 @@ In browser applications, we recommend using the \`InteractiveBrowserCredential\`
       const credential = new InteractiveBrowserCredential(
       {
         clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
+        tenantId: "<optional tenant for your organization>"
       });
       const client = new ${namespace}.${clientName}(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
