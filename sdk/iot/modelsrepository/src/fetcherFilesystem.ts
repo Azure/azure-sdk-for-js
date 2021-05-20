@@ -40,7 +40,6 @@ export class FilesystemFetcher implements Fetcher {
       const parsedDtdl: DTDL | DTDL[] = JSON.parse(dtdlFile);
       return parsedDtdl;
     } catch (e) {
-      // TODO: Is there a ResourceNotFound Error for Filesystem + Http (Generic API for errors)
       const options: RestErrorOptions = {
         code: "ResourceNotFound",
         statusCode: e?.status

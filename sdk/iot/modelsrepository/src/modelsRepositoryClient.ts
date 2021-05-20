@@ -120,7 +120,6 @@ export class ModelsRepositoryClient {
    * or a Filesystem Fetcher.
    */
   private _createFetcher(location: string, options: ModelsRepositoryClientOptions): Fetcher {
-    // TODO: Validate that this works with a Windows UNC Filesystem URI.
     let locationURL;
     let fetcher;
     if (isLocalPath(location)) {

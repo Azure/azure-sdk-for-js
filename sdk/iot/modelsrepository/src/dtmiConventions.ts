@@ -27,7 +27,6 @@ export function isValidDtmi(dtmi: string): boolean {
  * @returns {string}
  */
 export function getModelUri(dtmi: string, repositoryUri: string, expanded: boolean = false): string {
-  // TODO: Make sure this works with Windows UNC Filesystem Path.
   if (!repositoryUri.endsWith("/")) {
     repositoryUri = repositoryUri.concat("/");
   }
