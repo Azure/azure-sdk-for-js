@@ -155,7 +155,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TablesListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -188,7 +188,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Table
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -214,7 +214,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Table
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

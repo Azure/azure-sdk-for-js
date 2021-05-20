@@ -11,32 +11,34 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:22:26 GMT",
+    "date": "Wed, 12 May 2021 19:20:09 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11530.11 - WUS2 ProdSlices",
-    "x-ms-request-id": "e894ffaf-6bb7-474d-aff9-7872f5210400"
+    "x-ms-ests-server": "2.1.11722.21 - WUS2 ProdSlices",
+    "x-ms-request-id": "1f623800-874c-4277-b16b-879ac5dbbe00"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze",
    "query": {},
    "requestBody": "{\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]},\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"\",\"language\":\"en\"}]}}",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Missing input documents.\",\"innerError\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}",
+   "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Missing input documents.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "e0d75ed8-77f2-43ef-803a-91ad92abbb14",
+    "apim-request-id": "53000d79-1f39-44a3-bcb4-799964582c41",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:22:27 GMT",
+    "date": "Wed, 12 May 2021 19:20:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "4"
+    "x-envoy-upstream-service-time": "5"
    }
   }
  ],
@@ -44,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "47ff705c0c91d7722816aff7f8082ece"
+ "hash": "df4c50f939c2f492603cb35f015630f7"
 }

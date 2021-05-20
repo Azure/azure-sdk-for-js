@@ -2,6 +2,14 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-05-09
+
+- Mocks msal auth for access_token by not matching the request body since it is too dynamic and has changes between versions.
+  - Exported a new `pluginForIdentitySDK` method for the tests in the identity SDK
+  - Added a new property called `onLoadCallbackForPlayback` in the `RecorderEnvironmentSetup` as a means by which identity SDK can mock differently(when compared to the regular SDKs) to cater all of its credentials.
+  - Also, removed the default request transformation of modifying the `client-request-id` since it is redundant if the request body itself is not matched.
+  [#14993](https://github.com/Azure/azure-sdk-for-js/pull/14993)
+
 ## 2021-04-19
 
 - Helper method added for the transformations to be applied on the requestBody in record mode to be able to filter the requests in playback.

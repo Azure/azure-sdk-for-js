@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "PATCH",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/c23a2260-1f79-433f-a35d-aa1b6248b7e6",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/6eea0573-d615-48ae-b07d-1430c050ee55",
    "query": {},
    "requestBody": "{\"name\":\"new Name\",\"description\":\"new description\",\"wholeMetricConfiguration\":{\"conditionOperator\":\"OR\",\"hardThresholdCondition\":{\"upperBound\":500,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":5,\"minRatio\":5}},\"changeThresholdCondition\":{\"changePercentage\":44,\"shiftPoint\":2,\"withinRange\":true,\"anomalyDetectorDirection\":\"Both\",\"suppressCondition\":{\"minNumber\":4,\"minRatio\":4}}},\"dimensionGroupOverrideConfigurations\":[{\"group\":{\"dimension\":{\"city\":\"Mumbai\"}},\"hardThresholdCondition\":{\"upperBound\":400,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2}}}],\"seriesOverrideConfigurations\":[{\"series\":{\"dimension\":{\"city\":\"Kolkata\",\"category\":\"Handmade\"}},\"changeThresholdCondition\":{\"changePercentage\":33,\"shiftPoint\":1,\"withinRange\":true,\"anomalyDetectorDirection\":\"Both\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2}}}]}",
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "4b98744b-ee4b-4b41-a688-be65db2d4edb",
+    "apim-request-id": "0cab3405-88ec-43c2-b5f9-5734e1502dfd",
     "content-length": "0",
-    "date": "Wed, 20 Jan 2021 18:39:37 GMT",
+    "date": "Tue, 04 May 2021 07:47:38 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "210",
-    "x-request-id": "4b98744b-ee4b-4b41-a688-be65db2d4edb"
+    "x-envoy-upstream-service-time": "239",
+    "x-request-id": "0cab3405-88ec-43c2-b5f9-5734e1502dfd"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/c23a2260-1f79-433f-a35d-aa1b6248b7e6",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/6eea0573-d615-48ae-b07d-1430c050ee55",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"anomalyDetectionConfigurationId\":\"c23a2260-1f79-433f-a35d-aa1b6248b7e6\",\"name\":\"new Name\",\"description\":\"new description\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"wholeMetricConfiguration\":{\"conditionOperator\":\"OR\",\"hardThresholdCondition\":{\"upperBound\":500.0,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":5,\"minRatio\":5.0}},\"changeThresholdCondition\":{\"changePercentage\":44.0,\"shiftPoint\":2,\"anomalyDetectorDirection\":\"Both\",\"withinRange\":true,\"suppressCondition\":{\"minNumber\":4,\"minRatio\":4.0}}},\"dimensionGroupOverrideConfigurations\":[{\"group\":{\"dimension\":{\"city\":\"Mumbai\"}},\"hardThresholdCondition\":{\"upperBound\":400.0,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}}}],\"seriesOverrideConfigurations\":[{\"series\":{\"dimension\":{\"city\":\"Kolkata\",\"category\":\"Handmade\"}},\"changeThresholdCondition\":{\"changePercentage\":33.0,\"shiftPoint\":1,\"anomalyDetectorDirection\":\"Both\",\"withinRange\":true,\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}}}]}",
+   "response": "{\"anomalyDetectionConfigurationId\":\"6eea0573-d615-48ae-b07d-1430c050ee55\",\"name\":\"new Name\",\"description\":\"new description\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"wholeMetricConfiguration\":{\"conditionOperator\":\"OR\",\"hardThresholdCondition\":{\"upperBound\":500.0,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":5,\"minRatio\":5.0}},\"changeThresholdCondition\":{\"changePercentage\":44.0,\"shiftPoint\":2,\"anomalyDetectorDirection\":\"Both\",\"withinRange\":true,\"suppressCondition\":{\"minNumber\":4,\"minRatio\":4.0}}},\"dimensionGroupOverrideConfigurations\":[{\"group\":{\"dimension\":{\"city\":\"Mumbai\"}},\"hardThresholdCondition\":{\"upperBound\":400.0,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}}}],\"seriesOverrideConfigurations\":[{\"series\":{\"dimension\":{\"city\":\"Kolkata\",\"category\":\"Handmade\"}},\"changeThresholdCondition\":{\"changePercentage\":33.0,\"shiftPoint\":1,\"anomalyDetectorDirection\":\"Both\",\"withinRange\":true,\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}}}]}",
    "responseHeaders": {
-    "apim-request-id": "a8fb0093-6a73-4f4b-927f-221dec94afa1",
+    "apim-request-id": "65df6cae-f211-44a9-92c8-7ee460c51536",
     "content-length": "1012",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:39:37 GMT",
+    "date": "Tue, 04 May 2021 07:47:38 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "103",
-    "x-request-id": "a8fb0093-6a73-4f4b-927f-221dec94afa1"
+    "x-envoy-upstream-service-time": "161",
+    "x-request-id": "65df6cae-f211-44a9-92c8-7ee460c51536"
    }
   }
  ],
@@ -40,5 +40,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "76e6896cdf155d75a22249bd33e59546"
+ "hash": "d4fe2cf574c64c34274cc9696017767d"
 }

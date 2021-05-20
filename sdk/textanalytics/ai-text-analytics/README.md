@@ -2,7 +2,7 @@
 
 [Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
 
-**Note:** This SDK targets Azure Text Analytics service API version 3.1.0-preview.4.
+**Note:** This SDK targets Azure Text Analytics service API version 3.1.0-preview.5.
 
 - Language Detection
 - Sentiment Analysis
@@ -11,7 +11,7 @@
 - Recognition of Personally Identifiable Information
 - Linked Entity Recognition
 - Healthcare Analysis
-- Batch Processing
+- Support Multiple Actions Per Document
 
 Use the client library to:
 
@@ -423,9 +423,9 @@ async function main() {
 main();
 ```
 
-### Analyze Batch Actions
+### Analyze Actions
 
-Analyze batch actions enables the application of multiple analyses (named actions) at once.
+Analyze actions enables the application of multiple analyses (named actions) at once.
 
 ```javascript
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
@@ -445,7 +445,7 @@ async function main() {
     recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
     extractKeyPhrasesActions: [{ modelVersion: "latest" }]
   };
-  const poller = await client.beginAnalyzeBatchActions(documents, actions);
+  const poller = await client.beginAnalyzeActions(documents, actions);
   const resultPages = await poller.pollUntilDone();
   for await (const page of resultPages) {
     const keyPhrasesAction = page.extractKeyPhrasesResults[0];
@@ -500,7 +500,7 @@ main();
 
 ## Known Issues
 
-- `beginAnalyzeHealthcare` is still in gated preview and can not be used with AAD credentials. For more information, see [the Text Analytics for Health documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-for-health?tabs=ner#request-access-to-the-public-preview).
+- `beginAnalyzeHealthcareEntities` is still in gated preview and can not be used with AAD credentials. For more information, see [the Text Analytics for Health documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-for-health?tabs=ner#request-access-to-the-public-preview).
 - At time of this SDK release, the `modelVersion` option to `beginAnalyzeHealthcareEntities` is ignored by the service. The service always processes the operation using the "latest" model.
 
 ## Troubleshooting

@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/recognition/pii",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"Your social-security number is 078-05-1120.\",\"id\":\"0\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "8ee99829-0e42-4b06-a993-95bea7ce7b82",
+    "apim-request-id": "5c0461d9-c2eb-443f-b5b7-95fe78b4aa05",
     "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 24 Feb 2021 02:16:01 GMT",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
+    "date": "Wed, 12 May 2021 19:15:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "81"
+    "x-envoy-upstream-service-time": "53"
    }
   }
  ],
@@ -25,5 +25,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "8876afeebf3b8bc142a6d2c3e2e88f9b"
+ "hash": "c6ded2f2a6e780274f62876dc34f5f1b"
 }

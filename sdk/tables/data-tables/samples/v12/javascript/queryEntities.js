@@ -7,7 +7,6 @@
  */
 
 const { odata, TableClient } = require("@azure/data-tables");
-const { v4 } = require("uuid");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
@@ -15,19 +14,18 @@ dotenv.config();
 
 const tablesUrl = process.env["TABLES_URL"] || "";
 const sasToken = process.env["SAS_TOKEN"] || "";
-const tableSufix = v4().replace(/-/g, "");
 
 async function listEntities() {
   console.log("== List entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `queryEntitiesTable${tableSufix}`;
+  const tableName = `queryEntitiesTable`;
   console.log(tableName);
 
   // See authenticationMethods sample for other options of creating a new client
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
   // Create the table
-  await client.create();
+  await client.createTable();
 
   const partitionKey = "Stationery";
   const marker = {
@@ -70,7 +68,7 @@ async function listEntities() {
   }
 
   // Delete the table for cleanup
-  await client.delete();
+  await client.deleteTable();
 }
 
 // Sample of how to retreive the top N entities for a query
@@ -80,13 +78,13 @@ async function listTopNEntities() {
   const partitionKey = "Stationery";
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `listTopNEntitiesTable${tableSufix}`;
+  const tableName = `listTopNEntitiesTable`;
 
   // See authenticationMethods sample for other options of creating a new client
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
 
   // Create the table
-  await client.create();
+  await client.createTable();
 
   // List all entities with PartitionKey "Stationery"
   const listResults = client.listEntities({
@@ -110,7 +108,7 @@ async function listTopNEntities() {
   // Top entities: 1
 
   // Delete the table to cleanup
-  await client.delete();
+  await client.deleteTable();
 }
 
 async function main() {

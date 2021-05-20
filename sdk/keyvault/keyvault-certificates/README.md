@@ -677,8 +677,8 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Certificates Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/javascript)
-- [KeyVault Certificates Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/typescript)
+- [KeyVault Certificates Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/javascript)
+- [KeyVault Certificates Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/v4/typescript)
 - [KeyVault Certificates Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/test/)
 
 ## Contributing

@@ -1,5 +1,10 @@
 # Release History
 
+## 1.1.0-beta.1 (Unreleased)
+
+### Added
+- Added support to add `metadata` for `message`
+
 ## 1.0.1 (Unreleased)
 
 - Updated to @azure/communication-signaling@1.0.0-beta.5.

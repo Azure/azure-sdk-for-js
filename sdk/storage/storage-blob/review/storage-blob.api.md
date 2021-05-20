@@ -2983,6 +2983,7 @@ export type ServiceSubmitBatchResponseModel = ServiceSubmitBatchHeaders & {
 // @public
 export interface ServiceUndeleteContainerOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    // @deprecated
     destinationContainerName?: string;
 }
 

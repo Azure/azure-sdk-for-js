@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Azure client library for Azure Web PubSub",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -41,6 +41,9 @@
     "README.md",
     "LICENSE"
   ],
+  "browser": {
+    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
+  },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "Azure",
@@ -114,7 +117,6 @@
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
     "typescript": "~4.2.0",
-    "url": "^0.11.0",
     "typedoc": "0.15.2"
   },
   "//sampleConfiguration": {

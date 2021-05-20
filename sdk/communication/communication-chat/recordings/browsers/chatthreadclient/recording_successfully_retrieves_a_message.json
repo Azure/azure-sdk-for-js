@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A8ucvHcBc4tyC0GEsOWiYZ5raXvPf-UMKB_8NWVcYSRg1%40thread.v2/messages/1616527075038",
+   "url": "https://endpoint/chat/threads/19%3A46ODrtCpTL2rGAPEaHRQI75e9Jm_AyfKxyEA6HTTryQ1%40thread.v2/messages/1620757481104",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2021-04-05-preview6"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"1616527075038\",\"type\":\"text\",\"sequenceId\":\"4\",\"version\":\"1616527075038\",\"content\":{\"message\":\"content\"},\"senderDisplayName\":\"\",\"createdOn\":\"2021-03-23T19:17:55Z\",\"senderCommunicationIdentifier\":{\"rawId\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000009-0067-40f6-f40f-343a0d006a74\",\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000009-0067-40f6-f40f-343a0d006a74\"}}}",
+   "response": "{\"id\":\"1620757481104\",\"type\":\"text\",\"sequenceId\":\"4\",\"version\":\"1620757481104\",\"content\":{\"message\":\"content\"},\"senderDisplayName\":\"\",\"createdOn\":\"2021-05-11T18:24:41Z\",\"senderCommunicationIdentifier\":{\"rawId\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-1be3-2e7c-5b3a0d000549\",\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-1be3-2e7c-5b3a0d000549\"}},\"metadata\":{\"tags\":\"sometag\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "25e1ef165b9fed856790b75308485899"
+ "hash": "cea3701657fa63b8ccf67b349fcaa878"
 }

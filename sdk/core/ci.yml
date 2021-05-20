@@ -62,5 +62,7 @@ extends:
         safeName: azurecoretracing
       - name: azure-core-xml
         safeName: azurecorexml
+      - name: azure-core-util
+        safeName: azurecoreutil
       - name: azure-logger
         safeName: azurelogger

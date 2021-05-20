@@ -58,7 +58,7 @@ onVersions({ minVer: "7.2" }).describe(
           algorithm: "A256GCM",
           ciphertext: encryptResult.result!,
           iv: encryptResult.iv!,
-          authenticationTag: encryptResult.authenticationTag
+          authenticationTag: encryptResult.authenticationTag!
         });
         assert.equal(text, uint8ArrayToString(decryptResult.result));
         await testClient?.flushKey(keyName);

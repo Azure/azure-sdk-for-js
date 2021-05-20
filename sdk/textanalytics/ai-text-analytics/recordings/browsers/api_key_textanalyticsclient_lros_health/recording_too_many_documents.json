@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/health/jobs",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,13 +10,13 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Batch request contains too many records. Max 10 records are permitted.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "f177f535-31a5-42af-92bf-c49c70e08c95",
+    "apim-request-id": "69e5affb-e310-4fc5-a318-51e705ef689f",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 04 Mar 2021 20:57:42 GMT",
+    "date": "Wed, 12 May 2021 19:16:23 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
+    "x-envoy-upstream-service-time": "5"
    }
   }
  ],

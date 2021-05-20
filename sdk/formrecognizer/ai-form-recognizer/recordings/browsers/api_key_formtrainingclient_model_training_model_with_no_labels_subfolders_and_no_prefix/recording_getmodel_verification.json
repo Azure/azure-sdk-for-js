@@ -2,18 +2,18 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.3/custom/models/d1381688-2ecf-4d99-a1b1-7e6616cac48e",
+   "url": "https://endpoint/formrecognizer/v2.1/custom/models/a9cf974e-0274-44c1-ba0d-c98ad5d19ed9",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"modelInfo\":{\"modelId\":\"d1381688-2ecf-4d99-a1b1-7e6616cac48e\",\"modelName\":\"modelName161714843123508165\",\"status\":\"ready\",\"createdDateTime\":\"2021-03-30T23:53:51Z\",\"lastUpdatedDateTime\":\"2021-03-30T23:54:26Z\"},\"keys\":{\"clusters\":{\"0\":[\"Additional Notes:\",\"Address:\",\"Company Name:\",\"Company Phone:\",\"Dated As:\",\"Details\",\"Email:\",\"Hero Limited\",\"Name:\",\"Phone:\",\"Purchase Order\",\"Purchase Order #:\",\"Quantity\",\"SUBTOTAL\",\"Seattle, WA 93849 Phone:\",\"Shipped From\",\"Shipped To\",\"TAX\",\"TOTAL\",\"Total\",\"Unit Price\",\"Vendor Name:\",\"Website:\"]}},\"trainResult\":{\"trainingDocuments\":[{\"documentName\":\"Form_1.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_2.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_3.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_4.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_5.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"subfolder/Form_6.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"}],\"errors\":[]}}",
+   "response": "{\"modelInfo\":{\"modelId\":\"a9cf974e-0274-44c1-ba0d-c98ad5d19ed9\",\"modelName\":\"modelName162078402744109350\",\"status\":\"ready\",\"createdDateTime\":\"2021-05-12T01:47:07Z\",\"lastUpdatedDateTime\":\"2021-05-12T01:47:26Z\"},\"keys\":{\"clusters\":{\"0\":[\"Additional Notes:\",\"Address:\",\"Company Name:\",\"Company Phone:\",\"Dated As:\",\"Details\",\"Email:\",\"Hero Limited\",\"Name:\",\"Phone:\",\"Purchase Order\",\"Purchase Order #:\",\"Quantity\",\"SUBTOTAL\",\"Seattle, WA 93849 Phone:\",\"Shipped From\",\"Shipped To\",\"TAX\",\"TOTAL\",\"Total\",\"Unit Price\",\"Vendor Name:\",\"Website:\"]}},\"trainResult\":{\"trainingDocuments\":[{\"documentName\":\"Form_1.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_2.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_3.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_4.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_5.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"subfolder/Form_6.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"}],\"errors\":[]}}",
    "responseHeaders": {
-    "apim-request-id": "057c4a3d-6f36-4ea2-aabf-07e93b5a8f85",
+    "apim-request-id": "1f2678ce-c9da-4403-aa00-1024ca111e73",
     "content-length": "1037",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 30 Mar 2021 23:54:27 GMT",
+    "date": "Wed, 12 May 2021 01:47:28 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "16"

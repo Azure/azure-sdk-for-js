@@ -25,7 +25,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [beginAnalyzeHealthcareEntities.js][beginanalyzehealthcareentities]       | detects healthcare entities in a piece of text                                          |
 | [alternativeDocumentInput.js][alternativedocumentinput]                   | uses objects with attached metadata instead of simple strings as inputs for flexibility |
 | [authenticationMethods.js][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key         |
-| [beginAnalyzeBatchActions.js][beginanalyzebatchactions]                   | applies multiple Text Analytics actions per document                                    |
+| [beginAnalyzeActions.js][beginanalyzeactions]                             | applies multiple Text Analytics actions per document                                    |
 
 ## Prerequisites
 
@@ -77,7 +77,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [beginanalyzehealthcareentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/beginAnalyzeHealthcareEntities.js
 [alternativedocumentinput]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/alternativeDocumentInput.js
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/authenticationMethods.js
-[beginanalyzebatchactions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/beginAnalyzeBatchActions.js
+[beginanalyzeactions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/beginAnalyzeActions.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account

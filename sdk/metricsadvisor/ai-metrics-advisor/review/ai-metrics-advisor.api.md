@@ -64,6 +64,7 @@ export interface AnomalyAlertConfiguration {
     id: string;
     metricAlertConfigurations: MetricAlertConfiguration[];
     name: string;
+    splitAlertByDimensions?: string[];
 }
 
 // @public
@@ -82,7 +83,9 @@ export type AnomalyDetectorDirection = "Both" | "Down" | "Up";
 
 // @public
 export interface AnomalyIncident {
+    readonly dataFeedId?: string;
     detectionConfigurationId: string;
+    readonly expectedValueOfRootNode?: number;
     id: string;
     lastOccurredTime: Date;
     metricId?: string;
@@ -90,6 +93,7 @@ export interface AnomalyIncident {
     severity: AnomalySeverity;
     startTime?: Date;
     status?: AnomalyStatus;
+    readonly valueOfRootNode?: number;
 }
 
 // @public
@@ -156,7 +160,7 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
 
 // @public (undocumented)
 export interface AzureDataLakeStorageGen2Parameter {
-    accountKey: string;
+    accountKey?: string;
     accountName: string;
     directoryTemplate: string;
     fileSystemName: string;
@@ -332,17 +336,20 @@ export type DataFeedStatus = "Paused" | "Active";
 // @public
 export interface DataPointAnomaly {
     createdOn?: Date;
+    readonly dataFeedId?: string;
     detectionConfigurationId: string;
+    readonly expectedValue?: number;
     metricId?: string;
     modifiedOn?: Date;
     seriesKey: DimensionKey;
     severity: AnomalySeverity;
     status?: AnomalyStatus;
     timestamp: number;
+    readonly value?: number;
 }
 
 // @public
-export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureTable" | "Elasticsearch" | "HttpRequest" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
+export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureEventHubs" | "AzureTable" | "Elasticsearch" | "HttpRequest" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
 
 // @public
 export interface DetectionConditionsCommon {
@@ -722,17 +729,20 @@ export type MetricBoundaryCondition = {
     lower: number;
     metricId?: string;
     triggerForMissing?: boolean;
+    type?: "Value" | "Mean";
 } | {
     direction: "Up";
     upper: number;
     metricId?: string;
     triggerForMissing?: boolean;
+    type?: "Value" | "Mean";
 } | {
     lower: number;
     upper: number;
     direction: "Both";
     metricId?: string;
     triggerForMissing?: boolean;
+    type?: "Value" | "Mean";
 };
 
 // @public
@@ -979,7 +989,7 @@ export type SQLServerDataFeedSource = {
 
 // @public (undocumented)
 export interface SqlSourceParameter {
-    connectionString: string;
+    connectionString?: string;
     query: string;
 }
 

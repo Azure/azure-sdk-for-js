@@ -8,7 +8,8 @@ import {
   createPipelineRequest,
   SendRequest,
   PipelineResponse,
-  createHttpHeaders
+  createHttpHeaders,
+  RestError
 } from "../src";
 import {
   setTracer,
@@ -18,11 +19,17 @@ import {
   TraceFlags,
   TraceState,
   context,
-  setSpan
+  setSpan,
+  SpanStatus,
+  SpanStatusCode
 } from "@azure/core-tracing";
 
 class MockSpan extends NoOpSpan {
   private _endCalled = false;
+  private _status: SpanStatus = {
+    code: SpanStatusCode.UNSET
+  };
+  private _attributes: { [s: string]: unknown } = {};
 
   constructor(
     private traceId: string,
@@ -39,6 +46,24 @@ class MockSpan extends NoOpSpan {
 
   end(): void {
     this._endCalled = true;
+  }
+
+  getStatus() {
+    return this._status;
+  }
+
+  setStatus(status: SpanStatus) {
+    this._status = status;
+    return this;
+  }
+
+  setAttribute(key: string, value: unknown) {
+    this._attributes[key] = value;
+    return this;
+  }
+
+  getAttribute(key: string) {
+    return this._attributes[key];
   }
 
   context(): SpanContext {
@@ -149,6 +174,8 @@ describe("tracingPolicy", function() {
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
+    assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
+    assert.equal(span.getAttribute("http.status_code"), 200);
 
     const expectedFlag = "01";
 
@@ -186,6 +213,8 @@ describe("tracingPolicy", function() {
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
+    assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
+    assert.equal(span.getAttribute("http.status_code"), 200);
 
     const expectedFlag = "00";
 
@@ -223,6 +252,7 @@ describe("tracingPolicy", function() {
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
+    assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
 
     const expectedFlag = "01";
 
@@ -246,14 +276,9 @@ describe("tracingPolicy", function() {
         tracingContext: setSpan(context.active(), ROOT_SPAN)
       }
     });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 404
-    };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.returns(Promise.reject(response));
+    next.rejects(new RestError("Bad Request.", { statusCode: 400 }));
 
     try {
       await policy.sendRequest(request, next);
@@ -264,6 +289,11 @@ describe("tracingPolicy", function() {
       assert.lengthOf(mockTracer.getStartedSpans(), 1);
       const span = mockTracer.getStartedSpans()[0];
       assert.isTrue(span.didEnd());
+      assert.deepEqual(span.getStatus(), {
+        code: SpanStatusCode.ERROR,
+        message: "Bad Request."
+      });
+      assert.equal(span.getAttribute("http.status_code"), 400);
 
       const expectedFlag = "01";
 
