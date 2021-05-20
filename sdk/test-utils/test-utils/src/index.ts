@@ -10,3 +10,4 @@ export {
 } from "./multiVersion";
 
 export { matrix } from "./matrix";
+export { isNode, isNode8 } from "./utils";

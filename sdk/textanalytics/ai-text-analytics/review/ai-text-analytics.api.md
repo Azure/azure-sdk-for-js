@@ -527,7 +527,7 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
-export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
+export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
 export interface TargetConfidenceScoreLabel {

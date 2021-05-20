@@ -29,6 +29,7 @@ import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
 import { KeyVaultSelectiveRestoreOperationState } from "./lro/selectiveRestore/operation";
 import { KeyVaultClientOptionalParams } from "./generated/models";
+import { mappings } from "./mappings";
 
 export {
   KeyVaultBackupOperationState,
@@ -178,8 +179,7 @@ export class KeyVaultBackupClient {
    *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const sasToken = "<sas-token>";
-   * const folderName = "<folder-name>";
-   * const poller = await client.beginRestore(blobStorageUri, sasToken, folderName);
+   * const poller = await client.beginRestore(blobStorageUri, sasToken);
    *
    * // The poller can be serialized with:
    * //
@@ -187,7 +187,7 @@ export class KeyVaultBackupClient {
    * //
    * // A new poller can be created with:
    * //
-   * //   await client.beginRestore(blobStorageUri, sasToken, folderName, { resumeFrom: serialized });
+   * //   await client.beginRestore(blobStorageUri, sasToken, { resumeFrom: serialized });
    * //
    *
    * // Waiting until it's done
@@ -197,19 +197,16 @@ export class KeyVaultBackupClient {
    * Starts a full restore operation.
    * @param folderUri - The URL of the blob storage resource where the previous successful full backup was stored.
    * @param sasToken - The SAS token.
-   * @param folderName - The folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
    * @param options - The optional parameters.
    */
   public async beginRestore(
     folderUri: string,
     sasToken: string,
-    folderName: string,
     options: KeyVaultBeginRestoreOptions = {}
   ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>> {
     const poller = new KeyVaultRestorePoller({
-      folderUri,
+      ...mappings.folderUriParts(folderUri),
       sasToken,
-      folderName,
       client: this.client,
       vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,
@@ -235,9 +232,8 @@ export class KeyVaultBackupClient {
    *
    * const blobStorageUri = "<blob-storage-uri>";
    * const sasToken = "<sas-token>";
-   * const folderName = "<folder-name>";
    * const keyName = "<key-name>";
-   * const poller = await client.beginSelectiveRestore(blobStorageUri, sasToken, folderName, keyName);
+   * const poller = await client.beginSelectiveRestore(keyName, blobStorageUri, sasToken);
    *
    * // Serializing the poller
    * //
@@ -245,31 +241,28 @@ export class KeyVaultBackupClient {
    * //
    * // A new poller can be created with:
    * //
-   * //   await client.beginSelectiveRestore(blobStorageUri, sasToken, folderName, keyName, { resumeFrom: serialized });
+   * //   await client.beginSelectiveRestore(keyName, blobStorageUri, sasToken, { resumeFrom: serialized });
    * //
    *
    * // Waiting until it's done
    * await poller.pollUntilDone();
    * ```
    * Creates a new role assignment.
+   * @param keyName - The name of the key that wants to be restored.
    * @param folderUri - The URL of the blob storage resource, with the folder name of the blob where the previous successful full backup was stored.
    * @param sasToken - The SAS token.
-   * @param folderName - The Folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
-   * @param keyName - The name of the key that wants to be restored.
    * @param options - The optional parameters.
    */
   public async beginSelectiveRestore(
+    keyName: string,
     folderUri: string,
     sasToken: string,
-    folderName: string,
-    keyName: string,
     options: KeyVaultBeginBackupOptions = {}
   ): Promise<PollerLike<KeyVaultSelectiveRestoreOperationState, KeyVaultRestoreResult>> {
     const poller = new KeyVaultSelectiveRestorePoller({
+      ...mappings.folderUriParts(folderUri),
       keyName,
-      folderUri,
       sasToken,
-      folderName,
       client: this.client,
       vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,

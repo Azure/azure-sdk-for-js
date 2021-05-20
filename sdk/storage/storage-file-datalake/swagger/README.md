@@ -261,3 +261,12 @@ directive:
     transform: >
       delete $["x-ms-pageable"];
 ```
+
+### Update service version from "2020-06-12" to "2020-08-04"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2020-08-04" ];
+```

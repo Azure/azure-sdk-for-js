@@ -60,6 +60,8 @@ import {
   AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions
 } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens } from "./internal/synctokenpolicy";
+import { FeatureFlagValue } from "./featureFlag";
+import { SecretReferenceValue } from "./secretReference";
 
 const packageName = "azsdk-js-app-configuration";
 
@@ -188,7 +190,10 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   addConfigurationSetting(
-    configurationSetting: AddConfigurationSettingParam,
+    configurationSetting:
+      | AddConfigurationSettingParam
+      | AddConfigurationSettingParam<FeatureFlagValue>
+      | AddConfigurationSettingParam<SecretReferenceValue>,
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
     return this._trace("addConfigurationSetting", options, async (newOptions) => {
@@ -455,7 +460,10 @@ export class AppConfigurationClient {
    * ```
    */
   async setConfigurationSetting(
-    configurationSetting: SetConfigurationSettingParam,
+    configurationSetting:
+      | SetConfigurationSettingParam
+      | SetConfigurationSettingParam<FeatureFlagValue>
+      | SetConfigurationSettingParam<SecretReferenceValue>,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
     return this._trace("setConfigurationSetting", options, async (newOptions) => {

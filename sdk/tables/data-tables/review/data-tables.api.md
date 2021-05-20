@@ -7,6 +7,7 @@
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 
 // @public
@@ -69,6 +70,7 @@ export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceSt
 // @public
 export type GetTableEntityOptions = OperationOptions & {
     queryOptions?: TableEntityQueryOptions;
+    disableTypeConversion?: boolean;
 };
 
 // @public
@@ -87,6 +89,7 @@ export const enum KnownGeoReplicationStatusType {
 // @public
 export type ListTableEntitiesOptions = OperationOptions & {
     queryOptions?: TableEntityQueryOptions;
+    disableTypeConversion?: boolean;
 };
 
 // @public
@@ -180,6 +183,7 @@ export class TableClient {
     getAccessPolicy(options?: OperationOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
     listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]>;
+    pipeline: Pipeline;
     setAccessPolicy(tableAcl: SignedIdentifier[], options?: OperationOptions): Promise<SetAccessPolicyResponse>;
     submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;
     readonly tableName: string;
@@ -286,6 +290,7 @@ export class TableServiceClient {
     getProperties(options?: OperationOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: OperationOptions): Promise<GetStatisticsResponse>;
     listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, TableItem[]>;
+    pipeline: Pipeline;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
     url: string;
 }
