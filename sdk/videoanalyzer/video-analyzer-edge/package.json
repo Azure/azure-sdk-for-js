@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.1",
   "description": "A JavaScript sdk for Azure  Video Analyzer Edge",
   "sdk-type": "client",
-  "main": "dist/index",
+  "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {},
   "types": "types/video-analyzer-edge.d.ts",
@@ -41,7 +41,7 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js/sdk/videoanalyzer/video-analyzer-edge",
+  "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
     "node": ">=8.0.0"
   },

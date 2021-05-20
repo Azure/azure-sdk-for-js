@@ -30,7 +30,7 @@ export function createRequest(request: "pipelineTopologySet", payload: PipelineT
 export function createRequest(request: "pipelineTopologyGet", payload: string): Request<NameObject>;
 
 // @public
-export function createRequest(request: "pipelineTopologyList"): Request<{}>;
+export function createRequest(request: "pipelineTopologyList"): Request;
 
 // @public
 export function createRequest(request: "pipelineTopologyDelete", payload: string): Request<NameObject>;
@@ -42,7 +42,7 @@ export function createRequest(request: "livePipelineSet", payload: LivePipeline)
 export function createRequest(request: "livePipelineGet", payload: string): Request<NameObject>;
 
 // @public
-export function createRequest(request: "livePipelineList"): Request<{}>;
+export function createRequest(request: "livePipelineList"): Request;
 
 // @public
 export function createRequest(request: "livePipelineDelete", payload: string): Request<NameObject>;
@@ -451,7 +451,7 @@ export interface ProcessorNodeBase {
 export type ProcessorNodeBaseUnion = ProcessorNodeBase | MotionDetectionProcessor | ObjectTrackingProcessor | LineCrossingProcessor | ExtensionProcessorBaseUnion | SignalGateProcessor | CognitiveServicesVisionProcessor;
 
 // @public
-export interface Request<T> {
+export interface Request<T = Record<string, unknown>> {
     methodName: string;
     payload: T & {
         "@apiVersion": string;
