@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import { DTDL } from "./dtdl";
+import { DTDL } from "./psuedoDtdl";
 import { logger } from "./logger";
 import { DtmiResolver } from "./dtmiResolver";
 import { RestError } from "@azure/core-rest-pipeline";
@@ -17,7 +17,7 @@ export class PseudoParser {
   }
 
   async expand(models: DTDL[], tryFromExpanded: boolean) {
-    let expandedMap: any = {};
+    let expandedMap: { [dtmi: string]: DTDL } = {};
     for (let i = 0; i < models.length; i++) {
       const model: DTDL = models[i];
       if (model["@id"] !== undefined) {
@@ -30,7 +30,7 @@ export class PseudoParser {
     return expandedMap;
   }
 
-  private async _expand(model: DTDL, modelMap: any, tryFromExpanded: boolean): Promise<void> {
+  private async _expand(model: DTDL, modelMap: { [dtmi: string]: DTDL }, tryFromExpanded: boolean): Promise<void> {
     logger.info(`Expanding model: ${model["@id"]}`);
     let dependencies = this._getModelDependencies(model);
     let dependenciesToResolve = dependencies.filter((dependency: string) => {
@@ -52,7 +52,7 @@ export class PseudoParser {
         }
       }
       Object.keys(resolvedDependenciesMap).forEach((key) => {
-        modelMap[key] = resolvedDependenciesMap[key];
+        modelMap[key] = resolvedDependenciesMap[key] as DTDL;
       });
       const promiseList: Promise<void>[] = [];
       Object.values(resolvedDependenciesMap).forEach((dependencyModel) => {

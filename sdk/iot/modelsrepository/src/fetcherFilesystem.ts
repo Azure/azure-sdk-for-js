@@ -6,7 +6,7 @@ import * as path from "path";
 import { RestError, RestErrorOptions } from "@azure/core-rest-pipeline";
 import { Fetcher } from "./fetcherAbstract";
 import { logger } from "./logger";
-import { DTDL } from "./dtdl";
+import { DTDL } from "./psuedoDtdl";
 
 function readFilePromise(path: string): Promise<string> {
   return new Promise((res, rej) => {

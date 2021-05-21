@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { DTDL } from "./dtdl";
+import { DTDL } from "./psuedoDtdl";
 
 /**
  * @internal
