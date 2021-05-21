@@ -10,14 +10,15 @@ import { delay } from "@azure/core-util";
 import { AssetConversion } from "../internal/assetConversion";
 
 /**
- * Options to configure the LRO poller for the beginConversion operation.
+ * Options to configure the poller for the beginConversion operation.
  */
 export interface AssetConversionPollerOptions {
+  /** The interval between calls to poll the service for the status of a conversion. */
   intervalInMs?: number;
 }
 
 /**
- * The state carried by the LRO poller for the beginConversion operation.
+ * The state carried by the poller for the beginConversion operation.
  */
 export interface AssetConversionOperationState extends PollOperationState<AssetConversion> {
   /**

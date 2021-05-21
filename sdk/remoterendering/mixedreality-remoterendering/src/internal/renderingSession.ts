@@ -84,6 +84,9 @@ export interface PartialRenderingSessionProperties {
 export interface ReadyRenderingSession extends RenderingSessionBase {
   /** The rendering session is ready for incoming connections. */
   status: "Ready";
+  /**
+   * The properties of the session.
+   */
   properties: RenderingSessionProperties;
 }
 
@@ -95,6 +98,9 @@ export interface ErrorRenderingSession extends RenderingSessionBase {
    * The error object containing details about the rendering session startup failure.
    */
   readonly error: RemoteRenderingServiceError;
+  /**
+   * The properties of the session which had been set.
+   */
   partialProperties: PartialRenderingSessionProperties;
 }
 
@@ -102,6 +108,9 @@ export interface ErrorRenderingSession extends RenderingSessionBase {
 export interface StartingRenderingSession extends RenderingSessionBase {
   /** The rendering session is starting, but not accepting incoming connections yet. */
   status: "Starting";
+  /**
+   * The properties which are currently known about the session.
+   */
   partialProperties: PartialRenderingSessionProperties;
 }
 
@@ -109,6 +118,9 @@ export interface StartingRenderingSession extends RenderingSessionBase {
 export interface ExpiredRenderingSession extends RenderingSessionBase {
   /** The rendering session enters the 'Expired' state when it has been in the 'Ready' state longer than its lease time. This is a terminal state. */
   status: "Expired";
+  /**
+   * The properties of the session.
+   */
   properties: RenderingSessionProperties;
 }
 
@@ -116,6 +128,9 @@ export interface ExpiredRenderingSession extends RenderingSessionBase {
 export interface StoppedRenderingSession extends RenderingSessionBase {
   /** The rendering session has been stopped with the 'Stop Session' operation. This is a terminal state. */
   status: "Stopped";
+  /**
+   * The properties that were known about the session.
+   */
   partialProperties: PartialRenderingSessionProperties;
 }
 

@@ -49,12 +49,11 @@ export interface AssetConversionOutputSettings {
     storageContainerWriteSas?: string;
 }
 
-// @public (undocumented)
+// @public
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
 
 // @public
 export interface AssetConversionPollerOptions {
-    // (undocumented)
     intervalInMs?: number;
 }
 
@@ -67,10 +66,10 @@ export interface AssetConversionSettings {
 // @public
 export type AssetConversionStatus = string;
 
-// @public (undocumented)
+// @public
 export type BeginConversionOptions = AssetConversionPollerOptions & OperationOptions;
 
-// @public (undocumented)
+// @public
 export type BeginSessionOptions = RenderingSessionPollerOptions & OperationOptions;
 
 // @public
@@ -78,20 +77,18 @@ export interface CancelledAssetConversion extends AssetConversionBase {
     status: "Cancelled";
 }
 
-// @public (undocumented)
+// @public
 export type EndSessionOptions = OperationOptions;
 
 // @public
 export interface ErrorRenderingSession extends RenderingSessionBase {
     readonly error: RemoteRenderingServiceError;
-    // (undocumented)
     partialProperties: PartialRenderingSessionProperties;
     status: "Error";
 }
 
 // @public
 export interface ExpiredRenderingSession extends RenderingSessionBase {
-    // (undocumented)
     properties: RenderingSessionProperties;
     status: "Expired";
 }
@@ -102,14 +99,11 @@ export interface FailedAssetConversion extends AssetConversionBase {
     status: "Failed";
 }
 
-// @public (undocumented)
+// @public
 export type GetConversionOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export type GetSessionOptions = OperationOptions;
-
-// @public (undocumented)
-export type GetSessionPollerOptions = RenderingSessionPollerOptions & OperationOptions;
 
 // @public
 export const enum KnownAssetConversionStatus {
@@ -135,10 +129,10 @@ export const enum KnownRenderingSessionStatus {
     Stopped = "Stopped"
 }
 
-// @public (undocumented)
+// @public
 export type ListConversionsOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export type ListSessionsOptions = OperationOptions;
 
 // @public
@@ -158,7 +152,6 @@ export interface PartialRenderingSessionProperties {
 
 // @public
 export interface ReadyRenderingSession extends RenderingSessionBase {
-    // (undocumented)
     properties: RenderingSessionProperties;
     status: "Ready";
 }
@@ -212,12 +205,11 @@ export interface RenderingSessionOperationState extends PollOperationState<Rende
     latestResponse: RenderingSession;
 }
 
-// @public (undocumented)
+// @public
 export type RenderingSessionPollerLike = PollerLike<RenderingSessionOperationState, RenderingSession>;
 
 // @public
 export interface RenderingSessionPollerOptions {
-    // (undocumented)
     intervalInMs?: number;
 }
 
@@ -237,12 +229,12 @@ export interface RenderingSessionSettings {
     size: RenderingServerSize;
 }
 
-// @public (undocumented)
+// @public
 export type ResumeBeginConversionOptions = BeginConversionOptions & {
     resumeFrom: string;
 };
 
-// @public (undocumented)
+// @public
 export type ResumeBeginSessionOptions = BeginSessionOptions & {
     resumeFrom: string;
 };
@@ -254,14 +246,12 @@ export interface RunningAssetConversion extends AssetConversionBase {
 
 // @public
 export interface StartingRenderingSession extends RenderingSessionBase {
-    // (undocumented)
     partialProperties: PartialRenderingSessionProperties;
     status: "Starting";
 }
 
 // @public
 export interface StoppedRenderingSession extends RenderingSessionBase {
-    // (undocumented)
     partialProperties: PartialRenderingSessionProperties;
     status: "Stopped";
 }
@@ -272,7 +262,7 @@ export interface SucceededAssetConversion extends AssetConversionBase {
     status: "Succeeded";
 }
 
-// @public (undocumented)
+// @public
 export type UpdateSessionOptions = OperationOptions;
 
 // @public

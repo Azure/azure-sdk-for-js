@@ -10,14 +10,15 @@ import { delay } from "@azure/core-util";
 import { RenderingSession } from "../internal/renderingSession";
 
 /**
- * Options to configure the LRO poller for the beginSession operation.
+ * Options to configure the poller for the beginSession operation.
  */
 export interface RenderingSessionPollerOptions {
+  /** The interval between calls to poll the service for the status of a session. */
   intervalInMs?: number;
 }
 
 /**
- * The state carried by the LRO poller for the beginSession operation.
+ * The state carried by the poller for the beginSession operation.
  */
 export interface RenderingSessionOperationState extends PollOperationState<RenderingSession> {
   /**

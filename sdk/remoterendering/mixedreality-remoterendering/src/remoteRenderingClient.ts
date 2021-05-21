@@ -129,30 +129,40 @@ export {
   KnownRenderingServerSize
 };
 
+/** The poller returned by the beginConversion operation. */
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
 
+/** Options to configure the beginConversion operation. */
 export type BeginConversionOptions = AssetConversionPollerOptions & OperationOptions;
 
+/** Options for resuming a pre-existing conversion operation. */
 export type ResumeBeginConversionOptions = BeginConversionOptions & { resumeFrom: string };
 
+/** Options to configure the beginSession operation. */
 export type BeginSessionOptions = RenderingSessionPollerOptions & OperationOptions;
 
+/** Options for resuming a pre-existing session operation. */
 export type ResumeBeginSessionOptions = BeginSessionOptions & { resumeFrom: string };
 
-export type GetSessionPollerOptions = RenderingSessionPollerOptions & OperationOptions;
-
+/** Options to configure the updateSession operation. */
 export type UpdateSessionOptions = OperationOptions;
 
+/** Options to configure the getSession operation. */
 export type GetSessionOptions = OperationOptions;
 
+/** Options to configure the getConversion operation. */
 export type GetConversionOptions = OperationOptions;
 
+/** Options to configure the listConversions operation. */
 export type ListConversionsOptions = OperationOptions;
 
+/** Options to configure the endSession operation. */
 export type EndSessionOptions = OperationOptions;
 
+/** Options to configure the listSessions operation. */
 export type ListSessionsOptions = OperationOptions;
 
+/** The poller returned by the beginSession operation. */
 export type RenderingSessionPollerLike = PollerLike<
   RenderingSessionOperationState,
   RenderingSession
