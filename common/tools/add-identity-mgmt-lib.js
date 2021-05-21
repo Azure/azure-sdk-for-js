@@ -14,7 +14,7 @@ const p = require("path");
 function rewriteFile(path, f) {
   fs.readFile(path, "utf-8", (err, data) => {
     if (err) throw err;
-    fs.writeFile(path, f(data), "utf-8", function(err) {
+    fs.writeFile(path, f(data), "utf-8", function (err) {
       if (err) throw err;
       console.log(`${p.basename(path)} has been updated`);
     });
@@ -30,7 +30,7 @@ function getMatch(matches, search, location) {
 }
 
 function updateREADME(mainModule, relativePath, namespace) {
-  return function(content) {
+  return function (content) {
     const pkgName = getMatch(
       content.match(/.+?npm install (@azure\/.+?)$.*/ms),
       "package name",
@@ -42,11 +42,7 @@ function updateREADME(mainModule, relativePath, namespace) {
       "README file"
     );
 
-    const operation = getMatch(
-      content.match(/client\.(.+?)\(.*\).*$/ms),
-      "operation",
-      "README file"
-    );
+    const [_, operation, operationArgs] = content.match(/client\.(.+?)\((.*)\).*$/ms);
 
     const operationHeader = operation
       .split(".")
@@ -82,10 +78,10 @@ If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/
 
 ### How to use
 
-- If you are writing a client side browser application, 
+- If you are writing a client side browser application,
   - Follow the instructions in the section on Authenticating client side browser applications in [Azure Identity examples](https://aka.ms/azsdk/js/identity/examples) to register your application in the Microsoft identity platform and set the right permissions.
   - Copy the client ID and tenant ID from the Overview section of your app registration in Azure portal and use it in the browser sample below.
-- If you are writing a server side application, 
+- If you are writing a server side application,
     - [Select a credential from \`@azure/identity\` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
     - Complete the set up steps required by the credential if any.
     - Use the credential you picked in the place of \`DefaultAzureCredential\` in the Node.js sample below.
@@ -108,7 +104,7 @@ const creds = new DefaultAzureCredential();
 const client = new ${clientName}(creds, subscriptionId);
 const resourceGroupName = "testresourceGroupName";
 const resourceName = "testresourceName";
-client.${operation}(resourceGroupName, resourceName).then((result) => {
+client.${operation}(${operationArgs}).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -147,7 +143,7 @@ In browser applications, we recommend using the \`InteractiveBrowserCredential\`
       const client = new ${namespace}.${clientName}(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const resourceName = "testresourceName";
-      client.${operation}(resourceGroupName, resourceName).then((result) => {
+      client.${operation}(${operationArgs}).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
@@ -170,15 +166,15 @@ In browser applications, we recommend using the \`InteractiveBrowserCredential\`
 }
 
 function updatePackageJson(newPackageVersion) {
-  return function(content) {
+  return function (content) {
     return content
       .replace(/"version": "\d+.\d+.\d+",/ms, `"version": "${newPackageVersion}",`)
-      .replace(/"@azure\/ms-rest-azure-js": "\^?(\d+).\d+.\d+"/ms, function(match, major) {
+      .replace(/"@azure\/ms-rest-azure-js": "\^?(\d+).\d+.\d+"/ms, function (match, major) {
         return major === "1"
           ? '"@azure/ms-rest-azure-js": "^1.4.0"'
           : '"@azure/ms-rest-azure-js": "^2.1.0"';
       })
-      .replace(/"@azure\/ms-rest-js": "\^?(\d+).\d+.\d+"/ms, function(match, major) {
+      .replace(/"@azure\/ms-rest-js": "\^?(\d+).\d+.\d+"/ms, function (match, major) {
         return (
           (major === "1" ? '"@azure/ms-rest-js": "^1.11.0"' : '"@azure/ms-rest-js": "^2.2.0"') +
           ',\n    "@azure/core-auth": "^1.1.4"'
@@ -229,7 +225,7 @@ function updateClient(content) {
 }
 
 function updateClientContext(newPackageVersion) {
-  return function(content) {
+  return function (content) {
     return updateClient(content).replace(
       /const packageVersion = "\d+\.\d+\.\d+";/,
       `const packageVersion = "${newPackageVersion}";`
