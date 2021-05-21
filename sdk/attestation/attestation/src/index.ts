@@ -8,4 +8,4 @@
 
 export * from "./models";
 export * from "./operations";
-export { AttestationClient } from "./attestationClient";
+export { AttestationClient, AttestationClientOptions, AttestationClientOperationOptions } from "./attestationClient";

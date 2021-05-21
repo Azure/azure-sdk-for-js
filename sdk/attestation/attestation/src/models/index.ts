@@ -8,7 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export * from "./attestationClientOptions";
 export * from "./attestationSigner";
 
 /**

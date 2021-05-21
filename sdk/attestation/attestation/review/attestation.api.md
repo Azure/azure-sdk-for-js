@@ -5,7 +5,9 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
+import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
 
 // @public
 export class Attestation {
@@ -47,7 +49,7 @@ export interface AttestationCertificateManagementBody {
 
 // @public (undocumented)
 export class AttestationClient {
-    constructor(credentials: coreHttp.TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
+    constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
     // (undocumented)
     attestation: Attestation;
     // Warning: (ae-forgotten-export) The symbol "GeneratedClient" needs to be exported by the entry point index.d.ts
@@ -55,9 +57,9 @@ export class AttestationClient {
     // (undocumented)
     BaseClient(): GeneratedClient;
     // (undocumented)
-    getAttestationSigners(options?: coreHttp.OperationOptions): Promise<AttestationSigner[]>;
+    getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
     // (undocumented)
-    getOpenIdMetadata(options?: coreHttp.OperationOptions): Promise<any>;
+    getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
     // (undocumented)
     instanceUrl: string;
     // (undocumented)
@@ -66,10 +68,12 @@ export class AttestationClient {
     policyCertificates: PolicyCertificates;
 }
 
+// @public (undocumented)
+export interface AttestationClientOperationOptions extends OperationOptions {
+}
+
 // @public
 export interface AttestationClientOptions extends PipelineOptions {
-    apiVersion?: string;
-    endpoint?: string;
 }
 
 // @public

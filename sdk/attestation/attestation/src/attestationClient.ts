@@ -6,7 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import {
+  PipelineOptions,
+  bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions,
+  TokenCredential,
+  OperationOptions,
+} from "@azure/core-http"
 //import { OperationOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import {
@@ -16,21 +22,40 @@ import {
 } from "./operations";
 import { GeneratedClient } from "./generated/generatedClient"
   
-import { AttestationSigner, AttestationClientOptions  } from "./models";
+import { AttestationSigner } from "./models";
 
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { GeneratedClientOptionalParams } from "./generated/models";
 
+/**
+* Attestation Client Options.
+*/
+export interface AttestationClientOptions extends PipelineOptions{};
+
+export interface AttestationClientOperationOptions extends OperationOptions{};
+
 export class AttestationClient {
   /**
-   * Initializes a new instance of the AttestationClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * Creates an instance of AttestationClient.
+   *
+   * Example usage:
+   * ```ts
+   * import { AttestationClient } from "@azure/security-attestation";
+   *
+   * const client = new AttestationClient(
+   *    "<service endpoint>",
+   *    new TokenCredential("<>")
+   * );
+   * ```
+   *
    * @param instanceUrl The attestation instance base URI, for example https://mytenant.attest.azure.net.
-   * @param options The parameter options
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the Form Recognizer client.
    */
+
   constructor(
-    credentials: coreHttp.TokenCredential,
+    credentials: TokenCredential,
     instanceUrl: string,
     options: AttestationClientOptions = {}
   ) {
@@ -59,9 +84,9 @@ export class AttestationClient {
       }
     };
 
-    const authPolicy = coreHttp.bearerTokenAuthenticationPolicy(credentials, 'https://attest.azure.net/.default');
+    const authPolicy = bearerTokenAuthenticationPolicy(credentials, 'https://attest.azure.net/.default');
 
-    const pipeline = coreHttp.createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this._client = new GeneratedClient(credentials, instanceUrl, pipeline);
     this.instanceUrl = instanceUrl;
@@ -77,7 +102,7 @@ export class AttestationClient {
     return this._client;
   }
 
-  public async getAttestationSigners(options: coreHttp.OperationOptions = {}) : Promise<AttestationSigner[]>
+  public async getAttestationSigners(options: AttestationClientOperationOptions = {}) : Promise<AttestationSigner[]>
   {
     const { span, updatedOptions} = createSpan("AttestationClient-getAttestationSigners", options);
     try {
@@ -95,7 +120,7 @@ export class AttestationClient {
     }
   }
 
-  public async getOpenIdMetadata(options: coreHttp.OperationOptions = {}) : Promise<any>
+  public async getOpenIdMetadata(options: AttestationClientOperationOptions = {}) : Promise<any>
   {
     const { span, updatedOptions} = createSpan("AttestationClient-getAttestationSigners", options);
     try {
