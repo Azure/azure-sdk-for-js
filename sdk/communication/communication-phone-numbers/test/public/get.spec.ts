@@ -8,38 +8,38 @@ import { Context } from "mocha";
 import { PhoneNumbersClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
-matrix([[true, false]], async function(useAad) {
-  describe(`PhoneNumbersClient - get phone number${useAad ? " [AAD]" : ""}`, function() {
+matrix([[true, false]], async function (useAad) {
+  describe(`PhoneNumbersClient - get phone number${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
-    before(function(this: Context) {
+    before(function (this: Context) {
       const skipIntPhoneNumbersLiveTests = env.COMMUNICATION_SKIP_INT_PHONENUMBERS_TEST === "true";
       if (skipIntPhoneNumbersLiveTests) {
         this.skip();
-      } 
+      }
     });
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       ({ client, recorder } = useAad
         ? createRecordedClientWithToken(this)!
         : createRecordedClient(this));
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
     });
 
-    it("can get a purchased phone number", async function(this: Context) {
+    it("can get a purchased phone number", async function (this: Context) {
       const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
       const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
 
       assert.strictEqual(purchasedPhoneNumber, phoneNumber);
     }).timeout(60000);
 
-    it("errors if phone number not found", async function() {
+    it("errors if phone number not found", async function () {
       const fake = "+14155550100";
       try {
         await client.getPurchasedPhoneNumber(fake);
