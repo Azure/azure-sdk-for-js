@@ -1,6 +1,6 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 const {
   jsonRecordingFilterFunction,
   isPlaybackMode,
@@ -8,7 +8,7 @@ const {
   isRecordMode
 } = require("@azure/test-utils-recorder");
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     basePath: "./",
     frameworks: ["mocha"],
