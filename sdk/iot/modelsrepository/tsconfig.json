@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "lib": ["dom"],
     "paths": {
       "@azure/iot-modelsrepository": ["./src/index"]
     }
