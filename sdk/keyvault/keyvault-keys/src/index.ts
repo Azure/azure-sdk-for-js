@@ -22,7 +22,8 @@ import {
   KnownDeletionRecoveryLevel,
   KeyItem,
   KeyVaultClientGetKeysOptionalParams,
-  KnownJsonWebKeyType
+  KnownJsonWebKeyType,
+  DeletedKeyBundle
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -933,50 +934,37 @@ export class KeyClient {
    */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
     const parsedId = parseKeyVaultKeyId(keyItem.kid!);
-
     const attributes = keyItem.attributes || {};
+    const deletedBundle = keyItem as DeletedKeyBundle;
 
-    const abstractProperties: any = {
-      deletedOn: (attributes as any).deletedDate,
-      expiresOn: attributes.expires,
-      createdOn: attributes.created,
-      updatedOn: attributes.updated,
-
-      kid: keyItem.kid,
-      tags: keyItem.tags,
+    const abstractProperties: KeyProperties = {
+      createdOn: attributes?.created,
+      enabled: attributes?.enabled,
+      expiresOn: attributes?.expires,
+      id: keyItem.kid,
       managed: keyItem.managed,
-
-      recoverableDays: keyItem.attributes,
-      recoveryLevel: keyItem.attributes,
-      exportable: keyItem.attributes,
-
-      sourceId: parsedId.sourceId,
-      vaultUrl: parsedId.vaultUrl,
-      version: parsedId.version,
       name: parsedId.name,
-
-      id: keyItem.kid
+      notBefore: attributes?.notBefore,
+      recoverableDays: attributes?.recoverableDays,
+      recoveryLevel: attributes?.recoveryLevel,
+      tags: keyItem.tags,
+      updatedOn: attributes.updated,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version
     };
-
-    if (abstractProperties.deletedDate) {
-      delete abstractProperties.deletedDate;
-    }
-
-    if (abstractProperties.expires) {
-      delete abstractProperties.expires;
-    }
-    if (abstractProperties.created) {
-      delete abstractProperties.created;
-    }
-    if (abstractProperties.updated) {
-      delete abstractProperties.updated;
-    }
 
     return {
       key: keyItem,
       id: keyItem.kid,
       name: abstractProperties.name,
-      properties: abstractProperties
+      keyOperations: deletedBundle.key?.keyOps,
+      keyType: deletedBundle.key?.kty,
+      properties: {
+        ...abstractProperties,
+        recoveryId: deletedBundle.recoveryId,
+        scheduledPurgeDate: deletedBundle.scheduledPurgeDate,
+        deletedOn: deletedBundle?.deletedDate
+      }
     };
   }
 
@@ -987,33 +975,23 @@ export class KeyClient {
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
     const parsedId = parseKeyVaultKeyId(keyItem.kid!);
-
     const attributes = keyItem.attributes || {};
 
-    const resultObject: any = {
+    const resultObject: KeyProperties = {
       createdOn: attributes.created,
-      updatedOn: attributes.updated,
-
-      kid: keyItem.kid,
-      tags: keyItem.tags,
+      enabled: attributes?.enabled,
+      expiresOn: attributes?.expires,
+      id: keyItem.kid,
       managed: keyItem.managed,
-
-      recoverableDays: keyItem.attributes,
-      recoveryLevel: keyItem.attributes,
-      exportable: keyItem.attributes,
-
-      sourceId: parsedId.sourceId,
+      name: parsedId.name,
+      notBefore: attributes?.notBefore,
+      recoverableDays: attributes?.recoverableDays,
+      recoveryLevel: attributes?.recoveryLevel,
+      tags: keyItem.tags,
+      updatedOn: attributes.updated,
       vaultUrl: parsedId.vaultUrl,
-      version: parsedId.version,
-      name: parsedId.name
+      version: parsedId.version
     };
-
-    delete resultObject.attributes;
-
-    if (keyItem.attributes!.expires) {
-      resultObject.expiresOn = keyItem.attributes!.expires;
-      delete resultObject.expires;
-    }
 
     return resultObject;
   }
