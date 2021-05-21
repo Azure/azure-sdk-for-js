@@ -88,7 +88,6 @@ examples/bin
 .vs
 TestResults/*
 .vscode/*
-**/.vscode/*
 ./**/.vscode/*
 
 
