@@ -551,40 +551,6 @@ matrix([[true, false]] as const, async (useAad) => {
           await verifyDataFeedDeletion(client, createdAzureTableFeedId);
         });
 
-        it("creates HTTP Request feed", async () => {
-          const expectedSource: DataFeedSource = {
-            dataSourceType: "HttpRequest",
-            dataSourceParameter: {
-              url: "HttpsUrl",
-              httpHeader: "header",
-              httpMethod: "POST",
-              payload: "{start-time: @start-time}"
-            }
-          };
-          const actual = await client.createDataFeed({
-            name: httpRequestFeedName,
-            source: expectedSource,
-            granularity,
-            schema: dataFeedSchema,
-            ingestionSettings: dataFeedIngestion,
-            ...options
-          });
-
-          assert.ok(actual.id, "Expecting valid data feed id");
-          createdHttpRequestFeedId = actual.id;
-          assert.equal(actual.source.dataSourceType, "HttpRequest");
-          if (actual.source.dataSourceType === "HttpRequest") {
-            assert.equal(actual.source.dataSourceParameter.url, "HttpsUrl");
-            assert.equal(actual.source.dataSourceParameter.httpHeader, "header");
-            assert.equal(actual.source.dataSourceParameter.httpMethod, "POST");
-            assert.equal(actual.source.dataSourceParameter.payload, "{start-time: @start-time}");
-          }
-        });
-
-        it("deletes HTTP Request feed", async function() {
-          await verifyDataFeedDeletion(client, createdHttpRequestFeedId);
-        });
-
         it("creates InfluxDB data feed", async () => {
           const expectedSource: DataFeedSource = {
             dataSourceType: "InfluxDB",

@@ -196,7 +196,6 @@ describe("Transforms", () => {
 
     const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
     assert.strictEqual(actual.source.dataSourceType, "Unknown");
-    assert.deepStrictEqual(actual.source.dataSourceParameter, serviceDataFeed.dataSourceParameter);
   });
 
   [

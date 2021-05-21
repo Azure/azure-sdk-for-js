@@ -17,7 +17,18 @@ import {
   EmailHookInfo,
   NeedRollupEnum,
   RollUpMethod as DataFeedDetailRollUpMethod,
-  DataSourceCredentialPatchUnion as ServiceDataSourceCredentialPatch
+  DataSourceCredentialPatchUnion as ServiceDataSourceCredentialPatch,
+  AzureApplicationInsightsDataFeed as ServiceAzureApplicationInsightsDataFeed,
+  AzureDataExplorerDataFeed as ServiceAzureDataExplorerDataFeed,
+  AzureDataLakeStorageGen2DataFeed as ServiceAzureDataLakeStorageGen2DataFeed,
+  AzureBlobDataFeed as ServiceAzureBlobDataFeed,
+  AzureCosmosDBDataFeed as ServiceAzureCosmosDBDataFeed,
+  AzureTableDataFeed as ServiceAzureTableDataFeed,
+  InfluxDBDataFeed as ServiceInfluxDBDataFeed,
+  MongoDBDataFeed as ServiceMongoDBDataFeed,
+  MySqlDataFeed as ServiceMySqlDataFeed,
+  PostgreSqlDataFeed as ServicePostgreSqlDataFeed,
+  SQLServerDataFeed as ServiceSQLServerDataFeed
 } from "./generated/models";
 import {
   MetricFeedbackUnion,
@@ -32,9 +43,7 @@ import {
   AzureBlobDataFeedSource,
   AzureCosmosDBDataFeedSource,
   AzureDataExplorerDataFeedSource,
-  AzureDataLakeStorageGen2DataFeedSource,
   AzureTableDataFeedSource,
-  HttpRequestDataFeedSource,
   InfluxDBDataFeedSource,
   MongoDBDataFeedSource,
   MySqlDataFeedSource,
@@ -44,14 +53,17 @@ import {
   DataFeedRollupSettings,
   MetricFeedbackCommon,
   NotificationHook,
-  ElasticsearchDataFeedSource,
   AnomalyAlertConfiguration,
   MetricAnomalyAlertScope,
   MetricBoundaryCondition,
   HardThresholdConditionUnion,
   ChangeThresholdConditionUnion,
   DataFeedGranularity,
-  DataSourceCredentialEntityPatch
+  DataSourceCredentialEntityPatch,
+  AzureDataExplorerAuthTypes,
+  AzureDataLakeStorageGen2AuthTypes,
+  AzureDataLakeStorageGen2DataFeedSource,
+  SQLServerAuthTypes
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -381,49 +393,62 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
   };
   switch (original.dataSourceType) {
     case "AzureApplicationInsights": {
-      const orig = (original as unknown) as AzureApplicationInsightsDataFeedSource;
+      const orig = (original) as ServiceAzureApplicationInsightsDataFeed;
       const result1: DataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureApplicationInsights",
-          dataSourceParameter: {
-            ...orig.dataSourceParameter,
-            authenticationType: "Basic"
-          }
+          azureCloud:  orig.dataSourceParameter.azureCloud,
+          applicationId: orig.dataSourceParameter.applicationId,
+          apiKey: orig.dataSourceParameter.apiKey,
+          query: orig.dataSourceParameter.query,
+          authenticationType: "Basic"
         }
       };
       return result1;
     }
     case "AzureBlob": {
-      const orig2 = (original as unknown) as AzureBlobDataFeedSource;
+      const orig2 = (original) as ServiceAzureBlobDataFeed;
+      let auth: {"authenticationType": "Basic" } | {"authenticationType": "ManagedIdentity" };
+      if(!original.authenticationType){
+        auth = {"authenticationType": "Basic"};
+      }
+      else  if(original.authenticationType === "Basic" || original.authenticationType === "ManagedIdentity" ){
+        auth = {"authenticationType" : original.authenticationType}
+      }
+      else {
+        throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
+      }
+      const source: AzureBlobDataFeedSource = {
+        dataSourceType: "AzureBlob",
+        ...orig2.dataSourceParameter,
+        ...auth
+      };
       const result2: DataFeed = {
         ...common,
-        source: {
-          dataSourceType: "AzureBlob",
-          dataSourceParameter: orig2.dataSourceParameter
-        }
+        source
       };
       return result2;
     }
     case "AzureCosmosDB": {
-      const orig3 = (original as unknown) as AzureCosmosDBDataFeedSource;
+      const orig3 = (original) as ServiceAzureCosmosDBDataFeed;
       const result3: DataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureCosmosDB",
-          dataSourceParameter: {
-            ...orig3.dataSourceParameter,
-            authenticationType: "Basic"
-          }
+          authenticationType: "Basic",
+          ...orig3.dataSourceParameter
         }
       };
       return result3;
     }
     case "AzureDataExplorer": {
-      const orig4 = (original as unknown) as AzureDataExplorerDataFeedSource;
-      let auth: object = {};
-      if (
-        !original.authenticationType ||
+      const orig4 = original as ServiceAzureDataExplorerDataFeed;
+      let auth: AzureDataExplorerAuthTypes;
+      if(!original.authenticationType){
+        auth = {authenticationType: "Basic"}
+      }
+      else if (
         original.authenticationType === "Basic" ||
         original.authenticationType === "ManagedIdentity"
       ) {
@@ -434,29 +459,30 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       ) {
         auth = {
           authenticationType: original.authenticationType,
-          credentialId: original.credentialId
+          credentialId: original.credentialId!
         };
       } else {
         throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
       }
+      const source: AzureDataExplorerDataFeedSource = {
+        dataSourceType: "AzureDataExplorer",
+        connectionString:orig4.dataSourceParameter.connectionString!,
+        query: orig4.dataSourceParameter.query,
+        ...auth
+      };
       const result4: DataFeed = {
         ...common,
-        source: {
-          dataSourceType: "AzureDataExplorer",
-          dataSourceParameter: {
-            ...orig4.dataSourceParameter,
-            ...auth
-          }
-        }
+        source
       };
       return result4;
     }
     case "AzureDataLakeStorageGen2": {
-      const orig5 = (original as unknown) as AzureDataLakeStorageGen2DataFeedSource;
-      let auth: object = {};
-      if (
-        !original.authenticationType ||
-        original.authenticationType === "Basic" ||
+      const orig5 = original as ServiceAzureDataLakeStorageGen2DataFeed;
+      let auth:AzureDataLakeStorageGen2AuthTypes;
+      if (!original.authenticationType  || original.authenticationType === "Basic") {
+          auth = { authenticationType: "Basic", accountKey: orig5.dataSourceParameter.accountKey!  };
+        } 
+        else if(
         original.authenticationType === "ManagedIdentity"
       ) {
         auth = { authenticationType: original.authenticationType };
@@ -467,124 +493,112 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       ) {
         auth = {
           authenticationType: original.authenticationType,
-          credentialId: original.credentialId
+          credentialId: original.credentialId!
         };
       } else {
         throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
       }
+      const source: AzureDataLakeStorageGen2DataFeedSource = {
+        dataSourceType: "AzureDataLakeStorageGen2",
+        accountName: orig5.dataSourceParameter.accountName,
+        directoryTemplate: orig5.dataSourceParameter.directoryTemplate,
+        fileSystemName: orig5.dataSourceParameter.fileSystemName,
+        fileTemplate: orig5.dataSourceParameter.fileTemplate,        
+        ...auth
+      };
       const result5: DataFeed = {
         ...common,
-        source: {
-          dataSourceType: "AzureDataLakeStorageGen2",
-          dataSourceParameter: {
-            ...orig5.dataSourceParameter,
-            ...auth
-          }
-        }
+        source
       };
       return result5;
     }
     case "AzureTable": {
-      const orig6 = (original as unknown) as AzureTableDataFeedSource;
+      const orig6 = (original) as ServiceAzureTableDataFeed;
       const result6: DataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureTable",
-          dataSourceParameter: {
             ...orig6.dataSourceParameter,
             authenticationType: "Basic"
-          }
+
         }
       };
       return result6;
     }
-    case "HttpRequest": {
-      const orig7 = (original as unknown) as HttpRequestDataFeedSource;
-      const result7: DataFeed = {
-        ...common,
-        source: {
-          dataSourceType: "HttpRequest",
-          dataSourceParameter: {
-            ...orig7.dataSourceParameter,
-            authenticationType: "Basic"
-          }
-        }
-      };
-      return result7;
-    }
     case "InfluxDB": {
-      const orig8 = (original as unknown) as InfluxDBDataFeedSource;
+      const orig8 = (original) as ServiceInfluxDBDataFeed;
       const result8: DataFeed = {
         ...common,
         source: {
           dataSourceType: "InfluxDB",
-          dataSourceParameter: {
-            ...orig8.dataSourceParameter,
-            authenticationType: "Basic"
-          }
+          ...orig8.dataSourceParameter,
+          authenticationType: "Basic"
         }
       };
       return result8;
     }
     case "MongoDB": {
-      const orig9 = (original as unknown) as MongoDBDataFeedSource;
+      const orig9 = (original) as ServiceMongoDBDataFeed;
       const result9: DataFeed = {
         ...common,
         source: {
           dataSourceType: "MongoDB",
-          dataSourceParameter: {
-            ...orig9.dataSourceParameter,
-            authenticationType: "Basic"
-          }
+          ...orig9.dataSourceParameter,
+          authenticationType: "Basic"
         }
       };
       return result9;
     }
     case "MySql": {
-      const orig10 = (original as unknown) as MySqlDataFeedSource;
+      const orig10 = (original) as ServiceMySqlDataFeed;
       const result10: DataFeed = {
         ...common,
         source: {
           dataSourceType: "MySql",
-          dataSourceParameter: {
-            ...orig10.dataSourceParameter,
-            authenticationType: "Basic"
-          }
+          ...orig10.dataSourceParameter,
+          authenticationType: "Basic"
         }
       };
       return result10;
     }
     case "PostgreSql": {
-      const orig11 = (original as unknown) as PostgreSqlDataFeedSource;
+      const orig11 = (original) as ServicePostgreSqlDataFeed;
       const result11: DataFeed = {
         ...common,
         source: {
           dataSourceType: "PostgreSql",
-          dataSourceParameter: {
-            ...orig11.dataSourceParameter,
-            authenticationType: "Basic"
-          }
+          ...orig11.dataSourceParameter,
+          authenticationType: "Basic"
         }
       };
       return result11;
     }
     case "SqlServer": {
-      const orig12 = original as SQLServerDataFeedSource;
-      let auth: object = {};
+      const orig12 = original as ServiceSQLServerDataFeed;
+      let auth: SQLServerAuthTypes;
       if (
-        !original.authenticationType ||
+        !original.authenticationType )
+        {
+          auth = { authenticationType: "Basic" , connectionString: orig12.dataSourceParameter.connectionString!};
+        }
+        if(
         original.authenticationType === "Basic" ||
         original.authenticationType === "ManagedIdentity"
       ) {
-        auth = { authenticationType: original.authenticationType };
+        auth = { authenticationType: original.authenticationType , connectionString: orig12.dataSourceParameter.connectionString!};
       } else if (
         original.authenticationType === "ServicePrincipal" ||
-        original.authenticationType === "ServicePrincipalInKV" ||
-        original.authenticationType === "AzureSQLConnectionString"
-      ) {
+        original.authenticationType === "ServicePrincipalInKV"
+      ){
+        auth = {
+         authenticationType: original.authenticationType,
+         credentialId: orig12.credentialId!,
+         connectionString: orig12.dataSourceParameter.connectionString!
+        }
+      } else if (original.authenticationType === "AzureSQLConnectionString"){
         auth = {
           authenticationType: original.authenticationType,
-          credentialId: original.credentialId
+          credentialId: original.credentialId!
         };
       } else {
         throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
@@ -593,24 +607,11 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "SqlServer",
-          dataSourceParameter: { ...orig12.dataSourceParameter, ...auth }
-        }
-      };
-      return result12;
-    }
-    case "Elasticsearch": {
-      const orig13 = (original as unknown) as ElasticsearchDataFeedSource;
-      const result13: DataFeed = {
-        ...common,
-        source: {
-          dataSourceType: "Elasticsearch",
-          dataSourceParameter: {
-            ...orig13.dataSourceParameter,
-            authenticationType: "Basic"
+          query: orig12.dataSourceParameter.query, 
+          ...auth 
           }
-        }
-      };
-      return result13;
+        };
+      return result12;
     }
     default:
       return {

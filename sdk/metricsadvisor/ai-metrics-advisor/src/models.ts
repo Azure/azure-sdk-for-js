@@ -320,19 +320,24 @@ export type DataFeed = {
  */
 export type AzureApplicationInsightsDataFeedSource = {
   dataSourceType: "AzureApplicationInsights";
-  dataSourceParameter: AzureApplicationInsightsParameter & {
-    authenticationType: "Basic";
-  };
-};
+  /** Authentication Type */
+  authenticationType: "Basic";
+} &  AzureApplicationInsightsParameter;
+
 
 /**
  * Represents an Azure Blob Storage data source.
  */
 export type AzureBlobDataFeedSource = {
   dataSourceType: "AzureBlob";
-  dataSourceParameter: AzureBlobParameter & {
+   /** Azure Blob connection string */
+   connectionString: string;
+   /** Container */
+   container: string;
+   /** Blob Template */
+   blobTemplate: string;
+  /** Authentication Type */
     authenticationType: "Basic" | "ManagedIdentity";
-  };
 };
 
 /**
@@ -340,78 +345,148 @@ export type AzureBlobDataFeedSource = {
  */
 export type AzureCosmosDBDataFeedSource = {
   dataSourceType: "AzureCosmosDB";
-  dataSourceParameter: AzureCosmosDBParameter & {
-    authenticationType: "Basic";
-  };
+  /** Authentication Type */
+  authenticationType: "Basic";
+}& AzureCosmosDBParameter 
+
+/**
+ * Represents Service Principal Authentication Type for Azure Data Explorer Source
+ */
+ export interface AzureDataExplorerAuthServicePrincipal { 
+  authenticationType: "ServicePrincipal";
+  credentialId: string;
 };
 
+/**
+ * Represents Service Principal in KV Authentication Type for Azure Data Explorer Source
+ */
+ export interface AzureDataExplorerAuthServicePrincipalInKV { 
+  authenticationType: "ServicePrincipalInKV";
+  credentialId: string;
+};
+
+/**
+ * Represents Basic Authentication Type for Azure Data Explorer Source
+ */
+export interface AzureDataExplorerAuthBasic { 
+  authenticationType: "Basic";
+};
+
+/**
+ * Represents Managed Identity Authentication Type for Azure Data Explorer Source
+ */
+ export interface AzureDataExplorerAuthManagedIdentity { 
+  authenticationType: "ManagedIdentity";
+};
+
+/**
+ * Represents Authentication Type Union for Azure Data Explorer Source
+ */
+export type AzureDataExplorerAuthTypes = | AzureDataExplorerAuthBasic
+| AzureDataExplorerAuthManagedIdentity
+| AzureDataExplorerAuthServicePrincipal
+| AzureDataExplorerAuthServicePrincipalInKV;
 /**
  * Represents an Azure Data Explorer data source.
  */
 export type AzureDataExplorerDataFeedSource = {
   dataSourceType: "AzureDataExplorer";
-  dataSourceParameter: SqlSourceParameter &
-    (
-      | {
-          authenticationType: "Basic" | "ManagedIdentity";
-        }
-      | {
-          authenticationType: "ServicePrincipal" | "ServicePrincipalInKV";
-          credentialId: string;
-        }
+    /** Database connection string */
+    connectionString: string;
+    /** Query script */
+    query: string;
+} &(
+      AzureDataExplorerAuthTypes
     );
+
+/**
+ * Represents Basic Authentication Type for Azure DataLake Storage Gen2 Source
+ */
+export type DataLakeStorageGen2AuthBasic = {
+  /** Authentication */
+  authenticationType: "Basic";
+  /** Account key */
+  accountKey: string;
 };
+
+/**
+ * Represents Managed Identity Authentication Type for Azure DataLake Storage Gen2 Source
+ */
+export type DataLakeStorageGen2AuthManagedIdentity = {
+  /** Authentication */
+  authenticationType: "ManagedIdentity";
+};
+
+/**
+ * Represents Service Principal Authentication Type for Azure DataLake Storage Gen2 Source
+ */
+export type DataLakeStorageGen2AuthServicePrincipal = {
+  /** Authentication */
+  authenticationType: "ServicePrincipal";
+  /** Credential entity id */
+  credentialId: string;
+};
+
+/**
+ * Represents Service Principal in KV Authentication Type for Azure DataLake Storage Gen2 Source
+ */
+export type DataLakeStorageGen2AuthServicePrincipalInKV = {
+  /** Authentication */
+  authenticationType: "ServicePrincipalInKV";
+  /** Credential entity id */
+  credentialId: string;
+};
+
+/**
+ * Represents Shared Key in KV Authentication Type for Azure DataLake Storage Gen2 Source
+ */
+export type DataLakeStorageGen2AuthSharedKey = {
+  /** Authentication */
+  authenticationType: "DataLakeGen2SharedKey";
+  /** Credential entity id */
+  credentialId: string;
+};
+
+/**
+ * Represents Authentication Type Union for Azure DataLake Storage Gen2 Source
+ */
+ export type AzureDataLakeStorageGen2AuthTypes = | DataLakeStorageGen2AuthBasic
+ | DataLakeStorageGen2AuthManagedIdentity
+ | DataLakeStorageGen2AuthServicePrincipal
+ | DataLakeStorageGen2AuthServicePrincipalInKV
+ | DataLakeStorageGen2AuthSharedKey;
+
 
 /**
  * Represents an Azure DataLake Storage Gen2 data source.
  */
 export type AzureDataLakeStorageGen2DataFeedSource = {
   dataSourceType: "AzureDataLakeStorageGen2";
-  dataSourceParameter: Omit<AzureDataLakeStorageGen2Parameter, "accountKey"> &
-    (
-      | {
-          authenticationType: "Basic";
-          /** Account key */
-          accountKey: string;
-        }
-      | {
-          authenticationType: "ManagedIdentity";
-        }
-      | {
-          authenticationType: "ServicePrincipal" | "ServicePrincipalInKV" | "DataLakeGen2SharedKey";
-          credentialId: string;
-        }
+   /** Account name */
+   accountName: string;
+   /** File system name (Container) */
+   fileSystemName: string;
+   /** Directory template */
+   directoryTemplate: string;
+   /** File template */
+   fileTemplate: string;
+}&(
+      AzureDataLakeStorageGen2AuthTypes
     );
-};
-
-/**
- * Represents an Elasticsearch data source.
- */
-export type ElasticsearchDataFeedSource = {
-  dataSourceType: "Elasticsearch";
-  dataSourceParameter: ElasticsearchParameter & {
-    authenticationType: "Basic";
-  };
-};
 
 /**
  * Represents an Azure Table data source.
  */
 export type AzureTableDataFeedSource = {
   dataSourceType: "AzureTable";
-  dataSourceParameter: AzureTableParameter & {
+    /** Azure Table connection string */
+    connectionString: string;
+    /** Table name */
+    table: string;
+    /** Query script */
+    query: string;
+   /** Authentication type */
     authenticationType: "Basic";
-  };
-};
-
-/**
- * Represents an Http Request data source.
- */
-export type HttpRequestDataFeedSource = {
-  dataSourceType: "HttpRequest";
-  dataSourceParameter: HttpRequestParameter & {
-    authenticationType: "Basic";
-  };
 };
 
 /**
@@ -419,19 +494,32 @@ export type HttpRequestDataFeedSource = {
  */
 export type InfluxDBDataFeedSource = {
   dataSourceType: "InfluxDB";
-  dataSourceParameter: InfluxDBParameter & {
+    /** InfluxDB connection string */
+    connectionString: string;
+    /** Database name */
+    database: string;
+    /** Database access user */
+    userName: string;
+    /** Database access password */
+    password: string;
+    /** Query script */
+    query: string;
+  /** Authentication type */
     authenticationType: "Basic";
-  };
+ 
 };
 
 /**
  * Represents a MySQL data source.
  */
 export type MySqlDataFeedSource = {
-  dataSourceType: "MySql";
-  dataSourceParameter: SqlSourceParameter & {
+    dataSourceType: "MySql";
+    /** Database connection string */
+    connectionString?: string;
+    /** Query script */
+    query: string;
+    /** Authentication type */
     authenticationType: "Basic";
-  };
 };
 
 /**
@@ -439,9 +527,12 @@ export type MySqlDataFeedSource = {
  */
 export type PostgreSqlDataFeedSource = {
   dataSourceType: "PostgreSql";
-  dataSourceParameter: SqlSourceParameter & {
+    /** Database connection string */
+    connectionString?: string;
+    /** Query script */
+    query: string;
+    /** Authentication type */
     authenticationType: "Basic";
-  };
 };
 
 /**
@@ -449,9 +540,14 @@ export type PostgreSqlDataFeedSource = {
  */
 export type MongoDBDataFeedSource = {
   dataSourceType: "MongoDB";
-  dataSourceParameter: MongoDBParameter & {
+    /** MongoDB connection string */
+    connectionString: string;
+    /** Database name */
+    database: string;
+    /** Query script */
+    command: string;
+    /** Authentication type */
     authenticationType: "Basic";
-  };
 };
 
 /**
@@ -462,51 +558,64 @@ export type UnknownDataFeedSource = {
   dataSourceParameter: unknown;
 };
 
-export interface SQLSourceWithBasicAuthParam {
-  query: string;
+/**
+ * Represents Basic Authentication for Sql Server datafeed source
+ */
+export interface SQLServerAuthBasic {
   authenticationType: "Basic";
   connectionString: string;
 }
-export interface SQLSourceWithManagedIdentity{
-  query: string;
+
+/**
+ * Represents Managed Identity Authentication for Sql Server datafeed source
+ */
+export interface SQLServerAuthManagedIdentity{
   authenticationType: "ManagedIdentity";
   connectionString: string;
 }
-export interface SQLSourceWithSQLConnectionStringParam { 
-  query: string;
+
+/**
+ * Represents Azure SQL Connection String Authentication for Sql Server datafeed source
+ */
+export interface SQLServerAuthConnectionString { 
   authenticationType: "AzureSQLConnectionString";
   credentialId: string;
 }
-export interface SQLSourceWithServicePrincipalInKVParam { 
-  query: string;
-  authenticationType: "AzureSQLConnectionString";
+
+/**
+ * Represents Service Principal in Keyvault Authentication for Sql Server datafeed source
+ */
+export interface SQLServerAuthServicePrincipalInKV { 
+  authenticationType: "ServicePrincipalInKV";
   credentialId: string;
   connectionString: string;
 }
-export interface SQLSourceWithServicePrincipalParam { 
-  query: string;
+
+/**
+ * Represents Service Principal Authentication for Sql Server datafeed source
+ */
+export interface SQLServerAuthServicePrincipal { 
   authenticationType: "ServicePrincipal";
   credentialId: string;
   connectionString: string;
 }
+
+/**
+ * Represents Authentication Type Union for Sql Server datafeed source
+ */
+export type SQLServerAuthTypes = | SQLServerAuthBasic
+| SQLServerAuthManagedIdentity
+| SQLServerAuthConnectionString
+| SQLServerAuthServicePrincipal
+| SQLServerAuthServicePrincipalInKV;
+
 /**
  * Represents a SQL Server data source.
  */
-export type SQLServerDataFeedSource = {
-  dataSourceType: "SqlServer";
-  dataSourceParameter: SqlSourceParameter &
-    (
-      | SQLSourceWithBasicAuthParam
-      | SQLSourceWithSQLConnectionStringParam
-      | {
-          authenticationType:
-            | "ServicePrincipal"
-            | "ServicePrincipalInKV"
-            | "AzureSQLConnectionString";
-          credentialId: string;
-        }
-    );
-};
+ export type SQLServerDataFeedSource = {
+  dataSourceType: "SqlServer";  
+  query: string;  
+} & SQLServerAuthTypes;
 
 /**
  * A union type of all supported data sources.
@@ -518,8 +627,6 @@ export type DataFeedSource =
   | AzureDataExplorerDataFeedSource
   | AzureDataLakeStorageGen2DataFeedSource
   | AzureTableDataFeedSource
-  | ElasticsearchDataFeedSource
-  | HttpRequestDataFeedSource
   | InfluxDBDataFeedSource
   | MySqlDataFeedSource
   | PostgreSqlDataFeedSource
