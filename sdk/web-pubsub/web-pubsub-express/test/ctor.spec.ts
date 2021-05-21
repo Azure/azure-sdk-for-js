@@ -18,6 +18,11 @@ describe("Can creat event handler", function() {
   });
 
   it("Throw with invalid endpoints", function() {
-    assert.throws(() => new WebPubSubEventHandler("hub", ["b.com"]), "Invalid URL: b.com");
+    try {
+      new WebPubSubEventHandler("hub", ["b.com"]);
+      assert.fail("Should have thrown ERROR_INVALID_URL");
+    } catch (err) {
+      assert.isTrue((err as any).message.startsWith("Invalid URL"));
+    }
   });
 });

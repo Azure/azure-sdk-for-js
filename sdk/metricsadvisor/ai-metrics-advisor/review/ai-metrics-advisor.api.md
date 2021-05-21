@@ -64,6 +64,7 @@ export interface AnomalyAlertConfiguration {
     id: string;
     metricAlertConfigurations: MetricAlertConfiguration[];
     name: string;
+    splitAlertByDimensions?: string[];
 }
 
 // @public
@@ -82,7 +83,9 @@ export type AnomalyDetectorDirection = "Both" | "Down" | "Up";
 
 // @public
 export interface AnomalyIncident {
+    readonly dataFeedId?: string;
     detectionConfigurationId: string;
+    readonly expectedValueOfRootNode?: number;
     id: string;
     lastOccurredTime: Date;
     metricId?: string;
@@ -90,6 +93,7 @@ export interface AnomalyIncident {
     severity: AnomalySeverity;
     startTime?: Date;
     status?: AnomalyStatus;
+    readonly valueOfRootNode?: number;
 }
 
 // @public
@@ -332,13 +336,16 @@ export type DataFeedStatus = "Paused" | "Active";
 // @public
 export interface DataPointAnomaly {
     createdOn?: Date;
+    readonly dataFeedId?: string;
     detectionConfigurationId: string;
+    readonly expectedValue?: number;
     metricId?: string;
     modifiedOn?: Date;
     seriesKey: DimensionKey;
     severity: AnomalySeverity;
     status?: AnomalyStatus;
     timestamp: number;
+    readonly value?: number;
 }
 
 // @public
@@ -722,17 +729,20 @@ export type MetricBoundaryCondition = {
     lower: number;
     metricId?: string;
     triggerForMissing?: boolean;
+    type?: "Value" | "Mean";
 } | {
     direction: "Up";
     upper: number;
     metricId?: string;
     triggerForMissing?: boolean;
+    type?: "Value" | "Mean";
 } | {
     lower: number;
     upper: number;
     direction: "Both";
     metricId?: string;
     triggerForMissing?: boolean;
+    type?: "Value" | "Mean";
 };
 
 // @public

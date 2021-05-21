@@ -300,7 +300,8 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
   });
 }
 
-function getBodyLength(body: RequestBodyType): number | null {
+/** @internal */
+export function getBodyLength(body: RequestBodyType): number | null {
   if (!body) {
     return 0;
   } else if (Buffer.isBuffer(body)) {
@@ -309,6 +310,8 @@ function getBodyLength(body: RequestBodyType): number | null {
     return null;
   } else if (isArrayBuffer(body)) {
     return body.byteLength;
+  } else if (typeof body === "string") {
+    return Buffer.from(body).length;
   } else {
     return null;
   }

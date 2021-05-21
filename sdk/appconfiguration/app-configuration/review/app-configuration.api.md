@@ -15,8 +15,7 @@ export interface AddConfigurationSettingOptions extends OperationOptions {
 }
 
 // @public
-export interface AddConfigurationSettingParam extends ConfigurationSettingParam {
-}
+export type AddConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T>;
 
 // @public
 export interface AddConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
@@ -26,12 +25,12 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
-    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
+    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue> | AddConfigurationSettingParam<SecretReferenceValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
-    setConfigurationSetting(configurationSetting: SetConfigurationSettingParam, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
+    setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
     updateSyncToken(syncToken: string): void;
 }
@@ -42,10 +41,10 @@ export interface AppConfigurationClientOptions {
 }
 
 // @public
-export interface ConfigurationSetting extends ConfigurationSettingParam {
+export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T> & {
     isReadOnly: boolean;
     lastModified?: Date;
-}
+};
 
 // @public
 export interface ConfigurationSettingId {
@@ -55,13 +54,16 @@ export interface ConfigurationSettingId {
 }
 
 // @public
-export interface ConfigurationSettingParam extends ConfigurationSettingId {
+export type ConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingId & {
     contentType?: string;
     tags?: {
         [propertyName: string]: string;
     };
+} & (T extends string ? {
     value?: string;
-}
+} : {
+    value: T;
+});
 
 // @public
 export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
@@ -75,58 +77,23 @@ export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField
 }
 
 // @public
-export interface FeatureFlag extends FeatureFlagParam, ConfigurationSetting {
-}
-
-// @public
 export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
-
-// @public
-export interface FeatureFlagParam extends ConfigurationSettingParam {
-    conditions: {
-        clientFilters: (FeatureFlagTargetingClientFilter | FeatureFlagTimeWindowClientFilter | FeatureFlagPercentageClientFilter | Record<string, unknown>)[];
-    };
-    description?: string;
-    enabled: boolean;
-}
-
-// @public
-export interface FeatureFlagPercentageClientFilter {
-    name: "Microsoft.Percentage";
-    parameters: {
-        value: number;
-    };
-}
 
 // @public
 export const featureFlagPrefix = ".appconfig.featureflag/";
 
 // @public
-export interface FeatureFlagTargetingClientFilter {
-    name: "Microsoft.Targeting";
-    parameters: {
-        audience: {
-            users: string[];
-            groups: {
-                name: string;
-                rolloutPercentage: number;
-            }[];
-            defaultRolloutPercentage: number;
-        };
+export interface FeatureFlagValue {
+    conditions: {
+        clientFilters: {
+            name: string;
+            parameters?: Record<string, unknown>;
+        }[];
     };
+    description?: string;
+    enabled: boolean;
+    id?: string;
 }
-
-// @public
-export interface FeatureFlagTimeWindowClientFilter {
-    name: "Microsoft.TimeWindow";
-    parameters: {
-        start: string;
-        end: string;
-    };
-}
-
-// @public
-export type FeatureFlagType<T extends "targeting" | "timeWindow" | "percentage"> = T extends "targeting" ? FeatureFlagTargetingClientFilter : T extends "timeWindow" ? FeatureFlagTimeWindowClientFilter : T extends "percentage" ? FeatureFlagPercentageClientFilter : never;
 
 // @public
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
@@ -165,13 +132,10 @@ export interface HttpResponseFields {
 }
 
 // @public
-export function isFeatureFlag(setting: ConfigurationSetting | FeatureFlag): setting is FeatureFlag;
+export function isFeatureFlag(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
-export function isFeatureFlagClientFilter<T extends "targeting" | "timeWindow" | "percentage">(type: T, obj: unknown): obj is FeatureFlagType<T>;
-
-// @public
-export function isSecretReference(setting: ConfigurationSetting): setting is SecretReference;
+export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {
@@ -204,14 +168,16 @@ export interface OptionalFields {
 }
 
 // @public
-export interface SecretReference extends SecretReferenceParam, ConfigurationSetting {
-}
+export function parseFeatureFlag(setting: ConfigurationSetting): ConfigurationSetting<FeatureFlagValue>;
+
+// @public
+export function parseSecretReference(setting: ConfigurationSetting): ConfigurationSetting<SecretReferenceValue>;
 
 // @public
 export const secretReferenceContentType = "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";
 
 // @public
-export interface SecretReferenceParam extends ConfigurationSettingParam {
+export interface SecretReferenceValue {
     secretId: string;
 }
 
@@ -220,8 +186,7 @@ export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField
 }
 
 // @public
-export interface SetConfigurationSettingParam extends ConfigurationSettingParam {
-}
+export type SetConfigurationSettingParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T>;
 
 // @public
 export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {

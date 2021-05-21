@@ -40,12 +40,12 @@ export async function main(): Promise<void> {
       ]
     }
   ];
-  let roleDefinition = await client.upsertRoleDefinition(
-    globalScope,
+  let roleDefinition = await client.upsertRoleDefinition(globalScope, {
     roleDefinitionName,
+    roleName: "Backup Manager",
     permissions,
-    "Allow backup actions"
-  );
+    description: "Allow backup actions"
+  });
   console.log(roleDefinition);
 
   // This sample uses a custom role but you may assign one of the many built-in roles.

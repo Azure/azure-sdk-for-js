@@ -54,7 +54,7 @@ export interface KeyVaultBackupResult {
   /**
    * The location of the full backup.
    */
-  backupFolderUri?: string;
+  folderUri?: string;
 
   /**
    * The start time of the backup operation.

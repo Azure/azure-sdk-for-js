@@ -6,9 +6,11 @@ import { createAppConfigurationClientForTests, startRecorder } from "./utils/tes
 import {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
+  ConfigurationSetting,
   isSecretReference,
-  SecretReference,
-  secretReferenceContentType
+  parseSecretReference,
+  secretReferenceContentType,
+  SecretReferenceValue
 } from "../../src";
 import { Recorder } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
@@ -27,9 +29,11 @@ describe("AppConfigurationClient - SecretReference", () => {
   });
 
   describe("SecretReference configuration setting", () => {
-    const getBaseSetting = (): SecretReference => {
+    const getBaseSetting = (): ConfigurationSetting<SecretReferenceValue> => {
       return {
-        secretId: `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName("name-2")}`, // TODO: It's a URL in .NET, should we leave it as a string input?
+        value: {
+          secretId: `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName("name-2")}`
+        }, // TODO: It's a URL in .NET, should we leave it as a string input?
         isReadOnly: false,
         key: recorder.getUniqueName("name-3"),
         label: "label-s",
@@ -39,16 +43,17 @@ describe("AppConfigurationClient - SecretReference", () => {
 
     function assertSecretReferenceProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
-      expected: SecretReference
+      expected: ConfigurationSetting<SecretReferenceValue>
     ) {
       assert.equal(isSecretReference(actual), true, "Expected to get the SecretReference");
+      const actualSecretReference = parseSecretReference(actual);
       if (isSecretReference(actual)) {
         assert.equal(
           actual.key,
           expected.key,
           "Key from the response from get request is not as expected"
         );
-        assert.equal(actual.secretId, expected.secretId);
+        assert.equal(actualSecretReference.value.secretId, expected.value.secretId);
         assert.equal(actual.isReadOnly, expected.isReadOnly);
         assert.equal(actual.label, expected.label);
         assert.equal(actual.contentType, expected.contentType);
@@ -56,7 +61,7 @@ describe("AppConfigurationClient - SecretReference", () => {
     }
 
     let addResponse: AddConfigurationSettingResponse;
-    let baseSetting: SecretReference;
+    let baseSetting: ConfigurationSetting<SecretReferenceValue>;
     beforeEach(async () => {
       baseSetting = getBaseSetting();
       addResponse = await client.addConfigurationSetting(baseSetting);
@@ -87,14 +92,13 @@ describe("AppConfigurationClient - SecretReference", () => {
       )}`;
 
       assertSecretReferenceProps(getResponse, baseSetting);
-      if (isSecretReference(getResponse)) {
-        getResponse.secretId = newSecretId;
-      }
+      const secretReference = parseSecretReference(getResponse);
+      secretReference.value.secretId = newSecretId;
 
-      const setResponse = await client.setConfigurationSetting(getResponse);
+      const setResponse = await client.setConfigurationSetting(secretReference);
       assertSecretReferenceProps(setResponse, {
         ...baseSetting,
-        secretId: newSecretId
+        value: { secretId: newSecretId }
       });
 
       const getResponseAfterUpdate = await client.getConfigurationSetting({
@@ -103,7 +107,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       });
       assertSecretReferenceProps(getResponseAfterUpdate, {
         ...baseSetting,
-        secretId: newSecretId
+        value: { secretId: newSecretId }
       });
     });
 
@@ -126,8 +130,8 @@ describe("AppConfigurationClient - SecretReference", () => {
           assertSecretReferenceProps(setting, baseSetting);
           await client.setConfigurationSetting({
             ...baseSetting,
-            secretId: newSecretId
-          } as SecretReference);
+            value: { secretId: newSecretId }
+          });
         } else {
           assertSecretReferenceProps(setting, secondSetting);
           await client.setReadOnly(
@@ -142,7 +146,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       })) {
         numberOFSecretReferencesReceived--;
         if (setting.key === baseSetting.key) {
-          assertSecretReferenceProps(setting, { ...baseSetting, secretId: newSecretId });
+          assertSecretReferenceProps(setting, { ...baseSetting, value: { secretId: newSecretId } });
         } else {
           assertSecretReferenceProps(setting, {
             ...secondSetting,

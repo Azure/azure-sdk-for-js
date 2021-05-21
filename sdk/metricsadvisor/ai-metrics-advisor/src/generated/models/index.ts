@@ -257,6 +257,13 @@ export interface AnomalyResultList {
 
 export interface AnomalyResult {
   /**
+   * data feed unique id
+   *
+   * only return for alerting anomaly result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataFeedId?: string;
+  /**
    * metric unique id
    *
    * only return for alerting anomaly result
@@ -320,6 +327,13 @@ export interface IncidentResultList {
 }
 
 export interface IncidentResult {
+  /**
+   * data feed unique id
+   *
+   * only return for alerting incident result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataFeedId?: string;
   /**
    * metric unique id
    *

@@ -33,12 +33,10 @@ export async function main(): Promise<void> {
     throw new Error("Missing environment variable BLOB_STORAGE_SAS_TOKEN.");
   }
   const backupPoller = await client.beginBackup(blobStorageUri!, sasToken);
-  const backupResult = await backupPoller.pollUntilDone();
+  await backupPoller.pollUntilDone();
 
-  // The folder name should be at the end of the backupFolderUri, as in: https://<blob-storage-endpoint>/<folder-name>
-  const folderName = backupResult.backupFolderUri!.split("/").pop();
-
-  const restorePoller = await client.beginRestore(blobStorageUri, sasToken, folderName!);
+  // The folder name should be at the end of the backupFolderUri, as in: ht
+  const restorePoller = await client.beginRestore(blobStorageUri, sasToken);
   await restorePoller.pollUntilDone();
 }
 

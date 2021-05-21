@@ -662,9 +662,13 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/iot-modelsrepository",
-      "projectFolder": "sdk/iot/modelsrepository",
+      "packageName": "@azure/video-analyzer-edge",
+      "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
       "versionPolicyName": "client"
+    },
+    {      
+      "packageName": "@azure/iot-modelsrepository",
+      "projectFolder": "sdk/iot/modelsrepository"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
