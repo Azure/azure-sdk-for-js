@@ -402,6 +402,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-network-traversal",
+      "projectFolder": "sdk/communication/communication-network-traversal",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-phone-numbers",
       "projectFolder": "sdk/communication/communication-phone-numbers",
       "versionPolicyName": "client"

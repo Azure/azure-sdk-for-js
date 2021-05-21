@@ -10,6 +10,7 @@ dependencies:
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
   '@rush-temp/communication-identity': file:projects/communication-identity.tgz
+  '@rush-temp/communication-network-traversal': file:projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:projects/communication-phone-numbers.tgz
   '@rush-temp/communication-sms': file:projects/communication-sms.tgz
   '@rush-temp/confidential-ledger': file:projects/confidential-ledger.tgz
@@ -8424,6 +8425,61 @@ packages:
       integrity: sha512-U4Bjk3YtMSeoDLSHDDnd2W6f7UQB0krAu5glaQ6UuG3mzFrfKVB9iyyLiz9yXV45lG349GkQUCfgQbubujckIw==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
+  file:projects/communication-network-traversal.tgz:
+    dependencies:
+      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/identity': 1.3.0
+      '@azure/ms-rest-js': 2.5.0
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.2.18
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      '@types/sinon': 9.0.11
+      assert: 1.5.0
+      chai: 4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.26.0
+      events: 3.3.0
+      inherits: 2.0.4
+      karma: 6.3.2
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.2
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.2
+      karma-json-preprocessor: 0.3.3_karma@6.3.2
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.2
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
+      sinon: 9.2.4
+      tslib: 2.2.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
+    dev: false
+    name: '@rush-temp/communication-network-traversal'
+    resolution:
+      integrity: sha512-TiAaj+lKLZcDUYyHRHwI8FlzizgzZgfwzvK3G9kg/Ir/DxOqcfYgXTlIU/7xHxes+qOlAKq0YZ9n2Ubd2m0KwQ==
+      tarball: file:projects/communication-network-traversal.tgz
+    version: 0.0.0
   file:projects/communication-phone-numbers.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
@@ -11561,6 +11617,7 @@ specifiers:
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
   '@rush-temp/communication-identity': file:./projects/communication-identity.tgz
+  '@rush-temp/communication-network-traversal': file:./projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:./projects/communication-phone-numbers.tgz
   '@rush-temp/communication-sms': file:./projects/communication-sms.tgz
   '@rush-temp/confidential-ledger': file:./projects/confidential-ledger.tgz
