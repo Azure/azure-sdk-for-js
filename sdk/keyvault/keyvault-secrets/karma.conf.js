@@ -8,7 +8,7 @@ const {
   isRecordMode
 } = require("@azure/test-utils-recorder");
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     basePath: "./",
     frameworks: ["mocha"],
