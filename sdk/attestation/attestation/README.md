@@ -269,7 +269,7 @@ setLogLevel("info");
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
 
-Additional troubleshooting information for the MAA service can be found [here](https://docs.microsoft.com/en-us/azure/attestation/troubleshoot-guide)
+Additional troubleshooting information for the MAA service can be found [here](https://docs.microsoft.com/azure/attestation/troubleshoot-guide)
 
 ## Next steps
 

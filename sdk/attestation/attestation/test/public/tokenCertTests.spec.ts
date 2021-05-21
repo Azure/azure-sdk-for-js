@@ -47,8 +47,9 @@ describe("TokenCertTests", function() {
       assert.isDefined(key.certificates);
 
       key.certificates.forEach(certBuffer => {
-          let pemCert: string;
           assert.isDefined(certBuffer);
+
+          let pemCert: string;
           pemCert = "-----BEGIN CERTIFICATE-----\r\n";
           pemCert += encodeByteArray(certBuffer);
           pemCert += "\r\n-----END CERTIFICATE-----\r\n";
