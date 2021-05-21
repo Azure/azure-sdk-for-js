@@ -36,13 +36,12 @@ export class RenderingSessionOperationStateImpl implements RenderingSessionOpera
   }
 
   get isCancelled(): boolean {
-    return false;
+    return this.latestResponse.status === KnownRenderingSessionStatus.Stopped;
   }
 
   get error(): Error | undefined {
     if (this.latestResponse.status === "Error") {
-      // TODO Add details
-      return new Error(this.latestResponse.error.message);
+      return this.latestResponse.error;
     }
     return undefined;
   }

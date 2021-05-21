@@ -146,7 +146,7 @@ export const Conversion: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "RemoteRenderingServiceError"
+          className: "RemoteRenderingServiceErrorInternal"
         }
       },
       status: {
@@ -183,10 +183,10 @@ export const AssetConversionOutput: coreClient.CompositeMapper = {
   }
 };
 
-export const RemoteRenderingServiceError: coreClient.CompositeMapper = {
+export const RemoteRenderingServiceErrorInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RemoteRenderingServiceError",
+    className: "RemoteRenderingServiceErrorInternal",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -210,7 +210,7 @@ export const RemoteRenderingServiceError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "RemoteRenderingServiceError"
+              className: "RemoteRenderingServiceErrorInternal"
             }
           }
         }
@@ -226,7 +226,7 @@ export const RemoteRenderingServiceError: coreClient.CompositeMapper = {
         serializedName: "innerError",
         type: {
           name: "Composite",
-          className: "RemoteRenderingServiceError"
+          className: "RemoteRenderingServiceErrorInternal"
         }
       }
     }
@@ -242,7 +242,7 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "RemoteRenderingServiceError"
+          className: "RemoteRenderingServiceErrorInternal"
         }
       }
     }
@@ -381,7 +381,7 @@ export const SessionProperties: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "RemoteRenderingServiceError"
+          className: "RemoteRenderingServiceErrorInternal"
         }
       },
       createdOn: {

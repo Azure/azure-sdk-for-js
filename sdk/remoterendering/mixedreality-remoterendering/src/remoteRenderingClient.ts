@@ -107,7 +107,6 @@ export {
 import {
   AssetConversionInputSettings,
   AssetConversionOutputSettings,
-  RemoteRenderingServiceError,
   AssetConversionOutput,
   AssetConversionStatus,
   KnownAssetConversionStatus,
@@ -115,6 +114,8 @@ import {
   RenderingServerSize,
   KnownRenderingServerSize
 } from "./generated/models/index";
+
+import { RemoteRenderingServiceError } from "./remoteRenderingServiceError";
 
 export {
   AssetConversionInputSettings,

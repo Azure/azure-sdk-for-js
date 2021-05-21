@@ -58,7 +58,7 @@ export interface Conversion {
    */
   readonly output?: AssetConversionOutput;
   /** The error object containing details about the conversion failure. */
-  error: RemoteRenderingServiceError | null;
+  error: RemoteRenderingServiceErrorInternal | null;
   /** The status of the conversion. Terminal states are 'Cancelled', 'Failed', and 'Succeeded'. */
   status: AssetConversionStatus;
   /** The time when the conversion was created. Date and time in ISO 8601 format. */
@@ -75,7 +75,7 @@ export interface AssetConversionOutput {
 }
 
 /** The error object containing details of why the request failed. */
-export interface RemoteRenderingServiceError {
+export interface RemoteRenderingServiceErrorInternal {
   /** Error code. */
   code: string;
   /** A human-readable representation of the error. */
@@ -84,7 +84,7 @@ export interface RemoteRenderingServiceError {
    * An array of details about specific errors that led to this reported error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: RemoteRenderingServiceError[];
+  readonly details?: RemoteRenderingServiceErrorInternal[];
   /**
    * The target of the particular error (e.g., the name of the property in error).
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -94,13 +94,13 @@ export interface RemoteRenderingServiceError {
    * An object containing more specific information than the current object about the error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: RemoteRenderingServiceError;
+  readonly innerError?: RemoteRenderingServiceErrorInternal;
 }
 
 /** The error response containing details of why the request failed. */
 export interface ErrorResponse {
   /** The error object containing details of why the request failed. */
-  error: RemoteRenderingServiceError;
+  error: RemoteRenderingServiceErrorInternal;
 }
 
 /** List of conversions. */
@@ -164,7 +164,7 @@ export interface SessionProperties {
    * The error object containing details about the rendering session startup failure.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: RemoteRenderingServiceError | null;
+  readonly error?: RemoteRenderingServiceErrorInternal | null;
   /**
    * The time when the rendering session was created. Date and time in ISO 8601 format.
    * NOTE: This property will not be serialized. It can only be populated by the server.

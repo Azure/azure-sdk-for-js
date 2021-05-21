@@ -125,7 +125,7 @@ directive:
   - from: swagger-document
     where: $.definitions.error
     transform: >
-      $["x-ms-client-name"] = "RemoteRenderingServiceError";
+      $["x-ms-client-name"] = "RemoteRenderingServiceErrorInternal";
 ```
 
 ```yaml
