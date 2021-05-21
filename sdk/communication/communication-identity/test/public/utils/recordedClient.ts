@@ -22,7 +22,6 @@ import {
 import { CommunicationIdentityClient, CommunicationIdentityClientOptions } from "../../../src";
 import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
-import { CommunicationIdentityAccessTokenResult } from "../../../src/generated/src/models/mappers";
 
 if (isNode) {
   dotenv.config();
