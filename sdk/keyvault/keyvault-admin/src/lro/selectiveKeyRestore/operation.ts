@@ -14,20 +14,20 @@ import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
-import { KeyVaultRestoreResult } from "../../backupClientModels";
+import { KeyVaultSelectiveKeyRestoreResult } from "../../backupClientModels";
 import { withTrace } from "./poller";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
-export interface KeyVaultSelectiveRestoreOperationState
-  extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {}
+export interface KeyVaultSelectiveKeyRestoreOperationState
+  extends KeyVaultAdminPollOperationState<KeyVaultSelectiveKeyRestoreResult> {}
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.
  */
-export interface KeyVaultSelectiveRestorePollOperationState
-  extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {
+export interface KeyVaultSelectiveKeyRestorePollOperationState
+  extends KeyVaultAdminPollOperationState<KeyVaultSelectiveKeyRestoreResult> {
   /**
    * The name of a Key Vault Key.
    */
@@ -49,12 +49,12 @@ export interface KeyVaultSelectiveRestorePollOperationState
 /**
  * The selective restore Key Vault's poll operation.
  */
-export class KeyVaultSelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
-  KeyVaultSelectiveRestorePollOperationState,
+export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollOperation<
+  KeyVaultSelectiveKeyRestorePollOperationState,
   string
 > {
   constructor(
-    public state: KeyVaultSelectiveRestorePollOperationState,
+    public state: KeyVaultSelectiveKeyRestorePollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
     private requestOptions: RequestOptionsBase = {}
@@ -92,9 +92,9 @@ export class KeyVaultSelectiveRestorePollOperation extends KeyVaultAdminPollOper
   async update(
     options: {
       abortSignal?: AbortSignalLike;
-      fireProgress?: (state: KeyVaultSelectiveRestorePollOperationState) => void;
+      fireProgress?: (state: KeyVaultSelectiveKeyRestorePollOperationState) => void;
     } = {}
-  ): Promise<KeyVaultSelectiveRestorePollOperation> {
+  ): Promise<KeyVaultSelectiveKeyRestorePollOperation> {
     const state = this.state;
     const { keyName, folderUri, sasToken, folderName } = state;
 

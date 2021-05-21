@@ -116,7 +116,7 @@ describe("KeyVaultBackupClient", () => {
       }
     });
 
-    it("selectiveRestore completes successfully", async function() {
+    it("selectiveKeyRestore completes successfully", async function() {
       // This test can only be run in playback mode because running a backup
       // or restore puts the instance in a bad state (tracked in IcM).
       if (!isPlaybackMode()) {
@@ -136,32 +136,32 @@ describe("KeyVaultBackupClient", () => {
       await (await keyClient.beginDeleteKey(keyName, testPollerProperties)).pollUntilDone();
       await keyClient.purgeDeletedKey(keyName);
 
-      const selectiveRestorePoller = await client.beginSelectiveRestore(
+      const selectiveKeyRestorePoller = await client.beginSelectiveKeyRestore(
         keyName,
         backupURI.folderUri!,
         blobSasToken,
         testPollerProperties
       );
-      await selectiveRestorePoller.poll();
+      await selectiveKeyRestorePoller.poll();
 
       // A poller can be serialized and then resumed
-      const resumedPoller = await client.beginSelectiveRestore(
+      const resumedPoller = await client.beginSelectiveKeyRestore(
         keyName,
         blobStorageUri,
         blobSasToken,
         {
           ...testPollerProperties,
-          resumeFrom: selectiveRestorePoller.toString()
+          resumeFrom: selectiveKeyRestorePoller.toString()
         }
       );
       assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
       assert.equal(
         resumedPoller.getOperationState().jobId,
-        selectiveRestorePoller.getOperationState().jobId
+        selectiveKeyRestorePoller.getOperationState().jobId
       );
 
-      await selectiveRestorePoller.pollUntilDone();
-      const operationState = selectiveRestorePoller.getOperationState();
+      await selectiveKeyRestorePoller.pollUntilDone();
+      const operationState = selectiveKeyRestorePoller.getOperationState();
       assert.equal(operationState.isCompleted, true);
 
       await keyClient.getKey(keyName);
