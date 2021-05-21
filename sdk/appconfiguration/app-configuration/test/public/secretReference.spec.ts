@@ -163,4 +163,25 @@ describe("AppConfigurationClient - SecretReference", () => {
       await client.deleteConfigurationSetting({ key: secondSetting.key });
     });
   });
+
+  describe("serializeAsConfigurationSettingParam", () => {
+    [`[]`, "Hello World"].forEach((value) => {
+      it(`Unexpected value ${value} as secret reference value`, async () => {
+        const setting: ConfigurationSetting<SecretReferenceValue> = {
+          contentType: secretReferenceContentType,
+          key: recorder.getUniqueName("name-1"),
+          isReadOnly: false,
+          value: { secretId: "id" }
+        };
+        setting.value = value as any;
+        await client.addConfigurationSetting(setting);
+        assert.equal(
+          (await client.getConfigurationSetting({ key: setting.key })).value,
+          value as any,
+          "message"
+        );
+        await client.deleteConfigurationSetting({ key: setting.key });
+      });
+    });
+  });
 });

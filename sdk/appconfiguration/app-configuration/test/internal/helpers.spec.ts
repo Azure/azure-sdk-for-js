@@ -140,7 +140,7 @@ describe("helper methods", () => {
   });
 
   describe("serializeAsConfigurationSettingParam", () => {
-    [[], "Hello World"].forEach((value) => {
+    [[], `[]`, "Hello World"].forEach((value) => {
       it(`serializer doesn't throw on ${value} as feature flag value`, () => {
         const featureFlag: ConfigurationSetting<FeatureFlagValue> = {
           contentType: featureFlagContentType,
