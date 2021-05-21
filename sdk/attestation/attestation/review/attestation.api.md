@@ -58,6 +58,8 @@ export class AttestationClient extends AttestationClientContext {
     // (undocumented)
     getAttestationSigners(options?: coreHttp.OperationOptions): Promise<AttestationSigner[]>;
     // (undocumented)
+    getOpenIdMetadata(options?: coreHttp.OperationOptions): Promise<any>;
+    // (undocumented)
     instanceUrl: string;
     // (undocumented)
     metadataConfiguration: MetadataConfiguration;

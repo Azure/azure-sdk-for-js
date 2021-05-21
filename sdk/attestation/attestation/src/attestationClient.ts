@@ -54,16 +54,33 @@ export class AttestationClient extends AttestationClientContext {
   {
     const { span, updatedOptions} = createSpan("AttestationClient-getAttestationSigners", options);
     try {
-      let signingCertificates = await this._client.signingCertificates.get(updatedOptions)
+      let signingCertificates = await this._client.signingCertificates.get(updatedOptions);
       let signers:AttestationSigner[] = new Array();
       signingCertificates.keys?.forEach(element => {
         signers.push(new AttestationSigner(element));
       });
       return signers;
+    } catch (e) {
+      span.recordException(e);
+      throw e;
     } finally {
       span.end();
     }
   }
+
+  public async getOpenIdMetadata(options: coreHttp.OperationOptions = {}) : Promise<any>
+  {
+    const { span, updatedOptions} = createSpan("AttestationClient-getAttestationSigners", options);
+    try {
+      return await (await this._client.metadataConfiguration.get(updatedOptions)).body;
+    } catch (e) {
+      span.recordException(e);
+    } finally {
+      span.end();
+    }
+
+  }
+  
 
   private _client: AzureAttestationRestClient;
 

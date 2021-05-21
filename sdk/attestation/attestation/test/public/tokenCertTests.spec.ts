@@ -61,4 +61,30 @@ describe("TokenCertTests", function() {
       })
     }
   }
+
+  it("#GetMetadataConfigAAD", async() => {
+    const client = createRecordedClient("AAD");
+    await getMetadataConfigTest(client);
+
+  });
+
+  it("#GetMetadataConfigIsolated", async () => {
+    const client = createRecordedClient("Isolated");
+    await getMetadataConfigTest(client);
+  });
+
+  it("#GetMetadataConfigShared", async () => {
+    const client = createRecordedClient("Shared");
+    await getMetadataConfigTest(client);
+  });
+
+  async function getMetadataConfigTest(client: AttestationClient) : Promise<void>
+  {
+    const openIdMetadata = await client.getOpenIdMetadata();
+    assert.isDefined(openIdMetadata["response_types_supported"]);
+    assert.equal(openIdMetadata["jwks_uri"], client.instanceUrl+"/certs");
+    assert.equal(openIdMetadata["issuer"], client.instanceUrl);
+  }
+
+
 });
