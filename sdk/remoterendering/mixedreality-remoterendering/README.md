@@ -22,7 +22,7 @@ the lifetime of remote rendering sessions.
 
 You will need an [Azure subscription](https://azure.microsoft.com/free/) and an [Azure Remote Rendering account](https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account) to use this package.
 
-### Install the `@azure/template` package
+### Install the `@azure/mixedreality-remoterendering` package
 
 Install the Template client library for JavaScript with `npm`:
 
