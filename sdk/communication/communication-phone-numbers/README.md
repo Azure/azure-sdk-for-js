@@ -110,13 +110,16 @@ Use the `beginSearchAvailablePhoneNumbers` method to search for phone numbers an
 `beginSearchAvailablePhoneNumbers` is a long running operation and returns a poller.
 
 ```typescript
-import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import {
+  PhoneNumbersClient,
+  SearchAvailablePhoneNumbersRequest
+} from "@azure/communication-phone-numbers";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 
 async function main() {
-  const searchRequest = {
+  const searchRequest: SearchAvailablePhoneNumbersRequest = {
     countryCode: "US",
     phoneNumberType: "tollFree",
     assignmentType: "application",
@@ -130,7 +133,7 @@ async function main() {
   const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
   // The search is underway. Wait to receive searchId.
-  const searchResults = searchPoller.pollUntilDone();
+  const searchResults = await searchPoller.pollUntilDone();
   console.log(`Found phone number: ${searchResults.phoneNumbers[0]}`);
   console.log(`searchId: ${searchResults.searchId}`);
 }
@@ -209,7 +212,10 @@ Use the `beginUpdatePhoneNumberCapabilities` method to update the capabilities o
 `beginUpdatePhoneNumberCapabilities` is a long running operation and returns a poller.
 
 ```typescript
-import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import {
+  PhoneNumbersClient,
+  PhoneNumberCapabilitiesRequest
+} from "@azure/communication-phone-numbers";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
@@ -218,7 +224,7 @@ async function main() {
   const phoneNumberToUpdate = "<phone-number-to-update>";
 
   // This will update phone number to send and receive sms, but only send calls.
-  const updateRequest = {
+  const updateRequest: PhoneNumberCapabilitiesRequest = {
     sms: "inbound+outbound",
     calling: "outbound"
   };

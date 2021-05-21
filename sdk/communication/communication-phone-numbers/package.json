@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-phone-numbers",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.1",
   "description": "SDK for Azure Communication service which facilitates phone number management.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -75,6 +75,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/test-utils": "^1.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@azure/identity": "^1.1.0",
     "@microsoft/api-extractor": "7.7.11",

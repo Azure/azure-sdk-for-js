@@ -63,6 +63,15 @@ export interface RecorderEnvironmentSetup {
    * @memberof RecorderEnvironmentSetup
    */
   queryParametersToSkip: Array<string>;
+  /**
+   * Used in playback mode
+   *
+   *  [Only in Node]
+   *
+   *  Callback that is run at the time of loading the recording.
+   *  Introduced only to handle special cases of identity SDK, not meant for the SDK developers to use.
+   */
+  onLoadCallbackForPlayback?: () => void;
 }
 
 export const env = isBrowser() ? (window as any).__env__ : process.env;

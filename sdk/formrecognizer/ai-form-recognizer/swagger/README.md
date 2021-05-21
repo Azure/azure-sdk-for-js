@@ -13,13 +13,12 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-#input-file: https://raw.githubusercontent.com/azure/azure-rest-api-specs/97ae1493ff37d947cc26e00a3a5abd096982517b/specification/cognitiveservices/data-plane/formrecognizer/preview/v2.1-preview.2/formrecognizer.json
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/2e84a561f010397c5ab822a4c9b5ea6b0d45ecba/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.1-preview.3/FormRecognizer.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1a8a869d1a96dc007f116d320f5c2659323bbe7c/specification/cognitiveservices/data-plane/FormRecognizer/stable/v2.1/FormRecognizer.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210121.2"
-package-version: "3.1.0-beta.2"
+package-version: "3.1.0"
 disable-async-iterators: true
 hide-clients: true
 ```
@@ -185,4 +184,45 @@ directive:
     where: $.definitions.TextStyle.properties.name
     transform: >
       $["x-ms-enum"].name = "StyleName"
+```
+
+### `ReadingOrder` => `FormReadingOrder`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ReadingOrder
+    transform: >
+      $["x-ms-enum"].name = "FormReadingOrder";
+```
+
+### `Language`, `Locale` => `FormLanguage`, `FormLocale`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.Language
+    transform: >
+      $["x-ms-enum"].name = "FormLanguage";
+  - from: swagger-document
+    where: $.parameters.Locale
+    transform: >
+      $["x-ms-enum"].name = "FormLocale";
+```
+
+### Stronger SelectionMarkState and TextStyle
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SelectionMark.properties.state
+    transform: >
+      $["x-ms-enum"] = {
+        name: "SelectionMarkState",
+        modelAsString: false
+      };
+  - from: swagger-document
+    where: $.definitions.TextStyle.properties.name
+    transform: >
+      $["x-ms-enum"].modelAsString = false;
 ```

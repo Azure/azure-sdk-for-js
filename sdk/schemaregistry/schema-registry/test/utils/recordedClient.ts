@@ -22,9 +22,9 @@ export interface RecordedClient {
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "azuretenantid",
   SCHEMA_REGISTRY_ENDPOINT: "https://endpoint",
-  SCHEMA_REGISTRY_GROUP: "group"
+  SCHEMA_REGISTRY_GROUP: "group-1"
 };
 
 export const testEnv = new Proxy(replaceableVariables, {

@@ -6,7 +6,10 @@
  */
 
 import { ChatClient } from "@azure/communication-chat";
-import { AzureCommunicationTokenCredential } from "@azure/communication-common";
+import {
+  AzureCommunicationTokenCredential,
+  parseConnectionString
+} from "@azure/communication-common";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
@@ -17,8 +20,7 @@ export async function main() {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
-  const endpoint =
-    process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
+  const endpoint = parseConnectionString(connectionString).endpoint;
 
   const identityClient = new CommunicationIdentityClient(connectionString);
   const user = await identityClient.createUser();

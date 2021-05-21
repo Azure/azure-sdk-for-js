@@ -48,5 +48,19 @@ export const mappings = {
         assignableScopes: assignableScopes!
       };
     }
+  },
+  folderUriParts(folderUri: string): { folderName: string; folderUri: string } {
+    const uriParts = folderUri.split("/");
+    const folderName = uriParts.pop();
+    const storageUri = uriParts.join("/");
+
+    if (!folderName) {
+      throw new Error("The provided folder URI is missing the folder name.");
+    }
+
+    return {
+      folderName,
+      folderUri: storageUri
+    };
   }
 };

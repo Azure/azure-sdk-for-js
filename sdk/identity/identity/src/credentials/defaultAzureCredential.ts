@@ -13,11 +13,12 @@ export { DefaultAzureCredentialOptions };
  * - {@link EnvironmentCredential}
  * - {@link ManagedIdentityCredential}
  * - {@link AzureCliCredential}
+ * - {@link AzurePowerShellCredential}
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
  *
- * Azure Identity extensions may add credential types to the `DefaultAzureCredentialStack`.
+ * Azure Identity extensions may add credential types to the default credential stack.
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**

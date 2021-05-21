@@ -4,8 +4,9 @@
 import { TokenCredential } from "@azure/core-http";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { AzureCliCredential } from "./azureCliCredential";
+import { AzurePowerShellCredential } from "./azurePowerShellCredential";
 import { EnvironmentCredential } from "./environmentCredential";
-import { ManagedIdentityCredential as _ManagedIdentityCredential } from "./managedIdentityCredential";
+import { ManagedIdentityCredential } from "./managedIdentityCredential";
 
 /**
  * Provides options to configure the {@link DefaultAzureCredential} class.
@@ -24,13 +25,20 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
 }
 
 /**
- * @internal
+ * The type of a class that implements TokenCredential and accepts
+ * `DefaultAzureCredentialOptions`.
  */
-export interface TokenCredentialConstructor {
+export interface DefaultCredentialConstructor {
   new (options?: DefaultAzureCredentialOptions): TokenCredential;
 }
 
-class ManagedIdentityCredential extends _ManagedIdentityCredential {
+/**
+ * A shim around ManagedIdentityCredential that adapts it to accept
+ * `DefaultAzureCredentialOptions`.
+ *
+ * @internal
+ */
+class DefaultManagedIdentityCredential extends ManagedIdentityCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
     const managedIdentityClientId = options?.managedIdentityClientId ?? process.env.AZURE_CLIENT_ID;
     if (managedIdentityClientId !== undefined) {
@@ -41,8 +49,9 @@ class ManagedIdentityCredential extends _ManagedIdentityCredential {
   }
 }
 
-export const defaultCredentialStack: TokenCredentialConstructor[] = [
+export const defaultCredentialStack: DefaultCredentialConstructor[] = [
   EnvironmentCredential,
-  ManagedIdentityCredential,
-  AzureCliCredential
+  DefaultManagedIdentityCredential,
+  AzureCliCredential,
+  AzurePowerShellCredential
 ];

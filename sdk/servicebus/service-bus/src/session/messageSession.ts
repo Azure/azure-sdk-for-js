@@ -35,7 +35,7 @@ import {
   SubscribeOptions
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { translateServiceBusError } from "../serviceBusError";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
 import { isDefined } from "../util/typeGuards";
 
@@ -588,7 +588,12 @@ export class MessageSession extends LinkEntity<Receiver> {
    * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
    * before closing the receiver.
    */
-  subscribe(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {
+  public subscribe(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {
+    this.receiverHelper.resume();
+    this._subscribeImpl(onMessage, onError, options);
+  }
+
+  private _subscribeImpl(onMessage: OnMessage, onError: OnError, options: SubscribeOptions): void {
     if (!options) options = {};
 
     if (options.abortSignal?.aborted) {
@@ -684,7 +689,13 @@ export class MessageSession extends LinkEntity<Receiver> {
           }
           return;
         } finally {
-          this.receiverHelper.addCredit(1);
+          try {
+            this.receiverHelper.addCredit(1);
+          } catch (err) {
+            // this isn't something we expect in normal operation - we'd only get here
+            // because of a bug in our code.
+            this.processCreditError(err);
+          }
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try
@@ -720,8 +731,14 @@ export class MessageSession extends LinkEntity<Receiver> {
       };
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);
-      // adding credit
-      this.receiverHelper.addCredit(this.maxConcurrentCalls);
+
+      try {
+        this.receiverHelper.addCredit(this.maxConcurrentCalls);
+      } catch (err) {
+        // this isn't something we expect in normal operation - we'd only get here
+        // because of a bug in our code.
+        this.processCreditError(err);
+      }
     } else {
       this._isReceivingMessagesForSubscriber = false;
       const msg =
@@ -743,6 +760,28 @@ export class MessageSession extends LinkEntity<Receiver> {
         fullyQualifiedNamespace: this._context.config.host
       });
     }
+  }
+
+  private processCreditError(err: any): void {
+    if (err.name === "AbortError") {
+      // if we fail to add credits because the user has asked us to stop
+      // then this isn't an error - it's normal.
+      return;
+    }
+
+    logger.logError(err, "Cannot request messages on the receiver");
+
+    const error = new ServiceBusError("Cannot request messages on the receiver", "SessionLockLost");
+    error.retryable = false;
+
+    // from the user's perspective this is a fatal link error and they should retry
+    // opening the link.
+    this._onError!({
+      error,
+      errorSource: "processMessageCallback",
+      entityPath: this.entityPath,
+      fullyQualifiedNamespace: this._context.config.host
+    });
   }
 
   /**

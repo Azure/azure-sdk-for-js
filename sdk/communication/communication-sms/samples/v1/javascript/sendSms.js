@@ -12,16 +12,28 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 async function main() {
+  console.log("== Send SMS Message ==");
+
+  // You will need to set this environment variable or edit the following values
   const connectionString =
-    process.env["COMMUNICATION_CONNECTION_STRING"] ||
+    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
+
+  // create new client
   const client = new SmsClient(connectionString);
-  const sendResults = await client.send({
-    // Phone numbers must be in E.164 format
-    from: "<from-phone-number>",
-    to: ["<to-phone-number-1>", "<to-phone-number-2>"],
+
+  // construct send request
+  const sendRequest = {
+    from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
+    to: process.env.TO_PHONE_NUMBERS?.split(",") || [process.env.AZURE_PHONE_NUMBER] || [
+        "<to-phone-number-1>",
+        "<to-phone-number-2>"
+      ],
     message: "Hello World via SMS!"
-  });
+  };
+
+  // send sms with request
+  const sendResults = await client.send(sendRequest);
 
   // individual messages can encounter errors during sending
   // use the "successful" property to verify
@@ -32,6 +44,7 @@ async function main() {
       console.error("Something went wrong when trying to send this message: ", sendResult);
     }
   }
+
   console.log("== Done: Send SMS Message ==");
 }
 

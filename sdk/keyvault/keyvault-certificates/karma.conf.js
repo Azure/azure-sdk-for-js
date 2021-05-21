@@ -48,7 +48,6 @@ module.exports = function(config) {
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
-      "KEYVAULT_NAME",
       "KEYVAULT_URI",
       "TEST_MODE"
     ],

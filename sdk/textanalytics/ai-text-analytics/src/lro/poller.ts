@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { GeneratedClient } from "../generated/generatedClient";
 import { State, TextDocumentInput } from "../generated/models";
@@ -14,7 +13,6 @@ import { delay } from "../util";
 export interface AnalysisPollerOptions {
   readonly client: GeneratedClient;
   readonly documents: TextDocumentInput[];
-  readonly analysisOptions?: OperationOptions;
   updateIntervalInMs?: number;
   resumeFrom?: string;
 }

@@ -12,11 +12,11 @@ urlFragment: communication-sms-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - SMS in some common scenarios.
 
-| **File Name**                               | **Description**                                                                           |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [sendSms.js][sendsms]                       | Send an SMS message to 1 or more recipients                                               |
-| [sendSmsWithOptions.js][sendsmswithoptions] | Configure SMS options when sending a message                                              |
-| [usingAadAuth.js][usingaadauth]             | (ONLY AVAILABLE IN NODE.JS RUNTIME) Use AAD token credentials when sending a SMS message. |
+| **File Name**                               | **Description**                                       |
+| ------------------------------------------- | ----------------------------------------------------- |
+| [sendSms.js][sendsms]                       | Send an SMS message to 1 or more recipients           |
+| [sendSmsWithOptions.js][sendsmswithoptions] | Configure SMS options when sending a message          |
+| [usingAadAuth.js][usingaadauth]             | Use AAD token credentials when sending a SMS message. |
 
 ## Prerequisites
 
@@ -51,7 +51,7 @@ node sendSms.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node sendSms.js
+npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" FROM_PHONE_NUMBER="<from phone number>" AZURE_PHONE_NUMBER="<azure phone number>" TO_PHONE_NUMBERS="<to phone numbers>" AZURE_PHONE_NUMBER="<azure phone number>" node sendSms.js
 ```
 
 ## Next Steps

@@ -13,8 +13,30 @@ import {
 } from "../../../src/credentials/azurePowerShellCredential";
 import { processUtils } from "../../../src/util/processUtils";
 
+import { commandStack } from "../../../src/credentials/azurePowerShellCredential";
+
+function resetCommandStack() {
+  commandStack[0] = formatCommand("pwsh");
+  if (process.platform === "win32") {
+    commandStack[1] = formatCommand("powershell");
+  } else {
+    delete commandStack[1];
+  }
+}
+
 describe("AzurePowerShellCredential", function() {
   const scope = "https://vault.azure.net/.default";
+
+  afterEach(() => {
+    resetCommandStack();
+  });
+
+  it("command stack is configured correctly by platform", function() {
+    assert.deepStrictEqual(
+      commandStack,
+      process.platform === "win32" ? ["pwsh.exe", "powershell.exe"] : ["pwsh"]
+    );
+  });
 
   it("throws an expected error if the user hasn't logged in through PowerShell", async function() {
     const sandbox = Sinon.createSandbox();
@@ -64,10 +86,14 @@ describe("AzurePowerShellCredential", function() {
 
   it("throws an expected error if PowerShell isn't installed", async function() {
     const sandbox = Sinon.createSandbox();
-    const pwshCommand = formatCommand("pwsh");
 
     const stub = sandbox.stub(processUtils, "execFile");
     stub.onCall(0).throws(new Error());
+
+    // Additionally stub the second call on windows, for the fallback to Windows PowerShell
+    if (process.platform === "win32") {
+      stub.onCall(1).throws(new Error());
+    }
 
     const credential = new AzurePowerShellCredential();
 
@@ -82,33 +108,7 @@ describe("AzurePowerShellCredential", function() {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `Error: Unable to execute "${pwshCommand}". Ensure that it is installed in your system.`
-    );
-
-    sandbox.restore();
-  });
-
-  it("throws an expected error if PowerShell isn't installed (legacy mode)", async function() {
-    const sandbox = Sinon.createSandbox();
-    const pwshCommand = formatCommand("powershell");
-
-    const stub = sandbox.stub(processUtils, "execFile");
-    stub.onCall(0).throws(new Error());
-
-    const credential = new AzurePowerShellCredential({ useLegacyPowerShell: true });
-
-    let error: Error | null = null;
-    try {
-      await credential.getToken(scope);
-    } catch (e) {
-      error = e;
-    }
-
-    assert.ok(error);
-    assert.equal(error?.name, "CredentialUnavailableError");
-    assert.equal(
-      error?.message,
-      `Error: Unable to execute "${pwshCommand}". Ensure that it is installed in your system.`
+      `Error: Unable to execute PowerShell. Ensure that it is installed in your system.`
     );
 
     sandbox.restore();
@@ -118,9 +118,10 @@ describe("AzurePowerShellCredential", function() {
     const sandbox = Sinon.createSandbox();
 
     const stub = sandbox.stub(processUtils, "execFile");
-    stub.onCall(0).returns(Promise.resolve("")); // The first call checks that the command is available.
-    stub.onCall(1).returns(Promise.resolve("This one we ignore."));
-    stub.onCall(2).returns(Promise.resolve("Not valid JSON"));
+    let idx = 0;
+    stub.onCall(idx++).returns(Promise.resolve("")); // The first call checks that the command is available.
+    stub.onCall(idx++).returns(Promise.resolve("This one we ignore."));
+    stub.onCall(idx++).returns(Promise.resolve("Not valid JSON"));
 
     const credential = new AzurePowerShellCredential();
 
@@ -140,6 +141,37 @@ describe("AzurePowerShellCredential", function() {
 
     sandbox.restore();
   });
+
+  if (process.platform === "win32") {
+    it("throws an expected error if PowerShell returns something that isn't valid JSON (Windows PowerShell fallback)", async function() {
+      const sandbox = Sinon.createSandbox();
+
+      const stub = sandbox.stub(processUtils, "execFile");
+      let idx = 0;
+      stub.onCall(idx++).throws(new Error());
+      stub.onCall(idx++).returns(Promise.resolve("")); // The first call checks that the command is available.
+      stub.onCall(idx++).returns(Promise.resolve("This one we ignore."));
+      stub.onCall(idx++).returns(Promise.resolve("Not valid JSON"));
+
+      const credential = new AzurePowerShellCredential();
+
+      let error: Error | null = null;
+      try {
+        await credential.getToken(scope);
+      } catch (e) {
+        error = e;
+      }
+
+      assert.ok(error);
+      assert.equal(error?.name, "CredentialUnavailableError");
+      assert.equal(
+        error?.message,
+        `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON`
+      );
+
+      sandbox.restore();
+    });
+  }
 
   it("authenticates", async function() {
     const sandbox = Sinon.createSandbox();

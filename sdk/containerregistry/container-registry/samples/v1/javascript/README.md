@@ -12,10 +12,10 @@ urlFragment: container-registry-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Container Registry in some common scenarios.
 
-| **File Name**                                             | **Description**                                      |
-| --------------------------------------------------------- | ---------------------------------------------------- |
-| [containerRegistryClient.js][containerregistryclient]     | Demonstrates the use of a ContainerRegistryClient.   |
-| [containerRepositoryClient.js][containerrepositoryclient] | Demonstrates the use of a ContainerRepositoryClient. |
+| **File Name**                                         | **Description**                                                   |
+| ----------------------------------------------------- | ----------------------------------------------------------------- |
+| [containerRegistryClient.js][containerregistryclient] | Demonstrates the use of a ContainerRegistryClient.                |
+| [repositoryAndArtifact.js][repositoryandartifact]     | Demonstrates the use of ContainerRepository and RegistryArtifact. |
 
 ## Prerequisites
 
@@ -58,8 +58,8 @@ npx cross-env CONTAINER_REGISTRY_ENDPOINT="<container registry endpoint>" node c
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [containerregistryclient]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/containerregistry/container-registry/samples/v1/javascript/containerRegistryClient.js
-[containerrepositoryclient]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/containerregistry/container-registry/samples/v1/javascript/containerRepositoryClient.js
-[apiref]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-container-registry/1.0.0-beta.1/index.html
+[repositoryandartifact]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/containerregistry/container-registry/samples/v1/javascript/repositoryAndArtifact.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/container-registry
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecontainerregistry]: https://docs.microsoft.com/azure/container-registry/container-registry-get-started-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/containerregistry/container-registry/README.md

@@ -41,10 +41,7 @@ export { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialO
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
 export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswordCredentialOptions";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
-export {
-  AzurePowerShellCredential,
-  AzurePowerShellCredentialOptions
-} from "./credentials/azurePowerShellCredential";
+export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
 
 export {
   AuthenticationError,

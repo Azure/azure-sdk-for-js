@@ -613,46 +613,6 @@ describe("BlobServiceClient", () => {
     assert.ok(listed);
   });
 
-  it("restore container to a new name", async function() {
-    let blobServiceClient: BlobServiceClient;
-    try {
-      blobServiceClient = getGenericBSU("SOFT_DELETE_");
-    } catch (err) {
-      this.skip();
-    }
-
-    const containerName = recorder.getUniqueName("container");
-    const containerClient = blobServiceClient.getContainerClient(containerName);
-
-    await containerClient.create();
-    await containerClient.delete();
-    await delay(30 * 1000);
-
-    let listed = false;
-    for await (const containerItem of blobServiceClient.listContainers({ includeDeleted: true })) {
-      if (containerItem.deleted && containerItem.name === containerName) {
-        listed = true;
-        // check list container response
-        assert.ok(containerItem.version);
-        assert.ok(containerItem.properties.deletedOn);
-        assert.ok(containerItem.properties.remainingRetentionDays);
-
-        const newContainerName = recorder.getUniqueName("newcontainer");
-        const restoreRes = await blobServiceClient.undeleteContainer(
-          containerName,
-          containerItem.version!,
-          {
-            destinationContainerName: newContainerName
-          }
-        );
-        assert.equal(restoreRes.containerClient.containerName, newContainerName);
-        await restoreRes.containerClient.delete();
-        break;
-      }
-    }
-    assert.ok(listed);
-  });
-
   it("rename container", async function() {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
