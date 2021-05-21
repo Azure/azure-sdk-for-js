@@ -15,6 +15,9 @@ import { logger } from "./logger";
 import { Fetcher } from "./fetcherAbstract";
 
 /**
+ * The HTTP Fetcher implements the Fetcher interface to
+ * retrieve models through HTTP calls.
+ * 
  * @internal
  */
 export class HttpFetcher implements Fetcher {

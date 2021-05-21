@@ -5,7 +5,9 @@ import { ServiceClientOptions, ServiceClient } from "@azure/core-client";
 import { DEFAULT_API_VERSION } from "./constants";
 
 interface IoTModelsRepositoryServiceClientOptions extends ServiceClientOptions {
+  // API Version to be used during HTTP Calls.
   version?: string;
+  // Endpoint that will be base of URLs for HTTP calls.
   endpoint?: string;
 }
 
@@ -17,7 +19,7 @@ export class IoTModelsRepositoryServiceClient extends ServiceClient {
   version: string;
 
   /**
-   * Initializes a new instance of the GeneratedClient class.
+   * Initializes a new instance of the IoTModelsRepositoryServiceClient class.
    * @param url The URL of the service account or table that is the target of the desired operation.
    * @param options The parameter options
    */
