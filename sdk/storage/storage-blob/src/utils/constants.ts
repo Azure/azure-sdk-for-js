@@ -204,3 +204,5 @@ export const StorageBlobLoggingAllowedQueryParameters = [
   "skv",
   "snapshot",
 ];
+
+export const BlobUsesCustomerSpecifiedEncryptionMsg = "BlobUsesCustomerSpecifiedEncryption";
