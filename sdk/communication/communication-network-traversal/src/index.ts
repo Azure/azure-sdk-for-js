@@ -3,4 +3,4 @@
 
 export * from "./communicationRelayClient";
 export * from "./models";
-export { CommunicationTurnCredentialsResponse, CommunicationTurnServer } from "./generated/src/models";
+export { CommunicationTurnServer } from "./generated/src/models";
