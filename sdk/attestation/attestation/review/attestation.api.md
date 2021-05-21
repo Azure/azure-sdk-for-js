@@ -62,13 +62,9 @@ export class AttestationClient extends AttestationClientContext {
     // (undocumented)
     instanceUrl: string;
     // (undocumented)
-    metadataConfiguration: MetadataConfiguration;
-    // (undocumented)
     policy: Policy;
     // (undocumented)
     policyCertificates: PolicyCertificates;
-    // (undocumented)
-    signingCertificates: SigningCertificates;
 }
 
 // @public (undocumented)
@@ -223,12 +219,6 @@ export const enum KnownPolicyModification {
 }
 
 // @public
-export class MetadataConfiguration {
-    constructor(client: AttestationClient);
-    get(options?: coreHttp.OperationOptions): Promise<MetadataConfigurationGetResponse>;
-}
-
-// @public
 export type MetadataConfigurationGetResponse = {
     body: any;
     _response: coreHttp.HttpResponse & {
@@ -342,12 +332,6 @@ export type PolicySetModelResponse = PolicyResponse & {
 export interface RuntimeData {
     data?: Uint8Array;
     dataType?: DataType;
-}
-
-// @public
-export class SigningCertificates {
-    constructor(client: AttestationClient);
-    get(options?: coreHttp.OperationOptions): Promise<SigningCertificatesGetResponse>;
 }
 
 // @public

@@ -11,13 +11,13 @@ import {
   Policy,
   PolicyCertificates,
   Attestation,
-  SigningCertificates,
-  MetadataConfiguration
 } from "./operations";
 import { AttestationClientContext } from "./attestationClientContext";
 import { AzureAttestationRestClient, } from "./generated/azureAttestationRestClient"
 import { AttestationClientOptionalParams } from "./models";
 import { AttestationSigner } from "./models/attestationSigner";
+
+//import { logger } from "./logger";
 import { createSpan } from "./tracing";
 
 export class AttestationClient extends AttestationClientContext {
@@ -41,8 +41,6 @@ export class AttestationClient extends AttestationClientContext {
     this.policy = new Policy(this);
     this.policyCertificates = new PolicyCertificates(this);
     this.attestation = new Attestation(this);
-    this.signingCertificates = new SigningCertificates(this);
-    this.metadataConfiguration = new MetadataConfiguration(this);
   }
 
   public BaseClient() : AzureAttestationRestClient
@@ -89,6 +87,4 @@ export class AttestationClient extends AttestationClientContext {
   policy: Policy;
   policyCertificates: PolicyCertificates;
   attestation: Attestation;
-  signingCertificates: SigningCertificates;
-  metadataConfiguration: MetadataConfiguration;
 }
