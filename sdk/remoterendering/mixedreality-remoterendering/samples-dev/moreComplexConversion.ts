@@ -72,14 +72,9 @@ export function getClientWithDeviceCode() {
     console.log(deviceCodeInfo.message);
   };
 
-  const credential = new DeviceCodeCredential(
-    tenantId,
-    clientId,
-    deviceCodeCallback,
-    {
-      authorityHost: "https://login.microsoftonline.com/" + tenantId
-    }
-  );
+  const credential = new DeviceCodeCredential(tenantId, clientId, deviceCodeCallback, {
+    authorityHost: "https://login.microsoftonline.com/" + tenantId
+  });
 
   return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
     authenticationEndpointUrl: "https://sts.mixedreality.azure.com/mixedreality.signin"

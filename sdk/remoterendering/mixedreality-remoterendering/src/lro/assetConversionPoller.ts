@@ -40,7 +40,7 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
   }
 
   get isCancelled(): boolean {
-    // We don't support cancellation, so the poller is never treated as cancelled. 
+    // We don't support cancellation, so the poller is never treated as cancelled.
     return false;
   }
 

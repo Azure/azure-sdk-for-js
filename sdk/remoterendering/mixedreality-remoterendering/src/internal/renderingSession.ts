@@ -7,9 +7,7 @@ import {
   SessionProperties,
   KnownRenderingSessionStatus
 } from "../generated/index";
-import {
-  expectDefinedFromService
-} from "./expectDefinedFromService";
+import { expectDefinedFromService } from "./expectDefinedFromService";
 
 /** Properties available for a rendering session in any state */
 export interface RenderingSessionBase {
