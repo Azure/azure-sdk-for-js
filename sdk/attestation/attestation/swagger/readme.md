@@ -10,7 +10,7 @@ npm install -g autorest
 
 ```ps
 cd <swagger-folder>
-autorest SWAGGER.md
+autorest README.md
 ```
 
 ### Code generation settings
@@ -22,7 +22,7 @@ package-version: 1.0.0-beta.2
 tag: package-2020-10-01
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
-output-folder: ../src/_generated
+output-folder: ../src/generated
 source-code-folder-path: .
 clear-output-folder: true
 typescript: true

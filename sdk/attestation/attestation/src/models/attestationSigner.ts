@@ -4,7 +4,7 @@
  *
  */
 
-import {JsonWebKey} from "../_generated/models";
+import {JsonWebKey} from "../generated/models";
 import {base64DecodeString} from "../utils/base64";
 
 export class AttestationSigner

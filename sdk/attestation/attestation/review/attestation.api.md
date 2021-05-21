@@ -56,7 +56,7 @@ export class AttestationClient extends AttestationClientContext {
     // Warning: (ae-forgotten-export) The symbol "AttestationSigner" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    get_attestation_signers(): Promise<AttestationSigner[]>;
+    getAttestationSigners(options?: coreHttp.OperationOptions): Promise<AttestationSigner[]>;
     // (undocumented)
     instanceUrl: string;
     // (undocumented)

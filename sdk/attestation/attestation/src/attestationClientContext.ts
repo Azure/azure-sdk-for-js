@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import { AttestationClientOptionalParams } from "./models";
 
-import {AzureAttestationRestClientContext} from "./_generated/azureAttestationRestClientContext"
+import {AzureAttestationRestClientContext} from "./generated/azureAttestationRestClientContext"
 
 export class AttestationClientContext extends coreHttp.ServiceClient {
   clientContext : AzureAttestationRestClientContext;

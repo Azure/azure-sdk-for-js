@@ -9,8 +9,9 @@ chaiUse(chaiPromises);
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
-import { Buffer } from "../utils/Buffer";
-
+import { X509 } from "jsrsasign"
+import { encodeByteArray } from "../utils/base64url"
+import { AttestationClient } from "../../src";
 describe("TokenCertTests", function() {
   let recorder: Recorder;
 
@@ -24,53 +25,39 @@ describe("TokenCertTests", function() {
 
   it("#GetCertificateAAD", async() => {
     const client = createRecordedClient("AAD");
-    const signingCertificates = await client.get_attestation_signers();
+    await getCertificatesTest(client);
+
+  });
+
+  it("#GetCertificatesIsolated", async () => {
+    const client = createRecordedClient("Isolated");
+    await getCertificatesTest(client);
+  });
+
+  it("#GetCertificatesShared", async () => {
+    const client = createRecordedClient("Shared");
+    await getCertificatesTest(client);
+  });
+
+  async function getCertificatesTest(client: AttestationClient) : Promise<void>
+  {
+    const signingCertificates = await client.getAttestationSigners();
     for (const key of signingCertificates) {
       assert.isDefined(key.key_id);
       assert.isDefined(key.certificates);
 
+      key.certificates.forEach(certBuffer => {
+          let pemCert: string;
+          assert.isDefined(certBuffer);
+          pemCert = "-----BEGIN CERTIFICATE-----\r\n";
+          pemCert += encodeByteArray(certBuffer);
+          pemCert += "\r\n-----END CERTIFICATE-----\r\n";
+    
+          const cert = new X509();
+          cert.readCertPEM(pemCert);
+    
+          console.log(cert.getSubjectString());
+      })
     }
-
-  });
-
-  it("#GetCertificatesAAD_Old", async () => {
-    const client = createRecordedClient("AAD");
-    const signingCertificates = await client.signingCertificates.get();
-    const certs = signingCertificates.keys!;
-    assert(certs.length > 0);
-    for (const key of certs) {
-      assert.isDefined(key.x5C);
-      for (const cert of key.x5C!) {
-        const berCert = Buffer.from(cert, "base64");
-        assert(berCert);
-      }
-    }
-  });
-  it("#GetCertificatesIsolated_Old", async () => {
-    const client = createRecordedClient("Isolated");
-    const signingCertificates = await client.signingCertificates.get();
-    const certs = signingCertificates.keys!;
-    assert(certs.length > 0);
-    for (const key of certs) {
-      assert.isDefined(key.x5C);
-      for (const cert of key.x5C!) {
-        const berCert = Buffer.from(cert, "base64");
-        assert(berCert);
-      }
-    }
-  });
-
-  it("#GetCertificatesShared_Old", async () => {
-    const client = createRecordedClient("Shared");
-    const signingCertificates = await client.signingCertificates.get();
-    const certs = signingCertificates.keys!;
-    assert(certs.length > 0);
-    for (const key of certs) {
-      assert.isDefined(key.x5C);
-      for (const cert of key.x5C!) {
-        const berCert = Buffer.from(cert, "base64");
-        assert(berCert);
-      }
-    }
-  });
+  }
 });
