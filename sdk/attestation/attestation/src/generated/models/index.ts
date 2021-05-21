@@ -805,7 +805,7 @@ export type MetadataConfigurationGetResponse = {
 /**
  * Optional parameters.
  */
-export interface AzureAttestationRestClientOptionalParams
+export interface GeneratedClientOptionalParams
   extends coreHttp.ServiceClientOptions {
   /**
    * Api Version

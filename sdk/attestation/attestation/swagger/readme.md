@@ -15,10 +15,8 @@ autorest README.md
 
 ### Code generation settings
 
-
 ```yaml
 package-name: "@azure/attestation"
-package-version: 1.0.0-beta.2
 tag: package-2020-10-01
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
@@ -30,6 +28,7 @@ require:
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/attestation/data-plane/readme.md
 add-credentials: true
 credential-scopes: https://attest.azure.net/.default
+override-client-name: GeneratedClient
 title: AzureAttestationRestClient
 v3: true
 no-namespace-folders: true

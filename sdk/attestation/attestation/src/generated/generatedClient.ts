@@ -14,12 +14,12 @@ import {
   SigningCertificates,
   MetadataConfiguration
 } from "./operations";
-import { AzureAttestationRestClientContext } from "./azureAttestationRestClientContext";
-import { AzureAttestationRestClientOptionalParams } from "./models";
+import { GeneratedClientContext } from "./generatedClientContext";
+import { GeneratedClientOptionalParams } from "./models";
 
-export class AzureAttestationRestClient extends AzureAttestationRestClientContext {
+export class GeneratedClient extends GeneratedClientContext {
   /**
-   * Initializes a new instance of the AzureAttestationRestClient class.
+   * Initializes a new instance of the GeneratedClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param instanceUrl The attestation instance base URI, for example https://mytenant.attest.azure.net.
    * @param options The parameter options
@@ -27,7 +27,7 @@ export class AzureAttestationRestClient extends AzureAttestationRestClientContex
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     instanceUrl: string,
-    options?: AzureAttestationRestClientOptionalParams
+    options?: GeneratedClientOptionalParams
   ) {
     super(credentials, instanceUrl, options);
     this.policy = new Policy(this);

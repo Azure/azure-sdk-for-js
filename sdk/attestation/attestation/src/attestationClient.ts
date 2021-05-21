@@ -7,20 +7,22 @@
  */
 
 import * as coreHttp from "@azure/core-http";
+//import { OperationOptions } from "@azure/core-client";
+import { SDK_VERSION } from "./constants";
 import {
   Policy,
   PolicyCertificates,
   Attestation,
 } from "./operations";
-import { AttestationClientContext } from "./attestationClientContext";
-import { AzureAttestationRestClient, } from "./generated/azureAttestationRestClient"
-import { AttestationClientOptionalParams } from "./models";
-import { AttestationSigner } from "./models/attestationSigner";
+import { GeneratedClient } from "./generated/generatedClient"
+  
+import { AttestationSigner, AttestationClientOptions  } from "./models";
 
-//import { logger } from "./logger";
+import { logger } from "./logger";
 import { createSpan } from "./tracing";
+import { GeneratedClientOptionalParams } from "./generated/models";
 
-export class AttestationClient extends AttestationClientContext {
+export class AttestationClient {
   /**
    * Initializes a new instance of the AttestationClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -28,13 +30,40 @@ export class AttestationClient extends AttestationClientContext {
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    credentials: coreHttp.TokenCredential,
     instanceUrl: string,
-    options?: AttestationClientOptionalParams
+    options: AttestationClientOptions = {}
   ) {
-    super(credentials, instanceUrl, options);
 
-    this._client = new AzureAttestationRestClient(credentials, instanceUrl, options);
+    // The below code helps us set a proper User-Agent header on all requests
+    const libInfo = `azsdk-js-api-security-attestation/${SDK_VERSION}`;
+    if (!options.userAgentOptions) {
+      options.userAgentOptions = {};
+    }
+    if (options.userAgentOptions.userAgentPrefix) {
+      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
+    } else {
+      options.userAgentOptions.userAgentPrefix = libInfo;
+    }
+
+    const internalPipelineOptions: GeneratedClientOptionalParams = {
+      ...options,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          allowedHeaderNames: [
+            'x-ms-request-id',
+            'x-ms-maa-service-version'
+          ]
+        }
+      }
+    };
+
+    const authPolicy = coreHttp.bearerTokenAuthenticationPolicy(credentials, 'https://attest.azure.net/.default');
+
+    const pipeline = coreHttp.createPipelineFromOptions(internalPipelineOptions, authPolicy);
+
+    this._client = new GeneratedClient(credentials, instanceUrl, pipeline);
     this.instanceUrl = instanceUrl;
 
     // Legacy compatibility classes functions which will be removed eventually.
@@ -43,7 +72,7 @@ export class AttestationClient extends AttestationClientContext {
     this.attestation = new Attestation(this);
   }
 
-  public BaseClient() : AzureAttestationRestClient
+  public BaseClient() : GeneratedClient
   {
     return this._client;
   }
@@ -80,7 +109,7 @@ export class AttestationClient extends AttestationClientContext {
   }
   
 
-  private _client: AzureAttestationRestClient;
+  private _client: GeneratedClient;
 
   instanceUrl: string;
 

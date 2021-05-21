@@ -8,6 +8,9 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export * from "./attestationClientOptions";
+export * from "./attestationSigner";
+
 /**
  * The response to an attestation policy operation
  */
@@ -801,18 +804,3 @@ export type MetadataConfigurationGetResponse = {
     parsedBody: any;
   };
 };
-
-/**
- * Optional parameters.
- */
-export interface AttestationClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
-  /**
-   * Api Version
-   */
-  apiVersion?: string;
-  /**
-   * Overrides client endpoint.
-   */
-  endpoint?: string;
-}

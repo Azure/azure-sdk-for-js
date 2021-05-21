@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureAttestationRestClient } from "../azureAttestationRestClient";
+import { GeneratedClient } from "../generatedClient";
 import {
   AttestOpenEnclaveRequest,
   AttestationAttestOpenEnclaveResponse,
@@ -23,13 +23,13 @@ import {
  * Class representing a Attestation.
  */
 export class Attestation {
-  private readonly client: AzureAttestationRestClient;
+  private readonly client: GeneratedClient;
 
   /**
    * Initialize a new instance of the class Attestation class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureAttestationRestClient) {
+  constructor(client: GeneratedClient) {
     this.client = client;
   }
 

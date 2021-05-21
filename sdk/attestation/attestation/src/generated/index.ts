@@ -7,5 +7,5 @@
  */
 
 export * from "./models";
-export { AzureAttestationRestClient } from "./azureAttestationRestClient";
-export { AzureAttestationRestClientContext } from "./azureAttestationRestClientContext";
+export { GeneratedClient } from "./generatedClient";
+export { GeneratedClientContext } from "./generatedClientContext";

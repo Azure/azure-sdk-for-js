@@ -5,6 +5,7 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
 
 // @public
 export class Attestation {
@@ -45,16 +46,14 @@ export interface AttestationCertificateManagementBody {
 }
 
 // @public (undocumented)
-export class AttestationClient extends AttestationClientContext {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: AttestationClientOptionalParams);
+export class AttestationClient {
+    constructor(credentials: coreHttp.TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
     // (undocumented)
     attestation: Attestation;
-    // Warning: (ae-forgotten-export) The symbol "AzureAttestationRestClient" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GeneratedClient" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    BaseClient(): AzureAttestationRestClient;
-    // Warning: (ae-forgotten-export) The symbol "AttestationSigner" needs to be exported by the entry point index.d.ts
-    //
+    BaseClient(): GeneratedClient;
     // (undocumented)
     getAttestationSigners(options?: coreHttp.OperationOptions): Promise<AttestationSigner[]>;
     // (undocumented)
@@ -67,17 +66,8 @@ export class AttestationClient extends AttestationClientContext {
     policyCertificates: PolicyCertificates;
 }
 
-// @public (undocumented)
-export class AttestationClientContext extends coreHttp.ServiceClient {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: AttestationClientOptionalParams);
-    // Warning: (ae-forgotten-export) The symbol "AzureAttestationRestClientContext" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    clientContext: AzureAttestationRestClientContext;
-}
-
 // @public
-export interface AttestationClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface AttestationClientOptions extends PipelineOptions {
     apiVersion?: string;
     endpoint?: string;
 }
@@ -123,6 +113,16 @@ export interface AttestationResult {
     svn?: number;
     verifierType?: string;
     version?: string;
+}
+
+// @public (undocumented)
+export class AttestationSigner {
+    // Warning: (ae-forgotten-export) The symbol "JsonWebKey" needs to be exported by the entry point index.d.ts
+    constructor(key: JsonWebKey_2);
+    // (undocumented)
+    certificates: Uint8Array[];
+    // (undocumented)
+    key_id: string;
 }
 
 // @public

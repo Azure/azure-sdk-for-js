@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1317",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 21 May 2021 17:29:39 GMT",
+    "date": "Fri, 21 May 2021 18:48:18 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11774.8 - NCUS ProdSlices",
-    "x-ms-request-id": "ae702620-aad2-4640-88cc-b32eaec82400"
+    "x-ms-ests-server": "2.1.11774.8 - WUS2 ProdSlices",
+    "x-ms-request-id": "89829f76-b40d-42d0-92db-79cef90f4700"
    }
   },
   {
@@ -34,10 +34,10 @@
    "responseHeaders": {
     "content-length": "573",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 21 May 2021 17:29:39 GMT",
+    "date": "Fri, 21 May 2021 18:48:17 GMT",
     "server": "Kestrel",
     "x-ms-maa-service-version": "1.10.01581.0002",
-    "x-ms-request-id": "00-89d0841bce0f33a7138ccffeece684bf-0000000000000000-00"
+    "x-ms-request-id": "00-51ceb207027d25959f4051bb67440bd4-0000000000000000-00"
    }
   }
  ],

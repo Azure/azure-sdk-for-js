@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1317",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 21 May 2021 17:29:38 GMT",
+    "date": "Fri, 21 May 2021 18:48:17 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.11774.8 - EUS ProdSlices",
-    "x-ms-request-id": "bef3379f-a974-49a6-b738-7327bd822600"
+    "x-ms-request-id": "4d0735b3-6241-4df0-889f-f9a635722800"
    }
   },
   {
@@ -34,10 +34,10 @@
    "responseHeaders": {
     "content-length": "612",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 21 May 2021 17:29:38 GMT",
+    "date": "Fri, 21 May 2021 18:48:17 GMT",
     "server": "Kestrel",
     "x-ms-maa-service-version": "1.10.01581.0002",
-    "x-ms-request-id": "00-0e6b20d9257da36c3c887de23ca6adbc-0000000000000000-00"
+    "x-ms-request-id": "00-2bb3f7bdaf35cd6f24e7668b1ac86e2c-0000000000000000-00"
    }
   }
  ],
