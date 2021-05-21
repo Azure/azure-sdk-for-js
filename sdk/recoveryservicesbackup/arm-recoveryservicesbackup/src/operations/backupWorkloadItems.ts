@@ -37,7 +37,13 @@ export class BackupWorkloadItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupWorkloadItemsListResponse>
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: Models.BackupWorkloadItemsListOptionalParams): Promise<Models.BackupWorkloadItemsListResponse>;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    options?: Models.BackupWorkloadItemsListOptionalParams
+  ): Promise<Models.BackupWorkloadItemsListResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -46,7 +52,13 @@ export class BackupWorkloadItems {
    * @param containerName Name of the container.
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, callback: msRest.ServiceCallback<Models.WorkloadItemResourceList>): void;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    callback: msRest.ServiceCallback<Models.WorkloadItemResourceList>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -56,8 +68,24 @@ export class BackupWorkloadItems {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options: Models.BackupWorkloadItemsListOptionalParams, callback: msRest.ServiceCallback<Models.WorkloadItemResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: Models.BackupWorkloadItemsListOptionalParams | msRest.ServiceCallback<Models.WorkloadItemResourceList>, callback?: msRest.ServiceCallback<Models.WorkloadItemResourceList>): Promise<Models.BackupWorkloadItemsListResponse> {
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    options: Models.BackupWorkloadItemsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.WorkloadItemResourceList>
+  ): void;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    options?:
+      | Models.BackupWorkloadItemsListOptionalParams
+      | msRest.ServiceCallback<Models.WorkloadItemResourceList>,
+    callback?: msRest.ServiceCallback<Models.WorkloadItemResourceList>
+  ): Promise<Models.BackupWorkloadItemsListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -67,7 +95,8 @@ export class BackupWorkloadItems {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BackupWorkloadItemsListResponse>;
+      callback
+    ) as Promise<Models.BackupWorkloadItemsListResponse>;
   }
 
   /**
@@ -78,26 +107,43 @@ export class BackupWorkloadItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupWorkloadItemsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.BackupWorkloadItemsListNextOptionalParams): Promise<Models.BackupWorkloadItemsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.BackupWorkloadItemsListNextOptionalParams
+  ): Promise<Models.BackupWorkloadItemsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WorkloadItemResourceList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.WorkloadItemResourceList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.BackupWorkloadItemsListNextOptionalParams, callback: msRest.ServiceCallback<Models.WorkloadItemResourceList>): void;
-  listNext(nextPageLink: string, options?: Models.BackupWorkloadItemsListNextOptionalParams | msRest.ServiceCallback<Models.WorkloadItemResourceList>, callback?: msRest.ServiceCallback<Models.WorkloadItemResourceList>): Promise<Models.BackupWorkloadItemsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.BackupWorkloadItemsListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.WorkloadItemResourceList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.BackupWorkloadItemsListNextOptionalParams
+      | msRest.ServiceCallback<Models.WorkloadItemResourceList>,
+    callback?: msRest.ServiceCallback<Models.WorkloadItemResourceList>
+  ): Promise<Models.BackupWorkloadItemsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.BackupWorkloadItemsListNextResponse>;
+      callback
+    ) as Promise<Models.BackupWorkloadItemsListNextResponse>;
   }
 }
 
@@ -105,7 +151,8 @@ export class BackupWorkloadItems {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/items",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/items",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -113,14 +160,8 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName,
     Parameters.containerName
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkloadItemResourceList
@@ -136,17 +177,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkloadItemResourceList

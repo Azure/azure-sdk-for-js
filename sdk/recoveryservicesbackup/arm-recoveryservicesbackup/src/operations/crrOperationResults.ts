@@ -30,7 +30,11 @@ export class CrrOperationResults {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  get(azureRegion: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  get(
+    azureRegion: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param azureRegion Azure region to hit Api
    * @param operationId
@@ -43,8 +47,18 @@ export class CrrOperationResults {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(azureRegion: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  get(azureRegion: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  get(
+    azureRegion: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  get(
+    azureRegion: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -52,7 +66,8 @@ export class CrrOperationResults {
         options
       },
       getOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -60,18 +75,11 @@ export class CrrOperationResults {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupCrrOperationResults/{operationId}",
-  urlParameters: [
-    Parameters.azureRegion,
-    Parameters.subscriptionId,
-    Parameters.operationId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupCrrOperationResults/{operationId}",
+  urlParameters: [Parameters.azureRegion, Parameters.subscriptionId, Parameters.operationId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

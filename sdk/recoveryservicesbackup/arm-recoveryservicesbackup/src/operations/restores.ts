@@ -41,9 +41,26 @@ export class Restores {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  trigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: Models.RestoreRequestResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginTrigger(vaultName,resourceGroupName,fabricName,containerName,protectedItemName,recoveryPointId,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  trigger(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    parameters: Models.RestoreRequestResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginTrigger(
+      vaultName,
+      resourceGroupName,
+      fabricName,
+      containerName,
+      protectedItemName,
+      recoveryPointId,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -61,7 +78,16 @@ export class Restores {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTrigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: Models.RestoreRequestResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginTrigger(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    parameters: Models.RestoreRequestResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         vaultName,
@@ -74,7 +100,8 @@ export class Restores {
         options
       },
       beginTriggerOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -82,7 +109,8 @@ export class Restores {
 const serializer = new msRest.Serializer(Mappers);
 const beginTriggerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/restore",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/restore",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -92,12 +120,8 @@ const beginTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.protectedItemName,
     Parameters.recoveryPointId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
