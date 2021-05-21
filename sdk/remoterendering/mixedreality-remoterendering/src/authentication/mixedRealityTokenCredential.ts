@@ -9,6 +9,10 @@ import {
 } from "@azure/mixedreality-authentication";
 import { StaticAccessTokenCredential } from "./staticAccessTokenCredential";
 
+/**
+ * Represents a token credential that can be used to access a Mixed Reality service.
+ * @internal
+ */
 export class MixedRealityTokenCredential implements TokenCredential {
   private stsClient: MixedRealityStsClient;
 

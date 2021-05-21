@@ -5,6 +5,9 @@ import { RemoteRenderingServiceErrorInternal } from "./generated";
 
 /** Error object containing details about a conversion or session failure. */
 export class RemoteRenderingServiceError extends Error {
+  /**
+   * Create a RemoteRenderingServiceError with a message and code.
+   */
   constructor(message: string, code: string) {
     super(message);
     Object.setPrototypeOf(this, RemoteRenderingServiceError.prototype);

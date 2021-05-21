@@ -127,6 +127,9 @@ export type RenderingSession =
   | ExpiredRenderingSession
   | StoppedRenderingSession;
 
+/**
+ * @internal
+ */
 function renderingSessionPropertiesFromSessionProperties(
   session: SessionProperties
 ): RenderingSessionProperties {
@@ -140,6 +143,9 @@ function renderingSessionPropertiesFromSessionProperties(
   };
 }
 
+/**
+ * @internal
+ */
 function partialRenderingSessionPropertiesFromSessionProperties(
   session: SessionProperties
 ): PartialRenderingSessionProperties {
@@ -153,6 +159,10 @@ function partialRenderingSessionPropertiesFromSessionProperties(
   };
 }
 
+/**
+ * Build a RenderingSession object from the SessionProperties object returned by the service.
+ * @internal
+ */
 export function renderingSessionFromSessionProperties(
   session: SessionProperties
 ): RenderingSession {

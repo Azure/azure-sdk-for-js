@@ -13,7 +13,7 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export type AssetConversion = NonStartedAssetConversion | RunningAssetConversion | SucceededAssetConversion | FailedAssetConversion | CancelledAssetConversion;
 
 // @public
@@ -31,7 +31,7 @@ export interface AssetConversionInputSettings {
     storageContainerUrl: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AssetConversionOperationState extends PollOperationState<AssetConversion> {
     latestResponse: AssetConversion;
 }
@@ -52,7 +52,7 @@ export interface AssetConversionOutputSettings {
 // @public (undocumented)
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
 
-// @public (undocumented)
+// @public
 export interface AssetConversionPollerOptions {
     // (undocumented)
     intervalInMs?: number;
@@ -207,7 +207,7 @@ export interface RenderingSessionBase {
     size: RenderingServerSize;
 }
 
-// @public (undocumented)
+// @public
 export interface RenderingSessionOperationState extends PollOperationState<RenderingSession> {
     latestResponse: RenderingSession;
 }
@@ -215,7 +215,7 @@ export interface RenderingSessionOperationState extends PollOperationState<Rende
 // @public (undocumented)
 export type RenderingSessionPollerLike = PollerLike<RenderingSessionOperationState, RenderingSession>;
 
-// @public (undocumented)
+// @public
 export interface RenderingSessionPollerOptions {
     // (undocumented)
     intervalInMs?: number;

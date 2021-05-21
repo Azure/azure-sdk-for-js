@@ -3,6 +3,10 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 
+/**
+ * Represents a static access token credential.
+ * @internal
+ */
 export class StaticAccessTokenCredential implements TokenCredential {
   private token: AccessToken;
 

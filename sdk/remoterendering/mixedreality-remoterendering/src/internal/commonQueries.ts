@@ -8,6 +8,11 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { AssetConversion, assetConversionFromConversion } from "./assetConversion";
 import { RenderingSession, renderingSessionFromSessionProperties } from "./renderingSession";
 
+/**
+ * Call getConversion on the service, wrapped in a tracing span with a provided name.
+ * @param tracingSpanName The name to use for the span that wraps the call.
+ * @internal
+ */
 export async function getConversionInternal(
   accountId: string,
   operations: RemoteRendering,
@@ -34,6 +39,11 @@ export async function getConversionInternal(
   }
 }
 
+/**
+ * Call getSession on the service, wrapped in a tracing span with a provided name.
+ * @param tracingSpanName The name to use for the span that wraps the call.
+ * @internal
+ */
 export async function getSessionInternal(
   accountId: string,
   operations: RemoteRendering,
@@ -60,6 +70,11 @@ export async function getSessionInternal(
   }
 }
 
+/**
+ * Call endSession on the service, wrapped in a tracing span with a provided name.
+ * @param tracingSpanName The name to use for the span that wraps the call.
+ * @internal
+ */
 export async function endSessionInternal(
   accountId: string,
   operations: RemoteRendering,

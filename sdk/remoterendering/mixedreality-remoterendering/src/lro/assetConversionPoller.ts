@@ -9,10 +9,16 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import { AssetConversion } from "../internal/assetConversion";
 
+/**
+ * Options to configure the LRO poller for the beginConversion operation.
+ */
 export interface AssetConversionPollerOptions {
   intervalInMs?: number;
 }
 
+/**
+ * The state carried by the LRO poller for the beginConversion operation.
+ */
 export interface AssetConversionOperationState extends PollOperationState<AssetConversion> {
   /**
    * The latest response when querying the service. The conversion may or may not be completed.
@@ -20,6 +26,9 @@ export interface AssetConversionOperationState extends PollOperationState<AssetC
   latestResponse: AssetConversion;
 }
 
+/**
+ * @internal
+ */
 export class AssetConversionOperationStateImpl implements AssetConversionOperationState {
   latestResponse: AssetConversion;
 
@@ -56,6 +65,9 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
   }
 }
 
+/**
+ * @internal
+ */
 class AssetConversionOperation
   implements PollOperation<AssetConversionOperationStateImpl, AssetConversion> {
   private accountId: string;
@@ -94,6 +106,9 @@ class AssetConversionOperation
   }
 }
 
+/**
+ * @internal
+ */
 export class AssetConversionPoller extends Poller<
   AssetConversionOperationStateImpl,
   AssetConversion

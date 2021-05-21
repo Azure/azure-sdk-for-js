@@ -59,6 +59,7 @@ export interface CancelledAssetConversion extends AssetConversionBase {
   status: "Cancelled";
 }
 
+/** A type representing the various states of a conversion. This is a tagged union with "status" as its discriminant property. */
 export type AssetConversion =
   | NonStartedAssetConversion
   | RunningAssetConversion
@@ -66,6 +67,10 @@ export type AssetConversion =
   | FailedAssetConversion
   | CancelledAssetConversion;
 
+/**
+ * Build an AssetConversion object from the conversion object returned by the service.
+ * @internal
+ */
 export function assetConversionFromConversion(conversion: Conversion): AssetConversion {
   const baseProperties: AssetConversionBase = {
     conversionId: conversion.conversionId,

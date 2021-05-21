@@ -9,10 +9,16 @@ import { RemoteRendering } from "../generated/operations";
 import { delay } from "@azure/core-util";
 import { RenderingSession } from "../internal/renderingSession";
 
+/**
+ * Options to configure the LRO poller for the beginSession operation.
+ */
 export interface RenderingSessionPollerOptions {
   intervalInMs?: number;
 }
 
+/**
+ * The state carried by the LRO poller for the beginSession operation.
+ */
 export interface RenderingSessionOperationState extends PollOperationState<RenderingSession> {
   /**
    * The latest response when querying the service. The session may or may not be ready.
@@ -20,6 +26,9 @@ export interface RenderingSessionOperationState extends PollOperationState<Rende
   latestResponse: RenderingSession;
 }
 
+/**
+ * @internal
+ */
 export class RenderingSessionOperationStateImpl implements RenderingSessionOperationState {
   latestResponse: RenderingSession;
 
@@ -51,6 +60,9 @@ export class RenderingSessionOperationStateImpl implements RenderingSessionOpera
   }
 }
 
+/**
+ * @internal
+ */
 class RenderingSessionOperation
   implements PollOperation<RenderingSessionOperationStateImpl, RenderingSession> {
   private accountId: string;
@@ -109,6 +121,9 @@ class RenderingSessionOperation
   }
 }
 
+/**
+ * @internal
+ */
 export class RenderingSessionPoller extends Poller<
   RenderingSessionOperationStateImpl,
   RenderingSession
