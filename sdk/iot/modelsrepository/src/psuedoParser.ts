@@ -18,7 +18,7 @@ export class PseudoParser {
 
   async expand(models: DTDL[], tryFromExpanded: boolean) {
     let expandedMap: any = {};
-    for (let i=0; i<models.length; i++) {
+    for (let i = 0; i < models.length; i++) {
       const model: DTDL = models[i];
       if (model["@id"] !== undefined) {
         expandedMap[model["@id"]] = model;
@@ -38,9 +38,12 @@ export class PseudoParser {
     });
     if (dependenciesToResolve.length !== 0) {
       logger.info(`Outstanding dependencies found: ${dependenciesToResolve}`);
-      let resolvedDependenciesMap: { [s: string]: unknown; };
+      let resolvedDependenciesMap: { [s: string]: unknown };
       try {
-        resolvedDependenciesMap = await this._resolver.resolve(dependenciesToResolve, tryFromExpanded);
+        resolvedDependenciesMap = await this._resolver.resolve(
+          dependenciesToResolve,
+          tryFromExpanded
+        );
       } catch (e) {
         if (e instanceof RestError) {
           resolvedDependenciesMap = await this._resolver.resolve(dependenciesToResolve, false);
@@ -50,7 +53,7 @@ export class PseudoParser {
       }
       Object.keys(resolvedDependenciesMap).forEach((key) => {
         modelMap[key] = resolvedDependenciesMap[key];
-      })
+      });
       const promiseList: Promise<void>[] = [];
       Object.values(resolvedDependenciesMap).forEach((dependencyModel) => {
         promiseList.push(this._expand(dependencyModel as DTDL, modelMap, tryFromExpanded));

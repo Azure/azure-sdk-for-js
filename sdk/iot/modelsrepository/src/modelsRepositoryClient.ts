@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import { DEFAULT_API_VERSION, DEFAULT_REPOSITORY_LOCATION, DEFAULT_USER_AGENT, DEPENDENCY_MODE_DISABLED, DEPENDENCY_MODE_ENABLED, DEPENDENCY_MODE_TRY_FROM_EXPANDED} from "./constants";
+import {
+  DEFAULT_API_VERSION,
+  DEFAULT_REPOSITORY_LOCATION,
+  DEFAULT_USER_AGENT,
+  DEPENDENCY_MODE_DISABLED,
+  DEPENDENCY_MODE_ENABLED,
+  DEPENDENCY_MODE_TRY_FROM_EXPANDED
+} from "./constants";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
 import { Fetcher } from "./fetcherAbstract";
 import { URL } from "./utils/url";

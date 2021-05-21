@@ -33,7 +33,7 @@ export class FilesystemFetcher implements Fetcher {
     if (absolutePath.indexOf(this._baseFilePath) !== 0) {
       throw new Error("Attempted to escape base file path");
     }
-    
+
     try {
       logger.info(`File open on ${absolutePath}`);
       const dtdlFile = await readFilePromise(absolutePath);

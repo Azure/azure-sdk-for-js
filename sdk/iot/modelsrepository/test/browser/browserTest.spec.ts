@@ -14,7 +14,9 @@ describe("resolver -  browser", () => {
       result
         .then((actualOutput: any) => {
           expect(actualOutput["dtmi:azure:DeviceManagement:DeviceInformation;1"]).to.exist;
-          expect(actualOutput["dtmi:azure:DeviceManagement:DeviceInformation;1"]["@id"]).to.equal("dtmi:azure:DeviceManagement:DeviceInformation;1");
+          expect(actualOutput["dtmi:azure:DeviceManagement:DeviceInformation;1"]["@id"]).to.equal(
+            "dtmi:azure:DeviceManagement:DeviceInformation;1"
+          );
           done();
         })
         .catch((err: any) => done(err));

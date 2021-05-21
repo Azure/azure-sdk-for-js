@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-
 /**
  * isValidDtmi
  * @description given a dtmi it will validate it matches the convention.
  * This is based on the DTMI spec:
  * https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#digital-twin-model-identifier
- * 
- * @param dtmi 
+ *
+ * @param dtmi
  * @returns {boolean}
  */
 export function isValidDtmi(dtmi: string): boolean {
@@ -20,13 +19,17 @@ export function isValidDtmi(dtmi: string): boolean {
 /**
  * getModelUri
  * @description given the dtmi and repository uri, will get a fully qualified model uri.
- * 
- * @param dtmi 
- * @param repositoryUri 
- * @param expanded 
+ *
+ * @param dtmi
+ * @param repositoryUri
+ * @param expanded
  * @returns {string}
  */
-export function getModelUri(dtmi: string, repositoryUri: string, expanded: boolean = false): string {
+export function getModelUri(
+  dtmi: string,
+  repositoryUri: string,
+  expanded: boolean = false
+): string {
   if (!repositoryUri.endsWith("/")) {
     repositoryUri = repositoryUri.concat("/");
   }
@@ -34,14 +37,13 @@ export function getModelUri(dtmi: string, repositoryUri: string, expanded: boole
   return modelUri;
 }
 
-
 /**
  * convertDtmiToPath
  * @description converts a dtmi into the model path format.
- * 
- * @param dtmi 
- * @param expanded 
- * @internal 
+ *
+ * @param dtmi
+ * @param expanded
+ * @internal
  */
 export function convertDtmiToPath(dtmi: string, expanded: boolean): string {
   // presently this dtmi to path function does not return the path with a

@@ -53,8 +53,7 @@ module.exports = function(config) {
       "test-browser/index.js": ["coverage"]
     },
 
-    envPreprocessor: [
-    ],
+    envPreprocessor: [],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
