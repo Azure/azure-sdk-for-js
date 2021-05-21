@@ -8,7 +8,10 @@ import {
   KnownAssetConversionStatus
 } from "../generated/models/index";
 import { expectDefinedFromService } from "./expectDefinedFromService";
-import { RemoteRenderingServiceError, createRemoteRenderingServiceError } from "../remoteRenderingServiceError";
+import {
+  RemoteRenderingServiceError,
+  createRemoteRenderingServiceError
+} from "../remoteRenderingServiceError";
 
 /** Properties available for an AssetConversion in any state. */
 export interface AssetConversionBase {

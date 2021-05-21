@@ -7,7 +7,10 @@ import {
   KnownRenderingSessionStatus
 } from "../generated/index";
 import { expectDefinedFromService } from "./expectDefinedFromService";
-import { RemoteRenderingServiceError, createRemoteRenderingServiceError } from "../remoteRenderingServiceError";
+import {
+  RemoteRenderingServiceError,
+  createRemoteRenderingServiceError
+} from "../remoteRenderingServiceError";
 
 /** Properties available for a rendering session in any state */
 export interface RenderingSessionBase {
