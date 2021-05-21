@@ -22,7 +22,7 @@ import { logger } from "./logger";
 import { IoTModelsRepositoryServiceClient } from "./modelsRepositoryServiceClient";
 import { HttpFetcher } from "./fetcherHTTP";
 import { GetModelsOptions } from "./interfaces/getModelsOptions";
-import { DTDL } from "./dtdl";
+import { DTDL } from "./psuedoDtdl";
 
 /**
  * Initializes a new instance of the IoT Models Repository Client.
