@@ -82,7 +82,7 @@ describe("TokenCertTests", function() {
   {
     const openIdMetadata = await client.getOpenIdMetadata();
     assert.isDefined(openIdMetadata["response_types_supported"]);
-    assert.equal(openIdMetadata["jwks_uri"], client.instanceUrl+"/certs");
+    assert.equal(openIdMetadata["jwks_uri"], client.instanceUrl + "/certs");
     assert.equal(openIdMetadata["issuer"], client.instanceUrl);
   }
 
