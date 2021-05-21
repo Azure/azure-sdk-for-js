@@ -17,6 +17,6 @@ stages:
           SubscriptionConfigurations:
             - $(sub-config-communication-int-test-resources-common)
             - $(sub-config-communication-int-test-resources-js)
-        MatrixFilters:
+          MatrixFilters:
             - TestType=^(?!browser).*
       Clouds: Public,Int
