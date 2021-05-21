@@ -1,22 +1,9 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-const isBrowser = () => {
-  try {
-    return this === self;
-  } catch (e) {
-    return false;
-  }
-};
-const isNode = () => {
-  try {
-    return this === global;
-  } catch (e) {
-    return false;
-  }
-};
+import {isNode} from "@azure/core-util";
 
-const currentPlatform = isBrowser() ? "browser" : isNode() ? "node" : "undefined";
+const currentPlatform = isNode ? "node" : "browser";
 
 export const SDK_VERSION = "1.0.0-beta.1";
 export const DEFAULT_USER_AGENT = `azsdk-node-modelsrepository/${SDK_VERSION} (${currentPlatform})`;
