@@ -82,6 +82,7 @@ dependencies:
   '@rush-temp/test-utils': file:projects/test-utils.tgz
   '@rush-temp/test-utils-perfstress': file:projects/test-utils-perfstress.tgz
   '@rush-temp/test-utils-recorder': file:projects/test-utils-recorder.tgz
+  '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
 lockfileVersion: 5.2
@@ -1833,10 +1834,14 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-yL4BCitc0A3qlsgRFgNGk9/dgtE=
-  /async-lock/1.3.0:
+  /async-limiter/1.0.1:
     dev: false
     resolution:
-      integrity: sha512-8A7SkiisnEgME2zEedtDYPxUPzdv3x//E7n5IFktPAtMYSEAV7eNJF0rMwrVyUFj6d/8rgajLantbjcNRQYXIg==
+      integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
+  /async-lock/1.2.8:
+    dev: false
+    resolution:
+      integrity: sha512-G+26B2jc0Gw0EG/WN2M6IczuGepBsfR1+DtqLnyFSH4p2C668qkOCtEkGNVEaaNAVlYwEMazy1+/jnLxltBkIQ==
   /async/2.6.3:
     dependencies:
       lodash: 4.17.21
@@ -1902,7 +1907,58 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
-  /azure-storage/2.10.4:
+  /azure-iot-amqp-base/2.4.7:
+    dependencies:
+      async: 2.6.3
+      azure-iot-common: 1.12.7
+      debug: 4.3.1
+      lodash.merge: 4.6.2
+      machina: 4.0.2
+      rhea: 1.0.24
+      uuid: 3.4.0
+      ws: 6.2.1
+    dev: false
+    engines:
+      node: '>= 10.0.0'
+    resolution:
+      integrity: sha512-IDeoB33aHAcq71YAYsLQJNHp5f6CoFXU9nrwjNyL1bwZIbWGFtKJAr5qOEZFmdQTqeQmr2zZzeUrlTN6T7otkg==
+  /azure-iot-common/1.12.7:
+    dependencies:
+      debug: 4.3.1
+      getos: 3.2.1
+    dev: false
+    engines:
+      node: '>= 10.0.0'
+    resolution:
+      integrity: sha512-YDskP5GkhQw1VDtcQFfWAVcclNCi8/iWUS784lgwgNOQpr8RKHW1fC9o8lVt56TXssq0rrYcl9v2mosSD8WPnw==
+  /azure-iot-http-base/1.11.7:
+    dependencies:
+      azure-iot-common: 1.12.7
+      debug: 4.3.1
+      uuid: 3.4.0
+    dev: false
+    engines:
+      node: '>= 10.0.0'
+    resolution:
+      integrity: sha512-Xt2wLtiblGSag/zJe6vJVkgjlj+jo2C5exuaSGHuMtvkuD/MB74xyGDdgflXcOiTVzS1rXx02I02jgKHTW5BDA==
+  /azure-iothub/1.13.1:
+    dependencies:
+      '@azure/ms-rest-js': 2.3.0
+      async: 2.6.3
+      azure-iot-amqp-base: 2.4.7
+      azure-iot-common: 1.12.7
+      azure-iot-http-base: 1.11.7
+      debug: 4.3.1
+      lodash: 4.17.21
+      machina: 4.0.2
+      rhea: 1.0.24
+      tslib: 1.14.1
+    dev: false
+    engines:
+      node: '>= 10.0.0'
+    resolution:
+      integrity: sha512-aJX3Hmym7+7stCJbaYH34eJh4rQ0j7/eO6hoZeG9sgYs86+4KKqjjhJlS8AoAUe3CpepfHqUee8xk3VScvHhsQ==
+  /azure-storage/2.10.3:
     dependencies:
       browserify-mime: 1.2.9
       extend: 3.0.2
@@ -3637,6 +3693,12 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-+5s0SJbGoyiJTZZ2JTpFPLMPSch72KEqGOTvQsBqg0RBWvwhWUSYZFAtz3TPW0GXJuLBJPts1E241iHg+VRfhg==
+  /getos/3.2.1:
+    dependencies:
+      async: 3.2.0
+    dev: false
+    resolution:
+      integrity: sha512-U56CfOK17OKgTVqozZjUKNdkfEv6jk5WISBJ8SHoagjE6L69zOwl3Z+O8myjY9MEW3i2HPWQBt/LTbCgcC973Q==
   /getpass/0.1.7:
     dependencies:
       assert-plus: 1.0.0
@@ -4994,6 +5056,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==
+  /machina/4.0.2:
+    dependencies:
+      lodash: 4.17.21
+    dev: false
+    engines:
+      node: '>=0.4.0'
+    resolution:
+      integrity: sha512-OOlFrW1rd783S6tF36v5Ie/TM64gfvSl9kYLWL2cPA31J71HHWW3XrgSe1BZSFAPkh8532CMJMLv/s9L2aopiA==
   /magic-string/0.25.7:
     dependencies:
       sourcemap-codec: 1.4.8
@@ -7627,7 +7697,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==
-  /ws/7.4.5:
+  /ws/6.2.1:
+    dependencies:
+      async-limiter: 1.0.1
+    dev: false
+    resolution:
+      integrity: sha512-GIyAXC2cB7LjvpgMt9EKS2ldqr0MTrORaleiOno6TweZ6r3TKtoFQWay/2PceJ3RuBasOHzXNn5Lrw1X0bEjqA==
+  /ws/7.4.4:
     dev: false
     engines:
       node: '>=8.3.0'
@@ -9508,7 +9584,7 @@ packages:
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-uPwpxSWuymminStHgz0LNgqfYlykhomLYp0UyhHB85Kg2tCibv0WGFjgSkZGZ96dOJvW8p/Gp9HsH3LVsep+RA==
+      integrity: sha512-TrRicEN8OEh7DFa/GvPh/oxfL821p9Yb/WQM79S5WjPuJwXCyWYemMDTqn17up550TkO98CxvBQBpzVNNFXdNA==
       tarball: file:projects/eventgrid.tgz
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
@@ -11251,6 +11327,50 @@ packages:
       integrity: sha512-h7eNMFY99Tt6JxkzrO2RY30U4hccSzEQBiWTvyk5u/OZZu4Tzi/fUDfgBF6gMx9Y0PrhYtjQp2QTCfZoHqKZtg==
       tarball: file:projects/test-utils.tgz
     version: 0.0.0
+  file:projects/video-analyzer-edge.tgz:
+    dependencies:
+      '@azure/core-tracing': 1.0.0-preview.11
+      '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 1.0.0-rc.0
+      '@types/chai': 4.2.16
+      '@types/chai-as-promised': 7.1.3
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      azure-iothub: 1.13.1
+      chai: 4.3.4
+      chai-as-promised: 7.1.1_chai@4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.2.0
+      eslint: 7.23.0
+      events: 3.3.0
+      inherits: 2.0.4
+      karma: 6.3.2
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.2
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.2
+      karma-junit-reporter: 2.0.1_karma@6.3.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.2
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      tslib: 2.2.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
+      util: 0.12.3
+    dev: false
+    name: '@rush-temp/video-analyzer-edge'
+    resolution:
+      integrity: sha512-xlSQc7FUX52PPOtM3sfN8/VNejc9tx1VtsgYq0o/TcTxqPCZOMO0l5bOsz/UUruxXlZgDNxbxkh9VUpoCIHskQ==
+      tarball: file:projects/video-analyzer-edge.tgz
+    version: 0.0.0
   file:projects/web-pubsub-express.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
@@ -11455,5 +11575,6 @@ specifiers:
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
   '@rush-temp/test-utils-perfstress': file:./projects/test-utils-perfstress.tgz
   '@rush-temp/test-utils-recorder': file:./projects/test-utils-recorder.tgz
+  '@rush-temp/video-analyzer-edge': file:./projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
