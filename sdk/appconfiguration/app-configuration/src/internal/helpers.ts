@@ -211,14 +211,19 @@ export function serializeAsConfigurationSettingParam(
     | ConfigurationSettingParam<FeatureFlagValue>
     | ConfigurationSettingParam<SecretReferenceValue>
 ): ConfigurationSettingParam {
-  if (isConfigSettingWithFeatureFlagValue(setting)) {
-    return FeatureFlagHelper.toConfigurationSettingParam(setting);
+  let couldNotEncode = false;
+  try {
+    if (isConfigSettingWithFeatureFlagValue(setting)) {
+      return FeatureFlagHelper.toConfigurationSettingParam(setting);
+    }
+    if (isConfigSettingWithSecretReferenceValue(setting)) {
+      return SecretReferenceHelper.toConfigurationSettingParam(setting);
+    }
+  } catch (error) {
+    couldNotEncode = true;
   }
-  if (isConfigSettingWithSecretReferenceValue(setting)) {
-    return SecretReferenceHelper.toConfigurationSettingParam(setting);
-  }
-  if (isSimpleConfigSetting(setting)) {
-    return setting;
+  if (isSimpleConfigSetting(setting) || couldNotEncode) {
+    return setting as ConfigurationSettingParam;
   }
   throw new TypeError(
     `Unable to serialize the setting with key "${setting.key}" as a configuration setting`

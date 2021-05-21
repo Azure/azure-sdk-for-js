@@ -10,11 +10,20 @@ import {
   transformKeyValue,
   transformKeyValueResponseWithStatusCode,
   transformKeyValueResponse,
-  formatFieldsForSelect
+  formatFieldsForSelect,
+  serializeAsConfigurationSettingParam
 } from "../../src/internal/helpers";
 import * as assert from "assert";
-import { ConfigurationSetting, HttpResponseField, HttpResponseFields } from "../../src";
+import {
+  ConfigurationSetting,
+  featureFlagContentType,
+  HttpResponseField,
+  HttpResponseFields,
+  secretReferenceContentType
+} from "../../src";
 import { HttpHeaders } from "@azure/core-http";
+import { FeatureFlagValue } from "../../src/featureFlag";
+import { SecretReferenceValue } from "../../src/secretReference";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
@@ -127,6 +136,40 @@ describe("helper methods", () => {
     it("token is extracted and properly unescaped", () => {
       const token = extractAfterTokenFromNextLink("/kv?key=someKey&api-version=1.0&after=bGlah%3D");
       assert.equal("bGlah=", token);
+    });
+  });
+
+  describe("serializeAsConfigurationSettingParam", () => {
+    [[], "Hello World"].forEach((value) => {
+      it(`serializer doesn't throw on ${value} as feature flag value`, () => {
+        const featureFlag: ConfigurationSetting<FeatureFlagValue> = {
+          contentType: featureFlagContentType,
+          key: "key",
+          isReadOnly: false,
+          value: { conditions: { clientFilters: [] }, enabled: true }
+        };
+        featureFlag.value = value as any;
+        assert.equal(
+          serializeAsConfigurationSettingParam(featureFlag),
+          featureFlag,
+          "setting was modified"
+        );
+      });
+
+      it(`serializer doesn't throw on ${value} as secret reference value`, () => {
+        const setting: ConfigurationSetting<SecretReferenceValue> = {
+          contentType: secretReferenceContentType,
+          key: "key",
+          isReadOnly: false,
+          value: { secretId: "abc" }
+        };
+        setting.value = value as any;
+        assert.equal(
+          serializeAsConfigurationSettingParam(setting),
+          setting,
+          "setting was modified"
+        );
+      });
     });
   });
 
