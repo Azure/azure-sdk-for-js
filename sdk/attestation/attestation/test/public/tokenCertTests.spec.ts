@@ -22,7 +22,18 @@ describe("TokenCertTests", function() {
     await recorder.stop();
   });
 
-  it("#GetCertificatesAAD", async () => {
+  it("#GetCertificateAAD", async() => {
+    const client = createRecordedClient("AAD");
+    const signingCertificates = await client.get_attestation_signers();
+    for (const key of signingCertificates) {
+      assert.isDefined(key.key_id);
+      assert.isDefined(key.certificates);
+
+    }
+
+  });
+
+  it("#GetCertificatesAAD_Old", async () => {
     const client = createRecordedClient("AAD");
     const signingCertificates = await client.signingCertificates.get();
     const certs = signingCertificates.keys!;
@@ -35,7 +46,7 @@ describe("TokenCertTests", function() {
       }
     }
   });
-  it("#GetCertificatesIsolated", async () => {
+  it("#GetCertificatesIsolated_Old", async () => {
     const client = createRecordedClient("Isolated");
     const signingCertificates = await client.signingCertificates.get();
     const certs = signingCertificates.keys!;
@@ -49,7 +60,7 @@ describe("TokenCertTests", function() {
     }
   });
 
-  it("#GetCertificatesShared", async () => {
+  it("#GetCertificatesShared_Old", async () => {
     const client = createRecordedClient("Shared");
     const signingCertificates = await client.signingCertificates.get();
     const certs = signingCertificates.keys!;

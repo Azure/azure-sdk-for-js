@@ -53,6 +53,10 @@ export class AttestationClient extends AttestationClientContext {
     //
     // (undocumented)
     BaseClient(): AzureAttestationRestClient;
+    // Warning: (ae-forgotten-export) The symbol "AttestationSigner" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    get_attestation_signers(): Promise<AttestationSigner[]>;
     // (undocumented)
     instanceUrl: string;
     // (undocumented)

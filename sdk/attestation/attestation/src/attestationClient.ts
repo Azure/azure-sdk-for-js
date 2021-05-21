@@ -17,6 +17,7 @@ import {
 import { AttestationClientContext } from "./attestationClientContext";
 import { AzureAttestationRestClient } from "./_generated/azureAttestationRestClient"
 import { AttestationClientOptionalParams } from "./models";
+import { AttestationSigner } from "./models/attestationSigner";
 
 export class AttestationClient extends AttestationClientContext {
   /**
@@ -47,6 +48,18 @@ export class AttestationClient extends AttestationClientContext {
   {
     return this._client;
   }
+
+  public async get_attestation_signers() : Promise<AttestationSigner[]>
+  {
+    let signingCertificates = await this._client.signingCertificates.get()
+    let signers:AttestationSigner[] = new Array();
+    signingCertificates.keys?.forEach(element => {
+      signers.push(new AttestationSigner(element));
+    });
+
+    return signers;
+  }
+  
   private _client: AzureAttestationRestClient;
 
   instanceUrl: string;
