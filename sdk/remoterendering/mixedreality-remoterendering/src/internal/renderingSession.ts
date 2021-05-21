@@ -7,6 +7,9 @@ import {
   SessionProperties,
   KnownRenderingSessionStatus
 } from "../generated/index";
+import {
+  expectDefinedFromService
+} from "./expectDefinedFromService";
 
 /** Properties available for a rendering session in any state */
 export interface RenderingSessionBase {
@@ -76,13 +79,6 @@ export interface PartialRenderingSessionProperties {
   readonly createdOn?: Date;
 }
 
-/** The properties of a rendering session that may not be complete */
-/*
-export type PartialRenderingSessionProperties = {
-  [P in keyof RenderingSessionProperties]+?: RenderingSessionProperties[P];
-};
-*/
-
 /** The rendering session is ready for incoming connections. */
 export interface ReadyRenderingSession extends RenderingSessionBase {
   /** The rendering session is ready for incoming connections. */
@@ -134,12 +130,12 @@ function renderingSessionPropertiesFromSessionProperties(
   session: SessionProperties
 ): RenderingSessionProperties {
   return {
-    arrInspectorPort: session.arrInspectorPort!,
-    handshakePort: session.handshakePort!,
-    elapsedTimeInMinutes: session.elapsedTimeInMinutes!,
-    host: session.host!,
-    teraflops: session.teraflops!,
-    createdOn: session.createdOn!
+    arrInspectorPort: expectDefinedFromService(session, "arrInspectorPort"),
+    handshakePort: expectDefinedFromService(session, "handshakePort"),
+    elapsedTimeInMinutes: expectDefinedFromService(session, "elapsedTimeInMinutes"),
+    host: expectDefinedFromService(session, "host"),
+    teraflops: expectDefinedFromService(session, "teraflops"),
+    createdOn: expectDefinedFromService(session, "createdOn")
   };
 }
 

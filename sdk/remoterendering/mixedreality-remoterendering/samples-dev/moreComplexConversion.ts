@@ -21,7 +21,6 @@ import {
   DeviceCodeCredential,
   DeviceCodeInfo,
   ClientSecretCredential,
-  TokenCredential,
   DefaultAzureCredential
 } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -52,13 +51,13 @@ const clientId = process.env["REMOTERENDERING_CLIENT_ID"] || "<clientId>";
 const clientSecret = process.env["REMOTERENDERING_CLIENT_SECRET"] || "<clientSecret>";
 
 export function getClientWithAccountKey() {
-  let credential = new AzureKeyCredential(accountKey);
+  const credential = new AzureKeyCredential(accountKey);
 
   return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
 }
 
 export function getClientWithAAD() {
-  let credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
+  const credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
     authorityHost: "https://login.microsoftonline.com/" + tenantId
   });
 
@@ -68,12 +67,12 @@ export function getClientWithAAD() {
 }
 
 export function getClientWithDeviceCode() {
-  let deviceCodeCallback = (deviceCodeInfo: DeviceCodeInfo) => {
+  const deviceCodeCallback = (deviceCodeInfo: DeviceCodeInfo) => {
     console.debug(deviceCodeInfo.message);
     console.log(deviceCodeInfo.message);
   };
 
-  let credential: TokenCredential = new DeviceCodeCredential(
+  const credential = new DeviceCodeCredential(
     tenantId,
     clientId,
     deviceCodeCallback,
@@ -88,7 +87,7 @@ export function getClientWithDeviceCode() {
 }
 
 export function getClientWithDefaultAzureCredential() {
-  let credential: TokenCredential = new DefaultAzureCredential();
+  const credential = new DefaultAzureCredential();
 
   return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
     authenticationEndpointUrl: "https://sts.mixedreality.azure.com"
@@ -102,9 +101,9 @@ export async function main() {
 
   const client = getClientWithAccountKey();
 
-  let inputStorageUrl =
+  const inputStorageUrl =
     "https://" + storageAccountName + ".blob.core.windows.net/" + blobContainerName;
-  let outputStorageUrl =
+  const outputStorageUrl =
     "https://" + storageAccountName2 + ".blob.core.windows.net/" + blobContainerName2;
 
   const inputSettings: AssetConversionInputSettings = {

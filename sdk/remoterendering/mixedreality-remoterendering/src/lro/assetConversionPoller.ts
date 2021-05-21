@@ -28,7 +28,7 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
   }
 
   get isStarted(): boolean {
-    // We do not take the KnownAssetConversionStatus.NotStarted status into account here.
+    // The poller is always treated as started.
     return true;
   }
 
@@ -40,6 +40,7 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
   }
 
   get isCancelled(): boolean {
+    // We don't support cancellation, so the poller is never treated as cancelled. 
     return false;
   }
 
@@ -85,7 +86,7 @@ class AssetConversionOperation
   }
 
   cancel(_options?: { abortSignal?: AbortSignalLike }): Promise<AssetConversionOperation> {
-    throw new Error("Cancel operation is not supported.");
+    return Promise.reject(new Error("Cancel operation is not supported."));
   }
 
   toString(): string {

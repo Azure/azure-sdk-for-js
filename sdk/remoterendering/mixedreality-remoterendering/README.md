@@ -27,7 +27,7 @@ You will need an [Azure subscription](https://azure.microsoft.com/free/) and an 
 Install the Template client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/remoterendering
+npm install @azure/mixedreality-remoterendering
 ```
 
 ### Browser support

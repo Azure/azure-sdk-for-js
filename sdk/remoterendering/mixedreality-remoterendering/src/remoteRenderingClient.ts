@@ -359,7 +359,6 @@ export class RemoteRenderingClient {
         operationOptions
       );
 
-      // TODO Do I want this?
       await poller.poll();
 
       return poller;

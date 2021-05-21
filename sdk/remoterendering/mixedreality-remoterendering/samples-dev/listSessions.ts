@@ -55,7 +55,7 @@ export async function main() {
 
   console.log("== Stop the test session ==");
 
-  client.endSession(sessionId);
+  await client.endSession(sessionId);
 }
 
 main().catch((err) => {
