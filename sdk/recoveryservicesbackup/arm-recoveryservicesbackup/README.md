@@ -15,7 +15,7 @@ npm install @azure/arm-recoveryservicesbackup
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get privateEndpointConnection as an example written in TypeScript.
+#### nodejs - client creation and get backupResourceVaultConfigs as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -26,19 +26,17 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 
 ##### Sample code
 
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { RecoveryServicesBackupClient, RecoveryServicesBackupModels, RecoveryServicesBackupMappers } from "@azure/arm-recoveryservicesbackup";
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new RecoveryServicesBackupClient(creds, subscriptionId);
   const vaultName = "testvaultName";
   const resourceGroupName = "testresourceGroupName";
-  const privateEndpointConnectionName = "testprivateEndpointConnectionName";
-  client.privateEndpointConnection.get(vaultName, resourceGroupName, privateEndpointConnectionName).then((result) => {
+  client.backupResourceVaultConfigs.get(vaultName, resourceGroupName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -47,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get privateEndpointConnection as an example written in JavaScript.
+#### browser - Authentication, client creation and get backupResourceVaultConfigs as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -83,8 +81,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmRecoveryservicesbackup.RecoveryServicesBackupClient(res.creds, subscriptionId);
         const vaultName = "testvaultName";
         const resourceGroupName = "testresourceGroupName";
-        const privateEndpointConnectionName = "testprivateEndpointConnectionName";
-        client.privateEndpointConnection.get(vaultName, resourceGroupName, privateEndpointConnectionName).then((result) => {
+        client.backupResourceVaultConfigs.get(vaultName, resourceGroupName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
