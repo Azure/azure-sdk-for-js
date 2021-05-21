@@ -29,17 +29,8 @@ async function main() {
   const relayClient = new CommunicationRelayClient(connectionString);
   console.log("Getting relay configuration");
 
-  const config = relayClient.getRelayConfiguration(user);
-  console.log(`Config expires on": ${(await config).expiresOn}`);
-
-  for (var a of (await config).turnServers) {
-    console.log(`Credential": ${a.credential}`);
-    console.log(`Username": ${a.username}`);
-
-    for (var url of a.urls) {
-      console.log(`Url": ${url}`);
-    }
-  }
+  const config = await relayClient.getRelayConfiguration(user);
+  console.log("RelayConfig", config);
 }
 
 main().catch((error) => {

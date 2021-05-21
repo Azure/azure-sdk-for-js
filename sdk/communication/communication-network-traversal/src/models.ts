@@ -3,6 +3,7 @@
 
 // delete this pipeline options
 import { PipelineOptions } from "@azure/core-http";
+import { CommunicationTurnServer } from "../src/generated/src/models";
 
 /**
  * Client options used to configure the CommunicationNetworkTraversal API requests.
@@ -21,22 +22,4 @@ export interface CommunicationRelayConfiguration {
    * An array representing the credentials and the TURN server URL.
    */
   turnServers: CommunicationTurnServer[];
-}
-
-/**
- * An instance of a TURN server with credentials.
- */
-export interface CommunicationTurnServer {
-  /**
-   * List of TURN server URLs.
-   */
-  urls: string[];
-  /**
-   * User account name which uniquely identifies the credentials.
-   */
-  username: string;
-  /**
-   * Credential for the server.
-   */
-  credential: string;
 }
