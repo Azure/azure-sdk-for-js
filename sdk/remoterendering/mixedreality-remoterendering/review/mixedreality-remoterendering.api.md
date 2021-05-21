@@ -187,12 +187,11 @@ export interface RemoteRenderingClientOptions extends PipelineOptions {
 
 // @public
 export class RemoteRenderingServiceError extends Error {
-    // Warning: (ae-forgotten-export) The symbol "RemoteRenderingServiceErrorInternal" needs to be exported by the entry point index.d.ts
-    constructor(serviceError: RemoteRenderingServiceErrorInternal);
+    constructor(message: string, code: string);
     code: string;
-    readonly details?: RemoteRenderingServiceError[];
-    readonly innerError?: RemoteRenderingServiceError;
-    readonly target?: string;
+    details?: RemoteRenderingServiceError[];
+    innerError?: RemoteRenderingServiceError;
+    target?: string;
 }
 
 // @public

@@ -7,7 +7,7 @@ import {
   KnownRenderingSessionStatus
 } from "../generated/index";
 import { expectDefinedFromService } from "./expectDefinedFromService";
-import { RemoteRenderingServiceError } from "../remoteRenderingServiceError";
+import { RemoteRenderingServiceError, createRemoteRenderingServiceError } from "../remoteRenderingServiceError";
 
 /** Properties available for a rendering session in any state */
 export interface RenderingSessionBase {
@@ -175,7 +175,7 @@ export function renderingSessionFromSessionProperties(
       return {
         status: "Error",
         ...baseProperties,
-        error: new RemoteRenderingServiceError(expectDefinedFromService(session, "error")),
+        error: createRemoteRenderingServiceError(expectDefinedFromService(session, "error")),
         partialProperties: partialRenderingSessionPropertiesFromSessionProperties(session)
       };
     case KnownRenderingSessionStatus.Expired:
