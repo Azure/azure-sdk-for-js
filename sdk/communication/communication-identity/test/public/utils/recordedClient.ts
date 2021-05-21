@@ -22,6 +22,7 @@ import {
 import { CommunicationIdentityClient, CommunicationIdentityClientOptions } from "../../../src";
 import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
+import { CommunicationIdentityAccessTokenResult } from "../../../src/generated/src/models/mappers";
 
 if (isNode) {
   dotenv.config();
@@ -103,12 +104,27 @@ export function createRecordedCommunicationIdentityClientWithToken(
   }
 
   if (isNode) {
+    console.log(`DefaultAzureCredential`)
+    console.log(
+      `AZURE_TENANT_ID - ${env.AZURE_TENANT_ID}`
+    );
+    console.log(
+      `AZURE_CLIENT_ID - ${env.AZURE_CLIENT_ID}`
+    );
     credential = new DefaultAzureCredential();
   } else {
+    console.log(`ClientSecretCredential`)
+    console.log(
+      `AZURE_TENANT_ID - ${env.AZURE_TENANT_ID}`
+    );
+    console.log(
+      `AZURE_CLIENT_ID - ${env.AZURE_CLIENT_ID}`
+    );
+
     credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
+      env.AZURE_CLIENT_ID
     );
   }
 
