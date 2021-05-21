@@ -53,7 +53,7 @@ const issueTurnCredentialsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunicationTurnCredentialsResponse
+      bodyMapper: Mappers.CommunicationRelayConfiguration
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

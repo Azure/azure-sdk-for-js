@@ -11,7 +11,7 @@ import * as coreHttp from "@azure/core-http";
 /**
  * A TURN credentials response.
  */
-export interface CommunicationTurnCredentialsResponse {
+export interface CommunicationRelayConfiguration {
   /**
    * The date for which the username and credentials are not longer valid.
    */
@@ -79,7 +79,7 @@ export interface CommunicationError {
 /**
  * Contains response data for the issueTurnCredentials operation.
  */
-export type CommunicationNetworkTraversalIssueTurnCredentialsResponse = CommunicationTurnCredentialsResponse & {
+export type CommunicationNetworkTraversalIssueTurnCredentialsResponse = CommunicationRelayConfiguration & {
   /**
    * The underlying HTTP response.
    */
@@ -92,7 +92,7 @@ export type CommunicationNetworkTraversalIssueTurnCredentialsResponse = Communic
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: CommunicationTurnCredentialsResponse;
+    parsedBody: CommunicationRelayConfiguration;
   };
 };
 
