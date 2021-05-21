@@ -14,9 +14,9 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**                                         | **Description**                                                                                       |
 | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| [accessControlHelloWorld.js][accesscontrolhelloworld] | Uses an AccessControlClient to list, create, and assign roles to users.                               |
-| [backupRestoreHelloWorld.js][backuprestorehelloworld] | Uses a BackupClient to backup and fully restore an Azure Key Vault using Azure Storage Blob.          |
-| [backupSelectiveKeyRestore.js][backupselectiveKeyrestore]   | Uses a BackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob. |
+| [accessControlHelloWorld.js][accesscontrolhelloworld] | Uses an KeyVaultAccessControlClient to list, create, and assign roles to users.                               |
+| [backupRestoreHelloWorld.js][backuprestorehelloworld] | Uses a KeyVaultBackupClient to backup and fully restore an Azure Key Vault using Azure Storage Blob.          |
+| [backupSelectiveKeyRestore.js][backupselectiveKeyrestore]   | Uses a KeyVaultBackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob. |
 
 ## Prerequisites
 

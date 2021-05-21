@@ -14,9 +14,9 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                         | **Description**                                                                                       |
 | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| [accessControlHelloWorld.ts][accesscontrolhelloworld] | Uses an AccessControlClient to list, create, and assign roles to users.                               |
-| [backupRestoreHelloWorld.ts][backuprestorehelloworld] | Uses a BackupClient to backup and fully restore an Azure Key Vault using Azure Storage Blob.          |
-| [backupSelectiveKeyRestore.ts][backupselectiveKeyrestore]   | Uses a BackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob. |
+| [accessControlHelloWorld.ts][accesscontrolhelloworld] | Uses an KeyVaultAccessControlClient to list, create, and assign roles to users.                               |
+| [backupRestoreHelloWorld.ts][backuprestorehelloworld] | Uses a KeyVaultBackupClient to backup and fully restore an Azure Key Vault using Azure Storage Blob.          |
+| [backupSelectiveKeyRestore.ts][backupselectiveKeyrestore]   | Uses a KeyVaultBackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob. |
 
 ## Prerequisites
 

@@ -43,9 +43,9 @@ export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginSelectiveRestore}
+ * passed to {@link beginSelectiveKeyRestore}
  */
-export interface KeyVaultBeginSelectiveRestoreOptions extends KeyVaultBackupPollerOptions {}
+export interface KeyVaultBeginSelectiveKeyRestoreOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the result of a backup operation.

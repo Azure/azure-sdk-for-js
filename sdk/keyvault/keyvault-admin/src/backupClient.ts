@@ -17,6 +17,7 @@ import {
   KeyVaultBackupResult,
   KeyVaultBeginBackupOptions,
   KeyVaultBeginRestoreOptions,
+  KeyVaultBeginSelectiveKeyRestoreOptions,
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult
 } from "./backupClientModels";
@@ -28,14 +29,14 @@ import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/pol
 import { KeyVaultBackupOperationState } from "./lro/backup/operation";
 import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
-import { KeyVaultSelectiveRestoreOperationState } from "./lro/selectiveKeyRestore/operation";
+import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation";
 import { KeyVaultClientOptionalParams } from "./generated/models";
 import { mappings } from "./mappings";
 
 export {
   KeyVaultBackupOperationState,
   KeyVaultRestoreOperationState,
-  KeyVaultSelectiveRestoreOperationState,
+  KeyVaultSelectiveKeyRestoreOperationState,
   KeyVaultAdminPollOperationState
 };
 
@@ -258,9 +259,9 @@ export class KeyVaultBackupClient {
     keyName: string,
     folderUri: string,
     sasToken: string,
-    options: KeyVaultBeginBackupOptions = {}
+    options: KeyVaultBeginSelectiveKeyRestoreOptions = {}
   ): Promise<
-    PollerLike<KeyVaultSelectiveRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>
+    PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>
   > {
     const poller = new KeyVaultSelectiveKeyRestorePoller({
       ...mappings.folderUriParts(folderUri),
