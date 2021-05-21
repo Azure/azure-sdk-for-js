@@ -40,6 +40,7 @@ export function getKeyFromKeyBundle(
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,
       name: parsedId.name,
+      managed: keyBundle.managed,
 
       id: keyBundle.key ? keyBundle.key.kid : undefined
     }
