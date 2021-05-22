@@ -100,7 +100,7 @@ import {
 
 import { KeyVaultKeyIdentifier } from "./identifier";
 import {
-  getDeletedKeyFromKeyItem,
+  getDeletedKeyFromDeletedKeyItem,
   getKeyFromKeyBundle,
   getKeyPropertiesFromKeyItem
 } from "./transformations";
@@ -862,7 +862,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(getDeletedKeyFromKeyItem, this);
+        yield currentSetResponse.value.map(getDeletedKeyFromDeletedKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -874,7 +874,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(getDeletedKeyFromKeyItem, this);
+        yield currentSetResponse.value.map(getDeletedKeyFromDeletedKeyItem, this);
       } else {
         break;
       }

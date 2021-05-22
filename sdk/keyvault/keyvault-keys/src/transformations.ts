@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DeletedKeyBundle, KeyAttributes, KeyBundle, KeyItem } from "./generated/models";
+import {
+  DeletedKeyBundle,
+  DeletedKeyItem,
+  KeyAttributes,
+  KeyBundle,
+  KeyItem
+} from "./generated/models";
 import { parseKeyVaultKeyId } from "./identifier";
 import { DeletedKey, KeyVaultKey, JsonWebKey, KeyOperation, KeyProperties } from "./keysModels";
 
@@ -59,10 +65,9 @@ export function getKeyFromKeyBundle(
  * @internal
  * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
  */
-export function getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
+export function getDeletedKeyFromDeletedKeyItem(keyItem: DeletedKeyItem): DeletedKey {
   const parsedId = parseKeyVaultKeyId(keyItem.kid!);
   const attributes = keyItem.attributes || {};
-  const deletedBundle = keyItem as DeletedKeyBundle;
 
   const abstractProperties: KeyProperties = {
     createdOn: attributes?.created,
@@ -81,16 +86,16 @@ export function getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
   };
 
   return {
-    key: keyItem,
+    key: {
+      kid: keyItem.kid
+    },
     id: keyItem.kid,
     name: abstractProperties.name,
-    keyOperations: deletedBundle.key?.keyOps,
-    keyType: deletedBundle.key?.kty,
     properties: {
       ...abstractProperties,
-      recoveryId: deletedBundle.recoveryId,
-      scheduledPurgeDate: deletedBundle.scheduledPurgeDate,
-      deletedOn: deletedBundle?.deletedDate
+      recoveryId: keyItem.recoveryId,
+      scheduledPurgeDate: keyItem.scheduledPurgeDate,
+      deletedOn: keyItem.deletedDate
     }
   };
 }
