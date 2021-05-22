@@ -1,16 +1,19 @@
 # Release History
 
-## 12.0.0-beta.3 (UNRELEASED)
+## 12.0.0-beta.3 (2021-05-17)
 
-- Update and Upsert operations have "merge" as default update mode. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
-- Expose Table Service url as a public client property. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
-- Make list and get entity methods have a default template type of `Record` for better UX. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
+- Update and Upsert operations have "merge" as default update mode. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956)
+- Expose Table Service url as a public client property. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956)
+- Make list and get entity methods have a default template type of `Record` for better UX. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956)
 
 ### Breaking Changes
 
-- createTable and deleteTable don't throw on 409 or 404 respectively. Return type becomes `Promise<void>`. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
-- Clean up method options. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
-- Remove continuation tokens from options on list methods. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956/files)
+- Enable Type conversion of `DateTime -> Date` and `Int64 -> bigint` by default. Allow disabling type conversion with `disableTypeConversion` option in the get and list operations. [#15307](https://github.com/Azure/azure-sdk-for-js/pull/15307)
+- Node.js v8 support is dropped as it has reached end of life [#15307](https://github.com/Azure/azure-sdk-for-js/pull/15307)
+- Rename Batch to Transaction and redesign submitTransaction to provide a more declarative interface. [#15250](https://github.com/Azure/azure-sdk-for-js/pull/15250)
+- createTable and deleteTable don't throw on 409 or 404 respectively. Return type becomes `Promise<void>`. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956)
+- Clean up method options. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956)
+- Remove continuation tokens from options on list methods. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956)
 
 ## 12.0.0-beta.2 (2021-04-06)
 

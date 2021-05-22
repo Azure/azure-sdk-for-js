@@ -642,7 +642,8 @@ export function fromServiceAlertConfiguration(
           metricBoundaryCondition: c.valueFilter as MetricBoundaryCondition
         }
       };
-    })
+    }),
+    splitAlertByDimensions: result.splitAlertByDimensions
   };
 }
 
@@ -674,7 +675,8 @@ export function toServiceAlertConfiguration(
         severityFilter: c.alertConditions?.severityCondition,
         valueFilter: c.alertConditions?.metricBoundaryCondition
       };
-    })
+    }),
+    splitAlertByDimensions: from.splitAlertByDimensions
   };
 }
 
@@ -706,6 +708,7 @@ export function toServiceAlertConfigurationPatch(
         severityFilter: c.alertConditions?.severityCondition,
         valueFilter: c.alertConditions?.metricBoundaryCondition
       };
-    })
+    }),
+    splitAlertByDimensions: from.splitAlertByDimensions
   };
 }

@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logger, receiverLogger } from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
+import { logger, receiverLogger } from "../log";
+import { ReceiveMode } from "../models";
 import {
-  getFeatureAmqpBodyTypeEnabled,
   isAmqpAnnotatedMessage,
   isServiceBusMessage,
   ServiceBusReceivedMessage
 } from "../serviceBusMessage";
-import { ReceiveMode } from "../models";
 import { isDefined } from "./typeGuards";
 
 /**
@@ -270,11 +269,9 @@ export function throwIfNotValidServiceBusMessage(
 }
 
 /** @internal */
-export const errorInvalidMessageTypeSingleOrArray = getFeatureAmqpBodyTypeEnabled()
-  ? "Provided value for 'messages' must be of type: ServiceBusMessage, AmqpAnnotatedMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage or AmqpAnnotatedMessage."
-  : "Provided value for 'messages' must be of type: ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage";
+export const errorInvalidMessageTypeSingleOrArray =
+  "Provided value for 'messages' must be of type: ServiceBusMessage, AmqpAnnotatedMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage or AmqpAnnotatedMessage.";
 
 /** @internal */
-export const errorInvalidMessageTypeSingle = getFeatureAmqpBodyTypeEnabled()
-  ? "Provided value for 'message' must be of type: ServiceBusMessage or AmqpAnnotatedMessage."
-  : "Provided value for 'message' must be of type: ServiceBusMessage";
+export const errorInvalidMessageTypeSingle =
+  "Provided value for 'message' must be of type: ServiceBusMessage or AmqpAnnotatedMessage.";

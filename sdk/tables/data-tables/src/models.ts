@@ -5,6 +5,23 @@ import { TableInsertEntityHeaders } from "./generated/models";
 import { OperationOptions, CommonClientOptions } from "@azure/core-client";
 
 /**
+ * Represents the Create or Delete Entity operation to be included in a Transaction request
+ */
+export type CreateDeleteEntityAction = ["create" | "delete", TableEntity];
+
+/**
+ * Represents the Update or Upsert Entity operation to be included in a Transaction request
+ */
+export type UpdateEntityAction =
+  | ["update" | "upsert", TableEntity]
+  | ["update" | "upsert", TableEntity, "Merge" | "Replace"];
+
+/**
+ * Represents the union of all the available transactional actions
+ */
+export type TransactionAction = CreateDeleteEntityAction | UpdateEntityAction;
+
+/**
  * Client options used to configure Tables Api requests
  */
 export type TableServiceClientOptions = CommonClientOptions & {
@@ -103,6 +120,12 @@ export type ListTableEntitiesOptions = OperationOptions & {
    * Query options group
    */
   queryOptions?: TableEntityQueryOptions;
+  /**
+   * If true, automatic type conversion will be disabled and entity properties will
+   * be represented by full metadata types. For example, an Int32 value will be \{value: "123", type: "Int32"\} instead of 123.
+   * This option applies for all the properties
+   */
+  disableTypeConversion?: boolean;
 };
 
 /**
@@ -113,6 +136,12 @@ export type GetTableEntityOptions = OperationOptions & {
    * Parameter group
    */
   queryOptions?: TableEntityQueryOptions;
+  /**
+   * If true, automatic type conversion will be disabled and entity properties will
+   * be represented by full metadata types. For example, an Int32 value will be \{value: "123", type: "Int32"\} instead of 123.
+   * This option applies for all the properties
+   */
+  disableTypeConversion?: boolean;
 };
 
 /**
@@ -128,7 +157,7 @@ export type UpdateTableEntityOptions = OperationOptions & {
 /**
  * A set of key-value pairs representing the table entity.
  */
-export type TableEntity<T extends object> = T & {
+export type TableEntity<T extends object = Record<string, unknown>> = T & {
   /**
    * The PartitionKey property of the entity.
    */
@@ -182,74 +211,21 @@ export interface Edm<T extends EdmTypes> {
 export type UpdateMode = "Merge" | "Replace";
 
 /**
- * Defines the shape of a TableBatch
+ * Represents the response of a Transaction operation
  */
-export interface TableBatch {
-  /**
-   * Partition key tagetted by the batch
-   */
-  partitionKey: string;
-  /**
-   * Adds a createEntity operation to the batch per each entity in the entities array
-   * @param entities - Array of entities to create
-   */
-  createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
-  /**
-   * Adds a createEntity operation to the batch
-   * @param entity - Entity to create
-   */
-  createEntity: <T extends object>(entity: TableEntity<T>) => void;
-  /**
-   * Adds a deleteEntity operation to the batch
-   * @param partitionKey - Partition key of the entity to delete
-   * @param rowKey - Row key of the entity to delete
-   * @param options - Options for the delete operation
-   */
-  deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
-  /**
-   * Adds an updateEntity operation to the batch
-   * @param entity - Entity to update
-   * @param mode - Update mode (Merge or Replace)
-   * @param options - Options for the update operation
-   */
-  updateEntity: <T extends object>(
-    entity: TableEntity<T>,
-    mode: UpdateMode,
-    options?: UpdateTableEntityOptions
-  ) => void;
-  /**
-   * Adds an updateEntity operation to the batch
-   * @param entity - Entity to update
-   * @param mode - Update mode (Merge or Replace)
-   * @param options - Options for the update operation
-   */
-  upsertEntity: <T extends object>(
-    entity: TableEntity<T>,
-    mode: UpdateMode,
-    options?: OperationOptions
-  ) => void;
-  /**
-   * Submits the operations in the batch
-   */
-  submitBatch: () => Promise<TableBatchResponse>;
-}
-
-/**
- * Represents the response of a Batch operation
- */
-export interface TableBatchResponse {
+export interface TableTransactionResponse {
   /**
    * Collection of sub responses
    */
-  subResponses: TableBatchEntityResponse[];
+  subResponses: TableTransactionEntityResponse[];
   /**
-   * Main Batch request status code
+   * Main Transaction request status code
    */
   status: number;
   /**
    * Gets a specific response given a row key
    */
-  getResponseForEntity: (rowKey: string) => TableBatchEntityResponse | undefined;
+  getResponseForEntity: (rowKey: string) => TableTransactionEntityResponse | undefined;
 }
 
 /** The properties for the table query response. */
@@ -259,9 +235,9 @@ export interface TableQueryResponse {
 }
 
 /**
- * Represents a sub-response of a Batch operation
+ * Represents a sub-response of a Transaction operation
  */
-export interface TableBatchEntityResponse {
+export interface TableTransactionEntityResponse {
   /**
    * Entity's etag
    */

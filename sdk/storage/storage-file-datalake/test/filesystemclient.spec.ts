@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
@@ -450,6 +450,11 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
+
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      this.skip();
+    }
 
     try {
       serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
