@@ -8,10 +8,10 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const CommunicationTurnCredentialsResponse: coreHttp.CompositeMapper = {
+export const CommunicationRelayConfiguration: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CommunicationTurnCredentialsResponse",
+    className: "CommunicationRelayConfiguration",
     modelProperties: {
       expiresOn: {
         serializedName: "expiresOn",
