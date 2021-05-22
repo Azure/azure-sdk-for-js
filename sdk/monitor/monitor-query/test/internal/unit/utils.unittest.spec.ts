@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { formatPreferHeader } from "../../../src/internal/util";
 
-describe("utils unit tests", () => {
+describe("Utils unit tests", () => {
   type PreferHeadersArg = Parameters<typeof formatPreferHeader>[0];
 
   const headers: [PreferHeadersArg, ReturnType<typeof formatPreferHeader>][] = [

@@ -23,7 +23,6 @@ export async function main() {
   const kqlQuery =
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
-  // Use our query, and get results for the last day.
   console.log(`Running '${kqlQuery}' for the last 5 minutes`);
   const result = await logsClient.queryLogs(monitorWorkspaceId, kqlQuery, {
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
@@ -46,7 +45,9 @@ export async function main() {
     return;
   }
 
-  console.log(`Results for query '${kqlQuery}'`);
+  console.log(
+    `Results for query '${kqlQuery}', execution time: ${result.statistics?.query?.executionTime}`
+  );
 
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columns

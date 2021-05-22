@@ -9,7 +9,10 @@ export {
   QueryLogsBatchOptions,
   QueryLogsOptions,
   QueryStatistics,
-  QueryLogsResult
+  QueryLogsResult,
+  QueryLogsBatch,
+  QueryLogsBatchResponse,
+  BatchQuery
 } from "./models/logsModels";
 export { MetricsClient } from "./metricsClient";
 export {
@@ -30,13 +33,9 @@ export {
   BatchResponse,
   BatchResponseError,
   BatchResponseErrorInnerError,
-  BatchRequest,
   Column as MetricColumn,
   ErrorDetails,
   LogQueryResponse,
-  LogQueryRequest,
-  QueryBatchResponse,
-  QueryBody,
   QueryGetResponse,
   QueryResults,
   Table

@@ -1,15 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientSecretCredential } from "@azure/identity";
-import { env, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
+import * as assert from "assert";
 import { Context } from "mocha";
+import { createClientLogger } from "@azure/logger";
 import { Table } from "../../../src/generated/logquery/src";
+
+export const loggerForTest = createClientLogger("test");
 
 /**
  * Declare the client and recorder instances.  We will set them using the
  * beforeEach hook.
  */
-export function addTestRecorderHooks(): void {
+export function addTestRecorderHooks(): { recorder(): Recorder; isPlaybackMode(): boolean } {
   // When the recorder observes the values of these environment variables in any
   // recorded HTTP request or response, it will replace them with the values they
   // are mapped to below.
@@ -28,6 +32,7 @@ export function addTestRecorderHooks(): void {
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
   // body.
   beforeEach(function(this: Context) {
+    loggerForTest.verbose(`Recorder: starting...`);
     // The recorder has some convenience methods, and we need to store a
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
@@ -54,8 +59,14 @@ export function addTestRecorderHooks(): void {
 
   // After each test, we need to stop the recording.
   afterEach(async function() {
+    loggerForTest.verbose("Recorder: stopping");
     await recorder.stop();
   });
+
+  return {
+    recorder: () => recorder,
+    isPlaybackMode: () => isPlaybackMode()
+  };
 }
 
 export function createTestClientSecretCredential(): ClientSecretCredential {
@@ -106,4 +117,28 @@ export function printLogQueryTables(tables: Table[]): void {
       console.log(columnValuesString);
     }
   }
+}
+
+export function assertQueryTable(
+  table: Table | undefined,
+  expectedTable: {
+    name: string;
+    columns: string[];
+    rows: string[][];
+  },
+  message: string
+): void {
+  if (table == null) {
+    throw new Error(`${message}: Table was null/undefined`);
+  }
+
+  assert.deepEqual(
+    {
+      name: table.name,
+      rows: table.rows,
+      columns: table.columns.map((c) => c.name)
+    },
+    expectedTable,
+    `${message}: tables weren't equal`
+  );
 }

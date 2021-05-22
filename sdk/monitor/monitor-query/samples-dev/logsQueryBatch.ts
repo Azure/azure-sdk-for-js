@@ -22,40 +22,32 @@ export async function main() {
 
   const kqlQuery = "AppEvents | project TimeGenerated, OperationName, AppRoleInstance | limit 1";
 
-  // Use our query, and get results for the last day.
-  const userProvidedQueryId = "a user provided id";
-
   const result = await logsClient.queryLogsBatch({
-    requests: [
+    queries: [
       {
-        // this id can be used to find the results for
-        // this query in the response.
-        id: userProvidedQueryId,
         workspace: monitorWorkspaceId,
-        body: {
-          query: kqlQuery,
-          timespan: "P1D"
-        }
+        query: kqlQuery,
+        timespan: "P1D"
       }
     ]
   });
 
-  if (result.responses == null) {
+  if (result.results == null) {
     throw new Error("No response for query");
   }
 
-  for (const response of result.responses) {
+  for (const response of result.results) {
     console.log(`Results for query with id: ${response.id}`);
 
-    if (response.body?.errors) {
-      console.log(` Query had errors:`, response.body?.errors);
+    if (response?.errors) {
+      console.log(` Query had errors:`, response?.errors);
     } else {
-      if (response.body?.tables == null) {
+      if (response?.tables == null) {
         console.log(`No results for query`);
       } else {
         console.log(`Printing results from query '${kqlQuery}' for 1 day.`);
 
-        for (const table of response.body?.tables) {
+        for (const table of response?.tables) {
           const columnHeaderString = table.columns
             .map((column) => `${column.name}(${column.type}) `)
             .join("| ");

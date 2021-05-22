@@ -8,9 +8,6 @@ import { MetricsClient } from "../../src";
 import { createTestClientSecretCredential, getMetricsArmResourceId } from "./shared/testShared";
 
 describe("MetricsClient live tests", function() {
-  // TODO: temporarily disabling the recorder for metrics, which appears to be failing in identity.
-  // addTestRecorderHooks();
-
   let metricsArmResourceId: string;
   let metricsClient: MetricsClient;
 

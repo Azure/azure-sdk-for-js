@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { last5Minutes, LogsClient, Table } from "@azure/monitor-query";
+import { CommonDurations, LogsClient, Table } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -23,13 +23,12 @@ export async function main() {
   const kqlQuery =
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
-  // Use our query, and get results for the last day.
   console.log(`Running '${kqlQuery}' for the last 5 minutes`);
   const result = await logsClient.queryLogs(monitorWorkspaceId, kqlQuery, {
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
     // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
-    timespan: last5Minutes,
+    timespan: CommonDurations.last5Minutes,
 
     // optionally enable returning additional statistics about the query's execution.
     // (by default this is off)
@@ -46,7 +45,9 @@ export async function main() {
     return;
   }
 
-  console.log(`Results for query '${kqlQuery}'`);
+  console.log(
+    `Results for query '${kqlQuery}', execution time: ${result.statistics?.query?.executionTime}`
+  );
 
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columns

@@ -6,14 +6,23 @@
 
 import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 
 // @public
-export interface BatchRequest {
-    requests?: LogQueryRequest[];
+export interface BatchQuery {
+    azureResourceIds?: string[];
+    includeQueryStatistics?: boolean;
+    qualifiedNames?: string[];
+    query: string;
+    serverTimeoutInSeconds?: number;
+    timespan?: string;
+    workspace: string;
+    workspaceIds?: string[];
+    workspaces?: string[];
 }
 
 // @public
@@ -76,20 +85,6 @@ export interface LocalizableString {
     value: string;
 }
 
-// @public
-export interface LogQueryRequest {
-    body?: QueryBody;
-    headers?: {
-        [propertyName: string]: string;
-    };
-    id?: string;
-    // (undocumented)
-    method?: "POST";
-    // (undocumented)
-    path?: "/query";
-    workspace?: string;
-}
-
 // @public (undocumented)
 export interface LogQueryResponse {
     body?: QueryResults;
@@ -101,15 +96,15 @@ export interface LogQueryResponse {
 
 // @public
 export class LogsClient {
-    constructor(tokenCredential: TokenCredential, options?: LogsClientOptions);
+    constructor(tokenCredential: TokenCredential | "DEMO_KEY", options?: LogsClientOptions);
     // (undocumented)
     queryLogs(workspaceId: string, query: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
     // (undocumented)
-    queryLogsBatch(body: BatchRequest, options?: QueryLogsBatchOptions): Promise<QueryBatchResponse>;
+    queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResponse>;
 }
 
 // @public (undocumented)
-export interface LogsClientOptions {
+export interface LogsClientOptions extends PipelineOptions {
     host?: string;
 }
 
@@ -248,24 +243,6 @@ export interface MetricValue {
 }
 
 // @public
-export type QueryBatchResponse = BatchResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: BatchResponse;
-    };
-};
-
-// @public
-export interface QueryBody {
-    azureResourceIds?: string[];
-    qualifiedNames?: string[];
-    query: string;
-    timespan?: string;
-    workspaceIds?: string[];
-    workspaces?: string[];
-}
-
-// @public
 export type QueryGetResponse = QueryResults & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -273,8 +250,23 @@ export type QueryGetResponse = QueryResults & {
     };
 };
 
+// @public
+export interface QueryLogsBatch {
+    queries: BatchQuery[];
+}
+
 // @public (undocumented)
 export type QueryLogsBatchOptions = OperationOptions;
+
+// @public
+export interface QueryLogsBatchResponse {
+    results?: {
+        id?: string;
+        status?: number;
+        tables?: Table[];
+        errors?: ErrorDetails;
+    }[];
+}
 
 // @public (undocumented)
 export interface QueryLogsOptions extends OperationOptions {

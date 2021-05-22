@@ -3,96 +3,90 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
+import { env } from "process";
 
-import { BatchRequest, CommonDurations, LogsClient, QueryLogsResult, Table } from "../../src";
+import { QueryLogsBatch, CommonDurations, LogsClient } from "../../src";
 import { runWithTelemetry } from "../setupOpenTelemetry";
 
-import { createTestClientSecretCredential, getMonitorWorkspaceId } from "./shared/testShared";
+import {
+  assertQueryTable,
+  createTestClientSecretCredential,
+  getMonitorWorkspaceId,
+  loggerForTest
+} from "./shared/testShared";
+import { ErrorInfo } from "../../src/generated/logquery/src";
+import { RestError } from "@azure/core-http";
 
 describe("LogsClient live tests", function() {
-  // TODO: temporarily disabling the recorder for metrics, which appears to be failing in identity.
-  // addTestRecorderHooks();
-
   let monitorWorkspaceId: string;
   let client: LogsClient;
-  let testRunId: number;
-  let standardQuery: string;
+  let testRunId: string;
 
-  before(async function(this: Context) {
-    testRunId = Date.now();
-    console.log(`testRunId = ${testRunId}`);
-
+  before(function(this: Context) {
     monitorWorkspaceId = getMonitorWorkspaceId(this);
     client = new LogsClient(createTestClientSecretCredential());
-
-    // send some events
-    runWithTelemetry((provider) => {
-      const tracer = provider.getTracer("logsClientTests");
-
-      const span = tracer.startSpan("testSpan", {
-        attributes: {
-          testRunId: testRunId
-        }
-      });
-
-      span.end();
-    });
-
-    standardQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Name, Target, TestRunId=Properties['testRunId']`;
-
-    // (we'll wait until the data is there before running all the tests)
-    // by coincidence one of the tests tries this same query.
-    await queryLogsWithTestRetries({
-      query: standardQuery,
-      maxTries: 20,
-      secondsBetweenQueries: 10
-    });
   });
 
-  it("queryLogs", async () => {
-    const singleQueryLogsResult = await client.queryLogs(monitorWorkspaceId, standardQuery);
+  it("queryLogs (bad query)", async () => {
+    function getInnermostDetail(errorInfo: ErrorInfo): undefined | ErrorInfo {
+      if (errorInfo.innererror == null) {
+        // this is the innermost one
+        return errorInfo;
+      }
 
-    const tables: Table[] | undefined = singleQueryLogsResult.tables;
-
-    if (tables == null || tables.length === 0) {
-      throw new Error("No tables in result");
+      return getInnermostDetail(errorInfo.innererror);
     }
 
-    // TODO: the actual types aren't being deserialized (everything is coming back as 'string')
-    // this is incorrect, it'll be updated.
+    // Kind (coming from Properties) is of type `dynamic`, so you can't sort on it (so we should get back an error from the service)
+    const kustoQuery = `completely invalid syntax`;
 
-    assert.equal(tables[0].name, "PrimaryResult");
-    assert.deepEqual(
-      tables[0].columns.map((c) => c.name),
-      ["Name", "Target", "TestRunId"]
-    );
-    assert.deepEqual(tables[0].rows?.[0], ["testSpan", "testSpan", testRunId.toString()]);
-  });
+    try {
+      // TODO: there is an error details in the query, but when I run an invalid query it
+      // throws (and ErrorDetails are just present in the exception.)
+      await client.queryLogs(monitorWorkspaceId, kustoQuery, {
+        timespan: CommonDurations.lastDay
+      });
+      assert.fail("Should have thrown an exception");
+    } catch (err) {
+      // TODO: if this is the only way for a user to know what happened we should probably
+      // extract or represent the detail in a more obvious way in the thrown error (ie, as part of the
+      // message, perhaps)
+      const errorInfo = err.details?.error as ErrorInfo | undefined;
 
-  it("queryLogsBatch", async () => {
-    const batchRequest: BatchRequest = {
-      requests: [
-        // QueryBody
+      if (errorInfo == null) {
+        assert.fail(`ErrorInfo not found in ${JSON.stringify(err, undefined, 2)}`);
+      }
+
+      const innermostError = getInnermostDetail(errorInfo);
+
+      if (innermostError == null) {
+        throw new Error("No innermost error - error reporting would break.");
+      }
+
+      loggerForTest.verbose(`(Expected) error thrown when we use a bad query: `, err);
+
+      assert.deepEqual(
         {
-          id: "arbitraryOperationName",
-          // RestError: The request had some invalid properties
-          workspace: monitorWorkspaceId,
-          body: {
-            workspaceIds: [monitorWorkspaceId],
-            query: standardQuery
-          }
-        }
-      ]
-    };
-
-    const batchQueryLogsResult = await client.queryLogsBatch(batchRequest);
-    const tables = batchQueryLogsResult.responses?.[0].body?.tables;
-
-    assert.deepEqual(
-      tables?.[0].columns.map((c) => c.name),
-      ["Name", "Target", "TestRunId"]
-    );
-    assert.deepEqual(tables?.[0].rows?.[0], ["testSpan", "testSpan", testRunId.toString()]);
+          name: (err as RestError).name,
+          restCode: (err as RestError).code,
+          restStatusCode: (err as RestError).statusCode,
+          errorDetailCode: innermostError.code
+          // (commented out as error messages are not generally stable)
+          // restMessage: (err as RestError).message,
+          // errorDetailMessage: innermostError.message }
+        },
+        {
+          name: "RestError",
+          restCode: "BadArgumentError",
+          restStatusCode: 400,
+          errorDetailCode: "SYN0002"
+          // (commented out as error messages are not generally stable)
+          // restMessage: "The request had some invalid properties"
+          //  errorDetailMessage: "Query could not be parsed at 'invalid' on line [1,11]"
+        },
+        `Query should cause an exception thrown. Message: (${innermostError.message})`
+      );
+    }
   });
 
   it("serverTimeoutInSeconds", async () => {
@@ -115,25 +109,135 @@ describe("LogsClient live tests", function() {
     assert.ok(query.statistics?.query?.executionTime);
   });
 
-  async function queryLogsWithTestRetries(args: {
-    query: string;
-    secondsBetweenQueries: number;
-    maxTries: number;
-  }): Promise<QueryLogsResult> {
-    for (let i = 0; i < args.maxTries; ++i) {
-      const result = await client.queryLogs(monitorWorkspaceId, args.query, {
-        timespan: CommonDurations.last30Minutes
-      });
+  describe("Ingested data tests (can be slow due to loading times)", () => {
+    before(async function(this: Context) {
+      if (env.TEST_RUN_ID) {
+        console.log(`Using cached test run ID ${env.TEST_RUN_ID}`);
+        testRunId = env.TEST_RUN_ID;
+      } else {
+        testRunId = `ingestedDataTest-${Date.now()}`;
 
-      const numRows = result.tables?.[0].rows?.length;
+        // send some events
+        runWithTelemetry((provider) => {
+          const tracer = provider.getTracer("logsClientTests");
 
-      if (numRows != null && numRows > 0) {
-        return result;
+          tracer
+            .startSpan("testSpan", {
+              attributes: {
+                testRunId,
+                kind: "now"
+              }
+            })
+            .end();
+        });
       }
 
-      await new Promise((resolve) => setTimeout(resolve, args.secondsBetweenQueries * 1000));
-    }
+      loggerForTest.info(`testRunId = ${testRunId}`);
 
-    throw new Error(`All retries exhausted - no data returned for query '${args.query}'`);
-  }
+      // (we'll wait until the data is there before running all the tests)
+      // by coincidence one of the tests tries this same query.
+      await checkLogsHaveBeenIngested({
+        maxTries: 120,
+        secondsBetweenQueries: 1
+      });
+    });
+
+    it("queryLogs (last day)", async () => {
+      const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
+
+      const singleQueryLogsResult = await client.queryLogs(monitorWorkspaceId, kustoQuery, {
+        timespan: CommonDurations.lastDay
+      });
+
+      // TODO: the actual types aren't being deserialized (everything is coming back as 'string')
+      // this is incorrect, it'll be updated.
+
+      assertQueryTable(
+        singleQueryLogsResult.tables?.[0],
+        {
+          name: "PrimaryResult",
+          columns: ["Kind", "Name", "Target", "TestRunId"],
+          rows: [["now", "testSpan", "testSpan", testRunId.toString()]]
+        },
+        "Query for the last day"
+      );
+    });
+
+    it("queryLogsBatch", async () => {
+      const batchRequest: QueryLogsBatch = {
+        queries: [
+          {
+            workspace: monitorWorkspaceId,
+            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`
+          },
+          {
+            workspace: monitorWorkspaceId,
+            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
+            timespan: CommonDurations.last24Hours,
+            includeQueryStatistics: true,
+            serverTimeoutInSeconds: 60 * 10
+          }
+        ]
+      };
+
+      const response = await client.queryLogsBatch(batchRequest);
+
+      assertQueryTable(
+        response.results?.[0].tables?.[0],
+        {
+          name: "PrimaryResult",
+          columns: ["Kind", "Name", "Target", "TestRunId"],
+          rows: [["now", "testSpan", "testSpan", testRunId.toString()]]
+        },
+        "Standard results"
+      );
+
+      assertQueryTable(
+        response.results?.[1].tables?.[0],
+        {
+          name: "PrimaryResult",
+          columns: ["Count"],
+          rows: [["1"]]
+        },
+        "count table"
+      );
+    });
+
+    async function checkLogsHaveBeenIngested(args: {
+      secondsBetweenQueries: number;
+      maxTries: number;
+    }): Promise<void> {
+      const query = `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
+
+      const startTime = Date.now();
+
+      loggerForTest.verbose(
+        `Polling for results to make sure our telemetry has been ingested....\n${query}`
+      );
+
+      for (let i = 0; i < args.maxTries; ++i) {
+        const result = await client.queryLogs(monitorWorkspaceId, query, {
+          timespan: CommonDurations.last24Hours
+        });
+
+        const numRows = result.tables?.[0].rows?.length;
+
+        if (numRows != null && numRows > 0) {
+          loggerForTest.verbose(
+            `[Attempt: ${i}/${args.maxTries}] Results came back, done waiting.`
+          );
+          return;
+        }
+
+        loggerForTest.verbose(
+          `[Attempt: ${i}/${args.maxTries}, elapsed: ${Date.now() -
+            startTime} ms] No rows, will poll again.`
+        );
+
+        await new Promise((resolve) => setTimeout(resolve, args.secondsBetweenQueries * 1000));
+      }
+
+      throw new Error(`All retries exhausted - no data returned for query '${query}'`);
+    }
+  });
 });

@@ -2,29 +2,21 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates how to run a query against a Log Analytics workspace
+ * @summary Demonstrates how to run a query against the demo Azure Log Analytics workspace service.
+ *
+ * NOTE: To run against your own Log Analytics Workspace see `logsQuery.(ts|js)` in this same folder.
  */
 
-const { DefaultAzureCredential } = require("@azure/identity");
 const { CommonDurations, LogsClient } = require("@azure/monitor-query");
-const dotenv = require("dotenv");
-dotenv.config();
-
-const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
 async function main() {
-  const tokenCredential = new DefaultAzureCredential();
-  const logsClient = new LogsClient(tokenCredential);
-
-  if (!monitorWorkspaceId) {
-    throw new Error("MONITOR_WORKSPACE_ID must be set in the environment for this sample");
-  }
+  const logsClient = new LogsClient("DEMO_KEY");
 
   const kqlQuery =
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
   console.log(`Running '${kqlQuery}' for the last 5 minutes`);
-  const result = await logsClient.queryLogs(monitorWorkspaceId, kqlQuery, {
+  const result = await logsClient.queryLogs("DEMO_WORKSPACE", kqlQuery, {
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
     // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
