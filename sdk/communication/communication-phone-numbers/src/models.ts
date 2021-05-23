@@ -44,5 +44,5 @@ export {
   PhoneNumberCost,
   PhoneNumberSearchResult,
   PhoneNumberSearchRequest,
-  PhoneNumberType
+  PhoneNumberType,
 } from "./generated/src/models/";
