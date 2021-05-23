@@ -62,6 +62,9 @@ module.exports = function(config) {
       "INCLUDE_PHONENUMBER_LIVE_TESTS",
       "AZURE_PHONE_NUMBER",
       "COMMUNICATION_ENDPOINT",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TENANT_ID",
       "COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS"
     ],
 
