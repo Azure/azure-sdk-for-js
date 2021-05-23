@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceClient } from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
 import { GeneratedClientOptionalParams } from "./models";
 
 /** @internal */
-export class GeneratedClientContext extends ServiceClient {
+export class GeneratedClientContext extends coreClient.ServiceClient {
   endpoint: string;
 
   /**
@@ -20,6 +20,15 @@ export class GeneratedClientContext extends ServiceClient {
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+
     const defaults: GeneratedClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8"
     };
@@ -27,13 +36,10 @@ export class GeneratedClientContext extends ServiceClient {
     const optionsWithDefaults = {
       ...defaults,
       ...options,
-      baseUri:
-        options?.endpoint ||
-        (endpoint.slice(-1) === "/" ? endpoint : endpoint + "/") + "text/analytics/v3.1-preview.4"
+      baseUri: options.endpoint || "{Endpoint}/text/analytics/v3.1-preview.5"
     };
 
     super(optionsWithDefaults);
-
     // Parameter assignments
     this.endpoint = endpoint;
   }

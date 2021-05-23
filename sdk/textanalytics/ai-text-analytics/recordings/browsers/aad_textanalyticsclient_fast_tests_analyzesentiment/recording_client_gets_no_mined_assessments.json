@@ -11,20 +11,22 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:17:32 GMT",
+    "date": "Wed, 12 May 2021 19:17:27 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - EUS ProdSlices",
-    "x-ms-request-id": "74937450-6f3f-4d02-9983-c42ecbf42100"
+    "x-ms-ests-server": "2.1.11722.21 - EUS ProdSlices",
+    "x-ms-request-id": "066edeb7-a09f-4303-a4a3-ddc362ea5500"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.4/sentiment",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/sentiment",
    "query": {
     "stringIndexType": "Utf16CodeUnit",
     "opinionMining": "true"
@@ -33,14 +35,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.1,\"neutral\":0.88,\"negative\":0.02},\"sentences\":[{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.1,\"neutral\":0.88,\"negative\":0.02},\"offset\":0,\"length\":18,\"text\":\"today is a hot day\",\"targets\":[],\"assessments\":[]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "9453726e-21c6-43bc-a1d1-d0e5b6d710b9",
+    "apim-request-id": "642ec648-45ad-4eca-be73-146253a2e5f2",
     "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 24 Feb 2021 02:17:33 GMT",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
+    "date": "Wed, 12 May 2021 19:17:30 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "809"
+    "x-envoy-upstream-service-time": "2566"
    }
   }
  ],
@@ -48,5 +50,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "e426c127f97de922dd561395ee1509a6"
+ "hash": "ec581b478d23d80891b369a0702019cc"
 }

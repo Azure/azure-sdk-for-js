@@ -356,14 +356,9 @@ export function toRheaMessage(
   if (msg.subject != null) {
     amqpMsg.subject = msg.subject;
   }
-  if (msg.messageId != null) {
-    if (typeof msg.messageId === "string" && msg.messageId.length > Constants.maxMessageIdLength) {
-      throw new Error(
-        "Length of 'messageId' property on the message cannot be greater than 128 characters."
-      );
-    }
-    amqpMsg.message_id = msg.messageId;
-  }
+
+  updateMessageId(amqpMsg, msg.messageId);
+
   if (msg.correlationId != null) {
     amqpMsg.correlation_id = msg.correlationId;
   }
@@ -389,12 +384,34 @@ export function toRheaMessage(
   //   amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
   // }
 
-  if (msg.scheduledEnqueueTimeUtc != null) {
-    amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
-  }
+  updateScheduledTime(amqpMsg, msg.scheduledEnqueueTimeUtc);
 
   logger.verbose("SBMessage to RheaMessage: %O", amqpMsg);
   return amqpMsg;
+}
+
+/** @internal @ignore */
+export function updateMessageId(rheaMessage: RheaMessage, messageId: RheaMessage["message_id"]) {
+  if (messageId != null) {
+    if (typeof messageId === "string" && messageId.length > Constants.maxMessageIdLength) {
+      throw new Error(
+        `Length of 'messageId' property on the message cannot be greater than ${Constants.maxMessageIdLength} characters.`
+      );
+    }
+
+    rheaMessage.message_id = messageId;
+  }
+}
+
+/** @internal @ignore */
+export function updateScheduledTime(
+  rheaMessage: RheaMessage,
+  scheduledEnqueuedTimeUtc: Date | undefined
+): void {
+  if (scheduledEnqueuedTimeUtc != null) {
+    rheaMessage.message_annotations = rheaMessage.message_annotations ?? {};
+    rheaMessage.message_annotations[Constants.scheduledEnqueueTime] = scheduledEnqueuedTimeUtc;
+  }
 }
 
 /**
@@ -487,56 +504,56 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
  * Converts given RheaMessage to ServiceBusReceivedMessage
  */
 export function fromRheaMessage(
-  msg: RheaMessage,
+  rheaMessage: RheaMessage,
   delivery?: Delivery,
   shouldReorderLockToken?: boolean
 ): ServiceBusReceivedMessage {
-  if (!msg) {
-    msg = {
+  if (!rheaMessage) {
+    rheaMessage = {
       body: undefined
     };
   }
 
-  const { body, bodyType } = defaultDataTransformer.decodeWithType(msg.body);
+  const { body, bodyType } = defaultDataTransformer.decodeWithType(rheaMessage.body);
 
   const sbmsg: ServiceBusMessage = {
     body: body
   };
 
-  if (msg.application_properties != null) {
-    sbmsg.applicationProperties = msg.application_properties;
+  if (rheaMessage.application_properties != null) {
+    sbmsg.applicationProperties = rheaMessage.application_properties;
   }
-  if (msg.content_type != null) {
-    sbmsg.contentType = msg.content_type;
+  if (rheaMessage.content_type != null) {
+    sbmsg.contentType = rheaMessage.content_type;
   }
-  if (msg.group_id != null) {
-    sbmsg.sessionId = msg.group_id;
+  if (rheaMessage.group_id != null) {
+    sbmsg.sessionId = rheaMessage.group_id;
   }
-  if (msg.reply_to != null) {
-    sbmsg.replyTo = msg.reply_to;
+  if (rheaMessage.reply_to != null) {
+    sbmsg.replyTo = rheaMessage.reply_to;
   }
-  if (msg.to != null) {
-    sbmsg.to = msg.to;
+  if (rheaMessage.to != null) {
+    sbmsg.to = rheaMessage.to;
   }
-  if (msg.ttl != null) {
-    sbmsg.timeToLive = msg.ttl;
+  if (rheaMessage.ttl != null) {
+    sbmsg.timeToLive = rheaMessage.ttl;
   }
-  if (msg.subject != null) {
-    sbmsg.subject = msg.subject;
+  if (rheaMessage.subject != null) {
+    sbmsg.subject = rheaMessage.subject;
   }
-  if (msg.message_id != null) {
-    sbmsg.messageId = msg.message_id;
+  if (rheaMessage.message_id != null) {
+    sbmsg.messageId = rheaMessage.message_id;
   }
-  if (msg.correlation_id != null) {
-    sbmsg.correlationId = msg.correlation_id;
+  if (rheaMessage.correlation_id != null) {
+    sbmsg.correlationId = rheaMessage.correlation_id;
   }
-  if (msg.reply_to_group_id != null) {
-    sbmsg.replyToSessionId = msg.reply_to_group_id;
+  if (rheaMessage.reply_to_group_id != null) {
+    sbmsg.replyToSessionId = rheaMessage.reply_to_group_id;
   }
 
-  if (msg.message_annotations != null) {
-    if (msg.message_annotations[Constants.partitionKey] != null) {
-      sbmsg.partitionKey = msg.message_annotations[Constants.partitionKey];
+  if (rheaMessage.message_annotations != null) {
+    if (rheaMessage.message_annotations[Constants.partitionKey] != null) {
+      sbmsg.partitionKey = rheaMessage.message_annotations[Constants.partitionKey];
     }
 
     // Will be required later for implementing Transactions
@@ -544,8 +561,9 @@ export function fromRheaMessage(
     //   sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
     // }
 
-    if (msg.message_annotations[Constants.scheduledEnqueueTime] != null) {
-      sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
+    if (rheaMessage.message_annotations[Constants.scheduledEnqueueTime] != null) {
+      sbmsg.scheduledEnqueueTimeUtc =
+        rheaMessage.message_annotations[Constants.scheduledEnqueueTime];
     }
   }
 
@@ -555,40 +573,49 @@ export function fromRheaMessage(
     }
   >;
   const props: PartialWritable<ServiceBusReceivedMessage> = {};
-  if (msg.message_annotations != null) {
-    if (msg.message_annotations[Constants.deadLetterSource] != null) {
-      props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
+  if (rheaMessage.message_annotations != null) {
+    if (rheaMessage.message_annotations[Constants.deadLetterSource] != null) {
+      props.deadLetterSource = rheaMessage.message_annotations[Constants.deadLetterSource];
     }
-    if (msg.message_annotations[Constants.enqueueSequenceNumber] != null) {
-      props.enqueuedSequenceNumber = msg.message_annotations[Constants.enqueueSequenceNumber];
+    if (rheaMessage.message_annotations[Constants.enqueueSequenceNumber] != null) {
+      props.enqueuedSequenceNumber =
+        rheaMessage.message_annotations[Constants.enqueueSequenceNumber];
     }
-    if (msg.message_annotations[Constants.sequenceNumber] != null) {
-      if (Buffer.isBuffer(msg.message_annotations[Constants.sequenceNumber])) {
-        props.sequenceNumber = Long.fromBytesBE(msg.message_annotations[Constants.sequenceNumber]);
+    if (rheaMessage.message_annotations[Constants.sequenceNumber] != null) {
+      if (Buffer.isBuffer(rheaMessage.message_annotations[Constants.sequenceNumber])) {
+        props.sequenceNumber = Long.fromBytesBE(
+          rheaMessage.message_annotations[Constants.sequenceNumber]
+        );
       } else {
-        props.sequenceNumber = Long.fromNumber(msg.message_annotations[Constants.sequenceNumber]);
+        props.sequenceNumber = Long.fromNumber(
+          rheaMessage.message_annotations[Constants.sequenceNumber]
+        );
       }
     }
-    if (msg.message_annotations[Constants.enqueuedTime] != null) {
-      props.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
+    if (rheaMessage.message_annotations[Constants.enqueuedTime] != null) {
+      props.enqueuedTimeUtc = new Date(
+        rheaMessage.message_annotations[Constants.enqueuedTime] as number
+      );
     }
-    if (msg.message_annotations[Constants.lockedUntil] != null) {
-      props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
+    if (rheaMessage.message_annotations[Constants.lockedUntil] != null) {
+      props.lockedUntilUtc = new Date(
+        rheaMessage.message_annotations[Constants.lockedUntil] as number
+      );
     }
   }
-  if (msg.ttl == null) msg.ttl = Constants.maxDurationValue;
+  if (rheaMessage.ttl == null) rheaMessage.ttl = Constants.maxDurationValue;
   if (props.enqueuedTimeUtc) {
     props.expiresAtUtc = new Date(
-      Math.min(props.enqueuedTimeUtc.getTime() + msg.ttl, Constants.maxDurationValue)
+      Math.min(props.enqueuedTimeUtc.getTime() + rheaMessage.ttl, Constants.maxDurationValue)
     );
   }
 
-  const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+  const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(rheaMessage);
   rawMessage.bodyType = bodyType;
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
     _rawAmqpMessage: rawMessage,
-    deliveryCount: msg.delivery_count,
+    deliveryCount: rheaMessage.delivery_count,
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
         ? uuid_to_string(

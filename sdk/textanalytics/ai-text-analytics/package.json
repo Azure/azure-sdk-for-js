@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Text Analytics service.",
-  "version": "5.1.0-beta.6",
+  "version": "5.1.0-beta.7",
   "keywords": [
     "node",
     "azure",
@@ -93,7 +93,7 @@
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-client": "^1.0.0",
-    "@azure/core-rest-pipeline": "^1.0.0",
+    "@azure/core-rest-pipeline": "^1.0.3",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.11",
@@ -103,7 +103,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "~1.3.0",
+    "@azure/identity": "2.0.0-beta.3",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@types/chai": "^4.1.6",

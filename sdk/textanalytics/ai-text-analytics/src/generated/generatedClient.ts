@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationOptions, OperationSpec, createSerializer } from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
@@ -37,7 +37,7 @@ import {
   GeneratedClientSentimentResponse
 } from "./models";
 
-/** @hidden */
+/** @internal */
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
@@ -56,10 +56,7 @@ export class GeneratedClient extends GeneratedClientContext {
   analyze(
     options?: GeneratedClientAnalyzeOptionalParams
   ): Promise<GeneratedClientAnalyzeResponse> {
-    return this.sendOperationRequest(
-      { options },
-      analyzeOperationSpec
-    );
+    return this.sendOperationRequest({ options }, analyzeOperationSpec);
   }
 
   /**
@@ -101,7 +98,7 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   cancelHealthJob(
     jobId: string,
-    options?: OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<GeneratedClientCancelHealthJobResponse> {
     return this.sendOperationRequest(
       { jobId, options },
@@ -119,10 +116,7 @@ export class GeneratedClient extends GeneratedClientContext {
     input: MultiLanguageBatchInput,
     options?: GeneratedClientHealthOptionalParams
   ): Promise<GeneratedClientHealthResponse> {
-    return this.sendOperationRequest(
-      { input, options },
-      healthOperationSpec
-    );
+    return this.sendOperationRequest({ input, options }, healthOperationSpec);
   }
 
   /**
@@ -232,9 +226,9 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 }
 // Operation Specifications
-const serializer = createSerializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const analyzeOperationSpec: OperationSpec = {
+const analyzeOperationSpec: coreClient.OperationSpec = {
   path: "/analyze",
   httpMethod: "POST",
   responses: {
@@ -256,7 +250,7 @@ const analyzeOperationSpec: OperationSpec = {
   mediaType: "json",
   serializer
 };
-const analyzeStatusOperationSpec: OperationSpec = {
+const analyzeStatusOperationSpec: coreClient.OperationSpec = {
   path: "/analyze/jobs/{jobId}",
   httpMethod: "GET",
   responses: {
@@ -281,7 +275,7 @@ const analyzeStatusOperationSpec: OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const healthStatusOperationSpec: OperationSpec = {
+const healthStatusOperationSpec: coreClient.OperationSpec = {
   path: "/entities/health/jobs/{jobId}",
   httpMethod: "GET",
   responses: {
@@ -306,7 +300,7 @@ const healthStatusOperationSpec: OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const cancelHealthJobOperationSpec: OperationSpec = {
+const cancelHealthJobOperationSpec: coreClient.OperationSpec = {
   path: "/entities/health/jobs/{jobId}",
   httpMethod: "DELETE",
   responses: {
@@ -326,7 +320,7 @@ const cancelHealthJobOperationSpec: OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const healthOperationSpec: OperationSpec = {
+const healthOperationSpec: coreClient.OperationSpec = {
   path: "/entities/health/jobs",
   httpMethod: "POST",
   responses: {
@@ -343,13 +337,17 @@ const healthOperationSpec: OperationSpec = {
     }
   },
   requestBody: Parameters.input,
-  queryParameters: [Parameters.modelVersion, Parameters.stringIndexType],
+  queryParameters: [
+    Parameters.modelVersion,
+    Parameters.stringIndexType,
+    Parameters.loggingOptOut
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
-const entitiesRecognitionGeneralOperationSpec: OperationSpec = {
+const entitiesRecognitionGeneralOperationSpec: coreClient.OperationSpec = {
   path: "/entities/recognition/general",
   httpMethod: "POST",
   responses: {
@@ -369,14 +367,15 @@ const entitiesRecognitionGeneralOperationSpec: OperationSpec = {
   queryParameters: [
     Parameters.includeStatistics,
     Parameters.modelVersion,
-    Parameters.stringIndexType
+    Parameters.stringIndexType,
+    Parameters.loggingOptOut
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
-const entitiesRecognitionPiiOperationSpec: OperationSpec = {
+const entitiesRecognitionPiiOperationSpec: coreClient.OperationSpec = {
   path: "/entities/recognition/pii",
   httpMethod: "POST",
   responses: {
@@ -397,6 +396,7 @@ const entitiesRecognitionPiiOperationSpec: OperationSpec = {
     Parameters.includeStatistics,
     Parameters.modelVersion,
     Parameters.stringIndexType,
+    Parameters.loggingOptOut,
     Parameters.domain,
     Parameters.piiCategories
   ],
@@ -405,7 +405,7 @@ const entitiesRecognitionPiiOperationSpec: OperationSpec = {
   mediaType: "json",
   serializer
 };
-const entitiesLinkingOperationSpec: OperationSpec = {
+const entitiesLinkingOperationSpec: coreClient.OperationSpec = {
   path: "/entities/linking",
   httpMethod: "POST",
   responses: {
@@ -425,14 +425,15 @@ const entitiesLinkingOperationSpec: OperationSpec = {
   queryParameters: [
     Parameters.includeStatistics,
     Parameters.modelVersion,
-    Parameters.stringIndexType
+    Parameters.stringIndexType,
+    Parameters.loggingOptOut
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
-const keyPhrasesOperationSpec: OperationSpec = {
+const keyPhrasesOperationSpec: coreClient.OperationSpec = {
   path: "/keyPhrases",
   httpMethod: "POST",
   responses: {
@@ -449,13 +450,17 @@ const keyPhrasesOperationSpec: OperationSpec = {
     }
   },
   requestBody: Parameters.input,
-  queryParameters: [Parameters.includeStatistics, Parameters.modelVersion],
+  queryParameters: [
+    Parameters.includeStatistics,
+    Parameters.modelVersion,
+    Parameters.loggingOptOut
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
-const languagesOperationSpec: OperationSpec = {
+const languagesOperationSpec: coreClient.OperationSpec = {
   path: "/languages",
   httpMethod: "POST",
   responses: {
@@ -472,13 +477,17 @@ const languagesOperationSpec: OperationSpec = {
     }
   },
   requestBody: Parameters.input1,
-  queryParameters: [Parameters.includeStatistics, Parameters.modelVersion],
+  queryParameters: [
+    Parameters.includeStatistics,
+    Parameters.modelVersion,
+    Parameters.loggingOptOut
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
-const sentimentOperationSpec: OperationSpec = {
+const sentimentOperationSpec: coreClient.OperationSpec = {
   path: "/sentiment",
   httpMethod: "POST",
   responses: {
@@ -499,6 +508,7 @@ const sentimentOperationSpec: OperationSpec = {
     Parameters.includeStatistics,
     Parameters.modelVersion,
     Parameters.stringIndexType,
+    Parameters.loggingOptOut,
     Parameters.opinionMining
   ],
   urlParameters: [Parameters.endpoint],

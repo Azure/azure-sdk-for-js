@@ -95,6 +95,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
         } else if (error.statusCode !== 404) {
           state.error = error;
           state.isCompleted = true;
+          throw error;
         }
       }
     }

@@ -39,13 +39,17 @@ const schema: SchemaDescription = {
   })
 };
 
-function assertIsNotNullUndefinedOrEmpty(x: string | null | undefined): void {
+function assertIsNotNullUndefinedOrEmpty(x: SchemaId | string | null | undefined): asserts x {
   assert.isTrue(x !== undefined, "should not be undefined");
   assert.isNotNull(x);
   assert.isNotEmpty(x);
 }
 
-function assertIsValidSchemaId(schemaId: SchemaId, expectedSerializationType = "avro"): void {
+function assertIsValidSchemaId(
+  schemaId: SchemaId | undefined,
+  expectedSerializationType = "avro"
+): asserts schemaId {
+  assertIsNotNullUndefinedOrEmpty(schemaId);
   assertIsNotNullUndefinedOrEmpty(schemaId.id);
   assertIsNotNullUndefinedOrEmpty(schemaId.location);
   assertIsNotNullUndefinedOrEmpty(schemaId.locationById);
@@ -120,10 +124,7 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema ID when no matching schema exists", async () => {
-    await assert.isRejected(
-      client.getSchemaId({ ...schema, name: "never-registered" }),
-      /never-registered/
-    );
+    assert.isUndefined(await client.getSchemaId({ ...schema, name: "never-registered" }));
   });
 
   it("gets schema ID", async () => {
@@ -143,10 +144,7 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema when no schema exists with given ID", async () => {
-    await assert.isRejected(
-      client.getSchemaById("ffffffffffffffffffffffffffffffff"),
-      /ffffffffffffffffffffffffffffffff/
-    );
+    assert.isUndefined(await client.getSchemaById("ffffffffffffffffffffffffffffffff"));
   });
 
   it("gets schema by ID", async () => {
@@ -155,8 +153,8 @@ describe("SchemaRegistryClient", function() {
     assertIsValidSchemaId(registered);
 
     const found = await client.getSchemaById(registered.id);
-    assertStatus(found, 200);
     assertIsValidSchemaId(found);
+    assertStatus(found, 200);
     assert.equal(found.content, schema.content);
   });
 });

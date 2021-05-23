@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isCertificateCredential } from "./certificateCredential";
 import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
 import { ClientOptions, HttpResponse } from "./common";
@@ -18,6 +19,10 @@ export type PathUncheckedResponse = HttpResponse & { body: any };
  * Shape of a Rest Level Client
  */
 export interface Client {
+  /**
+   * The pipeline used by this client to make requests
+   */
+  pipeline: Pipeline;
   /**
    * This method will be used to send request that would check the path to provide
    * strong types
@@ -107,6 +112,7 @@ export function getClient(
   return {
     path: client,
     pathUnchecked: client,
+    pipeline,
   };
 }
 
@@ -135,7 +141,11 @@ function buildSendRequest(
 function isCredential(
   param: (TokenCredential | KeyCredential) | PipelineOptions
 ): param is TokenCredential | KeyCredential {
-  if ((param as KeyCredential).key !== undefined || isTokenCredential(param)) {
+  if (
+    (param as KeyCredential).key !== undefined ||
+    isTokenCredential(param) ||
+    isCertificateCredential(param)
+  ) {
     return true;
   }
 

@@ -30,7 +30,6 @@ import {
   GetRoleAssignmentOptions,
   ListRoleDefinitionsPageSettings,
   ListRoleAssignmentsPageSettings,
-  KeyVaultPermission,
   GetRoleDefinitionOptions,
   UpsertRoleDefinitionOptions,
   DeleteRoleDefinitionOptions
@@ -39,6 +38,7 @@ import {
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
 import { mappings } from "./mappings";
 import { logger } from "./log";
+import { v4 as v4uuid } from "uuid";
 
 const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultAccessControlClient");
 
@@ -453,22 +453,19 @@ export class KeyVaultAccessControlClient {
    */
   public upsertRoleDefinition(
     roleScope: KeyVaultRoleScope,
-    name: string,
-    permissions: KeyVaultPermission[],
-    description?: string,
     options: UpsertRoleDefinitionOptions = {}
   ): Promise<KeyVaultRoleDefinition> {
     return withTrace("upsertRoleDefinition", options, async (updatedOptions) => {
       const response = await this.client.roleDefinitions.createOrUpdate(
         this.vaultUrl,
         roleScope,
-        name,
+        options.roleDefinitionName || v4uuid(),
         {
           properties: {
-            description,
-            permissions,
+            description: options.description,
+            permissions: options.permissions,
             assignableScopes: [roleScope],
-            roleName: name,
+            roleName: options.roleName,
             roleType: "CustomRole"
           }
         },

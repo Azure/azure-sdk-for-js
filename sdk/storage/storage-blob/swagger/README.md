@@ -1258,4 +1258,13 @@ directive:
       delete $.properties["AllowPermanentDelete"];
 ```
 
+### Update service version from "2020-06-12" to "2020-08-04"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2020-08-04" ];
+```
+
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

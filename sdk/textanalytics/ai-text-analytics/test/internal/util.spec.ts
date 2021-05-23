@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { parseActionError } from "../../src/analyzeBatchActionsResult";
+import { parseActionError } from "../../src/analyzeActionsResult";
 import { sortResponseIdObjects, nextLinkToTopAndSkip } from "../../src/util";
 
 describe("util.sortByPreviousOrder", () => {
@@ -23,7 +23,7 @@ describe("util.nextLinkToTopAndSkip", () => {
   });
 });
 
-describe("analyzeBatchActionsResult.parseActionError", () => {
+describe("AnalyzeActionsResult.parseActionError", () => {
   it("parses entityRecognitionTasks pointer", () => {
     const pointer = "#/tasks/entityRecognitionTasks/2";
     const result = parseActionError({ message: "", target: pointer, code: "" });

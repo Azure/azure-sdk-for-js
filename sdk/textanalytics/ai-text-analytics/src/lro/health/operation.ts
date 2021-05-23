@@ -85,6 +85,12 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * If set to false, you opt-in to have your text input logged for troubleshooting. By default, Text Analytics
+   * will not log your input text for healthcare entities analysis. Setting this parameter to false,
+   * enables input logging.
+   */
+  loggingOptOut?: boolean;
 }
 
 /**
@@ -324,7 +330,8 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         tracingOptions: this.options.tracingOptions,
         abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal,
         modelVersion: this.options.modelVersion,
-        stringIndexType: this.options.stringIndexType
+        stringIndexType: this.options.stringIndexType,
+        loggingOptOut: this.options.disableServiceLogs
       });
       if (!response.operationLocation) {
         throw new Error(

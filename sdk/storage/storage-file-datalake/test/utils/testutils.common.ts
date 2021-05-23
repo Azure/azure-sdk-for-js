@@ -39,6 +39,11 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
       recording.replace(
         new RegExp(env.DFS_ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
         `${mockAccountKey}`
+      ),
+    (recording: string): string =>
+      recording.replace(
+        new RegExp(env.DFS_SOFT_DELETE_ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
+        `${mockAccountKey}`
       )
   ],
   // SAS token may contain sensitive information

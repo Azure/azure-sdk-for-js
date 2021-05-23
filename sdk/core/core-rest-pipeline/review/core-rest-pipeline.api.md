@@ -64,7 +64,7 @@ export const bearerTokenChallengeAuthenticationPolicyName = "bearerTokenChalleng
 // @public
 export interface BearerTokenChallengeAuthenticationPolicyOptions {
     challengeCallbacks?: ChallengeCallbacks;
-    credential: TokenCredential;
+    credential?: TokenCredential;
     scopes: string[];
 }
 

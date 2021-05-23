@@ -1,7 +1,24 @@
 # Release History
 
-## 5.1.0-beta.6 (Unreleased)
+## 5.1.0-beta.7 (Unreleased)
 
+
+## 5.1.0-beta.6 (2021-05-18)
+
+### New Features
+
+- We are now targeting the service's v3.1-preview.5 API as the default instead of v3.1-preview.4.
+- `beginAnalyzeActions` adds support for analyze sentiment actions.
+- `disableServiceLogs` parameter is added to most actions in `beginAnalyzeActions` that controls service-side logging.
+
+### Breaking Changes
+
+- `beginAnalyzeBatchActions` was renamed to `beginAnalyzeActions`.
+- `TextElements_v8` is renamed to `TextElement_v8` in model `StringIndexType`.
+
+### Key Bug Fixes
+
+- Results of entity linking actions were not returned correctly by `beginAnalyzeActions` and that is now fixed.
 
 ## 5.1.0-beta.5 (2021-03-11)
 

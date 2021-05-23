@@ -5,32 +5,44 @@
  * @summary Configure SMS options when sending a message
  */
 
-import { SmsClient } from "@azure/communication-sms";
+import { SmsClient, SmsSendRequest } from "@azure/communication-sms";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+import { SmsSendOptions } from "../src/generated/src/models";
 dotenv.config();
 
 export const main = async () => {
   console.log("== Send SMS Message With Options ==");
+
+  // You will need to set this environment variable or edit the following values
   const connectionString =
-    process.env["COMMUNICATION_CONNECTION_STRING"] ||
+    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
+
+  // create new client
   const client = new SmsClient(connectionString);
-  const sendResults = await client.send(
-    {
-      // Phone numbers must be in E.164 format
-      from: "<from-phone-number>",
-      to: ["<to-phone-number-1>", "<to-phone-number-2>"],
-      message: "Weekly Promotion!"
-    },
-    {
-      //delivery reports are delivered via EventGrid
-      enableDeliveryReport: true,
-      //tags are applied to the delivery report
-      tag: "marketing"
-    }
-  );
+
+  // construct send request
+  const sendRequest: SmsSendRequest = {
+    from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
+    to: process.env.TO_PHONE_NUMBERS?.split(",") || [process.env.AZURE_PHONE_NUMBER!] || [
+        "<to-phone-number-1>",
+        "<to-phone-number-2>"
+      ],
+    message: "Hello World via SMS!"
+  };
+
+  // construct send options
+  const sendOptions: SmsSendOptions = {
+    //delivery reports are delivered via EventGrid
+    enableDeliveryReport: true,
+    //tags are applied to the delivery report
+    tag: "marketing"
+  };
+
+  // send sms with request and options
+  const sendResults = await client.send(sendRequest, sendOptions);
 
   // individual messages can encounter errors during sending
   // use the "successful" property to verify
@@ -41,6 +53,7 @@ export const main = async () => {
       console.error("Something went wrong when trying to send this message: ", sendResult);
     }
   }
+
   console.log("== Done: Send SMS Message With Options ==");
 };
 
