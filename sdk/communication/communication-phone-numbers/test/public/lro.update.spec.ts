@@ -16,10 +16,6 @@ matrix([[true, false]], async function(useAad) {
     let client: PhoneNumbersClient;
 
     before(function(this: Context) {
-      if (useAad && !canCreateRecordedClientWithToken()) {
-        this.skip();
-      }
-
       const skipPhoneNumbersTests = env.COMMUNICATION_SKIP_PHONENUMBERS_TESTS === "true";
       if (skipPhoneNumbersTests) {
         this.skip();
