@@ -8,26 +8,26 @@ import { Context } from "mocha";
 import { PhoneNumbersClient, PhoneNumberCapabilitiesRequest } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
-matrix([[true, false]], async function (useAad) {
-  describe(`PhoneNumbersClient - lro - update${useAad ? " [AAD]" : ""}`, function () {
+matrix([[true, false]], async function(useAad) {
+  describe(`PhoneNumbersClient - lro - update${useAad ? " [AAD]" : ""}`, function() {
     const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
     const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" };
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
-    beforeEach(function (this: Context) {
+    beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
         ? createRecordedClientWithToken(this)!
         : createRecordedClient(this));
     });
 
-    afterEach(async function (this: Context) {
+    afterEach(async function(this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
     });
 
-    it("can update a phone number's capabilities", async function () {
+    it("can update a phone number's capabilities", async function() {
       const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
         purchasedPhoneNumber,
         update
@@ -41,7 +41,7 @@ matrix([[true, false]], async function (useAad) {
       // assert.deepEqual(phoneNumber.capabilities, update);
     }).timeout(90000);
 
-    it("update throws when phone number isn't owned", async function () {
+    it("update throws when phone number isn't owned", async function() {
       const fakeNumber = "+14155550100";
       try {
         const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
