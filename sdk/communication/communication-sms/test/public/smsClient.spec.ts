@@ -7,7 +7,6 @@
  */
 
 import { record, Recorder, env } from "@azure/test-utils-recorder";
-import { matrix } from "@azure/test-utils";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import {
@@ -17,6 +16,7 @@ import {
 } from "./utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "./suites/smsClient.send";
+import { matrix } from "./utils/matrix";
 
 if (isNode) {
   dotenv.config();
