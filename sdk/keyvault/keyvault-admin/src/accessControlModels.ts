@@ -147,7 +147,7 @@ export interface KeyVaultRoleAssignmentProperties {
   /**
    * The role assignment scope.
    */
-  scope?: KeyVaultRoleScope;
+  roleScope?: KeyVaultRoleScope;
 }
 
 /**

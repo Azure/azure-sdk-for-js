@@ -18,7 +18,7 @@ export const mappings = {
         name: name!,
         kind: type!,
         properties: {
-          scope: scope as KeyVaultRoleScope,
+          roleScope: scope as KeyVaultRoleScope,
           roleDefinitionId: roleDefinitionId!,
           principalId: principalId!
         }

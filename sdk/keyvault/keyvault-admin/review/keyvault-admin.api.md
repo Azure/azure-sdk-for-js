@@ -133,7 +133,7 @@ export interface KeyVaultRoleAssignment {
 export interface KeyVaultRoleAssignmentProperties {
     principalId: string;
     roleDefinitionId: string;
-    scope?: KeyVaultRoleScope;
+    roleScope?: KeyVaultRoleScope;
 }
 
 // @public
