@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["DOM"],
+    "declarationDir": "./types",
+    "outDir": "./dist-esm",
+    "resolveJsonModule": true,
+    "paths": {
+      "@azure/identity-persistence": ["./src/index"]
+    }
+  },
+  "include": ["src/**/*", "test/**/*", "samples-dev/**/*"],
+}
