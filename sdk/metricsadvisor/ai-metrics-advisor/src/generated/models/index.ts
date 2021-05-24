@@ -647,12 +647,6 @@ export interface DataSourceCredentialPatch {
   dataSourceCredentialDescription?: string;
 }
 
-export interface DataFeedList {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly nextLink?: string;
-  value: DataFeedDetailUnion[];
-}
-
 export interface DataFeedDetail {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType:

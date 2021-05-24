@@ -65,7 +65,7 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/quickstart.ts
+node dist/quickstart.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
@@ -88,7 +88,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [metricfeedback]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/metricFeedback.ts
 [metricqueries]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/metricQueries.ts
 [seriesdata]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/seriesData.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/?view=azure-node-preview
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesaccount]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/metricsadvisor/ai-metrics-advisor/README.md
