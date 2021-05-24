@@ -322,29 +322,9 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsUpdateResponse>
    */
-  update(resourceGroupName: string, monitorName: string, options?: Models.MonitorsUpdateOptionalParams): Promise<Models.MonitorsUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogMonitorResource>): void;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, monitorName: string, options: Models.MonitorsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.DatadogMonitorResource>): void;
-  update(resourceGroupName: string, monitorName: string, options?: Models.MonitorsUpdateOptionalParams | msRest.ServiceCallback<Models.DatadogMonitorResource>, callback?: msRest.ServiceCallback<Models.DatadogMonitorResource>): Promise<Models.MonitorsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        monitorName,
-        options
-      },
-      updateOperationSpec,
-      callback) as Promise<Models.MonitorsUpdateResponse>;
+  update(resourceGroupName: string, monitorName: string, options?: Models.MonitorsUpdateOptionalParams): Promise<Models.MonitorsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,monitorName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MonitorsUpdateResponse>;
   }
 
   /**
@@ -406,6 +386,24 @@ export class Monitors {
         options
       },
       beginCreateOperationSpec,
+      options);
+  }
+
+  /**
+   * @summary Update a monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, monitorName: string, options?: Models.MonitorsBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        monitorName,
+        options
+      },
+      beginUpdateOperationSpec,
       options);
   }
 
@@ -826,38 +824,6 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: [
-      "options",
-      "body"
-    ],
-    mapper: Mappers.DatadogMonitorResourceUpdateParameters
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatadogMonitorResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const refreshSetPasswordLinkOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/refreshSetPasswordLink",
@@ -903,6 +869,41 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       "body"
     ],
     mapper: Mappers.DatadogMonitorResource
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatadogMonitorResource
+    },
+    201: {
+      bodyMapper: Mappers.DatadogMonitorResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "body"
+    ],
+    mapper: Mappers.DatadogMonitorResourceUpdateParameters
   },
   responses: {
     200: {

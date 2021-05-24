@@ -753,6 +753,13 @@ export const DatadogMonitorResourceUpdateParameters: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "ResourceSku"
+        }
       }
     }
   }

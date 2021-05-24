@@ -431,6 +431,7 @@ export interface DatadogMonitorResourceUpdateParameters {
    * The new tags of the monitor resource.
    */
   tags?: { [propertyName: string]: string };
+  sku?: ResourceSku;
 }
 
 /**
@@ -678,6 +679,13 @@ export interface MonitorsUpdateOptionalParams extends msRest.RequestOptionsBase 
  */
 export interface MonitorsBeginCreateOptionalParams extends msRest.RequestOptionsBase {
   body?: DatadogMonitorResource;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface MonitorsBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
+  body?: DatadogMonitorResourceUpdateParameters;
 }
 
 /**
@@ -1165,6 +1173,26 @@ export type MonitorsRefreshSetPasswordLinkResponse = DatadogSetPasswordLink & {
  * Contains response data for the beginCreate operation.
  */
 export type MonitorsBeginCreateResponse = DatadogMonitorResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatadogMonitorResource;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type MonitorsBeginUpdateResponse = DatadogMonitorResource & {
   /**
    * The underlying HTTP response.
    */
