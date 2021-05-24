@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/tagsMappers";
+import * as Mappers from "../models/tenantsMappers";
 import * as Parameters from "../models/parameters";
 import { ConsumptionManagementClientContext } from "../consumptionManagementClientContext";
 
-/** Class representing a Tags. */
-export class Tags {
+/** Class representing a Tenants. */
+export class Tenants {
   private readonly client: ConsumptionManagementClientContext;
 
   /**
-   * Create a Tags.
+   * Create a Tenants.
    * @param {ConsumptionManagementClientContext} client Reference to the service client.
    */
   constructor(client: ConsumptionManagementClientContext) {
@@ -26,43 +26,54 @@ export class Tags {
   }
 
   /**
-   * Get all available tag keys for a billing account.
-   * @param billingAccountId BillingAccount ID
+   * Gets a Tenant Properties.
+   * @param billingAccountId Billing Account Id.
+   * @param billingProfileId Billing Profile Id.
    * @param [options] The optional parameters
-   * @returns Promise<Models.TagsGetResponse>
+   * @returns Promise<Models.TenantsGetResponse>
    */
   get(
     billingAccountId: string,
+    billingProfileId: string,
     options?: msRest.RequestOptionsBase
-  ): Promise<Models.TagsGetResponse>;
+  ): Promise<Models.TenantsGetResponse>;
   /**
-   * @param billingAccountId BillingAccount ID
+   * @param billingAccountId Billing Account Id.
+   * @param billingProfileId Billing Profile Id.
    * @param callback The callback
    */
-  get(billingAccountId: string, callback: msRest.ServiceCallback<Models.TagsResult>): void;
+  get(
+    billingAccountId: string,
+    billingProfileId: string,
+    callback: msRest.ServiceCallback<Models.TenantListResult>
+  ): void;
   /**
-   * @param billingAccountId BillingAccount ID
+   * @param billingAccountId Billing Account Id.
+   * @param billingProfileId Billing Profile Id.
    * @param options The optional parameters
    * @param callback The callback
    */
   get(
     billingAccountId: string,
+    billingProfileId: string,
     options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.TagsResult>
+    callback: msRest.ServiceCallback<Models.TenantListResult>
   ): void;
   get(
     billingAccountId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResult>,
-    callback?: msRest.ServiceCallback<Models.TagsResult>
-  ): Promise<Models.TagsGetResponse> {
+    billingProfileId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantListResult>,
+    callback?: msRest.ServiceCallback<Models.TenantListResult>
+  ): Promise<Models.TenantsGetResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
+        billingProfileId,
         options
       },
       getOperationSpec,
       callback
-    ) as Promise<Models.TagsGetResponse>;
+    ) as Promise<Models.TenantsGetResponse>;
   }
 }
 
@@ -71,13 +82,13 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path:
-    "providers/Microsoft.CostManagement/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/tags",
-  urlParameters: [Parameters.billingAccountId],
+    "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/tenants",
+  urlParameters: [Parameters.billingAccountId, Parameters.billingProfileId],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
-      bodyMapper: Mappers.TagsResult
+      bodyMapper: Mappers.TenantListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

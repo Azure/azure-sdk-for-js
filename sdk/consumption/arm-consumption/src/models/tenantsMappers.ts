@@ -33,6 +33,6 @@ export {
   Tag,
   TagsResult,
   Tenant,
-  UsageDetail,
-  UsageDetailsListResult
+  TenantListResult,
+  UsageDetail
 } from "../models/mappers";
