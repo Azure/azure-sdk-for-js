@@ -34,14 +34,24 @@ export class DeletedAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeletedAccountsGetResponse>
    */
-  get(location: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeletedAccountsGetResponse>;
+  get(
+    location: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeletedAccountsGetResponse>;
   /**
    * @param location Resource location.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param callback The callback
    */
-  get(location: string, resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.Account>): void;
+  get(
+    location: string,
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.Account>
+  ): void;
   /**
    * @param location Resource location.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -49,8 +59,20 @@ export class DeletedAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(location: string, resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Account>): void;
-  get(location: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Account>, callback?: msRest.ServiceCallback<Models.Account>): Promise<Models.DeletedAccountsGetResponse> {
+  get(
+    location: string,
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Account>
+  ): void;
+  get(
+    location: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Account>,
+    callback?: msRest.ServiceCallback<Models.Account>
+  ): Promise<Models.DeletedAccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -59,7 +81,8 @@ export class DeletedAccounts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DeletedAccountsGetResponse>;
+      callback
+    ) as Promise<Models.DeletedAccountsGetResponse>;
   }
 
   /**
@@ -70,9 +93,15 @@ export class DeletedAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  purge(location: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginPurge(location,resourceGroupName,accountName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  purge(
+    location: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginPurge(location, resourceGroupName, accountName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -89,14 +118,21 @@ export class DeletedAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.DeletedAccountsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>,
+    callback?: msRest.ServiceCallback<Models.AccountListResult>
+  ): Promise<Models.DeletedAccountsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DeletedAccountsListResponse>;
+      callback
+    ) as Promise<Models.DeletedAccountsListResponse>;
   }
 
   /**
@@ -107,7 +143,12 @@ export class DeletedAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPurge(location: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPurge(
+    location: string,
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         location,
@@ -116,7 +157,8 @@ export class DeletedAccounts {
         options
       },
       beginPurgeOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -125,7 +167,10 @@ export class DeletedAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeletedAccountsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DeletedAccountsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeletedAccountsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -136,15 +181,24 @@ export class DeletedAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.DeletedAccountsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>,
+    callback?: msRest.ServiceCallback<Models.AccountListResult>
+  ): Promise<Models.DeletedAccountsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DeletedAccountsListNextResponse>;
+      callback
+    ) as Promise<Models.DeletedAccountsListNextResponse>;
   }
 }
 
@@ -152,19 +206,16 @@ export class DeletedAccounts {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/resourceGroups/{resourceGroupName}/deletedAccounts/{accountName}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/resourceGroups/{resourceGroupName}/deletedAccounts/{accountName}",
   urlParameters: [
     Parameters.location,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Account
@@ -179,15 +230,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/deletedAccounts",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccountListResult
@@ -201,19 +246,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginPurgeOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/resourceGroups/{resourceGroupName}/deletedAccounts/{accountName}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/resourceGroups/{resourceGroupName}/deletedAccounts/{accountName}",
   urlParameters: [
     Parameters.location,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -229,15 +271,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccountListResult

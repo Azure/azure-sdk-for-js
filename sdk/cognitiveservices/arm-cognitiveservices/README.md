@@ -20,6 +20,7 @@ npm install @azure/arm-cognitiveservices
 ##### Install @azure/ms-rest-nodeauth
 
 - Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+
 ```bash
 npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
@@ -27,22 +28,26 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ##### Sample code
 
 While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
+
 ```typescript
 const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new CognitiveServicesManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const accountName = "testaccountName";
-  client.accounts.get(resourceGroupName, accountName).then((result) => {
-    console.log("The result is:");
-    console.log(result);
+msRestNodeAuth
+  .interactiveLogin()
+  .then((creds) => {
+    const client = new CognitiveServicesManagementClient(creds, subscriptionId);
+    const resourceGroupName = "testresourceGroupName";
+    const accountName = "testaccountName";
+    client.accounts.get(resourceGroupName, accountName).then((result) => {
+      console.log("The result is:");
+      console.log(result);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-}).catch((err) => {
-  console.error(err);
-});
 ```
 
 #### browser - Authentication, client creation and get accounts as an example written in JavaScript.
@@ -58,6 +63,7 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -78,16 +84,22 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmCognitiveservices.CognitiveServicesManagementClient(res.creds, subscriptionId);
+        const client = new Azure.ArmCognitiveservices.CognitiveServicesManagementClient(
+          res.creds,
+          subscriptionId
+        );
         const resourceGroupName = "testresourceGroupName";
         const accountName = "testaccountName";
-        client.accounts.get(resourceGroupName, accountName).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+        client.accounts
+          .get(resourceGroupName, accountName)
+          .then((result) => {
+            console.log("The result is:");
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log("An error occurred:");
+            console.error(err);
+          });
       });
     </script>
   </head>

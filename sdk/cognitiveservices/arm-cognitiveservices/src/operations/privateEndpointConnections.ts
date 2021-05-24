@@ -33,21 +33,41 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointConnectionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): Promise<Models.PrivateEndpointConnectionsListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): Promise<Models.PrivateEndpointConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class PrivateEndpointConnections {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionsListResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionsListResponse>;
   }
 
   /**
@@ -67,7 +88,12 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
@@ -75,7 +101,12 @@ export class PrivateEndpointConnections {
    * the Cognitive Services Account
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
@@ -84,8 +115,20 @@ export class PrivateEndpointConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.PrivateEndpointConnectionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): Promise<Models.PrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +137,8 @@ export class PrivateEndpointConnections {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionsGetResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionsGetResponse>;
   }
 
   /**
@@ -108,9 +152,22 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,accountName,privateEndpointConnectionName,properties,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateEndpointConnectionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    properties: Models.PrivateEndpointConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointConnectionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      accountName,
+      privateEndpointConnectionName,
+      properties,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PrivateEndpointConnectionsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -123,9 +180,18 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,accountName,privateEndpointConnectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      accountName,
+      privateEndpointConnectionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -139,7 +205,13 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    properties: Models.PrivateEndpointConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -149,7 +221,8 @@ export class PrivateEndpointConnections {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -162,7 +235,12 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -171,7 +249,8 @@ export class PrivateEndpointConnections {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -179,18 +258,11 @@ export class PrivateEndpointConnections {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult
@@ -204,19 +276,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection
@@ -230,19 +299,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "properties",
     mapper: {
@@ -266,19 +332,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

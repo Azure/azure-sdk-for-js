@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -48,10 +48,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
   }
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {

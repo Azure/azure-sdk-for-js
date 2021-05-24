@@ -35,9 +35,15 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, account: Models.Account, options?: msRest.RequestOptionsBase): Promise<Models.AccountsCreateResponse> {
-    return this.beginCreate(resourceGroupName,accountName,account,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AccountsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    account: Models.Account,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountsCreateResponse> {
+    return this.beginCreate(resourceGroupName, accountName, account, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.AccountsCreateResponse>;
   }
 
   /**
@@ -48,9 +54,15 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, account: Models.Account, options?: msRest.RequestOptionsBase): Promise<Models.AccountsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,accountName,account,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AccountsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    account: Models.Account,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName, accountName, account, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.AccountsUpdateResponse>;
   }
 
   /**
@@ -60,9 +72,14 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,accountName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, accountName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -72,21 +89,39 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.Account>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.Account>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Account>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Account>, callback?: msRest.ServiceCallback<Models.Account>): Promise<Models.AccountsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Account>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Account>,
+    callback?: msRest.ServiceCallback<Models.Account>
+  ): Promise<Models.AccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +129,8 @@ export class Accounts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AccountsGetResponse>;
+      callback
+    ) as Promise<Models.AccountsGetResponse>;
   }
 
   /**
@@ -103,26 +139,41 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AccountListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>,
+    callback?: msRest.ServiceCallback<Models.AccountListResult>
+  ): Promise<Models.AccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.AccountsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.AccountsListByResourceGroupResponse>;
   }
 
   /**
@@ -139,14 +190,21 @@ export class Accounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>,
+    callback?: msRest.ServiceCallback<Models.AccountListResult>
+  ): Promise<Models.AccountsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AccountsListResponse>;
+      callback
+    ) as Promise<Models.AccountsListResponse>;
   }
 
   /**
@@ -156,21 +214,39 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListKeysResponse>
    */
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountsListKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ApiKeys>): void;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.ApiKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKeys>): void;
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKeys>, callback?: msRest.ServiceCallback<Models.ApiKeys>): Promise<Models.AccountsListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApiKeys>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKeys>,
+    callback?: msRest.ServiceCallback<Models.ApiKeys>
+  ): Promise<Models.AccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -178,7 +254,8 @@ export class Accounts {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.AccountsListKeysResponse>;
+      callback
+    ) as Promise<Models.AccountsListKeysResponse>;
   }
 
   /**
@@ -189,14 +266,24 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsRegenerateKeyResponse>
    */
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.KeyName, options?: msRest.RequestOptionsBase): Promise<Models.AccountsRegenerateKeyResponse>;
+  regenerateKey(
+    resourceGroupName: string,
+    accountName: string,
+    keyName: Models.KeyName,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountsRegenerateKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param keyName key name to generate (Key1|Key2). Possible values include: 'Key1', 'Key2'
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.KeyName, callback: msRest.ServiceCallback<Models.ApiKeys>): void;
+  regenerateKey(
+    resourceGroupName: string,
+    accountName: string,
+    keyName: Models.KeyName,
+    callback: msRest.ServiceCallback<Models.ApiKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
@@ -204,8 +291,20 @@ export class Accounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.KeyName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKeys>): void;
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.KeyName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKeys>, callback?: msRest.ServiceCallback<Models.ApiKeys>): Promise<Models.AccountsRegenerateKeyResponse> {
+  regenerateKey(
+    resourceGroupName: string,
+    accountName: string,
+    keyName: Models.KeyName,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApiKeys>
+  ): void;
+  regenerateKey(
+    resourceGroupName: string,
+    accountName: string,
+    keyName: Models.KeyName,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKeys>,
+    callback?: msRest.ServiceCallback<Models.ApiKeys>
+  ): Promise<Models.AccountsRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -214,7 +313,8 @@ export class Accounts {
         options
       },
       regenerateKeyOperationSpec,
-      callback) as Promise<Models.AccountsRegenerateKeyResponse>;
+      callback
+    ) as Promise<Models.AccountsRegenerateKeyResponse>;
   }
 
   /**
@@ -224,21 +324,39 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListSkusResponse>
    */
-  listSkus(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListSkusResponse>;
+  listSkus(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountsListSkusResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param callback The callback
    */
-  listSkus(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.AccountSkuListResult>): void;
+  listSkus(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.AccountSkuListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkus(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountSkuListResult>): void;
-  listSkus(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountSkuListResult>, callback?: msRest.ServiceCallback<Models.AccountSkuListResult>): Promise<Models.AccountsListSkusResponse> {
+  listSkus(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountSkuListResult>
+  ): void;
+  listSkus(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountSkuListResult>,
+    callback?: msRest.ServiceCallback<Models.AccountSkuListResult>
+  ): Promise<Models.AccountsListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -246,7 +364,8 @@ export class Accounts {
         options
       },
       listSkusOperationSpec,
-      callback) as Promise<Models.AccountsListSkusResponse>;
+      callback
+    ) as Promise<Models.AccountsListSkusResponse>;
   }
 
   /**
@@ -256,21 +375,41 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListUsagesResponse>
    */
-  listUsages(resourceGroupName: string, accountName: string, options?: Models.AccountsListUsagesOptionalParams): Promise<Models.AccountsListUsagesResponse>;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.AccountsListUsagesOptionalParams
+  ): Promise<Models.AccountsListUsagesResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param callback The callback
    */
-  listUsages(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.UsageListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsages(resourceGroupName: string, accountName: string, options: Models.AccountsListUsagesOptionalParams, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
-  listUsages(resourceGroupName: string, accountName: string, options?: Models.AccountsListUsagesOptionalParams | msRest.ServiceCallback<Models.UsageListResult>, callback?: msRest.ServiceCallback<Models.UsageListResult>): Promise<Models.AccountsListUsagesResponse> {
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    options: Models.AccountsListUsagesOptionalParams,
+    callback: msRest.ServiceCallback<Models.UsageListResult>
+  ): void;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | Models.AccountsListUsagesOptionalParams
+      | msRest.ServiceCallback<Models.UsageListResult>,
+    callback?: msRest.ServiceCallback<Models.UsageListResult>
+  ): Promise<Models.AccountsListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -278,7 +417,8 @@ export class Accounts {
         options
       },
       listUsagesOperationSpec,
-      callback) as Promise<Models.AccountsListUsagesResponse>;
+      callback
+    ) as Promise<Models.AccountsListUsagesResponse>;
   }
 
   /**
@@ -290,7 +430,12 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, accountName: string, account: Models.Account, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    accountName: string,
+    account: Models.Account,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -299,7 +444,8 @@ export class Accounts {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -310,7 +456,12 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, accountName: string, account: Models.Account, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    account: Models.Account,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -319,7 +470,8 @@ export class Accounts {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -329,7 +481,11 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -337,7 +493,8 @@ export class Accounts {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -346,26 +503,41 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AccountListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>,
+    callback?: msRest.ServiceCallback<Models.AccountListResult>
+  ): Promise<Models.AccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.AccountsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.AccountsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -374,7 +546,10 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -385,15 +560,24 @@ export class Accounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>, callback?: msRest.ServiceCallback<Models.AccountListResult>): Promise<Models.AccountsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountListResult>,
+    callback?: msRest.ServiceCallback<Models.AccountListResult>
+  ): Promise<Models.AccountsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AccountsListNextResponse>;
+      callback
+    ) as Promise<Models.AccountsListNextResponse>;
   }
 }
 
@@ -401,18 +585,11 @@ export class Accounts {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Account
@@ -426,17 +603,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccountListResult
@@ -451,15 +622,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/accounts",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccountListResult
@@ -473,18 +638,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/listKeys",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/listKeys",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiKeys
@@ -498,18 +656,11 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/regenerateKey",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/regenerateKey",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       keyName: "keyName"
@@ -532,18 +683,11 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
 
 const listSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/skus",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/skus",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccountSkuListResult
@@ -557,19 +701,11 @@ const listSkusOperationSpec: msRest.OperationSpec = {
 
 const listUsagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/usages",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/usages",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UsageListResult
@@ -583,18 +719,11 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "account",
     mapper: {
@@ -621,18 +750,11 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "account",
     mapper: {
@@ -656,18 +778,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -683,15 +798,9 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccountListResult
@@ -707,15 +816,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccountListResult
