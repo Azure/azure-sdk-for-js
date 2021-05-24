@@ -40,7 +40,7 @@ export async function verifyAttestationToken(
   let signingCert;
   assert(signingCerts.length > 0);
   for (const key of signingCerts) {
-    if (key.key_id === keyId) {
+    if (key.keyId === keyId) {
       signingCert = key.certificates;
     }
   }

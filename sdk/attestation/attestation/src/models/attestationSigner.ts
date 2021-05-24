@@ -18,13 +18,12 @@ export class AttestationSigner
         }
         else
         {
-            this.key_id = key.kid.toString();
+            this.keyId = key.kid.toString();
         }
 
-        this.certificates = new Array(key.x5C?.length)
-        key.x5C?.forEach(cert => this.certificates.push(base64DecodeString(cert)));
+        this.certificates = key.x5C?.map(base64DecodeString) ?? []
     }
 
-    key_id: string;
+    keyId: string;
     certificates: Uint8Array[]
 };

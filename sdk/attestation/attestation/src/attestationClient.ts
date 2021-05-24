@@ -8,8 +8,6 @@
 
 import {
   PipelineOptions,
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
   TokenCredential,
   OperationOptions,
 } from "@azure/core-http"
@@ -27,6 +25,7 @@ import { AttestationSigner } from "./models";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { GeneratedClientOptionalParams } from "./generated/models";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
 * Attestation Client Options.
@@ -35,13 +34,24 @@ export interface AttestationClientOptions extends PipelineOptions{};
 
 export interface AttestationClientOperationOptions extends OperationOptions{};
 
+/**
+ * Attestation Client class.
+ * 
+ * The AttestationClient class enables access to the Attestation related APIs:
+ * 
+ * - getOpenIdMetadata
+ * - getAttestationSigners
+ * - attestSgxEnclave
+ * - attestOpenEnclave
+ * - attestTpm
+ */
 export class AttestationClient {
   /**
    * Creates an instance of AttestationClient.
    *
    * Example usage:
    * ```ts
-   * import { AttestationClient } from "@azure/security-attestation";
+   * import { AttestationClient } from "@azure/attestation";
    *
    * const client = new AttestationClient(
    *    "<service endpoint>",
@@ -59,7 +69,6 @@ export class AttestationClient {
     instanceUrl: string,
     options: AttestationClientOptions = {}
   ) {
-
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-api-security-attestation/${SDK_VERSION}`;
     if (!options.userAgentOptions) {
@@ -76,19 +85,12 @@ export class AttestationClient {
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: [
-            'x-ms-request-id',
-            'x-ms-maa-service-version'
-          ]
+          allowedHeaderNames: [ 'x-ms-request-id', 'x-ms-maa-service-version' ]
         }
       }
     };
 
-    const authPolicy = bearerTokenAuthenticationPolicy(credentials, 'https://attest.azure.net/.default');
-
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-
-    this._client = new GeneratedClient(credentials, instanceUrl, pipeline);
+    this._client = new GeneratedClient(credentials, instanceUrl, internalPipelineOptions);
     this.instanceUrl = instanceUrl;
 
     // Legacy compatibility classes functions which will be removed eventually.
@@ -113,7 +115,7 @@ export class AttestationClient {
       });
       return signers;
     } catch (e) {
-      span.recordException(e);
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
       throw e;
     } finally {
       span.end();
@@ -126,7 +128,7 @@ export class AttestationClient {
     try {
       return await (await this._client.metadataConfiguration.get(updatedOptions)).body;
     } catch (e) {
-      span.recordException(e);
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
     } finally {
       span.end();
     }

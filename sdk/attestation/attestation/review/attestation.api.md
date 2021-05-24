@@ -5,6 +5,7 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
+import { KJUR } from 'jsrsasign';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -47,7 +48,7 @@ export interface AttestationCertificateManagementBody {
     policyCertificate?: JsonWebKey;
 }
 
-// @public (undocumented)
+// @public
 export class AttestationClient {
     constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
     // (undocumented)
@@ -126,7 +127,40 @@ export class AttestationSigner {
     // (undocumented)
     certificates: Uint8Array[];
     // (undocumented)
-    key_id: string;
+    keyId: string;
+}
+
+// @public (undocumented)
+export class AttestationSigningKey {
+    constructor(key: string, certificate: string);
+    // (undocumented)
+    certificate: string;
+    // (undocumented)
+    key: string;
+}
+
+// @public (undocumented)
+export class AttestationToken {
+    // (undocumented)
+    _body: any;
+    // (undocumented)
+    _bodyBytes: Uint8Array;
+    // (undocumented)
+    deserialize(): string;
+    // (undocumented)
+    get_body(): object | undefined;
+    // (undocumented)
+    _header: any;
+    // (undocumented)
+    _headerBytes: Uint8Array;
+    // (undocumented)
+    _jwsVerifier: KJUR.jws.JWS.JWSResult;
+    // (undocumented)
+    static serialize(body: string, signer: AttestationSigningKey | undefined): AttestationToken;
+    // (undocumented)
+    _signature: Uint8Array;
+    // (undocumented)
+    _token: string;
 }
 
 // @public

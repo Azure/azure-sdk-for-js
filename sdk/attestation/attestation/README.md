@@ -268,7 +268,6 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
-
 Additional troubleshooting information for the MAA service can be found [here](https://docs.microsoft.com/azure/attestation/troubleshoot-guide)
 
 ## Next steps
@@ -299,7 +298,7 @@ section of the project.
 [attestation_client]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/classes/attestationclient.html
 [attestation_admin_client]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/classes/attestationclient.html
 [attestation_response]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/interfaces/attestationresponse.html
-[attestation_policy_result_parameters]: https://docs.microsoft.com/python/api/azure-security-attestation/azure.security.attestation.policyresult?view=azure-python-preview#parameters
+[attestation_policy_result_parameters]: https://www.microsoft.com/
 [attest_sgx]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/classes/attestation.html#attestsgxenclave
 [attestation_npm]: https://www.npmjs.com/package/@azure/attestation
 [API_reference]:https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-attestation/1.0.0-beta.2/index.html
@@ -312,7 +311,7 @@ section of the project.
 [json_web_token]: https://tools.ietf.org/html/rfc7519
 [JWK]: https://tools.ietf.org/html/rfc7517
 [base64url_encoding]: https://tools.ietf.org/html/rfc4648#section-5
-[contributing]: https://github.com/Azure/azure-sdk-for-python/blob/master/CONTRIBUTING.md
+[contributing]: https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
 
 ## Related projects

@@ -9,6 +9,8 @@
 import * as coreHttp from "@azure/core-http";
 
 export * from "./attestationSigner";
+export * from "./attestationSigningKey";
+export * from "./attestationToken";
 
 /**
  * The response to an attestation policy operation

@@ -43,7 +43,7 @@ describe("TokenCertTests", function() {
   {
     const signingCertificates = await client.getAttestationSigners();
     for (const key of signingCertificates) {
-      assert.isDefined(key.key_id);
+      assert.isDefined(key.keyId);
       assert.isDefined(key.certificates);
 
       key.certificates.forEach(certBuffer => {
@@ -56,8 +56,6 @@ describe("TokenCertTests", function() {
     
           const cert = new X509();
           cert.readCertPEM(pemCert);
-    
-          console.log(cert.getSubjectString());
       })
     }
   }
