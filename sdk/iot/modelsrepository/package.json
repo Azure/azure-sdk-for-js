@@ -128,8 +128,7 @@
   "//sampleConfiguration": {
     "productName": "Azure IoT Models Repository",
     "productSlugs": [
-      "azure",
-      "azure-iot-modelsrepository"
+      "azure"
     ],
     "requiredResources": {},
     "apiRefLink": "https://docs.microsoft.com/javascript/api/"
