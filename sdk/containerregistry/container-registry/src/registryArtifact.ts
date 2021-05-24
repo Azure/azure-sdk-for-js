@@ -167,7 +167,7 @@ export class RegistryArtifactImpl {
   public readonly repositoryName: string;
 
   /**
-   * Name of the form 'registry-login-server/repository-name@digest' or
+   * Name of the form 'registry-login-server/repository-name\@digest' or
    *   'registry-login-server/repository-name:tag'
    */
   public readonly fullyQualifiedName: string;
