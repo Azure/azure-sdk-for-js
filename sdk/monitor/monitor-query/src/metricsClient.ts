@@ -111,13 +111,15 @@ function formatScope(endpoint: string | undefined): string {
 export function convertToMetricsRequest(
   queryMetricsOptions: QueryMetricsOptions | undefined
 ): GeneratedMetricsListOptionalParams {
-  const obj = {
+  const obj: GeneratedMetricsListOptionalParams & QueryMetricsOptions = {
     ...queryMetricsOptions,
+    orderby: queryMetricsOptions?.orderBy,
     metricnames: queryMetricsOptions?.metricNames?.join(","),
     aggregation: queryMetricsOptions?.aggregations?.join(","),
     metricnamespace: queryMetricsOptions?.metricNamespace
   };
 
+  delete obj["orderBy"];
   delete obj["aggregations"];
   delete obj["metricNames"];
   delete obj["metricNamespace"];

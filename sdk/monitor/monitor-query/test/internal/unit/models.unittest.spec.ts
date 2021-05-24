@@ -100,7 +100,7 @@ describe("Model unit tests", () => {
         interval: "arbitraryInterval",
         metricNames: ["name1", "name2"],
         metricNamespace: "myMetricNamespace",
-        orderby: "orderByClause",
+        orderBy: "orderByClause",
         requestOptions,
         resultType: "Data",
         timespan: "arbitraryTimespan",
@@ -132,12 +132,14 @@ describe("Model unit tests", () => {
       assert.deepEqual(convertToMetricsRequest({}), {
         metricnames: undefined,
         aggregation: undefined,
-        metricnamespace: undefined
+        metricnamespace: undefined,
+        orderby: undefined
       });
       assert.deepEqual(convertToMetricsRequest(undefined), {
         metricnames: undefined,
         aggregation: undefined,
-        metricnamespace: undefined
+        metricnamespace: undefined,
+        orderby: undefined
       });
     });
 

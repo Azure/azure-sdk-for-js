@@ -295,7 +295,7 @@ export interface QueryMetricsOptions extends OperationOptions {
     interval?: string;
     metricNames?: string[];
     metricNamespace?: string;
-    orderby?: string;
+    orderBy?: string;
     resultType?: ResultType;
     timespan?: string;
     top?: number;
