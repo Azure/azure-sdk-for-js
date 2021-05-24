@@ -88,7 +88,7 @@ export class MetricsClient {
   }
 }
 
-function formatScope(endpoint: string | undefined) {
+function formatScope(endpoint: string | undefined): string {
   if (endpoint) {
     if (endpoint.endsWith("/")) {
       endpoint += "/";

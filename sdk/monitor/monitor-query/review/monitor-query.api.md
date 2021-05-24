@@ -202,13 +202,19 @@ export type MetricNamespacesListResponse = MetricNamespaceCollection & {
 
 // @public (undocumented)
 export class MetricsClient {
-    constructor(tokenCredential: TokenCredential);
+    constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
     // (undocumented)
     getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<MetricDefinitionsListResponse>;
     // (undocumented)
     getMetricNamespaces(resourceUri: string, options?: GetMetricNamespaces): Promise<MetricNamespacesListResponse>;
     // (undocumented)
     queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<MetricsListResponse>;
+}
+
+// @public (undocumented)
+export interface MetricsClientOptions extends PipelineOptions {
+    $host?: string;
+    endpoint?: string;
 }
 
 // @public
