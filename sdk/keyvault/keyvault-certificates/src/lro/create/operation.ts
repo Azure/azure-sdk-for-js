@@ -187,9 +187,15 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
       );
     }
 
-    if (state.certificateOperation && state.certificateOperation.status !== "inProgress") {
+    if (state.certificateOperation?.status === "completed") {
       state.isCompleted = true;
       state.result = await this.getCertificate(certificateName, this.operationOptions);
+      if (state.certificateOperation.error) {
+        state.error = new Error(state.certificateOperation.error.message);
+      }
+    }
+    if (state.certificateOperation?.status === "cancelled") {
+      state.isCompleted = true;
       if (state.certificateOperation.error) {
         state.error = new Error(state.certificateOperation.error.message);
       }
