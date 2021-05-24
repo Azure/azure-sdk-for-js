@@ -1,18 +1,18 @@
 {
     "clusterLocation": {
-        "value": "<REPLACE THIS: Use the same location as the resource group the cluster will deploy to>"
+        "value": "westus2"
     },
     "adminUserName": {
-        "value": "<REPLACE THIS: Don't use common names like 'admin'>"
+        "value": "kaghiyAdmin"
     },
     "adminPassword": {
-        "value": "<REPLACE THIS: Include at least one lower-case, upper-case, number, and special character>"
+        "value": "N3h@rtrw"
     },
     "sourceVaultValue": {
-        "value": "<REPLACE THIS: Looks like /subscriptions/myguid/resourceGroups/myrg/providers/Microsoft.KeyVault/vaults/mykv, can be found as ResourceID under properties in the key vault>"
+        "value": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/kaghiya-test/providers/Microsoft.KeyVault/vaults/kaghiya-kv"
     },
     "certificateUrlValue": {
-        "value": "<REPLACE THIS: Looks like https://mykv.vault.azure.net/secrets/mycert/guid, can be found as secret identifier in the certificate's page>"
+        "value": "https://kaghiya-kv.vault.azure.net/secrets/ExampleCertificate/bb6d12da95b34b45b30710bf448f9051"
     },
     "certificateThumbprint": {
         "value": "<REPLACE THIS: Hexadecimal string that can be found as Thumbprint or X.509 SHA-1 Thumbprint (in hex) in the certificate's properties>"
