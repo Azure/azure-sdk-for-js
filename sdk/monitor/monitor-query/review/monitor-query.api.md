@@ -74,7 +74,9 @@ export interface ErrorDetails {
 }
 
 // @public (undocumented)
-export type GetMetricDefinitionsOptions = MetricDefinitionsListOptionalParams;
+export interface GetMetricDefinitionsOptions extends OperationOptions {
+    metricNamespace?: string;
+}
 
 // @public (undocumented)
 export type GetMetricNamespaces = MetricNamespacesListOptionalParams;

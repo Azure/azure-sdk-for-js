@@ -14,6 +14,7 @@ import {
 } from "./generated/metrics/src";
 import {
   MetricDefinitionsListResponse,
+  MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
   MonitorManagementClient as GeneratedMetricsDefinitionsClient
 } from "./generated/metricsdefinitions/src";
 import {
@@ -78,7 +79,10 @@ export class MetricsClient {
     resourceUri: string,
     options?: GetMetricDefinitionsOptions
   ): Promise<MetricDefinitionsListResponse> {
-    return this._definitionsClient.metricDefinitions.list(resourceUri, options);
+    return this._definitionsClient.metricDefinitions.list(
+      resourceUri,
+      convertToMetricsDefinitionsRequest(options)
+    );
   }
 
   getMetricNamespaces(
@@ -118,5 +122,20 @@ export function convertToMetricsRequest(
   delete obj["metricNames"];
   delete obj["metricNamespace"];
 
+  return obj;
+}
+
+/**
+ * @internal
+ */
+export function convertToMetricsDefinitionsRequest(
+  options: GetMetricDefinitionsOptions | undefined
+): GeneratedMetricDefinitionsListOptionalParams {
+  const obj = {
+    ...options,
+    metricnamespace: options?.metricNamespace
+  };
+
+  delete obj["metricNamespace"];
   return obj;
 }

@@ -3,7 +3,6 @@
 
 import { OperationOptions } from "@azure/core-http";
 import { ResultType } from "../generated/metrics/src";
-import { MetricDefinitionsListOptionalParams } from "../generated/metricsdefinitions/src";
 import { MetricNamespacesListOptionalParams } from "../generated/metricsnamespaces/src";
 
 export interface QueryMetricsOptions extends OperationOptions {
@@ -35,5 +34,11 @@ export interface QueryMetricsOptions extends OperationOptions {
   metricNamespace?: string;
 }
 
-export type GetMetricDefinitionsOptions = MetricDefinitionsListOptionalParams;
+export interface GetMetricDefinitionsOptions extends OperationOptions {
+  // track 2 version of `MetricDefinitionsListOptionalParams`
+
+  /** Metric namespace to query metric definitions for. */
+  metricNamespace?: string;
+}
+
 export type GetMetricNamespaces = MetricNamespacesListOptionalParams;
