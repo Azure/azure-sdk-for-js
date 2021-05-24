@@ -18,6 +18,7 @@
 - Renamed `KeyVaultBeginSelectiveRestoreOptions` to `KeyVaultBeginSelectiveKeyRestoreOptions`.
 - Renamed `KeyVaultSelectiveRestoreOperationState` to `KeyVaultSelectiveKeyRestoreOperationState`.
 - Renamed `KeyVaultSelectiveRestoreResult` to `KeyVaultSelectiveKeyRestoreResult`.
+- Renamed the `KeyVaultRoleAssignmentProperties`'s property `scope` to `roleScope`.
 
 ## 4.0.0-beta.3 (2021-04-06)
 
