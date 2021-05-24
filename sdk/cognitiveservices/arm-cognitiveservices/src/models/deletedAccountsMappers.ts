@@ -8,6 +8,7 @@
 
 export {
   Account,
+  AccountListResult,
   AccountProperties,
   ApiProperties,
   AzureEntityResource,
@@ -25,7 +26,6 @@ export {
   PrivateEndpointConnection,
   PrivateEndpointConnectionProperties,
   PrivateLinkResource,
-  PrivateLinkResourceListResult,
   PrivateLinkResourceProperties,
   PrivateLinkServiceConnectionState,
   ProxyResource,
