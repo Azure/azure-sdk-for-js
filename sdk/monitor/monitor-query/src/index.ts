@@ -6,19 +6,19 @@
 //
 export { LogsClientOptions, LogsClient } from "./logsClient";
 export {
-  QueryLogsBatchOptions,
-  QueryLogsOptions,
-  QueryStatistics,
-  QueryLogsResult,
+  BatchQuery,
   QueryLogsBatch,
+  QueryLogsBatchOptions,
   QueryLogsBatchResponse,
-  BatchQuery
+  QueryLogsOptions,
+  QueryLogsResult,
+  QueryStatistics
 } from "./models/logsModels";
 export { MetricsClient, MetricsClientOptions } from "./metricsClient";
 export {
   GetMetricDefinitionsOptions,
-  QueryMetricsOptions,
-  GetMetricNamespaces
+  GetMetricNamespaces,
+  QueryMetricsOptions
 } from "./models/metricsModels";
 
 export { CommonDurations } from "./models/constants";
