@@ -187,10 +187,7 @@ export interface FactoryIdentity {
 /**
  * Contains the possible cases for FactoryRepoConfiguration.
  */
-export type FactoryRepoConfigurationUnion =
-  | FactoryRepoConfiguration
-  | FactoryVSTSConfiguration
-  | FactoryGitHubConfiguration;
+export type FactoryRepoConfigurationUnion = FactoryRepoConfiguration | FactoryVSTSConfiguration | FactoryGitHubConfiguration;
 
 /**
  * Factory's git repo information.
@@ -319,10 +316,7 @@ export interface Factory extends Resource {
 /**
  * Contains the possible cases for IntegrationRuntime.
  */
-export type IntegrationRuntimeUnion =
-  | IntegrationRuntime
-  | SelfHostedIntegrationRuntime
-  | ManagedIntegrationRuntime;
+export type IntegrationRuntimeUnion = IntegrationRuntime | SelfHostedIntegrationRuntime | ManagedIntegrationRuntime;
 
 /**
  * Azure Data Factory nested object which serves as a compute resource for activities.
@@ -379,10 +373,7 @@ export interface IntegrationRuntimeDebugResource extends SubResourceDebugResourc
 /**
  * Contains the possible cases for IntegrationRuntimeStatus.
  */
-export type IntegrationRuntimeStatusUnion =
-  | IntegrationRuntimeStatus
-  | SelfHostedIntegrationRuntimeStatus
-  | ManagedIntegrationRuntimeStatus;
+export type IntegrationRuntimeStatusUnion = IntegrationRuntimeStatus | SelfHostedIntegrationRuntimeStatus | ManagedIntegrationRuntimeStatus;
 
 /**
  * Integration runtime status.
@@ -515,108 +506,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion =
-  | LinkedService
-  | SharePointOnlineListLinkedService
-  | SnowflakeLinkedService
-  | AzureFunctionLinkedService
-  | AzureDataExplorerLinkedService
-  | SapTableLinkedService
-  | GoogleAdWordsLinkedService
-  | OracleServiceCloudLinkedService
-  | DynamicsAXLinkedService
-  | ResponsysLinkedService
-  | AzureDatabricksDeltaLakeLinkedService
-  | AzureDatabricksLinkedService
-  | AzureDataLakeAnalyticsLinkedService
-  | HDInsightOnDemandLinkedService
-  | SalesforceMarketingCloudLinkedService
-  | NetezzaLinkedService
-  | VerticaLinkedService
-  | ZohoLinkedService
-  | XeroLinkedService
-  | SquareLinkedService
-  | SparkLinkedService
-  | ShopifyLinkedService
-  | ServiceNowLinkedService
-  | QuickBooksLinkedService
-  | PrestoLinkedService
-  | PhoenixLinkedService
-  | PaypalLinkedService
-  | MarketoLinkedService
-  | AzureMariaDBLinkedService
-  | MariaDBLinkedService
-  | MagentoLinkedService
-  | JiraLinkedService
-  | ImpalaLinkedService
-  | HubspotLinkedService
-  | HiveLinkedService
-  | HBaseLinkedService
-  | GreenplumLinkedService
-  | GoogleBigQueryLinkedService
-  | EloquaLinkedService
-  | DrillLinkedService
-  | CouchbaseLinkedService
-  | ConcurLinkedService
-  | AzurePostgreSqlLinkedService
-  | AmazonMWSLinkedService
-  | SapHanaLinkedService
-  | SapBWLinkedService
-  | SftpServerLinkedService
-  | FtpServerLinkedService
-  | HttpLinkedService
-  | AzureSearchLinkedService
-  | CustomDataSourceLinkedService
-  | AmazonRedshiftLinkedService
-  | AmazonS3LinkedService
-  | RestServiceLinkedService
-  | SapOpenHubLinkedService
-  | SapEccLinkedService
-  | SapCloudForCustomerLinkedService
-  | SalesforceServiceCloudLinkedService
-  | SalesforceLinkedService
-  | Office365LinkedService
-  | AzureBlobFSLinkedService
-  | AzureDataLakeStoreLinkedService
-  | CosmosDbMongoDbApiLinkedService
-  | MongoDbV2LinkedService
-  | MongoDbAtlasLinkedService
-  | MongoDbLinkedService
-  | CassandraLinkedService
-  | WebLinkedService
-  | ODataLinkedService
-  | HdfsLinkedService
-  | MicrosoftAccessLinkedService
-  | InformixLinkedService
-  | OdbcLinkedService
-  | AzureMLServiceLinkedService
-  | AzureMLLinkedService
-  | TeradataLinkedService
-  | Db2LinkedService
-  | SybaseLinkedService
-  | PostgreSqlLinkedService
-  | MySqlLinkedService
-  | AzureMySqlLinkedService
-  | OracleLinkedService
-  | GoogleCloudStorageLinkedService
-  | OracleCloudStorageLinkedService
-  | AmazonS3CompatibleLinkedService
-  | AzureFileStorageLinkedService
-  | FileServerLinkedService
-  | HDInsightLinkedService
-  | CommonDataServiceForAppsLinkedService
-  | DynamicsCrmLinkedService
-  | DynamicsLinkedService
-  | CosmosDbLinkedService
-  | AzureKeyVaultLinkedService
-  | AzureBatchLinkedService
-  | AzureSqlMILinkedService
-  | AzureSqlDatabaseLinkedService
-  | SqlServerLinkedService
-  | AzureSqlDWLinkedService
-  | AzureTableStorageLinkedService
-  | AzureBlobStorageLinkedService
-  | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | SharePointOnlineListLinkedService | SnowflakeLinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | SapTableLinkedService | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksDeltaLakeLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | AzureMariaDBLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceServiceCloudLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbAtlasLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | MicrosoftAccessLinkedService | InformixLinkedService | OdbcLinkedService | AzureMLServiceLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | GoogleCloudStorageLinkedService | OracleCloudStorageLinkedService | AmazonS3CompatibleLinkedService | AzureFileStorageLinkedService | FileServerLinkedService | HDInsightLinkedService | CommonDataServiceForAppsLinkedService | DynamicsCrmLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlMILinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * The Azure Data Factory nested object which contains the information and credential which can be
@@ -672,101 +562,7 @@ export interface DatasetFolder {
 /**
  * Contains the possible cases for Dataset.
  */
-export type DatasetUnion =
-  | Dataset
-  | AzureDatabricksDeltaLakeDataset
-  | SharePointOnlineListResourceDataset
-  | SnowflakeDataset
-  | GoogleAdWordsObjectDataset
-  | AzureDataExplorerTableDataset
-  | OracleServiceCloudObjectDataset
-  | DynamicsAXResourceDataset
-  | ResponsysObjectDataset
-  | SalesforceMarketingCloudObjectDataset
-  | VerticaTableDataset
-  | NetezzaTableDataset
-  | ZohoObjectDataset
-  | XeroObjectDataset
-  | SquareObjectDataset
-  | SparkObjectDataset
-  | ShopifyObjectDataset
-  | ServiceNowObjectDataset
-  | QuickBooksObjectDataset
-  | PrestoObjectDataset
-  | PhoenixObjectDataset
-  | PaypalObjectDataset
-  | MarketoObjectDataset
-  | AzureMariaDBTableDataset
-  | MariaDBTableDataset
-  | MagentoObjectDataset
-  | JiraObjectDataset
-  | ImpalaObjectDataset
-  | HubspotObjectDataset
-  | HiveObjectDataset
-  | HBaseObjectDataset
-  | GreenplumTableDataset
-  | GoogleBigQueryObjectDataset
-  | EloquaObjectDataset
-  | DrillTableDataset
-  | CouchbaseTableDataset
-  | ConcurObjectDataset
-  | AzurePostgreSqlTableDataset
-  | AmazonMWSObjectDataset
-  | HttpDataset
-  | AzureSearchIndexDataset
-  | WebTableDataset
-  | SapTableResourceDataset
-  | RestResourceDataset
-  | SqlServerTableDataset
-  | SapOpenHubTableDataset
-  | SapHanaTableDataset
-  | SapEccResourceDataset
-  | SapCloudForCustomerResourceDataset
-  | SapBwCubeDataset
-  | SybaseTableDataset
-  | SalesforceServiceCloudObjectDataset
-  | SalesforceObjectDataset
-  | MicrosoftAccessTableDataset
-  | PostgreSqlTableDataset
-  | MySqlTableDataset
-  | OdbcTableDataset
-  | InformixTableDataset
-  | RelationalTableDataset
-  | Db2TableDataset
-  | AmazonRedshiftTableDataset
-  | AzureMySqlTableDataset
-  | TeradataTableDataset
-  | OracleTableDataset
-  | ODataResourceDataset
-  | CosmosDbMongoDbApiCollectionDataset
-  | MongoDbV2CollectionDataset
-  | MongoDbAtlasCollectionDataset
-  | MongoDbCollectionDataset
-  | FileShareDataset
-  | Office365Dataset
-  | AzureBlobFSDataset
-  | AzureDataLakeStoreDataset
-  | CommonDataServiceForAppsEntityDataset
-  | DynamicsCrmEntityDataset
-  | DynamicsEntityDataset
-  | DocumentDbCollectionDataset
-  | CosmosDbSqlApiCollectionDataset
-  | CustomDataset
-  | CassandraTableDataset
-  | AzureSqlDWTableDataset
-  | AzureSqlMITableDataset
-  | AzureSqlTableDataset
-  | AzureTableDataset
-  | AzureBlobDataset
-  | BinaryDataset
-  | OrcDataset
-  | XmlDataset
-  | JsonDataset
-  | DelimitedTextDataset
-  | ParquetDataset
-  | ExcelDataset
-  | AvroDataset
-  | AmazonS3Dataset;
+export type DatasetUnion = Dataset | AzureDatabricksDeltaLakeDataset | SharePointOnlineListResourceDataset | SnowflakeDataset | GoogleAdWordsObjectDataset | AzureDataExplorerTableDataset | OracleServiceCloudObjectDataset | DynamicsAXResourceDataset | ResponsysObjectDataset | SalesforceMarketingCloudObjectDataset | VerticaTableDataset | NetezzaTableDataset | ZohoObjectDataset | XeroObjectDataset | SquareObjectDataset | SparkObjectDataset | ShopifyObjectDataset | ServiceNowObjectDataset | QuickBooksObjectDataset | PrestoObjectDataset | PhoenixObjectDataset | PaypalObjectDataset | MarketoObjectDataset | AzureMariaDBTableDataset | MariaDBTableDataset | MagentoObjectDataset | JiraObjectDataset | ImpalaObjectDataset | HubspotObjectDataset | HiveObjectDataset | HBaseObjectDataset | GreenplumTableDataset | GoogleBigQueryObjectDataset | EloquaObjectDataset | DrillTableDataset | CouchbaseTableDataset | ConcurObjectDataset | AzurePostgreSqlTableDataset | AmazonMWSObjectDataset | HttpDataset | AzureSearchIndexDataset | WebTableDataset | SapTableResourceDataset | RestResourceDataset | SqlServerTableDataset | SapOpenHubTableDataset | SapHanaTableDataset | SapEccResourceDataset | SapCloudForCustomerResourceDataset | SapBwCubeDataset | SybaseTableDataset | SalesforceServiceCloudObjectDataset | SalesforceObjectDataset | MicrosoftAccessTableDataset | PostgreSqlTableDataset | MySqlTableDataset | OdbcTableDataset | InformixTableDataset | RelationalTableDataset | Db2TableDataset | AmazonRedshiftTableDataset | AzureMySqlTableDataset | TeradataTableDataset | OracleTableDataset | ODataResourceDataset | CosmosDbMongoDbApiCollectionDataset | MongoDbV2CollectionDataset | MongoDbAtlasCollectionDataset | MongoDbCollectionDataset | FileShareDataset | Office365Dataset | AzureBlobFSDataset | AzureDataLakeStoreDataset | CommonDataServiceForAppsEntityDataset | DynamicsCrmEntityDataset | DynamicsEntityDataset | DocumentDbCollectionDataset | CosmosDbSqlApiCollectionDataset | CustomDataset | CassandraTableDataset | AzureSqlDWTableDataset | AzureSqlMITableDataset | AzureSqlTableDataset | AzureTableDataset | AzureBlobDataset | BinaryDataset | OrcDataset | XmlDataset | JsonDataset | DelimitedTextDataset | ParquetDataset | ExcelDataset | AvroDataset | AmazonS3Dataset;
 
 /**
  * The Azure Data Factory nested object which identifies data within different data stores, such as
@@ -977,12 +773,7 @@ export interface PipelineResource extends SubResource {
 /**
  * Contains the possible cases for Trigger.
  */
-export type TriggerUnion =
-  | Trigger
-  | ChainingTrigger
-  | RerunTumblingWindowTrigger
-  | TumblingWindowTrigger
-  | MultiplePipelineTriggerUnion;
+export type TriggerUnion = Trigger | ChainingTrigger | RerunTumblingWindowTrigger | TumblingWindowTrigger | MultiplePipelineTriggerUnion;
 
 /**
  * Azure data factory nested object which contains information about creating pipeline run
@@ -6654,11 +6445,7 @@ export interface CassandraLinkedService {
 /**
  * Contains the possible cases for WebLinkedServiceTypeProperties.
  */
-export type WebLinkedServiceTypePropertiesUnion =
-  | WebLinkedServiceTypeProperties
-  | WebClientCertificateAuthentication
-  | WebBasicAuthentication
-  | WebAnonymousAuthentication;
+export type WebLinkedServiceTypePropertiesUnion = WebLinkedServiceTypeProperties | WebClientCertificateAuthentication | WebBasicAuthentication | WebAnonymousAuthentication;
 
 /**
  * Base definition of WebLinkedServiceTypeProperties, this typeProperties is polymorphic based on
@@ -7872,10 +7659,9 @@ export interface CommonDataServiceForAppsLinkedService {
   /**
    * The deployment type of the Common Data Service for Apps instance. 'Online' for Common Data
    * Service for Apps Online and 'OnPremisesWithIfd' for Common Data Service for Apps on-premises
-   * with Ifd. Type: string (or Expression with resultType string). Possible values include:
-   * 'Online', 'OnPremisesWithIfd'
+   * with Ifd. Type: string (or Expression with resultType string).
    */
-  deploymentType: DynamicsDeploymentType;
+  deploymentType: any;
   /**
    * The host name of the on-premises Common Data Service for Apps server. The property is required
    * for on-prem and not allowed for online. Type: string (or Expression with resultType string).
@@ -7902,9 +7688,9 @@ export interface CommonDataServiceForAppsLinkedService {
    * The authentication type to connect to Common Data Service for Apps server. 'Office365' for
    * online scenario, 'Ifd' for on-premises with Ifd scenario. 'AADServicePrincipal' for
    * Server-To-Server authentication in online scenario. Type: string (or Expression with
-   * resultType string). Possible values include: 'Office365', 'Ifd', 'AADServicePrincipal'
+   * resultType string).
    */
-  authenticationType: DynamicsAuthenticationType;
+  authenticationType: any;
   /**
    * User name to access the Common Data Service for Apps instance. Type: string (or Expression
    * with resultType string).
@@ -7966,9 +7752,9 @@ export interface DynamicsCrmLinkedService {
   /**
    * The deployment type of the Dynamics CRM instance. 'Online' for Dynamics CRM Online and
    * 'OnPremisesWithIfd' for Dynamics CRM on-premises with Ifd. Type: string (or Expression with
-   * resultType string). Possible values include: 'Online', 'OnPremisesWithIfd'
+   * resultType string).
    */
-  deploymentType: DynamicsDeploymentType;
+  deploymentType: any;
   /**
    * The host name of the on-premises Dynamics CRM server. The property is required for on-prem and
    * not allowed for online. Type: string (or Expression with resultType string).
@@ -7995,9 +7781,8 @@ export interface DynamicsCrmLinkedService {
    * The authentication type to connect to Dynamics CRM server. 'Office365' for online scenario,
    * 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server
    * authentication in online scenario. Type: string (or Expression with resultType string).
-   * Possible values include: 'Office365', 'Ifd', 'AADServicePrincipal'
    */
-  authenticationType: DynamicsAuthenticationType;
+  authenticationType: any;
   /**
    * User name to access the Dynamics CRM instance. Type: string (or Expression with resultType
    * string).
@@ -10497,14 +10282,7 @@ export interface AmazonMWSObjectDataset {
 /**
  * Contains the possible cases for DatasetCompression.
  */
-export type DatasetCompressionUnion =
-  | DatasetCompression
-  | DatasetTarGZipCompression
-  | DatasetTarCompression
-  | DatasetZipDeflateCompression
-  | DatasetDeflateCompression
-  | DatasetGZipCompression
-  | DatasetBZip2Compression;
+export type DatasetCompressionUnion = DatasetCompression | DatasetTarGZipCompression | DatasetTarCompression | DatasetZipDeflateCompression | DatasetDeflateCompression | DatasetGZipCompression | DatasetBZip2Compression;
 
 /**
  * The compression method used on a dataset.
@@ -10599,13 +10377,7 @@ export interface DatasetBZip2Compression {
 /**
  * Contains the possible cases for DatasetStorageFormat.
  */
-export type DatasetStorageFormatUnion =
-  | DatasetStorageFormat
-  | ParquetFormat
-  | OrcFormat
-  | AvroFormat
-  | JsonFormat
-  | TextFormat;
+export type DatasetStorageFormatUnion = DatasetStorageFormat | ParquetFormat | OrcFormat | AvroFormat | JsonFormat | TextFormat;
 
 /**
  * The format definition of a storage.
@@ -13059,21 +12831,7 @@ export interface AzureBlobDataset {
 /**
  * Contains the possible cases for DatasetLocation.
  */
-export type DatasetLocationUnion =
-  | DatasetLocation
-  | HdfsLocation
-  | HttpServerLocation
-  | SftpLocation
-  | FtpServerLocation
-  | GoogleCloudStorageLocation
-  | OracleCloudStorageLocation
-  | AmazonS3CompatibleLocation
-  | AzureFileStorageLocation
-  | FileServerLocation
-  | AmazonS3Location
-  | AzureDataLakeStoreLocation
-  | AzureBlobFSLocation
-  | AzureBlobStorageLocation;
+export type DatasetLocationUnion = DatasetLocation | HdfsLocation | HttpServerLocation | SftpLocation | FtpServerLocation | GoogleCloudStorageLocation | OracleCloudStorageLocation | AmazonS3CompatibleLocation | AzureFileStorageLocation | FileServerLocation | AmazonS3Location | AzureDataLakeStoreLocation | AzureBlobFSLocation | AzureBlobStorageLocation;
 
 /**
  * Dataset location.
@@ -13650,6 +13408,9 @@ export interface DelimitedTextDataset {
    * string (or Expression with resultType string).
    */
   encodingName?: any;
+  /**
+   * The data compressionCodec. Type: string (or Expression with resultType string).
+   */
   compressionCodec?: any;
   /**
    * The data compression method used for DelimitedText.
@@ -13717,6 +13478,9 @@ export interface ParquetDataset {
    * The location of the parquet storage.
    */
   location: DatasetLocationUnion;
+  /**
+   * The data compressionCodec. Type: string (or Expression with resultType string).
+   */
   compressionCodec?: any;
 }
 
@@ -13763,9 +13527,14 @@ export interface ExcelDataset {
    */
   location: DatasetLocationUnion;
   /**
-   * The sheet of excel file. Type: string (or Expression with resultType string).
+   * The sheet name of excel file. Type: string (or Expression with resultType string).
    */
-  sheetName: any;
+  sheetName?: any;
+  /**
+   * The sheet index of excel file and default value is 0. Type: integer (or Expression with
+   * resultType integer)
+   */
+  sheetIndex?: any;
   /**
    * The partial data of one sheet. Type: string (or Expression with resultType string).
    */
@@ -13993,10 +13762,7 @@ export interface RerunTumblingWindowTrigger {
 /**
  * Contains the possible cases for DependencyReference.
  */
-export type DependencyReferenceUnion =
-  | DependencyReference
-  | SelfDependencyTumblingWindowTriggerReference
-  | TriggerDependencyReferenceUnion;
+export type DependencyReferenceUnion = DependencyReference | SelfDependencyTumblingWindowTriggerReference | TriggerDependencyReferenceUnion;
 
 /**
  * Referenced dependency.
@@ -14040,9 +13806,7 @@ export interface TriggerReference {
 /**
  * Contains the possible cases for TriggerDependencyReference.
  */
-export type TriggerDependencyReferenceUnion =
-  | TriggerDependencyReference
-  | TumblingWindowTriggerDependencyReference;
+export type TriggerDependencyReferenceUnion = TriggerDependencyReference | TumblingWindowTriggerDependencyReference;
 
 /**
  * Trigger referenced dependency.
@@ -14165,12 +13929,7 @@ export interface TumblingWindowTrigger {
 /**
  * Contains the possible cases for MultiplePipelineTrigger.
  */
-export type MultiplePipelineTriggerUnion =
-  | MultiplePipelineTrigger
-  | CustomEventsTrigger
-  | BlobEventsTrigger
-  | BlobTrigger
-  | ScheduleTrigger;
+export type MultiplePipelineTriggerUnion = MultiplePipelineTrigger | CustomEventsTrigger | BlobEventsTrigger | BlobTrigger | ScheduleTrigger;
 
 /**
  * Base class for all triggers that support one to many model for trigger to pipeline.
@@ -14510,31 +14269,7 @@ export interface ExecuteDataFlowActivityTypePropertiesCompute {
 /**
  * Contains the possible cases for ExecutionActivity.
  */
-export type ExecutionActivityUnion =
-  | ExecutionActivity
-  | ExecuteDataFlowActivity
-  | AzureFunctionActivity
-  | DatabricksSparkPythonActivity
-  | DatabricksSparkJarActivity
-  | DatabricksNotebookActivity
-  | DataLakeAnalyticsUSQLActivity
-  | AzureMLExecutePipelineActivity
-  | AzureMLUpdateResourceActivity
-  | AzureMLBatchExecutionActivity
-  | GetMetadataActivity
-  | WebActivity
-  | LookupActivity
-  | AzureDataExplorerCommandActivity
-  | DeleteActivity
-  | SqlServerStoredProcedureActivity
-  | CustomActivity
-  | ExecuteSSISPackageActivity
-  | HDInsightSparkActivity
-  | HDInsightStreamingActivity
-  | HDInsightMapReduceActivity
-  | HDInsightPigActivity
-  | HDInsightHiveActivity
-  | CopyActivity;
+export type ExecutionActivityUnion = ExecutionActivity | ExecuteDataFlowActivity | AzureFunctionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLExecutePipelineActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | AzureDataExplorerCommandActivity | DeleteActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
 
 /**
  * Base class for all execution activities.
@@ -15099,11 +14834,7 @@ export interface AzureMLBatchExecutionActivity {
 /**
  * Contains the possible cases for CompressionReadSettings.
  */
-export type CompressionReadSettingsUnion =
-  | CompressionReadSettings
-  | TarGZipReadSettings
-  | TarReadSettings
-  | ZipDeflateReadSettings;
+export type CompressionReadSettingsUnion = CompressionReadSettings | TarGZipReadSettings | TarReadSettings | ZipDeflateReadSettings;
 
 /**
  * Compression read settings.
@@ -15167,12 +14898,7 @@ export interface ZipDeflateReadSettings {
 /**
  * Contains the possible cases for FormatReadSettings.
  */
-export type FormatReadSettingsUnion =
-  | FormatReadSettings
-  | BinaryReadSettings
-  | XmlReadSettings
-  | JsonReadSettings
-  | DelimitedTextReadSettings;
+export type FormatReadSettingsUnion = FormatReadSettings | BinaryReadSettings | XmlReadSettings | JsonReadSettings | DelimitedTextReadSettings;
 
 /**
  * Format read settings.
@@ -15295,21 +15021,7 @@ export interface DistcpSettings {
 /**
  * Contains the possible cases for StoreReadSettings.
  */
-export type StoreReadSettingsUnion =
-  | StoreReadSettings
-  | HdfsReadSettings
-  | HttpReadSettings
-  | SftpReadSettings
-  | FtpReadSettings
-  | GoogleCloudStorageReadSettings
-  | OracleCloudStorageReadSettings
-  | AmazonS3CompatibleReadSettings
-  | AzureFileStorageReadSettings
-  | FileServerReadSettings
-  | AmazonS3ReadSettings
-  | AzureDataLakeStoreReadSettings
-  | AzureBlobFSReadSettings
-  | AzureBlobStorageReadSettings;
+export type StoreReadSettingsUnion = StoreReadSettings | HdfsReadSettings | HttpReadSettings | SftpReadSettings | FtpReadSettings | GoogleCloudStorageReadSettings | OracleCloudStorageReadSettings | AmazonS3CompatibleReadSettings | AzureFileStorageReadSettings | FileServerReadSettings | AmazonS3ReadSettings | AzureDataLakeStoreReadSettings | AzureBlobFSReadSettings | AzureBlobStorageReadSettings;
 
 /**
  * Connector read setting.
@@ -15324,6 +15036,11 @@ export interface StoreReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -15343,6 +15060,11 @@ export interface HdfsReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15403,6 +15125,11 @@ export interface HttpReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression
    * with resultType string).
    */
@@ -15445,6 +15172,11 @@ export interface SftpReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15501,6 +15233,11 @@ export interface FtpReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -15551,6 +15288,11 @@ export interface GoogleCloudStorageReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15612,6 +15354,11 @@ export interface OracleCloudStorageReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -15671,6 +15418,11 @@ export interface AmazonS3CompatibleReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15732,6 +15484,11 @@ export interface AzureFileStorageReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -15791,6 +15548,11 @@ export interface FileServerReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15852,6 +15614,11 @@ export interface AmazonS3ReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -15910,6 +15677,11 @@ export interface AzureDataLakeStoreReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -15978,6 +15750,11 @@ export interface AzureBlobFSReadSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -16032,6 +15809,11 @@ export interface AzureBlobStorageReadSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -16234,44 +16016,7 @@ export interface WebActivity {
 /**
  * Contains the possible cases for CopySource.
  */
-export type CopySourceUnion =
-  | CopySource
-  | SharePointOnlineListSource
-  | AzureDatabricksDeltaLakeSource
-  | SnowflakeSource
-  | HttpSource
-  | AzureBlobFSSource
-  | AzureDataLakeStoreSource
-  | Office365Source
-  | CosmosDbMongoDbApiSource
-  | MongoDbV2Source
-  | MongoDbAtlasSource
-  | MongoDbSource
-  | WebSource
-  | OracleSource
-  | AzureDataExplorerSource
-  | HdfsSource
-  | FileSystemSource
-  | RestSource
-  | SalesforceServiceCloudSource
-  | ODataSource
-  | MicrosoftAccessSource
-  | RelationalSource
-  | CommonDataServiceForAppsSource
-  | DynamicsCrmSource
-  | DynamicsSource
-  | CosmosDbSqlApiSource
-  | DocumentDbCollectionSource
-  | BlobSource
-  | TabularSourceUnion
-  | BinarySource
-  | OrcSource
-  | XmlSource
-  | JsonSource
-  | DelimitedTextSource
-  | ParquetSource
-  | ExcelSource
-  | AvroSource;
+export type CopySourceUnion = CopySource | SharePointOnlineListSource | AzureDatabricksDeltaLakeSource | SnowflakeSource | HttpSource | AzureBlobFSSource | AzureDataLakeStoreSource | Office365Source | CosmosDbMongoDbApiSource | MongoDbV2Source | MongoDbAtlasSource | MongoDbSource | WebSource | OracleSource | AzureDataExplorerSource | HdfsSource | FileSystemSource | RestSource | SalesforceServiceCloudSource | ODataSource | MicrosoftAccessSource | RelationalSource | CommonDataServiceForAppsSource | DynamicsCrmSource | DynamicsSource | CosmosDbSqlApiSource | DocumentDbCollectionSource | BlobSource | TabularSourceUnion | BinarySource | OrcSource | XmlSource | JsonSource | DelimitedTextSource | ParquetSource | ExcelSource | AvroSource;
 
 /**
  * A copy activity source.
@@ -16295,6 +16040,11 @@ export interface CopySource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -16324,6 +16074,11 @@ export interface SharePointOnlineListSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The OData query to filter the data in SharePoint Online list. For example, "$top=1". Type:
    * string (or Expression with resultType string).
    */
@@ -16339,10 +16094,7 @@ export interface SharePointOnlineListSource {
 /**
  * Contains the possible cases for ExportSettings.
  */
-export type ExportSettingsUnion =
-  | ExportSettings
-  | SnowflakeExportCopyCommand
-  | AzureDatabricksDeltaLakeExportCommand;
+export type ExportSettingsUnion = ExportSettings | SnowflakeExportCopyCommand | AzureDatabricksDeltaLakeExportCommand;
 
 /**
  * Export command settings.
@@ -16423,6 +16175,11 @@ export interface AzureDatabricksDeltaLakeSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Azure Databricks Delta Lake Sql query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -16454,6 +16211,11 @@ export interface SnowflakeSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Snowflake Sql query. Type: string (or Expression with resultType string).
    */
@@ -16487,6 +16249,11 @@ export interface HttpSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specifies the timeout for a HTTP client to get HTTP response from HTTP server. The default
    * value is equivalent to System.Net.HttpWebRequest.Timeout. Type: string (or Expression with
    * resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -16516,6 +16283,11 @@ export interface AzureBlobFSSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Treat empty as null. Type: boolean (or Expression with resultType boolean).
    */
@@ -16555,6 +16327,11 @@ export interface AzureDataLakeStoreSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -16583,6 +16360,11 @@ export interface Office365Source {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The groups containing all the users. Type: array of strings (or Expression with resultType
    * array of strings).
@@ -16684,6 +16466,11 @@ export interface CosmosDbMongoDbApiSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specifies selection filter using query operators. To return all documents in a collection,
    * omit this parameter or pass an empty document ({}). Type: string (or Expression with
    * resultType string).
@@ -16734,6 +16521,11 @@ export interface MongoDbV2Source {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Specifies selection filter using query operators. To return all documents in a collection,
    * omit this parameter or pass an empty document ({}). Type: string (or Expression with
@@ -16786,6 +16578,11 @@ export interface MongoDbAtlasSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specifies selection filter using query operators. To return all documents in a collection,
    * omit this parameter or pass an empty document ({}). Type: string (or Expression with
    * resultType string).
@@ -16837,6 +16634,11 @@ export interface MongoDbSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Database query. Should be a SQL-92 query expression. Type: string (or Expression with
    * resultType string).
    */
@@ -16870,6 +16672,11 @@ export interface WebSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Specifies the additional columns to be added to source data. Type: array of objects (or
    * Expression with resultType array of objects).
@@ -16925,6 +16732,11 @@ export interface OracleSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Oracle reader query. Type: string (or Expression with resultType string).
    */
   oracleReaderQuery?: any;
@@ -16972,6 +16784,11 @@ export interface AzureDataExplorerSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Database query. Should be a Kusto Query Language (KQL) query. Type: string (or Expression with
    * resultType string).
    */
@@ -17016,6 +16833,11 @@ export interface HdfsSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
    */
@@ -17048,6 +16870,11 @@ export interface FileSystemSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean
    * (or Expression with resultType boolean).
@@ -17082,6 +16909,11 @@ export interface RestSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression
    * with resultType string).
@@ -17142,6 +16974,11 @@ export interface SalesforceServiceCloudSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -17179,6 +17016,11 @@ export interface ODataSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * OData query. For example, "$top=1". Type: string (or Expression with resultType string).
    */
@@ -17219,6 +17061,11 @@ export interface MicrosoftAccessSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -17252,6 +17099,11 @@ export interface RelationalSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -17284,6 +17136,11 @@ export interface CommonDataServiceForAppsSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * FetchXML is a proprietary query language that is used in Microsoft Common Data Service for
    * Apps (online & on-premises). Type: string (or Expression with resultType string).
@@ -17319,6 +17176,11 @@ export interface DynamicsCrmSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * FetchXML is a proprietary query language that is used in Microsoft Dynamics CRM (online &
    * on-premises). Type: string (or Expression with resultType string).
    */
@@ -17353,6 +17215,11 @@ export interface DynamicsSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * FetchXML is a proprietary query language that is used in Microsoft Dynamics (online &
    * on-premises). Type: string (or Expression with resultType string).
    */
@@ -17386,6 +17253,11 @@ export interface CosmosDbSqlApiSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * SQL API query. Type: string (or Expression with resultType string).
    */
@@ -17433,6 +17305,11 @@ export interface DocumentDbCollectionSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Documents query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -17475,6 +17352,11 @@ export interface BlobSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Treat empty as null. Type: boolean (or Expression with resultType boolean).
    */
   treatEmptyAsNull?: any;
@@ -17512,65 +17394,7 @@ export interface RedshiftUnloadSettings {
 /**
  * Contains the possible cases for TabularSource.
  */
-export type TabularSourceUnion =
-  | TabularSource
-  | AmazonRedshiftSource
-  | GoogleAdWordsSource
-  | OracleServiceCloudSource
-  | DynamicsAXSource
-  | ResponsysSource
-  | SalesforceMarketingCloudSource
-  | VerticaSource
-  | NetezzaSource
-  | ZohoSource
-  | XeroSource
-  | SquareSource
-  | SparkSource
-  | ShopifySource
-  | ServiceNowSource
-  | QuickBooksSource
-  | PrestoSource
-  | PhoenixSource
-  | PaypalSource
-  | MarketoSource
-  | AzureMariaDBSource
-  | MariaDBSource
-  | MagentoSource
-  | JiraSource
-  | ImpalaSource
-  | HubspotSource
-  | HiveSource
-  | HBaseSource
-  | GreenplumSource
-  | GoogleBigQuerySource
-  | EloquaSource
-  | DrillSource
-  | CouchbaseSource
-  | ConcurSource
-  | AzurePostgreSqlSource
-  | AmazonMWSSource
-  | CassandraSource
-  | TeradataSource
-  | AzureMySqlSource
-  | SqlDWSource
-  | SqlMISource
-  | AzureSqlSource
-  | SqlServerSource
-  | SqlSource
-  | SapTableSource
-  | SapOpenHubSource
-  | SapHanaSource
-  | SapEccSource
-  | SapCloudForCustomerSource
-  | SalesforceSource
-  | SapBwSource
-  | SybaseSource
-  | PostgreSqlSource
-  | MySqlSource
-  | OdbcSource
-  | Db2Source
-  | InformixSource
-  | AzureTableSource;
+export type TabularSourceUnion = TabularSource | AmazonRedshiftSource | GoogleAdWordsSource | OracleServiceCloudSource | DynamicsAXSource | ResponsysSource | SalesforceMarketingCloudSource | VerticaSource | NetezzaSource | ZohoSource | XeroSource | SquareSource | SparkSource | ShopifySource | ServiceNowSource | QuickBooksSource | PrestoSource | PhoenixSource | PaypalSource | MarketoSource | AzureMariaDBSource | MariaDBSource | MagentoSource | JiraSource | ImpalaSource | HubspotSource | HiveSource | HBaseSource | GreenplumSource | GoogleBigQuerySource | EloquaSource | DrillSource | CouchbaseSource | ConcurSource | AzurePostgreSqlSource | AmazonMWSSource | CassandraSource | TeradataSource | AzureMySqlSource | SqlDWSource | SqlMISource | AzureSqlSource | SqlServerSource | SqlSource | SapTableSource | SapOpenHubSource | SapHanaSource | SapEccSource | SapCloudForCustomerSource | SalesforceSource | SapBwSource | SybaseSource | PostgreSqlSource | MySqlSource | OdbcSource | Db2Source | InformixSource | AzureTableSource;
 
 /**
  * Copy activity sources of tabular type.
@@ -17594,6 +17418,11 @@ export interface TabularSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -17628,6 +17457,11 @@ export interface AmazonRedshiftSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -17673,6 +17507,11 @@ export interface GoogleAdWordsSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -17711,6 +17550,11 @@ export interface OracleServiceCloudSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -17748,6 +17592,11 @@ export interface DynamicsAXSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -17793,6 +17642,11 @@ export interface ResponsysSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -17831,6 +17685,11 @@ export interface SalesforceMarketingCloudSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -17868,6 +17727,11 @@ export interface VerticaSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -17928,6 +17792,11 @@ export interface NetezzaSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -17975,6 +17844,11 @@ export interface ZohoSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18012,6 +17886,11 @@ export interface XeroSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18051,6 +17930,11 @@ export interface SquareSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18088,6 +17972,11 @@ export interface SparkSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18127,6 +18016,11 @@ export interface ShopifySource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18164,6 +18058,11 @@ export interface ServiceNowSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18203,6 +18102,11 @@ export interface QuickBooksSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18240,6 +18144,11 @@ export interface PrestoSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18279,6 +18188,11 @@ export interface PhoenixSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18316,6 +18230,11 @@ export interface PaypalSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18355,6 +18274,11 @@ export interface MarketoSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18392,6 +18316,11 @@ export interface AzureMariaDBSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18431,6 +18360,11 @@ export interface MariaDBSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18468,6 +18402,11 @@ export interface MagentoSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18507,6 +18446,11 @@ export interface JiraSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18544,6 +18488,11 @@ export interface ImpalaSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18583,6 +18532,11 @@ export interface HubspotSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18620,6 +18574,11 @@ export interface HiveSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18659,6 +18618,11 @@ export interface HBaseSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18696,6 +18660,11 @@ export interface GreenplumSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18735,6 +18704,11 @@ export interface GoogleBigQuerySource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18772,6 +18746,11 @@ export interface EloquaSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18811,6 +18790,11 @@ export interface DrillSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18848,6 +18832,11 @@ export interface CouchbaseSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18887,6 +18876,11 @@ export interface ConcurSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -18924,6 +18918,11 @@ export interface AzurePostgreSqlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -18963,6 +18962,11 @@ export interface AmazonMWSSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19000,6 +19004,11 @@ export interface CassandraSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19070,6 +19079,11 @@ export interface TeradataSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19116,6 +19130,11 @@ export interface AzureMySqlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19180,6 +19199,11 @@ export interface SqlDWSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19254,6 +19278,11 @@ export interface SqlMISource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19314,6 +19343,11 @@ export interface AzureSqlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19376,6 +19410,11 @@ export interface SqlServerSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19436,6 +19475,11 @@ export interface SqlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19526,6 +19570,11 @@ export interface SapTableSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19604,6 +19653,11 @@ export interface SapOpenHubSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19670,6 +19724,11 @@ export interface SapHanaSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19722,6 +19781,11 @@ export interface SapEccSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19766,6 +19830,11 @@ export interface SapCloudForCustomerSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19812,6 +19881,11 @@ export interface SalesforceSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19855,6 +19929,11 @@ export interface SapBwSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19892,6 +19971,11 @@ export interface SybaseSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -19931,6 +20015,11 @@ export interface PostgreSqlSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -19968,6 +20057,11 @@ export interface MySqlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -20007,6 +20101,11 @@ export interface OdbcSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -20044,6 +20143,11 @@ export interface Db2Source {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -20083,6 +20187,11 @@ export interface InformixSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -20120,6 +20229,11 @@ export interface AzureTableSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Query timeout. Type: string (or Expression with resultType string), pattern:
    * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
@@ -20164,6 +20278,11 @@ export interface BinarySource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Binary store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
@@ -20195,6 +20314,11 @@ export interface OrcSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * ORC store settings.
    */
@@ -20228,6 +20352,11 @@ export interface XmlSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Xml store settings.
    */
@@ -20266,6 +20395,11 @@ export interface JsonSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Json store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
@@ -20302,6 +20436,11 @@ export interface DelimitedTextSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * DelimitedText store settings.
    */
@@ -20340,6 +20479,11 @@ export interface ParquetSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Parquet store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
@@ -20373,6 +20517,11 @@ export interface ExcelSource {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Excel store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
@@ -20405,6 +20554,11 @@ export interface AvroSource {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Avro store settings.
    */
@@ -20940,15 +21094,11 @@ export interface ExecuteSSISPackageActivity {
   /**
    * The project level connection managers to execute the SSIS package.
    */
-  projectConnectionManagers?: {
-    [propertyName: string]: { [propertyName: string]: SSISExecutionParameter };
-  };
+  projectConnectionManagers?: { [propertyName: string]: { [propertyName: string]: SSISExecutionParameter } };
   /**
    * The package level connection managers to execute the SSIS package.
    */
-  packageConnectionManagers?: {
-    [propertyName: string]: { [propertyName: string]: SSISExecutionParameter };
-  };
+  packageConnectionManagers?: { [propertyName: string]: { [propertyName: string]: SSISExecutionParameter } };
   /**
    * The property overrides to execute the SSIS package.
    */
@@ -21417,47 +21567,7 @@ export interface StagingSettings {
 /**
  * Contains the possible cases for CopySink.
  */
-export type CopySinkUnion =
-  | CopySink
-  | CosmosDbMongoDbApiSink
-  | MongoDbV2Sink
-  | MongoDbAtlasSink
-  | SalesforceServiceCloudSink
-  | SalesforceSink
-  | AzureDataExplorerSink
-  | CommonDataServiceForAppsSink
-  | DynamicsCrmSink
-  | DynamicsSink
-  | MicrosoftAccessSink
-  | InformixSink
-  | OdbcSink
-  | AzureSearchIndexSink
-  | AzureBlobFSSink
-  | AzureDataLakeStoreSink
-  | OracleSink
-  | SnowflakeSink
-  | SqlDWSink
-  | SqlMISink
-  | AzureSqlSink
-  | SqlServerSink
-  | SqlSink
-  | CosmosDbSqlApiSink
-  | DocumentDbCollectionSink
-  | FileSystemSink
-  | BlobSink
-  | BinarySink
-  | ParquetSink
-  | AvroSink
-  | AzureTableSink
-  | AzureQueueSink
-  | SapCloudForCustomerSink
-  | AzureDatabricksDeltaLakeSink
-  | AzureMySqlSink
-  | AzurePostgreSqlSink
-  | RestSink
-  | OrcSink
-  | JsonSink
-  | DelimitedTextSink;
+export type CopySinkUnion = CopySink | CosmosDbMongoDbApiSink | MongoDbV2Sink | MongoDbAtlasSink | SalesforceServiceCloudSink | SalesforceSink | AzureDataExplorerSink | CommonDataServiceForAppsSink | DynamicsCrmSink | DynamicsSink | MicrosoftAccessSink | InformixSink | OdbcSink | AzureSearchIndexSink | AzureBlobFSSink | AzureDataLakeStoreSink | OracleSink | SnowflakeSink | SqlDWSink | SqlMISink | AzureSqlSink | SqlServerSink | SqlSink | CosmosDbSqlApiSink | DocumentDbCollectionSink | FileSystemSink | BlobSink | BinarySink | ParquetSink | AvroSink | AzureTableSink | AzureQueueSink | SapCloudForCustomerSink | AzureDatabricksDeltaLakeSink | AzureMySqlSink | AzurePostgreSqlSink | RestSink | OrcSink | JsonSink | DelimitedTextSink;
 
 /**
  * A copy activity sink.
@@ -21490,6 +21600,11 @@ export interface CopySink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -21527,6 +21642,11 @@ export interface CosmosDbMongoDbApiSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Specifies whether the document with same key to be overwritten (upsert) rather than throw
    * exception (insert). The default value is "insert". Type: string (or Expression with resultType
@@ -21567,6 +21687,11 @@ export interface MongoDbV2Sink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specifies whether the document with same key to be overwritten (upsert) rather than throw
    * exception (insert). The default value is "insert". Type: string (or Expression with resultType
    * string). Type: string (or Expression with resultType string).
@@ -21606,6 +21731,11 @@ export interface MongoDbAtlasSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specifies whether the document with same key to be overwritten (upsert) rather than throw
    * exception (insert). The default value is "insert". Type: string (or Expression with resultType
    * string). Type: string (or Expression with resultType string).
@@ -21644,6 +21774,11 @@ export interface SalesforceServiceCloudSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The write behavior for the operation. Default is Insert. Possible values include: 'Insert',
    * 'Upsert'
@@ -21697,6 +21832,11 @@ export interface SalesforceSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The write behavior for the operation. Default is Insert. Possible values include: 'Insert',
    * 'Upsert'
    */
@@ -21749,6 +21889,11 @@ export interface AzureDataExplorerSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * A name of a pre-created csv mapping that was defined on the target Kusto table. Type: string.
    */
   ingestionMappingName?: any;
@@ -21794,6 +21939,11 @@ export interface CommonDataServiceForAppsSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The flag indicating whether to ignore null values from input dataset (except key fields)
    * during write operation. Default is false. Type: boolean (or Expression with resultType
    * boolean).
@@ -21837,6 +21987,11 @@ export interface DynamicsCrmSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The flag indicating whether to ignore null values from input dataset (except key fields)
    * during write operation. Default is false. Type: boolean (or Expression with resultType
@@ -21882,6 +22037,11 @@ export interface DynamicsSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The flag indicating whether ignore null values from input dataset (except key fields) during
    * write operation. Default is false. Type: boolean (or Expression with resultType boolean).
    */
@@ -21925,6 +22085,11 @@ export interface MicrosoftAccessSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType
    * string).
    */
@@ -21962,6 +22127,11 @@ export interface InformixSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType
    * string).
@@ -22001,6 +22171,11 @@ export interface OdbcSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType
    * string).
    */
@@ -22039,10 +22214,29 @@ export interface AzureSearchIndexSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Specify the write behavior when upserting documents into Azure Search Index. Possible values
    * include: 'Merge', 'Upload'
    */
   writeBehavior?: AzureSearchIndexWriteBehaviorType;
+}
+
+/**
+ * Specify the name and value of custom metadata item.
+ */
+export interface MetadataItem {
+  /**
+   * Metadata item key name. Type: string (or Expression with resultType string).
+   */
+  name?: any;
+  /**
+   * Metadata item value. Type: string (or Expression with resultType string).
+   */
+  value?: any;
 }
 
 /**
@@ -22077,9 +22271,19 @@ export interface AzureBlobFSSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
+  /**
+   * Specify the custom metadata to be added to sink data. Type: array of objects (or Expression
+   * with resultType array of objects).
+   */
+  metadata?: MetadataItem[];
 }
 
 /**
@@ -22113,6 +22317,11 @@ export interface AzureDataLakeStoreSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The type of copy behavior for copy sink.
    */
@@ -22155,6 +22364,11 @@ export interface OracleSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * SQL pre-copy script. Type: string (or Expression with resultType string).
    */
   preCopyScript?: any;
@@ -22163,10 +22377,7 @@ export interface OracleSink {
 /**
  * Contains the possible cases for ImportSettings.
  */
-export type ImportSettingsUnion =
-  | ImportSettings
-  | AzureDatabricksDeltaLakeImportCommand
-  | SnowflakeImportCopyCommand;
+export type ImportSettingsUnion = ImportSettings | AzureDatabricksDeltaLakeImportCommand | SnowflakeImportCopyCommand;
 
 /**
  * Import command settings.
@@ -22255,6 +22466,11 @@ export interface SnowflakeSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * SQL pre-copy script. Type: string (or Expression with resultType string).
    */
@@ -22359,6 +22575,11 @@ export interface SqlDWSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * SQL pre-copy script. Type: string (or Expression with resultType string).
    */
   preCopyScript?: any;
@@ -22419,6 +22640,11 @@ export interface SqlMISink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
   sqlWriterStoredProcedureName?: any;
@@ -22477,6 +22703,11 @@ export interface AzureSqlSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
@@ -22537,6 +22768,11 @@ export interface SqlServerSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
   sqlWriterStoredProcedureName?: any;
@@ -22595,6 +22831,11 @@ export interface SqlSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
@@ -22655,6 +22896,11 @@ export interface CosmosDbSqlApiSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Describes how to write data to Azure Cosmos DB. Type: string (or Expression with resultType
    * string). Allowed values: insert and upsert.
    */
@@ -22692,6 +22938,11 @@ export interface DocumentDbCollectionSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Nested properties separator. Default is . (dot). Type: string (or Expression with resultType
    * string).
@@ -22736,6 +22987,11 @@ export interface FileSystemSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -22773,6 +23029,11 @@ export interface BlobSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Blob writer overwrite files. Type: boolean (or Expression with resultType boolean).
    */
   blobWriterOverwriteFiles?: any;
@@ -22788,19 +23049,17 @@ export interface BlobSink {
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
+  /**
+   * Specify the custom metadata to be added to sink data. Type: array of objects (or Expression
+   * with resultType array of objects).
+   */
+  metadata?: MetadataItem[];
 }
 
 /**
  * Contains the possible cases for StoreWriteSettings.
  */
-export type StoreWriteSettingsUnion =
-  | StoreWriteSettings
-  | AzureFileStorageWriteSettings
-  | FileServerWriteSettings
-  | AzureDataLakeStoreWriteSettings
-  | AzureBlobFSWriteSettings
-  | AzureBlobStorageWriteSettings
-  | SftpWriteSettings;
+export type StoreWriteSettingsUnion = StoreWriteSettings | AzureFileStorageWriteSettings | FileServerWriteSettings | AzureDataLakeStoreWriteSettings | AzureBlobFSWriteSettings | AzureBlobStorageWriteSettings | SftpWriteSettings;
 
 /**
  * Connector write settings.
@@ -22815,6 +23074,11 @@ export interface StoreWriteSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The type of copy behavior for copy sink.
    */
@@ -22839,6 +23103,11 @@ export interface AzureFileStorageWriteSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -22858,6 +23127,11 @@ export interface FileServerWriteSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -22876,6 +23150,11 @@ export interface AzureDataLakeStoreWriteSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The type of copy behavior for copy sink.
    */
@@ -22902,6 +23181,11 @@ export interface AzureBlobFSWriteSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -22926,6 +23210,11 @@ export interface AzureBlobStorageWriteSettings {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -22949,6 +23238,11 @@ export interface SftpWriteSettings {
    * Expression with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The type of copy behavior for copy sink.
    */
@@ -22997,6 +23291,11 @@ export interface BinarySink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Binary store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -23005,13 +23304,7 @@ export interface BinarySink {
 /**
  * Contains the possible cases for FormatWriteSettings.
  */
-export type FormatWriteSettingsUnion =
-  | FormatWriteSettings
-  | JsonWriteSettings
-  | DelimitedTextWriteSettings
-  | OrcWriteSettings
-  | AvroWriteSettings
-  | ParquetWriteSettings;
+export type FormatWriteSettingsUnion = FormatWriteSettings | JsonWriteSettings | DelimitedTextWriteSettings | OrcWriteSettings | AvroWriteSettings | ParquetWriteSettings;
 
 /**
  * Format write settings.
@@ -23037,10 +23330,9 @@ export interface JsonWriteSettings {
   type: "JsonWriteSettings";
   /**
    * File pattern of JSON. This setting controls the way a collection of JSON objects will be
-   * treated. The default value is 'setOfObjects'. It is case-sensitive. Possible values include:
-   * 'setOfObjects', 'arrayOfObjects'
+   * treated. The default value is 'setOfObjects'. It is case-sensitive.
    */
-  filePattern?: JsonWriteFilePattern;
+  filePattern?: any;
 }
 
 /**
@@ -23177,6 +23469,11 @@ export interface ParquetSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Parquet store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -23218,6 +23515,11 @@ export interface AvroSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Avro store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -23258,6 +23560,11 @@ export interface AzureTableSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * Azure Table default partition key value. Type: string (or Expression with resultType string).
    */
@@ -23307,6 +23614,11 @@ export interface AzureQueueSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
 }
 
 /**
@@ -23340,6 +23652,11 @@ export interface SapCloudForCustomerSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The write behavior for the operation. Default is 'Insert'. Possible values include: 'Insert',
    * 'Update'
@@ -23385,6 +23702,11 @@ export interface AzureDatabricksDeltaLakeSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * SQL pre-copy script. Type: string (or Expression with resultType string).
    */
   preCopyScript?: any;
@@ -23426,6 +23748,11 @@ export interface AzureMySqlSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType
    * string).
    */
@@ -23464,6 +23791,11 @@ export interface AzurePostgreSqlSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType
    * string).
    */
@@ -23501,6 +23833,11 @@ export interface RestSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * The HTTP method used to call the RESTful API. The default is POST. Type: string (or Expression
    * with resultType string).
@@ -23560,6 +23897,11 @@ export interface OrcSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * ORC store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -23601,6 +23943,11 @@ export interface JsonSink {
    */
   maxConcurrentConnections?: any;
   /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
+  /**
    * Json store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -23641,6 +23988,11 @@ export interface DelimitedTextSink {
    * with resultType integer).
    */
   maxConcurrentConnections?: any;
+  /**
+   * If true, disable data store metrics collection. Default is false. Type: boolean (or Expression
+   * with resultType boolean).
+   */
+  disableMetricsCollection?: any;
   /**
    * DelimitedText store settings.
    */
@@ -23762,19 +24114,7 @@ export interface CopyActivity {
 /**
  * Contains the possible cases for ControlActivity.
  */
-export type ControlActivityUnion =
-  | ControlActivity
-  | WebHookActivity
-  | AppendVariableActivity
-  | SetVariableActivity
-  | FilterActivity
-  | ValidationActivity
-  | UntilActivity
-  | WaitActivity
-  | ForEachActivity
-  | SwitchActivity
-  | IfConditionActivity
-  | ExecutePipelineActivity;
+export type ControlActivityUnion = ControlActivity | WebHookActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | ValidationActivity | UntilActivity | WaitActivity | ForEachActivity | SwitchActivity | IfConditionActivity | ExecutePipelineActivity;
 
 /**
  * Base class for all control activities like IfCondition, ForEach , Until.
@@ -24646,10 +24986,7 @@ export interface ManagedIntegrationRuntimeStatus {
 /**
  * Contains the possible cases for LinkedIntegrationRuntimeType.
  */
-export type LinkedIntegrationRuntimeTypeUnion =
-  | LinkedIntegrationRuntimeType
-  | LinkedIntegrationRuntimeRbacAuthorization
-  | LinkedIntegrationRuntimeKeyAuthorization;
+export type LinkedIntegrationRuntimeTypeUnion = LinkedIntegrationRuntimeType | LinkedIntegrationRuntimeRbacAuthorization | LinkedIntegrationRuntimeKeyAuthorization;
 
 /**
  * The base definition of a linked integration runtime.
@@ -24710,7 +25047,7 @@ export interface SelfHostedIntegrationRuntime {
 export interface EntityReference {
   /**
    * The type of this referenced entity. Possible values include: 'IntegrationRuntimeReference',
-   * 'LinkedServiceReference'
+   * 'LinkedServiceReference', 'CredentialReference'
    */
   type?: IntegrationRuntimeEntityReferenceType;
   /**
@@ -24736,12 +25073,7 @@ export interface PackageStore {
 /**
  * Contains the possible cases for CustomSetupBase.
  */
-export type CustomSetupBaseUnion =
-  | CustomSetupBase
-  | AzPowerShellSetup
-  | ComponentSetup
-  | EnvironmentVariableSetup
-  | CmdkeySetup;
+export type CustomSetupBaseUnion = CustomSetupBase | AzPowerShellSetup | ComponentSetup | EnvironmentVariableSetup | CmdkeySetup;
 
 /**
  * The base definition of the custom setup.
@@ -24924,6 +25256,10 @@ export interface IntegrationRuntimeSsisProperties {
    */
   packageStores?: PackageStore[];
   /**
+   * The user-assigned managed identity reference.
+   */
+  managedCredential?: EntityReference;
+  /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
@@ -25092,12 +25428,7 @@ export interface SsisVariable {
 /**
  * Contains the possible cases for SsisObjectMetadata.
  */
-export type SsisObjectMetadataUnion =
-  | SsisObjectMetadata
-  | SsisEnvironment
-  | SsisPackage
-  | SsisProject
-  | SsisFolder;
+export type SsisObjectMetadataUnion = SsisObjectMetadata | SsisEnvironment | SsisPackage | SsisProject | SsisFolder;
 
 /**
  * SSIS object metadata.
@@ -25651,8 +25982,7 @@ export interface IntegrationRuntimesGetOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface IntegrationRuntimeObjectMetadataGetOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The parameters for getting a SSIS object metadata.
    */
@@ -25813,8 +26143,7 @@ export interface DataFlowsGetOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface ManagedVirtualNetworksCreateOrUpdateOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface ManagedVirtualNetworksCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * ETag of the managed Virtual Network entity. Should only be specified for update, for which it
    * should match existing entity or can be * for unconditional update.
@@ -25836,8 +26165,7 @@ export interface ManagedVirtualNetworksGetOptionalParams extends msRest.RequestO
 /**
  * Optional Parameters.
  */
-export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * ETag of the managed private endpoint entity. Should only be specified for update, for which it
    * should match existing entity or can be * for unconditional update.
@@ -25859,8 +26187,7 @@ export interface ManagedPrivateEndpointsGetOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * ETag of the private endpoint connection entity.  Should only be specified for update, for
    * which it should match existing entity or can be * for unconditional update.
@@ -26043,8 +26370,7 @@ export interface ManagedPrivateEndpointListResponse extends Array<ManagedPrivate
  * A list of linked service resources.
  * @extends Array<PrivateEndpointConnectionResource>
  */
-export interface PrivateEndpointConnectionListResponse
-  extends Array<PrivateEndpointConnectionResource> {
+export interface PrivateEndpointConnectionListResponse extends Array<PrivateEndpointConnectionResource> {
   /**
    * The link to the next page of results, if any remaining results exist.
    */
@@ -26057,7 +26383,7 @@ export interface PrivateEndpointConnectionListResponse
  * @readonly
  * @enum {string}
  */
-export type FactoryIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned,UserAssigned";
+export type FactoryIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned,UserAssigned';
 
 /**
  * Defines values for GlobalParameterType.
@@ -26065,7 +26391,7 @@ export type FactoryIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAss
  * @readonly
  * @enum {string}
  */
-export type GlobalParameterType = "Object" | "String" | "Int" | "Float" | "Bool" | "Array";
+export type GlobalParameterType = 'Object' | 'String' | 'Int' | 'Float' | 'Bool' | 'Array';
 
 /**
  * Defines values for PublicNetworkAccess.
@@ -26073,7 +26399,7 @@ export type GlobalParameterType = "Object" | "String" | "Int" | "Float" | "Bool"
  * @readonly
  * @enum {string}
  */
-export type PublicNetworkAccess = "Enabled" | "Disabled";
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for IntegrationRuntimeState.
@@ -26082,17 +26408,7 @@ export type PublicNetworkAccess = "Enabled" | "Disabled";
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeState =
-  | "Initial"
-  | "Stopped"
-  | "Started"
-  | "Starting"
-  | "Stopping"
-  | "NeedRegistration"
-  | "Online"
-  | "Limited"
-  | "Offline"
-  | "AccessDenied";
+export type IntegrationRuntimeState = 'Initial' | 'Stopped' | 'Started' | 'Starting' | 'Stopping' | 'NeedRegistration' | 'Online' | 'Limited' | 'Offline' | 'AccessDenied';
 
 /**
  * Defines values for IntegrationRuntimeAutoUpdate.
@@ -26100,7 +26416,7 @@ export type IntegrationRuntimeState =
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeAutoUpdate = "On" | "Off";
+export type IntegrationRuntimeAutoUpdate = 'On' | 'Off';
 
 /**
  * Defines values for ParameterType.
@@ -26108,14 +26424,7 @@ export type IntegrationRuntimeAutoUpdate = "On" | "Off";
  * @readonly
  * @enum {string}
  */
-export type ParameterType =
-  | "Object"
-  | "String"
-  | "Int"
-  | "Float"
-  | "Bool"
-  | "Array"
-  | "SecureString";
+export type ParameterType = 'Object' | 'String' | 'Int' | 'Float' | 'Bool' | 'Array' | 'SecureString';
 
 /**
  * Defines values for DependencyCondition.
@@ -26123,7 +26432,7 @@ export type ParameterType =
  * @readonly
  * @enum {string}
  */
-export type DependencyCondition = "Succeeded" | "Failed" | "Skipped" | "Completed";
+export type DependencyCondition = 'Succeeded' | 'Failed' | 'Skipped' | 'Completed';
 
 /**
  * Defines values for VariableType.
@@ -26131,7 +26440,7 @@ export type DependencyCondition = "Succeeded" | "Failed" | "Skipped" | "Complete
  * @readonly
  * @enum {string}
  */
-export type VariableType = "String" | "Bool" | "Array";
+export type VariableType = 'String' | 'Bool' | 'Array';
 
 /**
  * Defines values for TriggerRuntimeState.
@@ -26139,7 +26448,7 @@ export type VariableType = "String" | "Bool" | "Array";
  * @readonly
  * @enum {string}
  */
-export type TriggerRuntimeState = "Started" | "Stopped" | "Disabled";
+export type TriggerRuntimeState = 'Started' | 'Stopped' | 'Disabled';
 
 /**
  * Defines values for EventSubscriptionStatus.
@@ -26147,12 +26456,7 @@ export type TriggerRuntimeState = "Started" | "Stopped" | "Disabled";
  * @readonly
  * @enum {string}
  */
-export type EventSubscriptionStatus =
-  | "Enabled"
-  | "Provisioning"
-  | "Deprovisioning"
-  | "Disabled"
-  | "Unknown";
+export type EventSubscriptionStatus = 'Enabled' | 'Provisioning' | 'Deprovisioning' | 'Disabled' | 'Unknown';
 
 /**
  * Defines values for RunQueryFilterOperand.
@@ -26162,19 +26466,7 @@ export type EventSubscriptionStatus =
  * @readonly
  * @enum {string}
  */
-export type RunQueryFilterOperand =
-  | "PipelineName"
-  | "Status"
-  | "RunStart"
-  | "RunEnd"
-  | "ActivityName"
-  | "ActivityRunStart"
-  | "ActivityRunEnd"
-  | "ActivityType"
-  | "TriggerName"
-  | "TriggerRunTimestamp"
-  | "RunGroupId"
-  | "LatestOnly";
+export type RunQueryFilterOperand = 'PipelineName' | 'Status' | 'RunStart' | 'RunEnd' | 'ActivityName' | 'ActivityRunStart' | 'ActivityRunEnd' | 'ActivityType' | 'TriggerName' | 'TriggerRunTimestamp' | 'RunGroupId' | 'LatestOnly';
 
 /**
  * Defines values for RunQueryFilterOperator.
@@ -26182,7 +26474,7 @@ export type RunQueryFilterOperand =
  * @readonly
  * @enum {string}
  */
-export type RunQueryFilterOperator = "Equals" | "NotEquals" | "In" | "NotIn";
+export type RunQueryFilterOperator = 'Equals' | 'NotEquals' | 'In' | 'NotIn';
 
 /**
  * Defines values for RunQueryOrderByField.
@@ -26191,16 +26483,7 @@ export type RunQueryFilterOperator = "Equals" | "NotEquals" | "In" | "NotIn";
  * @readonly
  * @enum {string}
  */
-export type RunQueryOrderByField =
-  | "RunStart"
-  | "RunEnd"
-  | "PipelineName"
-  | "Status"
-  | "ActivityName"
-  | "ActivityRunStart"
-  | "ActivityRunEnd"
-  | "TriggerName"
-  | "TriggerRunTimestamp";
+export type RunQueryOrderByField = 'RunStart' | 'RunEnd' | 'PipelineName' | 'Status' | 'ActivityName' | 'ActivityRunStart' | 'ActivityRunEnd' | 'TriggerName' | 'TriggerRunTimestamp';
 
 /**
  * Defines values for RunQueryOrder.
@@ -26208,7 +26491,7 @@ export type RunQueryOrderByField =
  * @readonly
  * @enum {string}
  */
-export type RunQueryOrder = "ASC" | "DESC";
+export type RunQueryOrder = 'ASC' | 'DESC';
 
 /**
  * Defines values for TriggerRunStatus.
@@ -26216,7 +26499,7 @@ export type RunQueryOrder = "ASC" | "DESC";
  * @readonly
  * @enum {string}
  */
-export type TriggerRunStatus = "Succeeded" | "Failed" | "Inprogress";
+export type TriggerRunStatus = 'Succeeded' | 'Failed' | 'Inprogress';
 
 /**
  * Defines values for DataFlowDebugCommandType.
@@ -26225,10 +26508,7 @@ export type TriggerRunStatus = "Succeeded" | "Failed" | "Inprogress";
  * @readonly
  * @enum {string}
  */
-export type DataFlowDebugCommandType =
-  | "executePreviewQuery"
-  | "executeStatisticsQuery"
-  | "executeExpressionQuery";
+export type DataFlowDebugCommandType = 'executePreviewQuery' | 'executeStatisticsQuery' | 'executeExpressionQuery';
 
 /**
  * Defines values for GoogleAdWordsAuthenticationType.
@@ -26236,7 +26516,7 @@ export type DataFlowDebugCommandType =
  * @readonly
  * @enum {string}
  */
-export type GoogleAdWordsAuthenticationType = "ServiceAuthentication" | "UserAuthentication";
+export type GoogleAdWordsAuthenticationType = 'ServiceAuthentication' | 'UserAuthentication';
 
 /**
  * Defines values for SparkServerType.
@@ -26244,7 +26524,7 @@ export type GoogleAdWordsAuthenticationType = "ServiceAuthentication" | "UserAut
  * @readonly
  * @enum {string}
  */
-export type SparkServerType = "SharkServer" | "SharkServer2" | "SparkThriftServer";
+export type SparkServerType = 'SharkServer' | 'SharkServer2' | 'SparkThriftServer';
 
 /**
  * Defines values for SparkThriftTransportProtocol.
@@ -26252,7 +26532,7 @@ export type SparkServerType = "SharkServer" | "SharkServer2" | "SparkThriftServe
  * @readonly
  * @enum {string}
  */
-export type SparkThriftTransportProtocol = "Binary" | "SASL" | "HTTP ";
+export type SparkThriftTransportProtocol = 'Binary' | 'SASL' | 'HTTP ';
 
 /**
  * Defines values for SparkAuthenticationType.
@@ -26261,11 +26541,7 @@ export type SparkThriftTransportProtocol = "Binary" | "SASL" | "HTTP ";
  * @readonly
  * @enum {string}
  */
-export type SparkAuthenticationType =
-  | "Anonymous"
-  | "Username"
-  | "UsernameAndPassword"
-  | "WindowsAzureHDInsightService";
+export type SparkAuthenticationType = 'Anonymous' | 'Username' | 'UsernameAndPassword' | 'WindowsAzureHDInsightService';
 
 /**
  * Defines values for ServiceNowAuthenticationType.
@@ -26273,7 +26549,7 @@ export type SparkAuthenticationType =
  * @readonly
  * @enum {string}
  */
-export type ServiceNowAuthenticationType = "Basic" | "OAuth2";
+export type ServiceNowAuthenticationType = 'Basic' | 'OAuth2';
 
 /**
  * Defines values for PrestoAuthenticationType.
@@ -26281,7 +26557,7 @@ export type ServiceNowAuthenticationType = "Basic" | "OAuth2";
  * @readonly
  * @enum {string}
  */
-export type PrestoAuthenticationType = "Anonymous" | "LDAP";
+export type PrestoAuthenticationType = 'Anonymous' | 'LDAP';
 
 /**
  * Defines values for PhoenixAuthenticationType.
@@ -26289,10 +26565,7 @@ export type PrestoAuthenticationType = "Anonymous" | "LDAP";
  * @readonly
  * @enum {string}
  */
-export type PhoenixAuthenticationType =
-  | "Anonymous"
-  | "UsernameAndPassword"
-  | "WindowsAzureHDInsightService";
+export type PhoenixAuthenticationType = 'Anonymous' | 'UsernameAndPassword' | 'WindowsAzureHDInsightService';
 
 /**
  * Defines values for ImpalaAuthenticationType.
@@ -26300,7 +26573,7 @@ export type PhoenixAuthenticationType =
  * @readonly
  * @enum {string}
  */
-export type ImpalaAuthenticationType = "Anonymous" | "SASLUsername" | "UsernameAndPassword";
+export type ImpalaAuthenticationType = 'Anonymous' | 'SASLUsername' | 'UsernameAndPassword';
 
 /**
  * Defines values for HiveServerType.
@@ -26308,7 +26581,7 @@ export type ImpalaAuthenticationType = "Anonymous" | "SASLUsername" | "UsernameA
  * @readonly
  * @enum {string}
  */
-export type HiveServerType = "HiveServer1" | "HiveServer2" | "HiveThriftServer";
+export type HiveServerType = 'HiveServer1' | 'HiveServer2' | 'HiveThriftServer';
 
 /**
  * Defines values for HiveThriftTransportProtocol.
@@ -26316,7 +26589,7 @@ export type HiveServerType = "HiveServer1" | "HiveServer2" | "HiveThriftServer";
  * @readonly
  * @enum {string}
  */
-export type HiveThriftTransportProtocol = "Binary" | "SASL" | "HTTP ";
+export type HiveThriftTransportProtocol = 'Binary' | 'SASL' | 'HTTP ';
 
 /**
  * Defines values for HiveAuthenticationType.
@@ -26325,11 +26598,7 @@ export type HiveThriftTransportProtocol = "Binary" | "SASL" | "HTTP ";
  * @readonly
  * @enum {string}
  */
-export type HiveAuthenticationType =
-  | "Anonymous"
-  | "Username"
-  | "UsernameAndPassword"
-  | "WindowsAzureHDInsightService";
+export type HiveAuthenticationType = 'Anonymous' | 'Username' | 'UsernameAndPassword' | 'WindowsAzureHDInsightService';
 
 /**
  * Defines values for HBaseAuthenticationType.
@@ -26337,7 +26606,7 @@ export type HiveAuthenticationType =
  * @readonly
  * @enum {string}
  */
-export type HBaseAuthenticationType = "Anonymous" | "Basic";
+export type HBaseAuthenticationType = 'Anonymous' | 'Basic';
 
 /**
  * Defines values for GoogleBigQueryAuthenticationType.
@@ -26345,7 +26614,7 @@ export type HBaseAuthenticationType = "Anonymous" | "Basic";
  * @readonly
  * @enum {string}
  */
-export type GoogleBigQueryAuthenticationType = "ServiceAuthentication" | "UserAuthentication";
+export type GoogleBigQueryAuthenticationType = 'ServiceAuthentication' | 'UserAuthentication';
 
 /**
  * Defines values for SapHanaAuthenticationType.
@@ -26353,7 +26622,7 @@ export type GoogleBigQueryAuthenticationType = "ServiceAuthentication" | "UserAu
  * @readonly
  * @enum {string}
  */
-export type SapHanaAuthenticationType = "Basic" | "Windows";
+export type SapHanaAuthenticationType = 'Basic' | 'Windows';
 
 /**
  * Defines values for SftpAuthenticationType.
@@ -26361,7 +26630,7 @@ export type SapHanaAuthenticationType = "Basic" | "Windows";
  * @readonly
  * @enum {string}
  */
-export type SftpAuthenticationType = "Basic" | "SshPublicKey" | "MultiFactor";
+export type SftpAuthenticationType = 'Basic' | 'SshPublicKey' | 'MultiFactor';
 
 /**
  * Defines values for FtpAuthenticationType.
@@ -26369,7 +26638,7 @@ export type SftpAuthenticationType = "Basic" | "SshPublicKey" | "MultiFactor";
  * @readonly
  * @enum {string}
  */
-export type FtpAuthenticationType = "Basic" | "Anonymous";
+export type FtpAuthenticationType = 'Basic' | 'Anonymous';
 
 /**
  * Defines values for HttpAuthenticationType.
@@ -26377,12 +26646,7 @@ export type FtpAuthenticationType = "Basic" | "Anonymous";
  * @readonly
  * @enum {string}
  */
-export type HttpAuthenticationType =
-  | "Basic"
-  | "Anonymous"
-  | "Digest"
-  | "Windows"
-  | "ClientCertificate";
+export type HttpAuthenticationType = 'Basic' | 'Anonymous' | 'Digest' | 'Windows' | 'ClientCertificate';
 
 /**
  * Defines values for RestServiceAuthenticationType.
@@ -26390,11 +26654,7 @@ export type HttpAuthenticationType =
  * @readonly
  * @enum {string}
  */
-export type RestServiceAuthenticationType =
-  | "Anonymous"
-  | "Basic"
-  | "AadServicePrincipal"
-  | "ManagedServiceIdentity";
+export type RestServiceAuthenticationType = 'Anonymous' | 'Basic' | 'AadServicePrincipal' | 'ManagedServiceIdentity';
 
 /**
  * Defines values for MongoDbAuthenticationType.
@@ -26402,7 +26662,7 @@ export type RestServiceAuthenticationType =
  * @readonly
  * @enum {string}
  */
-export type MongoDbAuthenticationType = "Basic" | "Anonymous";
+export type MongoDbAuthenticationType = 'Basic' | 'Anonymous';
 
 /**
  * Defines values for ODataAuthenticationType.
@@ -26411,12 +26671,7 @@ export type MongoDbAuthenticationType = "Basic" | "Anonymous";
  * @readonly
  * @enum {string}
  */
-export type ODataAuthenticationType =
-  | "Basic"
-  | "Anonymous"
-  | "Windows"
-  | "AadServicePrincipal"
-  | "ManagedServiceIdentity";
+export type ODataAuthenticationType = 'Basic' | 'Anonymous' | 'Windows' | 'AadServicePrincipal' | 'ManagedServiceIdentity';
 
 /**
  * Defines values for ODataAadServicePrincipalCredentialType.
@@ -26424,7 +26679,7 @@ export type ODataAuthenticationType =
  * @readonly
  * @enum {string}
  */
-export type ODataAadServicePrincipalCredentialType = "ServicePrincipalKey" | "ServicePrincipalCert";
+export type ODataAadServicePrincipalCredentialType = 'ServicePrincipalKey' | 'ServicePrincipalCert';
 
 /**
  * Defines values for TeradataAuthenticationType.
@@ -26432,7 +26687,7 @@ export type ODataAadServicePrincipalCredentialType = "ServicePrincipalKey" | "Se
  * @readonly
  * @enum {string}
  */
-export type TeradataAuthenticationType = "Basic" | "Windows";
+export type TeradataAuthenticationType = 'Basic' | 'Windows';
 
 /**
  * Defines values for Db2AuthenticationType.
@@ -26440,7 +26695,7 @@ export type TeradataAuthenticationType = "Basic" | "Windows";
  * @readonly
  * @enum {string}
  */
-export type Db2AuthenticationType = "Basic";
+export type Db2AuthenticationType = 'Basic';
 
 /**
  * Defines values for SybaseAuthenticationType.
@@ -26448,23 +26703,7 @@ export type Db2AuthenticationType = "Basic";
  * @readonly
  * @enum {string}
  */
-export type SybaseAuthenticationType = "Basic" | "Windows";
-
-/**
- * Defines values for DynamicsDeploymentType.
- * Possible values include: 'Online', 'OnPremisesWithIfd'
- * @readonly
- * @enum {string}
- */
-export type DynamicsDeploymentType = "Online" | "OnPremisesWithIfd";
-
-/**
- * Defines values for DynamicsAuthenticationType.
- * Possible values include: 'Office365', 'Ifd', 'AADServicePrincipal'
- * @readonly
- * @enum {string}
- */
-export type DynamicsAuthenticationType = "Office365" | "Ifd" | "AADServicePrincipal";
+export type SybaseAuthenticationType = 'Basic' | 'Windows';
 
 /**
  * Defines values for CosmosDbServicePrincipalCredentialType.
@@ -26472,7 +26711,7 @@ export type DynamicsAuthenticationType = "Office365" | "Ifd" | "AADServicePrinci
  * @readonly
  * @enum {string}
  */
-export type CosmosDbServicePrincipalCredentialType = "ServicePrincipalKey" | "ServicePrincipalCert";
+export type CosmosDbServicePrincipalCredentialType = 'ServicePrincipalKey' | 'ServicePrincipalCert';
 
 /**
  * Defines values for CosmosDbConnectionMode.
@@ -26480,7 +26719,7 @@ export type CosmosDbServicePrincipalCredentialType = "ServicePrincipalKey" | "Se
  * @readonly
  * @enum {string}
  */
-export type CosmosDbConnectionMode = "Gateway" | "Direct";
+export type CosmosDbConnectionMode = 'Gateway' | 'Direct';
 
 /**
  * Defines values for SqlAlwaysEncryptedAkvAuthType.
@@ -26488,7 +26727,7 @@ export type CosmosDbConnectionMode = "Gateway" | "Direct";
  * @readonly
  * @enum {string}
  */
-export type SqlAlwaysEncryptedAkvAuthType = "ServicePrincipal" | "ManagedIdentity";
+export type SqlAlwaysEncryptedAkvAuthType = 'ServicePrincipal' | 'ManagedIdentity';
 
 /**
  * Defines values for OrcCompressionCodec.
@@ -26496,7 +26735,7 @@ export type SqlAlwaysEncryptedAkvAuthType = "ServicePrincipal" | "ManagedIdentit
  * @readonly
  * @enum {string}
  */
-export type OrcCompressionCodec = "none" | "zlib" | "snappy" | "lzo";
+export type OrcCompressionCodec = 'none' | 'zlib' | 'snappy' | 'lzo';
 
 /**
  * Defines values for AvroCompressionCodec.
@@ -26504,7 +26743,7 @@ export type OrcCompressionCodec = "none" | "zlib" | "snappy" | "lzo";
  * @readonly
  * @enum {string}
  */
-export type AvroCompressionCodec = "none" | "deflate" | "snappy" | "xz" | "bzip2";
+export type AvroCompressionCodec = 'none' | 'deflate' | 'snappy' | 'xz' | 'bzip2';
 
 /**
  * Defines values for TumblingWindowFrequency.
@@ -26512,7 +26751,7 @@ export type AvroCompressionCodec = "none" | "deflate" | "snappy" | "xz" | "bzip2
  * @readonly
  * @enum {string}
  */
-export type TumblingWindowFrequency = "Minute" | "Hour" | "Month";
+export type TumblingWindowFrequency = 'Minute' | 'Hour' | 'Month';
 
 /**
  * Defines values for BlobEventTypes.
@@ -26520,7 +26759,7 @@ export type TumblingWindowFrequency = "Minute" | "Hour" | "Month";
  * @readonly
  * @enum {string}
  */
-export type BlobEventTypes = "Microsoft.Storage.BlobCreated" | "Microsoft.Storage.BlobDeleted";
+export type BlobEventTypes = 'Microsoft.Storage.BlobCreated' | 'Microsoft.Storage.BlobDeleted';
 
 /**
  * Defines values for DayOfWeek.
@@ -26529,14 +26768,7 @@ export type BlobEventTypes = "Microsoft.Storage.BlobCreated" | "Microsoft.Storag
  * @readonly
  * @enum {string}
  */
-export type DayOfWeek =
-  | "Sunday"
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday";
+export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 /**
  * Defines values for DaysOfWeek.
@@ -26545,14 +26777,7 @@ export type DayOfWeek =
  * @readonly
  * @enum {string}
  */
-export type DaysOfWeek =
-  | "Sunday"
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday";
+export type DaysOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 /**
  * Defines values for RecurrenceFrequency.
@@ -26560,14 +26785,7 @@ export type DaysOfWeek =
  * @readonly
  * @enum {string}
  */
-export type RecurrenceFrequency =
-  | "NotSpecified"
-  | "Minute"
-  | "Hour"
-  | "Day"
-  | "Week"
-  | "Month"
-  | "Year";
+export type RecurrenceFrequency = 'NotSpecified' | 'Minute' | 'Hour' | 'Day' | 'Week' | 'Month' | 'Year';
 
 /**
  * Defines values for AzureFunctionActivityMethod.
@@ -26575,14 +26793,7 @@ export type RecurrenceFrequency =
  * @readonly
  * @enum {string}
  */
-export type AzureFunctionActivityMethod =
-  | "GET"
-  | "POST"
-  | "PUT"
-  | "DELETE"
-  | "OPTIONS"
-  | "HEAD"
-  | "TRACE";
+export type AzureFunctionActivityMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'TRACE';
 
 /**
  * Defines values for WebActivityMethod.
@@ -26590,7 +26801,7 @@ export type AzureFunctionActivityMethod =
  * @readonly
  * @enum {string}
  */
-export type WebActivityMethod = "GET" | "POST" | "PUT" | "DELETE";
+export type WebActivityMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 /**
  * Defines values for SalesforceSourceReadBehavior.
@@ -26598,7 +26809,7 @@ export type WebActivityMethod = "GET" | "POST" | "PUT" | "DELETE";
  * @readonly
  * @enum {string}
  */
-export type SalesforceSourceReadBehavior = "Query" | "QueryAll";
+export type SalesforceSourceReadBehavior = 'Query' | 'QueryAll';
 
 /**
  * Defines values for CassandraSourceReadConsistencyLevels.
@@ -26607,17 +26818,7 @@ export type SalesforceSourceReadBehavior = "Query" | "QueryAll";
  * @readonly
  * @enum {string}
  */
-export type CassandraSourceReadConsistencyLevels =
-  | "ALL"
-  | "EACH_QUORUM"
-  | "QUORUM"
-  | "LOCAL_QUORUM"
-  | "ONE"
-  | "TWO"
-  | "THREE"
-  | "LOCAL_ONE"
-  | "SERIAL"
-  | "LOCAL_SERIAL";
+export type CassandraSourceReadConsistencyLevels = 'ALL' | 'EACH_QUORUM' | 'QUORUM' | 'LOCAL_QUORUM' | 'ONE' | 'TWO' | 'THREE' | 'LOCAL_ONE' | 'SERIAL' | 'LOCAL_SERIAL';
 
 /**
  * Defines values for StoredProcedureParameterType.
@@ -26625,14 +26826,7 @@ export type CassandraSourceReadConsistencyLevels =
  * @readonly
  * @enum {string}
  */
-export type StoredProcedureParameterType =
-  | "String"
-  | "Int"
-  | "Int64"
-  | "Decimal"
-  | "Guid"
-  | "Boolean"
-  | "Date";
+export type StoredProcedureParameterType = 'String' | 'Int' | 'Int64' | 'Decimal' | 'Guid' | 'Boolean' | 'Date';
 
 /**
  * Defines values for SsisPackageLocationType.
@@ -26640,7 +26834,7 @@ export type StoredProcedureParameterType =
  * @readonly
  * @enum {string}
  */
-export type SsisPackageLocationType = "SSISDB" | "File" | "InlinePackage" | "PackageStore";
+export type SsisPackageLocationType = 'SSISDB' | 'File' | 'InlinePackage' | 'PackageStore';
 
 /**
  * Defines values for HDInsightActivityDebugInfoOption.
@@ -26648,7 +26842,7 @@ export type SsisPackageLocationType = "SSISDB" | "File" | "InlinePackage" | "Pac
  * @readonly
  * @enum {string}
  */
-export type HDInsightActivityDebugInfoOption = "None" | "Always" | "Failure";
+export type HDInsightActivityDebugInfoOption = 'None' | 'Always' | 'Failure';
 
 /**
  * Defines values for SalesforceSinkWriteBehavior.
@@ -26656,7 +26850,7 @@ export type HDInsightActivityDebugInfoOption = "None" | "Always" | "Failure";
  * @readonly
  * @enum {string}
  */
-export type SalesforceSinkWriteBehavior = "Insert" | "Upsert";
+export type SalesforceSinkWriteBehavior = 'Insert' | 'Upsert';
 
 /**
  * Defines values for DynamicsSinkWriteBehavior.
@@ -26664,7 +26858,7 @@ export type SalesforceSinkWriteBehavior = "Insert" | "Upsert";
  * @readonly
  * @enum {string}
  */
-export type DynamicsSinkWriteBehavior = "Upsert";
+export type DynamicsSinkWriteBehavior = 'Upsert';
 
 /**
  * Defines values for AzureSearchIndexWriteBehaviorType.
@@ -26672,7 +26866,7 @@ export type DynamicsSinkWriteBehavior = "Upsert";
  * @readonly
  * @enum {string}
  */
-export type AzureSearchIndexWriteBehaviorType = "Merge" | "Upload";
+export type AzureSearchIndexWriteBehaviorType = 'Merge' | 'Upload';
 
 /**
  * Defines values for PolybaseSettingsRejectType.
@@ -26680,15 +26874,7 @@ export type AzureSearchIndexWriteBehaviorType = "Merge" | "Upload";
  * @readonly
  * @enum {string}
  */
-export type PolybaseSettingsRejectType = "value" | "percentage";
-
-/**
- * Defines values for JsonWriteFilePattern.
- * Possible values include: 'setOfObjects', 'arrayOfObjects'
- * @readonly
- * @enum {string}
- */
-export type JsonWriteFilePattern = "setOfObjects" | "arrayOfObjects";
+export type PolybaseSettingsRejectType = 'value' | 'percentage';
 
 /**
  * Defines values for SapCloudForCustomerSinkWriteBehavior.
@@ -26696,7 +26882,7 @@ export type JsonWriteFilePattern = "setOfObjects" | "arrayOfObjects";
  * @readonly
  * @enum {string}
  */
-export type SapCloudForCustomerSinkWriteBehavior = "Insert" | "Update";
+export type SapCloudForCustomerSinkWriteBehavior = 'Insert' | 'Update';
 
 /**
  * Defines values for WebHookActivityMethod.
@@ -26704,7 +26890,7 @@ export type SapCloudForCustomerSinkWriteBehavior = "Insert" | "Update";
  * @readonly
  * @enum {string}
  */
-export type WebHookActivityMethod = "POST";
+export type WebHookActivityMethod = 'POST';
 
 /**
  * Defines values for IntegrationRuntimeType.
@@ -26712,7 +26898,7 @@ export type WebHookActivityMethod = "POST";
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeType = "Managed" | "SelfHosted";
+export type IntegrationRuntimeType = 'Managed' | 'SelfHosted';
 
 /**
  * Defines values for SelfHostedIntegrationRuntimeNodeStatus.
@@ -26721,14 +26907,7 @@ export type IntegrationRuntimeType = "Managed" | "SelfHosted";
  * @readonly
  * @enum {string}
  */
-export type SelfHostedIntegrationRuntimeNodeStatus =
-  | "NeedRegistration"
-  | "Online"
-  | "Limited"
-  | "Offline"
-  | "Upgrading"
-  | "Initializing"
-  | "InitializeFailed";
+export type SelfHostedIntegrationRuntimeNodeStatus = 'NeedRegistration' | 'Online' | 'Limited' | 'Offline' | 'Upgrading' | 'Initializing' | 'InitializeFailed';
 
 /**
  * Defines values for IntegrationRuntimeUpdateResult.
@@ -26736,7 +26915,7 @@ export type SelfHostedIntegrationRuntimeNodeStatus =
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeUpdateResult = "None" | "Succeed" | "Fail";
+export type IntegrationRuntimeUpdateResult = 'None' | 'Succeed' | 'Fail';
 
 /**
  * Defines values for IntegrationRuntimeInternalChannelEncryptionMode.
@@ -26744,10 +26923,7 @@ export type IntegrationRuntimeUpdateResult = "None" | "Succeed" | "Fail";
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeInternalChannelEncryptionMode =
-  | "NotSet"
-  | "SslEncrypted"
-  | "NotEncrypted";
+export type IntegrationRuntimeInternalChannelEncryptionMode = 'NotSet' | 'SslEncrypted' | 'NotEncrypted';
 
 /**
  * Defines values for ManagedIntegrationRuntimeNodeStatus.
@@ -26755,21 +26931,16 @@ export type IntegrationRuntimeInternalChannelEncryptionMode =
  * @readonly
  * @enum {string}
  */
-export type ManagedIntegrationRuntimeNodeStatus =
-  | "Starting"
-  | "Available"
-  | "Recycling"
-  | "Unavailable";
+export type ManagedIntegrationRuntimeNodeStatus = 'Starting' | 'Available' | 'Recycling' | 'Unavailable';
 
 /**
  * Defines values for IntegrationRuntimeEntityReferenceType.
- * Possible values include: 'IntegrationRuntimeReference', 'LinkedServiceReference'
+ * Possible values include: 'IntegrationRuntimeReference', 'LinkedServiceReference',
+ * 'CredentialReference'
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeEntityReferenceType =
-  | "IntegrationRuntimeReference"
-  | "LinkedServiceReference";
+export type IntegrationRuntimeEntityReferenceType = 'IntegrationRuntimeReference' | 'LinkedServiceReference' | 'CredentialReference';
 
 /**
  * Defines values for IntegrationRuntimeSsisCatalogPricingTier.
@@ -26777,11 +26948,7 @@ export type IntegrationRuntimeEntityReferenceType =
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeSsisCatalogPricingTier =
-  | "Basic"
-  | "Standard"
-  | "Premium"
-  | "PremiumRS";
+export type IntegrationRuntimeSsisCatalogPricingTier = 'Basic' | 'Standard' | 'Premium' | 'PremiumRS';
 
 /**
  * Defines values for IntegrationRuntimeLicenseType.
@@ -26789,7 +26956,7 @@ export type IntegrationRuntimeSsisCatalogPricingTier =
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeLicenseType = "BasePrice" | "LicenseIncluded";
+export type IntegrationRuntimeLicenseType = 'BasePrice' | 'LicenseIncluded';
 
 /**
  * Defines values for IntegrationRuntimeEdition.
@@ -26797,7 +26964,7 @@ export type IntegrationRuntimeLicenseType = "BasePrice" | "LicenseIncluded";
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeEdition = "Standard" | "Enterprise";
+export type IntegrationRuntimeEdition = 'Standard' | 'Enterprise';
 
 /**
  * Defines values for DataFlowComputeType.
@@ -26805,7 +26972,7 @@ export type IntegrationRuntimeEdition = "Standard" | "Enterprise";
  * @readonly
  * @enum {string}
  */
-export type DataFlowComputeType = "General" | "MemoryOptimized" | "ComputeOptimized";
+export type DataFlowComputeType = 'General' | 'MemoryOptimized' | 'ComputeOptimized';
 
 /**
  * Defines values for SsisObjectMetadataType.
@@ -26813,7 +26980,7 @@ export type DataFlowComputeType = "General" | "MemoryOptimized" | "ComputeOptimi
  * @readonly
  * @enum {string}
  */
-export type SsisObjectMetadataType = "Folder" | "Project" | "Package" | "Environment";
+export type SsisObjectMetadataType = 'Folder' | 'Project' | 'Package' | 'Environment';
 
 /**
  * Defines values for IntegrationRuntimeAuthKeyName.
@@ -26821,7 +26988,72 @@ export type SsisObjectMetadataType = "Folder" | "Project" | "Package" | "Environ
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeAuthKeyName = "authKey1" | "authKey2";
+export type IntegrationRuntimeAuthKeyName = 'authKey1' | 'authKey2';
+
+/**
+ * Defines values for JsonFormatFilePattern.
+ * Possible values include: 'setOfObjects', 'arrayOfObjects'
+ * @readonly
+ * @enum {string}
+ */
+export type JsonFormatFilePattern = 'setOfObjects' | 'arrayOfObjects';
+
+/**
+ * Defines values for DatasetCompressionLevel.
+ * Possible values include: 'Optimal', 'Fastest'
+ * @readonly
+ * @enum {string}
+ */
+export type DatasetCompressionLevel = 'Optimal' | 'Fastest';
+
+/**
+ * Defines values for CompressionCodec.
+ * Possible values include: 'none', 'lzo', 'bzip2', 'gzip', 'deflate', 'zipDeflate', 'snappy',
+ * 'lz4', 'tar', 'tarGZip'
+ * @readonly
+ * @enum {string}
+ */
+export type CompressionCodec = 'none' | 'lzo' | 'bzip2' | 'gzip' | 'deflate' | 'zipDeflate' | 'snappy' | 'lz4' | 'tar' | 'tarGZip';
+
+/**
+ * Defines values for DynamicsDeploymentType.
+ * Possible values include: 'Online', 'OnPremisesWithIfd'
+ * @readonly
+ * @enum {string}
+ */
+export type DynamicsDeploymentType = 'Online' | 'OnPremisesWithIfd';
+
+/**
+ * Defines values for DynamicsAuthenticationType.
+ * Possible values include: 'Office365', 'Ifd', 'AADServicePrincipal'
+ * @readonly
+ * @enum {string}
+ */
+export type DynamicsAuthenticationType = 'Office365' | 'Ifd' | 'AADServicePrincipal';
+
+/**
+ * Defines values for ServicePrincipalCredentialType.
+ * Possible values include: 'ServicePrincipalKey', 'ServicePrincipalCert'
+ * @readonly
+ * @enum {string}
+ */
+export type ServicePrincipalCredentialType = 'ServicePrincipalKey' | 'ServicePrincipalCert';
+
+/**
+ * Defines values for HdiNodeTypes.
+ * Possible values include: 'Headnode', 'Workernode', 'Zookeeper'
+ * @readonly
+ * @enum {string}
+ */
+export type HdiNodeTypes = 'Headnode' | 'Workernode' | 'Zookeeper';
+
+/**
+ * Defines values for JsonWriteFilePattern.
+ * Possible values include: 'setOfObjects', 'arrayOfObjects'
+ * @readonly
+ * @enum {string}
+ */
+export type JsonWriteFilePattern = 'setOfObjects' | 'arrayOfObjects';
 
 /**
  * Defines values for CopyBehaviorType.
@@ -26829,7 +27061,7 @@ export type IntegrationRuntimeAuthKeyName = "authKey1" | "authKey2";
  * @readonly
  * @enum {string}
  */
-export type CopyBehaviorType = "PreserveHierarchy" | "FlattenHierarchy" | "MergeFiles";
+export type CopyBehaviorType = 'PreserveHierarchy' | 'FlattenHierarchy' | 'MergeFiles';
 
 /**
  * Defines values for SqlPartitionOption.
@@ -26837,7 +27069,7 @@ export type CopyBehaviorType = "PreserveHierarchy" | "FlattenHierarchy" | "Merge
  * @readonly
  * @enum {string}
  */
-export type SqlPartitionOption = "None" | "PhysicalPartitionsOfTable" | "DynamicRange";
+export type SqlPartitionOption = 'None' | 'PhysicalPartitionsOfTable' | 'DynamicRange';
 
 /**
  * Defines values for SapHanaPartitionOption.
@@ -26845,7 +27077,7 @@ export type SqlPartitionOption = "None" | "PhysicalPartitionsOfTable" | "Dynamic
  * @readonly
  * @enum {string}
  */
-export type SapHanaPartitionOption = "None" | "PhysicalPartitionsOfTable" | "SapHanaDynamicRange";
+export type SapHanaPartitionOption = 'None' | 'PhysicalPartitionsOfTable' | 'SapHanaDynamicRange';
 
 /**
  * Defines values for SapTablePartitionOption.
@@ -26854,13 +27086,7 @@ export type SapHanaPartitionOption = "None" | "PhysicalPartitionsOfTable" | "Sap
  * @readonly
  * @enum {string}
  */
-export type SapTablePartitionOption =
-  | "None"
-  | "PartitionOnInt"
-  | "PartitionOnCalendarYear"
-  | "PartitionOnCalendarMonth"
-  | "PartitionOnCalendarDate"
-  | "PartitionOnTime";
+export type SapTablePartitionOption = 'None' | 'PartitionOnInt' | 'PartitionOnCalendarYear' | 'PartitionOnCalendarMonth' | 'PartitionOnCalendarDate' | 'PartitionOnTime';
 
 /**
  * Defines values for OraclePartitionOption.
@@ -26868,7 +27094,7 @@ export type SapTablePartitionOption =
  * @readonly
  * @enum {string}
  */
-export type OraclePartitionOption = "None" | "PhysicalPartitionsOfTable" | "DynamicRange";
+export type OraclePartitionOption = 'None' | 'PhysicalPartitionsOfTable' | 'DynamicRange';
 
 /**
  * Defines values for TeradataPartitionOption.
@@ -26876,7 +27102,7 @@ export type OraclePartitionOption = "None" | "PhysicalPartitionsOfTable" | "Dyna
  * @readonly
  * @enum {string}
  */
-export type TeradataPartitionOption = "None" | "Hash" | "DynamicRange";
+export type TeradataPartitionOption = 'None' | 'Hash' | 'DynamicRange';
 
 /**
  * Defines values for NetezzaPartitionOption.
@@ -26884,7 +27110,7 @@ export type TeradataPartitionOption = "None" | "Hash" | "DynamicRange";
  * @readonly
  * @enum {string}
  */
-export type NetezzaPartitionOption = "None" | "DataSlice" | "DynamicRange";
+export type NetezzaPartitionOption = 'None' | 'DataSlice' | 'DynamicRange';
 
 /**
  * Contains response data for the list operation.
@@ -26894,16 +27120,16 @@ export type OperationsListResponse = OperationListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResponse;
+    };
 };
 
 /**
@@ -26914,16 +27140,16 @@ export type OperationsListNextResponse = OperationListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResponse;
+    };
 };
 
 /**
@@ -26934,16 +27160,16 @@ export type FactoriesListResponse = FactoryListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FactoryListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FactoryListResponse;
+    };
 };
 
 /**
@@ -26954,16 +27180,16 @@ export type FactoriesConfigureFactoryRepoResponse = Factory & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Factory;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Factory;
+    };
 };
 
 /**
@@ -26974,16 +27200,16 @@ export type FactoriesListByResourceGroupResponse = FactoryListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FactoryListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FactoryListResponse;
+    };
 };
 
 /**
@@ -26994,16 +27220,16 @@ export type FactoriesCreateOrUpdateResponse = Factory & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Factory;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Factory;
+    };
 };
 
 /**
@@ -27014,16 +27240,16 @@ export type FactoriesUpdateResponse = Factory & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Factory;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Factory;
+    };
 };
 
 /**
@@ -27034,16 +27260,16 @@ export type FactoriesGetResponse = Factory & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Factory;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Factory;
+    };
 };
 
 /**
@@ -27054,16 +27280,16 @@ export type FactoriesGetGitHubAccessTokenResponse = GitHubAccessTokenResponse & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GitHubAccessTokenResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GitHubAccessTokenResponse;
+    };
 };
 
 /**
@@ -27074,16 +27300,16 @@ export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AccessPolicyResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AccessPolicyResponse;
+    };
 };
 
 /**
@@ -27094,16 +27320,16 @@ export type FactoriesListNextResponse = FactoryListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FactoryListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FactoryListResponse;
+    };
 };
 
 /**
@@ -27114,16 +27340,16 @@ export type FactoriesListByResourceGroupNextResponse = FactoryListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FactoryListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FactoryListResponse;
+    };
 };
 
 /**
@@ -27134,16 +27360,16 @@ export type ExposureControlGetFeatureValueResponse = ExposureControlResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ExposureControlResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExposureControlResponse;
+    };
 };
 
 /**
@@ -27154,16 +27380,16 @@ export type ExposureControlGetFeatureValueByFactoryResponse = ExposureControlRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ExposureControlResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExposureControlResponse;
+    };
 };
 
 /**
@@ -27174,16 +27400,16 @@ export type ExposureControlQueryFeatureValuesByFactoryResponse = ExposureControl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ExposureControlBatchResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExposureControlBatchResponse;
+    };
 };
 
 /**
@@ -27194,16 +27420,16 @@ export type IntegrationRuntimesListByFactoryResponse = IntegrationRuntimeListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeListResponse;
+    };
 };
 
 /**
@@ -27214,16 +27440,16 @@ export type IntegrationRuntimesCreateOrUpdateResponse = IntegrationRuntimeResour
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeResource;
+    };
 };
 
 /**
@@ -27234,16 +27460,16 @@ export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeResource;
+    };
 };
 
 /**
@@ -27254,16 +27480,16 @@ export type IntegrationRuntimesUpdateResponse = IntegrationRuntimeResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeResource;
+    };
 };
 
 /**
@@ -27274,16 +27500,16 @@ export type IntegrationRuntimesGetStatusResponse = IntegrationRuntimeStatusRespo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeStatusResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeStatusResponse;
+    };
 };
 
 /**
@@ -27294,16 +27520,16 @@ export type IntegrationRuntimesGetConnectionInfoResponse = IntegrationRuntimeCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeConnectionInfo;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeConnectionInfo;
+    };
 };
 
 /**
@@ -27314,16 +27540,16 @@ export type IntegrationRuntimesRegenerateAuthKeyResponse = IntegrationRuntimeAut
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeAuthKeys;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeAuthKeys;
+    };
 };
 
 /**
@@ -27334,16 +27560,16 @@ export type IntegrationRuntimesListAuthKeysResponse = IntegrationRuntimeAuthKeys
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeAuthKeys;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeAuthKeys;
+    };
 };
 
 /**
@@ -27354,16 +27580,16 @@ export type IntegrationRuntimesStartResponse = IntegrationRuntimeStatusResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeStatusResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeStatusResponse;
+    };
 };
 
 /**
@@ -27374,16 +27600,16 @@ export type IntegrationRuntimesGetMonitoringDataResponse = IntegrationRuntimeMon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeMonitoringData;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeMonitoringData;
+    };
 };
 
 /**
@@ -27394,16 +27620,16 @@ export type IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse = Integrat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeStatusResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeStatusResponse;
+    };
 };
 
 /**
@@ -27414,16 +27640,16 @@ export type IntegrationRuntimesBeginStartResponse = IntegrationRuntimeStatusResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeStatusResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeStatusResponse;
+    };
 };
 
 /**
@@ -27434,16 +27660,16 @@ export type IntegrationRuntimesListByFactoryNextResponse = IntegrationRuntimeLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeListResponse;
+    };
 };
 
 /**
@@ -27454,16 +27680,16 @@ export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadata
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SsisObjectMetadataStatusResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataStatusResponse;
+    };
 };
 
 /**
@@ -27474,16 +27700,16 @@ export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SsisObjectMetadataListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataListResponse;
+    };
 };
 
 /**
@@ -27494,16 +27720,16 @@ export type IntegrationRuntimeObjectMetadataBeginRefreshResponse = SsisObjectMet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SsisObjectMetadataStatusResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataStatusResponse;
+    };
 };
 
 /**
@@ -27514,16 +27740,16 @@ export type IntegrationRuntimeNodesGetResponse = SelfHostedIntegrationRuntimeNod
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SelfHostedIntegrationRuntimeNode;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SelfHostedIntegrationRuntimeNode;
+    };
 };
 
 /**
@@ -27534,16 +27760,16 @@ export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntime
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SelfHostedIntegrationRuntimeNode;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SelfHostedIntegrationRuntimeNode;
+    };
 };
 
 /**
@@ -27554,16 +27780,16 @@ export type IntegrationRuntimeNodesGetIpAddressResponse = IntegrationRuntimeNode
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IntegrationRuntimeNodeIpAddress;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeNodeIpAddress;
+    };
 };
 
 /**
@@ -27574,16 +27800,16 @@ export type LinkedServicesListByFactoryResponse = LinkedServiceListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: LinkedServiceListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LinkedServiceListResponse;
+    };
 };
 
 /**
@@ -27594,16 +27820,16 @@ export type LinkedServicesCreateOrUpdateResponse = LinkedServiceResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: LinkedServiceResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LinkedServiceResource;
+    };
 };
 
 /**
@@ -27614,16 +27840,16 @@ export type LinkedServicesGetResponse = LinkedServiceResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: LinkedServiceResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LinkedServiceResource;
+    };
 };
 
 /**
@@ -27634,16 +27860,16 @@ export type LinkedServicesListByFactoryNextResponse = LinkedServiceListResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: LinkedServiceListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LinkedServiceListResponse;
+    };
 };
 
 /**
@@ -27654,16 +27880,16 @@ export type DatasetsListByFactoryResponse = DatasetListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatasetListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatasetListResponse;
+    };
 };
 
 /**
@@ -27674,16 +27900,16 @@ export type DatasetsCreateOrUpdateResponse = DatasetResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatasetResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatasetResource;
+    };
 };
 
 /**
@@ -27694,16 +27920,16 @@ export type DatasetsGetResponse = DatasetResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatasetResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatasetResource;
+    };
 };
 
 /**
@@ -27714,16 +27940,16 @@ export type DatasetsListByFactoryNextResponse = DatasetListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DatasetListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DatasetListResponse;
+    };
 };
 
 /**
@@ -27734,16 +27960,16 @@ export type PipelinesListByFactoryResponse = PipelineListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PipelineListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PipelineListResponse;
+    };
 };
 
 /**
@@ -27754,16 +27980,16 @@ export type PipelinesCreateOrUpdateResponse = PipelineResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PipelineResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PipelineResource;
+    };
 };
 
 /**
@@ -27774,16 +28000,16 @@ export type PipelinesGetResponse = PipelineResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PipelineResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PipelineResource;
+    };
 };
 
 /**
@@ -27794,16 +28020,16 @@ export type PipelinesCreateRunResponse = CreateRunResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CreateRunResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CreateRunResponse;
+    };
 };
 
 /**
@@ -27814,16 +28040,16 @@ export type PipelinesListByFactoryNextResponse = PipelineListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PipelineListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PipelineListResponse;
+    };
 };
 
 /**
@@ -27834,16 +28060,16 @@ export type PipelineRunsQueryByFactoryResponse = PipelineRunsQueryResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PipelineRunsQueryResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PipelineRunsQueryResponse;
+    };
 };
 
 /**
@@ -27854,16 +28080,16 @@ export type PipelineRunsGetResponse = PipelineRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PipelineRun;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PipelineRun;
+    };
 };
 
 /**
@@ -27874,16 +28100,16 @@ export type ActivityRunsQueryByPipelineRunResponse = ActivityRunsQueryResponse &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ActivityRunsQueryResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ActivityRunsQueryResponse;
+    };
 };
 
 /**
@@ -27894,16 +28120,16 @@ export type TriggersListByFactoryResponse = TriggerListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TriggerListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerListResponse;
+    };
 };
 
 /**
@@ -27914,16 +28140,16 @@ export type TriggersQueryByFactoryResponse = TriggerQueryResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TriggerQueryResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerQueryResponse;
+    };
 };
 
 /**
@@ -27934,16 +28160,16 @@ export type TriggersCreateOrUpdateResponse = TriggerResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TriggerResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerResource;
+    };
 };
 
 /**
@@ -27954,16 +28180,16 @@ export type TriggersGetResponse = TriggerResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TriggerResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerResource;
+    };
 };
 
 /**
@@ -27974,16 +28200,16 @@ export type TriggersSubscribeToEventsResponse = TriggerSubscriptionOperationStat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TriggerSubscriptionOperationStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerSubscriptionOperationStatus;
+    };
 };
 
 /**
@@ -27994,16 +28220,16 @@ export type TriggersGetEventSubscriptionStatusResponse = TriggerSubscriptionOper
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TriggerSubscriptionOperationStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerSubscriptionOperationStatus;
+    };
 };
 
 /**
@@ -28014,16 +28240,16 @@ export type TriggersUnsubscribeFromEventsResponse = TriggerSubscriptionOperation
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TriggerSubscriptionOperationStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerSubscriptionOperationStatus;
+    };
 };
 
 /**
@@ -28034,16 +28260,16 @@ export type TriggersBeginSubscribeToEventsResponse = TriggerSubscriptionOperatio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TriggerSubscriptionOperationStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerSubscriptionOperationStatus;
+    };
 };
 
 /**
@@ -28054,16 +28280,16 @@ export type TriggersBeginUnsubscribeFromEventsResponse = TriggerSubscriptionOper
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TriggerSubscriptionOperationStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerSubscriptionOperationStatus;
+    };
 };
 
 /**
@@ -28074,16 +28300,16 @@ export type TriggersListByFactoryNextResponse = TriggerListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TriggerListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerListResponse;
+    };
 };
 
 /**
@@ -28094,16 +28320,16 @@ export type TriggerRunsQueryByFactoryResponse = TriggerRunsQueryResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TriggerRunsQueryResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerRunsQueryResponse;
+    };
 };
 
 /**
@@ -28114,16 +28340,16 @@ export type DataFlowsCreateOrUpdateResponse = DataFlowResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataFlowResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataFlowResource;
+    };
 };
 
 /**
@@ -28134,16 +28360,16 @@ export type DataFlowsGetResponse = DataFlowResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataFlowResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataFlowResource;
+    };
 };
 
 /**
@@ -28154,16 +28380,16 @@ export type DataFlowsListByFactoryResponse = DataFlowListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataFlowListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataFlowListResponse;
+    };
 };
 
 /**
@@ -28174,27 +28400,26 @@ export type DataFlowsListByFactoryNextResponse = DataFlowListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DataFlowListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataFlowListResponse;
+    };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type DataFlowDebugSessionCreateResponse = CreateDataFlowDebugSessionResponse &
-  DataFlowDebugSessionCreateHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: msRest.HttpResponse & {
+export type DataFlowDebugSessionCreateResponse = CreateDataFlowDebugSessionResponse & DataFlowDebugSessionCreateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -28210,7 +28435,7 @@ export type DataFlowDebugSessionCreateResponse = CreateDataFlowDebugSessionRespo
        */
       parsedBody: CreateDataFlowDebugSessionResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the queryByFactory operation.
@@ -28220,16 +28445,16 @@ export type DataFlowDebugSessionQueryByFactoryResponse = QueryDataFlowDebugSessi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QueryDataFlowDebugSessionsResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueryDataFlowDebugSessionsResponse;
+    };
 };
 
 /**
@@ -28240,27 +28465,26 @@ export type DataFlowDebugSessionAddDataFlowResponse = AddDataFlowToDebugSessionR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AddDataFlowToDebugSessionResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AddDataFlowToDebugSessionResponse;
+    };
 };
 
 /**
  * Contains response data for the executeCommand operation.
  */
-export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandResponse &
-  DataFlowDebugSessionExecuteCommandHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: msRest.HttpResponse & {
+export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandResponse & DataFlowDebugSessionExecuteCommandHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -28276,7 +28500,7 @@ export type DataFlowDebugSessionExecuteCommandResponse = DataFlowDebugCommandRes
        */
       parsedBody: DataFlowDebugCommandResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the queryByFactoryNext operation.
@@ -28286,16 +28510,16 @@ export type DataFlowDebugSessionQueryByFactoryNextResponse = QueryDataFlowDebugS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QueryDataFlowDebugSessionsResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueryDataFlowDebugSessionsResponse;
+    };
 };
 
 /**
@@ -28306,16 +28530,16 @@ export type ManagedVirtualNetworksListByFactoryResponse = ManagedVirtualNetworkL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ManagedVirtualNetworkListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkListResponse;
+    };
 };
 
 /**
@@ -28326,16 +28550,16 @@ export type ManagedVirtualNetworksCreateOrUpdateResponse = ManagedVirtualNetwork
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ManagedVirtualNetworkResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkResource;
+    };
 };
 
 /**
@@ -28346,16 +28570,16 @@ export type ManagedVirtualNetworksGetResponse = ManagedVirtualNetworkResource & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ManagedVirtualNetworkResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkResource;
+    };
 };
 
 /**
@@ -28366,16 +28590,16 @@ export type ManagedVirtualNetworksListByFactoryNextResponse = ManagedVirtualNetw
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ManagedVirtualNetworkListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedVirtualNetworkListResponse;
+    };
 };
 
 /**
@@ -28386,16 +28610,16 @@ export type ManagedPrivateEndpointsListByFactoryResponse = ManagedPrivateEndpoin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ManagedPrivateEndpointListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointListResponse;
+    };
 };
 
 /**
@@ -28406,16 +28630,16 @@ export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpoi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ManagedPrivateEndpointResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointResource;
+    };
 };
 
 /**
@@ -28426,16 +28650,16 @@ export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpointResource 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ManagedPrivateEndpointResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointResource;
+    };
 };
 
 /**
@@ -28446,16 +28670,16 @@ export type ManagedPrivateEndpointsListByFactoryNextResponse = ManagedPrivateEnd
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ManagedPrivateEndpointListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedPrivateEndpointListResponse;
+    };
 };
 
 /**
@@ -28466,16 +28690,16 @@ export type PrivateEndPointConnectionsListByFactoryResponse = PrivateEndpointCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResponse;
+    };
 };
 
 /**
@@ -28486,16 +28710,16 @@ export type PrivateEndPointConnectionsListByFactoryNextResponse = PrivateEndpoin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResponse;
+    };
 };
 
 /**
@@ -28506,16 +28730,16 @@ export type PrivateEndpointConnectionCreateOrUpdateResponse = PrivateEndpointCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionResource;
+    };
 };
 
 /**
@@ -28526,16 +28750,16 @@ export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionReso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionResource;
+    };
 };
 
 /**
@@ -28546,14 +28770,14 @@ export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesWrapper & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateLinkResourcesWrapper;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourcesWrapper;
+    };
 };
