@@ -649,7 +649,8 @@ export interface ErrorResponse {
 /**
  * Optional Parameters.
  */
-export interface MarketplaceAgreementsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface MarketplaceAgreementsCreateOrUpdateOptionalParams
+  extends msRest.RequestOptionsBase {
   body?: DatadogAgreementResource;
 }
 
@@ -698,14 +699,16 @@ export interface TagRulesCreateOrUpdateOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface SingleSignOnConfigurationsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface SingleSignOnConfigurationsCreateOrUpdateOptionalParams
+  extends msRest.RequestOptionsBase {
   body?: DatadogSingleSignOnResource;
 }
 
 /**
  * Optional Parameters.
  */
-export interface SingleSignOnConfigurationsBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface SingleSignOnConfigurationsBeginCreateOrUpdateOptionalParams
+  extends msRest.RequestOptionsBase {
   body?: DatadogSingleSignOnResource;
 }
 
@@ -817,7 +820,8 @@ export interface MonitoringTagRulesListResponse extends Array<MonitoringTagRules
  * Response of a list operation.
  * @extends Array<DatadogSingleSignOnResource>
  */
-export interface DatadogSingleSignOnResourceListResponse extends Array<DatadogSingleSignOnResource> {
+export interface DatadogSingleSignOnResourceListResponse
+  extends Array<DatadogSingleSignOnResource> {
   /**
    * Link to the next set of results, if any.
    */
@@ -830,7 +834,7 @@ export interface DatadogSingleSignOnResourceListResponse extends Array<DatadogSi
  * @readonly
  * @enum {string}
  */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
 
 /**
  * Defines values for ProvisioningState.
@@ -839,7 +843,16 @@ export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Accepted' | 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleted' | 'NotSpecified';
+export type ProvisioningState =
+  | "Accepted"
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Deleted"
+  | "NotSpecified";
 
 /**
  * Defines values for MonitoringStatus.
@@ -847,7 +860,7 @@ export type ProvisioningState = 'Accepted' | 'Creating' | 'Updating' | 'Deleting
  * @readonly
  * @enum {string}
  */
-export type MonitoringStatus = 'Enabled' | 'Disabled';
+export type MonitoringStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for MarketplaceSubscriptionStatus.
@@ -855,7 +868,11 @@ export type MonitoringStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type MarketplaceSubscriptionStatus = 'Provisioning' | 'Active' | 'Suspended' | 'Unsubscribed';
+export type MarketplaceSubscriptionStatus =
+  | "Provisioning"
+  | "Active"
+  | "Suspended"
+  | "Unsubscribed";
 
 /**
  * Defines values for LiftrResourceCategories.
@@ -863,7 +880,7 @@ export type MarketplaceSubscriptionStatus = 'Provisioning' | 'Active' | 'Suspend
  * @readonly
  * @enum {string}
  */
-export type LiftrResourceCategories = 'Unknown' | 'MonitorLogs';
+export type LiftrResourceCategories = "Unknown" | "MonitorLogs";
 
 /**
  * Defines values for ManagedIdentityTypes.
@@ -871,7 +888,7 @@ export type LiftrResourceCategories = 'Unknown' | 'MonitorLogs';
  * @readonly
  * @enum {string}
  */
-export type ManagedIdentityTypes = 'SystemAssigned' | 'UserAssigned';
+export type ManagedIdentityTypes = "SystemAssigned" | "UserAssigned";
 
 /**
  * Defines values for TagAction.
@@ -879,7 +896,7 @@ export type ManagedIdentityTypes = 'SystemAssigned' | 'UserAssigned';
  * @readonly
  * @enum {string}
  */
-export type TagAction = 'Include' | 'Exclude';
+export type TagAction = "Include" | "Exclude";
 
 /**
  * Defines values for SingleSignOnStates.
@@ -887,7 +904,7 @@ export type TagAction = 'Include' | 'Exclude';
  * @readonly
  * @enum {string}
  */
-export type SingleSignOnStates = 'Initial' | 'Enable' | 'Disable' | 'Existing';
+export type SingleSignOnStates = "Initial" | "Enable" | "Disable" | "Existing";
 
 /**
  * Contains response data for the list operation.
@@ -897,16 +914,16 @@ export type MarketplaceAgreementsListResponse = DatadogAgreementResourceListResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogAgreementResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogAgreementResourceListResponse;
+  };
 };
 
 /**
@@ -917,16 +934,16 @@ export type MarketplaceAgreementsCreateOrUpdateResponse = DatadogAgreementResour
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogAgreementResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogAgreementResource;
+  };
 };
 
 /**
@@ -937,16 +954,16 @@ export type MarketplaceAgreementsListNextResponse = DatadogAgreementResourceList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogAgreementResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogAgreementResourceListResponse;
+  };
 };
 
 /**
@@ -957,16 +974,16 @@ export type MonitorsListApiKeysResponse = DatadogApiKeyListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogApiKeyListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogApiKeyListResponse;
+  };
 };
 
 /**
@@ -977,16 +994,16 @@ export type MonitorsGetDefaultKeyResponse = DatadogApiKey & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogApiKey;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogApiKey;
+  };
 };
 
 /**
@@ -997,16 +1014,16 @@ export type MonitorsListHostsResponse = DatadogHostListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogHostListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogHostListResponse;
+  };
 };
 
 /**
@@ -1017,16 +1034,16 @@ export type MonitorsListLinkedResourcesResponse = LinkedResourceListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedResourceListResponse;
+  };
 };
 
 /**
@@ -1037,16 +1054,16 @@ export type MonitorsListMonitoredResourcesResponse = MonitoredResourceListRespon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MonitoredResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MonitoredResourceListResponse;
+  };
 };
 
 /**
@@ -1057,16 +1074,16 @@ export type MonitorsListResponse = DatadogMonitorResourceListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogMonitorResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogMonitorResourceListResponse;
+  };
 };
 
 /**
@@ -1077,16 +1094,16 @@ export type MonitorsListByResourceGroupResponse = DatadogMonitorResourceListResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogMonitorResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogMonitorResourceListResponse;
+  };
 };
 
 /**
@@ -1097,16 +1114,16 @@ export type MonitorsGetResponse = DatadogMonitorResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogMonitorResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogMonitorResource;
+  };
 };
 
 /**
@@ -1117,16 +1134,16 @@ export type MonitorsCreateResponse = DatadogMonitorResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogMonitorResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogMonitorResource;
+  };
 };
 
 /**
@@ -1137,16 +1154,16 @@ export type MonitorsUpdateResponse = DatadogMonitorResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogMonitorResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogMonitorResource;
+  };
 };
 
 /**
@@ -1157,16 +1174,16 @@ export type MonitorsRefreshSetPasswordLinkResponse = DatadogSetPasswordLink & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogSetPasswordLink;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogSetPasswordLink;
+  };
 };
 
 /**
@@ -1177,16 +1194,16 @@ export type MonitorsBeginCreateResponse = DatadogMonitorResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogMonitorResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogMonitorResource;
+  };
 };
 
 /**
@@ -1197,16 +1214,16 @@ export type MonitorsBeginUpdateResponse = DatadogMonitorResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogMonitorResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogMonitorResource;
+  };
 };
 
 /**
@@ -1217,16 +1234,16 @@ export type MonitorsListApiKeysNextResponse = DatadogApiKeyListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogApiKeyListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogApiKeyListResponse;
+  };
 };
 
 /**
@@ -1237,16 +1254,16 @@ export type MonitorsListHostsNextResponse = DatadogHostListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogHostListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogHostListResponse;
+  };
 };
 
 /**
@@ -1257,16 +1274,16 @@ export type MonitorsListLinkedResourcesNextResponse = LinkedResourceListResponse
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedResourceListResponse;
+  };
 };
 
 /**
@@ -1277,16 +1294,16 @@ export type MonitorsListMonitoredResourcesNextResponse = MonitoredResourceListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MonitoredResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MonitoredResourceListResponse;
+  };
 };
 
 /**
@@ -1297,16 +1314,16 @@ export type MonitorsListNextResponse = DatadogMonitorResourceListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogMonitorResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogMonitorResourceListResponse;
+  };
 };
 
 /**
@@ -1317,16 +1334,16 @@ export type MonitorsListByResourceGroupNextResponse = DatadogMonitorResourceList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogMonitorResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogMonitorResourceListResponse;
+  };
 };
 
 /**
@@ -1337,16 +1354,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1357,16 +1374,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1377,16 +1394,16 @@ export type TagRulesListResponse = MonitoringTagRulesListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MonitoringTagRulesListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MonitoringTagRulesListResponse;
+  };
 };
 
 /**
@@ -1397,16 +1414,16 @@ export type TagRulesCreateOrUpdateResponse = MonitoringTagRules & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MonitoringTagRules;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MonitoringTagRules;
+  };
 };
 
 /**
@@ -1417,16 +1434,16 @@ export type TagRulesGetResponse = MonitoringTagRules & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MonitoringTagRules;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MonitoringTagRules;
+  };
 };
 
 /**
@@ -1437,16 +1454,16 @@ export type TagRulesListNextResponse = MonitoringTagRulesListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MonitoringTagRulesListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MonitoringTagRulesListResponse;
+  };
 };
 
 /**
@@ -1457,16 +1474,16 @@ export type SingleSignOnConfigurationsListResponse = DatadogSingleSignOnResource
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogSingleSignOnResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogSingleSignOnResourceListResponse;
+  };
 };
 
 /**
@@ -1477,16 +1494,16 @@ export type SingleSignOnConfigurationsCreateOrUpdateResponse = DatadogSingleSign
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogSingleSignOnResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogSingleSignOnResource;
+  };
 };
 
 /**
@@ -1497,16 +1514,16 @@ export type SingleSignOnConfigurationsGetResponse = DatadogSingleSignOnResource 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogSingleSignOnResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogSingleSignOnResource;
+  };
 };
 
 /**
@@ -1517,16 +1534,16 @@ export type SingleSignOnConfigurationsBeginCreateOrUpdateResponse = DatadogSingl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogSingleSignOnResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogSingleSignOnResource;
+  };
 };
 
 /**
@@ -1537,14 +1554,14 @@ export type SingleSignOnConfigurationsListNextResponse = DatadogSingleSignOnReso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatadogSingleSignOnResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatadogSingleSignOnResourceListResponse;
+  };
 };
