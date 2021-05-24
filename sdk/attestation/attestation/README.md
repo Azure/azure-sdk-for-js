@@ -27,7 +27,7 @@ For a more complete view of Azure libraries, see the [azure sdk typescript relea
 
 ### Install the @azure/attestation package
 
-Install the Microsoft Azure Attestation client library for Javascript with [NPM][Attestation_npm]:
+Install the Microsoft Azure Attestation client library for JavaScript with [NPM][Attestation_npm]:
 
 ```Powershell
 npm install @azure/attestation
