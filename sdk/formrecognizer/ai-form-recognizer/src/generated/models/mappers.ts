@@ -684,7 +684,8 @@ export const TextStyle: coreHttp.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["other", "handwriting"]
         }
       },
       confidence: {
@@ -734,7 +735,8 @@ export const SelectionMark: coreHttp.CompositeMapper = {
         serializedName: "state",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["selected", "unselected"]
         }
       }
     }
@@ -1124,8 +1126,7 @@ export const FieldValue: coreHttp.CompositeMapper = {
             "array",
             "object",
             "selectionMark",
-            "gender",
-            "country"
+            "countryRegion"
           ]
         }
       },
@@ -1190,14 +1191,8 @@ export const FieldValue: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      valueGender: {
-        serializedName: "valueGender",
-        type: {
-          name: "String"
-        }
-      },
-      valueCountry: {
-        serializedName: "valueCountry",
+      valueCountryRegion: {
+        serializedName: "valueCountryRegion",
         type: {
           name: "String"
         }

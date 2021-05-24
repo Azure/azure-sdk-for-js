@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { matrix } from "@azure/test-utils";
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient } from "../../src";
-import { matrix } from "./utils/matrix";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function(useAad) {
@@ -33,6 +33,6 @@ matrix([[true, false]], async function(useAad) {
       }
 
       assert.isTrue(all > 0);
-    }).timeout(20000);
+    }).timeout(60000);
   });
 });

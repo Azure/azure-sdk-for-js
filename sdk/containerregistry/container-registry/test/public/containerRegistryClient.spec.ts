@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 
 import { ContainerRegistryClient } from "../../src";
 
-import { delay, env, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-util";
 import { createRegistryClient, recorderEnvSetup } from "./utils";
 
@@ -49,7 +49,6 @@ describe("ContainerRegistryClient tests", function() {
 
   it("deletes repository of given name", async () => {
     await client.deleteRepository(repositoryName);
-    await delay(5 * 1000);
     const iter = client.listRepositoryNames();
     for await (const repository of iter) {
       if (repository === repositoryName) {

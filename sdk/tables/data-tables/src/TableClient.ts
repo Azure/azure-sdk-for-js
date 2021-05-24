@@ -5,31 +5,28 @@ import {
   TableEntity,
   ListTableEntitiesOptions,
   GetTableEntityResponse,
-  ListEntitiesResponse,
-  CreateTableEntityOptions,
   UpdateTableEntityOptions,
-  UpsertTableEntityOptions,
   DeleteTableEntityOptions,
   GetTableEntityOptions,
   UpdateMode,
   CreateTableEntityResponse,
   TableEntityQueryOptions,
-  CreateTableOptions,
-  CreateTableItemResponse,
   TableServiceClientOptions as TableClientOptions,
-  TableBatch,
-  TableEntityResult
+  TableEntityResult,
+  TransactionAction,
+  TableTransactionResponse
 } from "./models";
 import {
-  DeleteTableOptions,
-  DeleteTableResponse,
   UpdateEntityResponse,
   UpsertEntityResponse,
-  DeleteTableEntityResponse
+  DeleteTableEntityResponse,
+  GetAccessPolicyResponse,
+  SetAccessPolicyResponse
 } from "./generatedModels";
 import {
   GeneratedClientOptionalParams,
-  QueryOptions as GeneratedQueryOptions
+  QueryOptions as GeneratedQueryOptions,
+  SignedIdentifier
 } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
@@ -43,23 +40,37 @@ import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { FullOperationResponse } from "@azure/core-client";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
-import { InternalBatchClientOptions } from "./utils/internalModels";
+import { InternalTableTransaction, createInnerTransactionRequest } from "./TableTransaction";
+import {
+  InternalTransactionClientOptions,
+  ListEntitiesResponse,
+  TableClientLike
+} from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
 import { parseXML, stringifyXML } from "@azure/core-xml";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
  * to perform operations on a single table.
  */
 export class TableClient {
+  /**
+   * Table Account URL
+   */
+  public url: string;
+  /**
+   * Represents a pipeline for making a HTTP request to a URL.
+   * Pipelines can have multiple policies to manage manipulating each request before and after it is made to the server.
+   */
+  public pipeline: Pipeline;
   private table: Table;
-  private url: string;
   private credential: TablesSharedKeyCredentialLike | undefined;
+  private interceptClient: TableClientLike | undefined;
 
   /**
    * Name of the table to perform operations on.
@@ -82,7 +93,7 @@ export class TableClient {
    * const tableName = "<table name>";
    * const sharedKeyCredential = new TablesSharedKeyCredential(account, "<account key>");
    *
-   * const tableServiceClient = new TableServiceClient(
+   * const client = new TableClient(
    *   `https://${account}.table.core.windows.net`,
    *   `${tableName}`
    *   sharedKeyCredential
@@ -111,7 +122,7 @@ export class TableClient {
    * const sasToken = "<SAS token>";
    * const tableName = "<table name>";
    *
-   * const tableServiceClient = new TableServiceClient(
+   * const client = new TableClient(
    *   `https://${account}.table.core.windows.net?${sasToken}`,
    *   `${tableName}`
    * );
@@ -149,11 +160,11 @@ export class TableClient {
     };
 
     if (isInternalClientOptions(clientOptions)) {
-      // The client is meant to be an intercept client (for Batch operations), so we need to create only the intercepting
+      // The client is meant to be an intercept client (for Transaction), so we need to create only the intercepting
       // pipelines.
-      internalPipelineOptions.pipeline = clientOptions.innerBatchRequest.createPipeline();
+      internalPipelineOptions.pipeline = clientOptions.innerTransactionRequest.createPipeline();
     } else {
-      // The client is a regular client (non-batch), pass the pipeline options to create a pipeline
+      // The client is a regular client (non-transaction), pass the pipeline options to create a pipeline
       internalPipelineOptions = {
         ...internalPipelineOptions,
         ...{
@@ -178,6 +189,7 @@ export class TableClient {
       generatedClient.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
     }
     this.table = generatedClient.table;
+    this.pipeline = generatedClient.pipeline;
   }
 
   /**
@@ -185,30 +197,38 @@ export class TableClient {
    * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async delete(options: DeleteTableOptions = {}): Promise<DeleteTableResponse> {
-    const { span, updatedOptions } = createSpan("TableClient-delete", options);
+  public async deleteTable(options: OperationOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("TableClient-deleteTable", options);
     try {
-      return await this.table.delete(this.tableName, updatedOptions);
+      await this.table.delete(this.tableName, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
+      if (e.statusCode === 404) {
+        logger.info("TableClient-deleteTable: Table doesn't exist");
+      } else {
+        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+        throw e;
+      }
     } finally {
       span.end();
     }
   }
 
   /**
-   *  Creates the current table it it doesn't exist
+   *  Creates a table with the tableName passed to the client constructor
    * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async create(options: CreateTableOptions = {}): Promise<CreateTableItemResponse> {
-    const { span, updatedOptions } = createSpan("TableClient-create", options);
+  public async createTable(options: OperationOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("TableClient-createTable", options);
     try {
-      return await this.table.create({ tableName: this.tableName }, updatedOptions);
+      await this.table.create({ name: this.tableName }, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
+      if (e.statusCode === 409) {
+        logger.info("TableClient-createTable: Table Already Exists");
+      } else {
+        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+        throw e;
+      }
     } finally {
       span.end();
     }
@@ -220,7 +240,7 @@ export class TableClient {
    * @param rowKey - The row key of the entity.
    * @param options - The options parameters.
    */
-  public async getEntity<T extends object>(
+  public async getEntity<T extends object = Record<string, unknown>>(
     partitionKey: string,
     rowKey: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
@@ -237,13 +257,16 @@ export class TableClient {
     }
 
     try {
-      const { queryOptions, ...getEntityOptions } = updatedOptions || {};
+      const { disableTypeConversion, queryOptions, ...getEntityOptions } = updatedOptions || {};
       await this.table.queryEntitiesWithPartitionAndRowKey(this.tableName, partitionKey, rowKey, {
         ...getEntityOptions,
         queryOptions: this.convertQueryOptions(queryOptions || {}),
         onResponse
       });
-      const tableEntity = deserialize<TableEntityResult<T>>(parsedBody);
+      const tableEntity = deserialize<TableEntityResult<T>>(
+        parsedBody,
+        disableTypeConversion ?? false
+      );
 
       return tableEntity;
     } catch (e) {
@@ -256,13 +279,12 @@ export class TableClient {
 
   /**
    * Queries entities in a table.
-   * @param tableName - The name of the table.
    * @param options - The options parameters.
    */
-  public listEntities<T extends object>(
+  public listEntities<T extends object = Record<string, unknown>>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListTableEntitiesOptions = {}
-  ): PagedAsyncIterableIterator<TableEntityResult<T>, ListEntitiesResponse<TableEntityResult<T>>> {
+  ): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]> {
     const tableName = this.tableName;
     const iter = this.listEntitiesAll<T>(tableName, options);
 
@@ -285,13 +307,13 @@ export class TableClient {
 
   private async *listEntitiesAll<T extends object>(
     tableName: string,
-    options?: ListTableEntitiesOptions
+    options?: InternalListTableEntitiesOptions
   ): AsyncIterableIterator<TableEntityResult<T>> {
     const firstPage = await this._listEntities<T>(tableName, options);
     const { nextPartitionKey, nextRowKey } = firstPage;
     yield* firstPage;
     if (nextRowKey && nextPartitionKey) {
-      const optionsWithContinuation: ListTableEntitiesOptions = {
+      const optionsWithContinuation: InternalListTableEntitiesOptions = {
         ...options,
         nextPartitionKey,
         nextRowKey
@@ -314,12 +336,13 @@ export class TableClient {
       yield result;
 
       while (result.nextPartitionKey && result.nextRowKey) {
-        const optionsWithContinuation: ListTableEntitiesOptions = {
+        const optionsWithContinuation: InternalListTableEntitiesOptions = {
           ...updatedOptions,
           nextPartitionKey: result.nextPartitionKey,
           nextRowKey: result.nextRowKey
         };
         result = await this._listEntities(tableName, optionsWithContinuation);
+
         yield result;
       }
     } catch (e) {
@@ -335,9 +358,10 @@ export class TableClient {
 
   private async _listEntities<T extends object>(
     tableName: string,
-    options?: ListTableEntitiesOptions
+    options: InternalListTableEntitiesOptions = {}
   ): Promise<ListEntitiesResponse<TableEntityResult<T>>> {
-    const queryOptions = this.convertQueryOptions(options?.queryOptions || {});
+    const { disableTypeConversion = false } = options;
+    const queryOptions = this.convertQueryOptions(options.queryOptions || {});
     const {
       xMsContinuationNextPartitionKey: nextPartitionKey,
       xMsContinuationNextRowKey: nextRowKey,
@@ -347,7 +371,10 @@ export class TableClient {
       queryOptions
     });
 
-    const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(value || []);
+    const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(
+      value ?? [],
+      disableTypeConversion
+    );
 
     return Object.assign([...tableEntities], {
       nextPartitionKey,
@@ -363,15 +390,14 @@ export class TableClient {
   public async createEntity<T extends object>(
     entity: TableEntity<T>,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: CreateTableEntityOptions = {}
+    options: OperationOptions = {}
   ): Promise<CreateTableEntityResponse> {
     const { span, updatedOptions } = createSpan("TableClient-createEntity", options);
 
     try {
-      const { queryOptions, ...createTableEntity } = updatedOptions || {};
+      const { ...createTableEntity } = updatedOptions || {};
       return await this.table.insertEntity(this.tableName, {
         ...createTableEntity,
-        queryOptions: this.convertQueryOptions(queryOptions || {}),
         tableEntityProperties: serialize(entity),
         responsePreference: "return-no-content"
       });
@@ -398,10 +424,9 @@ export class TableClient {
     const { span, updatedOptions } = createSpan("TableClient-deleteEntity", options);
 
     try {
-      const { etag = "*", queryOptions, ...rest } = updatedOptions || {};
+      const { etag = "*", ...rest } = updatedOptions || {};
       const deleteOptions: TableDeleteEntityOptionalParams = {
-        ...rest,
-        queryOptions: this.convertQueryOptions(queryOptions || {})
+        ...rest
       };
       return await this.table.deleteEntity(
         this.tableName,
@@ -428,7 +453,7 @@ export class TableClient {
    */
   public async updateEntity<T extends object>(
     entity: TableEntity<T>,
-    mode: UpdateMode,
+    mode: UpdateMode = "Merge",
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpdateTableEntityOptions = {}
   ): Promise<UpdateEntityResponse> {
@@ -466,7 +491,6 @@ export class TableClient {
 
   /**
    * Upsert an entity in the table.
-   * @param tableName - The name of the table.
    * @param entity - The properties for the table entity.
    * @param mode - The different modes for updating the entity:
    *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
@@ -475,9 +499,9 @@ export class TableClient {
    */
   public async upsertEntity<T extends object>(
     entity: TableEntity<T>,
-    mode: UpdateMode,
+    mode: UpdateMode = "Merge",
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: UpsertTableEntityOptions = {}
+    options: OperationOptions = {}
   ): Promise<UpsertEntityResponse> {
     const { span, updatedOptions } = createSpan(`TableClient-upsertEntity-${mode}`, options);
 
@@ -486,20 +510,17 @@ export class TableClient {
         throw new Error("partitionKey and rowKey must be defined");
       }
 
-      const { queryOptions, ...upsertOptions } = updatedOptions || {};
       if (mode === "Merge") {
         return await this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
-          queryOptions: this.convertQueryOptions(queryOptions || {}),
-          ...upsertOptions
+          ...updatedOptions
         });
       }
 
       if (mode === "Replace") {
         return await this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
-          queryOptions: this.convertQueryOptions(queryOptions || {}),
-          ...upsertOptions
+          ...updatedOptions
         });
       }
       throw new Error(`Unexpected value for update mode: ${mode}`);
@@ -512,24 +533,112 @@ export class TableClient {
   }
 
   /**
-   * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
-   * @param partitionKey - partitionKey to which the batch operations will be targetted to
+   * Retrieves details about any stored access policies specified on the table that may be used with
+   * Shared Access Signatures.
+   * @param options - The options parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public createBatch(partitionKey: string): TableBatch {
-    const batchId = Uuid.generateUuid();
+  public getAccessPolicy(options: OperationOptions = {}): Promise<GetAccessPolicyResponse> {
+    const { span, updatedOptions } = createSpan("TableClient-getAccessPolicy", options);
+    try {
+      return this.table.getAccessPolicy(this.tableName, updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Sets stored access policies for the table that may be used with Shared Access Signatures.
+   * @param tableAcl - The Access Control List for the table.
+   * @param options - The options parameters.
+   */
+  public setAccessPolicy(
+    tableAcl: SignedIdentifier[],
+    options: OperationOptions = {}
+  ): Promise<SetAccessPolicyResponse> {
+    const { span, updatedOptions } = createSpan("TableClient-setAccessPolicy", options);
+    try {
+      return this.table.setAccessPolicy(this.tableName, { ...updatedOptions, tableAcl });
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Submits a Transaction which is composed of a set of actions. You can provide the actions as a list
+   * or you can use {@link TableTransaction} to help building the transaction.
+   *
+   * Example usage:
+   * ```js
+   * const client = TableClient.fromConnectionString(connectionString, tableName);
+   * const actions: TransactionAction[] = [
+   *    ["create", \{partitionKey: "p1", rowKey: "1", data: "test1"\}]
+   *    ["delete", \{partitionKey: "p1", rowKey: "2"\}],
+   *    ["update", \{partitionKey: "p1", rowKey: "3", data: "newTest"\}, "Merge"]
+   * ]
+   * const result = await client.submitTransaction(actions);
+   * ```
+   *
+   * Example usage with TableTransaction:
+   * ```js
+   * const client = TableClient.fromConnectionString(connectionString, tableName);
+   * const transaction = new TableTransaction();
+   * // Call the available action in the TableTransaction object
+   * transaction.create(\{partitionKey: "p1", rowKey: "1", data: "test1"\});
+   * transaction.delete("p1", "2");
+   * transaction.update(\{partitionKey: "p1", rowKey: "3", data: "newTest"\}, "Merge")
+   * // submitTransaction with the actions list on the transaction.
+   * const result = await client.submitTransaction(transaction.actions);
+   * ```
+   *
+   * @param actions - tuple that contains the action to perform, and the entity to perform the action with
+   */
+  public async submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse> {
+    const partitionKey = actions[0][1].partitionKey;
+    const transactionId = Uuid.generateUuid();
     const changesetId = Uuid.generateUuid();
-    const innerBatchRequest = createInnerBatchRequest(batchId, changesetId);
-    const internalClientOptions: InternalBatchClientOptions = { innerBatchRequest };
-    const interceptClient = new TableClient(this.url, this.tableName, internalClientOptions);
-    return new TableBatchImpl(
+    const innerTransactionRequest = createInnerTransactionRequest(transactionId, changesetId);
+    const internalClientOptions: InternalTransactionClientOptions = {
+      innerTransactionRequest: innerTransactionRequest
+    };
+
+    if (!this.interceptClient) {
+      // Cache intercept client so we just have to instantiate it once
+      this.interceptClient = new TableClient(this.url, this.tableName, internalClientOptions);
+    }
+
+    const transactionClient = new InternalTableTransaction(
       this.url,
       partitionKey,
-      interceptClient,
-      batchId,
-      innerBatchRequest,
+      this.interceptClient,
+      transactionId,
+      innerTransactionRequest,
       this.credential
     );
+
+    for (const item of actions) {
+      const [action, entity, updateMode = "Merge"] = item;
+      switch (action) {
+        case "create":
+          transactionClient.createEntity(entity);
+          break;
+        case "delete":
+          transactionClient.deleteEntity(entity.partitionKey, entity.rowKey);
+          break;
+        case "update":
+          transactionClient.updateEntity(entity, updateMode);
+          break;
+        case "upsert":
+          transactionClient.upsertEntity(entity, updateMode);
+      }
+    }
+
+    return transactionClient.submitTransaction();
   }
 
   private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {
@@ -575,8 +684,22 @@ export class TableClient {
 type InternalQueryOptions = TableEntityQueryOptions & { top?: number };
 interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
   queryOptions?: InternalQueryOptions;
+  /**
+   * An entity query continuation token from a previous call.
+   */
+  nextPartitionKey?: string;
+  /**
+   * An entity query continuation token from a previous call.
+   */
+  nextRowKey?: string;
+  /**
+   * If true, automatic type conversion will be disabled and entity properties will
+   * be represented by full metadata types. For example, an Int32 value will be \{value: "123", type: "Int32"\} instead of 123.
+   * This option applies for all the properties
+   */
+  disableTypeConversion?: boolean;
 }
 
-function isInternalClientOptions(options: any): options is InternalBatchClientOptions {
-  return Boolean(options.innerBatchRequest);
+function isInternalClientOptions(options: any): options is InternalTransactionClientOptions {
+  return Boolean(options.innerTransactionRequest);
 }

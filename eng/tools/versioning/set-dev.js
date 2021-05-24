@@ -78,11 +78,7 @@ const updateDependencySection = (rushPackages, dependencySection, buildId) => {
       const parsedPackageVersion = semver.parse(packageVersion);
       const parsedDepMinVersion = semver.minVersion(depVersionRange);
 
-      if (
-        parsedDepMinVersion.major == parsedPackageVersion.major &&
-        parsedDepMinVersion.minor == parsedPackageVersion.minor &&
-        parsedDepMinVersion.patch == parsedPackageVersion.patch
-      ) {
+      if (semver.eq(parsedDepMinVersion, parsedPackageVersion)) {
         rushPackages = updatePackageVersion(rushPackages, depName, buildId);
       }
     }
@@ -137,10 +133,7 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
     const parsedDepMinVersion = semver.minVersion(depVersionRange);
     // If the dependency range is satisfied by the package's current version,
     // replace it with an exact match to the package's new version
-    if (
-      parsedDepMinVersion.major == parsedPackageVersion.major &&
-      parsedDepMinVersion.minor == parsedPackageVersion.minor &&
-      parsedDepMinVersion.patch == parsedPackageVersion.patch &&
+    if (semver.eq(parsedDepMinVersion, parsedPackageVersion) &&
       rushPackages[depName].newVer !== undefined
     ) {
 
@@ -179,9 +172,7 @@ const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, sea
   if (allowedAlternativeVersions[package]) {
     for (var version of allowedAlternativeVersions[package]) {
       const parsedPackageVersion = semver.minVersion(version);
-      if (parsedPackageVersion.major == parsedSearchVersion.major &&
-        parsedPackageVersion.minor == parsedSearchVersion.minor &&
-        parsedPackageVersion.patch == parsedSearchVersion.patch) {
+      if (semver.eq(parsedPackageVersion, parsedSearchVersion)) {
         var devVersionRange = "^" + parsedSearchVersion.major + "." + parsedSearchVersion.minor + "." + parsedSearchVersion.patch + "-alpha";
         allowedAlternativeVersions[package].push(devVersionRange);
         break;

@@ -4,6 +4,8 @@
 
 - Removed the now obsolete `KeyOperationsOptions` and replaced it with `CryptographyOptions`.
   - Introduced in 4.2.0-beta.1 to support additional encryption parameters for AES encryption, we have since moved these parameters outside of the options bag so a separate `KeyOperationsOptions` is now redundant.
+- Fixed a bug with `beginDeleteKey` and `beginRecoverDeletedKey` in which unknown service errors wouldn't bubble up properly to the end users.
+- Fixed bug with the list operations which were returning misplaced properties. Fixes customer issue: [15353](https://github.com/Azure/azure-sdk-for-js/issues/15353).
 
 ## 4.2.0-beta.5 (2021-04-06)
 

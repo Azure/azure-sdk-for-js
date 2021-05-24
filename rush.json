@@ -347,6 +347,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/confidential-ledger",
+      "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-anomaly-detector",
       "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
       "versionPolicyName": "client"
@@ -394,6 +399,11 @@
     {
       "packageName": "@azure/communication-identity",
       "projectFolder": "sdk/communication/communication-identity",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-network-traversal",
+      "projectFolder": "sdk/communication/communication-network-traversal",
       "versionPolicyName": "client"
     },
     {
@@ -647,14 +657,23 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-multi-version",
-      "projectFolder": "sdk/test-utils/multi-version",
+      "packageName": "@azure/test-utils",
+      "projectFolder": "sdk/test-utils/test-utils",
       "versionPolicyName": "utility"
     },
     {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/video-analyzer-edge",
+      "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
+      "versionPolicyName": "client"
+    },
+    {      
+      "packageName": "@azure/iot-modelsrepository",
+      "projectFolder": "sdk/iot/modelsrepository"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",

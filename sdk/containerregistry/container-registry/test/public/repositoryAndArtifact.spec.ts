@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 import { ContainerRegistryClient, ContainerRepository } from "../../src";
-import { delay, env, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure/test-utils-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import { createRegistryClient, recorderEnvSetup } from "./utils";
@@ -165,7 +165,6 @@ describe("Repository and artifact tests", function() {
   it("deletes a given tag", async () => {
     const artifact = repository.getArtifact(artifactDigest);
     await artifact.deleteTag("test-delete");
-    await delay(5 * 1000);
     try {
       await artifact.getTag("test-delete");
       assert.fail("Expecting an error but didn't get one.");

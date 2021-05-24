@@ -83,22 +83,22 @@ export interface EntityGetByGuidQueryParam {
 
 export type EntityGetByGuidParameters = RequestParameters & EntityGetByGuidQueryParam;
 
-export interface EntityCreateOrUpdateByGuidQueryParamProperties {
+export interface EntityPartialUpdateEntityAttributeByGuidQueryParamProperties {
   /** The name of the attribute. */
   name: string;
 }
 
-export interface EntityCreateOrUpdateByGuidQueryParam {
-  queryParameters: EntityCreateOrUpdateByGuidQueryParamProperties;
+export interface EntityPartialUpdateEntityAttributeByGuidQueryParam {
+  queryParameters: EntityPartialUpdateEntityAttributeByGuidQueryParamProperties;
 }
 
-export interface EntityCreateOrUpdateByGuidBodyParam {
+export interface EntityPartialUpdateEntityAttributeByGuidBodyParam {
   body: any;
 }
 
-export type EntityCreateOrUpdateByGuidParameters = RequestParameters &
-  EntityCreateOrUpdateByGuidQueryParam &
-  EntityCreateOrUpdateByGuidBodyParam;
+export type EntityPartialUpdateEntityAttributeByGuidParameters = RequestParameters &
+  EntityPartialUpdateEntityAttributeByGuidQueryParam &
+  EntityPartialUpdateEntityAttributeByGuidBodyParam;
 export type EntityDeleteByGuidParameters = RequestParameters;
 export type EntityGetClassificationParameters = RequestParameters;
 export type EntityDeleteClassificationParameters = RequestParameters;
@@ -134,22 +134,22 @@ export interface EntityGetByUniqueAttributesQueryParam {
 export type EntityGetByUniqueAttributesParameters = RequestParameters &
   EntityGetByUniqueAttributesQueryParam;
 
-export interface EntityCreateOrUpdateByUniqueAttributeQueryParamProperties {
+export interface EntityPartialUpdateEntityByUniqueAttributesQueryParamProperties {
   /** The qualified name of the entity. */
   "attr:qualifiedName"?: string;
 }
 
-export interface EntityCreateOrUpdateByUniqueAttributeQueryParam {
-  queryParameters?: EntityCreateOrUpdateByUniqueAttributeQueryParamProperties;
+export interface EntityPartialUpdateEntityByUniqueAttributesQueryParam {
+  queryParameters?: EntityPartialUpdateEntityByUniqueAttributesQueryParamProperties;
 }
 
-export interface EntityCreateOrUpdateByUniqueAttributeBodyParam {
+export interface EntityPartialUpdateEntityByUniqueAttributesBodyParam {
   body: AtlasEntityWithExtInfo;
 }
 
-export type EntityCreateOrUpdateByUniqueAttributeParameters = RequestParameters &
-  EntityCreateOrUpdateByUniqueAttributeQueryParam &
-  EntityCreateOrUpdateByUniqueAttributeBodyParam;
+export type EntityPartialUpdateEntityByUniqueAttributesParameters = RequestParameters &
+  EntityPartialUpdateEntityByUniqueAttributesQueryParam &
+  EntityPartialUpdateEntityByUniqueAttributesBodyParam;
 
 export interface EntityDeleteByUniqueAttributeQueryParamProperties {
   /** The qualified name of the entity. */
@@ -611,23 +611,23 @@ export interface GlossaryListTermsByGlossaryNameQueryParam {
 export type GlossaryListTermsByGlossaryNameParameters = RequestParameters &
   GlossaryListTermsByGlossaryNameQueryParam;
 
-export interface SearchBodyParam {
+export interface DiscoveryQueryBodyParam {
   body: SearchRequest;
 }
 
-export type SearchParameters = RequestParameters & SearchBodyParam;
+export type DiscoveryQueryParameters = RequestParameters & DiscoveryQueryBodyParam;
 
-export interface SuggestBodyParam {
+export interface DiscoverySuggestBodyParam {
   body: SuggestRequest;
 }
 
-export type SuggestParameters = RequestParameters & SuggestBodyParam;
+export type DiscoverySuggestParameters = RequestParameters & DiscoverySuggestBodyParam;
 
-export interface AutoCompleteBodyParam {
+export interface DiscoveryAutoCompleteBodyParam {
   body: AutoCompleteRequest;
 }
 
-export type AutoCompleteParameters = RequestParameters & AutoCompleteBodyParam;
+export type DiscoveryAutoCompleteParameters = RequestParameters & DiscoveryAutoCompleteBodyParam;
 
 export interface GetLineageGraphQueryParamProperties {
   /** The number of hops for lineage. */

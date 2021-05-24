@@ -65,6 +65,10 @@
       "path": "sdk/documenttranslator/ai-document-translator-rest"
     },
     {
+      "name": "confidential-ledger",
+      "path": "sdk/confidentialledger/confidential-ledger-rest"
+    },
+    {
       "name": "core-crypto",
       "path": "sdk/core/core-crypto"
     },

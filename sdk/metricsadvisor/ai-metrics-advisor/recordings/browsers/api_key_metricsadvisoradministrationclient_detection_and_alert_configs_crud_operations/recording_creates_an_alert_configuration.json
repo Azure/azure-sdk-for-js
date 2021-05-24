@@ -4,44 +4,44 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations",
    "query": {},
-   "requestBody": "{\"name\":\"js-alert-config-161949442051809309\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"7f6f5514-1171-4fde-9470-3b31069081df\",\"anomalyScopeType\":\"All\"},{\"anomalyDetectionConfigurationId\":\"7f6f5514-1171-4fde-9470-3b31069081df\",\"anomalyScopeType\":\"All\"}]}",
+   "requestBody": "{\"name\":\"js-alert-config-162011445957601905\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"splitAlertByDimensions\":[],\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"6eea0573-d615-48ae-b07d-1430c050ee55\",\"anomalyScopeType\":\"All\"},{\"anomalyDetectionConfigurationId\":\"6eea0573-d615-48ae-b07d-1430c050ee55\",\"anomalyScopeType\":\"All\"}]}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "572b7a57-2d89-4f46-a81f-c41a9b9f9a7e",
+    "apim-request-id": "67a3d2e8-b6fd-44d3-a06d-53eab2ebcfa0",
     "content-length": "0",
-    "date": "Tue, 27 Apr 2021 03:33:45 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/cb1bb649-7f53-419d-851a-21af44ffb497",
+    "date": "Tue, 04 May 2021 07:47:40 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/0df74513-47e1-49e2-86b8-1f90a9d88d87",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5212",
-    "x-request-id": "572b7a57-2d89-4f46-a81f-c41a9b9f9a7e"
+    "x-envoy-upstream-service-time": "109",
+    "x-request-id": "67a3d2e8-b6fd-44d3-a06d-53eab2ebcfa0"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/cb1bb649-7f53-419d-851a-21af44ffb497",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/0df74513-47e1-49e2-86b8-1f90a9d88d87",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"anomalyAlertingConfigurationId\":\"cb1bb649-7f53-419d-851a-21af44ffb497\",\"name\":\"js-alert-config-161949442051809309\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"splitAlertByDimensions\":[],\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"7f6f5514-1171-4fde-9470-3b31069081df\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"7f6f5514-1171-4fde-9470-3b31069081df\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
+   "response": "{\"anomalyAlertingConfigurationId\":\"0df74513-47e1-49e2-86b8-1f90a9d88d87\",\"name\":\"js-alert-config-162011445957601905\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"splitAlertByDimensions\":[],\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"6eea0573-d615-48ae-b07d-1430c050ee55\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"6eea0573-d615-48ae-b07d-1430c050ee55\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
    "responseHeaders": {
-    "apim-request-id": "f292659f-89d0-473e-ae79-839346eeb680",
+    "apim-request-id": "2f3a4a0d-ffc4-45e6-9bca-6faca3f5a9f6",
     "content-length": "516",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 27 Apr 2021 03:33:55 GMT",
+    "date": "Tue, 04 May 2021 07:47:40 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "10996",
-    "x-request-id": "f292659f-89d0-473e-ae79-839346eeb680"
+    "x-envoy-upstream-service-time": "82",
+    "x-request-id": "2f3a4a0d-ffc4-45e6-9bca-6faca3f5a9f6"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "js-alert-config-": "js-alert-config-161949442051809309"
+   "js-alert-config-": "js-alert-config-162011445957601905"
   },
   "newDate": {}
  },
- "hash": "7ab9036461f3e45813b0e922c321b0f3"
+ "hash": "6c0593ef7096b411820190300ee0bf65"
 }

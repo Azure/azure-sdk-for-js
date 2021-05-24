@@ -3,31 +3,24 @@
 
 import {
   TableServiceClientOptions,
-  CreateTableOptions,
-  CreateTableItemResponse,
-  TableBatch,
   TableEntity,
-  CreateTableEntityOptions,
   CreateTableEntityResponse,
   DeleteTableEntityOptions,
   GetTableEntityOptions,
   GetTableEntityResponse,
   ListTableEntitiesOptions,
-  ListEntitiesResponse,
   UpdateMode,
   UpdateTableEntityOptions,
-  UpsertTableEntityOptions
+  TableEntityResult,
+  TableItem,
+  TransactionAction,
+  TableTransactionResponse
 } from "../models";
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
 import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
-import {
-  DeleteTableOptions,
-  DeleteTableResponse,
-  DeleteTableEntityResponse,
-  UpdateEntityResponse,
-  UpsertEntityResponse
-} from "..";
+import { DeleteTableEntityResponse, UpdateEntityResponse, UpsertEntityResponse } from "..";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { OperationOptions } from "@azure/core-client";
 
 export interface ConnectionString {
   kind: "AccountConnString" | "SASConnString";
@@ -37,6 +30,30 @@ export interface ConnectionString {
   accountSas?: string;
 }
 
+/**
+ * Contains response data for the listTable operation.
+ */
+export type ListTableItemsResponse = Array<TableItem> & {
+  /**
+   * This header contains the continuation token value.
+   */
+  nextTableName?: string;
+};
+
+/**
+ * Contains response data for the getEntity operation.
+ */
+export type ListEntitiesResponse<T extends object> = Array<TableEntityResult<T>> & {
+  /**
+   * Contains the continuation token value for partition key.
+   */
+  nextPartitionKey?: string;
+  /**
+   * Contains the continuation token value for row key.
+   */
+  nextRowKey?: string;
+};
+
 export interface ClientParamsFromConnectionString {
   url: string;
   options?: TableServiceClientOptions;
@@ -44,11 +61,11 @@ export interface ClientParamsFromConnectionString {
 }
 
 /**
- * Batch request builder
+ * Transaction request builder
  */
-export interface InnerBatchRequest {
+export interface InnerTransactionRequest {
   /**
-   * Batch request body
+   * Transaction request body
    */
   body: string[];
   /**
@@ -57,18 +74,18 @@ export interface InnerBatchRequest {
    */
   createPipeline(): Pipeline;
   /**
-   * Adds an operation to add to the batch body
+   * Adds an operation to add to the transaction body
    * @param request - The operation to add
    */
   appendSubRequestToBody(request: PipelineRequest): void;
   /**
-   * Gets the batch request body
+   * Gets the transaction request body
    */
   getHttpRequestBody(): string;
 }
 
-export interface InternalBatchClientOptions extends TableServiceClientOptions {
-  innerBatchRequest: InnerBatchRequest;
+export interface InternalTransactionClientOptions extends TableServiceClientOptions {
+  innerTransactionRequest: InnerTransactionRequest;
 }
 
 /**
@@ -80,15 +97,15 @@ export interface TableClientLike {
    */
   readonly tableName: string;
   /**
-   *  Creates the current table it it doesn't exist
+   *  Creates the current table.
    * @param options - The options parameters.
    */
-  create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
+  createTable(options?: OperationOptions): Promise<void>;
   /**
-   * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
-   * @param partitionKey - partitionKey to which the batch operations will be targetted to
+   * Submits a Transaction which is composed of a set of actions.
+   * @param actions - tuple that contains the action to perform, and the entity to perform the action with
    */
-  createBatch(partitionKey: string): TableBatch;
+  submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;
   /**
    * Insert entity in the table.
    * @param entity - The properties for the table entity.
@@ -96,17 +113,15 @@ export interface TableClientLike {
    */
   createEntity<T extends object>(
     entity: TableEntity<T>,
-    options?: CreateTableEntityOptions
+    options?: OperationOptions
   ): Promise<CreateTableEntityResponse>;
   /**
    * Permanently deletes the current table with all of its entities.
    * @param options - The options parameters.
    */
-  delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
+  deleteTable(options?: OperationOptions): Promise<void>;
   /**
-   * Deletes the specified entity in the table.
-   * @param partitionKey - The partition key of the entity.
-   * @param rowKey - The row key of the entity.
+   * Permanently deletes the current table if it exists in the account.
    * @param options - The options parameters.
    */
   deleteEntity(
@@ -158,6 +173,6 @@ export interface TableClientLike {
   upsertEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
-    options?: UpsertTableEntityOptions
+    options?: OperationOptions
   ): Promise<UpsertEntityResponse>;
 }

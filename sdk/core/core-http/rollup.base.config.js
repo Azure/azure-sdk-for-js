@@ -11,7 +11,7 @@ import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
 const devDepNames = Object.keys(pkg.devDependencies);
-const input = "./es/src/coreHttp.js";
+const input = "./dist-esm/src/coreHttp.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
@@ -36,7 +36,7 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = ["es/test/**/*[^browser.].js"];
+    baseConfig.input = ["dist-esm/test/**/*[^browser.].js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -61,7 +61,7 @@ export function browserConfig(test = false, production = false) {
     input: input,
     external: [],
     output: {
-      file: "./dist/index.browser.js",
+      file: "./dist-browser/core-http.js",
       format: "umd",
       name: "Azure.Core.HTTP",
       sourcemap: true
@@ -93,7 +93,7 @@ export function browserConfig(test = false, production = false) {
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), browser specific test files
-    baseConfig.input = ["es/test/**/*[^node.].js"];
+    baseConfig.input = ["dist-esm/test/**/*[^node.].js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/coreHttp.browser.test.js";
     baseConfig.external.push("fetch-mock");

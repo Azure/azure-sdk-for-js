@@ -8,7 +8,7 @@ import {
   EntityDeleteByGuidsParameters,
   EntityAddClassificationParameters,
   EntityGetByGuidParameters,
-  EntityCreateOrUpdateByGuidParameters,
+  EntityPartialUpdateEntityAttributeByGuidParameters,
   EntityDeleteByGuidParameters,
   EntityGetClassificationParameters,
   EntityDeleteClassificationParameters,
@@ -16,7 +16,7 @@ import {
   EntityAddClassificationsParameters,
   EntityUpdateClassificationsParameters,
   EntityGetByUniqueAttributesParameters,
-  EntityCreateOrUpdateByUniqueAttributeParameters,
+  EntityPartialUpdateEntityByUniqueAttributesParameters,
   EntityDeleteByUniqueAttributeParameters,
   EntityDeleteClassificationByUniqueAttributeParameters,
   EntityAddClassificationsByUniqueAttributeParameters,
@@ -59,9 +59,9 @@ import {
   GlossaryGetImportCsvOperationStatusParameters,
   GlossaryExportGlossaryTermsAsCsvParameters,
   GlossaryListTermsByGlossaryNameParameters,
-  SearchParameters,
-  SuggestParameters,
-  AutoCompleteParameters,
+  DiscoveryQueryParameters,
+  DiscoverySuggestParameters,
+  DiscoveryAutoCompleteParameters,
   GetLineageGraphParameters,
   NextPageLineageParameters,
   RelationshipCreateParameters,
@@ -96,7 +96,7 @@ import {
   EntityDeleteByGuids200Response,
   EntityAddClassification204Response,
   EntityGetByGuid200Response,
-  EntityCreateOrUpdateByGuid200Response,
+  EntityPartialUpdateEntityAttributeByGuid200Response,
   EntityDeleteByGuid200Response,
   EntityGetClassification200Response,
   EntityDeleteClassification204Response,
@@ -104,7 +104,7 @@ import {
   EntityAddClassifications204Response,
   EntityUpdateClassifications204Response,
   EntityGetByUniqueAttributes200Response,
-  EntityCreateOrUpdateByUniqueAttribute200Response,
+  EntityPartialUpdateEntityByUniqueAttributes200Response,
   EntityDeleteByUniqueAttribute200Response,
   EntityDeleteClassificationByUniqueAttribute204Response,
   EntityAddClassificationsByUniqueAttribute204Response,
@@ -147,9 +147,9 @@ import {
   GlossaryGetImportCsvOperationStatus200Response,
   GlossaryExportGlossaryTermsAsCsv200Response,
   GlossaryListTermsByGlossaryName200Response,
-  Search200Response,
-  Suggest200Response,
-  AutoComplete200Response,
+  DiscoveryQuery200Response,
+  DiscoverySuggest200Response,
+  DiscoveryAutoComplete200Response,
   GetLineageGraph200Response,
   NextPageLineage200Response,
   RelationshipCreate200Response,
@@ -219,8 +219,8 @@ export interface EntityDeleteByGuid {
    * Null updates are not possible.
    */
   put(
-    options: EntityCreateOrUpdateByGuidParameters
-  ): Promise<EntityCreateOrUpdateByGuid200Response>;
+    options: EntityPartialUpdateEntityAttributeByGuidParameters
+  ): Promise<EntityPartialUpdateEntityAttributeByGuid200Response>;
   /** Delete an entity identified by its GUID. */
   delete(options?: EntityDeleteByGuidParameters): Promise<EntityDeleteByGuid200Response>;
 }
@@ -268,8 +268,8 @@ export interface EntityDeleteByUniqueAttribute {
    * PUT /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
    */
   put(
-    options: EntityCreateOrUpdateByUniqueAttributeParameters
-  ): Promise<EntityCreateOrUpdateByUniqueAttribute200Response>;
+    options: EntityPartialUpdateEntityByUniqueAttributesParameters
+  ): Promise<EntityPartialUpdateEntityByUniqueAttributes200Response>;
   /**
    * Delete an entity identified by its type and unique attributes.
    * In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format:
@@ -527,19 +527,19 @@ export interface GlossaryListTermsByGlossaryName {
   ): Promise<GlossaryListTermsByGlossaryName200Response>;
 }
 
-export interface Search {
+export interface DiscoveryQuery {
   /** Gets data using search. */
-  post(options: SearchParameters): Promise<Search200Response>;
+  post(options: DiscoveryQueryParameters): Promise<DiscoveryQuery200Response>;
 }
 
-export interface Suggest {
+export interface DiscoverySuggest {
   /** Get search suggestions by query criteria. */
-  post(options: SuggestParameters): Promise<Suggest200Response>;
+  post(options: DiscoverySuggestParameters): Promise<DiscoverySuggest200Response>;
 }
 
-export interface AutoComplete {
+export interface DiscoveryAutoComplete {
   /** Get auto complete options. */
-  post(options: AutoCompleteParameters): Promise<AutoComplete200Response>;
+  post(options: DiscoveryAutoCompleteParameters): Promise<DiscoveryAutoComplete200Response>;
 }
 
 export interface GetLineageGraph {
@@ -831,11 +831,11 @@ export interface Routes {
     glossaryName: string
   ): GlossaryListTermsByGlossaryName;
   /** Resource for '/search/query' has methods for the following verbs: post */
-  (path: "/search/query"): Search;
+  (path: "/search/query"): DiscoveryQuery;
   /** Resource for '/search/suggest' has methods for the following verbs: post */
-  (path: "/search/suggest"): Suggest;
+  (path: "/search/suggest"): DiscoverySuggest;
   /** Resource for '/search/autocomplete' has methods for the following verbs: post */
-  (path: "/search/autocomplete"): AutoComplete;
+  (path: "/search/autocomplete"): DiscoveryAutoComplete;
   /** Resource for '/atlas/v2/lineage/\{guid\}' has methods for the following verbs: get */
   (path: "/atlas/v2/lineage/{guid}", guid: string): GetLineageGraph;
   /** Resource for '/lineage/\{guid\}/next/' has methods for the following verbs: get */
