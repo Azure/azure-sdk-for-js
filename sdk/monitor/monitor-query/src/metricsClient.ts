@@ -8,6 +8,7 @@ import {
 } from "@azure/core-http";
 import {
   KnownApiVersion201801,
+  MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
   MetricsListResponse,
   MonitorManagementClient as GeneratedMetricsClient
 } from "./generated/metrics/src";
@@ -70,7 +71,7 @@ export class MetricsClient {
   }
 
   queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<MetricsListResponse> {
-    return this._metricsClient.metrics.list(resourceUri, options);
+    return this._metricsClient.metrics.list(resourceUri, convertToMetricsRequest(options));
   }
 
   getMetricDefinitions(
@@ -98,4 +99,24 @@ function formatScope(endpoint: string | undefined): string {
   } else {
     return "https://management.azure.com/.default";
   }
+}
+
+/**
+ * @internal
+ */
+export function convertToMetricsRequest(
+  queryMetricsOptions: QueryMetricsOptions | undefined
+): GeneratedMetricsListOptionalParams {
+  const obj = {
+    ...queryMetricsOptions,
+    metricnames: queryMetricsOptions?.metricNames?.join(","),
+    aggregation: queryMetricsOptions?.aggregations?.join(","),
+    metricnamespace: queryMetricsOptions?.metricNamespace
+  };
+
+  delete obj["aggregations"];
+  delete obj["metricNames"];
+  delete obj["metricNamespace"];
+
+  return obj;
 }

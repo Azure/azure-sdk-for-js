@@ -161,8 +161,7 @@ export type MetricsListResponse = Response & {
 };
 
 /** Optional parameters. */
-export interface MonitorManagementClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface MonitorManagementClientOptionalParams extends coreHttp.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

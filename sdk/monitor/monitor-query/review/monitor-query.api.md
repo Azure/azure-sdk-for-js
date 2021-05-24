@@ -287,7 +287,17 @@ export type QueryLogsResult = QueryResults & {
 };
 
 // @public (undocumented)
-export type QueryMetricsOptions = MetricsListOptionalParams;
+export interface QueryMetricsOptions extends OperationOptions {
+    aggregations?: string[];
+    filter?: string;
+    interval?: string;
+    metricNames?: string[];
+    metricNamespace?: string;
+    orderby?: string;
+    resultType?: ResultType;
+    timespan?: string;
+    top?: number;
+}
 
 // @public
 export interface QueryResults {

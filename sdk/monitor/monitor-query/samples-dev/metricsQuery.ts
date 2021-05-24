@@ -22,7 +22,7 @@ export async function main() {
   }
 
   const metricsResponse = await metricsClient.queryMetrics(monitorWorkspaceId, {
-    metricnames: "SuccessfulRequests",
+    metricNames: ["SuccessfulRequests"],
     interval: "P1D"
   });
 
