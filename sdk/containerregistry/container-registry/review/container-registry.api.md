@@ -52,7 +52,7 @@ export interface ArtifactTagProperties {
 export class ContainerRegistryClient {
     constructor(endpoint: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
     constructor(endpoint: string, options?: ContainerRegistryClientOptions);
-    deleteRepository(repositoryName: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
+    deleteRepository(repositoryName: string, options?: DeleteRepositoryOptions): Promise<void>;
     readonly endpoint: string;
     getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact;
     getRepository(repositoryName: string): ContainerRepository;
@@ -65,7 +65,7 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 
 // @public
 export interface ContainerRepository {
-    delete(options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
+    delete(options?: DeleteRepositoryOptions): Promise<void>;
     getArtifact(tagOrDigest: string): RegistryArtifact;
     getProperties(options?: GetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
     listManifests(options?: ListManifestsOptions): PagedAsyncIterableIterator<ArtifactManifestProperties>;
@@ -80,12 +80,6 @@ export interface DeleteArtifactOptions extends OperationOptions {
 
 // @public
 export interface DeleteRepositoryOptions extends OperationOptions {
-}
-
-// @public
-export interface DeleteRepositoryResult {
-    readonly deletedManifests: string[];
-    readonly deletedTags: string[];
 }
 
 // @public

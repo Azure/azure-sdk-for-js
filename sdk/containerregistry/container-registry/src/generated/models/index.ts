@@ -96,20 +96,6 @@ export interface RepositoryWriteableProperties {
   teleportEnabled?: boolean;
 }
 
-/** Deleted repository */
-export interface DeleteRepositoryResult {
-  /**
-   * SHA of the deleted image
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deletedManifests?: string[];
-  /**
-   * Tag of the deleted image
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deletedTags?: string[];
-}
-
 /** List of tag details */
 export interface TagList {
   /** Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io */
@@ -449,6 +435,20 @@ export interface JWKHeader {
 export interface History {
   /** The raw v1 compatibility information */
   v1Compatibility?: string;
+}
+
+/** Deleted repository */
+export interface DeleteRepositoryResult {
+  /**
+   * SHA of the deleted image
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deletedManifests?: string[];
+  /**
+   * Tag of the deleted image
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deletedTags?: string[];
 }
 
 /** Image layer information */
@@ -867,9 +867,6 @@ export type ContainerRegistryGetRepositoriesResponse = ContainerRegistryGetRepos
 
 /** Contains response data for the getProperties operation. */
 export type ContainerRegistryGetPropertiesResponse = RepositoryProperties;
-
-/** Contains response data for the deleteRepository operation. */
-export type ContainerRegistryDeleteRepositoryResponse = DeleteRepositoryResult;
 
 /** Optional parameters. */
 export interface ContainerRegistrySetPropertiesOptionalParams

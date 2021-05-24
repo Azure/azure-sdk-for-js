@@ -223,39 +223,6 @@ export const RepositoryWriteableProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const DeleteRepositoryResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeleteRepositoryResult",
-    modelProperties: {
-      deletedManifests: {
-        serializedName: "manifestsDeleted",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      deletedTags: {
-        serializedName: "tagsDeleted",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const TagList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1070,6 +1037,39 @@ export const History: coreClient.CompositeMapper = {
         serializedName: "v1Compatibility",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeleteRepositoryResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteRepositoryResult",
+    modelProperties: {
+      deletedManifests: {
+        serializedName: "manifestsDeleted",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      deletedTags: {
+        serializedName: "tagsDeleted",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

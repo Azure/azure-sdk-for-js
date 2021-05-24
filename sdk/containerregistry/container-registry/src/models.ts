@@ -152,20 +152,6 @@ export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
  */
 export type ManifestOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
-/** Deleted repository */
-export interface DeleteRepositoryResult {
-  /**
-   * SHA of the deleted image
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deletedManifests: string[];
-  /**
-   * Tag of the deleted image
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deletedTags: string[];
-}
-
 /**
  * Contains response data for the listRepositoryNames operation.
  */

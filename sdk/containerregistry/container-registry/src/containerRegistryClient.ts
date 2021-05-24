@@ -18,11 +18,7 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
-import {
-  ContainerRegistryClientOptions,
-  DeleteRepositoryResult,
-  RepositoryPageResponse
-} from "./models";
+import { ContainerRegistryClientOptions, RepositoryPageResponse } from "./models";
 import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 import {
@@ -148,21 +144,14 @@ export class ContainerRegistryClient {
   public async deleteRepository(
     repositoryName: string,
     options: DeleteRepositoryOptions = {}
-  ): Promise<DeleteRepositoryResult> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "ContainerRegistryClient-deleteRepository",
       options
     );
 
     try {
-      const result = await this.client.containerRegistry.deleteRepository(
-        repositoryName,
-        updatedOptions
-      );
-      return {
-        deletedManifests: result.deletedManifests ?? [],
-        deletedTags: result.deletedTags ?? []
-      };
+      await this.client.containerRegistry.deleteRepository(repositoryName, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

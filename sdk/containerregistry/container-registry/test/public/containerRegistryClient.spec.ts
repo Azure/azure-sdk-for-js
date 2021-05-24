@@ -48,8 +48,7 @@ describe("ContainerRegistryClient tests", function() {
   });
 
   it("deletes repository of given name", async () => {
-    const response = await client.deleteRepository(repositoryName);
-    assert.ok(response);
+    await client.deleteRepository(repositoryName);
     await delay(5 * 1000);
     const iter = client.listRepositoryNames();
     for await (const repository of iter) {

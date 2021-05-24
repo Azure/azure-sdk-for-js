@@ -11,7 +11,6 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, RepositoryWriteableProperties } from "./generated";
 import { createSpan } from "./tracing";
 import {
-  DeleteRepositoryResult,
   ManifestOrderBy,
   RepositoryProperties,
   ArtifactManifestProperties,
@@ -69,7 +68,7 @@ export interface ContainerRepository {
    *
    * @param options - optional configuration for the operation
    */
-  delete(options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
+  delete(options?: DeleteRepositoryOptions): Promise<void>;
   /**
    * Returns an instance of RegistryArtifact.
    * @param tagOrDigest - the tag or digest of the artifact
@@ -136,18 +135,11 @@ export class ContainerRepositoryImpl {
    *
    * @param options - optional configuration for the operation
    */
-  public async delete(options: DeleteRepositoryOptions = {}): Promise<DeleteRepositoryResult> {
+  public async delete(options: DeleteRepositoryOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("ContainerRepository-delete", options);
 
     try {
-      const result = await this.client.containerRegistry.deleteRepository(
-        this.name,
-        updatedOptions
-      );
-      return {
-        deletedManifests: result.deletedManifests ?? [],
-        deletedTags: result.deletedTags ?? []
-      };
+      await this.client.containerRegistry.deleteRepository(this.name, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

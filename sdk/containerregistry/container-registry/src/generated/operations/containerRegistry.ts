@@ -18,7 +18,6 @@ import {
   ContainerRegistryGetRepositoriesOptionalParams,
   ContainerRegistryGetRepositoriesResponse,
   ContainerRegistryGetPropertiesResponse,
-  ContainerRegistryDeleteRepositoryResponse,
   ContainerRegistrySetPropertiesOptionalParams,
   ContainerRegistrySetPropertiesResponse,
   ContainerRegistryGetTagsOptionalParams,
@@ -152,7 +151,7 @@ export class ContainerRegistry {
   deleteRepository(
     name: string,
     options?: coreClient.OperationOptions
-  ): Promise<ContainerRegistryDeleteRepositoryResponse> {
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { name, options },
       deleteRepositoryOperationSpec
@@ -392,6 +391,7 @@ const deleteManifestOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     202: {},
+    404: {},
     default: {
       bodyMapper: Mappers.AcrErrors
     }
@@ -436,9 +436,8 @@ const deleteRepositoryOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "DELETE",
   responses: {
-    202: {
-      bodyMapper: Mappers.DeleteRepositoryResult
-    },
+    202: {},
+    404: {},
     default: {
       bodyMapper: Mappers.AcrErrors
     }
@@ -523,6 +522,7 @@ const deleteTagOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     202: {},
+    404: {},
     default: {
       bodyMapper: Mappers.AcrErrors
     }

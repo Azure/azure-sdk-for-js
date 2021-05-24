@@ -49,17 +49,7 @@ async function listRepositoriesByPages(client: ContainerRegistryClient, pageSize
 
 async function deleteRepository(client: ContainerRegistryClient, repositoryName: string) {
   console.log("Deleting a repository");
-  const response = await client.deleteRepository(repositoryName);
-  console.log(
-    `Artifacts deleted: ${(response &&
-      response.deletedManifests &&
-      response.deletedManifests.length) ||
-      0}`
-  );
-  console.log(
-    `Tags deleted: ${(response && response.deletedManifests && response.deletedManifests.length) ||
-      0}`
-  );
+  await client.deleteRepository(repositoryName);
 }
 
 main().catch((err) => {
