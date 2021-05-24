@@ -14,7 +14,7 @@ export {
   QueryLogsBatchResponse,
   BatchQuery
 } from "./models/logsModels";
-export { MetricsClient } from "./metricsClient";
+export { MetricsClient, MetricsClientOptions } from "./metricsClient";
 export {
   GetMetricDefinitionsOptions,
   QueryMetricsOptions,
