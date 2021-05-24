@@ -20,7 +20,6 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
-  KeyItem,
   KeyVaultClientGetKeysOptionalParams,
   KnownJsonWebKeyType
 } from "./generated/models";
@@ -99,8 +98,12 @@ import {
   VerifyDataOptions
 } from "./cryptographyClientModels";
 
-import { parseKeyVaultKeyId, KeyVaultKeyIdentifier } from "./identifier";
-import { getKeyFromKeyBundle } from "./transformations";
+import { KeyVaultKeyIdentifier } from "./identifier";
+import {
+  getDeletedKeyFromDeletedKeyItem,
+  getKeyFromKeyBundle,
+  getKeyPropertiesFromKeyItem
+} from "./transformations";
 import { createTraceFunction } from "../../keyvault-common/src";
 
 export {
@@ -672,7 +675,7 @@ export class KeyClient {
 
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
+        yield currentSetResponse.value.map(getKeyPropertiesFromKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -684,7 +687,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
+        yield currentSetResponse.value.map(getKeyPropertiesFromKeyItem, this);
       } else {
         break;
       }
@@ -768,7 +771,7 @@ export class KeyClient {
 
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
+        yield currentSetResponse.value.map(getKeyPropertiesFromKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -780,7 +783,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
+        yield currentSetResponse.value.map(getKeyPropertiesFromKeyItem, this);
       } else {
         break;
       }
@@ -859,7 +862,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem, this);
+        yield currentSetResponse.value.map(getDeletedKeyFromDeletedKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -871,7 +874,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem, this);
+        yield currentSetResponse.value.map(getDeletedKeyFromDeletedKeyItem, this);
       } else {
         break;
       }
@@ -924,97 +927,5 @@ export class KeyClient {
       },
       byPage: (settings: PageSettings = {}) => this.listDeletedKeysPage(settings, options)
     };
-  }
-
-  /**
-   * @internal
-   * @hidden
-   * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
-   */
-  private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
-    const parsedId = parseKeyVaultKeyId(keyItem.kid!);
-
-    const attributes = keyItem.attributes || {};
-
-    const abstractProperties: any = {
-      deletedOn: (attributes as any).deletedDate,
-      expiresOn: attributes.expires,
-      createdOn: attributes.created,
-      updatedOn: attributes.updated,
-
-      kid: keyItem.kid,
-      tags: keyItem.tags,
-      managed: keyItem.managed,
-
-      recoverableDays: keyItem.attributes,
-      recoveryLevel: keyItem.attributes,
-      exportable: keyItem.attributes,
-
-      sourceId: parsedId.sourceId,
-      vaultUrl: parsedId.vaultUrl,
-      version: parsedId.version,
-      name: parsedId.name,
-
-      id: keyItem.kid
-    };
-
-    if (abstractProperties.deletedDate) {
-      delete abstractProperties.deletedDate;
-    }
-
-    if (abstractProperties.expires) {
-      delete abstractProperties.expires;
-    }
-    if (abstractProperties.created) {
-      delete abstractProperties.created;
-    }
-    if (abstractProperties.updated) {
-      delete abstractProperties.updated;
-    }
-
-    return {
-      key: keyItem,
-      id: keyItem.kid,
-      name: abstractProperties.name,
-      properties: abstractProperties
-    };
-  }
-
-  /**
-   * @internal
-   * @hidden
-   * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
-   */
-  private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
-    const parsedId = parseKeyVaultKeyId(keyItem.kid!);
-
-    const attributes = keyItem.attributes || {};
-
-    const resultObject: any = {
-      createdOn: attributes.created,
-      updatedOn: attributes.updated,
-
-      kid: keyItem.kid,
-      tags: keyItem.tags,
-      managed: keyItem.managed,
-
-      recoverableDays: keyItem.attributes,
-      recoveryLevel: keyItem.attributes,
-      exportable: keyItem.attributes,
-
-      sourceId: parsedId.sourceId,
-      vaultUrl: parsedId.vaultUrl,
-      version: parsedId.version,
-      name: parsedId.name
-    };
-
-    delete resultObject.attributes;
-
-    if (keyItem.attributes!.expires) {
-      resultObject.expiresOn = keyItem.attributes!.expires;
-      delete resultObject.expires;
-    }
-
-    return resultObject;
   }
 }

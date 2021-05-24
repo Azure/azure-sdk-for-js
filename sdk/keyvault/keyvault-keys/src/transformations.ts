@@ -1,9 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DeletedKeyBundle, KeyBundle } from "./generated/models";
+import {
+  DeletedKeyBundle,
+  DeletedKeyItem,
+  KeyAttributes,
+  KeyBundle,
+  KeyItem
+} from "./generated/models";
 import { parseKeyVaultKeyId } from "./identifier";
-import { DeletedKey, KeyVaultKey, JsonWebKey, KeyOperation } from "./keysModels";
+import { DeletedKey, KeyVaultKey, JsonWebKey, KeyOperation, KeyProperties } from "./keysModels";
 
 /**
  * @internal
@@ -17,7 +23,7 @@ export function getKeyFromKeyBundle(
 
   const parsedId = parseKeyVaultKeyId(keyBundle.key!.kid!);
 
-  const attributes: any = keyBundle.attributes || {};
+  const attributes: KeyAttributes = keyBundle.attributes || {};
   delete keyBundle.attributes;
 
   const resultObject: KeyVaultKey | DeletedKey = {
@@ -40,6 +46,7 @@ export function getKeyFromKeyBundle(
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,
       name: parsedId.name,
+      managed: keyBundle.managed,
 
       id: keyBundle.key ? keyBundle.key.kid : undefined
     }
@@ -50,6 +57,55 @@ export function getKeyFromKeyBundle(
     (resultObject as any).properties.scheduledPurgeDate = deletedKeyBundle.scheduledPurgeDate;
     (resultObject as any).properties.deletedOn = deletedKeyBundle.deletedDate;
   }
+
+  return resultObject;
+}
+
+/**
+ * @internal
+ * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
+ */
+export function getDeletedKeyFromDeletedKeyItem(keyItem: DeletedKeyItem): DeletedKey {
+  const commonProperties = getKeyPropertiesFromKeyItem(keyItem);
+
+  return {
+    key: {
+      kid: keyItem.kid
+    },
+    id: keyItem.kid,
+    name: commonProperties.name,
+    properties: {
+      ...commonProperties,
+      recoveryId: keyItem.recoveryId,
+      scheduledPurgeDate: keyItem.scheduledPurgeDate,
+      deletedOn: keyItem.deletedDate
+    }
+  };
+}
+
+/**
+ * @internal
+ * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
+ */
+export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
+  const parsedId = parseKeyVaultKeyId(keyItem.kid!);
+  const attributes = keyItem.attributes || {};
+
+  const resultObject: KeyProperties = {
+    createdOn: attributes.created,
+    enabled: attributes?.enabled,
+    expiresOn: attributes?.expires,
+    id: keyItem.kid,
+    managed: keyItem.managed,
+    name: parsedId.name,
+    notBefore: attributes?.notBefore,
+    recoverableDays: attributes?.recoverableDays,
+    recoveryLevel: attributes?.recoveryLevel,
+    tags: keyItem.tags,
+    updatedOn: attributes.updated,
+    vaultUrl: parsedId.vaultUrl,
+    version: parsedId.version
+  };
 
   return resultObject;
 }
