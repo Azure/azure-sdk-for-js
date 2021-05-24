@@ -112,11 +112,18 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       ...options.tokenCredentialOptions,
       authorityHost
     });
+
+    let clientCapabilities: string[] = ["CP1"];
+    if (process.env.AZURE_IDENTITY_DISABLE_CP1) {
+      clientCapabilities = [];
+    }
+
     return {
       auth: {
         clientId,
         authority: authorityHost,
-        knownAuthorities: getKnownAuthorities(tenantId, authorityHost)
+        knownAuthorities: getKnownAuthorities(tenantId, authorityHost),
+        clientCapabilities: clientCapabilities as any // https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/3676
       },
       // Cache is defined in this.prepare();
       system: {
