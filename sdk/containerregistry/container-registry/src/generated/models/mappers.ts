@@ -520,7 +520,6 @@ export const ManifestAttributesBase: coreClient.CompositeMapper = {
         }
       },
       architecture: {
-        defaultValue: "none",
         serializedName: "architecture",
         readOnly: true,
         nullable: true,
@@ -615,7 +614,6 @@ export const ArtifactManifestReference: coreClient.CompositeMapper = {
         }
       },
       architecture: {
-        defaultValue: "none",
         serializedName: "architecture",
         required: true,
         readOnly: true,
@@ -731,7 +729,6 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
         }
       },
       architecture: {
-        defaultValue: "none",
         serializedName: "manifest.architecture",
         readOnly: true,
         nullable: true,
