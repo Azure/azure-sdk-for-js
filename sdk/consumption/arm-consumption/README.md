@@ -43,7 +43,15 @@ msRestNodeAuth
     const skiptoken = "testskiptoken";
     const top = 1;
     const apply = "testapply";
-    client.usageDetails.list(expand, filter, skiptoken, top, apply).then((result) => {
+    client.usageDetails.list({
+      expand: expand,
+      filter: filter,
+      skiptoken: skiptoken,
+      top: top,
+      queryOptions: {
+        apply: apply
+      }
+    }).then((result) => {
       console.log("The result is:");
       console.log(result);
     });
