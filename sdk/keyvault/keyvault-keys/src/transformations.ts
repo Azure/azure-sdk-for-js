@@ -66,33 +66,16 @@ export function getKeyFromKeyBundle(
  * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
  */
 export function getDeletedKeyFromDeletedKeyItem(keyItem: DeletedKeyItem): DeletedKey {
-  const parsedId = parseKeyVaultKeyId(keyItem.kid!);
-  const attributes = keyItem.attributes || {};
-
-  const abstractProperties: KeyProperties = {
-    createdOn: attributes?.created,
-    enabled: attributes?.enabled,
-    expiresOn: attributes?.expires,
-    id: keyItem.kid,
-    managed: keyItem.managed,
-    name: parsedId.name,
-    notBefore: attributes?.notBefore,
-    recoverableDays: attributes?.recoverableDays,
-    recoveryLevel: attributes?.recoveryLevel,
-    tags: keyItem.tags,
-    updatedOn: attributes.updated,
-    vaultUrl: parsedId.vaultUrl,
-    version: parsedId.version
-  };
+  const commonProperties = getKeyPropertiesFromKeyItem(keyItem);
 
   return {
     key: {
       kid: keyItem.kid
     },
     id: keyItem.kid,
-    name: abstractProperties.name,
+    name: commonProperties.name,
     properties: {
-      ...abstractProperties,
+      ...commonProperties,
       recoveryId: keyItem.recoveryId,
       scheduledPurgeDate: keyItem.scheduledPurgeDate,
       deletedOn: keyItem.deletedDate
