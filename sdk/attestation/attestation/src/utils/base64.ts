@@ -5,7 +5,7 @@
  * Encodes a string in base64 format.
  * @param value - the string to encode
  */
- export function encodeString(value: string): string {
+  export function encodeString(value: string): string {
     return Buffer.from(value).toString("base64");
   }
   
@@ -42,7 +42,7 @@
    * Decodes a base64url string into a byte array.
    * @param value - the base64url string to decode
    */
-  export function base64urlDecodeString(value: string): Uint8Array {
+  export function base64UrlDecodeString(value: string): Uint8Array {
     const encoded = value.replace(/-/g, "+").replace(/_/g, "/");
     const paddedEncoded = fixPadding(encoded);
     return base64DecodeString(paddedEncoded);

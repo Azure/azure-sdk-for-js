@@ -69,6 +69,9 @@ describe("AttestationTokenTests", function() {
 
   });
 
+  /**
+   * Creates a secured attestation token with the specified key.
+   */
   it("#createSecuredAttestationToken", async() => {
     let key = createRSAKey();
     let cert = createX509Certificate(key, "certificate");
@@ -80,7 +83,10 @@ describe("AttestationTokenTests", function() {
     assert.deepEqual({foo: "foo", bar: 10}, body);
   });
 
-  it("#createunSecuredAttestationToken", async() => {
+  /**
+   * Creates an unsecured attestation token.
+   */
+   it("#createUnsecuredAttestationToken", async() => {
 
     let sourceObject = JSON.stringify({foo: "foo", bar: 10});
     let token = AttestationToken.serialize(sourceObject);

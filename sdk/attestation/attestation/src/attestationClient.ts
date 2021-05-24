@@ -28,10 +28,13 @@ import { GeneratedClientOptionalParams } from "./generated/models";
 import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
-* Attestation Client Options.
+* Attestation Client Construction Options.
 */
 export interface AttestationClientOptions extends PipelineOptions{};
 
+/**
+ * Operation options for the Attestation Client operatios.
+ */
 export interface AttestationClientOperationOptions extends OperationOptions{};
 
 /**
@@ -99,11 +102,23 @@ export class AttestationClient {
     this.attestation = new Attestation(this);
   }
 
+  /**
+   * Temporary function to access the generated client, used for the operations
+   * TS files.
+   * @returns The generated client for the attestation service.
+   */
   public BaseClient() : GeneratedClient
   {
     return this._client;
   }
 
+  /**
+   * Returns the list of attestation signers which can be used to sign attestation
+   * service tokens.
+   * 
+   * @param options Client operation options.
+   * @returns the set of AttestationSigners which may be used to sign attestation tokens.
+   */
   public async getAttestationSigners(options: AttestationClientOperationOptions = {}) : Promise<AttestationSigner[]>
   {
     const { span, updatedOptions} = createSpan("AttestationClient-getAttestationSigners", options);
@@ -122,6 +137,11 @@ export class AttestationClient {
     }
   }
 
+  /**
+   * 
+   * @param options Client operation options.
+   * @returns The OpenID metadata discovery document for the attestation service.
+   */
   public async getOpenIdMetadata(options: AttestationClientOperationOptions = {}) : Promise<any>
   {
     const { span, updatedOptions} = createSpan("AttestationClient-getAttestationSigners", options);

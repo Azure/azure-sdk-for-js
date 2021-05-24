@@ -54,10 +54,7 @@ export class AttestationClient {
     // (undocumented)
     attestation: Attestation;
     // Warning: (ae-forgotten-export) The symbol "GeneratedClient" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     BaseClient(): GeneratedClient;
-    // (undocumented)
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
     // (undocumented)
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
@@ -69,7 +66,7 @@ export class AttestationClient {
     policyCertificates: PolicyCertificates;
 }
 
-// @public (undocumented)
+// @public
 export interface AttestationClientOperationOptions extends OperationOptions {
 }
 
@@ -120,13 +117,11 @@ export interface AttestationResult {
     version?: string;
 }
 
-// @public (undocumented)
+// @public
 export class AttestationSigner {
     // Warning: (ae-forgotten-export) The symbol "JsonWebKey" needs to be exported by the entry point index.d.ts
     constructor(key: JsonWebKey_2);
-    // (undocumented)
     certificates: Uint8Array[];
-    // (undocumented)
     keyId: string;
 }
 
@@ -156,7 +151,7 @@ export class AttestationToken {
     // (undocumented)
     _jwsVerifier: KJUR.jws.JWS.JWSResult;
     // (undocumented)
-    static serialize(body: string, signer: AttestationSigningKey | undefined): AttestationToken;
+    static serialize(body: string, signer?: AttestationSigningKey): AttestationToken;
     // (undocumented)
     _signature: Uint8Array;
     // (undocumented)
