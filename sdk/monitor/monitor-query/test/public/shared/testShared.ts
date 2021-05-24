@@ -84,27 +84,36 @@ export function createTestClientSecretCredential(): ClientSecretCredential {
 }
 
 export function getMonitorWorkspaceId(mochaContext: Pick<Context, "skip">): string {
-  if (!env.MONITOR_WORKSPACE_ID) {
-    // TODO: need to get the test resources situation ironed out.
-    // throw new Error("MONITOR_WORKSPACE_ID must be defined in order to run LogsClient live tests.");
-    console.log(`TODO: live tests skipped until test-resources + data population is set up.`);
-    mochaContext.skip();
-  }
-
-  return env.MONITOR_WORKSPACE_ID!;
+  return getRequiredEnvVar(mochaContext, "MONITOR_WORKSPACE_ID");
 }
 
 export function getMetricsArmResourceId(mochaContext: Pick<Context, "skip">): string {
-  if (!env.METRICS_RESOURCE_ID_TO_QUERY) {
-    // TODO: need to get the test resources situation ironed out.
-    // throw new Error(
-    //   "METRICS_RESOURCE_ID_TO_QUERY must be defined in order to run MetricsClient live tests."
-    // );
+  return getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_ID_TO_QUERY");
+}
+
+export function getAppInsightsConnectionString(mochaContext: Pick<Context, "skip">): string {
+  let appInsightsConnectionString = getRequiredEnvVar(
+    mochaContext,
+    "APPLICATIONINSIGHTS_CONNECTION_STRING"
+  );
+
+  // TODO: this is a workaround for now - adding in an endpoint causes the Monitor endpoint to return a 308 (ie: permanent redirect)
+  // Removing for now until we get fix the exporter.
+  appInsightsConnectionString = appInsightsConnectionString.replace(
+    /IngestionEndpoint=.+?(;|$)/,
+    ""
+  );
+
+  return appInsightsConnectionString;
+}
+
+function getRequiredEnvVar(mochaContext: Pick<Context, "skip">, variableName: string): string {
+  if (!env[variableName]) {
     console.log(`TODO: live tests skipped until test-resources + data population is set up.`);
     mochaContext.skip();
   }
 
-  return env.METRICS_RESOURCE_ID_TO_QUERY;
+  return env[variableName];
 }
 
 export function printLogQueryTables(tables: Table[]): void {

@@ -118,7 +118,7 @@ describe("LogsClient live tests", function() {
         testRunId = `ingestedDataTest-${Date.now()}`;
 
         // send some events
-        runWithTelemetry((provider) => {
+        await runWithTelemetry(this, (provider) => {
           const tracer = provider.getTracer("logsClientTests");
 
           tracer

@@ -6,12 +6,17 @@ import { NodeTracerProvider } from "@opentelemetry/node";
 import { BatchSpanProcessor } from "@opentelemetry/tracing";
 import { TracerProvider } from "@opentelemetry/api";
 import * as dotenv from "dotenv";
-import { env } from "@azure/test-utils-recorder";
+import { Context } from "mocha";
+import { getAppInsightsConnectionString } from "./public/shared/testShared";
 
 dotenv.config();
 
-export function runWithTelemetry(fn: (provider: TracerProvider) => void): void {
-  // (this code more or less taken verbatim from monitor-opentelemetry-exporter's readme)
+export function runWithTelemetry(
+  mochaContext: Pick<Context, "skip">,
+  fn: (provider: TracerProvider) => void
+): Promise<void> {
+  const appInsightsConnectionString = getAppInsightsConnectionString(mochaContext);
+
   const provider = new NodeTracerProvider({
     // plugins: {
     //   https: {
@@ -24,13 +29,10 @@ export function runWithTelemetry(fn: (provider: TracerProvider) => void): void {
 
   // Create an exporter instance
   const exporter = new AzureMonitorTraceExporter({
-    connectionString: env.APPLICATIONINSIGHTS_CONNECTION_STRING
+    connectionString: appInsightsConnectionString
   });
 
-  const batchSpanProcessor = new BatchSpanProcessor(exporter, {
-    exportTimeoutMillis: 15000,
-    maxQueueSize: 1000
-  });
+  const batchSpanProcessor = new BatchSpanProcessor(exporter);
 
   // Add the exporter to the provider
   // TODO: there is an API incompatiblity here.
@@ -38,5 +40,5 @@ export function runWithTelemetry(fn: (provider: TracerProvider) => void): void {
 
   fn(provider);
 
-  provider.shutdown();
+  return provider.shutdown();
 }
