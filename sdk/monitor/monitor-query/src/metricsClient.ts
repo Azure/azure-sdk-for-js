@@ -2,6 +2,11 @@
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
 import {
+  bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions,
+  PipelineOptions
+} from "@azure/core-http";
+import {
   KnownApiVersion201801,
   MetricsListResponse,
   MonitorManagementClient as GeneratedMetricsClient
@@ -21,28 +26,46 @@ import {
   QueryMetricsOptions
 } from "./models/metricsModels";
 
+export interface MetricsClientOptions extends PipelineOptions {
+  /** server parameter */
+  $host?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}
+
 export class MetricsClient {
   private _metricsClient: GeneratedMetricsClient;
   private _definitionsClient: GeneratedMetricsDefinitionsClient;
   private _namespacesClient: GeneratedMetricsNamespacesClient;
 
-  constructor(tokenCredential: TokenCredential) {
+  constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions) {
+    const bearerTokenPolicy = bearerTokenAuthenticationPolicy(
+      tokenCredential,
+      formatScope(options?.endpoint)
+    );
+
+    const serviceClientOptions = {
+      ...createPipelineFromOptions(options || {}, bearerTokenPolicy),
+      $host: options?.$host,
+      endpoint: options?.endpoint
+    };
+
     this._metricsClient = new GeneratedMetricsClient(
       tokenCredential,
       KnownApiVersion201801.TwoThousandEighteen0101,
-      {}
+      serviceClientOptions
     );
 
     this._definitionsClient = new GeneratedMetricsDefinitionsClient(
       tokenCredential,
       KnownApiVersion201801.TwoThousandEighteen0101,
-      {}
+      serviceClientOptions
     );
 
     this._namespacesClient = new GeneratedMetricsNamespacesClient(
       tokenCredential,
       KnownApiVersion20171201Preview.TwoThousandSeventeen1201Preview,
-      {}
+      serviceClientOptions
     );
   }
 
@@ -62,5 +85,17 @@ export class MetricsClient {
     options?: GetMetricNamespaces
   ): Promise<MetricNamespacesListResponse> {
     return this._namespacesClient.metricNamespaces.list(resourceUri, options);
+  }
+}
+
+function formatScope(endpoint: string | undefined) {
+  if (endpoint) {
+    if (endpoint.endsWith("/")) {
+      endpoint += "/";
+    }
+
+    return `${endpoint}/.default`;
+  } else {
+    return "https://management.azure.com/.default";
   }
 }
