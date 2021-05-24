@@ -37,7 +37,8 @@ dependencies:
   '@rush-temp/eventgrid': file:projects/eventgrid.tgz
   '@rush-temp/eventhubs-checkpointstore-blob': file:projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/identity': file:projects/identity.tgz
-  '@rush-temp/identity-native': file:projects/identity-native.tgz
+  '@rush-temp/identity-persistence': file:projects/identity-persistence.tgz
+  '@rush-temp/identity-vscode': file:projects/identity-vscode.tgz
   '@rush-temp/iot-device-update': file:projects/iot-device-update.tgz
   '@rush-temp/keyvault-admin': file:projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:projects/keyvault-certificates.tgz
@@ -499,6 +500,14 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-Zyus+skNaVWL5fXfSjC17c94XZ95Z3a+bZc7YKkP26KT3Dj26jbfz2oT9KJxAT4XVtH/1WPY/fPFeEFTRvytJQ==
+  /@azure/msal-common/1.7.2:
+    dependencies:
+      debug: 4.3.1
+    dev: false
+    engines:
+      node: '>=0.8.0'
+    resolution:
+      integrity: sha512-3/voCdFKONENX+5tMrNOBSrVJb6NbE7YB8vc4FZ/4ZbjpK7GVtq9Bu1MW+HZhrmsUzSF/joHx0ZIJDYIequ/jg==
   /@azure/msal-common/2.1.0:
     dependencies:
       debug: 4.3.1
@@ -523,6 +532,18 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-jFqUWe83wVb6O8cNGGBFg2QlKvqM1ezUgJTEV7kIsAPX0RXhGFE4B1DLNt6hCnkTXDbw+KGW0zgxOEr4MJQwLw==
+  /@azure/msal-node-extensions/1.0.0-alpha.6:
+    dependencies:
+      '@azure/msal-common': 1.7.2
+      bindings: 1.5.0
+      keytar: 7.0.0
+      nan: 2.14.2
+    dev: false
+    engines:
+      node: '>=10'
+    requiresBuild: true
+    resolution:
+      integrity: sha512-fVufHc02C+daYOMAHBnE998abB4qUIeJ9gmTxmSelHhGfBGvvzMbCohCu4sTlSVDKUndF3yD/Nxvw/cEtpcZKg==
   /@azure/msal-node/1.0.0-beta.6:
     dependencies:
       '@azure/msal-common': 4.3.0
@@ -1152,7 +1173,7 @@ packages:
   /@types/body-parser/1.19.0:
     dependencies:
       '@types/connect': 3.4.34
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-W98JrE0j2K78swW4ukqMleo8R7h/pFETjM2DQ90MF6XK2i4LO4W3gQ71Lt4w3bfm2EvVSyWHplECvB5sK22yFQ==
@@ -1178,7 +1199,7 @@ packages:
       integrity: sha512-bsjleuRKWmGqajMerkzox19aGbscQX5rmmvvXl3wlIp5gMG1HgkiwPxsN5p070fBDKTNSPgojVbuY1+HWMbFhg==
   /@types/connect/3.4.34:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-ePPA/JuI+X0vb+gSWlPKOY0NdNAie/rPUqX2GUPpbZwiKTkSPhjXWuee47E4MtE54QVzGCQMQkAL6JhV2E1+cQ==
@@ -1211,7 +1232,7 @@ packages:
       integrity: sha512-c5ciR06jK8u9BstrmJyO97m+klJrrhCf9u3rLu3DEAJBirxRqSCvDQoYKmxuYwQI5SZChAWu+tq9oVlGRuzPAg==
   /@types/express-serve-static-core/4.17.19:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
       '@types/qs': 6.9.6
       '@types/range-parser': 1.2.3
     dev: false
@@ -1235,20 +1256,20 @@ packages:
       integrity: sha512-IyNhGHu71jH1jCXTHmafuoAAdsbBON3kDh7u/UUhLmjYgN5TYB54e1R8ckTCiIevl2UuZaCsi9XRxineY5yUjw==
   /@types/fs-extra/8.1.1:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-TcUlBem321DFQzBNuz8p0CLLKp0VvF/XH9E4KHNmgwyp4E3AfgI5cjiIVZWlbfThBop2qxFIh4+LeY6hVWWZ2w==
   /@types/glob/7.1.3:
     dependencies:
       '@types/minimatch': 3.0.4
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-SEYeGAIQIQX8NN6LDKprLjbrd5dARM5EXsd8GI/A5l0apYI1fGMWgPHSe4ZKL4eozlAyI+doUE9XbYS4xCkQ1w==
   /@types/is-buffer/2.0.0:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-0f7N/e3BAz32qDYvgB4d2cqv1DqUwvGxHkXsrucICn8la1Vb6Yl6Eg8mPScGwUiqHJeE7diXlzaK+QMA9m4Gxw==
@@ -1262,7 +1283,7 @@ packages:
       integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
   /@types/jsonwebtoken/8.5.1:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-rNAPdomlIUX0i0cg2+I+Q1wOUr531zHBQ+cV/28PJ39bSPKjahatZZ2LMuhiguETkCgLVzfruw/ZvNMNkKoSzw==
@@ -1272,7 +1293,7 @@ packages:
       integrity: sha512-FLXKbwbB+4fsJECYOpIiYX2GSqSHYnkO/UnrFqlZn6crpyyOtk4LRab+G1HC7dTbT1NB7spkHecZRQGXoCWiJQ==
   /@types/jws/3.2.3:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-g54CHxwvaHvyJyeuZqe7VQujV9SfCXwEkboJp355INPL+kjlS3Aq153EHptaeO/Cch/NPJ1i2sHz0sDDizn7LQ==
@@ -1286,7 +1307,7 @@ packages:
       integrity: sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==
   /@types/md5/2.3.0:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-556YJ7ejzxIqSSxzyGGpctuZOarNZJt/zlEkhmmDc1f/slOEANHuwu2ZX7YaZ40rMiWoxt8GvAhoDpW1cmSy6A==
@@ -1312,13 +1333,13 @@ packages:
       integrity: sha512-ZvO2tAcjmMi8V/5Z3JsyofMe3hasRcaw88cto5etSVMwVQfeivGAlEYmaQgceUSVYFofVjT+ioHsATjdWcFt1w==
   /@types/mock-fs/4.10.0:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-FQ5alSzmHMmliqcL36JqIA4Yyn9jyJKvRSGV3mvPh108VFatX7naJDzSG4fnFQNZFq9dIx0Dzoe6ddflMB2Xkg==
   /@types/mock-require/2.0.0:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-nOgjoE5bBiDeiA+z41i95makyHUSMWQMOPocP+J67Pqx/68HAXaeWN1NFtrAYYV6LrISIZZ8vKHm/a50k0f6Sg==
@@ -1328,7 +1349,7 @@ packages:
       integrity: sha512-DPxmjiDwubsNmguG5X4fEJ+XCyzWM3GXWsqQlvUcjJKa91IOoJUy51meDr0GkzK64qqNcq85ymLlyjoct9tInw==
   /@types/node-fetch/2.5.10:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
       form-data: 3.0.1
     dev: false
     resolution:
@@ -1371,7 +1392,7 @@ packages:
       integrity: sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -1382,7 +1403,7 @@ packages:
   /@types/serve-static/1.13.9:
     dependencies:
       '@types/mime': 1.3.2
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-ZFqF6qa48XsPdjXV5Gsz0Zqmux2PerNd3a/ktL45mHpa19cuMi/cL8tcxdAx497yRh+QtYPuofjT9oWw9P7nkA==
@@ -1398,7 +1419,7 @@ packages:
       integrity: sha512-dIPoZ3g5gcx9zZEszaxLSVTvMReD3xxyyDnQUjA6IYDG9Ba2AV0otMPs+77sG9ojB4Qr2N2Vk5RnKeuA0X/0bg==
   /@types/stoppable/1.1.0:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-BRR23Q9CJduH7AM6mk4JRttd8XyFkb4qIPZu4mdLF+VoP+wcjIxIWIKiBbN78NBbEuynrAyMPtzOHnIp2B/JPQ==
@@ -1408,7 +1429,7 @@ packages:
       integrity: sha512-I99sngh224D0M7XgW1s120zxCt3VYQ3IQsuw3P3jbq5GG4yc79+ZjyKznyOGIQrflfylLgcfekeZW/vk0yng6A==
   /@types/tunnel/0.0.1:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==
@@ -1422,19 +1443,19 @@ packages:
       integrity: sha512-eQ9qFW/fhfGJF8WKHGEHZEyVWfZxrT+6CLIJGBcZPfxUh/+BnEj+UCGYMlr9qZuX/2AltsvwrGqp0LhEW8D0zQ==
   /@types/ws/7.4.4:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-d/7W23JAXPodQNbOZNXvl2K+bqAQrCMwlh/nuQsPSQk6Fq0opHoPrUw43aHsvSbIiQPr8Of2hkFbnz1XBFVyZQ==
   /@types/xml2js/0.4.8:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     resolution:
       integrity: sha512-EyvT83ezOdec7BhDaEcsklWy7RSIdi6CNe95tmOAK0yx/Lm30C9K75snT3fYayK59ApC2oyW+rcHErdG05FHJA==
   /@types/yauzl/2.9.1:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
     dev: false
     optional: true
     resolution:
@@ -2024,6 +2045,12 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
+  /bindings/1.5.0:
+    dependencies:
+      file-uri-to-path: 1.0.0
+    dev: false
+    resolution:
+      integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
   /bl/4.1.0:
     dependencies:
       buffer: 5.7.1
@@ -2583,7 +2610,7 @@ packages:
       integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
   /debug/3.2.6:
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dev: false
     resolution:
@@ -3386,6 +3413,10 @@ packages:
       node: ^10.12.0 || >=12.0.0
     resolution:
       integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==
+  /file-uri-to-path/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==
   /file-uri-to-path/2.0.0:
     dev: false
     engines:
@@ -4869,6 +4900,14 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-fo4Wt0S99/8vylZMxNj4cBFyOBBnC1bewZ0QOlePij/2SZVWxqbyLeIddY13q6URa2EpLRW8ixvFRUMjkmo1bw==
+  /keytar/7.0.0:
+    dependencies:
+      node-addon-api: 3.2.0
+      prebuild-install: 5.3.5
+    dev: false
+    requiresBuild: true
+    resolution:
+      integrity: sha512-uvmdb5ZE2NgegcUDrmhutI9BUh+bTbt8+bwPliOMiLiWmrV76Tfg6DyI7Ud903a/4xlkJpKGnR0TyRpRyFOc3A==
   /keytar/7.7.0:
     dependencies:
       node-addon-api: 3.2.0
@@ -5324,6 +5363,10 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-8vW5/+irlcQQk87r8Qp3/kQEc552hr7FQLJ6GF5LLkqnwJDDxrswz6RYPiQhmiampymIs0PbHVZrNf8m+6DmgQ==
+  /nan/2.14.2:
+    dev: false
+    resolution:
+      integrity: sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
   /nanoid/3.1.23:
     dev: false
     engines:
@@ -5892,6 +5935,29 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
+  /prebuild-install/5.3.5:
+    dependencies:
+      detect-libc: 1.0.3
+      expand-template: 2.0.3
+      github-from-package: 0.0.0
+      minimist: 1.2.5
+      mkdirp: 0.5.5
+      napi-build-utils: 1.0.2
+      node-abi: 2.26.0
+      noop-logger: 0.1.1
+      npmlog: 4.1.2
+      pump: 3.0.0
+      rc: 1.2.8
+      simple-get: 3.1.0
+      tar-fs: 2.1.1
+      tunnel-agent: 0.6.0
+      which-pm-runs: 1.0.0
+    dev: false
+    engines:
+      node: '>=6'
+    hasBin: true
+    resolution:
+      integrity: sha512-YmMO7dph9CYKi5IR/BzjOJlRzpxGGVo1EsLSUZ0mt/Mq0HWZIHOKHHcHdT69yG54C9m6i45GpItwRHpk0Py7Uw==
   /prebuild-install/6.1.2:
     dependencies:
       detect-libc: 1.0.3
@@ -6486,7 +6552,7 @@ packages:
   /rollup/1.32.1:
     dependencies:
       '@types/estree': 0.0.47
-      '@types/node': 8.10.66
+      '@types/node': 15.3.1
       acorn: 7.4.1
     dev: false
     hasBin: true
@@ -7598,6 +7664,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-2e8H3Od7mQK4o6j6SzHD4/fm6Ho=
+  /which-pm-runs/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha1-Zws6+8VS4LVd9rd4DKdGFfI60cs=
   /which-typed-array/1.1.4:
     dependencies:
       available-typed-arrays: 1.0.3
@@ -9626,9 +9696,9 @@ packages:
       integrity: sha512-+IkU2ATSSMXaGRwCmLYsC6zjHzXJdbyPHp2Hj9r90C/odBUHvsffC0Pr0Z6VKqb9V1DZfFDoLlQTUdjwkS2NHg==
       tarball: file:projects/eventhubs-checkpointstore-blob.tgz
     version: 0.0.0
-  file:projects/identity-native.tgz:
+  file:projects/identity-persistence.tgz:
     dependencies:
-      '@azure/identity': 2.0.0-beta.3
+      '@azure/msal-node-extensions': 1.0.0-alpha.6
       '@microsoft/api-extractor': 7.7.11
       '@types/jws': 3.2.3
       '@types/mocha': 7.0.2
@@ -9645,6 +9715,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       mock-fs: 4.14.0
+      prettier: 1.19.1
       puppeteer: 3.3.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -9654,10 +9725,43 @@ packages:
       typescript: 4.2.4
       util: 0.12.3
     dev: false
-    name: '@rush-temp/identity-native'
+    name: '@rush-temp/identity-persistence'
     resolution:
-      integrity: sha512-ydJxPj55Hxk4yiFnrWbVpi0qwoG7hC9naUuG+EFxTLEBWEpIpqMsWlYkvlM/bEnHIvp/0WKy1N78yDjsw7GArg==
-      tarball: file:projects/identity-native.tgz
+      integrity: sha512-VS4HBREnwE1VcpsrTt+0V3lyeHoK/0cwrsH51oFbgCFPzJe9pq07hNXyAkVExvS8t8vr9qPRdR3gLIjAi+Zfyw==
+      tarball: file:projects/identity-persistence.tgz
+    version: 0.0.0
+  file:projects/identity-vscode.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@types/jws': 3.2.3
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      '@types/qs': 6.9.6
+      '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.0
+      assert: 1.5.0
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.26.0
+      inherits: 2.0.4
+      keytar: 7.7.0
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mock-fs: 4.14.0
+      prettier: 1.19.1
+      puppeteer: 3.3.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      sinon: 9.2.4
+      tslib: 2.2.0
+      typedoc: 0.15.2
+      typescript: 4.2.4
+      util: 0.12.3
+    dev: false
+    name: '@rush-temp/identity-vscode'
+    resolution:
+      integrity: sha512-P+qWA4wi2DQS4Gc1tBiRQodM8NPglT2H4brfB/QxW2z/jxNojqXxo35inG5UXMv7/vEnBD5xAUWH4RgSj3ghKw==
+      tarball: file:projects/identity-vscode.tgz
     version: 0.0.0
   file:projects/identity.tgz:
     dependencies:
@@ -11503,6 +11607,7 @@ packages:
       integrity: sha512-7DeCXxoad4VAGDhNwiYkzn7cUqIkaxlapdj5YnYiE2yVb059BjmVJ5+7Yy3SK5a9fT/rhXiidEuz7GpFF/J67w==
       tarball: file:projects/web-pubsub.tgz
     version: 0.0.0
+registry: ''
 specifiers:
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
@@ -11542,7 +11647,8 @@ specifiers:
   '@rush-temp/eventgrid': file:./projects/eventgrid.tgz
   '@rush-temp/eventhubs-checkpointstore-blob': file:./projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/identity': file:./projects/identity.tgz
-  '@rush-temp/identity-native': file:./projects/identity-native.tgz
+  '@rush-temp/identity-persistence': file:./projects/identity-persistence.tgz
+  '@rush-temp/identity-vscode': file:./projects/identity-vscode.tgz
   '@rush-temp/iot-device-update': file:./projects/iot-device-update.tgz
   '@rush-temp/keyvault-admin': file:./projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:./projects/keyvault-certificates.tgz

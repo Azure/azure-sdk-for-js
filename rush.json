@@ -527,8 +527,13 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/identity-native",
-      "projectFolder": "sdk/identity/identity-native",
+      "packageName": "@azure/identity-vscode",
+      "projectFolder": "sdk/identity/identity-vscode",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/identity-persistence",
+      "projectFolder": "sdk/identity/identity-persistence",
       "versionPolicyName": "client"
     },
     {
