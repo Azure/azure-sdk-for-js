@@ -86,10 +86,8 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     name: "test_datafeed_" + new Date().getTime().toString(),
     source: {
       dataSourceType: "SqlServer",
-      dataSourceParameter: {
-        connectionString: sqlServerConnectionString,
-        query: sqlServerQuery
-      }
+      connectionString: sqlServerConnectionString,
+      query: sqlServerQuery
     },
     granularity: {
       granularityType: "Daily"

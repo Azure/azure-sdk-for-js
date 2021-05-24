@@ -73,15 +73,12 @@ async function createDataFeed(client) {
     name: "test-datafeed-" + new Date().getTime().toString(),
     source: {
       dataSourceType: "AzureBlob",
-      dataSourceParameter: {
-        connectionString:
-          process.env.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING ||
-          "<Azure Blob storage connection string>",
-        container:
-          process.env.METRICS_ADVISOR_AZURE_BLOB_CONTAINER || "<Azure Blob container name>",
-        blobTemplate:
-          process.env.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE || "<Azure Blob data file name template>"
-      }
+      connectionString:
+        process.env.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING ||
+        "<Azure Blob storage connection string>",
+      container: process.env.METRICS_ADVISOR_AZURE_BLOB_CONTAINER || "<Azure Blob container name>",
+      blobTemplate:
+        process.env.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE || "<Azure Blob data file name template>"
     },
     granularity: {
       granularityType: "Daily"
