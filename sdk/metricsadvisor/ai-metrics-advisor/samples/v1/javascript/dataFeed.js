@@ -78,7 +78,8 @@ async function createDataFeed(client) {
         "<Azure Blob storage connection string>",
       container: process.env.METRICS_ADVISOR_AZURE_BLOB_CONTAINER || "<Azure Blob container name>",
       blobTemplate:
-        process.env.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE || "<Azure Blob data file name template>"
+        process.env.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE || "<Azure Blob data file name template>",
+      authenticationType: "Basic"
     },
     granularity: {
       granularityType: "Daily"
