@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { QueryLogsOptions } from "../models/logsModels";
+import { QueryLogsOptions } from "../models/publicLogsModels";
 
 /**
  * @internal

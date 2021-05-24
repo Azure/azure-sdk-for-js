@@ -2,8 +2,13 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import { Metric, MetricDefinition, MetricNamespace, ResultType } from "..";
+import { MetricDefinition } from "..";
+import { Metric, ResultType } from "../generated/metrics/src";
+import { MetricNamespace } from "../generated/metricsnamespaces/src";
 
+/**
+ * Options for querying metrics.
+ */
 export interface QueryMetricsOptions extends OperationOptions {
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
@@ -33,6 +38,9 @@ export interface QueryMetricsOptions extends OperationOptions {
   metricNamespace?: string;
 }
 
+/**
+ * Metrics and associated data, like interval, timespan and cost.
+ */
 export interface QueryMetricsResponse {
   // track 2 version of `MetricsListResponse`
 
@@ -50,6 +58,9 @@ export interface QueryMetricsResponse {
   metrics: Metric[];
 }
 
+/**
+ * Options for getting metric definitions.
+ */
 export interface GetMetricDefinitionsOptions extends OperationOptions {
   // track 2 version of `MetricDefinitionsListOptionalParams`
 
@@ -57,20 +68,27 @@ export interface GetMetricDefinitionsOptions extends OperationOptions {
   metricNamespace?: string;
 }
 
+/**
+ * Metric definitions.
+ */
 export interface GetMetricDefinitionsResponse {
   /** the values for the metric definitions. */
-  metricDefinitions: MetricDefinition[];
+  definitions: MetricDefinition[];
 }
 
-export interface GetMetricNamespacesOptions {
-  // track 2 copy of `MetricNamespacesListOptionalParams`
-
+/**
+ * Options for getting metric namespaces.
+ */
+export interface GetMetricNamespacesOptions extends OperationOptions {
   /** The ISO 8601 conform Date start time from which to query for metric namespaces. */
   startTime?: string;
 }
 
+/**
+ * Metric namespaces.
+ */
 export interface GetMetricNamespacesResponse {
-  // track 2 version of MetricNamespacesListResponse
+  // track 2 version of `MetricNamespacesListResponse`
 
   /** The metric namespaces. */
   namespaces: MetricNamespace[] | undefined;

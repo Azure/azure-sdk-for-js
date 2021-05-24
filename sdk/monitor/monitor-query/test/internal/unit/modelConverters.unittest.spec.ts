@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { convertToBatchRequest } from "../../../src/logsClient";
 import * as assert from "assert";
 import {
   BatchRequest as GeneratedBatchRequest,
@@ -12,16 +11,20 @@ import {
   MetricsListResponse as GeneratedMetricsListResponse
 } from "../../../src/generated/metrics/src";
 import { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src";
-import { CommonDurations } from "../../../src/models/constants";
 import {
-  convertMetricsResponse,
-  convertToMetricsDefinitionsRequest,
-  convertToMetricsRequest
-} from "../../../src/metricsClient";
-import { AbortSignalLike } from "@azure/core-http";
-import { RequestOptions } from "https";
+  convertRequestForQueryBatch,
+  convertRequestOptionsForMetricsDefinitions,
+  convertRequestForMetrics,
+  convertResponseForMetrics,
+  convertResponseForMetricsDefinitions,
+  convertResponseForMetricNamespaces
+} from "../../../src/internal/modelConverters";
+import { AbortSignalLike, OperationRequestOptions } from "@azure/core-http";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import {
+  CommonDurations,
+  GetMetricDefinitionsResponse,
+  GetMetricNamespacesResponse,
   GetMetricDefinitionsOptions,
   QueryMetricsOptions,
   QueryMetricsResponse
@@ -30,7 +33,7 @@ import {
 describe("Model unit tests", () => {
   describe("LogsClient", () => {
     it("convertToBatchRequest (simple)", () => {
-      const generatedRequest = convertToBatchRequest({
+      const generatedRequest = convertRequestForQueryBatch({
         queries: [
           {
             query: "the kusto query",
@@ -54,7 +57,7 @@ describe("Model unit tests", () => {
     });
 
     it("convertToBatchRequest (complex)", () => {
-      const generatedRequest = convertToBatchRequest({
+      const generatedRequest = convertRequestForQueryBatch({
         queries: [
           {
             query: "<placeholder>",
@@ -95,9 +98,9 @@ describe("Model unit tests", () => {
   });
 
   describe("MetricsClient", () => {
-    it("convertToMetricsRequest (all fields)", () => {
+    it("convertRequestForMetrics (all fields)", () => {
       const abortSignal = {} as AbortSignalLike;
-      const requestOptions = {} as RequestOptions;
+      const requestOptions = {} as OperationRequestOptions;
       const tracingOptions = {} as OperationTracingOptions;
 
       // (Required<T> just to make sure I don't forget a field)
@@ -116,7 +119,7 @@ describe("Model unit tests", () => {
         tracingOptions
       };
 
-      const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertToMetricsRequest(
+      const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
         track2Model
       );
 
@@ -136,14 +139,14 @@ describe("Model unit tests", () => {
       });
     });
 
-    it("convertToMetricsRequest (only required fields)", () => {
-      assert.deepEqual(convertToMetricsRequest({}), {
+    it("convertRequestForMetrics (only required fields)", () => {
+      assert.deepEqual(convertRequestForMetrics({}), {
         metricnames: undefined,
         aggregation: undefined,
         metricnamespace: undefined,
         orderby: undefined
       });
-      assert.deepEqual(convertToMetricsRequest(undefined), {
+      assert.deepEqual(convertRequestForMetrics(undefined), {
         metricnames: undefined,
         aggregation: undefined,
         metricnamespace: undefined,
@@ -151,40 +154,7 @@ describe("Model unit tests", () => {
       });
     });
 
-    it("convertToMetricsDefinitionsRequest (all fields)", () => {
-      const abortSignal = {} as AbortSignalLike;
-      const requestOptions = {} as RequestOptions;
-      const tracingOptions = {} as OperationTracingOptions;
-
-      const track2: Required<GetMetricDefinitionsOptions> = {
-        abortSignal,
-        requestOptions,
-        tracingOptions,
-        metricNamespace: "myMetricNamespace"
-      };
-
-      const actualOptions: GeneratedMetricDefinitionsListOptionalParams = convertToMetricsDefinitionsRequest(
-        track2
-      );
-
-      assert.deepEqual(actualOptions, {
-        abortSignal,
-        requestOptions,
-        tracingOptions,
-        metricnamespace: "myMetricNamespace"
-      });
-    });
-
-    it("convertToMetricsDefinitionsRequest (only required fields)", () => {
-      assert.deepEqual(convertToMetricsDefinitionsRequest({}), {
-        metricnamespace: undefined
-      });
-      assert.deepEqual(convertToMetricsDefinitionsRequest(undefined), {
-        metricnamespace: undefined
-      });
-    });
-
-    it("convertMetricsResponse (all fields)", () => {
+    it("convertResponseForMetrics (all fields)", () => {
       const generatedResponse: Required<GeneratedMetricsListResponse> = {
         // all of these fields are just copied over verbatim...
         timespan: "aTimespan",
@@ -197,16 +167,74 @@ describe("Model unit tests", () => {
         _response: {} as any
       };
 
-      const actualConvertedResponse = convertMetricsResponse(generatedResponse);
+      const actualConvertedResponse = convertResponseForMetrics(generatedResponse);
 
       assert.deepEqual(actualConvertedResponse, <QueryMetricsResponse>{
         timespan: "aTimespan",
-        value: [{ id: "fakeMetric " } as any],
+        metrics: [{ id: "fakeMetric " } as any],
         cost: 100,
         interval: "anInterval",
         namespace: "aNamespace",
         resourceRegion: "aResourceRegion"
         // NOTE: _response is not returned as part of our track 2 response.
+      });
+    });
+
+    it("convertRequestOptionsForMetricsDefinitions (all fields)", () => {
+      const abortSignal = {} as AbortSignalLike;
+      const requestOptions = {} as OperationRequestOptions;
+      const tracingOptions = {} as OperationTracingOptions;
+
+      const track2: Required<GetMetricDefinitionsOptions> = {
+        abortSignal,
+        requestOptions,
+        tracingOptions,
+        metricNamespace: "myMetricNamespace"
+      };
+
+      const actualOptions: GeneratedMetricDefinitionsListOptionalParams = convertRequestOptionsForMetricsDefinitions(
+        track2
+      );
+
+      assert.deepEqual(actualOptions, {
+        abortSignal,
+        requestOptions,
+        tracingOptions,
+        metricnamespace: "myMetricNamespace"
+      });
+    });
+
+    it("convertRequestOptionsForMetricsDefinitions (only required fields)", () => {
+      assert.deepEqual(convertRequestOptionsForMetricsDefinitions({}), {
+        metricnamespace: undefined
+      });
+      assert.deepEqual(convertRequestOptionsForMetricsDefinitions(undefined), {
+        metricnamespace: undefined
+      });
+    });
+
+    it("convertResponseForMetricsDefinitions", () => {
+      const actualResponse = convertResponseForMetricsDefinitions({
+        _response: {} as any,
+        value: [{ id: "anything" } as any]
+      });
+
+      assert.deepEqual(
+        <GetMetricDefinitionsResponse>{
+          definitions: [{ id: "anything" } as any]
+        },
+        actualResponse
+      );
+    });
+
+    it("convertResponseForMetricNamespaces", () => {
+      const actualResponse = convertResponseForMetricNamespaces({
+        _response: {} as any,
+        value: [{ id: "anything" } as any]
+      });
+
+      assert.deepEqual(actualResponse, <GetMetricNamespacesResponse>{
+        namespaces: [{ id: "anything" } as any]
       });
     });
   });

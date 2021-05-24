@@ -13,14 +13,16 @@ export {
   QueryLogsOptions,
   QueryLogsResult,
   QueryStatistics
-} from "./models/logsModels";
+} from "./models/publicLogsModels";
 export { MetricsClient, MetricsClientOptions } from "./metricsClient";
 export {
   GetMetricDefinitionsOptions,
-  GetMetricNamespaces,
+  GetMetricDefinitionsResponse,
+  GetMetricNamespacesOptions,
+  GetMetricNamespacesResponse,
   QueryMetricsOptions,
   QueryMetricsResponse
-} from "./models/metricsModels";
+} from "./models/publicMetricsModels";
 
 export { CommonDurations } from "./models/constants";
 
@@ -53,8 +55,6 @@ export {
   MetadataValue,
   Metric,
   MetricValue,
-  MetricsListResponse,
-  MetricsListOptionalParams,
   ResultType,
   TimeSeriesElement,
   Unit
@@ -63,15 +63,6 @@ export {
 export {
   AggregationType,
   MetricAvailability,
-  MetricDefinition,
-  MetricDefinitionCollection,
-  MetricDefinitionsListOptionalParams,
-  MetricDefinitionsListResponse
+  MetricDefinition
 } from "./generated/metricsdefinitions/src";
-export {
-  MetricNamespace,
-  MetricNamespaceCollection,
-  MetricNamespaceName,
-  MetricNamespacesListOptionalParams,
-  MetricNamespacesListResponse
-} from "./generated/metricsnamespaces/src";
+export { MetricNamespace, MetricNamespaceName } from "./generated/metricsnamespaces/src";

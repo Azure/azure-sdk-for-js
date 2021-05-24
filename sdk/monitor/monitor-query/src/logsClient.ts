@@ -4,27 +4,25 @@
 import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
 import { TokenCredential } from "@azure/core-auth";
 import {
-  BatchRequest,
-  LogQueryRequest,
-  LogQueryResponse,
-  QueryBatchResponse,
-  QueryBody
-} from "./generated/logquery/src";
-import {
-  BatchQuery,
-  QueryLogsBatch,
-  QueryLogsBatchOptions,
-  QueryLogsBatchResponse,
-  QueryLogsOptions,
-  QueryLogsResult
-} from "./models/logsModels";
-import { formatPreferHeader } from "./internal/util";
-import {
   PipelineOptions,
   createPipelineFromOptions,
   bearerTokenAuthenticationPolicy,
   RequestPolicyFactory
 } from "@azure/core-http";
+
+import {
+  QueryLogsBatch,
+  QueryLogsBatchOptions,
+  QueryLogsBatchResponse,
+  QueryLogsOptions,
+  QueryLogsResult
+} from "./models/publicLogsModels";
+
+import {
+  convertRequestForQueryBatch,
+  convertResponseForQueryBatch
+} from "./internal/modelConverters";
+import { formatPreferHeader } from "./internal/util";
 import { demoApiKeyAuthenticationPolicy } from "./internal/demoApiKeyAuthenticationPolicy";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
@@ -121,7 +119,7 @@ export class LogsClient {
     batch: QueryLogsBatch,
     options?: QueryLogsBatchOptions
   ): Promise<QueryLogsBatchResponse> {
-    const generatedRequest = convertToBatchRequest(batch);
+    const generatedRequest = convertRequestForQueryBatch(batch);
 
     for (const query of batch.queries) {
       if (this._isDemoClient && query.workspace !== "DEMO_WORKSPACE") {
@@ -132,69 +130,6 @@ export class LogsClient {
     }
 
     const response = await this._logAnalytics.query.batch(generatedRequest, options);
-    return convertBatchResponse(response);
+    return convertResponseForQueryBatch(response);
   }
-}
-
-/**
- * @internal
- */
-export function convertToBatchRequest(batch: QueryLogsBatch): BatchRequest {
-  let id = 0;
-
-  const requests: LogQueryRequest[] = batch.queries.map((query: BatchQuery) => {
-    const body: QueryBody &
-      Partial<
-        Pick<BatchQuery, "includeQueryStatistics" | "serverTimeoutInSeconds" | "workspace">
-      > = { ...query };
-    delete body["workspace"];
-    delete body["serverTimeoutInSeconds"];
-    delete body["includeQueryStatistics"];
-
-    const logQueryRequest: LogQueryRequest = {
-      id: id.toString(),
-      workspace: query.workspace,
-      headers: formatPreferHeader(query),
-      body
-    };
-
-    ++id;
-
-    return logQueryRequest;
-  });
-
-  return {
-    requests
-  };
-}
-
-/**
- * @internal
- * @hidden
- */
-export function convertBatchResponse(arg: QueryBatchResponse): QueryLogsBatchResponse {
-  const newResponse: QueryLogsBatchResponse = {
-    results: arg.responses
-      ?.sort((a, b) => {
-        let left = 0;
-        if (a.id != null) {
-          left = parseInt(a.id, 10);
-        }
-
-        let right = 0;
-        if (b.id != null) {
-          right = parseInt(b.id, 10);
-        }
-
-        return left - right;
-      })
-      ?.map((response: LogQueryResponse) => ({
-        id: response.id,
-        status: response.status,
-        errors: response.body?.errors,
-        tables: response.body?.tables
-      }))
-  };
-
-  return newResponse;
 }

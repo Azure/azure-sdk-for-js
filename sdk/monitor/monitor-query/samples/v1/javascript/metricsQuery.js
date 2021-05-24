@@ -30,7 +30,7 @@ async function main() {
     `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
   );
 
-  const metrics = metricsResponse.value;
+  const metrics = metricsResponse.metrics;
   console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
 }
 

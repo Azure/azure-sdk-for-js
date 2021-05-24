@@ -73,13 +73,25 @@ export interface ErrorDetails {
     target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GetMetricDefinitionsOptions extends OperationOptions {
     metricNamespace?: string;
 }
 
-// @public (undocumented)
-export type GetMetricNamespaces = MetricNamespacesListOptionalParams;
+// @public
+export interface GetMetricDefinitionsResponse {
+    definitions: MetricDefinition[];
+}
+
+// @public
+export interface GetMetricNamespacesOptions extends OperationOptions {
+    startTime?: string;
+}
+
+// @public
+export interface GetMetricNamespacesResponse {
+    namespaces: MetricNamespace[] | undefined;
+}
 
 // @public
 export interface LocalizableString {
@@ -154,24 +166,6 @@ export interface MetricDefinition {
 }
 
 // @public
-export interface MetricDefinitionCollection {
-    value: MetricDefinition[];
-}
-
-// @public
-export interface MetricDefinitionsListOptionalParams extends coreHttp.OperationOptions {
-    metricnamespace?: string;
-}
-
-// @public
-export type MetricDefinitionsListResponse = MetricDefinitionCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: MetricDefinitionCollection;
-    };
-};
-
-// @public
 export interface MetricNamespace {
     id?: string;
     name?: string;
@@ -180,35 +174,17 @@ export interface MetricNamespace {
 }
 
 // @public
-export interface MetricNamespaceCollection {
-    value: MetricNamespace[];
-}
-
-// @public
 export interface MetricNamespaceName {
     metricNamespaceName?: string;
 }
-
-// @public
-export interface MetricNamespacesListOptionalParams extends coreHttp.OperationOptions {
-    startTime?: string;
-}
-
-// @public
-export type MetricNamespacesListResponse = MetricNamespaceCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: MetricNamespaceCollection;
-    };
-};
 
 // @public (undocumented)
 export class MetricsClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
     // (undocumented)
-    getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<MetricDefinitionsListResponse>;
+    getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResponse>;
     // (undocumented)
-    getMetricNamespaces(resourceUri: string, options?: GetMetricNamespaces): Promise<MetricNamespacesListResponse>;
+    getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResponse>;
     // (undocumented)
     queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<QueryMetricsResponse>;
 }
@@ -218,29 +194,6 @@ export interface MetricsClientOptions extends PipelineOptions {
     $host?: string;
     endpoint?: string;
 }
-
-// @public
-export interface MetricsListOptionalParams extends coreHttp.OperationOptions {
-    aggregation?: string;
-    filter?: string;
-    interval?: string;
-    metricnames?: string;
-    metricnamespace?: string;
-    orderby?: string;
-    resultType?: ResultType;
-    timespan?: string;
-    top?: number;
-}
-
-// Warning: (ae-forgotten-export) The symbol "Response" needs to be exported by the entry point index.d.ts
-//
-// @public
-export type MetricsListResponse = Response & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: Response;
-    };
-};
 
 // @public
 export interface MetricValue {
@@ -290,7 +243,7 @@ export type QueryLogsResult = QueryResults & {
     statistics?: QueryStatistics;
 };
 
-// @public (undocumented)
+// @public
 export interface QueryMetricsOptions extends OperationOptions {
     aggregations?: string[];
     filter?: string;
@@ -303,14 +256,14 @@ export interface QueryMetricsOptions extends OperationOptions {
     top?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface QueryMetricsResponse {
     cost?: number;
     interval?: string;
+    metrics: Metric[];
     namespace?: string;
     resourceRegion?: string;
     timespan: string;
-    value: Metric[];
 }
 
 // @public

@@ -56,8 +56,7 @@ export const enum KnownApiVersion20171201Preview {
 export type ApiVersion20171201Preview = string;
 
 /** Optional parameters. */
-export interface MetricNamespacesListOptionalParams
-  extends coreHttp.OperationOptions {
+export interface MetricNamespacesListOptionalParams extends coreHttp.OperationOptions {
   /** The ISO 8601 conform Date start time from which to query for metric namespaces. */
   startTime?: string;
 }
@@ -75,8 +74,7 @@ export type MetricNamespacesListResponse = MetricNamespaceCollection & {
 };
 
 /** Optional parameters. */
-export interface MonitorManagementClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface MonitorManagementClientOptionalParams extends coreHttp.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

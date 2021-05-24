@@ -92,17 +92,10 @@ export type Unit =
   | "NanoCores"
   | "BitsPerSecond";
 /** Defines values for AggregationType. */
-export type AggregationType =
-  | "None"
-  | "Average"
-  | "Count"
-  | "Minimum"
-  | "Maximum"
-  | "Total";
+export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 
 /** Optional parameters. */
-export interface MetricDefinitionsListOptionalParams
-  extends coreHttp.OperationOptions {
+export interface MetricDefinitionsListOptionalParams extends coreHttp.OperationOptions {
   /** Metric namespace to query metric definitions for. */
   metricnamespace?: string;
 }
@@ -120,8 +113,7 @@ export type MetricDefinitionsListResponse = MetricDefinitionCollection & {
 };
 
 /** Optional parameters. */
-export interface MonitorManagementClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface MonitorManagementClientOptionalParams extends coreHttp.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */
