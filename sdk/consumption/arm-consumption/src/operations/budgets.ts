@@ -39,14 +39,21 @@ export class Budgets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BudgetsListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BudgetsListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>,
+    callback?: msRest.ServiceCallback<Models.BudgetsListResult>
+  ): Promise<Models.BudgetsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BudgetsListResponse>;
+      callback
+    ) as Promise<Models.BudgetsListResponse>;
   }
 
   /**
@@ -55,26 +62,41 @@ export class Budgets {
    * @param [options] The optional parameters
    * @returns Promise<Models.BudgetsListByResourceGroupNameResponse>
    */
-  listByResourceGroupName(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.BudgetsListByResourceGroupNameResponse>;
+  listByResourceGroupName(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BudgetsListByResourceGroupNameResponse>;
   /**
    * @param resourceGroupName Azure Resource Group Name.
    * @param callback The callback
    */
-  listByResourceGroupName(resourceGroupName: string, callback: msRest.ServiceCallback<Models.BudgetsListResult>): void;
+  listByResourceGroupName(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.BudgetsListResult>
+  ): void;
   /**
    * @param resourceGroupName Azure Resource Group Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupName(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BudgetsListResult>): void;
-  listByResourceGroupName(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListByResourceGroupNameResponse> {
+  listByResourceGroupName(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BudgetsListResult>
+  ): void;
+  listByResourceGroupName(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>,
+    callback?: msRest.ServiceCallback<Models.BudgetsListResult>
+  ): Promise<Models.BudgetsListByResourceGroupNameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupNameOperationSpec,
-      callback) as Promise<Models.BudgetsListByResourceGroupNameResponse>;
+      callback
+    ) as Promise<Models.BudgetsListByResourceGroupNameResponse>;
   }
 
   /**
@@ -94,15 +116,24 @@ export class Budgets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(budgetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Budget>): void;
-  get(budgetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsGetResponse> {
+  get(
+    budgetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Budget>
+  ): void;
+  get(
+    budgetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>,
+    callback?: msRest.ServiceCallback<Models.Budget>
+  ): Promise<Models.BudgetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         budgetName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BudgetsGetResponse>;
+      callback
+    ) as Promise<Models.BudgetsGetResponse>;
   }
 
   /**
@@ -114,21 +145,39 @@ export class Budgets {
    * @param [options] The optional parameters
    * @returns Promise<Models.BudgetsCreateOrUpdateResponse>
    */
-  createOrUpdate(budgetName: string, parameters: Models.Budget, options?: msRest.RequestOptionsBase): Promise<Models.BudgetsCreateOrUpdateResponse>;
+  createOrUpdate(
+    budgetName: string,
+    parameters: Models.Budget,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BudgetsCreateOrUpdateResponse>;
   /**
    * @param budgetName Budget Name.
    * @param parameters Parameters supplied to the Create Budget operation.
    * @param callback The callback
    */
-  createOrUpdate(budgetName: string, parameters: Models.Budget, callback: msRest.ServiceCallback<Models.Budget>): void;
+  createOrUpdate(
+    budgetName: string,
+    parameters: Models.Budget,
+    callback: msRest.ServiceCallback<Models.Budget>
+  ): void;
   /**
    * @param budgetName Budget Name.
    * @param parameters Parameters supplied to the Create Budget operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(budgetName: string, parameters: Models.Budget, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Budget>): void;
-  createOrUpdate(budgetName: string, parameters: Models.Budget, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsCreateOrUpdateResponse> {
+  createOrUpdate(
+    budgetName: string,
+    parameters: Models.Budget,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Budget>
+  ): void;
+  createOrUpdate(
+    budgetName: string,
+    parameters: Models.Budget,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>,
+    callback?: msRest.ServiceCallback<Models.Budget>
+  ): Promise<Models.BudgetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         budgetName,
@@ -136,7 +185,8 @@ export class Budgets {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.BudgetsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.BudgetsCreateOrUpdateResponse>;
   }
 
   /**
@@ -145,7 +195,10 @@ export class Budgets {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(budgetName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    budgetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param budgetName Budget Name.
    * @param callback The callback
@@ -156,15 +209,24 @@ export class Budgets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(budgetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(budgetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    budgetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    budgetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         budgetName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -174,21 +236,39 @@ export class Budgets {
    * @param [options] The optional parameters
    * @returns Promise<Models.BudgetsGetByResourceGroupNameResponse>
    */
-  getByResourceGroupName(resourceGroupName: string, budgetName: string, options?: msRest.RequestOptionsBase): Promise<Models.BudgetsGetByResourceGroupNameResponse>;
+  getByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BudgetsGetByResourceGroupNameResponse>;
   /**
    * @param resourceGroupName Azure Resource Group Name.
    * @param budgetName Budget Name.
    * @param callback The callback
    */
-  getByResourceGroupName(resourceGroupName: string, budgetName: string, callback: msRest.ServiceCallback<Models.Budget>): void;
+  getByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    callback: msRest.ServiceCallback<Models.Budget>
+  ): void;
   /**
    * @param resourceGroupName Azure Resource Group Name.
    * @param budgetName Budget Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getByResourceGroupName(resourceGroupName: string, budgetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Budget>): void;
-  getByResourceGroupName(resourceGroupName: string, budgetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsGetByResourceGroupNameResponse> {
+  getByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Budget>
+  ): void;
+  getByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>,
+    callback?: msRest.ServiceCallback<Models.Budget>
+  ): Promise<Models.BudgetsGetByResourceGroupNameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -196,7 +276,8 @@ export class Budgets {
         options
       },
       getByResourceGroupNameOperationSpec,
-      callback) as Promise<Models.BudgetsGetByResourceGroupNameResponse>;
+      callback
+    ) as Promise<Models.BudgetsGetByResourceGroupNameResponse>;
   }
 
   /**
@@ -209,14 +290,24 @@ export class Budgets {
    * @param [options] The optional parameters
    * @returns Promise<Models.BudgetsCreateOrUpdateByResourceGroupNameResponse>
    */
-  createOrUpdateByResourceGroupName(resourceGroupName: string, budgetName: string, parameters: Models.Budget, options?: msRest.RequestOptionsBase): Promise<Models.BudgetsCreateOrUpdateByResourceGroupNameResponse>;
+  createOrUpdateByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    parameters: Models.Budget,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BudgetsCreateOrUpdateByResourceGroupNameResponse>;
   /**
    * @param resourceGroupName Azure Resource Group Name.
    * @param budgetName Budget Name.
    * @param parameters Parameters supplied to the Create Budget operation.
    * @param callback The callback
    */
-  createOrUpdateByResourceGroupName(resourceGroupName: string, budgetName: string, parameters: Models.Budget, callback: msRest.ServiceCallback<Models.Budget>): void;
+  createOrUpdateByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    parameters: Models.Budget,
+    callback: msRest.ServiceCallback<Models.Budget>
+  ): void;
   /**
    * @param resourceGroupName Azure Resource Group Name.
    * @param budgetName Budget Name.
@@ -224,8 +315,20 @@ export class Budgets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateByResourceGroupName(resourceGroupName: string, budgetName: string, parameters: Models.Budget, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Budget>): void;
-  createOrUpdateByResourceGroupName(resourceGroupName: string, budgetName: string, parameters: Models.Budget, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>, callback?: msRest.ServiceCallback<Models.Budget>): Promise<Models.BudgetsCreateOrUpdateByResourceGroupNameResponse> {
+  createOrUpdateByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    parameters: Models.Budget,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Budget>
+  ): void;
+  createOrUpdateByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    parameters: Models.Budget,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Budget>,
+    callback?: msRest.ServiceCallback<Models.Budget>
+  ): Promise<Models.BudgetsCreateOrUpdateByResourceGroupNameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +337,8 @@ export class Budgets {
         options
       },
       createOrUpdateByResourceGroupNameOperationSpec,
-      callback) as Promise<Models.BudgetsCreateOrUpdateByResourceGroupNameResponse>;
+      callback
+    ) as Promise<Models.BudgetsCreateOrUpdateByResourceGroupNameResponse>;
   }
 
   /**
@@ -244,21 +348,39 @@ export class Budgets {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteByResourceGroupName(resourceGroupName: string, budgetName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Azure Resource Group Name.
    * @param budgetName Budget Name.
    * @param callback The callback
    */
-  deleteByResourceGroupName(resourceGroupName: string, budgetName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Azure Resource Group Name.
    * @param budgetName Budget Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteByResourceGroupName(resourceGroupName: string, budgetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteByResourceGroupName(resourceGroupName: string, budgetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteByResourceGroupName(
+    resourceGroupName: string,
+    budgetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -266,7 +388,8 @@ export class Budgets {
         options
       },
       deleteByResourceGroupNameOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -275,7 +398,10 @@ export class Budgets {
    * @param [options] The optional parameters
    * @returns Promise<Models.BudgetsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BudgetsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BudgetsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -286,15 +412,24 @@ export class Budgets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BudgetsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BudgetsListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>,
+    callback?: msRest.ServiceCallback<Models.BudgetsListResult>
+  ): Promise<Models.BudgetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.BudgetsListNextResponse>;
+      callback
+    ) as Promise<Models.BudgetsListNextResponse>;
   }
 
   /**
@@ -303,26 +438,41 @@ export class Budgets {
    * @param [options] The optional parameters
    * @returns Promise<Models.BudgetsListByResourceGroupNameNextResponse>
    */
-  listByResourceGroupNameNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BudgetsListByResourceGroupNameNextResponse>;
+  listByResourceGroupNameNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BudgetsListByResourceGroupNameNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNameNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BudgetsListResult>): void;
+  listByResourceGroupNameNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.BudgetsListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNameNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BudgetsListResult>): void;
-  listByResourceGroupNameNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>, callback?: msRest.ServiceCallback<Models.BudgetsListResult>): Promise<Models.BudgetsListByResourceGroupNameNextResponse> {
+  listByResourceGroupNameNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BudgetsListResult>
+  ): void;
+  listByResourceGroupNameNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BudgetsListResult>,
+    callback?: msRest.ServiceCallback<Models.BudgetsListResult>
+  ): Promise<Models.BudgetsListByResourceGroupNameNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNameNextOperationSpec,
-      callback) as Promise<Models.BudgetsListByResourceGroupNameNextResponse>;
+      callback
+    ) as Promise<Models.BudgetsListByResourceGroupNameNextResponse>;
   }
 }
 
@@ -331,15 +481,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BudgetsListResult
@@ -353,17 +497,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupNameOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Consumption/budgets",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Consumption/budgets",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BudgetsListResult
@@ -378,16 +516,9 @@ const listByResourceGroupNameOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets/{budgetName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.budgetName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.budgetName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Budget
@@ -402,16 +533,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets/{budgetName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.budgetName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.budgetName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -436,16 +560,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Consumption/budgets/{budgetName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.budgetName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.budgetName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -457,18 +574,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getByResourceGroupNameOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Consumption/budgets/{budgetName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.budgetName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Consumption/budgets/{budgetName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.budgetName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Budget
@@ -482,18 +592,11 @@ const getByResourceGroupNameOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateByResourceGroupNameOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Consumption/budgets/{budgetName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.budgetName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Consumption/budgets/{budgetName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.budgetName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -517,18 +620,11 @@ const createOrUpdateByResourceGroupNameOperationSpec: msRest.OperationSpec = {
 
 const deleteByResourceGroupNameOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Consumption/budgets/{budgetName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.budgetName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Consumption/budgets/{budgetName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.budgetName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -542,15 +638,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BudgetsListResult
@@ -566,15 +656,9 @@ const listByResourceGroupNameNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BudgetsListResult

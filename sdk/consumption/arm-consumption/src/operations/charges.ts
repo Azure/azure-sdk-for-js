@@ -32,21 +32,41 @@ export class Charges {
    * @param [options] The optional parameters
    * @returns Promise<Models.ChargesListByEnrollmentAccountResponse>
    */
-  listByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, options?: Models.ChargesListByEnrollmentAccountOptionalParams): Promise<Models.ChargesListByEnrollmentAccountResponse>;
+  listByEnrollmentAccount(
+    billingAccountId: string,
+    enrollmentAccountId: string,
+    options?: Models.ChargesListByEnrollmentAccountOptionalParams
+  ): Promise<Models.ChargesListByEnrollmentAccountResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param enrollmentAccountId EnrollmentAccount ID
    * @param callback The callback
    */
-  listByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, callback: msRest.ServiceCallback<Models.ChargesListResult>): void;
+  listByEnrollmentAccount(
+    billingAccountId: string,
+    enrollmentAccountId: string,
+    callback: msRest.ServiceCallback<Models.ChargesListResult>
+  ): void;
   /**
    * @param billingAccountId BillingAccount ID
    * @param enrollmentAccountId EnrollmentAccount ID
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, options: Models.ChargesListByEnrollmentAccountOptionalParams, callback: msRest.ServiceCallback<Models.ChargesListResult>): void;
-  listByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, options?: Models.ChargesListByEnrollmentAccountOptionalParams | msRest.ServiceCallback<Models.ChargesListResult>, callback?: msRest.ServiceCallback<Models.ChargesListResult>): Promise<Models.ChargesListByEnrollmentAccountResponse> {
+  listByEnrollmentAccount(
+    billingAccountId: string,
+    enrollmentAccountId: string,
+    options: Models.ChargesListByEnrollmentAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.ChargesListResult>
+  ): void;
+  listByEnrollmentAccount(
+    billingAccountId: string,
+    enrollmentAccountId: string,
+    options?:
+      | Models.ChargesListByEnrollmentAccountOptionalParams
+      | msRest.ServiceCallback<Models.ChargesListResult>,
+    callback?: msRest.ServiceCallback<Models.ChargesListResult>
+  ): Promise<Models.ChargesListByEnrollmentAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -54,7 +74,8 @@ export class Charges {
         options
       },
       listByEnrollmentAccountOperationSpec,
-      callback) as Promise<Models.ChargesListByEnrollmentAccountResponse>;
+      callback
+    ) as Promise<Models.ChargesListByEnrollmentAccountResponse>;
   }
 
   /**
@@ -65,14 +86,24 @@ export class Charges {
    * @param [options] The optional parameters
    * @returns Promise<Models.ChargesListForBillingPeriodByEnrollmentAccountResponse>
    */
-  listForBillingPeriodByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, billingPeriodName: string, options?: Models.ChargesListForBillingPeriodByEnrollmentAccountOptionalParams): Promise<Models.ChargesListForBillingPeriodByEnrollmentAccountResponse>;
+  listForBillingPeriodByEnrollmentAccount(
+    billingAccountId: string,
+    enrollmentAccountId: string,
+    billingPeriodName: string,
+    options?: Models.ChargesListForBillingPeriodByEnrollmentAccountOptionalParams
+  ): Promise<Models.ChargesListForBillingPeriodByEnrollmentAccountResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param enrollmentAccountId EnrollmentAccount ID
    * @param billingPeriodName Billing Period Name.
    * @param callback The callback
    */
-  listForBillingPeriodByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, billingPeriodName: string, callback: msRest.ServiceCallback<Models.ChargeSummary>): void;
+  listForBillingPeriodByEnrollmentAccount(
+    billingAccountId: string,
+    enrollmentAccountId: string,
+    billingPeriodName: string,
+    callback: msRest.ServiceCallback<Models.ChargeSummary>
+  ): void;
   /**
    * @param billingAccountId BillingAccount ID
    * @param enrollmentAccountId EnrollmentAccount ID
@@ -80,8 +111,22 @@ export class Charges {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForBillingPeriodByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, billingPeriodName: string, options: Models.ChargesListForBillingPeriodByEnrollmentAccountOptionalParams, callback: msRest.ServiceCallback<Models.ChargeSummary>): void;
-  listForBillingPeriodByEnrollmentAccount(billingAccountId: string, enrollmentAccountId: string, billingPeriodName: string, options?: Models.ChargesListForBillingPeriodByEnrollmentAccountOptionalParams | msRest.ServiceCallback<Models.ChargeSummary>, callback?: msRest.ServiceCallback<Models.ChargeSummary>): Promise<Models.ChargesListForBillingPeriodByEnrollmentAccountResponse> {
+  listForBillingPeriodByEnrollmentAccount(
+    billingAccountId: string,
+    enrollmentAccountId: string,
+    billingPeriodName: string,
+    options: Models.ChargesListForBillingPeriodByEnrollmentAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.ChargeSummary>
+  ): void;
+  listForBillingPeriodByEnrollmentAccount(
+    billingAccountId: string,
+    enrollmentAccountId: string,
+    billingPeriodName: string,
+    options?:
+      | Models.ChargesListForBillingPeriodByEnrollmentAccountOptionalParams
+      | msRest.ServiceCallback<Models.ChargeSummary>,
+    callback?: msRest.ServiceCallback<Models.ChargeSummary>
+  ): Promise<Models.ChargesListForBillingPeriodByEnrollmentAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -90,7 +135,8 @@ export class Charges {
         options
       },
       listForBillingPeriodByEnrollmentAccountOperationSpec,
-      callback) as Promise<Models.ChargesListForBillingPeriodByEnrollmentAccountResponse>;
+      callback
+    ) as Promise<Models.ChargesListForBillingPeriodByEnrollmentAccountResponse>;
   }
 
   /**
@@ -100,21 +146,41 @@ export class Charges {
    * @param [options] The optional parameters
    * @returns Promise<Models.ChargesListByDepartmentResponse>
    */
-  listByDepartment(billingAccountId: string, departmentId: string, options?: Models.ChargesListByDepartmentOptionalParams): Promise<Models.ChargesListByDepartmentResponse>;
+  listByDepartment(
+    billingAccountId: string,
+    departmentId: string,
+    options?: Models.ChargesListByDepartmentOptionalParams
+  ): Promise<Models.ChargesListByDepartmentResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param departmentId Department ID
    * @param callback The callback
    */
-  listByDepartment(billingAccountId: string, departmentId: string, callback: msRest.ServiceCallback<Models.ChargesListResult>): void;
+  listByDepartment(
+    billingAccountId: string,
+    departmentId: string,
+    callback: msRest.ServiceCallback<Models.ChargesListResult>
+  ): void;
   /**
    * @param billingAccountId BillingAccount ID
    * @param departmentId Department ID
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDepartment(billingAccountId: string, departmentId: string, options: Models.ChargesListByDepartmentOptionalParams, callback: msRest.ServiceCallback<Models.ChargesListResult>): void;
-  listByDepartment(billingAccountId: string, departmentId: string, options?: Models.ChargesListByDepartmentOptionalParams | msRest.ServiceCallback<Models.ChargesListResult>, callback?: msRest.ServiceCallback<Models.ChargesListResult>): Promise<Models.ChargesListByDepartmentResponse> {
+  listByDepartment(
+    billingAccountId: string,
+    departmentId: string,
+    options: Models.ChargesListByDepartmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.ChargesListResult>
+  ): void;
+  listByDepartment(
+    billingAccountId: string,
+    departmentId: string,
+    options?:
+      | Models.ChargesListByDepartmentOptionalParams
+      | msRest.ServiceCallback<Models.ChargesListResult>,
+    callback?: msRest.ServiceCallback<Models.ChargesListResult>
+  ): Promise<Models.ChargesListByDepartmentResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -122,7 +188,8 @@ export class Charges {
         options
       },
       listByDepartmentOperationSpec,
-      callback) as Promise<Models.ChargesListByDepartmentResponse>;
+      callback
+    ) as Promise<Models.ChargesListByDepartmentResponse>;
   }
 
   /**
@@ -133,14 +200,24 @@ export class Charges {
    * @param [options] The optional parameters
    * @returns Promise<Models.ChargesListForBillingPeriodByDepartmentResponse>
    */
-  listForBillingPeriodByDepartment(billingAccountId: string, departmentId: string, billingPeriodName: string, options?: Models.ChargesListForBillingPeriodByDepartmentOptionalParams): Promise<Models.ChargesListForBillingPeriodByDepartmentResponse>;
+  listForBillingPeriodByDepartment(
+    billingAccountId: string,
+    departmentId: string,
+    billingPeriodName: string,
+    options?: Models.ChargesListForBillingPeriodByDepartmentOptionalParams
+  ): Promise<Models.ChargesListForBillingPeriodByDepartmentResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param departmentId Department ID
    * @param billingPeriodName Billing Period Name.
    * @param callback The callback
    */
-  listForBillingPeriodByDepartment(billingAccountId: string, departmentId: string, billingPeriodName: string, callback: msRest.ServiceCallback<Models.ChargeSummary>): void;
+  listForBillingPeriodByDepartment(
+    billingAccountId: string,
+    departmentId: string,
+    billingPeriodName: string,
+    callback: msRest.ServiceCallback<Models.ChargeSummary>
+  ): void;
   /**
    * @param billingAccountId BillingAccount ID
    * @param departmentId Department ID
@@ -148,8 +225,22 @@ export class Charges {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForBillingPeriodByDepartment(billingAccountId: string, departmentId: string, billingPeriodName: string, options: Models.ChargesListForBillingPeriodByDepartmentOptionalParams, callback: msRest.ServiceCallback<Models.ChargeSummary>): void;
-  listForBillingPeriodByDepartment(billingAccountId: string, departmentId: string, billingPeriodName: string, options?: Models.ChargesListForBillingPeriodByDepartmentOptionalParams | msRest.ServiceCallback<Models.ChargeSummary>, callback?: msRest.ServiceCallback<Models.ChargeSummary>): Promise<Models.ChargesListForBillingPeriodByDepartmentResponse> {
+  listForBillingPeriodByDepartment(
+    billingAccountId: string,
+    departmentId: string,
+    billingPeriodName: string,
+    options: Models.ChargesListForBillingPeriodByDepartmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.ChargeSummary>
+  ): void;
+  listForBillingPeriodByDepartment(
+    billingAccountId: string,
+    departmentId: string,
+    billingPeriodName: string,
+    options?:
+      | Models.ChargesListForBillingPeriodByDepartmentOptionalParams
+      | msRest.ServiceCallback<Models.ChargeSummary>,
+    callback?: msRest.ServiceCallback<Models.ChargeSummary>
+  ): Promise<Models.ChargesListForBillingPeriodByDepartmentResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -158,7 +249,8 @@ export class Charges {
         options
       },
       listForBillingPeriodByDepartmentOperationSpec,
-      callback) as Promise<Models.ChargesListForBillingPeriodByDepartmentResponse>;
+      callback
+    ) as Promise<Models.ChargesListForBillingPeriodByDepartmentResponse>;
   }
 }
 
@@ -166,18 +258,11 @@ export class Charges {
 const serializer = new msRest.Serializer(Mappers);
 const listByEnrollmentAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Consumption/charges",
-  urlParameters: [
-    Parameters.billingAccountId,
-    Parameters.enrollmentAccountId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Consumption/charges",
+  urlParameters: [Parameters.billingAccountId, Parameters.enrollmentAccountId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ChargesListResult
@@ -191,19 +276,15 @@ const listByEnrollmentAccountOperationSpec: msRest.OperationSpec = {
 
 const listForBillingPeriodByEnrollmentAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/charges",
+  path:
+    "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/charges",
   urlParameters: [
     Parameters.billingAccountId,
     Parameters.enrollmentAccountId,
     Parameters.billingPeriodName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ChargeSummary
@@ -217,18 +298,11 @@ const listForBillingPeriodByEnrollmentAccountOperationSpec: msRest.OperationSpec
 
 const listByDepartmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}/providers/Microsoft.Consumption/charges",
-  urlParameters: [
-    Parameters.billingAccountId,
-    Parameters.departmentId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}/providers/Microsoft.Consumption/charges",
+  urlParameters: [Parameters.billingAccountId, Parameters.departmentId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ChargesListResult
@@ -242,19 +316,15 @@ const listByDepartmentOperationSpec: msRest.OperationSpec = {
 
 const listForBillingPeriodByDepartmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/charges",
+  path:
+    "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/charges",
   urlParameters: [
     Parameters.billingAccountId,
     Parameters.departmentId,
     Parameters.billingPeriodName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ChargeSummary

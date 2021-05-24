@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -30,11 +30,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
   }
 };
 export const apply: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "queryOptions",
-    "apply"
-  ],
+  parameterPath: ["options", "queryOptions", "apply"],
   mapper: {
     serializedName: "$apply",
     type: {
@@ -103,10 +99,7 @@ export const enrollmentAccountId: msRest.OperationURLParameter = {
   }
 };
 export const expand: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
+  parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
@@ -115,10 +108,7 @@ export const expand: msRest.OperationQueryParameter = {
   }
 };
 export const filter0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -198,10 +188,7 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   }
 };
 export const skiptoken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skiptoken"
-  ],
+  parameterPath: ["options", "skiptoken"],
   mapper: {
     serializedName: "$skiptoken",
     type: {
@@ -220,10 +207,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "$top",
     constraints: {

@@ -32,21 +32,39 @@ export class Tenants {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantsGetResponse>
    */
-  get(billingAccountId: string, billingProfileId: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantsGetResponse>;
+  get(
+    billingAccountId: string,
+    billingProfileId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TenantsGetResponse>;
   /**
    * @param billingAccountId Billing Account Id.
    * @param billingProfileId Billing Profile Id.
    * @param callback The callback
    */
-  get(billingAccountId: string, billingProfileId: string, callback: msRest.ServiceCallback<Models.TenantListResult>): void;
+  get(
+    billingAccountId: string,
+    billingProfileId: string,
+    callback: msRest.ServiceCallback<Models.TenantListResult>
+  ): void;
   /**
    * @param billingAccountId Billing Account Id.
    * @param billingProfileId Billing Profile Id.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(billingAccountId: string, billingProfileId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantListResult>): void;
-  get(billingAccountId: string, billingProfileId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantListResult>, callback?: msRest.ServiceCallback<Models.TenantListResult>): Promise<Models.TenantsGetResponse> {
+  get(
+    billingAccountId: string,
+    billingProfileId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TenantListResult>
+  ): void;
+  get(
+    billingAccountId: string,
+    billingProfileId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantListResult>,
+    callback?: msRest.ServiceCallback<Models.TenantListResult>
+  ): Promise<Models.TenantsGetResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -54,7 +72,8 @@ export class Tenants {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TenantsGetResponse>;
+      callback
+    ) as Promise<Models.TenantsGetResponse>;
   }
 }
 
@@ -62,17 +81,11 @@ export class Tenants {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/tenants",
-  urlParameters: [
-    Parameters.billingAccountId,
-    Parameters.billingProfileId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/tenants",
+  urlParameters: [Parameters.billingAccountId, Parameters.billingProfileId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TenantListResult

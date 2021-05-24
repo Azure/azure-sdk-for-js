@@ -33,14 +33,22 @@ export class ReservationsDetails {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationsDetailsListByReservationOrderResponse>
    */
-  listByReservationOrder(reservationOrderId: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationsDetailsListByReservationOrderResponse>;
+  listByReservationOrder(
+    reservationOrderId: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReservationsDetailsListByReservationOrderResponse>;
   /**
    * @param reservationOrderId Order Id of the reservation
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date
    * and end date. The filter supports 'le' and  'ge'
    * @param callback The callback
    */
-  listByReservationOrder(reservationOrderId: string, filter: string, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
+  listByReservationOrder(
+    reservationOrderId: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): void;
   /**
    * @param reservationOrderId Order Id of the reservation
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date
@@ -48,8 +56,20 @@ export class ReservationsDetails {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReservationOrder(reservationOrderId: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
-  listByReservationOrder(reservationOrderId: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationDetailsListResult>, callback?: msRest.ServiceCallback<Models.ReservationDetailsListResult>): Promise<Models.ReservationsDetailsListByReservationOrderResponse> {
+  listByReservationOrder(
+    reservationOrderId: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): void;
+  listByReservationOrder(
+    reservationOrderId: string,
+    filter: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ReservationDetailsListResult>,
+    callback?: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): Promise<Models.ReservationsDetailsListByReservationOrderResponse> {
     return this.client.sendOperationRequest(
       {
         reservationOrderId,
@@ -57,7 +77,8 @@ export class ReservationsDetails {
         options
       },
       listByReservationOrderOperationSpec,
-      callback) as Promise<Models.ReservationsDetailsListByReservationOrderResponse>;
+      callback
+    ) as Promise<Models.ReservationsDetailsListByReservationOrderResponse>;
   }
 
   /**
@@ -69,7 +90,12 @@ export class ReservationsDetails {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationsDetailsListByReservationOrderAndReservationResponse>
    */
-  listByReservationOrderAndReservation(reservationOrderId: string, reservationId: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationsDetailsListByReservationOrderAndReservationResponse>;
+  listByReservationOrderAndReservation(
+    reservationOrderId: string,
+    reservationId: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReservationsDetailsListByReservationOrderAndReservationResponse>;
   /**
    * @param reservationOrderId Order Id of the reservation
    * @param reservationId Id of the reservation
@@ -77,7 +103,12 @@ export class ReservationsDetails {
    * and end date. The filter supports 'le' and  'ge'
    * @param callback The callback
    */
-  listByReservationOrderAndReservation(reservationOrderId: string, reservationId: string, filter: string, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
+  listByReservationOrderAndReservation(
+    reservationOrderId: string,
+    reservationId: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): void;
   /**
    * @param reservationOrderId Order Id of the reservation
    * @param reservationId Id of the reservation
@@ -86,8 +117,22 @@ export class ReservationsDetails {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReservationOrderAndReservation(reservationOrderId: string, reservationId: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
-  listByReservationOrderAndReservation(reservationOrderId: string, reservationId: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationDetailsListResult>, callback?: msRest.ServiceCallback<Models.ReservationDetailsListResult>): Promise<Models.ReservationsDetailsListByReservationOrderAndReservationResponse> {
+  listByReservationOrderAndReservation(
+    reservationOrderId: string,
+    reservationId: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): void;
+  listByReservationOrderAndReservation(
+    reservationOrderId: string,
+    reservationId: string,
+    filter: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ReservationDetailsListResult>,
+    callback?: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): Promise<Models.ReservationsDetailsListByReservationOrderAndReservationResponse> {
     return this.client.sendOperationRequest(
       {
         reservationOrderId,
@@ -96,7 +141,8 @@ export class ReservationsDetails {
         options
       },
       listByReservationOrderAndReservationOperationSpec,
-      callback) as Promise<Models.ReservationsDetailsListByReservationOrderAndReservationResponse>;
+      callback
+    ) as Promise<Models.ReservationsDetailsListByReservationOrderAndReservationResponse>;
   }
 
   /**
@@ -107,14 +153,22 @@ export class ReservationsDetails {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationsDetailsListByReservationOrderNextResponse>
    */
-  listByReservationOrderNext(nextPageLink: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationsDetailsListByReservationOrderNextResponse>;
+  listByReservationOrderNext(
+    nextPageLink: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReservationsDetailsListByReservationOrderNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date
    * and end date. The filter supports 'le' and  'ge'
    * @param callback The callback
    */
-  listByReservationOrderNext(nextPageLink: string, filter: string, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
+  listByReservationOrderNext(
+    nextPageLink: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date
@@ -122,8 +176,20 @@ export class ReservationsDetails {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReservationOrderNext(nextPageLink: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
-  listByReservationOrderNext(nextPageLink: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationDetailsListResult>, callback?: msRest.ServiceCallback<Models.ReservationDetailsListResult>): Promise<Models.ReservationsDetailsListByReservationOrderNextResponse> {
+  listByReservationOrderNext(
+    nextPageLink: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): void;
+  listByReservationOrderNext(
+    nextPageLink: string,
+    filter: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ReservationDetailsListResult>,
+    callback?: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): Promise<Models.ReservationsDetailsListByReservationOrderNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -131,7 +197,8 @@ export class ReservationsDetails {
         options
       },
       listByReservationOrderNextOperationSpec,
-      callback) as Promise<Models.ReservationsDetailsListByReservationOrderNextResponse>;
+      callback
+    ) as Promise<Models.ReservationsDetailsListByReservationOrderNextResponse>;
   }
 
   /**
@@ -142,14 +209,22 @@ export class ReservationsDetails {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationsDetailsListByReservationOrderAndReservationNextResponse>
    */
-  listByReservationOrderAndReservationNext(nextPageLink: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationsDetailsListByReservationOrderAndReservationNextResponse>;
+  listByReservationOrderAndReservationNext(
+    nextPageLink: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReservationsDetailsListByReservationOrderAndReservationNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date
    * and end date. The filter supports 'le' and  'ge'
    * @param callback The callback
    */
-  listByReservationOrderAndReservationNext(nextPageLink: string, filter: string, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
+  listByReservationOrderAndReservationNext(
+    nextPageLink: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param filter Filter reservation details by date range. The properties/UsageDate for start date
@@ -157,8 +232,20 @@ export class ReservationsDetails {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReservationOrderAndReservationNext(nextPageLink: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>): void;
-  listByReservationOrderAndReservationNext(nextPageLink: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationDetailsListResult>, callback?: msRest.ServiceCallback<Models.ReservationDetailsListResult>): Promise<Models.ReservationsDetailsListByReservationOrderAndReservationNextResponse> {
+  listByReservationOrderAndReservationNext(
+    nextPageLink: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): void;
+  listByReservationOrderAndReservationNext(
+    nextPageLink: string,
+    filter: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ReservationDetailsListResult>,
+    callback?: msRest.ServiceCallback<Models.ReservationDetailsListResult>
+  ): Promise<Models.ReservationsDetailsListByReservationOrderAndReservationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -166,7 +253,8 @@ export class ReservationsDetails {
         options
       },
       listByReservationOrderAndReservationNextOperationSpec,
-      callback) as Promise<Models.ReservationsDetailsListByReservationOrderAndReservationNextResponse>;
+      callback
+    ) as Promise<Models.ReservationsDetailsListByReservationOrderAndReservationNextResponse>;
   }
 }
 
@@ -174,17 +262,11 @@ export class ReservationsDetails {
 const serializer = new msRest.Serializer(Mappers);
 const listByReservationOrderOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.Consumption/reservationDetails",
-  urlParameters: [
-    Parameters.reservationOrderId
-  ],
-  queryParameters: [
-    Parameters.filter1,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.Consumption/reservationDetails",
+  urlParameters: [Parameters.reservationOrderId],
+  queryParameters: [Parameters.filter1, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReservationDetailsListResult
@@ -198,18 +280,11 @@ const listByReservationOrderOperationSpec: msRest.OperationSpec = {
 
 const listByReservationOrderAndReservationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationDetails",
-  urlParameters: [
-    Parameters.reservationOrderId,
-    Parameters.reservationId
-  ],
-  queryParameters: [
-    Parameters.filter1,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.Consumption/reservationDetails",
+  urlParameters: [Parameters.reservationOrderId, Parameters.reservationId],
+  queryParameters: [Parameters.filter1, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReservationDetailsListResult
@@ -225,16 +300,9 @@ const listByReservationOrderNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.filter1,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.filter1, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReservationDetailsListResult
@@ -250,16 +318,9 @@ const listByReservationOrderAndReservationNextOperationSpec: msRest.OperationSpe
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.filter1,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.filter1, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReservationDetailsListResult

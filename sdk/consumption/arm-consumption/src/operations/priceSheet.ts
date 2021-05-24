@@ -40,14 +40,21 @@ export class PriceSheet {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(options: Models.PriceSheetGetOptionalParams, callback: msRest.ServiceCallback<Models.PriceSheetResult>): void;
-  get(options?: Models.PriceSheetGetOptionalParams | msRest.ServiceCallback<Models.PriceSheetResult>, callback?: msRest.ServiceCallback<Models.PriceSheetResult>): Promise<Models.PriceSheetGetResponse> {
+  get(
+    options: Models.PriceSheetGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.PriceSheetResult>
+  ): void;
+  get(
+    options?: Models.PriceSheetGetOptionalParams | msRest.ServiceCallback<Models.PriceSheetResult>,
+    callback?: msRest.ServiceCallback<Models.PriceSheetResult>
+  ): Promise<Models.PriceSheetGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PriceSheetGetResponse>;
+      callback
+    ) as Promise<Models.PriceSheetGetResponse>;
   }
 
   /**
@@ -57,26 +64,43 @@ export class PriceSheet {
    * @param [options] The optional parameters
    * @returns Promise<Models.PriceSheetGetByBillingPeriodResponse>
    */
-  getByBillingPeriod(billingPeriodName: string, options?: Models.PriceSheetGetByBillingPeriodOptionalParams): Promise<Models.PriceSheetGetByBillingPeriodResponse>;
+  getByBillingPeriod(
+    billingPeriodName: string,
+    options?: Models.PriceSheetGetByBillingPeriodOptionalParams
+  ): Promise<Models.PriceSheetGetByBillingPeriodResponse>;
   /**
    * @param billingPeriodName Billing Period Name.
    * @param callback The callback
    */
-  getByBillingPeriod(billingPeriodName: string, callback: msRest.ServiceCallback<Models.PriceSheetResult>): void;
+  getByBillingPeriod(
+    billingPeriodName: string,
+    callback: msRest.ServiceCallback<Models.PriceSheetResult>
+  ): void;
   /**
    * @param billingPeriodName Billing Period Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getByBillingPeriod(billingPeriodName: string, options: Models.PriceSheetGetByBillingPeriodOptionalParams, callback: msRest.ServiceCallback<Models.PriceSheetResult>): void;
-  getByBillingPeriod(billingPeriodName: string, options?: Models.PriceSheetGetByBillingPeriodOptionalParams | msRest.ServiceCallback<Models.PriceSheetResult>, callback?: msRest.ServiceCallback<Models.PriceSheetResult>): Promise<Models.PriceSheetGetByBillingPeriodResponse> {
+  getByBillingPeriod(
+    billingPeriodName: string,
+    options: Models.PriceSheetGetByBillingPeriodOptionalParams,
+    callback: msRest.ServiceCallback<Models.PriceSheetResult>
+  ): void;
+  getByBillingPeriod(
+    billingPeriodName: string,
+    options?:
+      | Models.PriceSheetGetByBillingPeriodOptionalParams
+      | msRest.ServiceCallback<Models.PriceSheetResult>,
+    callback?: msRest.ServiceCallback<Models.PriceSheetResult>
+  ): Promise<Models.PriceSheetGetByBillingPeriodResponse> {
     return this.client.sendOperationRequest(
       {
         billingPeriodName,
         options
       },
       getByBillingPeriodOperationSpec,
-      callback) as Promise<Models.PriceSheetGetByBillingPeriodResponse>;
+      callback
+    ) as Promise<Models.PriceSheetGetByBillingPeriodResponse>;
   }
 }
 
@@ -85,18 +109,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Consumption/pricesheets/default",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.skiptoken,
-    Parameters.top,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.expand, Parameters.skiptoken, Parameters.top, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PriceSheetResult
@@ -110,20 +125,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const getByBillingPeriodOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/pricesheets/default",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.billingPeriodName
-  ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.skiptoken,
-    Parameters.top,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/pricesheets/default",
+  urlParameters: [Parameters.subscriptionId, Parameters.billingPeriodName],
+  queryParameters: [Parameters.expand, Parameters.skiptoken, Parameters.top, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PriceSheetResult

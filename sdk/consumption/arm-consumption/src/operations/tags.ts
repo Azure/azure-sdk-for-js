@@ -31,7 +31,10 @@ export class Tags {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsGetResponse>
    */
-  get(billingAccountId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsGetResponse>;
+  get(
+    billingAccountId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TagsGetResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param callback The callback
@@ -42,15 +45,24 @@ export class Tags {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(billingAccountId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResult>): void;
-  get(billingAccountId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResult>, callback?: msRest.ServiceCallback<Models.TagsResult>): Promise<Models.TagsGetResponse> {
+  get(
+    billingAccountId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TagsResult>
+  ): void;
+  get(
+    billingAccountId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResult>,
+    callback?: msRest.ServiceCallback<Models.TagsResult>
+  ): Promise<Models.TagsGetResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TagsGetResponse>;
+      callback
+    ) as Promise<Models.TagsGetResponse>;
   }
 }
 
@@ -58,16 +70,11 @@ export class Tags {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.CostManagement/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/tags",
-  urlParameters: [
-    Parameters.billingAccountId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.CostManagement/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/tags",
+  urlParameters: [Parameters.billingAccountId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TagsResult

@@ -13,7 +13,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ConsumptionManagementClientContext } from "./consumptionManagementClientContext";
 
-
 class ConsumptionManagementClient extends ConsumptionManagementClientContext {
   // Operation groups
   usageDetails: operations.UsageDetails;
@@ -37,7 +36,11 @@ class ConsumptionManagementClient extends ConsumptionManagementClientContext {
    * @param subscriptionId Azure Subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ConsumptionManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ConsumptionManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.usageDetails = new operations.UsageDetails(this);
     this.marketplaces = new operations.Marketplaces(this);

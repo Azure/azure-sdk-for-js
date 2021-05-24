@@ -32,26 +32,41 @@ export class Balances {
    * @param [options] The optional parameters
    * @returns Promise<Models.BalancesGetByBillingAccountResponse>
    */
-  getByBillingAccount(billingAccountId: string, options?: msRest.RequestOptionsBase): Promise<Models.BalancesGetByBillingAccountResponse>;
+  getByBillingAccount(
+    billingAccountId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BalancesGetByBillingAccountResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param callback The callback
    */
-  getByBillingAccount(billingAccountId: string, callback: msRest.ServiceCallback<Models.Balance>): void;
+  getByBillingAccount(
+    billingAccountId: string,
+    callback: msRest.ServiceCallback<Models.Balance>
+  ): void;
   /**
    * @param billingAccountId BillingAccount ID
    * @param options The optional parameters
    * @param callback The callback
    */
-  getByBillingAccount(billingAccountId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Balance>): void;
-  getByBillingAccount(billingAccountId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Balance>, callback?: msRest.ServiceCallback<Models.Balance>): Promise<Models.BalancesGetByBillingAccountResponse> {
+  getByBillingAccount(
+    billingAccountId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Balance>
+  ): void;
+  getByBillingAccount(
+    billingAccountId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Balance>,
+    callback?: msRest.ServiceCallback<Models.Balance>
+  ): Promise<Models.BalancesGetByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
         options
       },
       getByBillingAccountOperationSpec,
-      callback) as Promise<Models.BalancesGetByBillingAccountResponse>;
+      callback
+    ) as Promise<Models.BalancesGetByBillingAccountResponse>;
   }
 
   /**
@@ -62,21 +77,39 @@ export class Balances {
    * @param [options] The optional parameters
    * @returns Promise<Models.BalancesGetForBillingPeriodByBillingAccountResponse>
    */
-  getForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options?: msRest.RequestOptionsBase): Promise<Models.BalancesGetForBillingPeriodByBillingAccountResponse>;
+  getForBillingPeriodByBillingAccount(
+    billingAccountId: string,
+    billingPeriodName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BalancesGetForBillingPeriodByBillingAccountResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param billingPeriodName Billing Period Name.
    * @param callback The callback
    */
-  getForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, callback: msRest.ServiceCallback<Models.Balance>): void;
+  getForBillingPeriodByBillingAccount(
+    billingAccountId: string,
+    billingPeriodName: string,
+    callback: msRest.ServiceCallback<Models.Balance>
+  ): void;
   /**
    * @param billingAccountId BillingAccount ID
    * @param billingPeriodName Billing Period Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Balance>): void;
-  getForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Balance>, callback?: msRest.ServiceCallback<Models.Balance>): Promise<Models.BalancesGetForBillingPeriodByBillingAccountResponse> {
+  getForBillingPeriodByBillingAccount(
+    billingAccountId: string,
+    billingPeriodName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Balance>
+  ): void;
+  getForBillingPeriodByBillingAccount(
+    billingAccountId: string,
+    billingPeriodName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Balance>,
+    callback?: msRest.ServiceCallback<Models.Balance>
+  ): Promise<Models.BalancesGetForBillingPeriodByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -84,7 +117,8 @@ export class Balances {
         options
       },
       getForBillingPeriodByBillingAccountOperationSpec,
-      callback) as Promise<Models.BalancesGetForBillingPeriodByBillingAccountResponse>;
+      callback
+    ) as Promise<Models.BalancesGetForBillingPeriodByBillingAccountResponse>;
   }
 }
 
@@ -92,16 +126,11 @@ export class Balances {
 const serializer = new msRest.Serializer(Mappers);
 const getByBillingAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/balances",
-  urlParameters: [
-    Parameters.billingAccountId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/balances",
+  urlParameters: [Parameters.billingAccountId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Balance
@@ -115,17 +144,11 @@ const getByBillingAccountOperationSpec: msRest.OperationSpec = {
 
 const getForBillingPeriodByBillingAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/balances",
-  urlParameters: [
-    Parameters.billingAccountId,
-    Parameters.billingPeriodName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/balances",
+  urlParameters: [Parameters.billingAccountId, Parameters.billingPeriodName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Balance
