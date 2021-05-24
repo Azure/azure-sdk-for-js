@@ -10,8 +10,10 @@ import {
 } from "../generated/logquery/src";
 
 import {
+  Metric as GeneratedMetric,
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
-  MetricsListResponse as GeneratedMetricsListResponse
+  MetricsListResponse as GeneratedMetricsListResponse,
+  TimeSeriesElement as GeneratedTimeSeriesElement
 } from "../generated/metrics/src";
 
 import {
@@ -33,6 +35,7 @@ import {
   GetMetricNamespacesResponse,
   BatchQuery
 } from "../../src";
+import { Metric, TimeSeriesElement } from "../models/publicMetricsModels";
 
 /**
  * @internal
@@ -126,10 +129,23 @@ export function convertRequestForMetrics(
 export function convertResponseForMetrics(
   generatedResponse: GeneratedMetricsListResponse
 ): QueryMetricsResponse {
+  const metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
+    return {
+      ...metric,
+      timeseries: metric.timeseries.map(
+        (ts: GeneratedTimeSeriesElement) =>
+          <TimeSeriesElement>{
+            data: ts.data,
+            metadataValues: ts.metadatavalues
+          }
+      )
+    };
+  });
+
   const obj: GeneratedMetricsListResponse & QueryMetricsResponse = {
     ...generatedResponse,
     resourceRegion: generatedResponse.resourceregion,
-    metrics: generatedResponse.value
+    metrics
   };
 
   delete obj["resourceregion"];

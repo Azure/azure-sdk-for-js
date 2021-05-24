@@ -2,12 +2,18 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import { MetricDefinition } from "..";
-import { Metric, ResultType } from "../generated/metrics/src";
-import { MetricNamespace } from "../generated/metricsnamespaces/src";
+import {
+  LocalizableString,
+  MetadataValue,
+  MetricDefinition,
+  MetricNamespace,
+  MetricValue,
+  ResultType,
+  Unit
+} from "..";
 
 /**
- * Options for querying metrics.
+ * Options used when querying metrics.
  */
 export interface QueryMetricsOptions extends OperationOptions {
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
@@ -38,8 +44,30 @@ export interface QueryMetricsOptions extends OperationOptions {
   metricNamespace?: string;
 }
 
+/** The result data of a query. */
+export interface Metric {
+  /** the metric Id. */
+  id: string;
+  /** the resource type of the metric resource. */
+  type: string;
+  /** the name and the display name of the metric, i.e. it is localizable string. */
+  name: LocalizableString;
+  /** the unit of the metric. */
+  unit: Unit;
+  /** the time series returned when a data query is performed. */
+  timeseries: TimeSeriesElement[];
+}
+
+/** A time series result type. The discriminator value is always TimeSeries in this case. */
+export interface TimeSeriesElement {
+  /** the metadata values returned if $filter was specified in the call. */
+  metadataValues?: MetadataValue[];
+  /** An array of data points representing the metric values.  This is only returned if a result type of data is specified. */
+  data?: MetricValue[];
+}
+
 /**
- * Metrics and associated data, like interval, timespan and cost.
+ * Metrics, including additional information like cost, the resourceRegion, etc...
  */
 export interface QueryMetricsResponse {
   // track 2 version of `MetricsListResponse`
@@ -59,7 +87,7 @@ export interface QueryMetricsResponse {
 }
 
 /**
- * Options for getting metric definitions.
+ * Options used when getting metric definitions.
  */
 export interface GetMetricDefinitionsOptions extends OperationOptions {
   // track 2 version of `MetricDefinitionsListOptionalParams`
@@ -77,9 +105,11 @@ export interface GetMetricDefinitionsResponse {
 }
 
 /**
- * Options for getting metric namespaces.
+ * Options used when getting metric namespaces.
  */
-export interface GetMetricNamespacesOptions extends OperationOptions {
+export interface GetMetricNamespacesOptions {
+  // track 2 copy of `MetricNamespacesListOptionalParams`
+
   /** The ISO 8601 conform Date start time from which to query for metric namespaces. */
   startTime?: string;
 }
@@ -88,7 +118,7 @@ export interface GetMetricNamespacesOptions extends OperationOptions {
  * Metric namespaces.
  */
 export interface GetMetricNamespacesResponse {
-  // track 2 version of `MetricNamespacesListResponse`
+  // track 2 version of MetricNamespacesListResponse
 
   /** The metric namespaces. */
   namespaces: MetricNamespace[] | undefined;

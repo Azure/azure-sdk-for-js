@@ -84,7 +84,7 @@ export interface GetMetricDefinitionsResponse {
 }
 
 // @public
-export interface GetMetricNamespacesOptions extends OperationOptions {
+export interface GetMetricNamespacesOptions {
     startTime?: string;
 }
 
@@ -294,7 +294,7 @@ export interface Table {
 // @public
 export interface TimeSeriesElement {
     data?: MetricValue[];
-    metadatavalues?: MetadataValue[];
+    metadataValues?: MetadataValue[];
 }
 
 // @public

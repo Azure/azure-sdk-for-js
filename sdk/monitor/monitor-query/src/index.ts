@@ -20,8 +20,10 @@ export {
   GetMetricDefinitionsResponse,
   GetMetricNamespacesOptions,
   GetMetricNamespacesResponse,
+  Metric,
   QueryMetricsOptions,
-  QueryMetricsResponse
+  QueryMetricsResponse,
+  TimeSeriesElement
 } from "./models/publicMetricsModels";
 
 export { CommonDurations } from "./models/constants";
@@ -47,16 +49,13 @@ export {
 //
 // MetricsClient: generated exports (from all three clients)
 //
-
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
   LocalizableString,
   MetadataValue,
-  Metric,
   MetricValue,
   ResultType,
-  TimeSeriesElement,
   Unit
 } from "./generated/metrics/src";
 

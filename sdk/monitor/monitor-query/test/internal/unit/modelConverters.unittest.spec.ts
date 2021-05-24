@@ -158,7 +158,29 @@ describe("Model unit tests", () => {
       const generatedResponse: Required<GeneratedMetricsListResponse> = {
         // all of these fields are just copied over verbatim...
         timespan: "aTimespan",
-        value: [{ id: "fakeMetric " } as any],
+        value: [
+          {
+            id: "fakeMetric",
+            name: {
+              value: "fakeValue"
+            },
+            timeseries: [
+              {
+                data: [],
+                // this value is renamed in track 2
+                metadatavalues: [
+                  {
+                    name: {
+                      value: "metadataName"
+                    }
+                  }
+                ]
+              }
+            ],
+            type: "metricType",
+            unit: "BitsPerSecond"
+          }
+        ],
         cost: 100,
         interval: "anInterval",
         namespace: "aNamespace",
@@ -171,7 +193,29 @@ describe("Model unit tests", () => {
 
       assert.deepEqual(actualConvertedResponse, <QueryMetricsResponse>{
         timespan: "aTimespan",
-        metrics: [{ id: "fakeMetric " } as any],
+        metrics: [
+          {
+            id: "fakeMetric",
+            name: {
+              value: "fakeValue"
+            },
+            timeseries: [
+              {
+                data: [],
+                // this value is renamed in track 2
+                metadataValues: [
+                  {
+                    name: {
+                      value: "metadataName"
+                    }
+                  }
+                ]
+              }
+            ],
+            type: "metricType",
+            unit: "BitsPerSecond"
+          }
+        ],
         cost: 100,
         interval: "anInterval",
         namespace: "aNamespace",
