@@ -1,7 +1,8 @@
 # Release History
 
-## 3.11.3 (Unreleased)
+## 3.11.3 (2021-05-21)
 
+- BUGFIX: Sanitize user endpoint URLs for AAD DataPlane RBAC token generation.
 
 ## 3.11.2 (2021-05-11)
 
