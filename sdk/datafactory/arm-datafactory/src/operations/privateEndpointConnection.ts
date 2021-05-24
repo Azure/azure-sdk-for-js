@@ -34,7 +34,13 @@ export class PrivateEndpointConnection {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: Models.PrivateEndpointConnectionCreateOrUpdateOptionalParams): Promise<Models.PrivateEndpointConnectionCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource,
+    options?: Models.PrivateEndpointConnectionCreateOrUpdateOptionalParams
+  ): Promise<Models.PrivateEndpointConnectionCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -42,7 +48,13 @@ export class PrivateEndpointConnection {
    * @param privateEndpointWrapper
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -51,8 +63,24 @@ export class PrivateEndpointConnection {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options: Models.PrivateEndpointConnectionCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): void;
-  createOrUpdate(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: Models.PrivateEndpointConnectionCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): Promise<Models.PrivateEndpointConnectionCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource,
+    options: Models.PrivateEndpointConnectionCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource,
+    options?:
+      | Models.PrivateEndpointConnectionCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>
+  ): Promise<Models.PrivateEndpointConnectionCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +90,8 @@ export class PrivateEndpointConnection {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionCreateOrUpdateResponse>;
   }
 
   /**
@@ -73,14 +102,24 @@ export class PrivateEndpointConnection {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionGetResponse>
    */
-  get(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options?: Models.PrivateEndpointConnectionGetOptionalParams): Promise<Models.PrivateEndpointConnectionGetResponse>;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    options?: Models.PrivateEndpointConnectionGetOptionalParams
+  ): Promise<Models.PrivateEndpointConnectionGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param privateEndpointConnectionName The private endpoint connection name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -88,8 +127,22 @@ export class PrivateEndpointConnection {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options: Models.PrivateEndpointConnectionGetOptionalParams, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): void;
-  get(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options?: Models.PrivateEndpointConnectionGetOptionalParams | msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): Promise<Models.PrivateEndpointConnectionGetResponse> {
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    options: Models.PrivateEndpointConnectionGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    options?:
+      | Models.PrivateEndpointConnectionGetOptionalParams
+      | msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>
+  ): Promise<Models.PrivateEndpointConnectionGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,7 +151,8 @@ export class PrivateEndpointConnection {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionGetResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionGetResponse>;
   }
 
   /**
@@ -109,14 +163,24 @@ export class PrivateEndpointConnection {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param privateEndpointConnectionName The private endpoint connection name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -124,8 +188,20 @@ export class PrivateEndpointConnection {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +210,8 @@ export class PrivateEndpointConnection {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -142,20 +219,16 @@ export class PrivateEndpointConnection {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "privateEndpointWrapper",
     mapper: {
@@ -176,20 +249,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifNoneMatch, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionResource
@@ -203,19 +272,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
