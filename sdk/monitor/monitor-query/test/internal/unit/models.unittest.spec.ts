@@ -7,17 +7,25 @@ import {
   BatchRequest as GeneratedBatchRequest,
   LogQueryRequest
 } from "../../../src/generated/logquery/src";
-import { MetricsListOptionalParams as GeneratedMetricsListOptionalParams } from "../../../src/generated/metrics/src";
+import {
+  MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
+  MetricsListResponse as GeneratedMetricsListResponse
+} from "../../../src/generated/metrics/src";
 import { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src";
 import { CommonDurations } from "../../../src/models/constants";
 import {
+  convertMetricsResponse,
   convertToMetricsDefinitionsRequest,
   convertToMetricsRequest
 } from "../../../src/metricsClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { RequestOptions } from "https";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import { GetMetricDefinitionsOptions, QueryMetricsOptions } from "../../../src";
+import {
+  GetMetricDefinitionsOptions,
+  QueryMetricsOptions,
+  QueryMetricsResponse
+} from "../../../src";
 
 describe("Model unit tests", () => {
   describe("LogsClient", () => {
@@ -173,6 +181,32 @@ describe("Model unit tests", () => {
       });
       assert.deepEqual(convertToMetricsDefinitionsRequest(undefined), {
         metricnamespace: undefined
+      });
+    });
+
+    it("convertMetricsResponse (all fields)", () => {
+      const generatedResponse: Required<GeneratedMetricsListResponse> = {
+        // all of these fields are just copied over verbatim...
+        timespan: "aTimespan",
+        value: [{ id: "fakeMetric " } as any],
+        cost: 100,
+        interval: "anInterval",
+        namespace: "aNamespace",
+        // ...except this one which gets a slight rename.
+        resourceregion: "aResourceRegion",
+        _response: {} as any
+      };
+
+      const actualConvertedResponse = convertMetricsResponse(generatedResponse);
+
+      assert.deepEqual(actualConvertedResponse, <QueryMetricsResponse>{
+        timespan: "aTimespan",
+        value: [{ id: "fakeMetric " } as any],
+        cost: 100,
+        interval: "anInterval",
+        namespace: "aNamespace",
+        resourceRegion: "aResourceRegion"
+        // NOTE: _response is not returned as part of our track 2 response.
       });
     });
   });

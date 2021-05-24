@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import { ResultType } from "../generated/metrics/src";
+import { Metric, ResultType } from "../generated/metrics/src";
 import { MetricNamespacesListOptionalParams } from "../generated/metricsnamespaces/src";
 
 export interface QueryMetricsOptions extends OperationOptions {
@@ -32,6 +32,23 @@ export interface QueryMetricsOptions extends OperationOptions {
   resultType?: ResultType;
   /** Metric namespace to query metric definitions for. */
   metricNamespace?: string;
+}
+
+export interface QueryMetricsResponse {
+  // track 2 version of `MetricsListResponse`
+
+  /** The integer value representing the cost of the query, for data case. */
+  cost?: number;
+  /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
+  timespan: string;
+  /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
+  interval?: string;
+  /** The namespace of the metrics been queried */
+  namespace?: string;
+  /** The region of the resource been queried for metrics. */
+  resourceRegion?: string;
+  /** the value of the collection. */
+  value: Metric[];
 }
 
 export interface GetMetricDefinitionsOptions extends OperationOptions {

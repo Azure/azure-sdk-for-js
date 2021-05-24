@@ -18,7 +18,8 @@ export { MetricsClient, MetricsClientOptions } from "./metricsClient";
 export {
   GetMetricDefinitionsOptions,
   GetMetricNamespaces,
-  QueryMetricsOptions
+  QueryMetricsOptions,
+  QueryMetricsResponse
 } from "./models/metricsModels";
 
 export { CommonDurations } from "./models/constants";
@@ -54,7 +55,6 @@ export {
   MetricValue,
   MetricsListResponse,
   MetricsListOptionalParams,
-  Response,
   ResultType,
   TimeSeriesElement,
   Unit

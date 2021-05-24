@@ -210,7 +210,7 @@ export class MetricsClient {
     // (undocumented)
     getMetricNamespaces(resourceUri: string, options?: GetMetricNamespaces): Promise<MetricNamespacesListResponse>;
     // (undocumented)
-    queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<MetricsListResponse>;
+    queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<QueryMetricsResponse>;
 }
 
 // @public (undocumented)
@@ -232,6 +232,8 @@ export interface MetricsListOptionalParams extends coreHttp.OperationOptions {
     top?: number;
 }
 
+// Warning: (ae-forgotten-export) The symbol "Response" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type MetricsListResponse = Response & {
     _response: coreHttp.HttpResponse & {
@@ -301,6 +303,16 @@ export interface QueryMetricsOptions extends OperationOptions {
     top?: number;
 }
 
+// @public (undocumented)
+export interface QueryMetricsResponse {
+    cost?: number;
+    interval?: string;
+    namespace?: string;
+    resourceRegion?: string;
+    timespan: string;
+    value: Metric[];
+}
+
 // @public
 export interface QueryResults {
     // (undocumented)
@@ -314,16 +326,6 @@ export interface QueryStatistics {
     query?: {
         executionTime?: number;
     };
-}
-
-// @public
-export interface Response {
-    cost?: number;
-    interval?: string;
-    namespace?: string;
-    resourceregion?: string;
-    timespan: string;
-    value: Metric[];
 }
 
 // @public

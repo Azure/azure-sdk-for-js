@@ -25,7 +25,8 @@ import {
 import {
   GetMetricDefinitionsOptions,
   GetMetricNamespaces,
-  QueryMetricsOptions
+  QueryMetricsOptions,
+  QueryMetricsResponse
 } from "./models/metricsModels";
 
 export interface MetricsClientOptions extends PipelineOptions {
@@ -71,7 +72,7 @@ export class MetricsClient {
     );
   }
 
-  queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<MetricsListResponse> {
+  queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<QueryMetricsResponse> {
     return this._metricsClient.metrics.list(resourceUri, convertToMetricsRequest(options));
   }
 
@@ -123,6 +124,23 @@ export function convertToMetricsRequest(
   delete obj["aggregations"];
   delete obj["metricNames"];
   delete obj["metricNamespace"];
+
+  return obj;
+}
+
+/**
+ * @internal
+ */
+export function convertMetricsResponse(
+  generatedResponse: MetricsListResponse
+): QueryMetricsResponse {
+  const obj: MetricsListResponse & QueryMetricsResponse = {
+    ...generatedResponse,
+    resourceRegion: generatedResponse.resourceregion
+  };
+
+  delete obj["resourceregion"];
+  delete (obj as any)["_response"];
 
   return obj;
 }
