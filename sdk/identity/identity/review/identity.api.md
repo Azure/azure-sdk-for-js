@@ -4,16 +4,21 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-http';
 import { AzureLogger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-http';
+import { INetworkModule } from '@azure/msal-common';
+import * as msalCommon from '@azure/msal-common';
+import { NetworkRequestOptions } from '@azure/msal-common';
+import { NetworkResponse } from '@azure/msal-common';
 import { PipelineOptions } from '@azure/core-http';
+import { RequestPrepareOptions } from '@azure/core-http';
+import { ServiceClient } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
+import { WebResource } from '@azure/core-http';
 
 export { AccessToken }
-
-// @public
-export function addIdentityExtension(extension: Partial<IdentityExtension>): void;
 
 // @public
 export class AggregateAuthenticationError extends Error {
@@ -77,6 +82,14 @@ export class AzureCliCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// @public (undocumented)
+export interface AzureExtensionContext {
+    // Warning: (ae-forgotten-export) The symbol "msalNodeFlowPluginControl" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    nodeFlow: typeof msalNodeFlowPluginControl;
+}
+
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
@@ -98,8 +111,10 @@ export class ClientCertificateCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
+// Warning: (ae-forgotten-export) The symbol "MsalCredentialOptions" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
+export interface ClientCertificateCredentialOptions extends TokenCredentialOptions, MsalCredentialOptions {
     sendCertificateChain?: boolean;
 }
 
@@ -110,7 +125,7 @@ export class ClientSecretCredential implements TokenCredential {
     }
 
 // @public
-export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
+export interface ClientSecretCredentialOptions extends TokenCredentialOptions, MsalCredentialOptions {
 }
 
 // @public
@@ -124,12 +139,19 @@ export const CredentialUnavailableErrorName = "CredentialUnavailableError";
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
     constructor(options?: DefaultAzureCredentialOptions);
+    static readonly credentials: DefaultCredentialConstructor[];
 }
 
 // @public
-export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions, MsalCredentialOptions {
     managedIdentityClientId?: string;
     tenantId?: string;
+}
+
+// @public
+export interface DefaultCredentialConstructor {
+    // (undocumented)
+    new (options?: DefaultAzureCredentialOptions): TokenCredential;
 }
 
 // @public
@@ -143,7 +165,7 @@ export class DeviceCodeCredential implements TokenCredential {
     }
 
 // @public
-export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions {
+export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions, MsalCredentialOptions {
     clientId?: string;
     tenantId?: string;
     userPromptCallback?: DeviceCodePromptCallback;
@@ -161,8 +183,12 @@ export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
 // @public
 export class EnvironmentCredential implements TokenCredential {
-    constructor(options?: TokenCredentialOptions);
+    constructor(options?: EnvironmentCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public (undocumented)
+export interface EnvironmentCredentialOptions extends TokenCredentialOptions, MsalCredentialOptions {
 }
 
 // @public
@@ -180,12 +206,33 @@ export function getDefaultAzureCredential(): TokenCredential;
 
 export { GetTokenOptions }
 
+// @public
+export class IdentityClient extends ServiceClient implements INetworkModule {
+    constructor(options?: TokenCredentialOptions);
+    // (undocumented)
+    abortRequests(correlationId?: string): void;
+    // (undocumented)
+    authorityHost: string;
+    // (undocumented)
+    createWebResource(requestOptions: RequestPrepareOptions): WebResource;
+    // (undocumented)
+    generateAbortSignal(correlationId?: string): AbortSignalLike;
+    // (undocumented)
+    getCorrelationId(options?: NetworkRequestOptions): string | undefined;
+    // (undocumented)
+    refreshAccessToken(tenantId: string, clientId: string, scopes: string, refreshToken: string | undefined, clientSecret: string | undefined, expiresOnParser?: (responseBody: any) => number, options?: GetTokenOptions): Promise<TokenResponse | null>;
+    // (undocumented)
+    sendGetRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>>;
+    // (undocumented)
+    sendPostRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>>;
+    // (undocumented)
+    sendTokenRequest(webResource: WebResource, expiresOnParser?: (responseBody: any) => number): Promise<TokenResponse | null>;
+}
+
 // @public (undocumented)
 export interface IdentityExtension {
-    // Warning: (ae-incompatible-release-tags) The symbol "augmentDefaultCredentialStack" is marked as @public, but its signature references "TokenCredentialConstructor" which is marked as @internal
-    //
     // (undocumented)
-    augmentDefaultCredentialStack: (stack: TokenCredentialConstructor[]) => void;
+    use: (context: AzureExtensionContext) => void;
 }
 
 // @public
@@ -196,19 +243,19 @@ export class InteractiveBrowserCredential implements TokenCredential {
     }
 
 // @public
-export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions & InteractiveCredentialOptions & {
-    redirectUri?: string | (() => string);
-    tenantId?: string;
+export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveCredentialOptions {
     clientId: string;
     loginStyle?: BrowserLoginStyle;
-};
-
-// @public
-export type InteractiveBrowserCredentialOptions = TokenCredentialOptions & InteractiveCredentialOptions & {
     redirectUri?: string | (() => string);
     tenantId?: string;
+}
+
+// @public
+export interface InteractiveBrowserCredentialOptions extends InteractiveCredentialOptions, MsalCredentialOptions {
     clientId?: string;
-};
+    redirectUri?: string | (() => string);
+    tenantId?: string;
+}
 
 // @public
 export interface InteractiveCredentialOptions extends TokenCredentialOptions {
@@ -223,26 +270,35 @@ export const logger: AzureLogger;
 export class ManagedIdentityCredential implements TokenCredential {
     constructor(clientId: string, options?: TokenCredentialOptions);
     constructor(options?: TokenCredentialOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 // @public
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
 
-export { TokenCredential }
-
-// Warning: (ae-internal-missing-underscore) The name "TokenCredentialConstructor" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface TokenCredentialConstructor {
-    // (undocumented)
-    new (options?: DefaultAzureCredentialOptions): TokenCredential;
+// @public
+export interface TokenCachePersistenceOptions {
+    allowUnencryptedStorage?: boolean;
+    name?: string;
 }
+
+export { TokenCredential }
 
 // @public
 export interface TokenCredentialOptions extends PipelineOptions {
     authorityHost?: string;
 }
+
+// @public
+export interface TokenResponse {
+    accessToken: AccessToken;
+    refreshToken?: string;
+}
+
+// @public
+export function useIdentityExtension<Extension extends IdentityExtension | PromiseLike<{
+    default: IdentityExtension;
+}>>(extension: Extension): Extension extends PromiseLike<unknown> ? Promise<void> : void;
 
 // @public
 export class UsernamePasswordCredential implements TokenCredential {

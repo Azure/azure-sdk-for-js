@@ -3,10 +3,10 @@
 
 export * from "./extensions";
 
-export { TokenCredentialConstructor } from "./credentials/defaultCredentialStack";
-
 import { TokenCredential } from "@azure/core-http";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
+
+export { IdentityClient, TokenResponse } from "./client/identityClient";
 
 export { AuthenticationRecord } from "./msal/types";
 export { AuthenticationRequiredError } from "./msal/errors";
@@ -17,9 +17,13 @@ export { InteractiveCredentialOptions } from "./credentials/interactiveCredentia
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
 export {
   DefaultAzureCredential,
+  DefaultCredentialConstructor,
   DefaultAzureCredentialOptions
 } from "./credentials/defaultAzureCredential";
-export { EnvironmentCredential } from "./credentials/environmentCredential";
+export {
+  EnvironmentCredential,
+  EnvironmentCredentialOptions
+} from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
@@ -42,6 +46,8 @@ export { UsernamePasswordCredential } from "./credentials/usernamePasswordCreden
 export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswordCredentialOptions";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
+
+export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 
 export {
   AuthenticationError,

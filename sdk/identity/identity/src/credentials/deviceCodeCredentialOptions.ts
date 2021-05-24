@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
+import { MsalCredentialOptions } from "./msalCredentialOptions";
 
 /**
  * Provides the user code and verification URI where the code must be
@@ -37,7 +38,9 @@ export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 /**
  * Defines options for the InteractiveBrowserCredential class for NodeJS.
  */
-export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions {
+export interface DeviceCodeCredentialOptions
+  extends InteractiveCredentialOptions,
+    MsalCredentialOptions {
   /**
    * The Azure Active Directory tenant (directory) ID.
    */

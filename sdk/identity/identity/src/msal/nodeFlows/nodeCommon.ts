@@ -20,14 +20,30 @@ import {
   msalToPublic,
   publicToMsal
 } from "../utils";
+import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
  * @internal
  */
 export interface MsalNodeOptions extends MsalFlowOptions {
+  tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
   tokenCredentialOptions: TokenCredentialOptions;
 }
+
+let persistenceProvider: (
+  options?: TokenCachePersistenceOptions
+) => Promise<msalCommon.ICachePlugin> = () => {
+  throw new Error(
+    "no persistence provider was configured (do you need to enable the `@azure/identity-persistence` extension?)"
+  );
+};
+
+export const msalNodeFlowPluginControl = {
+  set persistence(pluginProvider: typeof persistenceProvider) {
+    persistenceProvider = pluginProvider;
+  }
+};
 
 /**
  * MSAL partial base client for NodeJS.
@@ -46,10 +62,16 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
 
+  protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
+
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.clientId = this.msalConfig.auth.clientId;
+
+    if (options.tokenCachePersistenceOptions) {
+      this.createCachePlugin = () => persistenceProvider(options.tokenCachePersistenceOptions);
+    }
   }
 
   /**
@@ -93,6 +115,12 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
     if (this.publicApp || this.confidentialApp) {
       return;
+    }
+
+    if (this.createCachePlugin !== undefined) {
+      this.msalConfig.cache = {
+        cachePlugin: await this.createCachePlugin()
+      };
     }
 
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
@@ -167,7 +195,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    * Clears MSAL's cache.
    */
   async logout(): Promise<void> {
-    // Intentionally empty
+    const cache = await this.publicApp?.getTokenCache();
+    if (!this.account || !cache) {
+      return;
+    }
+    cache.removeAccount(publicToMsal(this.account));
   }
 
   /**

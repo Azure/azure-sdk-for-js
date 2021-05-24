@@ -10,6 +10,7 @@ import { checkTenantId } from "../util/checkTenantId";
 import { trace } from "../util/tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
+import { MsalCredentialOptions } from "./msalCredentialOptions";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -28,6 +29,10 @@ export const AllSupportedEnvironmentVariables = [
 ];
 
 const logger = credentialLogger("EnvironmentCredential");
+
+export interface EnvironmentCredentialOptions
+  extends TokenCredentialOptions,
+    MsalCredentialOptions {}
 
 /**
  * Enables authentication to Azure Active Directory using client secret
@@ -54,7 +59,7 @@ export class EnvironmentCredential implements TokenCredential {
    *
    * @param options - Options for configuring the client which makes the authentication request.
    */
-  constructor(options?: TokenCredentialOptions) {
+  constructor(options?: EnvironmentCredentialOptions) {
     // Keep track of any missing environment variables for error details
 
     const assigned = processEnvVars(AllSupportedEnvironmentVariables).assigned.join(", ");

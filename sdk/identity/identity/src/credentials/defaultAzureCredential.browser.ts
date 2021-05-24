@@ -18,6 +18,7 @@ const logger = credentialLogger("DefaultAzureCredential");
  * Only available in NodeJS.
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
+  public static credentialStack: unknown[] = [];
   /**
    * Creates an instance of the DefaultAzureCredential class.
    *
