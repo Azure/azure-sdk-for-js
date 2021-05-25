@@ -6,8 +6,7 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";
-
-const threeHoursInMs = 3 * 60 * 60 * 1000;
+import { base64decode } from "./base64";
 
 export interface ContainerRegistryGetTokenOptions extends GetTokenOptions {
   service: string;
@@ -135,9 +134,24 @@ export class ContainerRegistryTokenService {
     }
 
     // ACR refresh token expires after three hours
+    const jwtParts = acrRefreshToken.refreshToken.split(".");
+    if (jwtParts.length < 3) {
+      throw new Error("Invalid JWT structure from ACR refresh token.");
+    }
+    if (!jwtParts[1]) {
+      throw new Error("Invalid JWT payload.");
+    }
+
+    const jwtPayload = JSON.parse(base64decode(jwtParts[1]));
+    if (!jwtPayload.exp) {
+      throw new Error("Invalid JWT payload structure. No expiration.");
+    }
+
+    // JWT expiry is in seconds
+    const expiry = Number.parseInt(jwtPayload.exp) * 1000;
     return {
       token: acrRefreshToken.refreshToken,
-      expiresOnTimestamp: Date.now() + threeHoursInMs
+      expiresOnTimestamp: expiry
     };
   }
 

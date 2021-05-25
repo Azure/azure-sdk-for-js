@@ -75,7 +75,7 @@
    "query": {},
    "requestBody": "grant_type=access_token&service=myregistry.azurecr.io&access_token=access_token",
    "status": 200,
-   "response": "{\"refresh_token\":\"refresh_token\"}",
+   "response": "{\"refresh_token\":\"sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized\"}",
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
@@ -90,7 +90,7 @@
    "method": "POST",
    "url": "https://myregistry.azurecr.io/oauth2/token",
    "query": {},
-   "requestBody": "grant_type=refresh_token&service=myregistry.azurecr.io&refresh_token=refresh_token&scope=registry%3Acatalog%3A*",
+   "requestBody": "grant_type=refresh_token&service=myregistry.azurecr.io&refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized&scope=registry%3Acatalog%3A*",
    "status": 200,
    "response": "{\"access_token\":\"access_token\"}",
    "responseHeaders": {
