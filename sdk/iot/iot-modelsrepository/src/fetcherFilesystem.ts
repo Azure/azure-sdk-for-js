@@ -11,7 +11,11 @@ import { DTDL } from "./psuedoDtdl";
 function readFilePromise(filePath: string): Promise<string> {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, "utf8", (err, data) => {
-      err ? reject(err) : resolve(data);
+      if (err !== undefined) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
       return 0;
     });
   });
