@@ -703,6 +703,27 @@ export interface DetectionConditionsCommon {
 }
 
 /**
+ * Represents patch type for properties common to anomaly detection conditions.
+ */
+ export interface DetectionConditionsCommonPatch {
+  /**
+   * Condition operator
+   */
+  conditionOperator?: DetectionConditionsOperator;
+  /**
+   * Specifies the condition for Smart Detection
+   */
+  smartDetectionCondition?: Partial<SmartDetectionCondition>;
+  /**
+   * Specifies a hard threshold range used to detect anomalies when metric values fall outside of the range.
+   */
+  hardThresholdCondition?: Partial<HardThresholdConditionUnion>;
+  /**
+   * Specifies the condition for Change Threshold
+   */
+  changeThresholdCondition?: Partial<ChangeThresholdConditionUnion>;
+}
+/**
  * String key-value pairs that consist of dimension names and dimension values.
  *
  * For a metric with two dimensions: city and category, Examples include
@@ -717,6 +738,10 @@ export type DimensionKey = Record<string, string>;
  */
 export type MetricDetectionCondition = DetectionConditionsCommon;
 
+/**
+ * Detection condition patch type for all time series of a metric.
+ */
+ export type MetricDetectionConditionPatch = DetectionConditionsCommonPatch;
 /**
  * Detection condition for a series group.
  */
@@ -1011,7 +1036,7 @@ export type NotificationHookPatch = {
  */
 export type EmailNotificationHookPatch = {
   hookType: "Email";
-  hookParameter?: EmailHookParameter;
+  hookParameter?: Partial<EmailHookParameter>;
 } & NotificationHookPatch;
 
 /**
@@ -1019,7 +1044,7 @@ export type EmailNotificationHookPatch = {
  */
 export type WebNotificationHookPatch = {
   hookType: "Webhook";
-  hookParameter?: WebhookHookParameter;
+  hookParameter?: Partial<WebhookHookParameter>;
 } & NotificationHookPatch;
 
 /**
@@ -1392,6 +1417,33 @@ export interface AnomalyDetectionConfiguration {
   seriesDetectionConditions?: MetricSingleSeriesDetectionCondition[];
 }
 
+/**
+ * Represents patch type for metric anomaly detection configuration.
+ */
+ export interface AnomalyDetectionConfigurationPatch {
+
+  /**
+   * anomaly detection configuration name
+   */
+  name?: string;
+  /**
+   * anomaly detection configuration description
+   */
+  description?: string;
+
+  /**
+   * detection condition for all time series of a metric
+   */
+  wholeSeriesDetectionCondition?: MetricDetectionConditionPatch;
+  /**
+   * detection conditions for series group. This overrides the whole series detection condition.
+   */
+  seriesGroupDetectionConditions?: MetricSeriesGroupDetectionCondition[];
+  /**
+   * detection conditions for specific series.  This overrides both the whole series and the series group detection conditions.
+   */
+  seriesDetectionConditions?: MetricSingleSeriesDetectionCondition[];
+}
 /**
  * Represents the root cause of an incident.
  */
