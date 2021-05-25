@@ -1,11 +1,11 @@
 # Azure Video Analyzer Edge client library for JavaScript
 
-Azure Video Analyzer on IoT Edge provides a platform to build intelligent video applications that span the edge and the cloud. The platform offers the capability to capture, record, and analyze live video along with publishing the results, video and video analytics, to Azure services in the cloud or the edge. It is designed to be an extensible platform, enabling you to connect different video analysis edge modules (such as Cognitive services containers, custom edge modules built by you with open-source machine learning models or custom models trained with your own data) to it and use them to analyze live video without worrying about the complexity of building and running a live video pipeline.
+Azure Video Analyzer provides a platform to build intelligent video applications that span the edge and the cloud. The platform offers the capability to capture, record, and analyze live video along with publishing the results, video and video analytics, to Azure services in the cloud or the edge. It is designed to be an extensible platform, enabling you to connect different video analysis edge modules such as Cognitive services containers, custom edge modules built by you with open source machine learning models or custom models trained with your own data. You can then use them to analyze live video without worrying about the complexity of building and running a live video pipeline.
 
-Use the client library for Video Analyzer on IoT Edge to:
+Use the client library for Video Analyzer Edge to:
 
-- Simplify interactions with the [Microsoft Azure IoT SDKs](https://github.com/azure/azure-iot-sdks)
-- Programmatically construct pipeline topologies and live pipelines
+-  Simplify interactions with the [Microsoft Azure IoT SDKs](https://github.com/azure/azure-iot-sdks)
+-  Programmatically construct pipeline topologies and live pipelines
 
 [Product documentation][doc_product] | [Direct methods][doc_direct_methods] | [Source code][source]
 
@@ -21,22 +21,24 @@ npm install @azure/video-analyzer-edge
 
 ### Prerequisites
 
-- TypeScript v3.6.
-- You need an active [Azure subscription][azure_sub], and a IoT device connection string to use this package.
-- To interact with Azure IoT Hub you will need to run `npm install azure-iothub`
-- You will need to use the version of the SDK that corresponds to the version of the Video Analyzer Edge module you are using.
+-  TypeScript v3.6.
+-  You need an active [Azure subscription][azure_sub], and a IoT device connection string to use this package.
+-  To interact with Azure IoT Hub you will need to run `npm install azure-iothub`
+-  You will need to use the version of the SDK that corresponds to the version of the Video Analyzer Edge module you are using.
 
-  | SDK          | Video Analyzer Edge Module |
+  | SDK          | Video Analyzer edge module |
   | ------------ | -------------------------- |
-  | 1.0.0-beta.1 | 1.0                        |
+  | 1.0.0-beta.x | 1.0                        |
 
 ### Creating a pipeline topology and making requests
 
 Please visit the [Examples](#examples) for starter code.
 
+We guarantee that all client instance methods are thread-safe and independent of each other ([guideline](https://azure.github.io/azure-sdk/dotnet_introduction.html#dotnet-service-methods-thread-safety)). This ensures that the recommendation of reusing client instances is always safe, even across threads.
+
 ## Key concepts
 
-### Pipeline Topology vs Pipeline Instance
+### Pipeline topology vs live pipeline
 
 A _pipeline topology_ is a blueprint or template for instantiating live pipelines. It defines the parameters of the pipeline using placeholders as values for them. A _live pipeline_ references a pipeline topology and specifies the parameters. This way you are able to have multiple live pipelines referencing the same topology but with different values for parameters. For more information please visit [pipeline topologies and live pipelines][doc_pipelines].
 
@@ -44,7 +46,7 @@ A _pipeline topology_ is a blueprint or template for instantiating live pipeline
 
 ### Creating a pipeline topology
 
-To create a pipeline topology you need to define parameters, sources, and sinks.
+To create a pipeline topology you need to define sources and sinks.
 
 ```typescript
 const rtspSource: RtspSource = {
@@ -75,7 +77,7 @@ const rtspSource: RtspSource = {
   const pipelineTopology: PipelineTopology = {
     name: "jsTestTopology",
     properties: {
-      description: "description for jsTestTopology",
+      description: "Continuous video recording to a Video Analyzer video",
       parameters: [
         { name: "rtspUserName", type: "String", default: "dummyUsername" },
         { name: "rtspPassword", type: "SecretString", default: "dummyPassword" },
@@ -97,16 +99,16 @@ To create a live pipeline instance, you need to have an existing pipeline topolo
 const livePipeline: LivePipeline = {
   name: pipelineTopologyName,
   properties: {
-    description: "description for jsTestLivePipeline",
+    description: "Continuous video recording to a Video Analyzer video",
     topologyName: "jsTestTopology",
     parameters: [{ name: "rtspUrl", value: "rtsp://sample.com" }]
   }
 };
 ```
 
-### Invoking a pipeline method request
+### Invoking a direct method
 
-To create a pipeline method request you will need to get your deviceId and moduleId from your Azure IoT hub.
+To invoke a direct method on your device you need to first define the request using the Video Analyzer Edge SDK, then send that method request using the IoT SDK's `CloudToDeviceMethod`.
 
 ```typescript
 import { createRequest } from "@azure/video-analyzer-edge";
@@ -125,11 +127,13 @@ const setPipelineTopResponse = await iotHubClient.invokeDeviceMethod(deviceId, m
 
 ## Troubleshooting
 
+-  When creating a method request remember to check the spelling of the name of the method
+
 ## Next steps
 
-- [Samples][samples]
-- [Azure IoT Device SDK][iot-device-sdk]
-- [Azure IoTHub Service SDK][iot-hub-sdk]
+-  [Samples][samples]
+-  [Azure IoT Device SDK][iot-device-sdk]
+-  [Azure IoTHub Service SDK][iot-hub-sdk]
 
 ## Contributing
 
