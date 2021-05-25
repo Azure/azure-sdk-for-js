@@ -143,7 +143,7 @@ In browser applications, we recommend using the \`InteractiveBrowserCredential\`
         clientId: "<client id for your Azure AD app>",
         tenantId: "<optional tenant for your organization>"
       });
-      const client = new ${namespace}.${clientName}(creds, subscriptionId);${operationArgsInitializations.length === 0 ? "" : "\n" + operationArgsInitializations.map(str => "      " + str).join("\n").slice(6)}
+      const client = new ${namespace}.${clientName}(creds, subscriptionId);${operationArgsInitializations.length === 0 ? "" : "\n" + operationArgsInitializations.map(str => "      " + str).join("\n")}
       client.${operation}(${operationArgs}).then((result) => {
         console.log("The result is:");
         console.log(result);
