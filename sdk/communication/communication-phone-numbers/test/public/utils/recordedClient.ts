@@ -39,7 +39,8 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "SomeClientSecret",
   AZURE_TENANT_ID: "SomeTenantId",
-  AZURE_PHONE_NUMBER: "+14155550100"
+  AZURE_PHONE_NUMBER: "+14155550100",
+  COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
