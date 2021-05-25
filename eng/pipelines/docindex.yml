@@ -12,6 +12,7 @@ jobs:
       # Sync docs repo (this can be sparse)
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
         parameters:
+          SkipDefaultCheckout: true
           Paths:
             - ci-configs/packages-latest.json
             - ci-configs/packages-preview.json
