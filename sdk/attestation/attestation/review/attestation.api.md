@@ -5,35 +5,12 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
-import { KJUR } from 'jsrsasign';
+import { HttpResponse } from '@azure/core-http';
+import { Mapper } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
+import { Serializer } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
-
-// @public
-export class Attestation {
-    constructor(client: AttestationClient);
-    attestOpenEnclave(request: AttestOpenEnclaveRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestOpenEnclaveResponse>;
-    attestSgxEnclave(request: AttestSgxEnclaveRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestSgxEnclaveResponse>;
-    // (undocumented)
-    attestTpm(request: TpmAttestationRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestTpmResponse>;
-    }
-
-// @public
-export type AttestationAttestOpenEnclaveResponse = AttestationResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AttestationResponse;
-    };
-};
-
-// @public
-export type AttestationAttestSgxEnclaveResponse = AttestationResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AttestationResponse;
-    };
-};
 
 // @public
 export type AttestationAttestTpmResponse = TpmAttestationResponse & {
@@ -51,12 +28,16 @@ export interface AttestationCertificateManagementBody {
 // @public
 export class AttestationClient {
     constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
-    // (undocumented)
-    attestation: Attestation;
+    // Warning: (ae-forgotten-export) The symbol "AttestationResult" needs to be exported by the entry point index.d.ts
+    attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult_2>>;
+    attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult_2>>;
+    // Warning: (ae-forgotten-export) The symbol "TpmAttestationRequest" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "AttestTpmOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "TpmAttestationResponse" needs to be exported by the entry point index.d.ts
+    attestTpm(request: TpmAttestationRequest_2, options?: AttestTpmOptions): Promise<TpmAttestationResponse_2>;
     // Warning: (ae-forgotten-export) The symbol "GeneratedClient" needs to be exported by the entry point index.d.ts
     BaseClient(): GeneratedClient;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
-    // (undocumented)
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
     // (undocumented)
     instanceUrl: string;
@@ -75,8 +56,21 @@ export interface AttestationClientOptions extends PipelineOptions {
 }
 
 // @public
-export interface AttestationResponse {
-    token?: string;
+export class AttestationData {
+    constructor(data: Uint8Array, isJson?: boolean);
+    data: Uint8Array;
+    isJson: boolean;
+}
+
+// @public
+export class AttestationResponse<T> {
+    constructor(token: AttestationToken, serializer: Serializer, bodyMapper: Mapper, bodyTypeName: string, rawResult: any);
+    _response: HttpResponse & {
+        bodyAsText: string;
+        parsedBody: T;
+    };
+    token: AttestationToken;
+    value: T;
 }
 
 // @public
@@ -136,45 +130,38 @@ export class AttestationSigningKey {
 
 // @public (undocumented)
 export class AttestationToken {
+    constructor(token: string);
     // (undocumented)
-    _body: any;
-    // (undocumented)
-    _bodyBytes: Uint8Array;
+    get algorithm(): string | undefined;
     // (undocumented)
     deserialize(): string;
     // (undocumented)
     get_body(): object | undefined;
     // (undocumented)
-    _header: any;
-    // (undocumented)
-    _headerBytes: Uint8Array;
-    // (undocumented)
-    _jwsVerifier: KJUR.jws.JWS.JWSResult;
-    // (undocumented)
     static serialize(body: string, signer?: AttestationSigningKey): AttestationToken;
-    // (undocumented)
-    _signature: Uint8Array;
-    // (undocumented)
-    _token: string;
-}
+    }
 
 // @public
 export type AttestationType = string;
 
 // @public
-export interface AttestOpenEnclaveRequest {
+export interface AttestOpenEnclaveOptions extends AttestationClientOperationOptions {
+    // (undocumented)
     draftPolicyForAttestation?: string;
-    initTimeData?: InitTimeData;
-    report?: Uint8Array;
-    runtimeData?: RuntimeData;
+    // (undocumented)
+    initTimeData?: AttestationData;
+    // (undocumented)
+    runTimeData?: AttestationData;
 }
 
 // @public
-export interface AttestSgxEnclaveRequest {
+export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptions {
+    // (undocumented)
     draftPolicyForAttestation?: string;
-    initTimeData?: InitTimeData;
-    quote?: Uint8Array;
-    runtimeData?: RuntimeData;
+    // (undocumented)
+    initTimeData?: AttestationData;
+    // (undocumented)
+    runTimeData?: AttestationData;
 }
 
 // @public
@@ -193,12 +180,6 @@ export interface CloudErrorBody {
 
 // @public
 export type DataType = string;
-
-// @public
-export interface InitTimeData {
-    data?: Uint8Array;
-    dataType?: DataType;
-}
 
 // @public (undocumented)
 export interface JsonWebKey {
@@ -250,15 +231,6 @@ export const enum KnownPolicyModification {
     Removed = "Removed",
     Updated = "Updated"
 }
-
-// @public
-export type MetadataConfigurationGetResponse = {
-    body: any;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-    };
-};
 
 // @public
 export class Policy {
@@ -358,20 +330,6 @@ export type PolicySetModelResponse = PolicyResponse & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: PolicyResponse;
-    };
-};
-
-// @public
-export interface RuntimeData {
-    data?: Uint8Array;
-    dataType?: DataType;
-}
-
-// @public
-export type SigningCertificatesGetResponse = JsonWebKeySet & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: JsonWebKeySet;
     };
 };
 

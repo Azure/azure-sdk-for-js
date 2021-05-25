@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "313d174de99ef80c598bed0fc16b874d";
+module.exports.hash = "440d30ea80ae00bd4f9657be7d16ccbc";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,36 +22,37 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a19d7348-7693-4060-be62-452b6f622500',
+  'ec58e243-8e3e-4d60-ba01-6b06d9c72100',
   'x-ms-ests-server',
-  '2.1.11774.11 - WUS2 ProdSlices',
+  '2.1.11774.11 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AjT_ZlrmusVHpouhTNAYs-O81LWYBwAAAIt2P9gOAAAA; expires=Thu, 24-Jun-2021 22:52:21 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjT_ZlrmusVHpouhTNAYs-O81LWYBQAAAIt2P9gOAAAA; expires=Thu, 24-Jun-2021 22:52:05 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 25 May 2021 22:52:21 GMT',
+  'Tue, 25 May 2021 22:52:04 GMT',
   'Content-Length',
   '1317'
 ]);
 
-nock('https://shareduks.uks.attest.azure.net:443', {"encodedQueryParams":true})
-  .get('/.well-known/openid-configuration')
-  .reply(200, {"response_types_supported":["token","none"],"id_token_signing_alg_values_supported":["RS256"],"revocation_endpoint":"https://shareduks.uks.attest.azure.net/revoke","issuer":"https://shareduks.uks.attest.azure.net","jwks_uri":"https://shareduks.uks.attest.azure.net/certs","claims_supported":["cnf","nonce","x-ms-ver","x-ms-attestation-type","x-ms-policy-hash","x-ms-policy-signer","x-ms-sgx-is-debuggable","x-ms-sgx-mrenclave","x-ms-sgx-mrsigner","x-ms-sgx-svn","x-ms-sgx-ehd","x-ms-sgx-collateral","is-debuggable","sgx-mrsigner","sgx-mrenclave","product-id","svn","tee"]}, [
+nock('https://aad_attestation_url', {"encodedQueryParams":true})
+  .post('/attest/Tpm', {"data":"eyJwYXlsb2FkIjp7InR5cGUiOiJhaWtjZXJ0In19"})
+  .query(true)
+  .reply(400, {"error":{"code":"Bad request","message":"A VBS attestation policy has not been set on the attestation provider."}}, [
   'Connection',
   'close',
   'Date',
-  'Tue, 25 May 2021 22:52:21 GMT',
+  'Tue, 25 May 2021 22:52:05 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
   'Kestrel',
-  'Content-Length',
-  '573',
+  'Transfer-Encoding',
+  'chunked',
   'x-ms-request-id',
-  '00-da6e1f08600724e602a3944fb48bc928-0000000000000000-00',
+  '00-13da6a94677311118632a3252e3c66ab-0000000000000000-00',
   'x-ms-maa-service-version',
   '1.10.01598.0001'
 ]);

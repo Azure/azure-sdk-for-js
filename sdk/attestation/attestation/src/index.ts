@@ -8,4 +8,9 @@
 
 export * from "./models";
 export * from "./operations";
-export { AttestationClient, AttestationClientOptions, AttestationClientOperationOptions } from "./attestationClient";
+export { 
+    AttestationClient,
+    AttestationClientOptions,
+    AttestOpenEnclaveOptions,
+    AttestSgxEnclaveOptions,
+    AttestationClientOperationOptions } from "./attestationClient";

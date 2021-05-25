@@ -48,7 +48,7 @@ export async function verifyAttestationToken(
     // Convert the inbound certificate to PEM format so the verify function is happy.
     let pemCert: string;
     pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-    pemCert += encodeByteArray(signingCert[1]);
+    pemCert += encodeByteArray(signingCert[0]);
     pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
     const pubKeyObj = jsrsasign.KEYUTIL.getKey(pemCert);

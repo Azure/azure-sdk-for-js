@@ -7,7 +7,7 @@ import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 import { Serializer} from "@azure/core-http";
-import { AttestationResult } from "../../src/generated/models/mappers";
+import { AttestationResult as AttestationResultMapper } from "../../src/generated/models/mappers";
 import { AttestationResult as AttestationResultModel } from "../../src/generated/models";
 
 import { Recorder } from "@azure/test-utils-recorder";
@@ -48,9 +48,6 @@ describe("AttestationTokenTests", function() {
 
     const signingKey = new AttestationSigningKey(key, cert);
     assert.isTrue(signingKey.certificate.length !== 0);
-
-    console.log('Cert: ', cert);
-
   });
 
   // Create a signing key, but use the wrong key - this should throw an
@@ -80,6 +77,7 @@ describe("AttestationTokenTests", function() {
 
     const body = token.get_body();
     assert.deepEqual({foo: "foo", bar: 10}, body);
+    assert.notEqual("none", token.algorithm);
   });
 
   /**
@@ -92,22 +90,23 @@ describe("AttestationTokenTests", function() {
 
     const body = token.get_body();
     assert.deepEqual({foo: "foo", bar: 10}, body);
+    assert.equal("none", token.algorithm);
   });
 
   it("#should serialize", () => {
     const attestationResult: AttestationResultModel = { version: "one" };
-    const serializer = new Serializer({ AttestationResult });
-    const serialized = serializer.serialize(AttestationResult, attestationResult);
+    const serializer = new Serializer({ AttestationResultMapper });
+    const serialized = serializer.serialize(AttestationResultMapper, attestationResult);
 
     assert.equal(attestationResult.version, serialized["x-ms-ver"]);
   });
 
   it("#should deserialize", () => {
     const serialized = { "x-ms-ver": "one" };
-    const serializer = new Serializer({ AttestationResult });
+    const serializer = new Serializer({ AttestationResultMapper });
 
     const deserialized: AttestationResultModel = serializer.deserialize(
-      AttestationResult,
+      AttestationResultMapper,
       serialized,
       "attestationResult"
     );

@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1317",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 25 May 2021 22:52:43 GMT",
+    "date": "Tue, 25 May 2021 22:52:31 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,24 +20,26 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11774.11 - SCUS ProdSlices",
-    "x-ms-request-id": "69ce339b-ebd4-4e68-a952-9f498fe22100"
+    "x-ms-ests-server": "2.1.11774.11 - EUS ProdSlices",
+    "x-ms-request-id": "3907f0b7-1f77-49e8-8043-397b2e922c00"
    }
   },
   {
-   "method": "GET",
-   "url": "https://isolated_attestation_url/.well-known/openid-configuration",
-   "query": {},
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"response_types_supported\":[\"token\",\"none\"],\"id_token_signing_alg_values_supported\":[\"RS256\"],\"revocation_endpoint\":\"https://isolated_attestation_url/revoke\",\"issuer\":\"https://isolated_attestation_url\",\"jwks_uri\":\"https://isolated_attestation_url/certs\",\"claims_supported\":[\"cnf\",\"nonce\",\"x-ms-ver\",\"x-ms-attestation-type\",\"x-ms-policy-hash\",\"x-ms-policy-signer\",\"x-ms-sgx-is-debuggable\",\"x-ms-sgx-mrenclave\",\"x-ms-sgx-mrsigner\",\"x-ms-sgx-svn\",\"x-ms-sgx-ehd\",\"x-ms-sgx-collateral\",\"is-debuggable\",\"sgx-mrsigner\",\"sgx-mrenclave\",\"product-id\",\"svn\",\"tee\"]}",
+   "method": "POST",
+   "url": "https://aad_attestation_url/attest/Tpm",
+   "query": {
+    "api-version": "2020-10-01"
+   },
+   "requestBody": "{\"data\":\"eyJwYXlsb2FkIjp7InR5cGUiOiJhaWtjZXJ0In19\"}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"Bad request\",\"message\":\"A VBS attestation policy has not been set on the attestation provider.\"}}",
    "responseHeaders": {
-    "content-length": "612",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 25 May 2021 22:52:43 GMT",
+    "date": "Tue, 25 May 2021 22:52:32 GMT",
     "server": "Kestrel",
+    "transfer-encoding": "chunked",
     "x-ms-maa-service-version": "1.10.01598.0001",
-    "x-ms-request-id": "00-b8ec24eaa8d5d580773ec5586fab127b-0000000000000000-00"
+    "x-ms-request-id": "00-70d9f0aa04edb2d086ac019523ed5afc-0000000000000000-00"
    }
   }
  ],
@@ -45,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "76be4aa38d6d117acf76d639aa3f8177"
+ "hash": "71dde1c77159316a0171b0a270e4612d"
 }
