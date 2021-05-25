@@ -28,7 +28,8 @@ import {
   MySqlDataFeed as ServiceMySqlDataFeed,
   PostgreSqlDataFeed as ServicePostgreSqlDataFeed,
   SQLServerDataFeed as ServiceSQLServerDataFeed,
-  InfluxDBDataFeed as ServiceInfluxDBDataFeed
+  InfluxDBDataFeed as ServiceInfluxDBDataFeed,
+  AnomalyDetectionConfigurationPatch as ServiceAnomalyDetectionConfigurationPatch
 } from "./generated/models";
 import {
   MetricFeedbackUnion,
@@ -149,7 +150,7 @@ export function toServiceAnomalyDetectionConfiguration(
 
 export function toServiceAnomalyDetectionConfigurationPatch(
   from: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>
-): Partial<Omit<ServiceAnomalyDetectionConfiguration, "id" | "metricId">> {
+): ServiceAnomalyDetectionConfigurationPatch {
   return {
     name: from.name,
     description: from.description,

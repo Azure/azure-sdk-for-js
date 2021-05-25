@@ -31,6 +31,7 @@ import {
   WebNotificationHookPatch,
   EmailNotificationHookPatch,
   AnomalyDetectionConfiguration,
+  AnomalyDetectionConfigurationPatch,
   GetDataFeedResponse,
   GetAnomalyDetectionConfigurationResponse,
   GetAnomalyAlertConfigurationResponse,
@@ -411,7 +412,7 @@ export class MetricsAdvisorAdministrationClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listDataFeeds({
         ...options.filter,
-        maxPageSize: options.maxPageSize,
+        maxpagesize: options.maxPageSize,
         skip: options.skip
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
@@ -434,7 +435,7 @@ export class MetricsAdvisorAdministrationClient {
     while (continuationToken) {
       segmentResponse = await this.client.listDataFeedsNext(continuationToken, {
         ...options.filter,
-        maxPageSize: options.maxPageSize,
+        maxpagesize: options.maxPageSize,
         skip: options.skip
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
@@ -621,7 +622,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public async updateDetectionConfig(
     id: string,
-    patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>,
+    patch: AnomalyDetectionConfigurationPatch,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
