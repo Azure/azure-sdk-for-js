@@ -811,7 +811,7 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
 
-    const alertConfigurations = segment.value.map((c) => fromServiceAlertConfiguration(c));
+    const alertConfigurations = segment.value?.map((c) => fromServiceAlertConfiguration(c));
     yield Object.defineProperty(alertConfigurations, "_response", {
       enumerable: false,
       value: segment._response
@@ -1175,7 +1175,7 @@ export class MetricsAdvisorAdministrationClient {
   ): AsyncIterableIterator<DetectionConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
     const segment = await this.client.getAnomalyDetectionConfigurationsByMetric(metricId, options);
-    const configs = segment.value.map((c) => fromServiceAnomalyDetectionConfiguration(c));
+    const configs = segment.value?.map((c) => fromServiceAnomalyDetectionConfiguration(c));
     const resultArray = Object.defineProperty(configs, "_response", {
       enumerable: false,
       value: segment._response

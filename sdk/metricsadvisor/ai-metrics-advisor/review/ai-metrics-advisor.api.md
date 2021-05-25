@@ -79,6 +79,15 @@ export interface AnomalyDetectionConfiguration {
 }
 
 // @public
+export interface AnomalyDetectionConfigurationPatch {
+    description?: string;
+    name?: string;
+    seriesDetectionConditions?: MetricSingleSeriesDetectionCondition[];
+    seriesGroupDetectionConditions?: MetricSeriesGroupDetectionCondition[];
+    wholeSeriesDetectionCondition?: MetricDetectionConditionPatch;
+}
+
+// @public
 export type AnomalyDetectorDirection = "Both" | "Down" | "Up";
 
 // @public
@@ -113,9 +122,9 @@ export type AzureApplicationInsightsDataFeedSource = {
 
 // @public (undocumented)
 export interface AzureApplicationInsightsParameter {
-    apiKey: string;
-    applicationId: string;
-    azureCloud: string;
+    apiKey?: string;
+    applicationId?: string;
+    azureCloud?: string;
     query: string;
 }
 
@@ -131,7 +140,7 @@ export type AzureBlobDataFeedSource = {
 // @public (undocumented)
 export interface AzureBlobParameter {
     blobTemplate: string;
-    connectionString: string;
+    connectionString?: string;
     container: string;
 }
 
@@ -144,7 +153,7 @@ export type AzureCosmosDBDataFeedSource = {
 // @public (undocumented)
 export interface AzureCosmosDBParameter {
     collectionId: string;
-    connectionString: string;
+    connectionString?: string;
     database: string;
     sqlQuery: string;
 }
@@ -202,7 +211,7 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
 // @public (undocumented)
 export interface AzureDataLakeStorageGen2Parameter {
     accountKey?: string;
-    accountName: string;
+    accountName?: string;
     directoryTemplate: string;
     fileSystemName: string;
     fileTemplate: string;
@@ -224,7 +233,7 @@ export type AzureTableDataFeedSource = {
 
 // @public (undocumented)
 export interface AzureTableParameter {
-    connectionString: string;
+    connectionString?: string;
     query: string;
     table: string;
 }
@@ -456,13 +465,15 @@ export interface DataSourceCredentialEntity {
 }
 
 // @public (undocumented)
-export type DataSourceCredentialEntityPatch = Pick<DataSourceCredentialEntityUnion, "description" | "name" | "type"> & Partial<Omit<DataSourceCredentialEntityUnion, "description" | "name" | "type" | "id">>;
+export type DataSourceCredentialEntityPatch = Partial<Omit<DataSourceCredentialEntityUnion, "id">> & {
+    type: "AzureSQLConnectionString" | "DataLakeGen2SharedKey" | "ServicePrincipal" | "ServicePrincipalInKV";
+};
 
 // @public (undocumented)
 export type DataSourceCredentialEntityUnion = SqlConnectionStringCredentialEntity | DataLakeGen2SharedKeyCredentialEntity | ServicePrincipalCredentialEntity | ServicePrincipalInKVCredentialEntity;
 
 // @public
-export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureEventHubs" | "AzureTable" | "Elasticsearch" | "HttpRequest" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
+export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureEventHubs" | "AzureLogAnalytics" | "AzureTable" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
 
 // @public
 export interface DetectionConditionsCommon {
@@ -470,6 +481,14 @@ export interface DetectionConditionsCommon {
     conditionOperator?: DetectionConditionsOperator;
     hardThresholdCondition?: HardThresholdConditionUnion;
     smartDetectionCondition?: SmartDetectionCondition;
+}
+
+// @public
+export interface DetectionConditionsCommonPatch {
+    changeThresholdCondition?: Partial<ChangeThresholdConditionUnion>;
+    conditionOperator?: DetectionConditionsOperator;
+    hardThresholdCondition?: Partial<HardThresholdConditionUnion>;
+    smartDetectionCondition?: Partial<SmartDetectionCondition>;
 }
 
 // @public
@@ -496,14 +515,6 @@ export interface DimensionValuesPageResponse extends Array<string> {
 }
 
 // @public (undocumented)
-export interface ElasticsearchParameter {
-    authHeader: string;
-    host: string;
-    port: string;
-    query: string;
-}
-
-// @public (undocumented)
 export interface EmailHookParameter {
     toList: string[];
 }
@@ -517,7 +528,7 @@ export type EmailNotificationHook = {
 // @public
 export type EmailNotificationHookPatch = {
     hookType: "Email";
-    hookParameter?: EmailHookParameter;
+    hookParameter?: Partial<EmailHookParameter>;
 } & NotificationHookPatch;
 
 // @public (undocumented)
@@ -643,14 +654,6 @@ export interface HooksPageResponse extends Array<NotificationHookUnion> {
     };
 }
 
-// @public (undocumented)
-export interface HttpRequestParameter {
-    httpHeader: string;
-    httpMethod: string;
-    payload: string;
-    url: string;
-}
-
 // @public
 export interface IncidentRootCause {
     description: string;
@@ -681,11 +684,11 @@ export type InfluxDBDataFeedSource = {
 
 // @public (undocumented)
 export interface InfluxDBParameter {
-    connectionString: string;
-    database: string;
-    password: string;
+    connectionString?: string;
+    database?: string;
+    password?: string;
     query: string;
-    userName: string;
+    userName?: string;
 }
 
 // @public (undocumented)
@@ -893,6 +896,9 @@ export type MetricCommentFeedback = {
 export type MetricDetectionCondition = DetectionConditionsCommon;
 
 // @public
+export type MetricDetectionConditionPatch = DetectionConditionsCommonPatch;
+
+// @public
 export interface MetricEnrichedSeriesData {
     expectedValues?: number[];
     isAnomaly?: boolean[];
@@ -971,7 +977,7 @@ export class MetricsAdvisorAdministrationClient {
     updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<RestResponse>;
     updateCredentialEntity(id: string, patch: DataSourceCredentialEntityPatch, options?: OperationOptions): Promise<RestResponse>;
     updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<RestResponse>;
-    updateDetectionConfig(id: string, patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>, options?: OperationOptions): Promise<RestResponse>;
+    updateDetectionConfig(id: string, patch: AnomalyDetectionConfigurationPatch, options?: OperationOptions): Promise<RestResponse>;
     updateHook(id: string, patch: EmailNotificationHookPatch | WebNotificationHookPatch, options?: OperationOptions): Promise<RestResponse>;
 }
 
@@ -1057,8 +1063,8 @@ export type MongoDBDataFeedSource = {
 // @public (undocumented)
 export interface MongoDBParameter {
     command: string;
-    connectionString: string;
-    database: string;
+    connectionString?: string;
+    database?: string;
 }
 
 // @public
@@ -1267,7 +1273,7 @@ export type WebNotificationHook = {
 // @public
 export type WebNotificationHookPatch = {
     hookType: "Webhook";
-    hookParameter?: WebhookHookParameter;
+    hookParameter?: Partial<WebhookHookParameter>;
 } & NotificationHookPatch;
 
 

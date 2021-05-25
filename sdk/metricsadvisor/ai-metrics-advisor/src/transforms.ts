@@ -56,7 +56,8 @@ import {
   AzureDataExplorerAuthTypes,
   AzureDataLakeStorageGen2AuthTypes,
   AzureDataLakeStorageGen2DataFeedSource,
-  SQLServerAuthTypes
+  SQLServerAuthTypes,
+  AnomalyDetectionConfigurationPatch
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -149,7 +150,7 @@ export function toServiceAnomalyDetectionConfiguration(
 }
 
 export function toServiceAnomalyDetectionConfigurationPatch(
-  from: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>
+  from: AnomalyDetectionConfigurationPatch
 ): ServiceAnomalyDetectionConfigurationPatch {
   return {
     name: from.name,
