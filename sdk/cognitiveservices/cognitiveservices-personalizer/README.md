@@ -2,6 +2,11 @@
 
 This package contains an isomorphic SDK for PersonalizerClient.
 
+Package version | Personalizer API version
+--------------- | --------------------------
+2.1.0           |  /personalizer/v1.0
+3.0.0           |  /personalizer/v1.1-preview.1
+
 ### Currently supported environments
 
 - Node.js version 6.x.x or higher
