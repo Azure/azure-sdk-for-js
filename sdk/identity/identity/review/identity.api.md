@@ -190,6 +190,8 @@ export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions 
     tenantId?: string;
     clientId: string;
     loginStyle?: BrowserLoginStyle;
+    loginState?: string;
+    loginNonce?: string;
 };
 
 // @public
