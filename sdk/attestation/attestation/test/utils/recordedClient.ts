@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { ClientSecretCredential } from "@azure/identity";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
-import { AttestationClient, AttestationClientOptionalParams } from "../../src/";
+import { AttestationClient, AttestationClientOptions } from "../../src/";
 import "./env";
 
 const replaceableVariables: { [k: string]: string } = {
@@ -48,7 +48,7 @@ type EndpointType = "AAD" | "Isolated" | "Shared";
 
 export function createRecordedClient(
   endpointType: EndpointType,
-  options?: AttestationClientOptionalParams
+  options?: AttestationClientOptions
 ): AttestationClient {
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
