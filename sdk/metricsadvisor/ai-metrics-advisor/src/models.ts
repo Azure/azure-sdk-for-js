@@ -2048,11 +2048,11 @@ export type DataSourceCredentialEntityUnion =
   | ServicePrincipalCredentialEntity
   | ServicePrincipalInKVCredentialEntity;
 
-export type DataSourceCredentialEntityPatch = Omit<
+export type DataSourceCredentialEntityPatch = Pick<
   DataSourceCredentialEntityUnion,
-  "id" | "parameters"
+  "description" | "name" | "type"
 > &
-  Partial<Pick<DataSourceCredentialEntityUnion, "parameters">>;
+  Partial<Omit<DataSourceCredentialEntityUnion, "description" | "name" | "type"| "id">>;
 
 /**
  * Contains response data for the listCredentials operation.
