@@ -3,7 +3,7 @@
 ## Log Query
 
 ```yaml $(tag) == 'logquery'
-input-file: "log_query_swagger.json"
+input-file: "https://raw.githubusercontent.com/srnagar/azure-rest-api-specs/azmon-query-swagger/specification/operationalinsights/data-plane/Microsoft.OperationalInsights/preview/2021-05-19/OperationalInsights.json"
 output-folder: ../src/generated/logquery
 package-name: "monitor-log-query"
 clear-output-folder: true
@@ -21,7 +21,7 @@ hide-clients: true
 ```
 
 ```yaml $(tag) == 'metrics'
-input-file: "metrics_swagger.json"
+input-file: "https://raw.githubusercontent.com/srnagar/azure-rest-api-specs/azmon-query-swagger/specification/monitor/resource-manager/Microsoft.Insights/preview/2017-05-01-preview/metrics_API.json"
 output-folder: ../src/generated/metrics
 package-name: "monitor-metrics"
 clear-output-folder: true
@@ -39,7 +39,7 @@ hide-clients: true
 ```
 
 ```yaml $(tag) == 'metrics-definitions'
-input-file: "metrics_definitions.json"
+input-file: "https://raw.githubusercontent.com/srnagar/azure-rest-api-specs/azmon-query-swagger/specification/monitor/resource-manager/Microsoft.Insights/preview/2017-05-01-preview/metricDefinitions_API.json"
 output-folder: ../src/generated/metricsdefinitions
 package-name: "monitor-metrics-definitions"
 clear-output-folder: true
@@ -57,7 +57,7 @@ hide-clients: true
 ```
 
 ```yaml $(tag) == 'metrics-namespaces'
-input-file: "metrics_namespaces.json"
+input-file: "https://raw.githubusercontent.com/srnagar/azure-rest-api-specs/azmon-query-swagger/specification/monitor/resource-manager/Microsoft.Insights/preview/2017-12-01-preview/metricNamespaces_API.json"
 output-folder: ../src/generated/metricsnamespaces
 package-name: "monitor-metrics-namespaces"
 clear-output-folder: true

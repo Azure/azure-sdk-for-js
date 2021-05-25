@@ -47,12 +47,6 @@ export const MetricDefinition: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      namespace: {
-        serializedName: "namespace",
-        type: {
-          name: "String"
-        }
-      },
       name: {
         serializedName: "name",
         type: {
@@ -60,25 +54,22 @@ export const MetricDefinition: coreHttp.CompositeMapper = {
           className: "LocalizableString"
         }
       },
+      displayDescription: {
+        serializedName: "displayDescription",
+        type: {
+          name: "String"
+        }
+      },
+      category: {
+        serializedName: "category",
+        type: {
+          name: "String"
+        }
+      },
       unit: {
         serializedName: "unit",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Count",
-            "Bytes",
-            "Seconds",
-            "CountPerSecond",
-            "BytesPerSecond",
-            "Percent",
-            "MilliSeconds",
-            "ByteSeconds",
-            "Unspecified",
-            "Cores",
-            "MilliCores",
-            "NanoCores",
-            "BitsPerSecond"
-          ]
+          name: "String"
         }
       },
       primaryAggregationType: {
@@ -93,25 +84,6 @@ export const MetricDefinition: coreHttp.CompositeMapper = {
             "Maximum",
             "Total"
           ]
-        }
-      },
-      supportedAggregationTypes: {
-        serializedName: "supportedAggregationTypes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Enum",
-              allowedValues: [
-                "None",
-                "Average",
-                "Count",
-                "Minimum",
-                "Maximum",
-                "Total"
-              ]
-            }
-          }
         }
       },
       metricAvailabilities: {

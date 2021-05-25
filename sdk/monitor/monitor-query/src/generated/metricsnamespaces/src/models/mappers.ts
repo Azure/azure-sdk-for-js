@@ -53,6 +53,12 @@ export const MetricNamespace: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      classification: {
+        serializedName: "classification",
+        type: {
+          name: "String"
+        }
+      },
       properties: {
         serializedName: "properties",
         type: {

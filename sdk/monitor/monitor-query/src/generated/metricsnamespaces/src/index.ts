@@ -7,5 +7,5 @@
  */
 
 export * from "./models";
-export { MonitorManagementClient } from "./monitorManagementClient";
-export { MonitorManagementClientContext } from "./monitorManagementClientContext";
+export { MetricsNamespacesClient } from "./metricsNamespacesClient";
+export { MetricsNamespacesClientContext } from "./metricsNamespacesClientContext";

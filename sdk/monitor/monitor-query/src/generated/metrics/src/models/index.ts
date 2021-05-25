@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 
 /** The response to a metrics query. */
 export interface Response {
-  /** The integer value representing the cost of the query, for data case. */
+  /** The integer value representing the relative cost of the query. */
   cost?: number;
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
   timespan: string;
@@ -32,8 +32,12 @@ export interface Metric {
   type: string;
   /** the name and the display name of the metric, i.e. it is localizable string. */
   name: LocalizableString;
+  /** Detailed description of this metric. */
+  displayDescription: string;
+  /** 'Success' or the error details on query failures for this metric. */
+  errorCode?: string;
   /** the unit of the metric. */
-  unit: Unit;
+  unit: MetricUnit;
   /** the time series returned when a data query is performed. */
   timeseries: TimeSeriesElement[];
 }
@@ -86,37 +90,60 @@ export interface ErrorResponse {
   message?: string;
 }
 
-/** Known values of {@link ApiVersion201801} that the service accepts. */
-export const enum KnownApiVersion201801 {
-  /** Api Version '2018-01-01' */
-  TwoThousandEighteen0101 = "2018-01-01"
+/** Known values of {@link ApiVersion20170501Preview} that the service accepts. */
+export const enum KnownApiVersion20170501Preview {
+  /** Api Version '2017-05-01-preview' */
+  TwoThousandSeventeen0501Preview = "2017-05-01-preview"
 }
 
 /**
- * Defines values for ApiVersion201801. \
- * {@link KnownApiVersion201801} can be used interchangeably with ApiVersion201801,
+ * Defines values for ApiVersion20170501Preview. \
+ * {@link KnownApiVersion20170501Preview} can be used interchangeably with ApiVersion20170501Preview,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **2018-01-01**: Api Version '2018-01-01'
+ * **2017-05-01-preview**: Api Version '2017-05-01-preview'
  */
-export type ApiVersion201801 = string;
+export type ApiVersion20170501Preview = string;
+
+/** Known values of {@link MetricUnit} that the service accepts. */
+export const enum KnownMetricUnit {
+  Count = "Count",
+  Bytes = "Bytes",
+  Seconds = "Seconds",
+  CountPerSecond = "CountPerSecond",
+  BytesPerSecond = "BytesPerSecond",
+  Percent = "Percent",
+  MilliSeconds = "MilliSeconds",
+  ByteSeconds = "ByteSeconds",
+  Unspecified = "Unspecified",
+  Cores = "Cores",
+  MilliCores = "MilliCores",
+  NanoCores = "NanoCores",
+  BitsPerSecond = "BitsPerSecond"
+}
+
+/**
+ * Defines values for MetricUnit. \
+ * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **Count** \
+ * **Bytes** \
+ * **Seconds** \
+ * **CountPerSecond** \
+ * **BytesPerSecond** \
+ * **Percent** \
+ * **MilliSeconds** \
+ * **ByteSeconds** \
+ * **Unspecified** \
+ * **Cores** \
+ * **MilliCores** \
+ * **NanoCores** \
+ * **BitsPerSecond**
+ */
+export type MetricUnit = string;
 /** Defines values for ResultType. */
 export type ResultType = "Data" | "Metadata";
-/** Defines values for Unit. */
-export type Unit =
-  | "Count"
-  | "Bytes"
-  | "Seconds"
-  | "CountPerSecond"
-  | "BytesPerSecond"
-  | "Percent"
-  | "MilliSeconds"
-  | "ByteSeconds"
-  | "Unspecified"
-  | "Cores"
-  | "MilliCores"
-  | "NanoCores"
-  | "BitsPerSecond";
 
 /** Optional parameters. */
 export interface MetricsListOptionalParams extends coreHttp.OperationOptions {
@@ -124,8 +151,8 @@ export interface MetricsListOptionalParams extends coreHttp.OperationOptions {
   timespan?: string;
   /** The interval (i.e. timegrain) of the query. */
   interval?: string;
-  /** The names of the metrics (comma separated) to retrieve. */
-  metricnames?: string;
+  /** The name of the metric to retrieve. */
+  metric?: string;
   /** The list of aggregation types (comma separated) to retrieve. */
   aggregation?: string;
   /**
@@ -161,7 +188,8 @@ export type MetricsListResponse = Response & {
 };
 
 /** Optional parameters. */
-export interface MonitorManagementClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface MonitorManagementClientOptionalParams
+  extends coreHttp.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

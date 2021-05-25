@@ -9,7 +9,10 @@
 import * as coreHttp from "@azure/core-http";
 import { Metrics } from "./operations";
 import { MonitorManagementClientContext } from "./monitorManagementClientContext";
-import { MonitorManagementClientOptionalParams, ApiVersion201801 } from "./models";
+import {
+  MonitorManagementClientOptionalParams,
+  ApiVersion20170501Preview
+} from "./models";
 
 /** @hidden */
 export class MonitorManagementClient extends MonitorManagementClientContext {
@@ -21,7 +24,7 @@ export class MonitorManagementClient extends MonitorManagementClientContext {
    */
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    apiVersion: ApiVersion201801,
+    apiVersion: ApiVersion20170501Preview,
     options?: MonitorManagementClientOptionalParams
   ) {
     super(credentials, apiVersion, options);

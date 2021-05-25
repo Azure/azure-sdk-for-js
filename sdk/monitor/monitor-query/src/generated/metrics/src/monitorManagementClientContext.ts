@@ -8,7 +8,7 @@
 
 import * as coreHttp from "@azure/core-http";
 import {
-  ApiVersion201801,
+  ApiVersion20170501Preview,
   MonitorManagementClientOptionalParams
 } from "./models";
 
@@ -18,7 +18,7 @@ const packageVersion = "1.0.0";
 /** @hidden */
 export class MonitorManagementClientContext extends coreHttp.ServiceClient {
   $host: string;
-  apiVersion: ApiVersion201801;
+  apiVersion: ApiVersion20170501Preview;
 
   /**
    * Initializes a new instance of the MonitorManagementClientContext class.
@@ -28,7 +28,7 @@ export class MonitorManagementClientContext extends coreHttp.ServiceClient {
    */
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    apiVersion: ApiVersion201801,
+    apiVersion: ApiVersion20170501Preview,
     options?: MonitorManagementClientOptionalParams
   ) {
     if (credentials === undefined) {

@@ -20,16 +20,16 @@ export interface MetricDefinition {
   isDimensionRequired?: boolean;
   /** the resource identifier of the resource that emitted the metric. */
   resourceId?: string;
-  /** the namespace the metric belongs to. */
-  namespace?: string;
   /** the name and the display name of the metric, i.e. it is a localizable string. */
   name?: LocalizableString;
+  /** Detailed description of this metric. */
+  displayDescription?: string;
+  /** Custom category name for this metric. */
+  category?: string;
   /** the unit of the metric. */
-  unit?: Unit;
+  unit?: MetricUnit;
   /** the primary aggregation type value defining how to use the values for display. */
   primaryAggregationType?: AggregationType;
-  /** the collection of what aggregation types are supported. */
-  supportedAggregationTypes?: AggregationType[];
   /** the collection of what aggregation intervals are available to be queried. */
   metricAvailabilities?: MetricAvailability[];
   /** the resource identifier of the metric definition. */
@@ -62,40 +62,70 @@ export interface ErrorResponse {
   message?: string;
 }
 
-/** Known values of {@link ApiVersion201801} that the service accepts. */
-export const enum KnownApiVersion201801 {
-  /** Api Version '2018-01-01' */
-  TwoThousandEighteen0101 = "2018-01-01"
+/** Known values of {@link ApiVersion20170501Preview} that the service accepts. */
+export const enum KnownApiVersion20170501Preview {
+  /** Api Version '2017-05-01-preview' */
+  TwoThousandSeventeen0501Preview = "2017-05-01-preview"
 }
 
 /**
- * Defines values for ApiVersion201801. \
- * {@link KnownApiVersion201801} can be used interchangeably with ApiVersion201801,
+ * Defines values for ApiVersion20170501Preview. \
+ * {@link KnownApiVersion20170501Preview} can be used interchangeably with ApiVersion20170501Preview,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **2018-01-01**: Api Version '2018-01-01'
+ * **2017-05-01-preview**: Api Version '2017-05-01-preview'
  */
-export type ApiVersion201801 = string;
-/** Defines values for Unit. */
-export type Unit =
-  | "Count"
-  | "Bytes"
-  | "Seconds"
-  | "CountPerSecond"
-  | "BytesPerSecond"
-  | "Percent"
-  | "MilliSeconds"
-  | "ByteSeconds"
-  | "Unspecified"
-  | "Cores"
-  | "MilliCores"
-  | "NanoCores"
-  | "BitsPerSecond";
+export type ApiVersion20170501Preview = string;
+
+/** Known values of {@link MetricUnit} that the service accepts. */
+export const enum KnownMetricUnit {
+  Count = "Count",
+  Bytes = "Bytes",
+  Seconds = "Seconds",
+  CountPerSecond = "CountPerSecond",
+  BytesPerSecond = "BytesPerSecond",
+  Percent = "Percent",
+  MilliSeconds = "MilliSeconds",
+  ByteSeconds = "ByteSeconds",
+  Unspecified = "Unspecified",
+  Cores = "Cores",
+  MilliCores = "MilliCores",
+  NanoCores = "NanoCores",
+  BitsPerSecond = "BitsPerSecond"
+}
+
+/**
+ * Defines values for MetricUnit. \
+ * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **Count** \
+ * **Bytes** \
+ * **Seconds** \
+ * **CountPerSecond** \
+ * **BytesPerSecond** \
+ * **Percent** \
+ * **MilliSeconds** \
+ * **ByteSeconds** \
+ * **Unspecified** \
+ * **Cores** \
+ * **MilliCores** \
+ * **NanoCores** \
+ * **BitsPerSecond**
+ */
+export type MetricUnit = string;
 /** Defines values for AggregationType. */
-export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
+export type AggregationType =
+  | "None"
+  | "Average"
+  | "Count"
+  | "Minimum"
+  | "Maximum"
+  | "Total";
 
 /** Optional parameters. */
-export interface MetricDefinitionsListOptionalParams extends coreHttp.OperationOptions {
+export interface MetricDefinitionsListOptionalParams
+  extends coreHttp.OperationOptions {
   /** Metric namespace to query metric definitions for. */
   metricnamespace?: string;
 }
@@ -113,7 +143,8 @@ export type MetricDefinitionsListResponse = MetricDefinitionCollection & {
 };
 
 /** Optional parameters. */
-export interface MonitorManagementClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface MetricsDefinitionsClientOptionalParams
+  extends coreHttp.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

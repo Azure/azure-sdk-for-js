@@ -16,12 +16,14 @@ export interface MetricNamespaceCollection {
 
 /** Metric namespace class specifies the metadata for a metric namespace. */
 export interface MetricNamespace {
-  /** The ID of the metricNamespace. */
+  /** The ID of the metric namespace. */
   id?: string;
   /** The type of the namespace. */
   type?: string;
-  /** The name of the namespace. */
+  /** The escaped name of the namespace. */
   name?: string;
+  /** Kind of namespace */
+  classification?: NamespaceClassification;
   /** Properties which include the fully qualified namespace name. */
   properties?: MetricNamespaceName;
 }
@@ -55,8 +57,27 @@ export const enum KnownApiVersion20171201Preview {
  */
 export type ApiVersion20171201Preview = string;
 
+/** Known values of {@link NamespaceClassification} that the service accepts. */
+export const enum KnownNamespaceClassification {
+  Platform = "Platform",
+  Custom = "Custom",
+  Qos = "Qos"
+}
+
+/**
+ * Defines values for NamespaceClassification. \
+ * {@link KnownNamespaceClassification} can be used interchangeably with NamespaceClassification,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **Platform** \
+ * **Custom** \
+ * **Qos**
+ */
+export type NamespaceClassification = string;
+
 /** Optional parameters. */
-export interface MetricNamespacesListOptionalParams extends coreHttp.OperationOptions {
+export interface MetricNamespacesListOptionalParams
+  extends coreHttp.OperationOptions {
   /** The ISO 8601 conform Date start time from which to query for metric namespaces. */
   startTime?: string;
 }
@@ -74,7 +95,8 @@ export type MetricNamespacesListResponse = MetricNamespaceCollection & {
 };
 
 /** Optional parameters. */
-export interface MonitorManagementClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface MetricsNamespacesClientOptionalParams
+  extends coreHttp.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

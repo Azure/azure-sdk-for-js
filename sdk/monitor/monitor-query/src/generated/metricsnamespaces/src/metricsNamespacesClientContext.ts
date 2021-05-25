@@ -8,28 +8,28 @@
 
 import * as coreHttp from "@azure/core-http";
 import {
-  ApiVersion201801,
-  MonitorManagementClientOptionalParams
+  ApiVersion20171201Preview,
+  MetricsNamespacesClientOptionalParams
 } from "./models";
 
-const packageName = "monitor-metrics-definitions";
+const packageName = "monitor-metrics-namespaces";
 const packageVersion = "1.0.0";
 
 /** @hidden */
-export class MonitorManagementClientContext extends coreHttp.ServiceClient {
+export class MetricsNamespacesClientContext extends coreHttp.ServiceClient {
   $host: string;
-  apiVersion: ApiVersion201801;
+  apiVersion: ApiVersion20171201Preview;
 
   /**
-   * Initializes a new instance of the MonitorManagementClientContext class.
+   * Initializes a new instance of the MetricsNamespacesClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    apiVersion: ApiVersion201801,
-    options?: MonitorManagementClientOptionalParams
+    apiVersion: ApiVersion20171201Preview,
+    options?: MetricsNamespacesClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");

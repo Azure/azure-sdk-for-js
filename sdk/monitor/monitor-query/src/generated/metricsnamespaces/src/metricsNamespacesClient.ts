@@ -7,29 +7,29 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { MetricDefinitions } from "./operations";
-import { MonitorManagementClientContext } from "./monitorManagementClientContext";
+import { MetricNamespaces } from "./operations";
+import { MetricsNamespacesClientContext } from "./metricsNamespacesClientContext";
 import {
-  MonitorManagementClientOptionalParams,
-  ApiVersion201801
+  MetricsNamespacesClientOptionalParams,
+  ApiVersion20171201Preview
 } from "./models";
 
 /** @hidden */
-export class MonitorManagementClient extends MonitorManagementClientContext {
+export class MetricsNamespacesClient extends MetricsNamespacesClientContext {
   /**
-   * Initializes a new instance of the MonitorManagementClient class.
+   * Initializes a new instance of the MetricsNamespacesClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    apiVersion: ApiVersion201801,
-    options?: MonitorManagementClientOptionalParams
+    apiVersion: ApiVersion20171201Preview,
+    options?: MetricsNamespacesClientOptionalParams
   ) {
     super(credentials, apiVersion, options);
-    this.metricDefinitions = new MetricDefinitions(this);
+    this.metricNamespaces = new MetricNamespaces(this);
   }
 
-  metricDefinitions: MetricDefinitions;
+  metricNamespaces: MetricNamespaces;
 }

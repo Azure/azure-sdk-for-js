@@ -90,26 +90,24 @@ export const Metric: coreHttp.CompositeMapper = {
           className: "LocalizableString"
         }
       },
+      displayDescription: {
+        serializedName: "displayDescription",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      errorCode: {
+        serializedName: "errorCode",
+        type: {
+          name: "String"
+        }
+      },
       unit: {
         serializedName: "unit",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Count",
-            "Bytes",
-            "Seconds",
-            "CountPerSecond",
-            "BytesPerSecond",
-            "Percent",
-            "MilliSeconds",
-            "ByteSeconds",
-            "Unspecified",
-            "Cores",
-            "MilliCores",
-            "NanoCores",
-            "BitsPerSecond"
-          ]
+          name: "String"
         }
       },
       timeseries: {

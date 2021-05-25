@@ -60,7 +60,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timespan,
     Parameters.interval,
-    Parameters.metricnames,
+    Parameters.metric,
     Parameters.aggregation,
     Parameters.top,
     Parameters.orderby,

@@ -11,8 +11,9 @@ import * as coreHttp from "@azure/core-http";
 /** Contains the tables, columns & rows resulting from a query. */
 export interface QueryResults {
   /** The list of tables, columns and rows. */
-  tables?: Table[];
-  errors?: ErrorDetails;
+  tables: Table[];
+  /** Statistics represented in JSON format. */
+  statistics?: any;
 }
 
 /** Contains the columns and rows for one table in a query response. */
@@ -30,13 +31,7 @@ export interface Column {
   /** The name of this column. */
   name?: string;
   /** The data type of this column. */
-  type?: string;
-}
-
-export interface ErrorDetails {
-  code?: string;
-  message?: string;
-  target?: string;
+  type?: ColumnDataType;
 }
 
 /** Contains details when the response code indicates an error. */
@@ -431,31 +426,50 @@ export interface LogQueryRequest {
 export interface BatchResponse {
   /** An array of responses corresponding to each individual request in a batch. */
   responses?: LogQueryResponse[];
-  /** Error response for a batch request */
-  error?: BatchResponseError;
 }
 
 export interface LogQueryResponse {
   id?: string;
   status?: number;
-  /** Contains the tables, columns & rows resulting from a query. */
-  body?: QueryResults;
+  /** Contains the tables, columns & rows resulting from the query or the error details if the query failed. */
+  body?: LogQueryResult;
+  /** Dictionary of <string> */
+  headers?: { [propertyName: string]: string };
 }
 
-/** Error response for a batch request */
-export interface BatchResponseError {
-  /** The error message describing the cause of the error. */
-  message?: string;
-  /** The error code */
-  code?: string;
-  innerError?: BatchResponseErrorInnerError;
+/** Contains the tables, columns & rows resulting from the query or the error details if the query failed. */
+export interface LogQueryResult {
+  /** The list of tables, columns and rows. */
+  tables?: Table[];
+  /** The code and message for an error. */
+  error?: ErrorInfo;
 }
 
-export interface BatchResponseErrorInnerError {
-  code?: string;
-  message?: string;
-  details?: ErrorDetails[];
+/** Known values of {@link ColumnDataType} that the service accepts. */
+export const enum KnownColumnDataType {
+  Bool = "bool",
+  Datetime = "datetime",
+  Dynamic = "dynamic",
+  Int = "int",
+  Long = "long",
+  Real = "real",
+  String = "string"
 }
+
+/**
+ * Defines values for ColumnDataType. \
+ * {@link KnownColumnDataType} can be used interchangeably with ColumnDataType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **bool** \
+ * **datetime** \
+ * **dynamic** \
+ * **int** \
+ * **long** \
+ * **real** \
+ * **string**
+ */
+export type ColumnDataType = string;
 
 /** Known values of {@link MetadataColumnDataType} that the service accepts. */
 export const enum KnownMetadataColumnDataType {
