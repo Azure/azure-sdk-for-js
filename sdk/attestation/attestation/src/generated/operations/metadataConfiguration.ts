@@ -9,20 +9,20 @@
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AttestationClient } from "../attestationClient";
+import { GeneratedClient } from "../generatedClient";
 import { MetadataConfigurationGetResponse } from "../models";
 
 /**
  * Class representing a MetadataConfiguration.
  */
 export class MetadataConfiguration {
-  private readonly client: AttestationClient;
+  private readonly client: GeneratedClient;
 
   /**
    * Initialize a new instance of the class MetadataConfiguration class.
    * @param client Reference to the service client
    */
-  constructor(client: AttestationClient) {
+  constructor(client: GeneratedClient) {
     this.client = client;
   }
 

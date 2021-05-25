@@ -6,40 +6,161 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import {
+  PipelineOptions,
+  TokenCredential,
+  OperationOptions,
+} from "@azure/core-http"
+//import { OperationOptions } from "@azure/core-client";
+import { SDK_VERSION } from "./constants";
 import {
   Policy,
   PolicyCertificates,
   Attestation,
-  SigningCertificates,
-  MetadataConfiguration
 } from "./operations";
-import { AttestationClientContext } from "./attestationClientContext";
-import { AttestationClientOptionalParams } from "./models";
+import { GeneratedClient } from "./generated/generatedClient"
+  
+import { AttestationSigner } from "./models";
 
-export class AttestationClient extends AttestationClientContext {
+import { logger } from "./logger";
+import { createSpan } from "./tracing";
+import { GeneratedClientOptionalParams } from "./generated/models";
+import { SpanStatusCode } from "@azure/core-tracing";
+
+/**
+* Attestation Client Construction Options.
+*/
+export interface AttestationClientOptions extends PipelineOptions{};
+
+/**
+ * Operation options for the Attestation Client operatios.
+ */
+export interface AttestationClientOperationOptions extends OperationOptions{};
+
+/**
+ * Attestation Client class.
+ * 
+ * The AttestationClient class enables access to the Attestation related APIs:
+ * 
+ * - getOpenIdMetadata
+ * - getAttestationSigners
+ * - attestSgxEnclave
+ * - attestOpenEnclave
+ * - attestTpm
+ */
+export class AttestationClient {
   /**
-   * Initializes a new instance of the AttestationClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * Creates an instance of AttestationClient.
+   *
+   * Example usage:
+   * ```ts
+   * import { AttestationClient } from "@azure/attestation";
+   *
+   * const client = new AttestationClient(
+   *    "<service endpoint>",
+   *    new TokenCredential("<>")
+   * );
+   * ```
+   *
    * @param instanceUrl The attestation instance base URI, for example https://mytenant.attest.azure.net.
-   * @param options The parameter options
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the Form Recognizer client.
    */
+
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    credentials: TokenCredential,
     instanceUrl: string,
-    options?: AttestationClientOptionalParams
+    options: AttestationClientOptions = {}
   ) {
-    super(credentials, instanceUrl, options);
+    // The below code helps us set a proper User-Agent header on all requests
+    const libInfo = `azsdk-js-api-security-attestation/${SDK_VERSION}`;
+    if (!options.userAgentOptions) {
+      options.userAgentOptions = {};
+    }
+    if (options.userAgentOptions.userAgentPrefix) {
+      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
+    } else {
+      options.userAgentOptions.userAgentPrefix = libInfo;
+    }
+
+    const internalPipelineOptions: GeneratedClientOptionalParams = {
+      ...options,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          allowedHeaderNames: [ 'x-ms-request-id', 'x-ms-maa-service-version' ]
+        }
+      }
+    };
+
+    this._client = new GeneratedClient(credentials, instanceUrl, internalPipelineOptions);
+    this.instanceUrl = instanceUrl;
+
+    // Legacy compatibility classes functions which will be removed eventually.
     this.policy = new Policy(this);
     this.policyCertificates = new PolicyCertificates(this);
     this.attestation = new Attestation(this);
-    this.signingCertificates = new SigningCertificates(this);
-    this.metadataConfiguration = new MetadataConfiguration(this);
   }
+
+  /**
+   * Temporary function to access the generated client, used for the operations
+   * TS files.
+   * @returns The generated client for the attestation service.
+   */
+  public BaseClient() : GeneratedClient
+  {
+    return this._client;
+  }
+
+  /**
+   * Returns the list of attestation signers which can be used to sign attestation
+   * service tokens.
+   * 
+   * @param options Client operation options.
+   * @returns the set of AttestationSigners which may be used to sign attestation tokens.
+   */
+  public async getAttestationSigners(options: AttestationClientOperationOptions = {}) : Promise<AttestationSigner[]>
+  {
+    const { span, updatedOptions} = createSpan("AttestationClient-getAttestationSigners", options);
+    try {
+      let signingCertificates = await this._client.signingCertificates.get(updatedOptions);
+      let signers:AttestationSigner[] = new Array();
+      signingCertificates.keys?.forEach(element => {
+        signers.push(new AttestationSigner(element));
+      });
+      return signers;
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * 
+   * @param options Client operation options.
+   * @returns The OpenID metadata discovery document for the attestation service.
+   */
+  public async getOpenIdMetadata(options: AttestationClientOperationOptions = {}) : Promise<any>
+  {
+    const { span, updatedOptions} = createSpan("AttestationClient-getAttestationSigners", options);
+    try {
+      return await (await this._client.metadataConfiguration.get(updatedOptions)).body;
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
+    } finally {
+      span.end();
+    }
+
+  }
+  
+
+  private _client: GeneratedClient;
+
+  instanceUrl: string;
 
   policy: Policy;
   policyCertificates: PolicyCertificates;
   attestation: Attestation;
-  signingCertificates: SigningCertificates;
-  metadataConfiguration: MetadataConfiguration;
 }

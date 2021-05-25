@@ -5,12 +5,17 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
+import { KJUR } from 'jsrsasign';
+import { OperationOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
 
 // @public
 export class Attestation {
     constructor(client: AttestationClient);
     attestOpenEnclave(request: AttestOpenEnclaveRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestOpenEnclaveResponse>;
     attestSgxEnclave(request: AttestSgxEnclaveRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestSgxEnclaveResponse>;
+    // (undocumented)
     attestTpm(request: TpmAttestationRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestTpmResponse>;
     }
 
@@ -43,34 +48,30 @@ export interface AttestationCertificateManagementBody {
     policyCertificate?: JsonWebKey;
 }
 
-// @public (undocumented)
-export class AttestationClient extends AttestationClientContext {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: AttestationClientOptionalParams);
+// @public
+export class AttestationClient {
+    constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
     // (undocumented)
     attestation: Attestation;
+    // Warning: (ae-forgotten-export) The symbol "GeneratedClient" needs to be exported by the entry point index.d.ts
+    BaseClient(): GeneratedClient;
+    getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
     // (undocumented)
-    metadataConfiguration: MetadataConfiguration;
+    getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
+    // (undocumented)
+    instanceUrl: string;
     // (undocumented)
     policy: Policy;
     // (undocumented)
     policyCertificates: PolicyCertificates;
-    // (undocumented)
-    signingCertificates: SigningCertificates;
-}
-
-// @public (undocumented)
-export class AttestationClientContext extends coreHttp.ServiceClient {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: AttestationClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    instanceUrl: string;
 }
 
 // @public
-export interface AttestationClientOptionalParams extends coreHttp.ServiceClientOptions {
-    apiVersion?: string;
-    endpoint?: string;
+export interface AttestationClientOperationOptions extends OperationOptions {
+}
+
+// @public
+export interface AttestationClientOptions extends PipelineOptions {
 }
 
 // @public
@@ -114,6 +115,47 @@ export interface AttestationResult {
     svn?: number;
     verifierType?: string;
     version?: string;
+}
+
+// @public
+export class AttestationSigner {
+    // Warning: (ae-forgotten-export) The symbol "JsonWebKey" needs to be exported by the entry point index.d.ts
+    constructor(key: JsonWebKey_2);
+    certificates: Uint8Array[];
+    keyId: string;
+}
+
+// @public (undocumented)
+export class AttestationSigningKey {
+    constructor(key: string, certificate: string);
+    // (undocumented)
+    certificate: string;
+    // (undocumented)
+    key: string;
+}
+
+// @public (undocumented)
+export class AttestationToken {
+    // (undocumented)
+    _body: any;
+    // (undocumented)
+    _bodyBytes: Uint8Array;
+    // (undocumented)
+    deserialize(): string;
+    // (undocumented)
+    get_body(): object | undefined;
+    // (undocumented)
+    _header: any;
+    // (undocumented)
+    _headerBytes: Uint8Array;
+    // (undocumented)
+    _jwsVerifier: KJUR.jws.JWS.JWSResult;
+    // (undocumented)
+    static serialize(body: string, signer?: AttestationSigningKey): AttestationToken;
+    // (undocumented)
+    _signature: Uint8Array;
+    // (undocumented)
+    _token: string;
 }
 
 // @public
@@ -207,12 +249,6 @@ export const enum KnownDataType {
 export const enum KnownPolicyModification {
     Removed = "Removed",
     Updated = "Updated"
-}
-
-// @public
-export class MetadataConfiguration {
-    constructor(client: AttestationClient);
-    get(options?: coreHttp.OperationOptions): Promise<MetadataConfigurationGetResponse>;
 }
 
 // @public
@@ -329,12 +365,6 @@ export type PolicySetModelResponse = PolicyResponse & {
 export interface RuntimeData {
     data?: Uint8Array;
     dataType?: DataType;
-}
-
-// @public
-export class SigningCertificates {
-    constructor(client: AttestationClient);
-    get(options?: coreHttp.OperationOptions): Promise<SigningCertificatesGetResponse>;
 }
 
 // @public
