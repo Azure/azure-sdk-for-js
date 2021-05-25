@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseKeyVaultSecretId } from "../../src/identifier";
+import { parseKeyVaultSecretIdentifier } from "../../src/identifier";
 import * as assert from "assert";
 
 describe("Key Vault Secrets Identifier", () => {
   it("It should work with a URI of a secret before it gets a version", async function() {
     const uri = "https://keyvault-name.vault.azure.net/secrets/secret-name/pending";
-    const identifier = parseKeyVaultSecretId(uri);
+    const identifier = parseKeyVaultSecretIdentifier(uri);
 
     assert.deepEqual(identifier, {
       sourceId: "https://keyvault-name.vault.azure.net/secrets/secret-name/pending",
@@ -19,7 +19,7 @@ describe("Key Vault Secrets Identifier", () => {
 
   it("It should work with a URI of a secret with a specific version", async function() {
     const uri = "https://keyvault-name.vault.azure.net/secrets/secret-name/version";
-    const identifier = parseKeyVaultSecretId(uri);
+    const identifier = parseKeyVaultSecretIdentifier(uri);
 
     assert.deepEqual(identifier, {
       sourceId: "https://keyvault-name.vault.azure.net/secrets/secret-name/version",
@@ -31,7 +31,7 @@ describe("Key Vault Secrets Identifier", () => {
 
   it("It should work with a deleted secret recovery ID", async function() {
     const uri = "https://keyvault-name.vault.azure.net/deletedsecrets/deleted-secret";
-    const identifier = parseKeyVaultSecretId(uri);
+    const identifier = parseKeyVaultSecretIdentifier(uri);
 
     assert.deepEqual(identifier, {
       sourceId: "https://keyvault-name.vault.azure.net/deletedsecrets/deleted-secret",

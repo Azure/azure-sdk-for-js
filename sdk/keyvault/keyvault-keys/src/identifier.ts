@@ -45,11 +45,9 @@ export interface KeyVaultKeyIdentifier {
  *      name: "<key-name>"
  *   }
  *```
- 
  * @param id - The Id of the Key Vault Key.
- * @internal
  */
-export function parseKeyVaultKeyId(id: string): KeyVaultKeyIdentifier {
+export function parseKeyVaultKeyIdentifier(id: string): KeyVaultKeyIdentifier {
   const urlParts = id.split("/");
   const collection = urlParts[3];
 
