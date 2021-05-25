@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to use the ChatThreadClient to do participant operations
+ *  @summary Demonstrates how to use the ChatThreadClient to do participant operations.
  */
 
 import { ChatClient } from "@azure/communication-chat";
