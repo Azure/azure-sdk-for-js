@@ -19,13 +19,10 @@ export class AttestationToken
         if (pieces.length != 3) {
             throw Error("Incorrectly formatted token:");
         }
-        console.log("Decode header: " + pieces[0]);
         this._headerBytes = base64UrlDecodeString(pieces[0]);
         this._header = safeJsonParse(this._headerBytes);
-        console.log("Decode body: " + pieces[1]);
         this._bodyBytes = base64UrlDecodeString(pieces[1]);
         this._body = safeJsonParse(this._headerBytes);
-        console.log("Decode signature: " + pieces[2]);
         this._signature = base64UrlDecodeString(pieces[2]);
 
         this._jwsVerifier = KJUR.jws.JWS.parse(token);

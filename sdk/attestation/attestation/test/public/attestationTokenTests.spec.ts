@@ -128,6 +128,32 @@ describe("AttestationTokenTests", function() {
       return KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV");
   }
 
+  function localDateToUtc(d : Date) : Date {
+    var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+    var utcDate = new Date(utc);
+    return utcDate;
+  }
+
+  function zeroPadding(s : string, len : number) : any {
+      if (s.length >= len) return s;
+      return new Array(len - s.length + 1).join('0') + s;
+  };
+
+  function formatDateString(dateObject : Date) : string {
+    var pad = zeroPadding;
+    var d = localDateToUtc(dateObject);
+    var year = String(d.getFullYear());
+    // Extract first two digits of year for UTC encoding.
+    year = year.substr(2, 2);
+    var month = pad(String(d.getMonth() + 1), 2);
+    var day = pad(String(d.getDate()), 2);
+    var hour = pad(String(d.getHours()), 2);
+    var min = pad(String(d.getMinutes()), 2);
+    var sec = pad(String(d.getSeconds()), 2);
+    var s = year + month + day + hour + min + sec;
+    return s + "Z";
+  }
+
   // Create a self-signed X.509 certificZTe
   function createX509Certificate(key: string, subject_name: string) : string
   {
@@ -139,8 +165,9 @@ describe("AttestationTokenTests", function() {
 
     let timeEnd = new Date();
     timeEnd.setFullYear(timeEnd.getFullYear()+1);
-    tbs.setNotBeforeByParam({'str':  new KJUR.asn1.DERUTCTime({'date': new Date()}).getString()});
-    tbs.setNotAfterByParam({'str': new KJUR.asn1.DERUTCTime({'date': timeEnd}).getString()});
+
+    tbs.setNotBeforeByParam({'str': formatDateString(timeEnd)});
+    tbs.setNotAfterByParam({'str': formatDateString(new Date())});
     tbs.setSubjectPublicKey(signing_key);
     tbs.appendExtension(new KJUR.asn1.x509.BasicConstraints({'cA':false, pathLen: 0}));
     tbs.setSubjectByParam({'str': '/CN=' + subject_name});
