@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import {
@@ -70,21 +70,21 @@ export class ModelsRepositoryClient {
    * Though currently not relevant, can specify API Version for communicating with
    * the service.
    */
-  get apiVersion() {
+  get apiVersion(): string {
     return this._apiVersion;
   }
 
   /**
    * Configured repository location for this instance. Will be used as the endpoint to get the models from.
    */
-  get repositoryLocation() {
+  get repositoryLocation(): string {
     return this._repositoryLocation;
   }
 
   /**
    * Configured type of dependency resolution for this instance. Dictates how the client deals with model dependencies.
    */
-  get dependencyResolution() {
+  get dependencyResolution(): dependencyResolutionType {
     return this._dependencyResolution;
   }
 
@@ -162,16 +162,14 @@ export class ModelsRepositoryClient {
 
   /**
    * Retrieve one or more models based upon on or more provided dtmis.
-   * @param {string} dtmis - one dtmi represented as a string
-   * @param {GetModelsOptions} options - options to govern behavior of model getter.
-   * @returns {Promise<{ [dtmi: string]: unknown}>}
+   * @param dtmis - one dtmi represented as a string
+   * @param options - options to govern behavior of model getter.
    */
   async getModels(dtmis: string, options?: GetModelsOptions): Promise<{ [dtmi: string]: unknown }>;
   /**
    * Retrieve one or more models based upon on or more provided dtmis.
-   * @param {string[]} dtmis - dtmi strings in an array.
-   * @param {GetModelsOptions} options - options to govern behavior of model getter.
-   * @returns {Promise<{ [dtmi: string]: unknown}>}
+   * @param dtmis - dtmi strings in an array.
+   * @param options - options to govern behavior of model getter.
    */
   async getModels(
     dtmis: string[],
@@ -206,9 +204,8 @@ export class ModelsRepositoryClient {
         modelMap = await this._resolver.resolve(dtmis, true, options);
       } catch (e) {
         if (e.name === "RestError" && e.code === "ResouceNotFound") {
-          let baseModelMap: { [dtmi: string]: unknown };
           logger.info("Could not retrieve model(s) from expanded model DTDL - ");
-          baseModelMap = await this._resolver.resolve(dtmis, false, options);
+          const baseModelMap: { [dtmi: string]: unknown } = await this._resolver.resolve(dtmis, false, options);
           const baseModelList = Object.keys(baseModelMap).map((key) => baseModelMap[key]);
           logger.info(`Retreiving model dependencies for ${dtmis}...`);
           modelMap = await this._pseudoParser.expand(baseModelList as DTDL[], true);

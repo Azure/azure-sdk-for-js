@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { OperationOptions, ServiceClient } from "@azure/core-client";
@@ -13,6 +13,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { logger } from "./logger";
 import { Fetcher } from "./fetcherAbstract";
+import { DTDL } from "./psuedoDtdl";
 
 /**
  * The HTTP Fetcher implements the Fetcher interface to
@@ -29,7 +30,7 @@ export class HttpFetcher implements Fetcher {
     this._baseURL = baseURL;
   }
 
-  async fetch(path: string, options: OperationOptions) {
+  async fetch(path: string, options: OperationOptions): Promise<DTDL | DTDL[]> {
     logger.info(`Fetching ${path} from remote endpoint`);
     const myURL = this._baseURL + "/" + path;
     const requestMethod: HttpMethods = "GET";
@@ -48,7 +49,7 @@ export class HttpFetcher implements Fetcher {
 
     if (res.status >= 200 && res.status < 400) {
       const dtdlAsString = res.bodyAsText || "";
-      const parsedDtdl = JSON.parse(dtdlAsString);
+      const parsedDtdl: DTDL | DTDL[] = JSON.parse(dtdlAsString);
       return parsedDtdl;
     } else {
       throw new RestError("Error on HTTP Request in remote model fetcher", {

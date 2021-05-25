@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { isAbsolute, normalize } from "path";

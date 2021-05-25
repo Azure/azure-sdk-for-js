@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { ServiceClientOptions, ServiceClient } from "@azure/core-client";
@@ -20,8 +20,9 @@ export class IoTModelsRepositoryServiceClient extends ServiceClient {
 
   /**
    * Initializes a new instance of the IoTModelsRepositoryServiceClient class.
-   * @param url The URL of the service account or table that is the target of the desired operation.
-   * @param options The parameter options
+   * 
+   * @param url - The URL of the service account or table that is the target of the desired operation.
+   * @param options - The parameter options
    */
   constructor(url: string, options: IoTModelsRepositoryServiceClientOptions = {}) {
     const defaults: IoTModelsRepositoryServiceClientOptions = {

@@ -1,6 +1,6 @@
-/* eslint-disable no-undef */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/* eslint-disable no-undef */
 
 import { ModelsRepositoryClient, ModelsRepositoryClientOptions } from "../../../src";
 
@@ -11,7 +11,7 @@ import { dependencyResolutionType } from "../../../src/dependencyResolutionType"
 import { ServiceClient } from "@azure/core-client";
 import { PipelineRequest } from "@azure/core-rest-pipeline";
 
-interface remoteResolutionScenario {
+interface RemoteResolutionScenario {
   name: string;
   clientOptions: {
     dependencyResolution: dependencyResolutionType;
@@ -26,7 +26,7 @@ interface remoteResolutionScenario {
   }[];
 }
 
-const remoteResolutionScenarios: remoteResolutionScenario[] = [
+const remoteResolutionScenarios: RemoteResolutionScenario[] = [
   {
     name: "dependencyResolution: disabled, single DTMI, no dependencies",
     clientOptions: {
@@ -137,10 +137,10 @@ describe("resolver - node", function() {
   });
 
   describe("remote URL resolution", function() {
-    remoteResolutionScenarios.forEach((scenario: remoteResolutionScenario) => {
+    remoteResolutionScenarios.forEach((scenario: RemoteResolutionScenario) => {
       it(scenario.name, function(done) {
         console.log(scenario.name);
-        let myStub = sinon.stub(ServiceClient.prototype, "sendRequest");
+        const myStub = sinon.stub(ServiceClient.prototype, "sendRequest");
         for (let i = 0; i < scenario.dtmis.length; i++) {
           myStub.onCall(i).callsFake((request: PipelineRequest) => {
             expect(request.url, "URL not formatted for request correctly.").to.deep.equal(
@@ -168,7 +168,7 @@ describe("resolver - node", function() {
         result
           .then((actualOutput: any) => {
             expect(actualOutput).to.deep.equal(expectedOutput);
-            done();
+            return done();
           })
           .catch((err: any) => done(err));
       });

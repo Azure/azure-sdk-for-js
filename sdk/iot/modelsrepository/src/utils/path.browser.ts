@@ -1,10 +1,10 @@
-// Copyright (c) Microsoft.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function isLocalPath() {
+export function isLocalPath(): boolean {
   return false;
 }
 
-export function normalize(text: string) {
+export function normalize(text: string): string {
   return text;
 }

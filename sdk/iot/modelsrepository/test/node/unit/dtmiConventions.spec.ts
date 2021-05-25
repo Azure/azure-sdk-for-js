@@ -44,7 +44,7 @@ describe("dtmiConventions", function() {
       } else {
         it(`invalid dtmi - ${testCase.dtmi}`, function() {
           const result = lib.isValidDtmi(testCase.dtmi);
-          expect(result, `${testCase.dtmi} was incorrectly labelled as valid.`).to.be.false;
+          expect(result, `${testCase.dtmi} was incorrectly labelled as valid.`).to.equal(false);
         });
       }
     });

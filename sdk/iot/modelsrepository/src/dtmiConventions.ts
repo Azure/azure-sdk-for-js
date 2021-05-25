@@ -1,14 +1,12 @@
-// Copyright (c) Microsoft.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 /**
- * isValidDtmi
- * @description given a dtmi it will validate it matches the convention.
+ * isValidDtmi validates if a given dtmi matches the convention.
  * This is based on the DTMI spec:
  * https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#digital-twin-model-identifier
  *
- * @param dtmi
- * @returns {boolean}
+ * @param dtmi - digital twins model identifier string
  */
 export function isValidDtmi(dtmi: string): boolean {
   if (typeof dtmi !== "string") return false;
@@ -17,13 +15,11 @@ export function isValidDtmi(dtmi: string): boolean {
 }
 
 /**
- * getModelUri
- * @description given the dtmi and repository uri, will get a fully qualified model uri.
+ * Given the dtmi and repository uri, will get a fully qualified model uri.
  *
- * @param dtmi
- * @param repositoryUri
- * @param expanded
- * @returns {string}
+ * @param dtmi - digital twins model identifier string
+ * @param repositoryUri - base URI for repository
+ * @param expanded - is the Model URI .json or .expanded.json
  */
 export function getModelUri(
   dtmi: string,
@@ -38,11 +34,10 @@ export function getModelUri(
 }
 
 /**
- * convertDtmiToPath
- * @description converts a dtmi into the model path format.
+ * convertDtmiToPath converts a given dtmi string to a path.
  *
- * @param dtmi
- * @param expanded
+ * @param dtmi - digital twins model identifier string
+ * @param expanded - is the Model URI .json or .expanded.json
  * @internal
  */
 export function convertDtmiToPath(dtmi: string, expanded: boolean): string {

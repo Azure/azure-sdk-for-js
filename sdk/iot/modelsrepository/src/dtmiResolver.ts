@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
@@ -49,7 +49,7 @@ export class DtmiResolver {
         }
       } else {
         const model = dtdl as DTDL;
-        if (model["@id"] != dtmi) {
+        if (model["@id"] !== dtmi) {
           throw new ModelError(`DTMI mismatch - Request: ${dtmi}, Response ${model["@id"]}`);
         }
 

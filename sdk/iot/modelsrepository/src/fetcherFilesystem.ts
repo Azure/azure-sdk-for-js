@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import fs from "fs";
@@ -8,10 +8,10 @@ import { Fetcher } from "./fetcherAbstract";
 import { logger } from "./logger";
 import { DTDL } from "./psuedoDtdl";
 
-function readFilePromise(path: string): Promise<string> {
-  return new Promise((res, rej) => {
-    fs.readFile(path, "utf8", (err, data) => {
-      err ? rej(err) : res(data);
+function readFilePromise(filePath: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, "utf8", (err, data) => {
+      err ? reject(err) : resolve(data);
       return 0;
     });
   });
@@ -30,7 +30,7 @@ export class FilesystemFetcher implements Fetcher {
     this._baseFilePath = baseFilePath;
   }
 
-  async fetch(filePath: string) {
+  async fetch(filePath: string): Promise<DTDL | DTDL[]> {
     logger.info(`Fetching ${filePath} from local filesystem`);
     const absolutePath = path.join(this._baseFilePath, filePath);
     if (absolutePath.indexOf(this._baseFilePath) !== 0) {

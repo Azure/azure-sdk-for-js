@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { DTDL } from "./psuedoDtdl";
@@ -24,8 +24,8 @@ export class PseudoParser {
     this._resolver = resolver;
   }
 
-  async expand(models: DTDL[], tryFromExpanded: boolean) {
-    let expandedMap: { [dtmi: string]: DTDL } = {};
+  async expand(models: DTDL[], tryFromExpanded: boolean): Promise<{[dtmi: string]: DTDL}> {
+    const expandedMap: { [dtmi: string]: DTDL } = {};
     for (let i = 0; i < models.length; i++) {
       const model: DTDL = models[i];
       if (model["@id"] !== undefined) {
@@ -40,8 +40,8 @@ export class PseudoParser {
 
   private async _expand(model: DTDL, modelMap: { [dtmi: string]: DTDL }, tryFromExpanded: boolean): Promise<void> {
     logger.info(`Expanding model: ${model["@id"]}`);
-    let dependencies = this._getModelDependencies(model);
-    let dependenciesToResolve = dependencies.filter((dependency: string) => {
+    const dependencies = this._getModelDependencies(model);
+    const dependenciesToResolve = dependencies.filter((dependency: string) => {
       return !(dependency in modelMap);
     });
     if (dependenciesToResolve.length !== 0) {
@@ -71,7 +71,7 @@ export class PseudoParser {
   }
 
   private _getModelDependencies(model: DTDL) {
-    let dependencies = [];
+    const dependencies = [];
 
     if (model.contents !== undefined) {
       const contents = model.contents;
@@ -102,7 +102,7 @@ export class PseudoParser {
       }
     }
 
-    dependencies = Array.from(new Set(dependencies));
-    return dependencies;
+    const noDuplicates = Array.from(new Set(dependencies));
+    return noDuplicates;
   }
 }
