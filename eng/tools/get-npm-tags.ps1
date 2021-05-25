@@ -5,12 +5,20 @@ param (
   $workingDirectory
 )
 
-$EngPath = Resolve-Path "${PSScriptRoot}/.."
-$Engcommon = Join-Path $EngPath "common"
-$EngCommonScriptsPath = Join-Path $Engcommon "scripts"
-. (Join-Path $EngCommonScriptsPath common.ps1)
-
+. (Join-Path $PSScriptRoot npm-helpers.ps1)
+$pkgProps = Get-PackageProperties -packageArtifact $packageArtifact -workingDirectory $workingDirectory
+if ($pkgProps -eq $null)
+{
+  Write-Error "Failed to parse package artifact $packageArtifact to get package name"
+  exit 1
+}
+$packageName = $pkgProps.PackageId
+$packageVersion = $pkgProps.PackageVersion
+$newVersion = [AzureEngSemanticVersion]::ParseVersionString($packageVersion)
+Write-Host "Package name: $packageName"
+Write-Host "Package version: $packageVersion"
 Write-Host "Find latest and next versions in npm registry for package"
+
 <#
 1. Get latest GA and latest preview from npm
 2. Check new version to be published to find is it GA or preview
@@ -20,95 +28,60 @@ Write-Host "Find latest and next versions in npm registry for package"
    a. Set LATEST if package has never GA released
    b. Set NEXT tag
 #>
-$packageName = $null
-$packageVersion = $null
-if ($GetPackageInfoFromPackageFileFn -and (Test-Path "Function:$GetPackageInfoFromPackageFileFn"))
+$npmVersionInfo = Get-LatestVersionInfoFromNpm -packageName $packageName
+if ($npmVersionInfo -eq $null)
 {
-    $pkgProps = &$GetPackageInfoFromPackageFileFn -pkg $packageArtifact -workingDirectory $workingDirectory
-    $packageName = $pkgProps.PackageId
-    $packageVersion = $pkgProps.PackageVersion
+  # Version info object should not be null even if package is not present in npm
+  Write-Error "Failed to get version info from NPM registry."
+  exit 1
 }
-else
-{
-  Write-Error "The function for '$GetPackageInfoFromPackageFileFn' was not found.`
-  Make sure it is present in eng/scripts/Language-Settings.ps1 and referenced in eng/common/scripts/common.ps1.`
-  See https://github.com/Azure/azure-sdk-tools/blob/master/doc/common/common_engsys.md#code-structure"
-}
-
-
-$latestGAVersion = npm show $packageName@latest version
-$latestPreviewVersion = npm show $packageName@next version
-Write-Host "Latest GA version: $latestGAVersion"
-Write-Host "Latest preview version: $latestPreviewVersion"
-if ( $latestPreviewVersion -eq $null)
-{
-    Write-Host "'Next' tag is not present in npm registry for package $packageName"
-}
-else
-{
-  $latestPreviewVersion = [AzureEngSemanticVersion]::ParseVersionString($latestPreviewVersion)
-}
-
-if ( $latestGAVersion -eq $null)
-{
-    Write-Host "GA version is not present in npm registry for package $packageName"
-}
-else
-{
-  $latestGAVersion = [AzureEngSemanticVersion]::ParseVersionString($latestGAVersion)
-}
-
-$newVersion = [AzureEngSemanticVersion]::ParseVersionString($packageVersion)
+$latestVersion = $npmVersionInfo.Latest
+$nextVersion = $npmVersionInfo.Next
 
 $setLatest = $false
 $setNext = $false
-
 # Set Latest tag if new version is higher than current GA or if package has never GA released before
-if ((-not $newVersion.IsPreRelease) -and ($latestGAVersion -eq $null -or $newVersion.CompareTo($latestGAVersion) -eq 1))
-{
-    $setLatest = $true
+if ((!$newVersion.IsPreRelease) -and ($latestVersion -eq $null -or $newVersion.CompareTo($latestVersion) -eq 1)) {
+  $setLatest = $true
 }
 
-if ($newVersion.PrereleaseLabel -eq "preview")
+if ($newVersion.PrereleaseLabel -eq "preview" -or $newVersion.PrereleaseLabel -eq "beta")
 {
-    # Set next tag if new preview is higher than both GA and current preview
-    $highestNpmVersion = $latestPreviewVersion
-    if (($highestNpmVersion -eq $null) -or ($latestGAVersion -ne $null -and $latestGAVersion.CompareTo($highestNpmVersion) -eq 1)) {
-        $highestNpmVersion = $latestGAVersion
+  Write-Host "Checking for next version tag"
+  # Set next tag if new preview is higher than both GA and current preview
+  $highestNpmVersion = Find-RecentPackageVersion -packageName $packageName
+  # New version is preview and if package is getting released first time or higher than currently available
+  if ($highestNpmVersion -eq $null -or $newVersion.CompareTo($highestNpmVersion) -eq 1)
+  {
+    $setNext = $true
+    # Set latest tag if package was never GA released
+    if ($latestVersion -eq $null) {
+      $setLatest = $true
     }
-
-    # New version is preview and if package is getting released first time or higher than currently available
-    if ($highestNpmVersion -eq $null -or $newVersion.CompareTo($highestNpmVersion) -eq 1)
-    {
-        $setNext = $true
-        # Set latest tag if package was never GA released
-        if ($latestGAVersion -eq $null) {
-            $setLatest = $true
-        }
-    }    
+  }    
 }
 
 $tag = ""
 $additionalTag = ""
 if ($setLatest)
 {
-  Write-Host "Setting Tag to latest"
-  $tag = "latest"
-  if ($result.setNext)
-  {
-    Write-Host "Setting AdditionalTag to next"
-    $additionalTag = "next"
-  }
+    Write-Host "Setting Tag to latest"
+    $tag = "latest"
+    if ($setNext)
+    {
+        Write-Host "Setting AdditionalTag to next"
+        $additionalTag = "next"
+    }
 }
-elseif ($result.setNext)
+elseif ($setNext)
 {
-  Write-Host "Setting Tag to next"
-  $tag = "next"
+    Write-Host "Setting Tag to next"
+    $tag = "next"
 }
 
 $result = New-Object PSObject -Property @{
-  Tag = $tag
-  AdditionalTag = $additionalTag
+    Tag = $tag
+    AdditionalTag = $additionalTag
 }
 write-Host $result
 return $result
