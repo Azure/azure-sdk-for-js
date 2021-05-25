@@ -28,9 +28,8 @@ export type DataFeedDetailUnion =
   | AzureDataExplorerDataFeed
   | AzureDataLakeStorageGen2DataFeed
   | AzureEventHubsDataFeed
+  | AzureLogAnalyticsDataFeed
   | AzureTableDataFeed
-  | ElasticsearchDataFeed
-  | HttpRequestDataFeed
   | InfluxDBDataFeed
   | MySqlDataFeed
   | PostgreSqlDataFeed
@@ -44,9 +43,8 @@ export type DataFeedDetailPatchUnion =
   | AzureDataExplorerDataFeedPatch
   | AzureDataLakeStorageGen2DataFeedPatch
   | AzureEventHubsDataFeedPatch
+  | AzureLogAnalyticsDataFeedPatch
   | AzureTableDataFeedPatch
-  | ElasticsearchDataFeedPatch
-  | HttpRequestDataFeedPatch
   | InfluxDBDataFeedPatch
   | MySqlDataFeedPatch
   | PostgreSqlDataFeedPatch
@@ -227,14 +225,26 @@ export interface AlertResultList {
 }
 
 export interface AlertResult {
-  /** alert id */
-  alertId: string;
-  /** anomaly time */
-  timestamp: Date;
-  /** created time */
-  createdTime: Date;
-  /** modified time */
-  modifiedTime: Date;
+  /**
+   * alert id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly alertId?: string;
+  /**
+   * anomaly time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timestamp?: Date;
+  /**
+   * created time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * modified time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedTime?: Date;
 }
 
 export interface AnomalyResultList {
@@ -318,7 +328,7 @@ export interface IncidentResult {
   /**
    * data feed unique id
    *
-   * only return for alerting incident result
+   * only return for alerting anomaly result
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dataFeedId?: string;
@@ -483,23 +493,86 @@ export interface AnomalyDetectionConfigurationPatch {
   name?: string;
   /** anomaly detection configuration description */
   description?: string;
-  wholeMetricConfiguration?: WholeMetricConfiguration;
+  wholeMetricConfiguration?: WholeMetricConfigurationPatch;
   /** detection configuration for series group */
   dimensionGroupOverrideConfigurations?: DimensionGroupConfiguration[];
   /** detection configuration for specific series */
   seriesOverrideConfigurations?: SeriesConfiguration[];
 }
 
+export interface WholeMetricConfigurationPatch {
+  /**
+   * condition operator
+   *
+   * should be specified when combining multiple detection conditions
+   */
+  conditionOperator?: AnomalyDetectionConfigurationLogicType;
+  smartDetectionCondition?: SmartDetectionConditionPatch;
+  hardThresholdCondition?: HardThresholdConditionPatch;
+  changeThresholdCondition?: ChangeThresholdConditionPatch;
+}
+
+export interface SmartDetectionConditionPatch {
+  /** sensitivity, value range : (0, 100] */
+  sensitivity?: number;
+  /** detection direction */
+  anomalyDetectorDirection?: AnomalyDetectorDirection;
+  suppressCondition?: SuppressConditionPatch;
+}
+
+export interface SuppressConditionPatch {
+  /** min point number, value range : [1, +∞) */
+  minNumber?: number;
+  /** min point ratio, value range : (0, 100] */
+  minRatio?: number;
+}
+
+export interface HardThresholdConditionPatch {
+  /**
+   * lower bound
+   *
+   * should be specified when anomalyDetectorDirection is Both or Down
+   */
+  lowerBound?: number;
+  /**
+   * upper bound
+   *
+   * should be specified when anomalyDetectorDirection is Both or Up
+   */
+  upperBound?: number;
+  /** detection direction */
+  anomalyDetectorDirection?: AnomalyDetectorDirection;
+  suppressCondition?: SuppressConditionPatch;
+}
+
+export interface ChangeThresholdConditionPatch {
+  /** change percentage, value range : [0, +∞) */
+  changePercentage?: number;
+  /** shift point, value range : [1, +∞) */
+  shiftPoint?: number;
+  /**
+   * if the withinRange = true, detected data is abnormal when the value falls in the range, in this case anomalyDetectorDirection must be Both
+   * if the withinRange = false, detected data is abnormal when the value falls out of the range
+   */
+  withinRange?: boolean;
+  /** detection direction */
+  anomalyDetectorDirection?: AnomalyDetectorDirection;
+  suppressCondition?: SuppressConditionPatch;
+}
+
 export interface AnomalyAlertingConfigurationList {
-  value: AnomalyAlertingConfiguration[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: AnomalyAlertingConfiguration[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly nextLink?: string;
 }
 
 export interface DetectionSeriesQuery {
-  /** start time */
+  /** This is inclusive. The maximum number of data points (series number * time range) is 10000. */
   startTime: Date;
-  /** end time */
+  /** This is exclusive. The maximum number of data points (series number * time range) is 10000. */
   endTime: Date;
-  /** series */
+  /** The series to be queried. The identity must be able to define one single time series instead of a group of time series. The maximum number of series is 100. */
   series: SeriesIdentity[];
 }
 
@@ -634,19 +707,6 @@ export interface DataFeedList {
   readonly value?: DataFeedDetailUnion[];
 }
 
-export interface DataSourceCredentialPatch {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dataSourceCredentialType:
-    | "AzureSQLConnectionString"
-    | "DataLakeGen2SharedKey"
-    | "ServicePrincipal"
-    | "ServicePrincipalInKV";
-  /** Name of data source credential */
-  dataSourceCredentialName?: string;
-  /** Description of data source credential */
-  dataSourceCredentialDescription?: string;
-}
-
 export interface DataFeedDetail {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType:
@@ -656,9 +716,8 @@ export interface DataFeedDetail {
     | "AzureDataExplorer"
     | "AzureDataLakeStorageGen2"
     | "AzureEventHubs"
+    | "AzureLogAnalytics"
     | "AzureTable"
-    | "Elasticsearch"
-    | "HttpRequest"
     | "InfluxDB"
     | "MySql"
     | "PostgreSql"
@@ -771,9 +830,8 @@ export interface DataFeedDetailPatch {
     | "AzureDataExplorer"
     | "AzureDataLakeStorageGen2"
     | "AzureEventHubs"
+    | "AzureLogAnalytics"
     | "AzureTable"
-    | "Elasticsearch"
-    | "HttpRequest"
     | "InfluxDB"
     | "MySql"
     | "PostgreSql"
@@ -875,7 +933,8 @@ export interface MetricFeedbackList {
 export interface HookList {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
-  value: HookInfoUnion[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: HookInfoUnion[];
 }
 
 export interface HookInfo {
@@ -925,7 +984,8 @@ export interface IngestionStatusQueryOptions {
 export interface IngestionStatusList {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
-  value: IngestionStatus[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: IngestionStatus[];
 }
 
 export interface IngestionStatus {
@@ -969,16 +1029,17 @@ export interface DataFeedIngestionProgress {
 }
 
 export interface MetricDataQueryOptions {
-  /** start time of query a time series data, and format should be yyyy-MM-ddThh:mm:ssZ */
+  /** start time of query a time series data, and format should be yyyy-MM-ddThh:mm:ssZ. The maximum number of data points (series number * time range) is 10000. */
   startTime: Date;
-  /** start time of query a time series data, and format should be yyyy-MM-ddThh:mm:ssZ */
+  /** start time of query a time series data, and format should be yyyy-MM-ddThh:mm:ssZ. The maximum number of data points (series number * time range) is 10000. */
   endTime: Date;
-  /** query specific series */
+  /** query specific series. The maximum number of series is 100. */
   series: { [propertyName: string]: string }[];
 }
 
 export interface MetricDataList {
-  value: MetricDataItem[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: MetricDataItem[];
 }
 
 export interface MetricDataItem {
@@ -1018,7 +1079,8 @@ export interface MetricSeriesQueryOptions {
 export interface MetricSeriesList {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
-  value: MetricSeriesItem[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: MetricSeriesItem[];
 }
 
 export interface MetricDimensionQueryOptions {
@@ -1036,7 +1098,10 @@ export interface MetricDimensionList {
 }
 
 export interface AnomalyDetectionConfigurationList {
-  value: AnomalyDetectionConfiguration[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: AnomalyDetectionConfiguration[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly nextLink?: string;
 }
 
 export interface EnrichmentStatusQueryOption {
@@ -1105,115 +1170,242 @@ export interface ServicePrincipalInKVParam {
   tenantId: string;
 }
 
+export interface AzureSQLConnectionStringParamPatch {
+  /** The connection string to access the Azure SQL. */
+  connectionString?: string;
+}
+
+export interface DataLakeGen2SharedKeyParamPatch {
+  /** The account key to access the Azure Data Lake Storage Gen2. */
+  accountKey?: string;
+}
+
+export interface ServicePrincipalParamPatch {
+  /** The client id of the service principal. */
+  clientId?: string;
+  /** The client secret of the service principal. */
+  clientSecret?: string;
+  /** The tenant id of the service principal. */
+  tenantId?: string;
+}
+
+export interface ServicePrincipalInKVParamPatch {
+  /** The Key Vault endpoint that storing the service principal. */
+  keyVaultEndpoint?: string;
+  /** The Client Id to access the Key Vault. */
+  keyVaultClientId?: string;
+  /** The Client Secret to access the Key Vault. */
+  keyVaultClientSecret?: string;
+  /** The secret name of the service principal's client Id in the Key Vault. */
+  servicePrincipalIdNameInKV?: string;
+  /** The secret name of the service principal's client secret in the Key Vault. */
+  servicePrincipalSecretNameInKV?: string;
+  /** The tenant id of your service principal. */
+  tenantId?: string;
+}
+
 export interface AzureApplicationInsightsParameter {
-  /** Azure cloud environment */
-  azureCloud: string;
-  /** Azure Application Insights ID */
-  applicationId: string;
-  /** API Key */
-  apiKey: string;
-  /** Query */
+  /** The Azure cloud that this Azure Application Insights in */
+  azureCloud?: string;
+  /** The application id of this Azure Application Insights */
+  applicationId?: string;
+  /** The API Key that can access this Azure Application Insights */
+  apiKey?: string;
+  /** The statement to query this Azure Application Insights */
   query: string;
 }
 
 export interface AzureBlobParameter {
-  /** Azure Blob connection string */
-  connectionString: string;
-  /** Container */
+  /** The connection string of this Azure Blob */
+  connectionString?: string;
+  /** The container name in this Azure Blob */
   container: string;
-  /** Blob Template */
+  /** The path template in this container */
   blobTemplate: string;
 }
 
 export interface AzureCosmosDBParameter {
-  /** Azure CosmosDB connection string */
-  connectionString: string;
-  /** Query script */
+  /** The connection string of this Azure CosmosDB */
+  connectionString?: string;
+  /** The statement to query this collection */
   sqlQuery: string;
-  /** Database name */
+  /** A database name in this Azure CosmosDB */
   database: string;
-  /** Collection id */
+  /** A collection id in this database */
   collectionId: string;
 }
 
 export interface SqlSourceParameter {
-  /** Database connection string */
+  /** The connection string of this database */
   connectionString?: string;
-  /** Query script */
+  /** The script to query this database */
   query: string;
 }
 
 export interface AzureDataLakeStorageGen2Parameter {
-  /** Account name */
-  accountName: string;
-  /** Account key */
+  /** The account name of this Azure Data Lake */
+  accountName?: string;
+  /** The account key that can access this Azure Data Lake */
   accountKey?: string;
-  /** File system name (Container) */
+  /** The file system (container) name in this Azure Data Lake */
   fileSystemName: string;
-  /** Directory template */
+  /** The directory template under this file system */
   directoryTemplate: string;
-  /** File template */
+  /** The file template */
   fileTemplate: string;
 }
 
 export interface AzureEventHubsParameter {
-  /** Azure Event Hubs connection string */
-  connectionString: string;
-  /** Azure Event Hubs consumer group */
+  /** The connection string of this Azure Event Hubs */
+  connectionString?: string;
+  /** The consumer group to be used in this data feed */
   consumerGroup: string;
 }
 
+export interface AzureLogAnalyticsParameter {
+  /** The tenant id of service principal that have access to this Log Analytics */
+  tenantId?: string;
+  /** The client id of service principal that have access to this Log Analytics */
+  clientId?: string;
+  /** The client secret of service principal that have access to this Log Analytics */
+  clientSecret?: string;
+  /** The workspace id of this Log Analytics */
+  workspaceId: string;
+  /** The KQL (Kusto Query Language) query to fetch data from this Log Analytics */
+  query: string;
+}
+
 export interface AzureTableParameter {
-  /** Azure Table connection string */
-  connectionString: string;
-  /** Table name */
+  /** The connection string of this Azure Table */
+  connectionString?: string;
+  /** A table name in this Azure Table */
   table: string;
-  /** Query script */
+  /** The statement to query this table. Please find syntax and details from Azure Table documents. */
   query: string;
-}
-
-export interface ElasticsearchParameter {
-  /** Host */
-  host: string;
-  /** Port */
-  port: string;
-  /** Authorization header */
-  authHeader: string;
-  /** Query */
-  query: string;
-}
-
-export interface HttpRequestParameter {
-  /** HTTP URL */
-  url: string;
-  /** HTTP header */
-  httpHeader: string;
-  /** HTTP method */
-  httpMethod: string;
-  /** HTTP request body */
-  payload: string;
 }
 
 export interface InfluxDBParameter {
-  /** InfluxDB connection string */
-  connectionString: string;
-  /** Database name */
-  database: string;
-  /** Database access user */
-  userName: string;
-  /** Database access password */
-  password: string;
-  /** Query script */
+  /** The connection string of this InfluxDB */
+  connectionString?: string;
+  /** A database name */
+  database?: string;
+  /** The user name of the account that can access this database */
+  userName?: string;
+  /** The password of the account that can access this database */
+  password?: string;
+  /** The script to query this database */
   query: string;
 }
 
 export interface MongoDBParameter {
-  /** MongoDB connection string */
-  connectionString: string;
-  /** Database name */
-  database: string;
-  /** Query script */
+  /** The connection string of this MongoDB */
+  connectionString?: string;
+  /** A database name in this MongoDB */
+  database?: string;
+  /** The script to query this database */
   command: string;
+}
+
+export interface AzureApplicationInsightsParameterPatch {
+  /** The Azure cloud that this Azure Application Insights in */
+  azureCloud?: string;
+  /** The application id of this Azure Application Insights */
+  applicationId?: string;
+  /** The API Key that can access this Azure Application Insights */
+  apiKey?: string;
+  /** The statement to query this Azure Application Insights */
+  query?: string;
+}
+
+export interface AzureBlobParameterPatch {
+  /** The connection string of this Azure Blob */
+  connectionString?: string;
+  /** The container name in this Azure Blob */
+  container?: string;
+  /** The path template in this container */
+  blobTemplate?: string;
+}
+
+export interface AzureCosmosDBParameterPatch {
+  /** The connection string of this Azure CosmosDB */
+  connectionString?: string;
+  /** The statement to query this collection */
+  sqlQuery?: string;
+  /** A database name in this Azure CosmosDB */
+  database?: string;
+  /** A collection id in this database */
+  collectionId?: string;
+}
+
+export interface SQLSourceParameterPatch {
+  /** The connection string of this database */
+  connectionString?: string;
+  /** The script to query this database */
+  query?: string;
+}
+
+export interface AzureDataLakeStorageGen2ParameterPatch {
+  /** The account name of this Azure Data Lake */
+  accountName?: string;
+  /** The account key that can access this Azure Data Lake */
+  accountKey?: string;
+  /** The file system (container) name in this Azure Data Lake */
+  fileSystemName?: string;
+  /** The directory template under this file system */
+  directoryTemplate?: string;
+  /** The file template */
+  fileTemplate?: string;
+}
+
+export interface AzureEventHubsParameterPatch {
+  /** The connection string of this Azure Event Hubs */
+  connectionString?: string;
+  /** The consumer group to be used in this data feed */
+  consumerGroup?: string;
+}
+
+export interface AzureLogAnalyticsParameterPatch {
+  /** The tenant id of service principal that have access to this Log Analytics */
+  tenantId?: string;
+  /** The client id of service principal that have access to this Log Analytics */
+  clientId?: string;
+  /** The client secret of service principal that have access to this Log Analytics */
+  clientSecret?: string;
+  /** The workspace id of this Log Analytics */
+  workspaceId?: string;
+  /** The KQL (Kusto Query Language) query to fetch data from this Log Analytics */
+  query?: string;
+}
+
+export interface AzureTableParameterPatch {
+  /** The connection string of this Azure Table */
+  connectionString?: string;
+  /** A table name in this Azure Table */
+  table?: string;
+  /** The statement to query this table. Please find syntax and details from Azure Table documents. */
+  query?: string;
+}
+
+export interface InfluxDBParameterPatch {
+  /** The connection string of this InfluxDB */
+  connectionString?: string;
+  /** A database name */
+  database?: string;
+  /** The user name of the account that can access this database */
+  userName?: string;
+  /** The password of the account that can access this database */
+  password?: string;
+  /** The script to query this database */
+  query?: string;
+}
+
+export interface MongoDBParameterPatch {
+  /** The connection string of this MongoDB */
+  connectionString?: string;
+  /** A database name in this MongoDB */
+  database?: string;
+  /** The script to query this database */
+  command?: string;
 }
 
 export interface AnomalyFeedbackValue {
@@ -1244,15 +1436,35 @@ export interface EmailHookParameter {
 export interface WebhookHookParameter {
   /** API address, will be called when alert is triggered, only support POST method via SSL */
   endpoint: string;
-  /** basic authentication */
+  /** (Deprecated) The username, if using basic authentication */
   username?: string;
-  /** basic authentication */
+  /** (Deprecated) The password, if using basic authentication */
   password?: string;
   /** custom headers in api call */
   headers?: { [propertyName: string]: string };
-  /** client certificate */
+  /** The certificate key/URL, if using client certificate, please read documents for more informations. */
   certificateKey?: string;
-  /** client certificate password */
+  /** The certificate password, if using client certificate, please read documents for more informations. */
+  certificatePassword?: string;
+}
+
+export interface EmailHookParameterPatch {
+  /** Email TO: list. */
+  toList?: string[];
+}
+
+export interface WebhookHookParameterPatch {
+  /** API address, will be called when alert is triggered, only support POST method via SSL */
+  endpoint?: string;
+  /** (Deprecated) The username, if using basic authentication */
+  username?: string;
+  /** (Deprecated) The password, if using basic authentication */
+  password?: string;
+  /** custom headers in api call */
+  headers?: { [propertyName: string]: string };
+  /** The certificate key, if using client certificate */
+  certificateKey?: string;
+  /** The certificate password, if using client certificate */
   certificatePassword?: string;
 }
 
@@ -1283,25 +1495,25 @@ export type ServicePrincipalInKVCredential = DataSourceCredential & {
 export type AzureSQLConnectionStringCredentialPatch = DataSourceCredentialPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "AzureSQLConnectionString";
-  parameters?: AzureSQLConnectionStringParam;
+  parameters?: AzureSQLConnectionStringParamPatch;
 };
 
 export type DataLakeGen2SharedKeyCredentialPatch = DataSourceCredentialPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "DataLakeGen2SharedKey";
-  parameters?: DataLakeGen2SharedKeyParam;
+  parameters?: DataLakeGen2SharedKeyParamPatch;
 };
 
 export type ServicePrincipalCredentialPatch = DataSourceCredentialPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "ServicePrincipal";
-  parameters?: ServicePrincipalParam;
+  parameters?: ServicePrincipalParamPatch;
 };
 
 export type ServicePrincipalInKVCredentialPatch = DataSourceCredentialPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "ServicePrincipalInKV";
-  parameters?: ServicePrincipalInKVParam;
+  parameters?: ServicePrincipalInKVParamPatch;
 };
 
 export type AzureApplicationInsightsDataFeed = DataFeedDetail & {
@@ -1340,22 +1552,16 @@ export type AzureEventHubsDataFeed = DataFeedDetail & {
   dataSourceParameter: AzureEventHubsParameter;
 };
 
+export type AzureLogAnalyticsDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureLogAnalytics";
+  dataSourceParameter: AzureLogAnalyticsParameter;
+};
+
 export type AzureTableDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureTable";
   dataSourceParameter: AzureTableParameter;
-};
-
-export type ElasticsearchDataFeed = DataFeedDetail & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dataSourceType: "Elasticsearch";
-  dataSourceParameter: ElasticsearchParameter;
-};
-
-export type HttpRequestDataFeed = DataFeedDetail & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dataSourceType: "HttpRequest";
-  dataSourceParameter: HttpRequestParameter;
 };
 
 export type InfluxDBDataFeed = DataFeedDetail & {
@@ -1391,85 +1597,79 @@ export type MongoDBDataFeed = DataFeedDetail & {
 export type AzureApplicationInsightsDataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureApplicationInsights";
-  dataSourceParameter?: AzureApplicationInsightsParameter;
+  dataSourceParameter?: AzureApplicationInsightsParameterPatch;
 };
 
 export type AzureBlobDataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureBlob";
-  dataSourceParameter?: AzureBlobParameter;
+  dataSourceParameter?: AzureBlobParameterPatch;
 };
 
 export type AzureCosmosDBDataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureCosmosDB";
-  dataSourceParameter?: AzureCosmosDBParameter;
+  dataSourceParameter?: AzureCosmosDBParameterPatch;
 };
 
 export type AzureDataExplorerDataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureDataExplorer";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter?: SQLSourceParameterPatch;
 };
 
 export type AzureDataLakeStorageGen2DataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureDataLakeStorageGen2";
-  dataSourceParameter?: AzureDataLakeStorageGen2Parameter;
+  dataSourceParameter?: AzureDataLakeStorageGen2ParameterPatch;
 };
 
 export type AzureEventHubsDataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureEventHubs";
-  dataSourceParameter?: AzureEventHubsParameter;
+  dataSourceParameter?: AzureEventHubsParameterPatch;
+};
+
+export type AzureLogAnalyticsDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureLogAnalytics";
+  dataSourceParameter?: AzureLogAnalyticsParameterPatch;
 };
 
 export type AzureTableDataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureTable";
-  dataSourceParameter?: AzureTableParameter;
-};
-
-export type ElasticsearchDataFeedPatch = DataFeedDetailPatch & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dataSourceType: "Elasticsearch";
-  dataSourceParameter?: ElasticsearchParameter;
-};
-
-export type HttpRequestDataFeedPatch = DataFeedDetailPatch & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dataSourceType: "HttpRequest";
-  dataSourceParameter?: HttpRequestParameter;
+  dataSourceParameter?: AzureTableParameterPatch;
 };
 
 export type InfluxDBDataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "InfluxDB";
-  dataSourceParameter?: InfluxDBParameter;
+  dataSourceParameter?: InfluxDBParameterPatch;
 };
 
 export type MySqlDataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "MySql";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter?: SQLSourceParameterPatch;
 };
 
 export type PostgreSqlDataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "PostgreSql";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter?: SQLSourceParameterPatch;
 };
 
 export type SQLServerDataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "SqlServer";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter?: SQLSourceParameterPatch;
 };
 
 export type MongoDBDataFeedPatch = DataFeedDetailPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "MongoDB";
-  dataSourceParameter?: MongoDBParameter;
+  dataSourceParameter?: MongoDBParameterPatch;
 };
 
 export type AnomalyFeedback = MetricFeedback & {
@@ -1526,13 +1726,13 @@ export type WebhookHookInfo = HookInfo & {
 export type EmailHookInfoPatch = HookInfoPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   hookType: "Email";
-  hookParameter?: EmailHookParameter;
+  hookParameter?: EmailHookParameterPatch;
 };
 
 export type WebhookHookInfoPatch = HookInfoPatch & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   hookType: "Webhook";
-  hookParameter?: WebhookHookParameter;
+  hookParameter?: WebhookHookParameterPatch;
 };
 
 /** Defines headers for GeneratedClient_createAnomalyAlertingConfiguration operation. */
@@ -1607,9 +1807,8 @@ export type DataSourceType =
   | "AzureDataExplorer"
   | "AzureDataLakeStorageGen2"
   | "AzureEventHubs"
+  | "AzureLogAnalytics"
   | "AzureTable"
-  | "Elasticsearch"
-  | "HttpRequest"
   | "InfluxDB"
   | "MongoDB"
   | "MySql"
@@ -1694,6 +1893,18 @@ export type GeneratedClientGetAnomalyAlertingConfigurationResponse = AnomalyAler
   };
 };
 
+/** Contains response data for the updateAnomalyAlertingConfiguration operation. */
+export type GeneratedClientUpdateAnomalyAlertingConfigurationResponse = AnomalyAlertingConfiguration & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: AnomalyAlertingConfiguration;
+  };
+};
+
 /** Contains response data for the createAnomalyAlertingConfiguration operation. */
 export type GeneratedClientCreateAnomalyAlertingConfigurationResponse = GeneratedClientCreateAnomalyAlertingConfigurationHeaders & {
   /** The underlying HTTP response. */
@@ -1730,7 +1941,7 @@ export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /** Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfiguration operation. */
@@ -1751,7 +1962,7 @@ export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /** Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfiguration operation. */
@@ -1778,6 +1989,18 @@ export type GeneratedClientGetAnomalyDetectionConfigurationResponse = AnomalyDet
   };
 };
 
+/** Contains response data for the updateAnomalyDetectionConfiguration operation. */
+export type GeneratedClientUpdateAnomalyDetectionConfigurationResponse = AnomalyDetectionConfiguration & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: AnomalyDetectionConfiguration;
+  };
+};
+
 /** Contains response data for the createAnomalyDetectionConfiguration operation. */
 export type GeneratedClientCreateAnomalyDetectionConfigurationResponse = GeneratedClientCreateAnomalyDetectionConfigurationHeaders & {
   /** The underlying HTTP response. */
@@ -1786,6 +2009,15 @@ export type GeneratedClientCreateAnomalyDetectionConfigurationResponse = Generat
     parsedHeaders: GeneratedClientCreateAnomalyDetectionConfigurationHeaders;
   };
 };
+
+/** Optional parameters. */
+export interface GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationOptionalParams
+  extends coreHttp.OperationOptions {
+  /** for paging, skipped number */
+  skip?: number;
+  /** the maximum number of items in one page */
+  maxPageSize?: number;
+}
 
 /** Contains response data for the getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration operation. */
 export type GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationResponse = AnomalyAlertingConfigurationList & {
@@ -1876,7 +2108,7 @@ export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationResponse =
 export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesOptionalParams
   extends coreHttp.OperationOptions {
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** the token for getting the next page */
   token?: string;
 }
@@ -1920,7 +2152,7 @@ export interface GeneratedClientListCredentialsOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /** Contains response data for the listCredentials operation. */
@@ -1932,6 +2164,18 @@ export type GeneratedClientListCredentialsResponse = DataSourceCredentialList & 
 
     /** The response body as parsed JSON or XML */
     parsedBody: DataSourceCredentialList;
+  };
+};
+
+/** Contains response data for the updateCredential operation. */
+export type GeneratedClientUpdateCredentialResponse = DataSourceCredentialUnion & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: DataSourceCredentialUnion;
   };
 };
 
@@ -1953,7 +2197,7 @@ export interface GeneratedClientListDataFeedsOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** filter data feed by its name */
   dataFeedName?: string;
   /** filter data feed by its source type */
@@ -1989,6 +2233,18 @@ export type GeneratedClientCreateDataFeedResponse = GeneratedClientCreateDataFee
 
 /** Contains response data for the getDataFeedById operation. */
 export type GeneratedClientGetDataFeedByIdResponse = DataFeedDetailUnion & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: DataFeedDetailUnion;
+  };
+};
+
+/** Contains response data for the updateDataFeed operation. */
+export type GeneratedClientUpdateDataFeedResponse = DataFeedDetailUnion & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -2047,7 +2303,7 @@ export interface GeneratedClientListHooksOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** filter hook by its name */
   hookName?: string;
 }
@@ -2075,6 +2331,18 @@ export type GeneratedClientCreateHookResponse = GeneratedClientCreateHookHeaders
 
 /** Contains response data for the getHook operation. */
 export type GeneratedClientGetHookResponse = HookInfoUnion & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: HookInfoUnion;
+  };
+};
+
+/** Contains response data for the updateHook operation. */
+export type GeneratedClientUpdateHookResponse = HookInfoUnion & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -2171,6 +2439,15 @@ export type GeneratedClientGetMetricDimensionResponse = MetricDimensionList & {
     parsedBody: MetricDimensionList;
   };
 };
+
+/** Optional parameters. */
+export interface GeneratedClientGetAnomalyDetectionConfigurationsByMetricOptionalParams
+  extends coreHttp.OperationOptions {
+  /** for paging, skipped number */
+  skip?: number;
+  /** the maximum number of items in one page */
+  maxPageSize?: number;
+}
 
 /** Contains response data for the getAnomalyDetectionConfigurationsByMetric operation. */
 export type GeneratedClientGetAnomalyDetectionConfigurationsByMetricResponse = AnomalyDetectionConfigurationList & {
@@ -2307,7 +2584,7 @@ export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /** Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfigurationNext operation. */
@@ -2328,7 +2605,7 @@ export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /** Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfigurationNext operation. */
@@ -2340,6 +2617,27 @@ export type GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurationNe
 
     /** The response body as parsed JSON or XML */
     parsedBody: IncidentResultList;
+  };
+};
+
+/** Optional parameters. */
+export interface GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /** for paging, skipped number */
+  skip?: number;
+  /** the maximum number of items in one page */
+  maxPageSize?: number;
+}
+
+/** Contains response data for the getAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationNext operation. */
+export type GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationNextResponse = AnomalyAlertingConfigurationList & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: AnomalyAlertingConfigurationList;
   };
 };
 
@@ -2366,7 +2664,7 @@ export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextRespon
 export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesNextOptionalParams
   extends coreHttp.OperationOptions {
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** the token for getting the next page */
   token?: string;
 }
@@ -2389,7 +2687,7 @@ export interface GeneratedClientListCredentialsNextOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /** Contains response data for the listCredentialsNext operation. */
@@ -2410,7 +2708,7 @@ export interface GeneratedClientListDataFeedsNextOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** filter data feed by its name */
   dataFeedName?: string;
   /** filter data feed by its source type */
@@ -2441,7 +2739,7 @@ export interface GeneratedClientListHooksNextOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** filter hook by its name */
   hookName?: string;
 }
@@ -2455,6 +2753,27 @@ export type GeneratedClientListHooksNextResponse = HookList & {
 
     /** The response body as parsed JSON or XML */
     parsedBody: HookList;
+  };
+};
+
+/** Optional parameters. */
+export interface GeneratedClientGetAnomalyDetectionConfigurationsByMetricNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /** for paging, skipped number */
+  skip?: number;
+  /** the maximum number of items in one page */
+  maxPageSize?: number;
+}
+
+/** Contains response data for the getAnomalyDetectionConfigurationsByMetricNext operation. */
+export type GeneratedClientGetAnomalyDetectionConfigurationsByMetricNextResponse = AnomalyDetectionConfigurationList & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: AnomalyDetectionConfigurationList;
   };
 };
 
