@@ -413,7 +413,9 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       }
       const source: AzureBlobDataFeedSource = {
         dataSourceType: "AzureBlob",
-        ...orig2.dataSourceParameter,
+        blobTemplate:orig2.dataSourceParameter.blobTemplate,
+        connectionString:orig2.dataSourceParameter.connectionString!,
+        container:orig2.dataSourceParameter.container,
         ...auth
       };
       const result2: DataFeed = {
