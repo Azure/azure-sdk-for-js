@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/eventsMappers";
+import * as Mappers from "../models/multiSlotEventsMappers";
 import * as Parameters from "../models/parameters";
 import { PersonalizerClientContext } from "../personalizerClientContext";
 
-/** Class representing a Events. */
-export class Events {
+/** Class representing a MultiSlotEvents. */
+export class MultiSlotEvents {
   private readonly client: PersonalizerClientContext;
 
   /**
-   * Create a Events.
+   * Create a MultiSlotEvents.
    * @param {PersonalizerClientContext} client Reference to the service client.
    */
   constructor(client: PersonalizerClientContext) {
@@ -27,33 +27,35 @@ export class Events {
   }
 
   /**
-   * Report reward between 0 and 1 that resulted from using the action specified in rewardActionId,
-   * for the specified event.
-   * @summary Post Reward.
+   * Report reward that resulted from using the action specified in rewardActionId for the slot.
+   * @summary Post multi-slot Rewards.
    * @param eventId The event id this reward applies to.
-   * @param rewardParameter The reward should be a floating point number, typically between 0 and 1.
+   * @param body List of slot id and reward values. The reward should be a floating point number,
+   * typically between 0 and 1.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  reward(eventId: string, rewardParameter: Models.RewardRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  reward(eventId: string, body: Models.MultiSlotRewardRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param eventId The event id this reward applies to.
-   * @param rewardParameter The reward should be a floating point number, typically between 0 and 1.
+   * @param body List of slot id and reward values. The reward should be a floating point number,
+   * typically between 0 and 1.
    * @param callback The callback
    */
-  reward(eventId: string, rewardParameter: Models.RewardRequest, callback: msRest.ServiceCallback<void>): void;
+  reward(eventId: string, body: Models.MultiSlotRewardRequest, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param eventId The event id this reward applies to.
-   * @param rewardParameter The reward should be a floating point number, typically between 0 and 1.
+   * @param body List of slot id and reward values. The reward should be a floating point number,
+   * typically between 0 and 1.
    * @param options The optional parameters
    * @param callback The callback
    */
-  reward(eventId: string, rewardParameter: Models.RewardRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  reward(eventId: string, rewardParameter: Models.RewardRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reward(eventId: string, body: Models.MultiSlotRewardRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  reward(eventId: string, body: Models.MultiSlotRewardRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         eventId,
-        rewardParameter,
+        body,
         options
       },
       rewardOperationSpec,
@@ -61,21 +63,21 @@ export class Events {
   }
 
   /**
-   * Report that the specified event was actually used (e.g. by being displayed to the user) and a
-   * reward should be expected for it.
-   * @summary Activate Event.
-   * @param eventId The event ID to be activated.
+   * Report that the specified event was actually used or displayed to the user and a rewards should
+   * be expected for it.
+   * @summary Activate multi-slot Event.
+   * @param eventId The event ID this activation applies to.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   activate(eventId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param eventId The event ID to be activated.
+   * @param eventId The event ID this activation applies to.
    * @param callback The callback
    */
   activate(eventId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param eventId The event ID to be activated.
+   * @param eventId The event ID this activation applies to.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -95,15 +97,15 @@ export class Events {
 const serializer = new msRest.Serializer(Mappers);
 const rewardOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "events/{eventId}/reward",
+  path: "multislot/events/{eventId}/reward",
   urlParameters: [
     Parameters.endpoint,
     Parameters.eventId
   ],
   requestBody: {
-    parameterPath: "rewardParameter",
+    parameterPath: "body",
     mapper: {
-      ...Mappers.RewardRequest,
+      ...Mappers.MultiSlotRewardRequest,
       required: true
     }
   },
@@ -118,7 +120,7 @@ const rewardOperationSpec: msRest.OperationSpec = {
 
 const activateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "events/{eventId}/activate",
+  path: "multislot/events/{eventId}/activate",
   urlParameters: [
     Parameters.endpoint,
     Parameters.eventId

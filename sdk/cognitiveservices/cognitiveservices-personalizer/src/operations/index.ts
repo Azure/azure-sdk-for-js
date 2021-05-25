@@ -8,4 +8,12 @@
  * regenerated.
  */
 
+export * from "./serviceConfigurationOperations";
+export * from "./policy";
+export * from "./evaluationOperations";
+export * from "./evaluations";
 export * from "./events";
+export * from "./log";
+export * from "./model";
+export * from "./multiSlotEvents";
+export * from "./multiSlot";

@@ -9,6 +9,219 @@
 import * as msRest from "@azure/ms-rest-js";
 
 
+export const ApprenticeLearningMetrics: msRest.CompositeMapper = {
+  serializedName: "ApprenticeLearningMetrics",
+  type: {
+    name: "Composite",
+    className: "ApprenticeLearningMetrics",
+    modelProperties: {
+      numberOfEvents: {
+        required: true,
+        serializedName: "numberOfEvents",
+        type: {
+          name: "Number"
+        }
+      },
+      sumOfRewards: {
+        required: true,
+        serializedName: "sumOfRewards",
+        type: {
+          name: "Number"
+        }
+      },
+      numberOfImitatedEvents: {
+        required: true,
+        serializedName: "numberOfImitatedEvents",
+        type: {
+          name: "Number"
+        }
+      },
+      sumOfImitatedRewards: {
+        required: true,
+        serializedName: "sumOfImitatedRewards",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ApprenticeModeMetrics: msRest.CompositeMapper = {
+  serializedName: "ApprenticeModeMetrics",
+  type: {
+    name: "Composite",
+    className: "ApprenticeModeMetrics",
+    modelProperties: {
+      startTime: {
+        required: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastProcessedEventTime: {
+        required: true,
+        serializedName: "lastProcessedEventTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastBatchMetrics: {
+        serializedName: "lastBatchMetrics",
+        type: {
+          name: "Composite",
+          className: "ApprenticeLearningMetrics"
+        }
+      },
+      numberOfEvents: {
+        required: true,
+        serializedName: "numberOfEvents",
+        type: {
+          name: "Number"
+        }
+      },
+      sumOfRewards: {
+        required: true,
+        serializedName: "sumOfRewards",
+        type: {
+          name: "Number"
+        }
+      },
+      numberOfImitatedEvents: {
+        required: true,
+        serializedName: "numberOfImitatedEvents",
+        type: {
+          name: "Number"
+        }
+      },
+      sumOfImitatedRewards: {
+        required: true,
+        serializedName: "sumOfImitatedRewards",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceConfiguration: msRest.CompositeMapper = {
+  serializedName: "ServiceConfiguration",
+  type: {
+    name: "Composite",
+    className: "ServiceConfiguration",
+    modelProperties: {
+      rewardWaitTime: {
+        required: true,
+        serializedName: "rewardWaitTime",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      defaultReward: {
+        required: true,
+        serializedName: "defaultReward",
+        constraints: {
+          InclusiveMaximum: 1,
+          InclusiveMinimum: -1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      rewardAggregation: {
+        required: true,
+        serializedName: "rewardAggregation",
+        constraints: {
+          MaxLength: 256
+        },
+        type: {
+          name: "String"
+        }
+      },
+      explorationPercentage: {
+        required: true,
+        serializedName: "explorationPercentage",
+        constraints: {
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      modelExportFrequency: {
+        required: true,
+        serializedName: "modelExportFrequency",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      logMirrorEnabled: {
+        serializedName: "logMirrorEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      logMirrorSasUri: {
+        serializedName: "logMirrorSasUri",
+        type: {
+          name: "String"
+        }
+      },
+      logRetentionDays: {
+        required: true,
+        serializedName: "logRetentionDays",
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: -1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      lastConfigurationEditDate: {
+        serializedName: "lastConfigurationEditDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      learningMode: {
+        serializedName: "learningMode",
+        type: {
+          name: "String"
+        }
+      },
+      latestApprenticeModeMetrics: {
+        serializedName: "latestApprenticeModeMetrics",
+        type: {
+          name: "Composite",
+          className: "ApprenticeModeMetrics"
+        }
+      },
+      isAutoOptimizationEnabled: {
+        serializedName: "isAutoOptimizationEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      autoOptimizationFrequency: {
+        serializedName: "autoOptimizationFrequency",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      autoOptimizationStartDate: {
+        serializedName: "autoOptimizationStartDate",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const InternalError: msRest.CompositeMapper = {
   serializedName: "InternalError",
   type: {
@@ -99,6 +312,358 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
+export const PolicyContract: msRest.CompositeMapper = {
+  serializedName: "PolicyContract",
+  type: {
+    name: "Composite",
+    className: "PolicyContract",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        constraints: {
+          MaxLength: 256
+        },
+        type: {
+          name: "String"
+        }
+      },
+      argumentsProperty: {
+        required: true,
+        serializedName: "arguments",
+        constraints: {
+          MaxLength: 1024
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyReferenceContract: msRest.CompositeMapper = {
+  serializedName: "PolicyReferenceContract",
+  type: {
+    name: "Composite",
+    className: "PolicyReferenceContract",
+    modelProperties: {
+      evaluationId: {
+        required: true,
+        serializedName: "evaluationId",
+        constraints: {
+          MaxLength: 256
+        },
+        type: {
+          name: "String"
+        }
+      },
+      policyName: {
+        required: true,
+        serializedName: "policyName",
+        constraints: {
+          MaxLength: 256
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyResultSummary: msRest.CompositeMapper = {
+  serializedName: "PolicyResultSummary",
+  type: {
+    name: "Composite",
+    className: "PolicyResultSummary",
+    modelProperties: {
+      timeStamp: {
+        readOnly: true,
+        serializedName: "timeStamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      ipsEstimatorNumerator: {
+        readOnly: true,
+        serializedName: "ipsEstimatorNumerator",
+        type: {
+          name: "Number"
+        }
+      },
+      ipsEstimatorDenominator: {
+        readOnly: true,
+        serializedName: "ipsEstimatorDenominator",
+        type: {
+          name: "Number"
+        }
+      },
+      snipsEstimatorDenominator: {
+        readOnly: true,
+        serializedName: "snipsEstimatorDenominator",
+        type: {
+          name: "Number"
+        }
+      },
+      aggregateTimeWindow: {
+        readOnly: true,
+        serializedName: "aggregateTimeWindow",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      nonZeroProbability: {
+        serializedName: "nonZeroProbability",
+        type: {
+          name: "Number"
+        }
+      },
+      sumOfSquares: {
+        readOnly: true,
+        serializedName: "sumOfSquares",
+        type: {
+          name: "Number"
+        }
+      },
+      confidenceInterval: {
+        readOnly: true,
+        serializedName: "confidenceInterval",
+        type: {
+          name: "Number"
+        }
+      },
+      averageReward: {
+        readOnly: true,
+        serializedName: "averageReward",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyResultTotalSummary: msRest.CompositeMapper = {
+  serializedName: "PolicyResult_totalSummary",
+  type: {
+    name: "Composite",
+    className: "PolicyResultTotalSummary",
+    modelProperties: {
+      ...PolicyResultSummary.type.modelProperties
+    }
+  }
+};
+
+export const PolicyResult: msRest.CompositeMapper = {
+  serializedName: "PolicyResult",
+  type: {
+    name: "Composite",
+    className: "PolicyResult",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      argumentsProperty: {
+        readOnly: true,
+        serializedName: "arguments",
+        type: {
+          name: "String"
+        }
+      },
+      policySource: {
+        readOnly: true,
+        serializedName: "policySource",
+        type: {
+          name: "String"
+        }
+      },
+      summary: {
+        readOnly: true,
+        serializedName: "summary",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyResultSummary"
+            }
+          }
+        }
+      },
+      totalSummary: {
+        readOnly: true,
+        serializedName: "totalSummary",
+        type: {
+          name: "Composite",
+          className: "PolicyResultTotalSummary"
+        }
+      }
+    }
+  }
+};
+
+export const Evaluation: msRest.CompositeMapper = {
+  serializedName: "Evaluation",
+  type: {
+    name: "Composite",
+    className: "Evaluation",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        constraints: {
+          MaxLength: 256
+        },
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        constraints: {
+          MaxLength: 256
+        },
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      jobId: {
+        readOnly: true,
+        serializedName: "jobId",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      policyResults: {
+        serializedName: "policyResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyResult"
+            }
+          }
+        }
+      },
+      featureImportance: {
+        serializedName: "featureImportance",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Sequence",
+              element: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
+      evaluationType: {
+        serializedName: "evaluationType",
+        type: {
+          name: "String"
+        }
+      },
+      optimalPolicy: {
+        serializedName: "optimalPolicy",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const EvaluationContract: msRest.CompositeMapper = {
+  serializedName: "EvaluationContract",
+  type: {
+    name: "Composite",
+    className: "EvaluationContract",
+    modelProperties: {
+      enableOfflineExperimentation: {
+        serializedName: "enableOfflineExperimentation",
+        type: {
+          name: "Boolean"
+        }
+      },
+      name: {
+        required: true,
+        serializedName: "name",
+        constraints: {
+          MaxLength: 256
+        },
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        required: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        required: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      policies: {
+        required: true,
+        serializedName: "policies",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyContract"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const RewardRequest: msRest.CompositeMapper = {
   serializedName: "RewardRequest",
   type: {
@@ -110,6 +675,134 @@ export const RewardRequest: msRest.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DateRange: msRest.CompositeMapper = {
+  serializedName: "DateRange",
+  type: {
+    name: "Composite",
+    className: "DateRange",
+    modelProperties: {
+      from: {
+        readOnly: true,
+        serializedName: "from",
+        type: {
+          name: "DateTime"
+        }
+      },
+      to: {
+        readOnly: true,
+        serializedName: "to",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const LogsPropertiesDateRange: msRest.CompositeMapper = {
+  serializedName: "LogsProperties_dateRange",
+  type: {
+    name: "Composite",
+    className: "LogsPropertiesDateRange",
+    modelProperties: {
+      ...DateRange.type.modelProperties
+    }
+  }
+};
+
+export const LogsProperties: msRest.CompositeMapper = {
+  serializedName: "LogsProperties",
+  type: {
+    name: "Composite",
+    className: "LogsProperties",
+    modelProperties: {
+      dateRange: {
+        readOnly: true,
+        serializedName: "dateRange",
+        type: {
+          name: "Composite",
+          className: "LogsPropertiesDateRange"
+        }
+      }
+    }
+  }
+};
+
+export const ModelProperties: msRest.CompositeMapper = {
+  serializedName: "ModelProperties",
+  type: {
+    name: "Composite",
+    className: "ModelProperties",
+    modelProperties: {
+      creationTime: {
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const SlotReward: msRest.CompositeMapper = {
+  serializedName: "SlotReward",
+  type: {
+    name: "Composite",
+    className: "SlotReward",
+    modelProperties: {
+      slotId: {
+        required: true,
+        serializedName: "slotId",
+        constraints: {
+          MaxLength: 256,
+          MinLength: 1
+        },
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const MultiSlotRewardRequest: msRest.CompositeMapper = {
+  serializedName: "MultiSlotRewardRequest",
+  type: {
+    name: "Composite",
+    className: "MultiSlotRewardRequest",
+    modelProperties: {
+      reward: {
+        required: true,
+        serializedName: "reward",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SlotReward"
+            }
+          }
         }
       }
     }
@@ -142,6 +835,178 @@ export const RankableAction: msRest.CompositeMapper = {
               name: "Object"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const SlotRequest: msRest.CompositeMapper = {
+  serializedName: "SlotRequest",
+  type: {
+    name: "Composite",
+    className: "SlotRequest",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      features: {
+        serializedName: "features",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      excludedActions: {
+        serializedName: "excludedActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      baselineAction: {
+        required: true,
+        serializedName: "baselineAction",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MultiSlotRankRequest: msRest.CompositeMapper = {
+  serializedName: "MultiSlotRankRequest",
+  type: {
+    name: "Composite",
+    className: "MultiSlotRankRequest",
+    modelProperties: {
+      contextFeatures: {
+        serializedName: "contextFeatures",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      actions: {
+        required: true,
+        serializedName: "actions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RankableAction"
+            }
+          }
+        }
+      },
+      slots: {
+        required: true,
+        serializedName: "slots",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SlotRequest"
+            }
+          }
+        }
+      },
+      eventId: {
+        serializedName: "eventId",
+        constraints: {
+          MaxLength: 256
+        },
+        type: {
+          name: "String"
+        }
+      },
+      deferActivation: {
+        serializedName: "deferActivation",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const SlotResponse: msRest.CompositeMapper = {
+  serializedName: "SlotResponse",
+  type: {
+    name: "Composite",
+    className: "SlotResponse",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        constraints: {
+          MaxLength: 256
+        },
+        type: {
+          name: "String"
+        }
+      },
+      rewardActionId: {
+        readOnly: true,
+        serializedName: "rewardActionId",
+        constraints: {
+          MaxLength: 256
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MultiSlotRankResponse: msRest.CompositeMapper = {
+  serializedName: "MultiSlotRankResponse",
+  type: {
+    name: "Composite",
+    className: "MultiSlotRankResponse",
+    modelProperties: {
+      slots: {
+        readOnly: true,
+        serializedName: "slots",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SlotResponse"
+            }
+          }
+        }
+      },
+      eventId: {
+        readOnly: true,
+        serializedName: "eventId",
+        constraints: {
+          MaxLength: 256
+        },
+        type: {
+          name: "String"
         }
       }
     }
@@ -275,6 +1140,50 @@ export const RankResponse: msRest.CompositeMapper = {
         constraints: {
           MaxLength: 256
         },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceStatus: msRest.CompositeMapper = {
+  serializedName: "ServiceStatus",
+  type: {
+    name: "Composite",
+    className: "ServiceStatus",
+    modelProperties: {
+      service: {
+        serializedName: "service",
+        type: {
+          name: "String"
+        }
+      },
+      apiStatus: {
+        serializedName: "apiStatus",
+        type: {
+          name: "String"
+        }
+      },
+      apiStatusMessage: {
+        serializedName: "apiStatusMessage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EvaluationsCreateHeaders: msRest.CompositeMapper = {
+  serializedName: "evaluations-create-headers",
+  type: {
+    name: "Composite",
+    className: "EvaluationsCreateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }

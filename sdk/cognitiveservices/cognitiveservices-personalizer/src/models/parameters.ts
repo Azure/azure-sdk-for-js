@@ -22,6 +22,19 @@ export const endpoint: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const evaluationId: msRest.OperationURLParameter = {
+  parameterPath: "evaluationId",
+  mapper: {
+    required: true,
+    serializedName: "evaluationId",
+    constraints: {
+      MaxLength: 256
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const eventId: msRest.OperationURLParameter = {
   parameterPath: "eventId",
   mapper: {

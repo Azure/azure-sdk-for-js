@@ -17,7 +17,15 @@ import { PersonalizerClientContext } from "./personalizerClientContext";
 
 class PersonalizerClient extends PersonalizerClientContext {
   // Operation groups
+  serviceConfiguration: operations.ServiceConfigurationOperations;
+  policy: operations.Policy;
+  evaluation: operations.EvaluationOperations;
+  evaluations: operations.Evaluations;
   events: operations.Events;
+  log: operations.Log;
+  model: operations.Model;
+  multiSlotEvents: operations.MultiSlotEvents;
+  multiSlot: operations.MultiSlot;
 
   /**
    * Initializes a new instance of the PersonalizerClient class.
@@ -27,23 +35,33 @@ class PersonalizerClient extends PersonalizerClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
     super(credentials, endpoint, options);
+    this.serviceConfiguration = new operations.ServiceConfigurationOperations(this);
+    this.policy = new operations.Policy(this);
+    this.evaluation = new operations.EvaluationOperations(this);
+    this.evaluations = new operations.Evaluations(this);
     this.events = new operations.Events(this);
+    this.log = new operations.Log(this);
+    this.model = new operations.Model(this);
+    this.multiSlotEvents = new operations.MultiSlotEvents(this);
+    this.multiSlot = new operations.MultiSlot(this);
   }
 
   /**
-   * @summary A Personalizer rank request.
-   * @param rankRequest A Personalizer request.
+   * Submit a Personalizer rank request. Receives a context and a list of actions. Returns which of
+   * the provided actions should be used by your application, in rewardActionId.
+   * @summary Post Rank.
+   * @param rankRequest A Personalizer Rank request.
    * @param [options] The optional parameters
    * @returns Promise<Models.RankResponse2>
    */
   rank(rankRequest: Models.RankRequest, options?: msRest.RequestOptionsBase): Promise<Models.RankResponse2>;
   /**
-   * @param rankRequest A Personalizer request.
+   * @param rankRequest A Personalizer Rank request.
    * @param callback The callback
    */
   rank(rankRequest: Models.RankRequest, callback: msRest.ServiceCallback<Models.RankResponse>): void;
   /**
-   * @param rankRequest A Personalizer request.
+   * @param rankRequest A Personalizer Rank request.
    * @param options The optional parameters
    * @param callback The callback
    */

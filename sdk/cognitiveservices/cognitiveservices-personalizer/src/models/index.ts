@@ -10,6 +10,101 @@
 import * as msRest from "@azure/ms-rest-js";
 
 /**
+ * An interface representing ApprenticeLearningMetrics.
+ */
+export interface ApprenticeLearningMetrics {
+  numberOfEvents: number;
+  sumOfRewards: number;
+  numberOfImitatedEvents: number;
+  sumOfImitatedRewards: number;
+}
+
+/**
+ * An interface representing ApprenticeModeMetrics.
+ */
+export interface ApprenticeModeMetrics {
+  startTime: Date;
+  lastProcessedEventTime: Date;
+  lastBatchMetrics?: ApprenticeLearningMetrics;
+  numberOfEvents: number;
+  sumOfRewards: number;
+  numberOfImitatedEvents: number;
+  sumOfImitatedRewards: number;
+}
+
+/**
+ * The configuration of the service.
+ */
+export interface ServiceConfiguration {
+  /**
+   * The time span waited until a request is marked with the default reward
+   * and should be between 5 seconds and 2 days.
+   * For example, PT5M (5 mins). For information about the time format,
+   * see http://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  rewardWaitTime: string;
+  /**
+   * The reward given if a reward is not received within the specified wait time.
+   */
+  defaultReward: number;
+  /**
+   * The function used to process rewards, if multiple reward scores are received before
+   * rewardWaitTime is over.
+   */
+  rewardAggregation: string;
+  /**
+   * The percentage of rank responses that will use exploration.
+   */
+  explorationPercentage: number;
+  /**
+   * Personalizer will start using the most updated trained model for online ranks automatically
+   * every specified time period.
+   * For example, PT5M (5 mins). For information about the time format,
+   * see http://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  modelExportFrequency: string;
+  /**
+   * Flag indicates whether log mirroring is enabled.
+   */
+  logMirrorEnabled?: boolean;
+  /**
+   * Azure storage account container SAS URI for log mirroring.
+   */
+  logMirrorSasUri?: string;
+  /**
+   * Number of days historical logs are to be maintained. -1 implies the logs will never be
+   * deleted.
+   */
+  logRetentionDays: number;
+  /**
+   * Last time model training configuration was updated
+   */
+  lastConfigurationEditDate?: Date;
+  /**
+   * Learning Modes for Personalizer. Possible values include: 'Online', 'Apprentice',
+   * 'LoggingOnly'
+   */
+  learningMode?: LearningMode;
+  latestApprenticeModeMetrics?: ApprenticeModeMetrics;
+  /**
+   * Flag indicating whether Personalizer will automatically optimize Learning Settings by running
+   * Offline Evaluations periodically.
+   */
+  isAutoOptimizationEnabled?: boolean;
+  /**
+   * Frequency of automatic optimization. Only relevant if IsAutoOptimizationEnabled is true.
+   * For example, PT5M (5 mins). For information about the time format,
+   * \r\nsee http://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  autoOptimizationFrequency?: string;
+  /**
+   * Date when the first automatic optimization evaluation must be performed. Only relevant if
+   * IsAutoOptimizationEnabled is true.
+   */
+  autoOptimizationStartDate?: Date;
+}
+
+/**
  * An object containing more specific information than the parent object about the error.
  */
 export interface InternalError {
@@ -17,9 +112,6 @@ export interface InternalError {
    * Detailed error code.
    */
   code?: string;
-  /**
-   * The error object.
-   */
   innererror?: InternalError;
 }
 
@@ -28,10 +120,21 @@ export interface InternalError {
  */
 export interface PersonalizerError {
   /**
-   * High level error code. Possible values include: 'BadRequest', 'ResourceNotFound',
-   * 'InternalServerError'
+   * Error Codes returned by Personalizer. Possible values include: 'BadRequest',
+   * 'InvalidServiceConfiguration', 'InvalidLearningModeServiceConfiguration',
+   * 'InvalidPolicyConfiguration', 'InvalidPolicyContract', 'InvalidEvaluationContract',
+   * 'DuplicateCustomPolicyNames', 'NoLogsExistInDateRange', 'LogsSizeExceedAllowedLimit',
+   * 'InvalidRewardRequest', 'InvalidEventIdToActivate', 'InvalidRankRequest',
+   * 'InvalidExportLogsRequest', 'InvalidContainer', 'InvalidModelMetadata',
+   * 'ApprenticeModeNeverTurnedOn', 'MissingAppId', 'InvalidRewardWaitTime',
+   * 'InvalidMultiSlotApiAccess', 'ModelFileAccessDenied',
+   * 'ProblemTypeIncompatibleWithAutoOptimization', 'ResourceNotFound', 'FrontEndNotFound',
+   * 'EvaluationNotFound', 'LearningSettingsNotFound', 'EvaluationModelNotFound',
+   * 'LogsPropertiesNotFound', 'ModelRankingError', 'InternalServerError', 'RankNullResponse',
+   * 'UpdateConfigurationFailed', 'ModelResetFailed', 'ModelPublishFailed',
+   * 'ModelMetadataUpdateFailed', 'OperationNotAllowed'
    */
-  code: ErrorCode;
+  code: PersonalizerErrorCode;
   /**
    * A message explaining the error reported by the service.
    */
@@ -44,9 +147,6 @@ export interface PersonalizerError {
    * An array of details about specific errors that led to this reported error.
    */
   details?: PersonalizerError[];
-  /**
-   * Finer error details.
-   */
   innerError?: InternalError;
 }
 
@@ -54,10 +154,199 @@ export interface PersonalizerError {
  * Used to return an error to the client
  */
 export interface ErrorResponse {
-  /**
-   * The error object.
-   */
   error: PersonalizerError;
+}
+
+/**
+ * Learning settings specifying how to train the model.
+ */
+export interface PolicyContract {
+  /**
+   * Name of the learning settings.
+   */
+  name: string;
+  /**
+   * Arguments of the learning settings.
+   */
+  argumentsProperty: string;
+}
+
+/**
+ * Reference to the policy within the evaluation.
+ */
+export interface PolicyReferenceContract {
+  /**
+   * Evaluation Id of the evaluation.
+   */
+  evaluationId: string;
+  /**
+   * Name of the learning settings.
+   */
+  policyName: string;
+}
+
+/**
+ * This class contains the summary of evaluating a policy on a counterfactual evaluation.
+ */
+export interface PolicyResultSummary {
+  /**
+   * Timestamp of the aggregation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly timeStamp?: Date;
+  /**
+   * Numerator for IPS estimator.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ipsEstimatorNumerator?: number;
+  /**
+   * Denominator for IPS estimator.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ipsEstimatorDenominator?: number;
+  /**
+   * Denominator for SNIPS estimator.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly snipsEstimatorDenominator?: number;
+  /**
+   * Time window for aggregation.
+   * For example, PT5M (5 mins). For information about the time format,
+   * see http://en.wikipedia.org/wiki/ISO_8601#Durations
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly aggregateTimeWindow?: string;
+  /**
+   * Probability of non-zero values for the Policy evaluation.
+   */
+  nonZeroProbability?: number;
+  /**
+   * Sum of Squares for the Policy evaluation results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sumOfSquares?: number;
+  /**
+   * Gaussian confidence interval for the Policy evaluation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly confidenceInterval?: number;
+  /**
+   * Average reward.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly averageReward?: number;
+}
+
+/**
+ * An interface representing PolicyResultTotalSummary.
+ */
+export interface PolicyResultTotalSummary extends PolicyResultSummary {
+}
+
+/**
+ * This class contains the Learning Settings information and the results of the Offline Evaluation
+ * using that policy.
+ */
+export interface PolicyResult {
+  /**
+   * The name of the Learning Settings.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The arguments of the Learning Settings.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly argumentsProperty?: string;
+  /**
+   * The source of the Learning Settings. Possible values include: 'Online', 'Baseline', 'Random',
+   * 'Custom', 'OfflineExperimentation'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policySource?: PolicySource;
+  /**
+   * The aggregate results of the Offline Evaluation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly summary?: PolicyResultSummary[];
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly totalSummary?: PolicyResultTotalSummary;
+}
+
+/**
+ * A counterfactual evaluation.
+ */
+export interface Evaluation {
+  /**
+   * The ID of the evaluation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the evaluation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The start time of the evaluation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The end time of the evaluation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: Date;
+  /**
+   * The ID of the job processing the evaluation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly jobId?: string;
+  /**
+   * The status of the job processing the evaluation. Possible values include: 'completed',
+   * 'pending', 'failed', 'notSubmitted', 'timeout', 'optimalPolicyApplied', 'onlinePolicyRetained'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: EvaluationJobStatus;
+  /**
+   * The results of the evaluation.
+   */
+  policyResults?: PolicyResult[];
+  featureImportance?: string[][];
+  /**
+   * Possible values include: 'Manual', 'Auto'
+   */
+  evaluationType?: EvaluationType;
+  optimalPolicy?: string;
+  creationTime?: Date;
+}
+
+/**
+ * A counterfactual evaluation.
+ */
+export interface EvaluationContract {
+  /**
+   * True if the evaluation should explore for a more optimal learning settings.
+   */
+  enableOfflineExperimentation?: boolean;
+  /**
+   * The name of the evaluation.
+   */
+  name: string;
+  /**
+   * The start time of the evaluation.
+   */
+  startTime: Date;
+  /**
+   * The end time of the evaluation.
+   */
+  endTime: Date;
+  /**
+   * Additional learning settings to evaluate.
+   */
+  policies: PolicyContract[];
 }
 
 /**
@@ -65,13 +354,83 @@ export interface ErrorResponse {
  */
 export interface RewardRequest {
   /**
-   * Reward to be assigned to an action. Value should be between -1 and 1 inclusive.
+   * Reward to be assigned to an action. Value is a float calculated by your application, typically
+   * between 0 and 1, and must be between -1 and 1.
    */
   value: number;
 }
 
 /**
- * An action with it's associated features used for ranking.
+ * A date range starting at From and ending at To.
+ */
+export interface DateRange {
+  /**
+   * Start date for the range.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly from?: Date;
+  /**
+   * End date for the range.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly to?: Date;
+}
+
+/**
+ * An interface representing LogsPropertiesDateRange.
+ */
+export interface LogsPropertiesDateRange extends DateRange {
+}
+
+/**
+ * Properties related to data used to train the model.
+ */
+export interface LogsProperties {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dateRange?: LogsPropertiesDateRange;
+}
+
+/**
+ * Properties related to the trained model.
+ */
+export interface ModelProperties {
+  /**
+   * Creation time of the model.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creationTime?: Date;
+  /**
+   * Last time the model was modified.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedTime?: Date;
+}
+
+/**
+ * An interface representing SlotReward.
+ */
+export interface SlotReward {
+  /**
+   * Slot id for which we are sending the reward.
+   */
+  slotId: string;
+  /**
+   * Reward to be assigned to slotId. Value should be between -1 and 1 inclusive.
+   */
+  value: number;
+}
+
+/**
+ * Reward given to a list of slots.
+ */
+export interface MultiSlotRewardRequest {
+  reward: SlotReward[];
+}
+
+/**
+ * An action with its associated features used for ranking.
  */
 export interface RankableAction {
   /**
@@ -85,14 +444,44 @@ export interface RankableAction {
 }
 
 /**
- * Request a set of actions to be ranked by the Personalizer service.
+ * A slot with it's associated features and list of excluded actions
  */
-export interface RankRequest {
+export interface SlotRequest {
+  /**
+   * Slot ID
+   */
+  id: string;
+  /**
+   * List of dictionaries containing slot features.
+   */
+  features?: any[];
+  /**
+   * List of excluded action Ids.
+   */
+  excludedActions?: string[];
+  /**
+   * The 'baseline action' ID for the slot.
+   * The BaselineAction is the Id of the Action your application would use in that slot if
+   * Personalizer didn't exist.
+   * BaselineAction must be defined for every slot.
+   * BaselineAction should never be part of ExcludedActions.
+   * Each slot must have a unique BaselineAction which corresponds to an an action from the event's
+   * Actions list.
+   */
+  baselineAction: string;
+}
+
+/**
+ * An interface representing MultiSlotRankRequest.
+ */
+export interface MultiSlotRankRequest {
   /**
    * Features of the context used for Personalizer as a
-   * dictionary of dictionaries. This depends on the application, and
+   * dictionary of dictionaries. This is determined by your application, and
    * typically includes features about the current user, their
-   * device, profile information, data about time and date, etc.
+   * device, profile information, aggregated data about time and date, etc.
+   * Features should not include personally identifiable information (PII),
+   * unique UserIDs, or precise timestamps.
    */
   contextFeatures?: any[];
   /**
@@ -100,10 +489,92 @@ export interface RankRequest {
    * The set should not contain more than 50 actions.
    * The order of the actions does not affect the rank result but the order
    * should match the sequence your application would have used to display them.
+   * The first item in the array will be used as Baseline item in Offline Evaluations.
+   */
+  actions: RankableAction[];
+  /**
+   * The set of slots the Personalizer service should select actions for.
+   * The set should not contain more than 50 slots.
+   */
+  slots: SlotRequest[];
+  /**
+   * Optionally pass an eventId that uniquely identifies this Rank event.
+   * If null, the service generates a unique eventId. The eventId will be used for
+   * associating this request with its reward, as well as seeding the pseudo-random
+   * generator when making a Personalizer call.
+   */
+  eventId?: string;
+  /**
+   * Send false if it is certain the rewardActionId in rank results will be shown to the user,
+   * therefore
+   * Personalizer will expect a Reward call, otherwise it will assign the default
+   * Reward to the event. Send true if it is possible the user will not see the action specified in
+   * the rank results,
+   * (e.g. because the page is rendering later, or the Rank results may be overridden by code
+   * further downstream).
+   * You must call the Activate Event API if the event output is shown to users, otherwise Rewards
+   * will be ignored. Default value: false.
+   */
+  deferActivation?: boolean;
+}
+
+/**
+ * An interface representing SlotResponse.
+ */
+export interface SlotResponse {
+  /**
+   * Id is the slot ID.
+   */
+  id: string;
+  /**
+   * RewardActionID is the action ID recommended by Personalizer.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly rewardActionId?: string;
+}
+
+/**
+ * An interface representing MultiSlotRankResponse.
+ */
+export interface MultiSlotRankResponse {
+  /**
+   * Each slot has a corresponding rewardActionID which is the action ID recommended by
+   * Personalizer.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly slots?: SlotResponse[];
+  /**
+   * The eventId for the round trip from request to response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eventId?: string;
+}
+
+/**
+ * Request a set of actions to be ranked by the Personalizer service.
+ */
+export interface RankRequest {
+  /**
+   * Features of the context used for Personalizer as a
+   * dictionary of dictionaries. This is determined by your application, and
+   * typically includes features about the current user, their
+   * device, profile information, aggregated data about time and date, etc.
+   * Features should not include personally identifiable information (PII),
+   * unique UserIDs, or precise timestamps.
+   */
+  contextFeatures?: any[];
+  /**
+   * The set of actions the Personalizer service can pick from.
+   * The set should not contain more than 50 actions.
+   * The order of the actions does not affect the rank result but the order
+   * should match the sequence your application would have used to display them.
+   * The first item in the array will be used as Baseline item in Offline Evaluations.
    */
   actions: RankableAction[];
   /**
    * The set of action ids to exclude from ranking.
+   * Personalizer will consider the first non-excluded item in the array as the Baseline action
+   * when performing Offline Evaluations.
    */
   excludedActions?: string[];
   /**
@@ -114,11 +585,15 @@ export interface RankRequest {
    */
   eventId?: string;
   /**
-   * Send false if the user will see the rank results, therefore
+   * Send false if it is certain the rewardActionId in rank results will be shown to the user,
+   * therefore
    * Personalizer will expect a Reward call, otherwise it will assign the default
-   * Reward to the event. Send true if it is possible the user will not see the
-   * rank results, because the page is rendering later, or the Rank results may be
-   * overridden by code further downstream. Default value: false.
+   * Reward to the event. Send true if it is possible the user will not see the action specified in
+   * the rank results,
+   * (e.g. because the page is rendering later, or the Rank results may be overridden by code
+   * further downstream).
+   * You must call the Activate Event API if the event output is shown to users, otherwise Rewards
+   * will be ignored. Default value: false.
    */
   deferActivation?: boolean;
 }
@@ -140,7 +615,8 @@ export interface RankedAction {
 }
 
 /**
- * A resulting ordered list of actions that result from a rank request.
+ * Returns which action to use as rewardActionId, and additional information about each action as a
+ * result of a Rank request.
  */
 export interface RankResponse {
   /**
@@ -154,22 +630,335 @@ export interface RankResponse {
    */
   readonly eventId?: string;
   /**
-   * The action chosen by the Personalizer service. This is the action for which to report the
-   * reward. This might not be the
-   * first found in 'ranking' if an action in the request in first position was part of the
-   * excluded ids.
+   * The action chosen by the Personalizer service.
+   * This is the action your application should display, and for which to report the reward.
+   * This might not be the first found in 'ranking'.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly rewardActionId?: string;
 }
 
 /**
- * Defines values for ErrorCode.
- * Possible values include: 'BadRequest', 'ResourceNotFound', 'InternalServerError'
+ * An interface representing ServiceStatus.
+ */
+export interface ServiceStatus {
+  service?: string;
+  apiStatus?: string;
+  apiStatusMessage?: string;
+}
+
+/**
+ * Defines headers for Create operation.
+ */
+export interface EvaluationsCreateHeaders {
+  /**
+   * Location of the Offline Evaluation status and data.
+   */
+  location: string;
+}
+
+/**
+ * Defines values for LearningMode.
+ * Possible values include: 'Online', 'Apprentice', 'LoggingOnly'
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'BadRequest' | 'ResourceNotFound' | 'InternalServerError';
+export type LearningMode = 'Online' | 'Apprentice' | 'LoggingOnly';
+
+/**
+ * Defines values for PersonalizerErrorCode.
+ * Possible values include: 'BadRequest', 'InvalidServiceConfiguration',
+ * 'InvalidLearningModeServiceConfiguration', 'InvalidPolicyConfiguration',
+ * 'InvalidPolicyContract', 'InvalidEvaluationContract', 'DuplicateCustomPolicyNames',
+ * 'NoLogsExistInDateRange', 'LogsSizeExceedAllowedLimit', 'InvalidRewardRequest',
+ * 'InvalidEventIdToActivate', 'InvalidRankRequest', 'InvalidExportLogsRequest',
+ * 'InvalidContainer', 'InvalidModelMetadata', 'ApprenticeModeNeverTurnedOn', 'MissingAppId',
+ * 'InvalidRewardWaitTime', 'InvalidMultiSlotApiAccess', 'ModelFileAccessDenied',
+ * 'ProblemTypeIncompatibleWithAutoOptimization', 'ResourceNotFound', 'FrontEndNotFound',
+ * 'EvaluationNotFound', 'LearningSettingsNotFound', 'EvaluationModelNotFound',
+ * 'LogsPropertiesNotFound', 'ModelRankingError', 'InternalServerError', 'RankNullResponse',
+ * 'UpdateConfigurationFailed', 'ModelResetFailed', 'ModelPublishFailed',
+ * 'ModelMetadataUpdateFailed', 'OperationNotAllowed'
+ * @readonly
+ * @enum {string}
+ */
+export type PersonalizerErrorCode = 'BadRequest' | 'InvalidServiceConfiguration' | 'InvalidLearningModeServiceConfiguration' | 'InvalidPolicyConfiguration' | 'InvalidPolicyContract' | 'InvalidEvaluationContract' | 'DuplicateCustomPolicyNames' | 'NoLogsExistInDateRange' | 'LogsSizeExceedAllowedLimit' | 'InvalidRewardRequest' | 'InvalidEventIdToActivate' | 'InvalidRankRequest' | 'InvalidExportLogsRequest' | 'InvalidContainer' | 'InvalidModelMetadata' | 'ApprenticeModeNeverTurnedOn' | 'MissingAppId' | 'InvalidRewardWaitTime' | 'InvalidMultiSlotApiAccess' | 'ModelFileAccessDenied' | 'ProblemTypeIncompatibleWithAutoOptimization' | 'ResourceNotFound' | 'FrontEndNotFound' | 'EvaluationNotFound' | 'LearningSettingsNotFound' | 'EvaluationModelNotFound' | 'LogsPropertiesNotFound' | 'ModelRankingError' | 'InternalServerError' | 'RankNullResponse' | 'UpdateConfigurationFailed' | 'ModelResetFailed' | 'ModelPublishFailed' | 'ModelMetadataUpdateFailed' | 'OperationNotAllowed';
+
+/**
+ * Defines values for PolicySource.
+ * Possible values include: 'Online', 'Baseline', 'Random', 'Custom', 'OfflineExperimentation'
+ * @readonly
+ * @enum {string}
+ */
+export type PolicySource = 'Online' | 'Baseline' | 'Random' | 'Custom' | 'OfflineExperimentation';
+
+/**
+ * Defines values for EvaluationJobStatus.
+ * Possible values include: 'completed', 'pending', 'failed', 'notSubmitted', 'timeout',
+ * 'optimalPolicyApplied', 'onlinePolicyRetained'
+ * @readonly
+ * @enum {string}
+ */
+export type EvaluationJobStatus = 'completed' | 'pending' | 'failed' | 'notSubmitted' | 'timeout' | 'optimalPolicyApplied' | 'onlinePolicyRetained';
+
+/**
+ * Defines values for EvaluationType.
+ * Possible values include: 'Manual', 'Auto'
+ * @readonly
+ * @enum {string}
+ */
+export type EvaluationType = 'Manual' | 'Auto';
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ServiceConfigurationUpdateResponse = ServiceConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServiceConfigurationGetResponse = ServiceConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PolicyGetResponse = PolicyContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyContract;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type PolicyUpdateResponse = PolicyContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyContract;
+    };
+};
+
+/**
+ * Contains response data for the reset operation.
+ */
+export type PolicyResetResponse = PolicyContract & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PolicyContract;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type EvaluationsGetResponse = Evaluation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Evaluation;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type EvaluationsListResponse = Array<Evaluation> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Evaluation[];
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type EvaluationsCreateResponse = Evaluation & EvaluationsCreateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: EvaluationsCreateHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Evaluation;
+    };
+};
+
+/**
+ * Contains response data for the getProperties operation.
+ */
+export type LogGetPropertiesResponse = LogsProperties & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LogsProperties;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ModelGetResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
+};
+
+/**
+ * Contains response data for the getProperties operation.
+ */
+export type ModelGetPropertiesResponse = ModelProperties & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ModelProperties;
+    };
+};
+
+/**
+ * Contains response data for the rank operation.
+ */
+export type MultiSlotRankResponse2 = MultiSlotRankResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MultiSlotRankResponse;
+    };
+};
 
 /**
  * Contains response data for the rank operation.
