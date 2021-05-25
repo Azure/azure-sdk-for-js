@@ -8,7 +8,7 @@ param (
 )
 
 . (Join-Path $PSScriptRoot npm-helpers.ps1)
-$pkgProps = Get-PackageProperties -packageArtifact $packageArtifact -workingDirectory $workingDirectory
+$pkgProps = Get-javascript-PackageInfoFromPackageFile -pkg $packageArtifact -workingDirectory $workingDirectory
 if ($pkgProps -eq $null)
 {
     Write-Error "Failed to parse package artifact $packageArtifact to get package name"
