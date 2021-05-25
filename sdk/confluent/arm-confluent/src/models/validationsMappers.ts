@@ -7,9 +7,12 @@
  */
 
 export {
-  ErrorDetails,
-  ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  BaseResource,
+  ConfluentAgreementResource,
+  ErrorResponseBody,
+  OfferDetail,
+  OrganizationResource,
+  ResourceProviderDefaultErrorResponse,
+  SystemData,
+  UserDetail
 } from "../models/mappers";
