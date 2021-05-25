@@ -3,7 +3,7 @@ trigger: none
 jobs:
   - template: /eng/common/pipelines/templates/jobs/docindex.yml
 
-  - job: CreateDocIndex
+  - job: UpdateDocsMsBuildConfig
     pool:
       vmImage: ubuntu-18.04
     variables:
