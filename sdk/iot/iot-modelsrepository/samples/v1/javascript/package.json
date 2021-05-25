@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/iot/modelsrepository"
+    "directory": "sdk/iot/iot-modelsrepository"
   },
   "keywords": [
     "azure",
@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iot/modelsrepository",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iot/iot-modelsrepository",
   "dependencies": {
     "@azure/iot-modelsrepository": "next",
     "dotenv": "latest"
