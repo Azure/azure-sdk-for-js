@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {isNode} from "@azure/core-util";
+import { isNode } from "@azure/core-util";
 
 const currentPlatform = isNode ? "node" : "browser";
 

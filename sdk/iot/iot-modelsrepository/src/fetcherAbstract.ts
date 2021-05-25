@@ -6,7 +6,7 @@ import { DTDL } from "./psuedoDtdl";
 
 /**
  * Base Interface for Fetchers, which fetch models from endpoints.
- * 
+ *
  * @internal
  */
 export interface Fetcher {

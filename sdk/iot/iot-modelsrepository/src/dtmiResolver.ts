@@ -9,12 +9,12 @@ import { Fetcher } from "./fetcherAbstract";
 import { logger } from "./logger";
 
 /**
- * DtmiResolver handles reformatting the DTMIs to paths and passing options 
- * down to the configured fetcher. It is almost like a middle man between the 
+ * DtmiResolver handles reformatting the DTMIs to paths and passing options
+ * down to the configured fetcher. It is almost like a middle man between the
  * user-facing API and the PsuedoParser (which identifies if there are sub-dependencies
- * to resolve), and the configured fetcher, which will go out to the endpoint, 
+ * to resolve), and the configured fetcher, which will go out to the endpoint,
  * either in the filesystem or through a URI, and actually get the model we want.
- * 
+ *
  * @internal
  */
 export class DtmiResolver {

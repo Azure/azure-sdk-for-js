@@ -4,7 +4,6 @@ languages:
   - javascript
 products:
   - azure
-  - azure-iot-modelsrepository
 urlFragment: iot-modelsrepository-javascript
 ---
 

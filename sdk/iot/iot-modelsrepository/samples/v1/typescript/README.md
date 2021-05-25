@@ -4,7 +4,6 @@ languages:
   - typescript
 products:
   - azure
-  - azure-iot-modelsrepository
 urlFragment: iot-modelsrepository-typescript
 ---
 

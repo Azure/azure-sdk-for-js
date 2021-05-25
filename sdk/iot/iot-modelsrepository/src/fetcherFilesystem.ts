@@ -24,7 +24,7 @@ function readFilePromise(filePath: string): Promise<string> {
 /**
  * The Filesystem Fetcher implements the generic Fetcher interface
  * so that models are fetched from a filesystem endpoint.
- * 
+ *
  * @internal
  */
 export class FilesystemFetcher implements Fetcher {

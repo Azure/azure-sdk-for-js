@@ -12,8 +12,10 @@ describe("resolver -  browser", () => {
       const client = new ModelsRepositoryClient({ repositoryLocation: endpoint });
       const result = client.getModels(dtmi, { dependencyResolution: "tryFromExpanded" });
       result
-        .then((actualOutput: {[dtmi: string]: any}) => {
-          expect(actualOutput["dtmi:azure:DeviceManagement:DeviceInformation;1"]).to.not.equal(undefined);
+        .then((actualOutput: { [dtmi: string]: any }) => {
+          expect(actualOutput["dtmi:azure:DeviceManagement:DeviceInformation;1"]).to.not.equal(
+            undefined
+          );
           expect(actualOutput["dtmi:azure:DeviceManagement:DeviceInformation;1"]["@id"]).to.equal(
             "dtmi:azure:DeviceManagement:DeviceInformation;1"
           );
