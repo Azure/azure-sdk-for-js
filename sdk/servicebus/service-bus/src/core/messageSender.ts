@@ -8,9 +8,7 @@ import {
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
-  message as RheaMessageUtil,
-  messageProperties,
-  Message as RheaMessage
+  message as RheaMessageUtil
 } from "rhea-promise";
 import {
   Constants,
@@ -368,78 +366,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         "%s An error occurred while sending the message: %O\nError",
         this.logPrefix,
         data
-      );
-      throw err;
-    }
-  }
-
-  // Not exposed to the users
-  /**
-   * Send a batch of Message to the ServiceBus in a single AMQP message. The "message_annotations",
-   * "application_properties" and "properties" of the first message will be set as that
-   * of the envelope (batch message).
-   * @param inputMessages - An array of Message objects to be sent in a
-   * Batch message.
-   */
-  async sendMessages(
-    inputMessages: ServiceBusMessage[] | AmqpAnnotatedMessage[],
-    options?: OperationOptionsBase
-  ): Promise<void> {
-    throwErrorIfConnectionClosed(this._context);
-    try {
-      if (!Array.isArray(inputMessages)) {
-        inputMessages = [inputMessages];
-      }
-      logger.verbose(
-        "%s Sender '%s', trying to send Message[]: %O",
-        this.logPrefix,
-        this.name,
-        inputMessages
-      );
-      const amqpMessages: RheaMessage[] = [];
-      const encodedMessages = [];
-      // Convert Message to AmqpMessage.
-      for (let i = 0; i < inputMessages.length; i++) {
-        const amqpMessage = toRheaMessage(inputMessages[i], defaultDataTransformer);
-        amqpMessages[i] = amqpMessage;
-        encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
-      }
-
-      // Convert every encoded message to amqp data section
-      const batchMessage: RheaMessage = {
-        body: RheaMessageUtil.data_sections(encodedMessages)
-      };
-      // Set message_annotations, application_properties and properties of the first message as
-      // that of the envelope (batch message).
-      if (amqpMessages[0].message_annotations) {
-        batchMessage.message_annotations = amqpMessages[0].message_annotations;
-      }
-      if (amqpMessages[0].application_properties) {
-        batchMessage.application_properties = amqpMessages[0].application_properties;
-      }
-      for (const prop of messageProperties) {
-        if ((amqpMessages[0] as any)[prop]) {
-          (batchMessage as any)[prop] = (amqpMessages[0] as any)[prop];
-        }
-      }
-
-      // Finally encode the envelope (batch message).
-      const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
-
-      logger.verbose(
-        "%s Sender '%s', sending encoded batch message.",
-        this.logPrefix,
-        this.name,
-        encodedBatchMessage
-      );
-      return await this._trySend(encodedBatchMessage, true, options);
-    } catch (err) {
-      logger.logError(
-        err,
-        "%s Sender '%s': An error occurred while sending the messages: %O\nError",
-        this.logPrefix,
-        this.name,
-        inputMessages
       );
       throw err;
     }
