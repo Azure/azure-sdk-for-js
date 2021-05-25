@@ -174,7 +174,7 @@ describe("[AAD] Attestation Client", function() {
   it("#attestTpm", async () => {
     const client = createRecordedClient("AAD");
 
-    let encodedPayload = JSON.stringify({ "payload": { "type": "aikcert" } });
+    const encodedPayload = JSON.stringify({ "payload": { "type": "aikcert" } });
     
     // TPM Attestation throws if there is no attestation policy set.
     // Until the policy APIs are created, just assert that this throws an exception.
@@ -183,7 +183,8 @@ describe("[AAD] Attestation Client", function() {
       assert.fail("Attest TPM should have thrown an exception.")
     }
     catch(e) {
-
+      // Text to make eslint happy.
+      console.log("Caught expected exception.");
     }
   });
 
