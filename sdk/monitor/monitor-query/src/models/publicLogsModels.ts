@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import {
-  QueryResults as GeneratedQueryResults,
-  Table,
-  ErrorDetails
-} from "../generated/logquery/src";
+import { ErrorInfo, QueryResults as GeneratedQueryResults, Table } from "../generated/logquery/src";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
 // https://dev.loganalytics.io/documentation/Using-the-API/Timeouts
@@ -30,8 +26,9 @@ export interface QueryLogsOptions extends OperationOptions {
 export interface QueryStatistics {
   query?: {
     executionTime?: number;
-    // TODO: there are number of different models here.
+    [key: string]: unknown;
   };
+  [key: string]: unknown;
 }
 
 export type QueryLogsResult = GeneratedQueryResults & {
@@ -89,8 +86,9 @@ export interface QueryLogsBatchResponse {
     id?: string;
     status?: number;
     /** The list of tables, columns and rows. */
+    // (hoisted up from `LogQueryResult`)
     tables?: Table[];
-    errors?: ErrorDetails;
+    error?: ErrorInfo;
   }[];
 
   // TODO: this is omitted from the Java models.

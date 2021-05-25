@@ -109,9 +109,8 @@ export class LogsClient {
     );
 
     return {
-      errors: result.errors,
       tables: result.tables,
-      statistics: (result["_response"].parsedBody as any)["statistics"]
+      statistics: result.statistics
     };
   }
 

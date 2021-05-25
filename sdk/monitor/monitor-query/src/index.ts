@@ -35,12 +35,10 @@ export { CommonDurations } from "./models/constants";
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
-  BatchResponse,
-  BatchResponseError,
-  BatchResponseErrorInnerError,
   Column as MetricColumn,
-  ErrorDetails,
-  LogQueryResponse,
+  ColumnDataType,
+  ErrorDetail,
+  ErrorInfo,
   QueryGetResponse,
   QueryResults,
   Table
@@ -56,7 +54,7 @@ export {
   MetadataValue,
   MetricValue,
   ResultType,
-  Unit
+  MetricUnit
 } from "./generated/metrics/src";
 
 export {
@@ -64,4 +62,8 @@ export {
   MetricAvailability,
   MetricDefinition
 } from "./generated/metricsdefinitions/src";
-export { MetricNamespace, MetricNamespaceName } from "./generated/metricsnamespaces/src";
+export {
+  MetricNamespace,
+  MetricNamespaceName,
+  NamespaceClassification
+} from "./generated/metricsnamespaces/src";

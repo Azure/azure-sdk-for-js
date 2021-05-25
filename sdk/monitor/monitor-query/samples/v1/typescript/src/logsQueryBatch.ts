@@ -39,8 +39,8 @@ export async function main() {
   for (const response of result.results) {
     console.log(`Results for query with id: ${response.id}`);
 
-    if (response?.errors) {
-      console.log(` Query had errors:`, response?.errors);
+    if (response?.error) {
+      console.log(` Query had errors:`, response?.error);
     } else {
       if (response?.tables == null) {
         console.log(`No results for query`);

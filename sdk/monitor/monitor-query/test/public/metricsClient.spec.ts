@@ -17,8 +17,25 @@ describe("MetricsClient live tests", function() {
   });
 
   it("queryMetrics", async () => {
-    const result = await metricsClient.queryMetrics(metricsArmResourceId);
-    assert.ok(result);
+    const metricDefinitions = await metricsClient.getMetricDefinitions(metricsArmResourceId);
+    assert.isNotEmpty(metricDefinitions.definitions);
+
+    for (const definition of metricDefinitions.definitions) {
+      const result = await metricsClient.queryMetrics(metricsArmResourceId, {
+        metricNames: [definition.name?.value || ""]
+      });
+
+      assert.ok(result);
+      assert.ok(result.interval);
+      assert.isNotEmpty(result.metrics);
+    }
+
+    const newResults = await metricsClient.queryMetrics(metricsArmResourceId, {
+      metricNames: metricDefinitions.definitions.map((def) => def.name?.value || "")
+    });
+
+    assert.ok(newResults);
+    assert.isNotEmpty(newResults.metrics);
 
     // {
     //   "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/ripark/providers/Microsoft.ServiceBus/namespaces/riparkdev2/providers/Microsoft.Insights/metrics/SuccessfulRequests",
@@ -46,8 +63,6 @@ describe("MetricsClient live tests", function() {
     // }
     // "displayDescription": "Total successful requests for a namespace",
     // "errorCode": "Success"
-
-    assert.ok(result.interval);
   });
 
   it("listNamespaces", async () => {

@@ -26,28 +26,7 @@ export interface BatchQuery {
 }
 
 // @public
-export interface BatchResponse {
-    error?: BatchResponseError;
-    responses?: LogQueryResponse[];
-}
-
-// @public
-export interface BatchResponseError {
-    code?: string;
-    // (undocumented)
-    innerError?: BatchResponseErrorInnerError;
-    message?: string;
-}
-
-// @public (undocumented)
-export interface BatchResponseErrorInnerError {
-    // (undocumented)
-    code?: string;
-    // (undocumented)
-    details?: ErrorDetails[];
-    // (undocumented)
-    message?: string;
-}
+export type ColumnDataType = string;
 
 // @public
 export const CommonDurations: {
@@ -63,14 +42,23 @@ export const CommonDurations: {
     last5Minutes: string;
 };
 
-// @public (undocumented)
-export interface ErrorDetails {
-    // (undocumented)
-    code?: string;
-    // (undocumented)
-    message?: string;
-    // (undocumented)
+// @public
+export interface ErrorDetail {
+    additionalProperties?: any;
+    code: string;
+    message: string;
+    resources?: string[];
     target?: string;
+    value?: string;
+}
+
+// @public
+export interface ErrorInfo {
+    additionalProperties?: any;
+    code: string;
+    details?: ErrorDetail[];
+    innererror?: ErrorInfo;
+    message: string;
 }
 
 // @public
@@ -99,15 +87,6 @@ export interface LocalizableString {
     value: string;
 }
 
-// @public (undocumented)
-export interface LogQueryResponse {
-    body?: QueryResults;
-    // (undocumented)
-    id?: string;
-    // (undocumented)
-    status?: number;
-}
-
 // @public
 export class LogsClient {
     constructor(tokenCredential: TokenCredential | "DEMO_KEY", options?: LogsClientOptions);
@@ -130,11 +109,13 @@ export interface MetadataValue {
 
 // @public
 export interface Metric {
+    displayDescription: string;
+    errorCode?: string;
     id: string;
     name: LocalizableString;
     timeseries: TimeSeriesElement[];
     type: string;
-    unit: Unit;
+    unit: MetricUnit;
 }
 
 // @public
@@ -146,27 +127,28 @@ export interface MetricAvailability {
 // @public
 export interface MetricColumn {
     name?: string;
-    type?: string;
+    type?: ColumnDataType;
 }
 
 // @public
 export interface MetricDefinition {
+    category?: string;
     dimensions?: LocalizableString_2[];
+    displayDescription?: string;
     id?: string;
     isDimensionRequired?: boolean;
     metricAvailabilities?: MetricAvailability[];
     // Warning: (ae-forgotten-export) The symbol "LocalizableString" needs to be exported by the entry point index.d.ts
     name?: LocalizableString_2;
-    namespace?: string;
     primaryAggregationType?: AggregationType;
     resourceId?: string;
-    supportedAggregationTypes?: AggregationType[];
-    // Warning: (ae-forgotten-export) The symbol "Unit" needs to be exported by the entry point index.d.ts
-    unit?: Unit_2;
+    // Warning: (ae-forgotten-export) The symbol "MetricUnit" needs to be exported by the entry point index.d.ts
+    unit?: MetricUnit_2;
 }
 
 // @public
 export interface MetricNamespace {
+    classification?: NamespaceClassification;
     id?: string;
     name?: string;
     properties?: MetricNamespaceName;
@@ -196,6 +178,9 @@ export interface MetricsClientOptions extends PipelineOptions {
 }
 
 // @public
+export type MetricUnit = string;
+
+// @public
 export interface MetricValue {
     average?: number;
     count?: number;
@@ -204,6 +189,9 @@ export interface MetricValue {
     timeStamp: Date;
     total?: number;
 }
+
+// @public
+export type NamespaceClassification = string;
 
 // @public
 export type QueryGetResponse = QueryResults & {
@@ -227,7 +215,7 @@ export interface QueryLogsBatchResponse {
         id?: string;
         status?: number;
         tables?: Table[];
-        errors?: ErrorDetails;
+        error?: ErrorInfo;
     }[];
 }
 
@@ -268,16 +256,18 @@ export interface QueryMetricsResponse {
 
 // @public
 export interface QueryResults {
-    // (undocumented)
-    errors?: ErrorDetails;
-    tables?: Table[];
+    statistics?: any;
+    tables: Table[];
 }
 
 // @public (undocumented)
 export interface QueryStatistics {
     // (undocumented)
+    [key: string]: unknown;
+    // (undocumented)
     query?: {
         executionTime?: number;
+        [key: string]: unknown;
     };
 }
 
@@ -296,9 +286,6 @@ export interface TimeSeriesElement {
     data?: MetricValue[];
     metadataValues?: MetadataValue[];
 }
-
-// @public
-export type Unit = "Count" | "Bytes" | "Seconds" | "CountPerSecond" | "BytesPerSecond" | "Percent" | "MilliSeconds" | "ByteSeconds" | "Unspecified" | "Cores" | "MilliCores" | "NanoCores" | "BitsPerSecond";
 
 
 // (No @packageDocumentation comment for this package)

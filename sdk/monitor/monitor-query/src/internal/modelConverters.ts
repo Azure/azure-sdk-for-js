@@ -93,7 +93,8 @@ export function convertResponseForQueryBatch(
       ?.map((response: LogQueryResponse) => ({
         id: response.id,
         status: response.status,
-        errors: response.body?.errors,
+        // hoist fields from the sub-object 'body' to this level
+        error: response.body?.error,
         tables: response.body?.tables
       }))
   };
@@ -110,14 +111,14 @@ export function convertRequestForMetrics(
   const obj: GeneratedMetricsListOptionalParams & QueryMetricsOptions = {
     ...queryMetricsOptions,
     orderby: queryMetricsOptions?.orderBy,
-    metricnames: queryMetricsOptions?.metricNames?.join(","),
+    metric: queryMetricsOptions?.metricNames?.join(","),
     aggregation: queryMetricsOptions?.aggregations?.join(","),
     metricnamespace: queryMetricsOptions?.metricNamespace
   };
 
   delete obj["orderBy"];
-  delete obj["aggregations"];
   delete obj["metricNames"];
+  delete obj["aggregations"]; // delete our 'plural' aggregations (ie, 'aggregation' (non-plural) is the generated equivalent)
   delete obj["metricNamespace"];
 
   return obj;

@@ -17,13 +17,16 @@ import {
 } from "./models/publicMetricsModels";
 
 import {
-  KnownApiVersion201801,
+  KnownApiVersion20170501Preview as MetricsApiVersion,
   MonitorManagementClient as GeneratedMetricsClient
 } from "./generated/metrics/src";
-import { MonitorManagementClient as GeneratedMetricsDefinitionsClient } from "./generated/metricsdefinitions/src";
 import {
-  KnownApiVersion20171201Preview,
-  MonitorManagementClient as GeneratedMetricsNamespacesClient
+  KnownApiVersion20170501Preview as MetricDefinitionsApiVersion,
+  MetricsDefinitionsClient as GeneratedMetricsDefinitionsClient
+} from "./generated/metricsdefinitions/src";
+import {
+  KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
+  MetricsNamespacesClient as GeneratedMetricsNamespacesClient
 } from "./generated/metricsnamespaces/src";
 import {
   convertRequestForMetrics,
@@ -59,19 +62,19 @@ export class MetricsClient {
 
     this._metricsClient = new GeneratedMetricsClient(
       tokenCredential,
-      KnownApiVersion201801.TwoThousandEighteen0101,
+      MetricsApiVersion.TwoThousandSeventeen0501Preview,
       serviceClientOptions
     );
 
     this._definitionsClient = new GeneratedMetricsDefinitionsClient(
       tokenCredential,
-      KnownApiVersion201801.TwoThousandEighteen0101,
+      MetricDefinitionsApiVersion.TwoThousandSeventeen0501Preview,
       serviceClientOptions
     );
 
     this._namespacesClient = new GeneratedMetricsNamespacesClient(
       tokenCredential,
-      KnownApiVersion20171201Preview.TwoThousandSeventeen1201Preview,
+      MetricNamespacesApiVersion.TwoThousandSeventeen1201Preview,
       serviceClientOptions
     );
   }

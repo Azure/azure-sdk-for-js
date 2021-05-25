@@ -128,7 +128,7 @@ describe("Model unit tests", () => {
         aggregation: "agg1,agg2",
         filter: "arbitraryFilter",
         interval: "arbitraryInterval",
-        metricnames: "name1,name2",
+        metric: "name1,name2",
         metricnamespace: "myMetricNamespace",
         orderby: "orderByClause",
         requestOptions,
@@ -140,18 +140,15 @@ describe("Model unit tests", () => {
     });
 
     it("convertRequestForMetrics (only required fields)", () => {
-      assert.deepEqual(convertRequestForMetrics({}), {
-        metricnames: undefined,
+      const defaultValue: GeneratedMetricsListOptionalParams = {
         aggregation: undefined,
+        metric: undefined,
         metricnamespace: undefined,
         orderby: undefined
-      });
-      assert.deepEqual(convertRequestForMetrics(undefined), {
-        metricnames: undefined,
-        aggregation: undefined,
-        metricnamespace: undefined,
-        orderby: undefined
-      });
+      };
+
+      assert.deepEqual(convertRequestForMetrics({}), defaultValue);
+      assert.deepEqual(convertRequestForMetrics(undefined), defaultValue);
     });
 
     it("convertResponseForMetrics (all fields)", () => {
@@ -161,6 +158,8 @@ describe("Model unit tests", () => {
         value: [
           {
             id: "fakeMetric",
+            displayDescription: "displayDescription",
+            errorCode: "anErrorCode",
             name: {
               value: "fakeValue"
             },
@@ -196,6 +195,8 @@ describe("Model unit tests", () => {
         metrics: [
           {
             id: "fakeMetric",
+            displayDescription: "displayDescription",
+            errorCode: "anErrorCode",
             name: {
               value: "fakeValue"
             },

@@ -9,7 +9,7 @@ import {
   MetricNamespace,
   MetricValue,
   ResultType,
-  Unit
+  MetricUnit
 } from "..";
 
 /**
@@ -20,7 +20,7 @@ export interface QueryMetricsOptions extends OperationOptions {
   timespan?: string;
   /** The interval (i.e. timegrain) of the query. */
   interval?: string;
-  /** The names of the metrics (comma separated) to retrieve. */
+  /** The names of the metrics to retrieve **/
   metricNames?: string[];
   /** The list of aggregation types (comma separated) to retrieve. */
   aggregations?: string[];
@@ -52,14 +52,20 @@ export interface Metric {
   type: string;
   /** the name and the display name of the metric, i.e. it is localizable string. */
   name: LocalizableString;
+  /** Detailed description of this metric. */
+  displayDescription: string;
+  /** 'Success' or the error details on query failures for this metric. */
+  errorCode?: string;
   /** the unit of the metric. */
-  unit: Unit;
+  unit: MetricUnit;
   /** the time series returned when a data query is performed. */
   timeseries: TimeSeriesElement[];
 }
 
 /** A time series result type. The discriminator value is always TimeSeries in this case. */
 export interface TimeSeriesElement {
+  // track 2 version of
+
   /** the metadata values returned if $filter was specified in the call. */
   metadataValues?: MetadataValue[];
   /** An array of data points representing the metric values.  This is only returned if a result type of data is specified. */
