@@ -1596,7 +1596,7 @@ const getAnomaliesFromAlertByAnomalyAlertingConfigurationOperationSpec: coreHttp
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
@@ -1617,7 +1617,7 @@ const getIncidentsFromAlertByAnomalyAlertingConfigurationOperationSpec: coreHttp
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
@@ -1701,7 +1701,7 @@ const getAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationOperationSp
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.configurationId],
   headerParameters: [Parameters.accept],
   serializer
@@ -1793,7 +1793,7 @@ const getIncidentsByAnomalyDetectionConfigurationNextPagesOperationSpec: coreHtt
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.maxPageSize, Parameters.token],
+  queryParameters: [Parameters.maxpagesize, Parameters.token],
   urlParameters: [Parameters.endpoint, Parameters.configurationId],
   headerParameters: [Parameters.accept],
   serializer
@@ -1846,7 +1846,7 @@ const listCredentialsOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -1909,7 +1909,7 @@ const listDataFeedsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.skip,
-    Parameters.maxPageSize,
+    Parameters.maxpagesize,
     Parameters.dataFeedName,
     Parameters.dataSourceType,
     Parameters.granularityName,
@@ -2045,7 +2045,7 @@ const listHooksOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.skip,
-    Parameters.maxPageSize,
+    Parameters.maxpagesize,
     Parameters.hookName
   ],
   urlParameters: [Parameters.endpoint],
@@ -2226,7 +2226,7 @@ const getAnomalyDetectionConfigurationsByMetricOperationSpec: coreHttp.Operation
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.metricId],
   headerParameters: [Parameters.accept],
   serializer
@@ -2396,7 +2396,7 @@ const getAnomaliesFromAlertByAnomalyAlertingConfigurationNextOperationSpec: core
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
@@ -2417,7 +2417,7 @@ const getIncidentsFromAlertByAnomalyAlertingConfigurationNextOperationSpec: core
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
@@ -2438,7 +2438,7 @@ const getAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationNextOperati
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
@@ -2479,7 +2479,7 @@ const getIncidentsByAnomalyDetectionConfigurationNextPagesNextOperationSpec: cor
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.maxPageSize, Parameters.token],
+  queryParameters: [Parameters.maxpagesize, Parameters.token],
   urlParameters: [
     Parameters.endpoint,
     Parameters.configurationId,
@@ -2499,7 +2499,7 @@ const listCredentialsNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -2517,7 +2517,7 @@ const listDataFeedsNextOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.skip,
-    Parameters.maxPageSize,
+    Parameters.maxpagesize,
     Parameters.dataFeedName,
     Parameters.dataSourceType,
     Parameters.granularityName,
@@ -2541,7 +2541,7 @@ const listHooksNextOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.skip,
-    Parameters.maxPageSize,
+    Parameters.maxpagesize,
     Parameters.hookName
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
@@ -2559,7 +2559,7 @@ const getAnomalyDetectionConfigurationsByMetricNextOperationSpec: coreHttp.Opera
       bodyMapper: Mappers.ErrorCode
     }
   },
-  queryParameters: [Parameters.skip, Parameters.maxPageSize],
+  queryParameters: [Parameters.skip, Parameters.maxpagesize],
   urlParameters: [
     Parameters.endpoint,
     Parameters.metricId,

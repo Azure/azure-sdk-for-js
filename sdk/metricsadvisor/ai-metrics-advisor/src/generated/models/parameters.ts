@@ -142,16 +142,6 @@ export const alertId: OperationURLParameter = {
   }
 };
 
-export const maxPageSize: OperationQueryParameter = {
-  parameterPath: ["options", "maxPageSize"],
-  mapper: {
-    serializedName: "$maxPageSize",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
 export const body3: OperationParameter = {
   parameterPath: "body",
   mapper: AnomalyDetectionConfigurationPatchMapper

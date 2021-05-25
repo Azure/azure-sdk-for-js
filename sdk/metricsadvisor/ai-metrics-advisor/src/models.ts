@@ -12,8 +12,6 @@ import {
   AzureCosmosDBParameter,
   AzureDataLakeStorageGen2Parameter,
   AzureTableParameter,
-  ElasticsearchParameter,
-  HttpRequestParameter,
   InfluxDBParameter,
   MongoDBParameter,
   EmailHookParameter,
@@ -42,8 +40,6 @@ export {
   SqlSourceParameter,
   AzureDataLakeStorageGen2Parameter,
   AzureTableParameter,
-  ElasticsearchParameter,
-  HttpRequestParameter,
   InfluxDBParameter,
   MongoDBParameter,
   SuppressCondition,
@@ -2048,11 +2044,8 @@ export type DataSourceCredentialEntityUnion =
   | ServicePrincipalCredentialEntity
   | ServicePrincipalInKVCredentialEntity;
 
-export type DataSourceCredentialEntityPatch = Pick<
-  DataSourceCredentialEntityUnion,
-  "description" | "name" | "type"
-> &
-  Partial<Omit<DataSourceCredentialEntityUnion, "description" | "name" | "type"| "id">>;
+export type DataSourceCredentialEntityPatch = Partial<Omit<DataSourceCredentialEntityUnion,"id">>&{type: 
+|"AzureSQLConnectionString" | "DataLakeGen2SharedKey" | "ServicePrincipal" | "ServicePrincipalInKV" }
 
 /**
  * Contains response data for the listCredentials operation.

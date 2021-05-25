@@ -1941,7 +1941,7 @@ export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /** Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfiguration operation. */
@@ -1962,7 +1962,7 @@ export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /** Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfiguration operation. */
@@ -2016,7 +2016,7 @@ export interface GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetecti
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /** Contains response data for the getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration operation. */
@@ -2108,7 +2108,7 @@ export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationResponse =
 export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesOptionalParams
   extends coreHttp.OperationOptions {
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
   /** the token for getting the next page */
   token?: string;
 }
@@ -2152,7 +2152,7 @@ export interface GeneratedClientListCredentialsOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /** Contains response data for the listCredentials operation. */
@@ -2197,7 +2197,7 @@ export interface GeneratedClientListDataFeedsOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
   /** filter data feed by its name */
   dataFeedName?: string;
   /** filter data feed by its source type */
@@ -2303,7 +2303,7 @@ export interface GeneratedClientListHooksOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
   /** filter hook by its name */
   hookName?: string;
 }
@@ -2446,7 +2446,7 @@ export interface GeneratedClientGetAnomalyDetectionConfigurationsByMetricOptiona
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /** Contains response data for the getAnomalyDetectionConfigurationsByMetric operation. */
@@ -2584,7 +2584,7 @@ export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /** Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfigurationNext operation. */
@@ -2605,7 +2605,7 @@ export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurat
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /** Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfigurationNext operation. */
@@ -2626,7 +2626,7 @@ export interface GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetecti
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /** Contains response data for the getAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationNext operation. */
@@ -2664,7 +2664,7 @@ export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextRespon
 export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesNextOptionalParams
   extends coreHttp.OperationOptions {
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
   /** the token for getting the next page */
   token?: string;
 }
@@ -2687,7 +2687,7 @@ export interface GeneratedClientListCredentialsNextOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /** Contains response data for the listCredentialsNext operation. */
@@ -2708,7 +2708,7 @@ export interface GeneratedClientListDataFeedsNextOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
   /** filter data feed by its name */
   dataFeedName?: string;
   /** filter data feed by its source type */
@@ -2739,7 +2739,7 @@ export interface GeneratedClientListHooksNextOptionalParams
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
   /** filter hook by its name */
   hookName?: string;
 }
@@ -2762,7 +2762,7 @@ export interface GeneratedClientGetAnomalyDetectionConfigurationsByMetricNextOpt
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /** Contains response data for the getAnomalyDetectionConfigurationsByMetricNext operation. */

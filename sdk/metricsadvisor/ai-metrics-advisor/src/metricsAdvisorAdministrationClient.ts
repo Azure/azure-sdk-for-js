@@ -411,8 +411,8 @@ export class MetricsAdvisorAdministrationClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listDataFeeds({
         ...options.filter,
-        ...options,
-        maxpagesize: options?.maxPageSize
+        maxPageSize: options.maxPageSize,
+        skip: options.skip
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
@@ -434,8 +434,8 @@ export class MetricsAdvisorAdministrationClient {
     while (continuationToken) {
       segmentResponse = await this.client.listDataFeedsNext(continuationToken, {
         ...options.filter,
-        ...options,
-        maxpagesize: options?.maxPageSize
+        maxPageSize: options.maxPageSize,
+        skip: options.skip
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
