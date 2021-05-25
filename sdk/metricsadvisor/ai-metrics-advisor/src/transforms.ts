@@ -27,7 +27,8 @@ import {
   MongoDBDataFeed as ServiceMongoDBDataFeed,
   MySqlDataFeed as ServiceMySqlDataFeed,
   PostgreSqlDataFeed as ServicePostgreSqlDataFeed,
-  SQLServerDataFeed as ServiceSQLServerDataFeed
+  SQLServerDataFeed as ServiceSQLServerDataFeed,
+  InfluxDBDataFeed as ServiceInfluxDBDataFeed
 } from "./generated/models";
 import {
   MetricFeedbackUnion,
@@ -491,7 +492,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       }
       const source: AzureDataLakeStorageGen2DataFeedSource = {
         dataSourceType: "AzureDataLakeStorageGen2",
-        accountName: orig5.dataSourceParameter.accountName,
+        accountName: orig5.dataSourceParameter.accountName!,
         directoryTemplate: orig5.dataSourceParameter.directoryTemplate,
         fileSystemName: orig5.dataSourceParameter.fileSystemName,
         fileTemplate: orig5.dataSourceParameter.fileTemplate,        
@@ -509,7 +510,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "AzureTable",
-          connectionString: orig6.dataSourceParameter.connectionString,
+          connectionString: orig6.dataSourceParameter.connectionString!,
           table: orig6.dataSourceParameter.table,
           query: orig6.dataSourceParameter.query,
           authenticationType: "Basic"
@@ -517,14 +518,30 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
       };
       return result6;
     }
+    case "InfluxDB": {
+      const orig8 = original as ServiceInfluxDBDataFeed;
+      const result8: DataFeed = {
+        ...common,
+        source: {
+          dataSourceType: "InfluxDB",
+          connectionString: orig8.dataSourceParameter.connectionString!,
+          database: orig8.dataSourceParameter.database!,
+          password: orig8.dataSourceParameter.password!,
+          query: orig8.dataSourceParameter.query,
+          userName : orig8.dataSourceParameter.userName!,
+          authenticationType: "Basic"
+        }
+      };
+      return result8;
+    }
     case "MongoDB": {
       const orig9 = (original) as ServiceMongoDBDataFeed;
       const result9: DataFeed = {
         ...common,
         source: {
           dataSourceType: "MongoDB",
-          connectionString: orig9.dataSourceParameter.connectionString,
-          database: orig9.dataSourceParameter.database,
+          connectionString: orig9.dataSourceParameter.connectionString!,
+          database: orig9.dataSourceParameter.database!,
           command:orig9.dataSourceParameter.command,
           authenticationType: "Basic"
         }
