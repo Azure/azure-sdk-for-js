@@ -1573,7 +1573,7 @@ export class MetricsAdvisorAdministrationClient {
       throw new Error("Not yet implemented");
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1603,7 +1603,7 @@ export class MetricsAdvisorAdministrationClient {
       throw new Error("Not Yet Implemented"); // return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1650,7 +1650,7 @@ export class MetricsAdvisorAdministrationClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1678,7 +1678,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.deleteCredential(id, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
