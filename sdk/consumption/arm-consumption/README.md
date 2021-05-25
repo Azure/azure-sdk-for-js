@@ -93,7 +93,7 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
         tenantId: "<optional tenant for your organization>"
       });
       const client = new Azure.ArmConsumption.ConsumptionManagementClient(creds, subscriptionId);
-const expand = "testexpand";
+      const expand = "testexpand";
       const filter = "testfilter";
       const skiptoken = "testskiptoken";
       const top = 1;
