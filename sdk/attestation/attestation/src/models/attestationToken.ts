@@ -93,6 +93,7 @@ function isObject(thing: any) {
 function safeJsonParse(thing: any) {
     if (isObject(thing)) return thing;
     try {
+        console.log("Parsing JSON: " + thing);
       return JSON.parse(thing);
     } catch (e) {
       return undefined;

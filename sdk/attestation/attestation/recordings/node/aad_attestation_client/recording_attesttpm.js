@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "440d30ea80ae00bd4f9657be7d16ccbc";
+module.exports.hash = "8126d442c16ed9c8bbf329910b4681d5";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'ec58e243-8e3e-4d60-ba01-6b06d9c72100',
+  '9e1e698f-9840-494a-9647-aeac00532a00',
   'x-ms-ests-server',
-  '2.1.11774.11 - SCUS ProdSlices',
+  '2.1.11774.11 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AjT_ZlrmusVHpouhTNAYs-O81LWYBQAAAIt2P9gOAAAA; expires=Thu, 24-Jun-2021 22:52:05 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoeeOFCcvcNIrB8eRXdVKmq81LWYBgAAAD-EP9gOAAAA; expires=Thu, 24-Jun-2021 23:50:32 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 25 May 2021 22:52:04 GMT',
+  'Tue, 25 May 2021 23:50:32 GMT',
   'Content-Length',
   '1317'
 ]);
@@ -44,7 +44,7 @@ nock('https://aad_attestation_url', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Date',
-  'Tue, 25 May 2021 22:52:05 GMT',
+  'Tue, 25 May 2021 23:50:33 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -52,7 +52,7 @@ nock('https://aad_attestation_url', {"encodedQueryParams":true})
   'Transfer-Encoding',
   'chunked',
   'x-ms-request-id',
-  '00-13da6a94677311118632a3252e3c66ab-0000000000000000-00',
+  '00-e123854bcd68947567f0e7bce350468b-0000000000000000-00',
   'x-ms-maa-service-version',
   '1.10.01598.0001'
 ]);
