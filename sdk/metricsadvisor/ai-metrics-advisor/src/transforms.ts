@@ -24,7 +24,6 @@ import {
   AzureBlobDataFeed as ServiceAzureBlobDataFeed,
   AzureCosmosDBDataFeed as ServiceAzureCosmosDBDataFeed,
   AzureTableDataFeed as ServiceAzureTableDataFeed,
-  InfluxDBDataFeed as ServiceInfluxDBDataFeed,
   MongoDBDataFeed as ServiceMongoDBDataFeed,
   MySqlDataFeed as ServiceMySqlDataFeed,
   PostgreSqlDataFeed as ServicePostgreSqlDataFeed,
@@ -510,24 +509,13 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "AzureTable",
-            ...orig6.dataSourceParameter,
-            authenticationType: "Basic"
-
-        }
-      };
-      return result6;
-    }
-    case "InfluxDB": {
-      const orig8 = (original) as ServiceInfluxDBDataFeed;
-      const result8: DataFeed = {
-        ...common,
-        source: {
-          dataSourceType: "InfluxDB",
-          ...orig8.dataSourceParameter,
+          connectionString: orig6.dataSourceParameter.connectionString,
+          table: orig6.dataSourceParameter.table,
+          query: orig6.dataSourceParameter.query,
           authenticationType: "Basic"
         }
       };
-      return result8;
+      return result6;
     }
     case "MongoDB": {
       const orig9 = (original) as ServiceMongoDBDataFeed;
@@ -535,7 +523,9 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "MongoDB",
-          ...orig9.dataSourceParameter,
+          connectionString: orig9.dataSourceParameter.connectionString,
+          database: orig9.dataSourceParameter.database,
+          command:orig9.dataSourceParameter.command,
           authenticationType: "Basic"
         }
       };
@@ -547,7 +537,8 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "MySql",
-          ...orig10.dataSourceParameter,
+          connectionString: orig10.dataSourceParameter.connectionString,
+          query: orig10.dataSourceParameter.query,
           authenticationType: "Basic"
         }
       };
@@ -559,7 +550,8 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "PostgreSql",
-          ...orig11.dataSourceParameter,
+          connectionString: orig11.dataSourceParameter.connectionString,
+          query: orig11.dataSourceParameter.query,
           authenticationType: "Basic"
         }
       };

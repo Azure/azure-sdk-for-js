@@ -631,7 +631,7 @@ export interface DataFeedList {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly value?: DataSourceCredentialUnion[];
+  readonly value?: DataFeedDetailUnion[];
 }
 
 export interface DataSourceCredentialPatch {

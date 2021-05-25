@@ -476,9 +476,7 @@ export class MetricsAdvisorAdministrationClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const patchBody = {
         // source
-        // TODO: (jeremymeng) transform authenticationType and credentialId
-        dataSourceType: patch.source.dataSourceType,
-        dataSourceParameter: patch.source.dataSourceParameter,
+        ...patch.source,
         // name and description
         dataFeedName: patch.name,
         dataFeedDescription: patch.description,

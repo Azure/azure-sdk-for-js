@@ -672,8 +672,7 @@ export type DataFeedPatch = {
  * When not changing the data source type, the dataSourceParameter is not required.
  * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
  */
-export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> &
-  { [P in "dataSourceParameter"]?: DataFeedSource[P] };
+export type DataFeedSourcePatch = Partial<DataFeedSource> & { dataSourceType:DataFeedSource["dataSourceType"] };
 
 /**
  * The logical operator to apply across multiple {@link MetricAlertConfiguration}
