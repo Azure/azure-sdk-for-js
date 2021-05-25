@@ -108,10 +108,8 @@ export type AnomalyValue = "AutoDetect" | "Anomaly" | "NotAnomaly";
 // @public
 export type AzureApplicationInsightsDataFeedSource = {
     dataSourceType: "AzureApplicationInsights";
-    dataSourceParameter: AzureApplicationInsightsParameter & {
-        authenticationType: "Basic";
-    };
-};
+    authenticationType: "Basic";
+} & AzureApplicationInsightsParameter;
 
 // @public (undocumented)
 export interface AzureApplicationInsightsParameter {
@@ -124,9 +122,10 @@ export interface AzureApplicationInsightsParameter {
 // @public
 export type AzureBlobDataFeedSource = {
     dataSourceType: "AzureBlob";
-    dataSourceParameter: AzureBlobParameter & {
-        authenticationType: "Basic" | "ManagedIdentity";
-    };
+    connectionString: string;
+    container: string;
+    blobTemplate: string;
+    authenticationType: "Basic" | "ManagedIdentity";
 };
 
 // @public (undocumented)
@@ -139,10 +138,8 @@ export interface AzureBlobParameter {
 // @public
 export type AzureCosmosDBDataFeedSource = {
     dataSourceType: "AzureCosmosDB";
-    dataSourceParameter: AzureCosmosDBParameter & {
-        authenticationType: "Basic";
-    };
-};
+    authenticationType: "Basic";
+} & AzureCosmosDBParameter;
 
 // @public (undocumented)
 export interface AzureCosmosDBParameter {
@@ -153,29 +150,54 @@ export interface AzureCosmosDBParameter {
 }
 
 // @public
+export interface AzureDataExplorerAuthBasic {
+    // (undocumented)
+    authenticationType: "Basic";
+}
+
+// @public
+export interface AzureDataExplorerAuthManagedIdentity {
+    // (undocumented)
+    authenticationType: "ManagedIdentity";
+}
+
+// @public
+export interface AzureDataExplorerAuthServicePrincipal {
+    // (undocumented)
+    authenticationType: "ServicePrincipal";
+    // (undocumented)
+    credentialId: string;
+}
+
+// @public
+export interface AzureDataExplorerAuthServicePrincipalInKV {
+    // (undocumented)
+    authenticationType: "ServicePrincipalInKV";
+    // (undocumented)
+    credentialId: string;
+}
+
+// @public
+export type AzureDataExplorerAuthTypes = AzureDataExplorerAuthBasic | AzureDataExplorerAuthManagedIdentity | AzureDataExplorerAuthServicePrincipal | AzureDataExplorerAuthServicePrincipalInKV;
+
+// @public
 export type AzureDataExplorerDataFeedSource = {
     dataSourceType: "AzureDataExplorer";
-    dataSourceParameter: SqlSourceParameter & ({
-        authenticationType: "Basic" | "ManagedIdentity";
-    } | {
-        authenticationType: "ServicePrincipal" | "ServicePrincipalInKV";
-        credentialId: string;
-    });
-};
+    connectionString: string;
+    query: string;
+} & (AzureDataExplorerAuthTypes);
+
+// @public
+export type AzureDataLakeStorageGen2AuthTypes = DataLakeStorageGen2AuthBasic | DataLakeStorageGen2AuthManagedIdentity | DataLakeStorageGen2AuthServicePrincipal | DataLakeStorageGen2AuthServicePrincipalInKV | DataLakeStorageGen2AuthSharedKey;
 
 // @public
 export type AzureDataLakeStorageGen2DataFeedSource = {
     dataSourceType: "AzureDataLakeStorageGen2";
-    dataSourceParameter: Omit<AzureDataLakeStorageGen2Parameter, "accountKey"> & ({
-        authenticationType: "Basic";
-        accountKey: string;
-    } | {
-        authenticationType: "ManagedIdentity";
-    } | {
-        authenticationType: "ServicePrincipal" | "ServicePrincipalInKV" | "DataLakeGen2SharedKey";
-        credentialId: string;
-    });
-};
+    accountName: string;
+    fileSystemName: string;
+    directoryTemplate: string;
+    fileTemplate: string;
+} & (AzureDataLakeStorageGen2AuthTypes);
 
 // @public (undocumented)
 export interface AzureDataLakeStorageGen2Parameter {
@@ -194,9 +216,10 @@ export interface AzureSQLConnectionStringParam {
 // @public
 export type AzureTableDataFeedSource = {
     dataSourceType: "AzureTable";
-    dataSourceParameter: AzureTableParameter & {
-        authenticationType: "Basic";
-    };
+    connectionString: string;
+    table: string;
+    query: string;
+    authenticationType: "Basic";
 };
 
 // @public (undocumented)
@@ -349,11 +372,11 @@ export interface DataFeedSchema {
 }
 
 // @public
-export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | ElasticsearchDataFeedSource | HttpRequestDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SQLServerDataFeedSource | MongoDBDataFeedSource | UnknownDataFeedSource;
+export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SQLServerDataFeedSource | MongoDBDataFeedSource | UnknownDataFeedSource;
 
 // @public
-export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> & {
-    [P in "dataSourceParameter"]?: DataFeedSource[P];
+export type DataFeedSourcePatch = Partial<DataFeedSource> & {
+    dataSourceType: DataFeedSource["dataSourceType"];
 };
 
 // @public
@@ -371,7 +394,7 @@ export type DataFeedStatus = "Paused" | "Active";
 // @public (undocumented)
 export interface DataLakeGen2SharedKeyCredentialEntity extends DataSourceCredentialEntity {
     // (undocumented)
-    parameters: DataLakeGen2SharedKeyParam;
+    accountKey: string;
     // (undocumented)
     type: "DataLakeGen2SharedKey";
 }
@@ -380,6 +403,35 @@ export interface DataLakeGen2SharedKeyCredentialEntity extends DataSourceCredent
 export interface DataLakeGen2SharedKeyParam {
     accountKey: string;
 }
+
+// @public
+export type DataLakeStorageGen2AuthBasic = {
+    authenticationType: "Basic";
+    accountKey: string;
+};
+
+// @public
+export type DataLakeStorageGen2AuthManagedIdentity = {
+    authenticationType: "ManagedIdentity";
+};
+
+// @public
+export type DataLakeStorageGen2AuthServicePrincipal = {
+    authenticationType: "ServicePrincipal";
+    credentialId: string;
+};
+
+// @public
+export type DataLakeStorageGen2AuthServicePrincipalInKV = {
+    authenticationType: "ServicePrincipalInKV";
+    credentialId: string;
+};
+
+// @public
+export type DataLakeStorageGen2AuthSharedKey = {
+    authenticationType: "DataLakeGen2SharedKey";
+    credentialId: string;
+};
 
 // @public
 export interface DataPointAnomaly {
@@ -404,7 +456,7 @@ export interface DataSourceCredentialEntity {
 }
 
 // @public (undocumented)
-export type DataSourceCredentialEntityPatch = Omit<DataSourceCredentialEntityUnion, "id" | "parameters"> & Partial<Pick<DataSourceCredentialEntityUnion, "parameters">>;
+export type DataSourceCredentialEntityPatch = Pick<DataSourceCredentialEntityUnion, "description" | "name" | "type"> & Partial<Omit<DataSourceCredentialEntityUnion, "description" | "name" | "type" | "id">>;
 
 // @public (undocumented)
 export type DataSourceCredentialEntityUnion = SqlConnectionStringCredentialEntity | DataLakeGen2SharedKeyCredentialEntity | ServicePrincipalCredentialEntity | ServicePrincipalInKVCredentialEntity;
@@ -442,14 +494,6 @@ export interface DimensionValuesPageResponse extends Array<string> {
         parsedBody: any;
     };
 }
-
-// @public
-export type ElasticsearchDataFeedSource = {
-    dataSourceType: "Elasticsearch";
-    dataSourceParameter: ElasticsearchParameter & {
-        authenticationType: "Basic";
-    };
-};
 
 // @public (undocumented)
 export interface ElasticsearchParameter {
@@ -599,14 +643,6 @@ export interface HooksPageResponse extends Array<NotificationHookUnion> {
     };
 }
 
-// @public
-export type HttpRequestDataFeedSource = {
-    dataSourceType: "HttpRequest";
-    dataSourceParameter: HttpRequestParameter & {
-        authenticationType: "Basic";
-    };
-};
-
 // @public (undocumented)
 export interface HttpRequestParameter {
     httpHeader: string;
@@ -635,9 +671,12 @@ export interface IncidentsPageResponse extends Array<AnomalyIncident> {
 // @public
 export type InfluxDBDataFeedSource = {
     dataSourceType: "InfluxDB";
-    dataSourceParameter: InfluxDBParameter & {
-        authenticationType: "Basic";
-    };
+    connectionString: string;
+    database: string;
+    userName: string;
+    password: string;
+    query: string;
+    authenticationType: "Basic";
 };
 
 // @public (undocumented)
@@ -1009,9 +1048,10 @@ export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
 // @public
 export type MongoDBDataFeedSource = {
     dataSourceType: "MongoDB";
-    dataSourceParameter: MongoDBParameter & {
-        authenticationType: "Basic";
-    };
+    connectionString: string;
+    database: string;
+    command: string;
+    authenticationType: "Basic";
 };
 
 // @public (undocumented)
@@ -1024,9 +1064,9 @@ export interface MongoDBParameter {
 // @public
 export type MySqlDataFeedSource = {
     dataSourceType: "MySql";
-    dataSourceParameter: SqlSourceParameter & {
-        authenticationType: "Basic";
-    };
+    connectionString?: string;
+    query: string;
+    authenticationType: "Basic";
 };
 
 // @public
@@ -1051,23 +1091,28 @@ export type NotificationHookUnion = EmailNotificationHook | WebNotificationHook;
 // @public
 export type PostgreSqlDataFeedSource = {
     dataSourceType: "PostgreSql";
-    dataSourceParameter: SqlSourceParameter & {
-        authenticationType: "Basic";
-    };
+    connectionString?: string;
+    query: string;
+    authenticationType: "Basic";
 };
 
 // @public (undocumented)
 export interface ServicePrincipalCredentialEntity extends DataSourceCredentialEntity {
-    // (undocumented)
-    parameters: ServicePrincipalParam;
+    clientId: string;
+    clientSecret: string;
+    tenantId: string;
     // (undocumented)
     type: "ServicePrincipal";
 }
 
 // @public (undocumented)
 export interface ServicePrincipalInKVCredentialEntity extends DataSourceCredentialEntity {
-    // (undocumented)
-    parameters: ServicePrincipalInKVParam;
+    keyVaultClientId: string;
+    keyVaultClientSecret: string;
+    keyVaultEndpoint: string;
+    servicePrincipalIdNameInKV: string;
+    servicePrincipalSecretNameInKV: string;
+    tenantId: string;
     // (undocumented)
     type: "ServicePrincipalInKV";
 }
@@ -1118,21 +1163,63 @@ export type SnoozeScope = "Metric" | "Series";
 // @public (undocumented)
 export interface SqlConnectionStringCredentialEntity extends DataSourceCredentialEntity {
     // (undocumented)
-    parameters: AzureSQLConnectionStringParam;
+    connectionString: string;
     // (undocumented)
     type: "AzureSQLConnectionString";
 }
 
 // @public
+export interface SQLServerAuthBasic {
+    // (undocumented)
+    authenticationType: "Basic";
+    // (undocumented)
+    connectionString: string;
+}
+
+// @public
+export interface SQLServerAuthConnectionString {
+    // (undocumented)
+    authenticationType: "AzureSQLConnectionString";
+    // (undocumented)
+    credentialId: string;
+}
+
+// @public
+export interface SQLServerAuthManagedIdentity {
+    // (undocumented)
+    authenticationType: "ManagedIdentity";
+    // (undocumented)
+    connectionString: string;
+}
+
+// @public
+export interface SQLServerAuthServicePrincipal {
+    // (undocumented)
+    authenticationType: "ServicePrincipal";
+    // (undocumented)
+    connectionString: string;
+    // (undocumented)
+    credentialId: string;
+}
+
+// @public
+export interface SQLServerAuthServicePrincipalInKV {
+    // (undocumented)
+    authenticationType: "ServicePrincipalInKV";
+    // (undocumented)
+    connectionString: string;
+    // (undocumented)
+    credentialId: string;
+}
+
+// @public
+export type SQLServerAuthTypes = SQLServerAuthBasic | SQLServerAuthManagedIdentity | SQLServerAuthConnectionString | SQLServerAuthServicePrincipal | SQLServerAuthServicePrincipalInKV;
+
+// @public
 export type SQLServerDataFeedSource = {
     dataSourceType: "SqlServer";
-    dataSourceParameter: SqlSourceParameter & ({
-        authenticationType?: "Basic" | "ManagedIdentity";
-    } | {
-        authenticationType: "ServicePrincipal" | "ServicePrincipalInKV" | "AzureSQLConnectionString";
-        credentialId: string;
-    });
-};
+    query: string;
+} & SQLServerAuthTypes;
 
 // @public (undocumented)
 export interface SqlSourceParameter {
