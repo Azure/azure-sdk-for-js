@@ -9,13 +9,13 @@
 export {
   CSRPError,
   CSRPErrorBody,
-  GuestOSNICCustomization,
-  PrivateCloud,
-  PrivateCloudList,
-  ResourcePool,
-  VirtualDisk,
-  VirtualDiskController,
-  VirtualMachineTemplate,
-  VirtualNetwork,
-  VirtualNic
+  CustomizationHostName,
+  CustomizationIdentity,
+  CustomizationIdentityUserData,
+  CustomizationIPAddress,
+  CustomizationIPSettings,
+  CustomizationNicSetting,
+  CustomizationPoliciesListResponse,
+  CustomizationPolicy,
+  CustomizationSpecification
 } from "../models/mappers";
