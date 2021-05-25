@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isBrowser, sanitizeScopeUrl } from ".";
+
 /**
  * Callbacks to be applied on the generated recordings
  * - stringTransforms - callbacks to be applied on the string based request body
@@ -15,7 +17,7 @@ export type RequestBodyTransformsType = {
  * Provides the default RequestBodyTransforms that need to be applied on the generated recordings
  */
 export const defaultRequestBodyTransforms: Required<RequestBodyTransformsType> = {
-  stringTransforms: [],
+  stringTransforms: [(body: string) => (isBrowser() ? sanitizeScopeUrl(body) : body)],
   jsonTransforms: []
 };
 
