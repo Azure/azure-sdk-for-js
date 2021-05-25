@@ -9,5 +9,4 @@
 export * from "./policy";
 export * from "./policyCertificates";
 export * from "./attestation";
-export * from "./signingCertificates";
-export * from "./metadataConfiguration";
+

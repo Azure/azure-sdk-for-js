@@ -4638,10 +4638,10 @@ packages:
       '0': node >=0.6.0
     resolution:
       integrity: sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=
-  /jsrsasign/10.2.0:
+  /jsrsasign/8.0.12:
     dev: false
     resolution:
-      integrity: sha512-khMrV/10U02DRzmXhjuLQjddUF39GHndaJZ/3YiiKkbyEl1T5M6EQF9nQUq0DFVCHusmd/jl8TWl4mWt+1L5hg==
+      integrity: sha1-Iqu5ZW00owuVMENnIINeicLlwxY=
   /jssha/2.4.2:
     deprecated: jsSHA versions < 3.0.0 will no longer receive feature updates
     dev: false
@@ -8229,7 +8229,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.4
       dotenv: 8.6.0
       eslint: 7.26.0
-      jsrsasign: 10.2.0
+      jsrsasign: 8.0.12
       karma: 6.3.2
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
@@ -8259,7 +8259,7 @@ packages:
     dev: false
     name: '@rush-temp/attestation'
     resolution:
-      integrity: sha512-308IFrOUbXclBJTqvF46pGIb+PckBwJ9PufzEE3dbB8mA9JIj+9838qEppUW8x9k2ENMx43+T6/FCh15qXsTgg==
+      integrity: sha512-eh6d72YmHKbu3ETya3pliyE5u30wc4L+QnFwazX60PyAeay/W7FXXlxGFEIhPB0pSi+e1uAcDOpI8YvVY5IlKg==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:

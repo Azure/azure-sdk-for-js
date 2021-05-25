@@ -7,17 +7,17 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { AttestationClientOptionalParams } from "./models";
+import { GeneratedClientOptionalParams } from "./models";
 
 const packageName = "@azure/attestation";
-const packageVersion = "1.0.0-beta.2";
+const packageVersion = "1.0.0";
 
-export class AttestationClientContext extends coreHttp.ServiceClient {
+export class GeneratedClientContext extends coreHttp.ServiceClient {
   instanceUrl: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the AttestationClientContext class.
+   * Initializes a new instance of the GeneratedClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param instanceUrl The attestation instance base URI, for example https://mytenant.attest.azure.net.
    * @param options The parameter options
@@ -25,7 +25,7 @@ export class AttestationClientContext extends coreHttp.ServiceClient {
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     instanceUrl: string,
-    options?: AttestationClientOptionalParams
+    options?: GeneratedClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
