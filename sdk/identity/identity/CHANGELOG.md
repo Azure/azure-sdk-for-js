@@ -2,6 +2,7 @@
 
 ## 2.0.0-beta.4 (Unreleased)
 
+- Added `loginState` and `loginNonce` to the constructor options of the browser version of the `InteractiveBrowserCredential`, to mitigate cross site request forgery attacks and multiple replay attacks.
 
 ## 2.0.0-beta.3 (2021-05-12)
 

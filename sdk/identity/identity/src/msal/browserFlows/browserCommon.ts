@@ -20,6 +20,8 @@ import { CredentialUnavailableError } from "../../client/errors";
 export interface MsalBrowserFlowOptions extends MsalFlowOptions {
   redirectUri?: string;
   loginStyle: BrowserLoginStyle;
+  loginState?: string;
+  loginNonce?: string;
 }
 
 /**
@@ -54,6 +56,22 @@ export function defaultBrowserMsalConfig(
 }
 
 /**
+ * Defines common properties that customizes browser authentication.
+ * The full list of available properties can be seen here: https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/3a730d5ad842eaa8fc643015817cd7c20415e921/lib/msal-browser/src/request/PopupRequest.ts
+ * We will be adding more on demand.
+ */
+export interface MsalBrowserLoginOptions {
+  /**
+   * A value included in the request that is also returned in the token response. A randomly generated unique value is typically used for preventing cross site request forgery attacks. The state is also used to encode information about the user's state in the app before the authentication request occurred.
+   */
+  state?: string;
+  /**
+   * A value included in the request that is returned in the id token. A randomly generated unique value is typically used to mitigate replay attacks.
+   */
+  nonce?: string;
+}
+
+/**
  * MSAL partial base client for the browsers.
  *
  * It completes the input configuration with some default values.
@@ -70,6 +88,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
   protected msalConfig: msalBrowser.Configuration;
   protected disableAutomaticAuthentication?: boolean;
   protected app?: msalBrowser.PublicClientApplication;
+  protected loginOptions?: MsalBrowserLoginOptions;
 
   constructor(options: MsalBrowserFlowOptions) {
     super(options);
@@ -82,6 +101,11 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);
     this.msalConfig = defaultBrowserMsalConfig(options);
     this.disableAutomaticAuthentication = options.disableAutomaticAuthentication;
+
+    this.loginOptions = {
+      state: options.loginState,
+      nonce: options.loginNonce
+    };
 
     if (options.authenticationRecord) {
       this.account = {
@@ -118,7 +142,10 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
   /**
    * Uses MSAL to trigger a redirect or a popup login.
    */
-  public abstract login(scopes?: string | string[]): Promise<AuthenticationRecord | undefined>;
+  public abstract login(
+    scopes?: string | string[],
+    options?: MsalBrowserLoginOptions
+  ): Promise<AuthenticationRecord | undefined>;
 
   /**
    * Attempts to retrieve a token from cache.
@@ -141,7 +168,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     await this.handleRedirect();
 
     if (!(await this.getActiveAccount()) && !this.disableAutomaticAuthentication) {
-      await this.login(scopes);
+      await this.login(scopes, this.loginOptions);
     }
     return this.getTokenSilent(scopes).catch((err) => {
       if (err.name !== "AuthenticationRequiredError") {

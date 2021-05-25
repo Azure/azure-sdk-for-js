@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
-import { MsalBrowserFlowOptions, MsalBrowser } from "./browserCommon";
+import { MsalBrowserFlowOptions, MsalBrowser, MsalBrowserLoginOptions } from "./browserCommon";
 import { AccessToken } from "@azure/core-http";
 import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
 import { AuthenticationRecord } from "../types";
@@ -118,10 +118,15 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   /**
    * Uses MSAL to trigger a redirect or a popup login.
    */
-  public async login(scopes: string | string[] = []): Promise<AuthenticationRecord | undefined> {
+  public async login(
+    scopes: string | string[] = [],
+    loginOptions: MsalBrowserLoginOptions
+  ): Promise<AuthenticationRecord | undefined> {
     const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
     const loginRequest = {
-      scopes: arrayScopes
+      scopes: arrayScopes,
+      state: loginOptions.state,
+      nonce: loginOptions.nonce
     };
     switch (this.loginStyle) {
       case "redirect": {

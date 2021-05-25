@@ -63,7 +63,19 @@ export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions 
      * Specifies whether a redirect or a popup window should be used to
      * initiate the user authentication flow. Possible values are "redirect"
      * or "popup" (default) for browser and "popup" (default) for node.
-     *
      */
     loginStyle?: BrowserLoginStyle;
+
+    /**
+     * A value included in the request that is also returned in the token response.
+     * A randomly generated unique value is typically used for preventing cross site request forgery attacks.
+     * The state is also used to encode information about the user's state in the app before the authentication request occurred.
+     */
+    loginState?: string;
+
+    /**
+     * A value included in the request that is returned in the id token.
+     * A randomly generated unique value is typically used to mitigate replay attacks.
+     */
+    loginNonce?: string;
   };
