@@ -5,7 +5,8 @@
 ## 2021-05-12
 
 - Extended the `requestBodyTransformations` from [#14897](https://github.com/Azure/azure-sdk-for-js/pull/14897) to handle browser tests as well.
-  - Adds a default transformation to strip out the scope in the request body with the string `"https://sanitized/"`
+  - Adds a default transformation to replace the scope URL in the request body with the string `"https://sanitized/"` for browser recordings.
+  - Adds a default customization on recording to replace the scope URL in the request body for node recordings.
   - Removed `requestBodyTransformations` property from `RecorderEnvironmentSetup` since Nock doesn't support multiple `.filteringRequestBody` patches in the recordings.
 
 ## 2021-05-09
