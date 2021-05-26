@@ -15,6 +15,11 @@ import { bytesToString } from "../utils/utf8.browser";
  */
 export class AttestationToken
 {
+    /**
+     * @internal
+     * 
+     * @param token - Attetation token returned by the attestation service. 
+     */
     constructor(token: string ) {
         this._token = token;
 
@@ -41,16 +46,25 @@ export class AttestationToken
 
     private _jwsVerifier: KJUR.jws.JWS.JWSResult;
 
-    /** Returns the body of the attestation token as an object.
+    /**
+     * Returns the deserialized body of the AttestationToken object.
      * 
-     * @returns The body of the token, as an object.
+     * @returns The body of the attestation token as an object.
      */
     public get_body() : any
     {
         return this._jwsVerifier.payloadObj;
     }
 
-    public deserialize() : string
+    /**
+     * the token to a string.
+     * 
+     * @remarks
+     * Serializes the token to a string.
+     * 
+     * @returns The token serialized to a RFC 7515 JSON Web Signature.
+     */
+    public serialize() : string
     {
         return this._token;
     }
@@ -127,8 +141,7 @@ export class AttestationToken
       return this._header.typ;
     }
     
-    /**
-     * Json Web Token Header "x509 thumprint".
+    /** Json Web Token Header "x509 thumprint".
      *  See [RFC 7515 Section 4.1.7](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.7) for details.
      *
      */
@@ -136,8 +149,7 @@ export class AttestationToken
       return this._header.x5t;
     }
 
-    /**
-     * Json Web Token Header "x509 SHA256 thumprint".
+    /** Json Web Token Header "x509 SHA256 thumprint".
      *  See [RFC 7515 Section 4.1.8](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.8) for details.
      *
      */
@@ -145,8 +157,7 @@ export class AttestationToken
       return this._header['x5t#256'];
     }
 
-    /**
-     * Json Web Token Header "x509 certificate chain".
+    /** Json Web Token Header "x509 certificate chain".
      *  See [RFC 7515 Section 4.1.6](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.6) for details.
      *
      */
@@ -158,8 +169,7 @@ export class AttestationToken
     /*********** JSON WEB TOKEN (RFC 7519) PROPERTIES */
     
     
-    /**
-     * Issuance time for the token, from JWT body.
+    /** Issuance time for the token, from JWT body.
      *   See [RFC 7519 Section 4.1.6](https://www.rfc-editor.org/doc/html/rfc7519#section-4.1.6)
      *   for details.
      */
@@ -167,8 +177,7 @@ export class AttestationToken
       return this._body.iss;
     }
 
-    /**
-     * Expiration time for the token, from JWT body.
+    /** Expiration time for the token, from JWT body.
      *   See [RFC 7519 Section 4.1.4](https://www.rfc-editor.org/doc/html/rfc7519#section-4.1.4)
      *   for details.
      */
@@ -179,8 +188,7 @@ export class AttestationToken
         return undefined;
     }
 
-    /**
-     * Issuance time for the token, from JWT body.
+    /** Issuance time for the token, from JWT body.
      *   See [RFC 7519 Section 4.1.6](https://www.rfc-editor.org/doc/html/rfc7519#section-4.1.6)
      *   for details.
      */
@@ -203,7 +211,13 @@ export class AttestationToken
       return undefined;
     }
 
-    public static serialize(body: string, signer ?: AttestationSigningKey) : AttestationToken {
+    /**
+     * Creates a new attestation token from a body and signing key.
+     * @param body string-ized body of the body of the token to be created.
+     * @param signer 
+     * @returns 
+     */
+    public static deserialize(body: string, signer ?: AttestationSigningKey) : AttestationToken {
         let header: {
             alg : string,
             [k:string]: any} = {alg:'none'};

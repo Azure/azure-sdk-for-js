@@ -6,7 +6,12 @@ import { Context } from "mocha";
 import { ClientSecretCredential } from "@azure/identity";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
-import { AttestationClient, AttestationClientOptions, AttestationAdministrationClient } from "../../src/";
+import { 
+  AttestationClient, 
+  AttestationClientOptions, 
+  AttestationAdministrationClient, 
+  AttestationSigningKey
+} from "../../src/";
 import "./env";
 
 const replaceableVariables: { [k: string]: string } = {
@@ -19,7 +24,8 @@ const replaceableVariables: { [k: string]: string } = {
   policySigningCertificate0: "policy_signing_certificate0",
   policySigningCertificate1: "policy_signing_certificate1",
   policySigningCertificate2: "policy_signing_certificate2",
-  isolatedSigningCertificate: "isolated_signing_certificate"
+  ATTESTATION_ISOLATED_SIGNING_CERTIFICATE: "isolated_signing_certificate",
+  ATTESTATION_ISOLATED_SIGNING_KEY: "isolated_signing_key",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -62,6 +68,25 @@ export function getAttestationUri(endpointType: EndpointType) : string{
       throw new Error(`Unsupported endpoint type: ${endpointType}`);
     }
   }
+}
+
+export function getIsolatedSigningKey() : AttestationSigningKey {
+  const signingCert = env.ATTESTATION_ISOLATED_SIGNING_CERTIFICATE;
+
+  let pemCert = "-----BEGIN CERTIFICATE-----\r\n";
+  pemCert += signingCert + "\r\n";
+  pemCert += "\r\n-----END CERTIFICATE-----\r\n";
+
+  console.log("PEM Cert:", pemCert);
+
+  const signingKey = env.ATTESTATION_ISOLATED_SIGNING_KEY;
+  let pemKey = "-----BEGIN PRIVATE KEY-----\r\n";
+  pemKey += signingKey + "\r\n";
+  pemKey += "-----END PRIVATE KEY-----\r\n";
+
+  console.log("PEM Key:", pemKey);
+
+  return new AttestationSigningKey(pemKey, pemCert);
 }
 
 export function createRecordedClient(

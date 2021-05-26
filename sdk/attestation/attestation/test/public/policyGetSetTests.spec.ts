@@ -8,7 +8,12 @@ chaiUse(chaiPromises);
 
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedAdminClient, createRecordedClient, createRecorder, EndpointType } from "../utils/recordedClient";
+import {
+  createRecordedAdminClient,
+  createRecordedClient,
+  createRecorder,
+  EndpointType,
+  getIsolatedSigningKey } from "../utils/recordedClient";
 import { KnownAttestationType } from "../../src";
 import { verifyAttestationToken } from "../utils/helpers";
 
@@ -35,6 +40,12 @@ describe("PolicyGetSetTests ", function() {
     await testGetPolicy("Shared");
   });
 
+  it("#SetPolicyIsolated", async() => {
+    recorder.skip(undefined, "SetPolicy APIs require keys and certificates which aren't available in playback");
+    let signingKeys = getIsolatedSigningKey();
+    console.log(signingKeys.key);
+  });
+
   async function testGetPolicy(clientLocation: EndpointType) : Promise<void>{
     const adminClient = createRecordedAdminClient(clientLocation);
     const policyResult = await adminClient.getPolicy(KnownAttestationType.SgxEnclave);
@@ -46,8 +57,7 @@ describe("PolicyGetSetTests ", function() {
     if (result && !isPlaybackMode()) {
       const client = createRecordedClient(clientLocation);
       const signers = await client.getAttestationSigners();
-      await verifyAttestationToken(policyResult.token.deserialize(), signers, clientLocation);
+      await verifyAttestationToken(policyResult.token.serialize(), signers, clientLocation);
     }
- 
-  }
+   }
 });

@@ -202,7 +202,7 @@ describe("[AAD] Attestation Client", function() {
       assert.equal(client.instanceUrl, attestationResult.value.iss);
       assert.equal(client.instanceUrl, rawToken.issuer);
       const signers = await client.getAttestationSigners();
-      await verifyAttestationToken(rawToken.deserialize(), signers, endpointType);
+      await verifyAttestationToken(rawToken.serialize(), signers, endpointType);
     }
   };
 
@@ -232,7 +232,7 @@ describe("[AAD] Attestation Client", function() {
       assert.equal(client.instanceUrl, rawToken.issuer);
 
       const signers = await client.getAttestationSigners();
-      await verifyAttestationToken(rawToken.deserialize(), signers, endpointType);
+      await verifyAttestationToken(rawToken.serialize(), signers, endpointType);
     }
   };
 

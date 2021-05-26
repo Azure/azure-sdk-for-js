@@ -138,14 +138,14 @@ export class AttestationSigningKey {
 
 // @public (undocumented)
 export class AttestationToken {
+    // @internal
     constructor(token: string);
     get algorithm(): string;
     get certificateSha256Thumbprint(): string | undefined;
     get certificateThumbprint(): string | undefined;
     get contentType(): string | undefined;
     get critical(): boolean | undefined;
-    // (undocumented)
-    deserialize(): string;
+    static deserialize(body: string, signer?: AttestationSigningKey): AttestationToken;
     get expirationTime(): Date | undefined;
     get_body(): any;
     get issuedAtTime(): Date | undefined;
@@ -153,8 +153,7 @@ export class AttestationToken {
     get keyId(): string | undefined;
     get keyUrl(): string | undefined;
     get notBeforeTime(): Date | undefined;
-    // (undocumented)
-    static serialize(body: string, signer?: AttestationSigningKey): AttestationToken;
+    serialize(): string;
     get type(): string | undefined;
     get x509Url(): string | undefined;
 }
