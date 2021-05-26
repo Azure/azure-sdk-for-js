@@ -7,7 +7,9 @@
 ### Breaking Changes
 
 - Essentially completely rewritten. All existing functionality has been replaced.
-  - Removed `metadatataConfiguration.get()` method, replaced with `client.getOpenIdMetadata()`.
+  - Removed `attestation.attestSgxEnclave`, `attestation.attestOpenEnclave`, `attestation.attestTpm`, and `attestation` property from attestationClient, replaced with `attestSgxEnclave`, `attestOpenEnclave` and `attestTpm`.
+  - Removed `metadataConfiguration` and `signingCertificates` properties from attestationClient.
+  - Removed `metadataConfiguration.get()` method, replaced with `client.getOpenIdMetadata()`.
   - Removed `signingCertificates.get()` method, replaced with `client.getAttestationSigners()`. The return value for `getAttestationSigners()` is an array of `AttestationSigner` objects,
   each of which has two properties: `key_id` and `certificates`. `key_id`
   reflects the `kid` JSON Web Key attribute, and `certificates` is the **decoded** `x5c` attribute

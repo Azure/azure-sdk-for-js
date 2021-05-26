@@ -7,36 +7,38 @@
 import {base64UrlDecodeString, base64FromHex} from "../utils/base64";
 import {AttestationSigningKey} from "./attestationSigningKey"
 import { KJUR, X509, RSAKey } from "jsrsasign"
+import { bytesToString } from "../utils/utf8.browser";
 
+/**
+ * @hideconstructor
+ */
 export class AttestationToken
 {
-
-    private constructor(token: string ) {
+    constructor(token: string ) {
         this._token = token;
-        console.log("create token from: " + token);
 
         let pieces = token.split('.');
         if (pieces.length != 3) {
             throw Error("Incorrectly formatted token:");
         }
         this._headerBytes = base64UrlDecodeString(pieces[0]);
-        this._header = safeJsonParse(this._headerBytes);
-        this._bodyBytes = base64UrlDecodeString(pieces[1]);
-        this._body = safeJsonParse(this._headerBytes);
-        this._signature = base64UrlDecodeString(pieces[2]);
+        this._header = safeJsonParse(bytesToString(this._headerBytes));
+//        this._bodyBytes = base64UrlDecodeString(pieces[1]);
+//        this._body = safeJsonParse(pieces[1]);
+//        this._signature = base64UrlDecodeString(pieces[2]);
 
         this._jwsVerifier = KJUR.jws.JWS.parse(token);
     };
 
 
-    _token : string;
-    _headerBytes: Uint8Array;
-    _header: any;
-    _bodyBytes: Uint8Array;
-    _body: any;
-    _signature: Uint8Array;
+    private _token : string;
+    private _headerBytes: Uint8Array;
+    private _header: any;
+//    private _bodyBytes: Uint8Array;
+//    private _body: any;
+//    private _signature: Uint8Array;
 
-    _jwsVerifier: KJUR.jws.JWS.JWSResult;
+    private _jwsVerifier: KJUR.jws.JWS.JWSResult;
 
     public get_body()
     {
@@ -46,6 +48,10 @@ export class AttestationToken
     public deserialize() : string
     {
         return this._token;
+    }
+
+    public get algorithm() : string | undefined {
+        return this._header?.alg;
     }
 
     public static serialize(body: string, signer ?: AttestationSigningKey) : AttestationToken {
@@ -74,7 +80,6 @@ export class AttestationToken
         }
     
         let encodedToken = KJUR.jws.JWS.sign(header.alg, header, body, signer?.key);
-        console.log("Encoded token: " + encodedToken);
         return new AttestationToken(encodedToken);
     }
     
