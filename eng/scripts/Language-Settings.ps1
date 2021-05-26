@@ -178,7 +178,7 @@ function Get-PackageNameFromDocsMsConfig($DocsConfigName) {
     return $Matches['pkgName']
   }
 
-  throw "Cannot find package $DocsConfigName"
+  throw "Cannot find package name in supplied parameter ($DocsConfigName)"
 }
 
 # Given the name of a package (possibly of the form "@azure/package-name@1.2.3")
@@ -198,7 +198,7 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation) {
     'latest'
 }
 
-function UpdateDocsMsPackages($DocConfigFile, $Mode) { 
+function UpdateDocsMsPackages($DocConfigFile, $Mode) {
   $publishedPackages = (Get-CSVMetadata).Where({ $_.New -eq 'true' -and $_.Hide -ne 'true' })
 
   Write-Host "Updating configuration: $DocConfigFile with mode: $Mode"

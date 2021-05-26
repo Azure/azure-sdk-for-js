@@ -13,9 +13,19 @@ param (
 . (Join-Path $PSScriptRoot common.ps1)
 
 if ($UpdateDocsMsPackagesFn -and (Test-Path "Function:$UpdateDocsMsPackagesFn")) {
-  &$UpdateDocsMsPackagesFn -DocsRepoLocation $DocRepoLocation
+
+  try { 
+    &$UpdateDocsMsPackagesFn -DocsRepoLocation $DocRepoLocation
+  } catch { 
+    LogError "Exception while updating docs.ms packages"
+    LogError $_ 
+    LogError $_.ScriptStackTrace
+    exit 1
+  }
+  
 } else {
-  LogWarning "The function for '$UpdateFn' was not found.`
+  LogError "The function for '$UpdateFn' was not found.`
   Make sure it is present in eng/scripts/Language-Settings.ps1 and referenced in eng/common/scripts/common.ps1.`
   See https://github.com/Azure/azure-sdk-tools/blob/master/doc/common/common_engsys.md#code-structure"
+  exit 1
 }
