@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
-import { Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import * as msal from "@azure/msal-node";
 import { CommunicationAccessToken, CommunicationIdentityClient } from "../../../src";
 import {
@@ -36,15 +36,15 @@ matrix([[true, false]], async function(useAad) {
     it("successfully exchanges an AAD token for an ACS token", async function() {
       const msalConfig = {
         auth: {
-          clientId: "VAULT_CLIENT_ID",
-          authority: "VAULT_AUTHORITY/VAULT_TENANT_ID"
+          clientId: env.COMMUNICATION_M365_APP_ID,
+          authority: `${env.COMMUNICATION_M365_AAD_AUTHORITY}/${env.COMMUNICATION_M365_AAD_TENANT}`
         }
       };
 
       var request = {
-        username: "VAULT_USERNAME",
-        password: "VAULT_PASSWORD",
-        scopes: ["VAULT_SCOPE"]
+        username: env.COMMUNICATION_MSAL_USERNAME,
+        password: env.COMMUNICATION_MSAL_PASSWORD,
+        scopes: [env.COMMUNICATION_M365_SCOPE]
       };
 
       const pca = new msal.PublicClientApplication(msalConfig);
