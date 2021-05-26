@@ -42,12 +42,14 @@ async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   try {
+    console.log(`Sending 5 messages to 'session-1'`);
     await sendMessage(sbClient, listOfScientists[0], "session-1");
     await sendMessage(sbClient, listOfScientists[1], "session-1");
     await sendMessage(sbClient, listOfScientists[2], "session-1");
     await sendMessage(sbClient, listOfScientists[3], "session-1");
     await sendMessage(sbClient, listOfScientists[4], "session-1");
 
+    console.log(`Sending 5 messages to 'session-2'`);
     await sendMessage(sbClient, listOfScientists[5], "session-2");
     await sendMessage(sbClient, listOfScientists[6], "session-2");
     await sendMessage(sbClient, listOfScientists[7], "session-2");
@@ -79,22 +81,44 @@ async function sendMessage(sbClient, scientist, sessionId) {
 
 async function receiveMessages(sbClient, sessionId) {
   // If receiving from a subscription you can use the acceptSession(topic, subscription, sessionId) overload
-  const receiver = await sbClient.acceptSession(queueName, sessionId);
+  let endDate;
 
-  const processMessage = async (message) => {
-    console.log(`Received: ${message.sessionId} - ${message.body} `);
-  };
-  const processError = async (args) => {
-    console.log(`>>>>> Error from error source ${args.errorSource} occurred: `, args.error);
-  };
-  receiver.subscribe({
-    processMessage,
-    processError
-  });
+  while (true) {
+    console.log(`Creating session receiver for session '${sessionId}'`);
+    const receiver = await sbClient.acceptSession(queueName, sessionId);
 
-  await delay(5000);
+    const subscribePromise = new Promise((_, reject) => {
+      const processMessage = async (message) => {
+        console.log(`Received: ${message.sessionId} - ${message.body} `);
+      };
+      const processError = async (args) => {
+        console.log(`>>>>> Error from error source ${args.errorSource} occurred: `, args.error);
+        reject(args.error);
+      };
 
-  await receiver.close();
+      receiver.subscribe({
+        processMessage,
+        processError
+      });
+    });
+
+    const now = Date.now();
+    endDate = endDate ?? now + 20000;
+    let remainingTime = endDate - now;
+
+    console.log(`Waiting for ${remainingTime} milliseconds for messages to arrive.`);
+
+    try {
+      await Promise.race([subscribePromise, delay(remainingTime)]);
+
+      // wait time has expired, we can stop listening.
+      console.log(`Time has expired, closing receiver for session '${sessionId}'`);
+      break;
+    } catch (err) {
+      // `err` was already logged part of `processError` above.
+      await receiver.close();
+    }
+  }
 }
 
 main().catch((err) => {
