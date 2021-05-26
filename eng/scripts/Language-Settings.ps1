@@ -174,75 +174,78 @@ function Get-javascript-GithubIoDocIndex()
 
 # "@azure/package-name@1.2.3" -> "@azure/package-name"
 function Get-PackageNameFromDocsMsConfig($DocsConfigName) { 
-  if ($DocsConfigName -match '^(@?.+?)(@(.*))?$') { 
-    return $Matches[1]
+  if ($DocsConfigName -match '^(?<pkgName>.+?)(?<pkgVersion>@.+)?$') { 
+    return $Matches['pkgName']
   }
 
   throw "Cannot find package $DocsConfigName"
 }
 
-function Update-javascript-DocsMsPackages($DocsRepoLocation)
-{
-  $publishedPackages = Get-CSVMetadata `
-  | Where-Object { $_.New -eq 'true' -and $_.Hide -ne 'true' }
+# Given the name of a package (possibly of the form "@azure/package-name@1.2.3")
+# return a package name with the version specified in $packageVersion
+# "@azure/package-name@1.2.3" "1.3.0" -> "@azure/package-name@1.3.0"
+function Get-DocsMsPackageName($packageName, $packageVersion) { 
+  return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
+}
 
-  # Update "Latest" packages
-  $latestConfigPath = Join-Path $DocRepoLocation '/ci-configs/packages-latest.json' -Resolve
-  Write-Host "Updating latest configuration: $latestConfigPath"
-  $latestPackages = Get-Content $latestConfigPath -Raw | ConvertFrom-Json
+function Update-javascript-DocsMsPackages($DocsRepoLocation) {
+  UpdateDocsMsPackages `
+    (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
+    'preview' 
 
-  $gaPackages = $publishedPackages | Where-Object { $_.VersionGA.trim() }
-  foreach ($package in $gaPackages) { 
-    if ($latestPackages.npm_package_sources.name -contains $package.Package) { 
-      # Onboarded packages already contains this package, skip
-      Write-Host "Keeping onboarded package $($package.Package)"
-      continue
-    }
+  UpdateDocsMsPackages `
+    (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
+    'latest'
+}
 
-    Write-Host "Add GA package: $($package.Package)"
-    $latestPackages.npm_package_sources += @{ name = $package.Package }
-  }
+function UpdateDocsMsPackages($DocConfigFile, $Mode) { 
+  $publishedPackages = (Get-CSVMetadata).Where({ $_.New -eq 'true' -and $_.Hide -ne 'true' })
 
-  $latestPackages | ConvertTo-Json -Depth 100 | Set-Content $latestConfigPath
-
-  # Update "preview" packages
-  $previewConfigPath = Join-Path $DocRepoLocation '/ci-configs/packages-preview.json' -Resolve
-  Write-Host "Updating preview configuration: $previewConfigPath"
-  $previewPackages = Get-Content $previewConfigPath -Raw | ConvertFrom-Json
+  Write-Host "Updating configuration: $DocConfigFile with mode: $Mode"
+  $packageConfig = Get-Content $DocConfigFile -Raw | ConvertFrom-Json
 
   $outputPackages = @()
-  foreach ($package in $previewPackages.npm_package_sources) {
+  foreach ($package in $packageConfig.npm_package_sources) {
     # Do not filter by GA/Preview status because we want differentiate between
     # tracked and non-tracked packages
-    $matchingPublishedPackages = $publishedPackages `
-    | Where-Object { $_.Package -eq (Get-PackageNameFromDocsMsConfig $package.name) }
+    $matchingPublishedPackageArray = $publishedPackages.Where({ $_.Package -eq (Get-PackageNameFromDocsMsConfig $package.name) })
+
+    if ($matchingPublishedPackageArray.Count -gt 1) { 
+      throw "Found more than one matching published package in metadata for $(package.name)"
+    }
 
     # If this package does not match any published packages keep it in the list.
     # This handles packages which are not tracked in metadata but still need to
     # be built in Docs CI.
-    if (-not $matchingPublishedPackages) {
+    if ($matchingPublishedPackageArray.Count -eq 0) {
       Write-Host "Keep non-tracked preview package: $($package.name)"
       $outputPackages += $package
       continue
     }
+    
+    $matchingPublishedPackage = $matchingPublishedPackageArray[0]
 
-    $previewPackage = $matchingPublishedPackages `
-    | Where-Object { $_.VersionPreview.trim() } `
-    | Select-Object -First 1
+    if ($Mode -eq 'preview' -and -not $matchingPublishedPackage.VersionPreview.Trim()) { 
+      # If we are in preview mode and the package does not have a superseding
+      # preview version, remove the package from the list. 
+      Write-Host "Remove superseded preview package: $($package.name)"
+      continue
+    }
 
-    if ($previewPackage) {
-      # Package name comes in the form "<package-name>@<version>". The version
-      # may have changed. This parses the name of the package from the input and 
-      # appends the version specified in the metadata.
-      # Mutating the existing $package object because it could have properties
-      # not accounted for in this code.
-      $package.name = "$(Get-PackageNameFromDocsMsConfig $package.name)@$($previewPackage.VersionPreview)" 
-      Write-Host "Keep tracked preview package: $($package.name)"
-      $outputPackages += $package
+    $packageVersion = $matchingPublishedPackage.VersionGA
+    if ($Mode -eq 'preview') {
+      $packageVersion = $matchingPublishedPackage.VersionPreview
     }
-    else { 
-      Write-Host "Removing superseded package: $($package.name)"
-    }
+
+    # Package name comes in the form "<package-name>@<version>". The version may 
+    # have changed. This parses the name of the package from the input and 
+    # appends the version specified in the metadata.
+    # Mutate the package name because there may be other properties of the
+    # package which are not accounted for in this code (e.g. "folder" in JS 
+    # packages)
+    $package.name = "$(Get-PackageNameFromDocsMsConfig $package.name)@$($packageVersion)" 
+    Write-Host "Keep tracked package: $($package.name)"
+    $outputPackages += $package
   }
 
   $outputPackagesHash = @{}
@@ -250,19 +253,29 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation)
     $outputPackagesHash[(Get-PackageNameFromDocsMsConfig $package.name)] = $true
   }
 
-  $remainingPreviewPackages = $publishedPackages `
-  | Where-Object {
-    $_.VersionPreview.Trim() `
-      -and (-not $outputPackagesHash.ContainsKey($_.Package))
-  }
-  foreach ($package in $remainingPreviewPackages) {
-    Write-Host "Add preview package: $($package.Package)@$($package.VersionPreview)"
-    $outputPackages += @{ name = "$($package.Package)@$($package.VersionPreview)" }
+  $remainingPackages = @() 
+  if ($Mode -eq 'preview') { 
+    $remainingPackages = $publishedPackages.Where({ 
+      $_.VersionPreview.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
+    })
+  } else { 
+    $remainingPackages = $publishedPackages.Where({ 
+      $_.VersionGA.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
+    })
   }
 
-  $previewPackages.npm_package_sources = $outputPackages
+  # Add packages that exist in the metadata but are not onboarded in docs config
+  foreach ($package in $remainingPackages) {
+    $packageVersion = $package.VersionGA
+    if ($Mode -eq 'preview') {
+      $packageVersion = $package.VersionPreview
+    }
+    Write-Host "Add new package from metadata: $($package.Package)@$($packageVersion)"
+    $outputPackages += @{ name = "$($package.Package)@$($packageVersion)" }
+  }
 
-  $previewPackages | ConvertTo-Json -Depth 100 | Set-Content $previewConfigPath
+  $packageConfig.npm_package_sources = $outputPackages
+  $packageConfig | ConvertTo-Json -Depth 100 | Set-Content $DocConfigFile
 }
 
 # function is used to auto generate API View
