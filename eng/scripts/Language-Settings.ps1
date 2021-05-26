@@ -177,8 +177,8 @@ function Get-PackageNameFromDocsMsConfig($DocsConfigName) {
   if ($DocsConfigName -match '^(?<pkgName>.+?)(?<pkgVersion>@.+)?$') { 
     return $Matches['pkgName']
   }
-
-  throw "Cannot find package name in supplied parameter ($DocsConfigName)"
+  LogWarning "Could not find package name in ($DocsConfigName)"
+  return ''
 }
 
 # Given the name of a package (possibly of the form "@azure/package-name@1.2.3")
@@ -188,31 +188,35 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
   return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
 }
 
-function Update-javascript-DocsMsPackages($DocsRepoLocation) {
+function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata) {
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
-    'preview' 
+    'preview' `
+    $DocsMetadata 
 
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
-    'latest'
+    'latest' `
+    $DocsMetadata
 }
 
-function UpdateDocsMsPackages($DocConfigFile, $Mode) {
-  $publishedPackages = (Get-CSVMetadata).Where({ $_.New -eq 'true' -and $_.Hide -ne 'true' })
-
+function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata) {
   Write-Host "Updating configuration: $DocConfigFile with mode: $Mode"
   $packageConfig = Get-Content $DocConfigFile -Raw | ConvertFrom-Json
 
   $outputPackages = @()
   foreach ($package in $packageConfig.npm_package_sources) {
+    # If Get-PackageNameFromDocsMsConfig cannot find the package name, keep the
+    # entry but do no additional processing on it.
+    if (!(Get-PackageNameFromDocsMsConfig $package.name)) {
+      LogWarning "Package name is not valid: ($($package.name)). Keeping entry in docs config but not updating."
+      $outputPackages += $package
+      continue
+    }
+
     # Do not filter by GA/Preview status because we want differentiate between
     # tracked and non-tracked packages
-    $matchingPublishedPackageArray = $publishedPackages.Where({ $_.Package -eq (Get-PackageNameFromDocsMsConfig $package.name) })
-
-    if ($matchingPublishedPackageArray.Count -gt 1) { 
-      throw "Found more than one matching published package in metadata for $(package.name)"
-    }
+    $matchingPublishedPackageArray = $DocsMetadata.Where({ $_.Package -eq (Get-PackageNameFromDocsMsConfig $package.name) })
 
     # If this package does not match any published packages keep it in the list.
     # This handles packages which are not tracked in metadata but still need to
@@ -222,7 +226,10 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode) {
       $outputPackages += $package
       continue
     }
-    
+
+    if ($matchingPublishedPackageArray.Count -gt 1) { 
+      LogWarning "Found more than one matching published package in metadata for $(package.name); only updating first entry"
+    }
     $matchingPublishedPackage = $matchingPublishedPackageArray[0]
 
     if ($Mode -eq 'preview' -and !$matchingPublishedPackage.VersionPreview.Trim()) { 
@@ -243,7 +250,7 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode) {
     # Mutate the package name because there may be other properties of the
     # package which are not accounted for in this code (e.g. "folder" in JS 
     # packages)
-    $package.name = "$(Get-PackageNameFromDocsMsConfig $package.name)@$($packageVersion)" 
+    $package.name = Get-DocsMsPackageName $package.name $packageVersion
     Write-Host "Keep tracked package: $($package.name)"
     $outputPackages += $package
   }
@@ -255,23 +262,32 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode) {
 
   $remainingPackages = @() 
   if ($Mode -eq 'preview') { 
-    $remainingPackages = $publishedPackages.Where({ 
+    $remainingPackages = $DocsMetadata.Where({ 
       $_.VersionPreview.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
     })
   } else { 
-    $remainingPackages = $publishedPackages.Where({ 
+    $remainingPackages = $DocsMetadata.Where({ 
       $_.VersionGA.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
     })
   }
 
   # Add packages that exist in the metadata but are not onboarded in docs config
   foreach ($package in $remainingPackages) {
+    # If Get-PackageNameFromDocsMsConfig cannot find the package name, skip
+    # adding it to the packages
+    if (!(Get-PackageNameFromDocsMsConfig $package.Package)) {
+      LogWarning "Package name not valid: ($($package.Package)). Skipping adding from metadata to docs config"
+      continue
+    }
+
+
     $packageVersion = $package.VersionGA
     if ($Mode -eq 'preview') {
       $packageVersion = $package.VersionPreview
     }
-    Write-Host "Add new package from metadata: $($package.Package)@$($packageVersion)"
-    $outputPackages += @{ name = "$($package.Package)@$($packageVersion)" }
+    $packageName = Get-DocsMsPackageName $package.Package $packageVersion
+    Write-Host "Add new package from metadata: $packageName"
+    $outputPackages += @{ name = $packageName }
   }
 
   $packageConfig.npm_package_sources = $outputPackages
