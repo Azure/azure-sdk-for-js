@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the ChatClient to do thread operations
+ * @summary Perform thread operations using the ChatClient.
  */
 
 import { ChatClient } from "@azure/communication-chat";
@@ -68,8 +68,7 @@ export async function main() {
   await chatClient.deleteChatThread(threadId);
 }
 
-main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
+main().catch((error) => {
+  console.error("Encountered an error in thread operations: ", error);
+  process.exit(1);
 });
