@@ -32,9 +32,9 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
-    "unit-test": "autorest-testserver & npm run unit-test:node && npm run unit-test:browser && autorest-testserver stop",
+    "unit-test:browser": "autorest-testserver & karma start --single-run && autorest-testserver stop",
+    "unit-test:node": "autorest-testserver & mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\" && autorest-testserver stop",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
