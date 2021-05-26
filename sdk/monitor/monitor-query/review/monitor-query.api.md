@@ -89,7 +89,7 @@ export interface LocalizableString {
 
 // @public
 export class LogsClient {
-    constructor(tokenCredential: TokenCredential | "DEMO_KEY", options?: LogsClientOptions);
+    constructor(tokenCredential: TokenCredential, options?: LogsClientOptions);
     // (undocumented)
     queryLogs(workspaceId: string, query: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
     // (undocumented)
