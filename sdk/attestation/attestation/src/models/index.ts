@@ -502,26 +502,6 @@ export const enum KnownPolicyModification {
 export type PolicyModification = string;
 
 /**
- * Contains response data for the get operation.
- */
-export type PolicyGetResponse = PolicyResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyResponse;
-  };
-};
-
-/**
  * Contains response data for the set operation.
  */
 export type PolicySetModelResponse = PolicyResponse & {

@@ -6,11 +6,23 @@
 
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
-import { Mapper } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
-import { Serializer } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
+
+// @public
+export class AttestationAdministrationClient {
+    constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationAdministrationClientOptions);
+    getPolicy(attestationType: AttestationType, options?: GetPolicyOptions): Promise<AttestationResponse<string>>;
+}
+
+// @public
+export interface AttestationAdministrationClientOperationOptions extends OperationOptions {
+}
+
+// @public
+export interface AttestationAdministrationClientOptions extends PipelineOptions {
+}
 
 // @public
 export type AttestationAttestTpmResponse = TpmAttestationResponse & {
@@ -31,6 +43,7 @@ export class AttestationClient {
     attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestTpm(request: TpmAttestationRequest, options?: AttestTpmOptions): Promise<TpmAttestationResponse>;
+    // @internal
     BaseClient(): GeneratedClient;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
@@ -59,7 +72,7 @@ export class AttestationData {
 
 // @public
 export class AttestationResponse<T> {
-    constructor(token: AttestationToken, serializer: Serializer, bodyMapper: Mapper, bodyTypeName: string, rawResult: any);
+    constructor(token: AttestationToken, value: T, rawResult: any);
     _response: HttpResponse & {
         bodyAsText: string;
         parsedBody: T;
@@ -126,15 +139,25 @@ export class AttestationSigningKey {
 // @public (undocumented)
 export class AttestationToken {
     constructor(token: string);
-    // (undocumented)
-    get algorithm(): string | undefined;
+    get algorithm(): string;
+    get certificateSha256Thumbprint(): string | undefined;
+    get certificateThumbprint(): string | undefined;
+    get contentType(): string | undefined;
+    get critical(): boolean | undefined;
     // (undocumented)
     deserialize(): string;
-    // (undocumented)
-    get_body(): object | undefined;
+    get expirationTime(): Date | undefined;
+    get_body(): any;
+    get issuedAtTime(): Date | undefined;
+    get issuer(): string | undefined;
+    get keyId(): string | undefined;
+    get keyUrl(): string | undefined;
+    get notBeforeTime(): Date | undefined;
     // (undocumented)
     static serialize(body: string, signer?: AttestationSigningKey): AttestationToken;
-    }
+    get type(): string | undefined;
+    get x509Url(): string | undefined;
+}
 
 // @public
 export type AttestationType = string;
@@ -208,6 +231,10 @@ export class GeneratedClient extends GeneratedClientContext {
     signingCertificates: SigningCertificates;
 }
 
+// @public
+export interface GetPolicyOptions extends AttestationAdministrationClientOperationOptions {
+}
+
 // @public (undocumented)
 export interface JsonWebKey {
     alg?: string;
@@ -262,7 +289,6 @@ export const enum KnownPolicyModification {
 // @public
 export class Policy {
     constructor(client: AttestationClient);
-    get(attestationType: AttestationType, options?: coreHttp.OperationOptions): Promise<PolicyGetResponse>;
     reset(attestationType: AttestationType, policyJws: string, options?: coreHttp.OperationOptions): Promise<PolicyResetResponse>;
     set(attestationType: AttestationType, newAttestationPolicy: string, options?: coreHttp.OperationOptions): Promise<PolicySetModelResponse>;
 }
@@ -319,14 +345,6 @@ export interface PolicyCertificatesResponse {
 export interface PolicyCertificatesResult {
     policyCertificates?: JsonWebKeySet;
 }
-
-// @public
-export type PolicyGetResponse = PolicyResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyResponse;
-    };
-};
 
 // @public
 export type PolicyModification = string;

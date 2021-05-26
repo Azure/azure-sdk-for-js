@@ -22,29 +22,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'cfa3d653-4926-404e-930f-e14032662600',
+  '094b7eb1-6528-47b6-b8cf-c49888f50400',
   'x-ms-ests-server',
-  '2.1.11774.11 - SCUS ProdSlices',
+  '2.1.11722.21 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AiWs8x1H8-VOg1AFk9msOO681LWYBQAAAMOGP9gOAAAA; expires=Fri, 25-Jun-2021 00:01:17 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApjvTYg-5uZEl0SYtSdv4Zy81LWYAgAAANujQNgOAAAA; expires=Fri, 25-Jun-2021 20:17:39 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 26 May 2021 00:01:16 GMT',
+  'Wed, 26 May 2021 20:17:39 GMT',
   'Content-Length',
   '1317'
 ]);
 
-nock('https://aad_attestation_url', {"encodedQueryParams":true})
+nock('https://aad_attestation_url.wus.attest.azure.net:443', {"encodedQueryParams":true})
   .post('/attest/Tpm', {"data":"eyJwYXlsb2FkIjp7InR5cGUiOiJhaWtjZXJ0In19"})
   .query(true)
   .reply(400, {"error":{"code":"Bad request","message":"A VBS attestation policy has not been set on the attestation provider."}}, [
   'Connection',
   'close',
   'Date',
-  'Wed, 26 May 2021 00:01:17 GMT',
+  'Wed, 26 May 2021 20:17:40 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -52,7 +52,7 @@ nock('https://aad_attestation_url', {"encodedQueryParams":true})
   'Transfer-Encoding',
   'chunked',
   'x-ms-request-id',
-  '00-4d2d91754040b0b307015ff9f9dc1d40-0000000000000000-00',
+  '00-c1070fba96b04927c12961b2cdb948db-0000000000000000-00',
   'x-ms-maa-service-version',
   '1.10.01598.0001'
 ]);

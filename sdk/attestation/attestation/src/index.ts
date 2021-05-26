@@ -14,7 +14,15 @@ export {
     AttestOpenEnclaveOptions,
     AttestSgxEnclaveOptions,
     AttestTpmOptions,
-    AttestationClientOperationOptions } from "./attestationClient";
+    AttestationClientOperationOptions,
+ } from "./attestationClient";
+
+ export {
+    AttestationAdministrationClient,
+    AttestationAdministrationClientOptions,
+    AttestationAdministrationClientOperationOptions,
+    GetPolicyOptions,
+ } from "./attestationAdministrationClient";
 
 /**
  * REMOVE THIS DECLARATION BEFORE SHIPPING, IT EXISTS ONLY TO MAKE API-Extractor HAPPY.

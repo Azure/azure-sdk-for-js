@@ -35,9 +35,6 @@ describe("AttestationTokenTests", function() {
 
       const signingKey = new AttestationSigningKey(key, cert);
       assert.isTrue(signingKey.certificate.length !== 0);
-
-      console.log('Cert: ', cert);
-
   });
 
   it("#createEcdsSigningKey", async() => {

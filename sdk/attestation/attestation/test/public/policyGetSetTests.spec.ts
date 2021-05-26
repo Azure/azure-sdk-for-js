@@ -8,7 +8,7 @@ chaiUse(chaiPromises);
 
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient, createRecorder } from "../utils/recordedClient";
+import { createRecordedAdminClient, createRecordedClient, createRecorder, EndpointType } from "../utils/recordedClient";
 import { KnownAttestationType } from "../../src";
 import { verifyAttestationToken } from "../utils/helpers";
 
@@ -24,32 +24,30 @@ describe("PolicyGetSetTests ", function() {
   });
 
   it("#GetPolicyAad", async () => {
-    const client = createRecordedClient("AAD");
-    const policyResult = await client.policy.get(KnownAttestationType.SgxEnclave);
-    const result = policyResult.token;
-    assert(result, "Expected a token from the service but did not receive one");
-    if (result && !isPlaybackMode()) {
-      await verifyAttestationToken(result, client);
-    }
+    await testGetPolicy("AAD");
   });
 
   it("#GetPolicyIsolated", async () => {
-    const client = createRecordedClient("Isolated");
-    const policyResult = await client.policy.get(KnownAttestationType.SgxEnclave);
-    const result = policyResult.token;
-    assert(result, "Expected a token from the service but did not receive one");
-    if (result && !isPlaybackMode()) {
-      await verifyAttestationToken(result, client);
-    }
+    await testGetPolicy("Isolated");
   });
 
   it("#GetPolicyShared", async () => {
-    const client = createRecordedClient("Shared");
-    const policyResult = await client.policy.get(KnownAttestationType.SgxEnclave);
-    const result = policyResult.token;
-    assert(result, "Expected a token from the service but did not receive one");
-    if (result && !isPlaybackMode()) {
-      await verifyAttestationToken(result, client);
-    }
+    await testGetPolicy("Shared");
   });
+
+  async function testGetPolicy(clientLocation: EndpointType) : Promise<void>{
+    const adminClient = createRecordedAdminClient(clientLocation);
+    const policyResult = await adminClient.getPolicy(KnownAttestationType.SgxEnclave);
+    const result = policyResult.token;
+    assert.isTrue(policyResult.value.startsWith("version="));
+
+
+    assert(policyResult.token, "Expected a token from the service but did not receive one");
+    if (result && !isPlaybackMode()) {
+      const client = createRecordedClient(clientLocation);
+      const signers = await client.getAttestationSigners();
+      await verifyAttestationToken(policyResult.token.deserialize(), signers, clientLocation);
+    }
+ 
+  }
 });

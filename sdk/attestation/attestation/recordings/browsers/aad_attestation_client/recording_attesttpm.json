@@ -11,22 +11,22 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1317",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 25 May 2021 23:50:59 GMT",
+    "date": "Wed, 26 May 2021 20:18:05 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11774.11 - WUS2 ProdSlices",
-    "x-ms-request-id": "1d5369aa-ae8e-405f-8763-278ab39f3100"
+    "x-ms-ests-server": "2.1.11722.21 - NCUS ProdSlices",
+    "x-ms-request-id": "4deae086-b736-4d2d-b188-2a1fbaad0300"
    }
   },
   {
    "method": "POST",
-   "url": "https://aad_attestation_url/attest/Tpm",
+   "url": "https://aad_attestation_url.wus.attest.azure.net/attest/Tpm",
    "query": {
     "api-version": "2020-10-01"
    },
@@ -35,11 +35,11 @@
    "response": "{\"error\":{\"code\":\"Bad request\",\"message\":\"A VBS attestation policy has not been set on the attestation provider.\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 25 May 2021 23:51:00 GMT",
+    "date": "Wed, 26 May 2021 20:18:05 GMT",
     "server": "Kestrel",
     "transfer-encoding": "chunked",
     "x-ms-maa-service-version": "1.10.01598.0001",
-    "x-ms-request-id": "00-2336dd4cae97d936e63169d61ac9a6ab-0000000000000000-00"
+    "x-ms-request-id": "00-be94f896698ebfdf78565aac759b31e2-0000000000000000-00"
    }
   }
  ],

@@ -59,6 +59,7 @@ module.exports = function(config) {
       "TEST_MODE",
       "AAD_ATTESTATION_URL",
       "ISOLATED_ATTESTATION_URL",
+      "ATTESTATION_LOCATION_SHORT_NAME",
       "policySigningCertificate0",
       "policySigningCertificate1",
       "policySigningCertificate2",

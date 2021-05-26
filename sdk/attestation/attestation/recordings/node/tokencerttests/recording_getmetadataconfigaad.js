@@ -22,28 +22,28 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '9e1e698f-9840-494a-9647-aeacbb542a00',
+  '094b7eb1-6528-47b6-b8cf-c49854f70400',
   'x-ms-ests-server',
-  '2.1.11774.11 - WUS2 ProdSlices',
+  '2.1.11722.21 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AoeeOFCcvcNIrB8eRXdVKmq81LWYDAAAAD-EP9gOAAAA; expires=Thu, 24-Jun-2021 23:50:49 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApjvTYg-5uZEl0SYtSdv4Zy81LWYBgAAANujQNgOAAAA; expires=Fri, 25-Jun-2021 20:17:54 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 25 May 2021 23:50:48 GMT',
+  'Wed, 26 May 2021 20:17:53 GMT',
   'Content-Length',
   '1317'
 ]);
 
-nock('https://aad_attestation_url', {"encodedQueryParams":true})
+nock('https://aad_attestation_url.wus.attest.azure.net:443', {"encodedQueryParams":true})
   .get('/.well-known/openid-configuration')
-  .reply(200, {"response_types_supported":["token","none"],"id_token_signing_alg_values_supported":["RS256"],"revocation_endpoint":"https://aad_attestation_url/revoke","issuer":"https://aad_attestation_url","jwks_uri":"https://aad_attestation_url/certs","claims_supported":["cnf","nonce","x-ms-ver","x-ms-attestation-type","x-ms-policy-hash","x-ms-policy-signer","x-ms-sgx-is-debuggable","x-ms-sgx-mrenclave","x-ms-sgx-mrsigner","x-ms-sgx-svn","x-ms-sgx-ehd","x-ms-sgx-collateral","is-debuggable","sgx-mrsigner","sgx-mrenclave","product-id","svn","tee"]}, [
+  .reply(200, {"response_types_supported":["token","none"],"id_token_signing_alg_values_supported":["RS256"],"revocation_endpoint":"https://aad_attestation_url.wus.attest.azure.net/revoke","issuer":"https://aad_attestation_url.wus.attest.azure.net","jwks_uri":"https://aad_attestation_url.wus.attest.azure.net/certs","claims_supported":["cnf","nonce","x-ms-ver","x-ms-attestation-type","x-ms-policy-hash","x-ms-policy-signer","x-ms-sgx-is-debuggable","x-ms-sgx-mrenclave","x-ms-sgx-mrsigner","x-ms-sgx-svn","x-ms-sgx-ehd","x-ms-sgx-collateral","is-debuggable","sgx-mrsigner","sgx-mrenclave","product-id","svn","tee"]}, [
   'Connection',
   'close',
   'Date',
-  'Tue, 25 May 2021 23:50:49 GMT',
+  'Wed, 26 May 2021 20:17:53 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -51,7 +51,7 @@ nock('https://aad_attestation_url', {"encodedQueryParams":true})
   'Content-Length',
   '612',
   'x-ms-request-id',
-  '00-cf90824278d8ec6f59536e5f1f396998-0000000000000000-00',
+  '00-d3af04f464e27fe37d71c6cbce921ead-0000000000000000-00',
   'x-ms-maa-service-version',
   '1.10.01598.0001'
 ]);

@@ -10,7 +10,6 @@ import * as coreHttp from "@azure/core-http";
 import { AttestationClient } from "../attestationClient";
 import {
   AttestationType,
-  PolicyGetResponse,
   PolicySetModelResponse,
   PolicyResetResponse
 } from "../models";
@@ -27,19 +26,6 @@ export class Policy {
    */
   constructor(client: AttestationClient) {
     this.client = client;
-  }
-
-  /**
-   * Retrieves the current policy for an attestation type.
-   * @param attestationType Specifies the trusted execution environment to be used to validate the
-   *                        evidence
-   * @param options The options parameters.
-   */
-  get(
-    attestationType: AttestationType,
-    options?: coreHttp.OperationOptions
-  ): Promise<PolicyGetResponse> {
-    return this.client.BaseClient().policy.get(attestationType, options);
   }
 
   /**
