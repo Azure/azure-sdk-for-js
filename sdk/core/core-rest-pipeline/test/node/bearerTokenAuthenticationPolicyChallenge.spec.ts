@@ -119,7 +119,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-describe("bearerTokenAuthenticationPolicy with challenge", function () {
+describe("bearerTokenAuthenticationPolicy with challenge", function() {
   let clock: sinon.SinonFakeTimers;
 
   beforeEach(() => {
@@ -129,7 +129,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     clock.restore();
   });
 
-  it("tests that the scope and the claim have been passed through to getToken correctly", async function () {
+  it("tests that the scope and the claim have been passed through to getToken correctly", async function() {
     const expected = {
       scope: ["http://localhost/.default"],
       challengeClaims: JSON.stringify({
@@ -213,7 +213,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     assert.deepEqual(finalSendRequestHeaders, [undefined, `Bearer ${getTokenResponse.token}`]);
   });
 
-  it("tests that the challenge is processed even we already had a token", async function () {
+  it("tests that the challenge is processed even we already had a token", async function() {
     const expected = [
       {
         scope: ["http://localhost/.default"],
@@ -338,7 +338,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     ]);
   });
 
-  it("service errors without challenges should bubble up", async function () {
+  it("service errors without challenges should bubble up", async function() {
     const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
     const credential = new MockRefreshAzureCredential([]);
 

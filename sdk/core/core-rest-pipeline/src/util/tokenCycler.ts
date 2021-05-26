@@ -187,10 +187,7 @@ export function createTokenCycler(
     return refreshWorker as Promise<AccessToken>;
   }
 
-  return async (
-    scopes: string | string[],
-    tokenOptions: GetTokenOptions
-  ): Promise<AccessToken> => {
+  return async (scopes: string | string[], tokenOptions: GetTokenOptions): Promise<AccessToken> => {
     //
     // Simple rules:
     // - If we MUST refresh, then return the refresh task, blocking
@@ -208,5 +205,5 @@ export function createTokenCycler(
     }
 
     return token as AccessToken;
-  }
+  };
 }

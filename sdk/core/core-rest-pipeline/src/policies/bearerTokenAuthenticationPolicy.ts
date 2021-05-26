@@ -9,8 +9,7 @@ import { createTokenCycler } from "../util/tokenCycler";
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
  */
-export const bearerTokenAuthenticationPolicyName =
-  "bearerTokenAuthenticationPolicy";
+export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
 
 /**
  * Options sent to the authorizeRequest callback
