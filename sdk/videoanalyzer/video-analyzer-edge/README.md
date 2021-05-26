@@ -21,10 +21,10 @@ npm install @azure/video-analyzer-edge
 
 ### Prerequisites
 
--  TypeScript v3.6.
--  You need an active [Azure subscription][azure_sub], and a IoT device connection string to use this package.
--  To interact with Azure IoT Hub you will need to run `npm install azure-iothub`
--  You will need to use the version of the SDK that corresponds to the version of the Video Analyzer Edge module you are using.
+- TypeScript v3.6.
+- You need an active [Azure subscription][azure_sub], and a IoT device connection string to use this package.
+- To interact with Azure IoT Hub you will need to run `npm install azure-iothub`
+- You will need to use the version of the SDK that corresponds to the version of the Video Analyzer Edge module you are using.
 
   | SDK          | Video Analyzer edge module |
   | ------------ | -------------------------- |
