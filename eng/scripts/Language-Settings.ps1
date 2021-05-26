@@ -225,7 +225,7 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode) {
     
     $matchingPublishedPackage = $matchingPublishedPackageArray[0]
 
-    if ($Mode -eq 'preview' -and -not $matchingPublishedPackage.VersionPreview.Trim()) { 
+    if ($Mode -eq 'preview' -and !$matchingPublishedPackage.VersionPreview.Trim()) { 
       # If we are in preview mode and the package does not have a superseding
       # preview version, remove the package from the list. 
       Write-Host "Remove superseded preview package: $($package.name)"
