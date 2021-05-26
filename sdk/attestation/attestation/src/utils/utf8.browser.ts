@@ -3,6 +3,8 @@
 
 /// <reference lib="dom" />
 
+import { TextDecoder, TextEncoder } from "./textEncoding";
+
 let encoder: TextEncoder | undefined;
 let decoder: TextDecoder | undefined;
 
