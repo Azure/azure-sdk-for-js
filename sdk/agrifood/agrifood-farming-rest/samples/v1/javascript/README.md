@@ -61,7 +61,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deletefarmer]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/deleteFarmer.js
 [listfarmers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/listFarmers.js
 [createfarmer]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/createFarmer.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/agrifood-farming
+[apiref]: https://docs.microsoft.com/javascript
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurefarmbeatsserviceinstance]: https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/agrifood/agrifood-farming-rest/README.md
