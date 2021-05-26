@@ -79,7 +79,11 @@ export type RequestParameters = {
 };
 
 // @public
-export type RouteParams<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [pathParam: string, ...pathParams: RouteParams<Tail>] : [];
+export type RouteParams<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
+    pathParam: string,
+    ...pathParams: RouteParams<Tail>
+] : [
+];
 
 
 ```
