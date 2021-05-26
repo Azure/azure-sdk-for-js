@@ -1570,8 +1570,15 @@ export class MetricsAdvisorAdministrationClient {
     try {
       // @ts-ignore
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      // const result = await this.client.createCredential(credential, requestOptions);
-      throw new Error("Not yet implemented");
+      //transformation
+      const result = await this.client.createCredential(_credential, requestOptions);
+      //throw new Error("Not yet implemented");
+      if (!result.location) {
+        throw new Error("Expected a valid location to retrieve the created credential entity");
+      }
+      const lastSlashIndex = result.location.lastIndexOf("/");
+      const credEntityId = result.location.substring(lastSlashIndex + 1);
+      return this.getCredentialEntity(credEntityId);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

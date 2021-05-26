@@ -30,6 +30,7 @@ import {
   SQLServerDataFeed as ServiceSQLServerDataFeed,
   InfluxDBDataFeed as ServiceInfluxDBDataFeed,
   AnomalyDetectionConfigurationPatch as ServiceAnomalyDetectionConfigurationPatch
+  //DataSourceCredentialUnion as ServiceDataSourceCredentialUnion
 } from "./generated/models";
 import {
   MetricFeedbackUnion,
@@ -57,7 +58,9 @@ import {
   AzureDataLakeStorageGen2AuthTypes,
   AzureDataLakeStorageGen2DataFeedSource,
   SQLServerAuthTypes,
-  AnomalyDetectionConfigurationPatch
+  AnomalyDetectionConfigurationPatch,
+  // DataSourceCredentialEntityUnion,
+  // SqlConnectionStringCredentialEntity
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -810,8 +813,34 @@ export function toServiceAlertConfigurationPatch(
   };
 }
 
+// export function toServiceCredential(
+//   from: DataSourceCredentialEntityUnion
+// ): ServiceDataSourceCredentialUnion {
+
+
+//   const common: ServiceDataSourceCredentialUnion = {
+//   dataSourceCredentialId: from.id,
+//   dataSourceCredentialName: from.name,
+//   dataSourceCredentialDescription: from.description,
+//   dataSourceCredentialType: from.type
+//   }
+//   switch(from.type){
+//     case "AzureSQLConnectionString":{
+//       const sqlEntity: SqlConnectionStringCredentialEntity = {
+//         ...common,
+//         parameters: {
+//           connectionString: from.connectionString
+//         }        
+//       };
+//       return sqlEntity;
+
+//     }
+//   }
+// }
+
 export function toServiceCredentialPatch(
   _from: DataSourceCredentialEntityPatch
 ): ServiceDataSourceCredentialPatch {
   throw new Error("Not Yet Implemented");
 }
+
