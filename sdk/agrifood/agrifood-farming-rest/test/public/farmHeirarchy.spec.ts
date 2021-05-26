@@ -8,8 +8,8 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { wait } from "./utils/wait";
 
-const startDateTime = new Date(2020, 1, 1);
-const endDateTime = new Date(2020, 1, 31);
+const startDateTime = new Date("2020-02-01T08:00:00.000Z");
+const endDateTime = new Date("2020-03-02T08:00:00.000Z");
 const farmerId = `test-farmer-id-1622056799928`;
 const jobId = `test-job-id-1622056799928`;
 const boundaryId = `test-boundary-id-1622056799928`;
