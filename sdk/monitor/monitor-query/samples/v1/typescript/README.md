@@ -2,12 +2,11 @@
 
 These sample programs show how to use the TypeScript client libraries for Monitor Query in some common scenarios.
 
-| **File Name**                                             | **Description**                                                                                                                                                                            |
-| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [logsQuery.ts][logsquery]                                 | Demonstrates how to run a query against a Log Analytics workspace                                                                                                                          |
-| [logsQueryBatch.ts][logsquerybatch]                       | Demonstrates how to run a batch query against a Log Analytics workspace                                                                                                                    |
-| [logsQueryPublicDemoServer.ts][logsquerypublicdemoserver] | Demonstrates how to run a query against the demo Azure Log Analytics workspace service. NOTE: To run against your own Log Analytics Workspace see `logsQuery.(ts|js)` in this same folder. |
-| [metricsQuery.ts][metricsquery]                           | Demonstrates how to query metrics using the MetricsClient.                                                                                                                                 |
+| **File Name**                       | **Description**                                                         |
+| ----------------------------------- | ----------------------------------------------------------------------- |
+| [logsQuery.ts][logsquery]           | Demonstrates how to run a query against a Log Analytics workspace       |
+| [logsQueryBatch.ts][logsquerybatch] | Demonstrates how to run a batch query against a Log Analytics workspace |
+| [metricsQuery.ts][metricsquery]     | Demonstrates how to query metrics using the MetricsClient.              |
 
 ## Prerequisites
 
@@ -63,7 +62,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [logsquery]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQuery.ts
 [logsquerybatch]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts
-[logsquerypublicdemoserver]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryPublicDemoServer.ts
 [metricsquery]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
