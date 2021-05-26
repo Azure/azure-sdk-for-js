@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /// <reference lib="esnext.bigint" />
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { Client, getClient } from "../../src";
@@ -20,12 +23,12 @@ const datetimeRfc1123Body = {
   field: "Mon, 01 Jan 0001 00:00:00 GMT",
   now: "Mon, 18 May 2015 11:38:00 GMT",
 };
-var arrayValidBody = {
+const arrayValidBody = {
   array: ["1, 2, 3, 4", "", null, "&S#$(*Y", "The quick brown fox jumps over the lazy dog"],
 };
 
 const durationBody = { field: "P123DT22H14M12.011S" };
-var dictionaryValidBody = {
+const dictionaryValidBody = {
   defaultProgram: { txt: "notepad", bmp: "mspaint", xls: "excel", exe: "", "": null },
 };
 

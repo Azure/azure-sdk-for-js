@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { Client, getClient } from "../../src";
 import { assert } from "chai";
