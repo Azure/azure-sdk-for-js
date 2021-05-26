@@ -28,7 +28,7 @@ describe("urlHelpers", () => {
   });
 
   it("should append date query parameter as ISO string", () => {
-    const start = new Date(2021, 5, 25);
+    const start = new Date("2021-06-25T07:00:00.000Z");
     const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
       queryParameters: { foo: "1", start },
     });
