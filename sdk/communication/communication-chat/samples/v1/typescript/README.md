@@ -12,11 +12,11 @@ urlFragment: communication-chat-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Communication Services - Chat in some common scenarios.
 
-| **File Name**                                       | **Description**                                                           |
-| --------------------------------------------------- | ------------------------------------------------------------------------- |
-| [messageOperations.ts][messageoperations]           | Demonstrates how to use the ChatThreadClient to do message operations     |
-| [participantsOperations.ts][participantsoperations] | Demonstrates how to use the ChatThreadClient to do participant operations |
-| [threadOperations.ts][threadoperations]             | Demonstrates how to use the ChatClient to do thread operations            |
+| **File Name**                                       | **Description**                                                            |
+| --------------------------------------------------- | -------------------------------------------------------------------------- |
+| [messageOperations.ts][messageoperations]           | Perform message thread operations using the ChatThreadClient.              |
+| [participantsOperations.ts][participantsoperations] | Demonstrates how to use the ChatThreadClient to do participant operations. |
+| [threadOperations.ts][threadoperations]             | Perform thread operations using the ChatClient.                            |
 
 ## Prerequisites
 

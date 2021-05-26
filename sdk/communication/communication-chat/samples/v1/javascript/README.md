@@ -12,11 +12,11 @@ urlFragment: communication-chat-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Chat in some common scenarios.
 
-| **File Name**                                       | **Description**                                                           |
-| --------------------------------------------------- | ------------------------------------------------------------------------- |
-| [messageOperations.js][messageoperations]           | Demonstrates how to use the ChatThreadClient to do message operations     |
-| [participantsOperations.js][participantsoperations] | Demonstrates how to use the ChatThreadClient to do participant operations |
-| [threadOperations.js][threadoperations]             | Demonstrates how to use the ChatClient to do thread operations            |
+| **File Name**                                       | **Description**                                                            |
+| --------------------------------------------------- | -------------------------------------------------------------------------- |
+| [messageOperations.js][messageoperations]           | Perform message thread operations using the ChatThreadClient.              |
+| [participantsOperations.js][participantsoperations] | Demonstrates how to use the ChatThreadClient to do participant operations. |
+| [threadOperations.js][threadoperations]             | Perform thread operations using the ChatClient.                            |
 
 ## Prerequisites
 

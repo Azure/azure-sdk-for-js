@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to use the ChatThreadClient to do message operations
+ * @summary Perform message thread operations using the ChatThreadClient.
  */
 
 const { ChatClient } = require("@azure/communication-chat");
