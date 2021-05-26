@@ -7,6 +7,10 @@ import {
   maskAccessTokenInBrowserRecording
 } from "../../src/utils";
 import { expect } from "chai";
+import {
+  applyRequestBodyTransformationsOnFixture,
+  defaultRequestBodyTransforms
+} from "../../src/utils/requestBodyTransform";
 
 describe("Browser utils", () => {
   describe("windowLens", () => {
@@ -361,6 +365,67 @@ describe("Browser utils", () => {
             test.output ? "do not match" : "matched"
           }`
         );
+      });
+    });
+  });
+
+  describe("applyRequestBodyTransformationsOnFixture", () => {
+    [
+      {
+        title: "scope at the end of the request body gets replaced",
+        recording: {
+          method: "POST",
+          url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+          requestBody:
+            "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default",
+          response: '{"token_type":"Bearer","access_token":"access_token"}',
+          responseHeaders: {
+            "content-length": "1317",
+            date: "Fri, 21 May 2021 20:27:39 GMT"
+          }
+        },
+        finalRequestBody:
+          "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F"
+      },
+      {
+        title: "scope at the middle of the request body gets replaced",
+        recording: {
+          method: "POST",
+          url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+          requestBody:
+            "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default&abc=123",
+          response: '{"token_type":"Bearer","access_token":"access_token"}',
+          responseHeaders: {
+            "content-length": "1317",
+            date: "Fri, 21 May 2021 20:27:39 GMT"
+          }
+        },
+        finalRequestBody:
+          "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F&abc=123"
+      },
+      {
+        title: "unchanged for body with no scope",
+        recording: {
+          method: "POST",
+          url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+          requestBody: "response_type=token&client_secret=azure_client_secret",
+          response: '{"token_type":"Bearer","access_token":"access_token"}',
+          responseHeaders: {
+            "content-length": "1317",
+            date: "Fri, 21 May 2021 20:27:39 GMT"
+          }
+        },
+        finalRequestBody: "response_type=token&client_secret=azure_client_secret"
+      }
+    ].forEach((testCase) => {
+      it(`${testCase.title}`, () => {
+        expect(
+          applyRequestBodyTransformationsOnFixture(
+            "browser",
+            testCase.recording,
+            defaultRequestBodyTransforms
+          ).requestBody
+        ).to.equal(testCase.finalRequestBody, "Unexpected request body");
       });
     });
   });
