@@ -81,6 +81,14 @@ export class RestError extends Error {
    * Logging method for util.inspect in Node
    */
   [custom](): string {
-    return `RestError: ${this.message} \n ${errorSanitizer.sanitize(this)}`;
+    const obj = {
+      name: this.name,
+      message: this.message,
+      stack: this.stack,
+      code: this.code,
+      statusCode: this.statusCode,
+      request: this.request
+    };
+    return `RestError: ${this.message} \n ${errorSanitizer.sanitize(obj)}`;
   }
 }
