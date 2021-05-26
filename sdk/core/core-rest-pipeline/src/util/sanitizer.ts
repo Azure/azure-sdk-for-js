@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isObject } from "./helpers";
+import { isObject, UnknownObject } from "./helpers";
 import { URL } from "./url";
 
 /**
@@ -22,11 +22,6 @@ export interface SanitizerOptions {
    */
   additionalAllowedQueryParameters?: string[];
 }
-
-/**
- * @internal
- */
-export type UnknownObject = { [s: string]: unknown };
 
 const RedactedString = "REDACTED";
 
