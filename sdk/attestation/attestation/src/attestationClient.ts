@@ -162,7 +162,7 @@ export class AttestationClient {
    * @param options Operation options for the attestOpenEnclave API call.
    * @returns 
    */
-  public async attestOpenEnclave(report : Uint8Array, options : AttestOpenEnclaveOptions={}) {
+  public async attestOpenEnclave(report : Uint8Array, options : AttestOpenEnclaveOptions={}) : Promise<AttestationResponse<AttestationResult>> {
     const { span, updatedOptions} = createSpan("AttestationClient-attestOpenEnclave", options);
     try {
       const attestationResult = await this._client.attestation.attestOpenEnclave({
@@ -198,7 +198,7 @@ export class AttestationClient {
    * @param options Operation options for the attestOpenEnclave API call.
    * @returns 
    */
-   public async attestSgxEnclave(quote : Uint8Array, options : AttestSgxEnclaveOptions={}) {
+   public async attestSgxEnclave(quote : Uint8Array, options : AttestSgxEnclaveOptions={}) : Promise<AttestationResponse<AttestationResult>> {
     const { span, updatedOptions} = createSpan("AttestationClient-attestSgxEnclave", options);
     try {
       const attestationResult = await this._client.attestation.attestSgxEnclave({
