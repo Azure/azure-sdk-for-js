@@ -138,7 +138,7 @@ describe("resolver - node", function() {
 
   describe("remote URL resolution", function() {
     remoteResolutionScenarios.forEach((scenario: RemoteResolutionScenario) => {
-      it(scenario.name, function(done) {
+      it(scenario.name, async function() {
         console.log(scenario.name);
         const myStub = sinon.stub(ServiceClient.prototype, "sendRequest");
         for (let i = 0; i < scenario.dtmis.length; i++) {
@@ -165,12 +165,8 @@ describe("resolver - node", function() {
           expectedOutput[element.dtmi] = element.expectedOutputJson;
         });
         assert(result instanceof Promise, "resolve method did not return a promise");
-        result
-          .then((actualOutput: any) => {
-            expect(actualOutput).to.deep.equal(expectedOutput);
-            return done();
-          })
-          .catch((err: any) => done(err));
+        const actualOutput: any = await result; 
+        expect(actualOutput).to.deep.equal(expectedOutput);
       });
     });
   });
