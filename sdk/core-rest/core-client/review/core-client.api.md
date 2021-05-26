@@ -20,7 +20,7 @@ export interface CertificateCredential {
 // @public
 export interface Client {
     path: Function;
-    pathUnchecked: (path: string, ...args: Array<any>) => {
+    pathUnchecked: <TPath extends string>(path: TPath, ...args: RouteParams<TPath>) => {
         get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
         post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
         put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
@@ -79,7 +79,7 @@ export type RequestParameters = {
 };
 
 // @public
-export type RouteParams<TRoute extends string> = TRoute extends `{${infer _Param}}/${infer Tail}` ? [pathParam: string, ...pathParams: RouteParams<Tail>] : TRoute extends `{${infer _Param}}` ? [pathParam: string] : TRoute extends `${infer _Prefix}:${infer Tail}` ? RouteParams<`{${Tail}}`> : [];
+export type RouteParams<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [pathParam: string, ...pathParams: RouteParams<Tail>] : [];
 
 
 ```

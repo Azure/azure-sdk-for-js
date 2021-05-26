@@ -6,7 +6,7 @@ import { isCertificateCredential } from "./certificateCredential";
 import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
 import { ClientOptions, HttpResponse } from "./common";
-import { RequestParameters } from "./pathClientTypes";
+import { RequestParameters, RouteParams } from "./pathClientTypes";
 import { sendRequest } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
 
@@ -32,9 +32,9 @@ export interface Client {
   /**
    * This method allows arbitrary paths and doesn't provide strong types
    */
-  pathUnchecked: (
-    path: string,
-    ...args: Array<any>
+  pathUnchecked: <TPath extends string>(
+    path: TPath,
+    ...args: RouteParams<TPath>
   ) => {
     get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
     post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
