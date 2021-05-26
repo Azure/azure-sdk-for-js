@@ -5,7 +5,7 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
-  bearerTokenChallengeAuthenticationPolicy,
+  bearerTokenAuthenticationPolicy,
   AuthorizeRequestOnChallengeOptions,
   createEmptyPipeline,
   createHttpHeaders,
@@ -119,7 +119,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-describe("bearerTokenAuthenticationPolicy with challenge", function() {
+describe("bearerTokenAuthenticationPolicy with challenge", function () {
   let clock: sinon.SinonFakeTimers;
 
   beforeEach(() => {
@@ -129,7 +129,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     clock.restore();
   });
 
-  it("tests that the scope and the claim have been passed through to getToken correctly", async function() {
+  it("tests that the scope and the claim have been passed through to getToken correctly", async function () {
     const expected = {
       scope: ["http://localhost/.default"],
       challengeClaims: JSON.stringify({
@@ -161,7 +161,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
 
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
-    const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
+    const bearerPolicy = bearerTokenAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [],
       credential,
@@ -213,7 +213,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     assert.deepEqual(finalSendRequestHeaders, [undefined, `Bearer ${getTokenResponse.token}`]);
   });
 
-  it("tests that the challenge is processed even we already had a token", async function() {
+  it("tests that the challenge is processed even we already had a token", async function () {
     const expected = [
       {
         scope: ["http://localhost/.default"],
@@ -270,7 +270,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
     let previousToken: AccessToken | null;
-    const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
+    const bearerPolicy = bearerTokenAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [],
       credential,
@@ -338,13 +338,13 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     ]);
   });
 
-  it("service errors without challenges should bubble up", async function() {
+  it("service errors without challenges should bubble up", async function () {
     const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
     const credential = new MockRefreshAzureCredential([]);
 
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
-    const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
+    const bearerPolicy = bearerTokenAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [],
       credential,
