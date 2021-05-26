@@ -20,8 +20,6 @@ jobs:
             - ci-configs/packages-preview.json
           Repositories:
             - Name: $(DocRepoOwner)/$(DocRepoName)
-              # TODO: There is a chicken/egg problem here where we don't know the default branch
-              Commitish: master
               WorkingDirectory: $(DocRepoLocation)
 
       # Call update docs ci script to onboard packages
