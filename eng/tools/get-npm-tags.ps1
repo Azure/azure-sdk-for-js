@@ -28,16 +28,14 @@ Write-Host "Find latest and next versions in npm registry for package"
    a. Set LATEST if package has never GA released
    b. Set NEXT tag
 #>
-$npmVersionInfo = Get-LatestVersionInfoFromNpm -packageName $packageName
+$npmVersionInfo = GetNpmTagVersions -packageName $packageName
 if ($npmVersionInfo -eq $null)
 {
   # Version info object should not be null even if package is not present in npm
   Write-Error "Failed to get version info from NPM registry."
   exit 1
 }
-$latestVersion = $npmVersionInfo.Latest
-$nextVersion = $npmVersionInfo.Next
-
+$latestVersion = [AzureEngSemanticVersion]::ParseVersionString($npmVersionInfo.latest)
 $setLatest = $false
 $setNext = $false
 # Set Latest tag if new version is higher than current GA or if package has never GA released before
@@ -48,8 +46,9 @@ if ((!$newVersion.IsPreRelease) -and ($latestVersion -eq $null -or $newVersion.C
 if ($newVersion.PrereleaseLabel -eq "preview" -or $newVersion.PrereleaseLabel -eq "beta")
 {
   Write-Host "Checking for next version tag"
-  # Set next tag if new preview is higher than both GA and current preview
-  $highestNpmVersion = Find-RecentPackageVersion -packageName $packageName
+  # Set next tag if new preview is higher than highest present on npm
+  $highestNpmVersion = FindRecentPackageVersion -packageName $packageName
+  $highestNpmVersion = [AzureEngSemanticVersion]::ParseVersionString($highestNpmVersion)
   # New version is preview and if package is getting released first time or higher than currently available
   if ($highestNpmVersion -eq $null -or $newVersion.CompareTo($highestNpmVersion) -eq 1)
   {
@@ -65,17 +64,12 @@ $tag = ""
 $additionalTag = ""
 if ($setLatest)
 {
-    Write-Host "Setting Tag to latest"
     $tag = "latest"
-    if ($setNext)
-    {
-        Write-Host "Setting AdditionalTag to next"
+    if ($setNext) {
         $additionalTag = "next"
     }
 }
-elseif ($setNext)
-{
-    Write-Host "Setting Tag to next"
+elseif ($setNext) {
     $tag = "next"
 }
 

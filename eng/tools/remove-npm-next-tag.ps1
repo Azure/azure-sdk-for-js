@@ -24,15 +24,15 @@ Write-Host "Find latest and next versions in npm registry for package"
 3. Remove next tag from preview version if latest is higher than preview version
 #>
 
-$npmVersionInfo = Get-LatestVersionInfoFromNpm -packageName $packageName
+$npmVersionInfo = GetNpmTagVersions -packageName $packageName
 if ($npmVersionInfo -eq $null)
 {
-    # Version info object should not be null even if package is not present in npm
-    Write-Error "Failed to get version info from NPM registry."
-    exit 1
+  # Version info object should not be null even if package is not present in npm
+  Write-Error "Failed to get version info from NPM registry."
+  exit 1
 }
-$latestVersion = $npmVersionInfo.Latest
-$nextVersion = $npmVersionInfo.Next
+$nextVersion = [AzureEngSemanticVersion]::ParseVersionString($npmVersionInfo.next)
+$latestVersion = [AzureEngSemanticVersion]::ParseVersionString($npmVersionInfo.latest) 
 
 if ( ($latestVersion -ne $null) -and ($nextVersion -ne $null) -and (!$latestVersion.IsPreRelease))
 {
@@ -45,7 +45,7 @@ if ( ($latestVersion -ne $null) -and ($nextVersion -ne $null) -and (!$latestVers
   }
   else
   {
-    Write-Host "Latest tagged version is higher than or same as next tagged version."
+    Write-Host "Latest tagged version is lower than or same as next tagged version."
     Write-Host "Skipping remove 'next' tag task."
   }
 }

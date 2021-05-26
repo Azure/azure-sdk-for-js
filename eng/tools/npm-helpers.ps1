@@ -3,59 +3,59 @@ $Engcommon = Join-Path $EngPath "common"
 $EngCommonScriptsPath = Join-Path $Engcommon "scripts"
 . (Join-Path $EngCommonScriptsPath common.ps1)
 
-function Get-LatestVersionInfoFromNpm($packageName)
+function GetNpmTagVersions($packageName)
 {
-  $latestVersion = npm show $packageName@latest version
-  $nextVersion = npm show $packageName@next version
-  Write-Host "Latest version: $latestVersion"
-  Write-Host "Next version: $nextVersion"
-  if ( $nextVersion -eq $null) {
-    Write-Host "'Next' tag is not present in npm registry for package $packageName"
-  }
-  else {
-    $nextVersion = [AzureEngSemanticVersion]::ParseVersionString($nextVersion)
-  }
+  try
+  {
+    $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${PackageName}"
+    $latest = ($existingVersion."dist-tags").latest
+    $next = ($existingVersion."dist-tags").next
+    Write-Host "Latest version: $latest"
+    Write-Host "Next version: $next"
+    if ($latest -eq $null) {
+      Write-Host "'latest' tag is not present in npm registry for package $packageName"
+    }
+    if ($next -eq $null) {
+      Write-Host "'Next' tag is not present in npm registry for package $packageName"
+    }
 
-  if ( $latestVersion -eq $null) {
-    Write-Host "'latest' tag is not present in npm registry for package $packageName"
+    return New-Object PSObject -Property @{
+      latest = $latest
+      next = $next
+    }
   }
-  else {
-    $latestVersion = [AzureEngSemanticVersion]::ParseVersionString($latestVersion)
+  catch
+  {
+    LogError "Failed to retrieve package versions. `n$_"
+    return $null
   }
-
-  $result = New-Object PSObject -Property @{
-    Latest = $latestVersion
-    Next = $nextVersion
-  }
-  return $result
 }
 
-function Find-RecentPackageVersion($packageName)
+function GetNpmPackageVersions ($packageName)
 {
-  $npmVersionInfo = Get-LatestVersionInfoFromNpm -packageName $packageName
-  if ($npmVersionInfo -ne $null)
+  try
   {
-    $latestVersion = $npmVersionInfo.Latest
-    $nextVersion = $npmVersionInfo.Next
-    if (($nextVersion -ne $null) -and ($latestVersion -ne $null))
-    {
-      if ($latestVersion.CompareTo($nextVersion) -eq 1) {
-        $highestNpmVersion = $latestVersion
-      }
-      else {
-        $highestNpmVersion = $nextVersion
-      }
-    }
-    else
-    {
-      if ($nextVersion -ne $null) {
-        $highestNpmVersion = $nextVersion
-      }
-      else {
-        $highestNpmVersion = $latestVersion
-      }
-    } 
+    Write-Host "Checking versions present on npm for package $packageName"
+    $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${packageName}"
+    return ($existingVersion.versions | Get-Member -MemberType NoteProperty).Name
   }
-  Write-Host "Recent version uploaded to NPM: $highestNpmVersion"
-  return $highestNpmVersion
+  catch
+  {
+    LogError "Failed to retrieve package versions. `n$_"
+    return $null
+  }
+}
+
+function FindRecentPackageVersion($packageName)
+{
+  $versions = (GetNpmPackageVersions -packageName $packageName) | ? {$_ -NotMatch "alpha|dev"}  
+  if ($versions -ne $null -and $versions.Count -gt 0)
+  {
+    $versions = [AzureEngSemanticVersion]::SortVersionStrings($versions)
+    $highestNpmVersion = $versions[0]
+    Write-Host "Recent version uploaded to NPM: $highestNpmVersion"
+    return $highestNpmVersion
+  }
+  
+  return $null
 }
