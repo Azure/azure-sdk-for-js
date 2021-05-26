@@ -7,7 +7,7 @@
  */
 
 import { matrix } from "@azure/test-utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder, env } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import {
@@ -25,6 +25,13 @@ if (isNode) {
 matrix([[true, false]], async function(useAad) {
   describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async () => {
     let recorder: Recorder;
+
+    before(function(this: Context) {
+      const skipIntSMSTests = env.COMMUNICATION_SKIP_INT_SMS_TEST === "true";
+      if (skipIntSMSTests) {
+        this.skip();
+      }
+    });
 
     beforeEach(async function(this: Context) {
       recorder = record(this, recorderConfiguration);

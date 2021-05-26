@@ -9,6 +9,8 @@ import * as jsrsasign from "jsrsasign"; // works in the browser
 
 import { decode } from "./decodeJWT";
 
+import { encodeByteArray } from "./base64url"
+
 export function decodeJWT(
   attestationToken: string,
   client: AttestationClient
@@ -34,34 +36,32 @@ export async function verifyAttestationToken(
   const decoded = decodeJWT(attestationToken, client);
   const keyId = decoded?.header.kid;
 
-  const signingCerts = await client.signingCertificates.get();
-  let signingCertx5C;
-  if (signingCerts?.keys) {
-    assert(signingCerts.keys?.length > 0);
-    for (const key of signingCerts.keys) {
-      if (key.kid === keyId) {
-        signingCertx5C = key.x5C;
-      }
+  const signingCerts = await client.getAttestationSigners();
+  let signingCert;
+  assert(signingCerts.length > 0);
+  for (const key of signingCerts) {
+    if (key.keyId === keyId) {
+      signingCert = key.certificates;
     }
-    if (signingCertx5C !== null && signingCertx5C !== undefined) {
-      // Convert the inbound certificate to PEM format so the verify function is happy.
-      let pemCert: string;
-      pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-      pemCert += signingCertx5C[0];
-      pemCert += "\r\n-----END CERTIFICATE-----\r\n";
+  }
+  if (signingCert) {
+    // Convert the inbound certificate to PEM format so the verify function is happy.
+    let pemCert: string;
+    pemCert = "-----BEGIN CERTIFICATE-----\r\n";
+    pemCert += encodeByteArray(signingCert[1]);
+    pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
-      const pubKeyObj = jsrsasign.KEYUTIL.getKey(pemCert);
-      const isValid = jsrsasign.KJUR.jws.JWS.verifyJWT(
-        attestationToken,
-        pubKeyObj as jsrsasign.RSAKey,
-        {
-          iss: [client.instanceUrl],
-          alg: ["RS256"]
-        }
-      );
-      if (!isValid) {
-        throw new Error(`Verification failed! token: ${JSON.stringify(decoded)}`);
+    const pubKeyObj = jsrsasign.KEYUTIL.getKey(pemCert);
+    const isValid = jsrsasign.KJUR.jws.JWS.verifyJWT(
+      attestationToken,
+      pubKeyObj as jsrsasign.RSAKey,
+      {
+        iss: [client.instanceUrl],
+        alg: ["RS256"]
       }
+    );
+    if (!isValid) {
+      throw new Error(`Verification failed! token: ${JSON.stringify(decoded)}`);
     }
   }
   return decoded.payload;

@@ -92,6 +92,10 @@ Use the [Azure CLI][azure-cli] snippet below to create/get client secret credent
   > --key-permissions:
   > Accepted values: backup, create, decrypt, delete, encrypt, get, import, list, purge, recover, restore, sign, unwrapKey, update, verify, wrapKey
 
+  If you have enabled role-based access control (RBAC) for Key Vault instead, you can find roles like "Key Vault Crypto Officer" in our [RBAC guide](https://docs.microsoft.com/azure/key-vault/general/rbac-guide).
+  
+  If you are managing your keys using Managed HSM, read about its [access control](https://docs.microsoft.com/azure/key-vault/managed-hsm/access-control) that supports different built-in roles isolated from Azure Resource Manager (ARM).
+
 - Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
   ```Bash
   az keyvault show --name <your-key-vault-name>

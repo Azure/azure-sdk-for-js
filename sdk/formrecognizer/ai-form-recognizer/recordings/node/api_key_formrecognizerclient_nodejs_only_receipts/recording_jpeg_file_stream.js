@@ -10,72 +10,72 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Length',
   '0',
   'Operation-Location',
-  'https://endpoint/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/22420bf0-a041-48db-9594-659a3ade11e9',
+  'https://endpoint/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/04fb1629-9b25-4468-92fc-fc3e3bb5eb59',
   'x-envoy-upstream-service-time',
-  '192',
+  '181',
   'apim-request-id',
-  '22420bf0-a041-48db-9594-659a3ade11e9',
+  '04fb1629-9b25-4468-92fc-fc3e3bb5eb59',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 12 May 2021 01:27:54 GMT'
+  'Tue, 25 May 2021 18:13:30 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/22420bf0-a041-48db-9594-659a3ade11e9')
-  .reply(200, {"status":"running","createdDateTime":"2021-05-12T01:27:54Z","lastUpdatedDateTime":"2021-05-12T01:27:54Z"}, [
+  .get('/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/04fb1629-9b25-4468-92fc-fc3e3bb5eb59')
+  .reply(200, {"status":"running","createdDateTime":"2021-05-25T18:13:30Z","lastUpdatedDateTime":"2021-05-25T18:13:30Z"}, [
   'Content-Length',
   '106',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '10',
+  '14',
   'apim-request-id',
-  '320da062-13d6-4e62-82e4-dd449a4316d7',
+  '10b993b1-4587-4219-9cef-6d5cb7de9e7d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 12 May 2021 01:27:54 GMT'
+  'Tue, 25 May 2021 18:13:30 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/22420bf0-a041-48db-9594-659a3ade11e9')
-  .reply(200, {"status":"running","createdDateTime":"2021-05-12T01:27:54Z","lastUpdatedDateTime":"2021-05-12T01:27:54Z"}, [
+  .get('/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/04fb1629-9b25-4468-92fc-fc3e3bb5eb59')
+  .reply(200, {"status":"running","createdDateTime":"2021-05-25T18:13:30Z","lastUpdatedDateTime":"2021-05-25T18:13:30Z"}, [
   'Content-Length',
   '106',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '10',
+  '12',
   'apim-request-id',
-  '2eb82bc7-359a-4f6f-b70a-a0cf2de92a1a',
+  '59bf763f-e8c0-4e5b-a634-5bcb364c403a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 12 May 2021 01:27:54 GMT'
+  'Tue, 25 May 2021 18:13:30 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/22420bf0-a041-48db-9594-659a3ade11e9')
-  .reply(200, {"status":"succeeded","createdDateTime":"2021-05-12T01:27:54Z","lastUpdatedDateTime":"2021-05-12T01:27:56Z","analyzeResult":{"version":"2.1.0","readResults":[{"page":1,"angle":0.1273,"width":1688,"height":3000,"unit":"pixel"}],"documentResults":[{"docType":"prebuilt:receipt","pageRange":[1,1],"fields":{"Items":{"type":"array","valueArray":[{"type":"object","valueObject":{"Name":{"type":"string","valueString":"Cappuccino","text":"Cappuccino","boundingBox":[304,1585,658,1598,657,1688,302,1679],"page":1,"confidence":0.558},"Quantity":{"type":"number","valueNumber":1,"text":"1","boundingBox":[244,1581,286,1584,283,1678,241,1675],"page":1,"confidence":0.936},"TotalPrice":{"type":"number","valueNumber":2.2,"text":"$2.20","boundingBox":[1106,1579,1260,1574,1263,1656,1108,1662],"page":1,"confidence":0.972}}},{"type":"object","valueObject":{"Name":{"type":"string","valueString":"BACON & EGGS","text":"BACON & EGGS","boundingBox":[293,1839,737,1839,737,1924,293,1924],"page":1,"confidence":0.906},"Quantity":{"type":"number","valueNumber":1,"text":"1","boundingBox":[227,1839,275,1839,275,1924,226,1924],"page":1,"confidence":0.936},"TotalPrice":{"type":"number","valueNumber":9.5,"text":"$9.5","boundingBox":[1134,1948,1252,1948,1252,2041,1134,2041],"page":1,"confidence":0.977}}}]},"MerchantAddress":{"type":"string","valueString":"123 Main Street Redmond, WA 98052","text":"123 Main Street Redmond, WA 98052","boundingBox":[298.6,675.8,844.8,782.2,810.6,957.9,264.4,851.5],"page":1,"confidence":0.974},"MerchantName":{"type":"string","valueString":"Contoso","text":"Contoso","boundingBox":[308,570,515,627,500,685,290,634],"page":1,"confidence":0.974},"MerchantPhoneNumber":{"type":"phoneNumber","valuePhoneNumber":"+19876543210","text":"987-654-3210","boundingBox":[274,1000,651,1049,643,1125,268,1076],"page":1,"confidence":0.987},"ReceiptType":{"type":"string","valueString":"Itemized","confidence":0.99},"Subtotal":{"type":"number","valueNumber":11.7,"text":"$ 11.70","boundingBox":[1082,2225.1,1307.1,2228,1306,2315.4,1080.9,2312.5],"page":1,"confidence":0.967},"Tax":{"type":"number","valueNumber":1.17,"text":"$ 1.17","boundingBox":[1125,2352.1,1307.4,2361,1303,2452.9,1120.6,2444],"page":1,"confidence":0.985},"Tip":{"type":"number","valueNumber":1.63,"text":"$ 1.63","boundingBox":[1034,2481.7,1268.6,2488,1266,2583.5,1031.5,2577.2],"page":1,"confidence":0.941},"Total":{"type":"number","valueNumber":14.5,"text":"$14.50","boundingBox":[1033,2623,1374,2641,1368,2757,1027,2740],"page":1,"confidence":0.978},"TransactionDate":{"type":"date","valueDate":"2019-06-10","text":"6/10/2019","boundingBox":[259,1224,514,1247,509,1331,255,1312],"page":1,"confidence":0.987},"TransactionTime":{"type":"time","valueTime":"13:59:00","text":"13:59","boundingBox":[531,1248,681,1262,675,1341,526,1333],"page":1,"confidence":0.985}}}]}}, [
+  .get('/formrecognizer/v2.1/prebuilt/receipt/analyzeResults/04fb1629-9b25-4468-92fc-fc3e3bb5eb59')
+  .reply(200, {"status":"succeeded","createdDateTime":"2021-05-25T18:13:30Z","lastUpdatedDateTime":"2021-05-25T18:13:34Z","analyzeResult":{"version":"2.1.0","readResults":[{"page":1,"angle":0.1273,"width":1688,"height":3000,"unit":"pixel"}],"documentResults":[{"docType":"prebuilt:receipt","pageRange":[1,1],"fields":{"Items":{"type":"array","valueArray":[{"type":"object","valueObject":{"Name":{"type":"string","valueString":"Cappuccino","text":"Cappuccino","boundingBox":[304,1585,658,1598,657,1688,302,1679],"page":1,"confidence":0.558},"Quantity":{"type":"number","valueNumber":1,"text":"1","boundingBox":[244,1581,286,1584,283,1678,241,1675],"page":1,"confidence":0.936},"TotalPrice":{"type":"number","valueNumber":2.2,"text":"$2.20","boundingBox":[1106,1579,1260,1574,1263,1656,1108,1662],"page":1,"confidence":0.972}}},{"type":"object","valueObject":{"Name":{"type":"string","valueString":"BACON & EGGS","text":"BACON & EGGS","boundingBox":[293,1839,737,1839,737,1924,293,1924],"page":1,"confidence":0.906},"Quantity":{"type":"number","valueNumber":1,"text":"1","boundingBox":[227,1839,275,1839,275,1924,226,1924],"page":1,"confidence":0.936},"TotalPrice":{"type":"number","valueNumber":9.5,"text":"$9.5","boundingBox":[1134,1948,1252,1948,1252,2041,1134,2041],"page":1,"confidence":0.977}}}]},"MerchantAddress":{"type":"string","valueString":"123 Main Street Redmond, WA 98052","text":"123 Main Street Redmond, WA 98052","boundingBox":[298.6,675.8,844.8,782.2,810.6,957.9,264.4,851.5],"page":1,"confidence":0.974},"MerchantName":{"type":"string","valueString":"Contoso","text":"Contoso","boundingBox":[308,570,515,627,500,685,290,634],"page":1,"confidence":0.974},"MerchantPhoneNumber":{"type":"phoneNumber","valuePhoneNumber":"+19876543210","text":"987-654-3210","boundingBox":[274,1000,651,1049,643,1125,268,1076],"page":1,"confidence":0.987},"ReceiptType":{"type":"string","valueString":"Itemized","confidence":0.99},"Subtotal":{"type":"number","valueNumber":11.7,"text":"$ 11.70","boundingBox":[1082,2225.1,1307.1,2228,1306,2315.4,1080.9,2312.5],"page":1,"confidence":0.967},"Tax":{"type":"number","valueNumber":1.17,"text":"$ 1.17","boundingBox":[1125,2352.1,1307.4,2361,1303,2452.9,1120.6,2444],"page":1,"confidence":0.985},"Tip":{"type":"number","valueNumber":1.63,"text":"$ 1.63","boundingBox":[1034,2481.7,1268.6,2488,1266,2583.5,1031.5,2577.2],"page":1,"confidence":0.941},"Total":{"type":"number","valueNumber":14.5,"text":"$14.50","boundingBox":[1033,2623,1374,2641,1368,2757,1027,2740],"page":1,"confidence":0.978},"TransactionDate":{"type":"date","valueDate":"2019-06-10","text":"6/10/2019","boundingBox":[259,1224,514,1247,509,1331,255,1312],"page":1,"confidence":0.987},"TransactionTime":{"type":"time","valueTime":"13:59:00","text":"13:59","boundingBox":[531,1248,681,1262,675,1341,526,1333],"page":1,"confidence":0.985}}}]}}, [
   'Content-Length',
   '2836',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '18',
+  '19',
   'apim-request-id',
-  '8d462502-b048-4c8d-b80b-41e99bb5a55b',
+  'f4b37756-a1ac-4170-a1e1-c8fa8cacfacb',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 12 May 2021 01:27:59 GMT'
+  'Tue, 25 May 2021 18:13:35 GMT'
 ]);

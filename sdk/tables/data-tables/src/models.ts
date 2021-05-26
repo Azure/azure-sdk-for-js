@@ -98,16 +98,16 @@ export type TableEntityResult<T> = T & {
    */
   etag: string;
   /**
-   * Partition key property. Ommited if a select filter is set and this property is not requested
+   * Partition key property. Omitted if a select filter is set and this property is not requested
    */
   partitionKey?: string;
   /**
-   * Row key property. Ommited if a select filter is set and this property is not requested
+   * Row key property. Omitted if a select filter is set and this property is not requested
    */
   rowKey?: string;
   /**
    * Timestamp property. This property is assinged by the service on entity creation
-   * Ommited if a select filter is set and this property is not requested
+   * Omitted if a select filter is set and this property is not requested
    */
   timestamp?: string;
 };

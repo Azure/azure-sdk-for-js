@@ -5,6 +5,11 @@
 - Improves cancellation support when sending messages or initializing a connection to the service.
   Resolves [#15311](https://github.com/Azure/azure-sdk-for-js/issues/15311) and [#13504](https://github.com/Azure/azure-sdk-for-js/issues/13504).
 
+### Bug fixes
+
+- ServiceBusSender could throw an error (`TypeError: Cannot read property 'maxMessageSize' of undefined`) if a link was being restarted while calling sendMessages().
+  [PR#15409](https://github.com/Azure/azure-sdk-for-js/pull/15409)
+
 ## 7.2.0-beta.1 (2021-05-18)
 
 ### New Features
