@@ -1,10 +1,10 @@
 let nock = require('nock');
 
-module.exports.hash = "8702561eda37c6a4a083d3b6f597e190";
+module.exports.hash = "7465087e95cd3fd96ca28d7c4ccaca4f";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('M365AADAuthority:443', {"encodedQueryParams":true})
   .post('/SomeTenantId/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=SomeClientSecret&scope=https%3A%2F%2Fcommunication.azure.com%2F%2F.default")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"sanitized"}, [
   'Cache-Control',
@@ -24,15 +24,15 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-request-id',
   'sanitized',
   'x-ms-ests-server',
-  '2.1.11774.11 - NCUS ProdSlices',
+  '2.1.11774.11 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AnVcF9NxGutDvPInXdHn3btWyo4SAwAAAA6AQNgOAAAA; expires=Fri, 25-Jun-2021 17:44:53 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjeJ4_HVdWdPl6pSscEas6VWyo4SBAAAAKi9QNgOAAAA; expires=Fri, 25-Jun-2021 22:07:46 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 26 May 2021 17:44:53 GMT',
+  'Wed, 26 May 2021 22:07:46 GMT',
   'Content-Length',
   '1327'
 ]);
@@ -44,7 +44,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'E4nrWNQ7+Ea/SYPG3pik9A.0',
+  'pWzpnKlr5UWNsXaUbiiaYQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -54,9 +54,9 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0FomuYAAAAADcmoWQANVlQ7bEaXtldEzAV1NURURHRTA4MTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0ssauYAAAAABAXcCXRIoVSLUfhPPWgT8nV1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Wed, 26 May 2021 17:44:53 GMT',
+  'Wed, 26 May 2021 22:07:46 GMT',
   'Content-Length',
   '0'
 ]);
