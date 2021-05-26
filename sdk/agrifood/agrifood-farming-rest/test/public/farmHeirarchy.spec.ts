@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import {
-  FarmBeatsRestClient,
-  ScenesGetSatelliteDataIngestionJobDetails200Response,
-  ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse,
-} from "../../src";
+import { FarmBeatsRestClient } from "../../src";
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
 import { assert } from "chai";
@@ -14,9 +10,9 @@ import { wait } from "./utils/wait";
 
 const startDateTime = new Date(2020, 1, 1);
 const endDateTime = new Date(2020, 1, 31);
-const farmerId = `test-farmer-id-${Date.now()}`;
-const jobId = `test-job-id-${Date.now()}`;
-const boundaryId = `test-boundary-id-${Date.now()}`;
+const farmerId = `test-farmer-id-1622056799928`;
+const jobId = `test-job-id-1622056799928`;
+const boundaryId = `test-boundary-id-1622056799928`;
 const testFarmer = {
   name: "Contoso Farmer",
   description: "Your custom farmer description here",

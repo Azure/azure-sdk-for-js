@@ -38,9 +38,9 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .delete('/farmers/test-farmer-id-1622056699834/boundaries/test-boundary-id-1622056699834')
+  .delete('/farmers/test-farmer-id-1622056799927/boundaries/test-boundary-id-1622056799927')
   .query(true)
-  .reply(400, {"error":{"code":"InvalidDeleteOperation","message":"The boundary with id 'test-boundary-id-1622056699834' has associated satellite data or attachments. Delete them first to proceed.","target":null,"details":null,"innererror":null},"traceId":"0HM903JCGNAKC:00000002"}, [
+  .reply(400, {"error":{"code":"InvalidDeleteOperation","message":"The boundary with id 'test-boundary-id-1622056799927' has associated satellite data or attachments. Delete them first to proceed.","target":null,"details":null,"innererror":null},"traceId":"0HM903JCGNAKC:00000002"}, [
   'Server',
   'nginx/1.19.1',
   'Date',
