@@ -165,7 +165,7 @@ describe("resolver - node", function() {
           expectedOutput[element.dtmi] = element.expectedOutputJson;
         });
         assert(result instanceof Promise, "resolve method did not return a promise");
-        const actualOutput: any = await result; 
+        const actualOutput: any = await result;
         expect(actualOutput).to.deep.equal(expectedOutput);
       });
     });
