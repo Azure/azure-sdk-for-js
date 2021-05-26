@@ -53,7 +53,6 @@ export const createUserAndTokenHttpClient: HttpClient = createMockHttpClient<
   }
 });
 
-export const exchangeAADtokenForACSTokenHttpClient: HttpClient = createMockHttpClient<CommunicationAccessToken>(
-  200,
-  tokenResponse
-);
+export const exchangeAADtokenForACSTokenHttpClient: HttpClient = createMockHttpClient<
+  CommunicationAccessToken
+>(200, tokenResponse);

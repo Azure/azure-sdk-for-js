@@ -13,7 +13,9 @@ import {
 import { Context } from "mocha";
 
 matrix([[true, false]], async function(useAad) {
-  describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : "" } [Node specific]`, function() {
+  describe(`CommunicationIdentityClient [Playback/Live]${
+    useAad ? " [AAD]" : ""
+  } [Node specific]`, function() {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
@@ -34,15 +36,15 @@ matrix([[true, false]], async function(useAad) {
     it("successfully exchanges an AAD token for an ACS token", async function() {
       const msalConfig = {
         auth: {
-            clientId: 'VAULT_CLIENT_ID',
-            authority: 'VAULT_AUTHORITY/VAULT_TENANT_ID',
+          clientId: "VAULT_CLIENT_ID",
+          authority: "VAULT_AUTHORITY/VAULT_TENANT_ID"
         }
       };
 
       var request = {
         username: "VAULT_USERNAME",
         password: "VAULT_PASSWORD",
-        scopes: ["VAULT_SCOPE"],
+        scopes: ["VAULT_SCOPE"]
       };
 
       const pca = new msal.PublicClientApplication(msalConfig);
@@ -50,7 +52,10 @@ matrix([[true, false]], async function(useAad) {
       const response = await pca.acquireTokenByUsernamePassword(request);
       assert.isNotNull(response);
 
-      const { token, expiresOn }: CommunicationAccessToken = await client.exchangeAADtokenForACStoken(response!.accessToken);
+      const {
+        token,
+        expiresOn
+      }: CommunicationAccessToken = await client.exchangeAADtokenForACStoken(response!.accessToken);
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     });
