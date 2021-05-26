@@ -1,5 +1,12 @@
 # Release History
 
+## 7.2.0-beta.2 (Unreleased)
+
+### Bug fixes
+
+- ServiceBusSender could throw an error (`TypeError: Cannot read property 'maxMessageSize' of undefined`) if a link was being restarted while calling sendMessages().
+  [PR#15409](https://github.com/Azure/azure-sdk-for-js/pull/15409)
+
 ## 7.2.0-beta.1 (2021-05-18)
 
 ### New Features

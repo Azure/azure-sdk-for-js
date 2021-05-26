@@ -402,6 +402,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-network-traversal",
+      "projectFolder": "sdk/communication/communication-network-traversal",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-phone-numbers",
       "projectFolder": "sdk/communication/communication-phone-numbers",
       "versionPolicyName": "client"
@@ -660,6 +665,15 @@
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/video-analyzer-edge",
+      "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
+      "versionPolicyName": "client"
+    },
+    {      
+      "packageName": "@azure/iot-modelsrepository",
+      "projectFolder": "sdk/iot/iot-modelsrepository"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",

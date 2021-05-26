@@ -32,8 +32,8 @@
   "dependencies": {
     "@azure/app-configuration": "next",
     "dotenv": "latest",
-    "@azure/keyvault-secrets": "^4.2.0-beta.4",
-    "@azure/identity": "^1.1.0"
+    "@azure/keyvault-secrets": "^4.1.0",
+    "@azure/identity": "2.0.0-beta.3"
   },
   "devDependencies": {
     "typescript": "~4.2.0",

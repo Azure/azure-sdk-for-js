@@ -29,7 +29,7 @@ type MaybeTypedFormField<T extends FormField["valueType"]> =
   | Extract<FormField, { valueType: T }>
   | undefined;
 
-matrix([[false]] as const, async (useAad) => {
+matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] FormRecognizerClient NodeJS only`, () => {
     const ASSET_PATH = path.resolve(path.join(process.cwd(), "assets"));
     let client: FormRecognizerClient;

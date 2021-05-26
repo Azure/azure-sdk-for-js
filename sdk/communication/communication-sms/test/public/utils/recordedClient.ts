@@ -19,7 +19,8 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
     AZURE_PHONE_NUMBER: "+14255550123",
     AZURE_CLIENT_ID: "SomeClientId",
     AZURE_CLIENT_SECRET: "SomeClientSecret",
-    AZURE_TENANT_ID: "SomeTenantId"
+    AZURE_TENANT_ID: "SomeTenantId",
+    COMMUNICATION_SKIP_INT_SMS_TEST: "false"
   },
   customizationsOnRecordings: [
     (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),

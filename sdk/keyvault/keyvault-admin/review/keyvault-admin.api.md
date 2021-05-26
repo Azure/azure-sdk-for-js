@@ -45,7 +45,7 @@ export class KeyVaultAccessControlClient {
     getRoleDefinition(roleScope: KeyVaultRoleScope, name: string, options?: GetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     listRoleAssignments(roleScope: KeyVaultRoleScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
     listRoleDefinitions(roleScope: KeyVaultRoleScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
-    upsertRoleDefinition(roleScope: KeyVaultRoleScope, name: string, permissions: KeyVaultPermission[], description?: string, options?: UpsertRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
+    upsertRoleDefinition(roleScope: KeyVaultRoleScope, options?: UpsertRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     readonly vaultUrl: string;
 }
 
@@ -62,8 +62,8 @@ export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationS
 export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultBackupClientOptions);
     beginBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
-    beginRestore(folderUri: string, sasToken: string, folderName: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
-    beginSelectiveRestore(folderUri: string, sasToken: string, folderName: string, keyName: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultSelectiveRestoreOperationState, KeyVaultRestoreResult>>;
+    beginRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
+    beginSelectiveKeyRestore(keyName: string, folderUri: string, sasToken: string, options?: KeyVaultBeginSelectiveKeyRestoreOptions): Promise<PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>>;
     readonly vaultUrl: string;
 }
 
@@ -83,8 +83,8 @@ export interface KeyVaultBackupPollerOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface KeyVaultBackupResult {
-    backupFolderUri?: string;
     endTime?: Date;
+    folderUri?: string;
     startTime: Date;
 }
 
@@ -97,7 +97,7 @@ export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions
 }
 
 // @public
-export interface KeyVaultBeginSelectiveRestoreOptions extends KeyVaultBackupPollerOptions {
+export interface KeyVaultBeginSelectiveKeyRestoreOptions extends KeyVaultBackupPollerOptions {
 }
 
 // @public
@@ -152,7 +152,13 @@ export interface KeyVaultRoleDefinition {
 export type KeyVaultRoleScope = "/" | "/keys" | string;
 
 // @public
-export interface KeyVaultSelectiveRestoreOperationState extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {
+export interface KeyVaultSelectiveKeyRestoreOperationState extends KeyVaultAdminPollOperationState<KeyVaultSelectiveKeyRestoreResult> {
+}
+
+// @public
+export interface KeyVaultSelectiveKeyRestoreResult {
+    endTime?: Date;
+    startTime: Date;
 }
 
 // @public
@@ -184,6 +190,11 @@ export type SUPPORTED_API_VERSIONS = "7.2";
 
 // @public
 export interface UpsertRoleDefinitionOptions extends coreHttp.OperationOptions {
+    assignableScopes?: KeyVaultRoleScope[];
+    description?: string;
+    permissions?: KeyVaultPermission[];
+    roleDefinitionName?: string;
+    roleName?: string;
 }
 
 

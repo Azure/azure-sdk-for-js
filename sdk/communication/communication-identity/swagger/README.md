@@ -13,7 +13,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2021-03-31-preview1
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/communication/data-plane/Microsoft.CommunicationServicesIdentity/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/communication/data-plane/Identity/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
