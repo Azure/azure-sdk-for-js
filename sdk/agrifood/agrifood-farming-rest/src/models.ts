@@ -199,10 +199,7 @@ export interface Boundary {
   properties?: BoundaryPropertiesDictionary;
 }
 
-export interface GeoJsonObject {
-  /** GeoJSON object type. */
-  type: GeoJsonObjectType;
-}
+export type GeoJsonObject = Polygon | MultiPolygon | Point;
 
 export interface SearchBoundaryQuery {
   /** Ids of the resource. */
@@ -1232,10 +1229,6 @@ export interface WeatherDataDeleteJob {
   properties?: WeatherDataDeleteJobPropertiesDictionary;
 }
 
-export type MultiPolygon = MultiPolygonBase & GeoJsonObject & MultiPolygonCoordinates;
-
-export interface MultiPolygonBase {}
-
 export interface MultiPolygonCoordinates {
   /**
    * Gets or sets Coordinates of GeoJSON Object.
@@ -1246,9 +1239,12 @@ export interface MultiPolygonCoordinates {
   coordinates: number[][][][];
 }
 
-export type Point = PointBase & GeoJsonObject & PointCoordinates;
+export type MultiPolygon = MultiPolygonBase &
+  MultiPolygonCoordinates & {
+    type: "MultiPolygon";
+  };
 
-export interface PointBase {}
+export interface MultiPolygonBase {}
 
 export interface PointCoordinates {
   /**
@@ -1258,9 +1254,12 @@ export interface PointCoordinates {
   coordinates: number[];
 }
 
-export type Polygon = PolygonBase & GeoJsonObject & PolygonCoordinates;
+export type Point = PointBase &
+  PointCoordinates & {
+    type: "Point";
+  };
 
-export interface PolygonBase {}
+export interface PointBase {}
 
 export interface PolygonCoordinates {
   /**
@@ -1271,6 +1270,13 @@ export interface PolygonCoordinates {
    */
   coordinates: number[][][];
 }
+
+export type Polygon = PolygonBase &
+  PolygonCoordinates & {
+    type: "Polygon";
+  };
+
+export interface PolygonBase {}
 
 export interface Paths1LxjoxzFarmersFarmeridAttachmentsAttachmentidPatchRequestbodyContentMultipartFormDataSchema {
   /** File to be uploaded. */
@@ -1306,25 +1312,25 @@ export type GeoJsonObjectType = "Point" | "Polygon" | "MultiPolygon";
 export type ImageFormat = "TIF";
 export type DataProvider = "Microsoft";
 export type Source = "Sentinel_2_L2A";
-export type ApplicationDataPropertiesDictionary = Record<string, any>;
-export type InnerErrorDictionary = Record<string, any>;
-export type BoundaryPropertiesDictionary = Record<string, any>;
-export type CascadeDeleteJobPropertiesDictionary = Record<string, any>;
-export type CropPropertiesDictionary = Record<string, any>;
-export type CropVarietyPropertiesDictionary = Record<string, any>;
-export type FarmerPropertiesDictionary = Record<string, any>;
-export type FarmOperationDataIngestionJobPropertiesDictionary = Record<string, any>;
-export type FarmPropertiesDictionary = Record<string, any>;
-export type FieldPropertiesDictionary = Record<string, any>;
-export type HarvestDataPropertiesDictionary = Record<string, any>;
-export type ImageProcessingRasterizeJobPropertiesDictionary = Record<string, any>;
-export type OAuthProviderPropertiesDictionary = Record<string, any>;
-export type PlantingDataPropertiesDictionary = Record<string, any>;
-export type SatelliteDataIngestionJobPropertiesDictionary = Record<string, any>;
-export type SeasonalFieldPropertiesDictionary = Record<string, any>;
-export type SeasonPropertiesDictionary = Record<string, any>;
-export type TillageDataPropertiesDictionary = Record<string, any>;
-export type WeatherDataPropertiesDictionary = Record<string, any>;
-export type WeatherDataIngestionJobExtensionApiInputDictionary = Record<string, any>;
-export type WeatherDataIngestionJobPropertiesDictionary = Record<string, any>;
-export type WeatherDataDeleteJobPropertiesDictionary = Record<string, any>;
+export type ApplicationDataPropertiesDictionary = Record<string, unknown>;
+export type InnerErrorDictionary = Record<string, unknown>;
+export type BoundaryPropertiesDictionary = Record<string, unknown>;
+export type CascadeDeleteJobPropertiesDictionary = Record<string, unknown>;
+export type CropPropertiesDictionary = Record<string, unknown>;
+export type CropVarietyPropertiesDictionary = Record<string, unknown>;
+export type FarmerPropertiesDictionary = Record<string, unknown>;
+export type FarmOperationDataIngestionJobPropertiesDictionary = Record<string, unknown>;
+export type FarmPropertiesDictionary = Record<string, unknown>;
+export type FieldPropertiesDictionary = Record<string, unknown>;
+export type HarvestDataPropertiesDictionary = Record<string, unknown>;
+export type ImageProcessingRasterizeJobPropertiesDictionary = Record<string, unknown>;
+export type OAuthProviderPropertiesDictionary = Record<string, unknown>;
+export type PlantingDataPropertiesDictionary = Record<string, unknown>;
+export type SatelliteDataIngestionJobPropertiesDictionary = Record<string, unknown>;
+export type SeasonalFieldPropertiesDictionary = Record<string, unknown>;
+export type SeasonPropertiesDictionary = Record<string, unknown>;
+export type TillageDataPropertiesDictionary = Record<string, unknown>;
+export type WeatherDataPropertiesDictionary = Record<string, unknown>;
+export type WeatherDataIngestionJobExtensionApiInputDictionary = Record<string, unknown>;
+export type WeatherDataIngestionJobPropertiesDictionary = Record<string, unknown>;
+export type WeatherDataDeleteJobPropertiesDictionary = Record<string, unknown>;

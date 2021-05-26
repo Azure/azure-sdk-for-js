@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "0f29f16eb1ff040fd059419bbfb9bddc";
+module.exports.hash = "4d4dbfc9dad07935562196a249f975f3";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,11 +22,11 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '1a7caf2e-c4f6-42e2-bc2d-895bb1320300',
+  '295046d6-b60c-4d3b-b2df-bfb38bf00200',
   'x-ms-ests-server',
   '2.1.11722.21 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AkU1v9mgOnFBjjaZ6V7PJkx4ycTJBQAAAF-WQNgOAAAA; expires=Fri, 25-Jun-2021 19:20:21 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AkU1v9mgOnFBjjaZ6V7PJkx4ycTJBgAAAF-WQNgOAAAA; expires=Fri, 25-Jun-2021 19:20:21 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
@@ -38,31 +38,31 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/farmers')
+  .patch('/farmers/test-farmer/boundaries/test-boundary', {"geometry":{"coordinates":[[[73.70457172393799,20.545385304358106],[73.70457172393799,20.545385304358106],[73.70448589324951,20.542411534243367],[73.70877742767334,20.541688176010233],[73.71023654937744,20.545083911372505],[73.70663166046143,20.546992723579137],[73.70457172393799,20.545385304358106]]],"type":"Polygon"},"description":"Created by SDK"})
   .query(true)
-  .reply(200, ["1f8b0800000000000003d493c18e9b3010865f05718e257b0cc6f6ad6ad527e0d2ad7a30b649ac903805b35514e5dd6b369b28ec92258a54a9cb0101fe311fdfcc1cd267d5f436953f0fa933a94cd55299955b2b54ab7663db7491da522de302e61853a115c2f140980da7e18a61a131e5f57013d3bab52a58f32d9e4ab7891ba78081209c23424a00897309ec290637deb8da4d27a1244cd24c027d4a8f8b5732d769e5de63c583d68c4d6019c60a3e8f454b924bca24e039ac982c64c66586afb04e40888c9108c1f43d92ca40dbe215a90b2af45dcc7fd1c13ddb8f21790944622ef37c0e729cdcaa97d5af7e1b7ce793ef677bc676ba75bbe0fc362efff07d9be8be0b7e939cfe27b90a242bdb0e78bbd6ef6c1b9c8dd087741fdf41a777d0daeee32ebf7bdbee55d5d8e4d453c78ba32e72368d0b16d58dff8354b7df6a146c1726cb995b5c4db8cb6981abf972f2a1cb2097389b3325862ec3b1cb8aab72be41bd0949cd3424286bef82a43236533edb7362e84e02326357905bb75c85668faade350675663d66ab30e1136c85b67c9e0dc8cb17ef18d351f2c276650cc1982babb09ee0b2c208f6c050002b899084482073a4a764ec0bf8b7434186e2f431ea74320cc522adbd8fcf2a35ec7f5ef1dbf879729c54e60c220c00e72c635981f337a301370c5a028f1bcceea8f538f9390c322138cdc60619bf65b0368f1be477f7e039f9390c16420828c606b9ba61b066e461838025becfe025f9bf18fc75fc0b0000ffff","0300b4dd107c45090000"], [
+  .reply(201, {"farmerId":"test-farmer","geometry":{"type":"Polygon","coordinates":[[[73.70457172393799,20.545385304358106],[73.70457172393799,20.545385304358106],[73.70448589324951,20.542411534243367],[73.70877742767334,20.541688176010233],[73.71023654937744,20.545083911372505],[73.70663166046143,20.546992723579137],[73.70457172393799,20.545385304358106]]]},"isPrimary":false,"acreage":60.40491151079627,"id":"test-boundary","eTag":"0000910c-0000-0600-0000-60ae9f750000","createdDateTime":"2021-05-26T19:20:21Z","modifiedDateTime":"2021-05-26T19:20:21Z","description":"Created by SDK"}, [
   'Server',
   'nginx/1.19.1',
   'Date',
   'Wed, 26 May 2021 19:20:21 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '574',
   'Connection',
   'keep-alive',
-  'Vary',
-  'Accept-Encoding',
+  'etag',
+  '0000910c-0000-0600-0000-60ae9f750000',
+  'location',
+  'http://endpoint/farmers/test-farmer/boundaries/test-boundary',
   'x-ms-request-id',
-  '0HM903J177QF1:00000005',
+  '0HM903J1GUND3:00000003',
   'api-supported-versions',
   '2021-03-31-preview',
   'api-deprecated-versions',
   '2020-12-31-preview',
   'x-ms-throttle-information',
-  '55',
+  '5',
   'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains',
-  'Content-Encoding',
-  'gzip'
+  'max-age=15724800; includeSubDomains'
 ]);

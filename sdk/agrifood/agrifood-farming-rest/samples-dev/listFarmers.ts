@@ -5,7 +5,7 @@
  * This sample demonstrates how get a list of farmers and how to get all pages in case the service returns a paged result
  *
  * @summary gets a list of farmers
- * @azsdk-weight 10
+ * @azsdk-weight 20
  */
 
 import FarmBeats, { Farmer } from "@azure-rest/agrifood-farming";

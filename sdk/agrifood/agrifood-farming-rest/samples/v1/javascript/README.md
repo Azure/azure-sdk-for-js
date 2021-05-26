@@ -6,16 +6,17 @@ products:
   - azure
   - azure-farmbeats
 urlFragment: agrifood-farming-javascript
-disableDocsMs: true
 ---
 
 # Azure FarmBeats rest client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure FarmBeats rest in some common scenarios.
 
-| **File Name**                 | **Description**        |
-| ----------------------------- | ---------------------- |
-| [listFarmers.js][listfarmers] | gets a list of farmers |
+| **File Name**                   | **Description**        |
+| ------------------------------- | ---------------------- |
+| [deleteFarmer.js][deletefarmer] | deletes a farmer       |
+| [listFarmers.js][listfarmers]   | gets a list of farmers |
+| [createFarmer.js][createfarmer] | creates a farmer       |
 
 ## Prerequisites
 
@@ -44,21 +45,23 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node listFarmers.js
+node deleteFarmer.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env FARMBEATS_ENDPOINT="<farmbeats endpoint>" node listFarmers.js
+npx cross-env FARMBEATS_ENDPOINT="<farmbeats endpoint>" node deleteFarmer.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[deletefarmer]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/deleteFarmer.js
 [listfarmers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/listFarmers.js
-[apiref]: https://docs.microsoft.com/javascript/api/?term=farmbeats
+[createfarmer]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/agrifood/agrifood-farming-rest/samples/v1/javascript/createFarmer.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/agrifood-farming
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurefarmbeatsserviceinstance]: https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/agrifood/agrifood-farming-rest/README.md

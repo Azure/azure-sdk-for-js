@@ -236,7 +236,7 @@ export interface ApplicationDataListResponse {
 }
 
 // @public (undocumented)
-export type ApplicationDataPropertiesDictionary = Record<string, any>;
+export type ApplicationDataPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface ApplicationProductDetail {
@@ -763,7 +763,7 @@ export interface BoundaryOverlapResponse {
 }
 
 // @public (undocumented)
-export type BoundaryPropertiesDictionary = Record<string, any>;
+export type BoundaryPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface CascadeDeleteJob {
@@ -784,7 +784,7 @@ export interface CascadeDeleteJob {
 }
 
 // @public (undocumented)
-export type CascadeDeleteJobPropertiesDictionary = Record<string, any>;
+export type CascadeDeleteJobPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface Crop {
@@ -807,7 +807,7 @@ export interface CropListResponse {
 }
 
 // @public (undocumented)
-export type CropPropertiesDictionary = Record<string, any>;
+export type CropPropertiesDictionary = Record<string, unknown>;
 
 // @public
 export interface CropsCreateOrUpdate200Response extends HttpResponse {
@@ -1123,7 +1123,7 @@ export interface CropVarietyListResponse {
 }
 
 // @public (undocumented)
-export type CropVarietyPropertiesDictionary = Record<string, any>;
+export type CropVarietyPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export type DataProvider = "Microsoft";
@@ -1188,7 +1188,7 @@ export interface FarmerListResponse {
 }
 
 // @public (undocumented)
-export type FarmerPropertiesDictionary = Record<string, any>;
+export type FarmerPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface FarmersCreateCascadeDeleteJob {
@@ -1392,7 +1392,7 @@ export interface FarmOperationDataIngestionJob {
 }
 
 // @public (undocumented)
-export type FarmOperationDataIngestionJobPropertiesDictionary = Record<string, any>;
+export type FarmOperationDataIngestionJobPropertiesDictionary = Record<string, unknown>;
 
 // @public
 export interface FarmOperationsCreateDataIngestionJob202Response extends HttpResponse {
@@ -1445,7 +1445,7 @@ export interface FarmOperationsGetDataIngestionJobDetailsdefaultResponse extends
 export type FarmOperationsGetDataIngestionJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export type FarmPropertiesDictionary = Record<string, any>;
+export type FarmPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface FarmsCreateCascadeDeleteJob {
@@ -1691,7 +1691,7 @@ export interface FieldListResponse {
 }
 
 // @public (undocumented)
-export type FieldPropertiesDictionary = Record<string, any>;
+export type FieldPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface FieldsCreateCascadeDeleteJob {
@@ -1916,9 +1916,7 @@ export interface FieldsListQueryParamProperties {
 }
 
 // @public (undocumented)
-export interface GeoJsonObject {
-    type: GeoJsonObjectType;
-}
+export type GeoJsonObject = Polygon | MultiPolygon | Point;
 
 // @public (undocumented)
 export type GeoJsonObjectType = "Point" | "Polygon" | "MultiPolygon";
@@ -2169,7 +2167,7 @@ export interface HarvestDataListResponse {
 }
 
 // @public (undocumented)
-export type HarvestDataPropertiesDictionary = Record<string, any>;
+export type HarvestDataPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface HarvestProductDetail {
@@ -2252,7 +2250,7 @@ export interface ImageProcessingRasterizeJob {
 }
 
 // @public (undocumented)
-export type ImageProcessingRasterizeJobPropertiesDictionary = Record<string, any>;
+export type ImageProcessingRasterizeJobPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export type InnerError = InnerErrorBase & InnerErrorDictionary;
@@ -2264,7 +2262,7 @@ export interface InnerErrorBase {
 }
 
 // @public (undocumented)
-export type InnerErrorDictionary = Record<string, any>;
+export type InnerErrorDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface Location {
@@ -2279,7 +2277,9 @@ export interface Measure {
 }
 
 // @public (undocumented)
-export type MultiPolygon = MultiPolygonBase & GeoJsonObject & MultiPolygonCoordinates;
+export type MultiPolygon = MultiPolygonBase & MultiPolygonCoordinates & {
+    type: "MultiPolygon";
+};
 
 // @public (undocumented)
 export interface MultiPolygonBase {
@@ -2321,7 +2321,7 @@ export interface OAuthProviderListResponse {
 }
 
 // @public (undocumented)
-export type OAuthProviderPropertiesDictionary = Record<string, any>;
+export type OAuthProviderPropertiesDictionary = Record<string, unknown>;
 
 // @public
 export interface OAuthProvidersCreateOrUpdate200Response extends HttpResponse {
@@ -2836,7 +2836,7 @@ export interface PlantingDataListResponse {
 }
 
 // @public (undocumented)
-export type PlantingDataPropertiesDictionary = Record<string, any>;
+export type PlantingDataPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface PlantingProductDetail {
@@ -2847,7 +2847,9 @@ export interface PlantingProductDetail {
 }
 
 // @public (undocumented)
-export type Point = PointBase & GeoJsonObject & PointCoordinates;
+export type Point = PointBase & PointCoordinates & {
+    type: "Point";
+};
 
 // @public (undocumented)
 export interface PointBase {
@@ -2859,7 +2861,9 @@ export interface PointCoordinates {
 }
 
 // @public (undocumented)
-export type Polygon = PolygonBase & GeoJsonObject & PolygonCoordinates;
+export type Polygon = PolygonBase & PolygonCoordinates & {
+    type: "Polygon";
+};
 
 // @public (undocumented)
 export interface PolygonBase {
@@ -2959,7 +2963,7 @@ export interface SatelliteDataIngestionJob {
 }
 
 // @public (undocumented)
-export type SatelliteDataIngestionJobPropertiesDictionary = Record<string, any>;
+export type SatelliteDataIngestionJobPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface Scene {
@@ -3182,7 +3186,7 @@ export interface SeasonalFieldListResponse {
 }
 
 // @public (undocumented)
-export type SeasonalFieldPropertiesDictionary = Record<string, any>;
+export type SeasonalFieldPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface SeasonalFieldsCreateCascadeDeleteJob {
@@ -3438,7 +3442,7 @@ export interface SeasonListResponse {
 }
 
 // @public (undocumented)
-export type SeasonPropertiesDictionary = Record<string, any>;
+export type SeasonPropertiesDictionary = Record<string, unknown>;
 
 // @public
 export interface SeasonsCreateOrUpdate200Response extends HttpResponse {
@@ -3793,7 +3797,7 @@ export interface TillageDataListResponse {
 }
 
 // @public (undocumented)
-export type TillageDataPropertiesDictionary = Record<string, any>;
+export type TillageDataPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface WeatherCreateDataDeleteJob {
@@ -3913,7 +3917,7 @@ export interface WeatherDataDeleteJob {
 }
 
 // @public (undocumented)
-export type WeatherDataDeleteJobPropertiesDictionary = Record<string, any>;
+export type WeatherDataDeleteJobPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface WeatherDataIngestionJob {
@@ -3938,10 +3942,10 @@ export interface WeatherDataIngestionJob {
 }
 
 // @public (undocumented)
-export type WeatherDataIngestionJobExtensionApiInputDictionary = Record<string, any>;
+export type WeatherDataIngestionJobExtensionApiInputDictionary = Record<string, unknown>;
 
 // @public (undocumented)
-export type WeatherDataIngestionJobPropertiesDictionary = Record<string, any>;
+export type WeatherDataIngestionJobPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface WeatherDataListResponse {
@@ -3951,7 +3955,7 @@ export interface WeatherDataListResponse {
 }
 
 // @public (undocumented)
-export type WeatherDataPropertiesDictionary = Record<string, any>;
+export type WeatherDataPropertiesDictionary = Record<string, unknown>;
 
 // @public
 export interface WeatherGetDataDeleteJobDetails200Response extends HttpResponse {

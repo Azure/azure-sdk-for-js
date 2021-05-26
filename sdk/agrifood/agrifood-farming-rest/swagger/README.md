@@ -7,7 +7,7 @@
 ```yaml
 package-name: "@azure-rest/agrifood-farming"
 title: FarmBeats
-description: Azure FarmBeats DataPlane Service
+description: Azure FarmBeats Service
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
@@ -18,5 +18,5 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: https://farmbeats.azure.net/.default
 use-extension:
-  "@autorest/typescript": "https://aka.ms/azsdk/typescript/rlc"
+  "@autorest/typescript": "~/Microsoft/autorest.typescript"
 ```
