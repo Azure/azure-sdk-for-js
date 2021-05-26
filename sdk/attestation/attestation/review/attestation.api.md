@@ -30,9 +30,7 @@ export class AttestationClient {
     constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
     attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
-    // Warning: (ae-forgotten-export) The symbol "AttestTpmOptions" needs to be exported by the entry point index.d.ts
     attestTpm(request: TpmAttestationRequest, options?: AttestTpmOptions): Promise<TpmAttestationResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GeneratedClient" needs to be exported by the entry point index.d.ts
     BaseClient(): GeneratedClient;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
@@ -162,6 +160,10 @@ export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptio
 }
 
 // @public
+export interface AttestTpmOptions extends AttestationClientOperationOptions {
+}
+
+// @public
 export type CertificateModification = string;
 
 // @public
@@ -177,6 +179,34 @@ export interface CloudErrorBody {
 
 // @public
 export type DataType = string;
+
+// Warning: (ae-forgotten-export) The symbol "GeneratedClientContext" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export class GeneratedClient extends GeneratedClientContext {
+    // Warning: (ae-forgotten-export) The symbol "GeneratedClientOptionalParams" needs to be exported by the entry point index.d.ts
+    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: GeneratedClientOptionalParams);
+    // Warning: (ae-forgotten-export) The symbol "Attestation" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    attestation: Attestation;
+    // Warning: (ae-forgotten-export) The symbol "MetadataConfiguration" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    metadataConfiguration: MetadataConfiguration;
+    // Warning: (ae-forgotten-export) The symbol "Policy" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    policy: Policy_2;
+    // Warning: (ae-forgotten-export) The symbol "PolicyCertificates" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    policyCertificates: PolicyCertificates_2;
+    // Warning: (ae-forgotten-export) The symbol "SigningCertificates" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    signingCertificates: SigningCertificates;
+}
 
 // @public (undocumented)
 export interface JsonWebKey {

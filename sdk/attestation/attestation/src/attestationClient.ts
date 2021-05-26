@@ -146,15 +146,16 @@ export class AttestationClient {
 
   /**
    * @ignore
+   * @hidden
    * 
    * Temporary function to access the generated client, used for the operations
    * TS files.
    * @returns The generated client for the attestation service.
    */
-  public BaseClient() : GeneratedClient
-  {
-    return this._client;
-  }
+   public BaseClient() : GeneratedClient
+   {
+     return this._client;
+   }
 
   /** Attests an OpenEnclave report generated from an SGX Enclave using the OpenEnclave SDK.
    * 
