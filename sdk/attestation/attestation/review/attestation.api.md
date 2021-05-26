@@ -28,13 +28,10 @@ export interface AttestationCertificateManagementBody {
 // @public
 export class AttestationClient {
     constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "AttestationResult" needs to be exported by the entry point index.d.ts
-    attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult_2>>;
-    attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult_2>>;
-    // Warning: (ae-forgotten-export) The symbol "TpmAttestationRequest" needs to be exported by the entry point index.d.ts
+    attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
+    attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     // Warning: (ae-forgotten-export) The symbol "AttestTpmOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "TpmAttestationResponse" needs to be exported by the entry point index.d.ts
-    attestTpm(request: TpmAttestationRequest_2, options?: AttestTpmOptions): Promise<TpmAttestationResponse_2>;
+    attestTpm(request: TpmAttestationRequest, options?: AttestTpmOptions): Promise<TpmAttestationResponse>;
     // Warning: (ae-forgotten-export) The symbol "GeneratedClient" needs to be exported by the entry point index.d.ts
     BaseClient(): GeneratedClient;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;

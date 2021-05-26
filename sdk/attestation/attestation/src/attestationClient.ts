@@ -23,18 +23,18 @@ import { GeneratedClient } from "./generated/generatedClient"
 import { 
   AttestationSigner,
   AttestationToken,
-  AttestationData } from "./models";
+  AttestationResult,
+  AttestationData,
+  TpmAttestationRequest,
+  TpmAttestationResponse,
+ } from "./models";
 
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
-import { GeneratedClientOptionalParams,
-  AttestationResult,
-  TpmAttestationRequest,
-  TpmAttestationResponse,
- } from "./generated/models";
- import {
+import { GeneratedClientOptionalParams } from "./generated/models";
+import {
   AttestationResult as AttestationResultMapper,
- } from "./generated/models/mappers";
+} from "./generated/models/mappers";
 
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AttestationResponse } from "./models/attestationResponse";

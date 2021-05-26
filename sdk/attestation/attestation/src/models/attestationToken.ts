@@ -80,7 +80,6 @@ export class AttestationToken
         }
     
         let encodedToken = KJUR.jws.JWS.sign(header.alg, header, body, signer?.key);
-        console.log("Encoded token: " + encodedToken);
         return new AttestationToken(encodedToken);
     }
     
@@ -93,7 +92,6 @@ function isObject(thing: any) {
 function safeJsonParse(thing: any) {
     if (isObject(thing)) return thing;
     try {
-        console.log("Parsing JSON: " + thing);
       return JSON.parse(thing);
     } catch (e) {
       return undefined;
