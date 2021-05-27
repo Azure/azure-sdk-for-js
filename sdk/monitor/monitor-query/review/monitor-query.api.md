@@ -30,16 +30,16 @@ export type ColumnDataType = string;
 
 // @public
 export const CommonDurations: {
-    last7Days: string;
-    last3Days: string;
-    last2Days: string;
-    lastDay: string;
-    lastHour: string;
-    last4Hours: string;
-    last24Hours: string;
-    last48Hours: string;
-    last30Minutes: string;
-    last5Minutes: string;
+    readonly last7Days: "P7D";
+    readonly last3Days: "P3D";
+    readonly last2Days: "P2D";
+    readonly lastDay: "P1D";
+    readonly lastHour: "PT1H";
+    readonly last4Hours: "PT4H";
+    readonly last24Hours: "P1D";
+    readonly last48Hours: "P2D";
+    readonly last30Minutes: "PT30M";
+    readonly last5Minutes: "PT5M";
 };
 
 // @public
@@ -78,7 +78,7 @@ export interface GetMetricNamespacesOptions {
 
 // @public
 export interface GetMetricNamespacesResponse {
-    namespaces: MetricNamespace[] | undefined;
+    namespaces: MetricNamespace[];
 }
 
 // @public

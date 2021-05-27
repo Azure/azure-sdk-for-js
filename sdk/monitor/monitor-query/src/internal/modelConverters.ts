@@ -189,6 +189,6 @@ export function convertResponseForMetricNamespaces(
   generatedResponse: GeneratedMetricNamespacesListResponse
 ): GetMetricNamespacesResponse {
   return {
-    namespaces: generatedResponse?.value
+    namespaces: generatedResponse.value
   };
 }
