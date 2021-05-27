@@ -43,7 +43,7 @@ function SetOutput($outputPath, $incomingPackageSpec) {
   if ($addDevVersion) {
     # Read in the existing package specification file instead of using the
     # passed $incomingPackageSpec.
-    $outputObject = ConvertFrom-Json (Get-Content $outputPath)
+    $outputObject = ConvertFrom-Json (Get-Content $outputPath -Raw)
     Add-Member `
       -InputObject $outputObject `
       -NotePropertyName DevVersion `
@@ -51,7 +51,9 @@ function SetOutput($outputPath, $incomingPackageSpec) {
       -Force
   }
 
-  $outputObject | ConvertTo-Json -Depth 100 | Set-Content $outputPath 
+  Set-Content `
+    -Path $outputPath `
+    -Value (ConvertTo-Json -InputObject $outputObject -Depth 100)
 }
 
 $allPackageProperties = Get-AllPkgProperties $serviceDirectory
