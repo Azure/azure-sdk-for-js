@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { type } from "os";
 import {
   AnomalyDetectionConfiguration as ServiceAnomalyDetectionConfiguration,
   AnomalyAlertingConfiguration as ServiceAnomalyAlertingConfiguration,
@@ -29,8 +30,15 @@ import {
   PostgreSqlDataFeed as ServicePostgreSqlDataFeed,
   SQLServerDataFeed as ServiceSQLServerDataFeed,
   InfluxDBDataFeed as ServiceInfluxDBDataFeed,
-  AnomalyDetectionConfigurationPatch as ServiceAnomalyDetectionConfigurationPatch
-  //DataSourceCredentialUnion as ServiceDataSourceCredentialUnion
+  AnomalyDetectionConfigurationPatch as ServiceAnomalyDetectionConfigurationPatch,
+  DataSourceCredentialUnion as ServiceDataSourceCredentialUnion,
+  DataLakeGen2SharedKeyCredential,
+  DataSourceCredential,
+  AzureSQLConnectionStringCredential,
+  DataLakeGen2SharedKeyCredentialPatch,
+  ServicePrincipalCredential,
+  ServicePrincipalInKVParam,
+  ServicePrincipalInKVCredential
 } from "./generated/models";
 import {
   MetricFeedbackUnion,
@@ -59,6 +67,10 @@ import {
   AzureDataLakeStorageGen2DataFeedSource,
   SQLServerAuthTypes,
   AnomalyDetectionConfigurationPatch,
+  SqlConnectionStringCredentialEntity,
+  DataSourceCredentialEntityUnion,
+  DataLakeGen2SharedKeyCredentialEntity,
+  DataSourceCredentialEntity,
   // DataSourceCredentialEntityUnion,
   // SqlConnectionStringCredentialEntity
 } from "./models";
@@ -279,10 +291,6 @@ export function toRollupSettings(original: ServiceDataFeedDetailUnion): DataFeed
         rollupIdentificationValue: original.allUpIdentification
       };
   }
-
-  return {
-    rollupType: "NoRollup"
-  };
 }
 
 export function toServiceRollupSettings(
@@ -813,34 +821,140 @@ export function toServiceAlertConfigurationPatch(
   };
 }
 
-// export function toServiceCredential(
-//   from: DataSourceCredentialEntityUnion
-// ): ServiceDataSourceCredentialUnion {
-
-
-//   const common: ServiceDataSourceCredentialUnion = {
-//   dataSourceCredentialId: from.id,
-//   dataSourceCredentialName: from.name,
-//   dataSourceCredentialDescription: from.description,
-//   dataSourceCredentialType: from.type
-//   }
-//   switch(from.type){
-//     case "AzureSQLConnectionString":{
-//       const sqlEntity: SqlConnectionStringCredentialEntity = {
-//         ...common,
-//         parameters: {
-//           connectionString: from.connectionString
-//         }        
-//       };
-//       return sqlEntity;
-
-//     }
-//   }
-// }
-
-export function toServiceCredentialPatch(
-  _from: DataSourceCredentialEntityPatch
-): ServiceDataSourceCredentialPatch {
-  throw new Error("Not Yet Implemented");
+export function fromServiceCredential(result: ServiceDataSourceCredentialUnion): DataSourceCredentialEntityUnion {
+   const common: DataSourceCredentialEntity = {
+     "description": result.dataSourceCredentialDescription,
+     "id": result.dataSourceCredentialId,
+     "name": result.dataSourceCredentialName
+   };
+   switch (result.dataSourceCredentialType) {
+     case "AzureSQLConnectionString":
+       const cred1 = result as AzureSQLConnectionStringCredential;
+       return{
+         ...common,
+         type: "AzureSQLConnectionString",
+         ...cred1.parameters
+       };
+      case "DataLakeGen2SharedKey":
+        const cred2 = result as DataLakeGen2SharedKeyCredential;
+        return{
+          ...common,
+          type: "DataLakeGen2SharedKey",
+          ...cred2.parameters
+        };
+      case "ServicePrincipal":
+        const cred3 = result as ServicePrincipalCredential;
+        return{
+          ...common,
+         type: "ServicePrincipal",         
+         ...cred3.parameters
+        }
+      case "ServicePrincipalInKV":
+        const cred4 = result as ServicePrincipalInKVCredential;
+        return{
+          ...common,
+          type: "ServicePrincipalInKV",
+          ...cred4.parameters
+        }
+    }
 }
+
+export function toServiceCredential(
+  from: DataSourceCredentialEntityUnion
+): ServiceDataSourceCredentialUnion {
+  const common = {
+  dataSourceCredentialId: from.id,
+  dataSourceCredentialName: from.name,
+  dataSourceCredentialDescription: from.description  
+  };
+  switch (from.type){
+    case "AzureSQLConnectionString":
+      const parameters = {
+        connectionString: from.connectionString
+      };
+      return {
+        ...common,
+        dataSourceCredentialType: from.type,
+        parameters
+      };
+    case "DataLakeGen2SharedKey":
+      return {
+        ...common,
+        dataSourceCredentialType: from.type,
+        parameters: {
+         accountKey: from.accountKey
+        }
+      };
+      case "ServicePrincipal":
+        return{
+          ...common,
+          dataSourceCredentialType: from.type,
+          parameters: {
+            clientId: from.clientId,
+            clientSecret: from.clientSecret,
+            tenantId: from.tenantId
+          }
+        };
+      case "ServicePrincipalInKV":
+        return {
+          ...common,
+          dataSourceCredentialType: from.type,
+          parameters: {
+            keyVaultEndpoint: from.keyVaultEndpoint,
+            keyVaultClientId: from.keyVaultClientId,
+            keyVaultClientSecret: from.keyVaultClientSecret,
+            servicePrincipalIdNameInKV: from.servicePrincipalIdNameInKV,
+            servicePrincipalSecretNameInKV: from.servicePrincipalSecretNameInKV,
+            tenantId: from.tenantId
+          }
+        }
+    };
+}
+
+// export function toServiceCredentialPatch(
+//   from: DataSourceCredentialEntityPatch
+// ): ServiceDataSourceCredentialPatch {
+//   //throw new Error("Not Yet Implemented");
+//   switch (from.type){
+//     case "AzureSQLConnectionString":
+//       const parameters = {
+      
+//       };
+//       return {
+//         dataSourceCredentialType: from.type,
+//         parameters
+//       };
+//     case "DataLakeGen2SharedKey":
+//       return {
+//         ...common,
+//         dataSourceCredentialType: from.type,
+//         parameters: {
+//          accountKey: from.accountKey
+//         }
+//       };
+//       case "ServicePrincipal":
+//         return{
+//           ...common,
+//           dataSourceCredentialType: from.type,
+//           parameters: {
+//             clientId: from.clientId,
+//             clientSecret: from.clientSecret,
+//             tenantId: from.tenantId
+//           }
+//         };
+//       case "ServicePrincipalInKV":
+//         return {
+//           ...common,
+//           dataSourceCredentialType: from.type,
+//           parameters: {
+//             keyVaultEndpoint: from.keyVaultEndpoint,
+//             keyVaultClientId: from.keyVaultClientId,
+//             keyVaultClientSecret: from.keyVaultClientSecret,
+//             servicePrincipalIdNameInKV: from.servicePrincipalIdNameInKV,
+//             servicePrincipalSecretNameInKV: from.servicePrincipalSecretNameInKV,
+//             tenantId: from.tenantId
+//           }
+//         }
+//     };
+// }
 

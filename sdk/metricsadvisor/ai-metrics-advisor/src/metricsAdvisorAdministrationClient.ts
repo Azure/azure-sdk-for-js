@@ -62,7 +62,9 @@ import {
   toServiceAlertConfiguration,
   toServiceAlertConfigurationPatch,
   toServiceGranularity,
-  toServiceCredentialPatch
+  toServiceCredentialPatch,
+  toServiceCredential,
+  fromServiceCredential
 } from "./transforms";
 
 /**
@@ -1560,7 +1562,7 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   public async createCredentialEntity(
-    _credential: DataSourceCredentialEntityUnion,
+    credential: DataSourceCredentialEntityUnion,
     options: OperationOptions = {}
   ): Promise<DataSourceCredentialEntityUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1571,8 +1573,8 @@ export class MetricsAdvisorAdministrationClient {
       // @ts-ignore
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       //transformation
-      const result = await this.client.createCredential(_credential, requestOptions);
-      //throw new Error("Not yet implemented");
+      const transformedCred = toServiceCredential(credential);
+      const result = await this.client.createCredential(transformedCred, requestOptions);
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created credential entity");
       }
@@ -1597,7 +1599,7 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   public async getCredentialEntity(
-    _id: string,
+    id: string,
     options: OperationOptions = {}
   ): Promise<DataSourceCredentialEntityUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1607,8 +1609,9 @@ export class MetricsAdvisorAdministrationClient {
     try {
       // @ts-ignore
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      // const result = await this.client.getCredential(id, requestOptions);
-      throw new Error("Not Yet Implemented"); // return result;
+      const result = await this.client.getCredential(id, requestOptions);
+      const resultCred = fromServiceCredential(result);
+      return { ...resultCred };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
