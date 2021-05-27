@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import * as msal from "@azure/msal-node";
 import { CommunicationAccessToken, CommunicationIdentityClient } from "../../../src";
 import {
@@ -13,18 +13,26 @@ import {
 import { Context } from "mocha";
 
 matrix([[true, false]], async function(useAad) {
-  describe(`CommunicationIdentityClient [Playback/Live]${
-    useAad ? " [AAD]" : ""
-  } [Node specific]`, function() {
+  describe(`Exchange AAD token for ACS token [Playback/Live]${
+    useAad ? " [AAD]" : " [Node specific]"
+  }`, function() {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
-    beforeEach(function(this: Context) {
+    before(function(this: Context) {
+      if (isPlaybackMode()) {
+        this.skip();
+      }
+    });
+
+    beforeEach(async function(this: Context) {
       if (useAad) {
         ({ client, recorder } = createRecordedCommunicationIdentityClientWithToken(this));
       } else {
         ({ client, recorder } = createRecordedCommunicationIdentityClient(this));
       }
+
+      await recorder.stop();
     });
 
     afterEach(async function(this: Context) {
@@ -34,6 +42,8 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("successfully exchanges an AAD token for an ACS token", async function() {
+      recorder.skip();
+
       const msalConfig = {
         auth: {
           clientId: env.COMMUNICATION_M365_APP_ID,
@@ -58,17 +68,17 @@ matrix([[true, false]], async function(useAad) {
       }: CommunicationAccessToken = await client.exchangeAADtokenForACStoken(response!.accessToken);
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
-    });
+    }).timeout(5000);
 
-    describe("Error Cases: ", async function() {
-      it("throws an error when attempting to exchange an invalid AAD token", async function() {
-        try {
-          await client.exchangeAADtokenForACStoken("invalid");
-          assert.fail("Should have thrown an error");
-        } catch (e) {
-          assert.equal(e.statusCode, 401);
-        }
-      });
+    it("throws an error when attempting to exchange an invalid AAD token", async function() {
+      recorder.skip();
+
+      try {
+        await client.exchangeAADtokenForACStoken("invalid");
+        assert.fail("Should have thrown an error");
+      } catch (e) {
+        assert.equal(e.statusCode, 401);
+      }
     });
   });
 });
