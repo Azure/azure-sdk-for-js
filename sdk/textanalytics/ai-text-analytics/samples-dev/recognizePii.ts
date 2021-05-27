@@ -15,7 +15,7 @@
 import {
   TextAnalyticsClient,
   AzureKeyCredential,
-  PiiEntityDomainType
+  PiiEntityDomain
 } from "@azure/ai-text-analytics";
 import { assert } from "console";
 
@@ -49,7 +49,7 @@ export async function main() {
 
   console.log(`There are no PHI entities in this text: "${textNoPHI}"`);
   const [resultWithPHI] = await client.recognizePiiEntities([textNoPHI], "en", {
-    domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION
+    domainFilter: PiiEntityDomain.PROTECTED_HEALTH_INFORMATION
   });
   if (!resultWithPHI.error) {
     console.log(`Also there is nothing to redact: "${resultWithPHI.redactedText}"`);
