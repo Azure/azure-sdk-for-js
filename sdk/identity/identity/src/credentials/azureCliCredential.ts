@@ -9,16 +9,49 @@ import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import * as child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 
-function getSafeWorkingDir(): string {
-  if (process.platform === "win32") {
-    if (!process.env.SystemRoot) {
-      throw new Error("Azure CLI credential expects a 'SystemRoot' environment variable");
+/**
+ * Mockable reference to the CLI credential cliCredentialFunctions
+ * @internal
+ */
+export const cliCredentialInternals = {
+  /**
+   * @internal
+   */
+  getSafeWorkingDir(): string {
+    if (process.platform === "win32") {
+      if (!process.env.SystemRoot) {
+        throw new Error("Azure CLI credential expects a 'SystemRoot' environment variable");
+      }
+      return process.env.SystemRoot;
+    } else {
+      return "/bin";
     }
-    return process.env.SystemRoot;
-  } else {
-    return "/bin";
+  },
+
+  /**
+   * Gets the access token from Azure CLI
+   * @param resource - The resource to use when getting the token
+   * @internal
+   */
+  async getAzureCliAccessToken(
+    resource: string
+  ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
+    return new Promise((resolve, reject) => {
+      try {
+        child_process.execFile(
+          "az",
+          ["account", "get-access-token", "--output", "json", "--resource", resource],
+          { cwd: cliCredentialInternals.getSafeWorkingDir() },
+          (error, stdout, stderr) => {
+            resolve({ stdout: stdout, stderr: stderr, error });
+          }
+        );
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
-}
+};
 
 const logger = credentialLogger("AzureCliCredential");
 
@@ -31,29 +64,6 @@ const logger = credentialLogger("AzureCliCredential");
  * in via the 'az' tool using the command "az login" from the commandline.
  */
 export class AzureCliCredential implements TokenCredential {
-  /**
-   * Gets the access token from Azure CLI
-   * @param resource - The resource to use when getting the token
-   */
-  protected async getAzureCliAccessToken(
-    resource: string
-  ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
-    return new Promise((resolve, reject) => {
-      try {
-        child_process.execFile(
-          "az",
-          ["account", "get-access-token", "--output", "json", "--resource", resource],
-          { cwd: getSafeWorkingDir() },
-          (error, stdout, stderr) => {
-            resolve({ stdout: stdout, stderr: stderr, error });
-          }
-        );
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
-
   /**
    * Authenticates with Azure Active Directory and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
@@ -78,7 +88,8 @@ export class AzureCliCredential implements TokenCredential {
       let responseData = "";
 
       const { span } = createSpan("AzureCliCredential-getToken", options);
-      this.getAzureCliAccessToken(resource)
+      cliCredentialInternals
+        .getAzureCliAccessToken(resource)
         .then((obj: any) => {
           if (obj.stderr) {
             const isLoginError = obj.stderr.match("(.*)az login(.*)");
@@ -113,7 +124,7 @@ export class AzureCliCredential implements TokenCredential {
             return returnValue;
           }
         })
-        .catch((err) => {
+        .catch((err: Error) => {
           span.setStatus({
             code: SpanStatusCode.ERROR,
             message: err.message
