@@ -42,7 +42,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/iot-models-repository.d.ts",
+    "types/iot-modelsrepository.d.ts",
     "README.md",
     "LICENSE"
   ],
