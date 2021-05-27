@@ -26,7 +26,6 @@ function GetNpmTagVersions($packageName)
   }
   catch
   {
-    LogError "Failed to retrieve package versions. `n$_"
     return $null
   }
 }
@@ -41,7 +40,6 @@ function GetNpmPackageVersions ($packageName)
   }
   catch
   {
-    LogError "Failed to retrieve package versions. `n$_"
     return $null
   }
 }
@@ -58,4 +56,107 @@ function FindRecentPackageVersion($packageName)
   }
   
   return $null
+}
+
+function GetNewNpmTags($packageName, $packageVersion)
+{
+  $newVersion = [AzureEngSemanticVersion]::ParseVersionString($packageVersion)
+  Write-Host "Package name: $packageName"
+  Write-Host "Package version: $packageVersion"
+  Write-Host "Find latest and next versions in npm registry for package"
+
+  <#
+  1. Get latest GA and latest preview from npm
+  2. Check new version to be published to find is it GA or preview
+  3. If new Version is GA:
+    a. If higher than current latest, or first GA then set LATEST tag
+  4. If new version is preview and higher than current higher version in npm:
+    a. Set LATEST if package has never GA released
+    b. Set NEXT tag
+  #>
+  $npmVersionInfo = GetNpmTagVersions -packageName $packageName
+  if ($npmVersionInfo -eq $null)
+  {
+    # Version info object should not be null even if package is not present in npm
+    Write-Error "Failed to get version info from NPM registry."
+  }
+  $latestVersion = [AzureEngSemanticVersion]::ParseVersionString($npmVersionInfo.latest)
+  $setLatest = $false
+  $setNext = $false
+  # Set Latest tag if new version is higher than current GA or if package has never GA released before
+  if ((!$newVersion.IsPreRelease) -and ($latestVersion -eq $null -or $newVersion.CompareTo($latestVersion) -eq 1)) {
+    $setLatest = $true
+  }
+
+  if ($newVersion.PrereleaseLabel -eq "preview" -or $newVersion.PrereleaseLabel -eq "beta")
+  {
+    Write-Host "Checking for next version tag"
+    # Set next tag if new preview is higher than highest present on npm
+    $highestNpmVersion = FindRecentPackageVersion -packageName $packageName
+    $highestNpmVersion = [AzureEngSemanticVersion]::ParseVersionString($highestNpmVersion)
+    # New version is preview and if package is getting released first time or higher than currently available
+    if ($highestNpmVersion -eq $null -or $newVersion.CompareTo($highestNpmVersion) -eq 1)
+    {
+      $setNext = $true
+      # Set latest tag if package was never GA released
+      if ($latestVersion -eq $null -or $latestVersion.IsPreRelease) {
+        $setLatest = $true
+      }
+    }    
+  }
+
+  $tag = ""
+  $additionalTag = ""
+  if ($setLatest)
+  {
+      $tag = "latest"
+      if ($setNext) {
+          $additionalTag = "next"
+      }
+  }
+  elseif ($setNext) {
+      $tag = "next"
+  }
+
+  $result = New-Object PSObject -Property @{
+      Tag = $tag
+      AdditionalTag = $additionalTag
+  }
+  write-Host $result
+  return $result
+}
+
+function CreateTestCase($packageName, $packageVersion, $eTag, $eAdditional) 
+{
+  $r = GetNewNpmTags -packageName $packageName -packageVersion $packageVersion
+  if ($r.Tag -ne $eTag -or $r.AdditionalTag -ne $eAdditional)
+  {
+    Write-Error "Failed test case."
+    Write-Host "Extected tag: '$($eTag)'' Actual tag: '$($r.Tag)'"
+    Write-Host "Extected tag: '$($eAdditional)' Actual tag: '$($r.AdditionalTag)'"
+  }
+  else{
+    Write-Host "Succeeded test case for $packageName version $packageVersion"
+  }
+}
+
+function TestNewTags()
+{
+    # test cases are based on currently available package version on npm
+    CreateTestCase -packageVersion "1.1.0" -eTag "latest" -eAdditional "" -packageName "@azure/template"
+    CreateTestCase -packageName "@azure/template" -packageVersion "1.1.0-preview.1" -eTag "latest" -eAdditional "next"
+    CreateTestCase -packageName "@azure/template" -packageVersion "1.0.9" -eTag "latest" -eAdditional ""
+    CreateTestCase -packageName "@azure/template" -packageVersion "1.0.8" -eTag "" -eAdditional ""
+    CreateTestCase -packageName "@azure/core-http" -packageVersion "1.2.5" -eTag "latest" -eAdditional ""
+    CreateTestCase -packageName "@azure/core-http" -packageVersion "1.3.0-preview.1" -eTag "next" -eAdditional ""
+    CreateTestCase -packageName "@azure/core-http" -packageVersion "1.2.2" -eTag "" -eAdditional ""
+    CreateTestCase -packageName "@azure/core-http" -packageVersion "1.2.5-preview.1" -eTag "next" -eAdditional ""
+    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.5.1" -eTag "latest" -eAdditional ""
+    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.6.0-beta.2" -eTag "next" -eAdditional ""
+    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.6.0" -eTag "latest" -eAdditional ""
+    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.6.0-alpha.20210525.2" -eTag "" -eAdditional ""
+    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.4.1" -eTag "" -eAdditional ""
+    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.4.1-preview.1" -eTag "" -eAdditional ""
+    CreateTestCase -packageName "@azure/dummy-new-package" -packageVersion "1.0.0" -eTag "latest" -eAdditional ""
+    CreateTestCase -packageName "@azure/dummy-new-package" -packageVersion "1.0.0-preview.1" -eTag "latest" -eAdditional "next"
 }
