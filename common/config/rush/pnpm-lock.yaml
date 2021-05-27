@@ -74,6 +74,7 @@ dependencies:
   '@rush-temp/perf-ai-metrics-advisor': file:projects/perf-ai-metrics-advisor.tgz
   '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-app-configuration': file:projects/perf-app-configuration.tgz
+  '@rush-temp/perf-container-registry': file:projects/perf-container-registry.tgz
   '@rush-temp/perf-core-rest-pipeline': file:projects/perf-core-rest-pipeline.tgz
   '@rush-temp/perf-data-tables': file:projects/perf-data-tables.tgz
   '@rush-temp/perf-eventgrid': file:projects/perf-eventgrid.tgz
@@ -11193,6 +11194,22 @@ packages:
       integrity: sha512-vxd8UIAJWmXCeXs+np9dzDKpeHAYtCmh3CpE7I3E27oMx8dvT8Rx6UZ40VwOSlOzZDdK1/6B7bU/EnrhjEEhjA==
       tarball: file:projects/perf-app-configuration.tgz
     version: 0.0.0
+  file:projects/perf-container-registry.tgz:
+    dependencies:
+      '@types/node': 12.20.19
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      ts-node: 9.1.1_typescript@4.2.4
+      tslib: 2.3.1
+      typescript: 4.2.4
+    dev: false
+    name: '@rush-temp/perf-container-registry'
+    resolution:
+      integrity: sha512-5DCnQtgOeq4UfElgpeCgk1MaUW7DVE28bRSTXNg9MawLQRAFwMVpp/XdY3++K5ZX7cQwuIrmEo2mAr/cfbxm0Q==
+      tarball: file:projects/perf-container-registry.tgz
+    version: 0.0.0
   file:projects/perf-core-rest-pipeline.tgz:
     dependencies:
       '@types/uuid': 8.3.1
@@ -12678,6 +12695,7 @@ specifiers:
   '@rush-temp/perf-ai-metrics-advisor': file:./projects/perf-ai-metrics-advisor.tgz
   '@rush-temp/perf-ai-text-analytics': file:./projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-app-configuration': file:./projects/perf-app-configuration.tgz
+  '@rush-temp/perf-container-registry': file:./projects/perf-container-registry.tgz
   '@rush-temp/perf-core-rest-pipeline': file:./projects/perf-core-rest-pipeline.tgz
   '@rush-temp/perf-data-tables': file:./projects/perf-data-tables.tgz
   '@rush-temp/perf-eventgrid': file:./projects/perf-eventgrid.tgz
