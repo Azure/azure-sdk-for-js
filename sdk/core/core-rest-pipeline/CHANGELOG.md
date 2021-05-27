@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.5 (Unreleased)
+
+
 ## 1.0.4 (2021-05-27)
 
 - Bugfix for correctly sanitizing recursive objects for use in exceptions and logging. [PR 15426](https://github.com/Azure/azure-sdk-for-js/pull/15426)
