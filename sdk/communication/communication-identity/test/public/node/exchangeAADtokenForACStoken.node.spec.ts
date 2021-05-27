@@ -18,7 +18,11 @@ matrix([[true, false]], async function(useAad) {
     let client: CommunicationIdentityClient;
 
     before(function(this: Context) {
-      if (isPlaybackMode()) {
+      const skipTests = env.SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST === "true";
+      if (skipTests) {
+        this.skip();
+      }
+      else if (isPlaybackMode()) {
         this.skip();
       }
     });

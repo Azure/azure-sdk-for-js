@@ -44,7 +44,8 @@ const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_M365_APP_ID: "M365AppId",
   COMMUNICATION_M365_AAD_AUTHORITY: "M365AADAuthority",
   COMMUNICATION_M365_AAD_TENANT: "M365AADTenant",
-  COMMUNICATION_M365_SCOPE: "M365Scope"
+  COMMUNICATION_M365_SCOPE: "M365Scope",
+  SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "true"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
