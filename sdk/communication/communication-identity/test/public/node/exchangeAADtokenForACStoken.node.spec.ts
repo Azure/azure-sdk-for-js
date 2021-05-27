@@ -21,8 +21,7 @@ matrix([[true, false]], async function(useAad) {
       const skipTests = env.SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST === "true";
       if (skipTests) {
         this.skip();
-      }
-      else if (isPlaybackMode()) {
+      } else if (isPlaybackMode()) {
         this.skip();
       }
     });
