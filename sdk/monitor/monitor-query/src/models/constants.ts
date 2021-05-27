@@ -27,4 +27,4 @@ export const CommonDurations = {
   last30Minutes: "PT30M",
   /** Alias for ISO8601 value 'PT5M' */
   last5Minutes: "PT5M"
-};
+} as const;
