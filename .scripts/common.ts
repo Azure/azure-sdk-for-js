@@ -107,6 +107,10 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
   const packageJsonFilePath: string = joinPath(folderPath, "package.json");
   if (fileExistsSync(packageJsonFilePath)) {
     const packageJson: PackageJson = readPackageJsonFileSync(packageJsonFilePath);
+    // Skip all perf framework projects from gulp pack
+    if (packageJson.name.startsWith("@azure-tests")) {
+      return false;
+    }
     result = !contains(packagesToIgnore, packageJson.name!);
   }
   return result;
