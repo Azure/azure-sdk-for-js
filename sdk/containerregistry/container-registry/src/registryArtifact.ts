@@ -35,7 +35,7 @@ export interface GetManifestPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `getTagProperties` method of `RegistryArtifact`.
  */
-export interface GetTagOptions extends OperationOptions {}
+export interface GetTagPropertiesOptions extends OperationOptions {}
 
 /**
  * Options for the `updateTagProperties` method of `RegistryArtifact`.
@@ -66,9 +66,9 @@ export interface UpdateManifestPropertiesOptions extends OperationOptions {
 }
 
 /**
- * Options for the `listTags` method of `RegistryArtifact`.
+ * Options for the `listTagProperties` method of `RegistryArtifact`.
  */
-export interface ListTagsOptions extends OperationOptions {
+export interface ListTagPropertiesOptions extends OperationOptions {
   /** orderby query parameter */
   orderBy?: TagOrderBy;
 }
@@ -86,14 +86,9 @@ export interface RegistryArtifact {
    */
   readonly repositoryName: string;
   /**
-   * digest of this artifact.
+   * fully qualified reference of the artifact.
    */
-  getDigest(): Promise<string>;
-
-  /**
-   * fully qualified name of the artifact.
-   */
-  readonly fullyQualifiedName: string;
+  readonly fullyQualifiedReference: string;
   /**
    * Deletes this artifact.
    * @param options -
@@ -124,7 +119,7 @@ export interface RegistryArtifact {
    * @param tag - the tag to retrieve properties.
    * @param options -
    */
-  getTag(tag: string, options?: GetTagOptions): Promise<ArtifactTagProperties>;
+  getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<ArtifactTagProperties>;
   /**
    * Updates tag properties.
    * @param tag - name of the tag
@@ -142,13 +137,15 @@ export interface RegistryArtifact {
    * const client = new ContainerRegistryClient(url, credentials);
    * const repository = client.getRepository(repositoryName);
    * const artifact = repository.getArtifact(digest)
-   * for await (const tag of artifact.listTags()) {
+   * for await (const tag of artifact.listTagProperties()) {
    *   console.log("tag: ", tag);
    * }
    * ```
    * @param options -
    */
-  listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
+  listTagProperties(
+    options?: ListTagPropertiesOptions
+  ): PagedAsyncIterableIterator<ArtifactTagProperties>;
 }
 
 /**
@@ -170,7 +167,7 @@ export class RegistryArtifactImpl {
    * Name of the form 'registry-login-server/repository-name\@digest' or
    *   'registry-login-server/repository-name:tag'
    */
-  public readonly fullyQualifiedName: string;
+  public readonly fullyQualifiedReference: string;
 
   private digest?: string;
   /**
@@ -192,9 +189,9 @@ export class RegistryArtifactImpl {
     const parsedUrl = new URL(registryEndpoint);
     if (isDigest(tagOrDigest)) {
       this.digest = tagOrDigest;
-      this.fullyQualifiedName = `${parsedUrl.hostname}/${repositoryName}@${this.digest}`;
+      this.fullyQualifiedReference = `${parsedUrl.hostname}/${repositoryName}@${this.digest}`;
     } else {
-      this.fullyQualifiedName = `${parsedUrl.hostname}/${repositoryName}:${tagOrDigest}`;
+      this.fullyQualifiedReference = `${parsedUrl.hostname}/${repositoryName}:${tagOrDigest}`;
     }
 
     this.client = client;
@@ -203,13 +200,13 @@ export class RegistryArtifactImpl {
   /**
    * digest of this artifact.
    */
-  async getDigest(): Promise<string> {
+  private async getDigest(): Promise<string> {
     if (this.digest) {
       return this.digest;
     }
 
     if (!isDigest(this.tagOrDigest)) {
-      this.digest = (await this.getTag(this.tagOrDigest)).digest;
+      this.digest = (await this.getTagProperties(this.tagOrDigest)).digest;
     } else {
       this.digest = this.tagOrDigest;
     }
@@ -244,6 +241,10 @@ export class RegistryArtifactImpl {
    * @param options -
    */
   public async deleteTag(tag: string, options: DeleteTagOptions = {}): Promise<void> {
+    if (!tag) {
+      throw new Error("invalid tag");
+    }
+
     const { span, updatedOptions } = createSpan("RegistryArtifact-deleteTag", options);
 
     try {
@@ -317,8 +318,15 @@ export class RegistryArtifactImpl {
    * @param tag - the tag to retrieve properties.
    * @param options -
    */
-  public async getTag(tag: string, options: GetTagOptions = {}): Promise<ArtifactTagProperties> {
-    const { span, updatedOptions } = createSpan("RegistryArtifact-getTag", options);
+  public async getTagProperties(
+    tag: string,
+    options: GetTagPropertiesOptions = {}
+  ): Promise<ArtifactTagProperties> {
+    if (!tag) {
+      throw new Error("invalid tag");
+    }
+
+    const { span, updatedOptions } = createSpan("RegistryArtifact-getTagProperties", options);
     try {
       return await this.client.containerRegistry.getTagProperties(
         this.repositoryName,
@@ -342,6 +350,10 @@ export class RegistryArtifactImpl {
     tag: string,
     options: UpdateTagPropertiesOptions
   ): Promise<ArtifactTagProperties> {
+    if (!tag) {
+      throw new Error("invalid tag");
+    }
+
     const { span, updatedOptions } = createSpan("RegistryArtifact-updateTagProperties", {
       ...options,
       value: {
@@ -374,14 +386,14 @@ export class RegistryArtifactImpl {
    * const client = new ContainerRegistryClient(url, credentials);
    * const repository = client.getRepository(repositoryName);
    * const artifact = repository.getArtifact(digest)
-   * for await (const tag of artifact.listTags()) {
+   * for await (const tag of artifact.listTagProperties()) {
    *   console.log("tag: ", tag);
    * }
    * ```
    * @param options -
    */
-  public listTags(
-    options: ListTagsOptions = {}
+  public listTagProperties(
+    options: ListTagPropertiesOptions = {}
   ): PagedAsyncIterableIterator<ArtifactTagProperties, TagPageResponse> {
     const iter = this.listTagsItems(options);
 
@@ -397,7 +409,7 @@ export class RegistryArtifactImpl {
   }
 
   private async *listTagsItems(
-    options: ListTagsOptions = {}
+    options: ListTagPropertiesOptions = {}
   ): AsyncIterableIterator<ArtifactTagProperties> {
     for await (const page of this.listTagsPage({}, options)) {
       yield* page;
@@ -406,7 +418,7 @@ export class RegistryArtifactImpl {
 
   private async *listTagsPage(
     continuationState: PageSettings,
-    options: ListTagsOptions = {}
+    options: ListTagPropertiesOptions = {}
   ): AsyncIterableIterator<TagPageResponse> {
     const orderby = toServiceTagOrderBy(options.orderBy);
     if (!continuationState.continuationToken) {

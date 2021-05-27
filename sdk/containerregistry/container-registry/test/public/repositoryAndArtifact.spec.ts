@@ -40,14 +40,14 @@ describe("Repository and artifact tests", function() {
   });
 
   it("should list registry manifests", async () => {
-    const iter = repository.listManifests();
+    const iter = repository.listManifestProperties();
     const first = await iter.next();
     assert.ok(first.value, "Expecting a valid manifest");
   });
 
   let artifactDigest: string;
   it("should list registry manifests by pages", async () => {
-    const iterator = repository.listManifests().byPage({ maxPageSize: 1 });
+    const iterator = repository.listManifestProperties().byPage({ maxPageSize: 1 });
     let result = await iterator.next();
     assert.equal(result.value.length, 1, "Expecting one artifact in first page");
     if (!result.done) {
@@ -60,14 +60,14 @@ describe("Repository and artifact tests", function() {
 
   it("should list tags", async () => {
     const artifact = repository.getArtifact(artifactDigest);
-    const iter = artifact.listTags();
+    const iter = artifact.listTagProperties();
     const first = await iter.next();
     assert.ok(first.value, "Expecting a valid tag");
   });
 
   it("should list tags by pages", async () => {
     const artifact = repository.getArtifact(artifactDigest);
-    const iterator = artifact.listTags().byPage({ maxPageSize: 1 });
+    const iterator = artifact.listTagProperties().byPage({ maxPageSize: 1 });
     let result = await iterator.next();
     assert.equal(result.value.length, 1, "Expecting one tag in first page");
     result = await iterator.next();
@@ -76,6 +76,7 @@ describe("Repository and artifact tests", function() {
 
   it("sets manifest properties", async () => {
     const artifact = repository.getArtifact(artifactDigest);
+    assert.isTrue(artifact.fullyQualifiedReference.endsWith(`${repositoryName}@${artifactDigest}`));
     const original = await artifact.getManifestProperties();
 
     try {
@@ -120,13 +121,14 @@ describe("Repository and artifact tests", function() {
 
   it("should retrive tag properties", async () => {
     const artifact = repository.getArtifact(artifactDigest);
-    const properties = await artifact.getTag("test1");
+    const properties = await artifact.getTagProperties("test1");
     assert.equal(properties.name, "test1");
     assert.ok(properties.registryLoginServer, "Expecting valid 'registryLoginServer'");
   });
 
   it("should retrive registry artifact properties for a tag", async () => {
     const artifact = repository.getArtifact("test1");
+    assert.isTrue(artifact.fullyQualifiedReference.endsWith(`${repositoryName}:test1`));
     const properties = await artifact.getManifestProperties();
     assert.ok(properties.createdOn, "Expecting valid createdOn property for the artifact");
     assert.ok(properties.relatedArtifacts?.length, "Expecting valid registry artifacts");
@@ -143,7 +145,7 @@ describe("Repository and artifact tests", function() {
   it("sets tag properties", async () => {
     const tag = "test1";
     const artifact = repository.getArtifact(tag);
-    const original = await artifact.getTag(tag);
+    const original = await artifact.getTagProperties(tag);
 
     try {
       const updated = await artifact.updateTagProperties(tag, {
@@ -166,7 +168,7 @@ describe("Repository and artifact tests", function() {
     const artifact = repository.getArtifact(artifactDigest);
     await artifact.deleteTag("test-delete");
     try {
-      await artifact.getTag("test-delete");
+      await artifact.getTagProperties("test-delete");
       assert.fail("Expecting an error but didn't get one.");
     } catch (err) {
       assert.isTrue((err as RestError).message.includes("TAG_UNKNOWN"));

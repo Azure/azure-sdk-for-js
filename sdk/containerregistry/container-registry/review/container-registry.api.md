@@ -68,7 +68,7 @@ export interface ContainerRepository {
     delete(options?: DeleteRepositoryOptions): Promise<void>;
     getArtifact(tagOrDigest: string): RegistryArtifact;
     getProperties(options?: GetRepositoryPropertiesOptions): Promise<ContainerRepositoryProperties>;
-    listManifests(options?: ListManifestsOptions): PagedAsyncIterableIterator<ArtifactManifestProperties>;
+    listManifestProperties(options?: ListManifestPropertiesOptions): PagedAsyncIterableIterator<ArtifactManifestProperties>;
     readonly name: string;
     readonly registryEndpoint: string;
     updateProperties(options: UpdateRepositoryPropertiesOptions): Promise<ContainerRepositoryProperties>;
@@ -110,7 +110,7 @@ export interface GetRepositoryPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface GetTagOptions extends OperationOptions {
+export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
@@ -176,7 +176,7 @@ export enum KnownArtifactOperatingSystem {
 }
 
 // @public
-export interface ListManifestsOptions extends OperationOptions {
+export interface ListManifestPropertiesOptions extends OperationOptions {
     orderBy?: ManifestOrderBy;
 }
 
@@ -185,7 +185,7 @@ export interface ListRepositoriesOptions extends OperationOptions {
 }
 
 // @public
-export interface ListTagsOptions extends OperationOptions {
+export interface ListTagPropertiesOptions extends OperationOptions {
     orderBy?: TagOrderBy;
 }
 
@@ -201,11 +201,10 @@ export interface ManifestPageResponse extends Array<ArtifactManifestProperties> 
 export interface RegistryArtifact {
     delete(options?: DeleteArtifactOptions): Promise<void>;
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
-    readonly fullyQualifiedName: string;
-    getDigest(): Promise<string>;
+    readonly fullyQualifiedReference: string;
     getManifestProperties(options?: GetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
-    getTag(tag: string, options?: GetTagOptions): Promise<ArtifactTagProperties>;
-    listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
+    getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<ArtifactTagProperties>;
+    listTagProperties(options?: ListTagPropertiesOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
     readonly registryEndpoint: string;
     readonly repositoryName: string;
     updateManifestProperties(options?: UpdateManifestPropertiesOptions): Promise<ArtifactManifestProperties>;

@@ -27,7 +27,7 @@ export interface DeleteRepositoryOptions extends OperationOptions {}
 /**
  * Options for the `listRegistryArtifacts` method of `ContainerRepository`.
  */
-export interface ListManifestsOptions extends OperationOptions {
+export interface ListManifestPropertiesOptions extends OperationOptions {
   /** orderby query parameter */
   orderBy?: ManifestOrderBy;
 }
@@ -93,14 +93,14 @@ export interface ContainerRepository {
    * ```ts
    * const client = new ContainerRegistryClient(url, credentials);
    * const repository = client.getRepository(repositoryName)
-   * for await (const manifest of repository.listManifests()) {
+   * for await (const manifest of repository.listManifestProperties()) {
    *   console.log("manifest: ", manifest);
    * }
    * ```
    * @param options -
    */
-  listManifests(
-    options?: ListManifestsOptions
+  listManifestProperties(
+    options?: ListManifestPropertiesOptions
   ): PagedAsyncIterableIterator<ArtifactManifestProperties>;
 }
 
@@ -155,6 +155,9 @@ export class ContainerRepositoryImpl {
    * @param tagOrDigest - the tag or digest of the artifact
    */
   public getArtifact(tagOrDigest: string): RegistryArtifact {
+    if (!tagOrDigest) {
+      throw new Error("invalid tagOrDigest");
+    }
     return new RegistryArtifactImpl(this.registryEndpoint, this.name, tagOrDigest, this.client);
   }
 
@@ -213,14 +216,14 @@ export class ContainerRepositoryImpl {
    * ```ts
    * const client = new ContainerRegistryClient(url, credentials);
    * const repository = client.getRepository(repositoryName)
-   * for await (const manifest of repository.listManifests()) {
+   * for await (const manifest of repository.listManifestProperties()) {
    *   console.log("manifest: ", manifest);
    * }
    * ```
    * @param options -
    */
-  public listManifests(
-    options: ListManifestsOptions = {}
+  public listManifestProperties(
+    options: ListManifestPropertiesOptions = {}
   ): PagedAsyncIterableIterator<ArtifactManifestProperties, ManifestPageResponse> {
     const iter = this.listManifestsItems(options);
 
@@ -236,7 +239,7 @@ export class ContainerRepositoryImpl {
   }
 
   private async *listManifestsItems(
-    options: ListManifestsOptions = {}
+    options: ListManifestPropertiesOptions = {}
   ): AsyncIterableIterator<ArtifactManifestProperties> {
     for await (const page of this.listManifestsPage({}, options)) {
       yield* page;
@@ -245,7 +248,7 @@ export class ContainerRepositoryImpl {
 
   private async *listManifestsPage(
     continuationState: PageSettings,
-    options: ListManifestsOptions = {}
+    options: ListManifestPropertiesOptions = {}
   ): AsyncIterableIterator<ManifestPageResponse> {
     const orderby = toServiceManifestOrderBy(options.orderBy);
     if (!continuationState.continuationToken) {

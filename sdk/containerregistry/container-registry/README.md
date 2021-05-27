@@ -115,7 +115,7 @@ async function main() {
   const image = client.getArtifact("library/hello-world", "latest");
 
   // List the set of tags on the hello_world image tagged as "latest"
-  const tags = image.listTags();
+  const tags = image.listTagPropertis();
 
   // Iterate through the image's tags, listing the tagged alias for the image
   console.log(`${image.fullyQualifiedName}  has the following aliases:`);
@@ -169,7 +169,7 @@ async function main() {
   for await (const repositoryName of repositoryNames) {
     const repository = client.getRepository(repositoryName);
     // Obtain the images ordered from newest to oldest
-    const imageManifests = repository.listManifests({
+    const imageManifests = repository.listManifestProperties({
       orderBy: "LastUpdatedOnDescending"
     });
     const imagesToKeep = 3;

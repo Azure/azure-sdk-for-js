@@ -41,7 +41,7 @@ export async function main() {
       const tags = await listTags(artifact);
       if (tags && tags.length) {
         console.log(`Retrieving tag properties for ${tags[0]}`);
-        const tagProperties = await artifact.getTag(tags[0]);
+        const tagProperties = await artifact.getTagProperties(tags[0]);
         console.log(`  tag properties`);
         console.log(tagProperties);
       }
@@ -60,7 +60,7 @@ export async function main() {
 
 async function listTags(artifact: RegistryArtifact): Promise<string[]> {
   const tags: string[] = [];
-  const iterator = artifact.listTags({ orderBy: "LastUpdatedOnAscending" });
+  const iterator = artifact.listTagProperties({ orderBy: "LastUpdatedOnAscending" });
   for await (const tag of iterator) {
     tags.push(tag.name);
     console.log(`  registry login server: ${tag.registryLoginServer}`);
@@ -74,7 +74,7 @@ async function listTags(artifact: RegistryArtifact): Promise<string[]> {
 }
 
 async function listTagsByPages(artifact: RegistryArtifact, pagesSize: number) {
-  const pages = artifact.listTags().byPage({ maxPageSize: pagesSize });
+  const pages = artifact.listTagProperties().byPage({ maxPageSize: pagesSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -94,7 +94,7 @@ async function listManifests(
 ): Promise<ArtifactManifestProperties[]> {
   console.log("Listing artifacts");
   const artifacts: ArtifactManifestProperties[] = [];
-  const iterator = repository.listManifests();
+  const iterator = repository.listManifestProperties();
   for await (const artifact of iterator) {
     artifacts.push(artifact);
     console.log(`  registry login server: ${artifact.registryLoginServer}`);
@@ -108,7 +108,7 @@ async function listManifests(
 
 async function listManifestsByPages(repository: ContainerRepository, pageSize: number) {
   console.log("Listing manifest by pages");
-  const pages = repository.listManifests().byPage({ maxPageSize: pageSize });
+  const pages = repository.listManifestProperties().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");

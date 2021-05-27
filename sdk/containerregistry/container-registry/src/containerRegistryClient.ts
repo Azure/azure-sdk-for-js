@@ -90,6 +90,10 @@ export class ContainerRegistryClient {
     credentialOrOptions?: TokenCredential | ContainerRegistryClientOptions,
     clientOptions: ContainerRegistryClientOptions = {}
   ) {
+    if (!endpoint) {
+      throw new Error("invalid endpoint");
+    }
+
     this.endpoint = endpoint;
 
     let credential: TokenCredential | undefined;
@@ -145,6 +149,10 @@ export class ContainerRegistryClient {
     repositoryName: string,
     options: DeleteRepositoryOptions = {}
   ): Promise<void> {
+    if (!repositoryName) {
+      throw new Error("invalid repositoryName");
+    }
+
     const { span, updatedOptions } = createSpan(
       "ContainerRegistryClient-deleteRepository",
       options
@@ -167,6 +175,13 @@ export class ContainerRegistryClient {
    * @param tagOrDigest - tag or digest of the artifact to retrieve
    */
   public getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact {
+    if (!repositoryName) {
+      throw new Error("invalid repositoryName");
+    }
+    if (!tagOrDigest) {
+      throw new Error("invalid tagOrDigest");
+    }
+
     return new ContainerRepositoryImpl(this.endpoint, repositoryName, this.client).getArtifact(
       tagOrDigest
     );
@@ -179,6 +194,10 @@ export class ContainerRegistryClient {
    * @param options - optional configuration for the operation
    */
   public getRepository(repositoryName: string): ContainerRepository {
+    if (!repositoryName) {
+      throw new Error("invalid repositoryName");
+    }
+
     return new ContainerRepositoryImpl(this.endpoint, repositoryName, this.client);
   }
 
