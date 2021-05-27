@@ -49,7 +49,7 @@ matrix([[true, false]], async function(useAad) {
         }
       };
 
-      var request = {
+      const request = {
         username: env.COMMUNICATION_MSAL_USERNAME,
         password: env.COMMUNICATION_MSAL_PASSWORD,
         scopes: [env.COMMUNICATION_M365_SCOPE]
