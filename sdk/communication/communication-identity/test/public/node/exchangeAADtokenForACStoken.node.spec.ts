@@ -13,9 +13,7 @@ import {
 import { Context } from "mocha";
 
 matrix([[true, false]], async function(useAad) {
-  describe(`Exchange AAD token for ACS token [Playback/Live]${
-    useAad ? " [AAD]" : " [Node specific]"
-  }`, function() {
+  describe(`Exchange AAD token for ACS token [Playback/Live]${useAad ? " [AAD]" : ""}`, function() {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
