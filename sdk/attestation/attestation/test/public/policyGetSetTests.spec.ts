@@ -42,7 +42,7 @@ describe("PolicyGetSetTests ", function() {
 
   it("#SetPolicyIsolated", async() => {
     recorder.skip(undefined, "SetPolicy APIs require keys and certificates which aren't available in playback");
-    let signingKeys = getIsolatedSigningKey();
+    const signingKeys = getIsolatedSigningKey();
     console.log(signingKeys.key);
   });
 
