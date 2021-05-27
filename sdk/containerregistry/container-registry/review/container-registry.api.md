@@ -10,6 +10,13 @@ import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface ArtifactManifestPlatform {
+    readonly architecture?: string;
+    readonly digest: string;
+    readonly operatingSystem?: string;
+}
+
+// @public
 export interface ArtifactManifestProperties {
     readonly architecture?: string;
     canDelete?: boolean;
@@ -19,19 +26,12 @@ export interface ArtifactManifestProperties {
     readonly createdOn: Date;
     readonly digest: string;
     readonly lastUpdatedOn: Date;
-    readonly manifestReferences: ArtifactManifestReference[];
     readonly operatingSystem?: string;
     readonly registryLoginServer: string;
+    readonly relatedArtifacts: ArtifactManifestPlatform[];
     readonly repositoryName: string;
     readonly size?: number;
     readonly tags: string[];
-}
-
-// @public
-export interface ArtifactManifestReference {
-    readonly architecture: string;
-    readonly digest: string;
-    readonly operatingSystem: string;
 }
 
 // @public
@@ -67,11 +67,26 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 export interface ContainerRepository {
     delete(options?: DeleteRepositoryOptions): Promise<void>;
     getArtifact(tagOrDigest: string): RegistryArtifact;
-    getProperties(options?: GetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+    getProperties(options?: GetRepositoryPropertiesOptions): Promise<ContainerRepositoryProperties>;
     listManifests(options?: ListManifestsOptions): PagedAsyncIterableIterator<ArtifactManifestProperties>;
     readonly name: string;
     readonly registryEndpoint: string;
-    updateProperties(options: UpdateRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+    updateProperties(options: UpdateRepositoryPropertiesOptions): Promise<ContainerRepositoryProperties>;
+}
+
+// @public
+export interface ContainerRepositoryProperties {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
+    readonly createdOn: Date;
+    readonly lastUpdatedOn: Date;
+    readonly manifestCount: number;
+    readonly name: string;
+    readonly registryLoginServer: string;
+    readonly tagCount: number;
+    teleportEnabled?: boolean;
 }
 
 // @public
@@ -200,21 +215,6 @@ export interface RegistryArtifact {
 // @public
 export interface RepositoryPageResponse extends Array<string> {
     continuationToken?: string;
-}
-
-// @public
-export interface RepositoryProperties {
-    canDelete?: boolean;
-    canList?: boolean;
-    canRead?: boolean;
-    canWrite?: boolean;
-    readonly createdOn: Date;
-    readonly lastUpdatedOn: Date;
-    readonly manifestCount: number;
-    readonly name: string;
-    readonly registryLoginServer: string;
-    readonly tagCount: number;
-    teleportEnabled?: boolean;
 }
 
 // @public

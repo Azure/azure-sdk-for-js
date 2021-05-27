@@ -97,10 +97,10 @@ export const Repositories: coreClient.CompositeMapper = {
   }
 };
 
-export const RepositoryProperties: coreClient.CompositeMapper = {
+export const ContainerRepositoryProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RepositoryProperties",
+    className: "ContainerRepositoryProperties",
     modelProperties: {
       registryLoginServer: {
         serializedName: "registry",
@@ -535,7 +535,7 @@ export const ManifestAttributesBase: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      manifestReferences: {
+      relatedArtifacts: {
         serializedName: "references",
         readOnly: true,
         type: {
@@ -543,7 +543,7 @@ export const ManifestAttributesBase: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ArtifactManifestReference"
+              className: "ArtifactManifestPlatform"
             }
           }
         }
@@ -600,10 +600,10 @@ export const ManifestAttributesBase: coreClient.CompositeMapper = {
   }
 };
 
-export const ArtifactManifestReference: coreClient.CompositeMapper = {
+export const ArtifactManifestPlatform: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ArtifactManifestReference",
+    className: "ArtifactManifestPlatform",
     modelProperties: {
       digest: {
         serializedName: "digest",
@@ -615,7 +615,6 @@ export const ArtifactManifestReference: coreClient.CompositeMapper = {
       },
       architecture: {
         serializedName: "architecture",
-        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -623,7 +622,6 @@ export const ArtifactManifestReference: coreClient.CompositeMapper = {
       },
       operatingSystem: {
         serializedName: "os",
-        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -744,7 +742,7 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      manifestReferences: {
+      relatedArtifacts: {
         serializedName: "manifest.references",
         readOnly: true,
         type: {
@@ -752,7 +750,7 @@ export const ArtifactManifestProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ArtifactManifestReference"
+              className: "ArtifactManifestPlatform"
             }
           }
         }
@@ -1242,7 +1240,7 @@ export const ManifestAttributesManifest: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ArtifactManifestReference"
+              className: "ArtifactManifestPlatform"
             }
           }
         }

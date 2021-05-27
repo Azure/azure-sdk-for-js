@@ -129,8 +129,8 @@ describe("Repository and artifact tests", function() {
     const artifact = repository.getArtifact("test1");
     const properties = await artifact.getManifestProperties();
     assert.ok(properties.createdOn, "Expecting valid createdOn property for the artifact");
-    assert.ok(properties.manifestReferences?.length, "Expecting valid registry artifacts");
-    assert.ok(properties.manifestReferences![0].architecture, "Expecting valid architecture");
+    assert.ok(properties.relatedArtifacts?.length, "Expecting valid registry artifacts");
+    assert.ok(properties.relatedArtifacts![0].architecture, "Expecting valid architecture");
     assert.ok(properties.registryLoginServer, "Expecting valid 'registryLoginServer'");
   });
 

@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  TagOrderBy as ServiceTagOrderBy,
-  ManifestOrderBy as ServiceManifestOrderBy,
+  ArtifactTagOrderBy as ServiceTagOrderBy,
+  ArtifactManifestOrderBy as ServiceManifestOrderBy,
   ManifestWriteableProperties as ServiceManifestWritableProperties,
   ArtifactManifestProperties as ServiceArtifactManifestProperties
 } from "./generated/models";
@@ -49,7 +49,7 @@ export function toArtifactManifestProperties(
     lastUpdatedOn: from.lastUpdatedOn,
     architecture: from.architecture ?? undefined,
     operatingSystem: from.operatingSystem ?? undefined,
-    manifestReferences: from.manifestReferences ?? [],
+    relatedArtifacts: from.relatedArtifacts ?? [],
     tags: from.tags ?? [],
     ...toManifestWritableProperties(from)
   };

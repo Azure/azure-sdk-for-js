@@ -12,7 +12,7 @@ import { GeneratedClient, RepositoryWriteableProperties } from "./generated";
 import { createSpan } from "./tracing";
 import {
   ManifestOrderBy,
-  RepositoryProperties,
+  ContainerRepositoryProperties,
   ArtifactManifestProperties,
   ManifestPageResponse
 } from "./models";
@@ -78,12 +78,14 @@ export interface ContainerRepository {
    * Retrieves properties of this repository.
    * @param options -
    */
-  getProperties(options?: GetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+  getProperties(options?: GetRepositoryPropertiesOptions): Promise<ContainerRepositoryProperties>;
   /**
    * Updates repository attributes.
    * @param options -
    */
-  updateProperties(options: UpdateRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+  updateProperties(
+    options: UpdateRepositoryPropertiesOptions
+  ): Promise<ContainerRepositoryProperties>;
   /**
    * Iterates manifests.
    *
@@ -162,7 +164,7 @@ export class ContainerRepositoryImpl {
    */
   public async getProperties(
     options: GetRepositoryPropertiesOptions = {}
-  ): Promise<RepositoryProperties> {
+  ): Promise<ContainerRepositoryProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepository-getProperties", options);
 
     try {
@@ -181,7 +183,7 @@ export class ContainerRepositoryImpl {
    */
   public async updateProperties(
     options: UpdateRepositoryPropertiesOptions
-  ): Promise<RepositoryProperties> {
+  ): Promise<ContainerRepositoryProperties> {
     const value: RepositoryWriteableProperties = {
       canDelete: options.canDelete,
       canWrite: options.canWrite,
@@ -195,7 +197,7 @@ export class ContainerRepositoryImpl {
     });
 
     try {
-      return await this.client.containerRegistry.setProperties(this.name, updatedOptions);
+      return await this.client.containerRegistry.updateProperties(this.name, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

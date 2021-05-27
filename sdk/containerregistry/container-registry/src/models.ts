@@ -3,7 +3,7 @@
 
 import { PipelineOptions } from "@azure/core-rest-pipeline";
 
-export { RepositoryProperties, ArtifactTagProperties } from "./generated";
+export { ContainerRepositoryProperties, ArtifactTagProperties } from "./generated";
 
 import { ArtifactTagProperties } from "./generated";
 
@@ -54,7 +54,7 @@ export enum KnownArtifactOperatingSystem {
 }
 
 /** Manifest attributes details */
-export interface ArtifactManifestReference {
+export interface ArtifactManifestPlatform {
   /**
    * Manifest digest
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -64,12 +64,12 @@ export interface ArtifactManifestReference {
    * CPU architecture. See {@link KnownArtifactArchitecture} for values supported by the service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly architecture: string;
+  readonly architecture?: string;
   /**
    * Operating system. See {@link KnownArtifactOperatingSystem} for values supported by the service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operatingSystem: string;
+  readonly operatingSystem?: string;
 }
 
 /** Manifest attributes details */
@@ -118,7 +118,7 @@ export interface ArtifactManifestProperties {
    * List of manifests referenced by this manifest list.  List will be empty if this manifest is not a manifest list.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly manifestReferences: ArtifactManifestReference[];
+  readonly relatedArtifacts: ArtifactManifestPlatform[];
   /**
    * List of tags
    * NOTE: This property will not be serialized. It can only be populated by the server.

@@ -38,8 +38,8 @@ export interface Repositories {
   link?: string;
 }
 
-/** Repository attributes */
-export interface RepositoryProperties {
+/** Properties of this repository. */
+export interface ContainerRepositoryProperties {
   /**
    * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -237,10 +237,10 @@ export interface ManifestAttributesBase {
    */
   readonly operatingSystem?: ArtifactOperatingSystem | null;
   /**
-   * List of manifests referenced by this manifest list.  List will be empty if this manifest is not a manifest list.
+   * List of artifacts that are referenced by this manifest list, with information about the platform each supports.  This list will be empty if this is a leaf manifest and not a manifest list.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly manifestReferences?: ArtifactManifestReference[];
+  readonly relatedArtifacts?: ArtifactManifestPlatform[];
   /**
    * List of tags
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -261,7 +261,7 @@ export interface ManifestAttributesBase {
 }
 
 /** Manifest attributes details */
-export interface ArtifactManifestReference {
+export interface ArtifactManifestPlatform {
   /**
    * Manifest digest
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -271,12 +271,12 @@ export interface ArtifactManifestReference {
    * CPU architecture
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly architecture: ArtifactArchitecture;
+  readonly architecture?: ArtifactArchitecture;
   /**
    * Operating system
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operatingSystem: ArtifactOperatingSystem;
+  readonly operatingSystem?: ArtifactOperatingSystem;
 }
 
 /** Changeable attributes */
@@ -338,10 +338,10 @@ export interface ArtifactManifestProperties {
    */
   readonly operatingSystem?: ArtifactOperatingSystem | null;
   /**
-   * List of manifests referenced by this manifest list.  List will be empty if this manifest is not a manifest list.
+   * List of artifacts that are referenced by this manifest list, with information about the platform each supports.  This list will be empty if this is a leaf manifest and not a manifest list.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly manifestReferences?: ArtifactManifestReference[];
+  readonly relatedArtifacts?: ArtifactManifestPlatform[];
   /**
    * List of tags
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -510,7 +510,7 @@ export interface TagAttributesTag {
 /** List of manifest attributes */
 export interface ManifestAttributesManifest {
   /** List of manifest attributes details */
-  references?: ArtifactManifestReference[];
+  references?: ArtifactManifestPlatform[];
   /** Quarantine tag name */
   quarantineTag?: string;
 }
@@ -831,10 +831,10 @@ export const enum KnownArtifactOperatingSystem {
 export type ArtifactOperatingSystem = string;
 /** Defines values for TokenGrantType. */
 export type TokenGrantType = "refresh_token" | "password";
-/** Defines values for TagOrderBy. */
-export type TagOrderBy = "none" | "timedesc" | "timeasc";
-/** Defines values for ManifestOrderBy. */
-export type ManifestOrderBy = "none" | "timedesc" | "timeasc";
+/** Defines values for ArtifactTagOrderBy. */
+export type ArtifactTagOrderBy = "none" | "timedesc" | "timeasc";
+/** Defines values for ArtifactManifestOrderBy. */
+export type ArtifactManifestOrderBy = "none" | "timedesc" | "timeasc";
 
 /** Optional parameters. */
 export interface ContainerRegistryGetManifestOptionalParams
@@ -866,17 +866,17 @@ export type ContainerRegistryGetRepositoriesResponse = ContainerRegistryGetRepos
   Repositories;
 
 /** Contains response data for the getProperties operation. */
-export type ContainerRegistryGetPropertiesResponse = RepositoryProperties;
+export type ContainerRegistryGetPropertiesResponse = ContainerRepositoryProperties;
 
 /** Optional parameters. */
-export interface ContainerRegistrySetPropertiesOptionalParams
+export interface ContainerRegistryUpdatePropertiesOptionalParams
   extends coreClient.OperationOptions {
   /** Repository attribute value */
   value?: RepositoryWriteableProperties;
 }
 
-/** Contains response data for the setProperties operation. */
-export type ContainerRegistrySetPropertiesResponse = RepositoryProperties;
+/** Contains response data for the updateProperties operation. */
+export type ContainerRegistryUpdatePropertiesResponse = ContainerRepositoryProperties;
 
 /** Optional parameters. */
 export interface ContainerRegistryGetTagsOptionalParams

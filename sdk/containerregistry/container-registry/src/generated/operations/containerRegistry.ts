@@ -18,8 +18,8 @@ import {
   ContainerRegistryGetRepositoriesOptionalParams,
   ContainerRegistryGetRepositoriesResponse,
   ContainerRegistryGetPropertiesResponse,
-  ContainerRegistrySetPropertiesOptionalParams,
-  ContainerRegistrySetPropertiesResponse,
+  ContainerRegistryUpdatePropertiesOptionalParams,
+  ContainerRegistryUpdatePropertiesResponse,
   ContainerRegistryGetTagsOptionalParams,
   ContainerRegistryGetTagsResponse,
   ContainerRegistryGetTagPropertiesResponse,
@@ -163,13 +163,13 @@ export class ContainerRegistry {
    * @param name Name of the image (including the namespace)
    * @param options The options parameters.
    */
-  setProperties(
+  updateProperties(
     name: string,
-    options?: ContainerRegistrySetPropertiesOptionalParams
-  ): Promise<ContainerRegistrySetPropertiesResponse> {
+    options?: ContainerRegistryUpdatePropertiesOptionalParams
+  ): Promise<ContainerRegistryUpdatePropertiesResponse> {
     return this.client.sendOperationRequest(
       { name, options },
-      setPropertiesOperationSpec
+      updatePropertiesOperationSpec
     );
   }
 
@@ -422,7 +422,7 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RepositoryProperties
+      bodyMapper: Mappers.ContainerRepositoryProperties
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -446,12 +446,12 @@ const deleteRepositoryOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const setPropertiesOperationSpec: coreClient.OperationSpec = {
+const updatePropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RepositoryProperties
+      bodyMapper: Mappers.ContainerRepositoryProperties
     },
     default: {
       bodyMapper: Mappers.AcrErrors
