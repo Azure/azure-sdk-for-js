@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1317",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 27 May 2021 18:10:16 GMT",
+    "date": "Thu, 27 May 2021 18:21:09 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.21 - EUS ProdSlices",
-    "x-ms-request-id": "c958b1c7-d5d2-43a7-a6ca-b13fc23d3500"
+    "x-ms-ests-server": "2.1.11722.21 - SCUS ProdSlices",
+    "x-ms-request-id": "c3d466f6-6aa6-42f5-8be0-11691f312a00"
    }
   },
   {
@@ -35,11 +35,11 @@
    "response": "{\"error\":{\"code\":\"Bad request\",\"message\":\"A VBS attestation policy has not been set on the attestation provider.\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 27 May 2021 18:10:17 GMT",
+    "date": "Thu, 27 May 2021 18:21:09 GMT",
     "server": "Kestrel",
     "transfer-encoding": "chunked",
     "x-ms-maa-service-version": "1.10.01598.0001",
-    "x-ms-request-id": "00-2acf0d5e7ac696d17edf20b57215d9d0-0000000000000000-00"
+    "x-ms-request-id": "00-9466f74e1135e8f8ddd9b23722cc9f70-0000000000000000-00"
    }
   }
  ],

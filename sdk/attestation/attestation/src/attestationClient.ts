@@ -203,7 +203,7 @@ export class AttestationClient {
 
       let token = new AttestationToken(attestationResponse.token);
 
-      let attestationResult = TypeDeserializer.deserialize<AttestationResult>(token.get_body(), AttestationResultMapper, "attestationResult");
+      let attestationResult = TypeDeserializer.deserialize(token.get_body(), AttestationResultMapper, "attestationResult") as AttestationResult;
 
       let result = new AttestationResponse<AttestationResult>(token, attestationResult, attestationResult);
       return result;
@@ -240,7 +240,7 @@ export class AttestationClient {
       }, updatedOptions);
 
       let token = new AttestationToken(attestationResponse.token);
-      let attestationResult = TypeDeserializer.deserialize<AttestationResult>(token.get_body(), AttestationResultMapper, "attestationResult");
+      let attestationResult = TypeDeserializer.deserialize(token.get_body(), AttestationResultMapper, "attestationResult") as AttestationResult;
 
       let result = new AttestationResponse<AttestationResult>(token, attestationResult, attestationResponse);
       return result;

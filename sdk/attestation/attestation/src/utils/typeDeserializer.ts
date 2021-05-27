@@ -12,7 +12,7 @@ import { Serializer, Mapper } from "@azure/core-http";
  */
 export class TypeDeserializer {
 
-    public static deserialize<T>(rawJson: any, bodyMapper: Mapper, bodyTypeName: string) : T {
+    public static deserialize(rawJson: any, bodyMapper: Mapper, bodyTypeName: string) : unknown {
         const serializer = new Serializer({ bodyMapper });
         return serializer.deserialize(
             bodyMapper,

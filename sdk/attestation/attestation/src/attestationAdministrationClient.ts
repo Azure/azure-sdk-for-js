@@ -127,7 +127,7 @@ import {
 
         // Deserialize the PolicyResult object to retrieve the underlying policy
         //  token
-        let policyResult = TypeDeserializer.deserialize<PolicyResult>(token.get_body(), PolicyResultMapper, "policyResult");
+        let policyResult = TypeDeserializer.deserialize(token.get_body(), PolicyResultMapper, "policyResult") as PolicyResult;
 
         // The policyResult.policy value will be a JSON Web Signature representing
         // the actual policy object being retrieved. Serialize the token to an 
@@ -137,7 +137,7 @@ import {
         }
 
         let policyToken = new AttestationToken(policyResult.policy);
-        let storedPolicy = TypeDeserializer.deserialize<StoredAttestationPolicy>(policyToken.get_body(), StoredAttestationPolicyMapper, "storedAttestationPolicy");
+        let storedPolicy = TypeDeserializer.deserialize(policyToken.get_body(), StoredAttestationPolicyMapper, "storedAttestationPolicy") as StoredAttestationPolicy;
 
         // Finally, retrieve the stored attestationPolicy value and return that 
         // as the AttestationResponse to the caller.
