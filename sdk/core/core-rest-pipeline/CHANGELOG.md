@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.4 (2021-05-27)
+
+- Bugfix for correctly sanitizing recursive objects for use in exceptions and logging. [PR 15426](https://github.com/Azure/azure-sdk-for-js/pull/15426)
+- Fixed an issue with calculating the content length of payloads containing multibyte characters and improved handling of 303 response codes. [PR 15314](https://github.com/Azure/azure-sdk-for-js/pull/15314)
+
 ## 1.0.3 (2021-03-30)
 
 ### Breaking Changes
