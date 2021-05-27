@@ -186,7 +186,7 @@ export function convertResponseForMetricsDefinitions(
  * @internal
  */
 export function convertResponseForMetricNamespaces(
-  generatedResponse: GeneratedMetricNamespacesListResponse | undefined
+  generatedResponse: GeneratedMetricNamespacesListResponse
 ): GetMetricNamespacesResponse {
   return {
     namespaces: generatedResponse?.value

@@ -24,7 +24,7 @@ npm install @azure/monitor-query
 ### Prerequisites
 
 - You must have an [Azure Subscription](https://azure.microsoft.com) and an [Azure Monitor][azure_monitor_product_documentation] resource to use this package.
-- Node.js version 10.x.x or higher
+- Node.js version 8.x.x or higher
 
 ### Create an Azure Monitor resource
 

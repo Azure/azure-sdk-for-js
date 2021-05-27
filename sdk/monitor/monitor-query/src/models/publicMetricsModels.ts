@@ -64,7 +64,8 @@ export interface Metric {
 
 /** A time series result type. The discriminator value is always TimeSeries in this case. */
 export interface TimeSeriesElement {
-  // track 2 version of
+  // track 2 version of `TimeSeriesElement` from the `metrics` generated client.
+  // (only to fix the casing of `metadatavalues`)
 
   /** the metadata values returned if $filter was specified in the call. */
   metadataValues?: MetadataValue[];
@@ -127,5 +128,5 @@ export interface GetMetricNamespacesResponse {
   // track 2 version of MetricNamespacesListResponse
 
   /** The metric namespaces. */
-  namespaces: MetricNamespace[] | undefined;
+  namespaces: MetricNamespace[];
 }
