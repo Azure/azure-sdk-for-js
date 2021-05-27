@@ -42,8 +42,12 @@ function updateREADME(mainModule, relativePath, namespace) {
       "README file"
     );
 
-    const [_, operation, operationArgs] = content.match(/client\.(.+?)\((.*)\).*$/ms);
-
+    const [_, operation, operationArgs] = content.match(/client\.(.+?)\((.*?)\).*$/ms);
+    const operationArgsInitializations = [...new Set(content.match(/(const (?!(client|authManager|subscriptionId)).*? = (?!require).*)/g))];
+    if ((operationArgs === "" && operationArgsInitializations.length > 0) || (operationArgs !== "" && operationArgsInitializations.length !== operationArgs.split(",").length)) {
+      throw new Error(`Bad README.md: The number of initializations does not match the number of arguments`);
+    }
+    const operationArgsInitializationsString = operationArgsInitializations.join("\n");
     const operationHeader = operation
       .split(".")
       .reverse()
@@ -102,8 +106,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 // Please note that you can also use credentials from the \`@azure/ms-rest-nodeauth\` package instead.
 const creds = new DefaultAzureCredential();
 const client = new ${clientName}(creds, subscriptionId);
-const resourceGroupName = "testresourceGroupName";
-const resourceName = "testresourceName";
+${operationArgsInitializationsString}
 client.${operation}(${operationArgs}).then((result) => {
   console.log("The result is:");
   console.log(result);
@@ -140,9 +143,7 @@ In browser applications, we recommend using the \`InteractiveBrowserCredential\`
         clientId: "<client id for your Azure AD app>",
         tenantId: "<optional tenant for your organization>"
       });
-      const client = new ${namespace}.${clientName}(creds, subscriptionId);
-      const resourceGroupName = "testresourceGroupName";
-      const resourceName = "testresourceName";
+      const client = new ${namespace}.${clientName}(creds, subscriptionId);${operationArgsInitializations.length === 0 ? "" : "\n" + operationArgsInitializations.map(str => "      " + str).join("\n")}
       client.${operation}(${operationArgs}).then((result) => {
         console.log("The result is:");
         console.log(result);
