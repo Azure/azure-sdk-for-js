@@ -28,5 +28,6 @@ export {
  * REMOVE THIS DECLARATION BEFORE SHIPPING, IT EXISTS ONLY TO MAKE API-Extractor HAPPY.
  */
 export {
-    GeneratedClient
+    GeneratedClient,
+    GeneratedClientContext
 } from "./generated"

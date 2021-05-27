@@ -122,12 +122,14 @@ export interface AttestationResult {
 // @public
 export class AttestationSigner {
     // Warning: (ae-forgotten-export) The symbol "JsonWebKey" needs to be exported by the entry point index.d.ts
+    //
+    // @internal
     constructor(key: JsonWebKey_2);
     certificates: Uint8Array[];
     keyId: string;
 }
 
-// @public (undocumented)
+// @public
 export class AttestationSigningKey {
     constructor(key: string, certificate: string);
     // (undocumented)
@@ -136,7 +138,7 @@ export class AttestationSigningKey {
     key: string;
 }
 
-// @public (undocumented)
+// @public
 export class AttestationToken {
     // @internal
     constructor(token: string);
@@ -163,21 +165,15 @@ export type AttestationType = string;
 
 // @public
 export interface AttestOpenEnclaveOptions extends AttestationClientOperationOptions {
-    // (undocumented)
     draftPolicyForAttestation?: string;
-    // (undocumented)
     initTimeData?: AttestationData;
-    // (undocumented)
     runTimeData?: AttestationData;
 }
 
 // @public
 export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptions {
-    // (undocumented)
     draftPolicyForAttestation?: string;
-    // (undocumented)
     initTimeData?: AttestationData;
-    // (undocumented)
     runTimeData?: AttestationData;
 }
 
@@ -202,8 +198,6 @@ export interface CloudErrorBody {
 // @public
 export type DataType = string;
 
-// Warning: (ae-forgotten-export) The symbol "GeneratedClientContext" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export class GeneratedClient extends GeneratedClientContext {
     // Warning: (ae-forgotten-export) The symbol "GeneratedClientOptionalParams" needs to be exported by the entry point index.d.ts
@@ -228,6 +222,15 @@ export class GeneratedClient extends GeneratedClientContext {
     //
     // (undocumented)
     signingCertificates: SigningCertificates;
+}
+
+// @public (undocumented)
+export class GeneratedClientContext extends coreHttp.ServiceClient {
+    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: GeneratedClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    instanceUrl: string;
 }
 
 // @public

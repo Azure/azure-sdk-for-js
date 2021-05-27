@@ -58,8 +58,18 @@ export interface AttestationClientOperationOptions extends OperationOptions{};
  * @param draftPolicyForAttestation : If specified, the attestation policy to be used during the attestation request. 
  */
 export interface AttestOpenEnclaveOptions extends AttestationClientOperationOptions {
+   /**
+    *initTimeData : AttestationData - data provided at the time the enclave was initialized.
+    * 
+    */
   initTimeData?: AttestationData,
+  /**
+   * @property runTimeData : AttestationData - data provided at the time the SGX quote being attested was created.
+   */
   runTimeData?: AttestationData,
+  /**
+   * draftPolicyForAttestation : If specified, the attestation policy to be used during the attestation request. 
+   */
   draftPolicyForAttestation?: string,
 };
 
@@ -71,8 +81,20 @@ export interface AttestOpenEnclaveOptions extends AttestationClientOperationOpti
  * @param draftPolicyForAttestation : If specified, the attestation policy to be used during the attestation request. 
  */
  export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptions {
+   /**
+    *initTimeData : AttestationData - data provided at the time the enclave was initialized.
+    * 
+    */
   initTimeData?: AttestationData,
+
+  /**
+   * @property runTimeData : AttestationData - data provided at the time the SGX quote being attested was created.
+   */
   runTimeData?: AttestationData,
+
+  /**
+   * @property draftPolicyForAttestation : If specified, the attestation policy to be used during the attestation request. 
+   */
   draftPolicyForAttestation?: string,
 }
 

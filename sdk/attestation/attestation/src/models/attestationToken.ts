@@ -11,6 +11,12 @@ import { KJUR, X509, RSAKey } from "jsrsasign"
 import { bytesToString } from "../utils/utf8.browser";
 //import { AttestationSigner } from "./attestationSigner";
 /**
+ * 
+ * An AttestationToken represents an RFC 7515 JSON Web Signature object.
+ * 
+ * It can represent either the token returned by the attestation service,
+ * or it can be used to create a token locally which can be used to verify
+ * attestation policy changes.
  * @hideconstructor
  */
 export class AttestationToken

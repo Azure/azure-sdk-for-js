@@ -13,6 +13,11 @@ import {base64DecodeString} from "../utils/base64";
  */
 export class AttestationSigner
 {
+    /**
+     * @internal
+     * 
+     * @param key - JSON Web Key describing the attestation signer.
+     */
     constructor(key : JsonWebKey) {
         if (key.kid === null) {
             throw new Error("KeyID field in signer must not be null.")

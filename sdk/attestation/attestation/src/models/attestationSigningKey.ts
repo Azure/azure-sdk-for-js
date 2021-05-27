@@ -7,8 +7,6 @@
 import { X509, KJUR } from "jsrsasign";
 
 
-export class AttestationSigningKey
-{
   /**
    * Creates an instance of AttestationSigningKey.
    * 
@@ -25,9 +23,14 @@ export class AttestationSigningKey
    * );
    * ```
    *
-   * @param key - PEM encoded DER Encoded RSA or ECDS key.
-   * @param certificate - PEM encoded DER encoded X.509 certificate.
    */
+export class AttestationSigningKey
+{
+    /**
+     * 
+     * @param key - PEM encoded DER Encoded RSA or ECDS key.
+     * @param certificate - PEM encoded DER encoded X.509 certificate.
+     */
     constructor(key : string, certificate : string) {
         //
         // Ensure that the key and certificate are associated with each other.
