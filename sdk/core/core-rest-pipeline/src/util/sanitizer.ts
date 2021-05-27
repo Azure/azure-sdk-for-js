@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isObject, UnknownObject } from "./helpers";
 import { URL } from "./url";
 
 /**
@@ -21,11 +22,6 @@ export interface SanitizerOptions {
    */
   additionalAllowedQueryParameters?: string[];
 }
-
-/**
- * @internal
- */
-export type UnknownObject = { [s: string]: unknown };
 
 const RedactedString = "REDACTED";
 
@@ -92,38 +88,46 @@ export class Sanitizer {
   }
 
   public sanitize(obj: unknown): string {
-    return JSON.stringify(obj, this.replacer.bind(this), 2);
-  }
+    const seen = new Set<unknown>();
+    return JSON.stringify(
+      obj,
+      (key: string, value: unknown) => {
+        // Ensure Errors include their interesting non-enumerable members
+        if (value instanceof Error) {
+          return {
+            ...value,
+            name: value.name,
+            message: value.message
+          };
+        }
 
-  private replacer(key: string, value: unknown): unknown {
-    // Ensure Errors include their interesting non-enumerable members
-    if (value instanceof Error) {
-      return {
-        ...value,
-        name: value.name,
-        message: value.message
-      };
-    }
+        if (key === "headers") {
+          return this.sanitizeHeaders(value as UnknownObject);
+        } else if (key === "url") {
+          return this.sanitizeUrl(value as string);
+        } else if (key === "query") {
+          return this.sanitizeQuery(value as UnknownObject);
+        } else if (key === "body") {
+          // Don't log the request body
+          return undefined;
+        } else if (key === "response") {
+          // Don't log response again
+          return undefined;
+        } else if (key === "operationSpec") {
+          // When using sendOperationRequest, the request carries a massive
+          // field with the autorest spec. No need to log it.
+          return undefined;
+        } else if (Array.isArray(value) || isObject(value)) {
+          if (seen.has(value)) {
+            return "[Circular]";
+          }
+          seen.add(value);
+        }
 
-    if (key === "headers") {
-      return this.sanitizeHeaders(value as UnknownObject);
-    } else if (key === "url") {
-      return this.sanitizeUrl(value as string);
-    } else if (key === "query") {
-      return this.sanitizeQuery(value as UnknownObject);
-    } else if (key === "body") {
-      // Don't log the request body
-      return undefined;
-    } else if (key === "response") {
-      // Don't log response again
-      return undefined;
-    } else if (key === "operationSpec") {
-      // When using sendOperationRequest, the request carries a massive
-      // field with the autorest spec. No need to log it.
-      return undefined;
-    }
-
-    return value;
+        return value;
+      },
+      2
+    );
   }
 
   private sanitizeHeaders(obj: UnknownObject): UnknownObject {
