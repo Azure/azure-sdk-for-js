@@ -10,6 +10,7 @@ import {AttestationSigningKey} from "./attestationSigningKey"
 import { KJUR, X509, RSAKey } from "jsrsasign"
 import { bytesToString } from "../utils/utf8.browser";
 //import { AttestationSigner } from "./attestationSigner";
+
 /**
  * 
  * An AttestationToken represents an RFC 7515 JSON Web Signature object.
@@ -27,17 +28,17 @@ export class AttestationToken
      * @param token - Attetation token returned by the attestation service. 
      */
     constructor(token: string ) {
-        this._token = token;
+      this._token = token;
 
-        let pieces = token.split('.');
-        if (pieces.length != 3) {
-            throw Error("Incorrectly formatted token:");
-        }
-        this._headerBytes = base64UrlDecodeString(pieces[0]);
-        this._header = safeJsonParse(bytesToString(this._headerBytes));
-        this._bodyBytes = base64UrlDecodeString(pieces[1]);
-        this._body = safeJsonParse(bytesToString(this._bodyBytes));
-//        this._signature = base64UrlDecodeString(pieces[2]);
+      let pieces = token.split('.');
+      if (pieces.length != 3) {
+          throw Error("Incorrectly formatted token:");
+      }
+      this._headerBytes = base64UrlDecodeString(pieces[0]);
+      this._header = safeJsonParse(bytesToString(this._headerBytes));
+      this._bodyBytes = base64UrlDecodeString(pieces[1]);
+      this._body = safeJsonParse(bytesToString(this._bodyBytes));
+//      this._signature = base64UrlDecodeString(pieces[2]);
 
         this._jwsVerifier = KJUR.jws.JWS.parse(token);
     };
@@ -59,7 +60,7 @@ export class AttestationToken
      */
     public get_body() : any
     {
-        return this._jwsVerifier.payloadObj;
+      return this._jwsVerifier.payloadObj;
     }
 
     /**
@@ -72,7 +73,7 @@ export class AttestationToken
      */
     public serialize() : string
     {
-        return this._token;
+      return this._token;
     }
 
     /*********** JSON WEB SIGNATURE (RFC 7515) PROPERTIES */
@@ -80,18 +81,18 @@ export class AttestationToken
     /**
      * Returns the algorithm from the header of the JSON Web Signature.
      * 
-     *  See [RFC 7515 Section 4.1.1](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.1)
+     *  See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.1 | RFC 7515 Section 4.1.1})
      *  for details.
      * 
      * If the value of algorithm is "none" it indicates that the token is unsecured.
      */
     public get algorithm() : string {
-        return this._header?.alg;
+      return this._header?.alg;
     }
 
     /**
      *  Json Web Signature Header "kid". 
-     *   See [RFC 7515 Section 4.1.4](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.4)
+     *   See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.4 | RFC 7515 Section 4.1.4})
      *   for details.
      */
     public get keyId() : string | undefined {
@@ -101,62 +102,64 @@ export class AttestationToken
     /**
      * Json Web Signature Header "crit".
      * 
-     *   See [RFC 7515 Section 4.1.11](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.11)
+     *   See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.11 | RFC 7515 Section 4.1.11})
      *   for details.
      * 
      */
     public get critical() : boolean | undefined {
-        return this._header.crit;
+      return this._header.crit;
     }
 
 
 
     /**
      * Json Web Token Header "content type".
-     *  See [RFC 7515 Section 4.1.10](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.10) for details.
+     * See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.10 | RFC 7515 Section 4.1.10})
      *
      */
     public get contentType(): string | undefined {
-        return this._header.cty;
+      return this._header.cty;
     }
 
     /**
      * Json Web Token Header "key URL".
-     *  See [RFC 7515 Section 4.1.2](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.2) for details.
+     * 
+     * @see {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.2 | RFC 7515 Section 4.1.2})
      *
      */
     public get keyUrl() : string | undefined {
-        return this._header.jku;
+      return this._header.jku;
     }
 
     /**
      * Json Web Token Header "X509 Url".
-     *  See [RFC 7515 Section 4.1.5](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.5) for details.
+     * @see {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.5 | RFC 7515 Section 4.1.5})
      *
      */
-     public get x509Url() : string | undefined {
+    public get x509Url() : string | undefined {
       return this._header.x5u;
     }
 
-    /**
-     * Json Web Token Header "Typ".
-     *  See [RFC 7515 Section 4.1.9](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.9) for details.
+    /** Json Web Token Header "Typ".
+     * 
+     * @see {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.9 | RFC 7515 Section 4.1.9})
      *
      */
     public get type() : string | undefined {
       return this._header.typ;
     }
     
-    /** Json Web Token Header "x509 thumprint".
-     *  See [RFC 7515 Section 4.1.7](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.7) for details.
-     *
+    /** 
+     * Json Web Token Header "x509 thumprint".
+     * See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.7 | RFC 7515 Section 4.1.7})
      */
     public get certificateThumbprint() : string | undefined {
       return this._header.x5t;
     }
 
     /** Json Web Token Header "x509 SHA256 thumprint".
-     *  See [RFC 7515 Section 4.1.8](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.8) for details.
+     * 
+     * See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.8 | RFC 7515 Section 4.1.8})
      *
      */
     public get certificateSha256Thumbprint() : string | undefined {
@@ -164,7 +167,8 @@ export class AttestationToken
     }
 
     /** Json Web Token Header "x509 certificate chain".
-     *  See [RFC 7515 Section 4.1.6](https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.6) for details.
+     * 
+     * See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.6 | RFC 7515 Section 4.1.6})
      *
      */
 //    public get certificateChain() : AttestationSigner | undefined {
@@ -175,8 +179,8 @@ export class AttestationToken
     /*********** JSON WEB TOKEN (RFC 7519) PROPERTIES */
     
     
-    /** Issuance time for the token, from JWT body.
-     *   See [RFC 7519 Section 4.1.6](https://www.rfc-editor.org/doc/html/rfc7519#section-4.1.6)
+    /** Issuer of the attestation token.
+     * See {@link https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.6 | RFC 7519 Section 4.1.6})
      *   for details.
      */
     public get issuer() : string | undefined {
@@ -184,46 +188,40 @@ export class AttestationToken
     }
 
     /** Expiration time for the token, from JWT body.
-     *   See [RFC 7519 Section 4.1.4](https://www.rfc-editor.org/doc/html/rfc7519#section-4.1.4)
+     * 
+     * See {@link https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.4 | RFC 7519 Section 4.1.4})
      *   for details.
      */
     public get expirationTime() : Date | undefined {
-        if (this._body.exp) {
-            return new Date(this._body.exp*1000);
-        }
-        return undefined;
+        return this._body.exp ? new Date(this._body.exp*1000) : undefined;
     }
 
     /** Issuance time for the token, from JWT body.
-     *   See [RFC 7519 Section 4.1.6](https://www.rfc-editor.org/doc/html/rfc7519#section-4.1.6)
+     * 
+     * See {@link https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.6 | RFC 7519 Section 4.1.6})
      *   for details.
      */
     public get issuedAtTime() : Date | undefined {
-      if (this._body.iat) {
-        return new Date(this._body.iat*1000);
-      }
-      return undefined;
+      return this._body.iat ? new Date(this._body.iat*1000) : undefined;
     }
 
     /**
      * Not Before time for the token, from JWT body.
-     *   See [RFC 7519 Section 4.1.5](https://www.rfc-editor.org/doc/html/rfc7519#section-4.1.5)
+     * 
+     * See {@link https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.5 | RFC 7519 Section 4.1.5})
      *   for details.
      */
     public get notBeforeTime() : Date | undefined {
-      if (this._body.nbf) {
-        return new Date(this._body.nbf*1000);
-      }
-      return undefined;
+      return this._body.nbf ? new Date(this._body.nbf*1000) : undefined;
     }
 
     /**
      * Creates a new attestation token from a body and signing key.
-     * @param body string-ized body of the body of the token to be created.
-     * @param signer 
-     * @returns 
+     * @param body - stringified body of the body of the token to be created.
+     * @param signer - Optional signing key used to sign the newly created token.
+     * @returns an {@link AttestationToken | attestation token}
      */
-    public static deserialize(body: string, signer ?: AttestationSigningKey) : AttestationToken {
+    public static create(body: string, signer ?: AttestationSigningKey) : AttestationToken {
         let header: {
             alg : string,
             [k:string]: any} = {alg:'none'};
@@ -252,17 +250,17 @@ export class AttestationToken
         return new AttestationToken(encodedToken);
     }
     
-    };
+};
 
 function isObject(thing: any) {
-    return Object.prototype.toString.call(thing) === "[object Object]";
+  return Object.prototype.toString.call(thing) === "[object Object]";
 }
   
 function safeJsonParse(thing: any) {
-    if (isObject(thing)) return thing;
-    try {
-      return JSON.parse(thing);
-    } catch (e) {
-      return undefined;
-    }
+  if (isObject(thing)) return thing;
+  try {
+    return JSON.parse(thing);
+  } catch (e) {
+    return undefined;
   }
+}

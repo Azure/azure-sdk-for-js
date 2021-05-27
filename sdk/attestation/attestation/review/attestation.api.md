@@ -146,8 +146,8 @@ export class AttestationToken {
     get certificateSha256Thumbprint(): string | undefined;
     get certificateThumbprint(): string | undefined;
     get contentType(): string | undefined;
+    static create(body: string, signer?: AttestationSigningKey): AttestationToken;
     get critical(): boolean | undefined;
-    static deserialize(body: string, signer?: AttestationSigningKey): AttestationToken;
     get expirationTime(): Date | undefined;
     get_body(): any;
     get issuedAtTime(): Date | undefined;

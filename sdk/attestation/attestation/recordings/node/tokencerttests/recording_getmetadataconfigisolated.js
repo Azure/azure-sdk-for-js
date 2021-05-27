@@ -5,7 +5,7 @@ module.exports.hash = "f1d5eb3afd42f7cb5543c18af256332f";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default")
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '75b94f2a-e741-409f-8ea3-0d87b5130b00',
+  'fae8a930-225d-441c-b823-d6aeae042e00',
   'x-ms-ests-server',
-  '2.1.11722.21 - EUS ProdSlices',
+  '2.1.11722.21 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AnXSYUoPIIdOvmzW2O9wKuW81LWYDAAAABrPQNgOAAAA; expires=Fri, 25-Jun-2021 23:22:26 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhCbJBjHjO9KimZEDsnl1Mq81LWYBQAAAGPXQdgOAAAA; expires=Sat, 26-Jun-2021 18:10:07 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 26 May 2021 23:22:25 GMT',
+  'Thu, 27 May 2021 18:10:06 GMT',
   'Content-Length',
   '1317'
 ]);
@@ -43,7 +43,7 @@ nock('https://isolated_attestation_url.wus.attest.azure.net:443', {"encodedQuery
   'Connection',
   'close',
   'Date',
-  'Wed, 26 May 2021 23:22:26 GMT',
+  'Thu, 27 May 2021 18:10:06 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -51,7 +51,7 @@ nock('https://isolated_attestation_url.wus.attest.azure.net:443', {"encodedQuery
   'Content-Length',
   '612',
   'x-ms-request-id',
-  '00-0569562e7c1b15d5d924588fb1697b57-0000000000000000-00',
+  '00-0ed9348b291aff98b1b0cc43a974724c-0000000000000000-00',
   'x-ms-maa-service-version',
   '1.10.01598.0001'
 ]);

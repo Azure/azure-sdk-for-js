@@ -4,24 +4,24 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1317",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 26 May 2021 23:22:48 GMT",
+    "date": "Thu, 27 May 2021 18:10:32 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.11722.21 - SCUS ProdSlices",
-    "x-ms-request-id": "ae6edc6e-a29b-4ecf-93af-8ee5fb230c00"
+    "x-ms-request-id": "34fdd039-7178-4024-9421-61bfb2372e00"
    }
   },
   {
@@ -34,10 +34,10 @@
    "responseHeaders": {
     "content-length": "573",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 26 May 2021 23:22:48 GMT",
+    "date": "Thu, 27 May 2021 18:10:32 GMT",
     "server": "Kestrel",
     "x-ms-maa-service-version": "1.10.01598.0001",
-    "x-ms-request-id": "00-c51022464dc56e460322ca6a8a869661-0000000000000000-00"
+    "x-ms-request-id": "00-4e6f1b552623c8e96282d02f8db44c8c-0000000000000000-00"
    }
   }
  ],

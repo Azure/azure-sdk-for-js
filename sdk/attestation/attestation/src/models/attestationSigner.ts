@@ -35,14 +35,14 @@ export class AttestationSigner
 
     /**
      * The Key ID for the signer, as defined by the "kid" parameter in 
-     * [RFC 7517 section 4.5](https://datatracker.ietf.org/doc/html/rfc7517#section-4.5)
+     * {@link https://datatracker.ietf.org/doc/html/rfc7517#section-4.5 | RFC 7517 section 4.5}
      */
     keyId: string;
 
     /**
      * An array of X.509 DER encoded certificates one of which will be used to
      * sign an attestation token. Also the "x5c" parameter in 
-     * [RFC 7517 section 4.7](https://datatracker.ietf.org/doc/html/rfc7517#section-4.7)
+     * {@link https://datatracker.ietf.org/doc/html/rfc7517#section-4.7 | RFC 7517 section 4.7}
      */
 
     certificates: Uint8Array[]

@@ -14,6 +14,8 @@ import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecorder } from "../utils/recordedClient";
 
+import { bytesToString, stringToBytes } from "../../src/utils/utf8.browser";
+
 import { AttestationSigningKey, AttestationToken } from "../../src";
 import { createECDSKey, createRSAKey, createX509Certificate} from "../utils/cryptoUtils";
 
@@ -27,6 +29,18 @@ describe("AttestationTokenTests", function() {
   afterEach(async function() {
     await recorder.stop();
   });
+
+  it("#testUtf8ConversionFunctions", async() => {
+    const buffer = stringToBytes("ABCDEF");
+    assert.equal(65, buffer[0]);
+    assert.equal(66, buffer[1]);
+    assert.equal(67, buffer[2]);
+    assert.equal(68, buffer[3]);
+    assert.equal(69, buffer[4]);
+
+    const str = bytesToString(buffer);
+    assert.equal("ABCDEF", str);
+  })
 
   it("#createRsaSigningKey", async() => {
       const key = createRSAKey();
@@ -71,7 +85,7 @@ describe("AttestationTokenTests", function() {
     const cert = createX509Certificate(key, "certificate");
 
     const sourceObject = JSON.stringify({foo: "foo", bar: 10});
-    const token = AttestationToken.deserialize(sourceObject, new AttestationSigningKey(key, cert));
+    const token = AttestationToken.create(sourceObject, new AttestationSigningKey(key, cert));
 
     const body = token.get_body();
     assert.deepEqual({foo: "foo", bar: 10}, body);
@@ -84,7 +98,7 @@ describe("AttestationTokenTests", function() {
    it("#createUnsecuredAttestationToken", async() => {
 
     const sourceObject = JSON.stringify({foo: "foo", bar: 10});
-    const token = AttestationToken.deserialize(sourceObject);
+    const token = AttestationToken.create(sourceObject);
 
     const body = token.get_body();
     assert.deepEqual({foo: "foo", bar: 10}, body);
