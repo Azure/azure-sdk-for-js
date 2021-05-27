@@ -50,14 +50,14 @@ Authentication via service principal is done by:
 Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential)
 
 ```javascript
-const azureIdentity = require("@azure/identity");
-const monitorQuery = require("@azure/monitor-query");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { LogsClient, MetricsClient } = require("@azure/monitor-query");
 
-const credential = new azureIdentity.DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 
-const logsClient = new monitorQuery.LogClient(credential);
+const logsClient = new LogsClient(credential);
 // or
-const metricsClient = new monitorQuery.MetricsClient(credential);
+const metricsClient = new MetricsClient(credential);
 ```
 
 More information about `@azure/identity` can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md)
