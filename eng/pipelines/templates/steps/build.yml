@@ -60,28 +60,19 @@ steps:
       Artifacts: ${{ parameters.Artifacts }}
       ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
 
-  # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
-  # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
-  - task: CopyFiles@2
-    inputs:
-      sourceFolder: sdk
-      contents: |
-        **/$(coalesceResultFilter)/*.tgz
-        **/$(coalesceResultFilter)/browser/*.zip
-      targetFolder: $(Build.ArtifactStagingDirectory)
-      flattenFolders: true
-    displayName: "Copy packages"
+  - template: ../steps/generate-doc.yml
+    parameters:
+      ServiceDirectory: ${{parameters.ServiceDirectory}}
+
+  - ${{ each artifact in parameters.Artifacts }}:
+    - pwsh: |
+        New-Item -Type Directory -Name ${{artifact.name}} -Path $(Build.ArtifactStagingDirectory)
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/${{artifact.name}}-*.tgz $(Build.ArtifactStagingDirectory)/${{artifact.name}}
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/${{artifact.name}}-*.zip $(Build.ArtifactStagingDirectory)/${{artifact.name}}
+        Copy-Item $(Build.ArtifactStagingDirectory)/Documentation/${{artifact.name}}.zip $(Build.ArtifactStagingDirectory)/${{artifact.name}}/documentation
+      displayName: 'Copy Package ${{artifact.name}}'
 
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'packages'
-
-  - template: ../steps/generate-doc.yml
-    parameters:
-      ServiceDirectory: ${{parameters.ServiceDirectory}}
-
-  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
-    parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)/Documentation'
-      ArtifactName: 'documentation'
