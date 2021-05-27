@@ -27,6 +27,18 @@ steps:
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
 
+  - task: Powershell@2
+    inputs:
+      filePath: $(Build.SourcesDirectory)/eng/common/scripts/Save-Package-Properties.ps1
+      arguments: >
+        -ServiceDirectory ${{parameters.ServiceDirectory}}
+        -OutDirectory $(Build.ArtifactStagingDirectory)/PackageInfo
+        -AddDevVersion
+      pwsh: true
+      workingDirectory: $(Pipeline.Workspace)
+    displayName: Update package properties with dev version
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+
   - script: |
       node common/scripts/install-run-rush.js install
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))

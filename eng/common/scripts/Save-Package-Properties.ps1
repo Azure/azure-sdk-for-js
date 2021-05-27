@@ -1,12 +1,59 @@
+<#
+.SYNOPSIS
+Saves package properties from source into JSON files
+
+.DESCRIPTION
+Saves package properties in source of a given service directory to JSON files.
+JSON files are named in the form <package name>.json or <artifact name>.json if
+an artifact name property is available in the package properties.
+
+Can optionally add a dev version property which can be used logic for daily 
+builds.
+
+.PARAMETER serviceDirectory
+Service directory in which to search for packages
+
+.PARAMETER outDirectory
+Output location (generally a package artifact directory in DevOps) for JSON 
+files
+
+.PARAMETER addDevVersion
+(Requires existing JSON files in outDirectory corresponding to packages in the 
+given serviceDirectory.) Reads package properties from existing packages in the
+given serviceDirectory and updates existing package JSON files in the 
+outDirectory with a DevVersion property that reflects the version currently
+specified in the package source. Run this after updating package source with a 
+dev version.
+#>
+
 [CmdletBinding()]
 Param (
   [Parameter(Mandatory=$True)]
   [string] $serviceDirectory,
   [Parameter(Mandatory=$True)]
-  [string] $outDirectory
+  [string] $outDirectory,
+  [switch] $addDevVersion
 )
 
 . (Join-Path $PSScriptRoot common.ps1)
+
+function SetOutput($outputPath, $incomingPackageSpec) { 
+  $outputObject = $incomingPackageSpec
+  
+  if ($addDevVersion) {
+    # Read in the existing package specification file instead of using the
+    # passed $incomingPackageSpec.
+    $outputObject = ConvertFrom-Json (Get-Content $outputPath)
+    Add-Member `
+      -InputObject $outputObject `
+      -NotePropertyName DevVersion `
+      -NotePropertyvalue $incomingPackageSpec.Version `
+      -Force
+  }
+
+  $outputObject | ConvertTo-Json -Depth 100 | Set-Content $outputPath 
+}
+
 $allPackageProperties = Get-AllPkgProperties $serviceDirectory
 if ($allPackageProperties)
 {
@@ -28,8 +75,7 @@ if ($allPackageProperties)
               $configFilePrefix = $pkg.ArtifactName
             }
             $outputPath = Join-Path -Path $outDirectory "$configFilePrefix.json"
-            $outputObject = $pkg | ConvertTo-Json
-            Set-Content -Path $outputPath -Value $outputObject
+            SetOutput $outputPath $pkg
         }        
     }
 
