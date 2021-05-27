@@ -86,9 +86,9 @@ If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/
   - Follow the instructions in the section on Authenticating client side browser applications in [Azure Identity examples](https://aka.ms/azsdk/js/identity/examples) to register your application in the Microsoft identity platform and set the right permissions.
   - Copy the client ID and tenant ID from the Overview section of your app registration in Azure portal and use it in the browser sample below.
 - If you are writing a server side application,
-    - [Select a credential from \`@azure/identity\` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
-    - Complete the set up steps required by the credential if any.
-    - Use the credential you picked in the place of \`DefaultAzureCredential\` in the Node.js sample below.
+  - [Select a credential from \`@azure/identity\` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
+  - Complete the set up steps required by the credential if any.
+  - Use the credential you picked in the place of \`DefaultAzureCredential\` in the Node.js sample below.
 
 In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
 Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
