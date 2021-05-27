@@ -114,6 +114,8 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
 
       // wait time has expired, we can stop listening.
       console.log(`Time has expired, closing receiver for session '${sessionId}'`);
+
+      await receiver.close();
       break;
     } catch (err) {
       // `err` was already logged part of `processError` above.
