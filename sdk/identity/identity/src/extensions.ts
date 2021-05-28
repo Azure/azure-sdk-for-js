@@ -1,14 +1,34 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT license.
 
+import { IdentityExtension, registry } from "./extensionProvider";
 import { msalNodeFlowPluginControl } from "./msal/nodeFlows/nodeCommon";
 
-export interface AzureExtensionContext {
-  nodeFlow: typeof msalNodeFlowPluginControl;
+const pluginContext = {
+  pluginControl: msalNodeFlowPluginControl
+};
+
+/**
+ * A helper for extracting and running an extension handler.
+ * @internal
+ */
+function install(extension: IdentityExtension): void {
+  const installer = registry.get(extension as IdentityExtension);
+
+  if (!installer) {
+    throw new Error(
+      "The provided Azure Identity extension object could not be loaded because it was not registered."
+    );
+  }
+
+  installer(pluginContext);
 }
 
-export interface IdentityExtension {
-  use: (context: AzureExtensionContext) => void;
+/**
+ * The type of a module that default-exports an IdentityExtension.
+ */
+export interface IdentityExtensionModule {
+  default: IdentityExtension;
 }
 
 /**
@@ -51,12 +71,8 @@ export interface IdentityExtension {
  * @param extension - the extension to register
  */
 export function useIdentityExtension<
-  Extension extends IdentityExtension | PromiseLike<{ default: IdentityExtension }>
+  Extension extends IdentityExtension | PromiseLike<IdentityExtensionModule>
 >(extension: Extension): Extension extends PromiseLike<unknown> ? Promise<void> : void {
-  const ctx = {
-    nodeFlow: msalNodeFlowPluginControl
-  };
-
   if (
     extension &&
     Object.prototype.hasOwnProperty.call(extension, "then") &&
@@ -64,10 +80,10 @@ export function useIdentityExtension<
   ) {
     return (extension as PromiseLike<{ default: IdentityExtension }>).then(
       ({ default: extension }) => {
-        extension.use(ctx);
+        install(extension);
       }
     ) as any;
   } else {
-    return (extension as IdentityExtension).use(ctx) as any;
+    return install(extension as IdentityExtension) as any;
   }
 }

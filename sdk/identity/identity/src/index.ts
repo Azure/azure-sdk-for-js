@@ -2,11 +2,10 @@
 // Licensed under the MIT license.
 
 export * from "./extensions";
+export { IdentityExtension, AzureIdentityExtensionTypeMap } from "./extensionProvider";
 
 import { TokenCredential } from "@azure/core-http";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
-
-export { IdentityClient, TokenResponse } from "./client/identityClient";
 
 export { AuthenticationRecord } from "./msal/types";
 export { AuthenticationRequiredError } from "./msal/errors";

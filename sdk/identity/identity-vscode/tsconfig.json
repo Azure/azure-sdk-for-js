@@ -2,21 +2,13 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "DOM"
-    ],
+    "lib": ["DOM"],
     "declarationDir": "./types",
     "outDir": "./dist-esm",
     "resolveJsonModule": true,
     "paths": {
-      "@azure/identity-vscode": [
-        "./src/index"
-      ]
+      "@azure/identity-vscode": ["./src/index"]
     }
   },
-  "include": [
-    "src/**/*",
-    "test/**/*",
-    "samples-dev/**/*"
-  ]
+  "include": ["src/**/*", "test/**/*", "samples-dev/**/*"]
 }

@@ -1,15 +1,33 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT license.
 
-import { DefaultAzureCredential, IdentityExtension } from "@azure/identity";
+declare module "@azure/identity" {
+  interface AzureIdentityExtensionTypeMap {
+    [vscodeExtension]: "@azure/identity-vscode";
+  }
+}
+
+import { DefaultAzureCredential } from "@azure/identity";
+import { registerExtension } from "../../identity/src/extensionProvider";
 import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
 
 export { VisualStudioCodeCredential };
 
-export const extension: IdentityExtension = {
-  use: () => {
-    DefaultAzureCredential.credentials.push(VisualStudioCodeCredential);
-  }
-};
+const vscodeExtension: unique symbol = Symbol("identity-vscode");
 
-export default extension;
+function insertBefore<T>(value: T, array: T[], predicate: (v: T) => boolean) {
+  array.splice(array.findIndex(predicate), 0, value);
+}
+
+registerExtension(vscodeExtension, () => {
+  // We want to add VisualStudioCodeCredential before AzurePowerShellCredential
+  // because it is relatively quick to check, but AzurePowerShellCredential is
+  // slow.
+  insertBefore(
+    VisualStudioCodeCredential,
+    DefaultAzureCredential.credentials,
+    (ctor) => ctor.name === "AzurePowerShellCredential"
+  );
+});
+
+export default vscodeExtension;

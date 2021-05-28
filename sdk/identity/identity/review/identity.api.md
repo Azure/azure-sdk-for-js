@@ -4,19 +4,11 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-http';
 import { AzureLogger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-http';
-import { INetworkModule } from '@azure/msal-common';
-import * as msalCommon from '@azure/msal-common';
-import { NetworkRequestOptions } from '@azure/msal-common';
-import { NetworkResponse } from '@azure/msal-common';
 import { PipelineOptions } from '@azure/core-http';
-import { RequestPrepareOptions } from '@azure/core-http';
-import { ServiceClient } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
-import { WebResource } from '@azure/core-http';
 
 export { AccessToken }
 
@@ -82,12 +74,8 @@ export class AzureCliCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
-// @public (undocumented)
-export interface AzureExtensionContext {
-    // Warning: (ae-forgotten-export) The symbol "msalNodeFlowPluginControl" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    nodeFlow: typeof msalNodeFlowPluginControl;
+// @public
+export interface AzureIdentityExtensionTypeMap {
 }
 
 // @public
@@ -207,32 +195,12 @@ export function getDefaultAzureCredential(): TokenCredential;
 export { GetTokenOptions }
 
 // @public
-export class IdentityClient extends ServiceClient implements INetworkModule {
-    constructor(options?: TokenCredentialOptions);
-    // (undocumented)
-    abortRequests(correlationId?: string): void;
-    // (undocumented)
-    authorityHost: string;
-    // (undocumented)
-    createWebResource(requestOptions: RequestPrepareOptions): WebResource;
-    // (undocumented)
-    generateAbortSignal(correlationId?: string): AbortSignalLike;
-    // (undocumented)
-    getCorrelationId(options?: NetworkRequestOptions): string | undefined;
-    // (undocumented)
-    refreshAccessToken(tenantId: string, clientId: string, scopes: string, refreshToken: string | undefined, clientSecret: string | undefined, expiresOnParser?: (responseBody: any) => number, options?: GetTokenOptions): Promise<TokenResponse | null>;
-    // (undocumented)
-    sendGetRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>>;
-    // (undocumented)
-    sendPostRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>>;
-    // (undocumented)
-    sendTokenRequest(webResource: WebResource, expiresOnParser?: (responseBody: any) => number): Promise<TokenResponse | null>;
-}
+export type IdentityExtension = keyof AzureIdentityExtensionTypeMap;
 
-// @public (undocumented)
-export interface IdentityExtension {
+// @public
+export interface IdentityExtensionModule {
     // (undocumented)
-    use: (context: AzureExtensionContext) => void;
+    default: IdentityExtension;
 }
 
 // @public
@@ -290,15 +258,7 @@ export interface TokenCredentialOptions extends PipelineOptions {
 }
 
 // @public
-export interface TokenResponse {
-    accessToken: AccessToken;
-    refreshToken?: string;
-}
-
-// @public
-export function useIdentityExtension<Extension extends IdentityExtension | PromiseLike<{
-    default: IdentityExtension;
-}>>(extension: Extension): Extension extends PromiseLike<unknown> ? Promise<void> : void;
+export function useIdentityExtension<Extension extends IdentityExtension | PromiseLike<IdentityExtensionModule>>(extension: Extension): Extension extends PromiseLike<unknown> ? Promise<void> : void;
 
 // @public
 export class UsernamePasswordCredential implements TokenCredential {

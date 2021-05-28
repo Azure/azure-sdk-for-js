@@ -5,8 +5,7 @@ import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-auth"
 import {
   AzureAuthorityHosts,
   CredentialUnavailableError,
-  TokenCredentialOptions,
-  IdentityClient
+  TokenCredentialOptions
 } from "@azure/identity";
 
 import fs from "fs";
@@ -14,8 +13,10 @@ import os from "os";
 import path from "path";
 
 import keytar from "keytar";
-import { credentialLogger, formatError, formatSuccess } from "./logging";
-import { checkTenantId } from "./checkTenantId";
+
+import { credentialLogger, formatError, formatSuccess } from "../../identity/src/util/logging";
+import { checkTenantId } from "../../identity/src/util/checkTenantId";
+import { IdentityClient } from "../../identity/src/client/identityClient";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'

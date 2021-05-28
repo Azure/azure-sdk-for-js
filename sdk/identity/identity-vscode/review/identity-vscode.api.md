@@ -6,16 +6,8 @@
 
 import { AccessToken } from '@azure/core-auth';
 import { GetTokenOptions } from '@azure/core-auth';
-import { IdentityExtension } from '@azure/identity';
 import { TokenCredential } from '@azure/core-auth';
 import { TokenCredentialOptions } from '@azure/identity';
-
-// @public (undocumented)
-const extension: IdentityExtension;
-
-export default extension;
-
-export { extension }
 
 // @public
 export class VisualStudioCodeCredential implements TokenCredential {
@@ -23,6 +15,11 @@ export class VisualStudioCodeCredential implements TokenCredential {
     constructor(options?: VisualStudioCodeCredentialOptions);
     getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
     }
+
+// @public (undocumented)
+const vscodeExtension: unique symbol;
+
+export default vscodeExtension;
 
 
 // (No @packageDocumentation comment for this package)

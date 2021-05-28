@@ -4,12 +4,10 @@
 
 ```ts
 
-import { IdentityExtension } from '@azure/identity';
-
 // @public (undocumented)
-const extension: IdentityExtension;
+const persistence: unique symbol;
 
-export default extension;
+export default persistence;
 
 
 // (No @packageDocumentation comment for this package)

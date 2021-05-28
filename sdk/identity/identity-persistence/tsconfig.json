@@ -10,5 +10,5 @@
       "@azure/identity-persistence": ["./src/index"]
     }
   },
-  "include": ["src/**/*", "test/**/*", "samples-dev/**/*"],
+  "include": ["src/**/*", "test/**/*", "samples-dev/**/*"]
 }

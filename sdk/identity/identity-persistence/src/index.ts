@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT license.
 
-import { IdentityExtension } from "@azure/identity";
+const persistence: unique symbol = Symbol("identity-persistence");
+declare module "@azure/identity" {
+  export interface AzureIdentityExtensionTypeMap {
+    [persistence]: "@azure/identity-persistence";
+  }
+}
+
+import { registerExtension } from "../../identity/src/extensionProvider";
 import { createPersistenceCachePlugin } from "./persistence";
 
-const extension: IdentityExtension = {
-  use: ({ nodeFlow }) => {
-    nodeFlow.persistence = createPersistenceCachePlugin;
-  }
-};
+registerExtension(persistence, ({ pluginControl }) => {
+  pluginControl.persistence = createPersistenceCachePlugin;
+});
 
-export default extension;
+export default persistence;
