@@ -140,15 +140,8 @@ describe("Model unit tests", () => {
     });
 
     it("convertRequestForMetrics (only required fields)", () => {
-      const defaultValue: GeneratedMetricsListOptionalParams = {
-        aggregation: undefined,
-        metric: undefined,
-        metricnamespace: undefined,
-        orderby: undefined
-      };
-
-      assert.deepEqual(convertRequestForMetrics({}), defaultValue);
-      assert.deepEqual(convertRequestForMetrics(undefined), defaultValue);
+      assert.deepEqual(convertRequestForMetrics(undefined), {});
+      assert.deepEqual(convertRequestForMetrics({}), {});
     });
 
     it("convertResponseForMetrics (all fields)", () => {
@@ -189,8 +182,7 @@ describe("Model unit tests", () => {
       };
 
       const actualConvertedResponse = convertResponseForMetrics(generatedResponse);
-
-      assert.deepEqual(actualConvertedResponse, <QueryMetricsResponse>{
+      const expectedResponse: QueryMetricsResponse = {
         timespan: "aTimespan",
         metrics: [
           {
@@ -222,7 +214,9 @@ describe("Model unit tests", () => {
         namespace: "aNamespace",
         resourceRegion: "aResourceRegion"
         // NOTE: _response is not returned as part of our track 2 response.
-      });
+      };
+
+      assert.deepEqual(actualConvertedResponse, expectedResponse);
     });
 
     it("convertRequestOptionsForMetricsDefinitions (all fields)", () => {
@@ -250,12 +244,8 @@ describe("Model unit tests", () => {
     });
 
     it("convertRequestOptionsForMetricsDefinitions (only required fields)", () => {
-      assert.deepEqual(convertRequestOptionsForMetricsDefinitions({}), {
-        metricnamespace: undefined
-      });
-      assert.deepEqual(convertRequestOptionsForMetricsDefinitions(undefined), {
-        metricnamespace: undefined
-      });
+      assert.deepEqual(convertRequestOptionsForMetricsDefinitions({}), {});
+      assert.deepEqual(convertRequestOptionsForMetricsDefinitions(undefined), {});
     });
 
     it("convertResponseForMetricsDefinitions", () => {

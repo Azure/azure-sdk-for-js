@@ -108,19 +108,28 @@ export function convertResponseForQueryBatch(
 export function convertRequestForMetrics(
   queryMetricsOptions: QueryMetricsOptions | undefined
 ): GeneratedMetricsListOptionalParams {
-  const obj: GeneratedMetricsListOptionalParams & QueryMetricsOptions = {
-    ...queryMetricsOptions,
-    orderby: queryMetricsOptions?.orderBy,
-    metric: queryMetricsOptions?.metricNames?.join(","),
-    aggregation: queryMetricsOptions?.aggregations?.join(","),
-    metricnamespace: queryMetricsOptions?.metricNamespace
+  if (!queryMetricsOptions) {
+    return {};
+  }
+
+  const { orderBy, metricNames, aggregations, metricNamespace, ...rest } = queryMetricsOptions;
+
+  const obj: GeneratedMetricsListOptionalParams = {
+    ...rest
   };
 
-  delete obj["orderBy"];
-  delete obj["metricNames"];
-  delete obj["aggregations"]; // delete our 'plural' aggregations (ie, 'aggregation' (non-plural) is the generated equivalent)
-  delete obj["metricNamespace"];
-
+  if (orderBy) {
+    obj.orderby = orderBy;
+  }
+  if (metricNames) {
+    obj.metric = metricNames.join(",");
+  }
+  if (aggregations) {
+    obj.aggregation = aggregations.join(",");
+  }
+  if (metricNamespace) {
+    obj.metricnamespace = metricNamespace;
+  }
   return obj;
 }
 
@@ -143,15 +152,16 @@ export function convertResponseForMetrics(
     };
   });
 
-  const obj: GeneratedMetricsListResponse & QueryMetricsResponse = {
-    ...generatedResponse,
-    resourceRegion: generatedResponse.resourceregion,
+  const { resourceregion, _response: _, value: _ignoredValue, ...rest } = generatedResponse;
+
+  const obj: QueryMetricsResponse = {
+    ...rest,
     metrics
   };
 
-  delete obj["resourceregion"];
-  delete (obj as any)["value"];
-  delete (obj as any)["_response"];
+  if (resourceregion) {
+    obj.resourceRegion = resourceregion;
+  }
 
   return obj;
 }
@@ -162,12 +172,20 @@ export function convertResponseForMetrics(
 export function convertRequestOptionsForMetricsDefinitions(
   options: GetMetricDefinitionsOptions | undefined
 ): GeneratedMetricDefinitionsListOptionalParams {
-  const obj = {
-    ...options,
-    metricnamespace: options?.metricNamespace
+  if (!options) {
+    return {};
+  }
+
+  const { metricNamespace, ...rest } = options;
+
+  const obj: GeneratedMetricDefinitionsListOptionalParams = {
+    ...rest
   };
 
-  delete obj["metricNamespace"];
+  if (metricNamespace) {
+    obj.metricnamespace = metricNamespace;
+  }
+
   return obj;
 }
 

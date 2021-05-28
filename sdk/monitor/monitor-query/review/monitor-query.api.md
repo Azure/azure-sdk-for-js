@@ -4,7 +4,6 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
@@ -191,14 +190,6 @@ export interface MetricValue {
 
 // @public
 export type NamespaceClassification = string;
-
-// @public
-export type QueryGetResponse = QueryResults & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: QueryResults;
-    };
-};
 
 // @public
 export interface QueryLogsBatch {

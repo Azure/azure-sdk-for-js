@@ -39,7 +39,6 @@ export {
   ColumnDataType,
   ErrorDetail,
   ErrorInfo,
-  QueryGetResponse,
   QueryResults,
   Table
 } from "./generated/logquery/src";
