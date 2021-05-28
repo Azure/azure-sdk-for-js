@@ -336,7 +336,7 @@ export type AzureCosmosDBDataFeedSource = {
 /**
  * Represents Service Principal in KV Authentication Type for Azure Data Explorer Source
  */
- export interface AzureDataExplorerAuthServicePrincipalInKV { 
+ export interface AzureDataExplorerAuthServicePrincipalInKeyVault { 
   authenticationType: "ServicePrincipalInKV";
   credentialId: string;
 };
@@ -361,7 +361,7 @@ export interface AzureDataExplorerAuthBasic {
 export type AzureDataExplorerAuthTypes = | AzureDataExplorerAuthBasic
 | AzureDataExplorerAuthManagedIdentity
 | AzureDataExplorerAuthServicePrincipal
-| AzureDataExplorerAuthServicePrincipalInKV;
+| AzureDataExplorerAuthServicePrincipalInKeyVault;
 /**
  * Represents an Azure Data Explorer data source.
  */
@@ -406,7 +406,7 @@ export type DataLakeStorageGen2AuthServicePrincipal = {
 /**
  * Represents Service Principal in KV Authentication Type for Azure DataLake Storage Gen2 Source
  */
-export type DataLakeStorageGen2AuthServicePrincipalInKV = {
+export type DataLakeStorageGen2AuthServicePrincipalInKeyVault = {
   /** Authentication */
   authenticationType: "ServicePrincipalInKV";
   /** Credential entity id */
@@ -429,7 +429,7 @@ export type DataLakeStorageGen2AuthSharedKey = {
  export type AzureDataLakeStorageGen2AuthTypes = | DataLakeStorageGen2AuthBasic
  | DataLakeStorageGen2AuthManagedIdentity
  | DataLakeStorageGen2AuthServicePrincipal
- | DataLakeStorageGen2AuthServicePrincipalInKV
+ | DataLakeStorageGen2AuthServicePrincipalInKeyVault
  | DataLakeStorageGen2AuthSharedKey;
 
 
@@ -455,33 +455,63 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
  */
 export type AzureTableDataFeedSource = {
   dataSourceType: "AzureTable";
-    /** Azure Table connection string */
-    connectionString: string;
-    /** Table name */
-    table: string;
-    /** Query script */
-    query: string;
-   /** Authentication type */
-    authenticationType: "Basic";
+  /** Azure Table connection string */
+  connectionString: string;
+  /** Table name */
+  table: string;
+  /** Query script */
+  query: string;
+  /** Authentication type */
+  authenticationType: "Basic";
 };
+
+/**
+ * Represents an Azure Log Analytics data source.
+ */
+export type AzureLogAnalyticsDataFeedSource = {
+  dataSourceType: "AzureLogAnalytics";
+  /** The tenant id of service principal that have access to this Log Analytics */
+  tenantId?: string;
+  /** The client id of service principal that have access to this Log Analytics */
+  clientId?: string;
+  /** The client secret of service principal that have access to this Log Analytics */
+  clientSecret?: string;
+  /** The workspace id of this Log Analytics */
+  workspaceId: string;
+  /** The KQL (Kusto Query Language) query to fetch data from this Log Analytics */
+  query: string;
+};
+
+/**
+ * Represents an Azure Event Hubs data source.
+ */
+ export type AzureEventHubsDataFeedSource = {
+  dataSourceType: "AzureEventHubs";
+  /** The connection string of this Azure Event Hubs */
+  connectionString?: string;
+  /** The consumer group to be used in this data feed */
+  consumerGroup: string;
+   /** Authentication type */
+  authenticationType: "Basic";
+ };
 
 /**
  * Represents an InfluxDB data source.
  */
 export type InfluxDBDataFeedSource = {
   dataSourceType: "InfluxDB";
-    /** InfluxDB connection string */
-    connectionString: string;
-    /** Database name */
-    database: string;
-    /** Database access user */
-    userName: string;
-    /** Database access password */
-    password: string;
-    /** Query script */
-    query: string;
-  /** Authentication type */
-    authenticationType: "Basic";
+  /** InfluxDB connection string */
+  connectionString: string;
+  /** Database name */
+  database: string;
+  /** Database access user */
+  userName: string;
+  /** Database access password */
+  password: string;
+  /** Query script */
+  query: string;
+/** Authentication type */
+  authenticationType: "Basic";
  
 };
 
@@ -561,7 +591,7 @@ export interface SqlServerAuthConnectionString {
 /**
  * Represents Service Principal in Keyvault Authentication for Sql Server datafeed source
  */
-export interface SqlServerAuthServicePrincipalInKV { 
+export interface SqlServerAuthServicePrincipalInKeyVault { 
   authenticationType: "ServicePrincipalInKV";
   credentialId: string;
   connectionString: string;
@@ -583,7 +613,7 @@ export type SqlServerAuthTypes = | SqlServerAuthBasic
 | SqlServerAuthManagedIdentity
 | SqlServerAuthConnectionString
 | SqlServerAuthServicePrincipal
-| SqlServerAuthServicePrincipalInKV;
+| SqlServerAuthServicePrincipalInKeyVault;
 
 /**
  * Represents a SQL Server data source.
@@ -608,6 +638,8 @@ export type DataFeedSource =
   | PostgreSqlDataFeedSource
   | SqlServerDataFeedSource
   | MongoDbDataFeedSource
+  | AzureLogAnalyticsDataFeedSource
+  | AzureEventHubsDataFeedSource
   | UnknownDataFeedSource;
 
 /**
@@ -1602,7 +1634,7 @@ export type GetHookResponse = NotificationHookUnion & {
 /**
  * Contains response data for the getCredentialEntity operation.
  */
- export type GetCredentialEntityResponse = DataSourceCredentialEntityUnion & {
+ export type GetCredentialEntityResponse = DatasourceCredentialUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -2043,7 +2075,7 @@ export type GetIngestionProgressResponse = {
   };
 };
 
-export interface DataSourceCredentialEntity {
+export interface DatasourceCredential {
   /**
    * Unique id of data source credential
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2055,17 +2087,17 @@ export interface DataSourceCredentialEntity {
   description?: string;
 }
 
-export interface SqlServerConnectionStringCredentialEntity extends DataSourceCredentialEntity {
+export interface SqlServerConnectionStringDatasourceCredential extends DatasourceCredential {
   type: "AzureSQLConnectionString";
   connectionString: string;
 }
 
-export interface DataLakeGen2SharedKeyCredentialEntity extends DataSourceCredentialEntity {
+export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCredential {
   type: "DataLakeGen2SharedKey";
   accountKey: string;
 }
 
-export interface ServicePrincipalCredentialEntity extends DataSourceCredentialEntity {
+export interface ServicePrincipalDatasourceCredential extends DatasourceCredential {
   type: "ServicePrincipal";
     /** The client id of the service principal. */
   clientId: string;
@@ -2075,7 +2107,7 @@ export interface ServicePrincipalCredentialEntity extends DataSourceCredentialEn
   tenantId: string;
 }
 
-export interface ServicePrincipalInKeyVaultCredentialEntity extends DataSourceCredentialEntity {
+export interface ServicePrincipalInKeyVaultDatasourceCredential extends DatasourceCredential {
   type: "ServicePrincipalInKV";
   /** The Key Vault endpoint that storing the service principal. */
   keyVaultEndpoint: string;
@@ -2091,19 +2123,19 @@ export interface ServicePrincipalInKeyVaultCredentialEntity extends DataSourceCr
   tenantId: string;
 }
 
-export type DataSourceCredentialEntityUnion =
-  | SqlServerConnectionStringCredentialEntity
-  | DataLakeGen2SharedKeyCredentialEntity
-  | ServicePrincipalCredentialEntity
-  | ServicePrincipalInKeyVaultCredentialEntity;
+export type DatasourceCredentialUnion =
+  | SqlServerConnectionStringDatasourceCredential
+  | DataLakeGen2SharedKeyDatasourceCredential
+  | ServicePrincipalDatasourceCredential
+  | ServicePrincipalInKeyVaultDatasourceCredential;
 
-export type DataSourceCredentialEntityPatch = Partial<Omit<DataSourceCredentialEntityUnion,"id">>&{type: 
+export type DatasourceCredentialPatch = Partial<Omit<DatasourceCredentialUnion,"id">>&{type: 
 |"AzureSQLConnectionString" | "DataLakeGen2SharedKey" | "ServicePrincipal" | "ServicePrincipalInKV" }
 
 /**
  * Contains response data for the listCredentials operation.
  */
-export interface CredentialsPageResponse extends Array<DataSourceCredentialEntityUnion> {
+export interface CredentialsPageResponse extends Array<DatasourceCredentialUnion> {
   /**
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */

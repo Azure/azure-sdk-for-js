@@ -28,14 +28,13 @@ import {
   PostgreSqlDataFeed as ServicePostgreSqlDataFeed,
   SQLServerDataFeed as ServiceSQLServerDataFeed,
   InfluxDBDataFeed as ServiceInfluxDBDataFeed,
+  AzureEventHubsDataFeed as ServiceAzureEventHubsDataFeed,
+  AzureLogAnalyticsDataFeed as ServiceAzureLogAnalyticsDataFeed,
   AnomalyDetectionConfigurationPatch as ServiceAnomalyDetectionConfigurationPatch,
   DataSourceCredentialUnion as ServiceDataSourceCredentialUnion,
   DataLakeGen2SharedKeyCredential,
-  DataSourceCredential,
   AzureSQLConnectionStringCredential,
-  DataLakeGen2SharedKeyCredentialPatch,
   ServicePrincipalCredential,
-  ServicePrincipalInKVParam,
   ServicePrincipalInKVCredential
 } from "./generated/models";
 import {
@@ -59,20 +58,18 @@ import {
   HardThresholdConditionUnion,
   ChangeThresholdConditionUnion,
   DataFeedGranularity,
-  DataSourceCredentialEntityPatch,
+  DatasourceCredentialPatch,
   AzureDataExplorerAuthTypes,
   AzureDataLakeStorageGen2AuthTypes,
   AzureDataLakeStorageGen2DataFeedSource,
-  SQLServerAuthTypes,
+  SqlServerAuthTypes,
   AnomalyDetectionConfigurationPatch,
-  SqlConnectionStringCredentialEntity,
-  DataSourceCredentialEntityUnion,
-  DataLakeGen2SharedKeyCredentialEntity,
-  DataSourceCredentialEntity,
-  ServicePrincipalCredentialEntity,
-  ServicePrincipalInKVCredentialEntity,
-  // DataSourceCredentialEntityUnion,
-  // SqlConnectionStringCredentialEntity
+  SqlServerConnectionStringDatasourceCredential,
+  DatasourceCredentialUnion,
+  DataLakeGen2SharedKeyDatasourceCredential,
+  DatasourceCredential,
+  ServicePrincipalDatasourceCredential,
+  ServicePrincipalInKeyVaultDatasourceCredential
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -591,7 +588,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
     }
     case "SqlServer": {
       const orig12 = original as ServiceSQLServerDataFeed;
-      let auth: SQLServerAuthTypes;
+      let auth: SqlServerAuthTypes;
       if (
         !original.authenticationType )
         {
@@ -629,6 +626,33 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         };
       return result12;
     }
+    case "AzureEventHubs":
+      const orig13 = original as ServiceAzureEventHubsDataFeed;
+      const result13: DataFeed = {
+        ...common,
+        source: {
+          dataSourceType: "AzureEventHubs",
+          connectionString : orig13.dataSourceParameter.connectionString,
+          consumerGroup: orig13.dataSourceParameter.consumerGroup,
+          authenticationType: "Basic"
+        }
+      };
+      return result13;
+    case "AzureLogAnalytics":
+      const orig14 = original as ServiceAzureLogAnalyticsDataFeed;
+      const result14: DataFeed = {
+        ...common,
+        source: {
+          dataSourceType: "AzureLogAnalytics",
+          clientId: orig14.dataSourceParameter.clientId,
+          clientSecret: orig14.dataSourceParameter.clientSecret,
+          tenantId: orig14.dataSourceParameter.tenantId,
+          query: orig14.dataSourceParameter.query,
+          workspaceId: orig14.dataSourceParameter.workspaceId,
+          authenticationType: "Basic"
+        }
+      };
+      return result14;
     default:
       return {
         ...common,
@@ -821,8 +845,8 @@ export function toServiceAlertConfigurationPatch(
   };
 }
 
-export function fromServiceCredential(result: ServiceDataSourceCredentialUnion): DataSourceCredentialEntityUnion {
-   const common: DataSourceCredentialEntity = {
+export function fromServiceCredential(result: ServiceDataSourceCredentialUnion): DatasourceCredentialUnion {
+   const common: DatasourceCredential = {
      "description": result.dataSourceCredentialDescription,
      "id": result.dataSourceCredentialId,
      "name": result.dataSourceCredentialName
@@ -860,7 +884,7 @@ export function fromServiceCredential(result: ServiceDataSourceCredentialUnion):
 }
 
 export function toServiceCredential(
-  from: DataSourceCredentialEntityUnion
+  from: DatasourceCredentialUnion
 ): ServiceDataSourceCredentialUnion {
   const common = {
   dataSourceCredentialId: from.id,
@@ -912,7 +936,7 @@ export function toServiceCredential(
 }
 
 export function toServiceCredentialPatch(
-  from: DataSourceCredentialEntityPatch
+  from: DatasourceCredentialPatch
 ): ServiceDataSourceCredentialPatch {
   const common = {
     dataSourceCredentialName: from.name,
@@ -920,7 +944,7 @@ export function toServiceCredentialPatch(
     };
   switch (from.type){
     case "AzureSQLConnectionString":
-      const cred1 = from as Partial<Omit<SqlConnectionStringCredentialEntity,"id">>;
+      const cred1 = from as Partial<Omit<SqlServerConnectionStringDatasourceCredential,"id">>;
       return {
         dataSourceCredentialType: from.type,
         parameters:{
@@ -928,7 +952,7 @@ export function toServiceCredentialPatch(
         }        
       };
     case "DataLakeGen2SharedKey":
-      const cred2 = from as Partial<DataLakeGen2SharedKeyCredentialEntity>;
+      const cred2 = from as Partial<DataLakeGen2SharedKeyDatasourceCredential>;
       return {
         ...common,
         dataSourceCredentialType: from.type,
@@ -937,7 +961,7 @@ export function toServiceCredentialPatch(
         }
       };
       case "ServicePrincipal":
-        const cred3 = from as Partial<ServicePrincipalCredentialEntity>;
+        const cred3 = from as Partial<ServicePrincipalDatasourceCredential>;
         return{
           ...common,
           dataSourceCredentialType: from.type,
@@ -948,7 +972,7 @@ export function toServiceCredentialPatch(
           }
         };
       case "ServicePrincipalInKV":
-        const cred4 = from as Partial<ServicePrincipalInKVCredentialEntity>;
+        const cred4 = from as Partial<ServicePrincipalInKeyVaultDatasourceCredential>;
         return {
           ...common,
           dataSourceCredentialType: from.type,
