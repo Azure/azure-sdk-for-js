@@ -85,6 +85,8 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
   > --secret-permissions:
   > Accepted values: backup, delete, get, list, purge, recover, restore, set
 
+  If you have enabled role-based access control (RBAC) for Key Vault instead, you can find roles like "Key Vault Secrets Officer" in our [RBAC guide](https://docs.microsoft.com/azure/key-vault/general/rbac-guide).
+
 - Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
   ```Bash
   az keyvault show --name <your-key-vault-name>

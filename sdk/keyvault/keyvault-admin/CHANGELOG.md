@@ -14,6 +14,10 @@
 - Removed `folderName` from `beginSelectiveRestore`. Now the folder name will be inferred from the `folderUri`.
 - Reordered the parameters of `beginSelectiveRestore` to `keyName`, `folderUrl`, `sasToken`, `[options]`.
 - Renamed `KeyVaultBackupResult`'s `backupFolderUri` to `folderUri`.
+- Renamed `beginSelectiveRestore` to `beginSelectiveKeyRestore`.
+- Renamed `KeyVaultBeginSelectiveRestoreOptions` to `KeyVaultBeginSelectiveKeyRestoreOptions`.
+- Renamed `KeyVaultSelectiveRestoreOperationState` to `KeyVaultSelectiveKeyRestoreOperationState`.
+- Renamed `KeyVaultSelectiveRestoreResult` to `KeyVaultSelectiveKeyRestoreResult`.
 
 ## 4.0.0-beta.3 (2021-04-06)
 

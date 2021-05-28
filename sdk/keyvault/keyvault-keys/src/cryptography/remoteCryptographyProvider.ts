@@ -27,7 +27,7 @@ import { challengeBasedAuthenticationPolicy } from "../../../keyvault-common";
 import { SDK_VERSION } from "../constants";
 import { UnwrapResult } from "../cryptographyClientModels";
 import { KeyVaultClient } from "../generated";
-import { parseKeyVaultKeyId } from "../identifier";
+import { parseKeyVaultKeyIdentifier } from "../identifier";
 import {
   CryptographyClientOptions,
   GetKeyOptions,
@@ -96,7 +96,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     }
 
     try {
-      const parsed = parseKeyVaultKeyId(keyId);
+      const parsed = parseKeyVaultKeyIdentifier(keyId);
       if (parsed.name === "") {
         throw new Error("Could not find 'name' of key in key URL");
       }

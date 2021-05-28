@@ -64,7 +64,8 @@ module.exports = function(config) {
       "COMMUNICATION_ENDPOINT",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
+      "AZURE_TENANT_ID",
+      "COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS"
     ],
 
     // test results reporter to use

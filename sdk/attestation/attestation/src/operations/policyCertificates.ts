@@ -7,8 +7,6 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
 import { AttestationClient } from "../attestationClient";
 import {
   PolicyCertificatesGetResponse,
@@ -37,13 +35,7 @@ export class PolicyCertificates {
   get(
     options?: coreHttp.OperationOptions
   ): Promise<PolicyCertificatesGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<PolicyCertificatesGetResponse>;
+    return this.client.BaseClient().policyCertificates.get(options);
   }
 
   /**
@@ -56,14 +48,7 @@ export class PolicyCertificates {
     policyCertificateToAdd: string,
     options?: coreHttp.OperationOptions
   ): Promise<PolicyCertificatesAddResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      policyCertificateToAdd,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      addOperationSpec
-    ) as Promise<PolicyCertificatesAddResponse>;
+    return this.client.BaseClient().policyCertificates.add(policyCertificateToAdd, options);
   }
 
   /**
@@ -78,69 +63,6 @@ export class PolicyCertificates {
     policyCertificateToRemove: string,
     options?: coreHttp.OperationOptions
   ): Promise<PolicyCertificatesRemoveResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      policyCertificateToRemove,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      removeOperationSpec
-    ) as Promise<PolicyCertificatesRemoveResponse>;
+    return this.client.BaseClient().policyCertificates.remove(policyCertificateToRemove, options);
   }
 }
-// Operation Specifications
-
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getOperationSpec: coreHttp.OperationSpec = {
-  path: "/certificates",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyCertificatesResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.instanceUrl],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const addOperationSpec: coreHttp.OperationSpec = {
-  path: "/certificates:add",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyCertificatesModifyResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.policyCertificateToAdd,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.instanceUrl],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
-  mediaType: "json",
-  serializer
-};
-const removeOperationSpec: coreHttp.OperationSpec = {
-  path: "/certificates:remove",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyCertificatesModifyResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.policyCertificateToRemove,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.instanceUrl],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
-  mediaType: "json",
-  serializer
-};

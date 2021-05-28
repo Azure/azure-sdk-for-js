@@ -20,7 +20,7 @@ import {
   SentenceSentiment,
   Opinion,
   AssessmentSentiment,
-  PiiEntityDomainType
+  PiiEntityDomain
 } from "../../src";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
@@ -587,7 +587,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
               language: "en"
             }
           ],
-          { domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION }
+          { domainFilter: PiiEntityDomain.PROTECTED_HEALTH_INFORMATION }
         );
         if (!result.error) {
           assert.equal(result.entities.length, 2);

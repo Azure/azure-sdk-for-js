@@ -1,0 +1,30 @@
+{
+  "name": "azure-communication-network-traversal-samples-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Communication Services - Network Traversal client library samples for JavaScript",
+  "engine": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/communication/communication-network-traversal"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "communication"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-network-traversal",
+  "dependencies": {
+    "@azure/communication-network-traversal": "next",
+    "dotenv": "latest",
+    "@azure/communication-identity": "^1.0.0"
+  }
+}

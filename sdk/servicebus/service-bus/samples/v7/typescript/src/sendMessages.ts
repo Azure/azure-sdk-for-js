@@ -13,7 +13,7 @@
  * @summary Demonstrates how to send messages to Service Bus Queue/Topic
  */
 
-import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusMessage, ServiceBusMessageBatch } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -23,12 +23,15 @@ dotenv.config();
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-const messages: ServiceBusMessage[] = [
+const firstSetOfMessages: ServiceBusMessage[] = [
   { body: "Albert Einstein" },
   { body: "Werner Heisenberg" },
   { body: "Marie Curie" },
   { body: "Steven Hawking" },
-  { body: "Isaac Newton" },
+  { body: "Isaac Newton" }
+];
+
+const secondSetOfMessages: ServiceBusMessage[] = [
   { body: "Niels Bohr" },
   { body: "Michael Faraday" },
   { body: "Galileo Galilei" },
@@ -45,27 +48,29 @@ export async function main() {
   try {
     // Tries to send all messages in a single batch.
     // Will fail if the messages cannot fit in a batch.
-    await sender.sendMessages(messages);
+    console.log(`Sending the first 5 scientists (as an array)`);
+    await sender.sendMessages(firstSetOfMessages);
 
     // Sends all messages using one or more ServiceBusMessageBatch objects as required
-    let batch = await sender.createMessageBatch();
+    let batch: ServiceBusMessageBatch = await sender.createMessageBatch();
 
-    for (let i = 0; i < messages.length; i++) {
-      const message = messages[i];
+    for (const message of secondSetOfMessages) {
       if (!batch.tryAddMessage(message)) {
         // Send the current batch as it is full and create a new one
         await sender.sendMessages(batch);
         batch = await sender.createMessageBatch();
 
-        if (!batch.tryAddMessage(messages[i])) {
+        if (!batch.tryAddMessage(message)) {
           throw new Error("Message too big to fit in a batch");
         }
       }
     }
     // Send the batch
+    console.log(`Sending the last 5 scientists (as a ServiceBusMessageBatch)`);
     await sender.sendMessages(batch);
 
     // Close the sender
+    console.log(`Done sending, closing...`);
     await sender.close();
   } finally {
     await sbClient.close();

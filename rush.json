@@ -333,6 +333,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/agrifood-farming",
+      "projectFolder": "sdk/agrifood/agrifood-farming-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-catalog",
       "projectFolder": "sdk/purview/purview-catalog-rest"
     },
@@ -399,6 +404,11 @@
     {
       "packageName": "@azure/communication-identity",
       "projectFolder": "sdk/communication/communication-identity",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-network-traversal",
+      "projectFolder": "sdk/communication/communication-network-traversal",
       "versionPolicyName": "client"
     },
     {
@@ -675,6 +685,10 @@
       "packageName": "@azure/video-analyzer-edge",
       "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
       "versionPolicyName": "client"
+    },
+    {      
+      "packageName": "@azure/iot-modelsrepository",
+      "projectFolder": "sdk/iot/iot-modelsrepository"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",

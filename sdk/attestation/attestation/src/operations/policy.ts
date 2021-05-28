@@ -7,8 +7,6 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
 import { AttestationClient } from "../attestationClient";
 import {
   AttestationType,
@@ -41,14 +39,7 @@ export class Policy {
     attestationType: AttestationType,
     options?: coreHttp.OperationOptions
   ): Promise<PolicyGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      attestationType,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<PolicyGetResponse>;
+    return this.client.BaseClient().policy.get(attestationType, options);
   }
 
   /**
@@ -64,15 +55,7 @@ export class Policy {
     newAttestationPolicy: string,
     options?: coreHttp.OperationOptions
   ): Promise<PolicySetModelResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      attestationType,
-      newAttestationPolicy,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      setOperationSpec
-    ) as Promise<PolicySetModelResponse>;
+    return this.client.BaseClient().policy.set(attestationType, newAttestationPolicy, options);
   }
 
   /**
@@ -87,70 +70,6 @@ export class Policy {
     policyJws: string,
     options?: coreHttp.OperationOptions
   ): Promise<PolicyResetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      attestationType,
-      policyJws,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      resetOperationSpec
-    ) as Promise<PolicyResetResponse>;
+    return this.client.BaseClient().policy.reset(attestationType, policyJws, options);
   }
 }
-// Operation Specifications
-
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getOperationSpec: coreHttp.OperationSpec = {
-  path: "/policies/{attestationType}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.instanceUrl, Parameters.attestationType],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const setOperationSpec: coreHttp.OperationSpec = {
-  path: "/policies/{attestationType}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.newAttestationPolicy,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.instanceUrl, Parameters.attestationType],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
-  mediaType: "text",
-  serializer
-};
-const resetOperationSpec: coreHttp.OperationSpec = {
-  path: "/policies/{attestationType}:reset",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.policyJws,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.instanceUrl, Parameters.attestationType],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
-  mediaType: "text",
-  serializer
-};
