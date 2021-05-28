@@ -53,9 +53,6 @@ export class LogsClient {
     // host.
     const serviceClientOptions = createPipelineFromOptions(options || {}, authPolicy);
 
-    // TODO: this is bit odd, but I don't see a proper way to "opt out" of passing in a credential here.
-    // serviceClient.ts has an explicit check to avoid using the credential you pass if you pass in your
-    // own requestPolicyFactory, as I'm doing. However, I don't see anyone else being "clever" like this.
     this._logAnalytics = new AzureLogAnalytics({
       ...serviceClientOptions,
       $host: options?.endpoint
