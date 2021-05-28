@@ -28,6 +28,29 @@ interface RemoteResolutionScenario {
 
 const remoteResolutionScenarios: RemoteResolutionScenario[] = [
   {
+    name: "dependencyResolution: disabled, single DTMI, no options",
+    clientOptions: {
+      dependencyResolution: "disabled",
+      repositoryLocation: "https://www.devicemodels.contoso.com"
+    },
+    getModelsOptions: undefined,
+    dtmis: [
+      {
+        dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+        expectedUri:
+          "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
+        mockedResponse: {
+          "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+          fakeDtdl: "fakeBodyAsText"
+        },
+        expectedOutputJson: {
+          "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+          fakeDtdl: "fakeBodyAsText"
+        }
+      }
+    ]
+  },
+  {
     name: "dependencyResolution: disabled, single DTMI, no dependencies",
     clientOptions: {
       dependencyResolution: "disabled",
