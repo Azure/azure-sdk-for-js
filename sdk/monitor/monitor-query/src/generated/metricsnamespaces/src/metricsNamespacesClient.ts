@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import { MetricNamespaces } from "./operations";
 import { MetricsNamespacesClientContext } from "./metricsNamespacesClientContext";
 import {
@@ -18,16 +17,14 @@ import {
 export class MetricsNamespacesClient extends MetricsNamespacesClientContext {
   /**
    * Initializes a new instance of the MetricsNamespacesClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     apiVersion: ApiVersion20171201Preview,
     options?: MetricsNamespacesClientOptionalParams
   ) {
-    super(credentials, apiVersion, options);
+    super(apiVersion, options);
     this.metricNamespaces = new MetricNamespaces(this);
   }
 

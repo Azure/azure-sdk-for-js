@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import { Metrics } from "./operations";
 import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 import {
@@ -18,16 +17,14 @@ import {
 export class MonitorManagementClient extends MonitorManagementClientContext {
   /**
    * Initializes a new instance of the MonitorManagementClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     apiVersion: ApiVersion20170501Preview,
     options?: MonitorManagementClientOptionalParams
   ) {
-    super(credentials, apiVersion, options);
+    super(apiVersion, options);
     this.metrics = new Metrics(this);
   }
 

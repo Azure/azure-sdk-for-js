@@ -18,17 +18,9 @@ export class AzureLogAnalyticsContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the AzureLogAnalyticsContext class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param options The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    options?: AzureLogAnalyticsOptionalParams
-  ) {
-    if (credentials === undefined) {
-      throw new Error("'credentials' cannot be null");
-    }
-
+  constructor(options?: AzureLogAnalyticsOptionalParams) {
     // Initializing default values for options
     if (!options) {
       options = {};
@@ -39,7 +31,7 @@ export class AzureLogAnalyticsContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(credentials, options);
+    super(undefined, options);
 
     this.requestContentType = "application/json; charset=utf-8";
 

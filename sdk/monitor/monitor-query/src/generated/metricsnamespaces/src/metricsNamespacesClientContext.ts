@@ -22,18 +22,13 @@ export class MetricsNamespacesClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the MetricsNamespacesClientContext class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     apiVersion: ApiVersion20171201Preview,
     options?: MetricsNamespacesClientOptionalParams
   ) {
-    if (credentials === undefined) {
-      throw new Error("'credentials' cannot be null");
-    }
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }
@@ -48,7 +43,7 @@ export class MetricsNamespacesClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(credentials, options);
+    super(undefined, options);
 
     this.requestContentType = "application/json; charset=utf-8";
 

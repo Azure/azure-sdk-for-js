@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import { Query, Metadata } from "./operations";
 import { AzureLogAnalyticsContext } from "./azureLogAnalyticsContext";
 import { AzureLogAnalyticsOptionalParams } from "./models";
@@ -15,14 +14,10 @@ import { AzureLogAnalyticsOptionalParams } from "./models";
 export class AzureLogAnalytics extends AzureLogAnalyticsContext {
   /**
    * Initializes a new instance of the AzureLogAnalytics class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param options The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    options?: AzureLogAnalyticsOptionalParams
-  ) {
-    super(credentials, options);
+  constructor(options?: AzureLogAnalyticsOptionalParams) {
+    super(options);
     this.query = new Query(this);
     this.metadata = new Metadata(this);
   }

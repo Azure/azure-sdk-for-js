@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import { MetricDefinitions } from "./operations";
 import { MetricsDefinitionsClientContext } from "./metricsDefinitionsClientContext";
 import {
@@ -18,16 +17,14 @@ import {
 export class MetricsDefinitionsClient extends MetricsDefinitionsClientContext {
   /**
    * Initializes a new instance of the MetricsDefinitionsClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     apiVersion: ApiVersion20170501Preview,
     options?: MetricsDefinitionsClientOptionalParams
   ) {
-    super(credentials, apiVersion, options);
+    super(apiVersion, options);
     this.metricDefinitions = new MetricDefinitions(this);
   }
 
