@@ -76,16 +76,16 @@ The [`MetricsClient`]<!--[msdocs_metrics_client]--> allows you to query metrics.
 The LogsClient can be used to query a Monitor workspace using the Kusto Query language.
 
 ```javascript
-const monitorQuery = require("@azure/monitor-query");
+const { LogsClient } = require("@azure/monitor-query");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
-const logsClient = new monitorQuery.LogsClient(new DefaultAzureCredential());
+const logsClient = new LogsClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
   const result = logsClient.queryLogs(azureLogAnalyticsWorkspaceId, kustoQuery);
-  const tablesFromResult: Table[] | undefined = result.tables;
+  const tablesFromResult = result.tables;
 
   if (tablesFromResult == null) {
     console.log(`No results for query '${kustoQuery}'`);
