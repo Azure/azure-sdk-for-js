@@ -76,10 +76,12 @@ matrix([[true, false]], async function(useAad) {
 
       try {
         await client.exchangeAADtokenForACStoken("invalid");
-        assert.fail("Should have thrown an error");
       } catch (e) {
         assert.equal(e.statusCode, 401);
+        return;
       }
+
+      assert.fail("Should have thrown an error");
     });
   });
 });
