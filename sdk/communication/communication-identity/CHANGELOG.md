@@ -2,7 +2,7 @@
 
 ## 1.1.0-beta.1 (Unreleased)
 
-- `CommunicationIdentityClient` added a new method `exchangeAADtokenForACStoken`.
+- `CommunicationIdentityClient` added a new method `exchangeAADtokenForACStoken` that provides the ability to exchange a Teams token for an ACS access token.
 
 ## 1.0.0 (2021-03-29)
 

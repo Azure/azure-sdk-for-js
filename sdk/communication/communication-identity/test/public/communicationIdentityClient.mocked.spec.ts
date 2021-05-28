@@ -10,7 +10,7 @@ import { assert } from "chai";
 import sinon from "sinon";
 import { CommunicationIdentityClient } from "../../src";
 import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdentityClient";
-import { exchangeAADtokenForACSTokenHttpClient, getTokenHttpClient } from "./utils/mockHttpClients";
+import { exchangeTeamsTokenHttpClient, getTokenHttpClient } from "./utils/mockHttpClients";
 
 describe("CommunicationIdentityClient [Mocked]", () => {
   const dateHeader = isNode ? "date" : "x-ms-date";
@@ -77,19 +77,19 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     assert.isFalse("_response" in newUser);
   });
 
-  it("exchanges AAD token for ACS token", async () => {
+  it("exchanges Teams token for ACS token", async () => {
     const client = new TestCommunicationIdentityClient();
-    const spy = sinon.spy(exchangeAADtokenForACSTokenHttpClient, "sendRequest");
-    const response = await client.exchangeAADtokenForACStokenTest("AADtoken");
+    const spy = sinon.spy(exchangeTeamsTokenHttpClient, "sendRequest");
+    const response = await client.exchangeTeamsTokenTest("TeamsToken");
 
     assert.equal(response.token, "token");
     assert.equal(response.expiresOn.toDateString(), new Date("2011/11/30").toDateString());
     sinon.assert.calledOnce(spy);
   });
 
-  it("[exchangeAADtokenForACSToken] excludes _response from results", async () => {
+  it("[exchangeTeamsToken] excludes _response from results", async () => {
     const client = new TestCommunicationIdentityClient();
-    const response = await client.exchangeAADtokenForACStokenTest("AADtoken");
+    const response = await client.exchangeTeamsTokenTest("TeamsToken");
 
     assert.isFalse("_response" in response);
   });

@@ -13,7 +13,9 @@ import {
 import { Context } from "mocha";
 
 matrix([[true, false]], async function(useAad) {
-  describe(`Exchange AAD token for ACS token [Playback/Live]${useAad ? " [AAD]" : ""}`, function() {
+  describe(`Exchange Teams token for ACS token [Playback/Live]${
+    useAad ? " [AAD]" : ""
+  }`, function() {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
@@ -42,7 +44,7 @@ matrix([[true, false]], async function(useAad) {
       }
     });
 
-    it("successfully exchanges an AAD token for an ACS token", async function() {
+    it("successfully exchanges a Teams token for an ACS token", async function() {
       recorder.skip();
 
       const msalConfig = {
@@ -63,19 +65,18 @@ matrix([[true, false]], async function(useAad) {
       const response = await pca.acquireTokenByUsernamePassword(request);
       assert.isNotNull(response);
 
-      const {
-        token,
-        expiresOn
-      }: CommunicationAccessToken = await client.exchangeAADtokenForACStoken(response!.accessToken);
+      const { token, expiresOn }: CommunicationAccessToken = await client.exchangeTeamsToken(
+        response!.accessToken
+      );
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     }).timeout(5000);
 
-    it("throws an error when attempting to exchange an invalid AAD token", async function() {
+    it("throws an error when attempting to exchange an invalid Teams token", async function() {
       recorder.skip();
 
       try {
-        await client.exchangeAADtokenForACStoken("invalid");
+        await client.exchangeTeamsToken("invalid");
       } catch (e) {
         assert.equal(e.statusCode, 401);
         return;
