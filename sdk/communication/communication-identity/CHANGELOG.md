@@ -1,7 +1,8 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.0-beta.1 (Unreleased)
 
+- `CommunicationIdentityClient` added a new method `exchangeAADtokenForACStoken`.
 
 ## 1.0.0 (2021-03-29)
 
