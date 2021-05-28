@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2021-05-28)
 
 Update the title and description of the package and updates to readme. 
 
