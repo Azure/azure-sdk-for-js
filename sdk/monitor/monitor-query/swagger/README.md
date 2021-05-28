@@ -8,7 +8,7 @@ output-folder: ../src/generated/logquery
 package-name: "monitor-log-query"
 clear-output-folder: true
 generate-metadata: false
-add-credentials: true
+add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 model-date-time-as-string: false
 optional-response-headers: true
@@ -26,7 +26,7 @@ output-folder: ../src/generated/metrics
 package-name: "monitor-metrics"
 clear-output-folder: true
 generate-metadata: false
-add-credentials: true
+add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 model-date-time-as-string: false
 optional-response-headers: true
@@ -44,7 +44,7 @@ output-folder: ../src/generated/metricsdefinitions
 package-name: "monitor-metrics-definitions"
 clear-output-folder: true
 generate-metadata: false
-add-credentials: true
+add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 model-date-time-as-string: false
 optional-response-headers: true
@@ -62,7 +62,7 @@ output-folder: ../src/generated/metricsnamespaces
 package-name: "monitor-metrics-namespaces"
 clear-output-folder: true
 generate-metadata: false
-add-credentials: true
+add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 model-date-time-as-string: false
 optional-response-headers: true

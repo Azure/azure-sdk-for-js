@@ -98,7 +98,7 @@ export class LogsClient {
 
 // @public (undocumented)
 export interface LogsClientOptions extends PipelineOptions {
-    host?: string;
+    endpoint?: string;
 }
 
 // @public
@@ -173,7 +173,6 @@ export class MetricsClient {
 
 // @public (undocumented)
 export interface MetricsClientOptions extends PipelineOptions {
-    $host?: string;
     endpoint?: string;
 }
 

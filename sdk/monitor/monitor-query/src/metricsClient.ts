@@ -37,8 +37,6 @@ import {
 } from "./internal/modelConverters";
 
 export interface MetricsClientOptions extends PipelineOptions {
-  /** server parameter */
-  $host?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
@@ -56,24 +54,21 @@ export class MetricsClient {
 
     const serviceClientOptions = {
       ...createPipelineFromOptions(options || {}, bearerTokenPolicy),
-      $host: options?.$host,
+      $host: options?.endpoint,
       endpoint: options?.endpoint
     };
 
     this._metricsClient = new GeneratedMetricsClient(
-      tokenCredential,
       MetricsApiVersion.TwoThousandSeventeen0501Preview,
       serviceClientOptions
     );
 
     this._definitionsClient = new GeneratedMetricsDefinitionsClient(
-      tokenCredential,
       MetricDefinitionsApiVersion.TwoThousandSeventeen0501Preview,
       serviceClientOptions
     );
 
     this._namespacesClient = new GeneratedMetricsNamespacesClient(
-      tokenCredential,
       MetricNamespacesApiVersion.TwoThousandSeventeen1201Preview,
       serviceClientOptions
     );
