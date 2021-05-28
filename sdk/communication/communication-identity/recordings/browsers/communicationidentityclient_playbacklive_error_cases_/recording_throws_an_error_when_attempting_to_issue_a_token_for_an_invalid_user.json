@@ -4,22 +4,23 @@
    "method": "POST",
    "url": "https://endpoint/identities/sanitized/:issueAccessToken",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2021-03-31-preview1"
    },
    "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
    "status": 401,
    "response": "{\"error\":{\"code\":\"IdentityNotOwned\",\"message\":\"Provided identity doesn't belong to the resource.\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
     "content-type": "application/json",
-    "date": "Sat, 24 Apr 2021 01:34:28 GMT",
-    "ms-cv": "Pmibq0YxfU6wFHn5a20eXg.0",
+    "date": "Thu, 27 May 2021 22:43:11 GMT",
+    "ms-cv": "7Z4o83H940WienBCK2EUhA.0",
     "request-context": "appId=",
     "status": "401",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0pHWDYAAAAADN7umZ13C9Q5V5N4QyWlXCWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-azure-ref": "0gCCwYAAAAABbKmon8voTQYgEoZVXPgDXV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+    "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "sanitized",
-    "x-processing-time": "13ms"
+    "x-processing-time": "16ms"
    }
   }
  ],
