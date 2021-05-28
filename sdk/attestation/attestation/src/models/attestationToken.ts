@@ -5,7 +5,7 @@
  */
 
 //import {JsonWebKey} from "../generated/models";
-import {base64UrlDecodeString, base64FromHex} from "../utils/base64";
+import {base64UrlDecodeString, hexToBase64} from "../utils/base64";
 import {AttestationSigningKey} from "./attestationSigningKey"
 import { KJUR, X509, RSAKey } from "jsrsasign"
 import { bytesToString } from "../utils/utf8.browser";
@@ -221,14 +221,14 @@ export class AttestationToken
      * @param signer - Optional signing key used to sign the newly created token.
      * @returns an {@link AttestationToken | attestation token}
      */
-    public static create(body: string, signer ?: AttestationSigningKey) : AttestationToken {
+    public static create(params: { body?: string, signer ?: AttestationSigningKey }) : AttestationToken {
         let header: {
             alg : string,
             [k:string]: any} = {alg:'none'};
 
-        if (signer) {
+        if (params.signer) {
             let x5c = new X509();
-            x5c.readCertPEM(signer?.certificate);
+            x5c.readCertPEM(params.signer?.certificate);
             let pubKey = x5c.getPublicKey();
             if (pubKey instanceof RSAKey) {
                 header.alg = "RS256"; 
@@ -239,17 +239,16 @@ export class AttestationToken
             else {
                 throw new Error("Unknown public key type: " + typeof pubKey);
             }
-            header.x5c = [ base64FromHex(x5c.hex) ];
+            header.x5c = [ hexToBase64(x5c.hex) ];
         }
         else
         {
             header.alg = "none";
         }
-    
-        let encodedToken = KJUR.jws.JWS.sign(header.alg, header, body, signer?.key);
+
+        let encodedToken = KJUR.jws.JWS.sign(header.alg, header, params.body??"", params.signer?.key);
         return new AttestationToken(encodedToken);
     }
-    
 };
 
 function isObject(thing: any) {

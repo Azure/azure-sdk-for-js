@@ -14,7 +14,6 @@ import {
 //import { OperationOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import {
-  Policy,
   PolicyCertificates,
 } from "./operations";
 import { GeneratedClient } from "./generated/generatedClient"
@@ -31,9 +30,7 @@ import {
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { GeneratedClientOptionalParams } from "./generated/models";
-import {
-  AttestationResult as AttestationResultMapper,
-} from "./generated/models/mappers";
+import * as Mappers from "./generated/models/mappers";
 
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AttestationResponse } from "./models/attestationResponse";
@@ -163,7 +160,6 @@ export class AttestationClient {
     this.instanceUrl = instanceUrl;
 
     // Legacy compatibility classes functions which will be removed eventually.
-    this.policy = new Policy(this);
     this.policyCertificates = new PolicyCertificates(this);
   }
 
@@ -203,7 +199,13 @@ export class AttestationClient {
 
       let token = new AttestationToken(attestationResponse.token);
 
-      let attestationResult = TypeDeserializer.deserialize(token.get_body(), AttestationResultMapper, "attestationResult") as AttestationResult;
+      let attestationResult = TypeDeserializer.deserialize(
+        token.get_body(),
+        {
+          AttestationResult: Mappers.AttestationResult,
+          JsonWebKey: Mappers.JsonWebKey,
+        },
+        "AttestationResult") as AttestationResult;
 
       let result = new AttestationResponse<AttestationResult>(token, attestationResult, attestationResult);
       return result;
@@ -240,7 +242,13 @@ export class AttestationClient {
       }, updatedOptions);
 
       let token = new AttestationToken(attestationResponse.token);
-      let attestationResult = TypeDeserializer.deserialize(token.get_body(), AttestationResultMapper, "attestationResult") as AttestationResult;
+      let attestationResult = TypeDeserializer.deserialize(
+        token.get_body(),
+        {
+          AttestationResult: Mappers.AttestationResult,
+          JsonWebKey: Mappers.JsonWebKey,
+        },
+        "AttestationResult") as AttestationResult;
 
       let result = new AttestationResponse<AttestationResult>(token, attestationResult, attestationResponse);
       return result;
@@ -322,11 +330,6 @@ export class AttestationClient {
   private _client: GeneratedClient;
 
   instanceUrl: string;
-
-  /**
-   * @ignore
-   */
-  policy: Policy;
 
   /**
    * @ignore

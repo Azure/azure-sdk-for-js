@@ -14,6 +14,10 @@ import { TokenCredential } from '@azure/core-http';
 export class AttestationAdministrationClient {
     constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationAdministrationClientOptions);
     getPolicy(attestationType: AttestationType, options?: GetPolicyOptions): Promise<AttestationResponse<string>>;
+    // (undocumented)
+    resetPolicy(attestationType: AttestationType, signingKey?: AttestationSigningKey, options?: GetPolicyOptions): Promise<AttestationResponse<PolicyResult>>;
+    // (undocumented)
+    setPolicy(attestationType: AttestationType, newPolicyDocument: string, signingKey?: AttestationSigningKey, options?: GetPolicyOptions): Promise<AttestationResponse<PolicyResult>>;
 }
 
 // @public
@@ -49,8 +53,6 @@ export class AttestationClient {
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
     // (undocumented)
     instanceUrl: string;
-    // (undocumented)
-    policy: Policy;
     // (undocumented)
     policyCertificates: PolicyCertificates;
 }
@@ -126,7 +128,7 @@ export class AttestationSigner {
     // @internal
     constructor(key: JsonWebKey_2);
     certificates: Uint8Array[];
-    keyId: string;
+    keyId?: string;
 }
 
 // @public
@@ -146,7 +148,10 @@ export class AttestationToken {
     get certificateSha256Thumbprint(): string | undefined;
     get certificateThumbprint(): string | undefined;
     get contentType(): string | undefined;
-    static create(body: string, signer?: AttestationSigningKey): AttestationToken;
+    static create(params: {
+        body?: string;
+        signer?: AttestationSigningKey;
+    }): AttestationToken;
     get critical(): boolean | undefined;
     get expirationTime(): Date | undefined;
     get_body(): any;
@@ -213,7 +218,7 @@ export class GeneratedClient extends GeneratedClientContext {
     // Warning: (ae-forgotten-export) The symbol "Policy" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    policy: Policy_2;
+    policy: Policy;
     // Warning: (ae-forgotten-export) The symbol "PolicyCertificates" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -289,13 +294,6 @@ export const enum KnownPolicyModification {
 }
 
 // @public
-export class Policy {
-    constructor(client: AttestationClient);
-    reset(attestationType: AttestationType, policyJws: string, options?: coreHttp.OperationOptions): Promise<PolicyResetResponse>;
-    set(attestationType: AttestationType, newAttestationPolicy: string, options?: coreHttp.OperationOptions): Promise<PolicySetModelResponse>;
-}
-
-// @public
 export class PolicyCertificates {
     constructor(client: AttestationClient);
     add(policyCertificateToAdd: string, options?: coreHttp.OperationOptions): Promise<PolicyCertificatesAddResponse>;
@@ -352,37 +350,23 @@ export interface PolicyCertificatesResult {
 export type PolicyModification = string;
 
 // @public
-export type PolicyResetResponse = PolicyResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyResponse;
-    };
-};
-
-// @public
-export interface PolicyResponse {
-    token?: string;
-}
-
-// @public
-export interface PolicyResult {
+export class PolicyResult {
+    // (undocumented)
+    static create(rawJson: any): PolicyResult;
     policy?: string;
     policyResolution?: PolicyModification;
-    policySigner?: JsonWebKey;
+    policySigner?: AttestationSigner;
     policyTokenHash?: Uint8Array;
 }
 
 // @public
-export type PolicySetModelResponse = PolicyResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyResponse;
-    };
-};
-
-// @public (undocumented)
-export interface StoredAttestationPolicy {
-    attestationPolicy?: Uint8Array;
+export class StoredAttestationPolicy {
+    constructor(value: string);
+    attestationPolicy: Uint8Array;
+    // (undocumented)
+    static deserialize(value: any): StoredAttestationPolicy;
+    // (undocumented)
+    serialize(): string;
 }
 
 // @public

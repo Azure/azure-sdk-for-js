@@ -78,6 +78,45 @@ describe("AttestationTokenTests", function() {
   });
 
   /**
+   * Creates an unsecured attestation token.
+   */
+   it("#createUnsecuredAttestationToken", async() => {
+
+    const sourceObject = JSON.stringify({foo: "foo", bar: 10});
+    const token = AttestationToken.create({body: sourceObject});
+
+    const body = token.get_body();
+    assert.deepEqual({foo: "foo", bar: 10}, body);
+    assert.equal("none", token.algorithm);
+  });
+
+  /**
+   * Creates an unsecured empty attestation token.
+   */
+    it("#createUnsecuredEmptyAttestationToken", async() => {
+      const token = AttestationToken.create({});
+  
+      // An empty unsecured attestation token has a well known value, check it.
+      assert('eyJhbGciOiJub25lIn0..', token.serialize());
+      const body = token.get_body();
+      assert.isNull(body);
+      assert.equal("none", token.algorithm);
+    });
+
+  /**
+   * Creates a secured empty attestation token with the specified key.
+   */
+  it("#createSecuredAttestationToken", async() => {
+    const key = createRSAKey();
+    const cert = createX509Certificate(key, "certificate");
+
+    const token = AttestationToken.create({signer: new AttestationSigningKey(key, cert)});
+
+    assert.notEqual("none", token.algorithm);
+  });
+
+  
+  /**
    * Creates a secured attestation token with the specified key.
    */
   it("#createSecuredAttestationToken", async() => {
@@ -85,24 +124,11 @@ describe("AttestationTokenTests", function() {
     const cert = createX509Certificate(key, "certificate");
 
     const sourceObject = JSON.stringify({foo: "foo", bar: 10});
-    const token = AttestationToken.create(sourceObject, new AttestationSigningKey(key, cert));
+    const token = AttestationToken.create({body: sourceObject, signer: new AttestationSigningKey(key, cert)});
 
     const body = token.get_body();
     assert.deepEqual({foo: "foo", bar: 10}, body);
     assert.notEqual("none", token.algorithm);
-  });
-
-  /**
-   * Creates an unsecured attestation token.
-   */
-   it("#createUnsecuredAttestationToken", async() => {
-
-    const sourceObject = JSON.stringify({foo: "foo", bar: 10});
-    const token = AttestationToken.create(sourceObject);
-
-    const body = token.get_body();
-    assert.deepEqual({foo: "foo", bar: 10}, body);
-    assert.equal("none", token.algorithm);
   });
 
   it("#should serialize", () => {

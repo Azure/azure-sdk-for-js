@@ -13,16 +13,8 @@ export * from "./attestationSigningKey";
 export * from "./attestationToken";
 export * from "./attestationData";
 export * from "./attestationResponse";
-
-/**
- * The response to an attestation policy operation
- */
-export interface PolicyResponse {
-  /**
-   * An RFC7519 JSON Web Token structure whose body is an PolicyResult object.
-   */
-  token?: string;
-}
+export * from "./storedAttestationPolicy";
+export * from "./policyResult";
 
 /**
  * An error response from Attestation.
@@ -227,35 +219,6 @@ export interface PolicyCertificatesModificationResult {
    * The result of the operation
    */
   certificateResolution?: CertificateModification;
-}
-
-export interface StoredAttestationPolicy {
-  /**
-   * Policy text to set as a sequence of UTF-8 encoded octets.
-   */
-  attestationPolicy?: Uint8Array;
-}
-
-/**
- * The result of a policy certificate modification
- */
-export interface PolicyResult {
-  /**
-   * The result of the operation
-   */
-  policyResolution?: PolicyModification;
-  /**
-   * The SHA256 hash of the policy object modified
-   */
-  policyTokenHash?: Uint8Array;
-  /**
-   * The certificate used to sign the policy object, if specified
-   */
-  policySigner?: JsonWebKey;
-  /**
-   * A JSON Web Token containing a StoredAttestationPolicy object with the attestation policy
-   */
-  policy?: string;
 }
 
 /**
@@ -500,46 +463,6 @@ export const enum KnownPolicyModification {
  * **Removed**: The specified policy object was removed.
  */
 export type PolicyModification = string;
-
-/**
- * Contains response data for the set operation.
- */
-export type PolicySetModelResponse = PolicyResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyResponse;
-  };
-};
-
-/**
- * Contains response data for the reset operation.
- */
-export type PolicyResetResponse = PolicyResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyResponse;
-  };
-};
 
 /**
  * Contains response data for the get operation.

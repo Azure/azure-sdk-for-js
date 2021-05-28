@@ -12,12 +12,40 @@ import { Serializer, Mapper } from "@azure/core-http";
  */
 export class TypeDeserializer {
 
-    public static deserialize(rawJson: any, bodyMapper: Mapper, bodyTypeName: string) : unknown {
-        const serializer = new Serializer({ bodyMapper });
-        return serializer.deserialize(
-            bodyMapper,
-            rawJson,
-            bodyTypeName
-          );
-    };
+  /**
+   * Deserializes a JSON object into a model type.
+   * @param rawJson - The JSON encoded object to convert into model type.
+   * @param bodyMapper - A {@link Mapper[]} object which defines the model properties for the type.
+   *   The first entry in the array MUST be the mapper for the type being decoded.
+   * @param bodyTypeName - The name of the type of the body.
+   * @returns The deserialized type. It is the responsibility of the caller to cast to the
+   *      expected return type.
+   * 
+   * @internal
+   */
+  public static deserialize(rawJson: any, typeMappers: { [key: string]: any}, bodyTypeName: string) : unknown {
+    const serializer = new Serializer( typeMappers );
+    return serializer.deserialize(
+      typeMappers[bodyTypeName],
+      rawJson,
+      bodyTypeName
+      );
+  };
+
+  /**
+   * Serializes a JSON object into a model type.
+    * @param objectToSerialize - The JSON encoded object to convert into model type.
+    * @param bodyMapper - A {@link Mapper} object which defines the model properties for the type.
+    * @param bodyTypeName - The name of the type of the body.
+    * @returns The deserialized type. It is the responsibility of the caller to cast to the
+    *      expected return type.
+    * 
+    * @internal
+    */
+  public static serialize(objectToSerialize: any, bodyMapper: Mapper) : string {
+    const serializer = new Serializer({ bodyMapper });
+      return JSON.stringify(serializer.serialize(
+        bodyMapper,
+        objectToSerialize));
+  };
 }

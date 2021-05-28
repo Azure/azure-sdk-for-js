@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KJUR, KEYUTIL } from "jsrsasign"
+import { KJUR, KEYUTIL } from "jsrsasign";
+import { hexToByteArray } from "../../src/utils/base64"
 
 export function createECDSKey() : string
 {
-    const keyPair = KEYUTIL.generateKeypair("EC", "secp256r1");
-    return KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV");
+  const keyPair = KEYUTIL.generateKeypair("EC", "secp256r1");
+  return KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV");
 }
 
 export function createRSAKey() : string
 {
-    const keyPair = KEYUTIL.generateKeypair("RSA", 2048);
-    return KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV");
+  const keyPair = KEYUTIL.generateKeypair("RSA", 2048);
+  return KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV");
 }
 
 function localDateToUtc(d : Date) : Date {
@@ -21,8 +22,8 @@ function localDateToUtc(d : Date) : Date {
 }
 
 function zeroPadding(s : string, len : number) : any {
-    if (s.length >= len) return s;
-    return new Array(len - s.length + 1).join('0') + s;
+  if (s.length >= len) return s;
+  return new Array(len - s.length + 1).join('0') + s;
 };
 
 function formatDateString(dateObject : Date) : string {
@@ -68,4 +69,11 @@ export function createX509Certificate(key: string, subject_name: string) : strin
   return cert.getPEMString();
 
 //    builder = builder.add_extension(SubjectAlternativeName([x509.DNSName(subject_name)]), critical=False)
+}
+
+/**
+ * Generate the SHA256 hash of the specified buffer.
+ */
+export function generateSha256Hash(buffer : string) : Uint8Array {
+  return hexToByteArray(KJUR.crypto.Util.hashString(buffer, "sha256"));
 }

@@ -77,14 +77,10 @@ export function getIsolatedSigningKey() : AttestationSigningKey {
   pemCert += signingCert + "\r\n";
   pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
-  console.log("PEM Cert:", pemCert);
-
   const signingKey = env.ATTESTATION_ISOLATED_SIGNING_KEY;
   let pemKey = "-----BEGIN PRIVATE KEY-----\r\n";
   pemKey += signingKey + "\r\n";
   pemKey += "-----END PRIVATE KEY-----\r\n";
-
-  console.log("PEM Key:", pemKey);
 
   return new AttestationSigningKey(pemKey, pemCert);
 }
