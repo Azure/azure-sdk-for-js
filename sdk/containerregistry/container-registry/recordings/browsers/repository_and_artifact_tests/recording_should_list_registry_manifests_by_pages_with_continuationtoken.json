@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1361",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 19:33:19 GMT",
+    "date": "Fri, 28 May 2021 22:17:20 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.21 - WUS2 ProdSlices",
-    "x-ms-request-id": "6ae3f521-c770-4e16-a467-2e8be0732000"
+    "x-ms-ests-server": "2.1.11722.21 - EUS ProdSlices",
+    "x-ms-request-id": "425c4443-000f-4a97-90d1-0af468906f00"
    }
   },
   {
@@ -40,13 +40,13 @@
     "connection": "keep-alive",
     "content-length": "222",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 19:33:19 GMT",
+    "date": "Fri, 28 May 2021 22:17:20 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:metadata_read\",error=\"invalid_token\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "0b985e4f-b49c-4a31-8fa3-183d20d26ca8"
+    "x-ms-correlation-request-id": "142c37b0-82c5-43a8-8f80-4b02a5297169"
    }
   },
   {
@@ -60,7 +60,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1361",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 19:33:19 GMT",
+    "date": "Fri, 28 May 2021 22:17:20 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -69,8 +69,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.21 - SCUS ProdSlices",
-    "x-ms-request-id": "facd3006-cf1e-4c0e-9e12-9e1a6b295f00"
+    "x-ms-ests-server": "2.1.11722.26 - SCUS ProdSlices",
+    "x-ms-request-id": "1a7df61e-ec54-421d-8c4b-faa17d6c0100"
    }
   },
   {
@@ -83,12 +83,12 @@
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 19:33:20 GMT",
+    "date": "Fri, 28 May 2021 22:17:21 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "23c91cd0-35eb-4819-a930-efd79571b348",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.4"
+    "x-ms-correlation-request-id": "6d4560aa-1686-4245-96a8-24767165a906",
+    "x-ms-ratelimit-remaining-calls-per-second": "166.333333"
    }
   },
   {
@@ -101,12 +101,12 @@
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 19:33:20 GMT",
+    "date": "Fri, 28 May 2021 22:17:21 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "7b47dddc-96a5-4e2e-82ba-61c4a155a175",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.383333"
+    "x-ms-correlation-request-id": "d695ee7c-a2c2-46bd-8404-d46b4a7171d6",
+    "x-ms-ratelimit-remaining-calls-per-second": "166.316667"
    }
   },
   {
@@ -125,13 +125,13 @@
     "connection": "keep-alive",
     "content-length": "510",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 28 May 2021 19:33:20 GMT",
+    "date": "Fri, 28 May 2021 22:17:21 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "link": "</acr/v1/library%2Fhello-world/_manifests?last=sha256%3A50b8560ad574c779908da71f7ce370c0a2471c098d44d1c8f6b513c5a55eeeb1&n=1&orderby=>; rel=\"next\"",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "148cf03e-66d3-419e-839f-add7a54847d5"
+    "x-ms-correlation-request-id": "c6b6375c-5d10-450b-bd5e-b177f1929384"
    }
   }
  ],
@@ -139,5 +139,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "184be7036d2ab9d203af0c6b4ec9ae2e"
+ "hash": "9998aa06a91fc21cc30107288edf21c1"
 }

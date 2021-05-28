@@ -58,7 +58,7 @@ describe("ContainerRegistryClient tests", function() {
   it("should list repositories by pages with continuationToken", async () => {
     const continuationToken = "/acr/v1/_catalog?last=busybox&n=1&orderby=";
     const iterator = client.listRepositoryNames().byPage({ continuationToken });
-    let result = await iterator.next();
+    const result = await iterator.next();
     assert.equal(result.value.length, 1, "Expecting one tag in first page");
   });
 

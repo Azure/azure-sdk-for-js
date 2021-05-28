@@ -62,7 +62,7 @@ describe("Repository and artifact tests", function() {
     const continuationToken =
       "/acr/v1/library%2Fhello-world/_manifests?last=sha256%3A1b26826f602946860c279fce658f31050cff2c596583af237d971f4629b57792&n=1&orderby=";
     const iterator = repository.listManifestProperties().byPage({ continuationToken });
-    let result = await iterator.next();
+    const result = await iterator.next();
     assert.equal(result.value.length, 1, "Expecting one artifact in first page");
     if (!result.done) {
       assert.ok(result.value[0].digest!, "Expecting valid digest for the artifact");
@@ -90,7 +90,7 @@ describe("Repository and artifact tests", function() {
     const continuationToken = "/acr/v1/library%2Fhello-world/_tags?last=test-delete&n=1&orderby=";
     const artifact = repository.getArtifact(artifactDigest);
     const iterator = artifact.listTagProperties().byPage({ continuationToken });
-    let result = await iterator.next();
+    const result = await iterator.next();
     assert.equal(result.value.length, 1, "Expecting one tag in first page");
   });
 
@@ -125,15 +125,15 @@ describe("Repository and artifact tests", function() {
         canDelete: false,
         canList: false,
         canRead: false,
-        canWrite: false,
-        teleportEnabled: true
+        canWrite: false
+        // teleportEnabled: true
       });
 
       assert.strictEqual(updated.canDelete, false);
       assert.strictEqual(updated.canList, false);
       assert.strictEqual(updated.canRead, false);
       assert.strictEqual(updated.canWrite, false);
-      assert.strictEqual(updated.teleportEnabled, true);
+      // assert.strictEqual(updated.teleportEnabled, true);
     } finally {
       await repository.updateProperties(original);
     }
