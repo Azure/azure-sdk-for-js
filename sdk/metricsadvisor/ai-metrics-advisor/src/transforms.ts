@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { type } from "os";
 import {
   AnomalyDetectionConfiguration as ServiceAnomalyDetectionConfiguration,
   AnomalyAlertingConfiguration as ServiceAnomalyAlertingConfiguration,
@@ -71,6 +69,8 @@ import {
   DataSourceCredentialEntityUnion,
   DataLakeGen2SharedKeyCredentialEntity,
   DataSourceCredentialEntity,
+  ServicePrincipalCredentialEntity,
+  ServicePrincipalInKVCredentialEntity,
   // DataSourceCredentialEntityUnion,
   // SqlConnectionStringCredentialEntity
 } from "./models";
@@ -911,50 +911,56 @@ export function toServiceCredential(
     };
 }
 
-// export function toServiceCredentialPatch(
-//   from: DataSourceCredentialEntityPatch
-// ): ServiceDataSourceCredentialPatch {
-//   //throw new Error("Not Yet Implemented");
-//   switch (from.type){
-//     case "AzureSQLConnectionString":
-//       const parameters = {
-      
-//       };
-//       return {
-//         dataSourceCredentialType: from.type,
-//         parameters
-//       };
-//     case "DataLakeGen2SharedKey":
-//       return {
-//         ...common,
-//         dataSourceCredentialType: from.type,
-//         parameters: {
-//          accountKey: from.accountKey
-//         }
-//       };
-//       case "ServicePrincipal":
-//         return{
-//           ...common,
-//           dataSourceCredentialType: from.type,
-//           parameters: {
-//             clientId: from.clientId,
-//             clientSecret: from.clientSecret,
-//             tenantId: from.tenantId
-//           }
-//         };
-//       case "ServicePrincipalInKV":
-//         return {
-//           ...common,
-//           dataSourceCredentialType: from.type,
-//           parameters: {
-//             keyVaultEndpoint: from.keyVaultEndpoint,
-//             keyVaultClientId: from.keyVaultClientId,
-//             keyVaultClientSecret: from.keyVaultClientSecret,
-//             servicePrincipalIdNameInKV: from.servicePrincipalIdNameInKV,
-//             servicePrincipalSecretNameInKV: from.servicePrincipalSecretNameInKV,
-//             tenantId: from.tenantId
-//           }
-//         }
-//     };
-// }
+export function toServiceCredentialPatch(
+  from: DataSourceCredentialEntityPatch
+): ServiceDataSourceCredentialPatch {
+  const common = {
+    dataSourceCredentialName: from.name,
+    dataSourceCredentialDescription: from.description  
+    };
+  switch (from.type){
+    case "AzureSQLConnectionString":
+      const cred1 = from as Partial<Omit<SqlConnectionStringCredentialEntity,"id">>;
+      return {
+        dataSourceCredentialType: from.type,
+        parameters:{
+          connectionString: cred1.connectionString
+        }        
+      };
+    case "DataLakeGen2SharedKey":
+      const cred2 = from as Partial<DataLakeGen2SharedKeyCredentialEntity>;
+      return {
+        ...common,
+        dataSourceCredentialType: from.type,
+        parameters: {
+         accountKey: cred2.accountKey
+        }
+      };
+      case "ServicePrincipal":
+        const cred3 = from as Partial<ServicePrincipalCredentialEntity>;
+        return{
+          ...common,
+          dataSourceCredentialType: from.type,
+          parameters: {
+            clientId: cred3.clientId,
+            clientSecret: cred3.clientSecret,
+            tenantId: cred3.tenantId
+          }
+        };
+      case "ServicePrincipalInKV":
+        const cred4 = from as Partial<ServicePrincipalInKVCredentialEntity>;
+        return {
+          ...common,
+          dataSourceCredentialType: from.type,
+          parameters: {
+            keyVaultEndpoint: cred4.keyVaultEndpoint,
+            keyVaultClientId: cred4.keyVaultClientId,
+            keyVaultClientSecret: cred4.keyVaultClientSecret,
+            servicePrincipalIdNameInKV: cred4.servicePrincipalIdNameInKV,
+            servicePrincipalSecretNameInKV: cred4.servicePrincipalSecretNameInKV,
+            tenantId: cred4.tenantId
+          }
+        }
+    };
+}
 

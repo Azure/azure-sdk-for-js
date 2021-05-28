@@ -2,18 +2,13 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
+import { type } from "os";
 
 import {
-  SqlSourceParameter,
   SuppressCondition,
   SmartDetectionCondition,
   AzureApplicationInsightsParameter,
-  AzureBlobParameter,
   AzureCosmosDBParameter,
-  AzureDataLakeStorageGen2Parameter,
-  AzureTableParameter,
-  InfluxDBParameter,
-  MongoDBParameter,
   EmailHookParameter,
   WebhookHookParameter,
   TopNGroupScope,
@@ -21,11 +16,7 @@ import {
   SeverityCondition,
   AlertSnoozeCondition,
   IngestionStatusType,
-  EntityStatus as DataFeedDetailStatus,
-  AzureSQLConnectionStringParam,
-  DataLakeGen2SharedKeyParam,
-  ServicePrincipalParam,
-  ServicePrincipalInKVParam
+  EntityStatus as DataFeedDetailStatus
 } from "./generated/models";
 
 export {
@@ -35,21 +26,10 @@ export {
   SmartDetectionCondition,
   TopNGroupScope,
   AzureApplicationInsightsParameter,
-  AzureBlobParameter,
-  AzureCosmosDBParameter,
-  SqlSourceParameter,
-  AzureDataLakeStorageGen2Parameter,
-  AzureTableParameter,
-  InfluxDBParameter,
-  MongoDBParameter,
   SuppressCondition,
   EmailHookParameter,
   WebhookHookParameter,
-  DataFeedDetailStatus,
-  AzureSQLConnectionStringParam,
-  DataLakeGen2SharedKeyParam,
-  ServicePrincipalParam,
-  ServicePrincipalInKVParam
+  DataFeedDetailStatus
 };
 
 // not used directly here but needed by public API surface.
@@ -336,6 +316,7 @@ export type AzureBlobDataFeedSource = {
     authenticationType: "Basic" | "ManagedIdentity";
 };
 
+export type AzureCosmosDbParameter = AzureCosmosDBParameter;
 /**
  * Represents an Azure CosmosDB data source.
  */
@@ -343,7 +324,7 @@ export type AzureCosmosDBDataFeedSource = {
   dataSourceType: "AzureCosmosDB";
   /** Authentication Type */
   authenticationType: "Basic";
-}& AzureCosmosDBParameter 
+}& AzureCosmosDbParameter 
 
 /**
  * Represents Service Principal Authentication Type for Azure Data Explorer Source
@@ -534,7 +515,7 @@ export type PostgreSqlDataFeedSource = {
 /**
  * Represents a MongoDB data source.
  */
-export type MongoDBDataFeedSource = {
+export type MongoDbDataFeedSource = {
   dataSourceType: "MongoDB";
     /** MongoDB connection string */
     connectionString: string;
@@ -557,7 +538,7 @@ export type UnknownDataFeedSource = {
 /**
  * Represents Basic Authentication for Sql Server datafeed source
  */
-export interface SQLServerAuthBasic {
+export interface SqlServerAuthBasic {
   authenticationType: "Basic";
   connectionString: string;
 }
@@ -565,7 +546,7 @@ export interface SQLServerAuthBasic {
 /**
  * Represents Managed Identity Authentication for Sql Server datafeed source
  */
-export interface SQLServerAuthManagedIdentity{
+export interface SqlServerAuthManagedIdentity{
   authenticationType: "ManagedIdentity";
   connectionString: string;
 }
@@ -573,7 +554,7 @@ export interface SQLServerAuthManagedIdentity{
 /**
  * Represents Azure SQL Connection String Authentication for Sql Server datafeed source
  */
-export interface SQLServerAuthConnectionString { 
+export interface SqlServerAuthConnectionString { 
   authenticationType: "AzureSQLConnectionString";
   credentialId: string;
 }
@@ -581,7 +562,7 @@ export interface SQLServerAuthConnectionString {
 /**
  * Represents Service Principal in Keyvault Authentication for Sql Server datafeed source
  */
-export interface SQLServerAuthServicePrincipalInKV { 
+export interface SqlServerAuthServicePrincipalInKV { 
   authenticationType: "ServicePrincipalInKV";
   credentialId: string;
   connectionString: string;
@@ -590,7 +571,7 @@ export interface SQLServerAuthServicePrincipalInKV {
 /**
  * Represents Service Principal Authentication for Sql Server datafeed source
  */
-export interface SQLServerAuthServicePrincipal { 
+export interface SqlServerAuthServicePrincipal { 
   authenticationType: "ServicePrincipal";
   credentialId: string;
   connectionString: string;
@@ -599,19 +580,19 @@ export interface SQLServerAuthServicePrincipal {
 /**
  * Represents Authentication Type Union for Sql Server datafeed source
  */
-export type SQLServerAuthTypes = | SQLServerAuthBasic
-| SQLServerAuthManagedIdentity
-| SQLServerAuthConnectionString
-| SQLServerAuthServicePrincipal
-| SQLServerAuthServicePrincipalInKV;
+export type SqlServerAuthTypes = | SqlServerAuthBasic
+| SqlServerAuthManagedIdentity
+| SqlServerAuthConnectionString
+| SqlServerAuthServicePrincipal
+| SqlServerAuthServicePrincipalInKV;
 
 /**
  * Represents a SQL Server data source.
  */
- export type SQLServerDataFeedSource = {
+ export type SqlServerDataFeedSource = {
   dataSourceType: "SqlServer";  
   query: string;  
-} & SQLServerAuthTypes;
+} & SqlServerAuthTypes;
 
 /**
  * A union type of all supported data sources.
@@ -626,8 +607,8 @@ export type DataFeedSource =
   | InfluxDBDataFeedSource
   | MySqlDataFeedSource
   | PostgreSqlDataFeedSource
-  | SQLServerDataFeedSource
-  | MongoDBDataFeedSource
+  | SqlServerDataFeedSource
+  | MongoDbDataFeedSource
   | UnknownDataFeedSource;
 
 /**
@@ -1618,6 +1599,27 @@ export type GetHookResponse = NotificationHookUnion & {
   };
 };
 
+
+/**
+ * Contains response data for the getCredentialEntity operation.
+ */
+ export type GetCredentialEntityResponse = DataSourceCredentialEntityUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
+};
+
 /**
  * Contains response data for the getMetricEnrichedSeriesData operation.
  */
@@ -2054,7 +2056,7 @@ export interface DataSourceCredentialEntity {
   description?: string;
 }
 
-export interface SqlConnectionStringCredentialEntity extends DataSourceCredentialEntity {
+export interface SqlServerConnectionStringCredentialEntity extends DataSourceCredentialEntity {
   type: "AzureSQLConnectionString";
   connectionString: string;
 }
@@ -2074,7 +2076,7 @@ export interface ServicePrincipalCredentialEntity extends DataSourceCredentialEn
   tenantId: string;
 }
 
-export interface ServicePrincipalInKVCredentialEntity extends DataSourceCredentialEntity {
+export interface ServicePrincipalInKeyVaultCredentialEntity extends DataSourceCredentialEntity {
   type: "ServicePrincipalInKV";
   /** The Key Vault endpoint that storing the service principal. */
   keyVaultEndpoint: string;
@@ -2091,10 +2093,10 @@ export interface ServicePrincipalInKVCredentialEntity extends DataSourceCredenti
 }
 
 export type DataSourceCredentialEntityUnion =
-  | SqlConnectionStringCredentialEntity
+  | SqlServerConnectionStringCredentialEntity
   | DataLakeGen2SharedKeyCredentialEntity
   | ServicePrincipalCredentialEntity
-  | ServicePrincipalInKVCredentialEntity;
+  | ServicePrincipalInKeyVaultCredentialEntity;
 
 export type DataSourceCredentialEntityPatch = Partial<Omit<DataSourceCredentialEntityUnion,"id">>&{type: 
 |"AzureSQLConnectionString" | "DataLakeGen2SharedKey" | "ServicePrincipal" | "ServicePrincipalInKV" }
