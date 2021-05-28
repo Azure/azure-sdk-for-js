@@ -26,7 +26,7 @@ export {
   TimeSeriesElement
 } from "./models/publicMetricsModels";
 
-export { CommonDurations } from "./models/constants";
+export { Durations as CommonDurations } from "./models/constants";
 
 //
 // LogsClient: generated exports
