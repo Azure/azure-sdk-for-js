@@ -33,7 +33,7 @@ export class HttpFetcher implements Fetcher {
   async fetch(path: string, options?: OperationOptions): Promise<DTDL | DTDL[]> {
     logger.info(`Fetching ${path} from remote endpoint`);
     if (!options) {
-      options = {}
+      options = {};
     }
     const myURL = this._baseURL + "/" + path;
     const requestMethod: HttpMethods = "GET";
