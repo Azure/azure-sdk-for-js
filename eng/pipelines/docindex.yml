@@ -43,3 +43,32 @@ jobs:
           TargetRepoName: $(DocRepoName)
           TargetRepoOwner: $(DocRepoOwner)
           WorkingDirectory: $(DocRepoLocation)
+
+      # Prepare daily docs CI
+      - pwsh: |
+          $branchName = "daily/$(Get-Date -Format 'yyyy-MM-dd')"
+          Write-Host "Daily Branch Name: $branchName"
+          Write-Host "##vso[task.setvariable variable=DailyDocsBranchName;]$branchName"
+        displayName: Set daily docs branch name
+      - pwsh: |
+          $ErrorActionPreference = "Continue"
+          git checkout "origin/$(DailyDocsBranchName)" 2>&1 | Out-Null
+          $LASTEXITCODE = 0 # This ignores any error from git checkout
+          git status
+        displayName: Checkout daily branch if it exists
+        workingDirectory: $(DocRepoLocation)
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Update-DocsMsPackages.ps1
+          arguments: -DocRepoLocation $(DocRepoLocation)
+        displayName: Update Docs Onboarding for Daily branch
+      - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+        parameters:
+          BaseRepoBranch: $(DailyDocsBranchName)
+          BaseRepoOwner: $(DocRepoOwner)
+          CommitMsg: "Update targeting packages based on release metadata. (Daily docs)"
+          TargetRepoName: $(DocRepoName)
+          TargetRepoOwner: $(DocRepoOwner)
+          WorkingDirectory: $(DocRepoLocation)
+          ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
