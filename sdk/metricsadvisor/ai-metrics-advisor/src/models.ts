@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { type } from "os";
 
 import {
   SuppressCondition,
