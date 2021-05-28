@@ -46,8 +46,8 @@ import {
   DataFeedStatus,
   GetIngestionProgressResponse,
   AnomalyAlertConfiguration,
-  DataSourceCredentialEntityUnion,
-  DataSourceCredentialEntityPatch,
+  DatasourceCredentialUnion,
+  DatasourceCredentialPatch,
   CredentialsPageResponse,
   GetCredentialEntityResponse
 } from "./models";
@@ -94,7 +94,7 @@ export interface ListHooksOptions extends OperationOptions {
 /**
  * Options for listing data source credentials
  */
-export interface ListCredentialEntitiesOptions extends OperationOptions {
+export interface ListDatasourceCredentialsOptions extends OperationOptions {
   skip? :number;
 }
 
@@ -1560,30 +1560,30 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Creates data source credential for the given id
-   * @param credentialEntity - the credential entity object to create
+   * @param datasourceCredential - the credential entity object to create
    * @param options - The options parameter
    */
 
-  public async createCredentialEntity(
-    credentialEntity: DataSourceCredentialEntityUnion,
+  public async createDatasourceCredential(
+    datasourceCredential: DatasourceCredentialUnion,
     options: OperationOptions = {}
   ): Promise<GetCredentialEntityResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-createCredentialEntity",
+      "MetricsAdvisorAdministrationClient-createDatasourceCredential",
       options
     );
     try {
       // @ts-ignore
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       //transformation
-      const transformedCred = toServiceCredential(credentialEntity);
+      const transformedCred = toServiceCredential(datasourceCredential);
       const result = await this.client.createCredential(transformedCred, requestOptions);
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created credential entity");
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const credEntityId = result.location.substring(lastSlashIndex + 1);
-      return this.getCredentialEntity(credEntityId);
+      return this.getDatasourceCredential(credEntityId);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1601,7 +1601,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param options - The options parameter
    */
 
-  public async getCredentialEntity(
+  public async getDatasourceCredential(
     id: string,
     options: OperationOptions = {}
   ): Promise<GetCredentialEntityResponse> {
@@ -1634,10 +1634,10 @@ export class MetricsAdvisorAdministrationClient {
    * Example using `for await` syntax:
    * TODO: (jeremymeng) add examples
    */
-  public listCredentialEntities(
-    options: ListCredentialEntitiesOptions = {}
-  ): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse> {
-    const iter = this.listItemsOfCredentialEntities(options);
+  public listDatasourceCredential(
+    options: ListDatasourceCredentialsOptions = {}
+  ): PagedAsyncIterableIterator<DatasourceCredentialUnion, CredentialsPageResponse> {
+    const iter = this.listItemsOfDatasourceCredentials(options);
     return {
       /**
        * The next method, part of the iteration protocol
@@ -1663,9 +1663,9 @@ export class MetricsAdvisorAdministrationClient {
     };
   }
 
-  private async *listItemsOfCredentialEntities(
-    options: ListCredentialEntitiesOptions
-  ): AsyncIterableIterator<DataSourceCredentialEntityUnion> {
+  private async *listItemsOfDatasourceCredentials(
+    options: ListDatasourceCredentialsOptions
+  ): AsyncIterableIterator<DatasourceCredentialUnion> {
     for await (const segment of this.listSegmentsOfCredentialEntities(options)) {
       if (segment) {
         yield* segment;
@@ -1674,7 +1674,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   private async *listSegmentsOfCredentialEntities(
-    options: ListCredentialEntitiesOptions & { maxPageSize?: number },
+    options: ListDatasourceCredentialsOptions & { maxPageSize?: number },
     continuationToken?: string
   ): AsyncIterableIterator<CredentialsPageResponse> {
     let segmentResponse;
@@ -1723,12 +1723,12 @@ export class MetricsAdvisorAdministrationClient {
   /**
    * Updates data source credential for the given id
    * @param id - id of the credential entity to update
-   * @param patch -  Input to the update credential entity operation {@link DataSourceCredentialEntityPatch}
+   * @param patch -  Input to the update credential entity operation {@link DataSourceCredentialPatch}
    * @param options - The options parameter
    */
-  public async updateCredentialEntity(
+  public async updateDatasourceCredential(
     id: string,
-    patch: DataSourceCredentialEntityPatch,
+    patch: DatasourceCredentialPatch,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1758,7 +1758,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param id - id of the credential entity to delete
    * @param options - The options parameter
    */
-  public async deleteCredentialEntity(
+  public async deleteDatasourceCredential(
     id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
