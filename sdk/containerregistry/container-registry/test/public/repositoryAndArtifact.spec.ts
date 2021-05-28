@@ -58,6 +58,18 @@ describe("Repository and artifact tests", function() {
     assert.equal(result.value.length, 1, "Expecting one artifact in second page");
   });
 
+  it("should list registry manifests by pages with continuationToken", async () => {
+    const continuationToken =
+      "/acr/v1/library%2Fhello-world/_manifests?last=sha256%3A1b26826f602946860c279fce658f31050cff2c596583af237d971f4629b57792&n=1&orderby=";
+    const iterator = repository.listManifestProperties().byPage({ continuationToken });
+    let result = await iterator.next();
+    assert.equal(result.value.length, 1, "Expecting one artifact in first page");
+    if (!result.done) {
+      assert.ok(result.value[0].digest!, "Expecting valid digest for the artifact");
+      artifactDigest = result.value[0].digest!;
+    }
+  });
+
   it("should list tags", async () => {
     const artifact = repository.getArtifact(artifactDigest);
     const iter = artifact.listTagProperties();
@@ -72,6 +84,14 @@ describe("Repository and artifact tests", function() {
     assert.equal(result.value.length, 1, "Expecting one tag in first page");
     result = await iterator.next();
     assert.equal(result.value.length, 1, "Expecting one tag in second page");
+  });
+
+  it("should list tags by pages with continuationToken", async () => {
+    const continuationToken = "/acr/v1/library%2Fhello-world/_tags?last=test-delete&n=1&orderby=";
+    const artifact = repository.getArtifact(artifactDigest);
+    const iterator = artifact.listTagProperties().byPage({ continuationToken });
+    let result = await iterator.next();
+    assert.equal(result.value.length, 1, "Expecting one tag in first page");
   });
 
   it("sets manifest properties", async () => {
