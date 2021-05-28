@@ -132,6 +132,7 @@
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
+/sdk/monitor/monitor-query @richardpark-msft @maorleger
 
 ###########
 # Tools
