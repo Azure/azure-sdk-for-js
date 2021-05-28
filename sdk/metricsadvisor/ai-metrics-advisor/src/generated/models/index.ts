@@ -951,11 +951,8 @@ export interface HookInfo {
   description?: string;
   /** hook external link */
   externalLink?: string;
-  /**
-   * hook administrators
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly admins?: string[];
+  /** hook administrators */
+  admins?: string[];
 }
 
 export interface HookInfoPatch {
@@ -967,11 +964,8 @@ export interface HookInfoPatch {
   description?: string;
   /** hook external link */
   externalLink?: string;
-  /**
-   * hook administrators
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly admins?: string[];
+  /** hook administrators */
+  admins?: string[];
 }
 
 export interface IngestionStatusQueryOptions {

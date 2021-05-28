@@ -2775,7 +2775,6 @@ export const HookInfo: coreHttp.CompositeMapper = {
           UniqueItems: true
         },
         serializedName: "admins",
-        readOnly: true,
         type: {
           name: "Sequence",
           element: {
@@ -2830,7 +2829,6 @@ export const HookInfoPatch: coreHttp.CompositeMapper = {
           UniqueItems: true
         },
         serializedName: "admins",
-        readOnly: true,
         type: {
           name: "Sequence",
           element: {
