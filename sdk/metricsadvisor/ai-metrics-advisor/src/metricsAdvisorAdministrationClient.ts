@@ -815,7 +815,7 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
 
-    const alertConfigurations = segment.value?.map((c) => fromServiceAlertConfiguration(c));
+    const alertConfigurations = segment.value?.map((c) => fromServiceAlertConfiguration(c)) ?? [];
     yield Object.defineProperty(alertConfigurations, "_response", {
       enumerable: false,
       value: segment._response
@@ -1595,7 +1595,7 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves data source credential for the given id
-   * @param _id - id of the credential entity to retrieve
+   * @param id - id of the credential entity to retrieve
    * @param options - The options parameter
    */
 
