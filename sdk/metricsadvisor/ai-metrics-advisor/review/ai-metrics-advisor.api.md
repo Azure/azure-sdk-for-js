@@ -117,16 +117,12 @@ export type AnomalyValue = "AutoDetect" | "Anomaly" | "NotAnomaly";
 // @public
 export type AzureApplicationInsightsDataFeedSource = {
     dataSourceType: "AzureApplicationInsights";
-    authenticationType: "Basic";
-} & AzureApplicationInsightsParameter;
-
-// @public (undocumented)
-export interface AzureApplicationInsightsParameter {
-    apiKey?: string;
-    applicationId?: string;
     azureCloud?: string;
+    applicationId?: string;
+    apiKey?: string;
     query: string;
-}
+    authenticationType: "Basic";
+};
 
 // @public
 export type AzureBlobDataFeedSource = {
@@ -138,15 +134,14 @@ export type AzureBlobDataFeedSource = {
 };
 
 // @public
-export type AzureCosmosDBDataFeedSource = {
+export type AzureCosmosDbDataFeedSource = {
     dataSourceType: "AzureCosmosDB";
+    connectionString?: string;
+    sqlQuery: string;
+    database: string;
+    collectionId: string;
     authenticationType: "Basic";
-} & AzureCosmosDbParameter;
-
-// Warning: (ae-forgotten-export) The symbol "AzureCosmosDBParameter" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export type AzureCosmosDbParameter = AzureCosmosDBParameter;
+};
 
 // @public
 export interface AzureDataExplorerAuthBasic {
@@ -368,7 +363,7 @@ export interface DataFeedSchema {
 }
 
 // @public
-export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SqlServerDataFeedSource | MongoDbDataFeedSource | AzureLogAnalyticsDataFeedSource | AzureEventHubsDataFeedSource | UnknownDataFeedSource;
+export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDbDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | InfluxDbDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SqlServerDataFeedSource | MongoDbDataFeedSource | AzureLogAnalyticsDataFeedSource | AzureEventHubsDataFeedSource | UnknownDataFeedSource;
 
 // @public
 export type DataFeedSourcePatch = Partial<DataFeedSource> & {
@@ -662,7 +657,7 @@ export interface IncidentsPageResponse extends Array<AnomalyIncident> {
 }
 
 // @public
-export type InfluxDBDataFeedSource = {
+export type InfluxDbDataFeedSource = {
     dataSourceType: "InfluxDB";
     connectionString: string;
     database: string;
