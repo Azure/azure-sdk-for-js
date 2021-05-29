@@ -247,7 +247,6 @@ export class MetricsAdvisorAdministrationClient {
         dataFeedName: name,
         ...toServiceGranularity(granularity),
         ...source,
-        // TODO: (jeremymeng) transform authenticationType and credentialId
         metrics: schema.metrics,
         dimension: schema.dimensions,
         timestampColumn: schema.timestampColumn,
