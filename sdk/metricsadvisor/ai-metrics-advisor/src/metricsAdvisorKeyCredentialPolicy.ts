@@ -75,7 +75,7 @@ export class MetricsAdvisorKeyCredential {
    */
   public updateKey(metricAdvisorKeys: MetricsAdvisorKeys ): void {
     if(!metricAdvisorKeys.subscriptionKey && !metricAdvisorKeys.apiKey){
-      throw new RangeError("Atleast one of the subscriptionKey and apiKey must be a non-empty string");
+      throw new RangeError("At least one of the subscriptionKey and apiKey must be a non-empty string");
     }
     if (metricAdvisorKeys.subscriptionKey) {
       this._subscriptionKey = metricAdvisorKeys.subscriptionKey;
