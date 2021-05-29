@@ -6,8 +6,6 @@ import * as coreHttp from "@azure/core-http";
 import {
   SuppressCondition,
   SmartDetectionCondition,
-  AzureApplicationInsightsParameter,
-  AzureCosmosDBParameter,
   EmailHookParameter,
   WebhookHookParameter,
   TopNGroupScope,
@@ -24,7 +22,6 @@ export {
   AlertSnoozeCondition,
   SmartDetectionCondition,
   TopNGroupScope,
-  AzureApplicationInsightsParameter,
   SuppressCondition,
   EmailHookParameter,
   WebhookHookParameter,
@@ -295,9 +292,17 @@ export type DataFeed = {
  */
 export type AzureApplicationInsightsDataFeedSource = {
   dataSourceType: "AzureApplicationInsights";
+    /** The Azure cloud that this Azure Application Insights in */
+  azureCloud?: string;
+  /** The application id of this Azure Application Insights */
+  applicationId?: string;
+  /** The API Key that can access this Azure Application Insights */
+  apiKey?: string;
+  /** The statement to query this Azure Application Insights */
+  query: string;
   /** Authentication Type */
   authenticationType: "Basic";
-} &  AzureApplicationInsightsParameter;
+};
 
 
 /**
@@ -315,15 +320,22 @@ export type AzureBlobDataFeedSource = {
     authenticationType: "Basic" | "ManagedIdentity";
 };
 
-export type AzureCosmosDbParameter = AzureCosmosDBParameter;
 /**
  * Represents an Azure CosmosDB data source.
  */
-export type AzureCosmosDBDataFeedSource = {
+export type AzureCosmosDbDataFeedSource = {
   dataSourceType: "AzureCosmosDB";
+  /** The connection string of this Azure CosmosDB */
+  connectionString?: string;
+  /** The statement to query this collection */
+  sqlQuery: string;
+  /** A database name in this Azure CosmosDB */
+  database: string;
+  /** A collection id in this database */
+  collectionId: string;
   /** Authentication Type */
   authenticationType: "Basic";
-}& AzureCosmosDbParameter 
+};
 
 /**
  * Represents Service Principal Authentication Type for Azure Data Explorer Source
@@ -498,7 +510,7 @@ export type AzureLogAnalyticsDataFeedSource = {
 /**
  * Represents an InfluxDB data source.
  */
-export type InfluxDBDataFeedSource = {
+export type InfluxDbDataFeedSource = {
   dataSourceType: "InfluxDB";
   /** InfluxDB connection string */
   connectionString: string;
@@ -629,11 +641,11 @@ export type SqlServerAuthTypes = | SqlServerAuthBasic
 export type DataFeedSource =
   | AzureApplicationInsightsDataFeedSource
   | AzureBlobDataFeedSource
-  | AzureCosmosDBDataFeedSource
+  | AzureCosmosDbDataFeedSource
   | AzureDataExplorerDataFeedSource
   | AzureDataLakeStorageGen2DataFeedSource
   | AzureTableDataFeedSource
-  | InfluxDBDataFeedSource
+  | InfluxDbDataFeedSource
   | MySqlDataFeedSource
   | PostgreSqlDataFeedSource
   | SqlServerDataFeedSource
