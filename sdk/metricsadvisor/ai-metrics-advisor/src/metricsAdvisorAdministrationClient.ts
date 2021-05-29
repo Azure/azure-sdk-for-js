@@ -1572,7 +1572,6 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      // @ts-ignore
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       //transformation
       const transformedCred = toServiceCredential(datasourceCredential);
@@ -1609,7 +1608,6 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      // @ts-ignore
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getCredential(id, requestOptions);
       const resultCred = fromServiceCredential(result);
