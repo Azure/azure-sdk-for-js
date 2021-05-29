@@ -1629,7 +1629,45 @@ export class MetricsAdvisorAdministrationClient {
    * `.byPage()` returns an async iterable iterator to list the credentials in pages.
    *
    * Example using `for await` syntax:
-   * TODO: (jeremymeng) add examples
+   *
+   * ```js
+   * const client = new MetricsAdvisorAdministrationClient(endpoint,
+   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
+   * const datasourceCredentialList = client.listDatasourceCredential();
+   * let i = 1;
+   * for await (const datasourceCredential of datasourceCredentialList){
+   *  console.log(`datasourceCredential ${i++}:`);
+   *  console.log(datasourceCredential);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let iter = client.listDatasourceCredential();
+   * let result = await iter.next();
+   * while (!result.done) {
+   *   console.dir(result);
+   *   result = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * const pages = client.listDatasourceCredential().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const credential of page.value) {
+   *      console.log("datasource credential-");
+   *      console.dir(credential);
+   *    }
+   *  }
+   *  page = await pages.next();
+   * }
    */
   public listDatasourceCredential(
     options: ListDatasourceCredentialsOptions = {}
