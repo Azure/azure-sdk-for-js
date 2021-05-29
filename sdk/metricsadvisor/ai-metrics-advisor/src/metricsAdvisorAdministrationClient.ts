@@ -417,7 +417,7 @@ export class MetricsAdvisorAdministrationClient {
       segmentResponse = await this.client.listDataFeeds({
         ...options.filter,
         maxpagesize: options.maxPageSize,
-        skip: options.skip
+        ...options
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
@@ -440,7 +440,7 @@ export class MetricsAdvisorAdministrationClient {
       segmentResponse = await this.client.listDataFeedsNext(continuationToken, {
         ...options.filter,
         maxpagesize: options.maxPageSize,
-        skip: options.skip
+        ...options
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
@@ -1605,7 +1605,7 @@ export class MetricsAdvisorAdministrationClient {
     options: OperationOptions = {}
   ): Promise<GetCredentialEntityResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-getDatasourceCredential",
+      "MetricsAdvisorAdministrationClient-getCredentialEntity",
       options
     );
     try {
@@ -1680,7 +1680,7 @@ export class MetricsAdvisorAdministrationClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listCredentials({
         maxpagesize: options.maxPageSize,
-        skip: options.skip
+        ...options
       });
       const credentials = segmentResponse.value?.map((d) => {
         return fromServiceCredential(d);
@@ -1702,7 +1702,7 @@ export class MetricsAdvisorAdministrationClient {
     while (continuationToken) {
       segmentResponse = await this.client.listCredentialsNext(continuationToken, {
         maxpagesize: options.maxPageSize,
-        skip: options.skip
+        ...options
       });
       const credentials = segmentResponse.value?.map((d) => {
         return fromServiceCredential(d);
