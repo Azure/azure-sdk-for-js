@@ -5,7 +5,7 @@
  * A collection of HttpHeaders that can be sent with a HTTP request.
  */
 function getHeaderKey(headerName: string): string {
-  return headerName.toLowerCase();
+  return headerName.startsWith("x-ms-meta-") ? headerName : headerName.toLowerCase();
 }
 
 /**
@@ -178,7 +178,8 @@ export class HttpHeaders implements HttpHeadersLike {
     const result: RawHttpHeaders = {};
     for (const headerKey in this._headersMap) {
       const header: HttpHeader = this._headersMap[headerKey];
-      result[header.name.toLowerCase()] = header.value;
+      const key = header.name.startsWith("x-ms-meta-") ? header.name : header.name.toLowerCase();
+      result[key] = header.value;
     }
     return result;
   }
