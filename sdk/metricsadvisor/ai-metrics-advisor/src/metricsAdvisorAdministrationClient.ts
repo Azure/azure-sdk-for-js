@@ -1606,7 +1606,7 @@ export class MetricsAdvisorAdministrationClient {
     options: OperationOptions = {}
   ): Promise<GetCredentialEntityResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-getCredentialEntity",
+      "MetricsAdvisorAdministrationClient-getDatasourceCredential",
       options
     );
     try {
