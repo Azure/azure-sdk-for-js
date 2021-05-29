@@ -87,6 +87,11 @@ export class AzurePowerShellCredential implements TokenCredential {
 export type BrowserLoginStyle = "redirect" | "popup";
 
 // @public
+export interface CacheableCredentialOptions {
+    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
+}
+
+// @public
 export class ChainedTokenCredential implements TokenCredential {
     constructor(...sources: TokenCredential[]);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
@@ -99,10 +104,8 @@ export class ClientCertificateCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
-// Warning: (ae-forgotten-export) The symbol "MsalCredentialOptions" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface ClientCertificateCredentialOptions extends TokenCredentialOptions, MsalCredentialOptions {
+export interface ClientCertificateCredentialOptions extends TokenCredentialOptions, CacheableCredentialOptions {
     sendCertificateChain?: boolean;
 }
 
@@ -113,7 +116,7 @@ export class ClientSecretCredential implements TokenCredential {
     }
 
 // @public
-export interface ClientSecretCredentialOptions extends TokenCredentialOptions, MsalCredentialOptions {
+export interface ClientSecretCredentialOptions extends TokenCredentialOptions, CacheableCredentialOptions {
 }
 
 // @public
@@ -131,7 +134,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 }
 
 // @public
-export interface DefaultAzureCredentialOptions extends TokenCredentialOptions, MsalCredentialOptions {
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions, CacheableCredentialOptions {
     managedIdentityClientId?: string;
     tenantId?: string;
 }
@@ -153,7 +156,7 @@ export class DeviceCodeCredential implements TokenCredential {
     }
 
 // @public
-export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions, MsalCredentialOptions {
+export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions, CacheableCredentialOptions {
     clientId?: string;
     tenantId?: string;
     userPromptCallback?: DeviceCodePromptCallback;
@@ -176,7 +179,7 @@ export class EnvironmentCredential implements TokenCredential {
 }
 
 // @public (undocumented)
-export interface EnvironmentCredentialOptions extends TokenCredentialOptions, MsalCredentialOptions {
+export interface EnvironmentCredentialOptions extends TokenCredentialOptions, CacheableCredentialOptions {
 }
 
 // @public
@@ -219,7 +222,7 @@ export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveC
 }
 
 // @public
-export interface InteractiveBrowserCredentialOptions extends InteractiveCredentialOptions, MsalCredentialOptions {
+export interface InteractiveBrowserCredentialOptions extends InteractiveCredentialOptions, CacheableCredentialOptions {
     clientId?: string;
     redirectUri?: string | (() => string);
     tenantId?: string;

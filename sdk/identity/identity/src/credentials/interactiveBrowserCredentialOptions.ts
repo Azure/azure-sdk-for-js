@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
-import { MsalCredentialOptions } from "./msalCredentialOptions";
+import { CacheableCredentialOptions } from "./cacheableCredentialOptions";
 
 /**
  * (Browser-only feature)
@@ -20,7 +20,7 @@ export type BrowserLoginStyle = "redirect" | "popup";
  */
 export interface InteractiveBrowserCredentialOptions
   extends InteractiveCredentialOptions,
-    MsalCredentialOptions {
+    CacheableCredentialOptions {
   /**
    * Gets the redirect URI of the application. This should be same as the value
    * in the application registration portal.  Defaults to `window.location.href`.

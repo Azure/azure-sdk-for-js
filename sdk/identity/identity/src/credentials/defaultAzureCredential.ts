@@ -10,14 +10,14 @@ import { AzureCliCredential } from "./azureCliCredential";
 import { AzurePowerShellCredential } from "./azurePowerShellCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
-import { MsalCredentialOptions } from "./msalCredentialOptions";
+import { CacheableCredentialOptions } from "./cacheableCredentialOptions";
 
 /**
  * Provides options to configure the {@link DefaultAzureCredential} class.
  */
 export interface DefaultAzureCredentialOptions
   extends TokenCredentialOptions,
-    MsalCredentialOptions {
+    CacheableCredentialOptions {
   /**
    * Optionally pass in a Tenant ID to be used as part of the credential.
    * By default it may use a generic tenant ID depending on the underlying credential.
