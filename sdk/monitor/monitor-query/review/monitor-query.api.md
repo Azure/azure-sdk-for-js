@@ -28,7 +28,7 @@ export interface BatchQuery {
 export type ColumnDataType = string;
 
 // @public
-export const CommonDurations: {
+export const Durations: {
     readonly last7Days: "P7D";
     readonly last3Days: "P3D";
     readonly last2Days: "P2D";
@@ -89,8 +89,7 @@ export interface LocalizableString {
 // @public
 export class LogsClient {
     constructor(tokenCredential: TokenCredential, options?: LogsClientOptions);
-    // (undocumented)
-    queryLogs(workspaceId: string, query: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
+    queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
     // (undocumented)
     queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResponse>;
 }
@@ -213,7 +212,6 @@ export interface QueryLogsBatchResponse {
 export interface QueryLogsOptions extends OperationOptions {
     includeQueryStatistics?: boolean;
     serverTimeoutInSeconds?: number;
-    timespan?: string;
 }
 
 // @public (undocumented)

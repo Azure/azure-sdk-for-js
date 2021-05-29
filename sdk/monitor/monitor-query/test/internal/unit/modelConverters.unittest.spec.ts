@@ -22,7 +22,7 @@ import {
 import { AbortSignalLike, OperationRequestOptions } from "@azure/core-http";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import {
-  CommonDurations,
+  Durations,
   GetMetricDefinitionsResponse,
   GetMetricNamespacesResponse,
   GetMetricDefinitionsOptions,
@@ -69,7 +69,7 @@ describe("Model unit tests", () => {
             qualifiedNames: ["qualifiedName"],
             query: "the kusto query",
             serverTimeoutInSeconds: 100,
-            timespan: CommonDurations.last5Minutes,
+            timespan: Durations.last5Minutes,
             workspace: "the primary workspace id",
             workspaceIds: ["additionalWorkspaceId"],
             workspaces: ["additionalWorkspace"]
@@ -87,7 +87,7 @@ describe("Model unit tests", () => {
           azureResourceIds: ["resourceId1"],
           qualifiedNames: ["qualifiedName"],
           query: "the kusto query",
-          timespan: CommonDurations.last5Minutes,
+          timespan: Durations.last5Minutes,
           workspaceIds: ["additionalWorkspaceId"],
           workspaces: ["additionalWorkspace"]
         }

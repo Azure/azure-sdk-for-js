@@ -59,16 +59,27 @@ export class LogsClient {
     });
   }
 
+  /**
+   * Queries logs in a Log Analytics Workspace.
+   *
+   * @param workspaceId - The 'Workspace Id' for the Log Analytics Workspace
+   * @param query - A Log Analytics Query
+   * @param timespan - The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression.
+   *  Some common durations can be found in the `Durations` object.
+   * @param options - Options to adjust various aspects of the request.
+   * @returns The result of the query.
+   */
   async queryLogs(
     workspaceId: string,
     query: string,
+    timespan: string,
     options?: QueryLogsOptions
   ): Promise<QueryLogsResult> {
     const result = await this._logAnalytics.query.execute(
       workspaceId,
       {
         query,
-        timespan: options?.timespan
+        timespan
       },
       {
         requestOptions: {

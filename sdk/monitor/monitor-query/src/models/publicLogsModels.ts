@@ -18,9 +18,6 @@ export interface QueryLogsOptions extends OperationOptions {
    * Results will also include statistics about the query.
    */
   includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
-
-  /** Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
-  timespan?: string;
 }
 
 export interface QueryStatistics {

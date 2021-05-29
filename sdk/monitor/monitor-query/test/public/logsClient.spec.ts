@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { env } from "process";
 
-import { QueryLogsBatch, CommonDurations, LogsClient } from "../../src";
+import { QueryLogsBatch, Durations, LogsClient } from "../../src";
 import { runWithTelemetry } from "../setupOpenTelemetry";
 
 import {
@@ -43,9 +43,7 @@ describe("LogsClient live tests", function() {
     try {
       // TODO: there is an error details in the query, but when I run an invalid query it
       // throws (and ErrorDetails are just present in the exception.)
-      await client.queryLogs(monitorWorkspaceId, kustoQuery, {
-        timespan: CommonDurations.lastDay
-      });
+      await client.queryLogs(monitorWorkspaceId, kustoQuery, Durations.lastDay);
       assert.fail("Should have thrown an exception");
     } catch (err) {
       // TODO: if this is the only way for a user to know what happened we should probably
@@ -91,17 +89,27 @@ describe("LogsClient live tests", function() {
 
   it("serverTimeoutInSeconds", async () => {
     // TODO: serverTimeoutInSeconds is passed. We need to have a deterministic way to test this, however.
-    const query = await client.queryLogs(monitorWorkspaceId, "AppEvents | limit 1", {
-      serverTimeoutInSeconds: 10
-    });
+    const query = await client.queryLogs(
+      monitorWorkspaceId,
+      "AppEvents | limit 1",
+      Durations.last24Hours,
+      {
+        serverTimeoutInSeconds: 10
+      }
+    );
 
     assert.ok(query);
   });
 
   it("includeQueryStatistics", async () => {
-    const query = await client.queryLogs(monitorWorkspaceId, "AppEvents | limit 1", {
-      includeQueryStatistics: true
-    });
+    const query = await client.queryLogs(
+      monitorWorkspaceId,
+      "AppEvents | limit 1",
+      Durations.last24Hours,
+      {
+        includeQueryStatistics: true
+      }
+    );
 
     // TODO: statistics are not currently modeled in the generated code.
 
@@ -145,9 +153,11 @@ describe("LogsClient live tests", function() {
     it("queryLogs (last day)", async () => {
       const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
 
-      const singleQueryLogsResult = await client.queryLogs(monitorWorkspaceId, kustoQuery, {
-        timespan: CommonDurations.lastDay
-      });
+      const singleQueryLogsResult = await client.queryLogs(
+        monitorWorkspaceId,
+        kustoQuery,
+        Durations.lastDay
+      );
 
       // TODO: the actual types aren't being deserialized (everything is coming back as 'string')
       // this is incorrect, it'll be updated.
@@ -173,7 +183,7 @@ describe("LogsClient live tests", function() {
           {
             workspace: monitorWorkspaceId,
             query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | count`,
-            timespan: CommonDurations.last24Hours,
+            timespan: Durations.last24Hours,
             includeQueryStatistics: true,
             serverTimeoutInSeconds: 60 * 10
           }
@@ -216,9 +226,7 @@ describe("LogsClient live tests", function() {
       );
 
       for (let i = 0; i < args.maxTries; ++i) {
-        const result = await client.queryLogs(monitorWorkspaceId, query, {
-          timespan: CommonDurations.last24Hours
-        });
+        const result = await client.queryLogs(monitorWorkspaceId, query, Durations.last24Hours);
 
         const numRows = result.tables?.[0].rows?.length;
 
