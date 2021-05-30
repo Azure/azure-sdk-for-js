@@ -27,23 +27,17 @@
  * MSAL/Identity internals without exposing those internals.
  */
 
-declare global {
-  interface SymbolConstructor {
-    readonly __azureIdentityExtensions: unique symbol;
-  }
-}
+export type AzureExtensionRegistry = Map<symbol, (context: AzureExtensionContext) => void>;
 
-if (typeof Symbol.__azureIdentityExtensions !== "symbol") {
-  (Symbol as any).__azureIdentityExtensions = Symbol("identityExtensions");
-}
+const registryKey: unique symbol = Symbol.for("__azure_identity_extensions");
 
-const _glb = globalThis ?? global ?? window;
+const _glb: { [registryKey]: AzureExtensionRegistry } = (globalThis ?? global ?? window) as any;
 
 export const registry: Map<symbol, (context: AzureExtensionContext) => void> =
-  (_glb as any)[Symbol.__azureIdentityExtensions] ??
+  _glb[registryKey] ??
   (() => {
     const _registry = new Map();
-    (_glb as any)[Symbol.__azureIdentityExtensions] = _registry;
+    _glb[registryKey] = _registry;
     return _registry;
   })();
 
@@ -80,7 +74,7 @@ export interface TokenCachePersistenceOptions {
   allowUnencryptedStorage?: boolean;
 }
 
-interface PluginControl {
+export interface PluginControl {
   persistence: (
     options?: TokenCachePersistenceOptions
   ) => Promise<import("@azure/msal-common").ICachePlugin>;
