@@ -47,7 +47,7 @@ matrix([[true, false]], async function(useAad) {
     it("successfully exchanges a Teams token for an ACS token", async function() {
       recorder.skip();
 
-      let credential = new UsernamePasswordCredential(
+      const credential = new UsernamePasswordCredential(
         env.COMMUNICATION_M365_AAD_TENANT,
         env.COMMUNICATION_M365_APP_ID,
         env.COMMUNICATION_MSAL_USERNAME,
