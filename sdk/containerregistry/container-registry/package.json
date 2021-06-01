@@ -79,7 +79,7 @@
     "@azure/core-rest-pipeline": "1.1.0-beta.3",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.11",
-    "@azure/core-util": "^1.0.0-beta.1",
+    "@azure/core-util": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.0.0"
   },
