@@ -146,10 +146,7 @@ export class MsalOpenBrowser extends MsalNode {
       app.on("connection", (socket) => socketToDestroy.push(socket));
       const server = stoppable(app);
 
-      this.openAuthCodeUrl(scopes).catch((e) => {
-        cleanup();
-        reject(e);
-      });
+      const openPromise = this.openAuthCodeUrl(scopes);
 
       function cleanup(): void {
         if (listen) {
@@ -173,6 +170,11 @@ export class MsalOpenBrowser extends MsalNode {
           reject(new Error("Aborted"));
         });
       }
+
+      openPromise.then().catch((e) => {
+        cleanup();
+        reject(e);
+      });
     });
   }
 

@@ -2,7 +2,7 @@
 
 ## 2.0.0-beta.4 (Unreleased)
 
-
+- Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to hang if there was no browser available.
 ## 2.0.0-beta.3 (2021-05-12)
 
 ### New features
