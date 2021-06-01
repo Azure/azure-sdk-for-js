@@ -13,7 +13,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { CosmosDBManagementClientContext } from "./cosmosDBManagementClientContext";
 
-
 class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   // Operation groups
   databaseAccounts: operations.DatabaseAccounts;
@@ -44,7 +43,11 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CosmosDBManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.CosmosDBManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.databaseAccounts = new operations.DatabaseAccounts(this);
     this.operations = new operations.Operations(this);
