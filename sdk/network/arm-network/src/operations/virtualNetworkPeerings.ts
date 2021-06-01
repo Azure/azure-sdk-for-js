@@ -34,18 +34,9 @@ export class VirtualNetworkPeerings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    virtualNetworkPeeringName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(
-      resourceGroupName,
-      virtualNetworkName,
-      virtualNetworkPeeringName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteMethod(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,virtualNetworkName,virtualNetworkPeeringName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -56,24 +47,14 @@ export class VirtualNetworkPeerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkPeeringsGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    virtualNetworkPeeringName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.VirtualNetworkPeeringsGetResponse>;
+  get(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkPeeringsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param virtualNetworkPeeringName The name of the virtual network peering.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    virtualNetworkPeeringName: string,
-    callback: msRest.ServiceCallback<Models.VirtualNetworkPeering>
-  ): void;
+  get(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkPeering>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
@@ -81,20 +62,8 @@ export class VirtualNetworkPeerings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    virtualNetworkPeeringName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.VirtualNetworkPeering>
-  ): void;
-  get(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    virtualNetworkPeeringName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkPeering>,
-    callback?: msRest.ServiceCallback<Models.VirtualNetworkPeering>
-  ): Promise<Models.VirtualNetworkPeeringsGetResponse> {
+  get(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkPeering>): void;
+  get(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkPeering>, callback?: msRest.ServiceCallback<Models.VirtualNetworkPeering>): Promise<Models.VirtualNetworkPeeringsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,8 +72,7 @@ export class VirtualNetworkPeerings {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.VirtualNetworkPeeringsGetResponse>;
+      callback) as Promise<Models.VirtualNetworkPeeringsGetResponse>;
   }
 
   /**
@@ -117,22 +85,9 @@ export class VirtualNetworkPeerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkPeeringsCreateOrUpdateResponse>
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    virtualNetworkPeeringName: string,
-    virtualNetworkPeeringParameters: Models.VirtualNetworkPeering,
-    options?: Models.VirtualNetworkPeeringsCreateOrUpdateOptionalParams
-  ): Promise<Models.VirtualNetworkPeeringsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(
-      resourceGroupName,
-      virtualNetworkName,
-      virtualNetworkPeeringName,
-      virtualNetworkPeeringParameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.VirtualNetworkPeeringsCreateOrUpdateResponse
-    >;
+  createOrUpdate(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, virtualNetworkPeeringParameters: Models.VirtualNetworkPeering, options?: Models.VirtualNetworkPeeringsCreateOrUpdateOptionalParams): Promise<Models.VirtualNetworkPeeringsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,virtualNetworkName,virtualNetworkPeeringName,virtualNetworkPeeringParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkPeeringsCreateOrUpdateResponse>;
   }
 
   /**
@@ -142,41 +97,21 @@ export class VirtualNetworkPeerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkPeeringsListResponse>
    */
-  list(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.VirtualNetworkPeeringsListResponse>;
+  list(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkPeeringsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param callback The callback
    */
-  list(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    callback: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>
-  ): void;
+  list(resourceGroupName: string, virtualNetworkName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>
-  ): void;
-  list(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>,
-    callback?: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>
-  ): Promise<Models.VirtualNetworkPeeringsListResponse> {
+  list(resourceGroupName: string, virtualNetworkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): void;
+  list(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): Promise<Models.VirtualNetworkPeeringsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,8 +119,7 @@ export class VirtualNetworkPeerings {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.VirtualNetworkPeeringsListResponse>;
+      callback) as Promise<Models.VirtualNetworkPeeringsListResponse>;
   }
 
   /**
@@ -196,12 +130,7 @@ export class VirtualNetworkPeerings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    virtualNetworkPeeringName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -210,8 +139,7 @@ export class VirtualNetworkPeerings {
         options
       },
       beginDeleteMethodOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -224,13 +152,7 @@ export class VirtualNetworkPeerings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    virtualNetworkName: string,
-    virtualNetworkPeeringName: string,
-    virtualNetworkPeeringParameters: Models.VirtualNetworkPeering,
-    options?: Models.VirtualNetworkPeeringsBeginCreateOrUpdateOptionalParams
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, virtualNetworkName: string, virtualNetworkPeeringName: string, virtualNetworkPeeringParameters: Models.VirtualNetworkPeering, options?: Models.VirtualNetworkPeeringsBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -240,8 +162,7 @@ export class VirtualNetworkPeerings {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -250,43 +171,26 @@ export class VirtualNetworkPeerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkPeeringsListNextResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.VirtualNetworkPeeringsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkPeeringsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>
-  ): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>,
-    callback?: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>
-  ): Promise<Models.VirtualNetworkPeeringsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkPeeringListResult>): Promise<Models.VirtualNetworkPeeringsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.VirtualNetworkPeeringsListNextResponse>;
+      callback) as Promise<Models.VirtualNetworkPeeringsListNextResponse>;
   }
 }
 
@@ -294,16 +198,19 @@ export class VirtualNetworkPeerings {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualNetworkName,
     Parameters.virtualNetworkPeeringName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualNetworkPeering
@@ -317,15 +224,18 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualNetworkName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualNetworkPeeringListResult
@@ -339,16 +249,19 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualNetworkName,
     Parameters.virtualNetworkPeeringName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -362,16 +275,20 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualNetworkName,
     Parameters.virtualNetworkPeeringName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.syncRemoteAddressSpace, Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.syncRemoteAddressSpace,
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "virtualNetworkPeeringParameters",
     mapper: {
@@ -397,9 +314,15 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualNetworkPeeringListResult

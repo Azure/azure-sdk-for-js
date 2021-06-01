@@ -34,24 +34,14 @@ export class VirtualNetworkGatewayNatRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayNatRulesGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    natRuleName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.VirtualNetworkGatewayNatRulesGetResponse>;
+  get(resourceGroupName: string, virtualNetworkGatewayName: string, natRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayNatRulesGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the Virtual Network Gateway.
    * @param virtualNetworkGatewayName The name of the gateway.
    * @param natRuleName The name of the nat rule.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    natRuleName: string,
-    callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayNatRule>
-  ): void;
+  get(resourceGroupName: string, virtualNetworkGatewayName: string, natRuleName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayNatRule>): void;
   /**
    * @param resourceGroupName The resource group name of the Virtual Network Gateway.
    * @param virtualNetworkGatewayName The name of the gateway.
@@ -59,22 +49,8 @@ export class VirtualNetworkGatewayNatRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    natRuleName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayNatRule>
-  ): void;
-  get(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    natRuleName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.VirtualNetworkGatewayNatRule>,
-    callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayNatRule>
-  ): Promise<Models.VirtualNetworkGatewayNatRulesGetResponse> {
+  get(resourceGroupName: string, virtualNetworkGatewayName: string, natRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkGatewayNatRule>): void;
+  get(resourceGroupName: string, virtualNetworkGatewayName: string, natRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkGatewayNatRule>, callback?: msRest.ServiceCallback<Models.VirtualNetworkGatewayNatRule>): Promise<Models.VirtualNetworkGatewayNatRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,8 +59,7 @@ export class VirtualNetworkGatewayNatRules {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.VirtualNetworkGatewayNatRulesGetResponse>;
+      callback) as Promise<Models.VirtualNetworkGatewayNatRulesGetResponse>;
   }
 
   /**
@@ -97,22 +72,9 @@ export class VirtualNetworkGatewayNatRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayNatRulesCreateOrUpdateResponse>
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    natRuleName: string,
-    natRuleParameters: Models.VirtualNetworkGatewayNatRule,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.VirtualNetworkGatewayNatRulesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(
-      resourceGroupName,
-      virtualNetworkGatewayName,
-      natRuleName,
-      natRuleParameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.VirtualNetworkGatewayNatRulesCreateOrUpdateResponse
-    >;
+  createOrUpdate(resourceGroupName: string, virtualNetworkGatewayName: string, natRuleName: string, natRuleParameters: Models.VirtualNetworkGatewayNatRule, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayNatRulesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,virtualNetworkGatewayName,natRuleName,natRuleParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkGatewayNatRulesCreateOrUpdateResponse>;
   }
 
   /**
@@ -123,18 +85,9 @@ export class VirtualNetworkGatewayNatRules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    natRuleName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(
-      resourceGroupName,
-      virtualNetworkGatewayName,
-      natRuleName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteMethod(resourceGroupName: string, virtualNetworkGatewayName: string, natRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,virtualNetworkGatewayName,natRuleName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -144,41 +97,21 @@ export class VirtualNetworkGatewayNatRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse>
    */
-  listByVirtualNetworkGateway(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse>;
+  listByVirtualNetworkGateway(resourceGroupName: string, virtualNetworkGatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse>;
   /**
    * @param resourceGroupName The resource group name of the virtual network gateway.
    * @param virtualNetworkGatewayName The name of the gateway.
    * @param callback The callback
    */
-  listByVirtualNetworkGateway(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    callback: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>
-  ): void;
+  listByVirtualNetworkGateway(resourceGroupName: string, virtualNetworkGatewayName: string, callback: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>): void;
   /**
    * @param resourceGroupName The resource group name of the virtual network gateway.
    * @param virtualNetworkGatewayName The name of the gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByVirtualNetworkGateway(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>
-  ): void;
-  listByVirtualNetworkGateway(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>,
-    callback?: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>
-  ): Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse> {
+  listByVirtualNetworkGateway(resourceGroupName: string, virtualNetworkGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>): void;
+  listByVirtualNetworkGateway(resourceGroupName: string, virtualNetworkGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>, callback?: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>): Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -186,8 +119,7 @@ export class VirtualNetworkGatewayNatRules {
         options
       },
       listByVirtualNetworkGatewayOperationSpec,
-      callback
-    ) as Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse>;
+      callback) as Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse>;
   }
 
   /**
@@ -200,13 +132,7 @@ export class VirtualNetworkGatewayNatRules {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    natRuleName: string,
-    natRuleParameters: Models.VirtualNetworkGatewayNatRule,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, virtualNetworkGatewayName: string, natRuleName: string, natRuleParameters: Models.VirtualNetworkGatewayNatRule, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -216,8 +142,7 @@ export class VirtualNetworkGatewayNatRules {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -228,12 +153,7 @@ export class VirtualNetworkGatewayNatRules {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(
-    resourceGroupName: string,
-    virtualNetworkGatewayName: string,
-    natRuleName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, virtualNetworkGatewayName: string, natRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -242,8 +162,7 @@ export class VirtualNetworkGatewayNatRules {
         options
       },
       beginDeleteMethodOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -252,43 +171,26 @@ export class VirtualNetworkGatewayNatRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextResponse>
    */
-  listByVirtualNetworkGatewayNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextResponse>;
+  listByVirtualNetworkGatewayNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByVirtualNetworkGatewayNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>
-  ): void;
+  listByVirtualNetworkGatewayNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByVirtualNetworkGatewayNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>
-  ): void;
-  listByVirtualNetworkGatewayNext(
-    nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>,
-    callback?: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>
-  ): Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextResponse> {
+  listByVirtualNetworkGatewayNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>): void;
+  listByVirtualNetworkGatewayNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>, callback?: msRest.ServiceCallback<Models.ListVirtualNetworkGatewayNatRulesResult>): Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByVirtualNetworkGatewayNextOperationSpec,
-      callback
-    ) as Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextResponse>;
+      callback) as Promise<Models.VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextResponse>;
   }
 }
 
@@ -296,16 +198,19 @@ export class VirtualNetworkGatewayNatRules {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualNetworkGatewayName,
     Parameters.natRuleName
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualNetworkGatewayNatRule
@@ -319,15 +224,18 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByVirtualNetworkGatewayOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualNetworkGatewayName
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ListVirtualNetworkGatewayNatRulesResult
@@ -341,16 +249,19 @@ const listByVirtualNetworkGatewayOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualNetworkGatewayName,
     Parameters.natRuleName
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "natRuleParameters",
     mapper: {
@@ -374,16 +285,19 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualNetworkGatewayName,
     Parameters.natRuleName
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -399,9 +313,15 @@ const listByVirtualNetworkGatewayNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ListVirtualNetworkGatewayNatRulesResult
