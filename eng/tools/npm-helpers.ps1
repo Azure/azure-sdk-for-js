@@ -46,8 +46,8 @@ function GetNpmPackageVersions ($packageName)
 
 function FindRecentPackageVersion($packageName)
 {
-  $versions = (GetNpmPackageVersions -packageName $packageName) | ? {$_ -NotMatch "alpha|dev"}  
-  if ($versions -ne $null -and $versions.Count -gt 0)
+  $versions = (GetNpmPackageVersions -packageName $packageName).Where({$_ -notmatch "alpha|dev"})
+  if ($versions.Count -gt 0)
   {
     $versions = [AzureEngSemanticVersion]::SortVersionStrings($versions)
     $highestNpmVersion = $versions[0]
@@ -75,11 +75,6 @@ function GetNewNpmTags($packageName, $packageVersion)
     b. Set NEXT tag
   #>
   $npmVersionInfo = GetNpmTagVersions -packageName $packageName
-  if ($npmVersionInfo -eq $null)
-  {
-    # Version info object should not be null even if package is not present in npm
-    Write-Error "Failed to get version info from NPM registry."
-  }
   $latestVersion = [AzureEngSemanticVersion]::ParseVersionString($npmVersionInfo.latest)
   $setLatest = $false
   $setNext = $false
