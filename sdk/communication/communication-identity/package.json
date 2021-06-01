@@ -85,7 +85,6 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@azure/msal-node": "^1.0.2",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/test-utils": "^1.0.0",
