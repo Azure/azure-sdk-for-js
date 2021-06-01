@@ -143,7 +143,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
 
     state.isCompleted = !!endTime;
 
-    if (status?.toLowerCase() === "failed") {
+    if (state.isCompleted && error?.code) {
       throw new Error(error?.message || statusDetails);
     }
 
