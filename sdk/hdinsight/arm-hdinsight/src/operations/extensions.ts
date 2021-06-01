@@ -84,6 +84,63 @@ export class Extensions {
   }
 
   /**
+   * Enables the Azure Monitor on the HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The Log Analytics workspace parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  enableAzureMonitor(resourceGroupName: string, clusterName: string, parameters: Models.AzureMonitorRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginEnableAzureMonitor(resourceGroupName,clusterName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Gets the status of Azure Monitor on the HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ExtensionsGetAzureMonitorStatusResponse>
+   */
+  getAzureMonitorStatus(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExtensionsGetAzureMonitorStatusResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param callback The callback
+   */
+  getAzureMonitorStatus(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.AzureMonitorResponse>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAzureMonitorStatus(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureMonitorResponse>): void;
+  getAzureMonitorStatus(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureMonitorResponse>, callback?: msRest.ServiceCallback<Models.AzureMonitorResponse>): Promise<Models.ExtensionsGetAzureMonitorStatusResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        options
+      },
+      getAzureMonitorStatusOperationSpec,
+      callback) as Promise<Models.ExtensionsGetAzureMonitorStatusResponse>;
+  }
+
+  /**
+   * Disables the Azure Monitor on the HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  disableAzureMonitor(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDisableAzureMonitor(resourceGroupName,clusterName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Creates an HDInsight cluster extension.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -112,7 +169,7 @@ export class Extensions {
    * @param extensionName The name of the cluster extension.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, extensionName: string, callback: msRest.ServiceCallback<Models.Extension>): void;
+  get(resourceGroupName: string, clusterName: string, extensionName: string, callback: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -120,8 +177,8 @@ export class Extensions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, extensionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Extension>): void;
-  get(resourceGroupName: string, clusterName: string, extensionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Extension>, callback?: msRest.ServiceCallback<Models.Extension>): Promise<Models.ExtensionsGetResponse> {
+  get(resourceGroupName: string, clusterName: string, extensionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): void;
+  get(resourceGroupName: string, clusterName: string, extensionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterMonitoringResponse>, callback?: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): Promise<Models.ExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,6 +201,46 @@ export class Extensions {
   deleteMethod(resourceGroupName: string, clusterName: string, extensionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,clusterName,extensionName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Gets the async operation status.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param extensionName The name of the cluster extension.
+   * @param operationId The long running operation id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ExtensionsGetAzureAsyncOperationStatusResponse>
+   */
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, extensionName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.ExtensionsGetAzureAsyncOperationStatusResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param extensionName The name of the cluster extension.
+   * @param operationId The long running operation id.
+   * @param callback The callback
+   */
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, extensionName: string, operationId: string, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param extensionName The name of the cluster extension.
+   * @param operationId The long running operation id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, extensionName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, extensionName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.ExtensionsGetAzureAsyncOperationStatusResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        extensionName,
+        operationId,
+        options
+      },
+      getAzureAsyncOperationStatusOperationSpec,
+      callback) as Promise<Models.ExtensionsGetAzureAsyncOperationStatusResponse>;
   }
 
   /**
@@ -181,6 +278,44 @@ export class Extensions {
         options
       },
       beginDisableMonitoringOperationSpec,
+      options);
+  }
+
+  /**
+   * Enables the Azure Monitor on the HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The Log Analytics workspace parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginEnableAzureMonitor(resourceGroupName: string, clusterName: string, parameters: Models.AzureMonitorRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        parameters,
+        options
+      },
+      beginEnableAzureMonitorOperationSpec,
+      options);
+  }
+
+  /**
+   * Disables the Azure Monitor on the HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDisableAzureMonitor(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        options
+      },
+      beginDisableAzureMonitorOperationSpec,
       options);
   }
 
@@ -254,6 +389,31 @@ const getMonitoringStatusOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getAzureMonitorStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/azureMonitor",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AzureMonitorResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
@@ -271,7 +431,34 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.ClusterMonitoringResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAzureAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}/azureAsyncOperations/{operationId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.extensionName,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -314,6 +501,62 @@ const beginEnableMonitoringOperationSpec: msRest.OperationSpec = {
 const beginDisableMonitoringOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginEnableAzureMonitorOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/azureMonitor",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.AzureMonitorRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginDisableAzureMonitorOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/azureMonitor",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,

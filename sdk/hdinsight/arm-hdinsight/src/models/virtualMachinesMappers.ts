@@ -7,6 +7,8 @@
  */
 
 export {
+  AsyncOperationResult,
   ErrorResponse,
+  Errors,
   HostInfo
 } from "../models/mappers";

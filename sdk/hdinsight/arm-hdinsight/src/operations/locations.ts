@@ -108,6 +108,102 @@ export class Locations {
       listBillingSpecsOperationSpec,
       callback) as Promise<Models.LocationsListBillingSpecsResponse>;
   }
+
+  /**
+   * Get the async operation status.
+   * @param location The Azure location (region) for which to make the request.
+   * @param operationId The long running operation id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.LocationsGetAzureAsyncOperationStatusResponse>
+   */
+  getAzureAsyncOperationStatus(location: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsGetAzureAsyncOperationStatusResponse>;
+  /**
+   * @param location The Azure location (region) for which to make the request.
+   * @param operationId The long running operation id.
+   * @param callback The callback
+   */
+  getAzureAsyncOperationStatus(location: string, operationId: string, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  /**
+   * @param location The Azure location (region) for which to make the request.
+   * @param operationId The long running operation id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAzureAsyncOperationStatus(location: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  getAzureAsyncOperationStatus(location: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.LocationsGetAzureAsyncOperationStatusResponse> {
+    return this.client.sendOperationRequest(
+      {
+        location,
+        operationId,
+        options
+      },
+      getAzureAsyncOperationStatusOperationSpec,
+      callback) as Promise<Models.LocationsGetAzureAsyncOperationStatusResponse>;
+  }
+
+  /**
+   * Check the cluster name is available or not.
+   * @param location The Azure location (region) for which to make the request.
+   * @param parameters
+   * @param [options] The optional parameters
+   * @returns Promise<Models.LocationsCheckNameAvailabilityResponse>
+   */
+  checkNameAvailability(location: string, parameters: Models.NameAvailabilityCheckRequestParameters, options?: msRest.RequestOptionsBase): Promise<Models.LocationsCheckNameAvailabilityResponse>;
+  /**
+   * @param location The Azure location (region) for which to make the request.
+   * @param parameters
+   * @param callback The callback
+   */
+  checkNameAvailability(location: string, parameters: Models.NameAvailabilityCheckRequestParameters, callback: msRest.ServiceCallback<Models.NameAvailabilityCheckResult>): void;
+  /**
+   * @param location The Azure location (region) for which to make the request.
+   * @param parameters
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkNameAvailability(location: string, parameters: Models.NameAvailabilityCheckRequestParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailabilityCheckResult>): void;
+  checkNameAvailability(location: string, parameters: Models.NameAvailabilityCheckRequestParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityCheckResult>, callback?: msRest.ServiceCallback<Models.NameAvailabilityCheckResult>): Promise<Models.LocationsCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      {
+        location,
+        parameters,
+        options
+      },
+      checkNameAvailabilityOperationSpec,
+      callback) as Promise<Models.LocationsCheckNameAvailabilityResponse>;
+  }
+
+  /**
+   * Validate the cluster create request spec is valid or not.
+   * @param location The Azure location (region) for which to make the request.
+   * @param parameters
+   * @param [options] The optional parameters
+   * @returns Promise<Models.LocationsValidateClusterCreateRequestResponse>
+   */
+  validateClusterCreateRequest(location: string, parameters: Models.ClusterCreateRequestValidationParameters, options?: msRest.RequestOptionsBase): Promise<Models.LocationsValidateClusterCreateRequestResponse>;
+  /**
+   * @param location The Azure location (region) for which to make the request.
+   * @param parameters
+   * @param callback The callback
+   */
+  validateClusterCreateRequest(location: string, parameters: Models.ClusterCreateRequestValidationParameters, callback: msRest.ServiceCallback<Models.ClusterCreateValidationResult>): void;
+  /**
+   * @param location The Azure location (region) for which to make the request.
+   * @param parameters
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  validateClusterCreateRequest(location: string, parameters: Models.ClusterCreateRequestValidationParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterCreateValidationResult>): void;
+  validateClusterCreateRequest(location: string, parameters: Models.ClusterCreateRequestValidationParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterCreateValidationResult>, callback?: msRest.ServiceCallback<Models.ClusterCreateValidationResult>): Promise<Models.LocationsValidateClusterCreateRequestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        location,
+        parameters,
+        options
+      },
+      validateClusterCreateRequestOperationSpec,
+      callback) as Promise<Models.LocationsValidateClusterCreateRequestResponse>;
+  }
 }
 
 // Operation Specifications
@@ -176,6 +272,93 @@ const listBillingSpecsOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.BillingResponseListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAzureAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/azureasyncoperations/{operationId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/checkNameAvailability",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.NameAvailabilityCheckRequestParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.NameAvailabilityCheckResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const validateClusterCreateRequestOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/validateCreateRequest",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ClusterCreateRequestValidationParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterCreateValidationResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

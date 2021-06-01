@@ -256,6 +256,55 @@ export class Clusters {
   }
 
   /**
+   * The the async operation status.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param operationId The long running operation id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ClustersGetAzureAsyncOperationStatusResponse>
+   */
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersGetAzureAsyncOperationStatusResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param operationId The long running operation id.
+   * @param callback The callback
+   */
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param operationId The long running operation id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.ClustersGetAzureAsyncOperationStatusResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        operationId,
+        options
+      },
+      getAzureAsyncOperationStatusOperationSpec,
+      callback) as Promise<Models.ClustersGetAzureAsyncOperationStatusResponse>;
+  }
+
+  /**
+   * Updates the cluster identity certificate.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The cluster configurations.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  updateIdentityCertificate(resourceGroupName: string, clusterName: string, parameters: Models.UpdateClusterIdentityCertificateParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginUpdateIdentityCertificate(resourceGroupName,clusterName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Executes script actions on the specified HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -383,6 +432,26 @@ export class Clusters {
         options
       },
       beginUpdateGatewaySettingsOperationSpec,
+      options);
+  }
+
+  /**
+   * Updates the cluster identity certificate.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The cluster configurations.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateIdentityCertificate(resourceGroupName: string, clusterName: string, parameters: Models.UpdateClusterIdentityCertificateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        parameters,
+        options
+      },
+      beginUpdateIdentityCertificateOperationSpec,
       options);
   }
 
@@ -594,6 +663,32 @@ const getGatewaySettingsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getAzureAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/azureasyncoperations/{operationId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}",
@@ -777,6 +872,37 @@ const beginUpdateGatewaySettingsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginUpdateIdentityCertificateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/updateClusterIdentityCertificate",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.UpdateClusterIdentityCertificateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const beginExecuteScriptActionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/executeScriptActions",
@@ -801,6 +927,7 @@ const beginExecuteScriptActionsOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     202: {},
+    404: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

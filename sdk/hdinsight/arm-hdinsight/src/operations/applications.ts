@@ -122,6 +122,46 @@ export class Applications {
   }
 
   /**
+   * Gets the async operation status.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param applicationName The constant value for the application name.
+   * @param operationId The long running operation id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ApplicationsGetAzureAsyncOperationStatusResponse>
+   */
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, applicationName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsGetAzureAsyncOperationStatusResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param applicationName The constant value for the application name.
+   * @param operationId The long running operation id.
+   * @param callback The callback
+   */
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, applicationName: string, operationId: string, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param applicationName The constant value for the application name.
+   * @param operationId The long running operation id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, applicationName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, applicationName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.ApplicationsGetAzureAsyncOperationStatusResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        applicationName,
+        operationId,
+        options
+      },
+      getAzureAsyncOperationStatusOperationSpec,
+      callback) as Promise<Models.ApplicationsGetAzureAsyncOperationStatusResponse>;
+  }
+
+  /**
    * Creates applications for the HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -237,6 +277,33 @@ const getOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.Application
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAzureAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}/azureasyncoperations/{operationId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.applicationName,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

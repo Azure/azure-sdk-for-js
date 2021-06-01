@@ -130,6 +130,42 @@ export class ScriptActions {
   }
 
   /**
+   * Gets the async operation status of execution operation.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param operationId The long running operation id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ScriptActionsGetExecutionAsyncOperationStatusResponse>
+   */
+  getExecutionAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.ScriptActionsGetExecutionAsyncOperationStatusResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param operationId The long running operation id.
+   * @param callback The callback
+   */
+  getExecutionAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param operationId The long running operation id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getExecutionAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  getExecutionAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.ScriptActionsGetExecutionAsyncOperationStatusResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        operationId,
+        options
+      },
+      getExecutionAsyncOperationStatusOperationSpec,
+      callback) as Promise<Models.ScriptActionsGetExecutionAsyncOperationStatusResponse>;
+  }
+
+  /**
    * Lists all the persisted script actions for the specified cluster.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -228,6 +264,32 @@ const getExecutionDetailOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.RuntimeScriptActionDetail
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getExecutionAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/executeScriptActions/azureasyncoperations/{operationId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
