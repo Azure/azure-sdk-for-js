@@ -37,18 +37,6 @@ export interface AnalyzeResult {
 export type AnalyzeTextOptions = OperationOptions & AnalyzeRequest;
 
 // @public
-export interface AnswerResult {
-    [property: string]: any;
-    readonly highlights?: string | null;
-    readonly key: string;
-    readonly score: number;
-    readonly text: string;
-}
-
-// @public
-export type Answers = string;
-
-// @public
 export type AsciiFoldingTokenFilter = BaseTokenFilter & {
     odatatype: "#Microsoft.Azure.Search.AsciiFoldingTokenFilter";
     preserveOriginal?: boolean;
@@ -121,12 +109,6 @@ export interface BaseLexicalAnalyzer {
 }
 
 // @public
-export interface BaseLexicalNormalizer {
-    name: string;
-    odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
-}
-
-// @public
 export interface BaseLexicalTokenizer {
     name: string;
     odatatype: "#Microsoft.Azure.Search.ClassicTokenizer" | "#Microsoft.Azure.Search.EdgeNGramTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer" | "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer" | "#Microsoft.Azure.Search.NGramTokenizer" | "#Microsoft.Azure.Search.PathHierarchyTokenizerV2" | "#Microsoft.Azure.Search.PatternTokenizer" | "#Microsoft.Azure.Search.StandardTokenizer" | "#Microsoft.Azure.Search.StandardTokenizerV2" | "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
@@ -174,13 +156,6 @@ export type BM25Similarity = Similarity & {
     k1?: number | null;
     b?: number | null;
 };
-
-// @public
-export interface CaptionResult {
-    [property: string]: any;
-    readonly highlights?: string | null;
-    readonly text?: string;
-}
 
 // @public
 export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;
@@ -337,13 +312,6 @@ export type CustomEntityLookupSkill = BaseSearchIndexerSkill & {
 
 // @public
 export type CustomEntityLookupSkillLanguage = string;
-
-// @public
-export type CustomNormalizer = BaseLexicalNormalizer & {
-    odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
-    tokenFilters?: TokenFilterName[];
-    charFilters?: CharFilterName[];
-};
 
 // @public
 export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
@@ -802,12 +770,6 @@ export enum KnownAnalyzerNames {
 }
 
 // @public
-export const enum KnownAnswers {
-    Extractive = "extractive",
-    None = "none"
-}
-
-// @public
 export const enum KnownBlobIndexerDataToExtract {
     AllMetadata = "allMetadata",
     ContentAndMetadata = "contentAndMetadata",
@@ -1031,15 +993,6 @@ export const enum KnownLexicalAnalyzerName {
 }
 
 // @public
-export const enum KnownLexicalNormalizerName {
-    AsciiFolding = "asciifolding",
-    Elision = "elision",
-    Lowercase = "lowercase",
-    Standard = "standard",
-    Uppercase = "uppercase"
-}
-
-// @public
 export const enum KnownOcrSkillLanguage {
     Ar = "ar",
     Cs = "cs",
@@ -1067,12 +1020,6 @@ export const enum KnownOcrSkillLanguage {
     Tr = "tr",
     ZhHans = "zh-Hans",
     ZhHant = "zh-Hant"
-}
-
-// @public
-export const enum KnownQueryLanguage {
-    EnUs = "en-us",
-    None = "none"
 }
 
 // @public
@@ -1114,12 +1061,6 @@ export const enum KnownSentimentSkillLanguage {
     Ru = "ru",
     Sv = "sv",
     Tr = "tr"
-}
-
-// @public
-export const enum KnownSpeller {
-    Lexicon = "lexicon",
-    None = "none"
 }
 
 // @public
@@ -1333,12 +1274,6 @@ export type LexicalAnalyzer = CustomAnalyzer | PatternAnalyzer | LuceneStandardA
 export type LexicalAnalyzerName = string;
 
 // @public
-export type LexicalNormalizer = CustomNormalizer;
-
-// @public
-export type LexicalNormalizerName = string;
-
-// @public
 export type LexicalTokenizer = ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizer | PatternTokenizer | LuceneStandardTokenizer | UaxUrlEmailTokenizer;
 
 // @public
@@ -1532,10 +1467,7 @@ export type PhoneticTokenFilter = BaseTokenFilter & {
 };
 
 // @public
-export type QueryLanguage = string;
-
-// @public
-export type QueryType = "simple" | "full" | "semantic";
+export type QueryType = "simple" | "full";
 
 // @public
 export type RegexFlags = string;
@@ -1609,7 +1541,6 @@ export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
 
 // @public
 export interface SearchDocumentsResultBase {
-    readonly answers?: AnswerResult[] | null;
     readonly count?: number;
     readonly coverage?: number;
     readonly facets?: {
@@ -1633,7 +1564,6 @@ export interface SearchIndex {
     etag?: string;
     fields: SearchField[];
     name: string;
-    normalizers?: LexicalNormalizer[];
     scoringProfiles?: ScoringProfile[];
     similarity?: SimilarityAlgorithm;
     suggesters?: SearchSuggester[];
@@ -1893,7 +1823,6 @@ export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fiel
 
 // @public
 export interface SearchRequest {
-    answers?: Answers;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -1902,7 +1831,6 @@ export interface SearchRequest {
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string;
-    queryLanguage?: QueryLanguage;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -1913,13 +1841,11 @@ export interface SearchRequest {
     select?: string;
     sessionId?: string;
     skip?: number;
-    speller?: Speller;
     top?: number;
 }
 
 // @public
 export interface SearchRequestOptions<Fields> {
-    answers?: Answers;
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -1928,7 +1854,6 @@ export interface SearchRequestOptions<Fields> {
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string[];
-    queryLanguage?: QueryLanguage;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -1938,7 +1863,6 @@ export interface SearchRequestOptions<Fields> {
     select?: Fields[];
     sessionId?: string;
     skip?: number;
-    speller?: Speller;
     top?: number;
 }
 
@@ -1954,11 +1878,9 @@ export interface SearchResourceEncryptionKey {
 // @public
 export type SearchResult<T> = {
     readonly score: number;
-    readonly rerankerScore?: number;
     readonly highlights?: {
         [k in keyof T]?: string[];
     };
-    readonly captions?: CaptionResult[] | null;
     document: T;
 };
 
@@ -2036,7 +1958,6 @@ export interface SimpleField {
     indexAnalyzerName?: LexicalAnalyzerName;
     key?: boolean;
     name: string;
-    normalizerName?: LexicalNormalizerName;
     searchable?: boolean;
     searchAnalyzerName?: LexicalAnalyzerName;
     sortable?: boolean;
@@ -2059,9 +1980,6 @@ export type SoftDeleteColumnDeletionDetectionPolicy = BaseDataDeletionDetectionP
     softDeleteColumnName?: string;
     softDeleteMarkerValue?: string;
 };
-
-// @public
-export type Speller = string;
 
 // @public
 export type SplitSkill = BaseSearchIndexerSkill & {

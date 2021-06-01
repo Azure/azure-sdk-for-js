@@ -77,20 +77,6 @@ export const SearchDocumentsResult: coreHttp.CompositeMapper = {
           }
         }
       },
-      answers: {
-        serializedName: "@search\\.answers",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AnswerResult"
-            }
-          }
-        }
-      },
       nextPageParameters: {
         serializedName: "@search\\.nextPageParameters",
         type: {
@@ -134,48 +120,6 @@ export const FacetResult: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const AnswerResult: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AnswerResult",
-    additionalProperties: { type: { name: "Object" } },
-    modelProperties: {
-      score: {
-        serializedName: "score",
-        required: true,
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      key: {
-        serializedName: "key",
-        required: true,
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      text: {
-        serializedName: "text",
-        required: true,
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      highlights: {
-        serializedName: "highlights",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -244,7 +188,7 @@ export const SearchRequest: coreHttp.CompositeMapper = {
         serializedName: "queryType",
         type: {
           name: "Enum",
-          allowedValues: ["simple", "full", "semantic"]
+          allowedValues: ["simple", "full"]
         }
       },
       scoringStatistics: {
@@ -296,24 +240,6 @@ export const SearchRequest: coreHttp.CompositeMapper = {
           allowedValues: ["any", "all"]
         }
       },
-      queryLanguage: {
-        serializedName: "queryLanguage",
-        type: {
-          name: "String"
-        }
-      },
-      speller: {
-        serializedName: "speller",
-        type: {
-          name: "String"
-        }
-      },
-      answers: {
-        serializedName: "answers",
-        type: {
-          name: "String"
-        }
-      },
       select: {
         serializedName: "select",
         type: {
@@ -350,14 +276,6 @@ export const SearchResult: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      rerankerScore: {
-        serializedName: "@search\\.rerankerScore",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "Number"
-        }
-      },
       _highlights: {
         serializedName: "@search\\.highlights",
         readOnly: true,
@@ -366,45 +284,6 @@ export const SearchResult: coreHttp.CompositeMapper = {
           value: {
             type: { name: "Sequence", element: { type: { name: "String" } } }
           }
-        }
-      },
-      captions: {
-        serializedName: "@search\\.captions",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CaptionResult"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const CaptionResult: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CaptionResult",
-    additionalProperties: { type: { name: "Object" } },
-    modelProperties: {
-      text: {
-        serializedName: "text",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      highlights: {
-        serializedName: "highlights",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "String"
         }
       }
     }

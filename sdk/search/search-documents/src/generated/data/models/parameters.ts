@@ -189,7 +189,7 @@ export const queryType: OperationQueryParameter = {
     serializedName: "queryType",
     type: {
       name: "Enum",
-      allowedValues: ["simple", "full", "semantic"]
+      allowedValues: ["simple", "full"]
     }
   }
 };
@@ -234,36 +234,6 @@ export const searchFields: OperationQueryParameter = {
     }
   },
   collectionFormat: QueryCollectionFormat.Csv
-};
-
-export const queryLanguage: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "queryLanguage"],
-  mapper: {
-    serializedName: "queryLanguage",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const speller: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "speller"],
-  mapper: {
-    serializedName: "speller",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const answers: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "answers"],
-  mapper: {
-    serializedName: "answers",
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const searchMode: OperationQueryParameter = {
