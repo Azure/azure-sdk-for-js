@@ -3,6 +3,7 @@
 
 import { buildRequestUrl } from "../src/urlHelpers";
 import { assert } from "chai";
+
 describe("urlHelpers", () => {
   const mockBaseUrl = "https://example.org";
 
@@ -24,6 +25,14 @@ describe("urlHelpers", () => {
     });
 
     assert.equal(result, `https://example.org/foo/one?foo=1&bar=two`);
+  });
+
+  it("should append date query parameter as ISO string", () => {
+    const start = new Date("2021-06-25T07:00:00.000Z");
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "1", start },
+    });
+    assert.equal(result, "https://example.org/foo/one?foo=1&start=2021-06-25T07%3A00%3A00.000Z");
   });
 
   it("should append path and append query parameters", () => {

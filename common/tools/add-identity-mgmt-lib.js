@@ -42,8 +42,12 @@ function updateREADME(mainModule, relativePath, namespace) {
       "README file"
     );
 
-    const [_, operation, operationArgs] = content.match(/client\.(.+?)\((.*)\).*$/ms);
-
+    const [_, operation, operationArgs] = content.match(/client\.(.+?)\((.*?)\).*$/ms);
+    const operationArgsInitializations = [...new Set(content.match(/(const (?!(client|authManager|subscriptionId)).*? = (?!require).*)/g))];
+    if ((operationArgs === "" && operationArgsInitializations.length > 0) || (operationArgs !== "" && operationArgsInitializations.length !== operationArgs.split(",").length)) {
+      throw new Error(`Bad README.md: The number of initializations does not match the number of arguments`);
+    }
+    const operationArgsInitializationsString = operationArgsInitializations.join("\n");
     const operationHeader = operation
       .split(".")
       .reverse()
@@ -82,9 +86,9 @@ If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/
   - Follow the instructions in the section on Authenticating client side browser applications in [Azure Identity examples](https://aka.ms/azsdk/js/identity/examples) to register your application in the Microsoft identity platform and set the right permissions.
   - Copy the client ID and tenant ID from the Overview section of your app registration in Azure portal and use it in the browser sample below.
 - If you are writing a server side application,
-    - [Select a credential from \`@azure/identity\` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
-    - Complete the set up steps required by the credential if any.
-    - Use the credential you picked in the place of \`DefaultAzureCredential\` in the Node.js sample below.
+  - [Select a credential from \`@azure/identity\` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
+  - Complete the set up steps required by the credential if any.
+  - Use the credential you picked in the place of \`DefaultAzureCredential\` in the Node.js sample below.
 
 In the below samples, we pass the credential and the Azure subscription id to instantiate the client.
 Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
@@ -102,8 +106,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 // Please note that you can also use credentials from the \`@azure/ms-rest-nodeauth\` package instead.
 const creds = new DefaultAzureCredential();
 const client = new ${clientName}(creds, subscriptionId);
-const resourceGroupName = "testresourceGroupName";
-const resourceName = "testresourceName";
+${operationArgsInitializationsString}
 client.${operation}(${operationArgs}).then((result) => {
   console.log("The result is:");
   console.log(result);
@@ -140,9 +143,7 @@ In browser applications, we recommend using the \`InteractiveBrowserCredential\`
         clientId: "<client id for your Azure AD app>",
         tenantId: "<optional tenant for your organization>"
       });
-      const client = new ${namespace}.${clientName}(creds, subscriptionId);
-      const resourceGroupName = "testresourceGroupName";
-      const resourceName = "testresourceName";
+      const client = new ${namespace}.${clientName}(creds, subscriptionId);${operationArgsInitializations.length === 0 ? "" : "\n" + operationArgsInitializations.map(str => "      " + str).join("\n")}
       client.${operation}(${operationArgs}).then((result) => {
         console.log("The result is:");
         console.log(result);

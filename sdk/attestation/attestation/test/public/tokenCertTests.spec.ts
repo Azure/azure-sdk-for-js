@@ -46,7 +46,7 @@ describe("TokenCertTests", function() {
       assert.isDefined(key.keyId);
       assert.isDefined(key.certificates);
 
-      key.certificates.forEach(certBuffer => {
+      key.certificates.forEach((certBuffer: Uint8Array) => {
           assert.isDefined(certBuffer);
 
           let pemCert: string;

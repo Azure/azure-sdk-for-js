@@ -69,6 +69,10 @@
       "path": "sdk/confidentialledger/confidential-ledger-rest"
     },
     {
+      "name": "agrifood-farming",
+      "path": "sdk/agrifood/agrifood-farming-rest"
+    },
+    {
       "name": "core-crypto",
       "path": "sdk/core/core-crypto"
     },
