@@ -26,7 +26,10 @@ export async function main() {
   const repository = client.getRepository(repositoryName);
   await getProperties(repository);
 
-  const manifests = await listManifests(repository);
+  const manifests = await listManifestProperties(repository);
+
+  // Advanced: listing by pages
+  await listManifestPropertiesByPages(repository, pageSize);
 
   if (manifests && manifests.length) {
     const digest = manifests[0].digest;
@@ -37,29 +40,27 @@ export async function main() {
       await getArtifactProperties(artifact);
 
       console.log(`Listing tags for ${digest}`);
-      const tags = await listTags(artifact);
+      const tags = await listTagProperties(artifact);
       if (tags && tags.length) {
         console.log(`Retrieving tag properties for ${tags[0]}`);
-        const tagProperties = await artifact.getTag(tags[0]);
+        const tagProperties = await artifact.getTagProperties(tags[0]);
         console.log(`  tag properties`);
         console.log(tagProperties);
       }
 
       // Advanced: listing by pages
       console.log(`Listing tags by pages for ${digest}`);
-      await listTagsByPages(artifact, pageSize);
+      await listTagPropertiesByPages(artifact, pageSize);
 
       console.log(`Deleting registry artifact for ${digest}`);
       await artifact.delete();
     }
   }
-  // Advanced: listing by pages
-  await listManifestsByPages(repository, pageSize);
 }
 
-async function listTags(artifact: RegistryArtifact): Promise<string[]> {
+async function listTagProperties(artifact: RegistryArtifact): Promise<string[]> {
   const tags: string[] = [];
-  const iterator = artifact.listTags({ orderBy: "LastUpdatedOnAscending" });
+  const iterator = artifact.listTagProperties({ orderBy: "LastUpdatedOnAscending" });
   for await (const tag of iterator) {
     tags.push(tag.name);
     console.log(`  registry login server: ${tag.registryLoginServer}`);
@@ -72,8 +73,8 @@ async function listTags(artifact: RegistryArtifact): Promise<string[]> {
   return tags;
 }
 
-async function listTagsByPages(artifact: RegistryArtifact, pagesSize: number) {
-  const pages = artifact.listTags().byPage({ maxPageSize: pagesSize });
+async function listTagPropertiesByPages(artifact: RegistryArtifact, pagesSize: number) {
+  const pages = artifact.listTagProperties().byPage({ maxPageSize: pagesSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -88,12 +89,12 @@ async function listTagsByPages(artifact: RegistryArtifact, pagesSize: number) {
   }
 }
 
-async function listManifests(
+async function listManifestProperties(
   repository: ContainerRepository
 ): Promise<ArtifactManifestProperties[]> {
   console.log("Listing artifacts");
   const artifacts: ArtifactManifestProperties[] = [];
-  const iterator = repository.listManifests();
+  const iterator = repository.listManifestProperties();
   for await (const artifact of iterator) {
     artifacts.push(artifact);
     console.log(`  registry login server: ${artifact.registryLoginServer}`);
@@ -105,9 +106,9 @@ async function listManifests(
   return artifacts;
 }
 
-async function listManifestsByPages(repository: ContainerRepository, pageSize: number) {
+async function listManifestPropertiesByPages(repository: ContainerRepository, pageSize: number) {
   console.log("Listing manifest by pages");
-  const pages = repository.listManifests().byPage({ maxPageSize: pageSize });
+  const pages = repository.listManifestProperties().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
