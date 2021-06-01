@@ -138,15 +138,13 @@ export class MsalOpenBrowser extends MsalNode {
             cleanup();
           });
       };
+
       const app = http.createServer(requestListener);
+      const server = stoppable(app);
 
       const listen = app.listen(this.port, this.hostname, () =>
         this.logger.info(`InteractiveBrowserCredential listening on port ${this.port}!`)
       );
-      app.on("connection", (socket) => socketToDestroy.push(socket));
-      const server = stoppable(app);
-
-      const openPromise = this.openAuthCodeUrl(scopes);
 
       function cleanup(): void {
         if (listen) {
@@ -163,17 +161,23 @@ export class MsalOpenBrowser extends MsalNode {
         }
       }
 
-      const abortSignal = options?.abortSignal;
-      if (abortSignal) {
-        abortSignal.addEventListener("abort", () => {
-          cleanup();
-          reject(new Error("Aborted"));
-        });
-      }
+      app.on("connection", (socket) => socketToDestroy.push(socket));
 
-      openPromise.then().catch((e) => {
-        cleanup();
-        reject(e);
+      app.on("listening", () => {
+        const openPromise = this.openAuthCodeUrl(scopes);
+
+        const abortSignal = options?.abortSignal;
+        if (abortSignal) {
+          abortSignal.addEventListener("abort", () => {
+            cleanup();
+            reject(new Error("Aborted"));
+          });
+        }
+
+        openPromise.then().catch((e) => {
+          cleanup();
+          reject(e);
+        });
       });
     });
   }
