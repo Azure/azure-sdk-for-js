@@ -993,8 +993,15 @@ export class MetricsAdvisorKeyCredential {
     constructor(subscriptionKey: string, apiKey: string);
     get apiKey(): string;
     get subscriptionKey(): string;
-    // Warning: (ae-forgotten-export) The symbol "MetricsAdvisorKeys" needs to be exported by the entry point index.d.ts
     updateKey(metricAdvisorKeys: MetricsAdvisorKeys): void;
+}
+
+// @public (undocumented)
+export interface MetricsAdvisorKeys {
+    // (undocumented)
+    apiKey?: string;
+    // (undocumented)
+    subscriptionKey?: string;
 }
 
 // @public

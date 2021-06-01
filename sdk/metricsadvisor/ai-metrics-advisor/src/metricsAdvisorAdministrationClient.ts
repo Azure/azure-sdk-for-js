@@ -65,7 +65,8 @@ import {
   toServiceGranularity,
   toServiceCredentialPatch,
   toServiceCredential,
-  fromServiceCredential
+  fromServiceCredential,
+  toServiceDataFeedSource
 } from "./transforms";
 
 /**
@@ -246,7 +247,7 @@ export class MetricsAdvisorAdministrationClient {
       const body = {
         dataFeedName: name,
         ...toServiceGranularity(granularity),
-        ...source,
+        ...toServiceDataFeedSource(source),
         metrics: schema.metrics,
         dimension: schema.dimensions,
         timestampColumn: schema.timestampColumn,

@@ -435,7 +435,7 @@ export class MetricsAdvisorClient {
         alertConfigId,
         alertId,
         {
-          ...options,
+          skip: options.skip,
           maxpagesize: maxPageSize
         }
       );

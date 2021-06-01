@@ -24,7 +24,7 @@ import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
-    describe("MetricsAdvisorAdministrationClient datafeed", () => {
+    describe.only("MetricsAdvisorAdministrationClient datafeed", () => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
       let feedName: string;
@@ -139,7 +139,7 @@ matrix([[true, false]] as const, async (useAad) => {
           accessMode: "Private"
         };
 
-        it("creates an Azure Blob datafeed", async () => {
+        it.only("creates an Azure Blob datafeed", async () => {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureBlob",

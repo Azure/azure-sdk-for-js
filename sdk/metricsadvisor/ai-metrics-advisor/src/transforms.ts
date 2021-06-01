@@ -35,7 +35,18 @@ import {
   DataLakeGen2SharedKeyCredential,
   AzureSQLConnectionStringCredential,
   ServicePrincipalCredential,
-  ServicePrincipalInKVCredential
+  ServicePrincipalInKVCredential,
+  AzureApplicationInsightsParameter,
+  MongoDBParameter,
+  AuthenticationTypeEnum,
+  AzureBlobParameter, 
+  AzureCosmosDBParameter, 
+  AzureDataLakeStorageGen2Parameter, 
+  AzureEventHubsParameter,
+  AzureLogAnalyticsParameter, 
+  AzureTableParameter, 
+  InfluxDBParameter, 
+  SqlSourceParameter
 } from "./generated/models";
 import {
   MetricFeedbackUnion,
@@ -69,7 +80,8 @@ import {
   DataLakeGen2SharedKeyDatasourceCredential,
   DatasourceCredential,
   ServicePrincipalDatasourceCredential,
-  ServicePrincipalInKeyVaultDatasourceCredential
+  ServicePrincipalInKeyVaultDatasourceCredential,
+  DataFeedSource
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -351,6 +363,160 @@ export function toServiceGranularity(
       return { granularityName: "Secondly" };
     default:
       return { granularityName: model.granularityType };
+  }
+}
+
+export function toServiceDataFeedSource(
+  source: DataFeedSource
+):{
+  dataSourceType: "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureTable" | "InfluxDB" | "MySql" | "PostgreSql" | "SqlServer" | "MongoDB" | "AzureLogAnalytics" | "AzureEventHubs";
+  dataSourceParameter: AzureApplicationInsightsParameter | AzureCosmosDBParameter | MongoDBParameter | AzureBlobParameter | SqlSourceParameter | InfluxDBParameter | AzureDataLakeStorageGen2Parameter | AzureTableParameter | AzureLogAnalyticsParameter | AzureEventHubsParameter;
+  authenticationType?: AuthenticationTypeEnum;
+  credentialId?: string;
+}
+{
+
+switch(source.dataSourceType){
+  case "MongoDB":
+    return {
+      dataSourceType: "MongoDB",
+      dataSourceParameter: {
+        command: source.command,
+        database: source.database!,
+        connectionString: source.connectionString!
+      },
+    };
+  case "AzureApplicationInsights":{ 
+     return {
+       dataSourceType: "AzureApplicationInsights",
+       dataSourceParameter: {
+         azureCloud: source.azureCloud!,
+         applicationId: source.applicationId!,
+         apiKey: source.apiKey!,
+         query: source.query
+       }
+     };
+    }
+  case "AzureBlob":
+    return {
+      dataSourceType: "AzureBlob",
+      dataSourceParameter: {
+        connectionString: source.connectionString,
+        container: source.container,
+        blobTemplate: source.blobTemplate
+      }
+    };
+
+  case "AzureCosmosDB":
+    return {
+      dataSourceType: "AzureCosmosDB",
+      dataSourceParameter: {
+        connectionString: source.connectionString!,
+        database: source.database,
+        collectionId: source.collectionId,
+        sqlQuery: source.sqlQuery
+      }
+    }
+    case "SqlServer":
+      if(source.authenticationType != "AzureSQLConnectionString"){
+        return{
+          dataSourceType: "SqlServer",
+          dataSourceParameter: {
+            query: source.query,
+            connectionString: source.connectionString 
+          }
+        }
+      }
+      else{
+        return{
+          dataSourceType: "SqlServer",
+          dataSourceParameter: {
+            query: source.query
+          }
+        }
+      }
+    case "AzureDataExplorer":
+      return{
+        dataSourceType: "AzureDataExplorer",
+        dataSourceParameter: {
+          connectionString: source.connectionString,
+          query: source.query
+        }
+      }
+      case "AzureDataLakeStorageGen2":
+        if(source.authenticationType == "Basic"){
+        return{
+          dataSourceType: "AzureDataLakeStorageGen2",
+          dataSourceParameter: {
+            accountName: source.accountName,
+            directoryTemplate: source.directoryTemplate,
+            fileTemplate: source.fileTemplate,
+            fileSystemName: source.fileSystemName,
+            accountKey: source.accountKey
+          }
+        }
+      }
+      else{
+        return{
+          dataSourceType: "AzureDataLakeStorageGen2",
+          dataSourceParameter: {
+            accountName: source.accountName,
+            directoryTemplate: source.directoryTemplate,
+            fileTemplate: source.fileTemplate,
+            fileSystemName: source.fileSystemName
+          }
+        }
+      }
+      case "AzureEventHubs":
+        return{
+          dataSourceType: "AzureEventHubs",
+          dataSourceParameter: {
+            connectionString: source.connectionString!,
+            consumerGroup: source.consumerGroup
+          }
+        }
+      case "AzureLogAnalytics":
+        return{
+          dataSourceType: "AzureLogAnalytics",
+          dataSourceParameter: {
+            tenantId: source.tenantId!,
+            clientId: source.clientId!,
+            clientSecret: source.clientSecret!,
+            workspaceId: source.workspaceId,
+            query: source.query
+          }
+        }
+      case "AzureTable":
+        return{
+          dataSourceType: "AzureTable",
+          dataSourceParameter: {
+            query: source.query,
+            connectionString: source.connectionString,
+            table: source.table
+          }
+        }
+      case "InfluxDB":
+        return{
+          dataSourceType: "InfluxDB",
+          dataSourceParameter: {
+            query: source.query,
+            connectionString: source.connectionString,
+            database: source.database,
+            userName: source.userName,
+            password: source.password
+          }
+        }
+      case "MySql":
+        return{
+          dataSourceType: "MySql",
+          dataSourceParameter:{
+            query: source.query,
+            connectionString: source.connectionString
+          }
+        }
+  default:
+    throw new Error(`Unexpected datafeed source type: '${source.dataSourceType}'`);
+   
   }
 }
 
