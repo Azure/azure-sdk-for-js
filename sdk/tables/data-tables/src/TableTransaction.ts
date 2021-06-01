@@ -3,13 +3,11 @@
 
 import {
   createHttpHeaders,
-  PipelineRequest,
   createPipelineRequest,
   PipelineResponse,
-  RestError,
-  createEmptyPipeline
+  RestError
 } from "@azure/core-rest-pipeline";
-import { ServiceClient, OperationOptions, serializationPolicy } from "@azure/core-client";
+import { ServiceClient, OperationOptions } from "@azure/core-client";
 import {
   DeleteTableEntityOptions,
   TableEntity,
@@ -21,14 +19,18 @@ import {
 } from "./models";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
-import { HeaderConstants } from "./utils/constants";
-import { transactionHeaderFilterPolicy, transactionRequestAssemblePolicy } from "./TablePolicies";
-import { InnerTransactionRequest, TableClientLike } from "./utils/internalModels";
+import { TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { URL } from "./utils/url";
 import { TableServiceErrorOdataError } from "./generated";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
+import { TableClient } from "./TableClient";
+import {
+  addTransactionPipelinePolicies,
+  clearTransactionPipeline,
+  getTransactionHttpRequestBody,
+  getInitialTransactionBody
+} from "./utils/transactionHelpers";
 
 /**
  * Helper to build a list of transaction actions
@@ -94,15 +96,16 @@ export class InternalTableTransaction {
    */
   public url: string;
   private interceptClient: TableClientLike;
-  private transactionGuid: string;
-  private transactionRequest: InnerTransactionRequest;
+  private transactionId: string;
+  private changesetId: string;
   private pendingOperations: Promise<any>[];
   private credential?: TablesSharedKeyCredentialLike;
+  private bodyParts: string[];
 
   /**
    * Partition key tagetted by the transaction
    */
-  public readonly partitionKey: string;
+  private partitionKey: string;
 
   /**
    * @param url - Tables account url
@@ -111,20 +114,24 @@ export class InternalTableTransaction {
    */
   constructor(
     url: string,
+    tableName: string,
     partitionKey: string,
-    interceptClient: TableClientLike,
-    transactionGuid: string,
-    transactionRequest: InnerTransactionRequest,
+    transactionId: string,
+    changesetId: string,
     credential?: TablesSharedKeyCredentialLike
   ) {
     this.credential = credential;
-    this.partitionKey = partitionKey;
     this.url = url;
-    this.transactionGuid = transactionGuid;
-    this.transactionRequest = transactionRequest;
-    this.pendingOperations = [];
+    this.interceptClient = new TableClient(this.url, tableName);
 
-    this.interceptClient = interceptClient;
+    // Reset-able properties
+    this.transactionId = transactionId;
+    this.changesetId = changesetId;
+    this.partitionKey = partitionKey;
+    this.pendingOperations = [];
+    this.bodyParts = getInitialTransactionBody(this.transactionId, this.changesetId);
+    clearTransactionPipeline(this.interceptClient.pipeline);
+    addTransactionPipelinePolicies(this.interceptClient.pipeline, this.bodyParts, this.changesetId);
 
     // Depending on the auth method used we need to build the url
     if (!credential) {
@@ -137,6 +144,19 @@ export class InternalTableTransaction {
       // When using a SharedKey credential no SAS token is needed
       this.url = `${this.url}/$batch`;
     }
+  }
+
+  /**
+   * Resets the state of the Transaction.
+   */
+  reset(transactionId: string, changesetId: string, partitionKey: string): void {
+    this.transactionId = transactionId;
+    this.changesetId = changesetId;
+    this.partitionKey = partitionKey;
+    this.pendingOperations = [];
+    this.bodyParts = getInitialTransactionBody(this.transactionId, this.changesetId);
+    clearTransactionPipeline(this.interceptClient.pipeline);
+    addTransactionPipelinePolicies(this.interceptClient.pipeline, this.bodyParts, this.changesetId);
   }
 
   /**
@@ -211,9 +231,13 @@ export class InternalTableTransaction {
    */
   public async submitTransaction(): Promise<TableTransactionResponse> {
     await Promise.all(this.pendingOperations);
-    const body = this.transactionRequest.getHttpRequestBody();
+    const body = getTransactionHttpRequestBody(
+      this.bodyParts,
+      this.transactionId,
+      this.changesetId
+    );
     const client = new ServiceClient();
-    const headers = getTransactionHeaders(this.transactionGuid);
+    const headers = getTransactionHeaders(this.transactionId);
 
     const { span, updatedOptions } = createSpan(
       "TableTransaction-submitTransaction",
@@ -302,75 +326,5 @@ function parseTransactionResponse(transactionResponse: PipelineResponse): TableT
     status,
     subResponses: responses,
     getResponseForEntity: (rowKey: string) => responses.find((r) => r.rowKey === rowKey)
-  };
-}
-
-/**
- * Prepares the operation url to be added to the body, removing the SAS token if present
- * @param url - Source URL string
- */
-function getSubRequestUrl(url: string): string {
-  const sasTokenParts = ["sv", "ss", "srt", "sp", "se", "st", "spr", "sig"];
-  const urlParsed = new URL(url);
-  sasTokenParts.forEach((part) => urlParsed.searchParams.delete(part));
-  return urlParsed.toString();
-}
-
-/**
- * This method creates a transaction request object that provides functions to build the envelope and body for a transaction request
- * @param transactionGuid - Id of the transaction
- */
-export function createInnerTransactionRequest(
-  transactionGuid: string,
-  changesetId: string
-): InnerTransactionRequest {
-  const HTTP_LINE_ENDING = "\r\n";
-  const HTTP_VERSION_1_1 = "HTTP/1.1";
-  const transactionBoundary = `batch_${transactionGuid}`;
-  const changesetBoundary = `changeset_${changesetId}`;
-
-  const subRequestPrefix = `--${changesetBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: application/http${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TRANSFER_ENCODING}: binary`;
-  const changesetEnding = `--${changesetBoundary}--`;
-  const transactionEnding = `--${transactionBoundary}`;
-
-  return {
-    body: [
-      `--${transactionBoundary}${HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: multipart/mixed; boundary=changeset_${changesetId}${HTTP_LINE_ENDING}${HTTP_LINE_ENDING}`
-    ],
-    createPipeline() {
-      // Use transaction assemble policy to assemble request and intercept request from going to wire
-      const pipeline = createEmptyPipeline();
-      pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
-      pipeline.addPolicy(transactionHeaderFilterPolicy());
-      pipeline.addPolicy(transactionRequestAssemblePolicy(this));
-      return pipeline;
-    },
-    appendSubRequestToBody(request: PipelineRequest) {
-      const subRequestUrl = getSubRequestUrl(request.url);
-      // Start to assemble sub request
-      const subRequest = [
-        subRequestPrefix, // sub request constant prefix
-        "", // empty line after sub request's content ID
-        `${request.method.toString()} ${subRequestUrl} ${HTTP_VERSION_1_1}` // sub request start line with method,
-      ];
-
-      // Add required headers
-      for (const [name, value] of request.headers) {
-        subRequest.push(`${name}: ${value}`);
-      }
-
-      // Append sub-request body
-      subRequest.push(`${HTTP_LINE_ENDING}`); // sub request's headers need end with an empty line
-      if (request.body) {
-        subRequest.push(String(request.body));
-      }
-
-      // Add subrequest to transaction body
-      this.body.push(subRequest.join(HTTP_LINE_ENDING));
-    },
-    getHttpRequestBody(): string {
-      const bodyContent = this.body.join(HTTP_LINE_ENDING);
-      return `${bodyContent}${HTTP_LINE_ENDING}${changesetEnding}${HTTP_LINE_ENDING}${transactionEnding}${HTTP_LINE_ENDING}`;
-    }
   };
 }

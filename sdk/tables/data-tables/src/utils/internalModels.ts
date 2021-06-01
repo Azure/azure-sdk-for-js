@@ -93,6 +93,10 @@ export interface InternalTransactionClientOptions extends TableServiceClientOpti
  */
 export interface TableClientLike {
   /**
+   * Represents a pipeline for making a HTTP request to a URL.
+   */
+  pipeline: Pipeline;
+  /**
    * Name of the table to perform operations on.
    */
   readonly tableName: string;
