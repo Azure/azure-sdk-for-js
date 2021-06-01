@@ -16,7 +16,7 @@ export {
   ExtractKeyPhrasesOptions,
   RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
-  PiiEntityDomainType,
+  PiiEntityDomain,
   TextAnalyticsActions,
   RecognizeCategorizedEntitiesAction,
   RecognizePiiEntitiesAction,

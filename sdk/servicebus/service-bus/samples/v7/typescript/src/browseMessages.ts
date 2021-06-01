@@ -28,14 +28,18 @@ export async function main() {
   const queueReceiver = sbClient.createReceiver(queueName);
 
   try {
-    for (let i = 0; i < 20; i++) {
-      const [message] = await queueReceiver.peekMessages(1);
-      if (!message) {
-        console.log("No more messages to peek");
-        break;
-      }
-      console.log(`Peeking message #${i}: ${message.body}`);
+    // peeking messages does not lock or remove messages from a queue or subscription.
+    // For locking and/or removal, look at the `receiveMessagesLoop` or `receiveMessagesStreaming` samples,
+    // which cover using a receiver with a `receiveMode`.
+    console.log(`Attempting to peek 10 messages at a time`);
+    const peekedMessages = await queueReceiver.peekMessages(10);
+
+    console.log(`Got ${peekedMessages.length} messages.`);
+
+    for (let i = 0; i < peekedMessages.length; ++i) {
+      console.log(`Peeked message #${i}: ${peekedMessages[i].body}`);
     }
+
     await queueReceiver.close();
   } finally {
     await sbClient.close();

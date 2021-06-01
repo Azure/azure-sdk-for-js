@@ -2,6 +2,9 @@
 
 ## 2.0.0-beta.4 (Unreleased)
 
+### Breaking changes 
+
+- Removed the protected method `getAzureCliAccessToken` from the public API of the `AzureCliCredential`. While it will continue to be available as part of v1, we won't be supporting this method as part of v2's public API.
 
 ## 2.0.0-beta.3 (2021-05-12)
 

@@ -12,24 +12,61 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Confluent Agreements Resource.
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
+ * Agreement Terms definition
  */
 export interface ConfluentAgreementResource extends BaseResource {
   /**
-   * ARM id of the resource.
+   * The ARM id of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Name of the agreement.
+   * The name of the agreement.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * The type of the resource.
+   * The type of the agreement.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
   /**
    * Publisher identifier string.
    */
@@ -150,23 +187,23 @@ export interface OfferDetail {
   /**
    * Publisher Id
    */
-  publisherId?: string;
+  publisherId: string;
   /**
    * Offer Id
    */
-  id?: string;
+  id: string;
   /**
    * Offer Plan Id
    */
-  planId?: string;
+  planId: string;
   /**
    * Offer Plan Name
    */
-  planName?: string;
+  planName: string;
   /**
    * Offer Plan Term unit
    */
-  termUnit?: string;
+  termUnit: string;
   /**
    * SaaS Offer Status. Possible values include: 'Started', 'PendingFulfillmentStart',
    * 'InProgress', 'Subscribed', 'Suspended', 'Reinstated', 'Succeeded', 'Failed', 'Unsubscribed',
@@ -190,53 +227,7 @@ export interface UserDetail {
   /**
    * Email address
    */
-  emailAddress?: string;
-}
-
-/**
- * Confluent offer detail
- */
-export interface OrganizationResourcePropertiesOfferDetail extends OfferDetail {
-}
-
-/**
- * Subscriber detail
- */
-export interface OrganizationResourcePropertiesUserDetail extends UserDetail {
-}
-
-/**
- * Organization resource property
- */
-export interface OrganizationResourceProperties {
-  /**
-   * The creation time of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTime?: Date;
-  /**
-   * Provision states for confluent RP. Possible values include: 'Accepted', 'Creating',
-   * 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled', 'Deleted', 'NotSpecified'
-   */
-  provisioningState?: ProvisionState;
-  /**
-   * Id of the Confluent organization.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly organizationId?: string;
-  /**
-   * SSO url for the Confluent organization.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ssoUrl?: string;
-  /**
-   * Confluent offer detail
-   */
-  offerDetail?: OrganizationResourcePropertiesOfferDetail;
-  /**
-   * Subscriber detail
-   */
-  userDetail?: OrganizationResourcePropertiesUserDetail;
+  emailAddress: string;
 }
 
 /**
@@ -259,6 +250,11 @@ export interface OrganizationResource extends BaseResource {
    */
   readonly type?: string;
   /**
+   * Metadata pertaining to creation and last modification of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+  /**
    * The creation time of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -266,8 +262,9 @@ export interface OrganizationResource extends BaseResource {
   /**
    * Provision states for confluent RP. Possible values include: 'Accepted', 'Creating',
    * 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled', 'Deleted', 'NotSpecified'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisionState;
+  readonly provisioningState?: ProvisionState;
   /**
    * Id of the Confluent organization.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -281,11 +278,11 @@ export interface OrganizationResource extends BaseResource {
   /**
    * Confluent offer detail
    */
-  offerDetail?: OrganizationResourcePropertiesOfferDetail;
+  offerDetail: OfferDetail;
   /**
    * Subscriber detail
    */
-  userDetail?: OrganizationResourcePropertiesUserDetail;
+  userDetail: UserDetail;
   /**
    * Organization resource tags
    */
@@ -311,7 +308,7 @@ export interface OrganizationResourceUpdate {
  */
 export interface MarketplaceAgreementsCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Confluent Agreement resource
+   * Confluent Marketplace Agreement resource
    */
   body?: ConfluentAgreementResource;
 }
@@ -390,13 +387,30 @@ export interface OrganizationResourceListResult extends Array<OrganizationResour
 }
 
 /**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+
+/**
  * Defines values for ProvisionState.
  * Possible values include: 'Accepted', 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed',
  * 'Canceled', 'Deleted', 'NotSpecified'
  * @readonly
  * @enum {string}
  */
-export type ProvisionState = 'Accepted' | 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleted' | 'NotSpecified';
+export type ProvisionState =
+  | "Accepted"
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Deleted"
+  | "NotSpecified";
 
 /**
  * Defines values for SaaSOfferStatus.
@@ -405,7 +419,17 @@ export type ProvisionState = 'Accepted' | 'Creating' | 'Updating' | 'Deleting' |
  * @readonly
  * @enum {string}
  */
-export type SaaSOfferStatus = 'Started' | 'PendingFulfillmentStart' | 'InProgress' | 'Subscribed' | 'Suspended' | 'Reinstated' | 'Succeeded' | 'Failed' | 'Unsubscribed' | 'Updating';
+export type SaaSOfferStatus =
+  | "Started"
+  | "PendingFulfillmentStart"
+  | "InProgress"
+  | "Subscribed"
+  | "Suspended"
+  | "Reinstated"
+  | "Succeeded"
+  | "Failed"
+  | "Unsubscribed"
+  | "Updating";
 
 /**
  * Contains response data for the list operation.
@@ -415,16 +439,16 @@ export type MarketplaceAgreementsListResponse = ConfluentAgreementResourceListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfluentAgreementResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfluentAgreementResourceListResponse;
+  };
 };
 
 /**
@@ -435,16 +459,16 @@ export type MarketplaceAgreementsCreateResponse = ConfluentAgreementResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfluentAgreementResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfluentAgreementResource;
+  };
 };
 
 /**
@@ -455,16 +479,16 @@ export type MarketplaceAgreementsListNextResponse = ConfluentAgreementResourceLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfluentAgreementResourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfluentAgreementResourceListResponse;
+  };
 };
 
 /**
@@ -475,16 +499,16 @@ export type OrganizationOperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -495,16 +519,16 @@ export type OrganizationOperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -515,16 +539,16 @@ export type OrganizationListBySubscriptionResponse = OrganizationResourceListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OrganizationResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OrganizationResourceListResult;
+  };
 };
 
 /**
@@ -535,16 +559,16 @@ export type OrganizationListByResourceGroupResponse = OrganizationResourceListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OrganizationResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OrganizationResourceListResult;
+  };
 };
 
 /**
@@ -555,16 +579,16 @@ export type OrganizationGetResponse = OrganizationResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OrganizationResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OrganizationResource;
+  };
 };
 
 /**
@@ -575,16 +599,16 @@ export type OrganizationCreateResponse = OrganizationResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OrganizationResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OrganizationResource;
+  };
 };
 
 /**
@@ -595,16 +619,16 @@ export type OrganizationUpdateResponse = OrganizationResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OrganizationResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OrganizationResource;
+  };
 };
 
 /**
@@ -615,16 +639,16 @@ export type OrganizationBeginCreateResponse = OrganizationResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OrganizationResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OrganizationResource;
+  };
 };
 
 /**
@@ -635,16 +659,16 @@ export type OrganizationListBySubscriptionNextResponse = OrganizationResourceLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OrganizationResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OrganizationResourceListResult;
+  };
 };
 
 /**
@@ -655,14 +679,34 @@ export type OrganizationListByResourceGroupNextResponse = OrganizationResourceLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OrganizationResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OrganizationResourceListResult;
+  };
+};
+
+/**
+ * Contains response data for the validateOrganization operation.
+ */
+export type ValidationsValidateOrganizationResponse = OrganizationResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OrganizationResource;
+  };
 };

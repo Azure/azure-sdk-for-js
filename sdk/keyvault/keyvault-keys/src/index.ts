@@ -98,7 +98,7 @@ import {
   VerifyDataOptions
 } from "./cryptographyClientModels";
 
-import { KeyVaultKeyIdentifier } from "./identifier";
+import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier";
 import {
   getDeletedKeyFromDeletedKeyItem,
   getKeyFromKeyBundle,
@@ -160,6 +160,7 @@ export {
   PageSettings,
   PagedAsyncIterableIterator,
   KeyVaultKeyIdentifier,
+  parseKeyVaultKeyIdentifier,
   PipelineOptions,
   PollOperationState,
   PollerLike,

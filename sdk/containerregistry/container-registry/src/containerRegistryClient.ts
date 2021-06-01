@@ -6,7 +6,7 @@
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
-  bearerTokenChallengeAuthenticationPolicy,
+  bearerTokenAuthenticationPolicy,
   PipelineOptions
 } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
@@ -146,7 +146,7 @@ export class ContainerRegistryClient {
     const authClient = new GeneratedClient(endpoint, internalPipelineOptions);
     this.client = new GeneratedClient(endpoint, internalPipelineOptions);
     this.client.pipeline.addPolicy(
-      bearerTokenChallengeAuthenticationPolicy({
+      bearerTokenAuthenticationPolicy({
         credential,
         scopes: [authScope],
         challengeCallbacks: new ChallengeHandler(

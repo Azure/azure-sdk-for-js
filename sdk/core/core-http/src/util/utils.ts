@@ -268,3 +268,22 @@ export function getEnvironmentValue(name: string): string | undefined {
   }
   return undefined;
 }
+
+/**
+ * @internal
+ */
+export type UnknownObject = { [s: string]: unknown };
+
+/**
+ * @internal
+ * @returns true when input is an object type that is not null, Array, RegExp, or Date.
+ */
+export function isObject(input: unknown): input is UnknownObject {
+  return (
+    typeof input === "object" &&
+    input !== null &&
+    !Array.isArray(input) &&
+    !(input instanceof RegExp) &&
+    !(input instanceof Date)
+  );
+}

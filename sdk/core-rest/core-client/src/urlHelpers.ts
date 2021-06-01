@@ -37,7 +37,8 @@ export function buildRequestUrl(
       if (!param.toString || typeof param.toString !== "function") {
         throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
       }
-      url.searchParams.append(key, param.toString());
+      const value = param.toISOString !== undefined ? param.toISOString() : param.toString();
+      url.searchParams.append(key, value);
     }
   }
 
