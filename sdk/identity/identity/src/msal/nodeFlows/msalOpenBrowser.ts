@@ -176,7 +176,7 @@ export class MsalOpenBrowser extends MsalNode {
 
         openPromise.then().catch((e) => {
           cleanup();
-          reject(e);
+          reject(new Error("Aborted"));
         });
       });
     });
