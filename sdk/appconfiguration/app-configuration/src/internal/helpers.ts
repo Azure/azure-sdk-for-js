@@ -211,7 +211,9 @@ export function serializeAsConfigurationSettingParam(
     | ConfigurationSettingParam<FeatureFlagValue>
     | ConfigurationSettingParam<SecretReferenceValue>
 ): ConfigurationSettingParam {
-  let couldNotEncode = false;
+  if (isSimpleConfigSetting(setting)) {
+    return setting as ConfigurationSettingParam;
+  }
   try {
     if (isConfigSettingWithFeatureFlagValue(setting)) {
       return FeatureFlagHelper.toConfigurationSettingParam(setting);
@@ -220,9 +222,6 @@ export function serializeAsConfigurationSettingParam(
       return SecretReferenceHelper.toConfigurationSettingParam(setting);
     }
   } catch (error) {
-    couldNotEncode = true;
-  }
-  if (isSimpleConfigSetting(setting) || couldNotEncode) {
     return setting as ConfigurationSettingParam;
   }
   throw new TypeError(
