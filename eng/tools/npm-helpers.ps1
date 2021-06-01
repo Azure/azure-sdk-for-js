@@ -7,7 +7,7 @@ function GetNpmTagVersions($packageName)
 {
   try
   {
-    $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${PackageName}"
+    $existingVersion = Invoke-RestMethod -Method GET -Uri "https://registry.npmjs.com/${PackageName}"
     $latest = ($existingVersion."dist-tags").latest
     $next = ($existingVersion."dist-tags").next
     Write-Host "Latest version: $latest"
@@ -35,7 +35,7 @@ function GetNpmPackageVersions ($packageName)
   try
   {
     Write-Host "Checking versions present on npm for package $packageName"
-    $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${packageName}"
+    $existingVersion = Invoke-RestMethod -Method GET -Uri "https://registry.npmjs.com/${packageName}"
     return ($existingVersion.versions | Get-Member -MemberType NoteProperty).Name
   }
   catch
