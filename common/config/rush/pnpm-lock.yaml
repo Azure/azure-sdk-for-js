@@ -8753,7 +8753,7 @@ packages:
   file:projects/communication-sms.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
-      '@azure/identity': 1.3.0
+      '@azure/identity': 2.0.0-beta.3
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -8800,7 +8800,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-G+1GE15e+ZEYE+icwuu1bJLWI/p5DoSJeImPFlisTesCKFdoERT2Awcf/FofNuAm20Z19+IdulY+GOvFLWlj1Q==
+      integrity: sha512-axACaBrSTdgjBAgJWUiPZpfCmVOkmjXGVSi0muVEhPzJIe7tYkLP9vbo3Q6qjFIFXi7Y4r8X2Yz4ibz6Kcl0Yg==
       tarball: file:projects/communication-sms.tgz
     version: 0.0.0
   file:projects/confidential-ledger.tgz:
