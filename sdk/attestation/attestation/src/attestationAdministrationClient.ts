@@ -127,11 +127,11 @@ export class AttestationAdministrationClient {
 
       // The attestation token returned from the service has a PolicyResult 
       // object as the body. 
-      let token = new AttestationToken(getPolicyResult.token);
+      const token = new AttestationToken(getPolicyResult.token);
 
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
-      let policyResult = PolicyResult.create(token.get_body());
+      let policyResult = PolicyResult.create(token.getBody());
 
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an 
@@ -141,7 +141,7 @@ export class AttestationAdministrationClient {
       }
 
       let policyToken = new AttestationToken(policyResult.policy);
-      let storedPolicy = StoredAttestationPolicy.deserialize(policyToken.get_body())
+      let storedPolicy = StoredAttestationPolicy.deserialize(policyToken.getBody())
 
       // Finally, retrieve the stored attestationPolicy value and return that 
       // as the AttestationResponse to the caller.
@@ -174,7 +174,7 @@ export class AttestationAdministrationClient {
 
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
-      let policyResult = PolicyResult.create(token.get_body());
+      let policyResult = PolicyResult.create(token.getBody());
 
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an 
@@ -202,7 +202,7 @@ export class AttestationAdministrationClient {
 
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
-      let policyResult = PolicyResult.create(token.get_body());
+      let policyResult = PolicyResult.create(token.getBody());
 
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an 

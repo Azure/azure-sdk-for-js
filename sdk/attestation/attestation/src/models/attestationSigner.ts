@@ -18,12 +18,12 @@ export class AttestationSigner
    * 
    * @param key - JSON Web Key describing the attestation signer.
    */
-  constructor(key : JsonWebKey) {
-    if (key.kid) {
+  constructor(key?: JsonWebKey) {
+    if (key?.kid) {
       this.keyId = key.kid.toString();
     }
 
-    this.certificates = key.x5C?.map(base64DecodeString) ?? []
+    this.certificates = key?.x5C?.map(base64DecodeString) ?? []
   }
 
   /**

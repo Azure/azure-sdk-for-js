@@ -126,7 +126,7 @@ export class AttestationSigner {
     // Warning: (ae-forgotten-export) The symbol "JsonWebKey" needs to be exported by the entry point index.d.ts
     //
     // @internal
-    constructor(key: JsonWebKey_2);
+    constructor(key?: JsonWebKey_2);
     certificates: Uint8Array[];
     keyId?: string;
 }
@@ -145,6 +145,7 @@ export class AttestationToken {
     // @internal
     constructor(token: string);
     get algorithm(): string;
+    get certificateChain(): AttestationSigner | undefined;
     get certificateSha256Thumbprint(): string | undefined;
     get certificateThumbprint(): string | undefined;
     get contentType(): string | undefined;
@@ -154,7 +155,7 @@ export class AttestationToken {
     }): AttestationToken;
     get critical(): boolean | undefined;
     get expirationTime(): Date | undefined;
-    get_body(): any;
+    getBody(): any;
     get issuedAtTime(): Date | undefined;
     get issuer(): string | undefined;
     get keyId(): string | undefined;
@@ -162,6 +163,8 @@ export class AttestationToken {
     get notBeforeTime(): Date | undefined;
     serialize(): string;
     get type(): string | undefined;
+    // (undocumented)
+    validate_token(possibleSigners?: AttestationSigner[], options?: TokenValidationOptions): boolean;
     get x509Url(): string | undefined;
 }
 
@@ -367,6 +370,20 @@ export class StoredAttestationPolicy {
     static deserialize(value: any): StoredAttestationPolicy;
     // (undocumented)
     serialize(): string;
+}
+
+// @public
+export interface TokenValidationOptions {
+    // (undocumented)
+    expectedIssuer?: string;
+    // (undocumented)
+    timeValidationSlack?: number;
+    // (undocumented)
+    validateExpirationTime?: boolean;
+    // (undocumented)
+    validateNotBeforeTime?: boolean;
+    // (undocumented)
+    validateToken?: boolean;
 }
 
 // @public

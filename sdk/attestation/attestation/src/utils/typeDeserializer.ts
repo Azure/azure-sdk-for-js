@@ -15,8 +15,9 @@ export class TypeDeserializer {
   /**
    * Deserializes a JSON object into a model type.
    * @param rawJson - The JSON encoded object to convert into model type.
-   * @param bodyMapper - A {@link Mapper[]} object which defines the model properties for the type.
-   *   The first entry in the array MUST be the mapper for the type being decoded.
+   * @param bodyMapper - A mapping between type namesand {@link Mapper[]} objects 
+   *  which defines the model properties for the type. the {@link bodyTypeName} 
+   *  must be one of the properties in the {@link bodyMapper} parameter.
    * @param bodyTypeName - The name of the type of the body.
    * @returns The deserialized type. It is the responsibility of the caller to cast to the
    *      expected return type.
@@ -36,9 +37,7 @@ export class TypeDeserializer {
    * Serializes a JSON object into a model type.
     * @param objectToSerialize - The JSON encoded object to convert into model type.
     * @param bodyMapper - A {@link Mapper} object which defines the model properties for the type.
-    * @param bodyTypeName - The name of the type of the body.
-    * @returns The deserialized type. It is the responsibility of the caller to cast to the
-    *      expected return type.
+    * @returns The serialized type as a JSON encoded string.
     * 
     * @internal
     */

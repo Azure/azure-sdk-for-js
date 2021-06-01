@@ -200,7 +200,7 @@ export class AttestationClient {
       let token = new AttestationToken(attestationResponse.token);
 
       let attestationResult = TypeDeserializer.deserialize(
-        token.get_body(),
+        token.getBody(),
         {
           AttestationResult: Mappers.AttestationResult,
           JsonWebKey: Mappers.JsonWebKey,
@@ -243,7 +243,7 @@ export class AttestationClient {
 
       let token = new AttestationToken(attestationResponse.token);
       let attestationResult = TypeDeserializer.deserialize(
-        token.get_body(),
+        token.getBody(),
         {
           AttestationResult: Mappers.AttestationResult,
           JsonWebKey: Mappers.JsonWebKey,

@@ -8,13 +8,15 @@ declare let TextEncoder:  undefined | (new() => { encode(str : string): ArrayBuf
 // higher, but before that, they were in the "util" namespace. If we're running
 // under node ("Buffer" is defined), then check to see if the global namespace version
 // of the decoders are present, if not, import them from the util namespace.
-const decoder = typeof Buffer === "undefined" ?
-  new (typeof TextDecoder !== "undefined" ? TextDecoder : require("util").TextDecoder)("ascii") :
-  undefined;
+const decoder = 
+  typeof Buffer === "undefined" 
+    ? new (TextDecoder ?? require("util").TextDecoder)("ascii") 
+    : undefined;
 
-const encoder = typeof Buffer === "undefined" ?
-  new (typeof TextEncoder !== "undefined" ? TextEncoder : require("util").TextEncoder)("ascii") :
-  undefined;
+const encoder = 
+  typeof Buffer === "undefined" 
+    ? new (TextEncoder ?? require("util").TextEncoder)("ascii") 
+    : undefined;
 
 const decode: (buffer: ArrayBuffer) => string =
   decoder

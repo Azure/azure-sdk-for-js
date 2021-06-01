@@ -6,10 +6,6 @@ import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Serializer} from "@azure/core-http";
-import { AttestationResult as AttestationResultMapper } from "../../src/generated/models/mappers";
-import { AttestationResult as AttestationResultModel } from "../../src/generated/models";
-
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecorder } from "../utils/recordedClient";
@@ -18,6 +14,8 @@ import { bytesToString, stringToBytes } from "../../src/utils/utf8.browser";
 
 import { AttestationSigningKey, AttestationToken } from "../../src";
 import { createECDSKey, createRSAKey, createX509Certificate} from "../utils/cryptoUtils";
+import { encodeByteArray } from "../utils/base64url";
+import { X509 } from "jsrsasign";
 
 describe("AttestationTokenTests", function() {
   let recorder: Recorder;
@@ -85,7 +83,7 @@ describe("AttestationTokenTests", function() {
     const sourceObject = JSON.stringify({foo: "foo", bar: 10});
     const token = AttestationToken.create({body: sourceObject});
 
-    const body = token.get_body();
+    const body = token.getBody();
     assert.deepEqual({foo: "foo", bar: 10}, body);
     assert.equal("none", token.algorithm);
   });
@@ -98,7 +96,7 @@ describe("AttestationTokenTests", function() {
   
       // An empty unsecured attestation token has a well known value, check it.
       assert('eyJhbGciOiJub25lIn0..', token.serialize());
-      const body = token.get_body();
+      const body = token.getBody();
       assert.isNull(body);
       assert.equal("none", token.algorithm);
     });
@@ -113,6 +111,27 @@ describe("AttestationTokenTests", function() {
     const token = AttestationToken.create({signer: new AttestationSigningKey(key, cert)});
 
     assert.notEqual("none", token.algorithm);
+    assert.equal(1, token.certificateChain?.certificates.length);
+    if (token.certificateChain) {
+
+      let pemCert: string;
+      pemCert = "-----BEGIN CERTIFICATE-----\r\n";
+      pemCert += encodeByteArray(token.certificateChain.certificates[0]);
+      pemCert += "\r\n-----END CERTIFICATE-----\r\n";
+
+      const expectedCert = new X509();
+      expectedCert.readCertPEM(cert);
+
+      const actualCert = new X509();
+      actualCert.readCertPEM(pemCert);
+
+      assert.equal(expectedCert.hex, actualCert.hex);
+    }
+
+
+    // The token of course should validate.
+    assert.isTrue(token.validate_token());
+
   });
 
   
@@ -126,30 +145,9 @@ describe("AttestationTokenTests", function() {
     const sourceObject = JSON.stringify({foo: "foo", bar: 10});
     const token = AttestationToken.create({body: sourceObject, signer: new AttestationSigningKey(key, cert)});
 
-    const body = token.get_body();
+    const body = token.getBody();
     assert.deepEqual({foo: "foo", bar: 10}, body);
     assert.notEqual("none", token.algorithm);
-  });
-
-  it("#should serialize", () => {
-    const attestationResult: AttestationResultModel = { version: "one" };
-    const serializer = new Serializer({ AttestationResultMapper });
-    const serialized = serializer.serialize(AttestationResultMapper, attestationResult);
-
-    assert.equal(attestationResult.version, serialized["x-ms-ver"]);
-  });
-
-  it("#should deserialize", () => {
-    const serialized = { "x-ms-ver": "one" };
-    const serializer = new Serializer({ AttestationResultMapper });
-
-    const deserialized: AttestationResultModel = serializer.deserialize(
-      AttestationResultMapper,
-      serialized,
-      "attestationResult"
-    );
-
-    assert.equal(deserialized.version, serialized["x-ms-ver"]);
   });
 
 });

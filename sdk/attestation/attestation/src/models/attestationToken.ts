@@ -4,12 +4,38 @@
  *
  */
 
-//import {JsonWebKey} from "../generated/models";
+import {JsonWebKey} from "../generated/models";
 import {base64UrlDecodeString, hexToBase64} from "../utils/base64";
 import {AttestationSigningKey} from "./attestationSigningKey"
 import { KJUR, X509, RSAKey } from "jsrsasign"
 import { bytesToString } from "../utils/utf8.browser";
-//import { AttestationSigner } from "./attestationSigner";
+import { AttestationSigner } from "./attestationSigner";
+
+import * as Mappers  from "../generated/models/mappers";
+import { TypeDeserializer } from "../utils/typeDeserializer";
+import { base64EncodeByteArray } from "../utils/base64";
+
+/**
+ * Options used to validate attestation tokens.
+ * 
+ * @property issuer - if provided, specifies the expected issuer of the attestation token.
+ * @property validateExpirationTime - if true, validate the expiration time in the token.
+ * @property validateNotBeforeTime - if true, validate the "not before" time in the token.
+ * @property validateToken - if true, validate the token.
+ * @property timeValidationSlack - the validation time slack in the time based validations.
+ * 
+ * @note
+ *  If validateToken, validateNotBeforeTime, or validateExpirationTime are not
+ *  provided, they are all assumed to be 'true'.
+ * 
+ */
+export interface TokenValidationOptions {
+  expectedIssuer?: string;
+  validateExpirationTime?: boolean;
+  validateNotBeforeTime?: boolean;
+  validateToken?: boolean;
+  timeValidationSlack?: number;
+};
 
 /**
  * 
@@ -58,7 +84,7 @@ export class AttestationToken
      * 
      * @returns The body of the attestation token as an object.
      */
-    public get_body() : any
+    public getBody() : any
     {
       return this._jwsVerifier.payloadObj;
     }
@@ -75,6 +101,86 @@ export class AttestationToken
     {
       return this._token;
     }
+
+    public validate_token(possibleSigners ?: AttestationSigner[], options: TokenValidationOptions = {validateExpirationTime: true, validateToken: true, validateNotBeforeTime: true}) : boolean
+    {
+      if (!options.validateToken) {
+        return true;
+      }
+
+      if (this.algorithm !== "none") {
+
+        const signers = this.getCandidateSigners(possibleSigners);
+
+        let foundSigner: AttestationSigner | null = null;
+
+        signers.some(signer => {
+          const cert = this.certFromSigner(signer);
+//          const pubKeyObj = cert.getPublicKey();
+
+          const isValid = KJUR.jws.JWS.verify(
+            this._token,
+            cert);
+
+          if (isValid) {
+            foundSigner = signer;
+            return;
+          }
+        });
+
+        if (foundSigner === null) {
+          throw new Error("Attestation Token is not properly signed.")
+        }
+      }
+      
+      return true;
+    }
+
+    private certFromSigner(signer : AttestationSigner) : string {
+      let pemCert: string;
+
+      // PEM encode the certificate.
+      pemCert = "-----BEGIN CERTIFICATE-----\r\n";
+      pemCert += base64EncodeByteArray(signer.certificates[0]);
+      pemCert += "\r\n-----END CERTIFICATE-----\r\n";
+
+//      const cert = new X509();
+//
+//      cert.readCertPEM(pemCert);
+      return pemCert;
+    }
+
+    private getCandidateSigners(possibleSigningCertificates ?: AttestationSigner[]) : AttestationSigner[] {
+      let candidateSigners = new Array<AttestationSigner>();
+
+      const desiredKeyId = this.keyId;
+
+      if (desiredKeyId !== undefined && possibleSigningCertificates !== undefined) {
+        possibleSigningCertificates.forEach((possibleSigner) => {
+          if (possibleSigner.keyId == desiredKeyId) {
+            candidateSigners.push(possibleSigner);
+          }
+        });
+
+        // If we didn't find any candidate signers looking through the provided
+        // signing certificates, then maybe there's a certificate chain in the
+        // token itself that might be used to sign the token.
+        if (candidateSigners.length == 0) {
+          if (this.certificateChain != undefined && this.certificateChain != null) {
+            candidateSigners.push(this.certificateChain);
+          }
+        }
+      }
+      else {
+        possibleSigningCertificates?.map((value) => candidateSigners.push(value));
+        if (this.certificateChain !== undefined) {
+          candidateSigners.push(this.certificateChain);
+        }
+      }
+      return candidateSigners;
+
+    }
+
 
     /*********** JSON WEB SIGNATURE (RFC 7515) PROPERTIES */
 
@@ -171,10 +277,19 @@ export class AttestationToken
      * See {@link https://www.rfc-editor.org/rfc/rfc7515.html#section-4.1.6 | RFC 7515 Section 4.1.6})
      *
      */
-//    public get certificateChain() : AttestationSigner | undefined {
-//        let jwk = new JsonWebKey({x5c: this._header.x5c, kid: this._header.kid});
-//        return new AttestationSigner(jwk);
-//    }
+    public get certificateChain() : AttestationSigner | undefined {
+      let jwk: JsonWebKey;
+      if (this._header.jwk !== undefined) {
+        jwk = TypeDeserializer.deserialize(this._header.jwk, [Mappers.JsonWebKey], "JsonWebKey") as JsonWebKey;
+      }
+      else {
+        jwk = TypeDeserializer.deserialize(
+            this._header,
+            { JsonWebKey: Mappers.JsonWebKey }, 
+            "JsonWebKey") as JsonWebKey;
+      }
+      return new AttestationSigner(jwk);
+    }
 
     /*********** JSON WEB TOKEN (RFC 7519) PROPERTIES */
     
