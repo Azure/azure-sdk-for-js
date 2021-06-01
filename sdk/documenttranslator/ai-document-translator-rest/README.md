@@ -90,7 +90,7 @@ az cognitiveservices account keys list --name "resource-name" --resource-group "
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
 ```javascript
-const DocumentTranslator = require("@azure-azure/ai-document-translator");
+const DocumentTranslator = require("@azure-rest/ai-document-translator");
 
 const client = DocumentTranslator("<endpoint>", { key: "<API key>" });
 ```
