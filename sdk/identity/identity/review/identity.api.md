@@ -192,6 +192,13 @@ export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions 
     loginStyle?: BrowserLoginStyle;
     loginState?: string;
     loginNonce?: string;
+    loginDomainHint?: string;
+    loginExtraQueryParameters?: {
+        [key: string]: string;
+    };
+    loginRedirectStartPage?: string;
+    loginOnRedirectNavigate?: (url: string) => boolean | void;
+    loginClaims?: string;
 };
 
 // @public

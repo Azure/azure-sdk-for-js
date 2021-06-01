@@ -22,6 +22,11 @@ export interface MsalBrowserFlowOptions extends MsalFlowOptions {
   loginStyle: BrowserLoginStyle;
   loginState?: string;
   loginNonce?: string;
+  loginDomainHint?: string;
+  loginExtraQueryParameters?: { [key: string]: string };
+  loginRedirectStartPage?: string;
+  loginOnRedirectNavigate?: (url: string) => boolean | void;
+  loginClaims?: string;
 }
 
 /**
@@ -65,10 +70,36 @@ export interface MsalBrowserLoginOptions {
    * A value included in the request that is also returned in the token response. A randomly generated unique value is typically used for preventing cross site request forgery attacks. The state is also used to encode information about the user's state in the app before the authentication request occurred.
    */
   state?: string;
+
   /**
    * A value included in the request that is returned in the id token. A randomly generated unique value is typically used to mitigate replay attacks.
    */
   nonce?: string;
+
+  /**
+   * Provides a hint about the tenant or domain that the user should use to sign in. The value of the domain hint is a registered domain for the tenant.
+   */
+  domainHint?: string;
+
+  /**
+   * String to string map of custom query parameters added to the /authorize call
+   */
+  extraQueryParameters?: { [key: string]: string };
+
+  /**
+   * The page that should be returned to after loginRedirect or acquireTokenRedirect. This should only be used if this is different from the redirectUri and will default to the page that initiates the request. When the navigateToLoginRequestUrl config option is set to false this parameter will be ignored.
+   */
+  redirectStartPage?: string;
+
+  /**
+   * Callback that will be passed the url that MSAL will navigate to. Returning false in the callback will stop navigation.
+   */
+  onRedirectNavigate?: (url: string) => boolean | void;
+
+  /**
+   * In cases where Azure AD tenant admin has enabled conditional access policies, and the policy has not been met, exceptions will contain claims that need to be consented to.
+   */
+  claims?: string;
 }
 
 /**
@@ -104,7 +135,12 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
 
     this.loginOptions = {
       state: options.loginState,
-      nonce: options.loginNonce
+      nonce: options.loginNonce,
+      domainHint: options.loginDomainHint,
+      extraQueryParameters: options.loginExtraQueryParameters,
+      redirectStartPage: options.loginRedirectStartPage,
+      onRedirectNavigate: options.loginOnRedirectNavigate,
+      claims: options.loginClaims
     };
 
     if (options.authenticationRecord) {
