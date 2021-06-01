@@ -94,17 +94,21 @@ export class InternalTableTransaction {
    * Table Account URL
    */
   public url: string;
-  private interceptClient: TableClientLike;
-  private transactionId!: string;
-  private changesetId!: string;
-  private pendingOperations!: Promise<any>[];
-  private credential?: TablesSharedKeyCredentialLike;
-  private bodyParts!: string[];
-
   /**
-   * Partition key tagetted by the transaction
+   * This part of the state can be reset by
+   * calling the reset function. Other parts of the state
+   * such as the credentials remain the same throughout the life
+   * of the instance.
    */
-  private partitionKey!: string;
+  private resetableState: {
+    transactionId: string;
+    changesetId: string;
+    pendingOperations: Promise<any>[];
+    bodyParts: string[];
+    partitionKey: string;
+  };
+  private interceptClient: TableClientLike;
+  private credential?: TablesSharedKeyCredentialLike;
 
   /**
    * @param url - Tables account url
@@ -124,7 +128,7 @@ export class InternalTableTransaction {
     this.interceptClient = new TableClient(this.url, tableName);
 
     // Initialize Reset-able properties
-    this.initializeSharedState(transactionId, changesetId, partitionKey);
+    this.resetableState = this.initializeSharedState(transactionId, changesetId, partitionKey);
 
     // Depending on the auth method used we need to build the url
     if (!credential) {
@@ -143,20 +147,21 @@ export class InternalTableTransaction {
    * Resets the state of the Transaction.
    */
   reset(transactionId: string, changesetId: string, partitionKey: string): void {
-    this.initializeSharedState(transactionId, changesetId, partitionKey);
+    this.resetableState = this.initializeSharedState(transactionId, changesetId, partitionKey);
   }
 
-  private initializeSharedState(
-    transactionId: string,
-    changesetId: string,
-    partitionKey: string
-  ): void {
-    this.transactionId = transactionId;
-    this.changesetId = changesetId;
-    this.partitionKey = partitionKey;
-    this.pendingOperations = [];
-    this.bodyParts = getInitialTransactionBody(this.transactionId, this.changesetId);
-    prepateTransactionPipeline(this.interceptClient.pipeline, this.bodyParts, this.changesetId);
+  private initializeSharedState(transactionId: string, changesetId: string, partitionKey: string) {
+    const pendingOperations: Promise<any>[] = [];
+    const bodyParts = getInitialTransactionBody(transactionId, changesetId);
+    prepateTransactionPipeline(this.interceptClient.pipeline, bodyParts, changesetId);
+
+    return {
+      transactionId,
+      changesetId,
+      partitionKey,
+      pendingOperations,
+      bodyParts
+    };
   }
 
   /**
@@ -165,7 +170,7 @@ export class InternalTableTransaction {
    */
   public createEntity<T extends object>(entity: TableEntity<T>): void {
     this.checkPartitionKey(entity.partitionKey);
-    this.pendingOperations.push(this.interceptClient.createEntity(entity));
+    this.resetableState.pendingOperations.push(this.interceptClient.createEntity(entity));
   }
 
   /**
@@ -175,7 +180,7 @@ export class InternalTableTransaction {
   public createEntities<T extends object>(entities: TableEntity<T>[]): void {
     for (const entity of entities) {
       this.checkPartitionKey(entity.partitionKey);
-      this.pendingOperations.push(this.interceptClient.createEntity(entity));
+      this.resetableState.pendingOperations.push(this.interceptClient.createEntity(entity));
     }
   }
 
@@ -191,7 +196,9 @@ export class InternalTableTransaction {
     options?: DeleteTableEntityOptions
   ): void {
     this.checkPartitionKey(partitionKey);
-    this.pendingOperations.push(this.interceptClient.deleteEntity(partitionKey, rowKey, options));
+    this.resetableState.pendingOperations.push(
+      this.interceptClient.deleteEntity(partitionKey, rowKey, options)
+    );
   }
 
   /**
@@ -206,7 +213,9 @@ export class InternalTableTransaction {
     options?: UpdateTableEntityOptions
   ): void {
     this.checkPartitionKey(entity.partitionKey);
-    this.pendingOperations.push(this.interceptClient.updateEntity(entity, mode, options));
+    this.resetableState.pendingOperations.push(
+      this.interceptClient.updateEntity(entity, mode, options)
+    );
   }
 
   /**
@@ -223,21 +232,23 @@ export class InternalTableTransaction {
     options?: OperationOptions
   ): void {
     this.checkPartitionKey(entity.partitionKey);
-    this.pendingOperations.push(this.interceptClient.upsertEntity(entity, mode, options));
+    this.resetableState.pendingOperations.push(
+      this.interceptClient.upsertEntity(entity, mode, options)
+    );
   }
 
   /**
    * Submits the operations in the transaction
    */
   public async submitTransaction(): Promise<TableTransactionResponse> {
-    await Promise.all(this.pendingOperations);
+    await Promise.all(this.resetableState.pendingOperations);
     const body = getTransactionHttpRequestBody(
-      this.bodyParts,
-      this.transactionId,
-      this.changesetId
+      this.resetableState.bodyParts,
+      this.resetableState.transactionId,
+      this.resetableState.changesetId
     );
     const client = new ServiceClient();
-    const headers = getTransactionHeaders(this.transactionId);
+    const headers = getTransactionHeaders(this.resetableState.transactionId);
 
     const { span, updatedOptions } = createSpan(
       "TableTransaction-submitTransaction",
@@ -271,7 +282,7 @@ export class InternalTableTransaction {
   }
 
   private checkPartitionKey(partitionKey: string): void {
-    if (this.partitionKey !== partitionKey) {
+    if (this.resetableState.partitionKey !== partitionKey) {
       throw new Error("All operations in a transaction must target the same partitionKey");
     }
   }
