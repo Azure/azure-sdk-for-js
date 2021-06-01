@@ -1430,18 +1430,6 @@ export const SearchIndex: coreHttp.CompositeMapper = {
           }
         }
       },
-      normalizers: {
-        serializedName: "normalizers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LexicalNormalizer"
-            }
-          }
-        }
-      },
       encryptionKey: {
         serializedName: "encryptionKey",
         type: {
@@ -1537,13 +1525,6 @@ export const SearchField: coreHttp.CompositeMapper = {
       },
       indexAnalyzer: {
         serializedName: "indexAnalyzer",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      normalizer: {
-        serializedName: "normalizer",
         nullable: true,
         type: {
           name: "String"
@@ -1836,34 +1817,6 @@ export const CharFilter: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "CharFilter",
     uberParent: "CharFilter",
-    polymorphicDiscriminator: {
-      serializedName: "@odata\\.type",
-      clientName: "@odata\\.type"
-    },
-    modelProperties: {
-      odatatype: {
-        serializedName: "@odata\\.type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LexicalNormalizer: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LexicalNormalizer",
-    uberParent: "LexicalNormalizer",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
       clientName: "@odata\\.type"
@@ -4738,41 +4691,6 @@ export const PatternReplaceCharFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomNormalizer: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Azure.Search.CustomNormalizer",
-  type: {
-    name: "Composite",
-    className: "CustomNormalizer",
-    uberParent: "LexicalNormalizer",
-    polymorphicDiscriminator: LexicalNormalizer.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...LexicalNormalizer.type.modelProperties,
-      tokenFilters: {
-        serializedName: "tokenFilters",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      charFilters: {
-        serializedName: "charFilters",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ClassicSimilarity: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.ClassicSimilarity",
   type: {
@@ -4843,7 +4761,6 @@ export let discriminators = {
   LexicalTokenizer: LexicalTokenizer,
   TokenFilter: TokenFilter,
   CharFilter: CharFilter,
-  LexicalNormalizer: LexicalNormalizer,
   Similarity: Similarity,
   "DataChangeDetectionPolicy.#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy": HighWaterMarkChangeDetectionPolicy,
   "DataChangeDetectionPolicy.#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy": SqlIntegratedChangeTrackingPolicy,
@@ -4911,7 +4828,6 @@ export let discriminators = {
   "TokenFilter.#Microsoft.Azure.Search.WordDelimiterTokenFilter": WordDelimiterTokenFilter,
   "CharFilter.#Microsoft.Azure.Search.MappingCharFilter": MappingCharFilter,
   "CharFilter.#Microsoft.Azure.Search.PatternReplaceCharFilter": PatternReplaceCharFilter,
-  "LexicalNormalizer.#Microsoft.Azure.Search.CustomNormalizer": CustomNormalizer,
   "Similarity.#Microsoft.Azure.Search.ClassicSimilarity": ClassicSimilarity,
   "Similarity.#Microsoft.Azure.Search.BM25Similarity": BM25Similarity
 };

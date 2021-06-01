@@ -110,8 +110,7 @@ export {
   SearchResourceEncryptionKey,
   SearchIndexStatistics,
   SearchServiceStatistics,
-  SearchIndexer,
-  LexicalNormalizer
+  SearchIndexer
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -126,15 +125,7 @@ export {
   IndexingResult,
   QueryType,
   SearchMode,
-  ScoringStatistics,
-  Answers,
-  KnownAnswers,
-  QueryLanguage,
-  KnownQueryLanguage,
-  Speller,
-  KnownSpeller,
-  CaptionResult,
-  AnswerResult
+  ScoringStatistics
 } from "./generated/data/models";
 export {
   RegexFlags,
@@ -284,14 +275,10 @@ export {
   LexicalAnalyzer as BaseLexicalAnalyzer,
   CharFilter as BaseCharFilter,
   DataDeletionDetectionPolicy as BaseDataDeletionDetectionPolicy,
-  LexicalNormalizerName,
-  KnownLexicalNormalizerName,
-  CustomNormalizer,
   TokenFilterName,
   KnownTokenFilterName,
   CharFilterName,
   KnownCharFilterName,
-  LexicalNormalizer as BaseLexicalNormalizer,
   SearchIndexerKnowledgeStore,
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexerKnowledgeStoreFileProjectionSelector,

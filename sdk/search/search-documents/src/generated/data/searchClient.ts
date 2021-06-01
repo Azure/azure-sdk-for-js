@@ -8,10 +8,7 @@
 
 import { Documents } from "./operations";
 import { SearchClientContext } from "./searchClientContext";
-import {
-  SearchClientOptionalParams,
-  ApiVersion20200630Preview
-} from "./models";
+import { SearchClientOptionalParams, ApiVersion20200630 } from "./models";
 
 /** @internal */
 export class SearchClient extends SearchClientContext {
@@ -25,7 +22,7 @@ export class SearchClient extends SearchClientContext {
   constructor(
     endpoint: string,
     indexName: string,
-    apiVersion: ApiVersion20200630Preview,
+    apiVersion: ApiVersion20200630,
     options?: SearchClientOptionalParams
   ) {
     super(endpoint, indexName, apiVersion, options);

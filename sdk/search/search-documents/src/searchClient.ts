@@ -260,7 +260,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
 
-      const { results, count, coverage, facets, answers, nextLink } = result;
+      const { results, count, coverage, facets, nextLink } = result;
 
       const modifiedResults = utils.generatedSearchResultToPublicSearchResult<T>(results);
 
@@ -269,7 +269,6 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         count,
         coverage,
         facets,
-        answers,
         continuationToken: this.encodeContinuationToken(nextLink, result.nextPageParameters)
       };
 
@@ -362,13 +361,12 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     try {
       const pageResult = await this.searchDocuments(searchText, updatedOptions);
 
-      const { count, coverage, facets, answers } = pageResult;
+      const { count, coverage, facets } = pageResult;
 
       return {
         count,
         coverage,
         facets,
-        answers,
         results: this.listSearchResults(pageResult, searchText, updatedOptions)
       };
     } catch (e) {

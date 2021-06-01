@@ -45,8 +45,7 @@ import {
   StopAnalyzer,
   PatternAnalyzer as GeneratedPatternAnalyzer,
   CustomAnalyzer,
-  PatternTokenizer,
-  LexicalNormalizerName
+  PatternTokenizer
 } from "./generated/service/models";
 import {
   LexicalAnalyzer,
@@ -69,8 +68,7 @@ import {
   DataDeletionDetectionPolicy,
   SimilarityAlgorithm,
   SearchResourceEncryptionKey,
-  PatternAnalyzer,
-  LexicalNormalizer
+  PatternAnalyzer
 } from "./serviceModels";
 import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
 import {
@@ -252,7 +250,6 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
       const searchAnalyzerName: LexicalAnalyzerName | undefined | null = field.searchAnalyzer;
       const indexAnalyzerName: LexicalAnalyzerName | undefined | null = field.indexAnalyzer;
       const synonymMapNames: string[] | undefined = field.synonymMaps;
-      const normalizerNames: LexicalNormalizerName | undefined | null = field.normalizer;
 
       const { retrievable, ...restField } = field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
@@ -263,8 +260,7 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
         anayzerName,
         searchAnalyzerName,
         indexAnalyzerName,
-        synonymMapNames,
-        normalizerNames
+        synonymMapNames
       } as SimpleField;
     }
     return result;
@@ -289,8 +285,7 @@ export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearch
         analyzer: field.analyzerName,
         searchAnalyzer: field.searchAnalyzerName,
         indexAnalyzer: field.indexAnalyzerName,
-        synonymMaps: field.synonymMapNames,
-        normalizer: field.normalizerName
+        synonymMaps: field.synonymMapNames
       };
     }
   });
@@ -438,7 +433,6 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     tokenizers: convertTokenizersToPublic(generatedIndex.tokenizers),
     tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
     charFilters: generatedIndex.charFilters as CharFilter[],
-    normalizers: generatedIndex.normalizers as LexicalNormalizer[],
     scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
     fields: convertFieldsToPublic(generatedIndex.fields),
     similarity: convertSimilarityToPublic(generatedIndex.similarity)
@@ -456,8 +450,6 @@ export function generatedSearchResultToPublicSearchResult<T>(
     const obj = {
       score: _score,
       highlights: _highlights,
-      rerankerScore,
-      captions,
       document: doc
     };
     return obj as SearchResult<T>;
@@ -501,7 +493,6 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
     etag: index.etag,
     tokenFilters: convertTokenFiltersToGenerated(index.tokenFilters),
     charFilters: index.charFilters,
-    normalizers: index.normalizers,
     scoringProfiles: index.scoringProfiles,
     analyzers: convertAnalyzersToGenerated(index.analyzers),
     tokenizers: convertTokenizersToGenerated(index.tokenizers),
