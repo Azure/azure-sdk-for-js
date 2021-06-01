@@ -11,6 +11,9 @@ import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
 import { verifyAttestationToken } from "../utils/helpers";
+import { utf8ToBytes } from "../utils/utf8.browser";
+
+import { AttestationClient, AttestationData } from "../../src";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
@@ -38,7 +41,7 @@ describe("[AAD] Attestation Client", function() {
   // SGX enclave. The Microsoft Azure Attestation service takes this SGX quote and
   // verifies that the quote is valid and returns a JSON Web Token which can be used by
   // a relying party to verify the runtimeData associated with the request.
-  const _sgxQuote = "AQAAAAIAAADkEQAAAAAAAAMAAg" +
+  const _openEnclaveReport = "AQAAAAIAAADkEQAAAAAAAAMAAg" +
             "AAAAAABQAKAJOacjP3nEyplAoNs5V_Bgc42MPzGo7hPWS_h-3tExJrAAAAABERAwX_g" +
             "AYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAAAAAAAA" +
             "BwAAAAAAAAC3eSAmGL7LY2do5dkC8o1SQiJzX6-1OeqboHw_wXGhwgAAAAAAAAAAAAA" +
@@ -135,59 +138,101 @@ describe("[AAD] Attestation Client", function() {
 
   it("#AttestOpenEnclaveShared", async () => {
     const client = createRecordedClient("Shared");
-    const binaryRuntimeData = base64url.decodeString(_runtimeData);
-    const attestationResult = await client.attestation.attestOpenEnclave({
-      report: base64url.decodeString(_sgxQuote),
-      runtimeData: {
-        data: binaryRuntimeData,
-        dataType: "Binary"
-      }
-    });
-
-    const result = attestationResult.token;
-    assert(result, "Expected a token from the service but did not receive one");
-    if (result && !isPlaybackMode()) {
-      await verifyAttestationToken(result, client);
-    }
+    await testOpenEnclave(client);
   });
+
   it("#AttestOpenEnclaveAad", async () => {
     const client = createRecordedClient("AAD");
-    const binaryRuntimeData = base64url.decodeString(_runtimeData);
-    const attestationResult = await client.attestation.attestOpenEnclave({
-      report: base64url.decodeString(_sgxQuote),
-      runtimeData: {
-        data: binaryRuntimeData,
-        dataType: "Binary"
-      }
-    });
 
-    const result = attestationResult.token;
-    assert(result, "Expected a token from the service but did not receive one");
-    if (result && !isPlaybackMode()) {
-      await verifyAttestationToken(result, client);
-    }
+    await testOpenEnclave(client);
   });
 
   it("#AttestOpenEnclaveIsolated", async () => {
     const client = createRecordedClient("AAD");
+    await testOpenEnclave(client);
+  });
+
+  it("#AttestSgxEnclaveShared", async () => {
+    const client = createRecordedClient("Shared");
+    await testSgxEnclave(client);
+  });
+
+  it("#AttestSgxEnclaveAad", async () => {
+    const client = createRecordedClient("AAD");
+
+    await testSgxEnclave(client);
+  });
+
+  it("#AttestSgxEnclaveIsolated", async () => {
+    const client = createRecordedClient("AAD");
+    await testSgxEnclave(client);
+
+  });
+
+  /* TPM Attestation can only be performed on an AAD or isolated mode client.
+   */
+  it("#attestTpm", async () => {
+    const client = createRecordedClient("AAD");
+
+    const encodedPayload = JSON.stringify({ "payload": { "type": "aikcert" } });
+    
+    // TPM Attestation throws if there is no attestation policy set.
+    // Until the policy APIs are created, just assert that this throws an exception.
+    try {
+      await client.attestTpm({data: utf8ToBytes(encodedPayload)});
+      assert.fail("Attest TPM should have thrown an exception.")
+    }
+    catch(e) {
+      // Text to make eslint happy.
+      console.log("Caught expected exception.");
+    }
+  });
+
+  async function testOpenEnclave(client : AttestationClient) : Promise<void> {
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
-    const attestationResult = await client.attestation.attestOpenEnclave({
-      report: base64url.decodeString(_sgxQuote),
-      runtimeData: {
-        data: binaryRuntimeData,
-        dataType: "Binary"
-      }
-    });
+    const attestationResult = await client.attestOpenEnclave(
+      base64url.decodeString(_openEnclaveReport), 
+      {
+        runTimeData: new AttestationData(binaryRuntimeData, false),
+      });
 
     /**
      * Skipping verification in playback mode because the resource url is part
      * of the JWT and it has to be verified against the real resource url instead
      * of the fake one in playback.
      */
-    const result = attestationResult.token;
-    assert(result, "Expected a token from the service but did not receive one");
-    if (result && !isPlaybackMode()) {
-      await verifyAttestationToken(result, client);
+     const rawToken = attestationResult.token;
+    assert(rawToken, "Expected a token from the service but did not receive one");
+
+    if (rawToken && !isPlaybackMode()) {
+      // The issuer of the client should be the client's instance URI. 
+      assert.equal(client.instanceUrl, attestationResult.value.iss);
+      await verifyAttestationToken(rawToken.deserialize(), client);
     }
-  });
+  };
+
+  async function testSgxEnclave(client : AttestationClient) : Promise<void> {
+    const binaryRuntimeData = base64url.decodeString(_runtimeData);
+    // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
+    //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
+    //  16 bytes from the report.
+    const attestationResult = await client.attestSgxEnclave(
+      base64url.decodeString(_openEnclaveReport).subarray(0x10), 
+      {
+        runTimeData: new AttestationData(binaryRuntimeData, false),
+      });
+
+    /**
+     * Skipping verification in playback mode because the resource url is part
+     * of the JWT and it has to be verified against the real resource url instead
+     * of the fake one in playback.
+     */
+    const rawToken = attestationResult.token;
+    assert(rawToken, "Expected a token from the service but did not receive one");
+    if (rawToken && !isPlaybackMode()) {
+      await verifyAttestationToken(rawToken.deserialize(), client);
+    }
+  };
+
+
 });

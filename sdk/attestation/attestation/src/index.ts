@@ -8,5 +8,17 @@
 
 export * from "./models";
 export * from "./operations";
-export { AttestationClient } from "./attestationClient";
-export { AttestationClientContext } from "./attestationClientContext";
+export { 
+    AttestationClient,
+    AttestationClientOptions,
+    AttestOpenEnclaveOptions,
+    AttestSgxEnclaveOptions,
+    AttestTpmOptions,
+    AttestationClientOperationOptions } from "./attestationClient";
+
+/**
+ * REMOVE THIS DECLARATION BEFORE SHIPPING, IT EXISTS ONLY TO MAKE API-Extractor HAPPY.
+ */
+export {
+    GeneratedClient
+} from "./generated"

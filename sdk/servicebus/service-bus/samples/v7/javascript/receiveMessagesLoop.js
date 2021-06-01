@@ -30,9 +30,15 @@ async function main() {
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.ts file
   try {
-    for (let i = 0; i < 10; i++) {
-      const messages = await queueReceiver.receiveMessages(1, {
-        maxWaitTimeInMs: 5000
+    let allMessages = [];
+
+    console.log(`Receiving 10 messages...`);
+
+    while (allMessages.length < 10) {
+      // NOTE: asking for 10 messages does not guarantee that we will return
+      // all 10 at once so we must loop until we get all the messages we expected.
+      const messages = await queueReceiver.receiveMessages(10, {
+        maxWaitTimeInMs: 60 * 1000
       });
 
       if (!messages.length) {
@@ -40,9 +46,17 @@ async function main() {
         break;
       }
 
-      console.log(`Received message #${i}: ${messages[0].body}`);
-      await queueReceiver.completeMessage(messages[0]);
+      console.log(`Received ${messages.length} messages`);
+      allMessages.push(...messages);
+
+      for (let message of messages) {
+        console.log(`  Message: '${message.body}'`);
+
+        // completing the message will remove it from the remote queue or subscription.
+        await queueReceiver.completeMessage(message);
+      }
     }
+
     await queueReceiver.close();
   } finally {
     await sbClient.close();

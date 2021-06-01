@@ -365,7 +365,7 @@ export interface PiiEntity extends Entity {
 export type PiiEntityCategory = string;
 
 // @public
-export enum PiiEntityDomainType {
+export enum PiiEntityDomain {
     PROTECTED_HEALTH_INFORMATION = "PHI"
 }
 
@@ -451,7 +451,7 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 
 // @public
 export type RecognizePiiEntitiesAction = {
-    domain?: PiiEntityDomainType;
+    domain?: PiiEntityDomain;
     modelVersion?: string;
     stringIndexType?: StringIndexType;
     disableServiceLogs?: boolean;
@@ -474,7 +474,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
     categoriesFilter?: PiiEntityCategory[];
-    domainFilter?: PiiEntityDomainType;
+    domainFilter?: PiiEntityDomain;
     stringIndexType?: StringIndexType;
 }
 
