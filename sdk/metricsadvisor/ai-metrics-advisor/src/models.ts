@@ -11,7 +11,7 @@ import {
   TopNGroupScope,
   Severity,
   SeverityCondition,
-  AlertSnoozeCondition,
+  AlertSnoozeCondition as MetricAnomalyAlertSnoozeCondition,
   IngestionStatusType,
   EntityStatus as DataFeedDetailStatus
 } from "./generated/models";
@@ -19,7 +19,7 @@ import {
 export {
   Severity,
   SeverityCondition,
-  AlertSnoozeCondition,
+  MetricAnomalyAlertSnoozeCondition,
   SmartDetectionCondition,
   TopNGroupScope,
   SuppressCondition,
@@ -478,6 +478,41 @@ export type AzureTableDataFeedSource = {
 };
 
 /**
+ * Represents Basic Authentication Type for Azure Log Analytics Source
+ */
+ export type LogAnalyticsAuthBasic = {
+  /** Authentication */
+  authenticationType: "Basic";
+};
+
+/**
+ * Represents Service Principal Authentication Type for Azure Log Analytics Source
+ */
+ export type LogAnalyticsAuthServicePrincipal = {
+  /** Authentication */
+  authenticationType: "ServicePrincipal";
+  /** credential id */
+  credentialId: string;
+};
+
+/**
+ * Represents Service Principal Authentication In KeyVault Type for Azure Log Analytics Source
+ */
+ export type LogAnalyticsAuthServicePrincipalInKeyVault = {
+  /** Authentication */
+  authenticationType: "ServicePrincipalInKV";
+  /** credential id */
+  credentialId: string;
+};
+
+/**
+ * Represents Authentication Type Union for Azure Log Analytics data source
+ */
+ export type AzureLogAnalyticsAuthTypes = | LogAnalyticsAuthBasic
+ | LogAnalyticsAuthServicePrincipal
+ | LogAnalyticsAuthServicePrincipalInKeyVault;
+
+/**
  * Represents an Azure Log Analytics data source.
  */
 export type AzureLogAnalyticsDataFeedSource = {
@@ -492,7 +527,7 @@ export type AzureLogAnalyticsDataFeedSource = {
   workspaceId: string;
   /** The KQL (Kusto Query Language) query to fetch data from this Log Analytics */
   query: string;
-};
+}& AzureLogAnalyticsAuthTypes ;
 
 /**
  * Represents an Azure Event Hubs data source.
@@ -1336,7 +1371,7 @@ export type MetricBoundaryCondition =
       type?: "Value" | "Mean";
     };
 
-export interface MetricAlertConditions {
+export interface MetricAnomalyAlertConditions {
   /**
    * severity condition to trigger alert
    */
@@ -1365,11 +1400,11 @@ export interface MetricAlertConfiguration {
   /**
    * condition to snooze alert
    */
-  snoozeCondition?: AlertSnoozeCondition;
+  snoozeCondition?: MetricAnomalyAlertSnoozeCondition;
   /**
    * conditions to trigger alerts
    */
-  alertConditions?: MetricAlertConditions;
+  alertConditions?: MetricAnomalyAlertConditions;
 }
 
 /**

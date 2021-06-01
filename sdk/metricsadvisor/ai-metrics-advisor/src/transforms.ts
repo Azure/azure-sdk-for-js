@@ -48,6 +48,7 @@ import {
   InfluxDBParameter, 
   SqlSourceParameter
 } from "./generated/models";
+import { credentialId } from "./generated/models/parameters";
 import {
   MetricFeedbackUnion,
   MetricAnomalyFeedback,
@@ -385,6 +386,7 @@ switch(source.dataSourceType){
         database: source.database!,
         connectionString: source.connectionString!
       },
+      authenticationType: source.authenticationType
     };
   case "AzureApplicationInsights":{ 
      return {
@@ -394,7 +396,8 @@ switch(source.dataSourceType){
          applicationId: source.applicationId!,
          apiKey: source.apiKey!,
          query: source.query
-       }
+       },
+       authenticationType: source.authenticationType
      };
     }
   case "AzureBlob":
@@ -404,7 +407,8 @@ switch(source.dataSourceType){
         connectionString: source.connectionString,
         container: source.container,
         blobTemplate: source.blobTemplate
-      }
+      },
+      authenticationType: source.authenticationType
     };
 
   case "AzureCosmosDB":
@@ -415,34 +419,63 @@ switch(source.dataSourceType){
         database: source.database,
         collectionId: source.collectionId,
         sqlQuery: source.sqlQuery
-      }
+      },
+      authenticationType: source.authenticationType
     }
     case "SqlServer":
-      if(source.authenticationType != "AzureSQLConnectionString"){
+      if(source.authenticationType == "AzureSQLConnectionString"){
+        return{
+          dataSourceType: "SqlServer",
+          dataSourceParameter: {
+            query: source.query
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
+        }
+      }
+      else if (source.authenticationType == "Basic" || source.authenticationType == "ManagedIdentity"){
         return{
           dataSourceType: "SqlServer",
           dataSourceParameter: {
             query: source.query,
             connectionString: source.connectionString 
-          }
+          },
+          authenticationType: source.authenticationType
         }
       }
       else{
         return{
           dataSourceType: "SqlServer",
           dataSourceParameter: {
-            query: source.query
-          }
+            query: source.query,
+            connectionString: source.connectionString 
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
         }
       }
     case "AzureDataExplorer":
-      return{
-        dataSourceType: "AzureDataExplorer",
-        dataSourceParameter: {
-          connectionString: source.connectionString,
-          query: source.query
+      if(source.authenticationType == "ServicePrincipal" || source.authenticationType == "ServicePrincipalInKV") {
+        return{
+          dataSourceType: "AzureDataExplorer",
+          dataSourceParameter: {
+            connectionString: source.connectionString,
+            query: source.query
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
         }
       }
+      else{
+        return{
+          dataSourceType: "AzureDataExplorer",
+          dataSourceParameter: {
+            connectionString: source.connectionString,
+            query: source.query
+          },
+          authenticationType: source.authenticationType
+        }
+      }     
       case "AzureDataLakeStorageGen2":
         if(source.authenticationType == "Basic"){
         return{
@@ -453,7 +486,20 @@ switch(source.dataSourceType){
             fileTemplate: source.fileTemplate,
             fileSystemName: source.fileSystemName,
             accountKey: source.accountKey
-          }
+          },
+          authenticationType: source.authenticationType
+        }
+      }
+      else if(source.authenticationType == "ManagedIdentity"){
+        return{
+          dataSourceType: "AzureDataLakeStorageGen2",
+          dataSourceParameter: {
+            accountName: source.accountName,
+            directoryTemplate: source.directoryTemplate,
+            fileTemplate: source.fileTemplate,
+            fileSystemName: source.fileSystemName
+          },
+          authenticationType: source.authenticationType
         }
       }
       else{
@@ -464,7 +510,9 @@ switch(source.dataSourceType){
             directoryTemplate: source.directoryTemplate,
             fileTemplate: source.fileTemplate,
             fileSystemName: source.fileSystemName
-          }
+          },
+          authenticationType: source.authenticationType,
+          credentialId: source.credentialId
         }
       }
       case "AzureEventHubs":
@@ -473,19 +521,38 @@ switch(source.dataSourceType){
           dataSourceParameter: {
             connectionString: source.connectionString!,
             consumerGroup: source.consumerGroup
-          }
+          },
+          authenticationType: source.authenticationType
         }
       case "AzureLogAnalytics":
-        return{
-          dataSourceType: "AzureLogAnalytics",
-          dataSourceParameter: {
-            tenantId: source.tenantId!,
-            clientId: source.clientId!,
-            clientSecret: source.clientSecret!,
-            workspaceId: source.workspaceId,
-            query: source.query
+        if(source.authenticationType == "Basic"){
+          return{
+            dataSourceType: "AzureLogAnalytics",
+            dataSourceParameter: {
+              tenantId: source.tenantId!,
+              clientId: source.clientId!,
+              clientSecret: source.clientSecret!,
+              workspaceId: source.workspaceId,
+              query: source.query
+            },
+            authenticationType: source.authenticationType
           }
         }
+        else {
+          return{
+            dataSourceType: "AzureLogAnalytics",
+            dataSourceParameter: {
+              tenantId: source.tenantId!,
+              clientId: source.clientId!,
+              clientSecret: source.clientSecret!,
+              workspaceId: source.workspaceId,
+              query: source.query
+            },
+            authenticationType: source.authenticationType,
+            credentialId: source.credentialId
+          }
+        }
+    
       case "AzureTable":
         return{
           dataSourceType: "AzureTable",
@@ -493,7 +560,8 @@ switch(source.dataSourceType){
             query: source.query,
             connectionString: source.connectionString,
             table: source.table
-          }
+          },
+          authenticationType: source.authenticationType
         }
       case "InfluxDB":
         return{
@@ -504,15 +572,26 @@ switch(source.dataSourceType){
             database: source.database,
             userName: source.userName,
             password: source.password
-          }
+          },
+          authenticationType: source.authenticationType
         }
       case "MySql":
         return{
           dataSourceType: "MySql",
           dataSourceParameter:{
             query: source.query,
+            connectionString: source.connectionString      
+          },
+          authenticationType: source.authenticationType
+        }
+      case "PostgreSql":
+        return{
+          dataSourceType: "PostgreSql",
+          dataSourceParameter:{
+            query: source.query,
             connectionString: source.connectionString
-          }
+          },
+          authenticationType: source.authenticationType
         }
   default:
     throw new Error(`Unexpected datafeed source type: '${source.dataSourceType}'`);
