@@ -48,7 +48,6 @@ import {
   InfluxDBParameter, 
   SqlSourceParameter
 } from "./generated/models";
-import { credentialId } from "./generated/models/parameters";
 import {
   MetricFeedbackUnion,
   MetricAnomalyFeedback,

@@ -22,13 +22,6 @@ export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfi
 // @public
 export type AlertQueryTimeMode = "AnomalyTime" | "CreatedTime" | "ModifiedTime";
 
-// @public (undocumented)
-export interface AlertSnoozeCondition {
-    autoSnooze: number;
-    onlyForSuccessive: boolean;
-    snoozeScope: SnoozeScope;
-}
-
 // @public
 export interface AlertsPageResponse extends Array<AnomalyAlert> {
     continuationToken?: string;
@@ -202,6 +195,9 @@ export type AzureEventHubsDataFeedSource = {
 };
 
 // @public
+export type AzureLogAnalyticsAuthTypes = LogAnalyticsAuthBasic | LogAnalyticsAuthServicePrincipal | LogAnalyticsAuthServicePrincipalInKeyVault;
+
+// @public
 export type AzureLogAnalyticsDataFeedSource = {
     dataSourceType: "AzureLogAnalytics";
     tenantId?: string;
@@ -209,7 +205,7 @@ export type AzureLogAnalyticsDataFeedSource = {
     clientSecret?: string;
     workspaceId: string;
     query: string;
-};
+} & AzureLogAnalyticsAuthTypes;
 
 // @public
 export type AzureTableDataFeedSource = {
@@ -794,19 +790,36 @@ export interface ListMetricSeriesDefinitionsOptions extends OperationOptions {
     skip?: number;
 }
 
-// @public (undocumented)
-export interface MetricAlertConditions {
-    metricBoundaryCondition?: MetricBoundaryCondition;
-    severityCondition?: SeverityCondition;
-}
+// @public
+export type LogAnalyticsAuthBasic = {
+    authenticationType: "Basic";
+};
+
+// @public
+export type LogAnalyticsAuthServicePrincipal = {
+    authenticationType: "ServicePrincipal";
+    credentialId: string;
+};
+
+// @public
+export type LogAnalyticsAuthServicePrincipalInKeyVault = {
+    authenticationType: "ServicePrincipalInKV";
+    credentialId: string;
+};
 
 // @public (undocumented)
 export interface MetricAlertConfiguration {
-    alertConditions?: MetricAlertConditions;
+    alertConditions?: MetricAnomalyAlertConditions;
     alertScope: MetricAnomalyAlertScope;
     detectionConfigurationId: string;
     negationOperation?: boolean;
-    snoozeCondition?: AlertSnoozeCondition;
+    snoozeCondition?: MetricAnomalyAlertSnoozeCondition;
+}
+
+// @public (undocumented)
+export interface MetricAnomalyAlertConditions {
+    metricBoundaryCondition?: MetricBoundaryCondition;
+    severityCondition?: SeverityCondition;
 }
 
 // @public
@@ -822,6 +835,13 @@ export type MetricAnomalyAlertScope = {
     scopeType: "TopN";
     topNAnomalyScope: TopNGroupScope;
 };
+
+// @public (undocumented)
+export interface MetricAnomalyAlertSnoozeCondition {
+    autoSnooze: number;
+    onlyForSuccessive: boolean;
+    snoozeScope: SnoozeScope;
+}
 
 // @public
 export type MetricAnomalyFeedback = {
