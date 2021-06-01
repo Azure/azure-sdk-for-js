@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -25,7 +25,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2021-02-01',
+    defaultValue: "2021-02-01",
     type: {
       name: "String"
     }
@@ -37,7 +37,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-10-01',
+    defaultValue: "2018-10-01",
     type: {
       name: "String"
     }
@@ -238,10 +238,7 @@ export const dscpConfigurationName: msRest.OperationURLParameter = {
   }
 };
 export const expand: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
+  parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
@@ -310,10 +307,7 @@ export const gatewayName: msRest.OperationURLParameter = {
   }
 };
 export const gatewayVip: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "gatewayVip"
-  ],
+  parameterPath: ["options", "gatewayVip"],
   mapper: {
     serializedName: "gatewayVip",
     type: {
@@ -478,10 +472,7 @@ export const locationName: msRest.OperationURLParameter = {
   }
 };
 export const migrate: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "migrate"
-  ],
+  parameterPath: ["options", "migrate"],
   mapper: {
     serializedName: "migrate",
     type: {
@@ -621,10 +612,7 @@ export const peConnectionName: msRest.OperationURLParameter = {
   }
 };
 export const peer0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "peer"
-  ],
+  parameterPath: ["options", "peer"],
   mapper: {
     serializedName: "peer",
     type: {
@@ -896,10 +884,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const syncRemoteAddressSpace: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "syncRemoteAddressSpace"
-  ],
+  parameterPath: ["options", "syncRemoteAddressSpace"],
   mapper: {
     serializedName: "syncRemoteAddressSpace",
     type: {

@@ -14,29 +14,30 @@ You must have an [Azure subscription](https://azure.microsoft.com/free/).
 ### How to install
 
 To use this SDK in your project, you will need to install two packages.
+
 - `@azure/arm-network` that contains the client.
 - `@azure/identity` that provides different mechanisms for the client to authenticate your requests using Azure Active Directory.
 
 Install both packages using the below command:
+
 ```bash
 npm install --save @azure/arm-network @azure/identity
 ```
 
 > **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
-We strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
+> We strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
 
 ### How to use
 
-- If you are writing a client side browser application, 
+- If you are writing a client side browser application,
   - See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
   - Note down the client Id from the previous step and use it in the browser sample below.
-- If you are writing a server side application, 
-    - [Select a credential from `@azure/identity` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
-    - Complete the set up steps required by the credential if any.
-    - Use the credential you picked in the place of `DefaultAzureCredential` in the Node.js sample below.
-- Pass the credential and the Azure subscription id to instantiate the client. 
+- If you are writing a server side application,
+  - [Select a credential from `@azure/identity` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
+  - Complete the set up steps required by the credential if any.
+  - Use the credential you picked in the place of `DefaultAzureCredential` in the Node.js sample below.
+- Pass the credential and the Azure subscription id to instantiate the client.
 - Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
-
 
 #### nodejs - Authentication, client creation, and get applicationGateways as an example written in JavaScript.
 
@@ -53,20 +54,24 @@ const creds = new DefaultAzureCredential();
 const client = new NetworkManagementClient(creds, subscriptionId);
 const resourceGroupName = "testresourceGroupName";
 const resourceName = "testresourceName";
-client.applicationGateways.get(resourceGroupName, resourceName).then((result) => {
-  console.log("The result is:");
-  console.log(result);
-}).catch((err) => {
-  console.log("An error occurred:");
-  console.error(err);
-});
+client.applicationGateways
+  .get(resourceGroupName, resourceName)
+  .then((result) => {
+    console.log("The result is:");
+    console.log(result);
+  })
+  .catch((err) => {
+    console.log("An error occurred:");
+    console.error(err);
+  });
 ```
 
 #### browser - Authentication, client creation, and get applicationGateways as an example written in JavaScript.
 
 In browser applications, we recommend using the `InteractiveBrowserCredential` that interactively authenticates using the default system browser.
-  - See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
-  - Note down the client Id from the previous step and use it in the browser sample below.
+
+- See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
+- Note down the client Id from the previous step and use it in the browser sample below.
 
 ##### Sample code
 
@@ -84,21 +89,23 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
       const subscriptionId = "<Subscription_Id>";
       // Create credentials using the `@azure/identity` package.
       // Please note that you can also use credentials from the `@azure/ms-rest-browserauth` package instead.
-      const credential = new InteractiveBrowserCredential(
-      {
+      const credential = new InteractiveBrowserCredential({
         clientId: "<client id for your Azure AD app>",
         tenant: "<optional tenant for your organization>"
       });
       const client = new Azure.ArmNetwork.NetworkManagementClient(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const resourceName = "testresourceName";
-      client.applicationGateways.get(resourceGroupName, resourceName).then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.log("An error occurred:");
-        console.error(err);
-      });
+      client.applicationGateways
+        .get(resourceGroupName, resourceName)
+        .then((result) => {
+          console.log("The result is:");
+          console.log(result);
+        })
+        .catch((err) => {
+          console.log("An error occurred:");
+          console.error(err);
+        });
     </script>
   </head>
   <body></body>
