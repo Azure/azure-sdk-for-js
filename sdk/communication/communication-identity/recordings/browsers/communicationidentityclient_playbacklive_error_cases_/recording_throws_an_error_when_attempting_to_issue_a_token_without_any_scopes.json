@@ -4,44 +4,46 @@
    "method": "POST",
    "url": "https://endpoint/identities",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2021-03-31-preview1"
    },
    "requestBody": null,
    "status": 201,
    "response": "{\"identity\":{\"id\":\"sanitized\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 24 Apr 2021 01:34:28 GMT",
-    "ms-cv": "RQKK5KVVTkmeB6daZkEiRQ.0",
+    "date": "Thu, 27 May 2021 22:43:11 GMT",
+    "ms-cv": "0ZA8SBwG6UaKhUXTeDYr5w.0",
     "request-context": "appId=",
     "status": "201",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0pHWDYAAAAABam7tBe8opTrvWpDxYMqNdWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-azure-ref": "0fyCwYAAAAAAKSOy4CzALRrtOjDSxIiGJV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+    "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "sanitized",
-    "x-processing-time": "23ms"
+    "x-processing-time": "84ms"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/identities/sanitized/:issueAccessToken",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2021-03-31-preview1"
    },
    "requestBody": "{\"scopes\":[]}",
    "status": 400,
    "response": "{\"error\":{\"code\":\"ValidationError\",\"message\":\"Invalid scopes - Scopes field is required.\",\"target\":\"scopes\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
     "content-type": "application/json",
-    "date": "Sat, 24 Apr 2021 01:34:28 GMT",
-    "ms-cv": "QneE+LIoUESRV97/6pibbw.0",
+    "date": "Thu, 27 May 2021 22:43:11 GMT",
+    "ms-cv": "pIgs+r85RUm2XP6OVi9+dQ.0",
     "request-context": "appId=",
     "status": "400",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0pHWDYAAAAAB+WiJBXX78Toy2In1lHU/4WVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-azure-ref": "0fyCwYAAAAACWb0wjMCqhTqGKDQRjIVvfV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+    "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "sanitized",
-    "x-processing-time": "13ms"
+    "x-processing-time": "18ms"
    }
   }
  ],

@@ -1,0 +1,41 @@
+{
+  "name": "azure-agrifood-farming-samples-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure FarmBeats rest client library samples for TypeScript",
+  "engine": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/agrifood/agrifood-farming-rest"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/agrifood/agrifood-farming-rest",
+  "dependencies": {
+    "@azure-rest/agrifood-farming": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^1.1.0"
+  },
+  "devDependencies": {
+    "typescript": "~4.2.0",
+    "rimraf": "latest"
+  }
+}

@@ -4,43 +4,45 @@
    "method": "POST",
    "url": "https://endpoint/identities",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2021-03-31-preview1"
    },
    "requestBody": null,
    "status": 201,
    "response": "{\"identity\":{\"id\":\"sanitized\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 24 Apr 2021 01:34:26 GMT",
-    "ms-cv": "J5LGLmPbWEGRDKr7/T043Q.0",
+    "date": "Thu, 27 May 2021 22:43:10 GMT",
+    "ms-cv": "WnuWOfbo9Em983EJBfIPuA.0",
     "request-context": "appId=",
     "status": "201",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0o3WDYAAAAACgWxsmwbSkT4NiFtMOf0nPWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-azure-ref": "0fyCwYAAAAAArLuZJHjczRIhzXEyZPJpfV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+    "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "sanitized",
-    "x-processing-time": "14ms"
+    "x-processing-time": "83ms"
    }
   },
   {
    "method": "DELETE",
    "url": "https://endpoint/identities/sanitized",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2021-03-31-preview1"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07",
-    "date": "Sat, 24 Apr 2021 01:34:28 GMT",
-    "ms-cv": "281/Lat3xU2UeVIGecJbGg.0",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
+    "date": "Thu, 27 May 2021 22:43:11 GMT",
+    "ms-cv": "KHD5i9p+OkSMM6zEKMuGVA.0",
     "request-context": "appId=",
     "status": "204",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0o3WDYAAAAAAsXxKbuFPYTojrJEQ5ePsZWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-azure-ref": "0fyCwYAAAAACObwVOP3IZTqCp3dhvgehcV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+    "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "sanitized",
-    "x-processing-time": "613ms"
+    "x-processing-time": "384ms"
    }
   }
  ],

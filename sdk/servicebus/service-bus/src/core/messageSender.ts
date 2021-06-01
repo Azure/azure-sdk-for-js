@@ -30,7 +30,7 @@ import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBu
 import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { translateServiceBusError } from "../serviceBusError";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { isDefined } from "../util/typeGuards";
 import { defaultDataTransformer } from "../dataTransformer";
 
@@ -394,17 +394,26 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       return this.link!.maxMessageSize;
     }
 
-    const config: RetryConfig<void> = {
-      operation: () => this.open(undefined, options?.abortSignal),
+    const config: RetryConfig<number> = {
+      operation: async () => {
+        await this.open(undefined, options?.abortSignal);
+
+        if (this.link) {
+          return this.link.maxMessageSize;
+        }
+
+        throw new ServiceBusError(
+          "Link failed to initialize, cannot get max message size.",
+          "GeneralError"
+        );
+      },
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.senderLink,
       retryOptions: retryOptions,
       abortSignal: options?.abortSignal
     };
 
-    await retry<void>(config);
-
-    return this.link!.maxMessageSize;
+    return retry(config);
   }
 
   async createBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch> {

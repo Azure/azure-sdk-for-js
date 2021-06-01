@@ -8,7 +8,7 @@
   export function encodeString(value: string): string {
     return Buffer.from(value).toString("base64");
   }
-  
+
   /**
    * Encodes a byte array in base64 format.
    * @param value - the Uint8Array to encode
@@ -47,7 +47,7 @@
     const paddedEncoded = fixPadding(encoded);
     return base64DecodeString(paddedEncoded);
   }
-  
+
   /**
    * Converts a hex encoded string to its base64 equivalent.
    * @param value Hex encoded value

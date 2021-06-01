@@ -38,7 +38,13 @@ const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "SomeClientSecret",
-  AZURE_TENANT_ID: "SomeTenantId"
+  AZURE_TENANT_ID: "SomeTenantId",
+  COMMUNICATION_MSAL_USERNAME: "MSALUsername",
+  COMMUNICATION_MSAL_PASSWORD: "MSALPassword",
+  COMMUNICATION_M365_APP_ID: "M365AppId",
+  COMMUNICATION_M365_AAD_TENANT: "M365AADTenant",
+  COMMUNICATION_M365_SCOPE: "M365Scope",
+  SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "true"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
