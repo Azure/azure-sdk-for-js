@@ -148,6 +148,13 @@ matrix([[true, false]] as const, async (useAad) => {
             blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
             authenticationType: "Basic"
           };
+          const expectedSourceByService: DataFeedSource = {
+            dataSourceType: "AzureBlob",
+            connectionString: undefined,
+            container: "adsample",
+            blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
+            authenticationType: "Basic"
+          };
           const actual = await client.createDataFeed({
             name: feedName,
             source: expectedSource,
@@ -163,7 +170,8 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(actual.schema.metrics?.length, 2, "Expecting two metrics");
           assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
           assert.equal(actual.name, feedName);
-          assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
+
+          assert.deepStrictEqual(actual.source, expectedSourceByService, "Source mismatch!");
           assert.deepStrictEqual(actual.granularity, granularity, "Granularity mismatch!");
           assert.equal(
             actual.schema.metrics[0].name,
@@ -238,7 +246,6 @@ matrix([[true, false]] as const, async (useAad) => {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureBlob",
-            connectionString: testEnv.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING,
             container: "adsample",
             blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
             authenticationType: "Basic"
