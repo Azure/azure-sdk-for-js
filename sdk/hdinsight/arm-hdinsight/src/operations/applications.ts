@@ -33,21 +33,39 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsListByClusterResponse>
    */
-  listByCluster(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsListByClusterResponse>;
+  listByCluster(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsListByClusterResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param callback The callback
    */
-  listByCluster(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
+  listByCluster(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByCluster(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  listByCluster(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationsListByClusterResponse> {
+  listByCluster(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): void;
+  listByCluster(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): Promise<Models.ApplicationsListByClusterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class Applications {
         options
       },
       listByClusterOperationSpec,
-      callback) as Promise<Models.ApplicationsListByClusterResponse>;
+      callback
+    ) as Promise<Models.ApplicationsListByClusterResponse>;
   }
 
   /**
@@ -66,14 +85,24 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsGetResponse>
    */
-  get(resourceGroupName: string, clusterName: string, applicationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param applicationName The constant value for the application name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, applicationName: string, callback: msRest.ServiceCallback<Models.Application>): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    callback: msRest.ServiceCallback<Models.Application>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -81,8 +110,20 @@ export class Applications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, applicationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
-  get(resourceGroupName: string, clusterName: string, applicationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Application>
+  ): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>,
+    callback?: msRest.ServiceCallback<Models.Application>
+  ): Promise<Models.ApplicationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +132,8 @@ export class Applications {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ApplicationsGetResponse>;
+      callback
+    ) as Promise<Models.ApplicationsGetResponse>;
   }
 
   /**
@@ -103,9 +145,22 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsCreateResponse>
    */
-  create(resourceGroupName: string, clusterName: string, applicationName: string, parameters: Models.Application, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsCreateResponse> {
-    return this.beginCreate(resourceGroupName,clusterName,applicationName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApplicationsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    parameters: Models.Application,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      clusterName,
+      applicationName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ApplicationsCreateResponse
+    >;
   }
 
   /**
@@ -116,9 +171,18 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, clusterName: string, applicationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,clusterName,applicationName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      clusterName,
+      applicationName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -130,7 +194,13 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsGetAzureAsyncOperationStatusResponse>
    */
-  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, applicationName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsGetAzureAsyncOperationStatusResponse>;
+  getAzureAsyncOperationStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsGetAzureAsyncOperationStatusResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -138,7 +208,13 @@ export class Applications {
    * @param operationId The long running operation id.
    * @param callback The callback
    */
-  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, applicationName: string, operationId: string, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  getAzureAsyncOperationStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    operationId: string,
+    callback: msRest.ServiceCallback<Models.AsyncOperationResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -147,8 +223,22 @@ export class Applications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, applicationName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
-  getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, applicationName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.ApplicationsGetAzureAsyncOperationStatusResponse> {
+  getAzureAsyncOperationStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AsyncOperationResult>
+  ): void;
+  getAzureAsyncOperationStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>,
+    callback?: msRest.ServiceCallback<Models.AsyncOperationResult>
+  ): Promise<Models.ApplicationsGetAzureAsyncOperationStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +248,8 @@ export class Applications {
         options
       },
       getAzureAsyncOperationStatusOperationSpec,
-      callback) as Promise<Models.ApplicationsGetAzureAsyncOperationStatusResponse>;
+      callback
+    ) as Promise<Models.ApplicationsGetAzureAsyncOperationStatusResponse>;
   }
 
   /**
@@ -170,7 +261,13 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, clusterName: string, applicationName: string, parameters: Models.Application, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    parameters: Models.Application,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -180,7 +277,8 @@ export class Applications {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -191,7 +289,12 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, clusterName: string, applicationName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -200,7 +303,8 @@ export class Applications {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -209,26 +313,41 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsListByClusterNextResponse>
    */
-  listByClusterNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsListByClusterNextResponse>;
+  listByClusterNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsListByClusterNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByClusterNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
+  listByClusterNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByClusterNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  listByClusterNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationsListByClusterNextResponse> {
+  listByClusterNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): void;
+  listByClusterNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): Promise<Models.ApplicationsListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByClusterNextOperationSpec,
-      callback) as Promise<Models.ApplicationsListByClusterNextResponse>;
+      callback
+    ) as Promise<Models.ApplicationsListByClusterNextResponse>;
   }
 }
 
@@ -236,18 +355,11 @@ export class Applications {
 const serializer = new msRest.Serializer(Mappers);
 const listByClusterOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationListResult
@@ -261,19 +373,16 @@ const listByClusterOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.applicationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Application
@@ -287,7 +396,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const getAzureAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}/azureasyncoperations/{operationId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}/azureasyncoperations/{operationId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -295,12 +405,8 @@ const getAzureAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
     Parameters.applicationName,
     Parameters.operationId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AsyncOperationResult
@@ -314,19 +420,16 @@ const getAzureAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.applicationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -347,19 +450,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.applicationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -375,15 +475,9 @@ const listByClusterNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationListResult
