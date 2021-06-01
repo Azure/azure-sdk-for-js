@@ -31,7 +31,7 @@ export const SecretReferenceHelper = {
   toConfigurationSettingParam: (
     secretReference: ConfigurationSettingParam<SecretReferenceValue>
   ): ConfigurationSettingParam => {
-    if (!secretReference.value || typeof secretReference.value.secretId !== "string") {
+    if (!secretReference.value) {
       throw new TypeError(`SecretReference has an unexpected value - ${secretReference.value}`);
     }
 
