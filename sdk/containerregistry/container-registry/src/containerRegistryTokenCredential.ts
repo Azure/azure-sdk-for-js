@@ -13,12 +13,14 @@ export interface ContainerRegistryGetTokenOptions extends GetTokenOptions {
   service: string;
 }
 
-const credentialScopes = "https://management.core.windows.net/.default";
-
 export class ContainerRegistryRefreshTokenCredential implements TokenCredential {
   readonly tokenService: ContainerRegistryTokenService;
   readonly isAnonymousAccess: boolean;
-  constructor(authClient: GeneratedClient, private credential?: TokenCredential) {
+  constructor(
+    authClient: GeneratedClient,
+    private authenticationScope: string,
+    private credential?: TokenCredential
+  ) {
     this.tokenService = new ContainerRegistryTokenService(authClient);
     this.isAnonymousAccess = !this.credential;
   }
@@ -31,7 +33,7 @@ export class ContainerRegistryRefreshTokenCredential implements TokenCredential 
       return null;
     }
 
-    const aadToken = await this.credential.getToken(credentialScopes, options);
+    const aadToken = await this.credential.getToken(this.authenticationScope, options);
     if (!aadToken) {
       throw new Error("Failed to retrieve AAD token.");
     }

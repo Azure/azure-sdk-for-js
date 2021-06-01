@@ -61,6 +61,7 @@ export class ContainerRegistryClient {
 
 // @public
 export interface ContainerRegistryClientOptions extends PipelineOptions {
+    authenticationScope?: string;
 }
 
 // @public

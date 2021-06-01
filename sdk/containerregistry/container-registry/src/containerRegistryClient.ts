@@ -6,7 +6,8 @@
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
-  bearerTokenChallengeAuthenticationPolicy
+  bearerTokenChallengeAuthenticationPolicy,
+  PipelineOptions
 } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 
@@ -18,7 +19,7 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
-import { ContainerRegistryClientOptions, RepositoryPageResponse } from "./models";
+import { RepositoryPageResponse } from "./models";
 import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 import {
@@ -28,6 +29,22 @@ import {
 } from "./containerRepository";
 import { RegistryArtifact } from "./registryArtifact";
 import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
+
+/**
+ * Client options used to configure Container Registry Repository API requests.
+ */
+export interface ContainerRegistryClientOptions extends PipelineOptions {
+  /**
+   * Gets or sets the authentication scope to use for authentication with AAD.
+   * This defaults to the Azure Resource Manager "Azure Global" scope.  To
+   * connect to a different cloud, set this value to "&lt;resource-id&gt;/.default",
+   * where &lt;resource-id&gt; is one of the Resource IDs listed at
+   * https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities#azure-resource-manager.
+   * For example, to connect to the Azure Germany cloud, create a client with
+   * this set to "https://management.microsoftazure.de/.default".
+   */
+  authenticationScope?: string;
+}
 
 /**
  * Options for the `listRepositories` method of `ContainerRegistryClient`.
@@ -125,15 +142,15 @@ export class ContainerRegistryClient {
         additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"]
       }
     };
-
+    const authScope = options.authenticationScope ?? "https://management.azure.com/.default";
     const authClient = new GeneratedClient(endpoint, internalPipelineOptions);
     this.client = new GeneratedClient(endpoint, internalPipelineOptions);
     this.client.pipeline.addPolicy(
       bearerTokenChallengeAuthenticationPolicy({
         credential,
-        scopes: ["https://management.core.windows.net/.default"],
+        scopes: [authScope],
         challengeCallbacks: new ChallengeHandler(
-          new ContainerRegistryRefreshTokenCredential(authClient, credential)
+          new ContainerRegistryRefreshTokenCredential(authClient, authScope, credential)
         )
       })
     );
