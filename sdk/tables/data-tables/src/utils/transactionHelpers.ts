@@ -54,25 +54,24 @@ export function getTransactionHttpRequestBody(
 }
 
 /**
- * Removes all the policies on a pipeline.
+ * Prepares the transaction pipeline to intercept operations
  * @param pipeline - Client pipeline
  */
-export function clearTransactionPipeline(pipeline: Pipeline): void {
-  const policies = pipeline.getOrderedPolicies();
-
-  for (const policy of policies) {
-    pipeline.removePolicy({ name: policy.name });
-  }
-}
-
-/**
- * Adds required pipeline policies for preparing a Transaction request.
- */
-export function addTransactionPipelinePolicies(
+export function prepateTransactionPipeline(
   pipeline: Pipeline,
   bodyParts: string[],
   changesetId: string
 ): void {
+  // Fist, we need to clear all the existing policies to make sure we start
+  // with a fresh state.
+  const policies = pipeline.getOrderedPolicies();
+  for (const policy of policies) {
+    pipeline.removePolicy({
+      name: policy.name
+    });
+  }
+
+  // With the clear state we now initialize the pipelines required for intercepting the requests.
   // Use transaction assemble policy to assemble request and intercept request from going to wire
 
   pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });

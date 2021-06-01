@@ -26,8 +26,7 @@ import { TableServiceErrorOdataError } from "./generated";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
 import { TableClient } from "./TableClient";
 import {
-  addTransactionPipelinePolicies,
-  clearTransactionPipeline,
+  prepateTransactionPipeline,
   getTransactionHttpRequestBody,
   getInitialTransactionBody
 } from "./utils/transactionHelpers";
@@ -96,16 +95,16 @@ export class InternalTableTransaction {
    */
   public url: string;
   private interceptClient: TableClientLike;
-  private transactionId: string;
-  private changesetId: string;
-  private pendingOperations: Promise<any>[];
+  private transactionId!: string;
+  private changesetId!: string;
+  private pendingOperations!: Promise<any>[];
   private credential?: TablesSharedKeyCredentialLike;
-  private bodyParts: string[];
+  private bodyParts!: string[];
 
   /**
    * Partition key tagetted by the transaction
    */
-  private partitionKey: string;
+  private partitionKey!: string;
 
   /**
    * @param url - Tables account url
@@ -124,14 +123,8 @@ export class InternalTableTransaction {
     this.url = url;
     this.interceptClient = new TableClient(this.url, tableName);
 
-    // Reset-able properties
-    this.transactionId = transactionId;
-    this.changesetId = changesetId;
-    this.partitionKey = partitionKey;
-    this.pendingOperations = [];
-    this.bodyParts = getInitialTransactionBody(this.transactionId, this.changesetId);
-    clearTransactionPipeline(this.interceptClient.pipeline);
-    addTransactionPipelinePolicies(this.interceptClient.pipeline, this.bodyParts, this.changesetId);
+    // Initialize Reset-able properties
+    this.initializeSharedState(transactionId, changesetId, partitionKey);
 
     // Depending on the auth method used we need to build the url
     if (!credential) {
@@ -150,13 +143,20 @@ export class InternalTableTransaction {
    * Resets the state of the Transaction.
    */
   reset(transactionId: string, changesetId: string, partitionKey: string): void {
+    this.initializeSharedState(transactionId, changesetId, partitionKey);
+  }
+
+  private initializeSharedState(
+    transactionId: string,
+    changesetId: string,
+    partitionKey: string
+  ): void {
     this.transactionId = transactionId;
     this.changesetId = changesetId;
     this.partitionKey = partitionKey;
     this.pendingOperations = [];
     this.bodyParts = getInitialTransactionBody(this.transactionId, this.changesetId);
-    clearTransactionPipeline(this.interceptClient.pipeline);
-    addTransactionPipelinePolicies(this.interceptClient.pipeline, this.bodyParts, this.changesetId);
+    prepateTransactionPipeline(this.interceptClient.pipeline, this.bodyParts, this.changesetId);
   }
 
   /**

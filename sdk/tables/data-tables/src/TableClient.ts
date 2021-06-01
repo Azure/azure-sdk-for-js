@@ -23,11 +23,7 @@ import {
   GetAccessPolicyResponse,
   SetAccessPolicyResponse
 } from "./generatedModels";
-import {
-  GeneratedClientOptionalParams,
-  QueryOptions as GeneratedQueryOptions,
-  SignedIdentifier
-} from "./generated/models";
+import { QueryOptions as GeneratedQueryOptions, SignedIdentifier } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   TablesSharedKeyCredential,
@@ -40,15 +36,19 @@ import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import {
+  FullOperationResponse,
+  InternalClientPipelineOptions,
+  OperationOptions
+} from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { InternalTableTransaction } from "./TableTransaction";
-import { InternalTransactionClientOptions, ListEntitiesResponse } from "./utils/internalModels";
+import { ListEntitiesResponse } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
 import { parseXML, stringifyXML } from "@azure/core-xml";
-import { Pipeline, createEmptyPipeline } from "@azure/core-rest-pipeline";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -151,32 +151,19 @@ export class TableClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    let internalPipelineOptions: GeneratedClientOptionalParams = {
-      ...clientOptions
+    const internalPipelineOptions: InternalClientPipelineOptions = {
+      ...clientOptions,
+      loggingOptions: {
+        logger: logger.info,
+        additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+      },
+      deserializationOptions: {
+        parseXML
+      },
+      serializationOptions: {
+        stringifyXML
+      }
     };
-
-    if (isInternalClientOptions(clientOptions)) {
-      // The client is meant to be an intercept client (for Transaction), so we need to create only the intercepting
-      // pipelines.
-      internalPipelineOptions.pipeline = createEmptyPipeline();
-    } else {
-      // The client is a regular client (non-transaction), pass the pipeline options to create a pipeline
-      internalPipelineOptions = {
-        ...internalPipelineOptions,
-        ...{
-          loggingOptions: {
-            logger: logger.info,
-            additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
-          },
-          deserializationOptions: {
-            parseXML
-          },
-          serializationOptions: {
-            stringifyXML
-          }
-        }
-      };
-    }
 
     this.tableName = tableName;
     this.credential = credential;
@@ -690,8 +677,4 @@ interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
    * This option applies for all the properties
    */
   disableTypeConversion?: boolean;
-}
-
-function isInternalClientOptions(options: any): options is InternalTransactionClientOptions {
-  return Boolean(options.innerTransactionRequest);
 }
