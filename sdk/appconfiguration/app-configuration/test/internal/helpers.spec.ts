@@ -140,7 +140,7 @@ describe("helper methods", () => {
   });
 
   describe("serializeAsConfigurationSettingParam", () => {
-    [[], `[]`, "Hello World"].forEach((value) => {
+    [`[]`, "Hello World"].forEach((value) => {
       it(`serializer doesn't throw on ${value} as feature flag value`, () => {
         const featureFlag: ConfigurationSetting<FeatureFlagValue> = {
           contentType: featureFlagContentType,
@@ -149,7 +149,7 @@ describe("helper methods", () => {
           value: { conditions: { clientFilters: [] }, enabled: true }
         };
         featureFlag.value = value as any;
-        assert.equal(
+        assert.deepEqual(
           serializeAsConfigurationSettingParam(featureFlag),
           featureFlag,
           "setting was modified"
@@ -164,7 +164,7 @@ describe("helper methods", () => {
           value: { secretId: "abc" }
         };
         setting.value = value as any;
-        assert.equal(
+        assert.deepEqual(
           serializeAsConfigurationSettingParam(setting),
           setting,
           "setting was modified"
