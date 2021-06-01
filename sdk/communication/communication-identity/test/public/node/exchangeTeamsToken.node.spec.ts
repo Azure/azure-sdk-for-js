@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
 import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
-import * as msal from "@azure/msal-node";
+import { UsernamePasswordCredential } from "@azure/identity";
 import { CommunicationAccessToken, CommunicationIdentityClient } from "../../../src";
 import {
   createRecordedCommunicationIdentityClient,
@@ -47,26 +47,18 @@ matrix([[true, false]], async function(useAad) {
     it("successfully exchanges a Teams token for an ACS token", async function() {
       recorder.skip();
 
-      const msalConfig = {
-        auth: {
-          clientId: env.COMMUNICATION_M365_APP_ID,
-          authority: `${env.COMMUNICATION_M365_AAD_AUTHORITY}/${env.COMMUNICATION_M365_AAD_TENANT}`
-        }
-      };
+      let credential = new UsernamePasswordCredential(
+        env.COMMUNICATION_M365_AAD_TENANT,
+        env.COMMUNICATION_M365_APP_ID,
+        env.COMMUNICATION_MSAL_USERNAME,
+        env.COMMUNICATION_MSAL_PASSWORD
+      );
 
-      const request = {
-        username: env.COMMUNICATION_MSAL_USERNAME,
-        password: env.COMMUNICATION_MSAL_PASSWORD,
-        scopes: [env.COMMUNICATION_M365_SCOPE]
-      };
-
-      const pca = new msal.PublicClientApplication(msalConfig);
-
-      const response = await pca.acquireTokenByUsernamePassword(request);
+      const response = await credential.getToken([env.COMMUNICATION_M365_SCOPE]);
       assert.isNotNull(response);
 
       const { token, expiresOn }: CommunicationAccessToken = await client.exchangeTeamsToken(
-        response!.accessToken
+        response!.token
       );
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
