@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as coreHttp from "@azure/core-client";
 import { AttestationClient } from "../attestationClient";
 import {
@@ -40,7 +43,7 @@ export class Policy {
    *                        - evidence
    * @param newAttestationPolicy - JWT Expressing the new policy whose body is a StoredAttestationPolicy
    *                               object.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   set(
     attestationType: AttestationType,
