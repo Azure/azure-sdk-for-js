@@ -153,7 +153,6 @@
     "productName": "Azure Attestation",
     "productSlugs": [],
     "apiRefLink": "https://docs.microsoft.com/javascript/api/",
-    "requiredResources": {
-    }
+    "requiredResources": {}
   }
 }
