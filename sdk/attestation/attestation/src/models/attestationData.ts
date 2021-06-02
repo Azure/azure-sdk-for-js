@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -13,14 +16,14 @@
  {
      /**
       * 
-      * @param data Data to send to the attestation service.
-      * @param isJson If true, specifies that the data should be treated as JSON 
+      * @param data - Data to send to the attestation service.
+      * @param isJson - If true, specifies that the data should be treated as JSON 
       *     by the attestation service. If not specified, the AttestationData 
       *     constructor will attempt to parse the data to determine if it is JSON.
       */
      constructor(data : Uint8Array, isJson?: boolean) {
         this.data = data;
-        if (isJson!==undefined) {
+        if (isJson !== undefined) {
             this.isJson = isJson;
         }
         else {
@@ -37,11 +40,11 @@
      }
 
      /**
-      * @property data - Represents the data being transmitted to the attestation service.
+      * data - Represents the data being transmitted to the attestation service.
       */
      data : Uint8Array;
      /**
-      * @property isJson - True if the service should treat the data as JSON.
+      * isJson - True if the service should treat the data as JSON.
       */
       isJson : boolean;
  };

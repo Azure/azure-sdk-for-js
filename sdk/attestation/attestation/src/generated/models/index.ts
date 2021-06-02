@@ -15,7 +15,7 @@ export interface PolicyResponse {
   /**
    * An RFC7519 JSON Web Token structure whose body is an PolicyResult object.
    */
-  token?: string;
+  token: string;
 }
 
 /**
@@ -119,7 +119,7 @@ export interface AttestationResponse {
   /**
    * An RFC 7519 JSON Web Token, the body of which is an AttestationResult object.
    */
-  token?: string;
+  token: string;
 }
 
 /**

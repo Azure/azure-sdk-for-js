@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { GeneratedClientOptionalParams } from "./models";
 
 const packageName = "@azure/attestation";
-const packageVersion = "1.0.0";
+const packageVersion = "1.0.0-beta.2";
 
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   instanceUrl: string;

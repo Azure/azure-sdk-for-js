@@ -1,12 +1,15 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.3 (2021-06-08)
 
 ### Features Added
 
 ### Breaking Changes
 
 - Essentially completely rewritten. All existing functionality has been replaced.
+  - Removed `policy` property on `AttestationClient` object, because it has been replaced.
+  - Removed `policy.reset` and `policy.set`, replaced with the `resetPolicy` and `setPolicy` methods on the `AttestationAdministrationClient`.
+  - Removed `policy.get`, replaced with the `getPolicy` method of the new  `AttestationAdministrationClient` client object.
   - Removed `attestation.attestSgxEnclave`, `attestation.attestOpenEnclave`, `attestation.attestTpm`, and `attestation` property from attestationClient, replaced with `attestSgxEnclave`, `attestOpenEnclave` and `attestTpm`.
   - Removed `metadataConfiguration` and `signingCertificates` properties from attestationClient.
   - Removed `metadataConfiguration.get()` method, replaced with `client.getOpenIdMetadata()`.

@@ -1,0 +1,69 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1317",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 01 Jun 2021 23:37:04 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11722.26 - WUS2 ProdSlices",
+    "x-ms-request-id": "629cd5e8-d048-4025-a288-9b04f0079400"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://aad_attestation_url.wus.attest.azure.net/policies/SgxEnclave",
+   "query": {
+    "api-version": "2020-10-01"
+   },
+   "requestBody": "eyJhbGciOiJub25lIn0.eyJBdHRlc3RhdGlvblBvbGljeSI6ImRtVnljMmx2YmoweExqQTdJR0YxZEdodmNtbDZZWFJwYjI1eWRXeGxjM3M5UGlCd1pYSnRhWFFvS1R0OU95QnBjM04xWVc1alpYSjFiR1Z6ZTMwNyJ9.",
+   "status": 200,
+   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vanNsYXJyeW9hdHRlc3RhdGlvbmFhZC53dXMuYXR0ZXN0LmF6dXJlLm5ldC9jZXJ0cyIsImtpZCI6InJQdEJHUldUbFBtenM1dTM1TDBRUkQ5V2R5bWVLUFJ4dGVUZVRsd04wRWM9IiwidHlwIjoiSldUIn0.eyJleHAiOjE2MjI1OTQyMjUsImlhdCI6MTYyMjU5MDYyNSwiaXNzIjoiaHR0cHM6Ly9qc2xhcnJ5b2F0dGVzdGF0aW9uYWFkLnd1cy5hdHRlc3QuYXp1cmUubmV0IiwibmJmIjoxNjIyNTkwNjI1LCJ4LW1zLXBvbGljeS1yZXN1bHQiOiJVcGRhdGVkIiwieC1tcy1wb2xpY3ktdG9rZW4taGFzaCI6ImM2c0VKUUl0VjUwT2VQOUlyUF9ienl3QU1PVnZqNXVEUGJrbEFfYndkWVEifQ.0WRPFYz52HwM30venHC7YGXuM3csy3X64Zi3s1TUYH8yCu2OWnVd8ss7g-u1YNJtm-dn6rQdupB2xmFHY_Nj6NyoC-Iu0mtqoHMFA6Pb87NhmR2q7AEXA1g9iLxvFaRVx6SdHVzDycEJZd36kQXnCngZik2JGeJcTj1a_VL7u7LjxlnItdmnzdXFajF5tsUosvL0lJNI-UMqgfCYIaODnwpMpKn4an9z5kFN8myGNbOjp7daftNgcV42n9yhcVcBg9Js0o57-RA2y7ue5Ksh6YWeMCRJJ6HBow0Ux-KwIBbYxgNu9eEKezRzKTBzA9mgALrIt8KLpGDP2m3hC_cbQQ\"}",
+   "responseHeaders": {
+    "content-length": "837",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 01 Jun 2021 23:37:04 GMT",
+    "server": "Kestrel",
+    "x-ms-maa-service-version": "1.10.01598.0001",
+    "x-ms-request-id": "00-560543cced502c2f261440ec707e2df7-0000000000000000-00"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://aad_attestation_url.wus.attest.azure.net/policies/SgxEnclave",
+   "query": {
+    "api-version": "2020-10-01"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vanNsYXJyeW9hdHRlc3RhdGlvbmFhZC53dXMuYXR0ZXN0LmF6dXJlLm5ldC9jZXJ0cyIsImtpZCI6InJQdEJHUldUbFBtenM1dTM1TDBRUkQ5V2R5bWVLUFJ4dGVUZVRsd04wRWM9IiwidHlwIjoiSldUIn0.eyJleHAiOjE2MjI1OTQyMjYsImlhdCI6MTYyMjU5MDYyNiwiaXNzIjoiaHR0cHM6Ly9qc2xhcnJ5b2F0dGVzdGF0aW9uYWFkLnd1cy5hdHRlc3QuYXp1cmUubmV0IiwibmJmIjoxNjIyNTkwNjI2LCJ4LW1zLXBvbGljeSI6ImV5SmhiR2NpT2lKdWIyNWxJbjAuZXlKQmRIUmxjM1JoZEdsdmJsQnZiR2xqZVNJNkltUnRWbmxqTW14Mlltb3dlRXhxUVRkSlIwWXhaRWRvZG1OdGJEWlpXRkp3WWpJMWVXUlhlR3hqTTNNNVVHbENkMXBZU25SaFdGRnZTMVIwT1U5NVFuQmpNMDR4V1ZjMWFscFlTakZpUjFaNlpUTXdOeUo5LiJ9.GQa62xYBeUB5emwRmTeB4mDBalSrBCZElcXoNgUA5GiuJJ8YXaXtDKfPEdWhdV_k5raf8V5HqZO255adF657MpLqfS7z8ns2O-HEMaAdHa2fcyTF1XHgbG9Ko21iZAFU7buGG_3N_8oA4Q7go86MefOvVc7g81DDVjH2Aii4TaMoGGCEL6DaTbn3TMhx5bxyarvBjj03omMPj8VL6oH41P8mJt0denaXiH2jriIAz5b3HBu6XwbyzYQHsLDkY0s4Xa08I28pf0y-1jEUxM1hKUQgAEedco1V1pmLLAPecqj9fx0fNMlDOc6aYkWERad2zXXUZP4lhveMB5c4c92KJw\"}",
+   "responseHeaders": {
+    "content-length": "943",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 01 Jun 2021 23:37:05 GMT",
+    "server": "Kestrel",
+    "x-ms-maa-service-version": "1.10.01598.0001",
+    "x-ms-request-id": "00-eb3ad944a92e278372e27639c7a24bbe-0000000000000000-00"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "22f5d0e8b1966241ac7b5aed63bca298"
+}
