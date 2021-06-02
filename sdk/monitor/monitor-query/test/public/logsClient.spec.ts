@@ -22,21 +22,23 @@ describe("LogsClient live tests", function() {
   let client: LogsClient;
   let testRunId: string;
 
-  before(function(this: Context) {
+  beforeEach(function(this: Context) {
     monitorWorkspaceId = getMonitorWorkspaceId(this);
-    client = new LogsClient(createTestClientSecretCredential());
+
+    const disableHttpRetries = (this.currentTest?.title?.indexOf("#disablehttpretries") ?? -1) >= 0;
+
+    if (disableHttpRetries) {
+      loggerForTest.verbose(`Disabling http retries for test '${this.currentTest?.title}'`);
+    }
+
+    client = new LogsClient(createTestClientSecretCredential(), {
+      retryOptions: {
+        maxRetries: disableHttpRetries ? 0 : undefined
+      }
+    });
   });
 
   it("queryLogs (bad query)", async () => {
-    function getInnermostDetail(errorInfo: ErrorInfo): undefined | ErrorInfo {
-      if (errorInfo.innererror == null) {
-        // this is the innermost one
-        return errorInfo;
-      }
-
-      return getInnermostDetail(errorInfo.innererror);
-    }
-
     // Kind (coming from Properties) is of type `dynamic`, so you can't sort on it (so we should get back an error from the service)
     const kustoQuery = `completely invalid syntax`;
 
@@ -46,59 +48,79 @@ describe("LogsClient live tests", function() {
       await client.queryLogs(monitorWorkspaceId, kustoQuery, Durations.lastDay);
       assert.fail("Should have thrown an exception");
     } catch (err) {
-      // TODO: if this is the only way for a user to know what happened we should probably
-      // extract or represent the detail in a more obvious way in the thrown error (ie, as part of the
-      // message, perhaps)
-      const errorInfo = err.details?.error as ErrorInfo | undefined;
-
-      if (errorInfo == null) {
-        assert.fail(`ErrorInfo not found in ${JSON.stringify(err, undefined, 2)}`);
-      }
-
-      const innermostError = getInnermostDetail(errorInfo);
+      const { request: _request, response: _response, ...stringizableError } = err;
+      const innermostError = getInnermostErrorDetails(err);
 
       if (innermostError == null) {
         throw new Error("No innermost error - error reporting would break.");
       }
 
-      loggerForTest.verbose(`(Expected) error thrown when we use a bad query: `, err);
+      loggerForTest.verbose(`(Diagnostics) Actual error thrown when we use a bad query: `, err);
 
-      assert.deepEqual(
-        {
-          name: (err as RestError).name,
-          restCode: (err as RestError).code,
-          restStatusCode: (err as RestError).statusCode,
-          errorDetailCode: innermostError.code
-          // (commented out as error messages are not generally stable)
-          // restMessage: (err as RestError).message,
-          // errorDetailMessage: innermostError.message }
-        },
+      assert.deepNestedInclude(
+        err as RestError,
         {
           name: "RestError",
-          restCode: "BadArgumentError",
-          restStatusCode: 400,
-          errorDetailCode: "SYN0002"
-          // (commented out as error messages are not generally stable)
-          // restMessage: "The request had some invalid properties"
-          //  errorDetailMessage: "Query could not be parsed at 'invalid' on line [1,11]"
+          statusCode: 400
         },
-        `Query should cause an exception thrown. Message: (${innermostError.message})`
+        `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`
+      );
+
+      assert.deepNestedInclude(
+        innermostError,
+        {
+          code: "SYN0002"
+          // other fields that are not stable, but are interesting:
+          //  message: "Query could not be parsed at 'invalid' on line [1,11]",
+        },
+        `Query should indicate a syntax error in innermost error. Innermost error: ${JSON.stringify(
+          innermostError
+        )}`
       );
     }
   });
 
-  it("serverTimeoutInSeconds", async () => {
-    // TODO: serverTimeoutInSeconds is passed. We need to have a deterministic way to test this, however.
-    const query = await client.queryLogs(
-      monitorWorkspaceId,
-      "AppEvents | limit 1",
-      Durations.last24Hours,
-      {
-        serverTimeoutInSeconds: 10
-      }
-    );
+  // disabling http retries otherwise we'll waste retries to realize that the
+  // query has timed out on purpose.
+  it("serverTimeoutInSeconds #disablehttpretries", async () => {
+    try {
+      await client.queryLogs(
+        monitorWorkspaceId,
+        // slow query suggested by Pavel.
+        "range x from 1 to 10000000000 step 1 | count",
+        Durations.last24Hours,
+        {
+          // the query above easily takes longer than 1 second.
+          serverTimeoutInSeconds: 1
+        }
+      );
 
-    assert.ok(query);
+      assert.fail("Should have thrown a RestError for a GatewayTimeout");
+    } catch (err) {
+      const { request: _request, response: _response, ...stringizableError } = err;
+      const innermostError = getInnermostErrorDetails(err);
+
+      assert.deepNestedInclude(
+        err as RestError,
+        {
+          name: "RestError",
+          statusCode: 504
+        },
+        `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`
+      );
+
+      assert.deepNestedInclude(
+        innermostError,
+        {
+          code: "GatewayTimeout"
+          // other fields that are not stable, but are interesting:
+          // "message":"Kusto query timed out"
+        },
+        `Should get a code indicating the query timed out. Innermost error: ${JSON.stringify(
+          innermostError
+        )}`
+      );
+    }
   });
 
   it("includeQueryStatistics", async () => {
@@ -120,7 +142,7 @@ describe("LogsClient live tests", function() {
   describe("Ingested data tests (can be slow due to loading times)", () => {
     before(async function(this: Context) {
       if (env.TEST_RUN_ID) {
-        console.log(`Using cached test run ID ${env.TEST_RUN_ID}`);
+        loggerForTest.warning(`Using cached test run ID ${env.TEST_RUN_ID}`);
         testRunId = env.TEST_RUN_ID;
       } else {
         testRunId = `ingestedDataTest-${Date.now()}`;
@@ -145,7 +167,7 @@ describe("LogsClient live tests", function() {
       // (we'll wait until the data is there before running all the tests)
       // by coincidence one of the tests tries this same query.
       await checkLogsHaveBeenIngested({
-        maxTries: 120,
+        maxTries: 240,
         secondsBetweenQueries: 1
       });
     });
@@ -249,3 +271,22 @@ describe("LogsClient live tests", function() {
     }
   });
 });
+
+function getInnermostErrorDetails(thrownError: any): undefined | ErrorInfo {
+  if (
+    thrownError.details == null ||
+    typeof thrownError.details !== "object" ||
+    typeof thrownError.details.error !== "object"
+  ) {
+    loggerForTest.error(`Thrown error was incorrect: `, thrownError);
+    throw new Error("Error does not contain expected `details` property");
+  }
+
+  let errorInfo: ErrorInfo = thrownError.details.error;
+
+  while (errorInfo.innererror) {
+    errorInfo = errorInfo.innererror;
+  }
+
+  return errorInfo;
+}
