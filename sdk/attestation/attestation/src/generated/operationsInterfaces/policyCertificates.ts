@@ -6,38 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-client";
-import { AttestationClient } from "../attestationClient";
 import {
+  PolicyCertificatesGetOptionalParams,
   PolicyCertificatesGetResponse,
+  PolicyCertificatesAddOptionalParams,
   PolicyCertificatesAddResponse,
+  PolicyCertificatesRemoveOptionalParams,
   PolicyCertificatesRemoveResponse
 } from "../models";
 
-/**
- * Class representing a PolicyCertificates.
- */
-export class PolicyCertificates {
-  private readonly client: AttestationClient;
-
-  /**
-   * Initialize a new instance of the class PolicyCertificates class.
-   * @param client Reference to the service client
-   */
-  constructor(client: AttestationClient) {
-    this.client = client;
-  }
-
+/** Interface representing a PolicyCertificates. */
+export interface PolicyCertificates {
   /**
    * Retrieves the set of certificates used to express policy for the current tenant.
    * @param options The options parameters.
    */
   get(
-    options?: coreHttp.OperationOptions
-  ): Promise<PolicyCertificatesGetResponse> {
-    return this.client.BaseClient().policyCertificates.get(options);
-  }
-
+    options?: PolicyCertificatesGetOptionalParams
+  ): Promise<PolicyCertificatesGetResponse>;
   /**
    * Adds a new attestation policy certificate to the set of policy management certificates.
    * @param policyCertificateToAdd An RFC7519 JSON Web Token whose body is an RFC7517 JSON Web Key
@@ -46,11 +32,8 @@ export class PolicyCertificates {
    */
   add(
     policyCertificateToAdd: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<PolicyCertificatesAddResponse> {
-    return this.client.BaseClient().policyCertificates.add(policyCertificateToAdd, options);
-  }
-
+    options?: PolicyCertificatesAddOptionalParams
+  ): Promise<PolicyCertificatesAddResponse>;
   /**
    * Removes the specified policy management certificate. Note that the final policy management
    * certificate cannot be removed.
@@ -61,8 +44,6 @@ export class PolicyCertificates {
    */
   remove(
     policyCertificateToRemove: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<PolicyCertificatesRemoveResponse> {
-    return this.client.BaseClient().policyCertificates.remove(policyCertificateToRemove, options);
-  }
+    options?: PolicyCertificatesRemoveOptionalParams
+  ): Promise<PolicyCertificatesRemoveResponse>;
 }

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { GeneratedClient } from "./generatedClient";
-export { GeneratedClientContext } from "./generatedClientContext";
-export * from "./operationsInterfaces";
+export * from "./policy";
+export * from "./policyCertificates";
+export * from "./attestation";
+export * from "./signingCertificates";
+export * from "./metadataConfiguration";

@@ -4,8 +4,8 @@
  *
  */
 
+import { Mapper, Serializer } from "@azure/core-client";
 import { AttestationToken } from "./attestationToken";
-import { Serializer, Mapper, HttpResponse } from "@azure/core-http";
 
 /**
  * An AttestationResponse represents the response from the Microsoft Azure
@@ -18,14 +18,13 @@ import { Serializer, Mapper, HttpResponse } from "@azure/core-http";
  */
  export class AttestationResponse<T>
  {
-     constructor(token: AttestationToken, serializer: Serializer, bodyMapper: Mapper, bodyTypeName: string, rawResult: any) {
+     constructor(token: AttestationToken, serializer: Serializer, bodyMapper: Mapper, bodyTypeName: string) {
         this.token = token;
         this.value = serializer.deserialize(
             bodyMapper,
             token.get_body(),
             bodyTypeName
           );
-        this._response = rawResult._response;
      }
  
      /**
@@ -38,19 +37,5 @@ import { Serializer, Mapper, HttpResponse } from "@azure/core-http";
       */
  
      value: T;
-    /**
-     * The underlying HTTP response.
-     */
-      _response: HttpResponse & {
-    /**
-     * The response body as text (string format)
-        */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: T;
-    };
  };
  

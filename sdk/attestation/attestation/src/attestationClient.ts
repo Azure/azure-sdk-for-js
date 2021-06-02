@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  PipelineOptions,
-  TokenCredential,
-  OperationOptions,
-  Serializer,
-} from "@azure/core-http"
-//import { OperationOptions } from "@azure/core-client";
+import { 
+  CommonClientOptions,
+  createSerializer,
+  OperationOptions } from "@azure/core-client";
+  import {TokenCredential} from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import {
   Policy,
@@ -42,7 +40,7 @@ import { AttestationResponse } from "./models/attestationResponse";
 /**
 * Attestation Client Construction Options.
 */
-export interface AttestationClientOptions extends PipelineOptions{};
+export interface AttestationClientOptions extends CommonClientOptions{};
 
 /**
  * Operation options for the Attestation Client operations.
@@ -180,9 +178,9 @@ export class AttestationClient {
       }, updatedOptions);
 
       let token = new AttestationToken(attestationResult.token ?? "");
-      const serializer = new Serializer({ AttestationResultMapper });
+      const serializer = createSerializer({ AttestationResultMapper });
 
-      let result = new AttestationResponse<AttestationResult>(token, serializer, AttestationResultMapper, "attestationResult", attestationResult);
+      let result = new AttestationResponse<AttestationResult>(token, serializer, AttestationResultMapper, "attestationResult");
       return result;
 
     } catch (e) {
@@ -216,9 +214,9 @@ export class AttestationClient {
       }, updatedOptions);
 
       let token = new AttestationToken(attestationResult.token ?? "");
-      const serializer = new Serializer({ AttestationResultMapper });
+      const serializer = createSerializer({ AttestationResultMapper });
 
-      let result = new AttestationResponse<AttestationResult>(token, serializer, AttestationResultMapper, "attestationResult", attestationResult);
+      let result = new AttestationResponse<AttestationResult>(token, serializer, AttestationResultMapper, "attestationResult");
       return result;
 
     } catch (e) {

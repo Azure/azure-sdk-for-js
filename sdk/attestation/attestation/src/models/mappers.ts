@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreHttp from "@azure/core-client";
 
 export const PolicyResponse: coreHttp.CompositeMapper = {
   type: {

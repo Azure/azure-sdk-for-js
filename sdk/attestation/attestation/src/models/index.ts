@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 
 export * from "./attestationSigner";
 export * from "./attestationSigningKey";
@@ -504,139 +503,32 @@ export type PolicyModification = string;
 /**
  * Contains response data for the get operation.
  */
-export type PolicyGetResponse = PolicyResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyResponse;
-  };
-};
-
+export type PolicyGetResponse = PolicyResponse
 /**
  * Contains response data for the set operation.
  */
-export type PolicySetModelResponse = PolicyResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyResponse;
-  };
-};
-
+export type PolicySetModelResponse = PolicyResponse
 /**
  * Contains response data for the reset operation.
  */
-export type PolicyResetResponse = PolicyResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyResponse;
-  };
-};
+export type PolicyResetResponse = PolicyResponse
 
 /**
  * Contains response data for the get operation.
  */
-export type PolicyCertificatesGetResponse = PolicyCertificatesResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyCertificatesResponse;
-  };
-};
+export type PolicyCertificatesGetResponse = PolicyCertificatesResponse
 
 /**
  * Contains response data for the add operation.
  */
-export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyCertificatesModifyResponse;
-  };
-};
+export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse
 
 /**
  * Contains response data for the remove operation.
  */
-export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyCertificatesModifyResponse;
-  };
-};
+export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse
 
 /**
  * Contains response data for the attestTpm operation.
  */
-export type AttestationAttestTpmResponse = TpmAttestationResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TpmAttestationResponse;
-  };
-};
+export type AttestationAttestTpmResponse = TpmAttestationResponse

@@ -16,6 +16,7 @@ autorest README.md
 ### Code generation settings
 
 ```yaml
+use: /home/dealmaha/v6
 package-name: "@azure/attestation"
 package-version: 1.0.0-beta.2
 tag: package-2020-10-01

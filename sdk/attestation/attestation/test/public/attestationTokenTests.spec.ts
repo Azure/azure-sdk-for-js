@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Serializer} from "@azure/core-http";
+import { createSerializer } from "@azure/core-client";
 import { AttestationResult as AttestationResultMapper } from "../../src/generated/models/mappers";
 import { AttestationResult as AttestationResultModel } from "../../src/generated/models";
 
@@ -95,7 +95,7 @@ describe("AttestationTokenTests", function() {
 
   it("#should serialize", () => {
     const attestationResult: AttestationResultModel = { version: "one" };
-    const serializer = new Serializer({ AttestationResultMapper });
+    const serializer = createSerializer({ AttestationResultMapper });
     const serialized = serializer.serialize(AttestationResultMapper, attestationResult);
 
     assert.equal(attestationResult.version, serialized["x-ms-ver"]);
@@ -103,7 +103,7 @@ describe("AttestationTokenTests", function() {
 
   it("#should deserialize", () => {
     const serialized = { "x-ms-ver": "one" };
-    const serializer = new Serializer({ AttestationResultMapper });
+    const serializer = createSerializer({ AttestationResultMapper });
 
     const deserialized: AttestationResultModel = serializer.deserialize(
       AttestationResultMapper,
