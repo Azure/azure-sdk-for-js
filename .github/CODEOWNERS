@@ -99,7 +99,7 @@
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
 # API review files
-/sdk/**/review/*api.md @xirzec @chradek
+/sdk/**/review/*api.md @bterlson @xirzec @chradek
 
 # Management Plane
 # PRLabel: %Mgmt
