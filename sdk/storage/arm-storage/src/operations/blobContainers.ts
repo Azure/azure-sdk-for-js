@@ -37,7 +37,11 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: Models.BlobContainersListOptionalParams): Promise<Models.BlobContainersListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.BlobContainersListOptionalParams
+  ): Promise<Models.BlobContainersListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -46,7 +50,11 @@ export class BlobContainers {
    * letters only.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.ListContainerItems>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -56,8 +64,20 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: Models.BlobContainersListOptionalParams, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.BlobContainersListOptionalParams | msRest.ServiceCallback<Models.ListContainerItems>, callback?: msRest.ServiceCallback<Models.ListContainerItems>): Promise<Models.BlobContainersListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: Models.BlobContainersListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ListContainerItems>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | Models.BlobContainersListOptionalParams
+      | msRest.ServiceCallback<Models.ListContainerItems>,
+    callback?: msRest.ServiceCallback<Models.ListContainerItems>
+  ): Promise<Models.BlobContainersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -65,7 +85,8 @@ export class BlobContainers {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BlobContainersListResponse>;
+      callback
+    ) as Promise<Models.BlobContainersListResponse>;
   }
 
   /**
@@ -85,7 +106,13 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersCreateResponse>;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    blobContainer: Models.BlobContainer,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BlobContainersCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -99,7 +126,13 @@ export class BlobContainers {
    * @param blobContainer Properties of the blob container to create.
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    blobContainer: Models.BlobContainer,
+    callback: msRest.ServiceCallback<Models.BlobContainer>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -114,8 +147,22 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
-  create(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobContainer>, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersCreateResponse> {
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    blobContainer: Models.BlobContainer,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BlobContainer>
+  ): void;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    blobContainer: Models.BlobContainer,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobContainer>,
+    callback?: msRest.ServiceCallback<Models.BlobContainer>
+  ): Promise<Models.BlobContainersCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +172,8 @@ export class BlobContainers {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.BlobContainersCreateResponse>;
+      callback
+    ) as Promise<Models.BlobContainersCreateResponse>;
   }
 
   /**
@@ -144,7 +192,13 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    blobContainer: Models.BlobContainer,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BlobContainersUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -158,7 +212,13 @@ export class BlobContainers {
    * @param blobContainer Properties to update for the blob container.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    blobContainer: Models.BlobContainer,
+    callback: msRest.ServiceCallback<Models.BlobContainer>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -173,8 +233,22 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
-  update(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobContainer>, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    blobContainer: Models.BlobContainer,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BlobContainer>
+  ): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    blobContainer: Models.BlobContainer,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobContainer>,
+    callback?: msRest.ServiceCallback<Models.BlobContainer>
+  ): Promise<Models.BlobContainersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +258,8 @@ export class BlobContainers {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.BlobContainersUpdateResponse>;
+      callback
+    ) as Promise<Models.BlobContainersUpdateResponse>;
   }
 
   /**
@@ -201,7 +276,12 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BlobContainersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -214,7 +294,12 @@ export class BlobContainers {
    * a letter or number.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    callback: msRest.ServiceCallback<Models.BlobContainer>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -228,8 +313,20 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
-  get(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobContainer>, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BlobContainer>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobContainer>,
+    callback?: msRest.ServiceCallback<Models.BlobContainer>
+  ): Promise<Models.BlobContainersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -238,7 +335,8 @@ export class BlobContainers {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BlobContainersGetResponse>;
+      callback
+    ) as Promise<Models.BlobContainersGetResponse>;
   }
 
   /**
@@ -255,7 +353,12 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -268,7 +371,12 @@ export class BlobContainers {
    * a letter or number.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -282,8 +390,20 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -292,7 +412,8 @@ export class BlobContainers {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -313,7 +434,13 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersSetLegalHoldResponse>
    */
-  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersSetLegalHoldResponse>;
+  setLegalHold(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    tags: string[],
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BlobContainersSetLegalHoldResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -328,7 +455,13 @@ export class BlobContainers {
    * at SRP.
    * @param callback The callback
    */
-  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], callback: msRest.ServiceCallback<Models.LegalHold>): void;
+  setLegalHold(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    tags: string[],
+    callback: msRest.ServiceCallback<Models.LegalHold>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -344,8 +477,22 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LegalHold>): void;
-  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LegalHold>, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersSetLegalHoldResponse> {
+  setLegalHold(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    tags: string[],
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LegalHold>
+  ): void;
+  setLegalHold(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    tags: string[],
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LegalHold>,
+    callback?: msRest.ServiceCallback<Models.LegalHold>
+  ): Promise<Models.BlobContainersSetLegalHoldResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -355,7 +502,8 @@ export class BlobContainers {
         options
       },
       setLegalHoldOperationSpec,
-      callback) as Promise<Models.BlobContainersSetLegalHoldResponse>;
+      callback
+    ) as Promise<Models.BlobContainersSetLegalHoldResponse>;
   }
 
   /**
@@ -375,7 +523,13 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersClearLegalHoldResponse>
    */
-  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersClearLegalHoldResponse>;
+  clearLegalHold(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    tags: string[],
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BlobContainersClearLegalHoldResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -390,7 +544,13 @@ export class BlobContainers {
    * at SRP.
    * @param callback The callback
    */
-  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], callback: msRest.ServiceCallback<Models.LegalHold>): void;
+  clearLegalHold(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    tags: string[],
+    callback: msRest.ServiceCallback<Models.LegalHold>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -406,8 +566,22 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LegalHold>): void;
-  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LegalHold>, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersClearLegalHoldResponse> {
+  clearLegalHold(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    tags: string[],
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LegalHold>
+  ): void;
+  clearLegalHold(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    tags: string[],
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LegalHold>,
+    callback?: msRest.ServiceCallback<Models.LegalHold>
+  ): Promise<Models.BlobContainersClearLegalHoldResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -417,7 +591,8 @@ export class BlobContainers {
         options
       },
       clearLegalHoldOperationSpec,
-      callback) as Promise<Models.BlobContainersClearLegalHoldResponse>;
+      callback
+    ) as Promise<Models.BlobContainersClearLegalHoldResponse>;
   }
 
   /**
@@ -435,7 +610,12 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>
    */
-  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>;
+  createOrUpdateImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams
+  ): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -448,7 +628,12 @@ export class BlobContainers {
    * a letter or number.
    * @param callback The callback
    */
-  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  createOrUpdateImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -462,8 +647,22 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse> {
+  createOrUpdateImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): void;
+  createOrUpdateImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?:
+      | Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams
+      | msRest.ServiceCallback<Models.ImmutabilityPolicy>,
+    callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -472,7 +671,8 @@ export class BlobContainers {
         options
       },
       createOrUpdateImmutabilityPolicyOperationSpec,
-      callback) as Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>;
+      callback
+    ) as Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>;
   }
 
   /**
@@ -490,7 +690,12 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersGetImmutabilityPolicyResponse>
    */
-  getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersGetImmutabilityPolicyOptionalParams): Promise<Models.BlobContainersGetImmutabilityPolicyResponse>;
+  getImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?: Models.BlobContainersGetImmutabilityPolicyOptionalParams
+  ): Promise<Models.BlobContainersGetImmutabilityPolicyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -503,7 +708,12 @@ export class BlobContainers {
    * a letter or number.
    * @param callback The callback
    */
-  getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  getImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -517,8 +727,22 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersGetImmutabilityPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersGetImmutabilityPolicyOptionalParams | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersGetImmutabilityPolicyResponse> {
+  getImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options: Models.BlobContainersGetImmutabilityPolicyOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): void;
+  getImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?:
+      | Models.BlobContainersGetImmutabilityPolicyOptionalParams
+      | msRest.ServiceCallback<Models.ImmutabilityPolicy>,
+    callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): Promise<Models.BlobContainersGetImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -527,7 +751,8 @@ export class BlobContainers {
         options
       },
       getImmutabilityPolicyOperationSpec,
-      callback) as Promise<Models.BlobContainersGetImmutabilityPolicyResponse>;
+      callback
+    ) as Promise<Models.BlobContainersGetImmutabilityPolicyResponse>;
   }
 
   /**
@@ -550,7 +775,13 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse>
    */
-  deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse>;
+  deleteImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -566,7 +797,13 @@ export class BlobContainers {
    * omitted, this operation will always be applied.
    * @param callback The callback
    */
-  deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  deleteImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -583,8 +820,22 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse> {
+  deleteImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): void;
+  deleteImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImmutabilityPolicy>,
+    callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -594,7 +845,8 @@ export class BlobContainers {
         options
       },
       deleteImmutabilityPolicyOperationSpec,
-      callback) as Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse>;
+      callback
+    ) as Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse>;
   }
 
   /**
@@ -615,7 +867,13 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersLockImmutabilityPolicyResponse>
    */
-  lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersLockImmutabilityPolicyResponse>;
+  lockImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BlobContainersLockImmutabilityPolicyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -631,7 +889,13 @@ export class BlobContainers {
    * omitted, this operation will always be applied.
    * @param callback The callback
    */
-  lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  lockImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -648,8 +912,22 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersLockImmutabilityPolicyResponse> {
+  lockImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): void;
+  lockImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImmutabilityPolicy>,
+    callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): Promise<Models.BlobContainersLockImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -659,7 +937,8 @@ export class BlobContainers {
         options
       },
       lockImmutabilityPolicyOperationSpec,
-      callback) as Promise<Models.BlobContainersLockImmutabilityPolicyResponse>;
+      callback
+    ) as Promise<Models.BlobContainersLockImmutabilityPolicyResponse>;
   }
 
   /**
@@ -681,7 +960,13 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>
    */
-  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: Models.BlobContainersExtendImmutabilityPolicyOptionalParams): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>;
+  extendImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    options?: Models.BlobContainersExtendImmutabilityPolicyOptionalParams
+  ): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -697,7 +982,13 @@ export class BlobContainers {
    * omitted, this operation will always be applied.
    * @param callback The callback
    */
-  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  extendImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -714,8 +1005,24 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options: Models.BlobContainersExtendImmutabilityPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: Models.BlobContainersExtendImmutabilityPolicyOptionalParams | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse> {
+  extendImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    options: Models.BlobContainersExtendImmutabilityPolicyOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): void;
+  extendImmutabilityPolicy(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    ifMatch: string,
+    options?:
+      | Models.BlobContainersExtendImmutabilityPolicyOptionalParams
+      | msRest.ServiceCallback<Models.ImmutabilityPolicy>,
+    callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>
+  ): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -725,7 +1032,8 @@ export class BlobContainers {
         options
       },
       extendImmutabilityPolicyOperationSpec,
-      callback) as Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>;
+      callback
+    ) as Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>;
   }
 
   /**
@@ -743,7 +1051,12 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersLeaseResponse>
    */
-  lease(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersLeaseOptionalParams): Promise<Models.BlobContainersLeaseResponse>;
+  lease(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?: Models.BlobContainersLeaseOptionalParams
+  ): Promise<Models.BlobContainersLeaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -756,7 +1069,12 @@ export class BlobContainers {
    * a letter or number.
    * @param callback The callback
    */
-  lease(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.LeaseContainerResponse>): void;
+  lease(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    callback: msRest.ServiceCallback<Models.LeaseContainerResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -770,8 +1088,22 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  lease(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersLeaseOptionalParams, callback: msRest.ServiceCallback<Models.LeaseContainerResponse>): void;
-  lease(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersLeaseOptionalParams | msRest.ServiceCallback<Models.LeaseContainerResponse>, callback?: msRest.ServiceCallback<Models.LeaseContainerResponse>): Promise<Models.BlobContainersLeaseResponse> {
+  lease(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options: Models.BlobContainersLeaseOptionalParams,
+    callback: msRest.ServiceCallback<Models.LeaseContainerResponse>
+  ): void;
+  lease(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?:
+      | Models.BlobContainersLeaseOptionalParams
+      | msRest.ServiceCallback<Models.LeaseContainerResponse>,
+    callback?: msRest.ServiceCallback<Models.LeaseContainerResponse>
+  ): Promise<Models.BlobContainersLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -780,7 +1112,8 @@ export class BlobContainers {
         options
       },
       leaseOperationSpec,
-      callback) as Promise<Models.BlobContainersLeaseResponse>;
+      callback
+    ) as Promise<Models.BlobContainersLeaseResponse>;
   }
 
   /**
@@ -800,9 +1133,18 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  objectLevelWorm(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginObjectLevelWorm(resourceGroupName,accountName,containerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  objectLevelWorm(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginObjectLevelWorm(
+      resourceGroupName,
+      accountName,
+      containerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -822,7 +1164,12 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginObjectLevelWorm(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginObjectLevelWorm(
+    resourceGroupName: string,
+    accountName: string,
+    containerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -831,7 +1178,8 @@ export class BlobContainers {
         options
       },
       beginObjectLevelWormOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -841,7 +1189,10 @@ export class BlobContainers {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.BlobContainersListNextOptionalParams): Promise<Models.BlobContainersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.BlobContainersListNextOptionalParams
+  ): Promise<Models.BlobContainersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -852,15 +1203,26 @@ export class BlobContainers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.BlobContainersListNextOptionalParams, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
-  listNext(nextPageLink: string, options?: Models.BlobContainersListNextOptionalParams | msRest.ServiceCallback<Models.ListContainerItems>, callback?: msRest.ServiceCallback<Models.ListContainerItems>): Promise<Models.BlobContainersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.BlobContainersListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.ListContainerItems>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.BlobContainersListNextOptionalParams
+      | msRest.ServiceCallback<Models.ListContainerItems>,
+    callback?: msRest.ServiceCallback<Models.ListContainerItems>
+  ): Promise<Models.BlobContainersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.BlobContainersListNextResponse>;
+      callback
+    ) as Promise<Models.BlobContainersListNextResponse>;
   }
 }
 
@@ -868,21 +1230,16 @@ export class BlobContainers {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxpagesize,
     Parameters.filter,
     Parameters.include
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListContainerItems
@@ -896,19 +1253,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.containerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "blobContainer",
     mapper: {
@@ -932,19 +1286,16 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.containerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "blobContainer",
     mapper: {
@@ -965,19 +1316,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.containerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BlobContainer
@@ -991,19 +1339,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.containerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -1016,19 +1361,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const setLegalHoldOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/setLegalHold",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/setLegalHold",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.containerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       tags: "tags"
@@ -1051,19 +1393,16 @@ const setLegalHoldOperationSpec: msRest.OperationSpec = {
 
 const clearLegalHoldOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/clearLegalHold",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/clearLegalHold",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.containerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       tags: "tags"
@@ -1086,7 +1425,8 @@ const clearLegalHoldOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
@@ -1094,23 +1434,12 @@ const createOrUpdateImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.immutabilityPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      immutabilityPeriodSinceCreationInDays: [
-        "options",
-        "immutabilityPeriodSinceCreationInDays"
-      ],
-      allowProtectedAppendWrites: [
-        "options",
-        "allowProtectedAppendWrites"
-      ]
+      immutabilityPeriodSinceCreationInDays: ["options", "immutabilityPeriodSinceCreationInDays"],
+      allowProtectedAppendWrites: ["options", "allowProtectedAppendWrites"]
     },
     mapper: Mappers.ImmutabilityPolicy
   },
@@ -1129,7 +1458,8 @@ const createOrUpdateImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
 
 const getImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
@@ -1137,13 +1467,8 @@ const getImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.immutabilityPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ImmutabilityPolicy,
@@ -1159,7 +1484,8 @@ const getImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
 
 const deleteImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
@@ -1167,13 +1493,8 @@ const deleteImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.immutabilityPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ImmutabilityPolicy,
@@ -1189,20 +1510,16 @@ const deleteImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
 
 const lockImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/lock",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/lock",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.containerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ImmutabilityPolicy,
@@ -1218,30 +1535,20 @@ const lockImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
 
 const extendImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/extend",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/extend",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.containerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      immutabilityPeriodSinceCreationInDays: [
-        "options",
-        "immutabilityPeriodSinceCreationInDays"
-      ],
-      allowProtectedAppendWrites: [
-        "options",
-        "allowProtectedAppendWrites"
-      ]
+      immutabilityPeriodSinceCreationInDays: ["options", "immutabilityPeriodSinceCreationInDays"],
+      allowProtectedAppendWrites: ["options", "allowProtectedAppendWrites"]
     },
     mapper: Mappers.ImmutabilityPolicy
   },
@@ -1260,24 +1567,18 @@ const extendImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
 
 const leaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/lease",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/lease",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.containerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.LeaseContainerRequest
   },
   responses: {
@@ -1293,19 +1594,16 @@ const leaseOperationSpec: msRest.OperationSpec = {
 
 const beginObjectLevelWormOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/migrate",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/migrate",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.containerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -1320,18 +1618,14 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
+  urlParameters: [Parameters.nextPageLink],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxpagesize,
     Parameters.filter,
     Parameters.include
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListContainerItems

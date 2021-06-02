@@ -35,7 +35,11 @@ export class ObjectReplicationPoliciesOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ObjectReplicationPoliciesListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.ObjectReplicationPoliciesListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ObjectReplicationPoliciesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -44,7 +48,11 @@ export class ObjectReplicationPoliciesOperations {
    * letters only.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicies>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.ObjectReplicationPolicies>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -54,8 +62,18 @@ export class ObjectReplicationPoliciesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicies>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ObjectReplicationPolicies>, callback?: msRest.ServiceCallback<Models.ObjectReplicationPolicies>): Promise<Models.ObjectReplicationPoliciesListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ObjectReplicationPolicies>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ObjectReplicationPolicies>,
+    callback?: msRest.ServiceCallback<Models.ObjectReplicationPolicies>
+  ): Promise<Models.ObjectReplicationPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +81,8 @@ export class ObjectReplicationPoliciesOperations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ObjectReplicationPoliciesListResponse>;
+      callback
+    ) as Promise<Models.ObjectReplicationPoliciesListResponse>;
   }
 
   /**
@@ -80,7 +99,12 @@ export class ObjectReplicationPoliciesOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ObjectReplicationPoliciesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options?: msRest.RequestOptionsBase): Promise<Models.ObjectReplicationPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ObjectReplicationPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -93,7 +117,12 @@ export class ObjectReplicationPoliciesOperations {
    * destination account. The policy is downloaded as a JSON file.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -107,8 +136,20 @@ export class ObjectReplicationPoliciesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): void;
-  get(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ObjectReplicationPolicy>, callback?: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): Promise<Models.ObjectReplicationPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ObjectReplicationPolicy>,
+    callback?: msRest.ServiceCallback<Models.ObjectReplicationPolicy>
+  ): Promise<Models.ObjectReplicationPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +158,8 @@ export class ObjectReplicationPoliciesOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ObjectReplicationPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.ObjectReplicationPoliciesGetResponse>;
   }
 
   /**
@@ -136,7 +178,13 @@ export class ObjectReplicationPoliciesOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ObjectReplicationPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, properties: Models.ObjectReplicationPolicy, options?: msRest.RequestOptionsBase): Promise<Models.ObjectReplicationPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    properties: Models.ObjectReplicationPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ObjectReplicationPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -151,7 +199,13 @@ export class ObjectReplicationPoliciesOperations {
    * will be created if absent.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, properties: Models.ObjectReplicationPolicy, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    properties: Models.ObjectReplicationPolicy,
+    callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -167,8 +221,22 @@ export class ObjectReplicationPoliciesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, properties: Models.ObjectReplicationPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, properties: Models.ObjectReplicationPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ObjectReplicationPolicy>, callback?: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): Promise<Models.ObjectReplicationPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    properties: Models.ObjectReplicationPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    properties: Models.ObjectReplicationPolicy,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ObjectReplicationPolicy>,
+    callback?: msRest.ServiceCallback<Models.ObjectReplicationPolicy>
+  ): Promise<Models.ObjectReplicationPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -178,7 +246,8 @@ export class ObjectReplicationPoliciesOperations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ObjectReplicationPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ObjectReplicationPoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -195,7 +264,12 @@ export class ObjectReplicationPoliciesOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -208,7 +282,12 @@ export class ObjectReplicationPoliciesOperations {
    * destination account. The policy is downloaded as a JSON file.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -222,8 +301,20 @@ export class ObjectReplicationPoliciesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    objectReplicationPolicyId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -232,7 +323,8 @@ export class ObjectReplicationPoliciesOperations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -240,18 +332,11 @@ export class ObjectReplicationPoliciesOperations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ObjectReplicationPolicies
@@ -265,19 +350,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.objectReplicationPolicyId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ObjectReplicationPolicy
@@ -291,19 +373,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.objectReplicationPolicyId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "properties",
     mapper: {
@@ -324,19 +403,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.objectReplicationPolicyId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
