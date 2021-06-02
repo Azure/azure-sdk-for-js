@@ -250,4 +250,35 @@ export class CommunicationIdentityClient {
       span.end();
     }
   }
+
+  /**
+   * Exchanges a Teams token for a new ACS access token.
+   *
+   * @param teamsToken - The Teams access token.
+   * @param options - Additional options for the request.
+   */
+  public async exchangeTeamsToken(
+    teamsToken: string,
+    options: OperationOptions = {}
+  ): Promise<CommunicationAccessToken> {
+    const { span, updatedOptions } = createSpan(
+      "CommunicationIdentity-exchangeTeamsToken",
+      options
+    );
+    try {
+      const { _response, ...result } = await this.client.exchangeTeamsUserAccessToken(
+        { token: teamsToken },
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
 }

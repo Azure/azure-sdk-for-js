@@ -433,7 +433,7 @@
     },
     {
       "packageName": "@azure-rest/core-client",
-      "projectFolder": "sdk/core-rest/core-client",
+      "projectFolder": "sdk/core/core-client-rest",
       "versionPolicyName": "core"
     },
     {
@@ -499,6 +499,11 @@
     {
       "packageName": "@azure/monitor-opentelemetry-exporter",
       "projectFolder": "sdk/monitor/monitor-opentelemetry-exporter",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/monitor-query",
+      "projectFolder": "sdk/monitor/monitor-query",
       "versionPolicyName": "client"
     },
     {
@@ -686,7 +691,7 @@
       "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
       "versionPolicyName": "client"
     },
-    {      
+    {
       "packageName": "@azure/iot-modelsrepository",
       "projectFolder": "sdk/iot/iot-modelsrepository"
     },
