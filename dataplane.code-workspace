@@ -57,8 +57,8 @@
       "path": "sdk/core/core-client"
     },
     {
-      "name": "rest-core-client",
-      "path": "sdk/core-rest/core-client"
+      "name": "core-client-rest",
+      "path": "sdk/core/core-client-rest"
     },
     {
       "name": "ai-document-translator",

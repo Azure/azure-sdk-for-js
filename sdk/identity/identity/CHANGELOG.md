@@ -5,6 +5,9 @@
 ### New features
 
 - Added `loginState`, `loginNonce`, `loginDomainHint`, `loginExtraQueryParameters`, `loginRedirectStartPage`, `loginOnRedirectNavigate`, `loginClaims` to the constructor options of the browser version of the `InteractiveBrowserCredential`, to mitigate cross site request forgery attacks and multiple replay attacks.
+### Bug fixes
+
+- Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to hang if there was no browser available.
 ### Breaking changes 
 
 - Removed the protected method `getAzureCliAccessToken` from the public API of the `AzureCliCredential`. While it will continue to be available as part of v1, we won't be supporting this method as part of v2's public API.
