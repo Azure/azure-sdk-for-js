@@ -21,13 +21,14 @@ import { base64EncodeByteArray } from "../utils/base64";
 /**
  * Options used to validate attestation tokens.
  * 
- * @property issuer - if provided, specifies the expected issuer of the attestation token.
- * @property validateExpirationTime - if true, validate the expiration time in the token.
- * @property validateNotBeforeTime - if true, validate the "not before" time in the token.
- * @property validateToken - if true, validate the token.
- * @property timeValidationSlack - the validation time slack in the time based validations.
+ * @typeparam issuer - if provided, specifies the expected issuer of the attestation token.
+ * @typeparam validateExpirationTime - if true, validate the expiration time in the token.
+ * @typeparam validateNotBeforeTime - if true, validate the "not before" time in the token.
+ * @typeparam validateToken - if true, validate the token.
+ * @typeparam timeValidationSlack - the validation time slack in the time based validations.
  * 
- * @note
+ * @remarks
+ * 
  *  If validateToken, validateNotBeforeTime, or validateExpirationTime are not
  *  provided, they are all assumed to be 'true'.
  * 

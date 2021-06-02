@@ -12,10 +12,10 @@ import { AttestationToken } from "./attestationToken";
  * An AttestationResponse represents the response from the Microsoft Azure
  * Attestation service. It has two properties:
  * 
- * - token: The attestation token returned from the attestation service.
- * - value: The body of the token returned by the attestation service.
+ * @typeparam token - The attestation token returned from the attestation service.
+ * @typeparam value - The body of the token returned by the attestation service.
  * 
- * @hideconstructor
+ * 
  */
  export class AttestationResponse<T>
  {

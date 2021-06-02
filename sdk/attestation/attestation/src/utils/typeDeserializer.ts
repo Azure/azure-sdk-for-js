@@ -27,7 +27,7 @@ export class TypeDeserializer {
    * 
    * @internal
    */
-  public static deserialize(rawJson: any, typeMappers: { [key: string]: any}, bodyTypeName: string) : unknown {
+  public static deserialize(rawJson: unknown, typeMappers: { [key: string]: any}, bodyTypeName: string) : unknown {
     const serializer = new Serializer( typeMappers );
     return serializer.deserialize(
       typeMappers[bodyTypeName],
@@ -44,7 +44,7 @@ export class TypeDeserializer {
     * 
     * @internal
     */
-  public static serialize(objectToSerialize: any, bodyMapper: Mapper) : string {
+  public static serialize(objectToSerialize: unknown, bodyMapper: Mapper) : string {
     const serializer = new Serializer({ bodyMapper });
       return JSON.stringify(serializer.serialize(
         bodyMapper,

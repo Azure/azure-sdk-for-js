@@ -31,7 +31,7 @@ export class StoredAttestationPolicy {
    * @param value - Raw JSON object from service to serialize as an attestation policy.
    * @returns Stored attestation policy.
    */
-  static deserialize(value: any) : StoredAttestationPolicy {
+  static deserialize(value: unknown) : StoredAttestationPolicy {
     return TypeDeserializer.deserialize(value, {StoredAttestationPolicy: Mappers.StoredAttestationPolicy}, "StoredAttestationPolicy") as StoredAttestationPolicy;
   }
 

@@ -45,7 +45,7 @@ export class PolicyResult {
    */
   policy?: string;
 
-  static create(rawJson: any) : PolicyResult {
+  static create(rawJson: unknown) : PolicyResult {
     return new PolicyResult(TypeDeserializer.deserialize(
         rawJson,
         { PolicyResult: Mappers.PolicyResult, JsonWebKey: Mappers.JsonWebKey }, 
