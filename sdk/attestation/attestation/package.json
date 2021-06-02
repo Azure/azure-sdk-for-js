@@ -15,10 +15,6 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageVersion"
-      },
-      {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
       }
