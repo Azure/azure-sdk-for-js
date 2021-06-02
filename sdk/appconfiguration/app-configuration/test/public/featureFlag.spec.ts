@@ -211,7 +211,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
         await client.addConfigurationSetting(featureFlag);
         assert.equal(
           (await client.getConfigurationSetting({ key: featureFlag.key })).value,
-          value as any,
+          value,
           "message"
         );
         await client.deleteConfigurationSetting({ key: featureFlag.key });

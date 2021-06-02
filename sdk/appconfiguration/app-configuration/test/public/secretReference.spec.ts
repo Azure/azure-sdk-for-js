@@ -177,7 +177,7 @@ describe("AppConfigurationClient - SecretReference", () => {
         await client.addConfigurationSetting(setting);
         assert.equal(
           (await client.getConfigurationSetting({ key: setting.key })).value,
-          value as any,
+          value,
           "message"
         );
         await client.deleteConfigurationSetting({ key: setting.key });
