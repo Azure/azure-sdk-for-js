@@ -60,18 +60,16 @@ steps:
       Artifacts: ${{ parameters.Artifacts }}
       ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
 
-  - script: |
-      echo "${{ convertToJson(parameters.Artifacts) }}"
-  # - task: PowerShell@2
-  #   displayName: 'Copy Packages'
-  #   inputs:
-  #     targetType: filePath
-  #     filePath: "eng/scripts/Copy-Artifacts.ps1"
-  #     arguments: >
-  #       -serviceDirectory sdk/${{parameters.ServiceDirectory}}
-  #       -artifacts ${{ parameters.Artifacts }}
-  #       -targetPath $(Build.ArtifactStagingDirectory)
-  #     pwsh: true
+  - task: PowerShell@2
+    displayName: 'Copy Packages'
+    inputs:
+      targetType: filePath
+      filePath: "eng/scripts/Copy-Artifacts.ps1"
+      arguments: >
+        -serviceDirectory sdk/${{parameters.ServiceDirectory}}
+        -artifacts ${{ convertToJson(parameters.Artifacts) }}
+        -targetPath $(Build.ArtifactStagingDirectory)
+      pwsh: true
     
 
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml

@@ -2,14 +2,16 @@ param (
   [Parameter(mandatory = $true)]
   $serviceDirectory,
   [Parameter(mandatory = $true)]
-  [Object[]] $artifacts,
+  $artifactsJson,
   [Parameter(mandatory = $true)]
   $targetPath
 )
 
+$artifacts = ConvertFrom-Json $artifactsJson
+Write-Host $artifacts
+
 foreach ($artifact in $artifacts)
 {
-  Write-Host $artifact
   $artifactName = $artifact.Name
   Write-Host "Copying artifact for $artifactName"
   New-Item -Type Directory -Name $artifactName -Path $targetPath
