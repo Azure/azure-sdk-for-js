@@ -39,7 +39,13 @@ export class ProtectionPolicyOperationStatuses {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProtectionPolicyOperationStatusesGetResponse>
    */
-  get(vaultName: string, resourceGroupName: string, policyName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.ProtectionPolicyOperationStatusesGetResponse>;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    policyName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProtectionPolicyOperationStatusesGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -48,7 +54,13 @@ export class ProtectionPolicyOperationStatuses {
    * @param operationId Operation ID which represents an operation whose status needs to be fetched.
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, policyName: string, operationId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    policyName: string,
+    operationId: string,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -58,8 +70,22 @@ export class ProtectionPolicyOperationStatuses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, policyName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  get(vaultName: string, resourceGroupName: string, policyName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ProtectionPolicyOperationStatusesGetResponse> {
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    policyName: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    policyName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.ProtectionPolicyOperationStatusesGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -69,7 +95,8 @@ export class ProtectionPolicyOperationStatuses {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProtectionPolicyOperationStatusesGetResponse>;
+      callback
+    ) as Promise<Models.ProtectionPolicyOperationStatusesGetResponse>;
   }
 }
 
@@ -77,7 +104,8 @@ export class ProtectionPolicyOperationStatuses {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}/operations/{operationId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}/operations/{operationId}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -85,12 +113,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.policyName,
     Parameters.operationId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus

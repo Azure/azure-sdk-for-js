@@ -32,21 +32,41 @@ export class FeatureSupport {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeatureSupportValidateResponse>
    */
-  validate(azureRegion: string, parameters: Models.FeatureSupportRequestUnion, options?: msRest.RequestOptionsBase): Promise<Models.FeatureSupportValidateResponse>;
+  validate(
+    azureRegion: string,
+    parameters: Models.FeatureSupportRequestUnion,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FeatureSupportValidateResponse>;
   /**
    * @param azureRegion Azure region to hit Api
    * @param parameters Feature support request object
    * @param callback The callback
    */
-  validate(azureRegion: string, parameters: Models.FeatureSupportRequestUnion, callback: msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>): void;
+  validate(
+    azureRegion: string,
+    parameters: Models.FeatureSupportRequestUnion,
+    callback: msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>
+  ): void;
   /**
    * @param azureRegion Azure region to hit Api
    * @param parameters Feature support request object
    * @param options The optional parameters
    * @param callback The callback
    */
-  validate(azureRegion: string, parameters: Models.FeatureSupportRequestUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>): void;
-  validate(azureRegion: string, parameters: Models.FeatureSupportRequestUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>, callback?: msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>): Promise<Models.FeatureSupportValidateResponse> {
+  validate(
+    azureRegion: string,
+    parameters: Models.FeatureSupportRequestUnion,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>
+  ): void;
+  validate(
+    azureRegion: string,
+    parameters: Models.FeatureSupportRequestUnion,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>,
+    callback?: msRest.ServiceCallback<Models.AzureVMResourceFeatureSupportResponse>
+  ): Promise<Models.FeatureSupportValidateResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -54,7 +74,8 @@ export class FeatureSupport {
         options
       },
       validateOperationSpec,
-      callback) as Promise<Models.FeatureSupportValidateResponse>;
+      callback
+    ) as Promise<Models.FeatureSupportValidateResponse>;
   }
 }
 
@@ -62,17 +83,11 @@ export class FeatureSupport {
 const serializer = new msRest.Serializer(Mappers);
 const validateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupValidateFeatures",
-  urlParameters: [
-    Parameters.azureRegion,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupValidateFeatures",
+  urlParameters: [Parameters.azureRegion, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

@@ -37,7 +37,15 @@ export class RecoveryPointsRecommendedForMove {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoveryPointsRecommendedForMoveListResponse>
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.ListRecoveryPointsRecommendedForMoveRequest, options?: msRest.RequestOptionsBase): Promise<Models.RecoveryPointsRecommendedForMoveListResponse>;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.ListRecoveryPointsRecommendedForMoveRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoveryPointsRecommendedForMoveListResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -48,7 +56,15 @@ export class RecoveryPointsRecommendedForMove {
    * @param parameters List Recovery points Recommended for Move Request
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.ListRecoveryPointsRecommendedForMoveRequest, callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>): void;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.ListRecoveryPointsRecommendedForMoveRequest,
+    callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -60,8 +76,26 @@ export class RecoveryPointsRecommendedForMove {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.ListRecoveryPointsRecommendedForMoveRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.ListRecoveryPointsRecommendedForMoveRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointResourceList>, callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>): Promise<Models.RecoveryPointsRecommendedForMoveListResponse> {
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.ListRecoveryPointsRecommendedForMoveRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): void;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.ListRecoveryPointsRecommendedForMoveRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointResourceList>,
+    callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): Promise<Models.RecoveryPointsRecommendedForMoveListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -73,7 +107,8 @@ export class RecoveryPointsRecommendedForMove {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RecoveryPointsRecommendedForMoveListResponse>;
+      callback
+    ) as Promise<Models.RecoveryPointsRecommendedForMoveListResponse>;
   }
 
   /**
@@ -82,26 +117,41 @@ export class RecoveryPointsRecommendedForMove {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoveryPointsRecommendedForMoveListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoveryPointsRecommendedForMoveListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoveryPointsRecommendedForMoveListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointResourceList>, callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>): Promise<Models.RecoveryPointsRecommendedForMoveListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointResourceList>,
+    callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): Promise<Models.RecoveryPointsRecommendedForMoveListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.RecoveryPointsRecommendedForMoveListNextResponse>;
+      callback
+    ) as Promise<Models.RecoveryPointsRecommendedForMoveListNextResponse>;
   }
 }
 
@@ -109,7 +159,8 @@ export class RecoveryPointsRecommendedForMove {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPointsRecommendedForMove",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPointsRecommendedForMove",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -118,12 +169,8 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.protectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -146,15 +193,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPointResourceList

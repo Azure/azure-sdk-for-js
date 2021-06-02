@@ -34,14 +34,22 @@ export class BackupEngines {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupEnginesListResponse>
    */
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupEnginesListOptionalParams): Promise<Models.BackupEnginesListResponse>;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    options?: Models.BackupEnginesListOptionalParams
+  ): Promise<Models.BackupEnginesListResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): void;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -49,8 +57,20 @@ export class BackupEngines {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, options: Models.BackupEnginesListOptionalParams, callback: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupEnginesListOptionalParams | msRest.ServiceCallback<Models.BackupEngineBaseResourceList>, callback?: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): Promise<Models.BackupEnginesListResponse> {
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    options: Models.BackupEnginesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>
+  ): void;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    options?:
+      | Models.BackupEnginesListOptionalParams
+      | msRest.ServiceCallback<Models.BackupEngineBaseResourceList>,
+    callback?: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>
+  ): Promise<Models.BackupEnginesListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -58,7 +78,8 @@ export class BackupEngines {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BackupEnginesListResponse>;
+      callback
+    ) as Promise<Models.BackupEnginesListResponse>;
   }
 
   /**
@@ -70,7 +91,12 @@ export class BackupEngines {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupEnginesGetResponse>
    */
-  get(vaultName: string, resourceGroupName: string, backupEngineName: string, options?: Models.BackupEnginesGetOptionalParams): Promise<Models.BackupEnginesGetResponse>;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    backupEngineName: string,
+    options?: Models.BackupEnginesGetOptionalParams
+  ): Promise<Models.BackupEnginesGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -78,7 +104,12 @@ export class BackupEngines {
    * @param backupEngineName Name of the backup management server.
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, backupEngineName: string, callback: msRest.ServiceCallback<Models.BackupEngineBaseResource>): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    backupEngineName: string,
+    callback: msRest.ServiceCallback<Models.BackupEngineBaseResource>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -87,8 +118,22 @@ export class BackupEngines {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, backupEngineName: string, options: Models.BackupEnginesGetOptionalParams, callback: msRest.ServiceCallback<Models.BackupEngineBaseResource>): void;
-  get(vaultName: string, resourceGroupName: string, backupEngineName: string, options?: Models.BackupEnginesGetOptionalParams | msRest.ServiceCallback<Models.BackupEngineBaseResource>, callback?: msRest.ServiceCallback<Models.BackupEngineBaseResource>): Promise<Models.BackupEnginesGetResponse> {
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    backupEngineName: string,
+    options: Models.BackupEnginesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.BackupEngineBaseResource>
+  ): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    backupEngineName: string,
+    options?:
+      | Models.BackupEnginesGetOptionalParams
+      | msRest.ServiceCallback<Models.BackupEngineBaseResource>,
+    callback?: msRest.ServiceCallback<Models.BackupEngineBaseResource>
+  ): Promise<Models.BackupEnginesGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -97,7 +142,8 @@ export class BackupEngines {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BackupEnginesGetResponse>;
+      callback
+    ) as Promise<Models.BackupEnginesGetResponse>;
   }
 
   /**
@@ -107,26 +153,43 @@ export class BackupEngines {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupEnginesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.BackupEnginesListNextOptionalParams): Promise<Models.BackupEnginesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.BackupEnginesListNextOptionalParams
+  ): Promise<Models.BackupEnginesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.BackupEnginesListNextOptionalParams, callback: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): void;
-  listNext(nextPageLink: string, options?: Models.BackupEnginesListNextOptionalParams | msRest.ServiceCallback<Models.BackupEngineBaseResourceList>, callback?: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>): Promise<Models.BackupEnginesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.BackupEnginesListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.BackupEnginesListNextOptionalParams
+      | msRest.ServiceCallback<Models.BackupEngineBaseResourceList>,
+    callback?: msRest.ServiceCallback<Models.BackupEngineBaseResourceList>
+  ): Promise<Models.BackupEnginesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.BackupEnginesListNextResponse>;
+      callback
+    ) as Promise<Models.BackupEnginesListNextResponse>;
   }
 }
 
@@ -134,20 +197,11 @@ export class BackupEngines {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines",
-  urlParameters: [
-    Parameters.vaultName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines",
+  urlParameters: [Parameters.vaultName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupEngineBaseResourceList
@@ -161,21 +215,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines/{backupEngineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupEngines/{backupEngineName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.backupEngineName
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupEngineBaseResource
@@ -191,17 +240,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupEngineBaseResourceList

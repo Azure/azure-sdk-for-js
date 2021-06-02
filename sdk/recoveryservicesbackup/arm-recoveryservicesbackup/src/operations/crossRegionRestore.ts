@@ -34,9 +34,14 @@ export class CrossRegionRestore {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  trigger(azureRegion: string, parameters: Models.CrossRegionRestoreRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginTrigger(azureRegion,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  trigger(
+    azureRegion: string,
+    parameters: Models.CrossRegionRestoreRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginTrigger(azureRegion, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -47,7 +52,11 @@ export class CrossRegionRestore {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTrigger(azureRegion: string, parameters: Models.CrossRegionRestoreRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginTrigger(
+    azureRegion: string,
+    parameters: Models.CrossRegionRestoreRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         azureRegion,
@@ -55,7 +64,8 @@ export class CrossRegionRestore {
         options
       },
       beginTriggerOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -63,17 +73,11 @@ export class CrossRegionRestore {
 const serializer = new msRest.Serializer(Mappers);
 const beginTriggerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupCrossRegionRestore",
-  urlParameters: [
-    Parameters.azureRegion,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupCrossRegionRestore",
+  urlParameters: [Parameters.azureRegion, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
