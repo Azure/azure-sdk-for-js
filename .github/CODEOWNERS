@@ -127,9 +127,10 @@
 # Config
 ###########
 /.vscode/ @mikeharder @praveenkuttappan @deyaaeldeen
-/common/ @mikeharder @praveenkuttappan
-/common/config/rush/pnpm-lock.yaml @xirzec
-/common/git-hooks/ @deyaaeldeen
+/common/ @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
+/common/smoke-test @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen @benbp
+
 /rush.json @mikeharder @praveenkuttappan
-/tsconfig.json @mikeharder @praveenkuttappan
+/tsconfig.json @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
 /**/tsconfig.json @witemple-msft @deyaaeldeen
+/.scripts/ @mikeharder @praveenkuttappan @KarishmaGhiya
