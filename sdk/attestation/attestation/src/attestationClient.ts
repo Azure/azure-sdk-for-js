@@ -1,26 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PipelineOptions,
-  TokenCredential,
-  OperationOptions,
-} from "@azure/core-http"
-// import { OperationOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
+import { PolicyCertificates } from "./operations";
+import { GeneratedClient } from "./generated/generatedClient";
+
 import {
-  PolicyCertificates,
-} from "./operations";
-import { GeneratedClient } from "./generated/generatedClient"
-  
-import { 
   AttestationSigner,
   AttestationToken,
   AttestationResult,
   AttestationData,
   TpmAttestationRequest,
-  TpmAttestationResponse,
- } from "./models";
+  TpmAttestationResponse
+} from "./models";
 
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
@@ -30,76 +22,78 @@ import * as Mappers from "./generated/models/mappers";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AttestationResponse } from "./models/attestationResponse";
 
-import { TypeDeserializer} from "./utils/typeDeserializer";
+import { TypeDeserializer } from "./utils/typeDeserializer";
+import { TokenCredential } from "@azure/core-auth";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
 /**
-* Attestation Client Construction Options.
-*/
-export interface AttestationClientOptions extends PipelineOptions{};
+ * Attestation Client Construction Options.
+ */
+export interface AttestationClientOptions extends CommonClientOptions {}
 
 /**
  * Operation options for the Attestation Client operations.
  */
-export interface AttestationClientOperationOptions extends OperationOptions{};
+export interface AttestationClientOperationOptions extends OperationOptions {}
 
 /**
  * Optional parameters for the AttestOpenEnclave API.
- * 
+ *
  * @param initTimeData - data provided at the time the enclave was initialized.
  * @param runTimeData - data provided at the time the SGX quote being attested was created.
- * @param draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request. 
+ * @param draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
  */
 export interface AttestOpenEnclaveOptions extends AttestationClientOperationOptions {
-   /**
-    *initTimeData : AttestationData - data provided at the time the enclave was initialized.
-    * 
-    */
-  initTimeData?: AttestationData,
+  /**
+   *initTimeData : AttestationData - data provided at the time the enclave was initialized.
+   *
+   */
+  initTimeData?: AttestationData;
   /**
    * runTimeData  - data provided at the time the SGX quote being attested was created.
    */
-  runTimeData?: AttestationData,
+  runTimeData?: AttestationData;
   /**
-   * draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request. 
+   * draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
    */
-  draftPolicyForAttestation?: string,
-};
+  draftPolicyForAttestation?: string;
+}
 
 /**
  * Optional parameters for the AttestSgxEnclave API.
- * 
+ *
  * @param initTimeData - data provided at the time the enclave was initialized.
  * @param runTimeData - data provided at the time the SGX quote being attested was created.
- * @param draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request. 
+ * @param draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
  */
- export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptions {
-   /**
-    *initTimeData : AttestationData - data provided at the time the enclave was initialized.
-    * 
-    */
-  initTimeData?: AttestationData,
+export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptions {
+  /**
+   *initTimeData : AttestationData - data provided at the time the enclave was initialized.
+   *
+   */
+  initTimeData?: AttestationData;
 
   /**
    * runTimeData - data provided at the time the SGX quote being attested was created.
    */
-  runTimeData?: AttestationData,
+  runTimeData?: AttestationData;
 
   /**
-   * draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request. 
+   * draftPolicyForAttestation - If specified, the attestation policy to be used during the attestation request.
    */
-  draftPolicyForAttestation?: string,
+  draftPolicyForAttestation?: string;
 }
 
 /**
  * Operation options for the AttestTpm API.
  */
- export interface AttestTpmOptions extends AttestationClientOperationOptions{};
+export interface AttestTpmOptions extends AttestationClientOperationOptions {}
 
 /**
  * Attestation Client class.
- * 
+ *
  * The AttestationClient class enables access to the Attestation related APIs:
- * 
+ *
  * - getOpenIdMetadata
  * - getAttestationSigners
  * - attestSgxEnclave
@@ -146,7 +140,7 @@ export class AttestationClient {
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: [ 'x-ms-request-id', 'x-ms-maa-service-version' ]
+          allowedHeaderNames: ["x-ms-request-id", "x-ms-maa-service-version"]
         }
       }
     };
@@ -164,33 +158,42 @@ export class AttestationClient {
    * TS files.
    * @returns The generated client for the attestation service.
    */
-   public getGeneratedClient() : GeneratedClient
-   {
-     return this._client;
-   }
+  public getGeneratedClient(): GeneratedClient {
+    return this._client;
+  }
 
   /** Attests an OpenEnclave report generated from an SGX Enclave using the OpenEnclave SDK.
-   * 
+   *
    * @param report - An OpenEnclave report generated by an SGX enclave.
    * @param options - Operation options for the attestOpenEnclave API call.
    * @returns Returns an AttestationResponse whose body is an AttestationResult describing
    *    the claims returned by the attestation service.
    */
-  public async attestOpenEnclave(report : Uint8Array, options : AttestOpenEnclaveOptions = {}) : Promise<AttestationResponse<AttestationResult>> {
-    const { span, updatedOptions} = createSpan("AttestationClient-attestOpenEnclave", options);
+  public async attestOpenEnclave(
+    report: Uint8Array,
+    options: AttestOpenEnclaveOptions = {}
+  ): Promise<AttestationResponse<AttestationResult>> {
+    const { span, updatedOptions } = createSpan("AttestationClient-attestOpenEnclave", options);
     try {
-      const attestationResponse = await this._client.attestation.attestOpenEnclave({
-        report: report,
-        initTimeData: (options.initTimeData ? { 
-          data: options.initTimeData.data,
-          dataType: (options.initTimeData.isJson ? "JSON" : "Binary"),
-        } : undefined),
-        runtimeData:  (options.runTimeData ? { 
-          data: options.runTimeData.data,
-          dataType: (options.runTimeData.isJson ? "JSON" : "Binary"),
-        } : undefined),
-        draftPolicyForAttestation: (options.draftPolicyForAttestation ?? undefined),
-      }, updatedOptions);
+      const attestationResponse = await this._client.attestation.attestOpenEnclave(
+        {
+          report: report,
+          initTimeData: options.initTimeData
+            ? {
+                data: options.initTimeData.data,
+                dataType: options.initTimeData.isJson ? "JSON" : "Binary"
+              }
+            : undefined,
+          runtimeData: options.runTimeData
+            ? {
+                data: options.runTimeData.data,
+                dataType: options.runTimeData.isJson ? "JSON" : "Binary"
+              }
+            : undefined,
+          draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined
+        },
+        updatedOptions
+      );
 
       const token = new AttestationToken(attestationResponse.token);
 
@@ -198,14 +201,14 @@ export class AttestationClient {
         token.getBody(),
         {
           AttestationResult: Mappers.AttestationResult,
-          JsonWebKey: Mappers.JsonWebKey,
+          JsonWebKey: Mappers.JsonWebKey
         },
-        "AttestationResult") as AttestationResult;
+        "AttestationResult"
+      ) as AttestationResult;
 
       return new AttestationResponse<AttestationResult>(token, attestationResult);
-
     } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -213,47 +216,56 @@ export class AttestationClient {
   }
 
   /** Attests a quote generated from SGX Enclave using the Intel SDK.
-   * 
+   *
    * @param quote - An SGX quote generated by an SGX enclave.
    * @param options - Operation options for the attestOpenEnclave API call.
    * @returns Returns an AttestationResponse whose body is an AttestationResult describing
    *    the claims returned by the attestation service.
    */
-   public async attestSgxEnclave(quote : Uint8Array, options : AttestSgxEnclaveOptions = {}) : Promise<AttestationResponse<AttestationResult>> {
-    const { span, updatedOptions} = createSpan("AttestationClient-attestSgxEnclave", options);
+  public async attestSgxEnclave(
+    quote: Uint8Array,
+    options: AttestSgxEnclaveOptions = {}
+  ): Promise<AttestationResponse<AttestationResult>> {
+    const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);
     try {
-      const attestationResponse = await this._client.attestation.attestSgxEnclave({
-        quote: quote,
-        initTimeData: (options.initTimeData ? { 
-          data: options.initTimeData.data,
-          dataType: (options.initTimeData.isJson ? "JSON" : "Binary"),
-        } : undefined),
-        runtimeData:  (options.runTimeData ? { 
-          data: options.runTimeData.data,
-          dataType: (options.runTimeData.isJson ? "JSON" : "Binary"),
-        } : undefined),
-        draftPolicyForAttestation: (options.draftPolicyForAttestation ?? undefined),
-      }, updatedOptions);
+      const attestationResponse = await this._client.attestation.attestSgxEnclave(
+        {
+          quote: quote,
+          initTimeData: options.initTimeData
+            ? {
+                data: options.initTimeData.data,
+                dataType: options.initTimeData.isJson ? "JSON" : "Binary"
+              }
+            : undefined,
+          runtimeData: options.runTimeData
+            ? {
+                data: options.runTimeData.data,
+                dataType: options.runTimeData.isJson ? "JSON" : "Binary"
+              }
+            : undefined,
+          draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined
+        },
+        updatedOptions
+      );
 
       const token = new AttestationToken(attestationResponse.token);
       const attestationResult = TypeDeserializer.deserialize(
         token.getBody(),
         {
           AttestationResult: Mappers.AttestationResult,
-          JsonWebKey: Mappers.JsonWebKey,
+          JsonWebKey: Mappers.JsonWebKey
         },
-        "AttestationResult") as AttestationResult;
+        "AttestationResult"
+      ) as AttestationResult;
 
       return new AttestationResponse<AttestationResult>(token, attestationResult);
-
     } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
     }
   }
-
 
   /** Attest a TPM based enclave.
 
@@ -263,14 +275,15 @@ export class AttestationClient {
    * @param options - Pipeline options for TPM attestation request.
    * @returns A structure containing the response from the TPM attestation.
    */
-  public async attestTpm(request : TpmAttestationRequest, options: AttestTpmOptions = {}) : Promise<TpmAttestationResponse>
-  {
-    const { span, updatedOptions} = createSpan("AttestationClient-attestSgxEnclave", options);
+  public async attestTpm(
+    request: TpmAttestationRequest,
+    options: AttestTpmOptions = {}
+  ): Promise<TpmAttestationResponse> {
+    const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);
     try {
-      return await this._client.attestation.attestTpm(request, updatedOptions)
-
+      return await this._client.attestation.attestTpm(request, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -280,22 +293,23 @@ export class AttestationClient {
   /**
    * Returns the list of attestation signers which can be used to sign attestation
    * service tokens.
-   * 
+   *
    * @param options - Client operation options.
    * @returns the set of AttestationSigners which may be used to sign attestation tokens.
    */
-  public async getAttestationSigners(options: AttestationClientOperationOptions = {}) : Promise<AttestationSigner[]>
-  {
-    const { span, updatedOptions} = createSpan("AttestationClient-getAttestationSigners", options);
+  public async getAttestationSigners(
+    options: AttestationClientOperationOptions = {}
+  ): Promise<AttestationSigner[]> {
+    const { span, updatedOptions } = createSpan("AttestationClient-getAttestationSigners", options);
     try {
       const signingCertificates = await this._client.signingCertificates.get(updatedOptions);
-      const signers:AttestationSigner[] = new Array();
-      signingCertificates.keys?.forEach(element => {
+      const signers: AttestationSigner[] = new Array();
+      signingCertificates.keys?.forEach((element) => {
         signers.push(new AttestationSigner(element));
       });
       return signers;
     } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -307,18 +321,17 @@ export class AttestationClient {
    * @param options - Client operation options.
    * @returns The OpenID metadata discovery document for the attestation service.
    */
-  public async getOpenIdMetadata(options: AttestationClientOperationOptions = {}) : Promise<any>
-  {
-    const { span, updatedOptions} = createSpan("AttestationClient-getOpenIdMetadata", options);
+  public async getOpenIdMetadata(options: AttestationClientOperationOptions = {}): Promise<any> {
+    const { span, updatedOptions } = createSpan("AttestationClient-getOpenIdMetadata", options);
     try {
-      return await (await this._client.metadataConfiguration.get(updatedOptions)).body;
+      const configs = await this._client.metadataConfiguration.get(updatedOptions);
+      return configs;
     } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
     } finally {
       span.end();
     }
   }
-  
 
   private _client: GeneratedClient;
 
@@ -327,5 +340,5 @@ export class AttestationClient {
   /**
    * @hidden
    */
-   policyCertificates: PolicyCertificates;
+  policyCertificates: PolicyCertificates;
 }

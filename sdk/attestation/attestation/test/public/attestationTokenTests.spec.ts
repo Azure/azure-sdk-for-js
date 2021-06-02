@@ -13,7 +13,7 @@ import { createRecorder } from "../utils/recordedClient";
 import { bytesToString, stringToBytes } from "../../src/utils/utf8.browser";
 
 import { AttestationSigningKey, AttestationToken } from "../../src";
-import { createECDSKey, createRSAKey, createX509Certificate} from "../utils/cryptoUtils";
+import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
 import { encodeByteArray } from "../utils/base64url";
 import { X509 } from "jsrsasign";
 
@@ -28,7 +28,7 @@ describe("AttestationTokenTests", function() {
     await recorder.stop();
   });
 
-  it("#testUtf8ConversionFunctions", async() => {
+  it("#testUtf8ConversionFunctions", async () => {
     const buffer = stringToBytes("ABCDEF");
     assert.equal(65, buffer[0]);
     assert.equal(66, buffer[1]);
@@ -38,19 +38,19 @@ describe("AttestationTokenTests", function() {
 
     const str = bytesToString(buffer);
     assert.equal("ABCDEF", str);
-  })
-
-  it("#createRsaSigningKey", async() => {
-      const key = createRSAKey();
-      const cert = createX509Certificate(key, "testCert");
-      assert.isTrue(key.length !== 0);
-      assert.isTrue(cert.length !== 0);
-
-      const signingKey = new AttestationSigningKey(key, cert);
-      assert.isTrue(signingKey.certificate.length !== 0);
   });
 
-  it("#createEcdsSigningKey", async() => {
+  it("#createRsaSigningKey", async () => {
+    const key = createRSAKey();
+    const cert = createX509Certificate(key, "testCert");
+    assert.isTrue(key.length !== 0);
+    assert.isTrue(cert.length !== 0);
+
+    const signingKey = new AttestationSigningKey(key, cert);
+    assert.isTrue(signingKey.certificate.length !== 0);
+  });
+
+  it("#createEcdsSigningKey", async () => {
     const key = createECDSKey();
     const cert = createX509Certificate(key, "testCert");
     assert.isTrue(key.length !== 0);
@@ -62,7 +62,7 @@ describe("AttestationTokenTests", function() {
 
   // Create a signing key, but use the wrong key - this should throw an
   // exception, because the key doesn't match the certificate.
-  it("#createSigningKeyWrongKey", async() => {
+  it("#createSigningKeyWrongKey", async () => {
     const key = createECDSKey();
     const cert = createX509Certificate(key, "testCert");
 
@@ -71,49 +71,46 @@ describe("AttestationTokenTests", function() {
     assert.isTrue(key.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    assert.throws( () => new AttestationSigningKey(key2, cert));
-
+    assert.throws(() => new AttestationSigningKey(key2, cert));
   });
 
   /**
    * Creates an unsecured attestation token.
    */
-   it("#createUnsecuredAttestationToken", async() => {
-
-    const sourceObject = JSON.stringify({foo: "foo", bar: 10});
-    const token = AttestationToken.create({body: sourceObject});
+  it("#createUnsecuredAttestationToken", async () => {
+    const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
+    const token = AttestationToken.create({ body: sourceObject });
 
     const body = token.getBody();
-    assert.deepEqual({foo: "foo", bar: 10}, body);
+    assert.deepEqual({ foo: "foo", bar: 10 }, body);
     assert.equal("none", token.algorithm);
   });
 
   /**
    * Creates an unsecured empty attestation token.
    */
-    it("#createUnsecuredEmptyAttestationToken", async() => {
-      const token = AttestationToken.create({});
-  
-      // An empty unsecured attestation token has a well known value, check it.
-      assert('eyJhbGciOiJub25lIn0..', token.serialize());
-      const body = token.getBody();
-      assert.isNull(body);
-      assert.equal("none", token.algorithm);
-    });
+  it("#createUnsecuredEmptyAttestationToken", async () => {
+    const token = AttestationToken.create({});
+
+    // An empty unsecured attestation token has a well known value, check it.
+    assert("eyJhbGciOiJub25lIn0..", token.serialize());
+    const body = token.getBody();
+    assert.isNull(body);
+    assert.equal("none", token.algorithm);
+  });
 
   /**
    * Creates a secured empty attestation token with the specified key.
    */
-  it("#createSecuredAttestationToken", async() => {
+  it("#createSecuredAttestationToken", async () => {
     const key = createRSAKey();
     const cert = createX509Certificate(key, "certificate");
 
-    const token = AttestationToken.create({signer: new AttestationSigningKey(key, cert)});
+    const token = AttestationToken.create({ signer: new AttestationSigningKey(key, cert) });
 
     assert.notEqual("none", token.algorithm);
     assert.equal(1, token.certificateChain?.certificates.length);
     if (token.certificateChain) {
-
       let pemCert: string;
       pemCert = "-----BEGIN CERTIFICATE-----\r\n";
       pemCert += encodeByteArray(token.certificateChain.certificates[0]);
@@ -128,27 +125,25 @@ describe("AttestationTokenTests", function() {
       assert.equal(expectedCert.hex, actualCert.hex);
     }
 
-
     // The token of course should validate.
     assert.isTrue(token.validateToken());
-
   });
 
-  
   /**
    * Creates a secured attestation token with the specified key.
    */
-  it("#createSecuredAttestationToken", async() => {
+  it("#createSecuredAttestationToken", async () => {
     const key = createRSAKey();
     const cert = createX509Certificate(key, "certificate");
 
-    const sourceObject = JSON.stringify({foo: "foo", bar: 10});
-    const token = AttestationToken.create({body: sourceObject, signer: new AttestationSigningKey(key, cert)});
+    const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
+    const token = AttestationToken.create({
+      body: sourceObject,
+      signer: new AttestationSigningKey(key, cert)
+    });
 
     const body = token.getBody();
-    assert.deepEqual({foo: "foo", bar: 10}, body);
+    assert.deepEqual({ foo: "foo", bar: 10 }, body);
     assert.notEqual("none", token.algorithm);
   });
-
 });
-

@@ -11,7 +11,7 @@ import { decode } from "./decodeJWT";
 
 import { EndpointType, getAttestationUri } from "./recordedClient";
 
-import { encodeByteArray } from "./base64url"
+import { encodeByteArray } from "./base64url";
 
 export function decodeJWT(
   attestationToken: string,
@@ -32,14 +32,14 @@ export function decodeJWT(
 export async function verifyAttestationToken(
   attestationToken: string,
   signers: AttestationSigner[],
-  endpointType : EndpointType
+  endpointType: EndpointType
 ): Promise<{
   [key: string]: any;
 }> {
   const decoded = decodeJWT(attestationToken, getAttestationUri(endpointType));
   const keyId = decoded?.header.kid;
 
-  let signingCert : Uint8Array[] = [];
+  let signingCert: Uint8Array[] = [];
   for (const key of signers) {
     if (key.keyId === keyId) {
       signingCert = key.certificates;

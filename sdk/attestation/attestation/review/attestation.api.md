@@ -4,10 +4,11 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AttestationAdministrationClient {
@@ -24,16 +25,11 @@ export interface AttestationAdministrationClientOperationOptions extends Operati
 }
 
 // @public
-export interface AttestationAdministrationClientOptions extends PipelineOptions {
+export interface AttestationAdministrationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type AttestationAttestTpmResponse = TpmAttestationResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TpmAttestationResponse;
-    };
-};
+export type AttestationAttestTpmResponse = TpmAttestationResponse;
 
 // @public
 export interface AttestationCertificateManagementBody {
@@ -61,7 +57,7 @@ export interface AttestationClientOperationOptions extends OperationOptions {
 }
 
 // @public
-export interface AttestationClientOptions extends PipelineOptions {
+export interface AttestationClientOptions extends CommonClientOptions {
 }
 
 // @public
@@ -204,7 +200,7 @@ export type DataType = string;
 // @public (undocumented)
 export class GeneratedClient extends GeneratedClientContext {
     // Warning: (ae-forgotten-export) The symbol "GeneratedClientOptionalParams" needs to be exported by the entry point index.d.ts
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: GeneratedClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, instanceUrl: string, options?: GeneratedClientOptionalParams);
     // Warning: (ae-forgotten-export) The symbol "Attestation" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -228,8 +224,8 @@ export class GeneratedClient extends GeneratedClientContext {
 }
 
 // @public (undocumented)
-export class GeneratedClientContext extends coreHttp.ServiceClient {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: GeneratedClientOptionalParams);
+export class GeneratedClientContext extends coreClient.ServiceClient {
+    constructor(credentials: coreAuth.TokenCredential, instanceUrl: string, options?: GeneratedClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -294,26 +290,16 @@ export enum KnownPolicyModification {
 // @public
 export class PolicyCertificates {
     constructor(client: AttestationClient);
-    add(policyCertificateToAdd: string, options?: coreHttp.OperationOptions): Promise<PolicyCertificatesAddResponse>;
-    get(options?: coreHttp.OperationOptions): Promise<PolicyCertificatesGetResponse>;
-    remove(policyCertificateToRemove: string, options?: coreHttp.OperationOptions): Promise<PolicyCertificatesRemoveResponse>;
+    add(policyCertificateToAdd: string, options?: coreClient.OperationOptions): Promise<PolicyCertificatesAddResponse>;
+    get(options?: coreClient.OperationOptions): Promise<PolicyCertificatesGetResponse>;
+    remove(policyCertificateToRemove: string, options?: coreClient.OperationOptions): Promise<PolicyCertificatesRemoveResponse>;
 }
 
 // @public
-export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyCertificatesModifyResponse;
-    };
-};
+export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse;
 
 // @public
-export type PolicyCertificatesGetResponse = PolicyCertificatesResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyCertificatesResponse;
-    };
-};
+export type PolicyCertificatesGetResponse = PolicyCertificatesResponse;
 
 // @public
 export interface PolicyCertificatesModificationResult {
@@ -327,12 +313,7 @@ export interface PolicyCertificatesModifyResponse {
 }
 
 // @public
-export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyCertificatesModifyResponse;
-    };
-};
+export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse;
 
 // @public
 export interface PolicyCertificatesResponse {

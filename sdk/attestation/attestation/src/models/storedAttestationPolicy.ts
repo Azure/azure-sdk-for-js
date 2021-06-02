@@ -8,10 +8,10 @@
  */
 
 import { stringToBytes } from "../utils/utf8.browser";
-import { TypeDeserializer } from "../utils/typeDeserializer"
+import { TypeDeserializer } from "../utils/typeDeserializer";
 
 import * as Mappers from "../generated/models/mappers";
-    
+
 /**
  * Represents a stored attestation policy sent to the attestation service.
  */
@@ -20,19 +20,21 @@ export class StoredAttestationPolicy {
     this.attestationPolicy = stringToBytes(value);
   }
 
-  serialize() : string {
-    return TypeDeserializer.serialize(
-            this,
-            Mappers.StoredAttestationPolicy);
+  serialize(): string {
+    return TypeDeserializer.serialize(this, Mappers.StoredAttestationPolicy);
   }
 
   /**
-   * 
+   *
    * @param value - Raw JSON object from service to serialize as an attestation policy.
    * @returns Stored attestation policy.
    */
-  static deserialize(value: unknown) : StoredAttestationPolicy {
-    return TypeDeserializer.deserialize(value, {StoredAttestationPolicy: Mappers.StoredAttestationPolicy}, "StoredAttestationPolicy") as StoredAttestationPolicy;
+  static deserialize(value: unknown): StoredAttestationPolicy {
+    return TypeDeserializer.deserialize(
+      value,
+      { StoredAttestationPolicy: Mappers.StoredAttestationPolicy },
+      "StoredAttestationPolicy"
+    ) as StoredAttestationPolicy;
   }
 
   /**

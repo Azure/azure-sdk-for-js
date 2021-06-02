@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreHttp from "@azure/core-http";
-
 export * from "./attestationSigner";
 export * from "./attestationSigningKey";
 export * from "./attestationToken";
@@ -382,7 +380,7 @@ export enum KnownAttestationType {
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **SgxEnclave**: Intel Software Guard eXtensions
- * **OpenEnclave**: OpenEnclave extensions to SGX 
+ * **OpenEnclave**: OpenEnclave extensions to SGX
  * **Tpm**: Edge TPM Virtualization Based Security
  */
 export type AttestationType = string;
@@ -402,7 +400,7 @@ export enum KnownDataType {
 }
 
 /**
- * Defines values for DataType. 
+ * Defines values for DataType.
  * {@link KnownDataType} can be used interchangeably with DataType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
@@ -426,7 +424,7 @@ export enum KnownCertificateModification {
 }
 
 /**
- * Defines values for CertificateModification. 
+ * Defines values for CertificateModification.
  * {@link KnownCertificateModification} can be used interchangeably with CertificateModification,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
@@ -462,79 +460,19 @@ export type PolicyModification = string;
 /**
  * Contains response data for the get operation.
  */
-export type PolicyCertificatesGetResponse = PolicyCertificatesResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyCertificatesResponse;
-  };
-};
+export type PolicyCertificatesGetResponse = PolicyCertificatesResponse;
 
 /**
  * Contains response data for the add operation.
  */
-export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyCertificatesModifyResponse;
-  };
-};
+export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse;
 
 /**
  * Contains response data for the remove operation.
  */
-export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PolicyCertificatesModifyResponse;
-  };
-};
+export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse;
 
 /**
  * Contains response data for the attestTpm operation.
  */
-export type AttestationAttestTpmResponse = TpmAttestationResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TpmAttestationResponse;
-  };
-};
+export type AttestationAttestTpmResponse = TpmAttestationResponse;

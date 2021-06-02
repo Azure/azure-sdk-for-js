@@ -6,14 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreAuth from "@azure/core-auth";
+import {
+  PolicyImpl,
+  PolicyCertificatesImpl,
+  AttestationImpl,
+  SigningCertificatesImpl,
+  MetadataConfigurationImpl
+} from "./operations";
 import {
   Policy,
   PolicyCertificates,
   Attestation,
   SigningCertificates,
   MetadataConfiguration
-} from "./operations";
+} from "./operationsInterfaces";
 import { GeneratedClientContext } from "./generatedClientContext";
 import { GeneratedClientOptionalParams } from "./models";
 
@@ -25,16 +32,16 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    credentials: coreAuth.TokenCredential,
     instanceUrl: string,
     options?: GeneratedClientOptionalParams
   ) {
     super(credentials, instanceUrl, options);
-    this.policy = new Policy(this);
-    this.policyCertificates = new PolicyCertificates(this);
-    this.attestation = new Attestation(this);
-    this.signingCertificates = new SigningCertificates(this);
-    this.metadataConfiguration = new MetadataConfiguration(this);
+    this.policy = new PolicyImpl(this);
+    this.policyCertificates = new PolicyCertificatesImpl(this);
+    this.attestation = new AttestationImpl(this);
+    this.signingCertificates = new SigningCertificatesImpl(this);
+    this.metadataConfiguration = new MetadataConfigurationImpl(this);
   }
 
   policy: Policy;

@@ -3,26 +3,23 @@
 
 export * from "./models";
 export * from "./operations";
-export { 
-    AttestationClient,
-    AttestationClientOptions,
-    AttestOpenEnclaveOptions,
-    AttestSgxEnclaveOptions,
-    AttestTpmOptions,
-    AttestationClientOperationOptions,
- } from "./attestationClient";
+export {
+  AttestationClient,
+  AttestationClientOptions,
+  AttestOpenEnclaveOptions,
+  AttestSgxEnclaveOptions,
+  AttestTpmOptions,
+  AttestationClientOperationOptions
+} from "./attestationClient";
 
- export {
-    AttestationAdministrationClient,
-    AttestationAdministrationClientOptions,
-    AttestationAdministrationClientOperationOptions,
-    GetPolicyOptions,
- } from "./attestationAdministrationClient";
+export {
+  AttestationAdministrationClient,
+  AttestationAdministrationClientOptions,
+  AttestationAdministrationClientOperationOptions,
+  GetPolicyOptions
+} from "./attestationAdministrationClient";
 
 /**
  * REMOVE THIS DECLARATION BEFORE SHIPPING, IT EXISTS ONLY TO MAKE API-Extractor HAPPY.
  */
-export {
-    GeneratedClient,
-    GeneratedClientContext
-} from "./generated"
+export { GeneratedClient, GeneratedClientContext } from "./generated";
