@@ -2,20 +2,20 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/be1a7aa7-4bae-482e-8621-e91b5ae4e9bc",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/f95cf807-06a3-4118-8c1b-af9e96bff3b9",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"dataFeedId\":\"be1a7aa7-4bae-482e-8621-e91b5ae4e9bc\",\"dataFeedName\":\"js-test-datafeed-161116811190308647\",\"metrics\":[{\"metricId\":\"4c9a0107-c941-4126-9bf4-2b745c543db0\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"c2fdcdcb-a85f-425c-be06-29c3de5e83fd\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"AzureBlob\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2021-01-20T18:41:52Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"container\":\"adsample\",\"connectionString\":\"blob_connection_string\",\"blobTemplate\":\"blob_template\"}}",
+   "response": "{\"dataFeedId\":\"f95cf807-06a3-4118-8c1b-af9e96bff3b9\",\"dataFeedName\":\"js-test-datafeed-162260307823605744\",\"metrics\":[{\"metricId\":\"a4bbabdb-6f67-451f-bfcd-bd70112e17ba\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"d92697b0-b28d-4385-8fbb-c568322b726a\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"AzureBlob\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2021-06-02T03:04:38Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"container\":\"adsample\",\"blobTemplate\":\"blob_template\"},\"authenticationType\":\"Basic\"}",
    "responseHeaders": {
-    "apim-request-id": "30ca01b3-216f-4580-a2dc-389e5896cb43",
-    "content-length": "1687",
+    "apim-request-id": "e54f96c8-8b80-4e14-bb40-66d00cea54a9",
+    "content-length": "1264",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:41:53 GMT",
+    "date": "Wed, 02 Jun 2021 03:04:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "208",
-    "x-request-id": "30ca01b3-216f-4580-a2dc-389e5896cb43"
+    "x-envoy-upstream-service-time": "231",
+    "x-request-id": "e54f96c8-8b80-4e14-bb40-66d00cea54a9"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "efd6d9e7e6458acf026a48d42bcd1372"
+ "hash": "585766dfc34e24ae5ef79fbc8207002c"
 }

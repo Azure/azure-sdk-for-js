@@ -24,7 +24,7 @@ import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
-    describe.only("MetricsAdvisorAdministrationClient datafeed", () => {
+    describe("MetricsAdvisorAdministrationClient datafeed", () => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
       let feedName: string;
@@ -330,8 +330,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "AzureBlob");
           assert.deepStrictEqual(updated.source, expectedServerParameter);
-          console.dir(updated);
-          assert.equal(updated.authenticationType, expectedSourceParameter.authenticationType);
+          assert.equal(updated.source.authenticationType, expectedSourceParameter.authenticationType);
           assert.deepStrictEqual(updated.ingestionSettings, expectedIngestionSettings);
           assert.equal(updated.description, "Updated Azure Blob description");
           assert.ok(updated.rollupSettings, "Expecting valid updated.options.rollupSettings");
