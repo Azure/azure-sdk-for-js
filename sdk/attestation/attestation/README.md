@@ -177,24 +177,30 @@ Creates an instance of the Attestation Client at uri `endpoint`.
 
 ### Get attestation policy
 
-The `set_policy` method retrieves the attestation policy from the service.
+The `getPolicy` method retrieves the attestation policy from the service.
 Attestation Policies are instanced on a per-attestation type basis, the `AttestationType` parameter defines the type to retrieve.
 
 ```js
-<FILL THIS IN>
+    const policyResult = await adminClient.getPolicy(attestationType);
+
+    // The text policy document is available in the `policyResult.value`
+    // property.
+
+    // The actual attestation token returned by the MAA service is available
+    // in `policyResult.token`.
 ```
 
 ### Set an attestation policy for a specified attestation type
 
 If the attestation service instance is running in Isolated mode, the set_policy API needs to provide a signing certificate (and private key) which can be used to validate that the caller is authorized to modify policy on the attestation instance. If the service instance is running in AAD mode, then the signing certificate and key are optional.
 
-Under the covers, the SetPolicy APIs create a [JSON Web Token][json_web_token] based on the policy document and signing information which is sent to the attestation service.
+Under the covers, the setPolicy APIs create a [JSON Web Token][json_web_token] based on the policy document and signing information which is sent to the attestation service.
 
 ```js
 <FILL THIS IN>
 ```
 
-If the service instance is running in AAD mode, the call to set_policy can be
+If the service instance is running in AAD mode, the call to setPolicy can be
 simplified:
 
 ```js
@@ -205,13 +211,26 @@ Clients need to be able to verify that the attestation policy document was not m
 
 There are two properties provided in the [PolicyResult][attestation_policy_result] that can be used to verify that the service received the policy document:
 
-- [`policy_signer`][attestation_policy_result_parameters] - if the `set_policy` call included a signing certificate, this will be the certificate provided at the time of the `set_policy` call. If no policy signer was set, this will be null.
-- [`policy_token_hash`][attestation_policy_result_parameters] - this is the hash of the [JSON Web Token][json_web_token] sent to the service.
+- [`policy_signer`][attestation_policy_result_parameters] - if the `setPolicy` call included a signing certificate, this will be the certificate provided at the time of the `setPolicy` call. If no policy signer was set, this will be null.
+- [`policy_token_hash`][attestation_policy_result_parameters] - this is the hash of the [JSON Web Signature][json_web_token] sent to the service for the setPolicy API.
 
 To verify the hash, clients can generate an attestation token and verify the hash generated from that token:
 
 ```js
-<FILL THIS IN>
+    const expectedPolicy = AttestationToken.create(
+      { 
+          body: new StoredAttestationPolicy(minimalPolicy).serialize(), 
+          signer: signer
+      });
+
+    // Use your favorite SHA256 hash generator function to create a hash of the
+    // stringized JWS. The tests in this package use `KJUR.crypto.Util.hashString(buffer, "sha256")`
+    // from the `jsrsasign` library, but any crypto library will
+    // work.
+    const expectedHash = generateSha256Hash(expectedPolicy.serialize());
+
+    // The hash returned in expectedHash will match the value in 
+    // `setResult.value.policy_token_hash.
 ```
 
 ### Attest SGX Enclave
@@ -232,11 +251,19 @@ The client can then send that Attestation Token (which contains the serialized k
 
 This example shows one common pattern of calling into the attestation service to retrieve an attestation token associated with a request.
 
-This example assumes that you have an existing `AttestationClient` object which is configured with the base URI for your endpoint. It also assumes that you have an SGX Quote (`quote`) generated from within the SGX enclave you are attesting, and "Runtime Data" (`runtime_data`) which is referenced in the SGX Quote.
+This example assumes that you have an existing `AttestationClient` object which is configured with the base URI for your endpoint. It also assumes that you have an SGX Quote (`quote`) generated from within the SGX enclave you are attesting, and "Runtime Data" (`binaryRuntimeData`) which is referenced in the SGX Quote.
 
 ```ts
-<FILL THIS IN>
+    const attestationResult = await client.attestOpenEnclave(
+      quote, 
+      {
+        runTimeData: new AttestationData(binaryRuntimeData, false),
+      });
 ```
+
+If the `isJson` parameter to the `AttestationData` constructor is not provided,
+the code will attempt to determine if binaryRuntimeData is JSON or not by attempting
+to parse the data.
 
 Additional information on how to perform attestation token validation can be found in the [MAA Service Attestation Sample](https://github.com/Azure-Samples/microsoft-azure-attestation).
 

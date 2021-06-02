@@ -8,12 +8,12 @@ chaiUse(chaiPromises);
 
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient, createRecorder } from "../utils/recordedClient";
+import { createRecordedClient, createRecorder, EndpointType } from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
 import { verifyAttestationToken } from "../utils/helpers";
 import { utf8ToBytes } from "../utils/utf8.browser";
 
-import { AttestationClient, AttestationData } from "../../src";
+import { AttestationData } from "../../src";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
@@ -137,35 +137,27 @@ describe("[AAD] Attestation Client", function() {
 
 
   it("#AttestOpenEnclaveShared", async () => {
-    const client = createRecordedClient("Shared");
-    await testOpenEnclave(client);
+    await testOpenEnclave("Shared");
   });
 
   it("#AttestOpenEnclaveAad", async () => {
-    const client = createRecordedClient("AAD");
-
-    await testOpenEnclave(client);
+    await testOpenEnclave("AAD");
   });
 
   it("#AttestOpenEnclaveIsolated", async () => {
-    const client = createRecordedClient("AAD");
-    await testOpenEnclave(client);
+    await testOpenEnclave("Isolated");
   });
 
   it("#AttestSgxEnclaveShared", async () => {
-    const client = createRecordedClient("Shared");
-    await testSgxEnclave(client);
+    await testSgxEnclave("Shared");
   });
 
   it("#AttestSgxEnclaveAad", async () => {
-    const client = createRecordedClient("AAD");
-
-    await testSgxEnclave(client);
+    await testSgxEnclave("AAD");
   });
 
   it("#AttestSgxEnclaveIsolated", async () => {
-    const client = createRecordedClient("AAD");
-    await testSgxEnclave(client);
+    await testSgxEnclave("Isolated");
 
   });
 
@@ -188,8 +180,9 @@ describe("[AAD] Attestation Client", function() {
     }
   });
 
-  async function testOpenEnclave(client : AttestationClient) : Promise<void> {
+  async function testOpenEnclave(endpointType: EndpointType) : Promise<void> {
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
+    const client = createRecordedClient(endpointType);
     const attestationResult = await client.attestOpenEnclave(
       base64url.decodeString(_openEnclaveReport), 
       {
@@ -201,17 +194,21 @@ describe("[AAD] Attestation Client", function() {
      * of the JWT and it has to be verified against the real resource url instead
      * of the fake one in playback.
      */
-     const rawToken = attestationResult.token;
+    const rawToken = attestationResult.token;
     assert(rawToken, "Expected a token from the service but did not receive one");
 
     if (rawToken && !isPlaybackMode()) {
       // The issuer of the client should be the client's instance URI. 
       assert.equal(client.instanceUrl, attestationResult.value.iss);
-      await verifyAttestationToken(rawToken.deserialize(), client);
+      assert.equal(client.instanceUrl, rawToken.issuer);
+      const signers = await client.getAttestationSigners();
+      await verifyAttestationToken(rawToken.serialize(), signers, endpointType);
     }
   };
 
-  async function testSgxEnclave(client : AttestationClient) : Promise<void> {
+  async function testSgxEnclave(endpointType: EndpointType) : Promise<void> {
+    const client = createRecordedClient(endpointType);
+
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
     // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
     //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
@@ -228,9 +225,14 @@ describe("[AAD] Attestation Client", function() {
      * of the fake one in playback.
      */
     const rawToken = attestationResult.token;
+
     assert(rawToken, "Expected a token from the service but did not receive one");
     if (rawToken && !isPlaybackMode()) {
-      await verifyAttestationToken(rawToken.deserialize(), client);
+      assert.equal(client.instanceUrl, attestationResult.value.iss);
+      assert.equal(client.instanceUrl, rawToken.issuer);
+
+      const signers = await client.getAttestationSigners();
+      await verifyAttestationToken(rawToken.serialize(), signers, endpointType);
     }
   };
 
