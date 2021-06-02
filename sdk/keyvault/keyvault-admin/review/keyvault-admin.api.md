@@ -45,7 +45,7 @@ export class KeyVaultAccessControlClient {
     getRoleDefinition(roleScope: KeyVaultRoleScope, name: string, options?: GetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     listRoleAssignments(roleScope: KeyVaultRoleScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
     listRoleDefinitions(roleScope: KeyVaultRoleScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
-    upsertRoleDefinition(roleScope: KeyVaultRoleScope, options?: UpsertRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
+    setRoleDefinition(roleScope: KeyVaultRoleScope, options?: SetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     readonly vaultUrl: string;
 }
 
@@ -186,16 +186,16 @@ export interface ListRoleDefinitionsPageSettings {
 export const SDK_VERSION: string;
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2";
-
-// @public
-export interface UpsertRoleDefinitionOptions extends coreHttp.OperationOptions {
+export interface SetRoleDefinitionOptions extends coreHttp.OperationOptions {
     assignableScopes?: KeyVaultRoleScope[];
     description?: string;
     permissions?: KeyVaultPermission[];
     roleDefinitionName?: string;
     roleName?: string;
 }
+
+// @public
+export type SUPPORTED_API_VERSIONS = "7.2";
 
 
 // (No @packageDocumentation comment for this package)
