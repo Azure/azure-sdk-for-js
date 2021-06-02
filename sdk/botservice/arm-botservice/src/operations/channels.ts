@@ -37,13 +37,7 @@ export class Channels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ChannelsCreateResponse>
    */
-  create(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    parameters: Models.BotChannel,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ChannelsCreateResponse>;
+  create(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, parameters: Models.BotChannel, options?: msRest.RequestOptionsBase): Promise<Models.ChannelsCreateResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -54,13 +48,7 @@ export class Channels {
    * @param parameters The parameters to provide for the created bot.
    * @param callback The callback
    */
-  create(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    parameters: Models.BotChannel,
-    callback: msRest.ServiceCallback<Models.BotChannel>
-  ): void;
+  create(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, parameters: Models.BotChannel, callback: msRest.ServiceCallback<Models.BotChannel>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -72,22 +60,8 @@ export class Channels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    parameters: Models.BotChannel,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.BotChannel>
-  ): void;
-  create(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    parameters: Models.BotChannel,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BotChannel>,
-    callback?: msRest.ServiceCallback<Models.BotChannel>
-  ): Promise<Models.ChannelsCreateResponse> {
+  create(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, parameters: Models.BotChannel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BotChannel>): void;
+  create(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, parameters: Models.BotChannel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BotChannel>, callback?: msRest.ServiceCallback<Models.BotChannel>): Promise<Models.ChannelsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,8 +71,7 @@ export class Channels {
         options
       },
       createOperationSpec,
-      callback
-    ) as Promise<Models.ChannelsCreateResponse>;
+      callback) as Promise<Models.ChannelsCreateResponse>;
   }
 
   /**
@@ -112,12 +85,7 @@ export class Channels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ChannelsUpdateResponse>
    */
-  update(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    options?: Models.ChannelsUpdateOptionalParams
-  ): Promise<Models.ChannelsUpdateResponse>;
+  update(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, options?: Models.ChannelsUpdateOptionalParams): Promise<Models.ChannelsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -127,12 +95,7 @@ export class Channels {
    * 'LineChannel', 'DirectLineSpeechChannel'
    * @param callback The callback
    */
-  update(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    callback: msRest.ServiceCallback<Models.BotChannel>
-  ): void;
+  update(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, callback: msRest.ServiceCallback<Models.BotChannel>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -143,20 +106,8 @@ export class Channels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    options: Models.ChannelsUpdateOptionalParams,
-    callback: msRest.ServiceCallback<Models.BotChannel>
-  ): void;
-  update(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    options?: Models.ChannelsUpdateOptionalParams | msRest.ServiceCallback<Models.BotChannel>,
-    callback?: msRest.ServiceCallback<Models.BotChannel>
-  ): Promise<Models.ChannelsUpdateResponse> {
+  update(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, options: Models.ChannelsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.BotChannel>): void;
+  update(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, options?: Models.ChannelsUpdateOptionalParams | msRest.ServiceCallback<Models.BotChannel>, callback?: msRest.ServiceCallback<Models.BotChannel>): Promise<Models.ChannelsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -165,8 +116,7 @@ export class Channels {
         options
       },
       updateOperationSpec,
-      callback
-    ) as Promise<Models.ChannelsUpdateResponse>;
+      callback) as Promise<Models.ChannelsUpdateResponse>;
   }
 
   /**
@@ -177,24 +127,14 @@ export class Channels {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, resourceName: string, channelName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
    * @param channelName The name of the Bot resource.
    * @param callback The callback
    */
-  deleteMethod(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  deleteMethod(resourceGroupName: string, resourceName: string, channelName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -202,20 +142,8 @@ export class Channels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  deleteMethod(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, resourceName: string, channelName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, resourceName: string, channelName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -224,8 +152,7 @@ export class Channels {
         options
       },
       deleteMethodOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -236,24 +163,14 @@ export class Channels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ChannelsGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ChannelsGetResponse>;
+  get(resourceGroupName: string, resourceName: string, channelName: string, options?: msRest.RequestOptionsBase): Promise<Models.ChannelsGetResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
    * @param channelName The name of the Bot resource.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: string,
-    callback: msRest.ServiceCallback<Models.BotChannel>
-  ): void;
+  get(resourceGroupName: string, resourceName: string, channelName: string, callback: msRest.ServiceCallback<Models.BotChannel>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -261,20 +178,8 @@ export class Channels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.BotChannel>
-  ): void;
-  get(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BotChannel>,
-    callback?: msRest.ServiceCallback<Models.BotChannel>
-  ): Promise<Models.ChannelsGetResponse> {
+  get(resourceGroupName: string, resourceName: string, channelName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BotChannel>): void;
+  get(resourceGroupName: string, resourceName: string, channelName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BotChannel>, callback?: msRest.ServiceCallback<Models.BotChannel>): Promise<Models.ChannelsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -283,8 +188,7 @@ export class Channels {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.ChannelsGetResponse>;
+      callback) as Promise<Models.ChannelsGetResponse>;
   }
 
   /**
@@ -298,12 +202,7 @@ export class Channels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ChannelsListWithKeysResponse>
    */
-  listWithKeys(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ChannelsListWithKeysResponse>;
+  listWithKeys(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, options?: msRest.RequestOptionsBase): Promise<Models.ChannelsListWithKeysResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -313,12 +212,7 @@ export class Channels {
    * 'LineChannel', 'DirectLineSpeechChannel'
    * @param callback The callback
    */
-  listWithKeys(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    callback: msRest.ServiceCallback<Models.BotChannel>
-  ): void;
+  listWithKeys(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, callback: msRest.ServiceCallback<Models.BotChannel>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -329,20 +223,8 @@ export class Channels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listWithKeys(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.BotChannel>
-  ): void;
-  listWithKeys(
-    resourceGroupName: string,
-    resourceName: string,
-    channelName: Models.ChannelName,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BotChannel>,
-    callback?: msRest.ServiceCallback<Models.BotChannel>
-  ): Promise<Models.ChannelsListWithKeysResponse> {
+  listWithKeys(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BotChannel>): void;
+  listWithKeys(resourceGroupName: string, resourceName: string, channelName: Models.ChannelName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BotChannel>, callback?: msRest.ServiceCallback<Models.BotChannel>): Promise<Models.ChannelsListWithKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -351,8 +233,7 @@ export class Channels {
         options
       },
       listWithKeysOperationSpec,
-      callback
-    ) as Promise<Models.ChannelsListWithKeysResponse>;
+      callback) as Promise<Models.ChannelsListWithKeysResponse>;
   }
 
   /**
@@ -362,39 +243,21 @@ export class Channels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ChannelsListByResourceGroupResponse>
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ChannelsListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ChannelsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
    * @param callback The callback
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    resourceName: string,
-    callback: msRest.ServiceCallback<Models.ChannelResponseList>
-  ): void;
+  listByResourceGroup(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ChannelResponseList>): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    resourceName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ChannelResponseList>
-  ): void;
-  listByResourceGroup(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ChannelResponseList>,
-    callback?: msRest.ServiceCallback<Models.ChannelResponseList>
-  ): Promise<Models.ChannelsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ChannelResponseList>): void;
+  listByResourceGroup(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ChannelResponseList>, callback?: msRest.ServiceCallback<Models.ChannelResponseList>): Promise<Models.ChannelsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -402,8 +265,7 @@ export class Channels {
         options
       },
       listByResourceGroupOperationSpec,
-      callback
-    ) as Promise<Models.ChannelsListByResourceGroupResponse>;
+      callback) as Promise<Models.ChannelsListByResourceGroupResponse>;
   }
 
   /**
@@ -412,41 +274,26 @@ export class Channels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ChannelsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ChannelsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ChannelsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.ChannelResponseList>
-  ): void;
+  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ChannelResponseList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ChannelResponseList>
-  ): void;
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ChannelResponseList>,
-    callback?: msRest.ServiceCallback<Models.ChannelResponseList>
-  ): Promise<Models.ChannelsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ChannelResponseList>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ChannelResponseList>, callback?: msRest.ServiceCallback<Models.ChannelResponseList>): Promise<Models.ChannelsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback
-    ) as Promise<Models.ChannelsListByResourceGroupNextResponse>;
+      callback) as Promise<Models.ChannelsListByResourceGroupNextResponse>;
   }
 }
 
@@ -454,16 +301,19 @@ export class Channels {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.channelName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -487,24 +337,45 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.channelName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: {
-      location: ["options", "location"],
-      tags: ["options", "tags"],
-      sku: ["options", "sku"],
-      kind: ["options", "kind"],
-      etag: ["options", "etag"],
-      properties: ["options", "properties"]
+      location: [
+        "options",
+        "location"
+      ],
+      tags: [
+        "options",
+        "tags"
+      ],
+      sku: [
+        "options",
+        "sku"
+      ],
+      kind: [
+        "options",
+        "kind"
+      ],
+      etag: [
+        "options",
+        "etag"
+      ],
+      properties: [
+        "options",
+        "properties"
+      ]
     },
     mapper: {
       ...Mappers.BotChannel,
@@ -527,16 +398,19 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.channelName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     204: {},
@@ -549,16 +423,19 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.channelName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BotChannel
@@ -572,16 +449,19 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listWithKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}/listChannelWithKeys",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}/listChannelWithKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.channelName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BotChannel
@@ -595,11 +475,18 @@ const listWithKeysOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels",
-  urlParameters: [Parameters.resourceGroupName, Parameters.resourceName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ChannelResponseList
@@ -615,9 +502,15 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ChannelResponseList

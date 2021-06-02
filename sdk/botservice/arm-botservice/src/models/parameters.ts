@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: "en-US",
+    defaultValue: 'en-US',
     type: {
       name: "String"
     }
@@ -76,7 +76,10 @@ export const channelName2: msRest.OperationURLParameter = {
     serializedName: "channelName",
     type: {
       name: "Enum",
-      allowedValues: ["WebChatChannel", "DirectLineChannel"]
+      allowedValues: [
+        "WebChatChannel",
+        "DirectLineChannel"
+      ]
     }
   }
 };
