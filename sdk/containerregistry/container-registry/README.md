@@ -137,10 +137,10 @@ async function main() {
   const image = client.getArtifact("library/hello-world", "latest");
 
   // List the set of tags on the hello_world image tagged as "latest"
-  const tags = image.listTagPropertis();
+  const tags = image.listTagProperties();
 
   // Iterate through the image's tags, listing the tagged alias for the image
-  console.log(`${image.fullyQualifiedName}  has the following aliases:`);
+  console.log(`${image.fullyQualifiedReference}  has the following aliases:`);
   for await (const tag of tags) {
     console.log(`  ${tag.registryLoginServer}/${tag.repositoryName}:${tag.name}`);
   }
