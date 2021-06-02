@@ -23,11 +23,7 @@ import {
   GetAccessPolicyResponse,
   SetAccessPolicyResponse
 } from "./generatedModels";
-import {
-  GeneratedClientOptionalParams,
-  QueryOptions as GeneratedQueryOptions,
-  SignedIdentifier
-} from "./generated/models";
+import { QueryOptions as GeneratedQueryOptions, SignedIdentifier } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   TablesSharedKeyCredential,
@@ -40,16 +36,16 @@ import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import {
+  FullOperationResponse,
+  InternalClientPipelineOptions,
+  OperationOptions
+} from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { InternalTableTransaction, createInnerTransactionRequest } from "./TableTransaction";
-import {
-  InternalTransactionClientOptions,
-  ListEntitiesResponse,
-  TableClientLike
-} from "./utils/internalModels";
+import { InternalTableTransaction } from "./TableTransaction";
+import { ListEntitiesResponse } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { Pipeline } from "@azure/core-rest-pipeline";
@@ -70,7 +66,7 @@ export class TableClient {
   public pipeline: Pipeline;
   private table: Table;
   private credential: TablesSharedKeyCredentialLike | undefined;
-  private interceptClient: TableClientLike | undefined;
+  private transactionClient: InternalTableTransaction | undefined;
 
   /**
    * Name of the table to perform operations on.
@@ -155,32 +151,19 @@ export class TableClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    let internalPipelineOptions: GeneratedClientOptionalParams = {
-      ...clientOptions
+    const internalPipelineOptions: InternalClientPipelineOptions = {
+      ...clientOptions,
+      loggingOptions: {
+        logger: logger.info,
+        additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+      },
+      deserializationOptions: {
+        parseXML
+      },
+      serializationOptions: {
+        stringifyXML
+      }
     };
-
-    if (isInternalClientOptions(clientOptions)) {
-      // The client is meant to be an intercept client (for Transaction), so we need to create only the intercepting
-      // pipelines.
-      internalPipelineOptions.pipeline = clientOptions.innerTransactionRequest.createPipeline();
-    } else {
-      // The client is a regular client (non-transaction), pass the pipeline options to create a pipeline
-      internalPipelineOptions = {
-        ...internalPipelineOptions,
-        ...{
-          loggingOptions: {
-            logger: logger.info,
-            additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
-          },
-          deserializationOptions: {
-            parseXML
-          },
-          serializationOptions: {
-            stringifyXML
-          }
-        }
-      };
-    }
 
     this.tableName = tableName;
     this.credential = credential;
@@ -602,43 +585,39 @@ export class TableClient {
     const partitionKey = actions[0][1].partitionKey;
     const transactionId = Uuid.generateUuid();
     const changesetId = Uuid.generateUuid();
-    const innerTransactionRequest = createInnerTransactionRequest(transactionId, changesetId);
-    const internalClientOptions: InternalTransactionClientOptions = {
-      innerTransactionRequest: innerTransactionRequest
-    };
 
-    if (!this.interceptClient) {
-      // Cache intercept client so we just have to instantiate it once
-      this.interceptClient = new TableClient(this.url, this.tableName, internalClientOptions);
+    if (!this.transactionClient) {
+      // Add pipeline
+      this.transactionClient = new InternalTableTransaction(
+        this.url,
+        this.tableName,
+        partitionKey,
+        transactionId,
+        changesetId,
+        this.credential
+      );
+    } else {
+      this.transactionClient.reset(transactionId, changesetId, partitionKey);
     }
-
-    const transactionClient = new InternalTableTransaction(
-      this.url,
-      partitionKey,
-      this.interceptClient,
-      transactionId,
-      innerTransactionRequest,
-      this.credential
-    );
 
     for (const item of actions) {
       const [action, entity, updateMode = "Merge"] = item;
       switch (action) {
         case "create":
-          transactionClient.createEntity(entity);
+          this.transactionClient.createEntity(entity);
           break;
         case "delete":
-          transactionClient.deleteEntity(entity.partitionKey, entity.rowKey);
+          this.transactionClient.deleteEntity(entity.partitionKey, entity.rowKey);
           break;
         case "update":
-          transactionClient.updateEntity(entity, updateMode);
+          this.transactionClient.updateEntity(entity, updateMode);
           break;
         case "upsert":
-          transactionClient.upsertEntity(entity, updateMode);
+          this.transactionClient.upsertEntity(entity, updateMode);
       }
     }
 
-    return transactionClient.submitTransaction();
+    return this.transactionClient.submitTransaction();
   }
 
   private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {
@@ -698,8 +677,4 @@ interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
    * This option applies for all the properties
    */
   disableTypeConversion?: boolean;
-}
-
-function isInternalClientOptions(options: any): options is InternalTransactionClientOptions {
-  return Boolean(options.innerTransactionRequest);
 }
