@@ -118,9 +118,11 @@ export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
 
 // @public
 export interface AcsRecordingChunkInfo {
+    contentLocation: string;
     documentId: string;
     endReason: string;
     index: number;
+    metadataLocation: string;
 }
 
 // @public
@@ -164,6 +166,260 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
     message: string;
     receivedTimestamp: string;
 };
+
+// @public
+export interface AgriFoodFarmingApplicationDataChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    description: string;
+    eTag: string;
+    farmerId: string;
+    id: string;
+    modifiedDateTime: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    source: string;
+    status: string;
+}
+
+// @public
+export interface AgriFoodFarmingBoundaryChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    description: string;
+    eTag: string;
+    farmerId: string;
+    id: string;
+    isPrimary: boolean;
+    modifiedDateTime: string;
+    name: string;
+    parentId: string;
+    parentType: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    status: string;
+}
+
+// @public
+export interface AgriFoodFarmingCropChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    description: string;
+    eTag: string;
+    id: string;
+    modifiedDateTime: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    status: string;
+}
+
+// @public
+export interface AgriFoodFarmingCropVarietyChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    cropId: string;
+    description: string;
+    eTag: string;
+    id: string;
+    modifiedDateTime: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    status: string;
+}
+
+// @public
+export interface AgriFoodFarmingFarmChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    description: string;
+    eTag: string;
+    farmerId: string;
+    id: string;
+    modifiedDateTime: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    status: string;
+}
+
+// @public
+export interface AgriFoodFarmingFarmerChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    description: string;
+    eTag: string;
+    id: string;
+    modifiedDateTime: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    status: string;
+}
+
+// @public
+export interface AgriFoodFarmingFarmOperationDataIngestionJobStatusChangedEventData {
+    createdDateTime: string;
+    description: string;
+    farmerId: string;
+    id: string;
+    isCancellationRequested: boolean;
+    lastActionDateTime: string;
+    message: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    status: AgriFoodFarmingJobStatus;
+}
+
+// @public
+export interface AgriFoodFarmingFieldChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    description: string;
+    eTag: string;
+    farmerId: string;
+    farmId: string;
+    id: string;
+    modifiedDateTime: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    status: string;
+}
+
+// @public
+export interface AgriFoodFarmingHarvestDataChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    description: string;
+    eTag: string;
+    farmerId: string;
+    id: string;
+    modifiedDateTime: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    source: string;
+    status: string;
+}
+
+// @public
+export type AgriFoodFarmingJobStatus = string;
+
+// @public
+export interface AgriFoodFarmingPlantingDataChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    description: string;
+    eTag: string;
+    farmerId: string;
+    id: string;
+    modifiedDateTime: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    source: string;
+    status: string;
+}
+
+// @public
+export type AgriFoodFarmingResourceActionType = string;
+
+// @public
+export interface AgriFoodFarmingSatelliteDataIngestionJobStatusChangedEventData {
+    createdDateTime: string;
+    description: string;
+    farmerId: string;
+    id: string;
+    isCancellationRequested: boolean;
+    lastActionDateTime: string;
+    message: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    status: AgriFoodFarmingJobStatus;
+}
+
+// @public
+export interface AgriFoodFarmingSeasonalFieldChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    description: string;
+    eTag: string;
+    farmerId: string;
+    farmId: string;
+    fieldId: string;
+    id: string;
+    modifiedDateTime: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    seasonId: string;
+    status: string;
+}
+
+// @public
+export interface AgriFoodFarmingSeasonChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    description: string;
+    eTag: string;
+    id: string;
+    modifiedDateTime: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    status: string;
+}
+
+// @public
+export interface AgriFoodFarmingTillageDataChangedEventData {
+    actionType: AgriFoodFarmingResourceActionType;
+    createdDateTime: string;
+    description: string;
+    eTag: string;
+    farmerId: string;
+    id: string;
+    modifiedDateTime: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    source: string;
+    status: string;
+}
+
+// @public
+export interface AgriFoodFarmingWeatherDataIngestionJobStatusChangedEventData {
+    createdDateTime: string;
+    description: string;
+    farmerId: string;
+    id: string;
+    isCancellationRequested: boolean;
+    lastActionDateTime: string;
+    message: string;
+    name: string;
+    properties: {
+        [propertyName: string]: any;
+    };
+    status: AgriFoodFarmingJobStatus;
+}
 
 // @public
 export type AppAction = string;
@@ -1161,6 +1417,17 @@ export interface StorageBlobDeletedEventData {
 }
 
 // @public
+export interface StorageBlobInventoryPolicyCompletedEventData {
+    accountName: string;
+    manifestBlobUrl: string;
+    policyRunId: string;
+    policyRunStatus: string;
+    policyRunStatusMessage: string;
+    ruleName: string;
+    scheduleDateTime: string;
+}
+
+// @public
 export interface StorageBlobRenamedEventData {
     api: string;
     clientRequestId: string;
@@ -1250,6 +1517,21 @@ export interface SubscriptionValidationEventData {
 
 // @public
 export interface SystemEventNameToEventData {
+    "Microsoft.AgFoodPlatform.ApplicationDataChanged": AgriFoodFarmingApplicationDataChangedEventData;
+    "Microsoft.AgFoodPlatform.BoundaryChanged": AgriFoodFarmingBoundaryChangedEventData;
+    "Microsoft.AgFoodPlatform.CropChanged": AgriFoodFarmingCropChangedEventData;
+    "Microsoft.AgFoodPlatform.CropVarietyChanged": AgriFoodFarmingCropVarietyChangedEventData;
+    "Microsoft.AgFoodPlatform.FarmChanged": AgriFoodFarmingFarmChangedEventData;
+    "Microsoft.AgFoodPlatform.FarmerChanged": AgriFoodFarmingFarmerChangedEventData;
+    "Microsoft.AgFoodPlatform.FarmOperationDataIngestionJobStatusChanged": AgriFoodFarmingFarmOperationDataIngestionJobStatusChangedEventData;
+    "Microsoft.AgFoodPlatform.FieldChanged": AgriFoodFarmingFieldChangedEventData;
+    "Microsoft.AgFoodPlatform.HarvestDataChanged": AgriFoodFarmingHarvestDataChangedEventData;
+    "Microsoft.AgFoodPlatform.PlantingDataChanged": AgriFoodFarmingPlantingDataChangedEventData;
+    "Microsoft.AgFoodPlatform.SatelliteDataIngestionJobStatusChanged": AgriFoodFarmingSatelliteDataIngestionJobStatusChangedEventData;
+    "Microsoft.AgFoodPlatform.SeasonalFieldChanged": AgriFoodFarmingSeasonalFieldChangedEventData;
+    "Microsoft.AgFoodPlatform.SeasonChanged": AgriFoodFarmingSeasonChangedEventData;
+    "Microsoft.AgFoodPlatform.TillageDataChanged": AgriFoodFarmingTillageDataChangedEventData;
+    "Microsoft.AgFoodPlatform.WeatherDataIngestionJobStatusChanged": AgriFoodFarmingWeatherDataIngestionJobStatusChangedEventData;
     "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
@@ -1332,10 +1614,11 @@ export interface SystemEventNameToEventData {
     "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
     "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
     "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
-    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
     "Microsoft.Storage.AsyncOperationInitiated": StorageAsyncOperationInitiatedEventData;
     "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
     "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
+    "Microsoft.Storage.BlobInventoryPolicyCompleted": StorageBlobInventoryPolicyCompletedEventData;
     "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
     "Microsoft.Storage.BlobTierChanged": StorageBlobTierChangedEventData;
     "Microsoft.Storage.DirectoryCreated": StorageDirectoryCreatedEventData;
