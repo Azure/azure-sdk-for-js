@@ -141,7 +141,7 @@ export class AttestationAdministrationClient {
       // Finally, retrieve the stored attestationPolicy value and return that 
       // as the AttestationResponse to the caller.
       if (storedPolicy.attestationPolicy) {
-        return new AttestationResponse<string>(token, bytesToString(storedPolicy.attestationPolicy), getPolicyResult);
+        return new AttestationResponse<string>(token, bytesToString(storedPolicy.attestationPolicy));
       }
       else {
         throw Error("Server returned an empty attestationPolicy??!");
@@ -174,7 +174,7 @@ export class AttestationAdministrationClient {
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an 
       // AttestationToken object so we can access the body properties on the token.
-      return new AttestationResponse<PolicyResult>(token, policyResult, setPolicyResult);
+      return new AttestationResponse<PolicyResult>(token, policyResult);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
       throw e;
@@ -202,7 +202,7 @@ export class AttestationAdministrationClient {
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an 
       // AttestationToken object so we can access the body properties on the token.
-      return new AttestationResponse<PolicyResult>(token, policyResult, resetPolicyResult);
+      return new AttestationResponse<PolicyResult>(token, policyResult);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
       throw e;

@@ -202,7 +202,7 @@ export class AttestationClient {
         },
         "AttestationResult") as AttestationResult;
 
-      return new AttestationResponse<AttestationResult>(token, attestationResult, attestationResult);
+      return new AttestationResponse<AttestationResult>(token, attestationResult);
 
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
@@ -244,7 +244,7 @@ export class AttestationClient {
         },
         "AttestationResult") as AttestationResult;
 
-      return new AttestationResponse<AttestationResult>(token, attestationResult, attestationResponse);
+      return new AttestationResponse<AttestationResult>(token, attestationResult);
 
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});

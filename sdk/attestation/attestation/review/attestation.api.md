@@ -5,7 +5,6 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
-import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -74,11 +73,7 @@ export class AttestationData {
 
 // @public
 export class AttestationResponse<T> {
-    constructor(token: AttestationToken, value: T, rawResult: any);
-    _response: HttpResponse & {
-        bodyAsText: string;
-        parsedBody: T;
-    };
+    constructor(token: AttestationToken, value: T);
     token: AttestationToken;
     value: T;
 }
