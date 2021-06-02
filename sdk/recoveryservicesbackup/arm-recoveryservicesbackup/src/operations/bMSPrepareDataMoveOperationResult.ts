@@ -34,12 +34,7 @@ export class BMSPrepareDataMoveOperationResult {
    * @param [options] The optional parameters
    * @returns Promise<Models.BMSPrepareDataMoveOperationResultGetResponse>
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    operationId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.BMSPrepareDataMoveOperationResultGetResponse>;
+  get(vaultName: string, resourceGroupName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.BMSPrepareDataMoveOperationResultGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -47,12 +42,7 @@ export class BMSPrepareDataMoveOperationResult {
    * @param operationId
    * @param callback The callback
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    operationId: string,
-    callback: msRest.ServiceCallback<Models.VaultStorageConfigOperationResultResponseUnion>
-  ): void;
+  get(vaultName: string, resourceGroupName: string, operationId: string, callback: msRest.ServiceCallback<Models.VaultStorageConfigOperationResultResponseUnion>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -61,22 +51,8 @@ export class BMSPrepareDataMoveOperationResult {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    operationId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.VaultStorageConfigOperationResultResponseUnion>
-  ): void;
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    operationId: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.VaultStorageConfigOperationResultResponseUnion>,
-    callback?: msRest.ServiceCallback<Models.VaultStorageConfigOperationResultResponseUnion>
-  ): Promise<Models.BMSPrepareDataMoveOperationResultGetResponse> {
+  get(vaultName: string, resourceGroupName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultStorageConfigOperationResultResponseUnion>): void;
+  get(vaultName: string, resourceGroupName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultStorageConfigOperationResultResponseUnion>, callback?: msRest.ServiceCallback<Models.VaultStorageConfigOperationResultResponseUnion>): Promise<Models.BMSPrepareDataMoveOperationResultGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -85,8 +61,7 @@ export class BMSPrepareDataMoveOperationResult {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.BMSPrepareDataMoveOperationResultGetResponse>;
+      callback) as Promise<Models.BMSPrepareDataMoveOperationResultGetResponse>;
   }
 }
 
@@ -94,16 +69,19 @@ export class BMSPrepareDataMoveOperationResult {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/operationResults/{operationId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/operationResults/{operationId}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.operationId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.VaultStorageConfigOperationResultResponse

@@ -32,41 +32,21 @@ export class BackupCrrJobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupCrrJobsListResponse>
    */
-  list(
-    azureRegion: string,
-    parameters: Models.CrrJobRequest,
-    options?: Models.BackupCrrJobsListOptionalParams
-  ): Promise<Models.BackupCrrJobsListResponse>;
+  list(azureRegion: string, parameters: Models.CrrJobRequest, options?: Models.BackupCrrJobsListOptionalParams): Promise<Models.BackupCrrJobsListResponse>;
   /**
    * @param azureRegion Azure region to hit Api
    * @param parameters Backup CRR Job request
    * @param callback The callback
    */
-  list(
-    azureRegion: string,
-    parameters: Models.CrrJobRequest,
-    callback: msRest.ServiceCallback<Models.JobResourceList>
-  ): void;
+  list(azureRegion: string, parameters: Models.CrrJobRequest, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
   /**
    * @param azureRegion Azure region to hit Api
    * @param parameters Backup CRR Job request
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    azureRegion: string,
-    parameters: Models.CrrJobRequest,
-    options: Models.BackupCrrJobsListOptionalParams,
-    callback: msRest.ServiceCallback<Models.JobResourceList>
-  ): void;
-  list(
-    azureRegion: string,
-    parameters: Models.CrrJobRequest,
-    options?:
-      | Models.BackupCrrJobsListOptionalParams
-      | msRest.ServiceCallback<Models.JobResourceList>,
-    callback?: msRest.ServiceCallback<Models.JobResourceList>
-  ): Promise<Models.BackupCrrJobsListResponse> {
+  list(azureRegion: string, parameters: Models.CrrJobRequest, options: Models.BackupCrrJobsListOptionalParams, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
+  list(azureRegion: string, parameters: Models.CrrJobRequest, options?: Models.BackupCrrJobsListOptionalParams | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.BackupCrrJobsListResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -74,8 +54,7 @@ export class BackupCrrJobs {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.BackupCrrJobsListResponse>;
+      callback) as Promise<Models.BackupCrrJobsListResponse>;
   }
 
   /**
@@ -84,10 +63,7 @@ export class BackupCrrJobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupCrrJobsListNextResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: Models.BackupCrrJobsListNextOptionalParams
-  ): Promise<Models.BackupCrrJobsListNextResponse>;
+  listNext(nextPageLink: string, options?: Models.BackupCrrJobsListNextOptionalParams): Promise<Models.BackupCrrJobsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -98,26 +74,15 @@ export class BackupCrrJobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: Models.BackupCrrJobsListNextOptionalParams,
-    callback: msRest.ServiceCallback<Models.JobResourceList>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?:
-      | Models.BackupCrrJobsListNextOptionalParams
-      | msRest.ServiceCallback<Models.JobResourceList>,
-    callback?: msRest.ServiceCallback<Models.JobResourceList>
-  ): Promise<Models.BackupCrrJobsListNextResponse> {
+  listNext(nextPageLink: string, options: Models.BackupCrrJobsListNextOptionalParams, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
+  listNext(nextPageLink: string, options?: Models.BackupCrrJobsListNextOptionalParams | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.BackupCrrJobsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.BackupCrrJobsListNextResponse>;
+      callback) as Promise<Models.BackupCrrJobsListNextResponse>;
   }
 }
 
@@ -125,11 +90,19 @@ export class BackupCrrJobs {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupCrrJobs",
-  urlParameters: [Parameters.azureRegion, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion1, Parameters.filter, Parameters.skipToken],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupCrrJobs",
+  urlParameters: [
+    Parameters.azureRegion,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.filter,
+    Parameters.skipToken
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -152,9 +125,17 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion1, Parameters.filter, Parameters.skipToken],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.filter,
+    Parameters.skipToken
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.JobResourceList

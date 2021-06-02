@@ -31,10 +31,7 @@ export class AadProperties {
    * @param [options] The optional parameters
    * @returns Promise<Models.AadPropertiesGetResponse>
    */
-  get(
-    azureRegion: string,
-    options?: Models.AadPropertiesGetOptionalParams
-  ): Promise<Models.AadPropertiesGetResponse>;
+  get(azureRegion: string, options?: Models.AadPropertiesGetOptionalParams): Promise<Models.AadPropertiesGetResponse>;
   /**
    * @param azureRegion Azure region to hit Api
    * @param callback The callback
@@ -45,26 +42,15 @@ export class AadProperties {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    azureRegion: string,
-    options: Models.AadPropertiesGetOptionalParams,
-    callback: msRest.ServiceCallback<Models.AADPropertiesResource>
-  ): void;
-  get(
-    azureRegion: string,
-    options?:
-      | Models.AadPropertiesGetOptionalParams
-      | msRest.ServiceCallback<Models.AADPropertiesResource>,
-    callback?: msRest.ServiceCallback<Models.AADPropertiesResource>
-  ): Promise<Models.AadPropertiesGetResponse> {
+  get(azureRegion: string, options: Models.AadPropertiesGetOptionalParams, callback: msRest.ServiceCallback<Models.AADPropertiesResource>): void;
+  get(azureRegion: string, options?: Models.AadPropertiesGetOptionalParams | msRest.ServiceCallback<Models.AADPropertiesResource>, callback?: msRest.ServiceCallback<Models.AADPropertiesResource>): Promise<Models.AadPropertiesGetResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.AadPropertiesGetResponse>;
+      callback) as Promise<Models.AadPropertiesGetResponse>;
   }
 }
 
@@ -72,11 +58,18 @@ export class AadProperties {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupAadProperties",
-  urlParameters: [Parameters.azureRegion, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion1, Parameters.filter],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupAadProperties",
+  urlParameters: [
+    Parameters.azureRegion,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.filter
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.AADPropertiesResource

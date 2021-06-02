@@ -33,22 +33,14 @@ export class SecurityPINs {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityPINsGetResponse>
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.SecurityPINsGetResponse>;
+  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SecurityPINsGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param callback The callback
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    callback: msRest.ServiceCallback<Models.TokenInformation>
-  ): void;
+  get(vaultName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.TokenInformation>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -56,18 +48,8 @@ export class SecurityPINs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.TokenInformation>
-  ): void;
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TokenInformation>,
-    callback?: msRest.ServiceCallback<Models.TokenInformation>
-  ): Promise<Models.SecurityPINsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TokenInformation>): void;
+  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TokenInformation>, callback?: msRest.ServiceCallback<Models.TokenInformation>): Promise<Models.SecurityPINsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -75,8 +57,7 @@ export class SecurityPINs {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.SecurityPINsGetResponse>;
+      callback) as Promise<Models.SecurityPINsGetResponse>;
   }
 }
 
@@ -84,11 +65,18 @@ export class SecurityPINs {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupSecurityPIN",
-  urlParameters: [Parameters.vaultName, Parameters.resourceGroupName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupSecurityPIN",
+  urlParameters: [
+    Parameters.vaultName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.TokenInformation

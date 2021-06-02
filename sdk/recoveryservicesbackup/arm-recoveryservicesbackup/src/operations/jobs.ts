@@ -33,22 +33,14 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  exportMethod(
-    vaultName: string,
-    resourceGroupName: string,
-    options?: Models.JobsExportMethodOptionalParams
-  ): Promise<msRest.RestResponse>;
+  exportMethod(vaultName: string, resourceGroupName: string, options?: Models.JobsExportMethodOptionalParams): Promise<msRest.RestResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param callback The callback
    */
-  exportMethod(
-    vaultName: string,
-    resourceGroupName: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  exportMethod(vaultName: string, resourceGroupName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -56,18 +48,8 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  exportMethod(
-    vaultName: string,
-    resourceGroupName: string,
-    options: Models.JobsExportMethodOptionalParams,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  exportMethod(
-    vaultName: string,
-    resourceGroupName: string,
-    options?: Models.JobsExportMethodOptionalParams | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<msRest.RestResponse> {
+  exportMethod(vaultName: string, resourceGroupName: string, options: Models.JobsExportMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  exportMethod(vaultName: string, resourceGroupName: string, options?: Models.JobsExportMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -75,8 +57,7 @@ export class Jobs {
         options
       },
       exportMethodOperationSpec,
-      callback
-    );
+      callback);
   }
 }
 
@@ -84,11 +65,19 @@ export class Jobs {
 const serializer = new msRest.Serializer(Mappers);
 const exportMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobsExport",
-  urlParameters: [Parameters.vaultName, Parameters.resourceGroupName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0, Parameters.filter],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobsExport",
+  urlParameters: [
+    Parameters.vaultName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0,
+    Parameters.filter
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     202: {},
     default: {

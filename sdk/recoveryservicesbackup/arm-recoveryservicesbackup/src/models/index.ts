@@ -270,15 +270,7 @@ export interface AzureFileshareProtectedItemExtendedInfo {
 /**
  * Contains the possible cases for ProtectedItem.
  */
-export type ProtectedItemUnion =
-  | ProtectedItem
-  | AzureFileshareProtectedItem
-  | AzureIaaSVMProtectedItemUnion
-  | AzureSqlProtectedItem
-  | AzureVmWorkloadProtectedItemUnion
-  | DPMProtectedItem
-  | GenericProtectedItem
-  | MabFileFolderProtectedItem;
+export type ProtectedItemUnion = ProtectedItem | AzureFileshareProtectedItem | AzureIaaSVMProtectedItemUnion | AzureSqlProtectedItem | AzureVmWorkloadProtectedItemUnion | DPMProtectedItem | GenericProtectedItem | MabFileFolderProtectedItem;
 
 /**
  * Base class for backup items.
@@ -451,12 +443,7 @@ export interface AzureFileshareProtectedItem {
 /**
  * Contains the possible cases for RecoveryPoint.
  */
-export type RecoveryPointUnion =
-  | RecoveryPoint
-  | AzureFileShareRecoveryPoint
-  | AzureWorkloadRecoveryPointUnion
-  | GenericRecoveryPoint
-  | IaasVMRecoveryPoint;
+export type RecoveryPointUnion = RecoveryPoint | AzureFileShareRecoveryPoint | AzureWorkloadRecoveryPointUnion | GenericRecoveryPoint | IaasVMRecoveryPoint;
 
 /**
  * Base class for backup copies. Workload-specific backup copies are derived from this class.
@@ -533,11 +520,7 @@ export interface TargetAFSRestoreInfo {
 /**
  * Contains the possible cases for RestoreRequest.
  */
-export type RestoreRequestUnion =
-  | RestoreRequest
-  | AzureFileShareRestoreRequest
-  | AzureWorkloadRestoreRequestUnion
-  | IaasVMRestoreRequestUnion;
+export type RestoreRequestUnion = RestoreRequest | AzureFileShareRestoreRequest | AzureWorkloadRestoreRequestUnion | IaasVMRestoreRequestUnion;
 
 /**
  * Base class for restore request. Workload-specific restore requests are derived from this class.
@@ -608,11 +591,7 @@ export interface Settings {
 /**
  * Contains the possible cases for SchedulePolicy.
  */
-export type SchedulePolicyUnion =
-  | SchedulePolicy
-  | LogSchedulePolicy
-  | LongTermSchedulePolicy
-  | SimpleSchedulePolicy;
+export type SchedulePolicyUnion = SchedulePolicy | LogSchedulePolicy | LongTermSchedulePolicy | SimpleSchedulePolicy;
 
 /**
  * Base class for backup schedule.
@@ -627,10 +606,7 @@ export interface SchedulePolicy {
 /**
  * Contains the possible cases for RetentionPolicy.
  */
-export type RetentionPolicyUnion =
-  | RetentionPolicy
-  | LongTermRetentionPolicy
-  | SimpleRetentionPolicy;
+export type RetentionPolicyUnion = RetentionPolicy | LongTermRetentionPolicy | SimpleRetentionPolicy;
 
 /**
  * Base class for retention policy.
@@ -664,14 +640,7 @@ export interface SubProtectionPolicy {
 /**
  * Contains the possible cases for ProtectionPolicy.
  */
-export type ProtectionPolicyUnion =
-  | ProtectionPolicy
-  | AzureVmWorkloadProtectionPolicy
-  | AzureFileShareProtectionPolicy
-  | AzureIaaSVMProtectionPolicy
-  | AzureSqlProtectionPolicy
-  | GenericProtectionPolicy
-  | MabProtectionPolicy;
+export type ProtectionPolicyUnion = ProtectionPolicy | AzureVmWorkloadProtectionPolicy | AzureFileShareProtectionPolicy | AzureIaaSVMProtectionPolicy | AzureSqlProtectionPolicy | GenericProtectionPolicy | MabProtectionPolicy;
 
 /**
  * Base class for backup policy. Workload-specific backup policies are derived from this class.
@@ -756,10 +725,7 @@ export interface AzureFileShareProtectionPolicy {
 /**
  * Contains the possible cases for AzureIaaSVMProtectedItem.
  */
-export type AzureIaaSVMProtectedItemUnion =
-  | AzureIaaSVMProtectedItem
-  | AzureIaaSClassicComputeVMProtectedItem
-  | AzureIaaSComputeVMProtectedItem;
+export type AzureIaaSVMProtectedItemUnion = AzureIaaSVMProtectedItem | AzureIaaSClassicComputeVMProtectedItem | AzureIaaSComputeVMProtectedItem;
 
 /**
  * IaaS VM workload-specific backup item.
@@ -1132,7 +1098,8 @@ export interface AzureIaaSVMErrorInfo {
 /**
  * Azure IaaS VM workload-specific Health Details.
  */
-export interface AzureIaaSVMHealthDetails extends ResourceHealthDetails {}
+export interface AzureIaaSVMHealthDetails extends ResourceHealthDetails {
+}
 
 /**
  * Azure IaaS VM workload-specific job task details.
@@ -1206,14 +1173,7 @@ export interface AzureIaaSVMJobExtendedInfo {
 /**
  * Contains the possible cases for Job.
  */
-export type JobUnion =
-  | Job
-  | AzureIaaSVMJob
-  | AzureStorageJob
-  | AzureWorkloadJob
-  | DpmJob
-  | MabJob
-  | VaultJob;
+export type JobUnion = Job | AzureIaaSVMJob | AzureStorageJob | AzureWorkloadJob | DpmJob | MabJob | VaultJob;
 
 /**
  * Defines workload agnostic properties for a job.
@@ -1669,11 +1629,7 @@ export interface AzureVmWorkloadProtectedItemExtendedInfo {
 /**
  * Contains the possible cases for AzureVmWorkloadProtectedItem.
  */
-export type AzureVmWorkloadProtectedItemUnion =
-  | AzureVmWorkloadProtectedItem
-  | AzureVmWorkloadSAPAseDatabaseProtectedItem
-  | AzureVmWorkloadSAPHanaDatabaseProtectedItem
-  | AzureVmWorkloadSQLDatabaseProtectedItem;
+export type AzureVmWorkloadProtectedItemUnion = AzureVmWorkloadProtectedItem | AzureVmWorkloadSAPAseDatabaseProtectedItem | AzureVmWorkloadSAPHanaDatabaseProtectedItem | AzureVmWorkloadSQLDatabaseProtectedItem;
 
 /**
  * Azure VM workload-specific protected item.
@@ -2298,11 +2254,7 @@ export interface PointInTimeRange {
 /**
  * Contains the possible cases for AzureWorkloadRecoveryPoint.
  */
-export type AzureWorkloadRecoveryPointUnion =
-  | AzureWorkloadRecoveryPoint
-  | AzureWorkloadPointInTimeRecoveryPointUnion
-  | AzureWorkloadSAPHanaRecoveryPoint
-  | AzureWorkloadSQLRecoveryPointUnion;
+export type AzureWorkloadRecoveryPointUnion = AzureWorkloadRecoveryPoint | AzureWorkloadPointInTimeRecoveryPointUnion | AzureWorkloadSAPHanaRecoveryPoint | AzureWorkloadSQLRecoveryPointUnion;
 
 /**
  * Workload specific recovery point, specifically encapsulates full/diff recovery point
@@ -2336,9 +2288,7 @@ export interface AzureWorkloadRecoveryPoint {
 /**
  * Contains the possible cases for AzureWorkloadPointInTimeRecoveryPoint.
  */
-export type AzureWorkloadPointInTimeRecoveryPointUnion =
-  | AzureWorkloadPointInTimeRecoveryPoint
-  | AzureWorkloadSAPHanaPointInTimeRecoveryPoint;
+export type AzureWorkloadPointInTimeRecoveryPointUnion = AzureWorkloadPointInTimeRecoveryPoint | AzureWorkloadSAPHanaPointInTimeRecoveryPoint;
 
 /**
  * Recovery point specific to PointInTime
@@ -2376,11 +2326,7 @@ export interface AzureWorkloadPointInTimeRecoveryPoint {
 /**
  * Contains the possible cases for AzureWorkloadRestoreRequest.
  */
-export type AzureWorkloadRestoreRequestUnion =
-  | AzureWorkloadRestoreRequest
-  | AzureWorkloadPointInTimeRestoreRequest
-  | AzureWorkloadSAPHanaRestoreRequestUnion
-  | AzureWorkloadSQLRestoreRequestUnion;
+export type AzureWorkloadRestoreRequestUnion = AzureWorkloadRestoreRequest | AzureWorkloadPointInTimeRestoreRequest | AzureWorkloadSAPHanaRestoreRequestUnion | AzureWorkloadSQLRestoreRequestUnion;
 
 /**
  * AzureWorkload-specific restore.
@@ -2549,10 +2495,7 @@ export interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint {
 /**
  * Contains the possible cases for AzureWorkloadSAPHanaRestoreRequest.
  */
-export type AzureWorkloadSAPHanaRestoreRequestUnion =
-  | AzureWorkloadSAPHanaRestoreRequest
-  | AzureWorkloadSAPHanaPointInTimeRestoreRequestUnion
-  | AzureWorkloadSAPHanaRestoreWithRehydrateRequest;
+export type AzureWorkloadSAPHanaRestoreRequestUnion = AzureWorkloadSAPHanaRestoreRequest | AzureWorkloadSAPHanaPointInTimeRestoreRequestUnion | AzureWorkloadSAPHanaRestoreWithRehydrateRequest;
 
 /**
  * AzureWorkload SAP Hana-specific restore.
@@ -2595,9 +2538,7 @@ export interface AzureWorkloadSAPHanaRestoreRequest {
 /**
  * Contains the possible cases for AzureWorkloadSAPHanaPointInTimeRestoreRequest.
  */
-export type AzureWorkloadSAPHanaPointInTimeRestoreRequestUnion =
-  | AzureWorkloadSAPHanaPointInTimeRestoreRequest
-  | AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest;
+export type AzureWorkloadSAPHanaPointInTimeRestoreRequestUnion = AzureWorkloadSAPHanaPointInTimeRestoreRequest | AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest;
 
 /**
  * AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore
@@ -2673,9 +2614,7 @@ export interface AzureWorkloadSAPHanaRecoveryPoint {
 /**
  * Contains the possible cases for AzureWorkloadSQLRecoveryPoint.
  */
-export type AzureWorkloadSQLRecoveryPointUnion =
-  | AzureWorkloadSQLRecoveryPoint
-  | AzureWorkloadSQLPointInTimeRecoveryPoint;
+export type AzureWorkloadSQLRecoveryPointUnion = AzureWorkloadSQLRecoveryPoint | AzureWorkloadSQLPointInTimeRecoveryPoint;
 
 /**
  * SQL specific recoverypoint, specifically encapsulates full/diff recoverypoint along with
@@ -2755,10 +2694,7 @@ export interface AzureWorkloadSQLPointInTimeRecoveryPoint {
 /**
  * Contains the possible cases for AzureWorkloadSQLRestoreRequest.
  */
-export type AzureWorkloadSQLRestoreRequestUnion =
-  | AzureWorkloadSQLRestoreRequest
-  | AzureWorkloadSQLPointInTimeRestoreRequestUnion
-  | AzureWorkloadSQLRestoreWithRehydrateRequest;
+export type AzureWorkloadSQLRestoreRequestUnion = AzureWorkloadSQLRestoreRequest | AzureWorkloadSQLPointInTimeRestoreRequestUnion | AzureWorkloadSQLRestoreWithRehydrateRequest;
 
 /**
  * AzureWorkload SQL -specific restore. Specifically for full/diff restore
@@ -2813,9 +2749,7 @@ export interface AzureWorkloadSQLRestoreRequest {
 /**
  * Contains the possible cases for AzureWorkloadSQLPointInTimeRestoreRequest.
  */
-export type AzureWorkloadSQLPointInTimeRestoreRequestUnion =
-  | AzureWorkloadSQLPointInTimeRestoreRequest
-  | AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest;
+export type AzureWorkloadSQLPointInTimeRestoreRequestUnion = AzureWorkloadSQLPointInTimeRestoreRequest | AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest;
 
 /**
  * AzureWorkload SQL -specific restore. Specifically for PointInTime/Log restore
@@ -3340,10 +3274,7 @@ export interface EncryptionDetails {
 /**
  * Contains the possible cases for OperationResultInfoBase.
  */
-export type OperationResultInfoBaseUnion =
-  | OperationResultInfoBase
-  | ExportJobsOperationResultInfo
-  | OperationResultInfo;
+export type OperationResultInfoBaseUnion = OperationResultInfoBase | ExportJobsOperationResultInfo | OperationResultInfo;
 
 /**
  * Base class for operation result info.
@@ -4274,9 +4205,7 @@ export interface PrepareDataMoveRequest {
 /**
  * Contains the possible cases for VaultStorageConfigOperationResultResponse.
  */
-export type VaultStorageConfigOperationResultResponseUnion =
-  | VaultStorageConfigOperationResultResponse
-  | PrepareDataMoveResponse;
+export type VaultStorageConfigOperationResultResponseUnion = VaultStorageConfigOperationResultResponse | PrepareDataMoveResponse;
 
 /**
  * Operation result response for Vault Storage Config
@@ -4533,9 +4462,7 @@ export interface SimpleSchedulePolicy {
 /**
  * Contains the possible cases for ValidateOperationRequest.
  */
-export type ValidateOperationRequestUnion =
-  | ValidateOperationRequest
-  | ValidateRestoreOperationRequestUnion;
+export type ValidateOperationRequestUnion = ValidateOperationRequest | ValidateRestoreOperationRequestUnion;
 
 /**
  * Base class for validate operation request.
@@ -4550,9 +4477,7 @@ export interface ValidateOperationRequest {
 /**
  * Contains the possible cases for ValidateRestoreOperationRequest.
  */
-export type ValidateRestoreOperationRequestUnion =
-  | ValidateRestoreOperationRequest
-  | ValidateIaasVMRestoreOperationRequest;
+export type ValidateRestoreOperationRequestUnion = ValidateRestoreOperationRequest | ValidateIaasVMRestoreOperationRequest;
 
 /**
  * AzureRestoreValidation request.
@@ -4725,15 +4650,7 @@ export interface VaultJob {
 /**
  * Contains the possible cases for ProtectionContainer.
  */
-export type ProtectionContainerUnion =
-  | ProtectionContainer
-  | AzureSqlContainer
-  | AzureStorageContainer
-  | AzureWorkloadContainerUnion
-  | DpmContainerUnion
-  | GenericContainer
-  | IaaSVMContainerUnion
-  | MabContainer;
+export type ProtectionContainerUnion = ProtectionContainer | AzureSqlContainer | AzureStorageContainer | AzureWorkloadContainerUnion | DpmContainerUnion | GenericContainer | IaaSVMContainerUnion | MabContainer;
 
 /**
  * Base class for container with backup items. Containers with specific workloads are derived from
@@ -5017,11 +4934,7 @@ export interface AzureBackupServerEngine {
 /**
  * Contains the possible cases for BackupRequest.
  */
-export type BackupRequestUnion =
-  | BackupRequest
-  | AzureFileShareBackupRequest
-  | AzureWorkloadBackupRequest
-  | IaasVMBackupRequest;
+export type BackupRequestUnion = BackupRequest | AzureFileShareBackupRequest | AzureWorkloadBackupRequest | IaasVMBackupRequest;
 
 /**
  * Base class for backup request. Workload-specific backup requests are derived from this class.
@@ -5050,11 +4963,7 @@ export interface AzureFileShareBackupRequest {
 /**
  * Contains the possible cases for WorkloadProtectableItem.
  */
-export type WorkloadProtectableItemUnion =
-  | WorkloadProtectableItem
-  | AzureFileShareProtectableItem
-  | AzureVmWorkloadProtectableItemUnion
-  | IaaSVMProtectableItemUnion;
+export type WorkloadProtectableItemUnion = WorkloadProtectableItem | AzureFileShareProtectableItem | AzureVmWorkloadProtectableItemUnion | IaaSVMProtectableItemUnion;
 
 /**
  * Base class for backup item. Workload-specific backup items are derived from this class.
@@ -5125,10 +5034,7 @@ export interface AzureFileShareProtectableItem {
 /**
  * Contains the possible cases for ILRRequest.
  */
-export type ILRRequestUnion =
-  | ILRRequest
-  | AzureFileShareProvisionILRRequest
-  | IaasVMILRRegistrationRequest;
+export type ILRRequestUnion = ILRRequest | AzureFileShareProvisionILRRequest | IaasVMILRRegistrationRequest;
 
 /**
  * Parameters to Provision ILR API.
@@ -5161,10 +5067,7 @@ export interface AzureFileShareProvisionILRRequest {
 /**
  * Contains the possible cases for IaaSVMContainer.
  */
-export type IaaSVMContainerUnion =
-  | IaaSVMContainer
-  | AzureIaaSClassicComputeVMContainer
-  | AzureIaaSComputeVMContainer;
+export type IaaSVMContainerUnion = IaaSVMContainer | AzureIaaSClassicComputeVMContainer | AzureIaaSComputeVMContainer;
 
 /**
  * IaaS VM workload-specific container.
@@ -5249,10 +5152,7 @@ export interface AzureIaaSClassicComputeVMContainer {
 /**
  * Contains the possible cases for IaaSVMProtectableItem.
  */
-export type IaaSVMProtectableItemUnion =
-  | IaaSVMProtectableItem
-  | AzureIaaSClassicComputeVMProtectableItem
-  | AzureIaaSComputeVMProtectableItem;
+export type IaaSVMProtectableItemUnion = IaaSVMProtectableItem | AzureIaaSClassicComputeVMProtectableItem | AzureIaaSComputeVMProtectableItem;
 
 /**
  * IaaS VM workload-specific backup item.
@@ -5390,10 +5290,7 @@ export interface AzureIaaSComputeVMProtectableItem {
 /**
  * Contains the possible cases for AzureWorkloadContainer.
  */
-export type AzureWorkloadContainerUnion =
-  | AzureWorkloadContainer
-  | AzureSQLAGWorkloadContainerProtectionContainer
-  | AzureVMAppContainerProtectionContainer;
+export type AzureWorkloadContainerUnion = AzureWorkloadContainer | AzureSQLAGWorkloadContainerProtectionContainer | AzureVMAppContainerProtectionContainer;
 
 /**
  * Container for the workloads running inside Azure Compute or Classic Compute.
@@ -5572,10 +5469,7 @@ export interface AzureStorageContainer {
 /**
  * Contains the possible cases for ProtectableContainer.
  */
-export type ProtectableContainerUnion =
-  | ProtectableContainer
-  | AzureStorageProtectableContainer
-  | AzureVMAppContainerProtectableContainer;
+export type ProtectableContainerUnion = ProtectableContainer | AzureStorageProtectableContainer | AzureVMAppContainerProtectableContainer;
 
 /**
  * Protectable Container Class.
@@ -5747,14 +5641,7 @@ export interface WorkloadItem {
 /**
  * Contains the possible cases for AzureVmWorkloadItem.
  */
-export type AzureVmWorkloadItemUnion =
-  | AzureVmWorkloadItem
-  | AzureVmWorkloadSAPAseDatabaseWorkloadItem
-  | AzureVmWorkloadSAPAseSystemWorkloadItem
-  | AzureVmWorkloadSAPHanaDatabaseWorkloadItem
-  | AzureVmWorkloadSAPHanaSystemWorkloadItem
-  | AzureVmWorkloadSQLDatabaseWorkloadItem
-  | AzureVmWorkloadSQLInstanceWorkloadItem;
+export type AzureVmWorkloadItemUnion = AzureVmWorkloadItem | AzureVmWorkloadSAPAseDatabaseWorkloadItem | AzureVmWorkloadSAPAseSystemWorkloadItem | AzureVmWorkloadSAPHanaDatabaseWorkloadItem | AzureVmWorkloadSAPHanaSystemWorkloadItem | AzureVmWorkloadSQLDatabaseWorkloadItem | AzureVmWorkloadSQLInstanceWorkloadItem;
 
 /**
  * Azure VM workload-specific workload item.
@@ -5825,14 +5712,7 @@ export interface PreBackupValidation {
 /**
  * Contains the possible cases for AzureVmWorkloadProtectableItem.
  */
-export type AzureVmWorkloadProtectableItemUnion =
-  | AzureVmWorkloadProtectableItem
-  | AzureVmWorkloadSAPAseSystemProtectableItem
-  | AzureVmWorkloadSAPHanaDatabaseProtectableItem
-  | AzureVmWorkloadSAPHanaSystemProtectableItem
-  | AzureVmWorkloadSQLAvailabilityGroupProtectableItem
-  | AzureVmWorkloadSQLDatabaseProtectableItem
-  | AzureVmWorkloadSQLInstanceProtectableItem;
+export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
 
 /**
  * Azure VM workload-specific protectable item.
@@ -7225,12 +7105,7 @@ export interface OperationStatusError {
 /**
  * Contains the possible cases for OperationStatusExtendedInfo.
  */
-export type OperationStatusExtendedInfoUnion =
-  | OperationStatusExtendedInfo
-  | OperationStatusJobExtendedInfo
-  | OperationStatusJobsExtendedInfo
-  | OperationStatusProvisionILRExtendedInfo
-  | OperationStatusRecoveryPointExtendedInfo;
+export type OperationStatusExtendedInfoUnion = OperationStatusExtendedInfo | OperationStatusJobExtendedInfo | OperationStatusJobsExtendedInfo | OperationStatusProvisionILRExtendedInfo | OperationStatusRecoveryPointExtendedInfo;
 
 /**
  * Base class for additional information of operation status.
@@ -8178,10 +8053,7 @@ export interface WorkloadCrrAccessToken {
 /**
  * Contains the possible cases for FeatureSupportRequest.
  */
-export type FeatureSupportRequestUnion =
-  | FeatureSupportRequest
-  | AzureBackupGoalFeatureSupportRequest
-  | AzureVMResourceFeatureSupportRequest;
+export type FeatureSupportRequestUnion = FeatureSupportRequest | AzureBackupGoalFeatureSupportRequest | AzureVMResourceFeatureSupportRequest;
 
 /**
  * Base class for feature request
@@ -8206,10 +8078,7 @@ export interface AzureBackupGoalFeatureSupportRequest {
 /**
  * Contains the possible cases for ProtectionIntent.
  */
-export type ProtectionIntentUnion =
-  | ProtectionIntent
-  | AzureRecoveryServiceVaultProtectionIntentUnion
-  | AzureResourceProtectionIntent;
+export type ProtectionIntentUnion = ProtectionIntent | AzureRecoveryServiceVaultProtectionIntentUnion | AzureResourceProtectionIntent;
 
 /**
  * Base class for backup ProtectionIntent.
@@ -8247,9 +8116,7 @@ export interface ProtectionIntent {
 /**
  * Contains the possible cases for AzureRecoveryServiceVaultProtectionIntent.
  */
-export type AzureRecoveryServiceVaultProtectionIntentUnion =
-  | AzureRecoveryServiceVaultProtectionIntent
-  | AzureWorkloadAutoProtectionIntentUnion;
+export type AzureRecoveryServiceVaultProtectionIntentUnion = AzureRecoveryServiceVaultProtectionIntent | AzureWorkloadAutoProtectionIntentUnion;
 
 /**
  * Azure Recovery Services Vault specific protection intent item.
@@ -8353,9 +8220,7 @@ export interface AzureVMResourceFeatureSupportResponse {
 /**
  * Contains the possible cases for AzureWorkloadAutoProtectionIntent.
  */
-export type AzureWorkloadAutoProtectionIntentUnion =
-  | AzureWorkloadAutoProtectionIntent
-  | AzureWorkloadSQLAutoProtectionIntent;
+export type AzureWorkloadAutoProtectionIntentUnion = AzureWorkloadAutoProtectionIntent | AzureWorkloadSQLAutoProtectionIntent;
 
 /**
  * Azure Recovery Services Vault specific protection intent item.
@@ -8942,8 +8807,7 @@ export interface BackupProtectionContainersListOptionalParams extends msRest.Req
 /**
  * Optional Parameters.
  */
-export interface BackupProtectionContainersListNextOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface BackupProtectionContainersListNextOptionalParams extends msRest.RequestOptionsBase {
   /**
    * OData filter options.
    */
@@ -9104,89 +8968,88 @@ export interface RecoveryServicesBackupClientOptions extends AzureServiceClientO
  * List of RecoveryPoint resources
  * @extends Array<RecoveryPointResource>, ResourceList
  */
-export interface RecoveryPointResourceList extends Array<RecoveryPointResource>, ResourceList {}
+export interface RecoveryPointResourceList extends Array<RecoveryPointResource>, ResourceList {
+}
 
 /**
  * @interface
  * List of ProtectionPolicy resources
  * @extends Array<ProtectionPolicyResource>, ResourceList
  */
-export interface ProtectionPolicyResourceList
-  extends Array<ProtectionPolicyResource>,
-    ResourceList {}
+export interface ProtectionPolicyResourceList extends Array<ProtectionPolicyResource>, ResourceList {
+}
 
 /**
  * @interface
  * List of Job resources
  * @extends Array<JobResource>, ResourceList
  */
-export interface JobResourceList extends Array<JobResource>, ResourceList {}
+export interface JobResourceList extends Array<JobResource>, ResourceList {
+}
 
 /**
  * @interface
  * List of ProtectedItem resources
  * @extends Array<ProtectedItemResource>, ResourceList
  */
-export interface ProtectedItemResourceList extends Array<ProtectedItemResource>, ResourceList {}
+export interface ProtectedItemResourceList extends Array<ProtectedItemResource>, ResourceList {
+}
 
 /**
  * @interface
  * List of BackupEngineBase resources
  * @extends Array<BackupEngineBaseResource>, ResourceList
  */
-export interface BackupEngineBaseResourceList
-  extends Array<BackupEngineBaseResource>,
-    ResourceList {}
+export interface BackupEngineBaseResourceList extends Array<BackupEngineBaseResource>, ResourceList {
+}
 
 /**
  * @interface
  * List of ProtectableContainer resources
  * @extends Array<ProtectableContainerResource>, ResourceList
  */
-export interface ProtectableContainerResourceList
-  extends Array<ProtectableContainerResource>,
-    ResourceList {}
+export interface ProtectableContainerResourceList extends Array<ProtectableContainerResource>, ResourceList {
+}
 
 /**
  * @interface
  * List of WorkloadItem resources
  * @extends Array<WorkloadItemResource>, ResourceList
  */
-export interface WorkloadItemResourceList extends Array<WorkloadItemResource>, ResourceList {}
+export interface WorkloadItemResourceList extends Array<WorkloadItemResource>, ResourceList {
+}
 
 /**
  * @interface
  * List of WorkloadProtectableItem resources
  * @extends Array<WorkloadProtectableItemResource>, ResourceList
  */
-export interface WorkloadProtectableItemResourceList
-  extends Array<WorkloadProtectableItemResource>,
-    ResourceList {}
+export interface WorkloadProtectableItemResourceList extends Array<WorkloadProtectableItemResource>, ResourceList {
+}
 
 /**
  * @interface
  * List of ProtectionContainer resources
  * @extends Array<ProtectionContainerResource>, ResourceList
  */
-export interface ProtectionContainerResourceList
-  extends Array<ProtectionContainerResource>,
-    ResourceList {}
+export interface ProtectionContainerResourceList extends Array<ProtectionContainerResource>, ResourceList {
+}
 
 /**
  * @interface
  * Backup management usage for vault.
  * @extends Array<BackupManagementUsage>
  */
-export interface BackupManagementUsageList extends Array<BackupManagementUsage> {}
+export interface BackupManagementUsageList extends Array<BackupManagementUsage> {
+}
 
 /**
  * @interface
  * List of ProtectionIntent resources
  * @extends Array<ProtectionIntentResource>, ResourceList
  */
-export interface ProtectionIntentResourceList
-  extends Array<ProtectionIntentResource>,
-    ResourceList {}
+export interface ProtectionIntentResourceList extends Array<ProtectionIntentResource>, ResourceList {
+}
 
 /**
  * @interface
@@ -9206,7 +9069,7 @@ export interface ClientDiscoveryResponse extends Array<ClientDiscoveryValueForSi
  * @readonly
  * @enum {string}
  */
-export type EncryptionAtRestType = "Invalid" | "MicrosoftManaged" | "CustomerManaged";
+export type EncryptionAtRestType = 'Invalid' | 'MicrosoftManaged' | 'CustomerManaged';
 
 /**
  * Defines values for LastUpdateStatus.
@@ -9215,13 +9078,7 @@ export type EncryptionAtRestType = "Invalid" | "MicrosoftManaged" | "CustomerMan
  * @readonly
  * @enum {string}
  */
-export type LastUpdateStatus =
-  | "Invalid"
-  | "NotEnabled"
-  | "PartiallySucceeded"
-  | "PartiallyFailed"
-  | "Failed"
-  | "Succeeded";
+export type LastUpdateStatus = 'Invalid' | 'NotEnabled' | 'PartiallySucceeded' | 'PartiallyFailed' | 'Failed' | 'Succeeded';
 
 /**
  * Defines values for InfrastructureEncryptionState.
@@ -9229,7 +9086,7 @@ export type LastUpdateStatus =
  * @readonly
  * @enum {string}
  */
-export type InfrastructureEncryptionState = "Invalid" | "Disabled" | "Enabled";
+export type InfrastructureEncryptionState = 'Invalid' | 'Disabled' | 'Enabled';
 
 /**
  * Defines values for ProvisioningState.
@@ -9237,7 +9094,7 @@ export type InfrastructureEncryptionState = "Invalid" | "Disabled" | "Enabled";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = "Succeeded" | "Deleting" | "Failed" | "Pending";
+export type ProvisioningState = 'Succeeded' | 'Deleting' | 'Failed' | 'Pending';
 
 /**
  * Defines values for PrivateEndpointConnectionStatus.
@@ -9245,7 +9102,7 @@ export type ProvisioningState = "Succeeded" | "Deleting" | "Failed" | "Pending";
  * @readonly
  * @enum {string}
  */
-export type PrivateEndpointConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
+export type PrivateEndpointConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
 
 /**
  * Defines values for ProtectionState.
@@ -9254,13 +9111,7 @@ export type PrivateEndpointConnectionStatus = "Pending" | "Approved" | "Rejected
  * @readonly
  * @enum {string}
  */
-export type ProtectionState =
-  | "Invalid"
-  | "IRPending"
-  | "Protected"
-  | "ProtectionError"
-  | "ProtectionStopped"
-  | "ProtectionPaused";
+export type ProtectionState = 'Invalid' | 'IRPending' | 'Protected' | 'ProtectionError' | 'ProtectionStopped' | 'ProtectionPaused';
 
 /**
  * Defines values for ResourceHealthStatus.
@@ -9269,13 +9120,7 @@ export type ProtectionState =
  * @readonly
  * @enum {string}
  */
-export type ResourceHealthStatus =
-  | "Healthy"
-  | "TransientDegraded"
-  | "PersistentDegraded"
-  | "TransientUnhealthy"
-  | "PersistentUnhealthy"
-  | "Invalid";
+export type ResourceHealthStatus = 'Healthy' | 'TransientDegraded' | 'PersistentDegraded' | 'TransientUnhealthy' | 'PersistentUnhealthy' | 'Invalid';
 
 /**
  * Defines values for HealthStatus.
@@ -9283,7 +9128,7 @@ export type ResourceHealthStatus =
  * @readonly
  * @enum {string}
  */
-export type HealthStatus = "Passed" | "ActionRequired" | "ActionSuggested" | "Invalid";
+export type HealthStatus = 'Passed' | 'ActionRequired' | 'ActionSuggested' | 'Invalid';
 
 /**
  * Defines values for RecoveryType.
@@ -9292,12 +9137,7 @@ export type HealthStatus = "Passed" | "ActionRequired" | "ActionSuggested" | "In
  * @readonly
  * @enum {string}
  */
-export type RecoveryType =
-  | "Invalid"
-  | "OriginalLocation"
-  | "AlternateLocation"
-  | "RestoreDisks"
-  | "Offline";
+export type RecoveryType = 'Invalid' | 'OriginalLocation' | 'AlternateLocation' | 'RestoreDisks' | 'Offline';
 
 /**
  * Defines values for CopyOptions.
@@ -9305,7 +9145,7 @@ export type RecoveryType =
  * @readonly
  * @enum {string}
  */
-export type CopyOptions = "Invalid" | "CreateCopy" | "Skip" | "Overwrite" | "FailOnConflict";
+export type CopyOptions = 'Invalid' | 'CreateCopy' | 'Skip' | 'Overwrite' | 'FailOnConflict';
 
 /**
  * Defines values for RestoreRequestType.
@@ -9313,7 +9153,7 @@ export type CopyOptions = "Invalid" | "CreateCopy" | "Skip" | "Overwrite" | "Fai
  * @readonly
  * @enum {string}
  */
-export type RestoreRequestType = "Invalid" | "FullShareRestore" | "ItemLevelRestore";
+export type RestoreRequestType = 'Invalid' | 'FullShareRestore' | 'ItemLevelRestore';
 
 /**
  * Defines values for WorkloadType.
@@ -9323,22 +9163,7 @@ export type RestoreRequestType = "Invalid" | "FullShareRestore" | "ItemLevelRest
  * @readonly
  * @enum {string}
  */
-export type WorkloadType =
-  | "Invalid"
-  | "VM"
-  | "FileFolder"
-  | "AzureSqlDb"
-  | "SQLDB"
-  | "Exchange"
-  | "Sharepoint"
-  | "VMwareVM"
-  | "SystemState"
-  | "Client"
-  | "GenericDataSource"
-  | "SQLDataBase"
-  | "AzureFileShare"
-  | "SAPHanaDatabase"
-  | "SAPAseDatabase";
+export type WorkloadType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase' | 'SAPAseDatabase';
 
 /**
  * Defines values for PolicyType.
@@ -9346,13 +9171,7 @@ export type WorkloadType =
  * @readonly
  * @enum {string}
  */
-export type PolicyType =
-  | "Invalid"
-  | "Full"
-  | "Differential"
-  | "Log"
-  | "CopyOnlyFull"
-  | "Incremental";
+export type PolicyType = 'Invalid' | 'Full' | 'Differential' | 'Log' | 'CopyOnlyFull' | 'Incremental';
 
 /**
  * Defines values for JobSupportedAction.
@@ -9360,7 +9179,7 @@ export type PolicyType =
  * @readonly
  * @enum {string}
  */
-export type JobSupportedAction = "Invalid" | "Cancellable" | "Retriable";
+export type JobSupportedAction = 'Invalid' | 'Cancellable' | 'Retriable';
 
 /**
  * Defines values for ProtectedItemState.
@@ -9369,13 +9188,7 @@ export type JobSupportedAction = "Invalid" | "Cancellable" | "Retriable";
  * @readonly
  * @enum {string}
  */
-export type ProtectedItemState =
-  | "Invalid"
-  | "IRPending"
-  | "Protected"
-  | "ProtectionError"
-  | "ProtectionStopped"
-  | "ProtectionPaused";
+export type ProtectedItemState = 'Invalid' | 'IRPending' | 'Protected' | 'ProtectionError' | 'ProtectionStopped' | 'ProtectionPaused';
 
 /**
  * Defines values for LastBackupStatus.
@@ -9383,7 +9196,7 @@ export type ProtectedItemState =
  * @readonly
  * @enum {string}
  */
-export type LastBackupStatus = "Invalid" | "Healthy" | "Unhealthy" | "IRPending";
+export type LastBackupStatus = 'Invalid' | 'Healthy' | 'Unhealthy' | 'IRPending';
 
 /**
  * Defines values for ProtectedItemHealthStatus.
@@ -9391,12 +9204,7 @@ export type LastBackupStatus = "Invalid" | "Healthy" | "Unhealthy" | "IRPending"
  * @readonly
  * @enum {string}
  */
-export type ProtectedItemHealthStatus =
-  | "Invalid"
-  | "Healthy"
-  | "Unhealthy"
-  | "NotReachable"
-  | "IRPending";
+export type ProtectedItemHealthStatus = 'Invalid' | 'Healthy' | 'Unhealthy' | 'NotReachable' | 'IRPending';
 
 /**
  * Defines values for RestorePointType.
@@ -9404,7 +9212,7 @@ export type ProtectedItemHealthStatus =
  * @readonly
  * @enum {string}
  */
-export type RestorePointType = "Invalid" | "Full" | "Log" | "Differential" | "Incremental";
+export type RestorePointType = 'Invalid' | 'Full' | 'Log' | 'Differential' | 'Incremental';
 
 /**
  * Defines values for RecoveryPointTierType.
@@ -9412,7 +9220,7 @@ export type RestorePointType = "Invalid" | "Full" | "Log" | "Differential" | "In
  * @readonly
  * @enum {string}
  */
-export type RecoveryPointTierType = "Invalid" | "InstantRP" | "HardenedRP" | "ArchivedRP";
+export type RecoveryPointTierType = 'Invalid' | 'InstantRP' | 'HardenedRP' | 'ArchivedRP';
 
 /**
  * Defines values for RecoveryPointTierStatus.
@@ -9420,7 +9228,7 @@ export type RecoveryPointTierType = "Invalid" | "InstantRP" | "HardenedRP" | "Ar
  * @readonly
  * @enum {string}
  */
-export type RecoveryPointTierStatus = "Invalid" | "Valid" | "Disabled" | "Deleted" | "Rehydrated";
+export type RecoveryPointTierStatus = 'Invalid' | 'Valid' | 'Disabled' | 'Deleted' | 'Rehydrated';
 
 /**
  * Defines values for OverwriteOptions.
@@ -9428,7 +9236,7 @@ export type RecoveryPointTierStatus = "Invalid" | "Valid" | "Disabled" | "Delete
  * @readonly
  * @enum {string}
  */
-export type OverwriteOptions = "Invalid" | "FailOnConflict" | "Overwrite";
+export type OverwriteOptions = 'Invalid' | 'FailOnConflict' | 'Overwrite';
 
 /**
  * Defines values for RecoveryMode.
@@ -9436,7 +9244,7 @@ export type OverwriteOptions = "Invalid" | "FailOnConflict" | "Overwrite";
  * @readonly
  * @enum {string}
  */
-export type RecoveryMode = "Invalid" | "FileRecovery" | "WorkloadRecovery";
+export type RecoveryMode = 'Invalid' | 'FileRecovery' | 'WorkloadRecovery';
 
 /**
  * Defines values for SQLDataDirectoryType.
@@ -9444,7 +9252,7 @@ export type RecoveryMode = "Invalid" | "FileRecovery" | "WorkloadRecovery";
  * @readonly
  * @enum {string}
  */
-export type SQLDataDirectoryType = "Invalid" | "Data" | "Log";
+export type SQLDataDirectoryType = 'Invalid' | 'Data' | 'Log';
 
 /**
  * Defines values for RestorePointQueryType.
@@ -9453,14 +9261,7 @@ export type SQLDataDirectoryType = "Invalid" | "Data" | "Log";
  * @readonly
  * @enum {string}
  */
-export type RestorePointQueryType =
-  | "Invalid"
-  | "Full"
-  | "Log"
-  | "Differential"
-  | "FullAndDifferential"
-  | "All"
-  | "Incremental";
+export type RestorePointQueryType = 'Invalid' | 'Full' | 'Log' | 'Differential' | 'FullAndDifferential' | 'All' | 'Incremental';
 
 /**
  * Defines values for RetentionDurationType.
@@ -9468,7 +9269,7 @@ export type RestorePointQueryType =
  * @readonly
  * @enum {string}
  */
-export type RetentionDurationType = "Invalid" | "Days" | "Weeks" | "Months" | "Years";
+export type RetentionDurationType = 'Invalid' | 'Days' | 'Weeks' | 'Months' | 'Years';
 
 /**
  * Defines values for BackupManagementType.
@@ -9477,16 +9278,7 @@ export type RetentionDurationType = "Invalid" | "Days" | "Weeks" | "Months" | "Y
  * @readonly
  * @enum {string}
  */
-export type BackupManagementType =
-  | "Invalid"
-  | "AzureIaasVM"
-  | "MAB"
-  | "DPM"
-  | "AzureBackupServer"
-  | "AzureSql"
-  | "AzureStorage"
-  | "AzureWorkload"
-  | "DefaultBackup";
+export type BackupManagementType = 'Invalid' | 'AzureIaasVM' | 'MAB' | 'DPM' | 'AzureBackupServer' | 'AzureSql' | 'AzureStorage' | 'AzureWorkload' | 'DefaultBackup';
 
 /**
  * Defines values for JobStatus.
@@ -9495,14 +9287,7 @@ export type BackupManagementType =
  * @readonly
  * @enum {string}
  */
-export type JobStatus =
-  | "Invalid"
-  | "InProgress"
-  | "Completed"
-  | "Failed"
-  | "CompletedWithWarnings"
-  | "Cancelled"
-  | "Cancelling";
+export type JobStatus = 'Invalid' | 'InProgress' | 'Completed' | 'Failed' | 'CompletedWithWarnings' | 'Cancelled' | 'Cancelling';
 
 /**
  * Defines values for JobOperationType.
@@ -9512,18 +9297,7 @@ export type JobStatus =
  * @readonly
  * @enum {string}
  */
-export type JobOperationType =
-  | "Invalid"
-  | "Register"
-  | "UnRegister"
-  | "ConfigureBackup"
-  | "Backup"
-  | "Restore"
-  | "DisableBackup"
-  | "DeleteBackupData"
-  | "CrossRegionRestore"
-  | "Undelete"
-  | "UpdateCustomerManagedKey";
+export type JobOperationType = 'Invalid' | 'Register' | 'UnRegister' | 'ConfigureBackup' | 'Backup' | 'Restore' | 'DisableBackup' | 'DeleteBackupData' | 'CrossRegionRestore' | 'Undelete' | 'UpdateCustomerManagedKey';
 
 /**
  * Defines values for DayOfWeek.
@@ -9532,14 +9306,7 @@ export type JobOperationType =
  * @readonly
  * @enum {string}
  */
-export type DayOfWeek =
-  | "Sunday"
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday";
+export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 
 /**
  * Defines values for RetentionScheduleFormat.
@@ -9547,7 +9314,7 @@ export type DayOfWeek =
  * @readonly
  * @enum {string}
  */
-export type RetentionScheduleFormat = "Invalid" | "Daily" | "Weekly";
+export type RetentionScheduleFormat = 'Invalid' | 'Daily' | 'Weekly';
 
 /**
  * Defines values for WeekOfMonth.
@@ -9555,7 +9322,7 @@ export type RetentionScheduleFormat = "Invalid" | "Daily" | "Weekly";
  * @readonly
  * @enum {string}
  */
-export type WeekOfMonth = "First" | "Second" | "Third" | "Fourth" | "Last" | "Invalid";
+export type WeekOfMonth = 'First' | 'Second' | 'Third' | 'Fourth' | 'Last' | 'Invalid';
 
 /**
  * Defines values for MonthOfYear.
@@ -9564,20 +9331,7 @@ export type WeekOfMonth = "First" | "Second" | "Third" | "Fourth" | "Last" | "In
  * @readonly
  * @enum {string}
  */
-export type MonthOfYear =
-  | "Invalid"
-  | "January"
-  | "February"
-  | "March"
-  | "April"
-  | "May"
-  | "June"
-  | "July"
-  | "August"
-  | "September"
-  | "October"
-  | "November"
-  | "December";
+export type MonthOfYear = 'Invalid' | 'January' | 'February' | 'March' | 'April' | 'May' | 'June' | 'July' | 'August' | 'September' | 'October' | 'November' | 'December';
 
 /**
  * Defines values for MabServerType.
@@ -9588,22 +9342,7 @@ export type MonthOfYear =
  * @readonly
  * @enum {string}
  */
-export type MabServerType =
-  | "Invalid"
-  | "Unknown"
-  | "IaasVMContainer"
-  | "IaasVMServiceContainer"
-  | "DPMContainer"
-  | "AzureBackupServerContainer"
-  | "MABContainer"
-  | "Cluster"
-  | "AzureSqlContainer"
-  | "Windows"
-  | "VCenter"
-  | "VMAppContainer"
-  | "SQLAGWorkLoadContainer"
-  | "StorageContainer"
-  | "GenericContainer";
+export type MabServerType = 'Invalid' | 'Unknown' | 'IaasVMContainer' | 'IaasVMServiceContainer' | 'DPMContainer' | 'AzureBackupServerContainer' | 'MABContainer' | 'Cluster' | 'AzureSqlContainer' | 'Windows' | 'VCenter' | 'VMAppContainer' | 'SQLAGWorkLoadContainer' | 'StorageContainer' | 'GenericContainer';
 
 /**
  * Defines values for DataMoveLevel.
@@ -9611,7 +9350,7 @@ export type MabServerType =
  * @readonly
  * @enum {string}
  */
-export type DataMoveLevel = "Invalid" | "Vault" | "Container";
+export type DataMoveLevel = 'Invalid' | 'Vault' | 'Container';
 
 /**
  * Defines values for HttpStatusCode.
@@ -9628,54 +9367,7 @@ export type DataMoveLevel = "Invalid" | "Vault" | "Container";
  * @readonly
  * @enum {string}
  */
-export type HttpStatusCode =
-  | "Continue"
-  | "SwitchingProtocols"
-  | "OK"
-  | "Created"
-  | "Accepted"
-  | "NonAuthoritativeInformation"
-  | "NoContent"
-  | "ResetContent"
-  | "PartialContent"
-  | "MultipleChoices"
-  | "Ambiguous"
-  | "MovedPermanently"
-  | "Moved"
-  | "Found"
-  | "Redirect"
-  | "SeeOther"
-  | "RedirectMethod"
-  | "NotModified"
-  | "UseProxy"
-  | "Unused"
-  | "TemporaryRedirect"
-  | "RedirectKeepVerb"
-  | "BadRequest"
-  | "Unauthorized"
-  | "PaymentRequired"
-  | "Forbidden"
-  | "NotFound"
-  | "MethodNotAllowed"
-  | "NotAcceptable"
-  | "ProxyAuthenticationRequired"
-  | "RequestTimeout"
-  | "Conflict"
-  | "Gone"
-  | "LengthRequired"
-  | "PreconditionFailed"
-  | "RequestEntityTooLarge"
-  | "RequestUriTooLong"
-  | "UnsupportedMediaType"
-  | "RequestedRangeNotSatisfiable"
-  | "ExpectationFailed"
-  | "UpgradeRequired"
-  | "InternalServerError"
-  | "NotImplemented"
-  | "BadGateway"
-  | "ServiceUnavailable"
-  | "GatewayTimeout"
-  | "HttpVersionNotSupported";
+export type HttpStatusCode = 'Continue' | 'SwitchingProtocols' | 'OK' | 'Created' | 'Accepted' | 'NonAuthoritativeInformation' | 'NoContent' | 'ResetContent' | 'PartialContent' | 'MultipleChoices' | 'Ambiguous' | 'MovedPermanently' | 'Moved' | 'Found' | 'Redirect' | 'SeeOther' | 'RedirectMethod' | 'NotModified' | 'UseProxy' | 'Unused' | 'TemporaryRedirect' | 'RedirectKeepVerb' | 'BadRequest' | 'Unauthorized' | 'PaymentRequired' | 'Forbidden' | 'NotFound' | 'MethodNotAllowed' | 'NotAcceptable' | 'ProxyAuthenticationRequired' | 'RequestTimeout' | 'Conflict' | 'Gone' | 'LengthRequired' | 'PreconditionFailed' | 'RequestEntityTooLarge' | 'RequestUriTooLong' | 'UnsupportedMediaType' | 'RequestedRangeNotSatisfiable' | 'ExpectationFailed' | 'UpgradeRequired' | 'InternalServerError' | 'NotImplemented' | 'BadGateway' | 'ServiceUnavailable' | 'GatewayTimeout' | 'HttpVersionNotSupported';
 
 /**
  * Defines values for DataSourceType.
@@ -9685,22 +9377,7 @@ export type HttpStatusCode =
  * @readonly
  * @enum {string}
  */
-export type DataSourceType =
-  | "Invalid"
-  | "VM"
-  | "FileFolder"
-  | "AzureSqlDb"
-  | "SQLDB"
-  | "Exchange"
-  | "Sharepoint"
-  | "VMwareVM"
-  | "SystemState"
-  | "Client"
-  | "GenericDataSource"
-  | "SQLDataBase"
-  | "AzureFileShare"
-  | "SAPHanaDatabase"
-  | "SAPAseDatabase";
+export type DataSourceType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase' | 'SAPAseDatabase';
 
 /**
  * Defines values for CreateMode.
@@ -9708,7 +9385,7 @@ export type DataSourceType =
  * @readonly
  * @enum {string}
  */
-export type CreateMode = "Invalid" | "Default" | "Recover";
+export type CreateMode = 'Invalid' | 'Default' | 'Recover';
 
 /**
  * Defines values for HealthState.
@@ -9716,7 +9393,7 @@ export type CreateMode = "Invalid" | "Default" | "Recover";
  * @readonly
  * @enum {string}
  */
-export type HealthState = "Passed" | "ActionRequired" | "ActionSuggested" | "Invalid";
+export type HealthState = 'Passed' | 'ActionRequired' | 'ActionSuggested' | 'Invalid';
 
 /**
  * Defines values for ScheduleRunType.
@@ -9724,7 +9401,7 @@ export type HealthState = "Passed" | "ActionRequired" | "ActionSuggested" | "Inv
  * @readonly
  * @enum {string}
  */
-export type ScheduleRunType = "Invalid" | "Daily" | "Weekly";
+export type ScheduleRunType = 'Invalid' | 'Daily' | 'Weekly';
 
 /**
  * Defines values for StorageType.
@@ -9733,12 +9410,7 @@ export type ScheduleRunType = "Invalid" | "Daily" | "Weekly";
  * @readonly
  * @enum {string}
  */
-export type StorageType =
-  | "Invalid"
-  | "GeoRedundant"
-  | "LocallyRedundant"
-  | "ZoneRedundant"
-  | "ReadAccessGeoZoneRedundant";
+export type StorageType = 'Invalid' | 'GeoRedundant' | 'LocallyRedundant' | 'ZoneRedundant' | 'ReadAccessGeoZoneRedundant';
 
 /**
  * Defines values for StorageTypeState.
@@ -9746,7 +9418,7 @@ export type StorageType =
  * @readonly
  * @enum {string}
  */
-export type StorageTypeState = "Invalid" | "Locked" | "Unlocked";
+export type StorageTypeState = 'Invalid' | 'Locked' | 'Unlocked';
 
 /**
  * Defines values for EnhancedSecurityState.
@@ -9754,7 +9426,7 @@ export type StorageTypeState = "Invalid" | "Locked" | "Unlocked";
  * @readonly
  * @enum {string}
  */
-export type EnhancedSecurityState = "Invalid" | "Enabled" | "Disabled";
+export type EnhancedSecurityState = 'Invalid' | 'Enabled' | 'Disabled';
 
 /**
  * Defines values for SoftDeleteFeatureState.
@@ -9762,7 +9434,7 @@ export type EnhancedSecurityState = "Invalid" | "Enabled" | "Disabled";
  * @readonly
  * @enum {string}
  */
-export type SoftDeleteFeatureState = "Invalid" | "Enabled" | "Disabled";
+export type SoftDeleteFeatureState = 'Invalid' | 'Enabled' | 'Disabled';
 
 /**
  * Defines values for AzureFileShareType.
@@ -9770,7 +9442,7 @@ export type SoftDeleteFeatureState = "Invalid" | "Enabled" | "Disabled";
  * @readonly
  * @enum {string}
  */
-export type AzureFileShareType = "Invalid" | "XSMB" | "XSync";
+export type AzureFileShareType = 'Invalid' | 'XSMB' | 'XSync';
 
 /**
  * Defines values for InquiryStatus.
@@ -9778,7 +9450,7 @@ export type AzureFileShareType = "Invalid" | "XSMB" | "XSync";
  * @readonly
  * @enum {string}
  */
-export type InquiryStatus = "Invalid" | "Success" | "Failed";
+export type InquiryStatus = 'Invalid' | 'Success' | 'Failed';
 
 /**
  * Defines values for BackupType.
@@ -9786,13 +9458,7 @@ export type InquiryStatus = "Invalid" | "Success" | "Failed";
  * @readonly
  * @enum {string}
  */
-export type BackupType =
-  | "Invalid"
-  | "Full"
-  | "Differential"
-  | "Log"
-  | "CopyOnlyFull"
-  | "Incremental";
+export type BackupType = 'Invalid' | 'Full' | 'Differential' | 'Log' | 'CopyOnlyFull' | 'Incremental';
 
 /**
  * Defines values for OperationType.
@@ -9800,7 +9466,7 @@ export type BackupType =
  * @readonly
  * @enum {string}
  */
-export type OperationType = "Invalid" | "Register" | "Reregister";
+export type OperationType = 'Invalid' | 'Register' | 'Reregister';
 
 /**
  * Defines values for ContainerType.
@@ -9811,22 +9477,7 @@ export type OperationType = "Invalid" | "Register" | "Reregister";
  * @readonly
  * @enum {string}
  */
-export type ContainerType =
-  | "Invalid"
-  | "Unknown"
-  | "IaasVMContainer"
-  | "IaasVMServiceContainer"
-  | "DPMContainer"
-  | "AzureBackupServerContainer"
-  | "MABContainer"
-  | "Cluster"
-  | "AzureSqlContainer"
-  | "Windows"
-  | "VCenter"
-  | "VMAppContainer"
-  | "SQLAGWorkLoadContainer"
-  | "StorageContainer"
-  | "GenericContainer";
+export type ContainerType = 'Invalid' | 'Unknown' | 'IaasVMContainer' | 'IaasVMServiceContainer' | 'DPMContainer' | 'AzureBackupServerContainer' | 'MABContainer' | 'Cluster' | 'AzureSqlContainer' | 'Windows' | 'VCenter' | 'VMAppContainer' | 'SQLAGWorkLoadContainer' | 'StorageContainer' | 'GenericContainer';
 
 /**
  * Defines values for WorkloadItemType.
@@ -9835,14 +9486,7 @@ export type ContainerType =
  * @readonly
  * @enum {string}
  */
-export type WorkloadItemType =
-  | "Invalid"
-  | "SQLInstance"
-  | "SQLDataBase"
-  | "SAPHanaSystem"
-  | "SAPHanaDatabase"
-  | "SAPAseSystem"
-  | "SAPAseDatabase";
+export type WorkloadItemType = 'Invalid' | 'SQLInstance' | 'SQLDataBase' | 'SAPHanaSystem' | 'SAPHanaDatabase' | 'SAPAseSystem' | 'SAPAseDatabase';
 
 /**
  * Defines values for ProtectionStatus.
@@ -9851,12 +9495,7 @@ export type WorkloadItemType =
  * @readonly
  * @enum {string}
  */
-export type ProtectionStatus =
-  | "Invalid"
-  | "NotProtected"
-  | "Protecting"
-  | "Protected"
-  | "ProtectionFailed";
+export type ProtectionStatus = 'Invalid' | 'NotProtected' | 'Protecting' | 'Protected' | 'ProtectionFailed';
 
 /**
  * Defines values for BackupItemType.
@@ -9866,22 +9505,7 @@ export type ProtectionStatus =
  * @readonly
  * @enum {string}
  */
-export type BackupItemType =
-  | "Invalid"
-  | "VM"
-  | "FileFolder"
-  | "AzureSqlDb"
-  | "SQLDB"
-  | "Exchange"
-  | "Sharepoint"
-  | "VMwareVM"
-  | "SystemState"
-  | "Client"
-  | "GenericDataSource"
-  | "SQLDataBase"
-  | "AzureFileShare"
-  | "SAPHanaDatabase"
-  | "SAPAseDatabase";
+export type BackupItemType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase' | 'SAPAseDatabase';
 
 /**
  * Defines values for OperationStatusValues.
@@ -9889,7 +9513,7 @@ export type BackupItemType =
  * @readonly
  * @enum {string}
  */
-export type OperationStatusValues = "Invalid" | "InProgress" | "Succeeded" | "Failed" | "Canceled";
+export type OperationStatusValues = 'Invalid' | 'InProgress' | 'Succeeded' | 'Failed' | 'Canceled';
 
 /**
  * Defines values for RehydrationPriority.
@@ -9897,7 +9521,7 @@ export type OperationStatusValues = "Invalid" | "InProgress" | "Succeeded" | "Fa
  * @readonly
  * @enum {string}
  */
-export type RehydrationPriority = "Standard" | "High";
+export type RehydrationPriority = 'Standard' | 'High';
 
 /**
  * Defines values for UsagesUnit.
@@ -9906,13 +9530,7 @@ export type RehydrationPriority = "Standard" | "High";
  * @readonly
  * @enum {string}
  */
-export type UsagesUnit =
-  | "Count"
-  | "Bytes"
-  | "Seconds"
-  | "Percent"
-  | "CountPerSecond"
-  | "BytesPerSecond";
+export type UsagesUnit = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond';
 
 /**
  * Defines values for Type.
@@ -9921,10 +9539,7 @@ export type UsagesUnit =
  * @readonly
  * @enum {string}
  */
-export type Type =
-  | "Invalid"
-  | "BackupProtectedItemCountSummary"
-  | "BackupProtectionContainerCountSummary";
+export type Type = 'Invalid' | 'BackupProtectedItemCountSummary' | 'BackupProtectionContainerCountSummary';
 
 /**
  * Defines values for SupportStatus.
@@ -9932,7 +9547,7 @@ export type Type =
  * @readonly
  * @enum {string}
  */
-export type SupportStatus = "Invalid" | "Supported" | "DefaultOFF" | "DefaultON" | "NotSupported";
+export type SupportStatus = 'Invalid' | 'Supported' | 'DefaultOFF' | 'DefaultON' | 'NotSupported';
 
 /**
  * Defines values for FabricName.
@@ -9940,7 +9555,7 @@ export type SupportStatus = "Invalid" | "Supported" | "DefaultOFF" | "DefaultON"
  * @readonly
  * @enum {string}
  */
-export type FabricName = "Invalid" | "Azure";
+export type FabricName = 'Invalid' | 'Azure';
 
 /**
  * Defines values for ValidationStatus.
@@ -9948,7 +9563,7 @@ export type FabricName = "Invalid" | "Azure";
  * @readonly
  * @enum {string}
  */
-export type ValidationStatus = "Invalid" | "Succeeded" | "Failed";
+export type ValidationStatus = 'Invalid' | 'Succeeded' | 'Failed';
 
 /**
  * Defines values for IntentItemType.
@@ -9956,7 +9571,7 @@ export type ValidationStatus = "Invalid" | "Succeeded" | "Failed";
  * @readonly
  * @enum {string}
  */
-export type IntentItemType = "Invalid" | "SQLInstance" | "SQLAvailabilityGroupContainer";
+export type IntentItemType = 'Invalid' | 'SQLInstance' | 'SQLAvailabilityGroupContainer';
 
 /**
  * Contains response data for the get operation.
@@ -9966,16 +9581,16 @@ export type BackupResourceVaultConfigsGetResponse = BackupResourceVaultConfigRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupResourceVaultConfigResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupResourceVaultConfigResource;
+    };
 };
 
 /**
@@ -9986,16 +9601,16 @@ export type BackupResourceVaultConfigsUpdateResponse = BackupResourceVaultConfig
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupResourceVaultConfigResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupResourceVaultConfigResource;
+    };
 };
 
 /**
@@ -10006,16 +9621,16 @@ export type BackupResourceVaultConfigsPutResponse = BackupResourceVaultConfigRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupResourceVaultConfigResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupResourceVaultConfigResource;
+    };
 };
 
 /**
@@ -10026,16 +9641,16 @@ export type BackupResourceEncryptionConfigsGetResponse = BackupResourceEncryptio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupResourceEncryptionConfigResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupResourceEncryptionConfigResource;
+    };
 };
 
 /**
@@ -10046,16 +9661,16 @@ export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionReso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionResource;
+    };
 };
 
 /**
@@ -10066,16 +9681,16 @@ export type PrivateEndpointConnectionPutResponse = PrivateEndpointConnectionReso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionResource;
+    };
 };
 
 /**
@@ -10086,16 +9701,16 @@ export type PrivateEndpointConnectionBeginPutResponse = PrivateEndpointConnectio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionResource;
+    };
 };
 
 /**
@@ -10106,16 +9721,16 @@ export type PrivateEndpointGetOperationStatusResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
 };
 
 /**
@@ -10126,16 +9741,16 @@ export type GetOperationStatusResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
 };
 
 /**
@@ -10146,16 +9761,16 @@ export type BMSPrepareDataMoveOperationResultGetResponse = VaultStorageConfigOpe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: VaultStorageConfigOperationResultResponseUnion;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VaultStorageConfigOperationResultResponseUnion;
+    };
 };
 
 /**
@@ -10166,16 +9781,16 @@ export type ProtectedItemsGetResponse = ProtectedItemResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectedItemResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectedItemResource;
+    };
 };
 
 /**
@@ -10186,16 +9801,16 @@ export type ProtectedItemsCreateOrUpdateResponse = ProtectedItemResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectedItemResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectedItemResource;
+    };
 };
 
 /**
@@ -10206,16 +9821,16 @@ export type ProtectedItemOperationResultsGetResponse = ProtectedItemResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectedItemResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectedItemResource;
+    };
 };
 
 /**
@@ -10226,16 +9841,16 @@ export type RecoveryPointsListResponse = RecoveryPointResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RecoveryPointResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoveryPointResourceList;
+    };
 };
 
 /**
@@ -10246,16 +9861,16 @@ export type RecoveryPointsGetResponse = RecoveryPointResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RecoveryPointResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoveryPointResource;
+    };
 };
 
 /**
@@ -10266,16 +9881,16 @@ export type RecoveryPointsGetAccessTokenResponse = CrrAccessTokenResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CrrAccessTokenResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CrrAccessTokenResource;
+    };
 };
 
 /**
@@ -10286,16 +9901,16 @@ export type RecoveryPointsListNextResponse = RecoveryPointResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RecoveryPointResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoveryPointResourceList;
+    };
 };
 
 /**
@@ -10306,16 +9921,16 @@ export type BackupPoliciesListResponse = ProtectionPolicyResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionPolicyResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionPolicyResourceList;
+    };
 };
 
 /**
@@ -10326,16 +9941,16 @@ export type BackupPoliciesListNextResponse = ProtectionPolicyResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionPolicyResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionPolicyResourceList;
+    };
 };
 
 /**
@@ -10346,16 +9961,16 @@ export type ProtectionPoliciesGetResponse = ProtectionPolicyResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionPolicyResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionPolicyResource;
+    };
 };
 
 /**
@@ -10366,16 +9981,16 @@ export type ProtectionPoliciesCreateOrUpdateResponse = ProtectionPolicyResource 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionPolicyResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionPolicyResource;
+    };
 };
 
 /**
@@ -10386,16 +10001,16 @@ export type ProtectionPolicyOperationResultsGetResponse = ProtectionPolicyResour
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionPolicyResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionPolicyResource;
+    };
 };
 
 /**
@@ -10406,16 +10021,16 @@ export type BackupJobsListResponse = JobResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: JobResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: JobResourceList;
+    };
 };
 
 /**
@@ -10426,16 +10041,16 @@ export type BackupJobsListNextResponse = JobResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: JobResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: JobResourceList;
+    };
 };
 
 /**
@@ -10446,16 +10061,16 @@ export type JobDetailsGetResponse = JobResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: JobResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: JobResource;
+    };
 };
 
 /**
@@ -10466,16 +10081,16 @@ export type ExportJobsOperationResultsGetResponse = OperationResultInfoBaseResou
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationResultInfoBaseResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationResultInfoBaseResource;
+    };
 };
 
 /**
@@ -10486,16 +10101,16 @@ export type BackupProtectedItemsListResponse = ProtectedItemResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectedItemResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectedItemResourceList;
+    };
 };
 
 /**
@@ -10506,16 +10121,16 @@ export type BackupProtectedItemsListNextResponse = ProtectedItemResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectedItemResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectedItemResourceList;
+    };
 };
 
 /**
@@ -10526,16 +10141,16 @@ export type OperationValidateResponse = ValidateOperationsResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ValidateOperationsResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ValidateOperationsResponse;
+    };
 };
 
 /**
@@ -10546,16 +10161,16 @@ export type BackupEnginesListResponse = BackupEngineBaseResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupEngineBaseResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupEngineBaseResourceList;
+    };
 };
 
 /**
@@ -10566,16 +10181,16 @@ export type BackupEnginesGetResponse = BackupEngineBaseResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupEngineBaseResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupEngineBaseResource;
+    };
 };
 
 /**
@@ -10586,16 +10201,16 @@ export type BackupEnginesListNextResponse = BackupEngineBaseResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupEngineBaseResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupEngineBaseResourceList;
+    };
 };
 
 /**
@@ -10606,16 +10221,16 @@ export type ProtectableContainersListResponse = ProtectableContainerResourceList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectableContainerResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectableContainerResourceList;
+    };
 };
 
 /**
@@ -10626,16 +10241,16 @@ export type ProtectableContainersListNextResponse = ProtectableContainerResource
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectableContainerResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectableContainerResourceList;
+    };
 };
 
 /**
@@ -10646,16 +10261,16 @@ export type ProtectionContainersGetResponse = ProtectionContainerResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionContainerResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionContainerResource;
+    };
 };
 
 /**
@@ -10666,16 +10281,16 @@ export type ProtectionContainersRegisterResponse = ProtectionContainerResource &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionContainerResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionContainerResource;
+    };
 };
 
 /**
@@ -10686,16 +10301,16 @@ export type BackupWorkloadItemsListResponse = WorkloadItemResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: WorkloadItemResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadItemResourceList;
+    };
 };
 
 /**
@@ -10706,16 +10321,16 @@ export type BackupWorkloadItemsListNextResponse = WorkloadItemResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: WorkloadItemResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadItemResourceList;
+    };
 };
 
 /**
@@ -10726,16 +10341,16 @@ export type ProtectionContainerOperationResultsGetResponse = ProtectionContainer
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionContainerResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionContainerResource;
+    };
 };
 
 /**
@@ -10746,16 +10361,16 @@ export type ProtectedItemOperationStatusesGetResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
 };
 
 /**
@@ -10766,16 +10381,16 @@ export type BackupOperationStatusesGetResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
 };
 
 /**
@@ -10786,16 +10401,16 @@ export type ProtectionPolicyOperationStatusesGetResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
 };
 
 /**
@@ -10806,16 +10421,16 @@ export type BackupProtectableItemsListResponse = WorkloadProtectableItemResource
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: WorkloadProtectableItemResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadProtectableItemResourceList;
+    };
 };
 
 /**
@@ -10826,16 +10441,16 @@ export type BackupProtectableItemsListNextResponse = WorkloadProtectableItemReso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: WorkloadProtectableItemResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadProtectableItemResourceList;
+    };
 };
 
 /**
@@ -10846,16 +10461,16 @@ export type BackupProtectionContainersListResponse = ProtectionContainerResource
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionContainerResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionContainerResourceList;
+    };
 };
 
 /**
@@ -10866,16 +10481,16 @@ export type BackupProtectionContainersListNextResponse = ProtectionContainerReso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionContainerResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionContainerResourceList;
+    };
 };
 
 /**
@@ -10886,16 +10501,16 @@ export type SecurityPINsGetResponse = TokenInformation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TokenInformation;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TokenInformation;
+    };
 };
 
 /**
@@ -10906,16 +10521,16 @@ export type RecoveryPointsRecommendedForMoveListResponse = RecoveryPointResource
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RecoveryPointResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoveryPointResourceList;
+    };
 };
 
 /**
@@ -10926,16 +10541,16 @@ export type RecoveryPointsRecommendedForMoveListNextResponse = RecoveryPointReso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RecoveryPointResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoveryPointResourceList;
+    };
 };
 
 /**
@@ -10946,16 +10561,16 @@ export type BackupUsageSummariesCRRListResponse = BackupManagementUsageList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupManagementUsageList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupManagementUsageList;
+    };
 };
 
 /**
@@ -10966,16 +10581,16 @@ export type AadPropertiesGetResponse = AADPropertiesResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AADPropertiesResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AADPropertiesResource;
+    };
 };
 
 /**
@@ -10986,16 +10601,16 @@ export type BackupCrrJobDetailsGetResponse = JobResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: JobResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: JobResource;
+    };
 };
 
 /**
@@ -11006,16 +10621,16 @@ export type BackupCrrJobsListResponse = JobResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: JobResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: JobResourceList;
+    };
 };
 
 /**
@@ -11026,16 +10641,16 @@ export type BackupCrrJobsListNextResponse = JobResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: JobResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: JobResourceList;
+    };
 };
 
 /**
@@ -11046,16 +10661,16 @@ export type CrrOperationStatusGetResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
 };
 
 /**
@@ -11066,16 +10681,16 @@ export type BackupResourceStorageConfigsGetResponse = BackupResourceConfigResour
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupResourceConfigResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupResourceConfigResource;
+    };
 };
 
 /**
@@ -11086,16 +10701,16 @@ export type BackupResourceStorageConfigsUpdateResponse = BackupResourceConfigRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupResourceConfigResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupResourceConfigResource;
+    };
 };
 
 /**
@@ -11106,16 +10721,16 @@ export type RecoveryPointsCrrListResponse = RecoveryPointResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RecoveryPointResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoveryPointResourceList;
+    };
 };
 
 /**
@@ -11126,16 +10741,16 @@ export type RecoveryPointsCrrListNextResponse = RecoveryPointResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RecoveryPointResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoveryPointResourceList;
+    };
 };
 
 /**
@@ -11146,16 +10761,16 @@ export type BackupProtectedItemsCrrListResponse = ProtectedItemResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectedItemResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectedItemResourceList;
+    };
 };
 
 /**
@@ -11166,16 +10781,16 @@ export type BackupProtectedItemsCrrListNextResponse = ProtectedItemResourceList 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectedItemResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectedItemResourceList;
+    };
 };
 
 /**
@@ -11186,16 +10801,16 @@ export type ProtectionIntentValidateResponse = PreValidateEnableBackupResponse &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PreValidateEnableBackupResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PreValidateEnableBackupResponse;
+    };
 };
 
 /**
@@ -11206,16 +10821,16 @@ export type ProtectionIntentGetResponse = ProtectionIntentResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionIntentResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionIntentResource;
+    };
 };
 
 /**
@@ -11226,16 +10841,16 @@ export type ProtectionIntentCreateOrUpdateResponse = ProtectionIntentResource & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionIntentResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionIntentResource;
+    };
 };
 
 /**
@@ -11246,16 +10861,16 @@ export type BackupStatusGetResponse = BackupStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupStatusResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupStatusResponse;
+    };
 };
 
 /**
@@ -11266,16 +10881,16 @@ export type FeatureSupportValidateResponse = AzureVMResourceFeatureSupportRespon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AzureVMResourceFeatureSupportResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AzureVMResourceFeatureSupportResponse;
+    };
 };
 
 /**
@@ -11286,16 +10901,16 @@ export type BackupProtectionIntentListResponse = ProtectionIntentResourceList & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionIntentResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionIntentResourceList;
+    };
 };
 
 /**
@@ -11306,16 +10921,16 @@ export type BackupProtectionIntentListNextResponse = ProtectionIntentResourceLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ProtectionIntentResourceList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ProtectionIntentResourceList;
+    };
 };
 
 /**
@@ -11326,16 +10941,16 @@ export type BackupUsageSummariesListResponse = BackupManagementUsageList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupManagementUsageList;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupManagementUsageList;
+    };
 };
 
 /**
@@ -11346,16 +10961,16 @@ export type OperationsListResponse = ClientDiscoveryResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClientDiscoveryResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClientDiscoveryResponse;
+    };
 };
 
 /**
@@ -11366,14 +10981,14 @@ export type OperationsListNextResponse = ClientDiscoveryResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClientDiscoveryResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClientDiscoveryResponse;
+    };
 };

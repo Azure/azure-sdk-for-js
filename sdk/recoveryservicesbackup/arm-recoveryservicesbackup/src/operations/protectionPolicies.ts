@@ -37,12 +37,7 @@ export class ProtectionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProtectionPoliciesGetResponse>
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    policyName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ProtectionPoliciesGetResponse>;
+  get(vaultName: string, resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProtectionPoliciesGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -50,12 +45,7 @@ export class ProtectionPolicies {
    * @param policyName Backup policy information to be fetched.
    * @param callback The callback
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    policyName: string,
-    callback: msRest.ServiceCallback<Models.ProtectionPolicyResource>
-  ): void;
+  get(vaultName: string, resourceGroupName: string, policyName: string, callback: msRest.ServiceCallback<Models.ProtectionPolicyResource>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -64,20 +54,8 @@ export class ProtectionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    policyName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ProtectionPolicyResource>
-  ): void;
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    policyName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionPolicyResource>,
-    callback?: msRest.ServiceCallback<Models.ProtectionPolicyResource>
-  ): Promise<Models.ProtectionPoliciesGetResponse> {
+  get(vaultName: string, resourceGroupName: string, policyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionPolicyResource>): void;
+  get(vaultName: string, resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionPolicyResource>, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResource>): Promise<Models.ProtectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -86,8 +64,7 @@ export class ProtectionPolicies {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.ProtectionPoliciesGetResponse>;
+      callback) as Promise<Models.ProtectionPoliciesGetResponse>;
   }
 
   /**
@@ -102,13 +79,7 @@ export class ProtectionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProtectionPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(
-    vaultName: string,
-    resourceGroupName: string,
-    policyName: string,
-    parameters: Models.ProtectionPolicyResource,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ProtectionPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(vaultName: string, resourceGroupName: string, policyName: string, parameters: Models.ProtectionPolicyResource, options?: msRest.RequestOptionsBase): Promise<Models.ProtectionPoliciesCreateOrUpdateResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -117,13 +88,7 @@ export class ProtectionPolicies {
    * @param parameters resource backup policy
    * @param callback The callback
    */
-  createOrUpdate(
-    vaultName: string,
-    resourceGroupName: string,
-    policyName: string,
-    parameters: Models.ProtectionPolicyResource,
-    callback: msRest.ServiceCallback<Models.ProtectionPolicyResource>
-  ): void;
+  createOrUpdate(vaultName: string, resourceGroupName: string, policyName: string, parameters: Models.ProtectionPolicyResource, callback: msRest.ServiceCallback<Models.ProtectionPolicyResource>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -133,22 +98,8 @@ export class ProtectionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(
-    vaultName: string,
-    resourceGroupName: string,
-    policyName: string,
-    parameters: Models.ProtectionPolicyResource,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ProtectionPolicyResource>
-  ): void;
-  createOrUpdate(
-    vaultName: string,
-    resourceGroupName: string,
-    policyName: string,
-    parameters: Models.ProtectionPolicyResource,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionPolicyResource>,
-    callback?: msRest.ServiceCallback<Models.ProtectionPolicyResource>
-  ): Promise<Models.ProtectionPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(vaultName: string, resourceGroupName: string, policyName: string, parameters: Models.ProtectionPolicyResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionPolicyResource>): void;
+  createOrUpdate(vaultName: string, resourceGroupName: string, policyName: string, parameters: Models.ProtectionPolicyResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionPolicyResource>, callback?: msRest.ServiceCallback<Models.ProtectionPolicyResource>): Promise<Models.ProtectionPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -158,8 +109,7 @@ export class ProtectionPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback
-    ) as Promise<Models.ProtectionPoliciesCreateOrUpdateResponse>;
+      callback) as Promise<Models.ProtectionPoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -173,18 +123,9 @@ export class ProtectionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    vaultName: string,
-    resourceGroupName: string,
-    policyName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(
-      vaultName,
-      resourceGroupName,
-      policyName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteMethod(vaultName: string, resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(vaultName,resourceGroupName,policyName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -198,12 +139,7 @@ export class ProtectionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(
-    vaultName: string,
-    resourceGroupName: string,
-    policyName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(vaultName: string, resourceGroupName: string, policyName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         vaultName,
@@ -212,8 +148,7 @@ export class ProtectionPolicies {
         options
       },
       beginDeleteMethodOperationSpec,
-      options
-    );
+      options);
   }
 }
 
@@ -221,16 +156,19 @@ export class ProtectionPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.policyName
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ProtectionPolicyResource
@@ -244,16 +182,19 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.policyName
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -275,16 +216,19 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupPolicies/{policyName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.policyName
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     204: {},
