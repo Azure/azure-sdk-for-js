@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AzureBotServiceContext } from "./azureBotServiceContext";
 
-
 class AzureBotService extends AzureBotServiceContext {
   // Operation groups
   bots: operations.Bots;
@@ -35,7 +34,11 @@ class AzureBotService extends AzureBotServiceContext {
    * @param subscriptionId Azure Subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.AzureBotServiceOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials | TokenCredential,
+    subscriptionId: string,
+    options?: Models.AzureBotServiceOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.bots = new operations.Bots(this);
     this.channels = new operations.Channels(this);

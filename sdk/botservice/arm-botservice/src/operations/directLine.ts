@@ -36,7 +36,13 @@ export class DirectLine {
    * @param [options] The optional parameters
    * @returns Promise<Models.DirectLineRegenerateKeysResponse>
    */
-  regenerateKeys(resourceGroupName: string, resourceName: string, channelName: Models.RegenerateKeysChannelName, parameters: Models.SiteInfo, options?: msRest.RequestOptionsBase): Promise<Models.DirectLineRegenerateKeysResponse>;
+  regenerateKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    channelName: Models.RegenerateKeysChannelName,
+    parameters: Models.SiteInfo,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DirectLineRegenerateKeysResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -45,7 +51,13 @@ export class DirectLine {
    * @param parameters The parameters to provide for the created bot.
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, resourceName: string, channelName: Models.RegenerateKeysChannelName, parameters: Models.SiteInfo, callback: msRest.ServiceCallback<Models.BotChannel>): void;
+  regenerateKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    channelName: Models.RegenerateKeysChannelName,
+    parameters: Models.SiteInfo,
+    callback: msRest.ServiceCallback<Models.BotChannel>
+  ): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -55,8 +67,22 @@ export class DirectLine {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, resourceName: string, channelName: Models.RegenerateKeysChannelName, parameters: Models.SiteInfo, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BotChannel>): void;
-  regenerateKeys(resourceGroupName: string, resourceName: string, channelName: Models.RegenerateKeysChannelName, parameters: Models.SiteInfo, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BotChannel>, callback?: msRest.ServiceCallback<Models.BotChannel>): Promise<Models.DirectLineRegenerateKeysResponse> {
+  regenerateKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    channelName: Models.RegenerateKeysChannelName,
+    parameters: Models.SiteInfo,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BotChannel>
+  ): void;
+  regenerateKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    channelName: Models.RegenerateKeysChannelName,
+    parameters: Models.SiteInfo,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BotChannel>,
+    callback?: msRest.ServiceCallback<Models.BotChannel>
+  ): Promise<Models.DirectLineRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class DirectLine {
         options
       },
       regenerateKeysOperationSpec,
-      callback) as Promise<Models.DirectLineRegenerateKeysResponse>;
+      callback
+    ) as Promise<Models.DirectLineRegenerateKeysResponse>;
   }
 }
 
@@ -74,19 +101,16 @@ export class DirectLine {
 const serializer = new msRest.Serializer(Mappers);
 const regenerateKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}/regeneratekeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}/regeneratekeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
     Parameters.channelName2
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

@@ -30,7 +30,9 @@ export class BotConnection {
    * @param [options] The optional parameters
    * @returns Promise<Models.BotConnectionListServiceProvidersResponse>
    */
-  listServiceProviders(options?: msRest.RequestOptionsBase): Promise<Models.BotConnectionListServiceProvidersResponse>;
+  listServiceProviders(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BotConnectionListServiceProvidersResponse>;
   /**
    * @param callback The callback
    */
@@ -39,14 +41,23 @@ export class BotConnection {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listServiceProviders(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceProviderResponseList>): void;
-  listServiceProviders(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceProviderResponseList>, callback?: msRest.ServiceCallback<Models.ServiceProviderResponseList>): Promise<Models.BotConnectionListServiceProvidersResponse> {
+  listServiceProviders(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceProviderResponseList>
+  ): void;
+  listServiceProviders(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ServiceProviderResponseList>,
+    callback?: msRest.ServiceCallback<Models.ServiceProviderResponseList>
+  ): Promise<Models.BotConnectionListServiceProvidersResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listServiceProvidersOperationSpec,
-      callback) as Promise<Models.BotConnectionListServiceProvidersResponse>;
+      callback
+    ) as Promise<Models.BotConnectionListServiceProvidersResponse>;
   }
 
   /**
@@ -57,14 +68,24 @@ export class BotConnection {
    * @param [options] The optional parameters
    * @returns Promise<Models.BotConnectionListWithSecretsResponse>
    */
-  listWithSecrets(resourceGroupName: string, resourceName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.BotConnectionListWithSecretsResponse>;
+  listWithSecrets(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BotConnectionListWithSecretsResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
    * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param callback The callback
    */
-  listWithSecrets(resourceGroupName: string, resourceName: string, connectionName: string, callback: msRest.ServiceCallback<Models.ConnectionSetting>): void;
+  listWithSecrets(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    callback: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -72,8 +93,20 @@ export class BotConnection {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listWithSecrets(resourceGroupName: string, resourceName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionSetting>): void;
-  listWithSecrets(resourceGroupName: string, resourceName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSetting>, callback?: msRest.ServiceCallback<Models.ConnectionSetting>): Promise<Models.BotConnectionListWithSecretsResponse> {
+  listWithSecrets(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): void;
+  listWithSecrets(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSetting>,
+    callback?: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): Promise<Models.BotConnectionListWithSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +115,8 @@ export class BotConnection {
         options
       },
       listWithSecretsOperationSpec,
-      callback) as Promise<Models.BotConnectionListWithSecretsResponse>;
+      callback
+    ) as Promise<Models.BotConnectionListWithSecretsResponse>;
   }
 
   /**
@@ -94,7 +128,13 @@ export class BotConnection {
    * @param [options] The optional parameters
    * @returns Promise<Models.BotConnectionCreateResponse>
    */
-  create(resourceGroupName: string, resourceName: string, connectionName: string, parameters: Models.ConnectionSetting, options?: msRest.RequestOptionsBase): Promise<Models.BotConnectionCreateResponse>;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    parameters: Models.ConnectionSetting,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BotConnectionCreateResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -102,7 +142,13 @@ export class BotConnection {
    * @param parameters The parameters to provide for creating the Connection Setting.
    * @param callback The callback
    */
-  create(resourceGroupName: string, resourceName: string, connectionName: string, parameters: Models.ConnectionSetting, callback: msRest.ServiceCallback<Models.ConnectionSetting>): void;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    parameters: Models.ConnectionSetting,
+    callback: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -111,8 +157,22 @@ export class BotConnection {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, resourceName: string, connectionName: string, parameters: Models.ConnectionSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionSetting>): void;
-  create(resourceGroupName: string, resourceName: string, connectionName: string, parameters: Models.ConnectionSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSetting>, callback?: msRest.ServiceCallback<Models.ConnectionSetting>): Promise<Models.BotConnectionCreateResponse> {
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    parameters: Models.ConnectionSetting,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): void;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    parameters: Models.ConnectionSetting,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSetting>,
+    callback?: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): Promise<Models.BotConnectionCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +182,8 @@ export class BotConnection {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.BotConnectionCreateResponse>;
+      callback
+    ) as Promise<Models.BotConnectionCreateResponse>;
   }
 
   /**
@@ -134,7 +195,13 @@ export class BotConnection {
    * @param [options] The optional parameters
    * @returns Promise<Models.BotConnectionUpdateResponse>
    */
-  update(resourceGroupName: string, resourceName: string, connectionName: string, parameters: Models.ConnectionSetting, options?: msRest.RequestOptionsBase): Promise<Models.BotConnectionUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    parameters: Models.ConnectionSetting,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BotConnectionUpdateResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -142,7 +209,13 @@ export class BotConnection {
    * @param parameters The parameters to provide for updating the Connection Setting.
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, connectionName: string, parameters: Models.ConnectionSetting, callback: msRest.ServiceCallback<Models.ConnectionSetting>): void;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    parameters: Models.ConnectionSetting,
+    callback: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -151,8 +224,22 @@ export class BotConnection {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, connectionName: string, parameters: Models.ConnectionSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionSetting>): void;
-  update(resourceGroupName: string, resourceName: string, connectionName: string, parameters: Models.ConnectionSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSetting>, callback?: msRest.ServiceCallback<Models.ConnectionSetting>): Promise<Models.BotConnectionUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    parameters: Models.ConnectionSetting,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): void;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    parameters: Models.ConnectionSetting,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSetting>,
+    callback?: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): Promise<Models.BotConnectionUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +249,8 @@ export class BotConnection {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.BotConnectionUpdateResponse>;
+      callback
+    ) as Promise<Models.BotConnectionUpdateResponse>;
   }
 
   /**
@@ -173,14 +261,24 @@ export class BotConnection {
    * @param [options] The optional parameters
    * @returns Promise<Models.BotConnectionGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.BotConnectionGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BotConnectionGetResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
    * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, connectionName: string, callback: msRest.ServiceCallback<Models.ConnectionSetting>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    callback: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -188,8 +286,20 @@ export class BotConnection {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionSetting>): void;
-  get(resourceGroupName: string, resourceName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSetting>, callback?: msRest.ServiceCallback<Models.ConnectionSetting>): Promise<Models.BotConnectionGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSetting>,
+    callback?: msRest.ServiceCallback<Models.ConnectionSetting>
+  ): Promise<Models.BotConnectionGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -198,7 +308,8 @@ export class BotConnection {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BotConnectionGetResponse>;
+      callback
+    ) as Promise<Models.BotConnectionGetResponse>;
   }
 
   /**
@@ -209,14 +320,24 @@ export class BotConnection {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
    * @param connectionName The name of the Bot Service Connection Setting resource.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, connectionName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
@@ -224,8 +345,20 @@ export class BotConnection {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +367,8 @@ export class BotConnection {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -244,21 +378,41 @@ export class BotConnection {
    * @param [options] The optional parameters
    * @returns Promise<Models.BotConnectionListByBotServiceResponse>
    */
-  listByBotService(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.BotConnectionListByBotServiceResponse>;
+  listByBotService(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BotConnectionListByBotServiceResponse>;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
    * @param callback The callback
    */
-  listByBotService(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ConnectionSettingResponseList>): void;
+  listByBotService(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ConnectionSettingResponseList>
+  ): void;
   /**
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param resourceName The name of the Bot resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBotService(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionSettingResponseList>): void;
-  listByBotService(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSettingResponseList>, callback?: msRest.ServiceCallback<Models.ConnectionSettingResponseList>): Promise<Models.BotConnectionListByBotServiceResponse> {
+  listByBotService(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectionSettingResponseList>
+  ): void;
+  listByBotService(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ConnectionSettingResponseList>,
+    callback?: msRest.ServiceCallback<Models.ConnectionSettingResponseList>
+  ): Promise<Models.BotConnectionListByBotServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -266,7 +420,8 @@ export class BotConnection {
         options
       },
       listByBotServiceOperationSpec,
-      callback) as Promise<Models.BotConnectionListByBotServiceResponse>;
+      callback
+    ) as Promise<Models.BotConnectionListByBotServiceResponse>;
   }
 
   /**
@@ -275,26 +430,43 @@ export class BotConnection {
    * @param [options] The optional parameters
    * @returns Promise<Models.BotConnectionListByBotServiceNextResponse>
    */
-  listByBotServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BotConnectionListByBotServiceNextResponse>;
+  listByBotServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BotConnectionListByBotServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByBotServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ConnectionSettingResponseList>): void;
+  listByBotServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ConnectionSettingResponseList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBotServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionSettingResponseList>): void;
-  listByBotServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionSettingResponseList>, callback?: msRest.ServiceCallback<Models.ConnectionSettingResponseList>): Promise<Models.BotConnectionListByBotServiceNextResponse> {
+  listByBotServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectionSettingResponseList>
+  ): void;
+  listByBotServiceNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ConnectionSettingResponseList>,
+    callback?: msRest.ServiceCallback<Models.ConnectionSettingResponseList>
+  ): Promise<Models.BotConnectionListByBotServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByBotServiceNextOperationSpec,
-      callback) as Promise<Models.BotConnectionListByBotServiceNextResponse>;
+      callback
+    ) as Promise<Models.BotConnectionListByBotServiceNextResponse>;
   }
 }
 
@@ -303,15 +475,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listServiceProvidersOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.BotService/listAuthServiceProviders",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceProviderResponseList
@@ -325,19 +491,16 @@ const listServiceProvidersOperationSpec: msRest.OperationSpec = {
 
 const listWithSecretsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}/listWithSecrets",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}/listWithSecrets",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.connectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectionSetting
@@ -351,19 +514,16 @@ const listWithSecretsOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.connectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -387,19 +547,16 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.connectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -423,19 +580,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.connectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectionSetting
@@ -449,19 +603,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.connectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -474,18 +625,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByBotServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections",
+  urlParameters: [Parameters.resourceGroupName, Parameters.resourceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectionSettingResponseList
@@ -501,15 +645,9 @@ const listByBotServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectionSettingResponseList
