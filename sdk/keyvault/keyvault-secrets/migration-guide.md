@@ -188,10 +188,10 @@ await client.purgeDeletedSecret(deletedSecret.name);
 
 ## Additional samples
 
-* [Key Vault Secrets samples for JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/javascript)
-* [General Key Vault samples for JavaScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=javascript)
-* [Key Vault Secrets samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/typescript)
-* [General Key Vault samples for TypeScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=typescript)
+- [Key Vault Secrets samples for JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/v4/javascript)
+- [General Key Vault samples for JavaScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=javascript)
+- [Key Vault Secrets samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/v4/typescript)
+- [General Key Vault samples for TypeScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=typescript)
 
 [kvk-npm]: https://www.npmjs.com/package/@azure/keyvault-keys
 [kvs-npm]: https://www.npmjs.com/package/@azure/keyvault-secrets

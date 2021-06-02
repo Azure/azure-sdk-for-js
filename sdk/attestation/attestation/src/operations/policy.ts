@@ -8,11 +8,9 @@
 
 import * as coreHttp from "@azure/core-client";
 import { AttestationClient } from "../attestationClient";
+import { PolicyGetResponse, PolicyResetResponse, PolicySetModelResponse } from "../generated/models";
 import {
-  AttestationType,
-  PolicyGetResponse,
-  PolicySetModelResponse,
-  PolicyResetResponse
+  AttestationType
 } from "../models";
 
 /**
@@ -39,7 +37,7 @@ export class Policy {
     attestationType: AttestationType,
     options?: coreHttp.OperationOptions
   ): Promise<PolicyGetResponse> {
-    return this.client.BaseClient().policy.get(attestationType, options);
+    return this.client.getGeneratedClient().policy.get(attestationType, options);
   }
 
   /**
@@ -55,7 +53,7 @@ export class Policy {
     newAttestationPolicy: string,
     options?: coreHttp.OperationOptions
   ): Promise<PolicySetModelResponse> {
-    return this.client.BaseClient().policy.set(attestationType, newAttestationPolicy, options);
+    return this.client.getGeneratedClient().policy.set(attestationType, newAttestationPolicy, options);
   }
 
   /**
@@ -70,6 +68,6 @@ export class Policy {
     policyJws: string,
     options?: coreHttp.OperationOptions
   ): Promise<PolicyResetResponse> {
-    return this.client.BaseClient().policy.reset(attestationType, policyJws, options);
+    return this.client.getGeneratedClient().policy.reset(attestationType, policyJws, options);
   }
 }

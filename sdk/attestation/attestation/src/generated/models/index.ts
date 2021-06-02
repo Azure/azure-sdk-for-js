@@ -11,7 +11,7 @@ import * as coreClient from "@azure/core-client";
 /** The response to an attestation policy operation */
 export interface PolicyResponse {
   /** An RFC7519 JSON Web Token structure whose body is an PolicyResult object. */
-  token?: string;
+  token: string;
 }
 
 /** An error response from Attestation. */
@@ -71,7 +71,7 @@ export interface InitTimeData {
 /** The result of an attestation operation */
 export interface AttestationResponse {
   /** An RFC 7519 JSON Web Token, the body of which is an AttestationResult object. */
-  token?: string;
+  token: string;
 }
 
 /** Attestation request for Intel SGX enclaves */
@@ -372,8 +372,7 @@ export interface PolicyGetOptionalParams extends coreClient.OperationOptions {}
 export type PolicyGetResponse = PolicyResponse;
 
 /** Optional parameters. */
-export interface PolicySetModelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PolicySetModelOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the set operation. */
 export type PolicySetModelResponse = PolicyResponse;

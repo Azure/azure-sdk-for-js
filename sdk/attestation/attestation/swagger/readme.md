@@ -33,15 +33,25 @@ override-client-name: GeneratedClient
 title: AzureAttestationRestClient
 v3: true
 no-namespace-folders: true
+```
 
-use-extension:
-#  "@autorest/typescript": "latest"
-  "@autorest/typescript": "6.0.0-dev.20201204.2"
+## Customizations for Track 2 Generator
 
-#directive:
-#  from: swagger-document
-#  where: "$.definitions.PolicyCertificatesModificationResult"
-#  transform: >
-#    $["x-ms-client-name"] = "GeneratedPolicyCertificatesModificationResult"
+See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
+for more about how we're customizing things.
 
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PolicyResponse
+  transform: >
+    $.required = [ "token" ];
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.AttestationResponse
+  transform: >
+    $.required = [ "token" ];
 ```

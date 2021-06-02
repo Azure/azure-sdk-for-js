@@ -20,6 +20,7 @@ export const PolicyResponse: coreClient.CompositeMapper = {
           )
         },
         serializedName: "token",
+        required: true,
         type: {
           name: "String"
         }
@@ -194,6 +195,7 @@ export const AttestationResponse: coreClient.CompositeMapper = {
           )
         },
         serializedName: "token",
+        required: true,
         type: {
           name: "String"
         }

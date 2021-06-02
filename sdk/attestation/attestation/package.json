@@ -10,7 +10,8 @@
     "@azure/core-rest-pipeline": "^1.0.3",
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "jsrsasign": "^8.0.12"
   },
   "keywords": [
     "node",
@@ -43,7 +44,6 @@
     "chai-as-promised": "^7.1.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
-    "jsrsasign": "^8.0.12",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -96,7 +96,7 @@
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json test --ext .ts",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test": "npm run clean && npm run build:test && npm run unit-test",
