@@ -12,15 +12,15 @@
    "responseHeaders": {
     "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 27 May 2021 22:43:09 GMT",
-    "ms-cv": "7ygmY8bn0Eq4E1u7A3CrpQ.0",
+    "date": "Tue, 01 Jun 2021 22:01:07 GMT",
+    "ms-cv": "bfiqyuxYQkas537clvEYTA.0",
     "request-context": "appId=",
     "status": "201",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0fSCwYAAAAABVuGn5O9FUT6Hf7a/PgAVCV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+    "x-azure-ref": "0I662YAAAAAB4dEjHz/sPQZzVV3HSBGoqWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "sanitized",
-    "x-processing-time": "83ms"
+    "x-processing-time": "25ms"
    }
   },
   {
@@ -31,19 +31,19 @@
    },
    "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
    "status": 200,
-   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-05-28T22:43:09.0985168+00:00\"}",
+   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-06-02T22:01:06.6993024+00:00\"}",
    "responseHeaders": {
     "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 27 May 2021 22:43:09 GMT",
-    "ms-cv": "L7onknBARkCRxSPpqBqSdw.0",
+    "date": "Tue, 01 Jun 2021 22:01:07 GMT",
+    "ms-cv": "2C6n3tC3+0iA/vaGu/oPZw.0",
     "request-context": "appId=",
     "status": "200",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0fSCwYAAAAABPvle19DbXSZmkkQskFkNQV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+    "x-azure-ref": "0I662YAAAAABuihwD1LP+RqvjmHrYA/eaWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
     "x-cache": "CONFIG_NOCACHE",
     "x-ms-client-request-id": "sanitized",
-    "x-processing-time": "149ms"
+    "x-processing-time": "29ms"
    }
   }
  ],
