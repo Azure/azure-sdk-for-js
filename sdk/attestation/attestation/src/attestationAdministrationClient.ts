@@ -131,7 +131,7 @@ export class AttestationAdministrationClient {
 
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
-      let policyResult = PolicyResult.create(token.getBody());
+      const policyResult = PolicyResult.create(token.getBody());
 
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an 
@@ -140,8 +140,8 @@ export class AttestationAdministrationClient {
         throw Error("Server returned an invalid getPolicy response!");
       }
 
-      let policyToken = new AttestationToken(policyResult.policy);
-      let storedPolicy = StoredAttestationPolicy.deserialize(policyToken.getBody())
+      const policyToken = new AttestationToken(policyResult.policy);
+      const storedPolicy = StoredAttestationPolicy.deserialize(policyToken.getBody())
 
       // Finally, retrieve the stored attestationPolicy value and return that 
       // as the AttestationResponse to the caller.
@@ -170,11 +170,11 @@ export class AttestationAdministrationClient {
   
       // The attestation token returned from the service has a PolicyResult 
       // object as the body. 
-      let token = new AttestationToken(setPolicyResult.token);
+      const token = new AttestationToken(setPolicyResult.token);
 
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
-      let policyResult = PolicyResult.create(token.getBody());
+      const policyResult = PolicyResult.create(token.getBody());
 
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an 
@@ -198,11 +198,11 @@ export class AttestationAdministrationClient {
   
       // The attestation token returned from the service has a PolicyResult 
       // object as the body. 
-      let token = new AttestationToken(resetPolicyResult.token);
+      const token = new AttestationToken(resetPolicyResult.token);
 
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
-      let policyResult = PolicyResult.create(token.getBody());
+      const  policyResult = PolicyResult.create(token.getBody());
 
       // The policyResult.policy value will be a JSON Web Signature representing
       // the actual policy object being retrieved. Serialize the token to an 

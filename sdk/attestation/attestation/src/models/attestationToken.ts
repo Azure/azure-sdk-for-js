@@ -56,7 +56,7 @@ export class AttestationToken
     constructor(token: string ) {
       this._token = token;
 
-      let pieces = token.split('.');
+      const pieces = token.split('.');
       if (pieces.length != 3) {
           throw Error("Incorrectly formatted token:");
       }
@@ -102,7 +102,7 @@ export class AttestationToken
       return this._token;
     }
 
-    public validate_token(possibleSigners ?: AttestationSigner[], options: TokenValidationOptions = {validateExpirationTime: true, validateToken: true, validateNotBeforeTime: true}) : boolean
+    public validateToken(possibleSigners ?: AttestationSigner[], options: TokenValidationOptions = {validateExpirationTime: true, validateToken: true, validateNotBeforeTime: true}) : boolean
     {
       if (!options.validateToken) {
         return true;
@@ -151,7 +151,7 @@ export class AttestationToken
     }
 
     private getCandidateSigners(possibleSigningCertificates ?: AttestationSigner[]) : AttestationSigner[] {
-      let candidateSigners = new Array<AttestationSigner>();
+      const candidateSigners = new Array<AttestationSigner>();
 
       const desiredKeyId = this.keyId;
 
@@ -165,8 +165,8 @@ export class AttestationToken
         // If we didn't find any candidate signers looking through the provided
         // signing certificates, then maybe there's a certificate chain in the
         // token itself that might be used to sign the token.
-        if (candidateSigners.length == 0) {
-          if (this.certificateChain != undefined && this.certificateChain != null) {
+        if (candidateSigners.length === 0) {
+          if (this.certificateChain !== undefined && this.certificateChain !== null) {
             candidateSigners.push(this.certificateChain);
           }
         }
@@ -337,14 +337,14 @@ export class AttestationToken
      * @returns an {@link AttestationToken | attestation token}
      */
     public static create(params: { body?: string, signer ?: AttestationSigningKey }) : AttestationToken {
-        let header: {
+        const header: {
             alg : string,
             [k:string]: any} = {alg:'none'};
 
         if (params.signer) {
-            let x5c = new X509();
+            const x5c = new X509();
             x5c.readCertPEM(params.signer?.certificate);
-            let pubKey = x5c.getPublicKey();
+            const pubKey = x5c.getPublicKey();
             if (pubKey instanceof RSAKey) {
                 header.alg = "RS256"; 
             }
@@ -361,7 +361,7 @@ export class AttestationToken
             header.alg = "none";
         }
 
-        let encodedToken = KJUR.jws.JWS.sign(header.alg, header, params.body??"", params.signer?.key);
+        const encodedToken = KJUR.jws.JWS.sign(header.alg, header, params.body??"", params.signer?.key);
         return new AttestationToken(encodedToken);
     }
 };

@@ -197,9 +197,9 @@ export class AttestationClient {
         draftPolicyForAttestation: (options.draftPolicyForAttestation ?? undefined),
       }, updatedOptions);
 
-      let token = new AttestationToken(attestationResponse.token);
+      const token = new AttestationToken(attestationResponse.token);
 
-      let attestationResult = TypeDeserializer.deserialize(
+      const attestationResult = TypeDeserializer.deserialize(
         token.getBody(),
         {
           AttestationResult: Mappers.AttestationResult,
@@ -207,8 +207,7 @@ export class AttestationClient {
         },
         "AttestationResult") as AttestationResult;
 
-      let result = new AttestationResponse<AttestationResult>(token, attestationResult, attestationResult);
-      return result;
+      return new AttestationResponse<AttestationResult>(token, attestationResult, attestationResult);
 
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
@@ -241,8 +240,8 @@ export class AttestationClient {
         draftPolicyForAttestation: (options.draftPolicyForAttestation ?? undefined),
       }, updatedOptions);
 
-      let token = new AttestationToken(attestationResponse.token);
-      let attestationResult = TypeDeserializer.deserialize(
+      const token = new AttestationToken(attestationResponse.token);
+      const attestationResult = TypeDeserializer.deserialize(
         token.getBody(),
         {
           AttestationResult: Mappers.AttestationResult,
@@ -250,8 +249,7 @@ export class AttestationClient {
         },
         "AttestationResult") as AttestationResult;
 
-      let result = new AttestationResponse<AttestationResult>(token, attestationResult, attestationResponse);
-      return result;
+      return new AttestationResponse<AttestationResult>(token, attestationResult, attestationResponse);
 
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message});
@@ -295,8 +293,8 @@ export class AttestationClient {
   {
     const { span, updatedOptions} = createSpan("AttestationClient-getAttestationSigners", options);
     try {
-      let signingCertificates = await this._client.signingCertificates.get(updatedOptions);
-      let signers:AttestationSigner[] = new Array();
+      const signingCertificates = await this._client.signingCertificates.get(updatedOptions);
+      const signers:AttestationSigner[] = new Array();
       signingCertificates.keys?.forEach(element => {
         signers.push(new AttestationSigner(element));
       });

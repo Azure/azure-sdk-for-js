@@ -76,7 +76,7 @@
     if (value.length % 2 != 0) {
       throw new Error("base64FromHex: Input must be a multiple of 2 characters");
     }
-    let byteArray = new Array();
+    const byteArray = new Array();
     for (var i = 0 ; i < value.length ; i += 2) {
       byteArray.push(parseInt(value.substr(i, 2), 16));
     }

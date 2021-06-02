@@ -37,20 +37,20 @@ export class AttestationSigningKey
         //
         // Sign a buffer with the key, then verify the signature with the
         // certificate.
-        let x509 = new X509();
+        const x509 = new X509();
         x509.readCertPEM(certificate);
 
-        let alg = x509.getSignatureAlgorithmName()
+        const alg = x509.getSignatureAlgorithmName()
 
-        let signer = new KJUR.crypto.Signature({"alg": alg});
+        const signer = new KJUR.crypto.Signature({"alg": alg});
 
-        let bufferToSign = "1234";
+        const bufferToSign = "1234";
 
         signer.init(key);
         signer.updateString(bufferToSign);
-        let sigVal = signer.sign();
+        const sigVal = signer.sign();
 
-        let verifier = new KJUR.crypto.Signature({"alg": alg});
+        const verifier = new KJUR.crypto.Signature({"alg": alg});
         verifier.init(x509.getPublicKey());
         verifier.updateString(bufferToSign);
         if (!verifier.verify(sigVal))

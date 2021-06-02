@@ -130,7 +130,7 @@ describe("AttestationTokenTests", function() {
 
 
     // The token of course should validate.
-    assert.isTrue(token.validate_token());
+    assert.isTrue(token.validateToken());
 
   });
 

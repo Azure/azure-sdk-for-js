@@ -164,7 +164,7 @@ export class AttestationToken {
     serialize(): string;
     get type(): string | undefined;
     // (undocumented)
-    validate_token(possibleSigners?: AttestationSigner[], options?: TokenValidationOptions): boolean;
+    validateToken(possibleSigners?: AttestationSigner[], options?: TokenValidationOptions): boolean;
     get x509Url(): string | undefined;
 }
 
