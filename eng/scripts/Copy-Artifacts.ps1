@@ -2,7 +2,7 @@ param (
   [Parameter(mandatory = $true)]
   $serviceDirectory,
   [Parameter(mandatory = $true)]
-  $artifacts,
+  [Object[]] $artifacts,
   [Parameter(mandatory = $true)]
   $targetPath
 )
