@@ -33,21 +33,39 @@ export class PrivateLinkScopeOperationStatus {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkScopeOperationStatusGetResponse>
    */
-  get(asyncOperationId: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkScopeOperationStatusGetResponse>;
+  get(
+    asyncOperationId: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkScopeOperationStatusGetResponse>;
   /**
    * @param asyncOperationId The operation Id.
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  get(asyncOperationId: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  get(
+    asyncOperationId: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param asyncOperationId The operation Id.
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(asyncOperationId: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  get(asyncOperationId: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.PrivateLinkScopeOperationStatusGetResponse> {
+  get(
+    asyncOperationId: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  get(
+    asyncOperationId: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.PrivateLinkScopeOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       {
         asyncOperationId,
@@ -55,7 +73,8 @@ export class PrivateLinkScopeOperationStatus {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateLinkScopeOperationStatusGetResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkScopeOperationStatusGetResponse>;
   }
 }
 
@@ -63,18 +82,15 @@ export class PrivateLinkScopeOperationStatus {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopeOperationStatuses/{asyncOperationId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopeOperationStatuses/{asyncOperationId}",
   urlParameters: [
     Parameters.asyncOperationId,
     Parameters.resourceGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion11
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion11],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus

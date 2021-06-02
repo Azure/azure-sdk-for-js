@@ -31,7 +31,10 @@ export class LogProfiles {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(logProfileName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    logProfileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param logProfileName The name of the log profile.
    * @param callback The callback
@@ -42,15 +45,24 @@ export class LogProfiles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(logProfileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(logProfileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    logProfileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    logProfileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         logProfileName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -59,7 +71,10 @@ export class LogProfiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.LogProfilesGetResponse>
    */
-  get(logProfileName: string, options?: msRest.RequestOptionsBase): Promise<Models.LogProfilesGetResponse>;
+  get(
+    logProfileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LogProfilesGetResponse>;
   /**
    * @param logProfileName The name of the log profile.
    * @param callback The callback
@@ -70,15 +85,24 @@ export class LogProfiles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(logProfileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogProfileResource>): void;
-  get(logProfileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileResource>, callback?: msRest.ServiceCallback<Models.LogProfileResource>): Promise<Models.LogProfilesGetResponse> {
+  get(
+    logProfileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LogProfileResource>
+  ): void;
+  get(
+    logProfileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileResource>,
+    callback?: msRest.ServiceCallback<Models.LogProfileResource>
+  ): Promise<Models.LogProfilesGetResponse> {
     return this.client.sendOperationRequest(
       {
         logProfileName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LogProfilesGetResponse>;
+      callback
+    ) as Promise<Models.LogProfilesGetResponse>;
   }
 
   /**
@@ -88,21 +112,39 @@ export class LogProfiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.LogProfilesCreateOrUpdateResponse>
    */
-  createOrUpdate(logProfileName: string, parameters: Models.LogProfileResource, options?: msRest.RequestOptionsBase): Promise<Models.LogProfilesCreateOrUpdateResponse>;
+  createOrUpdate(
+    logProfileName: string,
+    parameters: Models.LogProfileResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LogProfilesCreateOrUpdateResponse>;
   /**
    * @param logProfileName The name of the log profile.
    * @param parameters Parameters supplied to the operation.
    * @param callback The callback
    */
-  createOrUpdate(logProfileName: string, parameters: Models.LogProfileResource, callback: msRest.ServiceCallback<Models.LogProfileResource>): void;
+  createOrUpdate(
+    logProfileName: string,
+    parameters: Models.LogProfileResource,
+    callback: msRest.ServiceCallback<Models.LogProfileResource>
+  ): void;
   /**
    * @param logProfileName The name of the log profile.
    * @param parameters Parameters supplied to the operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(logProfileName: string, parameters: Models.LogProfileResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogProfileResource>): void;
-  createOrUpdate(logProfileName: string, parameters: Models.LogProfileResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileResource>, callback?: msRest.ServiceCallback<Models.LogProfileResource>): Promise<Models.LogProfilesCreateOrUpdateResponse> {
+  createOrUpdate(
+    logProfileName: string,
+    parameters: Models.LogProfileResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LogProfileResource>
+  ): void;
+  createOrUpdate(
+    logProfileName: string,
+    parameters: Models.LogProfileResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileResource>,
+    callback?: msRest.ServiceCallback<Models.LogProfileResource>
+  ): Promise<Models.LogProfilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         logProfileName,
@@ -110,7 +152,8 @@ export class LogProfiles {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.LogProfilesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.LogProfilesCreateOrUpdateResponse>;
   }
 
   /**
@@ -120,21 +163,39 @@ export class LogProfiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.LogProfilesUpdateResponse>
    */
-  update(logProfileName: string, logProfilesResource: Models.LogProfileResourcePatch, options?: msRest.RequestOptionsBase): Promise<Models.LogProfilesUpdateResponse>;
+  update(
+    logProfileName: string,
+    logProfilesResource: Models.LogProfileResourcePatch,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LogProfilesUpdateResponse>;
   /**
    * @param logProfileName The name of the log profile.
    * @param logProfilesResource Parameters supplied to the operation.
    * @param callback The callback
    */
-  update(logProfileName: string, logProfilesResource: Models.LogProfileResourcePatch, callback: msRest.ServiceCallback<Models.LogProfileResource>): void;
+  update(
+    logProfileName: string,
+    logProfilesResource: Models.LogProfileResourcePatch,
+    callback: msRest.ServiceCallback<Models.LogProfileResource>
+  ): void;
   /**
    * @param logProfileName The name of the log profile.
    * @param logProfilesResource Parameters supplied to the operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(logProfileName: string, logProfilesResource: Models.LogProfileResourcePatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogProfileResource>): void;
-  update(logProfileName: string, logProfilesResource: Models.LogProfileResourcePatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileResource>, callback?: msRest.ServiceCallback<Models.LogProfileResource>): Promise<Models.LogProfilesUpdateResponse> {
+  update(
+    logProfileName: string,
+    logProfilesResource: Models.LogProfileResourcePatch,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LogProfileResource>
+  ): void;
+  update(
+    logProfileName: string,
+    logProfilesResource: Models.LogProfileResourcePatch,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileResource>,
+    callback?: msRest.ServiceCallback<Models.LogProfileResource>
+  ): Promise<Models.LogProfilesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         logProfileName,
@@ -142,7 +203,8 @@ export class LogProfiles {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.LogProfilesUpdateResponse>;
+      callback
+    ) as Promise<Models.LogProfilesUpdateResponse>;
   }
 
   /**
@@ -159,14 +221,21 @@ export class LogProfiles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogProfileCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileCollection>, callback?: msRest.ServiceCallback<Models.LogProfileCollection>): Promise<Models.LogProfilesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LogProfileCollection>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogProfileCollection>,
+    callback?: msRest.ServiceCallback<Models.LogProfileCollection>
+  ): Promise<Models.LogProfilesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.LogProfilesListResponse>;
+      callback
+    ) as Promise<Models.LogProfilesListResponse>;
   }
 }
 
@@ -175,16 +244,9 @@ const serializer = new msRest.Serializer(Mappers);
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/providers/microsoft.insights/logprofiles/{logProfileName}",
-  urlParameters: [
-    Parameters.logProfileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.logProfileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -197,16 +259,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/microsoft.insights/logprofiles/{logProfileName}",
-  urlParameters: [
-    Parameters.logProfileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.logProfileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LogProfileResource
@@ -221,16 +276,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/microsoft.insights/logprofiles/{logProfileName}",
-  urlParameters: [
-    Parameters.logProfileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.logProfileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -252,16 +300,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/providers/microsoft.insights/logprofiles/{logProfileName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.logProfileName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.logProfileName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "logProfilesResource",
     mapper: {
@@ -283,15 +324,9 @@ const updateOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/microsoft.insights/logprofiles",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LogProfileCollection

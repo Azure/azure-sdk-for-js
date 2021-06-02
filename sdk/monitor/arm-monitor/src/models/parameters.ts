@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -40,10 +40,7 @@ export const activityLogAlertName: msRest.OperationURLParameter = {
   }
 };
 export const aggregation: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "aggregation"
-  ],
+  parameterPath: ["options", "aggregation"],
   mapper: {
     serializedName: "aggregation",
     type: {
@@ -57,7 +54,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2015-04-01',
+    defaultValue: "2015-04-01",
     constraints: {
       MinLength: 1
     },
@@ -72,7 +69,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2016-03-01',
+    defaultValue: "2016-03-01",
     constraints: {
       MinLength: 1
     },
@@ -87,7 +84,7 @@ export const apiVersion10: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-11-27-preview',
+    defaultValue: "2018-11-27-preview",
     constraints: {
       MinLength: 1
     },
@@ -102,7 +99,7 @@ export const apiVersion11: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-10-17-preview',
+    defaultValue: "2019-10-17-preview",
     constraints: {
       MinLength: 1
     },
@@ -117,7 +114,7 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2017-05-01-preview',
+    defaultValue: "2017-05-01-preview",
     constraints: {
       MinLength: 1
     },
@@ -132,7 +129,7 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-06-01',
+    defaultValue: "2019-06-01",
     constraints: {
       MinLength: 1
     },
@@ -147,7 +144,7 @@ export const apiVersion4: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2017-04-01',
+    defaultValue: "2017-04-01",
     constraints: {
       MinLength: 1
     },
@@ -162,7 +159,7 @@ export const apiVersion5: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-01-01',
+    defaultValue: "2018-01-01",
     constraints: {
       MinLength: 1
     },
@@ -177,7 +174,7 @@ export const apiVersion6: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-03-01',
+    defaultValue: "2019-03-01",
     constraints: {
       MinLength: 1
     },
@@ -192,7 +189,7 @@ export const apiVersion7: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-03-01',
+    defaultValue: "2018-03-01",
     constraints: {
       MinLength: 1
     },
@@ -207,7 +204,7 @@ export const apiVersion8: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-04-16',
+    defaultValue: "2018-04-16",
     constraints: {
       MinLength: 1
     },
@@ -222,7 +219,7 @@ export const apiVersion9: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2017-12-01-preview',
+    defaultValue: "2017-12-01-preview",
     constraints: {
       MinLength: 1
     },
@@ -262,10 +259,7 @@ export const filter0: msRest.OperationQueryParameter = {
   }
 };
 export const filter1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -294,10 +288,7 @@ export const incidentName: msRest.OperationURLParameter = {
   }
 };
 export const interval: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "interval"
-  ],
+  parameterPath: ["options", "interval"],
   mapper: {
     serializedName: "interval",
     type: {
@@ -316,10 +307,7 @@ export const logProfileName: msRest.OperationURLParameter = {
   }
 };
 export const metricnames: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "metricnames"
-  ],
+  parameterPath: ["options", "metricnames"],
   mapper: {
     serializedName: "metricnames",
     type: {
@@ -328,10 +316,7 @@ export const metricnames: msRest.OperationQueryParameter = {
   }
 };
 export const metricnamespace: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "metricnamespace"
-  ],
+  parameterPath: ["options", "metricnamespace"],
   mapper: {
     serializedName: "metricnamespace",
     type: {
@@ -361,10 +346,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const orderby: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "orderby"
-  ],
+  parameterPath: ["options", "orderby"],
   mapper: {
     serializedName: "orderby",
     type: {
@@ -404,18 +386,12 @@ export const resourceUri: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const resultType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "resultType"
-  ],
+  parameterPath: ["options", "resultType"],
   mapper: {
     serializedName: "resultType",
     type: {
       name: "Enum",
-      allowedValues: [
-        "Data",
-        "Metadata"
-      ]
+      allowedValues: ["Data", "Metadata"]
     }
   }
 };
@@ -440,10 +416,7 @@ export const scopeName: msRest.OperationURLParameter = {
   }
 };
 export const select: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "select"
-  ],
+  parameterPath: ["options", "select"],
   mapper: {
     serializedName: "$select",
     type: {
@@ -452,10 +425,7 @@ export const select: msRest.OperationQueryParameter = {
   }
 };
 export const sensitivities: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "sensitivities"
-  ],
+  parameterPath: ["options", "sensitivities"],
   mapper: {
     serializedName: "sensitivities",
     type: {
@@ -464,10 +434,7 @@ export const sensitivities: msRest.OperationQueryParameter = {
   }
 };
 export const startTime: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "startTime"
-  ],
+  parameterPath: ["options", "startTime"],
   mapper: {
     serializedName: "startTime",
     type: {
@@ -499,10 +466,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const timespan: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timespan"
-  ],
+  parameterPath: ["options", "timespan"],
   mapper: {
     serializedName: "timespan",
     type: {
@@ -511,10 +475,7 @@ export const timespan: msRest.OperationQueryParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "top",
     type: {

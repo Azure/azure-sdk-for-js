@@ -41,14 +41,21 @@ export class EventCategories {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventCategoryCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventCategoryCollection>, callback?: msRest.ServiceCallback<Models.EventCategoryCollection>): Promise<Models.EventCategoriesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventCategoryCollection>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventCategoryCollection>,
+    callback?: msRest.ServiceCallback<Models.EventCategoryCollection>
+  ): Promise<Models.EventCategoriesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.EventCategoriesListResponse>;
+      callback
+    ) as Promise<Models.EventCategoriesListResponse>;
   }
 }
 
@@ -57,12 +64,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/microsoft.insights/eventcategories",
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventCategoryCollection

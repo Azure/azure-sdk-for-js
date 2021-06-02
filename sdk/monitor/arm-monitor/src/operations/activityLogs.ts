@@ -44,7 +44,10 @@ export class ActivityLogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.ActivityLogsListResponse>
    */
-  list(filter: string, options?: Models.ActivityLogsListOptionalParams): Promise<Models.ActivityLogsListResponse>;
+  list(
+    filter: string,
+    options?: Models.ActivityLogsListOptionalParams
+  ): Promise<Models.ActivityLogsListResponse>;
   /**
    * @param filter Reduces the set of data collected.<br>This argument is required and it also
    * requires at least the start date/time.<br>The **$filter** argument is very restricted and allows
@@ -81,15 +84,26 @@ export class ActivityLogs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(filter: string, options: Models.ActivityLogsListOptionalParams, callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
-  list(filter: string, options?: Models.ActivityLogsListOptionalParams | msRest.ServiceCallback<Models.EventDataCollection>, callback?: msRest.ServiceCallback<Models.EventDataCollection>): Promise<Models.ActivityLogsListResponse> {
+  list(
+    filter: string,
+    options: Models.ActivityLogsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.EventDataCollection>
+  ): void;
+  list(
+    filter: string,
+    options?:
+      | Models.ActivityLogsListOptionalParams
+      | msRest.ServiceCallback<Models.EventDataCollection>,
+    callback?: msRest.ServiceCallback<Models.EventDataCollection>
+  ): Promise<Models.ActivityLogsListResponse> {
     return this.client.sendOperationRequest(
       {
         filter,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ActivityLogsListResponse>;
+      callback
+    ) as Promise<Models.ActivityLogsListResponse>;
   }
 
   /**
@@ -112,7 +126,11 @@ export class ActivityLogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.ActivityLogsListNextResponse>
    */
-  listNext(nextPageLink: string, filter: string, options?: Models.ActivityLogsListNextOptionalParams): Promise<Models.ActivityLogsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    filter: string,
+    options?: Models.ActivityLogsListNextOptionalParams
+  ): Promise<Models.ActivityLogsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param filter Reduces the set of data collected.<br>This argument is required and it also
@@ -131,7 +149,11 @@ export class ActivityLogs {
    * 'correlationID'.<br><br>**NOTE**: No other syntax is allowed.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, filter: string, callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
+  listNext(
+    nextPageLink: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.EventDataCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param filter Reduces the set of data collected.<br>This argument is required and it also
@@ -151,8 +173,20 @@ export class ActivityLogs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, filter: string, options: Models.ActivityLogsListNextOptionalParams, callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
-  listNext(nextPageLink: string, filter: string, options?: Models.ActivityLogsListNextOptionalParams | msRest.ServiceCallback<Models.EventDataCollection>, callback?: msRest.ServiceCallback<Models.EventDataCollection>): Promise<Models.ActivityLogsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    filter: string,
+    options: Models.ActivityLogsListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.EventDataCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    filter: string,
+    options?:
+      | Models.ActivityLogsListNextOptionalParams
+      | msRest.ServiceCallback<Models.EventDataCollection>,
+    callback?: msRest.ServiceCallback<Models.EventDataCollection>
+  ): Promise<Models.ActivityLogsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -160,7 +194,8 @@ export class ActivityLogs {
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ActivityLogsListNextResponse>;
+      callback
+    ) as Promise<Models.ActivityLogsListNextResponse>;
   }
 }
 
@@ -169,17 +204,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/microsoft.insights/eventtypes/management/values",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0,
-    Parameters.select
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0, Parameters.select],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventDataCollection
@@ -195,17 +222,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0,
-    Parameters.select
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0, Parameters.select],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventDataCollection
