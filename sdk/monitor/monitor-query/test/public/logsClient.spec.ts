@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { env } from "process";
 
-import { QueryLogsBatch, Durations, LogsClient } from "../../src";
+import { QueryLogsBatch, Durations, LogsQueryClient } from "../../src";
 import { runWithTelemetry } from "../setupOpenTelemetry";
 
 import {
@@ -17,9 +17,9 @@ import {
 import { ErrorInfo } from "../../src/generated/logquery/src";
 import { RestError } from "@azure/core-http";
 
-describe("LogsClient live tests", function() {
+describe("LogsQueryClient live tests", function() {
   let monitorWorkspaceId: string;
-  let client: LogsClient;
+  let client: LogsQueryClient;
   let testRunId: string;
 
   beforeEach(function(this: Context) {
@@ -31,7 +31,7 @@ describe("LogsClient live tests", function() {
       loggerForTest.verbose(`Disabling http retries for test '${this.currentTest?.title}'`);
     }
 
-    client = new LogsClient(createTestClientSecretCredential(), {
+    client = new LogsQueryClient(createTestClientSecretCredential(), {
       retryOptions: {
         maxRetries: disableHttpRetries ? 0 : undefined
       }
@@ -48,6 +48,7 @@ describe("LogsClient live tests", function() {
       await client.queryLogs(monitorWorkspaceId, kustoQuery, Durations.lastDay);
       assert.fail("Should have thrown an exception");
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
       const { request: _request, response: _response, ...stringizableError } = err;
       const innermostError = getInnermostErrorDetails(err);
 
@@ -97,6 +98,7 @@ describe("LogsClient live tests", function() {
 
       assert.fail("Should have thrown a RestError for a GatewayTimeout");
     } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
       const { request: _request, response: _response, ...stringizableError } = err;
       const innermostError = getInnermostErrorDetails(err);
 

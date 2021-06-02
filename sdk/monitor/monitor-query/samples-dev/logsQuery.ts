@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, LogsClient, Table } from "@azure/monitor-query";
+import { Durations, LogsQueryClient, Table } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -14,7 +14,7 @@ const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
 export async function main() {
   const tokenCredential = new DefaultAzureCredential();
-  const logsClient = new LogsClient(tokenCredential);
+  const logsQueryClient = new LogsQueryClient(tokenCredential);
 
   if (!monitorWorkspaceId) {
     throw new Error("MONITOR_WORKSPACE_ID must be set in the environment for this sample");
@@ -24,7 +24,7 @@ export async function main() {
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
   console.log(`Running '${kustoQuery}' over the last 5 minutes`);
-  const result = await logsClient.queryLogs(
+  const result = await logsQueryClient.queryLogs(
     monitorWorkspaceId,
     kustoQuery,
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases

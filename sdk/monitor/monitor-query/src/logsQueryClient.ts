@@ -25,7 +25,7 @@ import { formatPreferHeader } from "./internal/util";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
-export interface LogsClientOptions extends PipelineOptions {
+export interface LogsQueryClientOptions extends PipelineOptions {
   /**
    * The host to connect to.
    *
@@ -37,7 +37,7 @@ export interface LogsClientOptions extends PipelineOptions {
 /**
  * Client for Azure Log Analytics
  */
-export class LogsClient {
+export class LogsQueryClient {
   private _logAnalytics: AzureLogAnalytics;
 
   /**
@@ -46,7 +46,7 @@ export class LogsClient {
    * @param tokenCredential - A token credential.
    * @param options - Options for the LogsClient.
    */
-  constructor(tokenCredential: TokenCredential, options?: LogsClientOptions) {
+  constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
     const authPolicy = bearerTokenAuthenticationPolicy(tokenCredential, defaultMonitorScope);
 
     // This client defaults to using 'https://api.loganalytics.io/v1' as the

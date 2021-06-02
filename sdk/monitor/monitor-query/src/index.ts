@@ -4,7 +4,7 @@
 //
 // Curated exports
 //
-export { LogsClientOptions, LogsClient } from "./logsClient";
+export { LogsQueryClientOptions, LogsQueryClient } from "./logsQueryClient";
 export {
   BatchQuery,
   QueryLogsBatch,

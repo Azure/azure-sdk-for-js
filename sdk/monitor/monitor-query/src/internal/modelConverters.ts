@@ -152,7 +152,8 @@ export function convertResponseForMetrics(
     };
   });
 
-  const { resourceregion, _response: _, value: _ignoredValue, ...rest } = generatedResponse;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
+  const { resourceregion, _response: _response, value: _ignoredValue, ...rest } = generatedResponse;
 
   const obj: QueryMetricsResponse = {
     ...rest,

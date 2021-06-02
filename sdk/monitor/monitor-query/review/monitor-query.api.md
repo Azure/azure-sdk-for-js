@@ -87,15 +87,15 @@ export interface LocalizableString {
 }
 
 // @public
-export class LogsClient {
-    constructor(tokenCredential: TokenCredential, options?: LogsClientOptions);
+export class LogsQueryClient {
+    constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
     // (undocumented)
     queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResponse>;
 }
 
 // @public (undocumented)
-export interface LogsClientOptions extends PipelineOptions {
+export interface LogsQueryClientOptions extends PipelineOptions {
     endpoint?: string;
 }
 
