@@ -121,11 +121,11 @@ matrix([[true, false]] as const, async (useAad) => {
           .listHooks({
             hookName: "js-test"
           })
-          .byPage({ maxPageSize: 1 });
+          .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
-        assert.equal(result.value.length, 1, "Expecting one hook in first page");
+        assert.equal(result.value.length, 2, "Expecting two hooks in first page");
         result = await iterator.next();
-        assert.equal(result.value.length, 1, "Expecting one hook in second page");
+        assert.equal(result.value.length, 2, "Expecting two hooks in second page");
       });
 
       it("deletes email hook", async () => {
@@ -134,7 +134,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await client.getHook(createdEmailHookId);
           assert.fail("Expecting error getting hook");
         } catch (error) {
-          assert.equal((error as any).code, "ERROR_INVALID_PARAMETER");
+          assert.equal((error as any).code, "404 NOT_FOUND");
           assert.equal((error as any).message, "hookId is invalid.");
         }
       });
@@ -145,7 +145,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await client.getHook(createdWebHookId);
           assert.fail("Expecting error getting hook");
         } catch (error) {
-          assert.equal((error as any).code, "ERROR_INVALID_PARAMETER");
+          assert.equal((error as any).code, "404 NOT_FOUND");
           assert.equal((error as any).message, "hookId is invalid.");
         }
       });
