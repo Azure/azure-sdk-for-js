@@ -1005,7 +1005,8 @@ export interface PrivateEndpointConnection extends Resource {
  * and a location
  * @summary Proxy Resource
  */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource {
+}
 
 /**
  * Deleted storage account
@@ -2817,11 +2818,11 @@ export interface AccessPolicy {
   /**
    * Start time of the access policy
    */
-  start?: Date;
+  startTime?: Date;
   /**
    * Expiry time of the access policy
    */
-  expiry?: Date;
+  expiryTime?: Date;
   /**
    * List of abbreviated permissions.
    */
@@ -3207,8 +3208,7 @@ export interface StorageAccountsListKeysOptionalParams extends msRest.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface BlobInventoryPoliciesCreateOrUpdateOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface BlobInventoryPoliciesCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   systemData?: SystemData;
 }
 
@@ -3234,8 +3234,7 @@ export interface BlobContainersListOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The entity state (ETag) version of the immutability policy to update. A value of "*" can be
    * used to apply the operation only if the immutability policy already exists. If omitted, this
@@ -3258,8 +3257,7 @@ export interface BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams
 /**
  * Optional Parameters.
  */
-export interface BlobContainersGetImmutabilityPolicyOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface BlobContainersGetImmutabilityPolicyOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The entity state (ETag) version of the immutability policy to update. A value of "*" can be
    * used to apply the operation only if the immutability policy already exists. If omitted, this
@@ -3271,8 +3269,7 @@ export interface BlobContainersGetImmutabilityPolicyOptionalParams
 /**
  * Optional Parameters.
  */
-export interface BlobContainersExtendImmutabilityPolicyOptionalParams
-  extends msRest.RequestOptionsBase {
+export interface BlobContainersExtendImmutabilityPolicyOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The immutability period for the blobs in the container since the policy creation, in days.
    */
@@ -3571,14 +3568,16 @@ export interface FileSharesLeaseHeaders {
  * link to get the next set of results.
  * @extends Array<Operation>
  */
-export interface OperationListResult extends Array<Operation> {}
+export interface OperationListResult extends Array<Operation> {
+}
 
 /**
  * @interface
  * The response from the List Storage SKUs operation.
  * @extends Array<SkuInformation>
  */
-export interface StorageSkuListResult extends Array<SkuInformation> {}
+export interface StorageSkuListResult extends Array<SkuInformation> {
+}
 
 /**
  * @interface
@@ -3613,28 +3612,32 @@ export interface DeletedAccountListResult extends Array<DeletedAccount> {
  * The response from the List Usages operation.
  * @extends Array<Usage>
  */
-export interface UsageListResult extends Array<Usage> {}
+export interface UsageListResult extends Array<Usage> {
+}
 
 /**
  * @interface
  * List of blob inventory policies returned.
  * @extends Array<BlobInventoryPolicy>
  */
-export interface ListBlobInventoryPolicy extends Array<BlobInventoryPolicy> {}
+export interface ListBlobInventoryPolicy extends Array<BlobInventoryPolicy> {
+}
 
 /**
  * @interface
  * List of private endpoint connection associated with the specified storage account
  * @extends Array<PrivateEndpointConnection>
  */
-export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {}
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+}
 
 /**
  * @interface
  * List storage account object replication policies.
  * @extends Array<ObjectReplicationPolicy>
  */
-export interface ObjectReplicationPolicies extends Array<ObjectReplicationPolicy> {}
+export interface ObjectReplicationPolicies extends Array<ObjectReplicationPolicy> {
+}
 
 /**
  * @interface
@@ -3656,7 +3659,8 @@ export interface EncryptionScopeListResult extends Array<EncryptionScope> {
  * An interface representing the BlobServiceItems.
  * @extends Array<BlobServiceProperties>
  */
-export interface BlobServiceItems extends Array<BlobServiceProperties> {}
+export interface BlobServiceItems extends Array<BlobServiceProperties> {
+}
 
 /**
  * @interface
@@ -3720,7 +3724,7 @@ export interface ListTableResource extends Array<Table> {
  * @readonly
  * @enum {string}
  */
-export type ReasonCode = "QuotaId" | "NotAvailableForSubscription";
+export type ReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
 
 /**
  * Defines values for SkuName.
@@ -3729,15 +3733,7 @@ export type ReasonCode = "QuotaId" | "NotAvailableForSubscription";
  * @readonly
  * @enum {string}
  */
-export type SkuName =
-  | "Standard_LRS"
-  | "Standard_GRS"
-  | "Standard_RAGRS"
-  | "Standard_ZRS"
-  | "Premium_LRS"
-  | "Premium_ZRS"
-  | "Standard_GZRS"
-  | "Standard_RAGZRS";
+export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS' | 'Premium_ZRS' | 'Standard_GZRS' | 'Standard_RAGZRS';
 
 /**
  * Defines values for SkuTier.
@@ -3745,7 +3741,7 @@ export type SkuName =
  * @readonly
  * @enum {string}
  */
-export type SkuTier = "Standard" | "Premium";
+export type SkuTier = 'Standard' | 'Premium';
 
 /**
  * Defines values for Kind.
@@ -3754,7 +3750,7 @@ export type SkuTier = "Standard" | "Premium";
  * @readonly
  * @enum {string}
  */
-export type Kind = "Storage" | "StorageV2" | "BlobStorage" | "FileStorage" | "BlockBlobStorage";
+export type Kind = 'Storage' | 'StorageV2' | 'BlobStorage' | 'FileStorage' | 'BlockBlobStorage';
 
 /**
  * Defines values for Reason.
@@ -3762,7 +3758,7 @@ export type Kind = "Storage" | "StorageV2" | "BlobStorage" | "FileStorage" | "Bl
  * @readonly
  * @enum {string}
  */
-export type Reason = "AccountNameInvalid" | "AlreadyExists";
+export type Reason = 'AccountNameInvalid' | 'AlreadyExists';
 
 /**
  * Defines values for KeyType.
@@ -3770,7 +3766,7 @@ export type Reason = "AccountNameInvalid" | "AlreadyExists";
  * @readonly
  * @enum {string}
  */
-export type KeyType = "Service" | "Account";
+export type KeyType = 'Service' | 'Account';
 
 /**
  * Defines values for KeySource.
@@ -3778,7 +3774,7 @@ export type KeyType = "Service" | "Account";
  * @readonly
  * @enum {string}
  */
-export type KeySource = "Microsoft.Storage" | "Microsoft.Keyvault";
+export type KeySource = 'Microsoft.Storage' | 'Microsoft.Keyvault';
 
 /**
  * Defines values for Action.
@@ -3786,7 +3782,7 @@ export type KeySource = "Microsoft.Storage" | "Microsoft.Keyvault";
  * @readonly
  * @enum {string}
  */
-export type Action = "Allow";
+export type Action = 'Allow';
 
 /**
  * Defines values for State.
@@ -3795,12 +3791,7 @@ export type Action = "Allow";
  * @readonly
  * @enum {string}
  */
-export type State =
-  | "Provisioning"
-  | "Deprovisioning"
-  | "Succeeded"
-  | "Failed"
-  | "NetworkSourceDeleted";
+export type State = 'Provisioning' | 'Deprovisioning' | 'Succeeded' | 'Failed' | 'NetworkSourceDeleted';
 
 /**
  * Defines values for Bypass.
@@ -3808,7 +3799,7 @@ export type State =
  * @readonly
  * @enum {string}
  */
-export type Bypass = "None" | "Logging" | "Metrics" | "AzureServices";
+export type Bypass = 'None' | 'Logging' | 'Metrics' | 'AzureServices';
 
 /**
  * Defines values for DefaultAction.
@@ -3816,7 +3807,7 @@ export type Bypass = "None" | "Logging" | "Metrics" | "AzureServices";
  * @readonly
  * @enum {string}
  */
-export type DefaultAction = "Allow" | "Deny";
+export type DefaultAction = 'Allow' | 'Deny';
 
 /**
  * Defines values for DirectoryServiceOptions.
@@ -3824,7 +3815,7 @@ export type DefaultAction = "Allow" | "Deny";
  * @readonly
  * @enum {string}
  */
-export type DirectoryServiceOptions = "None" | "AADDS" | "AD";
+export type DirectoryServiceOptions = 'None' | 'AADDS' | 'AD';
 
 /**
  * Defines values for DefaultSharePermission.
@@ -3834,12 +3825,7 @@ export type DirectoryServiceOptions = "None" | "AADDS" | "AD";
  * @readonly
  * @enum {string}
  */
-export type DefaultSharePermission =
-  | "None"
-  | "StorageFileDataSmbShareReader"
-  | "StorageFileDataSmbShareContributor"
-  | "StorageFileDataSmbShareElevatedContributor"
-  | "StorageFileDataSmbShareOwner";
+export type DefaultSharePermission = 'None' | 'StorageFileDataSmbShareReader' | 'StorageFileDataSmbShareContributor' | 'StorageFileDataSmbShareElevatedContributor' | 'StorageFileDataSmbShareOwner';
 
 /**
  * Defines values for AccessTier.
@@ -3847,7 +3833,7 @@ export type DefaultSharePermission =
  * @readonly
  * @enum {string}
  */
-export type AccessTier = "Hot" | "Cool";
+export type AccessTier = 'Hot' | 'Cool';
 
 /**
  * Defines values for LargeFileSharesState.
@@ -3855,7 +3841,7 @@ export type AccessTier = "Hot" | "Cool";
  * @readonly
  * @enum {string}
  */
-export type LargeFileSharesState = "Disabled" | "Enabled";
+export type LargeFileSharesState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for RoutingChoice.
@@ -3863,7 +3849,7 @@ export type LargeFileSharesState = "Disabled" | "Enabled";
  * @readonly
  * @enum {string}
  */
-export type RoutingChoice = "MicrosoftRouting" | "InternetRouting";
+export type RoutingChoice = 'MicrosoftRouting' | 'InternetRouting';
 
 /**
  * Defines values for MinimumTlsVersion.
@@ -3871,7 +3857,7 @@ export type RoutingChoice = "MicrosoftRouting" | "InternetRouting";
  * @readonly
  * @enum {string}
  */
-export type MinimumTlsVersion = "TLS1_0" | "TLS1_1" | "TLS1_2";
+export type MinimumTlsVersion = 'TLS1_0' | 'TLS1_1' | 'TLS1_2';
 
 /**
  * Defines values for IdentityType.
@@ -3879,11 +3865,7 @@ export type MinimumTlsVersion = "TLS1_0" | "TLS1_1" | "TLS1_2";
  * @readonly
  * @enum {string}
  */
-export type IdentityType =
-  | "None"
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned,UserAssigned";
+export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned,UserAssigned';
 
 /**
  * Defines values for ExtendedLocationTypes.
@@ -3891,7 +3873,7 @@ export type IdentityType =
  * @readonly
  * @enum {string}
  */
-export type ExtendedLocationTypes = "EdgeZone";
+export type ExtendedLocationTypes = 'EdgeZone';
 
 /**
  * Defines values for GeoReplicationStatus.
@@ -3899,7 +3881,7 @@ export type ExtendedLocationTypes = "EdgeZone";
  * @readonly
  * @enum {string}
  */
-export type GeoReplicationStatus = "Live" | "Bootstrap" | "Unavailable";
+export type GeoReplicationStatus = 'Live' | 'Bootstrap' | 'Unavailable';
 
 /**
  * Defines values for BlobRestoreProgressStatus.
@@ -3907,7 +3889,7 @@ export type GeoReplicationStatus = "Live" | "Bootstrap" | "Unavailable";
  * @readonly
  * @enum {string}
  */
-export type BlobRestoreProgressStatus = "InProgress" | "Complete" | "Failed";
+export type BlobRestoreProgressStatus = 'InProgress' | 'Complete' | 'Failed';
 
 /**
  * Defines values for ProvisioningState.
@@ -3915,7 +3897,7 @@ export type BlobRestoreProgressStatus = "InProgress" | "Complete" | "Failed";
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded";
+export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Succeeded';
 
 /**
  * Defines values for AccountStatus.
@@ -3923,7 +3905,7 @@ export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded";
  * @readonly
  * @enum {string}
  */
-export type AccountStatus = "available" | "unavailable";
+export type AccountStatus = 'available' | 'unavailable';
 
 /**
  * Defines values for PrivateEndpointServiceConnectionStatus.
@@ -3931,7 +3913,7 @@ export type AccountStatus = "available" | "unavailable";
  * @readonly
  * @enum {string}
  */
-export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
+export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected';
 
 /**
  * Defines values for PrivateEndpointConnectionProvisioningState.
@@ -3939,11 +3921,7 @@ export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "R
  * @readonly
  * @enum {string}
  */
-export type PrivateEndpointConnectionProvisioningState =
-  | "Succeeded"
-  | "Creating"
-  | "Deleting"
-  | "Failed";
+export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
 
 /**
  * Defines values for KeyPermission.
@@ -3951,7 +3929,7 @@ export type PrivateEndpointConnectionProvisioningState =
  * @readonly
  * @enum {string}
  */
-export type KeyPermission = "Read" | "Full";
+export type KeyPermission = 'Read' | 'Full';
 
 /**
  * Defines values for UsageUnit.
@@ -3960,13 +3938,7 @@ export type KeyPermission = "Read" | "Full";
  * @readonly
  * @enum {string}
  */
-export type UsageUnit =
-  | "Count"
-  | "Bytes"
-  | "Seconds"
-  | "Percent"
-  | "CountsPerSecond"
-  | "BytesPerSecond";
+export type UsageUnit = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountsPerSecond' | 'BytesPerSecond';
 
 /**
  * Defines values for Services.
@@ -3974,7 +3946,7 @@ export type UsageUnit =
  * @readonly
  * @enum {string}
  */
-export type Services = "b" | "q" | "t" | "f";
+export type Services = 'b' | 'q' | 't' | 'f';
 
 /**
  * Defines values for SignedResourceTypes.
@@ -3982,7 +3954,7 @@ export type Services = "b" | "q" | "t" | "f";
  * @readonly
  * @enum {string}
  */
-export type SignedResourceTypes = "s" | "c" | "o";
+export type SignedResourceTypes = 's' | 'c' | 'o';
 
 /**
  * Defines values for Permissions.
@@ -3990,7 +3962,7 @@ export type SignedResourceTypes = "s" | "c" | "o";
  * @readonly
  * @enum {string}
  */
-export type Permissions = "r" | "d" | "w" | "l" | "a" | "c" | "u" | "p";
+export type Permissions = 'r' | 'd' | 'w' | 'l' | 'a' | 'c' | 'u' | 'p';
 
 /**
  * Defines values for HttpProtocol.
@@ -3998,7 +3970,7 @@ export type Permissions = "r" | "d" | "w" | "l" | "a" | "c" | "u" | "p";
  * @readonly
  * @enum {string}
  */
-export type HttpProtocol = "https,http" | "https";
+export type HttpProtocol = 'https,http' | 'https';
 
 /**
  * Defines values for SignedResource.
@@ -4006,7 +3978,7 @@ export type HttpProtocol = "https,http" | "https";
  * @readonly
  * @enum {string}
  */
-export type SignedResource = "b" | "c" | "f" | "s";
+export type SignedResource = 'b' | 'c' | 'f' | 's';
 
 /**
  * Defines values for EncryptionScopeSource.
@@ -4014,7 +3986,7 @@ export type SignedResource = "b" | "c" | "f" | "s";
  * @readonly
  * @enum {string}
  */
-export type EncryptionScopeSource = "Microsoft.Storage" | "Microsoft.KeyVault";
+export type EncryptionScopeSource = 'Microsoft.Storage' | 'Microsoft.KeyVault';
 
 /**
  * Defines values for EncryptionScopeState.
@@ -4022,7 +3994,7 @@ export type EncryptionScopeSource = "Microsoft.Storage" | "Microsoft.KeyVault";
  * @readonly
  * @enum {string}
  */
-export type EncryptionScopeState = "Enabled" | "Disabled";
+export type EncryptionScopeState = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for Format.
@@ -4030,7 +4002,7 @@ export type EncryptionScopeState = "Enabled" | "Disabled";
  * @readonly
  * @enum {string}
  */
-export type Format = "Csv" | "Parquet";
+export type Format = 'Csv' | 'Parquet';
 
 /**
  * Defines values for Schedule.
@@ -4038,7 +4010,7 @@ export type Format = "Csv" | "Parquet";
  * @readonly
  * @enum {string}
  */
-export type Schedule = "Daily" | "Weekly";
+export type Schedule = 'Daily' | 'Weekly';
 
 /**
  * Defines values for ObjectType.
@@ -4046,7 +4018,7 @@ export type Schedule = "Daily" | "Weekly";
  * @readonly
  * @enum {string}
  */
-export type ObjectType = "Blob" | "Container";
+export type ObjectType = 'Blob' | 'Container';
 
 /**
  * Defines values for CreatedByType.
@@ -4054,7 +4026,7 @@ export type ObjectType = "Blob" | "Container";
  * @readonly
  * @enum {string}
  */
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for PublicAccess.
@@ -4062,7 +4034,7 @@ export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
  * @readonly
  * @enum {string}
  */
-export type PublicAccess = "Container" | "Blob" | "None";
+export type PublicAccess = 'Container' | 'Blob' | 'None';
 
 /**
  * Defines values for LeaseStatus.
@@ -4070,7 +4042,7 @@ export type PublicAccess = "Container" | "Blob" | "None";
  * @readonly
  * @enum {string}
  */
-export type LeaseStatus = "Locked" | "Unlocked";
+export type LeaseStatus = 'Locked' | 'Unlocked';
 
 /**
  * Defines values for LeaseState.
@@ -4078,7 +4050,7 @@ export type LeaseStatus = "Locked" | "Unlocked";
  * @readonly
  * @enum {string}
  */
-export type LeaseState = "Available" | "Leased" | "Expired" | "Breaking" | "Broken";
+export type LeaseState = 'Available' | 'Leased' | 'Expired' | 'Breaking' | 'Broken';
 
 /**
  * Defines values for LeaseDuration.
@@ -4086,7 +4058,7 @@ export type LeaseState = "Available" | "Leased" | "Expired" | "Breaking" | "Brok
  * @readonly
  * @enum {string}
  */
-export type LeaseDuration = "Infinite" | "Fixed";
+export type LeaseDuration = 'Infinite' | 'Fixed';
 
 /**
  * Defines values for ImmutabilityPolicyState.
@@ -4094,7 +4066,7 @@ export type LeaseDuration = "Infinite" | "Fixed";
  * @readonly
  * @enum {string}
  */
-export type ImmutabilityPolicyState = "Locked" | "Unlocked";
+export type ImmutabilityPolicyState = 'Locked' | 'Unlocked';
 
 /**
  * Defines values for ImmutabilityPolicyUpdateType.
@@ -4102,7 +4074,7 @@ export type ImmutabilityPolicyState = "Locked" | "Unlocked";
  * @readonly
  * @enum {string}
  */
-export type ImmutabilityPolicyUpdateType = "put" | "lock" | "extend";
+export type ImmutabilityPolicyUpdateType = 'put' | 'lock' | 'extend';
 
 /**
  * Defines values for MigrationState.
@@ -4110,7 +4082,7 @@ export type ImmutabilityPolicyUpdateType = "put" | "lock" | "extend";
  * @readonly
  * @enum {string}
  */
-export type MigrationState = "InProgress" | "Completed";
+export type MigrationState = 'InProgress' | 'Completed';
 
 /**
  * Defines values for Name.
@@ -4118,7 +4090,7 @@ export type MigrationState = "InProgress" | "Completed";
  * @readonly
  * @enum {string}
  */
-export type Name = "AccessTimeTracking";
+export type Name = 'AccessTimeTracking';
 
 /**
  * Defines values for EnabledProtocols.
@@ -4126,7 +4098,7 @@ export type Name = "AccessTimeTracking";
  * @readonly
  * @enum {string}
  */
-export type EnabledProtocols = "SMB" | "NFS";
+export type EnabledProtocols = 'SMB' | 'NFS';
 
 /**
  * Defines values for RootSquashType.
@@ -4134,7 +4106,7 @@ export type EnabledProtocols = "SMB" | "NFS";
  * @readonly
  * @enum {string}
  */
-export type RootSquashType = "NoRootSquash" | "RootSquash" | "AllSquash";
+export type RootSquashType = 'NoRootSquash' | 'RootSquash' | 'AllSquash';
 
 /**
  * Defines values for ShareAccessTier.
@@ -4142,7 +4114,7 @@ export type RootSquashType = "NoRootSquash" | "RootSquash" | "AllSquash";
  * @readonly
  * @enum {string}
  */
-export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool" | "Premium";
+export type ShareAccessTier = 'TransactionOptimized' | 'Hot' | 'Cool' | 'Premium';
 
 /**
  * Defines values for LeaseShareAction.
@@ -4150,7 +4122,7 @@ export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool" | "Premium
  * @readonly
  * @enum {string}
  */
-export type LeaseShareAction = "Acquire" | "Renew" | "Change" | "Release" | "Break";
+export type LeaseShareAction = 'Acquire' | 'Renew' | 'Change' | 'Release' | 'Break';
 
 /**
  * Defines values for StorageAccountExpand.
@@ -4158,7 +4130,7 @@ export type LeaseShareAction = "Acquire" | "Renew" | "Change" | "Release" | "Bre
  * @readonly
  * @enum {string}
  */
-export type StorageAccountExpand = "geoReplicationStats" | "blobRestoreStatus";
+export type StorageAccountExpand = 'geoReplicationStats' | 'blobRestoreStatus';
 
 /**
  * Defines values for ListKeyExpand.
@@ -4166,7 +4138,7 @@ export type StorageAccountExpand = "geoReplicationStats" | "blobRestoreStatus";
  * @readonly
  * @enum {string}
  */
-export type ListKeyExpand = "kerb";
+export type ListKeyExpand = 'kerb';
 
 /**
  * Defines values for ListContainersInclude.
@@ -4174,7 +4146,7 @@ export type ListKeyExpand = "kerb";
  * @readonly
  * @enum {string}
  */
-export type ListContainersInclude = "deleted";
+export type ListContainersInclude = 'deleted';
 
 /**
  * Defines values for Action1.
@@ -4182,7 +4154,7 @@ export type ListContainersInclude = "deleted";
  * @readonly
  * @enum {string}
  */
-export type Action1 = "Acquire" | "Renew" | "Change" | "Release" | "Break";
+export type Action1 = 'Acquire' | 'Renew' | 'Change' | 'Release' | 'Break';
 
 /**
  * Contains response data for the list operation.
@@ -4192,16 +4164,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
 };
 
 /**
@@ -4212,16 +4184,16 @@ export type SkusListResponse = StorageSkuListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageSkuListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageSkuListResult;
+    };
 };
 
 /**
@@ -4232,16 +4204,16 @@ export type StorageAccountsCheckNameAvailabilityResponse = CheckNameAvailability
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CheckNameAvailabilityResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameAvailabilityResult;
+    };
 };
 
 /**
@@ -4252,16 +4224,16 @@ export type StorageAccountsCreateResponse = StorageAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageAccount;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccount;
+    };
 };
 
 /**
@@ -4272,16 +4244,16 @@ export type StorageAccountsGetPropertiesResponse = StorageAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageAccount;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccount;
+    };
 };
 
 /**
@@ -4292,16 +4264,16 @@ export type StorageAccountsUpdateResponse = StorageAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageAccount;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccount;
+    };
 };
 
 /**
@@ -4312,16 +4284,16 @@ export type StorageAccountsListResponse = StorageAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageAccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccountListResult;
+    };
 };
 
 /**
@@ -4332,16 +4304,16 @@ export type StorageAccountsListByResourceGroupResponse = StorageAccountListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageAccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccountListResult;
+    };
 };
 
 /**
@@ -4352,16 +4324,16 @@ export type StorageAccountsListKeysResponse = StorageAccountListKeysResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageAccountListKeysResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccountListKeysResult;
+    };
 };
 
 /**
@@ -4372,16 +4344,16 @@ export type StorageAccountsRegenerateKeyResponse = StorageAccountListKeysResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageAccountListKeysResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccountListKeysResult;
+    };
 };
 
 /**
@@ -4392,16 +4364,16 @@ export type StorageAccountsListAccountSASResponse = ListAccountSasResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListAccountSasResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListAccountSasResponse;
+    };
 };
 
 /**
@@ -4412,16 +4384,16 @@ export type StorageAccountsListServiceSASResponse = ListServiceSasResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListServiceSasResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListServiceSasResponse;
+    };
 };
 
 /**
@@ -4432,16 +4404,16 @@ export type StorageAccountsRestoreBlobRangesResponse = BlobRestoreStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BlobRestoreStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobRestoreStatus;
+    };
 };
 
 /**
@@ -4452,16 +4424,16 @@ export type StorageAccountsBeginCreateResponse = StorageAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageAccount;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccount;
+    };
 };
 
 /**
@@ -4472,16 +4444,16 @@ export type StorageAccountsBeginRestoreBlobRangesResponse = BlobRestoreStatus & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BlobRestoreStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobRestoreStatus;
+    };
 };
 
 /**
@@ -4492,16 +4464,16 @@ export type StorageAccountsListNextResponse = StorageAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageAccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccountListResult;
+    };
 };
 
 /**
@@ -4512,16 +4484,16 @@ export type StorageAccountsListByResourceGroupNextResponse = StorageAccountListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageAccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccountListResult;
+    };
 };
 
 /**
@@ -4532,16 +4504,16 @@ export type DeletedAccountsListResponse = DeletedAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DeletedAccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeletedAccountListResult;
+    };
 };
 
 /**
@@ -4552,16 +4524,16 @@ export type DeletedAccountsGetResponse = DeletedAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DeletedAccount;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeletedAccount;
+    };
 };
 
 /**
@@ -4572,16 +4544,16 @@ export type DeletedAccountsListNextResponse = DeletedAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DeletedAccountListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeletedAccountListResult;
+    };
 };
 
 /**
@@ -4592,16 +4564,16 @@ export type UsagesListByLocationResponse = UsageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: UsageListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UsageListResult;
+    };
 };
 
 /**
@@ -4612,16 +4584,16 @@ export type ManagementPoliciesGetResponse = ManagementPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ManagementPolicy;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagementPolicy;
+    };
 };
 
 /**
@@ -4632,16 +4604,16 @@ export type ManagementPoliciesCreateOrUpdateResponse = ManagementPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ManagementPolicy;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagementPolicy;
+    };
 };
 
 /**
@@ -4652,16 +4624,16 @@ export type BlobInventoryPoliciesGetResponse = BlobInventoryPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BlobInventoryPolicy;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobInventoryPolicy;
+    };
 };
 
 /**
@@ -4672,16 +4644,16 @@ export type BlobInventoryPoliciesCreateOrUpdateResponse = BlobInventoryPolicy & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BlobInventoryPolicy;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobInventoryPolicy;
+    };
 };
 
 /**
@@ -4692,16 +4664,16 @@ export type BlobInventoryPoliciesListResponse = ListBlobInventoryPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListBlobInventoryPolicy;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListBlobInventoryPolicy;
+    };
 };
 
 /**
@@ -4712,16 +4684,16 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnectionListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
 };
 
 /**
@@ -4732,16 +4704,16 @@ export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
 };
 
 /**
@@ -4752,16 +4724,16 @@ export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateEndpointConnection;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
 };
 
 /**
@@ -4772,16 +4744,16 @@ export type PrivateLinkResourcesListByStorageAccountResponse = PrivateLinkResour
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: PrivateLinkResourceListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
 };
 
 /**
@@ -4792,16 +4764,16 @@ export type ObjectReplicationPoliciesListResponse = ObjectReplicationPolicies & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ObjectReplicationPolicies;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectReplicationPolicies;
+    };
 };
 
 /**
@@ -4812,16 +4784,16 @@ export type ObjectReplicationPoliciesGetResponse = ObjectReplicationPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ObjectReplicationPolicy;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectReplicationPolicy;
+    };
 };
 
 /**
@@ -4832,16 +4804,16 @@ export type ObjectReplicationPoliciesCreateOrUpdateResponse = ObjectReplicationP
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ObjectReplicationPolicy;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectReplicationPolicy;
+    };
 };
 
 /**
@@ -4852,16 +4824,16 @@ export type EncryptionScopesPutResponse = EncryptionScope & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: EncryptionScope;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionScope;
+    };
 };
 
 /**
@@ -4872,16 +4844,16 @@ export type EncryptionScopesPatchResponse = EncryptionScope & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: EncryptionScope;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionScope;
+    };
 };
 
 /**
@@ -4892,16 +4864,16 @@ export type EncryptionScopesGetResponse = EncryptionScope & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: EncryptionScope;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionScope;
+    };
 };
 
 /**
@@ -4912,16 +4884,16 @@ export type EncryptionScopesListResponse = EncryptionScopeListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: EncryptionScopeListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionScopeListResult;
+    };
 };
 
 /**
@@ -4932,16 +4904,16 @@ export type EncryptionScopesListNextResponse = EncryptionScopeListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: EncryptionScopeListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionScopeListResult;
+    };
 };
 
 /**
@@ -4952,16 +4924,16 @@ export type BlobServicesListResponse = BlobServiceItems & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BlobServiceItems;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobServiceItems;
+    };
 };
 
 /**
@@ -4972,16 +4944,16 @@ export type BlobServicesSetServicePropertiesResponse = BlobServiceProperties & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BlobServiceProperties;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobServiceProperties;
+    };
 };
 
 /**
@@ -4992,16 +4964,16 @@ export type BlobServicesGetServicePropertiesResponse = BlobServiceProperties & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BlobServiceProperties;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobServiceProperties;
+    };
 };
 
 /**
@@ -5012,16 +4984,16 @@ export type BlobContainersListResponse = ListContainerItems & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListContainerItems;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListContainerItems;
+    };
 };
 
 /**
@@ -5032,16 +5004,16 @@ export type BlobContainersCreateResponse = BlobContainer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BlobContainer;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobContainer;
+    };
 };
 
 /**
@@ -5052,16 +5024,16 @@ export type BlobContainersUpdateResponse = BlobContainer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BlobContainer;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobContainer;
+    };
 };
 
 /**
@@ -5072,16 +5044,16 @@ export type BlobContainersGetResponse = BlobContainer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BlobContainer;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobContainer;
+    };
 };
 
 /**
@@ -5092,16 +5064,16 @@ export type BlobContainersSetLegalHoldResponse = LegalHold & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: LegalHold;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LegalHold;
+    };
 };
 
 /**
@@ -5112,27 +5084,26 @@ export type BlobContainersClearLegalHoldResponse = LegalHold & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: LegalHold;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LegalHold;
+    };
 };
 
 /**
  * Contains response data for the createOrUpdateImmutabilityPolicy operation.
  */
-export type BlobContainersCreateOrUpdateImmutabilityPolicyResponse = ImmutabilityPolicy &
-  BlobContainersCreateOrUpdateImmutabilityPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: msRest.HttpResponse & {
+export type BlobContainersCreateOrUpdateImmutabilityPolicyResponse = ImmutabilityPolicy & BlobContainersCreateOrUpdateImmutabilityPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -5148,17 +5119,16 @@ export type BlobContainersCreateOrUpdateImmutabilityPolicyResponse = Immutabilit
        */
       parsedBody: ImmutabilityPolicy;
     };
-  };
+};
 
 /**
  * Contains response data for the getImmutabilityPolicy operation.
  */
-export type BlobContainersGetImmutabilityPolicyResponse = ImmutabilityPolicy &
-  BlobContainersGetImmutabilityPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: msRest.HttpResponse & {
+export type BlobContainersGetImmutabilityPolicyResponse = ImmutabilityPolicy & BlobContainersGetImmutabilityPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -5174,17 +5144,16 @@ export type BlobContainersGetImmutabilityPolicyResponse = ImmutabilityPolicy &
        */
       parsedBody: ImmutabilityPolicy;
     };
-  };
+};
 
 /**
  * Contains response data for the deleteImmutabilityPolicy operation.
  */
-export type BlobContainersDeleteImmutabilityPolicyResponse = ImmutabilityPolicy &
-  BlobContainersDeleteImmutabilityPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: msRest.HttpResponse & {
+export type BlobContainersDeleteImmutabilityPolicyResponse = ImmutabilityPolicy & BlobContainersDeleteImmutabilityPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -5200,17 +5169,16 @@ export type BlobContainersDeleteImmutabilityPolicyResponse = ImmutabilityPolicy 
        */
       parsedBody: ImmutabilityPolicy;
     };
-  };
+};
 
 /**
  * Contains response data for the lockImmutabilityPolicy operation.
  */
-export type BlobContainersLockImmutabilityPolicyResponse = ImmutabilityPolicy &
-  BlobContainersLockImmutabilityPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: msRest.HttpResponse & {
+export type BlobContainersLockImmutabilityPolicyResponse = ImmutabilityPolicy & BlobContainersLockImmutabilityPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -5226,17 +5194,16 @@ export type BlobContainersLockImmutabilityPolicyResponse = ImmutabilityPolicy &
        */
       parsedBody: ImmutabilityPolicy;
     };
-  };
+};
 
 /**
  * Contains response data for the extendImmutabilityPolicy operation.
  */
-export type BlobContainersExtendImmutabilityPolicyResponse = ImmutabilityPolicy &
-  BlobContainersExtendImmutabilityPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: msRest.HttpResponse & {
+export type BlobContainersExtendImmutabilityPolicyResponse = ImmutabilityPolicy & BlobContainersExtendImmutabilityPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -5252,7 +5219,7 @@ export type BlobContainersExtendImmutabilityPolicyResponse = ImmutabilityPolicy 
        */
       parsedBody: ImmutabilityPolicy;
     };
-  };
+};
 
 /**
  * Contains response data for the lease operation.
@@ -5262,16 +5229,16 @@ export type BlobContainersLeaseResponse = LeaseContainerResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: LeaseContainerResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LeaseContainerResponse;
+    };
 };
 
 /**
@@ -5282,16 +5249,16 @@ export type BlobContainersListNextResponse = ListContainerItems & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListContainerItems;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListContainerItems;
+    };
 };
 
 /**
@@ -5302,16 +5269,16 @@ export type FileServicesListResponse = FileServiceItems & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FileServiceItems;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileServiceItems;
+    };
 };
 
 /**
@@ -5322,16 +5289,16 @@ export type FileServicesSetServicePropertiesResponse = FileServiceProperties & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FileServiceProperties;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileServiceProperties;
+    };
 };
 
 /**
@@ -5342,16 +5309,16 @@ export type FileServicesGetServicePropertiesResponse = FileServiceProperties & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FileServiceProperties;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileServiceProperties;
+    };
 };
 
 /**
@@ -5362,16 +5329,16 @@ export type FileSharesListResponse = FileShareItems & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FileShareItems;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileShareItems;
+    };
 };
 
 /**
@@ -5382,16 +5349,16 @@ export type FileSharesCreateResponse = FileShare & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FileShare;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileShare;
+    };
 };
 
 /**
@@ -5402,16 +5369,16 @@ export type FileSharesUpdateResponse = FileShare & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FileShare;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileShare;
+    };
 };
 
 /**
@@ -5422,27 +5389,26 @@ export type FileSharesGetResponse = FileShare & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FileShare;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileShare;
+    };
 };
 
 /**
  * Contains response data for the lease operation.
  */
-export type FileSharesLeaseResponse = LeaseShareResponse &
-  FileSharesLeaseHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: msRest.HttpResponse & {
+export type FileSharesLeaseResponse = LeaseShareResponse & FileSharesLeaseHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -5458,7 +5424,7 @@ export type FileSharesLeaseResponse = LeaseShareResponse &
        */
       parsedBody: LeaseShareResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the listNext operation.
@@ -5468,16 +5434,16 @@ export type FileSharesListNextResponse = FileShareItems & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: FileShareItems;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileShareItems;
+    };
 };
 
 /**
@@ -5488,16 +5454,16 @@ export type QueueServicesListResponse = ListQueueServices & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListQueueServices;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListQueueServices;
+    };
 };
 
 /**
@@ -5508,16 +5474,16 @@ export type QueueServicesSetServicePropertiesResponse = QueueServiceProperties &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QueueServiceProperties;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueueServiceProperties;
+    };
 };
 
 /**
@@ -5528,16 +5494,16 @@ export type QueueServicesGetServicePropertiesResponse = QueueServiceProperties &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QueueServiceProperties;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueueServiceProperties;
+    };
 };
 
 /**
@@ -5548,16 +5514,16 @@ export type QueueCreateResponse = StorageQueue & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageQueue;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageQueue;
+    };
 };
 
 /**
@@ -5568,16 +5534,16 @@ export type QueueUpdateResponse = StorageQueue & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageQueue;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageQueue;
+    };
 };
 
 /**
@@ -5588,16 +5554,16 @@ export type QueueGetResponse = StorageQueue & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageQueue;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageQueue;
+    };
 };
 
 /**
@@ -5608,16 +5574,16 @@ export type QueueListResponse = ListQueueResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListQueueResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListQueueResource;
+    };
 };
 
 /**
@@ -5628,16 +5594,16 @@ export type QueueListNextResponse = ListQueueResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListQueueResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListQueueResource;
+    };
 };
 
 /**
@@ -5648,16 +5614,16 @@ export type TableServicesListResponse = ListTableServices & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListTableServices;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListTableServices;
+    };
 };
 
 /**
@@ -5668,16 +5634,16 @@ export type TableServicesSetServicePropertiesResponse = TableServiceProperties &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TableServiceProperties;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableServiceProperties;
+    };
 };
 
 /**
@@ -5688,16 +5654,16 @@ export type TableServicesGetServicePropertiesResponse = TableServiceProperties &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TableServiceProperties;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableServiceProperties;
+    };
 };
 
 /**
@@ -5708,16 +5674,16 @@ export type TableCreateResponse = Table & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Table;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Table;
+    };
 };
 
 /**
@@ -5728,16 +5694,16 @@ export type TableUpdateResponse = Table & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Table;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Table;
+    };
 };
 
 /**
@@ -5748,16 +5714,16 @@ export type TableGetResponse = Table & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Table;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Table;
+    };
 };
 
 /**
@@ -5768,16 +5734,16 @@ export type TableListResponse = ListTableResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListTableResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListTableResource;
+    };
 };
 
 /**
@@ -5788,14 +5754,14 @@ export type TableListNextResponse = ListTableResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListTableResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListTableResource;
+    };
 };

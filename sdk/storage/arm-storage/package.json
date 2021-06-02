@@ -2,7 +2,7 @@
   "name": "@azure/arm-storage",
   "author": "Microsoft Corporation",
   "description": "StorageManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "17.1.0",
+  "version": "17.0.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.1.0",
     "@azure/ms-rest-js": "^2.2.0",

@@ -14,6 +14,7 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { StorageManagementClientContext } from "./storageManagementClientContext";
 
+
 class StorageManagementClient extends StorageManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -47,11 +48,7 @@ class StorageManagementClient extends StorageManagementClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
-    subscriptionId: string,
-    options?: Models.StorageManagementClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.StorageManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.skus = new operations.Skus(this);
