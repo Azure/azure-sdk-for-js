@@ -9,7 +9,6 @@ import { Context } from "mocha";
 import {
   DataFeedGranularity,
   DataFeedIngestionSettings,
-  DataFeedOptions,
   DataFeedPatch,
   DataFeedSchema,
   DataFeedSource,
@@ -124,7 +123,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const granularity: DataFeedGranularity = {
           granularityType: "Daily"
         };
-        const options: DataFeedOptions = {
+        const options = {
           description: "Data feed description",
           rollupSettings: {
             rollupType: "AutoRollup",

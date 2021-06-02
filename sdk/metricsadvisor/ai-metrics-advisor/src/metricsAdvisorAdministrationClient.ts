@@ -23,7 +23,6 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   IngestionStatus,
   DataFeedGranularity,
-  DataFeedOptions,
   DataFeed,
   DataFeedPatch,
   WebNotificationHook,
@@ -140,7 +139,7 @@ export type DataFeedDescriptor = Omit<
 /**
  * Options for creating data feed
  */
-export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
+ export interface CreateDataFeedOptions extends OperationOptions {};
 
 /**
  * Client class for interacting with Azure Metrics Advisor Service to perform management operations
@@ -196,7 +195,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public async createDataFeed(
     feed: DataFeedDescriptor,
-    operationOptions: OperationOptions = {}
+    operationOptions: CreateDataFeedOptions = {}
   ): Promise<GetDataFeedResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDataFeed",

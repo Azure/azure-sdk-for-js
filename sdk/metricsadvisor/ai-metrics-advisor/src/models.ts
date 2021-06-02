@@ -177,46 +177,6 @@ export type DataFeedMissingDataPointFillSettings =
 export type DataFeedAccessMode = "Private" | "Public";
 
 /**
- * Various optional configurations for a data feed.
- */
-export interface DataFeedOptions {
-  /**
-   * data feed description
-   */
-  description?: string;
-
-  /**
-   * settings on data rollup
-   */
-  rollupSettings?: DataFeedRollupSettings;
-
-  /**
-   * settings to control how missing data points are filled
-   */
-  missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
-
-  /**
-   * access mode of the data feed
-   */
-  accessMode?: DataFeedAccessMode;
-
-  /**
-   * email addresses of data feed administrators
-   */
-  adminEmails?: string[];
-
-  /**
-   * email addresses of data feed viewers
-   */
-  viewerEmails?: string[];
-
-  /**
-   * action link template for alert
-   */
-  actionLinkTemplate?: string;
-}
-
-/**
  * Granularity type of a data feed.
  */
 export type DataFeedGranularity =
@@ -285,7 +245,41 @@ export type DataFeed = {
    * Ingestion settings for the data feed.
    */
   ingestionSettings: DataFeedIngestionSettings;
-} & DataFeedOptions;
+  /**
+   * data feed description
+   */
+   description?: string;
+
+   /**
+    * settings on data rollup
+    */
+   rollupSettings?: DataFeedRollupSettings;
+ 
+   /**
+    * settings to control how missing data points are filled
+    */
+   missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
+ 
+   /**
+    * access mode of the data feed
+    */
+   accessMode?: DataFeedAccessMode;
+ 
+   /**
+    * email addresses of data feed administrators
+    */
+   adminEmails?: string[];
+ 
+   /**
+    * email addresses of data feed viewers
+    */
+   viewerEmails?: string[];
+ 
+   /**
+    * action link template for alert
+    */
+   actionLinkTemplate?: string;
+};
 
 /**
  * Represents an Azure Application Insights data source.
@@ -714,7 +708,40 @@ export type DataFeedPatch = {
    * Ingestion settings for the data feed.
    */
   ingestionSettings?: DataFeedIngestionSettings;
-} & DataFeedOptions & {
+  /**
+   * data feed description
+   */
+   description?: string;
+
+   /**
+    * settings on data rollup
+    */
+   rollupSettings?: DataFeedRollupSettings;
+ 
+   /**
+    * settings to control how missing data points are filled
+    */
+   missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
+ 
+   /**
+    * access mode of the data feed
+    */
+   accessMode?: DataFeedAccessMode;
+ 
+   /**
+    * email addresses of data feed administrators
+    */
+   adminEmails?: string[];
+ 
+   /**
+    * email addresses of data feed viewers
+    */
+   viewerEmails?: string[];
+ 
+   /**
+    * action link template for alert
+    */
+   actionLinkTemplate?: string;
     /**
      * Status of the data feed.
      */
@@ -727,7 +754,7 @@ export type DataFeedPatch = {
  * When not changing the data source type, the dataSourceParameter is not required.
  * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
  */
-export type DataFeedSourcePatch = Partial<DataFeedSource> & { dataSourceType: DataFeedSource["dataSourceType"] };
+export type DataFeedSourcePatch = Partial<DataFeedSource> & { dataSourceType:DataFeedSource["dataSourceType"] };
 
 /**
  * The logical operator to apply across multiple {@link MetricAlertConfiguration}
