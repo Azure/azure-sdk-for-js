@@ -62,7 +62,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-rest-pipeline": "1.1.0",
+    "@azure/core-rest-pipeline": "^1.1.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
