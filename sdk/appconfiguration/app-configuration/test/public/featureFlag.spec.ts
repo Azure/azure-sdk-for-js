@@ -189,24 +189,25 @@ describe("AppConfigurationClient - FeatureFlag", () => {
   describe("serializeAsConfigurationSettingParam", () => {
     let client: AppConfigurationClient;
     let recorder: Recorder;
-
+    let featureFlag: ConfigurationSetting<FeatureFlagValue>;
     beforeEach(async function(this: Context) {
       recorder = startRecorder(this);
       client = createAppConfigurationClientForTests() || this.skip();
+      featureFlag = {
+        contentType: featureFlagContentType,
+        key: `${featureFlagPrefix}${recorder.getUniqueName("name-1")}`,
+        isReadOnly: false,
+        value: { conditions: { clientFilters: [] }, enabled: true }
+      };
     });
 
     afterEach(async function(this: Context) {
+      await client.deleteConfigurationSetting({ key: featureFlag.key });
       await recorder.stop();
     });
 
     [`[]`, "Hello World"].forEach((value) => {
       it(`Unexpected value ${value} as feature flag value`, async () => {
-        const featureFlag: ConfigurationSetting<FeatureFlagValue> = {
-          contentType: featureFlagContentType,
-          key: `${featureFlagPrefix}${recorder.getUniqueName("name-1")}`,
-          isReadOnly: false,
-          value: { conditions: { clientFilters: [] }, enabled: true }
-        };
         featureFlag.value = value as any;
         await client.addConfigurationSetting(featureFlag);
         assert.equal(
@@ -214,7 +215,6 @@ describe("AppConfigurationClient - FeatureFlag", () => {
           value,
           "message"
         );
-        await client.deleteConfigurationSetting({ key: featureFlag.key });
       });
     });
   });
