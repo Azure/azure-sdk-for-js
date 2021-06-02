@@ -66,7 +66,8 @@ import {
   toServiceCredentialPatch,
   toServiceCredential,
   fromServiceCredential,
-  toServiceDataFeedSource
+  toServiceDataFeedSource,
+  toServiceDataFeedSourcePatch
 } from "./transforms";
 
 /**
@@ -482,7 +483,7 @@ export class MetricsAdvisorAdministrationClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const patchBody = {
         // source
-        ...patch.source,
+        ...toServiceDataFeedSourcePatch(patch.source),
         // name and description
         dataFeedName: patch.name,
         dataFeedDescription: patch.description,

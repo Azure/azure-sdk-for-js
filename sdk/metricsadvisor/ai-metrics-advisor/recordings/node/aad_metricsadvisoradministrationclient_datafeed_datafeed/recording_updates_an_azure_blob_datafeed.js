@@ -1,8 +1,8 @@
 let nock = require('nock');
 
-module.exports.hash = "921e7e6bd47cb8827743cb148a6f47a3";
+module.exports.hash = "7190eeaa9f46404c9b69998c2d76c741";
 
-module.exports.testInfo = {"uniqueName":{"Updated-Azure-Blob-data-feed-":"Updated-Azure-Blob-data-feed-161070010792509275"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"Updated-Azure-Blob-data-feed-":"Updated-Azure-Blob-data-feed-162260124229408771"},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,57 +24,57 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd975d139-22ec-4d5e-8a1b-33b228734c00',
+  'c2790c5b-8c54-4cea-b086-786ceecbbb00',
   'x-ms-ests-server',
-  '2.1.11397.13 - SEASLR1 ProdSlices',
+  '2.1.11722.26 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsoDeAShyiJLlORVED-UD3HGLH8mEQAAAGdLk9cOAAAA; expires=Sun, 14-Feb-2021 08:41:47 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AszRTdmqI65AmmTuITWg8hzGLH8mAwAAABLlSNgOAAAA; expires=Fri, 02-Jul-2021 02:34:02 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 15 Jan 2021 08:41:47 GMT',
-  'Content-Length',
-  '1331'
+  'Wed, 02 Jun 2021 02:34:01 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/dataFeeds/0f9c2a89-52f7-4e1c-b808-b42c973be64c', {"dataSourceType":"AzureBlob","dataFeedName":"Updated-Azure-Blob-data-feed-161070010792509275","dataFeedDescription":"Updated Azure Blob description","timestampColumn":"UpdatedTimestampeColumn","dataStartFrom":"2020-08-01T00:00:00.000Z","startOffsetInSeconds":2,"maxConcurrency":3,"minRetryIntervalInSeconds":4,"stopRetryAfterInSeconds":5,"needRollup":"AlreadyRollup","allUpIdentification":"__Existing__","fillMissingPointType":"PreviousValue","viewMode":"Public","viewers":["viewer1@example.com"],"actionLinkTemplate":"Updated Azure Blob action link template","dataSourceParameter":{"connectionString":"Updated Azure Blob connection string","container":"Updated Azure Blob container","blobTemplate":"Updated Azure Blob template"}})
-  .reply(204, "", [
+  .patch('/metricsadvisor/v1.0/dataFeeds/eb1e70d7-dd15-4fee-83b5-6a1627b72777', {"dataSourceType":"AzureBlob","dataFeedName":"Updated-Azure-Blob-data-feed-162260124229408771","dataFeedDescription":"Updated Azure Blob description","timestampColumn":"UpdatedTimestampeColumn","dataStartFrom":"2020-08-01T00:00:00.000Z","startOffsetInSeconds":2,"maxConcurrency":3,"minRetryIntervalInSeconds":4,"stopRetryAfterInSeconds":5,"needRollup":"AlreadyRollup","allUpIdentification":"__Existing__","fillMissingPointType":"PreviousValue","viewMode":"Public","viewers":["viewer1@example.com"],"actionLinkTemplate":"Updated Azure Blob action link template","authenticationType":"ManagedIdentity","dataSourceParameter":{"connectionString":"Updated Azure Blob connection string","container":"Updated Azure Blob container","blobTemplate":"Updated Azure Blob template"}})
+  .reply(200, {"dataFeedId":"eb1e70d7-dd15-4fee-83b5-6a1627b72777","dataFeedName":"Updated-Azure-Blob-data-feed-162260124229408771","metrics":[{"metricId":"f8ea569f-3c02-4014-a512-5660fe06786d","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"db8fe831-bf4d-4084-bef1-0fd4c8b6d813","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-01T00:00:00Z","dataSourceType":"AzureBlob","timestampColumn":"UpdatedTimestampeColumn","startOffsetInSeconds":2,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__Existing__","needRollup":"AlreadyRollup","fillMissingPointType":"PreviousValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Updated Azure Blob description","stopRetryAfterInSeconds":5,"minRetryIntervalInSeconds":4,"maxConcurrency":3,"viewMode":"Public","admins":["azure_client_id"],"viewers":["viewer1@example.com"],"creator":"azure_client_id","status":"Active","createdTime":"2021-06-02T02:33:56Z","isAdmin":true,"actionLinkTemplate":"Updated Azure Blob action link template","dataSourceParameter":{"container":"Updated Azure Blob container","blobTemplate":"Updated Azure Blob template"},"authenticationType":"ManagedIdentity"}, [
   'Content-Length',
-  '0',
-  'x-request-id',
-  '7c194bfa-7b38-4c6c-841b-bd4a0031033b',
-  'x-envoy-upstream-service-time',
-  '656',
-  'apim-request-id',
-  '7c194bfa-7b38-4c6c-841b-bd4a0031033b',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Fri, 15 Jan 2021 08:41:48 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/dataFeeds/0f9c2a89-52f7-4e1c-b808-b42c973be64c')
-  .reply(200, {"dataFeedId":"0f9c2a89-52f7-4e1c-b808-b42c973be64c","dataFeedName":"Updated-Azure-Blob-data-feed-161070010792509275","metrics":[{"metricId":"5428e673-1300-47e2-8a21-f3e12403f588","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"1549fbd3-d2cd-4d6b-8182-4fa63434be03","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-01T00:00:00Z","dataSourceType":"AzureBlob","timestampColumn":"UpdatedTimestampeColumn","startOffsetInSeconds":2,"maxQueryPerMinute":30,"granularityName":"Daily","granularityAmount":null,"allUpIdentification":"__Existing__","needRollup":"AlreadyRollup","fillMissingPointType":"PreviousValue","fillMissingPointValue":555,"rollUpMethod":"Sum","rollUpColumns":[],"dataFeedDescription":"Updated Azure Blob description","stopRetryAfterInSeconds":5,"minRetryIntervalInSeconds":4,"maxConcurrency":3,"viewMode":"Public","admins":["azure_client_id"],"viewers":["viewer1@example.com"],"creator":"azure_client_id","status":"Active","createdTime":"2021-01-15T08:41:46Z","isAdmin":true,"actionLinkTemplate":"Updated Azure Blob action link template","dataSourceParameter":{"container":"Updated Azure Blob container","connectionString":"Updated Azure Blob connection string","blobTemplate":"Updated Azure Blob template"}}, [
-  'Content-Length',
-  '1488',
+  '1425',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '4af85e85-0bca-43a9-a5db-ca454ffe8445',
+  '27cdc6fb-eb25-44d8-9e8c-e5fe6ce47ea3',
   'x-envoy-upstream-service-time',
-  '70',
+  '5874',
   'apim-request-id',
-  '4af85e85-0bca-43a9-a5db-ca454ffe8445',
+  '27cdc6fb-eb25-44d8-9e8c-e5fe6ce47ea3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:41:48 GMT'
+  'Wed, 02 Jun 2021 02:34:08 GMT'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/metricsadvisor/v1.0/dataFeeds/eb1e70d7-dd15-4fee-83b5-6a1627b72777')
+  .reply(200, {"dataFeedId":"eb1e70d7-dd15-4fee-83b5-6a1627b72777","dataFeedName":"Updated-Azure-Blob-data-feed-162260124229408771","metrics":[{"metricId":"f8ea569f-3c02-4014-a512-5660fe06786d","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"db8fe831-bf4d-4084-bef1-0fd4c8b6d813","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-01T00:00:00Z","dataSourceType":"AzureBlob","timestampColumn":"UpdatedTimestampeColumn","startOffsetInSeconds":2,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__Existing__","needRollup":"AlreadyRollup","fillMissingPointType":"PreviousValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Updated Azure Blob description","stopRetryAfterInSeconds":5,"minRetryIntervalInSeconds":4,"maxConcurrency":3,"viewMode":"Public","admins":["azure_client_id"],"viewers":["viewer1@example.com"],"creator":"azure_client_id","status":"Active","createdTime":"2021-06-02T02:33:56Z","isAdmin":true,"actionLinkTemplate":"Updated Azure Blob action link template","dataSourceParameter":{"container":"Updated Azure Blob container","blobTemplate":"Updated Azure Blob template"},"authenticationType":"ManagedIdentity"}, [
+  'Content-Length',
+  '1425',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-request-id',
+  '72338d50-950a-4af8-b286-c20dc8cb177a',
+  'x-envoy-upstream-service-time',
+  '269',
+  'apim-request-id',
+  '72338d50-950a-4af8-b286-c20dc8cb177a',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Wed, 02 Jun 2021 02:34:08 GMT'
 ]);
