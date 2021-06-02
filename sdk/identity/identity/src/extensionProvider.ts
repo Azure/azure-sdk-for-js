@@ -88,7 +88,9 @@ export function registerExtension(
   installer: (context: AzureExtensionContext) => void
 ): void {
   if (registry.has(symbol)) {
-    throw new Error("Attempted to register the same Azure Identity Extension twice.");
+    throw new Error(
+      `Attempted to register the same Azure Identity Extension twice: ${symbol.toString()}`
+    );
   }
 
   registry.set(symbol, installer);

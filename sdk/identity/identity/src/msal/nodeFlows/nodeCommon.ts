@@ -31,16 +31,20 @@ export interface MsalNodeOptions extends MsalFlowOptions {
   tokenCredentialOptions: TokenCredentialOptions;
 }
 
-let persistenceProvider: (
-  options?: TokenCachePersistenceOptions
-) => Promise<msalCommon.ICachePlugin> = () => {
-  throw new Error(
-    "no persistence provider was configured (do you need to enable the `@azure/identity-persistence` extension?)"
-  );
-};
+/**
+ * The current persistence provider, undefined by default.
+ * @internal
+ */
+let persistenceProvider:
+  | ((options?: TokenCachePersistenceOptions) => Promise<msalCommon.ICachePlugin>)
+  | undefined = undefined;
 
+/**
+ * An object that allows setting the persistence provider.
+ * @internal
+ */
 export const msalNodeFlowPluginControl = {
-  set persistence(pluginProvider: typeof persistenceProvider) {
+  set persistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>) {
     persistenceProvider = pluginProvider;
   }
 };
@@ -69,8 +73,13 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.clientId = this.msalConfig.auth.clientId;
 
-    if (options.tokenCachePersistenceOptions) {
-      this.createCachePlugin = () => persistenceProvider(options.tokenCachePersistenceOptions);
+    // If persistence has been configured
+    if (persistenceProvider !== undefined) {
+      this.createCachePlugin = () => persistenceProvider!(options.tokenCachePersistenceOptions);
+    } else if (options.tokenCachePersistenceOptions !== undefined) {
+      throw new Error(
+        "`tokenCachePersistenceOptions` were provided, but no persistence provider was configured (do you need to use the `@azure/identity-persistence` package?)"
+      );
     }
   }
 
