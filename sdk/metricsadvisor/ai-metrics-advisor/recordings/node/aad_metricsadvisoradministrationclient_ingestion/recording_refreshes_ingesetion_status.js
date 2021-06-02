@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,36 +22,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'b626cef0-7cee-422c-8122-75d818288b00',
+  'e45f4d10-c207-407a-b1e7-c8bf1fe4a800',
   'x-ms-ests-server',
   '2.1.11722.26 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AoX4-jrIOKFFujzo4bUs3pzGLH8mBAAAAPMUSdgOAAAA; expires=Fri, 02-Jul-2021 05:58:39 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhDmgzXYAD1Lu7GFYxxGYOLGLH8mBQAAAHi3SdgOAAAA; expires=Fri, 02-Jul-2021 17:31:39 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Jun 2021 05:58:38 GMT'
+  'Wed, 02 Jun 2021 17:31:38 GMT',
+  'Content-Length',
+  '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query', {"startTime":"2020-08-22T00:00:00.000Z","endTime":"2020-08-23T00:00:00.000Z"})
-  .reply(200, {"value":[{"timestamp":"2020-08-22T00:00:00Z","status":"Running","message":"","lastAttemptTime":"2021-06-02T05:43:16Z"}]}, [
+  .reply(200, {"value":[{"timestamp":"2020-08-22T00:00:00Z","status":"NotStarted","message":"Pending Retry. ","lastAttemptTime":"2021-06-02T06:43:31Z"}]}, [
   'Content-Length',
-  '121',
+  '139',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'fb83e098-304e-433c-b25d-9431a71bd070',
+  '3cbf0ae5-725c-4158-aca7-0e235589d221',
   'x-envoy-upstream-service-time',
-  '5217',
+  '140',
   'apim-request-id',
-  'fb83e098-304e-433c-b25d-9431a71bd070',
+  '3cbf0ae5-725c-4158-aca7-0e235589d221',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 05:58:44 GMT'
+  'Wed, 02 Jun 2021 17:31:38 GMT'
 ]);
