@@ -39,9 +39,22 @@ export class GalleryApplications {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryApplicationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: Models.GalleryApplication, options?: msRest.RequestOptionsBase): Promise<Models.GalleryApplicationsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,galleryName,galleryApplicationName,galleryApplication,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GalleryApplicationsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    galleryApplication: Models.GalleryApplication,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GalleryApplicationsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      galleryName,
+      galleryApplicationName,
+      galleryApplication,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GalleryApplicationsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -56,9 +69,22 @@ export class GalleryApplications {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryApplicationsUpdateResponse>
    */
-  update(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: Models.GalleryApplicationUpdate, options?: msRest.RequestOptionsBase): Promise<Models.GalleryApplicationsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,galleryName,galleryApplicationName,galleryApplication,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GalleryApplicationsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    galleryApplication: Models.GalleryApplicationUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GalleryApplicationsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      galleryName,
+      galleryApplicationName,
+      galleryApplication,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GalleryApplicationsUpdateResponse
+    >;
   }
 
   /**
@@ -70,7 +96,12 @@ export class GalleryApplications {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryApplicationsGetResponse>
    */
-  get(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: msRest.RequestOptionsBase): Promise<Models.GalleryApplicationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GalleryApplicationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Application Gallery from which the Application
@@ -78,7 +109,12 @@ export class GalleryApplications {
    * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param callback The callback
    */
-  get(resourceGroupName: string, galleryName: string, galleryApplicationName: string, callback: msRest.ServiceCallback<Models.GalleryApplication>): void;
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    callback: msRest.ServiceCallback<Models.GalleryApplication>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Application Gallery from which the Application
@@ -87,8 +123,20 @@ export class GalleryApplications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryApplication>): void;
-  get(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryApplication>, callback?: msRest.ServiceCallback<Models.GalleryApplication>): Promise<Models.GalleryApplicationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GalleryApplication>
+  ): void;
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryApplication>,
+    callback?: msRest.ServiceCallback<Models.GalleryApplication>
+  ): Promise<Models.GalleryApplicationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +145,8 @@ export class GalleryApplications {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.GalleryApplicationsGetResponse>;
+      callback
+    ) as Promise<Models.GalleryApplicationsGetResponse>;
   }
 
   /**
@@ -109,9 +158,18 @@ export class GalleryApplications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,galleryName,galleryApplicationName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      galleryName,
+      galleryApplicationName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -122,14 +180,22 @@ export class GalleryApplications {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryApplicationsListByGalleryResponse>
    */
-  listByGallery(resourceGroupName: string, galleryName: string, options?: msRest.RequestOptionsBase): Promise<Models.GalleryApplicationsListByGalleryResponse>;
+  listByGallery(
+    resourceGroupName: string,
+    galleryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GalleryApplicationsListByGalleryResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Application Gallery from which Application Definitions
    * are to be listed.
    * @param callback The callback
    */
-  listByGallery(resourceGroupName: string, galleryName: string, callback: msRest.ServiceCallback<Models.GalleryApplicationList>): void;
+  listByGallery(
+    resourceGroupName: string,
+    galleryName: string,
+    callback: msRest.ServiceCallback<Models.GalleryApplicationList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Application Gallery from which Application Definitions
@@ -137,8 +203,18 @@ export class GalleryApplications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByGallery(resourceGroupName: string, galleryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryApplicationList>): void;
-  listByGallery(resourceGroupName: string, galleryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryApplicationList>, callback?: msRest.ServiceCallback<Models.GalleryApplicationList>): Promise<Models.GalleryApplicationsListByGalleryResponse> {
+  listByGallery(
+    resourceGroupName: string,
+    galleryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GalleryApplicationList>
+  ): void;
+  listByGallery(
+    resourceGroupName: string,
+    galleryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryApplicationList>,
+    callback?: msRest.ServiceCallback<Models.GalleryApplicationList>
+  ): Promise<Models.GalleryApplicationsListByGalleryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +222,8 @@ export class GalleryApplications {
         options
       },
       listByGalleryOperationSpec,
-      callback) as Promise<Models.GalleryApplicationsListByGalleryResponse>;
+      callback
+    ) as Promise<Models.GalleryApplicationsListByGalleryResponse>;
   }
 
   /**
@@ -162,7 +239,13 @@ export class GalleryApplications {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: Models.GalleryApplication, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    galleryApplication: Models.GalleryApplication,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -172,7 +255,8 @@ export class GalleryApplications {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -187,7 +271,13 @@ export class GalleryApplications {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: Models.GalleryApplicationUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    galleryApplication: Models.GalleryApplicationUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -197,7 +287,8 @@ export class GalleryApplications {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -209,7 +300,12 @@ export class GalleryApplications {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -218,7 +314,8 @@ export class GalleryApplications {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -227,26 +324,41 @@ export class GalleryApplications {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryApplicationsListByGalleryNextResponse>
    */
-  listByGalleryNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GalleryApplicationsListByGalleryNextResponse>;
+  listByGalleryNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GalleryApplicationsListByGalleryNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByGalleryNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.GalleryApplicationList>): void;
+  listByGalleryNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.GalleryApplicationList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByGalleryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryApplicationList>): void;
-  listByGalleryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryApplicationList>, callback?: msRest.ServiceCallback<Models.GalleryApplicationList>): Promise<Models.GalleryApplicationsListByGalleryNextResponse> {
+  listByGalleryNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GalleryApplicationList>
+  ): void;
+  listByGalleryNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryApplicationList>,
+    callback?: msRest.ServiceCallback<Models.GalleryApplicationList>
+  ): Promise<Models.GalleryApplicationsListByGalleryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByGalleryNextOperationSpec,
-      callback) as Promise<Models.GalleryApplicationsListByGalleryNextResponse>;
+      callback
+    ) as Promise<Models.GalleryApplicationsListByGalleryNextResponse>;
   }
 }
 
@@ -254,19 +366,16 @@ export class GalleryApplications {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GalleryApplication
@@ -280,18 +389,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByGalleryOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.galleryName],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GalleryApplicationList
@@ -305,19 +407,16 @@ const listByGalleryOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "galleryApplication",
     mapper: {
@@ -344,19 +443,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "galleryApplication",
     mapper: {
@@ -377,19 +473,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -405,15 +498,9 @@ const listByGalleryNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GalleryApplicationList

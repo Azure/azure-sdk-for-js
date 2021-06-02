@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ComputeManagementClientContext } from "./computeManagementClientContext";
 
-
 class ComputeManagementClient extends ComputeManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -74,7 +73,11 @@ class ComputeManagementClient extends ComputeManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.ComputeManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials | TokenCredential,
+    subscriptionId: string,
+    options?: Models.ComputeManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.availabilitySets = new operations.AvailabilitySets(this);
@@ -94,12 +97,18 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.restorePointCollections = new operations.RestorePointCollections(this);
     this.restorePoints = new operations.RestorePoints(this);
     this.virtualMachineScaleSetExtensions = new operations.VirtualMachineScaleSetExtensions(this);
-    this.virtualMachineScaleSetRollingUpgrades = new operations.VirtualMachineScaleSetRollingUpgrades(this);
-    this.virtualMachineScaleSetVMExtensions = new operations.VirtualMachineScaleSetVMExtensions(this);
+    this.virtualMachineScaleSetRollingUpgrades = new operations.VirtualMachineScaleSetRollingUpgrades(
+      this
+    );
+    this.virtualMachineScaleSetVMExtensions = new operations.VirtualMachineScaleSetVMExtensions(
+      this
+    );
     this.virtualMachineScaleSetVMs = new operations.VirtualMachineScaleSetVMs(this);
     this.logAnalytics = new operations.LogAnalytics(this);
     this.virtualMachineRunCommands = new operations.VirtualMachineRunCommands(this);
-    this.virtualMachineScaleSetVMRunCommands = new operations.VirtualMachineScaleSetVMRunCommands(this);
+    this.virtualMachineScaleSetVMRunCommands = new operations.VirtualMachineScaleSetVMRunCommands(
+      this
+    );
     this.resourceSkus = new operations.ResourceSkus(this);
     this.disks = new operations.Disks(this);
     this.snapshots = new operations.Snapshots(this);

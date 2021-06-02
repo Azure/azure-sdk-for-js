@@ -34,9 +34,18 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(roleInstanceName,resourceGroupName,cloudServiceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      roleInstanceName,
+      resourceGroupName,
+      cloudServiceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -47,14 +56,24 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceRoleInstancesGetResponse>
    */
-  get(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServiceRoleInstancesGetOptionalParams): Promise<Models.CloudServiceRoleInstancesGetResponse>;
+  get(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: Models.CloudServiceRoleInstancesGetOptionalParams
+  ): Promise<Models.CloudServiceRoleInstancesGetResponse>;
   /**
    * @param roleInstanceName Name of the role instance.
    * @param resourceGroupName
    * @param cloudServiceName
    * @param callback The callback
    */
-  get(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, callback: msRest.ServiceCallback<Models.RoleInstance>): void;
+  get(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    callback: msRest.ServiceCallback<Models.RoleInstance>
+  ): void;
   /**
    * @param roleInstanceName Name of the role instance.
    * @param resourceGroupName
@@ -62,8 +81,22 @@ export class CloudServiceRoleInstances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options: Models.CloudServiceRoleInstancesGetOptionalParams, callback: msRest.ServiceCallback<Models.RoleInstance>): void;
-  get(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServiceRoleInstancesGetOptionalParams | msRest.ServiceCallback<Models.RoleInstance>, callback?: msRest.ServiceCallback<Models.RoleInstance>): Promise<Models.CloudServiceRoleInstancesGetResponse> {
+  get(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options: Models.CloudServiceRoleInstancesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.RoleInstance>
+  ): void;
+  get(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?:
+      | Models.CloudServiceRoleInstancesGetOptionalParams
+      | msRest.ServiceCallback<Models.RoleInstance>,
+    callback?: msRest.ServiceCallback<Models.RoleInstance>
+  ): Promise<Models.CloudServiceRoleInstancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         roleInstanceName,
@@ -72,7 +105,8 @@ export class CloudServiceRoleInstances {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CloudServiceRoleInstancesGetResponse>;
+      callback
+    ) as Promise<Models.CloudServiceRoleInstancesGetResponse>;
   }
 
   /**
@@ -83,14 +117,24 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceRoleInstancesGetInstanceViewResponse>
    */
-  getInstanceView(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServiceRoleInstancesGetInstanceViewResponse>;
+  getInstanceView(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudServiceRoleInstancesGetInstanceViewResponse>;
   /**
    * @param roleInstanceName Name of the role instance.
    * @param resourceGroupName
    * @param cloudServiceName
    * @param callback The callback
    */
-  getInstanceView(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, callback: msRest.ServiceCallback<Models.RoleInstanceInstanceView>): void;
+  getInstanceView(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    callback: msRest.ServiceCallback<Models.RoleInstanceInstanceView>
+  ): void;
   /**
    * @param roleInstanceName Name of the role instance.
    * @param resourceGroupName
@@ -98,8 +142,20 @@ export class CloudServiceRoleInstances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getInstanceView(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleInstanceInstanceView>): void;
-  getInstanceView(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleInstanceInstanceView>, callback?: msRest.ServiceCallback<Models.RoleInstanceInstanceView>): Promise<Models.CloudServiceRoleInstancesGetInstanceViewResponse> {
+  getInstanceView(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RoleInstanceInstanceView>
+  ): void;
+  getInstanceView(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RoleInstanceInstanceView>,
+    callback?: msRest.ServiceCallback<Models.RoleInstanceInstanceView>
+  ): Promise<Models.CloudServiceRoleInstancesGetInstanceViewResponse> {
     return this.client.sendOperationRequest(
       {
         roleInstanceName,
@@ -108,7 +164,8 @@ export class CloudServiceRoleInstances {
         options
       },
       getInstanceViewOperationSpec,
-      callback) as Promise<Models.CloudServiceRoleInstancesGetInstanceViewResponse>;
+      callback
+    ) as Promise<Models.CloudServiceRoleInstancesGetInstanceViewResponse>;
   }
 
   /**
@@ -120,21 +177,41 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceRoleInstancesListResponse>
    */
-  list(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServiceRoleInstancesListOptionalParams): Promise<Models.CloudServiceRoleInstancesListResponse>;
+  list(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: Models.CloudServiceRoleInstancesListOptionalParams
+  ): Promise<Models.CloudServiceRoleInstancesListResponse>;
   /**
    * @param resourceGroupName
    * @param cloudServiceName
    * @param callback The callback
    */
-  list(resourceGroupName: string, cloudServiceName: string, callback: msRest.ServiceCallback<Models.RoleInstanceListResult>): void;
+  list(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    callback: msRest.ServiceCallback<Models.RoleInstanceListResult>
+  ): void;
   /**
    * @param resourceGroupName
    * @param cloudServiceName
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, cloudServiceName: string, options: Models.CloudServiceRoleInstancesListOptionalParams, callback: msRest.ServiceCallback<Models.RoleInstanceListResult>): void;
-  list(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServiceRoleInstancesListOptionalParams | msRest.ServiceCallback<Models.RoleInstanceListResult>, callback?: msRest.ServiceCallback<Models.RoleInstanceListResult>): Promise<Models.CloudServiceRoleInstancesListResponse> {
+  list(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options: Models.CloudServiceRoleInstancesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.RoleInstanceListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?:
+      | Models.CloudServiceRoleInstancesListOptionalParams
+      | msRest.ServiceCallback<Models.RoleInstanceListResult>,
+    callback?: msRest.ServiceCallback<Models.RoleInstanceListResult>
+  ): Promise<Models.CloudServiceRoleInstancesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -142,7 +219,8 @@ export class CloudServiceRoleInstances {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.CloudServiceRoleInstancesListResponse>;
+      callback
+    ) as Promise<Models.CloudServiceRoleInstancesListResponse>;
   }
 
   /**
@@ -154,9 +232,18 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  restart(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRestart(roleInstanceName,resourceGroupName,cloudServiceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  restart(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRestart(
+      roleInstanceName,
+      resourceGroupName,
+      cloudServiceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -168,9 +255,18 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  reimage(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginReimage(roleInstanceName,resourceGroupName,cloudServiceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  reimage(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginReimage(
+      roleInstanceName,
+      resourceGroupName,
+      cloudServiceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -183,9 +279,18 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  rebuild(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRebuild(roleInstanceName,resourceGroupName,cloudServiceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  rebuild(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRebuild(
+      roleInstanceName,
+      resourceGroupName,
+      cloudServiceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -196,14 +301,24 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceRoleInstancesGetRemoteDesktopFileResponse>
    */
-  getRemoteDesktopFile(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServiceRoleInstancesGetRemoteDesktopFileResponse>;
+  getRemoteDesktopFile(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudServiceRoleInstancesGetRemoteDesktopFileResponse>;
   /**
    * @param roleInstanceName Name of the role instance.
    * @param resourceGroupName
    * @param cloudServiceName
    * @param callback The callback
    */
-  getRemoteDesktopFile(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, callback: msRest.ServiceCallback<void>): void;
+  getRemoteDesktopFile(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param roleInstanceName Name of the role instance.
    * @param resourceGroupName
@@ -211,8 +326,20 @@ export class CloudServiceRoleInstances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRemoteDesktopFile(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getRemoteDesktopFile(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CloudServiceRoleInstancesGetRemoteDesktopFileResponse> {
+  getRemoteDesktopFile(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getRemoteDesktopFile(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.CloudServiceRoleInstancesGetRemoteDesktopFileResponse> {
     return this.client.sendOperationRequest(
       {
         roleInstanceName,
@@ -221,7 +348,8 @@ export class CloudServiceRoleInstances {
         options
       },
       getRemoteDesktopFileOperationSpec,
-      callback) as Promise<Models.CloudServiceRoleInstancesGetRemoteDesktopFileResponse>;
+      callback
+    ) as Promise<Models.CloudServiceRoleInstancesGetRemoteDesktopFileResponse>;
   }
 
   /**
@@ -232,7 +360,12 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         roleInstanceName,
@@ -241,7 +374,8 @@ export class CloudServiceRoleInstances {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -253,7 +387,12 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRestart(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRestart(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         roleInstanceName,
@@ -262,7 +401,8 @@ export class CloudServiceRoleInstances {
         options
       },
       beginRestartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -274,7 +414,12 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginReimage(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginReimage(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         roleInstanceName,
@@ -283,7 +428,8 @@ export class CloudServiceRoleInstances {
         options
       },
       beginReimageOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -296,7 +442,12 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRebuild(roleInstanceName: string, resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRebuild(
+    roleInstanceName: string,
+    resourceGroupName: string,
+    cloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         roleInstanceName,
@@ -305,7 +456,8 @@ export class CloudServiceRoleInstances {
         options
       },
       beginRebuildOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -316,26 +468,43 @@ export class CloudServiceRoleInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServiceRoleInstancesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.CloudServiceRoleInstancesListNextOptionalParams): Promise<Models.CloudServiceRoleInstancesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.CloudServiceRoleInstancesListNextOptionalParams
+  ): Promise<Models.CloudServiceRoleInstancesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RoleInstanceListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RoleInstanceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.CloudServiceRoleInstancesListNextOptionalParams, callback: msRest.ServiceCallback<Models.RoleInstanceListResult>): void;
-  listNext(nextPageLink: string, options?: Models.CloudServiceRoleInstancesListNextOptionalParams | msRest.ServiceCallback<Models.RoleInstanceListResult>, callback?: msRest.ServiceCallback<Models.RoleInstanceListResult>): Promise<Models.CloudServiceRoleInstancesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.CloudServiceRoleInstancesListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.RoleInstanceListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.CloudServiceRoleInstancesListNextOptionalParams
+      | msRest.ServiceCallback<Models.RoleInstanceListResult>,
+    callback?: msRest.ServiceCallback<Models.RoleInstanceListResult>
+  ): Promise<Models.CloudServiceRoleInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.CloudServiceRoleInstancesListNextResponse>;
+      callback
+    ) as Promise<Models.CloudServiceRoleInstancesListNextResponse>;
   }
 }
 
@@ -343,20 +512,16 @@ export class CloudServiceRoleInstances {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}",
   urlParameters: [
     Parameters.roleInstanceName,
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.expand1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.expand1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RoleInstance
@@ -370,19 +535,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const getInstanceViewOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/instanceView",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/instanceView",
   urlParameters: [
     Parameters.roleInstanceName,
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RoleInstanceInstanceView
@@ -396,19 +558,15 @@ const getInstanceViewOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.expand1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.expand1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RoleInstanceListResult
@@ -422,19 +580,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getRemoteDesktopFileOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/remoteDesktopFile",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/remoteDesktopFile",
   urlParameters: [
     Parameters.roleInstanceName,
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -453,19 +608,16 @@ const getRemoteDesktopFileOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}",
   urlParameters: [
     Parameters.roleInstanceName,
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -479,19 +631,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginRestartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/restart",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/restart",
   urlParameters: [
     Parameters.roleInstanceName,
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -504,19 +653,16 @@ const beginRestartOperationSpec: msRest.OperationSpec = {
 
 const beginReimageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/reimage",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/reimage",
   urlParameters: [
     Parameters.roleInstanceName,
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -529,19 +675,16 @@ const beginReimageOperationSpec: msRest.OperationSpec = {
 
 const beginRebuildOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/rebuild",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/rebuild",
   urlParameters: [
     Parameters.roleInstanceName,
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -556,16 +699,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.expand1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0, Parameters.expand1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RoleInstanceListResult
