@@ -39,13 +39,7 @@ export class DiskRestorePointOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskRestorePointGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    vmRestorePointName: string,
-    diskRestorePointName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DiskRestorePointGetResponse>;
+  get(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskRestorePointGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
@@ -58,13 +52,7 @@ export class DiskRestorePointOperations {
    * the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    vmRestorePointName: string,
-    diskRestorePointName: string,
-    callback: msRest.ServiceCallback<Models.DiskRestorePoint>
-  ): void;
+  get(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, callback: msRest.ServiceCallback<Models.DiskRestorePoint>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
@@ -78,22 +66,8 @@ export class DiskRestorePointOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    vmRestorePointName: string,
-    diskRestorePointName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DiskRestorePoint>
-  ): void;
-  get(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    vmRestorePointName: string,
-    diskRestorePointName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskRestorePoint>,
-    callback?: msRest.ServiceCallback<Models.DiskRestorePoint>
-  ): Promise<Models.DiskRestorePointGetResponse> {
+  get(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskRestorePoint>): void;
+  get(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskRestorePoint>, callback?: msRest.ServiceCallback<Models.DiskRestorePoint>): Promise<Models.DiskRestorePointGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,8 +77,7 @@ export class DiskRestorePointOperations {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.DiskRestorePointGetResponse>;
+      callback) as Promise<Models.DiskRestorePointGetResponse>;
   }
 
   /**
@@ -119,12 +92,7 @@ export class DiskRestorePointOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskRestorePointListByRestorePointResponse>
    */
-  listByRestorePoint(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    vmRestorePointName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DiskRestorePointListByRestorePointResponse>;
+  listByRestorePoint(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskRestorePointListByRestorePointResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
@@ -135,12 +103,7 @@ export class DiskRestorePointOperations {
    * 80 characters.
    * @param callback The callback
    */
-  listByRestorePoint(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    vmRestorePointName: string,
-    callback: msRest.ServiceCallback<Models.DiskRestorePointList>
-  ): void;
+  listByRestorePoint(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, callback: msRest.ServiceCallback<Models.DiskRestorePointList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
@@ -152,20 +115,8 @@ export class DiskRestorePointOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByRestorePoint(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    vmRestorePointName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DiskRestorePointList>
-  ): void;
-  listByRestorePoint(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    vmRestorePointName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskRestorePointList>,
-    callback?: msRest.ServiceCallback<Models.DiskRestorePointList>
-  ): Promise<Models.DiskRestorePointListByRestorePointResponse> {
+  listByRestorePoint(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskRestorePointList>): void;
+  listByRestorePoint(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskRestorePointList>, callback?: msRest.ServiceCallback<Models.DiskRestorePointList>): Promise<Models.DiskRestorePointListByRestorePointResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -174,8 +125,7 @@ export class DiskRestorePointOperations {
         options
       },
       listByRestorePointOperationSpec,
-      callback
-    ) as Promise<Models.DiskRestorePointListByRestorePointResponse>;
+      callback) as Promise<Models.DiskRestorePointListByRestorePointResponse>;
   }
 
   /**
@@ -184,41 +134,26 @@ export class DiskRestorePointOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskRestorePointListByRestorePointNextResponse>
    */
-  listByRestorePointNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DiskRestorePointListByRestorePointNextResponse>;
+  listByRestorePointNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskRestorePointListByRestorePointNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByRestorePointNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.DiskRestorePointList>
-  ): void;
+  listByRestorePointNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiskRestorePointList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByRestorePointNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DiskRestorePointList>
-  ): void;
-  listByRestorePointNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskRestorePointList>,
-    callback?: msRest.ServiceCallback<Models.DiskRestorePointList>
-  ): Promise<Models.DiskRestorePointListByRestorePointNextResponse> {
+  listByRestorePointNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskRestorePointList>): void;
+  listByRestorePointNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskRestorePointList>, callback?: msRest.ServiceCallback<Models.DiskRestorePointList>): Promise<Models.DiskRestorePointListByRestorePointNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByRestorePointNextOperationSpec,
-      callback
-    ) as Promise<Models.DiskRestorePointListByRestorePointNextResponse>;
+      callback) as Promise<Models.DiskRestorePointListByRestorePointNextResponse>;
   }
 }
 
@@ -226,8 +161,7 @@ export class DiskRestorePointOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -235,8 +169,12 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.vmRestorePointName,
     Parameters.diskRestorePointName
   ],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DiskRestorePoint
@@ -250,16 +188,19 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByRestorePointOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.restorePointCollectionName,
     Parameters.vmRestorePointName
   ],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DiskRestorePointList
@@ -275,9 +216,15 @@ const listByRestorePointNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion2],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DiskRestorePointList

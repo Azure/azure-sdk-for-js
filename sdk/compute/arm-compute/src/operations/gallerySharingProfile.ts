@@ -34,20 +34,9 @@ export class GallerySharingProfile {
    * @param [options] The optional parameters
    * @returns Promise<Models.GallerySharingProfileUpdateResponse>
    */
-  update(
-    resourceGroupName: string,
-    galleryName: string,
-    sharingUpdate: Models.SharingUpdate,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.GallerySharingProfileUpdateResponse> {
-    return this.beginUpdate(
-      resourceGroupName,
-      galleryName,
-      sharingUpdate,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.GallerySharingProfileUpdateResponse
-    >;
+  update(resourceGroupName: string, galleryName: string, sharingUpdate: Models.SharingUpdate, options?: msRest.RequestOptionsBase): Promise<Models.GallerySharingProfileUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,galleryName,sharingUpdate,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GallerySharingProfileUpdateResponse>;
   }
 
   /**
@@ -58,12 +47,7 @@ export class GallerySharingProfile {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(
-    resourceGroupName: string,
-    galleryName: string,
-    sharingUpdate: Models.SharingUpdate,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, galleryName: string, sharingUpdate: Models.SharingUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -72,8 +56,7 @@ export class GallerySharingProfile {
         options
       },
       beginUpdateOperationSpec,
-      options
-    );
+      options);
   }
 }
 
@@ -81,11 +64,18 @@ export class GallerySharingProfile {
 const serializer = new msRest.Serializer(Mappers);
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.galleryName],
-  queryParameters: [Parameters.apiVersion3],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "sharingUpdate",
     mapper: {

@@ -34,18 +34,9 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServicesCreateOrUpdateResponse>
    */
-  createOrUpdate(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesCreateOrUpdateOptionalParams
-  ): Promise<Models.CloudServicesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(
-      resourceGroupName,
-      cloudServiceName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.CloudServicesCreateOrUpdateResponse
-    >;
+  createOrUpdate(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesCreateOrUpdateOptionalParams): Promise<Models.CloudServicesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,cloudServiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CloudServicesCreateOrUpdateResponse>;
   }
 
   /**
@@ -55,14 +46,9 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServicesUpdateResponse>
    */
-  update(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesUpdateOptionalParams
-  ): Promise<Models.CloudServicesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName, cloudServiceName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    ) as Promise<Models.CloudServicesUpdateResponse>;
+  update(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesUpdateOptionalParams): Promise<Models.CloudServicesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,cloudServiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CloudServicesUpdateResponse>;
   }
 
   /**
@@ -72,14 +58,9 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName, cloudServiceName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    );
+  deleteMethod(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,cloudServiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -89,39 +70,21 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServicesGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CloudServicesGetResponse>;
+  get(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServicesGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param cloudServiceName Name of the cloud service.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    callback: msRest.ServiceCallback<Models.CloudService>
-  ): void;
+  get(resourceGroupName: string, cloudServiceName: string, callback: msRest.ServiceCallback<Models.CloudService>): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param cloudServiceName Name of the cloud service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CloudService>
-  ): void;
-  get(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudService>,
-    callback?: msRest.ServiceCallback<Models.CloudService>
-  ): Promise<Models.CloudServicesGetResponse> {
+  get(resourceGroupName: string, cloudServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudService>): void;
+  get(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudService>, callback?: msRest.ServiceCallback<Models.CloudService>): Promise<Models.CloudServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,8 +92,7 @@ export class CloudServices {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.CloudServicesGetResponse>;
+      callback) as Promise<Models.CloudServicesGetResponse>;
   }
 
   /**
@@ -140,39 +102,21 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServicesGetInstanceViewResponse>
    */
-  getInstanceView(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CloudServicesGetInstanceViewResponse>;
+  getInstanceView(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServicesGetInstanceViewResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param cloudServiceName Name of the cloud service.
    * @param callback The callback
    */
-  getInstanceView(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    callback: msRest.ServiceCallback<Models.CloudServiceInstanceView>
-  ): void;
+  getInstanceView(resourceGroupName: string, cloudServiceName: string, callback: msRest.ServiceCallback<Models.CloudServiceInstanceView>): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param cloudServiceName Name of the cloud service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getInstanceView(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CloudServiceInstanceView>
-  ): void;
-  getInstanceView(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceInstanceView>,
-    callback?: msRest.ServiceCallback<Models.CloudServiceInstanceView>
-  ): Promise<Models.CloudServicesGetInstanceViewResponse> {
+  getInstanceView(resourceGroupName: string, cloudServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudServiceInstanceView>): void;
+  getInstanceView(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceInstanceView>, callback?: msRest.ServiceCallback<Models.CloudServiceInstanceView>): Promise<Models.CloudServicesGetInstanceViewResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -180,8 +124,7 @@ export class CloudServices {
         options
       },
       getInstanceViewOperationSpec,
-      callback
-    ) as Promise<Models.CloudServicesGetInstanceViewResponse>;
+      callback) as Promise<Models.CloudServicesGetInstanceViewResponse>;
   }
 
   /**
@@ -200,21 +143,14 @@ export class CloudServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CloudServiceListResult>
-  ): void;
-  listAll(
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceListResult>,
-    callback?: msRest.ServiceCallback<Models.CloudServiceListResult>
-  ): Promise<Models.CloudServicesListAllResponse> {
+  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudServiceListResult>): void;
+  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceListResult>, callback?: msRest.ServiceCallback<Models.CloudServiceListResult>): Promise<Models.CloudServicesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAllOperationSpec,
-      callback
-    ) as Promise<Models.CloudServicesListAllResponse>;
+      callback) as Promise<Models.CloudServicesListAllResponse>;
   }
 
   /**
@@ -225,41 +161,26 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServicesListResponse>
    */
-  list(
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CloudServicesListResponse>;
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServicesListResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param callback The callback
    */
-  list(
-    resourceGroupName: string,
-    callback: msRest.ServiceCallback<Models.CloudServiceListResult>
-  ): void;
+  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.CloudServiceListResult>): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    resourceGroupName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CloudServiceListResult>
-  ): void;
-  list(
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceListResult>,
-    callback?: msRest.ServiceCallback<Models.CloudServiceListResult>
-  ): Promise<Models.CloudServicesListResponse> {
+  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudServiceListResult>): void;
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceListResult>, callback?: msRest.ServiceCallback<Models.CloudServiceListResult>): Promise<Models.CloudServicesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.CloudServicesListResponse>;
+      callback) as Promise<Models.CloudServicesListResponse>;
   }
 
   /**
@@ -269,14 +190,9 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName, cloudServiceName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    );
+  start(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginStart(resourceGroupName,cloudServiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -287,14 +203,9 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  powerOff(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginPowerOff(resourceGroupName, cloudServiceName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    );
+  powerOff(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginPowerOff(resourceGroupName,cloudServiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -304,14 +215,9 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  restart(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesRestartOptionalParams
-  ): Promise<msRest.RestResponse> {
-    return this.beginRestart(resourceGroupName, cloudServiceName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    );
+  restart(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesRestartOptionalParams): Promise<msRest.RestResponse> {
+    return this.beginRestart(resourceGroupName,cloudServiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -322,14 +228,9 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  reimage(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesReimageOptionalParams
-  ): Promise<msRest.RestResponse> {
-    return this.beginReimage(resourceGroupName, cloudServiceName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    );
+  reimage(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesReimageOptionalParams): Promise<msRest.RestResponse> {
+    return this.beginReimage(resourceGroupName,cloudServiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -341,14 +242,9 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  rebuild(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesRebuildOptionalParams
-  ): Promise<msRest.RestResponse> {
-    return this.beginRebuild(resourceGroupName, cloudServiceName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    );
+  rebuild(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesRebuildOptionalParams): Promise<msRest.RestResponse> {
+    return this.beginRebuild(resourceGroupName,cloudServiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -358,16 +254,9 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteInstances(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesDeleteInstancesOptionalParams
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteInstances(
-      resourceGroupName,
-      cloudServiceName,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  deleteInstances(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesDeleteInstancesOptionalParams): Promise<msRest.RestResponse> {
+    return this.beginDeleteInstances(resourceGroupName,cloudServiceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -378,11 +267,7 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesBeginCreateOrUpdateOptionalParams
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -390,8 +275,7 @@ export class CloudServices {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -401,11 +285,7 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesBeginUpdateOptionalParams
-  ): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -413,8 +293,7 @@ export class CloudServices {
         options
       },
       beginUpdateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -424,11 +303,7 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -436,8 +311,7 @@ export class CloudServices {
         options
       },
       beginDeleteMethodOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -447,11 +321,7 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginStart(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -459,8 +329,7 @@ export class CloudServices {
         options
       },
       beginStartOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -471,11 +340,7 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPowerOff(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginPowerOff(resourceGroupName: string, cloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -483,8 +348,7 @@ export class CloudServices {
         options
       },
       beginPowerOffOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -494,11 +358,7 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRestart(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesBeginRestartOptionalParams
-  ): Promise<msRestAzure.LROPoller> {
+  beginRestart(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesBeginRestartOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -506,8 +366,7 @@ export class CloudServices {
         options
       },
       beginRestartOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -518,11 +377,7 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginReimage(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesBeginReimageOptionalParams
-  ): Promise<msRestAzure.LROPoller> {
+  beginReimage(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesBeginReimageOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -530,8 +385,7 @@ export class CloudServices {
         options
       },
       beginReimageOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -543,11 +397,7 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRebuild(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesBeginRebuildOptionalParams
-  ): Promise<msRestAzure.LROPoller> {
+  beginRebuild(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesBeginRebuildOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -555,8 +405,7 @@ export class CloudServices {
         options
       },
       beginRebuildOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -566,11 +415,7 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteInstances(
-    resourceGroupName: string,
-    cloudServiceName: string,
-    options?: Models.CloudServicesBeginDeleteInstancesOptionalParams
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteInstances(resourceGroupName: string, cloudServiceName: string, options?: Models.CloudServicesBeginDeleteInstancesOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -578,8 +423,7 @@ export class CloudServices {
         options
       },
       beginDeleteInstancesOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -590,41 +434,26 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServicesListAllNextResponse>
    */
-  listAllNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CloudServicesListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServicesListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.CloudServiceListResult>
-  ): void;
+  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CloudServiceListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CloudServiceListResult>
-  ): void;
-  listAllNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceListResult>,
-    callback?: msRest.ServiceCallback<Models.CloudServiceListResult>
-  ): Promise<Models.CloudServicesListAllNextResponse> {
+  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudServiceListResult>): void;
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceListResult>, callback?: msRest.ServiceCallback<Models.CloudServiceListResult>): Promise<Models.CloudServicesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAllNextOperationSpec,
-      callback
-    ) as Promise<Models.CloudServicesListAllNextResponse>;
+      callback) as Promise<Models.CloudServicesListAllNextResponse>;
   }
 
   /**
@@ -635,41 +464,26 @@ export class CloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudServicesListNextResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.CloudServicesListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudServicesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.CloudServiceListResult>
-  ): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CloudServiceListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CloudServiceListResult>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceListResult>,
-    callback?: msRest.ServiceCallback<Models.CloudServiceListResult>
-  ): Promise<Models.CloudServicesListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudServiceListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudServiceListResult>, callback?: msRest.ServiceCallback<Models.CloudServiceListResult>): Promise<Models.CloudServicesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.CloudServicesListNextResponse>;
+      callback) as Promise<Models.CloudServicesListNextResponse>;
   }
 }
 
@@ -677,15 +491,18 @@ export class CloudServices {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CloudService
@@ -699,15 +516,18 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const getInstanceViewOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/instanceView",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/instanceView",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CloudServiceInstanceView
@@ -722,9 +542,15 @@ const getInstanceViewOperationSpec: msRest.OperationSpec = {
 const listAllOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/cloudServices",
-  urlParameters: [Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CloudServiceListResult
@@ -738,11 +564,17 @@ const listAllOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices",
-  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CloudServiceListResult
@@ -756,17 +588,23 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
-    parameterPath: ["options", "parameters"],
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
     mapper: Mappers.CloudService
   },
   responses: {
@@ -785,17 +623,23 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
-    parameterPath: ["options", "parameters"],
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
     mapper: Mappers.CloudServiceUpdate
   },
   responses: {
@@ -811,15 +655,18 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -833,15 +680,18 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/start",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/start",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -854,15 +704,18 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginPowerOffOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/poweroff",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/poweroff",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -875,17 +728,23 @@ const beginPowerOffOperationSpec: msRest.OperationSpec = {
 
 const beginRestartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/restart",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/restart",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
-    parameterPath: ["options", "parameters"],
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
     mapper: Mappers.RoleInstances
   },
   responses: {
@@ -900,17 +759,23 @@ const beginRestartOperationSpec: msRest.OperationSpec = {
 
 const beginReimageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/reimage",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/reimage",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
-    parameterPath: ["options", "parameters"],
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
     mapper: Mappers.RoleInstances
   },
   responses: {
@@ -925,17 +790,23 @@ const beginReimageOperationSpec: msRest.OperationSpec = {
 
 const beginRebuildOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/rebuild",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/rebuild",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
-    parameterPath: ["options", "parameters"],
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
     mapper: Mappers.RoleInstances
   },
   responses: {
@@ -950,17 +821,23 @@ const beginRebuildOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteInstancesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/delete",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/delete",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
-    parameterPath: ["options", "parameters"],
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
     mapper: Mappers.RoleInstances
   },
   responses: {
@@ -977,9 +854,15 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CloudServiceListResult
@@ -995,9 +878,15 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CloudServiceListResult
