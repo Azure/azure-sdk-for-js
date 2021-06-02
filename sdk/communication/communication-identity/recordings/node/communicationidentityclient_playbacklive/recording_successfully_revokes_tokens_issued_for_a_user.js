@@ -7,7 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/identities', {"createTokenWithScopes":["chat","voip"]})
   .query(true)
-  .reply(201, {"identity":{"id":"sanitized"},"accessToken":{"token":"sanitized","expiresOn":"2021-04-21T02:14:01.9241824+00:00"}}, [
+  .reply(201, {"identity":{"id":"sanitized"},"accessToken":{"token":"sanitized","expiresOn":"2021-06-02T22:00:57.7046742+00:00"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -15,19 +15,21 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'GM17mZEnaUu2uXHfN/7+yA.0',
+  '71DsINmKdkyaoEN03vi1Cg.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   'sanitized',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1',
   'X-Processing-Time',
-  '27ms',
+  '294ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '06jh+YAAAAAB3h/GgxoznQZD39ftnZvraWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0Gq62YAAAAAAnzkY9hPJfSLeVhegB2zrNWVZSMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 20 Apr 2021 02:14:02 GMT'
+  'Tue, 01 Jun 2021 22:00:58 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -37,17 +39,19 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'iMV0frTY60SoI+gTPJymPA.0',
+  'C6kHC4B1uEi0KsX337YyXQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   'sanitized',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1',
   'X-Processing-Time',
-  '157ms',
+  '218ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '06jh+YAAAAAB0hfc5N0ngRI0NHHJF9I57WVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0Gq62YAAAAAA7J3tvCr7GR7UX+A5h7Z4JWVZSMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 20 Apr 2021 02:14:02 GMT'
+  'Tue, 01 Jun 2021 22:00:58 GMT'
 ]);

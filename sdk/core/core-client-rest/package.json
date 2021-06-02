@@ -8,7 +8,7 @@
   "browser": {
     "./dist-esm/src/url.js": "./dist-esm/src/url.browser.js"
   },
-  "types": "types/src/latest/core-client.d.ts",
+  "types": "types/src/latest/core-client-rest.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "npm run build:ts && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -40,7 +40,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/src/latest/core-client.d.ts",
+    "types/src/latest/core-client-rest.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -57,7 +57,7 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core-rest/core-client/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-client-rest/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {

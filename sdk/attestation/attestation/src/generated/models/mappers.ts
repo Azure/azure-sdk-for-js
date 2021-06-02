@@ -18,6 +18,7 @@ export const PolicyResponse: coreHttp.CompositeMapper = {
           Pattern: new RegExp("[A-Za-z0-9_-]+.[A-Za-z0-9_-]*.[A-Za-z0-9_-]*")
         },
         serializedName: "token",
+        required: true,
         type: {
           name: "String"
         }
@@ -186,6 +187,7 @@ export const AttestationResponse: coreHttp.CompositeMapper = {
           Pattern: new RegExp("[A-Za-z0-9_-]+.[A-Za-z0-9_-]*.[A-Za-z0-9_-]*")
         },
         serializedName: "token",
+        required: true,
         type: {
           name: "String"
         }

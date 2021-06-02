@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -13,32 +16,30 @@ import {base64DecodeString} from "../utils/base64";
  */
 export class AttestationSigner
 {
-    constructor(key : JsonWebKey) {
-        if (key.kid === null) {
-            throw new Error("KeyID field in signer must not be null.")
-        }
-        else if (key.kid === undefined) {
-            throw new Error("KeyID field in signer cannot be undefined.")
-        }
-        else
-        {
-            this.keyId = key.kid.toString();
-        }
-
-        this.certificates = key.x5C?.map(base64DecodeString) ?? []
+  /**
+   * @internal
+   * 
+   * @param key - JSON Web Key describing the attestation signer.
+   */
+  constructor(key?: JsonWebKey) {
+    if (key?.kid) {
+      this.keyId = key.kid.toString();
     }
 
-    /**
-     * The Key ID for the signer, as defined by the "kid" parameter in 
-     * [RFC 7517 section 4.5](https://datatracker.ietf.org/doc/html/rfc7517#section-4.5)
-     */
-    keyId: string;
+    this.certificates = key?.x5C?.map(base64DecodeString) ?? []
+  }
 
-    /**
-     * An array of X.509 DER encoded certificates one of which will be used to
-     * sign an attestation token. Also the "x5c" parameter in 
-     * [RFC 7517 section 4.7](https://datatracker.ietf.org/doc/html/rfc7517#section-4.7)
-     */
+  /**
+   * The Key ID for the signer, as defined by the "kid" parameter in 
+   * {@link https://datatracker.ietf.org/doc/html/rfc7517#section-4.5 | RFC 7517 section 4.5}
+   */
+  keyId?: string;
 
-    certificates: Uint8Array[]
+  /**
+   * An array of X.509 DER encoded certificates one of which will be used to
+   * sign an attestation token. Also the "x5c" parameter in 
+   * {@link https://datatracker.ietf.org/doc/html/rfc7517#section-4.7 | RFC 7517 section 4.7}
+   */
+
+  certificates: Uint8Array[]
 };

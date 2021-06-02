@@ -15,13 +15,28 @@
    * Encodes a byte array in base64 format.
    * @param value - the Uint8Array to encode
    */
-  export function encodeByteArray(value: Uint8Array): string {
+  export function base64EncodeByteArray(value: Uint8Array): string {
     let str = "";
     for (let i = 0; i < value.length; i++) {
       str += String.fromCharCode(value[i]);
     }
     return btoa(str);
   }
+
+    /**
+   * Encodes a byte array in base64 format.
+   * @param value - the Uint8Array to encode
+   */
+     export function base64UrlEncodeByteArray(value: Uint8Array): string {
+      let str = "";
+      for (let i = 0; i < value.length; i++) {
+        str += String.fromCharCode(value[i]);
+      }
+      const base64 = btoa(str);
+      // Convert the base64 buffer to base64url.
+      return base64.replace(/\+/g, "-",).replace(/\//, "_").split('=')[0];
+    }
+    
   
   /**
    * Decodes a base64 string into a byte array.
@@ -35,6 +50,7 @@
     }
     return arr;
   }
+
   
   /**
    * Adds missing padding to a Base64 encoded string
@@ -55,20 +71,23 @@
     const paddedEncoded = fixPadding(encoded);
     return base64DecodeString(paddedEncoded);
   }
-  
-    /**
-   * Converts a hex encoded string to its base64 equivalent.
-   * @param value Hex encoded value
-   */
-     export function base64FromHex(value : string): string {
-      if (value.length % 2 != 0) {
-        throw new Error("base64FromHex: Input must be a multiple of 2 characters");
-      }
-      let byteArray = new Array();
-      for (var i = 0 ; i < value.length ; i += 2) {
-        byteArray.push(parseInt(value.substr(i, 2), 16));
-      }
-  
-      return encodeByteArray(Uint8Array.from(byteArray));
+
+  export function hexToByteArray(value: string) : Uint8Array {
+    if (value.length % 2 !== 0) {
+      throw new Error("base64FromHex: Input must be a multiple of 2 characters");
     }
-    
+    const byteArray = new Array();
+    for (let i = 0 ; i < value.length ; i += 2) {
+      byteArray.push(parseInt(value.substr(i, 2), 16));
+    }
+    return Uint8Array.from(byteArray);
+  }
+  
+  /**
+   * Converts a hex encoded string to its base64 equivalent.
+   * @param value - Hex encoded value
+   */
+   export function hexToBase64(value : string): string {
+    return base64EncodeByteArray(hexToByteArray(value));
+  }
+  

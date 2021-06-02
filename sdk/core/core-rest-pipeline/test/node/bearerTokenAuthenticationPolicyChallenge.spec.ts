@@ -5,7 +5,7 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
-  bearerTokenChallengeAuthenticationPolicy,
+  bearerTokenAuthenticationPolicy,
   AuthorizeRequestOnChallengeOptions,
   createEmptyPipeline,
   createHttpHeaders,
@@ -161,7 +161,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
 
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
-    const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
+    const bearerPolicy = bearerTokenAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [],
       credential,
@@ -270,7 +270,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
     let previousToken: AccessToken | null;
-    const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
+    const bearerPolicy = bearerTokenAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [],
       credential,
@@ -344,7 +344,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
 
     const pipeline = createEmptyPipeline();
     let firstRequest: boolean = true;
-    const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
+    const bearerPolicy = bearerTokenAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [],
       credential,

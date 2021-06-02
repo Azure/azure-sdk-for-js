@@ -1,55 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="dom" />
+declare let TextDecoder: undefined | (new() => { decode(buffer: ArrayBuffer | ArrayBufferView): string});
+declare let TextEncoder:  undefined | (new() => { encode(str : string): ArrayBuffer});
 
-import { TextDecoder, TextEncoder } from "./textEncoding";
+// TextDecoder and TextEncoder are in the global namespace for Node version 11 and
+// higher, but before that, they were in the "util" namespace. If we're running
+// under node ("Buffer" is defined), then check to see if the global namespace version
+// of the decoders are present, if not, import them from the util namespace.
+const decoder = 
+  typeof Buffer === "undefined" 
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  ? new (TextDecoder ?? require("util").TextDecoder)("ascii") 
+    : undefined;
 
-let encoder: TextEncoder | undefined;
-let decoder: TextDecoder | undefined;
+const encoder = 
+  typeof Buffer === "undefined" 
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+    ? new (TextEncoder ?? require("util").TextEncoder)("ascii") 
+    : undefined;
 
-/**
- * Returns a cached TextEncoder.
- * @internal
- */
-function getTextEncoder(): TextEncoder {
-  if (encoder) {
-    return encoder;
-  }
+const decode: (buffer: ArrayBuffer) => string =
+  decoder
+      ? buffer => decoder.decode(buffer)
+      : buffer => (buffer as Buffer).toString("ascii");
 
-  if (typeof TextEncoder === "undefined") {
-    throw new Error(`Your browser environment is missing "TextEncoder".`);
-  }
-
-  encoder = new TextEncoder();
-  return encoder;
-}
-
-/**
- * Returns a cached TextEncoder.
- * @internal
- */
- function getTextDecoder(): TextDecoder {
-  if (decoder) {
-    return decoder;
-  }
-
-  if (typeof TextDecoder === "undefined") {
-    throw new Error(`Your browser environment is missing "TextDecoder".`);
-  }
-
-  decoder = new TextDecoder();
-  return decoder;
-}
-
+const encode: (str : string) => Uint8Array =
+  encoder
+      ? str => encoder.encode(str)
+      : str => Buffer.from(str, 'utf8');
 
 /**
- * Converts a utf8 string into a byte array.
+ * Converts a string into a utf8 encoded byte array.
  * @param content - The utf8 string to convert.
  * @internal
  */
-export function utf8ToBytes(content: string): Uint8Array {
-  return getTextEncoder().encode(content);
+export function stringToBytes(content: string): Uint8Array {
+  return encode(content);
 }
 
 /**
@@ -58,5 +45,5 @@ export function utf8ToBytes(content: string): Uint8Array {
  * @internal
  */
  export function bytesToString(content: Uint8Array): string {
-  return getTextDecoder().decode(content);
+  return decode(content);
 }
