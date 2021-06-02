@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,38 +24,36 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '4dcf7e66-f6d5-4749-a7c6-d18091424500',
+  '916f3131-ce61-4904-88d3-4d9127748800',
   'x-ms-ests-server',
-  '2.1.11397.13 - KRSLR2 ProdSlices',
+  '2.1.11722.26 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsoDeAShyiJLlORVED-UD3HGLH8mAwAAAGdLk9cOAAAA; expires=Sun, 14-Feb-2021 08:38:05 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoX4-jrIOKFFujzo4bUs3pzGLH8mAwAAAPMUSdgOAAAA; expires=Fri, 02-Jul-2021 05:58:34 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 15 Jan 2021 08:38:05 GMT',
-  'Content-Length',
-  '1331'
+  'Wed, 02 Jun 2021 05:58:33 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionProgress')
-  .reply(200, {"latestSuccessTimestamp":"2021-01-14T00:00:00Z","latestActiveTimestamp":"2021-01-14T00:00:00Z"}, [
+  .reply(200, {"latestSuccessTimestamp":"2021-03-10T00:00:00Z","latestActiveTimestamp":"2021-05-31T00:00:00Z"}, [
   'Content-Length',
   '96',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '4c917df0-55fb-4719-8058-907d515ff7ef',
+  '84578560-ff6f-4d11-a159-008f8bbf1cdd',
   'x-envoy-upstream-service-time',
-  '607',
+  '5236',
   'apim-request-id',
-  '4c917df0-55fb-4719-8058-907d515ff7ef',
+  '84578560-ff6f-4d11-a159-008f8bbf1cdd',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:38:05 GMT'
+  'Wed, 02 Jun 2021 05:58:39 GMT'
 ]);
