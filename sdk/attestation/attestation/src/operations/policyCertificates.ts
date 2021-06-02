@@ -27,9 +27,7 @@ export class PolicyCertificates {
    * Retrieves the set of certificates used to express policy for the current tenant.
    * @param options - The options parameters.
    */
-  get(
-    options?: coreHttp.OperationOptions
-  ): Promise<PolicyCertificatesGetResponse> {
+  get(options?: coreHttp.OperationOptions): Promise<PolicyCertificatesGetResponse> {
     return this.client.getGeneratedClient().policyCertificates.get(options);
   }
 
@@ -40,7 +38,7 @@ export class PolicyCertificates {
    * @param options - The options parameters.
    */
   add(
-    policyCertificateToAdd : string,
+    policyCertificateToAdd: string,
     options?: coreHttp.OperationOptions
   ): Promise<PolicyCertificatesAddResponse> {
     return this.client.getGeneratedClient().policyCertificates.add(policyCertificateToAdd, options);
@@ -58,6 +56,8 @@ export class PolicyCertificates {
     policyCertificateToRemove: string,
     options?: coreHttp.OperationOptions
   ): Promise<PolicyCertificatesRemoveResponse> {
-    return this.client.getGeneratedClient().policyCertificates.remove(policyCertificateToRemove, options);
+    return this.client
+      .getGeneratedClient()
+      .policyCertificates.remove(policyCertificateToRemove, options);
   }
 }

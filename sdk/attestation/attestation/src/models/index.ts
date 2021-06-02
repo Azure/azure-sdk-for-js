@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-
 export * from "./attestationSigner";
 export * from "./attestationSigningKey";
 export * from "./attestationToken";
@@ -381,7 +380,7 @@ export enum KnownAttestationType {
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **SgxEnclave**: Intel Software Guard eXtensions
- * **OpenEnclave**: OpenEnclave extensions to SGX 
+ * **OpenEnclave**: OpenEnclave extensions to SGX
  * **Tpm**: Edge TPM Virtualization Based Security
  */
 export type AttestationType = string;
@@ -401,7 +400,7 @@ export enum KnownDataType {
 }
 
 /**
- * Defines values for DataType. 
+ * Defines values for DataType.
  * {@link KnownDataType} can be used interchangeably with DataType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
@@ -425,7 +424,7 @@ export enum KnownCertificateModification {
 }
 
 /**
- * Defines values for CertificateModification. 
+ * Defines values for CertificateModification.
  * {@link KnownCertificateModification} can be used interchangeably with CertificateModification,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
@@ -466,14 +465,14 @@ export type PolicyCertificatesGetResponse = PolicyCertificatesResponse;
 /**
  * Contains response data for the add operation.
  */
-export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse
+export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse;
 
 /**
  * Contains response data for the remove operation.
  */
-export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse
+export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse;
 
 /**
  * Contains response data for the attestTpm operation.
  */
-export type AttestationAttestTpmResponse = TpmAttestationResponse
+export type AttestationAttestTpmResponse = TpmAttestationResponse;

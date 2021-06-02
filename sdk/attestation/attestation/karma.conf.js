@@ -68,7 +68,7 @@ module.exports = function(config) {
       "ATTESTATION_ISOLATED_SIGNING_KEY",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID",
+      "AZURE_TENANT_ID"
     ],
 
     // test results reporter to use

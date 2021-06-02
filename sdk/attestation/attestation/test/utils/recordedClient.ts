@@ -6,10 +6,10 @@ import { Context } from "mocha";
 import { ClientSecretCredential } from "@azure/identity";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
-import { 
-  AttestationClient, 
-  AttestationClientOptions, 
-  AttestationAdministrationClient, 
+import {
+  AttestationClient,
+  AttestationClientOptions,
+  AttestationAdministrationClient,
   AttestationSigningKey
 } from "../../src/";
 import "./env";
@@ -25,7 +25,7 @@ const replaceableVariables: { [k: string]: string } = {
   policySigningCertificate1: "policy_signing_certificate1",
   policySigningCertificate2: "policy_signing_certificate2",
   ATTESTATION_ISOLATED_SIGNING_CERTIFICATE: "isolated_signing_certificate",
-  ATTESTATION_ISOLATED_SIGNING_KEY: "isolated_signing_key",
+  ATTESTATION_ISOLATED_SIGNING_KEY: "isolated_signing_key"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -53,16 +53,22 @@ export function createRecorder(context: Context): Recorder {
 
 export type EndpointType = "AAD" | "Isolated" | "Shared";
 
-export function getAttestationUri(endpointType: EndpointType) : string{
+export function getAttestationUri(endpointType: EndpointType): string {
   switch (endpointType) {
     case "AAD": {
-      return  env.AAD_ATTESTATION_URL;
+      return env.AAD_ATTESTATION_URL;
     }
     case "Isolated": {
       return env.ISOLATED_ATTESTATION_URL;
     }
     case "Shared": {
-      return "https://shared" + env.ATTESTATION_LOCATION_SHORT_NAME + "." + env.ATTESTATION_LOCATION_SHORT_NAME + ".attest.azure.net";
+      return (
+        "https://shared" +
+        env.ATTESTATION_LOCATION_SHORT_NAME +
+        "." +
+        env.ATTESTATION_LOCATION_SHORT_NAME +
+        ".attest.azure.net"
+      );
     }
     default: {
       throw new Error(`Unsupported endpoint type: ${endpointType}`);
@@ -70,7 +76,7 @@ export function getAttestationUri(endpointType: EndpointType) : string{
   }
 }
 
-export function getIsolatedSigningKey() : AttestationSigningKey {
+export function getIsolatedSigningKey(): AttestationSigningKey {
   const signingCert = env.ATTESTATION_ISOLATED_SIGNING_CERTIFICATE;
 
   let pemCert = "-----BEGIN CERTIFICATE-----\r\n";
