@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -57,7 +60,7 @@ export class AttestationToken
       this._token = token;
 
       const pieces = token.split('.');
-      if (pieces.length != 3) {
+      if (pieces.length !== 3) {
           throw Error("Incorrectly formatted token:");
       }
       this._headerBytes = base64UrlDecodeString(pieces[0]);
@@ -157,7 +160,7 @@ export class AttestationToken
 
       if (desiredKeyId !== undefined && possibleSigningCertificates !== undefined) {
         possibleSigningCertificates.forEach((possibleSigner) => {
-          if (possibleSigner.keyId == desiredKeyId) {
+          if (possibleSigner.keyId === desiredKeyId) {
             candidateSigners.push(possibleSigner);
           }
         });
@@ -182,7 +185,7 @@ export class AttestationToken
     }
 
 
-    /*********** JSON WEB SIGNATURE (RFC 7515) PROPERTIES */
+    /** ********* JSON WEB SIGNATURE (RFC 7515) PROPERTIES */
 
     /**
      * Returns the algorithm from the header of the JSON Web Signature.
@@ -291,7 +294,7 @@ export class AttestationToken
       return new AttestationSigner(jwk);
     }
 
-    /*********** JSON WEB TOKEN (RFC 7519) PROPERTIES */
+    /** ********* JSON WEB TOKEN (RFC 7519) PROPERTIES */
     
     
     /** Issuer of the attestation token.
@@ -308,7 +311,7 @@ export class AttestationToken
      *   for details.
      */
     public get expirationTime() : Date | undefined {
-        return this._body.exp ? new Date(this._body.exp*1000) : undefined;
+        return this._body.exp ? new Date(this._body.exp * 1000) : undefined;
     }
 
     /** Issuance time for the token, from JWT body.
@@ -317,7 +320,7 @@ export class AttestationToken
      *   for details.
      */
     public get issuedAtTime() : Date | undefined {
-      return this._body.iat ? new Date(this._body.iat*1000) : undefined;
+      return this._body.iat ? new Date(this._body.iat * 1000) : undefined;
     }
 
     /**
@@ -327,7 +330,7 @@ export class AttestationToken
      *   for details.
      */
     public get notBeforeTime() : Date | undefined {
-      return this._body.nbf ? new Date(this._body.nbf*1000) : undefined;
+      return this._body.nbf ? new Date(this._body.nbf * 1000) : undefined;
     }
 
     /**
@@ -361,16 +364,16 @@ export class AttestationToken
             header.alg = "none";
         }
 
-        const encodedToken = KJUR.jws.JWS.sign(header.alg, header, params.body??"", params.signer?.key);
+        const encodedToken = KJUR.jws.JWS.sign(header.alg, header, params.body ?? "", params.signer?.key);
         return new AttestationToken(encodedToken);
     }
 };
 
-function isObject(thing: any) {
+function isObject(thing: any) : boolean {
   return Object.prototype.toString.call(thing) === "[object Object]";
 }
   
-function safeJsonParse(thing: any) {
+function safeJsonParse(thing: any) : any{
   if (isObject(thing)) return thing;
   try {
     return JSON.parse(thing);

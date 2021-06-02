@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -22,7 +25,7 @@ export class PolicyResult {
     this.policyResolution = result.policyResolution;
     this.policyTokenHash = result.policyTokenHash;
     this.policy = result.policy;
-    this.policySigner = result.policySigner? new AttestationSigner(result.policySigner) : undefined;
+    this.policySigner = result.policySigner ? new AttestationSigner(result.policySigner) : undefined;
   }
   
   /**

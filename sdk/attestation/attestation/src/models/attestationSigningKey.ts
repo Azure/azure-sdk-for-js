@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -10,7 +13,7 @@ import { X509, KJUR } from "jsrsasign";
   /**
    * Creates an instance of AttestationSigningKey.
    * 
-   * An AttestationSigningKey represents a tuple<AsymmetricKey, Certificate> where
+   * An AttestationSigningKey represents a tuple\<AsymmetricKey, Certificate\> where
    * the certificate wraps the public portion of the asymmetric key. It is used
    * in signing Attestation JSON Web Tokens.
    *

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -153,7 +156,7 @@ export interface JsonWebKey {
    */
   p?: string;
   /**
-   * RSA secret prime, with p < q
+   * RSA secret prime, with p \< q
    */
   q?: string;
   /**
@@ -366,7 +369,7 @@ export interface AttestationResult {
 /**
  * Known values of {@link AttestationType} that the service accepts.
  */
-export const enum KnownAttestationType {
+export enum KnownAttestationType {
   /**
    * Intel Software Guard eXtensions
    */
@@ -382,12 +385,12 @@ export const enum KnownAttestationType {
 }
 
 /**
- * Defines values for AttestationType. \
+ * Defines values for AttestationType.
  * {@link KnownAttestationType} can be used interchangeably with AttestationType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **SgxEnclave**: Intel Software Guard eXtensions \
- * **OpenEnclave**: OpenEnclave extensions to SGX \
+ * **SgxEnclave**: Intel Software Guard eXtensions
+ * **OpenEnclave**: OpenEnclave extensions to SGX 
  * **Tpm**: Edge TPM Virtualization Based Security
  */
 export type AttestationType = string;
@@ -395,7 +398,7 @@ export type AttestationType = string;
 /**
  * Known values of {@link DataType} that the service accepts.
  */
-export const enum KnownDataType {
+export enum KnownDataType {
   /**
    * The contents of the field should be treated as binary and not interpreted by MAA.
    */
@@ -407,11 +410,11 @@ export const enum KnownDataType {
 }
 
 /**
- * Defines values for DataType. \
+ * Defines values for DataType. 
  * {@link KnownDataType} can be used interchangeably with DataType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **Binary**: The contents of the field should be treated as binary and not interpreted by MAA. \
+ * **Binary**: The contents of the field should be treated as binary and not interpreted by MAA.
  * **JSON**: The contents of the field should be treated as a JSON object and may be further interpreted by MAA.
  */
 export type DataType = string;
@@ -419,7 +422,7 @@ export type DataType = string;
 /**
  * Known values of {@link CertificateModification} that the service accepts.
  */
-export const enum KnownCertificateModification {
+export enum KnownCertificateModification {
   /**
    * After the operation was performed, the certificate is in the set of certificates.
    */
@@ -431,11 +434,11 @@ export const enum KnownCertificateModification {
 }
 
 /**
- * Defines values for CertificateModification. \
+ * Defines values for CertificateModification. 
  * {@link KnownCertificateModification} can be used interchangeably with CertificateModification,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **IsPresent**: After the operation was performed, the certificate is in the set of certificates. \
+ * **IsPresent**: After the operation was performed, the certificate is in the set of certificates.
  * **IsAbsent**: After the operation was performed, the certificate is no longer present in the set of certificates.
  */
 export type CertificateModification = string;
@@ -443,7 +446,7 @@ export type CertificateModification = string;
 /**
  * Known values of {@link PolicyModification} that the service accepts.
  */
-export const enum KnownPolicyModification {
+export enum KnownPolicyModification {
   /**
    * The specified policy object was updated.
    */
@@ -455,11 +458,11 @@ export const enum KnownPolicyModification {
 }
 
 /**
- * Defines values for PolicyModification. \
+ * Defines values for PolicyModification.
  * {@link KnownPolicyModification} can be used interchangeably with PolicyModification,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **Updated**: The specified policy object was updated. \
+ * **Updated**: The specified policy object was updated.
  * **Removed**: The specified policy object was removed.
  */
 export type PolicyModification = string;

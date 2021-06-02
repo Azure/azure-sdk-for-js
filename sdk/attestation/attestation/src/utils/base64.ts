@@ -62,11 +62,11 @@
   }
 
   export function hexToByteArray(value: string) : Uint8Array {
-    if (value.length % 2 != 0) {
+    if (value.length % 2 !== 0) {
       throw new Error("base64FromHex: Input must be a multiple of 2 characters");
     }
     const byteArray = new Array();
-    for (var i = 0 ; i < value.length ; i += 2) {
+    for (let i = 0 ; i < value.length ; i += 2) {
       byteArray.push(parseInt(value.substr(i, 2), 16));
     }
     return Uint8Array.from(byteArray);
@@ -74,7 +74,7 @@
 
   /**
    * Converts a hex encoded string to its base64 equivalent.
-   * @param value Hex encoded value
+   * @param value - Hex encoded value
    */
   export function hexToBase64(value : string): string {
     return base64EncodeByteArray(hexToByteArray(value));

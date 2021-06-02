@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -15,7 +18,7 @@ export class TypeDeserializer {
   /**
    * Deserializes a JSON object into a model type.
    * @param rawJson - The JSON encoded object to convert into model type.
-   * @param bodyMapper - A mapping between type namesand {@link Mapper[]} objects 
+   * @param bodyMapper - A mapping between type names and {@link Mapper} objects 
    *  which defines the model properties for the type. the {@link bodyTypeName} 
    *  must be one of the properties in the {@link bodyMapper} parameter.
    * @param bodyTypeName - The name of the type of the body.

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -76,7 +79,7 @@ export class AttestationAdministrationClient {
    * );
    * ```
    *
-   * @param instanceUrl The attestation instance base URI, for example https://mytenant.attest.azure.net.
+   * @param instanceUrl - The attestation instance base URI, for example https://mytenant.attest.azure.net.
    * @param credential - Used to authenticate requests to the service.
    * @param options - Used to configure the Form Recognizer client.
    */
@@ -114,13 +117,13 @@ export class AttestationAdministrationClient {
    * Retrieves the attestation policy document from the server, and returns it
     * to the caller.
     * 
-    * @param attestationType AttestationType for which to retrieve policy.
-    * @param options Pipeline and client options for the `getPolicy` call.
+    * @param attestationType - AttestationType for which to retrieve policy.
+    * @param options - Pipeline and client options for the `getPolicy` call.
     * @returns `AttestationResponse<string>` - the `value` property is the 
     *      attestation policy,  the `token` property will be the actual token 
     *      returned by the attestation service.
     */
-  public async getPolicy(attestationType: AttestationType,  options : GetPolicyOptions={}) : Promise<AttestationResponse<string>> {
+  public async getPolicy(attestationType: AttestationType,  options : GetPolicyOptions = {}) : Promise<AttestationResponse<string>> {
     const { span, updatedOptions} = createSpan("AttestationAdministrationClient-getPolicy", options);
     try {
       const getPolicyResult = await this._client.policy.get(attestationType, updatedOptions);
@@ -159,7 +162,7 @@ export class AttestationAdministrationClient {
     }
   }
 
-  public async setPolicy(attestationType: AttestationType,  newPolicyDocument: string, signingKey?: AttestationSigningKey, options : GetPolicyOptions={}) : Promise<AttestationResponse<PolicyResult>> {
+  public async setPolicy(attestationType: AttestationType,  newPolicyDocument: string, signingKey?: AttestationSigningKey, options : GetPolicyOptions = {}) : Promise<AttestationResponse<PolicyResult>> {
     const { span, updatedOptions} = createSpan("AttestationAdministrationClient-setPolicy", options);
     try {
 
@@ -188,7 +191,7 @@ export class AttestationAdministrationClient {
     }
   }
 
-  public async resetPolicy(attestationType: AttestationType, signingKey?: AttestationSigningKey, options : GetPolicyOptions={}) : Promise<AttestationResponse<PolicyResult>> {
+  public async resetPolicy(attestationType: AttestationType, signingKey?: AttestationSigningKey, options : GetPolicyOptions = {}) : Promise<AttestationResponse<PolicyResult>> {
     const { span, updatedOptions} = createSpan("AttestationAdministrationClient-setPolicy", options);
     try {
 
