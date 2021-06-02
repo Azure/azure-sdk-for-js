@@ -48,7 +48,6 @@ export interface TokenValidationOptions {
  * It can represent either the token returned by the attestation service,
  * or it can be used to create a token locally which can be used to verify
  * attestation policy changes.
- * @hideconstructor
  */
 export class AttestationToken
 {

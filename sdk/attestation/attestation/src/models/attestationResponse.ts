@@ -6,7 +6,6 @@
  * Licensed under the MIT License.
  *
  */
-import { HttpResponse } from "@azure/core-http";
 import { AttestationToken } from "./attestationToken";
 /**
  * An AttestationResponse represents the response from the Microsoft Azure
@@ -19,10 +18,9 @@ import { AttestationToken } from "./attestationToken";
  */
  export class AttestationResponse<T>
  {
-     constructor(token: AttestationToken, value: T, rawResult: any) {
+     constructor(token: AttestationToken, value: T) {
         this.token = token;
         this.value = value;
-        this._response = rawResult._response;
      }
  
      /**
@@ -35,19 +33,5 @@ import { AttestationToken } from "./attestationToken";
       */
  
      value: T;
-    /**
-     * The underlying HTTP response.
-     */
-      _response: HttpResponse & {
-    /**
-     * The response body as text (string format)
-        */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: T;
-    };
  };
  

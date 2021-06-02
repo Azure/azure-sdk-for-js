@@ -8,7 +8,8 @@
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "jsrsasign": "^8.0.12"
   },
   "keywords": [
     "node",
@@ -41,7 +42,6 @@
     "chai-as-promised": "^7.1.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
-    "jsrsasign": "^8.0.12",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",

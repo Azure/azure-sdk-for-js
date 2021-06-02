@@ -10,11 +10,13 @@ declare let TextEncoder:  undefined | (new() => { encode(str : string): ArrayBuf
 // of the decoders are present, if not, import them from the util namespace.
 const decoder = 
   typeof Buffer === "undefined" 
-    ? new (TextDecoder ?? require("util").TextDecoder)("ascii") 
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  ? new (TextDecoder ?? require("util").TextDecoder)("ascii") 
     : undefined;
 
 const encoder = 
   typeof Buffer === "undefined" 
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
     ? new (TextEncoder ?? require("util").TextEncoder)("ascii") 
     : undefined;
 

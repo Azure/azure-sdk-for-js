@@ -47,9 +47,9 @@ export class AttestationClient {
     attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestTpm(request: TpmAttestationRequest, options?: AttestTpmOptions): Promise<TpmAttestationResponse>;
-    // @internal
-    BaseClient(): GeneratedClient;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
+    // @internal
+    getGeneratedClient(): GeneratedClient;
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
     // (undocumented)
     instanceUrl: string;
@@ -272,26 +272,26 @@ export interface JsonWebKeySet {
 }
 
 // @public
-export const enum KnownAttestationType {
+export enum KnownAttestationType {
     OpenEnclave = "OpenEnclave",
     SgxEnclave = "SgxEnclave",
     Tpm = "Tpm"
 }
 
 // @public
-export const enum KnownCertificateModification {
+export enum KnownCertificateModification {
     IsAbsent = "IsAbsent",
     IsPresent = "IsPresent"
 }
 
 // @public
-export const enum KnownDataType {
+export enum KnownDataType {
     Binary = "Binary",
     Json = "JSON"
 }
 
 // @public
-export const enum KnownPolicyModification {
+export enum KnownPolicyModification {
     Removed = "Removed",
     Updated = "Updated"
 }
@@ -355,7 +355,7 @@ export type PolicyModification = string;
 // @public
 export class PolicyResult {
     // (undocumented)
-    static create(rawJson: any): PolicyResult;
+    static create(rawJson: unknown): PolicyResult;
     policy?: string;
     policyResolution?: PolicyModification;
     policySigner?: AttestationSigner;
@@ -367,7 +367,7 @@ export class StoredAttestationPolicy {
     constructor(value: string);
     attestationPolicy: Uint8Array;
     // (undocumented)
-    static deserialize(value: any): StoredAttestationPolicy;
+    static deserialize(value: unknown): StoredAttestationPolicy;
     // (undocumented)
     serialize(): string;
 }
