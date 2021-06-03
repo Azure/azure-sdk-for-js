@@ -14,7 +14,10 @@ export {
   QueryLogsResult,
   QueryStatistics
 } from "./models/publicLogsModels";
-export { MetricsClient, MetricsClientOptions } from "./metricsClient";
+export {
+  MetricsQueryClient,
+  MetricsQueryClientOptions as MetricsClientOptions
+} from "./metricsQueryClient";
 export {
   GetMetricDefinitionsOptions,
   GetMetricDefinitionsResponse,

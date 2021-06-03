@@ -159,7 +159,12 @@ export interface MetricNamespaceName {
 }
 
 // @public (undocumented)
-export class MetricsClient {
+export interface MetricsClientOptions extends PipelineOptions {
+    endpoint?: string;
+}
+
+// @public (undocumented)
+export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
     // (undocumented)
     getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResponse>;
@@ -167,11 +172,6 @@ export class MetricsClient {
     getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResponse>;
     // (undocumented)
     queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<QueryMetricsResponse>;
-}
-
-// @public (undocumented)
-export interface MetricsClientOptions extends PipelineOptions {
-    endpoint?: string;
 }
 
 // @public

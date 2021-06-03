@@ -36,17 +36,17 @@ import {
   convertResponseForMetricsDefinitions
 } from "./internal/modelConverters";
 
-export interface MetricsClientOptions extends PipelineOptions {
+export interface MetricsQueryClientOptions extends PipelineOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }
 
-export class MetricsClient {
+export class MetricsQueryClient {
   private _metricsClient: GeneratedMetricsClient;
   private _definitionsClient: GeneratedMetricsDefinitionsClient;
   private _namespacesClient: GeneratedMetricsNamespacesClient;
 
-  constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions) {
+  constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
     const bearerTokenPolicy = bearerTokenAuthenticationPolicy(
       tokenCredential,
       formatScope(options?.endpoint)
