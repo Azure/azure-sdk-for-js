@@ -13,7 +13,7 @@ import {
 } from "./models";
 
 const packageName = "monitor-metrics-definitions";
-const packageVersion = "1.0.0";
+const packageVersion = "1.0.0-beta.1";
 
 /** @hidden */
 export class MetricsDefinitionsClientContext extends coreHttp.ServiceClient {
