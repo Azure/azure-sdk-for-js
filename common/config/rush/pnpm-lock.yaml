@@ -130,12 +130,12 @@ packages:
       integrity: sha512-7C1wodDLnLrdS7rmA/UoItoTAtpZdhkEoaxC7+j5l+LlrcWAe7K2JO1y5psVr5Pe8Y6cUGK4KfpgsAQAcSUDEw==
   /@azure/amqp-common/1.0.0-preview.9:
     dependencies:
-      '@azure/ms-rest-nodeauth': 0.9.3_debug@3.2.6
+      '@azure/ms-rest-nodeauth': 0.9.3_debug@3.2.7
       '@types/async-lock': 1.1.2
       '@types/is-buffer': 2.0.0
       async-lock: 1.3.0
       buffer: 5.7.1
-      debug: 3.2.6
+      debug: 3.2.7
       events: 3.3.0
       is-buffer: 2.0.5
       jssha: 2.4.2
@@ -328,9 +328,9 @@ packages:
   /@azure/event-hubs/2.1.4:
     dependencies:
       '@azure/amqp-common': 1.0.0-preview.9
-      '@azure/ms-rest-nodeauth': 0.9.3_debug@3.2.6
+      '@azure/ms-rest-nodeauth': 0.9.3_debug@3.2.7
       async-lock: 1.3.0
-      debug: 3.2.6
+      debug: 3.2.7
       is-buffer: 2.0.5
       jssha: 2.4.2
       rhea-promise: 0.1.15
@@ -446,10 +446,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-dG76W7ElfLi+fbTjnZVGj+M9e0BIEJmRxU6fHaUQ12bZBe8EJKYb2GV50YWNaP2uJiVQ5+7nXEVj1VN1UQtaEw==
-  /@azure/ms-rest-js/1.11.2_debug@3.2.6:
+  /@azure/ms-rest-js/1.11.2_debug@3.2.7:
     dependencies:
       '@azure/core-auth': 1.3.0
-      axios: 0.21.1_debug@3.2.6
+      axios: 0.21.1_debug@3.2.7
       form-data: 2.5.1
       tough-cookie: 2.5.0
       tslib: 1.14.1
@@ -490,10 +490,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-mXezdECH1Vjr+7FkH5+LlL85/YEHOrXHYqd9qh8b6dgvvE7sVvUk3qrtRGk3WZr4TLrZvRLE7NbFU7RgHHg45Q==
-  /@azure/ms-rest-nodeauth/0.9.3_debug@3.2.6:
+  /@azure/ms-rest-nodeauth/0.9.3_debug@3.2.7:
     dependencies:
       '@azure/ms-rest-azure-env': 1.1.2
-      '@azure/ms-rest-js': 1.11.2_debug@3.2.6
+      '@azure/ms-rest-js': 1.11.2_debug@3.2.7
       adal-node: 0.1.28
     dev: false
     peerDependencies:
@@ -1320,7 +1320,7 @@ packages:
       integrity: sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
   /@types/eslint/7.2.13:
     dependencies:
-      '@types/estree': 0.0.47
+      '@types/estree': 0.0.48
       '@types/json-schema': 7.0.7
     dev: false
     resolution:
@@ -1329,10 +1329,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
-  /@types/estree/0.0.47:
+  /@types/estree/0.0.48:
     dev: false
     resolution:
-      integrity: sha512-c5ciR06jK8u9BstrmJyO97m+klJrrhCf9u3rLu3DEAJBirxRqSCvDQoYKmxuYwQI5SZChAWu+tq9oVlGRuzPAg==
+      integrity: sha512-LfZwXoGUDo0C3me81HXgkBg5CTQYb6xzEl+fNmbO4JdRiSKQ8A0GD1OBBvKAIsbCUgoyAty7m99GqqMQe784ew==
   /@types/express-serve-static-core/4.17.21:
     dependencies:
       '@types/node': 8.10.66
@@ -1390,10 +1390,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-rNAPdomlIUX0i0cg2+I+Q1wOUr531zHBQ+cV/28PJ39bSPKjahatZZ2LMuhiguETkCgLVzfruw/ZvNMNkKoSzw==
-  /@types/jsrsasign/8.0.12:
-    dev: false
-    resolution:
-      integrity: sha512-FLXKbwbB+4fsJECYOpIiYX2GSqSHYnkO/UnrFqlZn6crpyyOtk4LRab+G1HC7dTbT1NB7spkHecZRQGXoCWiJQ==
   /@types/jws/3.2.3:
     dependencies:
       '@types/node': 8.10.66
@@ -1465,10 +1461,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
-  /@types/node/15.12.0:
-    dev: false
-    resolution:
-      integrity: sha512-+aHJvoCsVhO2ZCuT4o5JtcPrCPyDE3+1nvbDprYes+pPkEsbjH7AGUCNtjMOXS0fqH14t+B7yLzaqSz92FPWyw==
   /@types/node/8.10.66:
     dev: false
     resolution:
@@ -2006,9 +1998,9 @@ packages:
     dev: false
     resolution:
       integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
-  /axios/0.21.1_debug@3.2.6:
+  /axios/0.21.1_debug@3.2.7:
     dependencies:
-      follow-redirects: 1.14.1_debug@3.2.6
+      follow-redirects: 1.14.1_debug@3.2.7
     dev: false
     peerDependencies:
       debug: '*'
@@ -3592,9 +3584,9 @@ packages:
         optional: true
     resolution:
       integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==
-  /follow-redirects/1.14.1_debug@3.2.6:
+  /follow-redirects/1.14.1_debug@3.2.7:
     dependencies:
-      debug: 3.2.6
+      debug: 3.2.7
     dev: false
     engines:
       node: '>=4.0'
@@ -4391,7 +4383,7 @@ packages:
       integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
   /is-reference/1.2.1:
     dependencies:
-      '@types/estree': 0.0.47
+      '@types/estree': 0.0.48
     dev: false
     resolution:
       integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==
@@ -6497,7 +6489,7 @@ packages:
       integrity: sha512-V2hovdzFbOi77/WajaSMXk2OLm+xNIeQdMMuB7icj7bk6zi2F8GGAxigcnDFpJHbNyNcgyJDiP+8nOrY5cZGrA==
   /rhea-promise/0.1.15:
     dependencies:
-      debug: 3.2.6
+      debug: 3.2.7
       rhea: 1.0.24
       tslib: 1.14.1
     dev: false
@@ -6597,7 +6589,7 @@ packages:
       integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
   /rollup/1.32.1:
     dependencies:
-      '@types/estree': 0.0.47
+      '@types/estree': 0.0.48
       '@types/node': 8.10.66
       acorn: 7.4.1
     dev: false
@@ -6889,7 +6881,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.0
       '@types/cors': 2.8.10
-      '@types/node': 15.12.0
+      '@types/node': 10.17.13
       accepts: 1.3.7
       base64id: 2.0.0
       debug: 4.3.1
@@ -8354,7 +8346,6 @@ packages:
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.18
       '@types/chai-as-promised': 7.1.4
-      '@types/jsrsasign': 8.0.12
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       buffer: 5.7.1
@@ -8399,7 +8390,7 @@ packages:
     dev: false
     name: '@rush-temp/attestation'
     resolution:
-      integrity: sha512-Tc3LBDVHjuzb7KHVn/uioyekat8CidtYm8iA3fUwUg4GEe3ptINbQfMGaJLn+68S1l9IXnDQJgKC2/udX1pNwQ==
+      integrity: sha512-5hGCDuAcXkmdUOIGRcUR98wyo2mt7VIRCELqiBlNPsdmu/zGoEjoc9pqziY8BHV/dsFTZN/343bMKeoIYqIJzA==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -9578,7 +9569,7 @@ packages:
     dependencies:
       '@types/chai': 4.2.18
       '@types/eslint': 7.2.13
-      '@types/estree': 0.0.47
+      '@types/estree': 0.0.48
       '@types/glob': 7.1.3
       '@types/json-schema': 7.0.7
       '@types/mocha': 7.0.2

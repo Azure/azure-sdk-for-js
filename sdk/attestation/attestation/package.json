@@ -102,7 +102,6 @@
     "@microsoft/api-extractor": "7.7.11",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/jsrsasign": "^8.0.12",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "buffer": "^5.2.1",

@@ -78,7 +78,7 @@ export class AttestationToken {
   private _body: any;
   //    private _signature: Uint8Array;
 
-  private _jwsVerifier: KJUR.jws.JWS.JWSResult;
+  private _jwsVerifier: any;
 
   /**
    * Returns the deserialized body of the AttestationToken object.

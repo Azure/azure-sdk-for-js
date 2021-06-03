@@ -55,7 +55,7 @@ export async function verifyAttestationToken(
     const pubKeyObj = jsrsasign.KEYUTIL.getKey(pemCert);
     const isValid = jsrsasign.KJUR.jws.JWS.verifyJWT(
       attestationToken,
-      pubKeyObj as jsrsasign.RSAKey,
+      pubKeyObj,
       {
         iss: [getAttestationUri(endpointType)],
         alg: ["RS256"]
