@@ -32,28 +32,43 @@ export class VMInsights {
    * @param [options] The optional parameters
    * @returns Promise<Models.VMInsightsGetOnboardingStatusResponse>
    */
-  getOnboardingStatus(resourceUri: string, options?: msRest.RequestOptionsBase): Promise<Models.VMInsightsGetOnboardingStatusResponse>;
+  getOnboardingStatus(
+    resourceUri: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VMInsightsGetOnboardingStatusResponse>;
   /**
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource, or
    * scope, whose status to retrieve.
    * @param callback The callback
    */
-  getOnboardingStatus(resourceUri: string, callback: msRest.ServiceCallback<Models.VMInsightsOnboardingStatus>): void;
+  getOnboardingStatus(
+    resourceUri: string,
+    callback: msRest.ServiceCallback<Models.VMInsightsOnboardingStatus>
+  ): void;
   /**
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource, or
    * scope, whose status to retrieve.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOnboardingStatus(resourceUri: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VMInsightsOnboardingStatus>): void;
-  getOnboardingStatus(resourceUri: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VMInsightsOnboardingStatus>, callback?: msRest.ServiceCallback<Models.VMInsightsOnboardingStatus>): Promise<Models.VMInsightsGetOnboardingStatusResponse> {
+  getOnboardingStatus(
+    resourceUri: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VMInsightsOnboardingStatus>
+  ): void;
+  getOnboardingStatus(
+    resourceUri: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VMInsightsOnboardingStatus>,
+    callback?: msRest.ServiceCallback<Models.VMInsightsOnboardingStatus>
+  ): Promise<Models.VMInsightsGetOnboardingStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
         options
       },
       getOnboardingStatusOperationSpec,
-      callback) as Promise<Models.VMInsightsGetOnboardingStatusResponse>;
+      callback
+    ) as Promise<Models.VMInsightsGetOnboardingStatusResponse>;
   }
 }
 
@@ -62,15 +77,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getOnboardingStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceUri}/providers/Microsoft.Insights/vmInsightsOnboardingStatuses/default",
-  urlParameters: [
-    Parameters.resourceUri
-  ],
-  queryParameters: [
-    Parameters.apiVersion10
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceUri],
+  queryParameters: [Parameters.apiVersion10],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VMInsightsOnboardingStatus

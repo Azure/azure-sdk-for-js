@@ -31,26 +31,43 @@ export class MetricNamespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricNamespacesListResponse>
    */
-  list(resourceUri: string, options?: Models.MetricNamespacesListOptionalParams): Promise<Models.MetricNamespacesListResponse>;
+  list(
+    resourceUri: string,
+    options?: Models.MetricNamespacesListOptionalParams
+  ): Promise<Models.MetricNamespacesListResponse>;
   /**
    * @param resourceUri The identifier of the resource.
    * @param callback The callback
    */
-  list(resourceUri: string, callback: msRest.ServiceCallback<Models.MetricNamespaceCollection>): void;
+  list(
+    resourceUri: string,
+    callback: msRest.ServiceCallback<Models.MetricNamespaceCollection>
+  ): void;
   /**
    * @param resourceUri The identifier of the resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceUri: string, options: Models.MetricNamespacesListOptionalParams, callback: msRest.ServiceCallback<Models.MetricNamespaceCollection>): void;
-  list(resourceUri: string, options?: Models.MetricNamespacesListOptionalParams | msRest.ServiceCallback<Models.MetricNamespaceCollection>, callback?: msRest.ServiceCallback<Models.MetricNamespaceCollection>): Promise<Models.MetricNamespacesListResponse> {
+  list(
+    resourceUri: string,
+    options: Models.MetricNamespacesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.MetricNamespaceCollection>
+  ): void;
+  list(
+    resourceUri: string,
+    options?:
+      | Models.MetricNamespacesListOptionalParams
+      | msRest.ServiceCallback<Models.MetricNamespaceCollection>,
+    callback?: msRest.ServiceCallback<Models.MetricNamespaceCollection>
+  ): Promise<Models.MetricNamespacesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MetricNamespacesListResponse>;
+      callback
+    ) as Promise<Models.MetricNamespacesListResponse>;
   }
 }
 
@@ -59,16 +76,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceUri}/providers/microsoft.insights/metricNamespaces",
-  urlParameters: [
-    Parameters.resourceUri
-  ],
-  queryParameters: [
-    Parameters.apiVersion9,
-    Parameters.startTime
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceUri],
+  queryParameters: [Parameters.apiVersion9, Parameters.startTime],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricNamespaceCollection

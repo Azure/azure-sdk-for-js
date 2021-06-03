@@ -33,14 +33,24 @@ export class AlertRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertRulesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.AlertRuleResource, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.AlertRuleResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertRulesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param parameters The parameters of the rule to create or update.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.AlertRuleResource, callback: msRest.ServiceCallback<Models.AlertRuleResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.AlertRuleResource,
+    callback: msRest.ServiceCallback<Models.AlertRuleResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
@@ -48,8 +58,20 @@ export class AlertRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.AlertRuleResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleResource>): void;
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.AlertRuleResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResource>, callback?: msRest.ServiceCallback<Models.AlertRuleResource>): Promise<Models.AlertRulesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.AlertRuleResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertRuleResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.AlertRuleResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResource>,
+    callback?: msRest.ServiceCallback<Models.AlertRuleResource>
+  ): Promise<Models.AlertRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +80,8 @@ export class AlertRules {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.AlertRulesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.AlertRulesCreateOrUpdateResponse>;
   }
 
   /**
@@ -68,21 +91,39 @@ export class AlertRules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, ruleName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +131,8 @@ export class AlertRules {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -100,21 +142,39 @@ export class AlertRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertRulesGetResponse>
    */
-  get(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesGetResponse>;
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertRulesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param callback The callback
    */
-  get(resourceGroupName: string, ruleName: string, callback: msRest.ServiceCallback<Models.AlertRuleResource>): void;
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    callback: msRest.ServiceCallback<Models.AlertRuleResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleResource>): void;
-  get(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResource>, callback?: msRest.ServiceCallback<Models.AlertRuleResource>): Promise<Models.AlertRulesGetResponse> {
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertRuleResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResource>,
+    callback?: msRest.ServiceCallback<Models.AlertRuleResource>
+  ): Promise<Models.AlertRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +182,8 @@ export class AlertRules {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AlertRulesGetResponse>;
+      callback
+    ) as Promise<Models.AlertRulesGetResponse>;
   }
 
   /**
@@ -134,14 +195,24 @@ export class AlertRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertRulesUpdateResponse>
    */
-  update(resourceGroupName: string, ruleName: string, alertRulesResource: Models.AlertRuleResourcePatch, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    alertRulesResource: Models.AlertRuleResourcePatch,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertRulesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param alertRulesResource Parameters supplied to the operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, ruleName: string, alertRulesResource: Models.AlertRuleResourcePatch, callback: msRest.ServiceCallback<Models.AlertRuleResource>): void;
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    alertRulesResource: Models.AlertRuleResourcePatch,
+    callback: msRest.ServiceCallback<Models.AlertRuleResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
@@ -149,8 +220,20 @@ export class AlertRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, ruleName: string, alertRulesResource: Models.AlertRuleResourcePatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleResource>): void;
-  update(resourceGroupName: string, ruleName: string, alertRulesResource: Models.AlertRuleResourcePatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResource>, callback?: msRest.ServiceCallback<Models.AlertRuleResource>): Promise<Models.AlertRulesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    alertRulesResource: Models.AlertRuleResourcePatch,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertRuleResource>
+  ): void;
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    alertRulesResource: Models.AlertRuleResourcePatch,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResource>,
+    callback?: msRest.ServiceCallback<Models.AlertRuleResource>
+  ): Promise<Models.AlertRulesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +242,8 @@ export class AlertRules {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.AlertRulesUpdateResponse>;
+      callback
+    ) as Promise<Models.AlertRulesUpdateResponse>;
   }
 
   /**
@@ -168,26 +252,43 @@ export class AlertRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertRulesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertRulesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AlertRuleResourceCollection>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AlertRuleResourceCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleResourceCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResourceCollection>, callback?: msRest.ServiceCallback<Models.AlertRuleResourceCollection>): Promise<Models.AlertRulesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertRuleResourceCollection>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AlertRuleResourceCollection>,
+    callback?: msRest.ServiceCallback<Models.AlertRuleResourceCollection>
+  ): Promise<Models.AlertRulesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.AlertRulesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.AlertRulesListByResourceGroupResponse>;
   }
 
   /**
@@ -195,7 +296,9 @@ export class AlertRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertRulesListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.AlertRulesListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertRulesListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -204,14 +307,23 @@ export class AlertRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertRuleResourceCollection>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertRuleResourceCollection>, callback?: msRest.ServiceCallback<Models.AlertRuleResourceCollection>): Promise<Models.AlertRulesListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertRuleResourceCollection>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AlertRuleResourceCollection>,
+    callback?: msRest.ServiceCallback<Models.AlertRuleResourceCollection>
+  ): Promise<Models.AlertRulesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.AlertRulesListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.AlertRulesListBySubscriptionResponse>;
   }
 }
 
@@ -219,18 +331,11 @@ export class AlertRules {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.ruleName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.ruleName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -254,18 +359,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.ruleName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.ruleName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -278,18 +376,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.ruleName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.ruleName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertRuleResource
@@ -303,18 +394,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.ruleName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.ruleName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "alertRulesResource",
     mapper: {
@@ -338,17 +422,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertRuleResourceCollection
@@ -363,15 +441,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Insights/alertrules",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertRuleResourceCollection

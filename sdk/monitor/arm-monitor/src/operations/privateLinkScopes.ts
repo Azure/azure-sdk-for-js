@@ -40,14 +40,23 @@ export class PrivateLinkScopes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>, callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>): Promise<Models.PrivateLinkScopesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>,
+    callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>
+  ): Promise<Models.PrivateLinkScopesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateLinkScopesListResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkScopesListResponse>;
   }
 
   /**
@@ -56,26 +65,43 @@ export class PrivateLinkScopes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkScopesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkScopesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkScopesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>, callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>): Promise<Models.PrivateLinkScopesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>,
+    callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>
+  ): Promise<Models.PrivateLinkScopesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.PrivateLinkScopesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkScopesListByResourceGroupResponse>;
   }
 
   /**
@@ -85,9 +111,14 @@ export class PrivateLinkScopes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, scopeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,scopeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    scopeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, scopeName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -97,21 +128,41 @@ export class PrivateLinkScopes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkScopesGetResponse>
    */
-  get(resourceGroupName: string, scopeName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkScopesGetResponse>;
+  get(
+    resourceGroupName: string,
+    scopeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkScopesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, scopeName: string, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>): void;
+  get(
+    resourceGroupName: string,
+    scopeName: string,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, scopeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>): void;
-  get(resourceGroupName: string, scopeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>, callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>): Promise<Models.PrivateLinkScopesGetResponse> {
+  get(
+    resourceGroupName: string,
+    scopeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>
+  ): void;
+  get(
+    resourceGroupName: string,
+    scopeName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>,
+    callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>
+  ): Promise<Models.PrivateLinkScopesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +170,8 @@ export class PrivateLinkScopes {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateLinkScopesGetResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkScopesGetResponse>;
   }
 
   /**
@@ -132,7 +184,12 @@ export class PrivateLinkScopes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkScopesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, scopeName: string, azureMonitorPrivateLinkScopePayload: Models.AzureMonitorPrivateLinkScope, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkScopesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    scopeName: string,
+    azureMonitorPrivateLinkScopePayload: Models.AzureMonitorPrivateLinkScope,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkScopesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
@@ -140,7 +197,12 @@ export class PrivateLinkScopes {
    * update a Azure Monitor PrivateLinkScope.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, scopeName: string, azureMonitorPrivateLinkScopePayload: Models.AzureMonitorPrivateLinkScope, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    scopeName: string,
+    azureMonitorPrivateLinkScopePayload: Models.AzureMonitorPrivateLinkScope,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
@@ -149,8 +211,22 @@ export class PrivateLinkScopes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, scopeName: string, azureMonitorPrivateLinkScopePayload: Models.AzureMonitorPrivateLinkScope, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>): void;
-  createOrUpdate(resourceGroupName: string, scopeName: string, azureMonitorPrivateLinkScopePayload: Models.AzureMonitorPrivateLinkScope, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>, callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>): Promise<Models.PrivateLinkScopesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    scopeName: string,
+    azureMonitorPrivateLinkScopePayload: Models.AzureMonitorPrivateLinkScope,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    scopeName: string,
+    azureMonitorPrivateLinkScopePayload: Models.AzureMonitorPrivateLinkScope,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>,
+    callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>
+  ): Promise<Models.PrivateLinkScopesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +235,8 @@ export class PrivateLinkScopes {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.PrivateLinkScopesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkScopesCreateOrUpdateResponse>;
   }
 
   /**
@@ -170,21 +247,41 @@ export class PrivateLinkScopes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkScopesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, scopeName: string, options?: Models.PrivateLinkScopesUpdateTagsOptionalParams): Promise<Models.PrivateLinkScopesUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    scopeName: string,
+    options?: Models.PrivateLinkScopesUpdateTagsOptionalParams
+  ): Promise<Models.PrivateLinkScopesUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, scopeName: string, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>): void;
+  updateTags(
+    resourceGroupName: string,
+    scopeName: string,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param scopeName The name of the Azure Monitor PrivateLinkScope resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, scopeName: string, options: Models.PrivateLinkScopesUpdateTagsOptionalParams, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>): void;
-  updateTags(resourceGroupName: string, scopeName: string, options?: Models.PrivateLinkScopesUpdateTagsOptionalParams | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>, callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>): Promise<Models.PrivateLinkScopesUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    scopeName: string,
+    options: Models.PrivateLinkScopesUpdateTagsOptionalParams,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    scopeName: string,
+    options?:
+      | Models.PrivateLinkScopesUpdateTagsOptionalParams
+      | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>,
+    callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScope>
+  ): Promise<Models.PrivateLinkScopesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +289,8 @@ export class PrivateLinkScopes {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.PrivateLinkScopesUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkScopesUpdateTagsResponse>;
   }
 
   /**
@@ -202,7 +300,11 @@ export class PrivateLinkScopes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, scopeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    scopeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -210,7 +312,8 @@ export class PrivateLinkScopes {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -219,26 +322,43 @@ export class PrivateLinkScopes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkScopesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkScopesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkScopesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>, callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>): Promise<Models.PrivateLinkScopesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>,
+    callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>
+  ): Promise<Models.PrivateLinkScopesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PrivateLinkScopesListNextResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkScopesListNextResponse>;
   }
 
   /**
@@ -247,26 +367,43 @@ export class PrivateLinkScopes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkScopesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkScopesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkScopesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>, callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>): Promise<Models.PrivateLinkScopesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>,
+    callback?: msRest.ServiceCallback<Models.AzureMonitorPrivateLinkScopeListResult>
+  ): Promise<Models.PrivateLinkScopesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.PrivateLinkScopesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkScopesListByResourceGroupNextResponse>;
   }
 }
 
@@ -275,15 +412,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/microsoft.insights/privateLinkScopes",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion11
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion11],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScopeListResult
@@ -297,17 +428,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopes",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion11
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopes",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion11],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScopeListResult
@@ -321,18 +446,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopes/{scopeName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.scopeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion11
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopes/{scopeName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.scopeName],
+  queryParameters: [Parameters.apiVersion11],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScope
@@ -346,18 +464,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopes/{scopeName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.scopeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion11
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopes/{scopeName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.scopeName],
+  queryParameters: [Parameters.apiVersion11],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "azureMonitorPrivateLinkScopePayload",
     mapper: {
@@ -381,24 +492,14 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopes/{scopeName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.scopeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion11
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopes/{scopeName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.scopeName],
+  queryParameters: [Parameters.apiVersion11],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      tags: [
-        "options",
-        "tags"
-      ]
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.TagsResource,
@@ -418,18 +519,11 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopes/{scopeName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.scopeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion11
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/privateLinkScopes/{scopeName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.scopeName],
+  queryParameters: [Parameters.apiVersion11],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -445,15 +539,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion11
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion11],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScopeListResult
@@ -469,15 +557,9 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion11
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion11],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AzureMonitorPrivateLinkScopeListResult
