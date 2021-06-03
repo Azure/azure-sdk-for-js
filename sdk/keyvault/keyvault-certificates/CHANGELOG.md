@@ -1,6 +1,6 @@
 # Release History
 
-## 4.2.0-beta.4 (Unreleased)
+## 4.2.0 (2021-06-08)
 
 - Marked `ErrorModel` as deprecated. It was erronously exported publicly in 4.1 and should not be used. Please change the type to use `CertificateOperationError` instead.
 - Fixed a bug with `beginDeleteCertificate` and `beginRecoverDeletedCertificate` in which unknown service errors wouldn't bubble up properly to the end users.
