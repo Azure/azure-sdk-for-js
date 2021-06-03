@@ -5,13 +5,12 @@
  * This sample demonstrates how to create and consume Int64 values
  *
  * @summary creates and works with an entity containing an Int64 value
- * @azsdk-weight 70
  */
 
-import { Edm, TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
+const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 const tablesUrl = process.env["TABLES_URL"] || "";
@@ -28,11 +27,7 @@ async function workingWithInt64() {
 
   await client.createTable();
 
-  type FooEntity = {
-    foo: Edm<"Int64">;
-  };
-
-  await client.createEntity<FooEntity>({
+  await client.createEntity({
     partitionKey: "p1",
     rowKey: "1",
     // To work with Int64 we need to use an object that includes
@@ -40,7 +35,7 @@ async function workingWithInt64() {
     foo: { value: "12345", type: "Int64" }
   });
 
-  const entity = await client.getEntity<FooEntity>("p1", "1", { disableTypeConversion: true });
+  const entity = await client.getEntity("p1", "1", { disableTypeConversion: true });
 
   // In order to do arithmetic operations with Int64 you need to use
   // bigint or a third party library such as 'long'
@@ -49,7 +44,7 @@ async function workingWithInt64() {
   await client.deleteTable();
 }
 
-export async function main() {
+async function main() {
   await workingWithInt64();
 }
 

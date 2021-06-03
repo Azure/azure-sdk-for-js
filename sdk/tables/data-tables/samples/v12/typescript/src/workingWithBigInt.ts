@@ -5,7 +5,6 @@
  * This sample demonstrates how to create and consume Int64 values using bigint
  *
  * @summary creates and works with an entity containing a bigint
- * @azsdk-weight 70
  */
 
 import { TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
