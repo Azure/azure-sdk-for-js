@@ -185,15 +185,17 @@ export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions 
     tenantId?: string;
     clientId: string;
     loginStyle?: BrowserLoginStyle;
-    loginState?: string;
-    loginNonce?: string;
-    loginDomainHint?: string;
-    loginExtraQueryParameters?: {
-        [key: string]: string;
+    loginOptions?: {
+        state?: string;
+        nonce?: string;
+        domainHint?: string;
+        extraQueryParameters?: {
+            [key: string]: string;
+        };
+        redirectStartPage?: string;
+        onRedirectNavigate?: (url: string) => boolean | void;
+        claims?: string;
     };
-    loginRedirectStartPage?: string;
-    loginOnRedirectNavigate?: (url: string) => boolean | void;
-    loginClaims?: string;
 };
 
 // @public

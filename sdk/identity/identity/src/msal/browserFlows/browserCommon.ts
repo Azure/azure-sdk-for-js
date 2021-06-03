@@ -20,13 +20,15 @@ import { CredentialUnavailableError } from "../../client/errors";
 export interface MsalBrowserFlowOptions extends MsalFlowOptions {
   redirectUri?: string;
   loginStyle: BrowserLoginStyle;
-  loginState?: string;
-  loginNonce?: string;
-  loginDomainHint?: string;
-  loginExtraQueryParameters?: { [key: string]: string };
-  loginRedirectStartPage?: string;
-  loginOnRedirectNavigate?: (url: string) => boolean | void;
-  loginClaims?: string;
+  loginOptions?: {
+    state?: string;
+    nonce?: string;
+    domainHint?: string;
+    extraQueryParameters?: { [key: string]: string };
+    redirectStartPage?: string;
+    onRedirectNavigate?: (url: string) => boolean | void;
+    claims?: string;
+  };
 }
 
 /**
@@ -133,15 +135,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     this.msalConfig = defaultBrowserMsalConfig(options);
     this.disableAutomaticAuthentication = options.disableAutomaticAuthentication;
 
-    this.loginOptions = {
-      state: options.loginState,
-      nonce: options.loginNonce,
-      domainHint: options.loginDomainHint,
-      extraQueryParameters: options.loginExtraQueryParameters,
-      redirectStartPage: options.loginRedirectStartPage,
-      onRedirectNavigate: options.loginOnRedirectNavigate,
-      claims: options.loginClaims
-    };
+    this.loginOptions = options.loginOptions;
 
     if (options.authenticationRecord) {
       this.account = {

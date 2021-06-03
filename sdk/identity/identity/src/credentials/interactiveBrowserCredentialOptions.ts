@@ -67,40 +67,45 @@ export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions 
     loginStyle?: BrowserLoginStyle;
 
     /**
-     * A value included in the request that is also returned in the token response.
-     * A randomly generated unique value is typically used for preventing cross site request forgery attacks.
-     * The state is also used to encode information about the user's state in the app before the authentication request occurred.
+     * Parameters to the underlying login method. Related to the Open ID Connect protocol layer.
      */
-    loginState?: string;
+    loginOptions?: {
+      /**
+       * A value included in the request that is also returned in the token response.
+       * A randomly generated unique value is typically used for preventing cross site request forgery attacks.
+       * The state is also used to encode information about the user's state in the app before the authentication request occurred.
+       */
+      state?: string;
 
-    /**
-     * A value included in the request that is returned in the id token.
-     * A randomly generated unique value is typically used to mitigate replay attacks.
-     */
-    loginNonce?: string;
+      /**
+       * A value included in the request that is returned in the id token.
+       * A randomly generated unique value is typically used to mitigate replay attacks.
+       */
+      nonce?: string;
 
-    /**
-     * Provides a hint about the tenant or domain that the user should use to sign in. The value of the domain hint is a registered domain for the tenant.
-     */
-    loginDomainHint?: string;
+      /**
+       * Provides a hint about the tenant or domain that the user should use to sign in. The value of the domain hint is a registered domain for the tenant.
+       */
+      domainHint?: string;
 
-    /**
-     * String to string map of custom query parameters added to the /authorize call
-     */
-    loginExtraQueryParameters?: { [key: string]: string };
+      /**
+       * String to string map of custom query parameters added to the /authorize call
+       */
+      extraQueryParameters?: { [key: string]: string };
 
-    /**
-     * The page that should be returned to after loginRedirect or acquireTokenRedirect. This should only be used if this is different from the redirectUri and will default to the page that initiates the request. When the navigateToLoginRequestUrl config option is set to false this parameter will be ignored.
-     */
-    loginRedirectStartPage?: string;
+      /**
+       * The page that should be returned to after loginRedirect or acquireTokenRedirect. This should only be used if this is different from the redirectUri and will default to the page that initiates the request. When the navigateToLoginRequestUrl config option is set to false this parameter will be ignored.
+       */
+      redirectStartPage?: string;
 
-    /**
-     * Callback that will be passed the url that MSAL will navigate to. Returning false in the callback will stop navigation.
-     */
-    loginOnRedirectNavigate?: (url: string) => boolean | void;
+      /**
+       * Callback that will be passed the url that MSAL will navigate to. Returning false in the callback will stop navigation.
+       */
+      onRedirectNavigate?: (url: string) => boolean | void;
 
-    /**
-     * In cases where Azure AD tenant admin has enabled conditional access policies, and the policy has not been met, exceptions will contain claims that need to be consented to.
-     */
-    loginClaims?: string;
+      /**
+       * In cases where Azure AD tenant admin has enabled conditional access policies, and the policy has not been met, exceptions will contain claims that need to be consented to.
+       */
+      claims?: string;
+    };
   };
