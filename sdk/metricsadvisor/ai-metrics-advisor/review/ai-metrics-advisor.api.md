@@ -172,7 +172,7 @@ export type AzureDataExplorerDataFeedSource = {
     dataSourceType: "AzureDataExplorer";
     connectionString: string;
     query: string;
-} & (AzureDataExplorerAuthTypes);
+} & AzureDataExplorerAuthTypes;
 
 // @public
 export type AzureDataLakeStorageGen2AuthTypes = DataLakeStorageGen2AuthBasic | DataLakeStorageGen2AuthManagedIdentity | DataLakeStorageGen2AuthServicePrincipal | DataLakeStorageGen2AuthServicePrincipalInKeyVault | DataLakeStorageGen2AuthSharedKey;
@@ -184,7 +184,7 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
     fileSystemName: string;
     directoryTemplate: string;
     fileTemplate: string;
-} & (AzureDataLakeStorageGen2AuthTypes);
+} & AzureDataLakeStorageGen2AuthTypes;
 
 // @public
 export type AzureEventHubsDataFeedSource = {
