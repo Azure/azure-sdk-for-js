@@ -3,6 +3,14 @@
 
 import * as coreHttp from "@azure/core-http";
 import { SUPPORTED_API_VERSIONS } from "./constants";
+import {
+  DataAction as KeyVaultDataAction,
+  KnownDataAction as KnownKeyVaultDataAction,
+  KnownRoleScope as KnownKeyVaultRoleScope,
+  RoleScope as KeyVaultRoleScope
+} from "./generated/index";
+
+export { KeyVaultDataAction, KnownKeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultRoleScope };
 
 /**
  * The optional parameters accepted by the Key Vault's AccessControlClient
@@ -59,42 +67,6 @@ export interface KeyVaultPermission {
 }
 
 /**
- * A union type representing all possible values for
- * both {@link KeyVaultPermission.dataActions} and {@link KeyVaultPermission.notDataActions}.
- */
-export type KeyVaultDataAction =
-  | "Microsoft.KeyVault/managedHsm/keys/read/action"
-  | "Microsoft.KeyVault/managedHsm/keys/write/action"
-  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action"
-  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action"
-  | "Microsoft.KeyVault/managedHsm/keys/backup/action"
-  | "Microsoft.KeyVault/managedHsm/keys/restore/action"
-  | "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action"
-  | "Microsoft.KeyVault/managedHsm/roleAssignments/read/action"
-  | "Microsoft.KeyVault/managedHsm/roleAssignments/write/action"
-  | "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action"
-  | "Microsoft.KeyVault/managedHsm/keys/encrypt/action"
-  | "Microsoft.KeyVault/managedHsm/keys/decrypt/action"
-  | "Microsoft.KeyVault/managedHsm/keys/wrap/action"
-  | "Microsoft.KeyVault/managedHsm/keys/unwrap/action"
-  | "Microsoft.KeyVault/managedHsm/keys/sign/action"
-  | "Microsoft.KeyVault/managedHsm/keys/verify/action"
-  | "Microsoft.KeyVault/managedHsm/keys/create"
-  | "Microsoft.KeyVault/managedHsm/keys/delete"
-  | "Microsoft.KeyVault/managedHsm/keys/export/action"
-  | "Microsoft.KeyVault/managedHsm/keys/import/action"
-  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/download/action"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/action"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/read"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read"
-  | "Microsoft.KeyVault/managedHsm/backup/start/action"
-  | "Microsoft.KeyVault/managedHsm/restore/start/action"
-  | "Microsoft.KeyVault/managedHsm/backup/status/action"
-  | "Microsoft.KeyVault/managedHsm/restore/status/action"
-  | string;
-
-/**
  * A Key Vault role definition.
  */
 export interface KeyVaultRoleDefinition {
@@ -149,12 +121,6 @@ export interface KeyVaultRoleAssignmentProperties {
    */
   scope?: KeyVaultRoleScope;
 }
-
-/**
- * A scope of the role assignment or definition.
- * The valid scopes are: "/", "/keys" and any a specific resource Id followed by a slash, as in "ID/".
- */
-export type KeyVaultRoleScope = "/" | "/keys" | string;
 
 /**
  * An interface representing the optional parameters that can be

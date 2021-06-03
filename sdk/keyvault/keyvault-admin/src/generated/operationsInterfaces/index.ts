@@ -6,7 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { KeyVaultClient } from "./keyVaultClient";
-export { KeyVaultClientContext } from "./keyVaultClientContext";
-export * from "./operationsInterfaces";
+export * from "./roleDefinitions";
+export * from "./roleAssignments";
