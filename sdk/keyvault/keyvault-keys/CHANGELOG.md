@@ -12,6 +12,7 @@
 
 - Fixed a bug with `beginDeleteKey` and `beginRecoverDeletedKey` in which unknown service errors wouldn't bubble up properly to the end users.
 - Fixed bug with the list operations which were returning misplaced properties. Fixes customer issue: [15353](https://github.com/Azure/azure-sdk-for-js/issues/15353).
+- Fixed an issue where retrying a failed initial Key Vault request may result in an empty body.
 
 ### Changes since 4.2.0-beta.5:
 

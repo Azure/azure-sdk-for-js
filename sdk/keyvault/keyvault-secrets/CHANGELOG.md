@@ -9,6 +9,11 @@
 ### Bug Fixes
 
 - Fixed a bug with `beginDeleteSecret` and `beginRecoverDeletedSecret` in which unknown service errors wouldn't bubble up properly to the end users.
+- Fixed an issue where retrying a failed initial Key Vault request may result in an empty body.
+
+### Changes since 4.2.0-beta.4:
+
+- Fixed a bug with `beginDeleteSecret` and `beginRecoverDeletedSecret` in which unknown service errors wouldn't bubble up properly to the end users.
 - Renamed the `KeyVaultSecretId` to `KeyVaultSecretIdentifier`, and exported a method to parse Key Vault Secret Ids: `parseKeyVaultSecretIdentifier`.
 - Added a `certificateKeyId?: string` secret property to use instead of the deprecated `keyId?: URL` and removed `"lib": ["dom"]` from `tsconfig.json`
 
