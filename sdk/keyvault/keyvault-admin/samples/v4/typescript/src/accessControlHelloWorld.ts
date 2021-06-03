@@ -7,7 +7,6 @@
 
 import {
   KeyVaultAccessControlClient,
-  KeyVaultPermission,
   KnownKeyVaultDataAction,
   KnownKeyVaultRoleScope
 } from "@azure/keyvault-admin";
@@ -36,15 +35,17 @@ export async function main(): Promise<void> {
 
   const globalScope = KnownKeyVaultRoleScope.Global;
   const roleDefinitionName = uuid.v4();
-  const permissions: KeyVaultPermission[] = [
-    {
-      dataActions: [KnownKeyVaultDataAction.StartHsmBackup, KnownKeyVaultDataAction.StartHsmRestore]
-    }
-  ];
   let roleDefinition = await client.setRoleDefinition(globalScope, {
     roleDefinitionName,
     roleName: "Backup Manager",
-    permissions,
+    permissions: [
+      {
+        dataActions: [
+          KnownKeyVaultDataAction.StartHsmBackup,
+          KnownKeyVaultDataAction.StartHsmRestore
+        ]
+      }
+    ],
     description: "Allow backup actions"
   });
   console.log(roleDefinition);

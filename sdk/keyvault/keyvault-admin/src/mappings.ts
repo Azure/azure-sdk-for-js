@@ -44,7 +44,14 @@ export const mappings = {
         roleName: roleName!,
         description: description!,
         roleType: roleType!,
-        permissions: permissions!,
+        permissions: permissions!.map((p) => {
+          return {
+            actions: p.actions || [],
+            notActions: p.notActions || [],
+            dataActions: p.dataActions || [],
+            notDataActions: p.notDataActions || []
+          };
+        })!,
         assignableScopes: assignableScopes!
       };
     }

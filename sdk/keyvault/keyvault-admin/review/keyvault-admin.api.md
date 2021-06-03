@@ -105,10 +105,10 @@ export type KeyVaultDataAction = string;
 
 // @public
 export interface KeyVaultPermission {
-    actions?: string[];
-    dataActions?: KeyVaultDataAction[];
-    notActions?: string[];
-    notDataActions?: KeyVaultDataAction[];
+    actions: string[];
+    dataActions: KeyVaultDataAction[];
+    notActions: string[];
+    notDataActions: KeyVaultDataAction[];
 }
 
 // @public
@@ -228,7 +228,7 @@ export const SDK_VERSION: string;
 export interface SetRoleDefinitionOptions extends coreHttp.OperationOptions {
     assignableScopes?: KeyVaultRoleScope[];
     description?: string;
-    permissions?: KeyVaultPermission[];
+    permissions?: Partial<KeyVaultPermission>[];
     roleDefinitionName?: string;
     roleName?: string;
 }

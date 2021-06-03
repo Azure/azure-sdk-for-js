@@ -35,15 +35,17 @@ async function main() {
 
   const globalScope = KnownKeyVaultRoleScope.Global;
   const roleDefinitionName = uuid.v4();
-  const permissions = [
-    {
-      dataActions: [KnownKeyVaultDataAction.StartHsmBackup, KnownKeyVaultDataAction.StartHsmRestore]
-    }
-  ];
   let roleDefinition = await client.setRoleDefinition(globalScope, {
     roleDefinitionName,
     roleName: "Backup Manager",
-    permissions,
+    permissions: [
+      {
+        dataActions: [
+          KnownKeyVaultDataAction.StartHsmBackup,
+          KnownKeyVaultDataAction.StartHsmRestore
+        ]
+      }
+    ],
     description: "Allow backup actions"
   });
   console.log(roleDefinition);

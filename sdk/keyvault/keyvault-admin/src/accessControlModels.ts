@@ -51,19 +51,19 @@ export interface KeyVaultPermission {
   /**
    * Allowed actions.
    */
-  actions?: string[];
+  actions: string[];
   /**
    * Actions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
-  notActions?: string[];
+  notActions: string[];
   /**
    * Allowed Data actions.
    */
-  dataActions?: KeyVaultDataAction[];
+  dataActions: KeyVaultDataAction[];
   /**
    * Data actions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
-  notDataActions?: KeyVaultDataAction[];
+  notDataActions: KeyVaultDataAction[];
 }
 
 /**
@@ -174,7 +174,7 @@ export interface SetRoleDefinitionOptions extends coreHttp.OperationOptions {
   /**
    * List of Key Vault permissions
    */
-  permissions?: KeyVaultPermission[];
+  permissions?: Partial<KeyVaultPermission>[];
   /**
    * List of assignable Key Vault role scopes
    */
