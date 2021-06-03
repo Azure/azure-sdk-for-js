@@ -12,11 +12,11 @@ urlFragment: keyvault-admin-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Administration in some common scenarios.
 
-| **File Name**                                         | **Description**                                                                                       |
-| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| [accessControlHelloWorld.ts][accesscontrolhelloworld] | Uses an KeyVaultAccessControlClient to list, create, and assign roles to users.                               |
-| [backupRestoreHelloWorld.ts][backuprestorehelloworld] | Uses a KeyVaultBackupClient to backup and fully restore an Azure Key Vault using Azure Storage Blob.          |
-| [backupSelectiveKeyRestore.ts][backupselectiveKeyrestore]   | Uses a KeyVaultBackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob. |
+| **File Name**                                             | **Description**                                                                                       |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| [accessControlHelloWorld.ts][accesscontrolhelloworld]     | Uses an AccessControlClient to list, create, and assign roles to users.                               |
+| [backupRestoreHelloWorld.ts][backuprestorehelloworld]     | Uses a BackupClient to backup and fully restore an Azure Key Vault using Azure Storage Blob.          |
+| [backupSelectiveKeyRestore.ts][backupselectivekeyrestore] | Uses a BackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob. |
 
 ## Prerequisites
 
@@ -78,7 +78,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [accesscontrolhelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/accessControlHelloWorld.ts
 [backuprestorehelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/backupRestoreHelloWorld.ts
-[backupselectiveKeyrestore]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/backupSelectiveKeyRestore.ts
+[backupselectivekeyrestore]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/v4/typescript/src/backupSelectiveKeyRestore.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal

@@ -93,7 +93,7 @@ describe("KeyVaultAccessControlClient", () => {
       const name = generateFakeUUID();
       const roleName = "custom role definition name";
       const description = "custom role description";
-      let roleDefinition: KeyVaultRoleDefinition = await client.upsertRoleDefinition(globalScope, {
+      let roleDefinition: KeyVaultRoleDefinition = await client.setRoleDefinition(globalScope, {
         roleDefinitionName: name,
         roleName,
         permissions,
@@ -116,7 +116,7 @@ describe("KeyVaultAccessControlClient", () => {
         notDataActions: ["Microsoft.KeyVault/managedHsm/keys/encrypt/action"]
       });
 
-      roleDefinition = await client.upsertRoleDefinition(globalScope, {
+      roleDefinition = await client.setRoleDefinition(globalScope, {
         roleDefinitionName: name,
         roleName,
         permissions,
@@ -137,10 +137,10 @@ describe("KeyVaultAccessControlClient", () => {
       }
     });
 
-    describe("upsertRoleDefinition", function() {
+    describe("setRoleDefinition", function() {
       it("errors when name is not a valid guid", async function() {
         await assert.isRejected(
-          client.upsertRoleDefinition(globalScope, {
+          client.setRoleDefinition(globalScope, {
             roleDefinitionName: "foo unique value",
             roleName: "foo role definition name",
             permissions: []
@@ -162,7 +162,7 @@ describe("KeyVaultAccessControlClient", () => {
         }
 
         await assert.isRejected(
-          client.upsertRoleDefinition(globalScope, {
+          client.setRoleDefinition(globalScope, {
             roleDefinitionName: builtInDefinition.name,
             roleName: builtInDefinition.roleName,
             permissions

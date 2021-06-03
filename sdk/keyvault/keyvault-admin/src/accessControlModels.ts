@@ -190,9 +190,9 @@ export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {}
 export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {}
 
 /**
- * An interface representing optional parameters passed to {@link upsertRoleDefinition}.
+ * An interface representing optional parameters passed to {@link setRoleDefinition}.
  */
-export interface UpsertRoleDefinitionOptions extends coreHttp.OperationOptions {
+export interface SetRoleDefinitionOptions extends coreHttp.OperationOptions {
   /**
    * UUID used as the name of the role definition to create. If it's not provided, a new UUID will be generated.
    */
