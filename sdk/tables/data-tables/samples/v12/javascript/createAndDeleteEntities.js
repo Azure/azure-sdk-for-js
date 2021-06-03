@@ -7,7 +7,9 @@
  * @summary creates and deletes a entities in a table
  */
 
-const { TableClient, TablesSharedKeyCredential } = require("@azure/data-tables");
+const { TableClient } = require("@azure/data-tables");
+const { AzureNamedKeyCredential } = require("@azure/core-auth");
+
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();
@@ -21,7 +23,7 @@ async function createSimpleDateEntity() {
   const tableName = `createSimpleDateEntityTable`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const creds = new TablesSharedKeyCredential(accountName, accountKey);
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
   const client = new TableClient(tablesUrl, tableName, creds);
 
   await client.createTable();
@@ -42,7 +44,7 @@ async function createComplexDateEntity() {
   const tableName = `createComplexDateEntityTable`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const creds = new TablesSharedKeyCredential(accountName, accountKey);
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
   const client = new TableClient(tablesUrl, tableName, creds);
 
   await client.createTable();
@@ -68,7 +70,7 @@ async function createAndDeleteEntities() {
   const tableName = `createAndDeleteEntitiesTable`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const creds = new TablesSharedKeyCredential(accountName, accountKey);
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
   const client = new TableClient(tablesUrl, tableName, creds);
 
   // Create the table

@@ -5,7 +5,6 @@
  * This sample demonstrates how to create and consume Int64 values
  *
  * @summary creates and works with an entity containing an Int64 value
- * @azsdk-weight 70
  */
 
 import { Edm, TableClient } from "@azure/data-tables";

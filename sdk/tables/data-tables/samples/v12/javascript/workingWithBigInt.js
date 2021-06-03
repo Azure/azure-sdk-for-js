@@ -5,14 +5,13 @@
  * This sample demonstrates how to create and consume Int64 values using bigint
  *
  * @summary creates and works with an entity containing a bigint
- * @azsdk-weight 70
  */
 
-import { TableClient } from "@azure/data-tables";
-import { AzureNamedKeyCredential } from "@azure/core-auth";
+const { TableClient } = require("@azure/data-tables");
+const { AzureNamedKeyCredential } = require("@azure/core-auth");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 const tablesUrl = process.env["TABLES_URL"] || "";
@@ -29,13 +28,9 @@ async function workingWithBigint() {
 
   await client.createTable();
 
-  type FooEntity = {
-    foo: bigint;
-  };
+  await client.createEntity({ partitionKey: "p1", rowKey: "1", foo: BigInt("12345") });
 
-  await client.createEntity<FooEntity>({ partitionKey: "p1", rowKey: "1", foo: BigInt("12345") });
-
-  const entity = await client.getEntity<FooEntity>("p1", "1");
+  const entity = await client.getEntity("p1", "1");
 
   // Do arithmetic operations with bigint
   const resultPlusOne = entity.foo + BigInt(1);
@@ -45,7 +40,7 @@ async function workingWithBigint() {
   await client.deleteTable();
 }
 
-export async function main() {
+async function main() {
   await workingWithBigint();
 }
 

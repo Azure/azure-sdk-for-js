@@ -7,9 +7,5 @@ export * from "./models";
 export { TableServiceClient } from "./TableServiceClient";
 export { TableTransaction } from "./TableTransaction";
 export { TableClient } from "./TableClient";
-export {
-  TablesSharedKeyCredential,
-  TablesSharedKeyCredentialLike
-} from "./TablesSharedKeyCredential";
-export { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
+export { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 export { odata } from "./odata";

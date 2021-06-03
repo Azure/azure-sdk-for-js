@@ -7,28 +7,27 @@ import {
   SendRequest,
   PipelinePolicy
 } from "@azure/core-rest-pipeline";
-import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
+import { NamedKeyCredential } from "@azure/core-auth";
+import { createHmac } from "crypto";
 import { HeaderConstants } from "./utils/constants";
 import { URL } from "./utils/url";
 
 /**
- * The programmatic identifier of the tablesSharedKeyCredentialPolicy.
+ * The programmatic identifier of the tablesNamedKeyCredentialPolicy.
  */
-export const tablesSharedKeyCredentialPolicyName = "tablesSharedKeyCredentialPolicy";
+export const tablesNamedKeyCredentialPolicyName = "tablesNamedKeyCredentialPolicy";
 
 /**
- * tablesSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
+ * tablesNamedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
  */
-export function tablesSharedKeyCredentialPolicy(
-  credential: TablesSharedKeyCredentialLike
-): PipelinePolicy {
+export function tablesNamedKeyCredentialPolicy(credential: NamedKeyCredential): PipelinePolicy {
   function signRequest(request: PipelineRequest): void {
     const headerValue = getAuthorizationHeader(request, credential);
     request.headers.set(HeaderConstants.AUTHORIZATION, headerValue);
   }
 
   return {
-    name: tablesSharedKeyCredentialPolicyName,
+    name: tablesNamedKeyCredentialPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       signRequest(request);
       return next(request);
@@ -38,7 +37,7 @@ export function tablesSharedKeyCredentialPolicy(
 
 export function getAuthorizationHeader(
   request: PipelineRequest,
-  credential: TablesSharedKeyCredentialLike
+  credential: NamedKeyCredential
 ): string {
   if (!request.headers.has(HeaderConstants.X_MS_DATE)) {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
@@ -60,9 +59,16 @@ export function getAuthorizationHeader(
     getCanonicalizedResourceString(request, credential)
   ].join("\n");
 
-  const signature = credential.computeHMACSHA256(stringToSign);
+  const signature = computeHMACSHA256(stringToSign, credential.key);
 
-  return `SharedKeyLite ${credential.accountName}:${signature}`;
+  return `SharedKeyLite ${credential.name}:${signature}`;
+}
+
+function computeHMACSHA256(stringToSign: string, accountKey: string): string {
+  const key = Buffer.from(accountKey, "base64");
+  return createHmac("sha256", key)
+    .update(stringToSign, "utf8")
+    .digest("base64");
 }
 
 function getHeaderValueToSign(request: PipelineRequest, headerName: string): string {
@@ -76,12 +82,12 @@ function getHeaderValueToSign(request: PipelineRequest, headerName: string): str
 
 function getCanonicalizedResourceString(
   request: PipelineRequest,
-  credential: TablesSharedKeyCredentialLike
+  credential: NamedKeyCredential
 ): string {
   // https://docs.microsoft.com/rest/api/storageservices/authorize-with-shared-key#shared-key-lite-and-table-service-format-for-2009-09-19-and-later
   const url = new URL(request.url);
   const path = url.pathname || "/";
-  let canonicalizedResourceString = "/" + credential.accountName + path;
+  let canonicalizedResourceString = "/" + credential.name + path;
 
   // The query string should include the question mark and the comp parameter (for example, ?comp=metadata). No other parameters should be included on the query string.
   const comp = url.searchParams.get("comp");

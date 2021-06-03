@@ -43,15 +43,15 @@ Azure Tables supports several ways to authenticate. In order to interact with th
 
 Note: Azure Tables doesn't support Azure Active Directory (AAD)
 
-- [Service client with Shared Key](#tableserviceclient-with-tablessharedkeycredential)
+- [Service client with Shared Key](#tableserviceclient-with-azurenamedkeycredential)
 - [Service client with Shared access signatures](#tableserviceclient-with-sas-token)
-- [Table client with Shared Key](#tableclient-with-tablessharedkeycredential)
+- [Table client with Shared Key](#tableclient-with-azurenamedkeycredential)
 - [Table client with Shared access signatures](#tableclient-with-sas-token)
 
 #### Following features, interfaces, classes or functions are only available in Node.js
 
 - Shared Key Authorization based on account name and account key
-  - `TablesSharedKeyCredential`
+  - `AzureNamedKeyCredential`
   - Account connection string.
 
 #### JavaScript Bundle
@@ -108,28 +108,30 @@ const AzureTables = require("@azure/data-tables");
 Alternatively, selectively import only the types you need:
 
 ```javascript
-const { TableServiceClient, TablesSharedKeyCredential } = require("@azure/data-tables");
+const { TableServiceClient } = require("@azure/data-tables");
+const { AzureNamedKeyCredential } = require("@azure/core-auth");
 ```
 
 ### Create the Table service client
 
 The `TableServiceClient` requires a URL to the table service and an access credential. It also optionally accepts some settings in the `options` parameter.
 
-#### `TableServiceClient` with `TablesSharedKeyCredential`
+#### `TableServiceClient` with `AzureNamedKeyCredential`
 
-You can instantiate a `TableServiceClient` with a `TablesSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
+You can instantiate a `TableServiceClient` with a `AzureNamedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
 ```javascript
-const { TableServiceClient, TablesSharedKeyCredential } = require("@azure/data-tables");
+const { TableServiceClient } = require("@azure/data-tables");
+const { AzureNamedKeyCredential } = require("@azure/core-auth");
 
 // Enter your storage account name and shared key
 const account = "<account>";
 const accountKey = "<accountkey>";
 
-// Use TablesSharedKeyCredential with storage account and account key
-// TablesSharedKeyCredential is only available in Node.js runtime, not in browsers
-const credential = new TablesSharedKeyCredential(account, accountKey);
+// Use AzureNamedKeyCredential with storage account and account key
+// AzureNamedKeyCredential is only available in Node.js runtime, not in browsers
+const credential = new AzureNamedKeyCredential(account, accountKey);
 const serviceClient = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
   credential
@@ -156,12 +158,13 @@ const serviceClientWithSAS = new TableServiceClient(
 You can list tables within an account through a `TableServiceClient` instance calling the `listTables` function. This function returns a `PageableAsyncIterator` that you can consume using `for-await-of`
 
 ```javascript
-const { TableServiceClient, TablesSharedKeyCredential } = require("@azure/data-tables");
+const { TableServiceClient } = require("@azure/data-tables");
+const { AzureNamedKeyCredential } = require("@azure/core-auth");
 
 const account = "<account>";
 const accountKey = "<accountkey>";
 
-const credential = new TablesSharedKeyCredential(account, accountKey);
+const credential = new AzureNamedKeyCredential(account, accountKey);
 const serviceClient = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
   credential
@@ -190,12 +193,13 @@ main();
 You can create a table through a `TableServiceClient` instance calling the `createTable` function. This function takes the name of the table to create as a parameter.
 
 ```javascript
-const { TableServiceClient, TablesSharedKeyCredential } = require("@azure/data-tables");
+const { TableServiceClient } = require("@azure/data-tables");
+const { AzureNamedKeyCredential } = require("@azure/core-auth");
 
 const account = "<account>";
 const accountKey = "<accountkey>";
 
-const credential = new TablesSharedKeyCredential(account, accountKey);
+const credential = new AzureNamedKeyCredential(account, accountKey);
 const serviceClient = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
   credential
@@ -213,22 +217,23 @@ main();
 
 The `TableClient` is created in a similar way as the `TableServiceClient` with the difference that `TableClient` takes a table name as a parameter
 
-#### TableClient with `TablesSharedKeyCredential`
+#### TableClient with `AzureNamedKeyCredential`
 
-You can instantiate a `TableClient` with a `TablesSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
+You can instantiate a `TableClient` with a `AzureNamedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
 ```javascript
-const { TableClient, TablesSharedKeyCredential } = require("@azure/data-tables");
+const { TableClient } = require("@azure/data-tables");
+const { AzureNamedKeyCredential } = require("@azure/core-auth");
 
 // Enter your storage account name and shared key
 const account = "<account>";
 const accountKey = "<accountkey>";
 const tableName = "<tableName>";
 
-// Use TablesSharedKeyCredential with storage account and account key
-// TablesSharedKeyCredential is only available in Node.js runtime, not in browsers
-const credential = new TablesSharedKeyCredential(account, accountKey);
+// Use AzureNamedKeyCredential with storage account and account key
+// AzureNamedKeyCredential is only available in Node.js runtime, not in browsers
+const credential = new AzureNamedKeyCredential(account, accountKey);
 const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 ```
 
@@ -251,13 +256,14 @@ const clientWithSAS = new TableClient(`https://${account}.table.core.windows.net
 You can list entities within a table by through a `TableClient` instance calling the `listEntities` function. This function returns a `PageableAsyncIterator` that you can consume using `for-await-of`
 
 ```javascript
-const { TableClient, TablesSharedKeyCredential } = require("@azure/data-tables");
+const { TableClient } = require("@azure/data-tables");
+const { AzureNamedKeyCredential } = require("@azure/core-auth");
 
 const account = "<account>";
 const accountKey = "<accountkey>";
 const tableName = "<tableName>";
 
-const credential = new TablesSharedKeyCredential(account, accountKey);
+const credential = new AzureNamedKeyCredential(account, accountKey);
 const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 
 async function main() {
@@ -282,13 +288,14 @@ main();
 You can create a new Entity in a table by through a `TableClient` instance calling the `createEntity` function. This function takes the entity to insert as a parameter. The entity must contain `partitionKey` and `rowKey`.
 
 ```javascript
-const { TableClient, TablesSharedKeyCredential } = require("@azure/data-tables");
+const { TableClient } = require("@azure/data-tables");
+const { AzureNamedKeyCredential } = require("@azure/core-auth");
 
 const account = "<account>";
 const accountKey = "<accountkey>";
 const tableName = "<tableName>";
 
-const credential = new TablesSharedKeyCredential(account, accountKey);
+const credential = new AzureNamedKeyCredential(account, accountKey);
 const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 
 async function main() {

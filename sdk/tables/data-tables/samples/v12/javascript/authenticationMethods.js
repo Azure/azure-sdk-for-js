@@ -7,7 +7,8 @@
  *
  * @summary authenticates using different authentication methods
  */
-const { TableServiceClient, TablesSharedKeyCredential } = require("@azure/data-tables");
+const { TableServiceClient } = require("@azure/data-tables");
+const { AzureNamedKeyCredential } = require("@azure/core-auth");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
@@ -60,7 +61,7 @@ async function tableServiceClientWithAccountConnectionString() {
  * and it is not available for browsers
  */
 async function tableServiceClientWithAccountKey() {
-  const creds = new TablesSharedKeyCredential(accountName, accountKey);
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
   const client = new TableServiceClient(tablesUrl, creds);
   countTablesWithClient(client);
 }

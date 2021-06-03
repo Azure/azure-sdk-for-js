@@ -8,7 +8,8 @@
  * @summary authenticates using different authentication methods
  * @azsdk-weight 40
  */
-import { TableServiceClient, TablesSharedKeyCredential } from "@azure/data-tables";
+import { TableServiceClient } from "@azure/data-tables";
+import { AzureNamedKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -61,7 +62,7 @@ async function tableServiceClientWithAccountConnectionString() {
  * and it is not available for browsers
  */
 async function tableServiceClientWithAccountKey() {
-  const creds = new TablesSharedKeyCredential(accountName, accountKey);
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
   const client = new TableServiceClient(tablesUrl, creds);
   countTablesWithClient(client);
 }
