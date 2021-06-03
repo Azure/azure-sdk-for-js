@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
-import { MsalBrowserFlowOptions, MsalBrowser, MsalBrowserLoginOptions } from "./browserCommon";
+import { MsalBrowserFlowOptions, MsalBrowser, MsalBrowserRequestOptions } from "./browserCommon";
 import { AccessToken } from "@azure/core-http";
 import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
 import { AuthenticationRecord } from "../types";
@@ -120,20 +120,20 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   public async login(
     scopes: string | string[] = [],
-    loginOptions: MsalBrowserLoginOptions
+    requestOptions: MsalBrowserRequestOptions
   ): Promise<AuthenticationRecord | undefined> {
     const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-    const loginRequest = {
+    const loginRequestOptions = {
       scopes: arrayScopes,
-      ...loginOptions
+      ...requestOptions
     };
     switch (this.loginStyle) {
       case "redirect": {
-        await this.app.loginRedirect(loginRequest);
+        await this.app.loginRedirect(loginRequestOptions);
         return;
       }
       case "popup":
-        return this.handleBrowserResult(await this.app.loginPopup(loginRequest));
+        return this.handleBrowserResult(await this.app.loginPopup(loginRequestOptions));
     }
   }
 

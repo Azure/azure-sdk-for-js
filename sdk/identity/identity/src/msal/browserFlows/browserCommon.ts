@@ -66,43 +66,12 @@ export function defaultBrowserMsalConfig(
  * Defines common properties that customizes browser authentication.
  * The full list of available properties can be seen here: https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/3a730d5ad842eaa8fc643015817cd7c20415e921/lib/msal-browser/src/request/PopupRequest.ts
  * We will be adding more on demand.
+ * @internal
  */
-export interface MsalBrowserLoginOptions {
-  /**
-   * A value included in the request that is also returned in the token response. A randomly generated unique value is typically used for preventing cross site request forgery attacks. The state is also used to encode information about the user's state in the app before the authentication request occurred.
-   */
-  state?: string;
-
-  /**
-   * A value included in the request that is returned in the id token. A randomly generated unique value is typically used to mitigate replay attacks.
-   */
-  nonce?: string;
-
-  /**
-   * Provides a hint about the tenant or domain that the user should use to sign in. The value of the domain hint is a registered domain for the tenant.
-   */
-  domainHint?: string;
-
-  /**
-   * String to string map of custom query parameters added to the /authorize call
-   */
-  extraQueryParameters?: { [key: string]: string };
-
-  /**
-   * The page that should be returned to after loginRedirect or acquireTokenRedirect. This should only be used if this is different from the redirectUri and will default to the page that initiates the request. When the navigateToLoginRequestUrl config option is set to false this parameter will be ignored.
-   */
-  redirectStartPage?: string;
-
-  /**
-   * Callback that will be passed the url that MSAL will navigate to. Returning false in the callback will stop navigation.
-   */
-  onRedirectNavigate?: (url: string) => boolean | void;
-
-  /**
-   * In cases where Azure AD tenant admin has enabled conditional access policies, and the policy has not been met, exceptions will contain claims that need to be consented to.
-   */
-  claims?: string;
-}
+export type MsalBrowserRequestOptions = Omit<
+  msalBrowser.PopupRequest & msalBrowser.RedirectRequest,
+  "scopes"
+>;
 
 /**
  * MSAL partial base client for the browsers.
@@ -121,7 +90,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
   protected msalConfig: msalBrowser.Configuration;
   protected disableAutomaticAuthentication?: boolean;
   protected app?: msalBrowser.PublicClientApplication;
-  protected loginOptions?: MsalBrowserLoginOptions;
+  protected loginRequestOptions?: MsalBrowserRequestOptions;
 
   constructor(options: MsalBrowserFlowOptions) {
     super(options);
@@ -135,7 +104,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     this.msalConfig = defaultBrowserMsalConfig(options);
     this.disableAutomaticAuthentication = options.disableAutomaticAuthentication;
 
-    this.loginOptions = options.loginOptions;
+    this.loginRequestOptions = options.loginOptions;
 
     if (options.authenticationRecord) {
       this.account = {
@@ -174,7 +143,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
    */
   public abstract login(
     scopes?: string | string[],
-    options?: MsalBrowserLoginOptions
+    options?: MsalBrowserRequestOptions
   ): Promise<AuthenticationRecord | undefined>;
 
   /**
@@ -198,7 +167,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     await this.handleRedirect();
 
     if (!(await this.getActiveAccount()) && !this.disableAutomaticAuthentication) {
-      await this.login(scopes, this.loginOptions);
+      await this.login(scopes, this.loginRequestOptions);
     }
     return this.getTokenSilent(scopes).catch((err) => {
       if (err.name !== "AuthenticationRequiredError") {
