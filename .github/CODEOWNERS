@@ -8,48 +8,20 @@
 # Catch all
 /sdk/ @ramya-rao-a
 
-# Core
 # PRLabel: %Azure.Core
-/sdk/core/abort-controller/ @chradek @xirzec @bterlson @jeremymeng @deyaaeldeen
+/sdk/core/ @xirzec @chradek @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+/sdk/core/core-amqp/ @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Azure.Core
-/sdk/core/core-asynciterator-polyfill/ @xirzec @bterlson @chradek @jeremymeng @deyaaeldeen
+/sdk/core/core-auth/ @sadasant @xirzec @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-auth/ @sadasant @xirzec @bterlson @jeremymeng @deyaaeldeen
+/sdk/core/core-client-rest/ @xirzec @chradek @joheredi @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-client/ @xirzec @bterlson @chradek @jeremymeng @deyaaeldeen
-
-# PRLabel: %Azure.Core
-/sdk/core/core-crypto/ @xirzec @bterlson @chradek @jeremymeng @deyaaeldeen
-
-# PRLabel: %Azure.Core
-/sdk/core/core-http/ @xirzec @bterlson @chradek @jeremymeng @deyaaeldeen
-
-# PRLabel: %Azure.Core
-/sdk/core/core-rest-pipeline/ @xirzec @bterlson @chradek @jeremymeng @deyaaeldeen
-
-# PRLabel: %Azure.Core
-/sdk/core/core-lro/ @sadasant @xirzec @bterlson @chradek @jeremymeng @deyaaeldeen
-
-# PRLabel: %Azure.Core
-/sdk/core/core-paging/ @xirzec @bterlson @jeremymeng @deyaaeldeen
-
-# PRLabel: %Azure.Core
-/sdk/core/core-rest/ @xirzec @bterlson @chradek @joheredi @jeremymeng @deyaaeldeen
-
-# PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @bterlson @chradek @richardpark-msft
-
-# PRLabel: %Azure.Core
-/sdk/core/core-xml/ @xirzec @bterlson @chradek @jeremymeng @deyaaeldeen
-
-# PRLabel: %Azure.Core
-/sdk/core/logger @xirzec @bterlson @chradek @jeremymeng @deyaaeldeen
+/sdk/core/core-tracing/ @xirzec @chradek @richardpark-msft @maorleger
 
 # Service teams
 # PRLabel: %App Configuration
@@ -74,28 +46,31 @@
 /sdk/digitaltwins/ @vishnureddy17
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/ @ramya-rao-a @ellismg
+/sdk/eventgrid/ @xirzec @ellismg
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
-
-# PRLabel: %Service Bus
-/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+/sdk/eventhub/ @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @sadasant @witemple-msft @schaabs
 
+# PRLabel: %Iot
+/sdk/iot/ @YoDaMa @xirzec
+
 # PRLabel: %KeyVault
 /sdk/keyvault/ @maorleger @sadasant 
 
+# PRLabel: %Service Bus
+/sdk/servicebus/ @chradek @richardpark-msft @HarshaNalluru
+
 # PRLabel: %Storage
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377 @EmmaZhu
+/sdk/storage/ @XiaoningLiu @jeremymeng @vinjiang @jiacfan @ljian3377 @EmmaZhu
 
 # PRLabel: %Synapse
-/sdk/synapse/ @jonathandturner
+/sdk/synapse/ @joheredi
 
 # PRLabel: %Tables
-/sdk/tables/ @mahdiva @joheredi
+/sdk/tables/ @joheredi
 
 # PRLabel: %EngSys
 /sdk/template/ @Azure/azure-sdk-eng
@@ -103,7 +78,7 @@
 /sdk/test-utils/ @HarshaNalluru @sadasant
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @deyaaeldeen @xirzec @witemple-msft
+/sdk/textanalytics/ @deyaaeldeen @witemple-msft
 
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/ @jeremymeng @witemple-msft
@@ -152,9 +127,10 @@
 # Config
 ###########
 /.vscode/ @mikeharder @praveenkuttappan @deyaaeldeen
-/common/ @mikeharder @praveenkuttappan
-/common/config/rush/pnpm-lock.yaml @bterlson
-/common/git-hooks/ @deyaaeldeen
+/common/ @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
+/common/smoke-test @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen @benbp
+
 /rush.json @mikeharder @praveenkuttappan
-/tsconfig.json @mikeharder @praveenkuttappan
-/**/tsconfig.json @bterlson
+/tsconfig.json @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
+/**/tsconfig.json @witemple-msft @deyaaeldeen
+/.scripts/ @mikeharder @praveenkuttappan @KarishmaGhiya
