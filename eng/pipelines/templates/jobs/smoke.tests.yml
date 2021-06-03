@@ -52,12 +52,6 @@ jobs:
       condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['check_smoke_tests.RunSmokeTests'], true))
     strategy:
       matrix:
-        Linux Node8 (AzureCloud):
-          Pool: Azure Pipelines
-          OSVmImage: "macOS-10.14"
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          NodeTestVersion: "8.x"
         Mac Node10 (AzureCloud):
           Pool: Azure Pipelines
           OSVmImage: "macOS-10.14"
@@ -192,14 +186,8 @@ jobs:
         displayName: List packages installed from the feed
 
       - script: npm run smoke-test -- --devops-logging
-        condition: and(succeeded(), ne(variables.NodeTestVersion, '8.x'))
         workingDirectory: common/smoke-test/
         displayName: Run smoke tests
-
-      - script: npm run smoke-test-node8 -- --devops-logging
-        condition: and(succeeded(), eq(variables.NodeTestVersion, '8.x'))
-        workingDirectory: common/smoke-test/
-        displayName: Run smoke tests (Node 8)
 
       - template: /eng/common/TestResources/remove-test-resources.yml
         parameters:
