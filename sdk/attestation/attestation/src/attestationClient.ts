@@ -8,6 +8,7 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   AttestationSigner,
   AttestationToken,
+  AttestationTokenValidationOptions,
   AttestationResult,
   AttestationData,
   TpmAttestationRequest,
@@ -29,12 +30,16 @@ import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 /**
  * Attestation Client Construction Options.
  */
-export interface AttestationClientOptions extends CommonClientOptions {}
+export interface AttestationClientOptions extends CommonClientOptions {
+  validationOptions?: AttestationTokenValidationOptions;
+}
 
 /**
  * Operation options for the Attestation Client operations.
  */
-export interface AttestationClientOperationOptions extends OperationOptions {}
+export interface AttestationClientOperationOptions extends OperationOptions {
+  validationOptions?: AttestationTokenValidationOptions;
+}
 
 /**
  * Optional parameters for the AttestOpenEnclave API.
@@ -146,6 +151,7 @@ export class AttestationClient {
     };
 
     this._client = new GeneratedClient(credentials, instanceUrl, internalPipelineOptions);
+    this._validationOptions = options.validationOptions;
     this.instanceUrl = instanceUrl;
 
     // Legacy compatibility classes functions which will be removed eventually.
@@ -196,6 +202,10 @@ export class AttestationClient {
       );
 
       const token = new AttestationToken(attestationResponse.token);
+      token.validateToken(
+        await this._signingKeys,
+        options.validationOptions ?? this._validationOptions
+      );
 
       const attestationResult = TypeDeserializer.deserialize(
         token.getBody(),
@@ -249,6 +259,11 @@ export class AttestationClient {
       );
 
       const token = new AttestationToken(attestationResponse.token);
+      token.validateToken(
+        await this._signingKeys,
+        options.validationOptions ?? this._validationOptions
+      );
+
       const attestationResult = TypeDeserializer.deserialize(
         token.getBody(),
         {
@@ -334,6 +349,16 @@ export class AttestationClient {
   }
 
   private _client: GeneratedClient;
+  private _validationOptions?: AttestationTokenValidationOptions;
+  private _signers?: Promise<AttestationSigner[]>;
+
+  private get _signingKeys(): Promise<AttestationSigner[]> {
+    if (this._signers !== undefined) {
+      return Promise.resolve(this._signers);
+    }
+    this._signers = this.getAttestationSigners();
+    return Promise.resolve(this._signers);
+  }
 
   instanceUrl: string;
 

@@ -147,7 +147,9 @@
     "skipFolder": false,
     "disableDocsMs": true,
     "productName": "Azure Attestation",
-    "productSlugs": [],
+    "productSlugs": [
+      "azure-attestation"
+    ],
     "apiRefLink": "https://docs.microsoft.com/javascript/api/",
     "requiredResources": {}
   }

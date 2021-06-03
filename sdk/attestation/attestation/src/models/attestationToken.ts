@@ -33,12 +33,31 @@ import { base64EncodeByteArray } from "../utils/base64";
  *  provided, they are all assumed to be 'true'.
  *
  */
-export interface TokenValidationOptions {
+export interface AttestationTokenValidationOptions {
+  /**
+   * If true, validate the attestation token, if false, skip validation.
+   */
+  validateToken?: boolean;
+  /**
+   * The expected issuer for the {@link AttestationToken}. Only checked if {@link validateIssuer} is set.
+   */
   expectedIssuer?: string;
   validateExpirationTime?: boolean;
   validateNotBeforeTime?: boolean;
-  validateToken?: boolean;
+  validateIssuer?: boolean;
   timeValidationSlack?: number;
+
+  /**
+   * Validation Callback which allows customers to provide their own validation
+   * functionality for the attestation token. This can be used to validate
+   * the signing certificate in AttestationSigner.
+   *
+   * @remarks
+   *
+   * If there is a problem with token validation, the validaitonCallback is expected
+   * to throw an exception.
+   */
+  validationCallback?: (token: AttestationToken, signer: AttestationSigner | null) => void;
 }
 
 /**
@@ -101,22 +120,27 @@ export class AttestationToken {
     return this._token;
   }
 
+  /**
+   * Validates the attestation token to verify that it is semantically correct.
+   *
+   * @param possibleSigners - the set of possible signers for this attestation token.
+   * @param options - validation options
+   */
   public validateToken(
     possibleSigners?: AttestationSigner[],
-    options: TokenValidationOptions = {
+    options: AttestationTokenValidationOptions = {
       validateExpirationTime: true,
       validateToken: true,
       validateNotBeforeTime: true
     }
-  ): boolean {
+  ): void {
     if (!options.validateToken) {
-      return true;
+      return;
     }
 
+    let foundSigner: AttestationSigner | null = null;
     if (this.algorithm !== "none") {
       const signers = this.getCandidateSigners(possibleSigners);
-
-      let foundSigner: AttestationSigner | null = null;
 
       signers.some((signer) => {
         const cert = this.certFromSigner(signer);
@@ -135,7 +159,59 @@ export class AttestationToken {
       }
     }
 
-    return true;
+    // If the token has a body, check the expiration time and issuer.
+    if (this._body !== undefined) {
+      this.validateTimeProperties(options);
+      this.validateIssuer(options);
+    }
+
+    if (options.validationCallback !== undefined) {
+      // If there is a validation error, the validationCallback will throw a customer
+      // defined exception.
+      options.validationCallback(this, foundSigner ?? null);
+    }
+  }
+
+  private validateIssuer(options: AttestationTokenValidationOptions): void {
+    if (this.issuer && options.validateIssuer) {
+      if (this.issuer !== options.expectedIssuer) {
+        throw new Error(
+          "Found issuer: " + this.issuer + "; expected issuer: " + options.expectedIssuer
+        );
+      }
+    }
+  }
+  /**
+   * Validate the expiration and notbefore time claims in the JSON web token.
+   *
+   * @param options - Options to be used validating the time properties.
+   */
+  private validateTimeProperties(options: AttestationTokenValidationOptions): void {
+    // Calculate the current time as a number of seconds since the start of the
+    // Unix epoch.
+    const timeNow = Math.floor(new Date().getTime() / 1000);
+
+    // Validate expiration time.
+    if (this.expirationTime !== undefined && options.validateExpirationTime) {
+      const expTime = this.expirationTime.getTime() / 1000;
+      if (timeNow > expTime) {
+        const delta = timeNow - expTime;
+        if (delta > (options.timeValidationSlack ?? 0)) {
+          throw new Error("AttestationToken has expired.");
+        }
+      }
+    }
+
+    // Validate not before time.
+    if (this.notBeforeTime !== undefined && options.validateNotBeforeTime) {
+      const nbfTime = this.notBeforeTime.getTime() / 1000;
+      if (nbfTime > timeNow) {
+        const delta = nbfTime - timeNow;
+        if (delta > (options.timeValidationSlack ?? 0)) {
+          throw new Error("AttestationToken is not yet valid.");
+        }
+      }
+    }
   }
 
   private certFromSigner(signer: AttestationSigner): string {

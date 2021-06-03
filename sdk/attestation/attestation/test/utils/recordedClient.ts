@@ -4,7 +4,14 @@
 import { Context } from "mocha";
 
 import { ClientSecretCredential } from "@azure/identity";
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import {
+  env,
+  Recorder,
+  record,
+  RecorderEnvironmentSetup,
+  isLiveMode,
+  isRecordMode
+} from "@azure/test-utils-recorder";
 
 import {
   AttestationClient,
@@ -101,6 +108,20 @@ export function createRecordedClient(
     env.AZURE_CLIENT_SECRET
   );
 
+  // If we're talking to a live server, we should validate the time results,
+  // otherwise we want to skip them.
+  if (options === undefined) {
+    options = {
+      validationOptions: {
+        validateToken: true,
+        validateExpirationTime: isLiveMode() || isRecordMode(),
+        validateNotBeforeTime: isLiveMode() || isRecordMode(),
+        validateIssuer: isLiveMode() || isRecordMode(),
+        expectedIssuer: getAttestationUri(endpointType)
+      }
+    };
+  }
+
   return new AttestationClient(credential, getAttestationUri(endpointType), options);
 }
 
@@ -113,5 +134,19 @@ export function createRecordedAdminClient(
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET
   );
+
+  // If we're talking to a live server, we should validate the time results,
+  // otherwise we want to skip them.
+  if (options === undefined) {
+    options = {
+      validationOptions: {
+        validateToken: true,
+        validateExpirationTime: isLiveMode() || isRecordMode(),
+        validateNotBeforeTime: isLiveMode() || isRecordMode(),
+        validateIssuer: isLiveMode() || isRecordMode(),
+        expectedIssuer: getAttestationUri(endpointType)
+      }
+    };
+  }
   return new AttestationAdministrationClient(credential, getAttestationUri(endpointType), options);
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, use as chaiUse } from "chai";
+import { assert, expect, use as chaiUse } from "chai";
 import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
@@ -102,7 +102,7 @@ describe("AttestationTokenTests", function() {
   /**
    * Creates a secured empty attestation token with the specified key.
    */
-  it("#createSecuredAttestationToken", async () => {
+  it("#createEmptySecuredAttestationToken", async () => {
     const key = createRSAKey();
     const cert = createX509Certificate(key, "certificate");
 
@@ -126,7 +126,7 @@ describe("AttestationTokenTests", function() {
     }
 
     // The token of course should validate.
-    assert.isTrue(token.validateToken());
+    token.validateToken();
   });
 
   /**
@@ -136,14 +136,181 @@ describe("AttestationTokenTests", function() {
     const key = createRSAKey();
     const cert = createX509Certificate(key, "certificate");
 
-    const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
+    const currentTime = Math.floor(new Date().getTime() / 1000);
+    const currentDate = new Date(currentTime * 1000);
+
+    const sourceObject = {
+      foo: "foo",
+      bar: 10,
+      exp: currentTime + 30,
+      iat: currentTime,
+      nbf: currentTime,
+      iss: "this is an issuer"
+    };
+
+    const sourceJson = JSON.stringify(sourceObject);
     const token = AttestationToken.create({
-      body: sourceObject,
+      body: sourceJson,
       signer: new AttestationSigningKey(key, cert)
     });
 
+    // Let's look at some of the properties on the token and confirm they match
+    // expectations.
     const body = token.getBody();
-    assert.deepEqual({ foo: "foo", bar: 10 }, body);
+    expect(sourceObject).to.deep.equal(body);
+    assert.deepEqual(sourceObject, body);
     assert.notEqual("none", token.algorithm);
+
+    expect(token.issuedAtTime?.getTime()).to.equal(currentDate.getTime());
+    expect(token.notBeforeTime?.getTime()).to.equal(currentDate.getTime());
+    expect(token.expirationTime?.getTime()).to.equal(currentDate.getTime() + 30 * 1000);
+    expect(token.issuer).to.equal("this is an issuer");
+  });
+
+  it("#verifyAttestationTokenCallback", async () => {
+    const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
+
+    const token = AttestationToken.create({ body: sourceObject });
+
+    expect(() =>
+      token.validateToken(undefined, {
+        validateToken: true,
+        validationCallback: (tokenToCheck) => {
+          console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
+        }
+      })
+    ).to.not.throw();
+
+    // Note that contrary to the documentation, the "msg" parameter of throws() is
+    // text expected to be included in the exception being thrown.
+    expect(() =>
+      token.validateToken(undefined, {
+        validateToken: true,
+        validationCallback: (tokenToCheck) => {
+          console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
+          throw new Error("Client validation failure");
+        }
+      })
+    ).to.throw("validation failure");
+  });
+
+  it("#verifyAttestationTokenIssuer", async () => {
+    const currentTime = Math.floor(new Date().getTime() / 1000);
+    {
+      // Source expires in 30 seconds.
+      const sourceObject = JSON.stringify({
+        exp: currentTime + 30,
+        iat: currentTime,
+        nbf: currentTime,
+        iss: "this is an issuer",
+        foo: "foo",
+        bar: 10
+      });
+
+      const token = AttestationToken.create({ body: sourceObject });
+
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateIssuer: true,
+          expectedIssuer: "this is an issuer"
+        })
+      ).to.not.throw();
+
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateIssuer: true,
+          expectedIssuer: "this is a different issuer"
+        })
+      ).to.throw("issuer");
+    }
+  });
+
+  it("#verifyAttestationTimeouts", async () => {
+    const currentTime = Math.floor(new Date().getTime() / 1000);
+
+    {
+      // Source expires in 30 seconds.
+      const sourceObject = JSON.stringify({
+        exp: currentTime + 30,
+        iat: currentTime,
+        nbf: currentTime,
+        foo: "foo",
+        bar: 10
+      });
+
+      const token = AttestationToken.create({ body: sourceObject });
+
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateExpirationTime: true,
+          validateNotBeforeTime: true
+        })
+      ).to.not.throw();
+    }
+
+    {
+      // Source expired 5 seconds ago.
+      const sourceObject = JSON.stringify({
+        exp: currentTime - 5,
+        iat: currentTime,
+        nbf: currentTime,
+        foo: "foo",
+        bar: 10
+      });
+
+      const token = AttestationToken.create({ body: sourceObject });
+
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateExpirationTime: true,
+          validateNotBeforeTime: true
+        })
+      ).to.throw("expired");
+
+      // Validate the token again, this time specifying a validation slack of
+      // 10 seconds. The token should be fine with that slack.
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateExpirationTime: true,
+          validateNotBeforeTime: true,
+          timeValidationSlack: 10
+        })
+      ).to.not.throw();
+    }
+
+    {
+      // Source is only valid 5 seconds from now.
+      const sourceObject = JSON.stringify({
+        exp: currentTime + 10,
+        iat: currentTime + 5,
+        nbf: currentTime + 5,
+        foo: "foo",
+        bar: 10
+      });
+
+      const token = AttestationToken.create({ body: sourceObject });
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateExpirationTime: true,
+          validateNotBeforeTime: true
+        })
+      ).to.throw("not yet");
+      // Validate the token again, this time specifying a validation slack of
+      // 10 seconds. The token should be fine with that slack.
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateExpirationTime: true,
+          validateNotBeforeTime: true,
+          timeValidationSlack: 10
+        })
+      ).to.not.throw();
+    }
   });
 });

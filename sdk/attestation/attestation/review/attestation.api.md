@@ -18,14 +18,18 @@ export class AttestationAdministrationClient {
     resetPolicy(attestationType: AttestationType, signingKey?: AttestationSigningKey, options?: GetPolicyOptions): Promise<AttestationResponse<PolicyResult>>;
     // (undocumented)
     setPolicy(attestationType: AttestationType, newPolicyDocument: string, signingKey?: AttestationSigningKey, options?: GetPolicyOptions): Promise<AttestationResponse<PolicyResult>>;
-}
+    }
 
 // @public
 export interface AttestationAdministrationClientOperationOptions extends OperationOptions {
+    // (undocumented)
+    validationOptions?: AttestationTokenValidationOptions;
 }
 
 // @public
 export interface AttestationAdministrationClientOptions extends CommonClientOptions {
+    // (undocumented)
+    validationOptions?: AttestationTokenValidationOptions;
 }
 
 // @public
@@ -50,14 +54,18 @@ export class AttestationClient {
     instanceUrl: string;
     // (undocumented)
     policyCertificates: PolicyCertificates;
-}
+    }
 
 // @public
 export interface AttestationClientOperationOptions extends OperationOptions {
+    // (undocumented)
+    validationOptions?: AttestationTokenValidationOptions;
 }
 
 // @public
 export interface AttestationClientOptions extends CommonClientOptions {
+    // (undocumented)
+    validationOptions?: AttestationTokenValidationOptions;
 }
 
 // @public
@@ -154,9 +162,23 @@ export class AttestationToken {
     get notBeforeTime(): Date | undefined;
     serialize(): string;
     get type(): string | undefined;
-    // (undocumented)
-    validateToken(possibleSigners?: AttestationSigner[], options?: TokenValidationOptions): boolean;
+    validateToken(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): void;
     get x509Url(): string | undefined;
+}
+
+// @public
+export interface AttestationTokenValidationOptions {
+    expectedIssuer?: string;
+    // (undocumented)
+    timeValidationSlack?: number;
+    // (undocumented)
+    validateExpirationTime?: boolean;
+    // (undocumented)
+    validateIssuer?: boolean;
+    // (undocumented)
+    validateNotBeforeTime?: boolean;
+    validateToken?: boolean;
+    validationCallback?: (token: AttestationToken, signer: AttestationSigner | null) => void;
 }
 
 // @public
@@ -346,20 +368,6 @@ export class StoredAttestationPolicy {
     static deserialize(value: unknown): StoredAttestationPolicy;
     // (undocumented)
     serialize(): string;
-}
-
-// @public
-export interface TokenValidationOptions {
-    // (undocumented)
-    expectedIssuer?: string;
-    // (undocumented)
-    timeValidationSlack?: number;
-    // (undocumented)
-    validateExpirationTime?: boolean;
-    // (undocumented)
-    validateNotBeforeTime?: boolean;
-    // (undocumented)
-    validateToken?: boolean;
 }
 
 // @public

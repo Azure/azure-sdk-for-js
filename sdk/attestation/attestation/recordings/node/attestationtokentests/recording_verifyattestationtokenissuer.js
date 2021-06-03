@@ -1,5 +1,5 @@
 let nock = require('nock');
 
-module.exports.hash = "d7dbbf4912aeb7bae8e176a7e9f221ae";
+module.exports.hash = "c453436e31ce4ad0f1701626e88de99b";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}

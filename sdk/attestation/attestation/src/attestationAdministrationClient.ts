@@ -16,10 +16,12 @@ import { bytesToString } from "./utils/utf8.browser";
 import {
   AttestationResponse,
   AttestationToken,
+  AttestationTokenValidationOptions,
   AttestationType,
   AttestationSigningKey,
   StoredAttestationPolicy,
-  PolicyResult
+  PolicyResult,
+  AttestationSigner
 } from "./models";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { TokenCredential } from "@azure/core-auth";
@@ -27,12 +29,16 @@ import { TokenCredential } from "@azure/core-auth";
 /**
  * Attestation Client Construction Options.
  */
-export interface AttestationAdministrationClientOptions extends CommonClientOptions {}
+export interface AttestationAdministrationClientOptions extends CommonClientOptions {
+  validationOptions?: AttestationTokenValidationOptions;
+}
 
 /**
  * Operation options for the Attestation Administration Client operations.
  */
-export interface AttestationAdministrationClientOperationOptions extends OperationOptions {}
+export interface AttestationAdministrationClientOperationOptions extends OperationOptions {
+  validationOptions?: AttestationTokenValidationOptions;
+}
 
 /**
  * Operation options for the AttestTpm API.
@@ -86,6 +92,8 @@ export class AttestationAdministrationClient {
       options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
+    this._validationOptions = options.validationOptions;
+
     const internalPipelineOptions: GeneratedClientOptionalParams = {
       ...options,
       ...{
@@ -124,6 +132,12 @@ export class AttestationAdministrationClient {
       // object as the body.
       const token = new AttestationToken(getPolicyResult.token);
 
+      // Validate the token returned from the service.
+      token.validateToken(
+        await this._signingKeys,
+        options.validationOptions ?? this._validationOptions
+      );
+
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
       const policyResult = PolicyResult.create(token.getBody());
@@ -136,6 +150,7 @@ export class AttestationAdministrationClient {
       }
 
       const policyToken = new AttestationToken(policyResult.policy);
+
       const storedPolicy = StoredAttestationPolicy.deserialize(policyToken.getBody());
 
       // Finally, retrieve the stored attestationPolicy value and return that
@@ -182,6 +197,10 @@ export class AttestationAdministrationClient {
       // The attestation token returned from the service has a PolicyResult
       // object as the body.
       const token = new AttestationToken(setPolicyResult.token);
+      token.validateToken(
+        await this._signingKeys,
+        options.validationOptions ?? this._validationOptions
+      );
 
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
@@ -220,6 +239,10 @@ export class AttestationAdministrationClient {
       // The attestation token returned from the service has a PolicyResult
       // object as the body.
       const token = new AttestationToken(resetPolicyResult.token);
+      token.validateToken(
+        await this._signingKeys,
+        options.validationOptions ?? this._validationOptions
+      );
 
       // Deserialize the PolicyResult object to retrieve the underlying policy
       //  token
@@ -237,5 +260,26 @@ export class AttestationAdministrationClient {
     }
   }
 
+  private get _signingKeys(): Promise<AttestationSigner[]> {
+    if (this._signers !== undefined) {
+      return Promise.resolve(this._signers);
+    }
+    const signingCertificates = this._client.signingCertificates.get();
+    return signingCertificates
+      .then((jwks) => {
+        const signers: AttestationSigner[] = new Array();
+        jwks.keys?.forEach((element) => {
+          signers.push(new AttestationSigner(element));
+        });
+        return signers;
+      })
+      .then((signers) => {
+        this._signers = Promise.resolve(signers);
+        return this._signers;
+      });
+  }
+
   private _client: GeneratedClient;
+  private _signers?: Promise<AttestationSigner[]>;
+  private _validationOptions?: AttestationTokenValidationOptions;
 }
