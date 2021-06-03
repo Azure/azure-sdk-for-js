@@ -6,13 +6,12 @@ import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 
 import { X509 } from "jsrsasign";
 
 import {
   createRecordedAdminClient,
-  createRecordedClient,
   createRecorder,
   EndpointType,
   getIsolatedSigningKey
@@ -24,7 +23,6 @@ import {
   StoredAttestationPolicy,
   AttestationType
 } from "../../src";
-import { verifyAttestationToken } from "../utils/helpers";
 import { generateSha256Hash, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
 import { KnownPolicyModification } from "../../src/generated";
 import { encodeByteArray } from "../utils/base64url";
@@ -106,15 +104,7 @@ describe("PolicyGetSetTests ", function() {
   ): Promise<void> {
     const adminClient = createRecordedAdminClient(clientLocation);
     const policyResult = await adminClient.getPolicy(attestationType);
-    const result = policyResult.token;
     assert.isTrue(policyResult.value.startsWith("version="));
-
-    assert(policyResult.token, "Expected a token from the service but did not receive one");
-    if (result && !isPlaybackMode()) {
-      const client = createRecordedClient(clientLocation);
-      const signers = await client.getAttestationSigners();
-      await verifyAttestationToken(policyResult.token.serialize(), signers, clientLocation);
-    }
   }
 
   async function testSetPolicy(
