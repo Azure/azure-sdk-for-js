@@ -62,6 +62,14 @@ export class AttestationSigningKey {
     this.key = key;
   }
 
+  /**
+   * The PEM encoded RSA or ECDS key to sign an {@link AttestationToken}.
+   */
   key: string;
+
+  /**
+   * An X.509 Certificate wrapping the {@link key} which will be included in a
+   * signed {@link AttestationToken}.
+   */
   certificate: string;
 }

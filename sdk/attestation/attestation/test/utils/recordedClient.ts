@@ -9,8 +9,7 @@ import {
   Recorder,
   record,
   RecorderEnvironmentSetup,
-  isLiveMode,
-  isRecordMode
+  isPlaybackMode
 } from "@azure/test-utils-recorder";
 
 import {
@@ -114,9 +113,9 @@ export function createRecordedClient(
     options = {
       validationOptions: {
         validateToken: true,
-        validateExpirationTime: isLiveMode() || isRecordMode(),
-        validateNotBeforeTime: isLiveMode() || isRecordMode(),
-        validateIssuer: isLiveMode() || isRecordMode(),
+        validateExpirationTime: !isPlaybackMode(),
+        validateNotBeforeTime: !isPlaybackMode(),
+        validateIssuer: !isPlaybackMode(),
         expectedIssuer: getAttestationUri(endpointType)
       }
     };
@@ -141,9 +140,9 @@ export function createRecordedAdminClient(
     options = {
       validationOptions: {
         validateToken: true,
-        validateExpirationTime: isLiveMode() || isRecordMode(),
-        validateNotBeforeTime: isLiveMode() || isRecordMode(),
-        validateIssuer: isLiveMode() || isRecordMode(),
+        validateExpirationTime: !isPlaybackMode(),
+        validateNotBeforeTime: !isPlaybackMode(),
+        validateIssuer: !isPlaybackMode(),
         expectedIssuer: getAttestationUri(endpointType)
       }
     };

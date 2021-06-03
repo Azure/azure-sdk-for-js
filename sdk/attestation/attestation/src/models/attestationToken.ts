@@ -39,12 +39,26 @@ export interface AttestationTokenValidationOptions {
    */
   validateToken?: boolean;
   /**
+   * If true, validate the expiration time for the token.
+   */
+  validateExpirationTime?: boolean;
+  /**
+   * If true, validate the "not before" time for the token.
+   */
+  validateNotBeforeTime?: boolean;
+  /**
+   * If true, validate the issuer of the token.
+   */
+  validateIssuer?: boolean;
+  /**
    * The expected issuer for the {@link AttestationToken}. Only checked if {@link validateIssuer} is set.
    */
   expectedIssuer?: string;
-  validateExpirationTime?: boolean;
-  validateNotBeforeTime?: boolean;
-  validateIssuer?: boolean;
+
+  /**
+   * Tolerance time (in seconds) used to accound for clock drift between the local machine
+   * and the server creating the token.
+   */
   timeValidationSlack?: number;
 
   /**
@@ -57,7 +71,7 @@ export interface AttestationTokenValidationOptions {
    * If there is a problem with token validation, the validaitonCallback is expected
    * to throw an exception.
    */
-  validationCallback?: (token: AttestationToken, signer: AttestationSigner | null) => void;
+  validationCallback?: (token: AttestationToken, signer?: AttestationSigner) => void;
 }
 
 /**
@@ -168,7 +182,7 @@ export class AttestationToken {
     if (options.validationCallback !== undefined) {
       // If there is a validation error, the validationCallback will throw a customer
       // defined exception.
-      options.validationCallback(this, foundSigner ?? null);
+      options.validationCallback(this, foundSigner ?? undefined);
     }
   }
 

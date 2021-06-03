@@ -20,11 +20,17 @@ export class StoredAttestationPolicy {
     this.attestationPolicy = stringToBytes(value);
   }
 
+  /**
+   * Serializes a StoredAttestationPolicy object to a JSON encoded string.
+   *
+   * @returns The serialized JSON policy.
+   */
   serialize(): string {
     return TypeDeserializer.serialize(this, Mappers.StoredAttestationPolicy);
   }
 
   /**
+   * Deserializes a stored attestation policy object returned from the attestation service.
    *
    * @param value - Raw JSON object from service to serialize as an attestation policy.
    * @returns Stored attestation policy.

@@ -13,22 +13,18 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export class AttestationAdministrationClient {
     constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationAdministrationClientOptions);
-    getPolicy(attestationType: AttestationType, options?: GetPolicyOptions): Promise<AttestationResponse<string>>;
-    // (undocumented)
-    resetPolicy(attestationType: AttestationType, signingKey?: AttestationSigningKey, options?: GetPolicyOptions): Promise<AttestationResponse<PolicyResult>>;
-    // (undocumented)
-    setPolicy(attestationType: AttestationType, newPolicyDocument: string, signingKey?: AttestationSigningKey, options?: GetPolicyOptions): Promise<AttestationResponse<PolicyResult>>;
+    getPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<string>>;
+    resetPolicy(attestationType: AttestationType, signingKey?: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
+    setPolicy(attestationType: AttestationType, newPolicyDocument: string, signingKey?: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
     }
 
 // @public
 export interface AttestationAdministrationClientOperationOptions extends OperationOptions {
-    // (undocumented)
     validationOptions?: AttestationTokenValidationOptions;
 }
 
 // @public
 export interface AttestationAdministrationClientOptions extends CommonClientOptions {
-    // (undocumented)
     validationOptions?: AttestationTokenValidationOptions;
 }
 
@@ -45,26 +41,23 @@ export class AttestationClient {
     constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
     attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
-    attestTpm(request: TpmAttestationRequest, options?: AttestTpmOptions): Promise<TpmAttestationResponse>;
+    attestTpm(request: Uint8Array, options?: AttestTpmOptions): Promise<Uint8Array | undefined>;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
     // @internal
     getGeneratedClient(): GeneratedClient;
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
     // (undocumented)
     instanceUrl: string;
-    // (undocumented)
     policyCertificates: PolicyCertificates;
     }
 
 // @public
 export interface AttestationClientOperationOptions extends OperationOptions {
-    // (undocumented)
     validationOptions?: AttestationTokenValidationOptions;
 }
 
 // @public
 export interface AttestationClientOptions extends CommonClientOptions {
-    // (undocumented)
     validationOptions?: AttestationTokenValidationOptions;
 }
 
@@ -133,9 +126,7 @@ export class AttestationSigner {
 // @public
 export class AttestationSigningKey {
     constructor(key: string, certificate: string);
-    // (undocumented)
     certificate: string;
-    // (undocumented)
     key: string;
 }
 
@@ -169,16 +160,12 @@ export class AttestationToken {
 // @public
 export interface AttestationTokenValidationOptions {
     expectedIssuer?: string;
-    // (undocumented)
     timeValidationSlack?: number;
-    // (undocumented)
     validateExpirationTime?: boolean;
-    // (undocumented)
     validateIssuer?: boolean;
-    // (undocumented)
     validateNotBeforeTime?: boolean;
     validateToken?: boolean;
-    validationCallback?: (token: AttestationToken, signer: AttestationSigner | null) => void;
+    validationCallback?: (token: AttestationToken, signer?: AttestationSigner) => void;
 }
 
 // @public
@@ -252,10 +239,6 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     apiVersion: string;
     // (undocumented)
     instanceUrl: string;
-}
-
-// @public
-export interface GetPolicyOptions extends AttestationAdministrationClientOperationOptions {
 }
 
 // @public (undocumented)
@@ -364,9 +347,7 @@ export class PolicyResult {
 export class StoredAttestationPolicy {
     constructor(value: string);
     attestationPolicy: Uint8Array;
-    // (undocumented)
     static deserialize(value: unknown): StoredAttestationPolicy;
-    // (undocumented)
     serialize(): string;
 }
 

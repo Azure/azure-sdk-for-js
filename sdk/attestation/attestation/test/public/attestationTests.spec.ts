@@ -8,11 +8,18 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient, createRecorder, EndpointType } from "../utils/recordedClient";
+import {
+  createRecordedAdminClient,
+  createRecordedClient,
+  createRecorder,
+  EndpointType
+} from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
 import { utf8ToBytes } from "../utils/utf8.browser";
 
 import { AttestationData } from "../../src";
+import { KnownAttestationType } from "../../src/generated";
+import { bytesToString } from "../../src/utils/utf8.browser";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
@@ -164,18 +171,31 @@ describe("[AAD] Attestation Client", function() {
    */
   it("#attestTpm", async () => {
     const client = createRecordedClient("AAD");
+    const adminClient = createRecordedAdminClient("AAD");
+
+    // Set the policy on the instance to a known value.
+    await adminClient.setPolicy(
+      KnownAttestationType.Tpm,
+      "version=1.0; authorizationrules{=> permit();}; issuancerules{};"
+    );
 
     const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
 
-    // TPM Attestation throws if there is no attestation policy set.
-    // Until the policy APIs are created, just assert that this throws an exception.
-    try {
-      await client.attestTpm({ data: utf8ToBytes(encodedPayload) });
-      assert.fail("Attest TPM should have thrown an exception.");
-    } catch (e) {
-      // Text to make eslint happy.
-      console.log("Caught expected exception.");
+    const result = await client.attestTpm(utf8ToBytes(encodedPayload));
+    assert.isDefined(result);
+    if (result) {
+      const tpmResult = JSON.parse(bytesToString(result));
+
+      assert.isDefined(tpmResult.payload);
+
+      const payload = tpmResult.payload;
+
+      assert.isDefined(payload.challenge);
+      assert.isDefined(payload.service_context);
     }
+
+    // Reset the policy on the instance to the default for reproducibility.
+    await adminClient.resetPolicy(KnownAttestationType.Tpm);
   });
 
   async function testOpenEnclave(endpointType: EndpointType): Promise<void> {

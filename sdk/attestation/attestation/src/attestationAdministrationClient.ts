@@ -30,6 +30,10 @@ import { TokenCredential } from "@azure/core-auth";
  * Attestation Client Construction Options.
  */
 export interface AttestationAdministrationClientOptions extends CommonClientOptions {
+  /**
+   * Options to be used globally to validate attestation tokens received from
+   * the attestation service.
+   */
   validationOptions?: AttestationTokenValidationOptions;
 }
 
@@ -37,13 +41,12 @@ export interface AttestationAdministrationClientOptions extends CommonClientOpti
  * Operation options for the Attestation Administration Client operations.
  */
 export interface AttestationAdministrationClientOperationOptions extends OperationOptions {
+  /**
+   * Options to be used on individual calls to validate attestation tokens
+   * received from the attestation service.
+   */
   validationOptions?: AttestationTokenValidationOptions;
 }
-
-/**
- * Operation options for the AttestTpm API.
- */
-export interface GetPolicyOptions extends AttestationAdministrationClientOperationOptions {}
 
 /**
  * Attestation Client class.
@@ -119,7 +122,7 @@ export class AttestationAdministrationClient {
    */
   public async getPolicy(
     attestationType: AttestationType,
-    options: GetPolicyOptions = {}
+    options: AttestationAdministrationClientOperationOptions = {}
   ): Promise<AttestationResponse<string>> {
     const { span, updatedOptions } = createSpan(
       "AttestationAdministrationClient-getPolicy",
@@ -171,11 +174,28 @@ export class AttestationAdministrationClient {
     }
   }
 
+  /**
+   * Sets the attestation policy for the specified {@link attestationType}.
+   *
+   * @param attestationType - Attestation Type for which to set policy.
+   * @param newPolicyDocument - Policy document to be set.
+   * @param signingKey - optional signing key used to sign the policy document
+   * @param options - call options.
+   * @returns An {@link AttestationResponse} wrapping a {@link PolicyResult}.
+   *  Clients can use the PolicyResult to validate that the policy was actually
+   *  set by the attestation service.
+   *
+   * @remarks
+   *
+   * Please note that if the attestation service instance is running in "Isolated"
+   * mode, the {@link signingKey} must be one of the signing keys configured for the
+   * service instance.
+   */
   public async setPolicy(
     attestationType: AttestationType,
     newPolicyDocument: string,
     signingKey?: AttestationSigningKey,
-    options: GetPolicyOptions = {}
+    options: AttestationAdministrationClientOperationOptions = {}
   ): Promise<AttestationResponse<PolicyResult>> {
     const { span, updatedOptions } = createSpan(
       "AttestationAdministrationClient-setPolicy",
@@ -218,10 +238,28 @@ export class AttestationAdministrationClient {
     }
   }
 
+  /**
+   * Resets the attestation policy for the specified {@link attestationType} to
+   * the default value.
+   *
+   * @param attestationType - Attestation Type for which to set policy.
+   * @param signingKey - optional signing key used to sign the policy document
+   * @param options - call options.
+   * @returns An {@link AttestationResponse} wrapping a {@link PolicyResult}.
+   *  Clients can use the PolicyResult to validate that the policy was actually
+   *  reset by the attestation service.
+   *
+   * @remarks
+   *
+   * Please note that if the attestation service instance is running in "Isolated"
+   * mode, the {@link signingKey} must be one of the signing keys configured for the
+   * service instance.
+   */
+
   public async resetPolicy(
     attestationType: AttestationType,
     signingKey?: AttestationSigningKey,
-    options: GetPolicyOptions = {}
+    options: AttestationAdministrationClientOperationOptions = {}
   ): Promise<AttestationResponse<PolicyResult>> {
     const { span, updatedOptions } = createSpan(
       "AttestationAdministrationClient-setPolicy",

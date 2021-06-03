@@ -10,9 +10,7 @@ import {
   AttestationToken,
   AttestationTokenValidationOptions,
   AttestationResult,
-  AttestationData,
-  TpmAttestationRequest,
-  TpmAttestationResponse
+  AttestationData
 } from "./models";
 
 import { logger } from "./logger";
@@ -31,6 +29,10 @@ import { CommonClientOptions, OperationOptions } from "@azure/core-client";
  * Attestation Client Construction Options.
  */
 export interface AttestationClientOptions extends CommonClientOptions {
+  /**
+   * Validation options to be used to validate attestation tokens received
+   * from the attestation service.
+   */
   validationOptions?: AttestationTokenValidationOptions;
 }
 
@@ -38,6 +40,10 @@ export interface AttestationClientOptions extends CommonClientOptions {
  * Operation options for the Attestation Client operations.
  */
 export interface AttestationClientOperationOptions extends OperationOptions {
+  /**
+   * Validation options to be used to validate attestation tokens received
+   * from the attestation service for the individual operation.
+   */
   validationOptions?: AttestationTokenValidationOptions;
 }
 
@@ -286,17 +292,18 @@ export class AttestationClient {
 
    * See the TPM Attestation Protocol Reference {@link https://docs.microsoft.com/en-us/azure/attestation/virtualization-based-security-protocol} for more information.
    * 
-   * @param request - Incoming request to send to the TPM attestation service.
+   * @param request - Incoming request to send to the TPM attestation service, Utf8 encoded.
    * @param options - Pipeline options for TPM attestation request.
-   * @returns A structure containing the response from the TPM attestation.
+   * @returns A structure containing the response from the TPM attestation, Utf8 encoded.
    */
   public async attestTpm(
-    request: TpmAttestationRequest,
+    request: Uint8Array,
     options: AttestTpmOptions = {}
-  ): Promise<TpmAttestationResponse> {
+  ): Promise<Uint8Array | undefined> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);
     try {
-      return await this._client.attestation.attestTpm(request, updatedOptions);
+      const response = await this._client.attestation.attestTpm({ data: request }, updatedOptions);
+      return response.data;
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -363,7 +370,9 @@ export class AttestationClient {
   instanceUrl: string;
 
   /**
-   * @hidden
+   * Legacy property to access policy certificate management APIs.
+   *
+   * Will be removed.
    */
   policyCertificates: PolicyCertificates;
 }

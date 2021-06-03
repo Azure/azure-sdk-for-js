@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1317',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,24 +22,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'c26ff305-999e-4099-a131-b6252a2d2e00',
+  '0334137f-717d-4b6b-8256-2ca499402700',
   'x-ms-ests-server',
-  '2.1.11787.14 - SCUS ProdSlices',
+  '2.1.11787.14 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AjPT7d8MHKZLubmseVJeL7u81LWYDAAAADsVS9gOAAAA; expires=Sat, 03-Jul-2021 18:24:19 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsO5-v2VnsdPhrm8qLA2wnO81LWYBwAAADg4S9gOAAAA; expires=Sat, 03-Jul-2021 20:53:39 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 03 Jun 2021 18:24:19 GMT'
+  'Thu, 03 Jun 2021 20:53:38 GMT',
+  'Content-Length',
+  '1317'
 ]);
 
 nock('https://sharedwus.wus.attest.azure.net:443', {"encodedQueryParams":true})
   .get('/.well-known/openid-configuration')
   .reply(200, {"response_types_supported":["token","none"],"id_token_signing_alg_values_supported":["RS256"],"revocation_endpoint":"https://sharedwus.wus.attest.azure.net/revoke","issuer":"https://sharedwus.wus.attest.azure.net","jwks_uri":"https://sharedwus.wus.attest.azure.net/certs","claims_supported":["cnf","nonce","x-ms-ver","x-ms-attestation-type","x-ms-policy-hash","x-ms-policy-signer","x-ms-sgx-is-debuggable","x-ms-sgx-mrenclave","x-ms-sgx-mrsigner","x-ms-sgx-svn","x-ms-sgx-ehd","x-ms-sgx-collateral","is-debuggable","sgx-mrsigner","sgx-mrenclave","product-id","svn","tee"]}, [
   'Date',
-  'Thu, 03 Jun 2021 18:24:18 GMT',
+  'Thu, 03 Jun 2021 20:53:38 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -49,7 +49,7 @@ nock('https://sharedwus.wus.attest.azure.net:443', {"encodedQueryParams":true})
   'Content-Length',
   '573',
   'x-ms-request-id',
-  '00-0622bd23b167f15d97c21c89a07c4664-0000000000000000-00',
+  '00-c74797437e41b100becadcb1070bfede-0000000000000000-00',
   'x-ms-maa-service-version',
   '1.10.01605.0002'
 ]);
