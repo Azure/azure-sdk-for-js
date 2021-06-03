@@ -1384,11 +1384,7 @@ export const AzureIaaSVMJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Invalid",
-                "Cancellable",
-                "Retriable"
-              ]
+              allowedValues: ["Invalid", "Cancellable", "Retriable"]
             }
           }
         }
@@ -1758,11 +1754,7 @@ export const AzureStorageJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Invalid",
-                "Cancellable",
-                "Retriable"
-              ]
+              allowedValues: ["Invalid", "Cancellable", "Retriable"]
             }
           }
         }
@@ -2138,11 +2130,7 @@ export const AzureWorkloadJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Invalid",
-                "Cancellable",
-                "Retriable"
-              ]
+              allowedValues: ["Invalid", "Cancellable", "Retriable"]
             }
           }
         }
@@ -2352,25 +2340,14 @@ export const RecoveryPointTierInformation: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "InstantRP",
-            "HardenedRP",
-            "ArchivedRP"
-          ]
+          allowedValues: ["Invalid", "InstantRP", "HardenedRP", "ArchivedRP"]
         }
       },
       status: {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "Valid",
-            "Disabled",
-            "Deleted",
-            "Rehydrated"
-          ]
+          allowedValues: ["Invalid", "Valid", "Disabled", "Deleted", "Rehydrated"]
         }
       },
       extendedInfo: {
@@ -3031,11 +3008,7 @@ export const DpmJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Invalid",
-                "Cancellable",
-                "Retriable"
-              ]
+              allowedValues: ["Invalid", "Cancellable", "Retriable"]
             }
           }
         }
@@ -3970,14 +3943,7 @@ export const WeeklyRetentionFormat: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "First",
-                "Second",
-                "Third",
-                "Fourth",
-                "Last",
-                "Invalid"
-              ]
+              allowedValues: ["First", "Second", "Third", "Fourth", "Last", "Invalid"]
             }
           }
         }
@@ -4376,11 +4342,7 @@ export const MabJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Invalid",
-                "Cancellable",
-                "Retriable"
-              ]
+              allowedValues: ["Invalid", "Cancellable", "Retriable"]
             }
           }
         }
@@ -4551,7 +4513,8 @@ export const PrepareDataMoveResponse: msRest.CompositeMapper = {
   serializedName: "PrepareDataMoveResponse",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: VaultStorageConfigOperationResultResponse.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      VaultStorageConfigOperationResultResponse.type.polymorphicDiscriminator,
     uberParent: "VaultStorageConfigOperationResultResponse",
     className: "PrepareDataMoveResponse",
     modelProperties: {
@@ -5215,11 +5178,7 @@ export const VaultJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Invalid",
-                "Cancellable",
-                "Retriable"
-              ]
+              allowedValues: ["Invalid", "Cancellable", "Retriable"]
             }
           }
         }
@@ -7588,24 +7547,14 @@ export const MoveRPAcrossTiersRequest: msRest.CompositeMapper = {
         serializedName: "sourceTierType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "InstantRP",
-            "HardenedRP",
-            "ArchivedRP"
-          ]
+          allowedValues: ["Invalid", "InstantRP", "HardenedRP", "ArchivedRP"]
         }
       },
       targetTierType: {
         serializedName: "targetTierType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "InstantRP",
-            "HardenedRP",
-            "ArchivedRP"
-          ]
+          allowedValues: ["Invalid", "InstantRP", "HardenedRP", "ArchivedRP"]
         }
       }
     }
@@ -9054,132 +9003,131 @@ export const ClientDiscoveryResponse: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ProtectedItem.AzureFileShareProtectedItem' : AzureFileshareProtectedItem,
-  'RecoveryPoint.AzureFileShareRecoveryPoint' : AzureFileShareRecoveryPoint,
-  'RestoreRequest.AzureFileShareRestoreRequest' : AzureFileShareRestoreRequest,
-  'SchedulePolicy' : SchedulePolicy,
-  'RetentionPolicy' : RetentionPolicy,
-  'ProtectionPolicy.AzureWorkload' : AzureVmWorkloadProtectionPolicy,
-  'ProtectionPolicy.AzureStorage' : AzureFileShareProtectionPolicy,
-  'ProtectedItem.Microsoft.ClassicCompute/virtualMachines' : AzureIaaSClassicComputeVMProtectedItem,
-  'ProtectedItem.Microsoft.Compute/virtualMachines' : AzureIaaSComputeVMProtectedItem,
-  'Job.AzureIaaSVMJob' : AzureIaaSVMJob,
-  'ProtectedItem.AzureIaaSVMProtectedItem' : AzureIaaSVMProtectedItem,
-  'ProtectionPolicy.AzureIaasVM' : AzureIaaSVMProtectionPolicy,
-  'ProtectedItem.Microsoft.Sql/servers/databases' : AzureSqlProtectedItem,
-  'ProtectionPolicy.AzureSql' : AzureSqlProtectionPolicy,
-  'Job.AzureStorageJob' : AzureStorageJob,
-  'ProtectedItem.AzureVmWorkloadProtectedItem' : AzureVmWorkloadProtectedItem,
-  'ProtectedItem.AzureVmWorkloadSAPAseDatabase' : AzureVmWorkloadSAPAseDatabaseProtectedItem,
-  'ProtectedItem.AzureVmWorkloadSAPHanaDatabase' : AzureVmWorkloadSAPHanaDatabaseProtectedItem,
-  'ProtectedItem.AzureVmWorkloadSQLDatabase' : AzureVmWorkloadSQLDatabaseProtectedItem,
-  'Job.AzureWorkloadJob' : AzureWorkloadJob,
-  'RecoveryPoint.AzureWorkloadPointInTimeRecoveryPoint' : AzureWorkloadPointInTimeRecoveryPoint,
-  'RestoreRequest.AzureWorkloadPointInTimeRestoreRequest' : AzureWorkloadPointInTimeRestoreRequest,
-  'RecoveryPoint.AzureWorkloadRecoveryPoint' : AzureWorkloadRecoveryPoint,
-  'RestoreRequest.AzureWorkloadRestoreRequest' : AzureWorkloadRestoreRequest,
-  'RecoveryPoint.AzureWorkloadSAPHanaPointInTimeRecoveryPoint' : AzureWorkloadSAPHanaPointInTimeRecoveryPoint,
-  'RestoreRequest.AzureWorkloadSAPHanaPointInTimeRestoreRequest' : AzureWorkloadSAPHanaPointInTimeRestoreRequest,
-  'RecoveryPoint.AzureWorkloadSAPHanaRecoveryPoint' : AzureWorkloadSAPHanaRecoveryPoint,
-  'RestoreRequest.AzureWorkloadSAPHanaRestoreRequest' : AzureWorkloadSAPHanaRestoreRequest,
-  'RecoveryPoint.AzureWorkloadSQLPointInTimeRecoveryPoint' : AzureWorkloadSQLPointInTimeRecoveryPoint,
-  'RestoreRequest.AzureWorkloadSQLPointInTimeRestoreRequest' : AzureWorkloadSQLPointInTimeRestoreRequest,
-  'RecoveryPoint.AzureWorkloadSQLRecoveryPoint' : AzureWorkloadSQLRecoveryPoint,
-  'RestoreRequest.AzureWorkloadSQLRestoreRequest' : AzureWorkloadSQLRestoreRequest,
-  'Job.DpmJob' : DpmJob,
-  'ProtectedItem.DPMProtectedItem' : DPMProtectedItem,
-  'OperationResultInfoBase.ExportJobsOperationResultInfo' : ExportJobsOperationResultInfo,
-  'ProtectionPolicy.GenericProtectionPolicy' : GenericProtectionPolicy,
-  'ProtectedItem.GenericProtectedItem' : GenericProtectedItem,
-  'RecoveryPoint.GenericRecoveryPoint' : GenericRecoveryPoint,
-  'RecoveryPoint.IaasVMRecoveryPoint' : IaasVMRecoveryPoint,
-  'RestoreRequest.IaasVMRestoreRequest' : IaasVMRestoreRequest,
-  'Job' : Job,
-  'SchedulePolicy.LogSchedulePolicy' : LogSchedulePolicy,
-  'RetentionPolicy.LongTermRetentionPolicy' : LongTermRetentionPolicy,
-  'SchedulePolicy.LongTermSchedulePolicy' : LongTermSchedulePolicy,
-  'ProtectedItem.MabFileFolderProtectedItem' : MabFileFolderProtectedItem,
-  'Job.MabJob' : MabJob,
-  'ProtectionPolicy.MAB' : MabProtectionPolicy,
-  'OperationResultInfoBase.OperationResultInfo' : OperationResultInfo,
-  'OperationResultInfoBase' : OperationResultInfoBase,
-  'VaultStorageConfigOperationResultResponse.PrepareDataMoveResponse' : PrepareDataMoveResponse,
-  'VaultStorageConfigOperationResultResponse' : VaultStorageConfigOperationResultResponse,
-  'ProtectedItem' : ProtectedItem,
-  'ProtectionPolicy' : ProtectionPolicy,
-  'RecoveryPoint' : RecoveryPoint,
-  'RestoreRequest' : RestoreRequest,
-  'RetentionPolicy.SimpleRetentionPolicy' : SimpleRetentionPolicy,
-  'SchedulePolicy.SimpleSchedulePolicy' : SimpleSchedulePolicy,
-  'ValidateOperationRequest.ValidateIaasVMRestoreOperationRequest' : ValidateIaasVMRestoreOperationRequest,
-  'ValidateOperationRequest' : ValidateOperationRequest,
-  'ValidateOperationRequest.ValidateRestoreOperationRequest' : ValidateRestoreOperationRequest,
-  'Job.VaultJob' : VaultJob,
-  'ProtectionContainer.AzureBackupServerContainer' : AzureBackupServerContainer,
-  'BackupEngineBase.AzureBackupServerEngine' : AzureBackupServerEngine,
-  'BackupRequest.AzureFileShareBackupRequest' : AzureFileShareBackupRequest,
-  'WorkloadProtectableItem.AzureFileShare' : AzureFileShareProtectableItem,
-  'ILRRequest.AzureFileShareProvisionILRRequest' : AzureFileShareProvisionILRRequest,
-  'ProtectionContainer.Microsoft.ClassicCompute/virtualMachines' : AzureIaaSClassicComputeVMContainer,
-  'WorkloadProtectableItem.Microsoft.ClassicCompute/virtualMachines' : AzureIaaSClassicComputeVMProtectableItem,
-  'ProtectionContainer.Microsoft.Compute/virtualMachines' : AzureIaaSComputeVMContainer,
-  'WorkloadProtectableItem.Microsoft.Compute/virtualMachines' : AzureIaaSComputeVMProtectableItem,
-  'ProtectionContainer.SQLAGWorkLoadContainer' : AzureSQLAGWorkloadContainerProtectionContainer,
-  'ProtectionContainer.AzureSqlContainer' : AzureSqlContainer,
-  'ProtectionContainer.StorageContainer' : AzureStorageContainer,
-  'ProtectableContainer.StorageContainer' : AzureStorageProtectableContainer,
-  'ProtectableContainer.VMAppContainer' : AzureVMAppContainerProtectableContainer,
-  'ProtectionContainer.VMAppContainer' : AzureVMAppContainerProtectionContainer,
-  'WorkloadItem.AzureVmWorkloadItem' : AzureVmWorkloadItem,
-  'WorkloadProtectableItem.AzureVmWorkloadProtectableItem' : AzureVmWorkloadProtectableItem,
-  'WorkloadItem.SAPAseDatabase' : AzureVmWorkloadSAPAseDatabaseWorkloadItem,
-  'WorkloadProtectableItem.SAPAseSystem' : AzureVmWorkloadSAPAseSystemProtectableItem,
-  'WorkloadItem.SAPAseSystem' : AzureVmWorkloadSAPAseSystemWorkloadItem,
-  'WorkloadProtectableItem.SAPHanaDatabase' : AzureVmWorkloadSAPHanaDatabaseProtectableItem,
-  'WorkloadItem.SAPHanaDatabase' : AzureVmWorkloadSAPHanaDatabaseWorkloadItem,
-  'WorkloadProtectableItem.SAPHanaSystem' : AzureVmWorkloadSAPHanaSystemProtectableItem,
-  'WorkloadItem.SAPHanaSystem' : AzureVmWorkloadSAPHanaSystemWorkloadItem,
-  'WorkloadProtectableItem.SQLAvailabilityGroupContainer' : AzureVmWorkloadSQLAvailabilityGroupProtectableItem,
-  'WorkloadProtectableItem.SQLDataBase' : AzureVmWorkloadSQLDatabaseProtectableItem,
-  'WorkloadItem.SQLDataBase' : AzureVmWorkloadSQLDatabaseWorkloadItem,
-  'WorkloadProtectableItem.SQLInstance' : AzureVmWorkloadSQLInstanceProtectableItem,
-  'WorkloadItem.SQLInstance' : AzureVmWorkloadSQLInstanceWorkloadItem,
-  'BackupRequest.AzureWorkloadBackupRequest' : AzureWorkloadBackupRequest,
-  'ProtectionContainer.AzureWorkloadContainer' : AzureWorkloadContainer,
-  'BackupEngineBase' : BackupEngineBase,
-  'BackupRequest' : BackupRequest,
-  'BackupEngineBase.DpmBackupEngine' : DpmBackupEngine,
-  'ProtectionContainer.DPMContainer' : DpmContainer,
-  'ProtectionContainer.GenericContainer' : GenericContainer,
-  'BackupRequest.IaasVMBackupRequest' : IaasVMBackupRequest,
-  'ProtectionContainer.IaaSVMContainer' : IaaSVMContainer,
-  'ILRRequest.IaasVMILRRegistrationRequest' : IaasVMILRRegistrationRequest,
-  'WorkloadProtectableItem.IaaSVMProtectableItem' : IaaSVMProtectableItem,
-  'ILRRequest' : ILRRequest,
-  'ProtectionContainer.Windows' : MabContainer,
-  'OperationStatusExtendedInfo' : OperationStatusExtendedInfo,
-  'OperationStatusExtendedInfo.OperationStatusJobExtendedInfo' : OperationStatusJobExtendedInfo,
-  'OperationStatusExtendedInfo.OperationStatusJobsExtendedInfo' : OperationStatusJobsExtendedInfo,
-  'OperationStatusExtendedInfo.OperationStatusProvisionILRExtendedInfo' : OperationStatusProvisionILRExtendedInfo,
-  'ProtectableContainer' : ProtectableContainer,
-  'ProtectionContainer' : ProtectionContainer,
-  'WorkloadItem' : WorkloadItem,
-  'WorkloadProtectableItem' : WorkloadProtectableItem,
-  'RestoreRequest.AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest' : AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest,
-  'RestoreRequest.AzureWorkloadSAPHanaRestoreWithRehydrateRequest' : AzureWorkloadSAPHanaRestoreWithRehydrateRequest,
-  'RestoreRequest.AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest' : AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest,
-  'RestoreRequest.AzureWorkloadSQLRestoreWithRehydrateRequest' : AzureWorkloadSQLRestoreWithRehydrateRequest,
-  'RestoreRequest.IaasVMRestoreWithRehydrationRequest' : IaasVMRestoreWithRehydrationRequest,
-  'CrrAccessToken' : CrrAccessToken,
-  'OperationStatusExtendedInfo.OperationStatusRecoveryPointExtendedInfo' : OperationStatusRecoveryPointExtendedInfo,
-  'CrrAccessToken.WorkloadCrrAccessToken' : WorkloadCrrAccessToken,
-  'FeatureSupportRequest.AzureBackupGoals' : AzureBackupGoalFeatureSupportRequest,
-  'ProtectionIntent.RecoveryServiceVaultItem' : AzureRecoveryServiceVaultProtectionIntent,
-  'ProtectionIntent.AzureResourceItem' : AzureResourceProtectionIntent,
-  'FeatureSupportRequest.AzureVMResourceBackup' : AzureVMResourceFeatureSupportRequest,
-  'ProtectionIntent.AzureWorkloadAutoProtectionIntent' : AzureWorkloadAutoProtectionIntent,
-  'ProtectionIntent.AzureWorkloadSQLAutoProtectionIntent' : AzureWorkloadSQLAutoProtectionIntent,
-  'FeatureSupportRequest' : FeatureSupportRequest,
-  'ProtectionIntent' : ProtectionIntent
-
+  "ProtectedItem.AzureFileShareProtectedItem": AzureFileshareProtectedItem,
+  "RecoveryPoint.AzureFileShareRecoveryPoint": AzureFileShareRecoveryPoint,
+  "RestoreRequest.AzureFileShareRestoreRequest": AzureFileShareRestoreRequest,
+  SchedulePolicy: SchedulePolicy,
+  RetentionPolicy: RetentionPolicy,
+  "ProtectionPolicy.AzureWorkload": AzureVmWorkloadProtectionPolicy,
+  "ProtectionPolicy.AzureStorage": AzureFileShareProtectionPolicy,
+  "ProtectedItem.Microsoft.ClassicCompute/virtualMachines": AzureIaaSClassicComputeVMProtectedItem,
+  "ProtectedItem.Microsoft.Compute/virtualMachines": AzureIaaSComputeVMProtectedItem,
+  "Job.AzureIaaSVMJob": AzureIaaSVMJob,
+  "ProtectedItem.AzureIaaSVMProtectedItem": AzureIaaSVMProtectedItem,
+  "ProtectionPolicy.AzureIaasVM": AzureIaaSVMProtectionPolicy,
+  "ProtectedItem.Microsoft.Sql/servers/databases": AzureSqlProtectedItem,
+  "ProtectionPolicy.AzureSql": AzureSqlProtectionPolicy,
+  "Job.AzureStorageJob": AzureStorageJob,
+  "ProtectedItem.AzureVmWorkloadProtectedItem": AzureVmWorkloadProtectedItem,
+  "ProtectedItem.AzureVmWorkloadSAPAseDatabase": AzureVmWorkloadSAPAseDatabaseProtectedItem,
+  "ProtectedItem.AzureVmWorkloadSAPHanaDatabase": AzureVmWorkloadSAPHanaDatabaseProtectedItem,
+  "ProtectedItem.AzureVmWorkloadSQLDatabase": AzureVmWorkloadSQLDatabaseProtectedItem,
+  "Job.AzureWorkloadJob": AzureWorkloadJob,
+  "RecoveryPoint.AzureWorkloadPointInTimeRecoveryPoint": AzureWorkloadPointInTimeRecoveryPoint,
+  "RestoreRequest.AzureWorkloadPointInTimeRestoreRequest": AzureWorkloadPointInTimeRestoreRequest,
+  "RecoveryPoint.AzureWorkloadRecoveryPoint": AzureWorkloadRecoveryPoint,
+  "RestoreRequest.AzureWorkloadRestoreRequest": AzureWorkloadRestoreRequest,
+  "RecoveryPoint.AzureWorkloadSAPHanaPointInTimeRecoveryPoint": AzureWorkloadSAPHanaPointInTimeRecoveryPoint,
+  "RestoreRequest.AzureWorkloadSAPHanaPointInTimeRestoreRequest": AzureWorkloadSAPHanaPointInTimeRestoreRequest,
+  "RecoveryPoint.AzureWorkloadSAPHanaRecoveryPoint": AzureWorkloadSAPHanaRecoveryPoint,
+  "RestoreRequest.AzureWorkloadSAPHanaRestoreRequest": AzureWorkloadSAPHanaRestoreRequest,
+  "RecoveryPoint.AzureWorkloadSQLPointInTimeRecoveryPoint": AzureWorkloadSQLPointInTimeRecoveryPoint,
+  "RestoreRequest.AzureWorkloadSQLPointInTimeRestoreRequest": AzureWorkloadSQLPointInTimeRestoreRequest,
+  "RecoveryPoint.AzureWorkloadSQLRecoveryPoint": AzureWorkloadSQLRecoveryPoint,
+  "RestoreRequest.AzureWorkloadSQLRestoreRequest": AzureWorkloadSQLRestoreRequest,
+  "Job.DpmJob": DpmJob,
+  "ProtectedItem.DPMProtectedItem": DPMProtectedItem,
+  "OperationResultInfoBase.ExportJobsOperationResultInfo": ExportJobsOperationResultInfo,
+  "ProtectionPolicy.GenericProtectionPolicy": GenericProtectionPolicy,
+  "ProtectedItem.GenericProtectedItem": GenericProtectedItem,
+  "RecoveryPoint.GenericRecoveryPoint": GenericRecoveryPoint,
+  "RecoveryPoint.IaasVMRecoveryPoint": IaasVMRecoveryPoint,
+  "RestoreRequest.IaasVMRestoreRequest": IaasVMRestoreRequest,
+  Job: Job,
+  "SchedulePolicy.LogSchedulePolicy": LogSchedulePolicy,
+  "RetentionPolicy.LongTermRetentionPolicy": LongTermRetentionPolicy,
+  "SchedulePolicy.LongTermSchedulePolicy": LongTermSchedulePolicy,
+  "ProtectedItem.MabFileFolderProtectedItem": MabFileFolderProtectedItem,
+  "Job.MabJob": MabJob,
+  "ProtectionPolicy.MAB": MabProtectionPolicy,
+  "OperationResultInfoBase.OperationResultInfo": OperationResultInfo,
+  OperationResultInfoBase: OperationResultInfoBase,
+  "VaultStorageConfigOperationResultResponse.PrepareDataMoveResponse": PrepareDataMoveResponse,
+  VaultStorageConfigOperationResultResponse: VaultStorageConfigOperationResultResponse,
+  ProtectedItem: ProtectedItem,
+  ProtectionPolicy: ProtectionPolicy,
+  RecoveryPoint: RecoveryPoint,
+  RestoreRequest: RestoreRequest,
+  "RetentionPolicy.SimpleRetentionPolicy": SimpleRetentionPolicy,
+  "SchedulePolicy.SimpleSchedulePolicy": SimpleSchedulePolicy,
+  "ValidateOperationRequest.ValidateIaasVMRestoreOperationRequest": ValidateIaasVMRestoreOperationRequest,
+  ValidateOperationRequest: ValidateOperationRequest,
+  "ValidateOperationRequest.ValidateRestoreOperationRequest": ValidateRestoreOperationRequest,
+  "Job.VaultJob": VaultJob,
+  "ProtectionContainer.AzureBackupServerContainer": AzureBackupServerContainer,
+  "BackupEngineBase.AzureBackupServerEngine": AzureBackupServerEngine,
+  "BackupRequest.AzureFileShareBackupRequest": AzureFileShareBackupRequest,
+  "WorkloadProtectableItem.AzureFileShare": AzureFileShareProtectableItem,
+  "ILRRequest.AzureFileShareProvisionILRRequest": AzureFileShareProvisionILRRequest,
+  "ProtectionContainer.Microsoft.ClassicCompute/virtualMachines": AzureIaaSClassicComputeVMContainer,
+  "WorkloadProtectableItem.Microsoft.ClassicCompute/virtualMachines": AzureIaaSClassicComputeVMProtectableItem,
+  "ProtectionContainer.Microsoft.Compute/virtualMachines": AzureIaaSComputeVMContainer,
+  "WorkloadProtectableItem.Microsoft.Compute/virtualMachines": AzureIaaSComputeVMProtectableItem,
+  "ProtectionContainer.SQLAGWorkLoadContainer": AzureSQLAGWorkloadContainerProtectionContainer,
+  "ProtectionContainer.AzureSqlContainer": AzureSqlContainer,
+  "ProtectionContainer.StorageContainer": AzureStorageContainer,
+  "ProtectableContainer.StorageContainer": AzureStorageProtectableContainer,
+  "ProtectableContainer.VMAppContainer": AzureVMAppContainerProtectableContainer,
+  "ProtectionContainer.VMAppContainer": AzureVMAppContainerProtectionContainer,
+  "WorkloadItem.AzureVmWorkloadItem": AzureVmWorkloadItem,
+  "WorkloadProtectableItem.AzureVmWorkloadProtectableItem": AzureVmWorkloadProtectableItem,
+  "WorkloadItem.SAPAseDatabase": AzureVmWorkloadSAPAseDatabaseWorkloadItem,
+  "WorkloadProtectableItem.SAPAseSystem": AzureVmWorkloadSAPAseSystemProtectableItem,
+  "WorkloadItem.SAPAseSystem": AzureVmWorkloadSAPAseSystemWorkloadItem,
+  "WorkloadProtectableItem.SAPHanaDatabase": AzureVmWorkloadSAPHanaDatabaseProtectableItem,
+  "WorkloadItem.SAPHanaDatabase": AzureVmWorkloadSAPHanaDatabaseWorkloadItem,
+  "WorkloadProtectableItem.SAPHanaSystem": AzureVmWorkloadSAPHanaSystemProtectableItem,
+  "WorkloadItem.SAPHanaSystem": AzureVmWorkloadSAPHanaSystemWorkloadItem,
+  "WorkloadProtectableItem.SQLAvailabilityGroupContainer": AzureVmWorkloadSQLAvailabilityGroupProtectableItem,
+  "WorkloadProtectableItem.SQLDataBase": AzureVmWorkloadSQLDatabaseProtectableItem,
+  "WorkloadItem.SQLDataBase": AzureVmWorkloadSQLDatabaseWorkloadItem,
+  "WorkloadProtectableItem.SQLInstance": AzureVmWorkloadSQLInstanceProtectableItem,
+  "WorkloadItem.SQLInstance": AzureVmWorkloadSQLInstanceWorkloadItem,
+  "BackupRequest.AzureWorkloadBackupRequest": AzureWorkloadBackupRequest,
+  "ProtectionContainer.AzureWorkloadContainer": AzureWorkloadContainer,
+  BackupEngineBase: BackupEngineBase,
+  BackupRequest: BackupRequest,
+  "BackupEngineBase.DpmBackupEngine": DpmBackupEngine,
+  "ProtectionContainer.DPMContainer": DpmContainer,
+  "ProtectionContainer.GenericContainer": GenericContainer,
+  "BackupRequest.IaasVMBackupRequest": IaasVMBackupRequest,
+  "ProtectionContainer.IaaSVMContainer": IaaSVMContainer,
+  "ILRRequest.IaasVMILRRegistrationRequest": IaasVMILRRegistrationRequest,
+  "WorkloadProtectableItem.IaaSVMProtectableItem": IaaSVMProtectableItem,
+  ILRRequest: ILRRequest,
+  "ProtectionContainer.Windows": MabContainer,
+  OperationStatusExtendedInfo: OperationStatusExtendedInfo,
+  "OperationStatusExtendedInfo.OperationStatusJobExtendedInfo": OperationStatusJobExtendedInfo,
+  "OperationStatusExtendedInfo.OperationStatusJobsExtendedInfo": OperationStatusJobsExtendedInfo,
+  "OperationStatusExtendedInfo.OperationStatusProvisionILRExtendedInfo": OperationStatusProvisionILRExtendedInfo,
+  ProtectableContainer: ProtectableContainer,
+  ProtectionContainer: ProtectionContainer,
+  WorkloadItem: WorkloadItem,
+  WorkloadProtectableItem: WorkloadProtectableItem,
+  "RestoreRequest.AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest": AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest,
+  "RestoreRequest.AzureWorkloadSAPHanaRestoreWithRehydrateRequest": AzureWorkloadSAPHanaRestoreWithRehydrateRequest,
+  "RestoreRequest.AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest": AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest,
+  "RestoreRequest.AzureWorkloadSQLRestoreWithRehydrateRequest": AzureWorkloadSQLRestoreWithRehydrateRequest,
+  "RestoreRequest.IaasVMRestoreWithRehydrationRequest": IaasVMRestoreWithRehydrationRequest,
+  CrrAccessToken: CrrAccessToken,
+  "OperationStatusExtendedInfo.OperationStatusRecoveryPointExtendedInfo": OperationStatusRecoveryPointExtendedInfo,
+  "CrrAccessToken.WorkloadCrrAccessToken": WorkloadCrrAccessToken,
+  "FeatureSupportRequest.AzureBackupGoals": AzureBackupGoalFeatureSupportRequest,
+  "ProtectionIntent.RecoveryServiceVaultItem": AzureRecoveryServiceVaultProtectionIntent,
+  "ProtectionIntent.AzureResourceItem": AzureResourceProtectionIntent,
+  "FeatureSupportRequest.AzureVMResourceBackup": AzureVMResourceFeatureSupportRequest,
+  "ProtectionIntent.AzureWorkloadAutoProtectionIntent": AzureWorkloadAutoProtectionIntent,
+  "ProtectionIntent.AzureWorkloadSQLAutoProtectionIntent": AzureWorkloadSQLAutoProtectionIntent,
+  FeatureSupportRequest: FeatureSupportRequest,
+  ProtectionIntent: ProtectionIntent
 };

@@ -38,7 +38,14 @@ export class ProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProtectedItemsGetResponse>
    */
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: Models.ProtectedItemsGetOptionalParams): Promise<Models.ProtectedItemsGetResponse>;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    options?: Models.ProtectedItemsGetOptionalParams
+  ): Promise<Models.ProtectedItemsGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -48,7 +55,14 @@ export class ProtectedItems {
    * @param protectedItemName Backed up item name whose details are to be fetched.
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, callback: msRest.ServiceCallback<Models.ProtectedItemResource>): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    callback: msRest.ServiceCallback<Models.ProtectedItemResource>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -59,8 +73,26 @@ export class ProtectedItems {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options: Models.ProtectedItemsGetOptionalParams, callback: msRest.ServiceCallback<Models.ProtectedItemResource>): void;
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: Models.ProtectedItemsGetOptionalParams | msRest.ServiceCallback<Models.ProtectedItemResource>, callback?: msRest.ServiceCallback<Models.ProtectedItemResource>): Promise<Models.ProtectedItemsGetResponse> {
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    options: Models.ProtectedItemsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ProtectedItemResource>
+  ): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    options?:
+      | Models.ProtectedItemsGetOptionalParams
+      | msRest.ServiceCallback<Models.ProtectedItemResource>,
+    callback?: msRest.ServiceCallback<Models.ProtectedItemResource>
+  ): Promise<Models.ProtectedItemsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -71,7 +103,8 @@ export class ProtectedItems {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProtectedItemsGetResponse>;
+      callback
+    ) as Promise<Models.ProtectedItemsGetResponse>;
   }
 
   /**
@@ -89,7 +122,15 @@ export class ProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProtectedItemsCreateOrUpdateResponse>
    */
-  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.ProtectedItemResource, options?: msRest.RequestOptionsBase): Promise<Models.ProtectedItemsCreateOrUpdateResponse>;
+  createOrUpdate(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.ProtectedItemResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProtectedItemsCreateOrUpdateResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -100,7 +141,15 @@ export class ProtectedItems {
    * @param parameters resource backed up item
    * @param callback The callback
    */
-  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.ProtectedItemResource, callback: msRest.ServiceCallback<Models.ProtectedItemResource>): void;
+  createOrUpdate(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.ProtectedItemResource,
+    callback: msRest.ServiceCallback<Models.ProtectedItemResource>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -112,8 +161,26 @@ export class ProtectedItems {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.ProtectedItemResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectedItemResource>): void;
-  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.ProtectedItemResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectedItemResource>, callback?: msRest.ServiceCallback<Models.ProtectedItemResource>): Promise<Models.ProtectedItemsCreateOrUpdateResponse> {
+  createOrUpdate(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.ProtectedItemResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProtectedItemResource>
+  ): void;
+  createOrUpdate(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.ProtectedItemResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectedItemResource>,
+    callback?: msRest.ServiceCallback<Models.ProtectedItemResource>
+  ): Promise<Models.ProtectedItemsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -125,7 +192,8 @@ export class ProtectedItems {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ProtectedItemsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ProtectedItemsCreateOrUpdateResponse>;
   }
 
   /**
@@ -141,7 +209,14 @@ export class ProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -151,7 +226,14 @@ export class ProtectedItems {
    * @param protectedItemName Backed up item to be deleted.
    * @param callback The callback
    */
-  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -162,8 +244,24 @@ export class ProtectedItems {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -174,7 +272,8 @@ export class ProtectedItems {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -182,7 +281,8 @@ export class ProtectedItems {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -191,13 +291,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.protectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProtectedItemResource
@@ -211,7 +306,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -220,12 +316,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.protectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -247,7 +339,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -256,12 +349,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.protectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

@@ -32,21 +32,39 @@ export class BackupCrrJobDetails {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupCrrJobDetailsGetResponse>
    */
-  get(azureRegion: string, parameters: Models.CrrJobRequest, options?: msRest.RequestOptionsBase): Promise<Models.BackupCrrJobDetailsGetResponse>;
+  get(
+    azureRegion: string,
+    parameters: Models.CrrJobRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupCrrJobDetailsGetResponse>;
   /**
    * @param azureRegion Azure region to hit Api
    * @param parameters CRR Job request
    * @param callback The callback
    */
-  get(azureRegion: string, parameters: Models.CrrJobRequest, callback: msRest.ServiceCallback<Models.JobResource>): void;
+  get(
+    azureRegion: string,
+    parameters: Models.CrrJobRequest,
+    callback: msRest.ServiceCallback<Models.JobResource>
+  ): void;
   /**
    * @param azureRegion Azure region to hit Api
    * @param parameters CRR Job request
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(azureRegion: string, parameters: Models.CrrJobRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResource>): void;
-  get(azureRegion: string, parameters: Models.CrrJobRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResource>, callback?: msRest.ServiceCallback<Models.JobResource>): Promise<Models.BackupCrrJobDetailsGetResponse> {
+  get(
+    azureRegion: string,
+    parameters: Models.CrrJobRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobResource>
+  ): void;
+  get(
+    azureRegion: string,
+    parameters: Models.CrrJobRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResource>,
+    callback?: msRest.ServiceCallback<Models.JobResource>
+  ): Promise<Models.BackupCrrJobDetailsGetResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -54,7 +72,8 @@ export class BackupCrrJobDetails {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BackupCrrJobDetailsGetResponse>;
+      callback
+    ) as Promise<Models.BackupCrrJobDetailsGetResponse>;
   }
 }
 
@@ -62,17 +81,11 @@ export class BackupCrrJobDetails {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupCrrJob",
-  urlParameters: [
-    Parameters.azureRegion,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupCrrJob",
+  urlParameters: [Parameters.azureRegion, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

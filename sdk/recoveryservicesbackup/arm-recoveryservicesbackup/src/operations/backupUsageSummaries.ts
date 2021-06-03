@@ -33,14 +33,22 @@ export class BackupUsageSummaries {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupUsageSummariesListResponse>
    */
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupUsageSummariesListOptionalParams): Promise<Models.BackupUsageSummariesListResponse>;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    options?: Models.BackupUsageSummariesListOptionalParams
+  ): Promise<Models.BackupUsageSummariesListResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.BackupManagementUsageList>): void;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.BackupManagementUsageList>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -48,8 +56,20 @@ export class BackupUsageSummaries {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, options: Models.BackupUsageSummariesListOptionalParams, callback: msRest.ServiceCallback<Models.BackupManagementUsageList>): void;
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupUsageSummariesListOptionalParams | msRest.ServiceCallback<Models.BackupManagementUsageList>, callback?: msRest.ServiceCallback<Models.BackupManagementUsageList>): Promise<Models.BackupUsageSummariesListResponse> {
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    options: Models.BackupUsageSummariesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.BackupManagementUsageList>
+  ): void;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    options?:
+      | Models.BackupUsageSummariesListOptionalParams
+      | msRest.ServiceCallback<Models.BackupManagementUsageList>,
+    callback?: msRest.ServiceCallback<Models.BackupManagementUsageList>
+  ): Promise<Models.BackupUsageSummariesListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -57,7 +77,8 @@ export class BackupUsageSummaries {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BackupUsageSummariesListResponse>;
+      callback
+    ) as Promise<Models.BackupUsageSummariesListResponse>;
   }
 }
 
@@ -65,20 +86,11 @@ export class BackupUsageSummaries {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupUsageSummaries",
-  urlParameters: [
-    Parameters.vaultName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion2,
-    Parameters.filter,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupUsageSummaries",
+  urlParameters: [Parameters.vaultName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion2, Parameters.filter, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupManagementUsageList
