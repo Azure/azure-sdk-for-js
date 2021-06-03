@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,55 +22,59 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '5a9d4785-1c04-4b03-8c4e-b53967c32202',
+  'fad17772-5d60-469b-88f1-70b40bdb1e00',
   'x-ms-ests-server',
-  '2.1.11654.16 - EUS ProdSlices',
+  '2.1.11722.26 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AnlkyI3_Sw5Cu2-AqfSONJTGLH8mBgAAAKBlItgOAAAA; expires=Wed, 02-Jun-2021 21:44:37 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhDmgzXYAD1Lu7GFYxxGYOLGLH8mCgAAAHi3SdgOAAAA; expires=Fri, 02-Jul-2021 17:31:46 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 03 May 2021 21:44:37 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/alert/anomaly/configurations/b16d24b8-16fa-458e-8289-4c40f29af1d4', {"name":"new alert config name","description":"new alert config description","crossMetricsOperator":"OR","metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"edb91803-d3ef-4209-85d8-e880b13f7587","anomalyScopeType":"TopN","topNAnomalyScope":{"top":3,"period":4,"minTopCount":2}},{"anomalyDetectionConfigurationId":"edb91803-d3ef-4209-85d8-e880b13f7587","anomalyScopeType":"TopN","topNAnomalyScope":{"top":3,"period":4,"minTopCount":2}}]})
-  .reply(204, "", [
+  'Wed, 02 Jun 2021 17:31:46 GMT',
   'Content-Length',
-  '0',
-  'x-request-id',
-  '72817d59-235b-48a3-9dbe-5f175a2c27db',
-  'x-envoy-upstream-service-time',
-  '5347',
-  'apim-request-id',
-  '72817d59-235b-48a3-9dbe-5f175a2c27db',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Mon, 03 May 2021 21:44:42 GMT'
+  '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/b16d24b8-16fa-458e-8289-4c40f29af1d4')
-  .reply(200, {"anomalyAlertingConfigurationId":"b16d24b8-16fa-458e-8289-4c40f29af1d4","name":"new alert config name","description":"new alert config description","crossMetricsOperator":"OR","splitAlertByDimensions":[],"hookIds":[],"metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"edb91803-d3ef-4209-85d8-e880b13f7587","anomalyScopeType":"TopN","negationOperation":false,"topNAnomalyScope":{"top":3,"period":4,"minTopCount":2}},{"anomalyDetectionConfigurationId":"edb91803-d3ef-4209-85d8-e880b13f7587","anomalyScopeType":"TopN","negationOperation":false,"topNAnomalyScope":{"top":3,"period":4,"minTopCount":2}}]}, [
+  .patch('/metricsadvisor/v1.0/alert/anomaly/configurations/2532f996-2583-419c-a18d-fe79cf0d5a4c', {"name":"new alert config name","description":"new alert config description","crossMetricsOperator":"OR","metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"3eb1771b-7943-4ce4-8a99-54f102d244de","anomalyScopeType":"TopN","topNAnomalyScope":{"top":3,"period":4,"minTopCount":2}},{"anomalyDetectionConfigurationId":"3eb1771b-7943-4ce4-8a99-54f102d244de","anomalyScopeType":"TopN","topNAnomalyScope":{"top":3,"period":4,"minTopCount":2}}]})
+  .reply(200, {"anomalyAlertingConfigurationId":"2532f996-2583-419c-a18d-fe79cf0d5a4c","name":"new alert config name","description":"new alert config description","crossMetricsOperator":"OR","splitAlertByDimensions":[],"hookIds":[],"metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"3eb1771b-7943-4ce4-8a99-54f102d244de","anomalyScopeType":"TopN","negationOperation":false,"topNAnomalyScope":{"top":3,"period":4,"minTopCount":2}},{"anomalyDetectionConfigurationId":"3eb1771b-7943-4ce4-8a99-54f102d244de","anomalyScopeType":"TopN","negationOperation":false,"topNAnomalyScope":{"top":3,"period":4,"minTopCount":2}}]}, [
   'Content-Length',
   '617',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'f3d5aa03-f6d6-4537-9b6b-2d19031afcde',
+  '5bc5a89d-b870-4b76-82b1-ccdb50d81ed2',
   'x-envoy-upstream-service-time',
-  '5224',
+  '107',
   'apim-request-id',
-  'f3d5aa03-f6d6-4537-9b6b-2d19031afcde',
+  '5bc5a89d-b870-4b76-82b1-ccdb50d81ed2',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 03 May 2021 21:44:48 GMT'
+  'Wed, 02 Jun 2021 17:31:46 GMT'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/2532f996-2583-419c-a18d-fe79cf0d5a4c')
+  .reply(200, {"anomalyAlertingConfigurationId":"2532f996-2583-419c-a18d-fe79cf0d5a4c","name":"new alert config name","description":"new alert config description","crossMetricsOperator":"OR","splitAlertByDimensions":[],"hookIds":[],"metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"3eb1771b-7943-4ce4-8a99-54f102d244de","anomalyScopeType":"TopN","negationOperation":false,"topNAnomalyScope":{"top":3,"period":4,"minTopCount":2}},{"anomalyDetectionConfigurationId":"3eb1771b-7943-4ce4-8a99-54f102d244de","anomalyScopeType":"TopN","negationOperation":false,"topNAnomalyScope":{"top":3,"period":4,"minTopCount":2}}]}, [
+  'Content-Length',
+  '617',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-request-id',
+  '0616a9d6-8211-42fb-b698-9ca2a5cc5e66',
+  'x-envoy-upstream-service-time',
+  '38',
+  'apim-request-id',
+  '0616a9d6-8211-42fb-b698-9ca2a5cc5e66',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Wed, 02 Jun 2021 17:31:46 GMT'
 ]);

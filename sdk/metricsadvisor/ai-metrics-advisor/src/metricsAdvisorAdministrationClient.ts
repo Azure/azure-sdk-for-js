@@ -23,7 +23,6 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   IngestionStatus,
   DataFeedGranularity,
-  DataFeedOptions,
   DataFeed,
   DataFeedPatch,
   WebNotificationHook,
@@ -31,6 +30,7 @@ import {
   WebNotificationHookPatch,
   EmailNotificationHookPatch,
   AnomalyDetectionConfiguration,
+  AnomalyDetectionConfigurationPatch,
   GetDataFeedResponse,
   GetAnomalyDetectionConfigurationResponse,
   GetAnomalyAlertConfigurationResponse,
@@ -44,7 +44,11 @@ import {
   HooksPageResponse,
   DataFeedStatus,
   GetIngestionProgressResponse,
-  AnomalyAlertConfiguration
+  AnomalyAlertConfiguration,
+  DatasourceCredentialUnion,
+  DatasourceCredentialPatch,
+  CredentialsPageResponse,
+  GetCredentialEntityResponse
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
@@ -57,7 +61,12 @@ import {
   toServiceAnomalyDetectionConfigurationPatch,
   toServiceAlertConfiguration,
   toServiceAlertConfigurationPatch,
-  toServiceGranularity
+  toServiceGranularity,
+  toServiceCredentialPatch,
+  toServiceCredential,
+  fromServiceCredential,
+  toServiceDataFeedSource,
+  toServiceDataFeedSourcePatch
 } from "./transforms";
 
 /**
@@ -68,25 +77,32 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
 /**
  * Options for listing data feed ingestion status
  */
-export type ListDataFeedIngestionStatusOptions = {
+export interface ListDataFeedIngestionStatusOptions extends OperationOptions {
   skip?: number;
-} & OperationOptions;
+}
 
 /**
  * Options for listing hooks
  */
-export type ListHooksOptions = {
+export interface ListHooksOptions extends OperationOptions {
   skip?: number;
   /**
    * filter hook by its name
    */
   hookName?: string;
-} & OperationOptions;
+}
+
+/**
+ * Options for listing data source credentials
+ */
+export interface ListDatasourceCredentialsOptions extends OperationOptions {
+  skip?: number;
+}
 
 /**
  * Options for listing data feeds
  */
-export type ListDataFeedsOptions = {
+export interface ListDataFeedsOptions extends OperationOptions {
   skip?: number;
   filter?: {
     /**
@@ -110,7 +126,7 @@ export type ListDataFeedsOptions = {
      */
     creator?: string;
   };
-} & OperationOptions;
+}
 
 /**
  * describes the input to Create Data Feed operation
@@ -123,7 +139,7 @@ export type DataFeedDescriptor = Omit<
 /**
  * Options for creating data feed
  */
-export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
+export interface CreateDataFeedOptions extends OperationOptions {}
 
 /**
  * Client class for interacting with Azure Metrics Advisor Service to perform management operations
@@ -179,7 +195,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public async createDataFeed(
     feed: DataFeedDescriptor,
-    operationOptions: OperationOptions = {}
+    operationOptions: CreateDataFeedOptions = {}
   ): Promise<GetDataFeedResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDataFeed",
@@ -231,7 +247,7 @@ export class MetricsAdvisorAdministrationClient {
       const body = {
         dataFeedName: name,
         ...toServiceGranularity(granularity),
-        ...source,
+        ...toServiceDataFeedSource(source),
         metrics: schema.metrics,
         dimension: schema.dimensions,
         timestampColumn: schema.timestampColumn,
@@ -401,8 +417,8 @@ export class MetricsAdvisorAdministrationClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listDataFeeds({
         ...options.filter,
-        ...options,
-        maxpagesize: options?.maxPageSize
+        maxpagesize: options.maxPageSize,
+        ...options
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
@@ -424,8 +440,8 @@ export class MetricsAdvisorAdministrationClient {
     while (continuationToken) {
       segmentResponse = await this.client.listDataFeedsNext(continuationToken, {
         ...options.filter,
-        ...options,
-        maxpagesize: options?.maxPageSize
+        maxpagesize: options.maxPageSize,
+        ...options
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
@@ -466,8 +482,7 @@ export class MetricsAdvisorAdministrationClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const patchBody = {
         // source
-        dataSourceType: patch.source.dataSourceType,
-        dataSourceParameter: patch.source.dataSourceParameter,
+        ...toServiceDataFeedSourcePatch(patch.source),
         // name and description
         dataFeedName: patch.name,
         dataFeedDescription: patch.description,
@@ -612,7 +627,7 @@ export class MetricsAdvisorAdministrationClient {
 
   public async updateDetectionConfig(
     id: string,
-    patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>,
+    patch: AnomalyDetectionConfigurationPatch,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -801,7 +816,7 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
 
-    const alertConfigurations = segment.value.map((c) => fromServiceAlertConfiguration(c));
+    const alertConfigurations = segment.value?.map((c) => fromServiceAlertConfiguration(c)) ?? [];
     yield Object.defineProperty(alertConfigurations, "_response", {
       enumerable: false,
       value: segment._response
@@ -1165,7 +1180,7 @@ export class MetricsAdvisorAdministrationClient {
   ): AsyncIterableIterator<DetectionConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
     const segment = await this.client.getAnomalyDetectionConfigurationsByMetric(metricId, options);
-    const configs = segment.value.map((c) => fromServiceAnomalyDetectionConfiguration(c));
+    const configs = segment.value?.map((c) => fromServiceAnomalyDetectionConfiguration(c)) ?? [];
     const resultArray = Object.defineProperty(configs, "_response", {
       enumerable: false,
       value: segment._response
@@ -1384,8 +1399,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   */
   private async *listItemsOfIngestionStatus(
     dataFeedId: string,
     startTime: Date,
@@ -1532,6 +1545,266 @@ export class MetricsAdvisorAdministrationClient {
       );
       logger.info(result);
       return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates data source credential for the given id
+   * @param datasourceCredential - the credential entity object to create
+   * @param options - The options parameter
+   */
+
+  public async createDatasourceCredential(
+    datasourceCredential: DatasourceCredentialUnion,
+    options: OperationOptions = {}
+  ): Promise<GetCredentialEntityResponse> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-createDatasourceCredential",
+      options
+    );
+    try {
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      // transformation
+      const transformedCred = toServiceCredential(datasourceCredential);
+      const result = await this.client.createCredential(transformedCred, requestOptions);
+      if (!result.location) {
+        throw new Error("Expected a valid location to retrieve the created credential entity");
+      }
+      const lastSlashIndex = result.location.lastIndexOf("/");
+      const credEntityId = result.location.substring(lastSlashIndex + 1);
+      return this.getDatasourceCredential(credEntityId);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves data source credential for the given id
+   * @param id - id of the credential entity to retrieve
+   * @param options - The options parameter
+   */
+
+  public async getDatasourceCredential(
+    id: string,
+    options: OperationOptions = {}
+  ): Promise<GetCredentialEntityResponse> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-getDatasourceCredential",
+      options
+    );
+    try {
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      const result = await this.client.getCredential(id, requestOptions);
+      const resultCred = fromServiceCredential(result);
+      return { ...resultCred, _response: result._response };
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list data source credentials based on options
+   *
+   * `.byPage()` returns an async iterable iterator to list the credentials in pages.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * const client = new MetricsAdvisorAdministrationClient(endpoint,
+   *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
+   * const datasourceCredentialList = client.listDatasourceCredential();
+   * let i = 1;
+   * for await (const datasourceCredential of datasourceCredentialList){
+   *  console.log(`datasourceCredential ${i++}:`);
+   *  console.log(datasourceCredential);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let iter = client.listDatasourceCredential();
+   * let result = await iter.next();
+   * while (!result.done) {
+   *   console.dir(result);
+   *   result = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * const pages = client.listDatasourceCredential().byPage({ maxPageSize: 2 });
+   * let page = await pages.next();
+   * let i = 1;
+   * while (!page.done) {
+   *  if (page.value) {
+   *    console.log(`-- page ${i++}`);
+   *    for (const credential of page.value) {
+   *      console.log("datasource credential-");
+   *      console.dir(credential);
+   *    }
+   *  }
+   *  page = await pages.next();
+   * }
+   * ```
+   */
+  public listDatasourceCredential(
+    options: ListDatasourceCredentialsOptions = {}
+  ): PagedAsyncIterableIterator<DatasourceCredentialUnion, CredentialsPageResponse> {
+    const iter = this.listItemsOfDatasourceCredentials(options);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => {
+        return this.listSegmentsOfCredentialEntities(
+          {
+            ...options,
+            maxPageSize: settings.maxPageSize
+          },
+          settings.continuationToken
+        );
+      }
+    };
+  }
+
+  private async *listItemsOfDatasourceCredentials(
+    options: ListDatasourceCredentialsOptions
+  ): AsyncIterableIterator<DatasourceCredentialUnion> {
+    for await (const segment of this.listSegmentsOfCredentialEntities(options)) {
+      if (segment) {
+        yield* segment;
+      }
+    }
+  }
+
+  private async *listSegmentsOfCredentialEntities(
+    options: ListDatasourceCredentialsOptions & { maxPageSize?: number },
+    continuationToken?: string
+  ): AsyncIterableIterator<CredentialsPageResponse> {
+    let segmentResponse;
+    if (continuationToken === undefined) {
+      segmentResponse = await this.client.listCredentials({
+        maxpagesize: options.maxPageSize,
+        ...options
+      });
+      const credentials = segmentResponse.value?.map((d) => {
+        return fromServiceCredential(d);
+      });
+      const resultArray = Object.defineProperty(credentials || [], "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
+
+      continuationToken = segmentResponse.nextLink;
+    }
+
+    // we are using nextLink so don't send 'skip' in options
+    delete options.skip;
+    while (continuationToken) {
+      segmentResponse = await this.client.listCredentialsNext(continuationToken, {
+        maxpagesize: options.maxPageSize,
+        ...options
+      });
+      const credentials = segmentResponse.value?.map((d) => {
+        return fromServiceCredential(d);
+      });
+      const resultArray = Object.defineProperty(credentials || [], "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
+
+      continuationToken = segmentResponse.nextLink;
+    }
+  }
+  /**
+   * Updates data source credential for the given id
+   * @param id - id of the credential entity to update
+   * @param patch -  Input to the update credential entity operation {@link DataSourceCredentialPatch}
+   * @param options - The options parameter
+   */
+  public async updateDatasourceCredential(
+    id: string,
+    patch: DatasourceCredentialPatch,
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-updateDataSourceCredential",
+      options
+    );
+    try {
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      return await this.client.updateCredential(
+        id,
+        toServiceCredentialPatch(patch),
+        requestOptions
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes data source credential for the given id
+   * @param id - id of the credential entity to delete
+   * @param options - The options parameter
+   */
+  public async deleteDatasourceCredential(
+    id: string,
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-deleteDataSourceCredential",
+      options
+    );
+
+    try {
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      return await this.client.deleteCredential(id, requestOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

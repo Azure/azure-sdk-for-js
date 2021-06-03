@@ -4,24 +4,14 @@
 import * as coreHttp from "@azure/core-http";
 
 import {
-  SqlSourceParameter,
   SuppressCondition,
   SmartDetectionCondition,
-  AzureApplicationInsightsParameter,
-  AzureBlobParameter,
-  AzureCosmosDBParameter,
-  AzureDataLakeStorageGen2Parameter,
-  AzureTableParameter,
-  ElasticsearchParameter,
-  HttpRequestParameter,
-  InfluxDBParameter,
-  MongoDBParameter,
   EmailHookParameter,
   WebhookHookParameter,
   TopNGroupScope,
   Severity,
   SeverityCondition,
-  AlertSnoozeCondition,
+  AlertSnoozeCondition as MetricAnomalyAlertSnoozeCondition,
   IngestionStatusType,
   EntityStatus as DataFeedDetailStatus
 } from "./generated/models";
@@ -29,19 +19,9 @@ import {
 export {
   Severity,
   SeverityCondition,
-  AlertSnoozeCondition,
+  MetricAnomalyAlertSnoozeCondition,
   SmartDetectionCondition,
   TopNGroupScope,
-  AzureApplicationInsightsParameter,
-  AzureBlobParameter,
-  AzureCosmosDBParameter,
-  SqlSourceParameter,
-  AzureDataLakeStorageGen2Parameter,
-  AzureTableParameter,
-  ElasticsearchParameter,
-  HttpRequestParameter,
-  InfluxDBParameter,
-  MongoDBParameter,
   SuppressCondition,
   EmailHookParameter,
   WebhookHookParameter,
@@ -197,46 +177,6 @@ export type DataFeedMissingDataPointFillSettings =
 export type DataFeedAccessMode = "Private" | "Public";
 
 /**
- * Various optional configurations for a data feed.
- */
-export interface DataFeedOptions {
-  /**
-   * data feed description
-   */
-  description?: string;
-
-  /**
-   * settings on data rollup
-   */
-  rollupSettings?: DataFeedRollupSettings;
-
-  /**
-   * settings to control how missing data points are filled
-   */
-  missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
-
-  /**
-   * access mode of the data feed
-   */
-  accessMode?: DataFeedAccessMode;
-
-  /**
-   * email addresses of data feed administrators
-   */
-  adminEmails?: string[];
-
-  /**
-   * email addresses of data feed viewers
-   */
-  viewerEmails?: string[];
-
-  /**
-   * action link template for alert
-   */
-  actionLinkTemplate?: string;
-}
-
-/**
  * Granularity type of a data feed.
  */
 export type DataFeedGranularity =
@@ -305,14 +245,57 @@ export type DataFeed = {
    * Ingestion settings for the data feed.
    */
   ingestionSettings: DataFeedIngestionSettings;
-} & DataFeedOptions;
+  /**
+   * data feed description
+   */
+  description?: string;
+
+  /**
+   * settings on data rollup
+   */
+  rollupSettings?: DataFeedRollupSettings;
+
+  /**
+   * settings to control how missing data points are filled
+   */
+  missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
+
+  /**
+   * access mode of the data feed
+   */
+  accessMode?: DataFeedAccessMode;
+
+  /**
+   * email addresses of data feed administrators
+   */
+  adminEmails?: string[];
+
+  /**
+   * email addresses of data feed viewers
+   */
+  viewerEmails?: string[];
+
+  /**
+   * action link template for alert
+   */
+  actionLinkTemplate?: string;
+};
 
 /**
  * Represents an Azure Application Insights data source.
  */
 export type AzureApplicationInsightsDataFeedSource = {
   dataSourceType: "AzureApplicationInsights";
-  dataSourceParameter: AzureApplicationInsightsParameter;
+  /** The Azure cloud that this Azure Application Insights in */
+  azureCloud?: string;
+  /** The application id of this Azure Application Insights */
+  applicationId?: string;
+  /** The API Key that can access this Azure Application Insights */
+  apiKey?: string;
+  /** The statement to query this Azure Application Insights */
+  query: string;
+  /** Authentication Type */
+  authenticationType: "Basic";
 };
 
 /**
@@ -320,63 +303,253 @@ export type AzureApplicationInsightsDataFeedSource = {
  */
 export type AzureBlobDataFeedSource = {
   dataSourceType: "AzureBlob";
-  dataSourceParameter: AzureBlobParameter;
+  /** Azure Blob connection string */
+  connectionString: string;
+  /** Container */
+  container: string;
+  /** Blob Template */
+  blobTemplate: string;
+  /** Authentication Type */
+  authenticationType: "Basic" | "ManagedIdentity";
 };
 
 /**
  * Represents an Azure CosmosDB data source.
  */
-export type AzureCosmosDBDataFeedSource = {
+export type AzureCosmosDbDataFeedSource = {
   dataSourceType: "AzureCosmosDB";
-  dataSourceParameter: AzureCosmosDBParameter;
+  /** The connection string of this Azure CosmosDB */
+  connectionString?: string;
+  /** The statement to query this collection */
+  sqlQuery: string;
+  /** A database name in this Azure CosmosDB */
+  database: string;
+  /** A collection id in this database */
+  collectionId: string;
+  /** Authentication Type */
+  authenticationType: "Basic";
 };
 
+/**
+ * Represents Service Principal Authentication Type for Azure Data Explorer Source
+ */
+export interface AzureDataExplorerAuthServicePrincipal {
+  authenticationType: "ServicePrincipal";
+  credentialId: string;
+}
+
+/**
+ * Represents Service Principal in KV Authentication Type for Azure Data Explorer Source
+ */
+export interface AzureDataExplorerAuthServicePrincipalInKeyVault {
+  authenticationType: "ServicePrincipalInKV";
+  credentialId: string;
+}
+
+/**
+ * Represents Basic Authentication Type for Azure Data Explorer Source
+ */
+export interface AzureDataExplorerAuthBasic {
+  authenticationType: "Basic";
+}
+
+/**
+ * Represents Managed Identity Authentication Type for Azure Data Explorer Source
+ */
+export interface AzureDataExplorerAuthManagedIdentity {
+  authenticationType: "ManagedIdentity";
+}
+
+/**
+ * Represents Authentication Type Union for Azure Data Explorer Source
+ */
+export type AzureDataExplorerAuthTypes =
+  | AzureDataExplorerAuthBasic
+  | AzureDataExplorerAuthManagedIdentity
+  | AzureDataExplorerAuthServicePrincipal
+  | AzureDataExplorerAuthServicePrincipalInKeyVault;
 /**
  * Represents an Azure Data Explorer data source.
  */
 export type AzureDataExplorerDataFeedSource = {
   dataSourceType: "AzureDataExplorer";
-  dataSourceParameter: SqlSourceParameter;
+  /** Database connection string */
+  connectionString: string;
+  /** Query script */
+  query: string;
+} & AzureDataExplorerAuthTypes;
+
+/**
+ * Represents Basic Authentication Type for Azure DataLake Storage Gen2 Source
+ */
+export type DataLakeStorageGen2AuthBasic = {
+  /** Authentication */
+  authenticationType: "Basic";
+  /** Account key */
+  accountKey: string;
 };
+
+/**
+ * Represents Managed Identity Authentication Type for Azure DataLake Storage Gen2 Source
+ */
+export type DataLakeStorageGen2AuthManagedIdentity = {
+  /** Authentication */
+  authenticationType: "ManagedIdentity";
+};
+
+/**
+ * Represents Service Principal Authentication Type for Azure DataLake Storage Gen2 Source
+ */
+export type DataLakeStorageGen2AuthServicePrincipal = {
+  /** Authentication */
+  authenticationType: "ServicePrincipal";
+  /** Credential entity id */
+  credentialId: string;
+};
+
+/**
+ * Represents Service Principal in KV Authentication Type for Azure DataLake Storage Gen2 Source
+ */
+export type DataLakeStorageGen2AuthServicePrincipalInKeyVault = {
+  /** Authentication */
+  authenticationType: "ServicePrincipalInKV";
+  /** Credential entity id */
+  credentialId: string;
+};
+
+/**
+ * Represents Shared Key in KV Authentication Type for Azure DataLake Storage Gen2 Source
+ */
+export type DataLakeStorageGen2AuthSharedKey = {
+  /** Authentication */
+  authenticationType: "DataLakeGen2SharedKey";
+  /** Credential entity id */
+  credentialId: string;
+};
+
+/**
+ * Represents Authentication Type Union for Azure DataLake Storage Gen2 Source
+ */
+export type AzureDataLakeStorageGen2AuthTypes =
+  | DataLakeStorageGen2AuthBasic
+  | DataLakeStorageGen2AuthManagedIdentity
+  | DataLakeStorageGen2AuthServicePrincipal
+  | DataLakeStorageGen2AuthServicePrincipalInKeyVault
+  | DataLakeStorageGen2AuthSharedKey;
 
 /**
  * Represents an Azure DataLake Storage Gen2 data source.
  */
 export type AzureDataLakeStorageGen2DataFeedSource = {
   dataSourceType: "AzureDataLakeStorageGen2";
-  dataSourceParameter: AzureDataLakeStorageGen2Parameter;
-};
-
-/**
- * Represents an Elasticsearch data source.
- */
-export type ElasticsearchDataFeedSource = {
-  dataSourceType: "Elasticsearch";
-  dataSourceParameter: ElasticsearchParameter;
-};
+  /** Account name */
+  accountName: string;
+  /** File system name (Container) */
+  fileSystemName: string;
+  /** Directory template */
+  directoryTemplate: string;
+  /** File template */
+  fileTemplate: string;
+} & AzureDataLakeStorageGen2AuthTypes;
 
 /**
  * Represents an Azure Table data source.
  */
 export type AzureTableDataFeedSource = {
   dataSourceType: "AzureTable";
-  dataSourceParameter: AzureTableParameter;
+  /** Azure Table connection string */
+  connectionString: string;
+  /** Table name */
+  table: string;
+  /** Query script */
+  query: string;
+  /** Authentication type */
+  authenticationType: "Basic";
 };
 
 /**
- * Represents an Http Request data source.
+ * Represents Basic Authentication Type for Azure Log Analytics Source
  */
-export type HttpRequestDataFeedSource = {
-  dataSourceType: "HttpRequest";
-  dataSourceParameter: HttpRequestParameter;
+export type LogAnalyticsAuthBasic = {
+  /** Authentication */
+  authenticationType: "Basic";
+};
+
+/**
+ * Represents Service Principal Authentication Type for Azure Log Analytics Source
+ */
+export type LogAnalyticsAuthServicePrincipal = {
+  /** Authentication */
+  authenticationType: "ServicePrincipal";
+  /** credential id */
+  credentialId: string;
+};
+
+/**
+ * Represents Service Principal Authentication In KeyVault Type for Azure Log Analytics Source
+ */
+export type LogAnalyticsAuthServicePrincipalInKeyVault = {
+  /** Authentication */
+  authenticationType: "ServicePrincipalInKV";
+  /** credential id */
+  credentialId: string;
+};
+
+/**
+ * Represents Authentication Type Union for Azure Log Analytics data source
+ */
+export type AzureLogAnalyticsAuthTypes =
+  | LogAnalyticsAuthBasic
+  | LogAnalyticsAuthServicePrincipal
+  | LogAnalyticsAuthServicePrincipalInKeyVault;
+
+/**
+ * Represents an Azure Log Analytics data source.
+ */
+export type AzureLogAnalyticsDataFeedSource = {
+  dataSourceType: "AzureLogAnalytics";
+  /** The tenant id of service principal that have access to this Log Analytics */
+  tenantId?: string;
+  /** The client id of service principal that have access to this Log Analytics */
+  clientId?: string;
+  /** The client secret of service principal that have access to this Log Analytics */
+  clientSecret?: string;
+  /** The workspace id of this Log Analytics */
+  workspaceId: string;
+  /** The KQL (Kusto Query Language) query to fetch data from this Log Analytics */
+  query: string;
+} & AzureLogAnalyticsAuthTypes;
+
+/**
+ * Represents an Azure Event Hubs data source.
+ */
+export type AzureEventHubsDataFeedSource = {
+  dataSourceType: "AzureEventHubs";
+  /** The connection string of this Azure Event Hubs */
+  connectionString?: string;
+  /** The consumer group to be used in this data feed */
+  consumerGroup: string;
+  /** Authentication type */
+  authenticationType: "Basic";
 };
 
 /**
  * Represents an InfluxDB data source.
  */
-export type InfluxDBDataFeedSource = {
+export type InfluxDbDataFeedSource = {
   dataSourceType: "InfluxDB";
-  dataSourceParameter: InfluxDBParameter;
+  /** InfluxDB connection string */
+  connectionString: string;
+  /** Database name */
+  database: string;
+  /** Database access user */
+  userName: string;
+  /** Database access password */
+  password: string;
+  /** Query script */
+  query: string;
+  /** Authentication type */
+  authenticationType: "Basic";
 };
 
 /**
@@ -384,7 +557,12 @@ export type InfluxDBDataFeedSource = {
  */
 export type MySqlDataFeedSource = {
   dataSourceType: "MySql";
-  dataSourceParameter: SqlSourceParameter;
+  /** Database connection string */
+  connectionString?: string;
+  /** Query script */
+  query: string;
+  /** Authentication type */
+  authenticationType: "Basic";
 };
 
 /**
@@ -392,15 +570,27 @@ export type MySqlDataFeedSource = {
  */
 export type PostgreSqlDataFeedSource = {
   dataSourceType: "PostgreSql";
-  dataSourceParameter: SqlSourceParameter;
+  /** Database connection string */
+  connectionString?: string;
+  /** Query script */
+  query: string;
+  /** Authentication type */
+  authenticationType: "Basic";
 };
 
 /**
  * Represents a MongoDB data source.
  */
-export type MongoDBDataFeedSource = {
+export type MongoDbDataFeedSource = {
   dataSourceType: "MongoDB";
-  dataSourceParameter: MongoDBParameter;
+  /** MongoDB connection string */
+  connectionString: string;
+  /** Database name */
+  database: string;
+  /** Query script */
+  command: string;
+  /** Authentication type */
+  authenticationType: "Basic";
 };
 
 /**
@@ -409,15 +599,68 @@ export type MongoDBDataFeedSource = {
 export type UnknownDataFeedSource = {
   dataSourceType: "Unknown";
   dataSourceParameter: unknown;
+  authenticationType: "Basic";
 };
+
+/**
+ * Represents Basic Authentication for Sql Server datafeed source
+ */
+export interface SqlServerAuthBasic {
+  authenticationType: "Basic";
+  connectionString: string;
+}
+
+/**
+ * Represents Managed Identity Authentication for Sql Server datafeed source
+ */
+export interface SqlServerAuthManagedIdentity {
+  authenticationType: "ManagedIdentity";
+  connectionString: string;
+}
+
+/**
+ * Represents Azure SQL Connection String Authentication for Sql Server datafeed source
+ */
+export interface SqlServerAuthConnectionString {
+  authenticationType: "AzureSQLConnectionString";
+  credentialId: string;
+}
+
+/**
+ * Represents Service Principal in Keyvault Authentication for Sql Server datafeed source
+ */
+export interface SqlServerAuthServicePrincipalInKeyVault {
+  authenticationType: "ServicePrincipalInKV";
+  credentialId: string;
+  connectionString: string;
+}
+
+/**
+ * Represents Service Principal Authentication for Sql Server datafeed source
+ */
+export interface SqlServerAuthServicePrincipal {
+  authenticationType: "ServicePrincipal";
+  credentialId: string;
+  connectionString: string;
+}
+
+/**
+ * Represents Authentication Type Union for Sql Server datafeed source
+ */
+export type SqlServerAuthTypes =
+  | SqlServerAuthBasic
+  | SqlServerAuthManagedIdentity
+  | SqlServerAuthConnectionString
+  | SqlServerAuthServicePrincipal
+  | SqlServerAuthServicePrincipalInKeyVault;
 
 /**
  * Represents a SQL Server data source.
  */
-export type SQLServerDataFeedSource = {
+export type SqlServerDataFeedSource = {
   dataSourceType: "SqlServer";
-  dataSourceParameter: SqlSourceParameter;
-};
+  query: string;
+} & SqlServerAuthTypes;
 
 /**
  * A union type of all supported data sources.
@@ -425,17 +668,17 @@ export type SQLServerDataFeedSource = {
 export type DataFeedSource =
   | AzureApplicationInsightsDataFeedSource
   | AzureBlobDataFeedSource
-  | AzureCosmosDBDataFeedSource
+  | AzureCosmosDbDataFeedSource
   | AzureDataExplorerDataFeedSource
   | AzureDataLakeStorageGen2DataFeedSource
   | AzureTableDataFeedSource
-  | ElasticsearchDataFeedSource
-  | HttpRequestDataFeedSource
-  | InfluxDBDataFeedSource
+  | InfluxDbDataFeedSource
   | MySqlDataFeedSource
   | PostgreSqlDataFeedSource
-  | SQLServerDataFeedSource
-  | MongoDBDataFeedSource
+  | SqlServerDataFeedSource
+  | MongoDbDataFeedSource
+  | AzureLogAnalyticsDataFeedSource
+  | AzureEventHubsDataFeedSource
   | UnknownDataFeedSource;
 
 /**
@@ -463,12 +706,45 @@ export type DataFeedPatch = {
    * Ingestion settings for the data feed.
    */
   ingestionSettings?: DataFeedIngestionSettings;
-} & DataFeedOptions & {
-    /**
-     * Status of the data feed.
-     */
-    status?: DataFeedDetailStatus;
-  };
+  /**
+   * data feed description
+   */
+  description?: string;
+
+  /**
+   * settings on data rollup
+   */
+  rollupSettings?: DataFeedRollupSettings;
+
+  /**
+   * settings to control how missing data points are filled
+   */
+  missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
+
+  /**
+   * access mode of the data feed
+   */
+  accessMode?: DataFeedAccessMode;
+
+  /**
+   * email addresses of data feed administrators
+   */
+  adminEmails?: string[];
+
+  /**
+   * email addresses of data feed viewers
+   */
+  viewerEmails?: string[];
+
+  /**
+   * action link template for alert
+   */
+  actionLinkTemplate?: string;
+  /**
+   * Status of the data feed.
+   */
+  status?: DataFeedDetailStatus;
+};
 
 /**
  * A alias type of supported data sources to pass to Update Data Feed operation.
@@ -476,8 +752,9 @@ export type DataFeedPatch = {
  * When not changing the data source type, the dataSourceParameter is not required.
  * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
  */
-export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> &
-  { [P in "dataSourceParameter"]?: DataFeedSource[P] };
+export type DataFeedSourcePatch = Partial<DataFeedSource> & {
+  dataSourceType: DataFeedSource["dataSourceType"];
+};
 
 /**
  * The logical operator to apply across multiple {@link MetricAlertConfiguration}
@@ -512,6 +789,27 @@ export interface DetectionConditionsCommon {
 }
 
 /**
+ * Represents patch type for properties common to anomaly detection conditions.
+ */
+export interface DetectionConditionsCommonPatch {
+  /**
+   * Condition operator
+   */
+  conditionOperator?: DetectionConditionsOperator;
+  /**
+   * Specifies the condition for Smart Detection
+   */
+  smartDetectionCondition?: Partial<SmartDetectionCondition>;
+  /**
+   * Specifies a hard threshold range used to detect anomalies when metric values fall outside of the range.
+   */
+  hardThresholdCondition?: Partial<HardThresholdConditionUnion>;
+  /**
+   * Specifies the condition for Change Threshold
+   */
+  changeThresholdCondition?: Partial<ChangeThresholdConditionUnion>;
+}
+/**
  * String key-value pairs that consist of dimension names and dimension values.
  *
  * For a metric with two dimensions: city and category, Examples include
@@ -526,6 +824,10 @@ export type DimensionKey = Record<string, string>;
  */
 export type MetricDetectionCondition = DetectionConditionsCommon;
 
+/**
+ * Detection condition patch type for all time series of a metric.
+ */
+export type MetricDetectionConditionPatch = DetectionConditionsCommonPatch;
 /**
  * Detection condition for a series group.
  */
@@ -820,7 +1122,7 @@ export type NotificationHookPatch = {
  */
 export type EmailNotificationHookPatch = {
   hookType: "Email";
-  hookParameter?: EmailHookParameter;
+  hookParameter?: Partial<EmailHookParameter>;
 } & NotificationHookPatch;
 
 /**
@@ -828,7 +1130,7 @@ export type EmailNotificationHookPatch = {
  */
 export type WebNotificationHookPatch = {
   hookType: "Webhook";
-  hookParameter?: WebhookHookParameter;
+  hookParameter?: Partial<WebhookHookParameter>;
 } & NotificationHookPatch;
 
 /**
@@ -1096,7 +1398,7 @@ export type MetricBoundaryCondition =
       type?: "Value" | "Mean";
     };
 
-export interface MetricAlertConditions {
+export interface MetricAnomalyAlertConditions {
   /**
    * severity condition to trigger alert
    */
@@ -1125,11 +1427,11 @@ export interface MetricAlertConfiguration {
   /**
    * condition to snooze alert
    */
-  snoozeCondition?: AlertSnoozeCondition;
+  snoozeCondition?: MetricAnomalyAlertSnoozeCondition;
   /**
    * conditions to trigger alerts
    */
-  alertConditions?: MetricAlertConditions;
+  alertConditions?: MetricAnomalyAlertConditions;
 }
 
 /**
@@ -1201,6 +1503,32 @@ export interface AnomalyDetectionConfiguration {
   seriesDetectionConditions?: MetricSingleSeriesDetectionCondition[];
 }
 
+/**
+ * Represents patch type for metric anomaly detection configuration.
+ */
+export interface AnomalyDetectionConfigurationPatch {
+  /**
+   * anomaly detection configuration name
+   */
+  name?: string;
+  /**
+   * anomaly detection configuration description
+   */
+  description?: string;
+
+  /**
+   * detection condition for all time series of a metric
+   */
+  wholeSeriesDetectionCondition?: MetricDetectionConditionPatch;
+  /**
+   * detection conditions for series group. This overrides the whole series detection condition.
+   */
+  seriesGroupDetectionConditions?: MetricSeriesGroupDetectionCondition[];
+  /**
+   * detection conditions for specific series.  This overrides both the whole series and the series group detection conditions.
+   */
+  seriesDetectionConditions?: MetricSingleSeriesDetectionCondition[];
+}
 /**
  * Represents the root cause of an incident.
  */
@@ -1359,6 +1687,26 @@ export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
  * Contains response data for the getHook operation.
  */
 export type GetHookResponse = NotificationHookUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
+};
+
+/**
+ * Contains response data for the getCredentialEntity operation.
+ */
+export type GetCredentialEntityResponse = DatasourceCredentialUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1798,3 +2146,89 @@ export type GetIngestionProgressResponse = {
     parsedBody: any;
   };
 };
+
+export interface DatasourceCredential {
+  /**
+   * Unique id of data source credential
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** Name of data source credential */
+  name: string;
+  /** Description of data source credential */
+  description?: string;
+}
+
+export interface SqlServerConnectionStringDatasourceCredential extends DatasourceCredential {
+  type: "AzureSQLConnectionString";
+  connectionString: string;
+}
+
+export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCredential {
+  type: "DataLakeGen2SharedKey";
+  accountKey: string;
+}
+
+export interface ServicePrincipalDatasourceCredential extends DatasourceCredential {
+  type: "ServicePrincipal";
+  /** The client id of the service principal. */
+  clientId: string;
+  /** The client secret of the service principal. */
+  clientSecret: string;
+  /** The tenant id of the service principal. */
+  tenantId: string;
+}
+
+export interface ServicePrincipalInKeyVaultDatasourceCredential extends DatasourceCredential {
+  type: "ServicePrincipalInKV";
+  /** The Key Vault endpoint that storing the service principal. */
+  keyVaultEndpoint: string;
+  /** The Client Id to access the Key Vault. */
+  keyVaultClientId: string;
+  /** The Client Secret to access the Key Vault. */
+  keyVaultClientSecret: string;
+  /** The secret name of the service principal's client Id in the Key Vault. */
+  servicePrincipalIdNameInKV: string;
+  /** The secret name of the service principal's client secret in the Key Vault. */
+  servicePrincipalSecretNameInKV: string;
+  /** The tenant id of your service principal. */
+  tenantId: string;
+}
+
+export type DatasourceCredentialUnion =
+  | SqlServerConnectionStringDatasourceCredential
+  | DataLakeGen2SharedKeyDatasourceCredential
+  | ServicePrincipalDatasourceCredential
+  | ServicePrincipalInKeyVaultDatasourceCredential;
+
+export type DatasourceCredentialPatch = Partial<Omit<DatasourceCredentialUnion, "id">> & {
+  type:
+    | "AzureSQLConnectionString"
+    | "DataLakeGen2SharedKey"
+    | "ServicePrincipal"
+    | "ServicePrincipalInKV";
+};
+
+/**
+ * Contains response data for the listCredentials operation.
+ */
+export interface CredentialsPageResponse extends Array<DatasourceCredentialUnion> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
+}

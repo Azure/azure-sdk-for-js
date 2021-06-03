@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 04 May 2021 07:47:31 GMT",
+    "date": "Wed, 02 Jun 2021 17:32:07 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,43 +20,43 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11654.16 - EUS ProdSlices",
-    "x-ms-request-id": "0b74a167-f210-435d-84f4-227994442002"
+    "x-ms-ests-server": "2.1.11787.14 - WUS2 ProdSlices",
+    "x-ms-request-id": "60b5737b-18b9-4fd5-bf72-eaeb1adc0000"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/4a1edb20-8e37-4e81-a805-ae393301d85a",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/d05ff420-7cb0-4be1-b945-cf74b2fee92a",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "3064397c-3936-47f1-bff7-967298ce2064",
+    "apim-request-id": "080f5c5d-afd5-4e3a-bd7c-8e3b50127b6f",
     "content-length": "0",
-    "date": "Tue, 04 May 2021 07:47:31 GMT",
+    "date": "Wed, 02 Jun 2021 17:32:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "382",
-    "x-request-id": "3064397c-3936-47f1-bff7-967298ce2064"
+    "x-envoy-upstream-service-time": "40",
+    "x-request-id": "080f5c5d-afd5-4e3a-bd7c-8e3b50127b6f"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/4a1edb20-8e37-4e81-a805-ae393301d85a",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/d05ff420-7cb0-4be1-b945-cf74b2fee92a",
    "query": {},
    "requestBody": null,
    "status": 404,
-   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this AnomalyDetectionConfiguration. TraceId: 1643ca79-896c-4700-b5d8-3090d8a0d064\"}",
+   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this AnomalyDetectionConfiguration. TraceId: 370fe2c4-911c-4dcc-b52b-60682bc59b19\"}",
    "responseHeaders": {
-    "apim-request-id": "c90e415b-2867-48b3-acd6-f2fbd0566172",
+    "apim-request-id": "ae5004f9-2e55-4f7b-a205-fe04a2d21f2d",
     "content-length": "124",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 04 May 2021 07:47:32 GMT",
+    "date": "Wed, 02 Jun 2021 17:32:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "237",
-    "x-request-id": "c90e415b-2867-48b3-acd6-f2fbd0566172"
+    "x-envoy-upstream-service-time": "24",
+    "x-request-id": "ae5004f9-2e55-4f7b-a205-fe04a2d21f2d"
    }
   }
  ],

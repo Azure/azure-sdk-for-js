@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "64a2c53dff78f25f746efdb14c8b12d1";
+module.exports.hash = "3d6cd6941132b216d6e0b8ebdc1a711e";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,55 +22,59 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '829443e0-c7e0-44b5-85a5-588b34884300',
+  '1fa9fc7f-5932-4e3c-b842-d4a0cf540300',
   'x-ms-ests-server',
-  '2.1.11397.13 - KRSLR2 ProdSlices',
+  '2.1.11787.14 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsoDeAShyiJLlORVED-UD3HGLH8mEwAAAGdLk9cOAAAA; expires=Sun, 14-Feb-2021 08:42:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvAsiKRfhp5Eh637Nh0cx6LGLH8mAwAAAJ_hSdgOAAAA; expires=Fri, 02-Jul-2021 20:31:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 15 Jan 2021 08:42:54 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/hooks/939c72dd-3b2e-47ee-b2bc-d4ab7a0950be', {"hookType":"Email","hookParameter":{"toList":["test2@example.com","test3@example.com"]}})
-  .reply(204, "", [
+  'Wed, 02 Jun 2021 20:31:36 GMT',
   'Content-Length',
-  '0',
-  'x-request-id',
-  'e3921c65-9684-4bc0-84ae-75ee3e32d66f',
-  'x-envoy-upstream-service-time',
-  '221',
-  'apim-request-id',
-  'e3921c65-9684-4bc0-84ae-75ee3e32d66f',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Fri, 15 Jan 2021 08:42:55 GMT'
+  '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/hooks/939c72dd-3b2e-47ee-b2bc-d4ab7a0950be')
-  .reply(200, {"hookId":"939c72dd-3b2e-47ee-b2bc-d4ab7a0950be","hookName":"js-test-emailHook-161070017173203096","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}}, [
+  .patch('/metricsadvisor/v1.0/hooks/5bbed3fb-1b8d-453d-a2eb-cf423eee6dda', {"hookType":"Email","hookParameter":{"toList":["test2@example.com","test3@example.com"]}})
+  .reply(200, {"hookId":"5bbed3fb-1b8d-453d-a2eb-cf423eee6dda","hookName":"js-test-emailHook-162266588772000144","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}}, [
   'Content-Length',
   '283',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'de3d68e3-eaff-460d-aa68-d1a0faa618ba',
+  '430409fe-feed-4cdf-a28e-65ff004d2632',
   'x-envoy-upstream-service-time',
-  '82',
+  '5667',
   'apim-request-id',
-  'de3d68e3-eaff-460d-aa68-d1a0faa618ba',
+  '430409fe-feed-4cdf-a28e-65ff004d2632',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:42:55 GMT'
+  'Wed, 02 Jun 2021 20:31:41 GMT'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/metricsadvisor/v1.0/hooks/5bbed3fb-1b8d-453d-a2eb-cf423eee6dda')
+  .reply(200, {"hookId":"5bbed3fb-1b8d-453d-a2eb-cf423eee6dda","hookName":"js-test-emailHook-162266588772000144","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}}, [
+  'Content-Length',
+  '283',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-request-id',
+  'a6828f66-b97f-442f-b229-c2ed136c7d13',
+  'x-envoy-upstream-service-time',
+  '165',
+  'apim-request-id',
+  'a6828f66-b97f-442f-b229-c2ed136c7d13',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Wed, 02 Jun 2021 20:31:42 GMT'
 ]);
