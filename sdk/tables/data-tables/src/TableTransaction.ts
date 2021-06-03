@@ -17,7 +17,7 @@ import {
   TableTransactionEntityResponse,
   TransactionAction
 } from "./models";
-import { NamedKeyCredential } from "@azure/core-auth";
+import { NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
@@ -108,7 +108,7 @@ export class InternalTableTransaction {
     partitionKey: string;
   };
   private interceptClient: TableClientLike;
-  private credential?: NamedKeyCredential;
+  private credential?: NamedKeyCredential | SASCredential;
 
   /**
    * @param url - Tables account url
@@ -121,7 +121,7 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
-    credential?: NamedKeyCredential
+    credential?: NamedKeyCredential | SASCredential
   ) {
     this.credential = credential;
     this.url = url;

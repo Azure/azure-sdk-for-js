@@ -7,10 +7,10 @@ import {
   SendRequest,
   PipelinePolicy
 } from "@azure/core-rest-pipeline";
-import { NamedKeyCredential } from "@azure/core-auth";
-import { createHmac } from "crypto";
+import { isSASCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { HeaderConstants } from "./utils/constants";
 import { URL } from "./utils/url";
+import { computeHMACSHA256 } from "./utils/computeHMACSHA256";
 
 /**
  * The programmatic identifier of the tablesNamedKeyCredentialPolicy.
@@ -37,8 +37,11 @@ export function tablesNamedKeyCredentialPolicy(credential: NamedKeyCredential): 
 
 export function getAuthorizationHeader(
   request: PipelineRequest,
-  credential: NamedKeyCredential
+  credential: NamedKeyCredential | SASCredential
 ): string {
+  if (isSASCredential(credential)) {
+    throw new Error("NYI: SAS");
+  }
   if (!request.headers.has(HeaderConstants.X_MS_DATE)) {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
   }
@@ -62,13 +65,6 @@ export function getAuthorizationHeader(
   const signature = computeHMACSHA256(stringToSign, credential.key);
 
   return `SharedKeyLite ${credential.name}:${signature}`;
-}
-
-function computeHMACSHA256(stringToSign: string, accountKey: string): string {
-  const key = Buffer.from(accountKey, "base64");
-  return createHmac("sha256", key)
-    .update(stringToSign, "utf8")
-    .digest("base64");
 }
 
 function getHeaderValueToSign(request: PipelineRequest, headerName: string): string {

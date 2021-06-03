@@ -20,6 +20,14 @@ export interface AccessPolicy {
 export { AzureNamedKeyCredential };
 
 // @public
+export interface AccountSASPermissions {
+  create?: boolean;
+  delete?: boolean;
+  list?: boolean;
+  update?: boolean;
+}
+
+// @public
 export interface CorsRule {
   allowedHeaders: string;
   allowedMethods: string;
@@ -66,6 +74,31 @@ export type EdmTypes =
   | "Int32"
   | "Int64"
   | "String";
+
+// @public
+export function generateAccountSAS(
+  permissions: AccountSASPermissions,
+  resourceTypes: TableAccountSASResourceTypes,
+  credential: NamedKeyCredential,
+  options?: GenerateSASTokenOptions
+): string;
+
+// @public
+export interface GenerateSASTokenOptions {
+  expiresOn?: Date;
+  ipRange?: SasIPRange;
+  protocol?: "https" | "https,http";
+  startsOn?: Date;
+  version?: string;
+}
+
+// @public
+export function generateTableSAS(
+  tableName: string,
+  permissions: AccountSASPermissions,
+  credential: NamedKeyCredential,
+  options?: GenerateSASTokenOptions
+): string;
 
 // @public
 export interface GeoReplication {
@@ -142,6 +175,12 @@ export interface RetentionPolicy {
 }
 
 // @public
+export interface SasIPRange {
+  end?: string;
+  start: string;
+}
+
+// @public
 export interface ServiceGetPropertiesHeaders {
   clientRequestId?: string;
   requestId?: string;
@@ -188,6 +227,9 @@ export interface SignedIdentifier {
   accessPolicy: AccessPolicy;
   id: string;
 }
+
+// @public
+export type TableAccountSASResourceTypes = "Service" | "Container" | "Object" | "All";
 
 // @public
 export class TableClient {
