@@ -8,8 +8,7 @@
  * @summary authenticates using different authentication methods
  * @azsdk-weight 40
  */
-import { TableServiceClient } from "@azure/data-tables";
-import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { TableServiceClient, AzureNamedKeyCredential } from "@azure/data-tables";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

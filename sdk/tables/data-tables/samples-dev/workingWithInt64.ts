@@ -8,8 +8,7 @@
  * @azsdk-weight 70
  */
 
-import { Edm, TableClient } from "@azure/data-tables";
-import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { Edm, TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

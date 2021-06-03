@@ -7,8 +7,7 @@
  * @summary creates and works with an entity containing an Int64 value
  */
 
-import { Edm, TableClient } from "@azure/data-tables";
-import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { Edm, TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

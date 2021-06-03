@@ -60,7 +60,7 @@ export class TableServiceClient {
    * Example using an account name/key:
    *
    * ```js
-   * const { AzureNamedKeyCredential } = require("@azure/core-auth")
+   * const { AzureNamedKeyCredential, TableServiceClient } = require("@azure/data-tables")
    * const account = "<storage account name>"
    * const sharedKeyCredential = new AzureNamedKeyCredential(account, "<account key>");
    *

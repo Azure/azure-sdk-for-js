@@ -4,12 +4,12 @@
 
 ```ts
 
+import { AzureNamedKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
-import { PipelinePolicy } from '@azure/core-rest-pipeline';
 
 // @public
 export interface AccessPolicy {
@@ -17,6 +17,8 @@ export interface AccessPolicy {
     permission: string;
     start: Date;
 }
+
+export { AzureNamedKeyCredential }
 
 // @public
 export interface CorsRule {
@@ -314,9 +316,6 @@ export interface TableSetAccessPolicyHeaders {
     requestId?: string;
     version?: string;
 }
-
-// @public
-export function tablesNamedKeyCredentialPolicy(credential: NamedKeyCredential): PipelinePolicy;
 
 // @public
 export class TableTransaction {

@@ -108,8 +108,7 @@ const AzureTables = require("@azure/data-tables");
 Alternatively, selectively import only the types you need:
 
 ```javascript
-const { TableServiceClient } = require("@azure/data-tables");
-const { AzureNamedKeyCredential } = require("@azure/core-auth");
+const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 ```
 
 ### Create the Table service client
@@ -122,8 +121,7 @@ You can instantiate a `TableServiceClient` with a `AzureNamedKeyCredential` by p
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
 ```javascript
-const { TableServiceClient } = require("@azure/data-tables");
-const { AzureNamedKeyCredential } = require("@azure/core-auth");
+const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 // Enter your storage account name and shared key
 const account = "<account>";
@@ -158,8 +156,7 @@ const serviceClientWithSAS = new TableServiceClient(
 You can list tables within an account through a `TableServiceClient` instance calling the `listTables` function. This function returns a `PageableAsyncIterator` that you can consume using `for-await-of`
 
 ```javascript
-const { TableServiceClient } = require("@azure/data-tables");
-const { AzureNamedKeyCredential } = require("@azure/core-auth");
+const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 const account = "<account>";
 const accountKey = "<accountkey>";
@@ -193,8 +190,7 @@ main();
 You can create a table through a `TableServiceClient` instance calling the `createTable` function. This function takes the name of the table to create as a parameter.
 
 ```javascript
-const { TableServiceClient } = require("@azure/data-tables");
-const { AzureNamedKeyCredential } = require("@azure/core-auth");
+const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 const account = "<account>";
 const accountKey = "<accountkey>";
@@ -223,8 +219,7 @@ You can instantiate a `TableClient` with a `AzureNamedKeyCredential` by passing 
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
 ```javascript
-const { TableClient } = require("@azure/data-tables");
-const { AzureNamedKeyCredential } = require("@azure/core-auth");
+const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 // Enter your storage account name and shared key
 const account = "<account>";
@@ -256,8 +251,7 @@ const clientWithSAS = new TableClient(`https://${account}.table.core.windows.net
 You can list entities within a table by through a `TableClient` instance calling the `listEntities` function. This function returns a `PageableAsyncIterator` that you can consume using `for-await-of`
 
 ```javascript
-const { TableClient } = require("@azure/data-tables");
-const { AzureNamedKeyCredential } = require("@azure/core-auth");
+const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 const account = "<account>";
 const accountKey = "<accountkey>";
@@ -288,8 +282,7 @@ main();
 You can create a new Entity in a table by through a `TableClient` instance calling the `createEntity` function. This function takes the entity to insert as a parameter. The entity must contain `partitionKey` and `rowKey`.
 
 ```javascript
-const { TableClient } = require("@azure/data-tables");
-const { AzureNamedKeyCredential } = require("@azure/core-auth");
+const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 const account = "<account>";
 const accountKey = "<accountkey>";

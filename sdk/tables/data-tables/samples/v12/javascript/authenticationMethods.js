@@ -7,8 +7,7 @@
  *
  * @summary authenticates using different authentication methods
  */
-const { TableServiceClient } = require("@azure/data-tables");
-const { AzureNamedKeyCredential } = require("@azure/core-auth");
+const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");

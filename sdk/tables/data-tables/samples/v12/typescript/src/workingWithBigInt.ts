@@ -7,8 +7,7 @@
  * @summary creates and works with an entity containing a bigint
  */
 
-import { TableClient } from "@azure/data-tables";
-import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

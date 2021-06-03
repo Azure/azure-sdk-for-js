@@ -7,8 +7,7 @@
  * @summary creates and works with an entity containing an Int64 value
  */
 
-const { TableClient } = require("@azure/data-tables");
-const { AzureNamedKeyCredential } = require("@azure/core-auth");
+const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
