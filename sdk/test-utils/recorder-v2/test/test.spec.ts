@@ -6,8 +6,9 @@ describe("Tests", () => {
   it("Sample test", async function() {
     const file = `file_path.json`;
     env.TEST_MODE = "record";
+    const recorder = new RecordingHttpClient(file, isPlaybackMode());
     const client = new ServiceClient(undefined, {
-      httpClient: !isLiveMode() ? new RecordingHttpClient(file, isPlaybackMode()) : undefined
+      httpClient: !isLiveMode() ? recorder : undefined
     });
     const url = "https://randomuser.me/api/";
     const webResource = new WebResource(
@@ -27,5 +28,6 @@ describe("Tests", () => {
     );
     const response = await client.sendRequest(webResource);
     console.log(response.parsedBody);
+    await recorder.stop();
   });
 });
