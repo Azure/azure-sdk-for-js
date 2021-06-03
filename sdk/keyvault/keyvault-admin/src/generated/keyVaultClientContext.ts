@@ -33,7 +33,6 @@ export class KeyVaultClientContext extends coreHttp.ServiceClient {
     super(undefined, options);
 
     this.requestContentType = "application/json; charset=utf-8";
-
     this.baseUri = options.endpoint || "{vaultBaseUrl}";
 
     // Assigning values to Constant parameters

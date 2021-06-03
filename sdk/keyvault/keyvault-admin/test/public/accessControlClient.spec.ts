@@ -6,7 +6,12 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { env, Recorder } from "@azure/test-utils-recorder";
 
-import { KeyVaultAccessControlClient, KeyVaultPermission, KeyVaultRoleDefinition } from "../../src";
+import {
+  KeyVaultAccessControlClient,
+  KeyVaultPermission,
+  KeyVaultRoleDefinition,
+  KnownKeyVaultDataAction
+} from "../../src";
 import { authenticate } from "../utils/authentication";
 import { setTracer, TestTracer } from "@azure/core-tracing";
 
@@ -44,8 +49,8 @@ describe("KeyVaultAccessControlClient", () => {
       {
         actions: [],
         dataActions: [
-          "Microsoft.KeyVault/managedHsm/backup/start/action",
-          "Microsoft.KeyVault/managedHsm/backup/status/action"
+          KnownKeyVaultDataAction.StartHsmBackup,
+          KnownKeyVaultDataAction.ReadHsmBackupStatus
         ],
         notActions: [],
         notDataActions: []
@@ -113,7 +118,7 @@ describe("KeyVaultAccessControlClient", () => {
         actions: [],
         notActions: [],
         dataActions: [],
-        notDataActions: ["Microsoft.KeyVault/managedHsm/keys/encrypt/action"]
+        notDataActions: [KnownKeyVaultDataAction.EncryptHsmKey]
       });
 
       roleDefinition = await client.setRoleDefinition(globalScope, {
