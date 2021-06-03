@@ -2,9 +2,10 @@
 
 ## 4.0.0 (2021-06-08)
 
+This release marks the general availability of the `@azure/keyvault-admin` package.
+
 ### New Features
 
-- This release marks the general availability of the `@azure/keyvault-admin` package.
 - The `KeyVaultAccessControlClient` provides support for managing role-based access control (RBAC) operations.
   - Both role assignments and custom role definitions are supported with the ability to create, read, update, and delete custom role definitions and assignments.
 - The `KeyVaultBackupClient` provides support for back up and restore operations for the entire Key Vault Managed HSM instance.
