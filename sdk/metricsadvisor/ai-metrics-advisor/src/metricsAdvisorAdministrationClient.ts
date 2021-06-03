@@ -1399,8 +1399,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   */
   private async *listItemsOfIngestionStatus(
     dataFeedId: string,
     startTime: Date,
@@ -1574,7 +1572,7 @@ export class MetricsAdvisorAdministrationClient {
     );
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      //transformation
+      // transformation
       const transformedCred = toServiceCredential(datasourceCredential);
       const result = await this.client.createCredential(transformedCred, requestOptions);
       if (!result.location) {
@@ -1669,6 +1667,7 @@ export class MetricsAdvisorAdministrationClient {
    *  }
    *  page = await pages.next();
    * }
+   * ```
    */
   public listDatasourceCredential(
     options: ListDatasourceCredentialsOptions = {}

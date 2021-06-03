@@ -603,6 +603,7 @@ export type MongoDbDataFeedSource = {
 export type UnknownDataFeedSource = {
   dataSourceType: "Unknown";
   dataSourceParameter: unknown;
+  authenticationType: "Basic";
 };
 
 /**

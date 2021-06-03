@@ -5,43 +5,43 @@ module.exports.hash = "50e80c9cc11115b0127190f0598dd8cb";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"AzureTable","dataFeedName":"js-test-tableFeed-162260297550802327","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://table.example.net","table":"table-name","query":"partition-key eq @start-time"}})
+  .post('/metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"AzureTable","dataFeedName":"js-test-tableFeed-162267904090100706","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://table.example.net","table":"table-name","query":"partition-key eq @start-time"}})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/dataFeeds/7671f33c-e88f-4edf-91aa-d0c9a8a56d2e',
+  'https://endpoint/metricsadvisor/v1.0/dataFeeds/ec925b0d-e939-41a6-99d9-5c32e77b2c5a',
   'x-request-id',
-  '464866d4-5185-49d7-96c2-e35771eba67a',
+  '9a88fb46-930c-4360-81ee-f2a5aee4a828',
   'x-envoy-upstream-service-time',
-  '519',
+  '874',
   'apim-request-id',
-  '464866d4-5185-49d7-96c2-e35771eba67a',
+  '9a88fb46-930c-4360-81ee-f2a5aee4a828',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 03:03:20 GMT'
+  'Thu, 03 Jun 2021 00:11:02 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/dataFeeds/7671f33c-e88f-4edf-91aa-d0c9a8a56d2e')
-  .reply(200, {"dataFeedId":"7671f33c-e88f-4edf-91aa-d0c9a8a56d2e","dataFeedName":"js-test-tableFeed-162260297550802327","metrics":[{"metricId":"e6eae7fd-7d33-4590-839a-25c38dd0e983","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"ac35e8d9-17b1-4d04-89d1-d1df6aa866b8","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"AzureTable","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["kaghiya@microsoft.com"],"viewers":[],"creator":"kaghiya@microsoft.com","status":"Active","createdTime":"2021-06-02T03:03:20Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"query":"partition-key eq @start-time","table":"table-name"},"authenticationType":"Basic"}, [
+  .get('/metricsadvisor/v1.0/dataFeeds/ec925b0d-e939-41a6-99d9-5c32e77b2c5a')
+  .reply(200, {"dataFeedId":"ec925b0d-e939-41a6-99d9-5c32e77b2c5a","dataFeedName":"js-test-tableFeed-162267904090100706","metrics":[{"metricId":"c63cad72-378d-4e92-a636-97fadab47218","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"35e856fc-d724-4bb7-858e-9986a99c0cbc","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"AzureTable","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["kaghiya@microsoft.com"],"viewers":[],"creator":"kaghiya@microsoft.com","status":"Active","createdTime":"2021-06-03T00:11:02Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"query":"partition-key eq @start-time","table":"table-name"},"authenticationType":"Basic"}, [
   'Content-Length',
   '1256',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'c0919e9a-f276-48e5-8267-c32b1a0bbd80',
+  'e73beea9-60e7-4a79-b289-c30593f2a738',
   'x-envoy-upstream-service-time',
   '169',
   'apim-request-id',
-  'c0919e9a-f276-48e5-8267-c32b1a0bbd80',
+  'e73beea9-60e7-4a79-b289-c30593f2a738',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 03:03:20 GMT'
+  'Thu, 03 Jun 2021 00:11:02 GMT'
 ]);

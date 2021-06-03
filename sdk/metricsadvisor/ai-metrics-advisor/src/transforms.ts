@@ -423,7 +423,7 @@ switch(source.dataSourceType){
       authenticationType: source.authenticationType
     }
     case "SqlServer":
-      if(source.authenticationType == "AzureSQLConnectionString"){
+      if(source.authenticationType === "AzureSQLConnectionString"){
         return{
           dataSourceType: "SqlServer",
           dataSourceParameter: {
@@ -433,7 +433,7 @@ switch(source.dataSourceType){
           credentialId: source.credentialId
         }
       }
-      else if (source.authenticationType == "Basic" || source.authenticationType == "ManagedIdentity"){
+      else if (source.authenticationType === "Basic" || source.authenticationType === "ManagedIdentity"){
         return{
           dataSourceType: "SqlServer",
           dataSourceParameter: {
@@ -455,7 +455,7 @@ switch(source.dataSourceType){
         }
       }
     case "AzureDataExplorer":
-      if(source.authenticationType == "ServicePrincipal" || source.authenticationType == "ServicePrincipalInKV") {
+      if(source.authenticationType === "ServicePrincipal" || source.authenticationType === "ServicePrincipalInKV") {
         return{
           dataSourceType: "AzureDataExplorer",
           dataSourceParameter: {
@@ -477,7 +477,7 @@ switch(source.dataSourceType){
         }
       }     
       case "AzureDataLakeStorageGen2":
-        if(source.authenticationType == "Basic"){
+        if(source.authenticationType === "Basic"){
         return{
           dataSourceType: "AzureDataLakeStorageGen2",
           dataSourceParameter: {
@@ -490,7 +490,7 @@ switch(source.dataSourceType){
           authenticationType: source.authenticationType
         }
       }
-      else if(source.authenticationType == "ManagedIdentity"){
+      else if(source.authenticationType === "ManagedIdentity"){
         return{
           dataSourceType: "AzureDataLakeStorageGen2",
           dataSourceParameter: {
@@ -525,7 +525,7 @@ switch(source.dataSourceType){
           authenticationType: source.authenticationType
         }
       case "AzureLogAnalytics":
-        if(source.authenticationType == "Basic"){
+        if(source.authenticationType === "Basic"){
           return{
             dataSourceType: "AzureLogAnalytics",
             dataSourceParameter: {
@@ -655,7 +655,7 @@ switch(source.dataSourceType){
       authenticationType: source.authenticationType
     }
     case "SqlServer":
-      if(source.authenticationType == "AzureSQLConnectionString"){
+      if(source.authenticationType === "AzureSQLConnectionString"){
         return{
           dataSourceType: "SqlServer",
           dataSourceParameter: {
@@ -665,7 +665,7 @@ switch(source.dataSourceType){
           credentialId: source.credentialId
         }
       }
-      else if (source.authenticationType == "Basic" || source.authenticationType == "ManagedIdentity"){
+      else if (source.authenticationType === "Basic" || source.authenticationType === "ManagedIdentity"){
         return{
           dataSourceType: "SqlServer",
           dataSourceParameter: {
@@ -675,7 +675,7 @@ switch(source.dataSourceType){
           authenticationType: source.authenticationType
         }
       }
-      else if(source.authenticationType == "ServicePrincipalInKV" || source.authenticationType == "ServicePrincipal") {
+      else if(source.authenticationType === "ServicePrincipalInKV" || source.authenticationType === "ServicePrincipal") {
         return{
           dataSourceType: "SqlServer",
           dataSourceParameter: {
@@ -691,7 +691,7 @@ switch(source.dataSourceType){
       }
     
     case "AzureDataExplorer":
-      if(source.authenticationType == "ServicePrincipal" || source.authenticationType == "ServicePrincipalInKV") {
+      if(source.authenticationType === "ServicePrincipal" || source.authenticationType === "ServicePrincipalInKV") {
         return{
           dataSourceType: "AzureDataExplorer",
           dataSourceParameter: {
@@ -713,7 +713,7 @@ switch(source.dataSourceType){
         }
       }     
       case "AzureDataLakeStorageGen2":
-        if(source.authenticationType == "Basic"){
+        if(source.authenticationType === "Basic"){
         return{
           dataSourceType: "AzureDataLakeStorageGen2",
           dataSourceParameter: {
@@ -726,7 +726,7 @@ switch(source.dataSourceType){
           authenticationType: source.authenticationType
         }
       }
-      else if(source.authenticationType == "ManagedIdentity"){
+      else if(source.authenticationType === "ManagedIdentity"){
         return{
           dataSourceType: "AzureDataLakeStorageGen2",
           dataSourceParameter: {
@@ -738,7 +738,7 @@ switch(source.dataSourceType){
           authenticationType: source.authenticationType
         }
       }
-      else if (source.authenticationType == "DataLakeGen2SharedKey" || source.authenticationType == "ServicePrincipal" || source.authenticationType == "ServicePrincipalInKV") {
+      else if (source.authenticationType === "DataLakeGen2SharedKey" || source.authenticationType === "ServicePrincipal" || source.authenticationType === "ServicePrincipalInKV") {
         return{
           dataSourceType: "AzureDataLakeStorageGen2",
           dataSourceParameter: {
@@ -764,7 +764,7 @@ switch(source.dataSourceType){
           authenticationType: source.authenticationType
         }
       case "AzureLogAnalytics":
-        if(source.authenticationType == "Basic"){
+        if(source.authenticationType === "Basic"){
           return{
             dataSourceType: "AzureLogAnalytics",
             dataSourceParameter: {
@@ -777,7 +777,7 @@ switch(source.dataSourceType){
             authenticationType: source.authenticationType
           }
         }
-        else if (source.authenticationType == "ServicePrincipal" || source.authenticationType == "ServicePrincipalInKV")
+        else if (source.authenticationType === "ServicePrincipal" || source.authenticationType === "ServicePrincipalInKV")
         {
           return{
             dataSourceType: "AzureLogAnalytics",
@@ -1113,7 +1113,7 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         };
       return result12;
     }
-    case "AzureEventHubs":
+    case "AzureEventHubs":{
       const orig13 = original as ServiceAzureEventHubsDataFeed;
       const result13: DataFeed = {
         ...common,
@@ -1124,8 +1124,9 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
           authenticationType: "Basic"
         }
       };
-      return result13;
-    case "AzureLogAnalytics":
+      return result13;      
+    }
+    case "AzureLogAnalytics": {
       const orig14 = original as ServiceAzureLogAnalyticsDataFeed;
       const result14: DataFeed = {
         ...common,
@@ -1140,12 +1141,14 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         }
       };
       return result14;
+    }
     default:
       return {
         ...common,
         source: {
           dataSourceType: "Unknown",
-          dataSourceParameter: (original as any).dataSourceParameter
+          dataSourceParameter: (original as any).dataSourceParameter,
+          authenticationType: "Basic"
         }
       };
   }
@@ -1339,34 +1342,38 @@ export function fromServiceCredential(result: ServiceDataSourceCredentialUnion):
      "name": result.dataSourceCredentialName
    };
    switch (result.dataSourceCredentialType) {
-     case "AzureSQLConnectionString":
+     case "AzureSQLConnectionString":{
        const cred1 = result as AzureSQLConnectionStringCredential;
        return{
          ...common,
          type: "AzureSQLConnectionString",
          ...cred1.parameters
-       };
-      case "DataLakeGen2SharedKey":
+       };       
+     }
+      case "DataLakeGen2SharedKey":{
         const cred2 = result as DataLakeGen2SharedKeyCredential;
         return{
           ...common,
           type: "DataLakeGen2SharedKey",
           ...cred2.parameters
         };
-      case "ServicePrincipal":
+     }
+      case "ServicePrincipal":{
         const cred3 = result as ServicePrincipalCredential;
         return{
           ...common,
          type: "ServicePrincipal",         
          ...cred3.parameters
         }
-      case "ServicePrincipalInKV":
+      }
+      case "ServicePrincipalInKV":{
         const cred4 = result as ServicePrincipalInKVCredential;
         return{
           ...common,
           type: "ServicePrincipalInKV",
           ...cred4.parameters
         }
+      }
     }
 }
 
@@ -1379,7 +1386,7 @@ export function toServiceCredential(
   dataSourceCredentialDescription: from.description  
   };
   switch (from.type){
-    case "AzureSQLConnectionString":
+    case "AzureSQLConnectionString":{
       const parameters = {
         connectionString: from.connectionString
       };
@@ -1388,6 +1395,7 @@ export function toServiceCredential(
         dataSourceCredentialType: from.type,
         parameters
       };
+    }
     case "DataLakeGen2SharedKey":
       return {
         ...common,
@@ -1430,7 +1438,7 @@ export function toServiceCredentialPatch(
     dataSourceCredentialDescription: from.description  
     };
   switch (from.type){
-    case "AzureSQLConnectionString":
+    case "AzureSQLConnectionString": {
       const cred1 = from as Partial<Omit<SqlServerConnectionStringDatasourceCredential,"id">>;
       return {
         dataSourceCredentialType: from.type,
@@ -1438,7 +1446,8 @@ export function toServiceCredentialPatch(
           connectionString: cred1.connectionString
         }        
       };
-    case "DataLakeGen2SharedKey":
+    }
+    case "DataLakeGen2SharedKey": {
       const cred2 = from as Partial<DataLakeGen2SharedKeyDatasourceCredential>;
       return {
         ...common,
@@ -1447,7 +1456,8 @@ export function toServiceCredentialPatch(
          accountKey: cred2.accountKey
         }
       };
-      case "ServicePrincipal":
+    }
+      case "ServicePrincipal":{
         const cred3 = from as Partial<ServicePrincipalDatasourceCredential>;
         return{
           ...common,
@@ -1458,7 +1468,8 @@ export function toServiceCredentialPatch(
             tenantId: cred3.tenantId
           }
         };
-      case "ServicePrincipalInKV":
+      }
+      case "ServicePrincipalInKV": {
         const cred4 = from as Partial<ServicePrincipalInKeyVaultDatasourceCredential>;
         return {
           ...common,
@@ -1472,6 +1483,7 @@ export function toServiceCredentialPatch(
             tenantId: cred4.tenantId
           }
         }
+      }
     };
 }
 

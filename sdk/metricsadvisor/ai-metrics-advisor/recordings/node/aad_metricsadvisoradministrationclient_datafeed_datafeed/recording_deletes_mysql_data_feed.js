@@ -22,57 +22,57 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '24e378d0-4599-4be2-be46-50127ca89300',
+  '29291283-7e8f-4062-a7c4-2d2432290800',
   'x-ms-ests-server',
-  '2.1.11722.26 - SCUS ProdSlices',
+  '2.1.11787.14 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=Ahgdh1ysEgZDtr4bGSsWe9zGLH8mCgAAAC3rSNgOAAAA; expires=Fri, 02-Jul-2021 03:02:16 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ao3LGmWoTnxIo4o1diRecJfGLH8mCQAAAFgUStgOAAAA; expires=Sat, 03-Jul-2021 00:10:21 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Jun 2021 03:02:15 GMT',
+  'Thu, 03 Jun 2021 00:10:21 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/dataFeeds/9c8d8f9c-3afa-417b-b93d-7d7d4c8b2d9f')
+  .delete('/metricsadvisor/v1.0/dataFeeds/4470d70e-ebd3-4ea9-bbfa-c4506a07359a')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  'af98eda2-242c-446e-8efd-62b23533a983',
+  'bd584c7e-c839-42ef-9aed-29166ca29e7d',
   'x-envoy-upstream-service-time',
-  '5439',
+  '5453',
   'apim-request-id',
-  'af98eda2-242c-446e-8efd-62b23533a983',
+  'bd584c7e-c839-42ef-9aed-29166ca29e7d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 03:02:21 GMT'
+  'Thu, 03 Jun 2021 00:10:26 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/dataFeeds/9c8d8f9c-3afa-417b-b93d-7d7d4c8b2d9f')
-  .reply(404, {"code":"ERROR_INVALID_PARAMETER","message":"datafeedId is invalid."}, [
+  .get('/metricsadvisor/v1.0/dataFeeds/4470d70e-ebd3-4ea9-bbfa-c4506a07359a')
+  .reply(404, {"code":"404 NOT_FOUND","message":"datafeedId is invalid."}, [
   'Content-Length',
-  '69',
+  '59',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'fe36f7e9-0daa-45df-a7b4-2026b04aed7f',
+  'bc5f3dc8-3099-4152-b7ad-fe48bfa32748',
   'x-envoy-upstream-service-time',
-  '105',
+  '5129',
   'apim-request-id',
-  'fe36f7e9-0daa-45df-a7b4-2026b04aed7f',
+  'bc5f3dc8-3099-4152-b7ad-fe48bfa32748',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 03:02:21 GMT'
+  'Thu, 03 Jun 2021 00:10:31 GMT'
 ]);
