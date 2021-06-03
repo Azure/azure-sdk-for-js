@@ -10,7 +10,7 @@ describe("Tests", () => {
     const client = new ServiceClient(undefined, {
       httpClient: !isLiveMode() ? recorder : undefined
     });
-    const url = "https://randomuser.me/api/";
+    const url = "http://randomuser.me/api/";
     const webResource = new WebResource(
       url,
       undefined,
