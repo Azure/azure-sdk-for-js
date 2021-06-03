@@ -35,6 +35,7 @@ async function main() {
   const backupPoller = await client.beginBackup(blobStorageUri, sasToken);
   await backupPoller.pollUntilDone();
 
+  // The folder name should be at the end of the backupFolderUri, as in: https://<blob-storage-endpoint>/<folder-name>
   const restorePoller = await client.beginRestore(blobStorageUri, sasToken);
   await restorePoller.pollUntilDone();
 }
