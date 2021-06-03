@@ -2,8 +2,15 @@
 
 ## 4.2.0 (2021-06-08)
 
+### New Features
+
+- Added support for the 7.2 version of the Key Vault service API.
+
+### Bug Fixes
+
 - Fixed a bug with `beginDeleteSecret` and `beginRecoverDeletedSecret` in which unknown service errors wouldn't bubble up properly to the end users.
 - Renamed the `KeyVaultSecretId` to `KeyVaultSecretIdentifier`, and exported a method to parse Key Vault Secret Ids: `parseKeyVaultSecretIdentifier`.
+- Added a `certificateKeyId?: string` secret property to use instead of the deprecated `keyId?: URL` and removed `"lib": ["dom"]` from `tsconfig.json`
 
 ## 4.2.0-beta.4 (2021-04-06)
 
