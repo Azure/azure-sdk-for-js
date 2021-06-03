@@ -6,7 +6,7 @@
     "Agent": {
       "ubuntu-18.04": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" }
     },
-    "NodeTestVersion": [ "16.2.0" ],
+    "NodeTestVersion": [ "16.3.0" ],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   }
