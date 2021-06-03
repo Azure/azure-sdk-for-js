@@ -11,9 +11,7 @@
   - Full Managed HSM backup and restore operations are supported.
   - Selective Key Restore from a previous backup is also supported.
 
-### Breaking changes:
-
-The following changes are considered breaking changes from the previous beta release:
+### Changes since 4.0.0-beta.3:
 
 - Added the "KeyVault" prefix to all of the Key Vault Admin client operations.
 - Made the AesGcmDecryptParameters authenticationTag required.
