@@ -34,6 +34,7 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
+    delete process.env.IMDS_ENDPOINT;
     sandbox = Sinon.createSandbox();
     clock = sandbox.useFakeTimers({
       now: Date.now(),
@@ -48,6 +49,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.MSI_ENDPOINT = env.MSI_ENDPOINT;
     process.env.MSI_SECRET = env.MSI_SECRET;
     process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
+    process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
     sandbox.restore();
     clock.restore();
   });
