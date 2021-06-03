@@ -662,6 +662,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/test-utils-recorder-v2",
+      "projectFolder": "sdk/test-utils/recorder-v2",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/test-utils-perfstress",
       "projectFolder": "sdk/test-utils/perfstress",
       "versionPolicyName": "utility"
