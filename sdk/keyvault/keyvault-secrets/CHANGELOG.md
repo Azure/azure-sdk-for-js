@@ -1,6 +1,6 @@
 # Release History
 
-## 4.2.0-beta.5 (Unreleased)
+## 4.2.0 (2021-06-08)
 
 - Fixed a bug with `beginDeleteSecret` and `beginRecoverDeletedSecret` in which unknown service errors wouldn't bubble up properly to the end users.
 - Renamed the `KeyVaultSecretId` to `KeyVaultSecretIdentifier`, and exported a method to parse Key Vault Secret Ids: `parseKeyVaultSecretIdentifier`.

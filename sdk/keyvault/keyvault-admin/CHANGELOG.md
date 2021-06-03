@@ -1,8 +1,10 @@
 # Release History
 
-## 4.0.0-beta.4 (Unreleased)
+## 4.0.0 (2021-06-08)
 
 ### Breaking changes:
+
+The following changes are considered breaking changes from the previous beta release:
 
 - Added the "KeyVault" prefix to all of the Key Vault Admin client operations.
 - Made the AesGcmDecryptParameters authenticationTag required.
