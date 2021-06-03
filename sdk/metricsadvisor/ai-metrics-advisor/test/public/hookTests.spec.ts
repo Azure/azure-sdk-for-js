@@ -102,7 +102,10 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(updated.hookType, webPatch.hookType);
         const webHook = updated as WebNotificationHook;
         assert.equal(webHook.hookParameter?.username, "user1");
-        assert.equal(webHook.hookParameter?.endpoint, "https://mawebhook.azurewebsites.net/api/HttpTrigger");
+        assert.equal(
+          webHook.hookParameter?.endpoint,
+          "https://mawebhook.azurewebsites.net/api/HttpTrigger"
+        );
         assert.equal(webHook.hookParameter?.password, "pass123");
       });
 

@@ -14,7 +14,6 @@ import {
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 const X_API_KEY_HEADER_NAME = "x-api-key";
 
-
 export interface MetricsAdvisorKeys {
   apiKey?: string;
   subscriptionKey?: string;
@@ -62,9 +61,7 @@ export class MetricsAdvisorKeyCredential {
     return this._subscriptionKey;
   }
 
-
-
-    /**
+  /**
    * Change the value of the subscription and api keys.
    *
    * Updates will take effect upon the next request after
@@ -73,16 +70,18 @@ export class MetricsAdvisorKeyCredential {
    * @param subscriptionKey - The new subscription key value to be used
    * @param apiKey - The new api key value to be used
    */
-  public updateKey(metricAdvisorKeys: MetricsAdvisorKeys ): void {
-    if(!metricAdvisorKeys.subscriptionKey && !metricAdvisorKeys.apiKey){
-      throw new RangeError("At least one of the subscriptionKey and apiKey must be a non-empty string");
+  public updateKey(metricAdvisorKeys: MetricsAdvisorKeys): void {
+    if (!metricAdvisorKeys.subscriptionKey && !metricAdvisorKeys.apiKey) {
+      throw new RangeError(
+        "At least one of the subscriptionKey and apiKey must be a non-empty string"
+      );
     }
     if (metricAdvisorKeys.subscriptionKey) {
       this._subscriptionKey = metricAdvisorKeys.subscriptionKey;
     }
     if (metricAdvisorKeys.apiKey) {
       this._apiKey = metricAdvisorKeys.apiKey;
-    }    
+    }
   }
 }
 

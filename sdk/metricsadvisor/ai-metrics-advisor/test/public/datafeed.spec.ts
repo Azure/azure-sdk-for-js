@@ -129,7 +129,7 @@ matrix([[true, false]] as const, async (useAad) => {
           rollupType: "AutoRollup",
           rollupMethod: "Sum",
           rollupIdentificationValue: "__CUSTOM_SUM__"
-        }
+        };
         const options = {
           description: "Data feed description",
           rollupSettings: rollupSettings,
@@ -149,13 +149,13 @@ matrix([[true, false]] as const, async (useAad) => {
             blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
             authenticationType: "Basic"
           };
-          const expectedSourceByService = {
+          const expectedSourceByService = ({
             dataSourceType: "AzureBlob",
             connectionString: undefined,
             container: "adsample",
             blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
             authenticationType: "Basic"
-          }  as unknown as DataFeedSource;
+          } as unknown) as DataFeedSource;
           const feed = {
             name: feedName,
             source: expectedSource,
@@ -202,7 +202,11 @@ matrix([[true, false]] as const, async (useAad) => {
           );
 
           assert.equal(actual.description, options.description, "options.description mismatch");
-          assert.equal(actual.accessMode, options.accessMode as DataFeedAccessMode, "options.accessMode mismatch");
+          assert.equal(
+            actual.accessMode,
+            options.accessMode as DataFeedAccessMode,
+            "options.accessMode mismatch"
+          );
           assert.ok(
             actual.missingDataPointFillSettings,
             "Expecting valid options.missingDataPointFillSettings"
@@ -246,13 +250,13 @@ matrix([[true, false]] as const, async (useAad) => {
 
         it("retrieves an Azure Blob datafeed", async function(this: Context) {
           // accessing environment variables here so they are already replaced by test env ones
-          const expectedSource = {
+          const expectedSource = ({
             dataSourceType: "AzureBlob",
             container: "adsample",
             connectionString: undefined,
             blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
             authenticationType: "Basic"
-          } as unknown as AzureBlobDataFeedSource;
+          } as unknown) as AzureBlobDataFeedSource;
 
           if (!createdAzureBlobDataFeedId) {
             this.skip();
@@ -299,7 +303,7 @@ matrix([[true, false]] as const, async (useAad) => {
             container: "Updated Azure Blob container",
             blobTemplate: "Updated Azure Blob template",
             authenticationType: "ManagedIdentity"
-          }
+          };
           const expectedIngestionSettings = {
             ingestionStartTime: new Date(Date.UTC(2020, 7, 1)),
             ingestionStartOffsetInSeconds: 2,
@@ -308,7 +312,7 @@ matrix([[true, false]] as const, async (useAad) => {
             stopRetryAfterInSeconds: 5
           };
           const patch: DataFeedPatch = {
-            source: {              
+            source: {
               ...expectedSourceParameter
             },
             name: recorder.getUniqueName("Updated-Azure-Blob-data-feed-"),
@@ -332,8 +336,14 @@ matrix([[true, false]] as const, async (useAad) => {
           const updated = await client.getDataFeed(createdAzureBlobDataFeedId);
           assert.ok(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "AzureBlob");
-          assert.deepStrictEqual(updated.source, expectedServerParameter as unknown as AzureBlobDataFeedSource);
-          assert.equal(updated.source.authenticationType, expectedSourceParameter.authenticationType);
+          assert.deepStrictEqual(
+            updated.source,
+            (expectedServerParameter as unknown) as AzureBlobDataFeedSource
+          );
+          assert.equal(
+            updated.source.authenticationType,
+            expectedSourceParameter.authenticationType
+          );
           assert.deepStrictEqual(updated.ingestionSettings, expectedIngestionSettings);
           assert.equal(updated.description, "Updated Azure Blob description");
           assert.ok(updated.rollupSettings, "Expecting valid updated.options.rollupSettings");
@@ -354,7 +364,7 @@ matrix([[true, false]] as const, async (useAad) => {
             applicationId: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID,
             apiKey: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY,
             query:
-                "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
           };
           const actual = await client.createDataFeed({
             name: appInsightsFeedName,
@@ -374,10 +384,7 @@ matrix([[true, false]] as const, async (useAad) => {
               actual.source.applicationId,
               testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID
             );
-            assert.equal(
-              actual.source.apiKey,
-              undefined
-            );
+            assert.equal(actual.source.apiKey, undefined);
             assert.equal(
               actual.source.query,
               "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
@@ -406,10 +413,7 @@ matrix([[true, false]] as const, async (useAad) => {
           createdSqlServerFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "SqlServer");
           if (actual.source.dataSourceType === "SqlServer") {
-            assert.equal(
-              (actual.source as any).connectionString,
-              undefined
-            );
+            assert.equal((actual.source as any).connectionString, undefined);
             assert.equal(
               actual.source.query,
               "select * from adsample2 where Timestamp = @StartTime"
@@ -477,10 +481,7 @@ matrix([[true, false]] as const, async (useAad) => {
           createdCosmosFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureCosmosDB");
           if (actual.source.dataSourceType === "AzureCosmosDB") {
-            assert.equal(
-              actual.source.connectionString,
-              undefined
-            );
+            assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.sqlQuery,
               "let starttime=datetime(@StartTime); let endtime=starttime"
@@ -515,10 +516,7 @@ matrix([[true, false]] as const, async (useAad) => {
           createdAzureDataExplorerFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureDataExplorer");
           if (actual.source.dataSourceType === "AzureDataExplorer") {
-            assert.equal(
-              actual.source.connectionString,
-              undefined
-            );
+            assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.query,
               "let starttime=datetime(@StartTime); let endtime=starttime"
@@ -552,10 +550,7 @@ matrix([[true, false]] as const, async (useAad) => {
           createdAzureTableFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureTable");
           if (actual.source.dataSourceType === "AzureTable") {
-            assert.equal(
-              actual.source.connectionString,
-              undefined
-            );
+            assert.equal(actual.source.connectionString, undefined);
             assert.equal(actual.source.table, "table-name");
             assert.equal(actual.source.query, "partition-key eq @start-time");
             assert.equal(actual.source.authenticationType, "Basic");
@@ -589,10 +584,7 @@ matrix([[true, false]] as const, async (useAad) => {
           createdInfluxFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "InfluxDB");
           if (actual.source.dataSourceType === "InfluxDB") {
-            assert.equal(
-              actual.source.connectionString,
-              "https://connect-to-influxdb"
-            );
+            assert.equal(actual.source.connectionString, "https://connect-to-influxdb");
             assert.equal(actual.source.database, "data-feed-database");
             assert.equal(actual.source.userName, "user");
             assert.equal(actual.source.password, undefined);
@@ -625,10 +617,7 @@ matrix([[true, false]] as const, async (useAad) => {
           createdMongoDbFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "MongoDB");
           if (actual.source.dataSourceType === "MongoDB") {
-            assert.equal(
-              actual.source.connectionString,
-              undefined
-            );
+            assert.equal(actual.source.connectionString, undefined);
             assert.equal(actual.source.database, "data-feed-mongodb");
             assert.equal(
               actual.source.command,
@@ -662,10 +651,7 @@ matrix([[true, false]] as const, async (useAad) => {
           createdMySqlFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "MySql");
           if (actual.source.dataSourceType === "MySql") {
-            assert.equal(
-              actual.source.connectionString,
-              undefined
-            );
+            assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.query,
               "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"
@@ -698,10 +684,7 @@ matrix([[true, false]] as const, async (useAad) => {
           createdPostGreSqlId = actual.id;
           assert.equal(actual.source.dataSourceType, "PostgreSql");
           if (actual.source.dataSourceType === "PostgreSql") {
-            assert.equal(
-              actual.source.connectionString,
-              undefined
-            );
+            assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.query,
               "{ find: postgresql,filter: { Time: @StartTime },batch: 200 }"
@@ -717,7 +700,7 @@ matrix([[true, false]] as const, async (useAad) => {
               connectionString: "https://connect-to-mongodb-patch",
               database: "data-feed-mongodb-patch",
               command: "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }",
-              authenticationType: "Basic"              
+              authenticationType: "Basic"
             }
           };
           const patchServer = {
@@ -726,17 +709,17 @@ matrix([[true, false]] as const, async (useAad) => {
               connectionString: undefined,
               database: "data-feed-mongodb-patch",
               command: "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }",
-              authenticationType: "Basic"              
+              authenticationType: "Basic"
             }
           };
           await client.updateDataFeed(createdPostGreSqlId, patch);
           const updated = await client.getDataFeed(createdPostGreSqlId);
           assert.ok(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "MongoDB");
-          
+
           assert.deepStrictEqual(
             updated.source,
-            (patchServer.source as unknown as MongoDbDataFeedSource)
+            (patchServer.source as unknown) as MongoDbDataFeedSource
           );
         });
 

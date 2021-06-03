@@ -4,4 +4,7 @@
 export * from "./metricsAdvisorClient";
 export * from "./models";
 export * from "./metricsAdvisorAdministrationClient";
-export { MetricsAdvisorKeyCredential, MetricsAdvisorKeys } from "./metricsAdvisorKeyCredentialPolicy";
+export {
+  MetricsAdvisorKeyCredential,
+  MetricsAdvisorKeys
+} from "./metricsAdvisorKeyCredentialPolicy";

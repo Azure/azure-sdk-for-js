@@ -96,7 +96,7 @@ export interface ListHooksOptions extends OperationOptions {
  * Options for listing data source credentials
  */
 export interface ListDatasourceCredentialsOptions extends OperationOptions {
-  skip? :number;
+  skip?: number;
 }
 
 /**
@@ -139,7 +139,7 @@ export type DataFeedDescriptor = Omit<
 /**
  * Options for creating data feed
  */
- export interface CreateDataFeedOptions extends OperationOptions {};
+export interface CreateDataFeedOptions extends OperationOptions {}
 
 /**
  * Client class for interacting with Azure Metrics Advisor Service to perform management operations

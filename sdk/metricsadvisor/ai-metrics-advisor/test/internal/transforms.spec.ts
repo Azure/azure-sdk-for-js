@@ -13,7 +13,11 @@ import {
   PeriodFeedback as ServicePeriodFeedback,
   WholeMetricConfiguration as ServiceWholeMetricConfiguration
 } from "../../src/generated/models";
-import { AzureBlobDataFeedSource, DataFeedGranularity, MetricDetectionCondition } from "../../src/models";
+import {
+  AzureBlobDataFeedSource,
+  DataFeedGranularity,
+  MetricDetectionCondition
+} from "../../src/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
@@ -167,7 +171,11 @@ describe("Transforms", () => {
   it("fromServiceDataFeedDetailUnion()", () => {
     const serviceDataFeed: ServiceDataFeedDetailUnion = {
       dataSourceType: "AzureBlob",
-      dataSourceParameter: {connectionString: "https://connectionString", blobTemplate: "%Y/%m/%d/%h/JsonFormatV2.json", container: "thisContainer"},
+      dataSourceParameter: {
+        connectionString: "https://connectionString",
+        blobTemplate: "%Y/%m/%d/%h/JsonFormatV2.json",
+        container: "thisContainer"
+      },
       authenticationType: "ManagedIdentity",
       dataFeedName: "name",
       metrics: [{ name: "m1", id: "m-id1", displayName: "m1 display" }],
@@ -178,9 +186,12 @@ describe("Transforms", () => {
 
     const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
     const actualSource = actual.source as AzureBlobDataFeedSource;
-    assert.strictEqual(actualSource.authenticationType,serviceDataFeed.authenticationType);
+    assert.strictEqual(actualSource.authenticationType, serviceDataFeed.authenticationType);
     assert.strictEqual(actualSource.blobTemplate, serviceDataFeed.dataSourceParameter.blobTemplate);
-    assert.strictEqual(actualSource.connectionString, serviceDataFeed.dataSourceParameter.connectionString);
+    assert.strictEqual(
+      actualSource.connectionString,
+      serviceDataFeed.dataSourceParameter.connectionString
+    );
     assert.strictEqual(actualSource.container, serviceDataFeed.dataSourceParameter.container);
     assert.strictEqual(actual.name, serviceDataFeed.dataFeedName);
     assert.deepStrictEqual(actual.schema.dimensions, serviceDataFeed.dimension);
@@ -217,7 +228,11 @@ describe("Transforms", () => {
         dimension: [{ name: "d1", displayName: "d1 display" }],
         granularityName: granularity.original as ServiceGranularity,
         dataStartFrom: new Date(Date.UTC(2020, 9, 1)),
-        dataSourceParameter: {connectionString: "https://connectionString", blobTemplate: "%Y/%m/%d/%h/JsonFormatV2.json", container: "thisContainer"},
+        dataSourceParameter: {
+          connectionString: "https://connectionString",
+          blobTemplate: "%Y/%m/%d/%h/JsonFormatV2.json",
+          container: "thisContainer"
+        },
         authenticationType: "ManagedIdentity"
       };
 
