@@ -40,7 +40,7 @@ export async function main(): Promise<void> {
       ]
     }
   ];
-  let roleDefinition = await client.upsertRoleDefinition(globalScope, {
+  let roleDefinition = await client.setRoleDefinition(globalScope, {
     roleDefinitionName,
     roleName: "Backup Manager",
     permissions,
