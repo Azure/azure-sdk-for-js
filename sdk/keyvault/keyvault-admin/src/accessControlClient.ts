@@ -31,7 +31,7 @@ import {
   ListRoleDefinitionsPageSettings,
   ListRoleAssignmentsPageSettings,
   GetRoleDefinitionOptions,
-  UpsertRoleDefinitionOptions,
+  SetRoleDefinitionOptions,
   DeleteRoleDefinitionOptions
 } from "./accessControlModels";
 
@@ -451,11 +451,11 @@ export class KeyVaultAccessControlClient {
    * @param description - The role definition description.
    * @param options - The optional parameters.
    */
-  public upsertRoleDefinition(
+  public setRoleDefinition(
     roleScope: KeyVaultRoleScope,
-    options: UpsertRoleDefinitionOptions = {}
+    options: SetRoleDefinitionOptions = {}
   ): Promise<KeyVaultRoleDefinition> {
-    return withTrace("upsertRoleDefinition", options, async (updatedOptions) => {
+    return withTrace("setRoleDefinition", options, async (updatedOptions) => {
       const response = await this.client.roleDefinitions.createOrUpdate(
         this.vaultUrl,
         roleScope,
