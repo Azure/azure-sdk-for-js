@@ -232,7 +232,8 @@ export type ChangeThresholdConditionUnion = {
 };
 
 // @public
-export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
+export interface CreateDataFeedOptions extends OperationOptions {
+}
 
 // @public
 export interface CredentialsPageResponse extends Array<DatasourceCredentialUnion> {
@@ -256,7 +257,14 @@ export type DataFeed = {
     metricIds: Map<string, string>;
     granularity: DataFeedGranularity;
     ingestionSettings: DataFeedIngestionSettings;
-} & DataFeedOptions;
+    description?: string;
+    rollupSettings?: DataFeedRollupSettings;
+    missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
+    accessMode?: DataFeedAccessMode;
+    adminEmails?: string[];
+    viewerEmails?: string[];
+    actionLinkTemplate?: string;
+};
 
 // @public
 export type DataFeedAccessMode = "Private" | "Public";
@@ -313,17 +321,6 @@ export type DataFeedMissingDataPointFillSettings = {
 };
 
 // @public
-export interface DataFeedOptions {
-    accessMode?: DataFeedAccessMode;
-    actionLinkTemplate?: string;
-    adminEmails?: string[];
-    description?: string;
-    missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
-    rollupSettings?: DataFeedRollupSettings;
-    viewerEmails?: string[];
-}
-
-// @public
 export type DataFeedPatch = {
     name?: string;
     source: DataFeedSourcePatch;
@@ -331,7 +328,13 @@ export type DataFeedPatch = {
         timestampColumn?: string;
     };
     ingestionSettings?: DataFeedIngestionSettings;
-} & DataFeedOptions & {
+    description?: string;
+    rollupSettings?: DataFeedRollupSettings;
+    missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
+    accessMode?: DataFeedAccessMode;
+    adminEmails?: string[];
+    viewerEmails?: string[];
+    actionLinkTemplate?: string;
     status?: DataFeedDetailStatus;
 };
 
@@ -949,7 +952,7 @@ export type MetricPeriodFeedback = {
 export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
     createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
-    createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
+    createDataFeed(feed: DataFeedDescriptor, operationOptions?: CreateDataFeedOptions): Promise<GetDataFeedResponse>;
     createDatasourceCredential(datasourceCredential: DatasourceCredentialUnion, options?: OperationOptions): Promise<GetCredentialEntityResponse>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
     createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
@@ -1225,6 +1228,7 @@ export interface TopNGroupScope {
 export type UnknownDataFeedSource = {
     dataSourceType: "Unknown";
     dataSourceParameter: unknown;
+    authenticationType: "Basic";
 };
 
 // @public (undocumented)
