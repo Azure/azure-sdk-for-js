@@ -436,7 +436,7 @@ export class KeyVaultAccessControlClient {
   }
 
   /**
-   * Sets a role definition in an Azure Key Vault.
+   * Creates or updates a role definition in an Azure Key Vault.
    *
    * Example usage:
    * ```ts
