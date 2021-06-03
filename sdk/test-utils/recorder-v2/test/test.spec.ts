@@ -6,11 +6,13 @@ describe("Tests", () => {
   it("Sample test", async function() {
     const file = `file_path.json`;
     env.TEST_MODE = "record";
+    // env.TEST_MODE = "playback";
+    // env.TEST_MODE = "playback";
     const recorder = new RecordingHttpClient(file, isPlaybackMode());
     const client = new ServiceClient(undefined, {
       httpClient: !isLiveMode() ? recorder : undefined
     });
-    const url = "http://randomuser.me/api/";
+    const url = "https://randomuser.me/api/";
     const webResource = new WebResource(
       url,
       undefined,
