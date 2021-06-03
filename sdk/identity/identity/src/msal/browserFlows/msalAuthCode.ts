@@ -125,8 +125,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
     const loginRequest = {
       scopes: arrayScopes,
-      state: loginOptions.state,
-      nonce: loginOptions.nonce
+      ...loginOptions,
     };
     switch (this.loginStyle) {
       case "redirect": {
