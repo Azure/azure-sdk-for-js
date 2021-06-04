@@ -59,7 +59,7 @@ steps:
 # If performing a daily docs build set the $(TargetBranchName) to a daily branch
 # name and attempt to checkout the daily docs branch. If the branch doesn't
 # exist, fail silently. Later steps will create the branch.
-- ${{ if(parameters.DailyDocsBuild, 'true') }}:
+- ${{ if eq(parameters.DailyDocsBuild, 'true') }}:
   - pwsh: |
       $branchName = "daily/$(Get-Date -Format 'yyyy-MM-dd')"
       Write-Host "Daily Branch Name: $branchName"
