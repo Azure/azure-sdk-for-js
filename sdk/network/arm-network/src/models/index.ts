@@ -426,6 +426,177 @@ export interface NetworkInterfaceDnsSettings {
 }
 
 /**
+ * The private link service ip configuration.
+ */
+export interface PrivateLinkServiceIpConfiguration extends SubResource {
+  /**
+   * The private IP address of the IP configuration.
+   */
+  privateIPAddress?: string;
+  /**
+   * The private IP address allocation method. Possible values include: 'Static', 'Dynamic'
+   */
+  privateIPAllocationMethod?: IPAllocationMethod;
+  /**
+   * The reference to the subnet resource.
+   */
+  subnet?: Subnet;
+  /**
+   * Whether the ip configuration is primary or not.
+   */
+  primary?: boolean;
+  /**
+   * The provisioning state of the private link service IP configuration resource. Possible values
+   * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. Possible values
+   * include: 'IPv4', 'IPv6'
+   */
+  privateIPAddressVersion?: IPVersion;
+  /**
+   * The name of private link service ip configuration.
+   */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * The resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * PrivateEndpointConnection resource.
+ */
+export interface PrivateEndpointConnection extends SubResource {
+  /**
+   * The resource of private end point.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The consumer link id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly linkIdentifier?: string;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+  /**
+   * The resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * The base resource set for visibility and auto-approval.
+ */
+export interface ResourceSet {
+  /**
+   * The list of subscriptions.
+   */
+  subscriptions?: string[];
+}
+
+/**
+ * The visibility list of the private link service.
+ */
+export interface PrivateLinkServicePropertiesVisibility extends ResourceSet {
+}
+
+/**
+ * The auto-approval list of the private link service.
+ */
+export interface PrivateLinkServicePropertiesAutoApproval extends ResourceSet {
+}
+
+/**
+ * Private link service resource.
+ */
+export interface PrivateLinkService extends Resource {
+  /**
+   * The extended location of the load balancer.
+   */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * An array of references to the load balancer IP configurations.
+   */
+  loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
+  /**
+   * An array of private link service IP configurations.
+   */
+  ipConfigurations?: PrivateLinkServiceIpConfiguration[];
+  /**
+   * An array of references to the network interfaces created for this private link service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly networkInterfaces?: NetworkInterface[];
+  /**
+   * The provisioning state of the private link service resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * An array of list about connections to the private endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * The visibility list of the private link service.
+   */
+  visibility?: PrivateLinkServicePropertiesVisibility;
+  /**
+   * The auto-approval list of the private link service.
+   */
+  autoApproval?: PrivateLinkServicePropertiesAutoApproval;
+  /**
+   * The list of Fqdn.
+   */
+  fqdns?: string[];
+  /**
+   * The alias of the private link service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alias?: string;
+  /**
+   * Whether the private link service is enabled for proxy protocol or not.
+   */
+  enableProxyProtocol?: boolean;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * A network interface in a resource group.
  */
 export interface NetworkInterface extends Resource {
@@ -499,6 +670,19 @@ export interface NetworkInterface extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Type of Network Interface resource. Possible values include: 'Standard', 'Elastic'
+   */
+  nicType?: NetworkInterfaceNicType;
+  /**
+   * Privatelinkservice of the network interface resource.
+   */
+  privateLinkService?: PrivateLinkService;
+  /**
+   * Migration phase of Network Interface resource. Possible values include: 'None', 'Prepare',
+   * 'Commit', 'Abort', 'Committed'
+   */
+  migrationPhase?: NetworkInterfaceMigrationPhase;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -903,6 +1087,63 @@ export interface IpTag {
 }
 
 /**
+ * SKU of nat gateway.
+ */
+export interface NatGatewaySku {
+  /**
+   * Name of Nat Gateway SKU. Possible values include: 'Standard'
+   */
+  name?: NatGatewaySkuName;
+}
+
+/**
+ * Nat Gateway resource.
+ */
+export interface NatGateway extends Resource {
+  /**
+   * The nat gateway SKU.
+   */
+  sku?: NatGatewaySku;
+  /**
+   * The idle timeout of the nat gateway.
+   */
+  idleTimeoutInMinutes?: number;
+  /**
+   * An array of public ip addresses associated with the nat gateway resource.
+   */
+  publicIpAddresses?: SubResource[];
+  /**
+   * An array of public ip prefixes associated with the nat gateway resource.
+   */
+  publicIpPrefixes?: SubResource[];
+  /**
+   * An array of references to the subnets using this nat gateway resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly subnets?: SubResource[];
+  /**
+   * The resource GUID property of the NAT gateway resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the NAT gateway resource. Possible values include: 'Succeeded',
+   * 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * A list of availability zones denoting the zone in which Nat Gateway should be deployed.
+   */
+  zones?: string[];
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * Public IP address resource.
  */
 export interface PublicIPAddress extends Resource {
@@ -962,6 +1203,23 @@ export interface PublicIPAddress extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * The service public IP address of the public IP address resource.
+   */
+  servicePublicIPAddress?: PublicIPAddress;
+  /**
+   * The NatGateway for the Public IP address.
+   */
+  natGateway?: NatGateway;
+  /**
+   * Migration phase of Public IP Address. Possible values include: 'None', 'Prepare', 'Commit',
+   * 'Abort', 'Committed'
+   */
+  migrationPhase?: PublicIPAddressMigrationPhase;
+  /**
+   * The linked public IP address of the public IP address resource.
+   */
+  linkedPublicIPAddress?: PublicIPAddress;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1148,6 +1406,42 @@ export interface Delegation extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * Resource type.
+   */
+  type?: string;
+}
+
+/**
+ * IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is
+ * allowed.
+ */
+export interface ApplicationGatewayIPConfiguration extends SubResource {
+  /**
+   * Reference to the subnet resource. A subnet from where application gateway gets its private
+   * address.
+   */
+  subnet?: SubResource;
+  /**
+   * The provisioning state of the application gateway IP configuration resource. Possible values
+   * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Name of the IP configuration that is unique within an Application Gateway.
+   */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -1238,6 +1532,10 @@ export interface Subnet extends SubResource {
    */
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /**
+   * Application gateway IP configurations of virtual network resource.
+   */
+  applicationGatewayIpConfigurations?: ApplicationGatewayIPConfiguration[];
+  /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
    */
@@ -1247,6 +1545,10 @@ export interface Subnet extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * Resource type.
+   */
+  type?: string;
 }
 
 /**
@@ -1611,6 +1913,10 @@ export interface NetworkInterfaceIPConfiguration extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * Resource type.
+   */
+  type?: string;
 }
 
 /**
@@ -1890,38 +2196,6 @@ export interface ApplicationGatewayClientAuthConfiguration {
    * Verify client certificate issuer name on the application gateway.
    */
   verifyClientCertIssuerDN?: boolean;
-}
-
-/**
- * IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is
- * allowed.
- */
-export interface ApplicationGatewayIPConfiguration extends SubResource {
-  /**
-   * Reference to the subnet resource. A subnet from where application gateway gets its private
-   * address.
-   */
-  subnet?: SubResource;
-  /**
-   * The provisioning state of the application gateway IP configuration resource. Possible values
-   * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Name of the IP configuration that is unique within an Application Gateway.
-   */
-  name?: string;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-  /**
-   * Type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
 }
 
 /**
@@ -6323,63 +6597,6 @@ export interface LoadBalancer extends Resource {
 }
 
 /**
- * SKU of nat gateway.
- */
-export interface NatGatewaySku {
-  /**
-   * Name of Nat Gateway SKU. Possible values include: 'Standard'
-   */
-  name?: NatGatewaySkuName;
-}
-
-/**
- * Nat Gateway resource.
- */
-export interface NatGateway extends Resource {
-  /**
-   * The nat gateway SKU.
-   */
-  sku?: NatGatewaySku;
-  /**
-   * The idle timeout of the nat gateway.
-   */
-  idleTimeoutInMinutes?: number;
-  /**
-   * An array of public ip addresses associated with the nat gateway resource.
-   */
-  publicIpAddresses?: SubResource[];
-  /**
-   * An array of public ip prefixes associated with the nat gateway resource.
-   */
-  publicIpPrefixes?: SubResource[];
-  /**
-   * An array of references to the subnets using this nat gateway resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subnets?: SubResource[];
-  /**
-   * The resource GUID property of the NAT gateway resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the NAT gateway resource. Possible values include: 'Succeeded',
-   * 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * A list of availability zones denoting the zone in which Nat Gateway should be deployed.
-   */
-  zones?: string[];
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
  * The response body contains the status of the specified asynchronous operation, indicating
  * whether it has succeeded, is in progress, or has failed. Note that this status is distinct from
  * the HTTP status code returned for the Get Operation Status operation itself. If the asynchronous
@@ -9006,177 +9223,10 @@ export interface AvailablePrivateEndpointType {
    * The name of the service and resource.
    */
   resourceName?: string;
-}
-
-/**
- * The private link service ip configuration.
- */
-export interface PrivateLinkServiceIpConfiguration extends SubResource {
   /**
-   * The private IP address of the IP configuration.
+   * Display name of the resource.
    */
-  privateIPAddress?: string;
-  /**
-   * The private IP address allocation method. Possible values include: 'Static', 'Dynamic'
-   */
-  privateIPAllocationMethod?: IPAllocationMethod;
-  /**
-   * The reference to the subnet resource.
-   */
-  subnet?: Subnet;
-  /**
-   * Whether the ip configuration is primary or not.
-   */
-  primary?: boolean;
-  /**
-   * The provisioning state of the private link service IP configuration resource. Possible values
-   * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. Possible values
-   * include: 'IPv4', 'IPv6'
-   */
-  privateIPAddressVersion?: IPVersion;
-  /**
-   * The name of private link service ip configuration.
-   */
-  name?: string;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-  /**
-   * The resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * PrivateEndpointConnection resource.
- */
-export interface PrivateEndpointConnection extends SubResource {
-  /**
-   * The resource of private end point.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateEndpoint?: PrivateEndpoint;
-  /**
-   * A collection of information about the state of the connection between service consumer and
-   * provider.
-   */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /**
-   * The provisioning state of the private endpoint connection resource. Possible values include:
-   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The consumer link id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly linkIdentifier?: string;
-  /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
-   */
-  name?: string;
-  /**
-   * The resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
- * The base resource set for visibility and auto-approval.
- */
-export interface ResourceSet {
-  /**
-   * The list of subscriptions.
-   */
-  subscriptions?: string[];
-}
-
-/**
- * The visibility list of the private link service.
- */
-export interface PrivateLinkServicePropertiesVisibility extends ResourceSet {
-}
-
-/**
- * The auto-approval list of the private link service.
- */
-export interface PrivateLinkServicePropertiesAutoApproval extends ResourceSet {
-}
-
-/**
- * Private link service resource.
- */
-export interface PrivateLinkService extends Resource {
-  /**
-   * The extended location of the load balancer.
-   */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * An array of references to the load balancer IP configurations.
-   */
-  loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
-  /**
-   * An array of private link service IP configurations.
-   */
-  ipConfigurations?: PrivateLinkServiceIpConfiguration[];
-  /**
-   * An array of references to the network interfaces created for this private link service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly networkInterfaces?: NetworkInterface[];
-  /**
-   * The provisioning state of the private link service resource. Possible values include:
-   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * An array of list about connections to the private endpoint.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * The visibility list of the private link service.
-   */
-  visibility?: PrivateLinkServicePropertiesVisibility;
-  /**
-   * The auto-approval list of the private link service.
-   */
-  autoApproval?: PrivateLinkServicePropertiesAutoApproval;
-  /**
-   * The list of Fqdn.
-   */
-  fqdns?: string[];
-  /**
-   * The alias of the private link service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly alias?: string;
-  /**
-   * Whether the private link service is enabled for proxy protocol or not.
-   */
-  enableProxyProtocol?: boolean;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
+  displayName?: string;
 }
 
 /**
@@ -9287,6 +9337,10 @@ export interface PublicIPPrefix extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * NatGateway of Public IP Prefix.
+   */
+  natGateway?: NatGateway;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -9540,6 +9594,11 @@ export interface ServiceTagInformationPropertiesFormat {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly addressPrefixes?: string[];
+  /**
+   * The state of the service tag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: string;
 }
 
 /**
@@ -9718,6 +9777,15 @@ export interface VirtualNetworkPeering extends SubResource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
+   * If we need to verify the provisioning state of the remote gateway.
+   */
+  doNotVerifyRemoteGateways?: boolean;
+  /**
+   * The resourceGuid property of the Virtual Network peering resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceGuid?: string;
+  /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
    */
@@ -9727,6 +9795,10 @@ export interface VirtualNetworkPeering extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * Resource type.
+   */
+  type?: string;
 }
 
 /**
@@ -9848,6 +9920,10 @@ export interface IPAddressAvailabilityResult {
    * Contains other available private IP addresses if the asked for address is taken.
    */
   availableIPAddresses?: string[];
+  /**
+   * Private IP address platform reserved.
+   */
+  isPlatformReserved?: boolean;
 }
 
 /**
@@ -10321,6 +10397,10 @@ export interface GatewayRoute {
  */
 export interface VirtualNetworkGateway extends Resource {
   /**
+   * The extended location of type local virtual network gateway.
+   */
+  extendedLocation?: ExtendedLocation;
+  /**
    * IP configurations for virtual network gateway.
    */
   ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
@@ -10395,14 +10475,10 @@ export interface VirtualNetworkGateway extends Resource {
    */
   readonly inboundDnsForwardingEndpoint?: string;
   /**
-   * MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway is associated
-   * with the customer vnet.
+   * Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated with the
+   * customer vnet.
    */
   vNetExtendedLocationResourceId?: string;
-  /**
-   * The extended location of type local virtual network gateway.
-   */
-  virtualNetworkExtendedLocation?: ExtendedLocation;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -14749,6 +14825,22 @@ export type SecurityRuleAccess = 'Allow' | 'Deny';
 export type SecurityRuleDirection = 'Inbound' | 'Outbound';
 
 /**
+ * Defines values for NetworkInterfaceNicType.
+ * Possible values include: 'Standard', 'Elastic'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkInterfaceNicType = 'Standard' | 'Elastic';
+
+/**
+ * Defines values for NetworkInterfaceMigrationPhase.
+ * Possible values include: 'None', 'Prepare', 'Commit', 'Abort', 'Committed'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkInterfaceMigrationPhase = 'None' | 'Prepare' | 'Commit' | 'Abort' | 'Committed';
+
+/**
  * Defines values for FlowLogFormatType.
  * Possible values include: 'JSON'
  * @readonly
@@ -14788,6 +14880,22 @@ export type PublicIPAddressSkuTier = 'Regional' | 'Global';
  * @enum {string}
  */
 export type DdosSettingsProtectionCoverage = 'Basic' | 'Standard';
+
+/**
+ * Defines values for NatGatewaySkuName.
+ * Possible values include: 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type NatGatewaySkuName = 'Standard';
+
+/**
+ * Defines values for PublicIPAddressMigrationPhase.
+ * Possible values include: 'None', 'Prepare', 'Commit', 'Abort', 'Committed'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicIPAddressMigrationPhase = 'None' | 'Prepare' | 'Commit' | 'Abort' | 'Committed';
 
 /**
  * Defines values for VirtualNetworkPrivateEndpointNetworkPolicies.
@@ -15262,14 +15370,6 @@ export type ProbeProtocol = 'Http' | 'Tcp' | 'Https';
  * @enum {string}
  */
 export type LoadBalancerOutboundRuleProtocol = 'Tcp' | 'Udp' | 'All';
-
-/**
- * Defines values for NatGatewaySkuName.
- * Possible values include: 'Standard'
- * @readonly
- * @enum {string}
- */
-export type NatGatewaySkuName = 'Standard';
 
 /**
  * Defines values for NetworkOperationStatus.
