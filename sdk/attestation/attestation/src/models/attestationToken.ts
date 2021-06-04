@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/// <reference path="../jsrsasign.d.ts"/>
 
 /*
  * Copyright (c) Microsoft Corporation.
@@ -10,7 +11,7 @@
 import { JsonWebKey } from "../generated/models";
 import { base64UrlDecodeString, hexToBase64 } from "../utils/base64";
 import { AttestationSigningKey } from "./attestationSigningKey";
-import { KJUR, X509, RSAKey } from "jsrsasign";
+import * as jsrsasign from "jsrsasign";
 import { bytesToString } from "../utils/utf8.browser";
 import { AttestationSigner } from "./attestationSigner";
 
@@ -101,7 +102,7 @@ export class AttestationToken {
     this._body = safeJsonParse(bytesToString(this._bodyBytes));
     //      this._signature = base64UrlDecodeString(pieces[2]);
 
-    this._jwsVerifier = KJUR.jws.JWS.parse(token);
+    this._jwsVerifier = jsrsasign.KJUR.jws.JWS.parse(token);
   }
 
   private _token: string;
@@ -111,7 +112,7 @@ export class AttestationToken {
   private _body: any;
   //    private _signature: Uint8Array;
 
-  private _jwsVerifier: KJUR.jws.JWS.JWSResult;
+  private _jwsVerifier: any;//jsrsasign.KJUR.jws.JWS.JWSResult;
 
   /**
    * Returns the deserialized body of the AttestationToken object.
@@ -160,7 +161,7 @@ export class AttestationToken {
         const cert = this.certFromSigner(signer);
         //          const pubKeyObj = cert.getPublicKey();
 
-        const isValid = KJUR.jws.JWS.verify(this._token, cert);
+        const isValid = jsrsasign.KJUR.jws.JWS.verify(this._token, cert);
 
         if (isValid) {
           foundSigner = signer;
@@ -438,12 +439,12 @@ export class AttestationToken {
     } = { alg: "none" };
 
     if (params.signer) {
-      const x5c = new X509();
+      const x5c = new jsrsasign.X509();
       x5c.readCertPEM(params.signer?.certificate);
       const pubKey = x5c.getPublicKey();
-      if (pubKey instanceof RSAKey) {
+      if (pubKey instanceof jsrsasign.RSAKey) {
         header.alg = "RS256";
-      } else if (pubKey instanceof KJUR.crypto.ECDSA) {
+      } else if (pubKey instanceof jsrsasign.KJUR.crypto.ECDSA) {
         header.alg = "ES256";
       } else {
         throw new Error("Unknown public key type: " + typeof pubKey);
@@ -453,7 +454,7 @@ export class AttestationToken {
       header.alg = "none";
     }
 
-    const encodedToken = KJUR.jws.JWS.sign(
+    const encodedToken = jsrsasign.KJUR.jws.JWS.sign(
       header.alg,
       header,
       params.body ?? "",

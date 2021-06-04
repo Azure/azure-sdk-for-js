@@ -1,5 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/// <reference path="../../src/jsrsasign.d.ts"/>
+
+import * as jsrsasign from "jsrsasign";
+
 
 import { assert, expect, use as chaiUse } from "chai";
 import { Context } from "mocha";
@@ -15,7 +19,6 @@ import { bytesToString, stringToBytes } from "../../src/utils/utf8.browser";
 import { AttestationSigningKey, AttestationToken } from "../../src";
 import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
 import { encodeByteArray } from "../utils/base64url";
-import { X509 } from "jsrsasign";
 
 describe("AttestationTokenTests", function() {
   let recorder: Recorder;
@@ -41,34 +44,34 @@ describe("AttestationTokenTests", function() {
   });
 
   it("#createRsaSigningKey", async () => {
-    const key = createRSAKey();
-    const cert = createX509Certificate(key, "testCert");
-    assert.isTrue(key.length !== 0);
+    const [privKey, pubKey] = createRSAKey();
+    const cert = createX509Certificate(privKey, pubKey, "testCert");
+    assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    const signingKey = new AttestationSigningKey(key, cert);
+    const signingKey = new AttestationSigningKey(privKey, cert);
     assert.isTrue(signingKey.certificate.length !== 0);
   });
 
   it("#createEcdsSigningKey", async () => {
-    const key = createECDSKey();
-    const cert = createX509Certificate(key, "testCert");
-    assert.isTrue(key.length !== 0);
+    const [privKey, pubKey] = createECDSKey();
+    const cert = createX509Certificate(privKey, pubKey, "testCert");
+    assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    const signingKey = new AttestationSigningKey(key, cert);
+    const signingKey = new AttestationSigningKey(privKey, cert);
     assert.isTrue(signingKey.certificate.length !== 0);
   });
 
   // Create a signing key, but use the wrong key - this should throw an
   // exception, because the key doesn't match the certificate.
   it("#createSigningKeyWrongKey", async () => {
-    const key = createECDSKey();
-    const cert = createX509Certificate(key, "testCert");
+    const [privKey, pubKey] = createECDSKey();
+    const cert = createX509Certificate(privKey, pubKey, "testCert");
 
-    const key2 = createECDSKey();
+    const [key2] = createECDSKey();
 
-    assert.isTrue(key.length !== 0);
+    assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
     assert.throws(() => new AttestationSigningKey(key2, cert));
@@ -103,10 +106,10 @@ describe("AttestationTokenTests", function() {
    * Creates a secured empty attestation token with the specified key.
    */
   it("#createEmptySecuredAttestationToken", async () => {
-    const key = createRSAKey();
-    const cert = createX509Certificate(key, "certificate");
+    const [privKey, pubKey] = createRSAKey();
+    const cert = createX509Certificate(privKey, pubKey, "certificate");
 
-    const token = AttestationToken.create({ signer: new AttestationSigningKey(key, cert) });
+    const token = AttestationToken.create({ signer: new AttestationSigningKey(privKey, cert) });
 
     assert.notEqual("none", token.algorithm);
     assert.equal(1, token.certificateChain?.certificates.length);
@@ -116,10 +119,10 @@ describe("AttestationTokenTests", function() {
       pemCert += encodeByteArray(token.certificateChain.certificates[0]);
       pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
-      const expectedCert = new X509();
+      const expectedCert = new jsrsasign.X509();
       expectedCert.readCertPEM(cert);
 
-      const actualCert = new X509();
+      const actualCert = new jsrsasign.X509();
       actualCert.readCertPEM(pemCert);
 
       assert.equal(expectedCert.hex, actualCert.hex);
@@ -133,8 +136,8 @@ describe("AttestationTokenTests", function() {
    * Creates a secured attestation token with the specified key.
    */
   it("#createSecuredAttestationToken", async () => {
-    const key = createRSAKey();
-    const cert = createX509Certificate(key, "certificate");
+    const [privKey, pubKey] = createRSAKey();
+    const cert = createX509Certificate(privKey, pubKey, "certificate");
 
     const currentTime = Math.floor(new Date().getTime() / 1000);
     const currentDate = new Date(currentTime * 1000);
@@ -151,7 +154,7 @@ describe("AttestationTokenTests", function() {
     const sourceJson = JSON.stringify(sourceObject);
     const token = AttestationToken.create({
       body: sourceJson,
-      signer: new AttestationSigningKey(key, cert)
+      signer: new AttestationSigningKey(privKey, cert)
     });
 
     // Let's look at some of the properties on the token and confirm they match

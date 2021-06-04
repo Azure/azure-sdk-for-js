@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
 export * from "./models";
 export * from "./operations";
 export {
@@ -22,3 +21,4 @@ export {
  * REMOVE THIS DECLARATION BEFORE SHIPPING, IT EXISTS ONLY TO MAKE API-Extractor HAPPY.
  */
 export { GeneratedClient, GeneratedClientContext } from "./generated";
+//export {KEYUTIL, KJUR, X509, RSAKey} from "./jsrsasign";

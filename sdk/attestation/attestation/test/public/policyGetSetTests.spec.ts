@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/// <reference path="../../src/jsrsasign.d.ts"/>
+
+import * as jsrsasign from "jsrsasign";
+
 import { assert, use as chaiUse } from "chai";
 import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
-
-import { X509 } from "jsrsasign";
 
 import {
   createRecordedAdminClient,
@@ -59,8 +61,8 @@ describe("PolicyGetSetTests ", function() {
       undefined,
       "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
     );
-    const rsaKey = createRSAKey();
-    const rsaCertificate = createX509Certificate(rsaKey, "CertificateName");
+    const [rsaKey, rsapubKey] = createRSAKey();
+    const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
     const signingKey = new AttestationSigningKey(rsaKey, rsaCertificate);
     await testSetPolicy(KnownAttestationType.SgxEnclave, "AAD", signingKey);
   });
@@ -83,8 +85,8 @@ describe("PolicyGetSetTests ", function() {
       undefined,
       "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
     );
-    const rsaKey = createRSAKey();
-    const rsaCertificate = createX509Certificate(rsaKey, "CertificateName");
+    const [rsaKey, rsaPubKey] = createRSAKey();
+    const rsaCertificate = createX509Certificate(rsaKey, rsaPubKey, "CertificateName");
     const signingKey = new AttestationSigningKey(rsaKey, rsaCertificate);
     await testResetPolicy(KnownAttestationType.SgxEnclave, "AAD", signingKey);
   });
@@ -144,10 +146,10 @@ describe("PolicyGetSetTests ", function() {
         pemCert += encodeByteArray(policyResult.value.policySigner.certificates[0]);
         pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
-        const expectedCert = new X509();
+        const expectedCert = new jsrsasign.X509();
         expectedCert.readCertPEM(signer.certificate);
 
-        const actualCert = new X509();
+        const actualCert = new jsrsasign.X509();
         actualCert.readCertPEM(pemCert);
 
         // The signer in the response should match the signer we set in the request.

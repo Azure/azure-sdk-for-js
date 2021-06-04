@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/// <reference path="../../src/jsrsasign.d.ts"/>
+
+import * as jsrsasign from "jsrsasign";
 
 import { assert } from "chai";
 
 import { AttestationSigner } from "../../src/";
-
-import * as jsrsasign from "jsrsasign"; // works in the browser
 
 import { decode } from "./decodeJWT";
 
@@ -53,14 +54,10 @@ export async function verifyAttestationToken(
     pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
     const pubKeyObj = jsrsasign.KEYUTIL.getKey(pemCert);
-    const isValid = jsrsasign.KJUR.jws.JWS.verifyJWT(
-      attestationToken,
-      pubKeyObj as jsrsasign.RSAKey,
-      {
-        iss: [getAttestationUri(endpointType)],
-        alg: ["RS256"]
-      }
-    );
+    const isValid = jsrsasign.KJUR.jws.JWS.verifyJWT(attestationToken, pubKeyObj, {
+      iss: [getAttestationUri(endpointType)],
+      alg: ["RS256"]
+    });
     if (!isValid) {
       throw new Error(`Verification failed! token: ${JSON.stringify(decoded)}`);
     }

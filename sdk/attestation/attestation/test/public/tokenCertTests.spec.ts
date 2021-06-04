@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/// <reference path="../../src/jsrsasign.d.ts"/>
+
+import * as jsrsasign from "jsrsasign";
 
 import { assert, use as chaiUse } from "chai";
 import { Context } from "mocha";
@@ -9,7 +12,6 @@ chaiUse(chaiPromises);
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
-import { X509 } from "jsrsasign";
 import { encodeByteArray } from "../utils/base64url";
 import { AttestationClient } from "../../src";
 describe("TokenCertTests", function() {
@@ -52,7 +54,7 @@ describe("TokenCertTests", function() {
         pemCert += encodeByteArray(certBuffer);
         pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
-        const cert = new X509();
+        const cert = new jsrsasign.X509();
         cert.readCertPEM(pemCert);
       });
     }
