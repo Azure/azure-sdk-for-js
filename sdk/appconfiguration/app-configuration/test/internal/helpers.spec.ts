@@ -141,6 +141,10 @@ describe("helper methods", () => {
 
   describe("serializeAsConfigurationSettingParam", () => {
     [`[]`, "Hello World"].forEach((value) => {
+      // These values are unexpected for feature flag or secret reference config setting
+      // These tests make sure the latest version supports such settings where the value is unexpected
+      // as well because the older versions of the SDK support such cases.
+      // These tests make sure the SDK is not broken for the users with such use cases.
       it(`serializer doesn't throw on ${value} as feature flag value`, () => {
         const featureFlag: ConfigurationSetting<FeatureFlagValue> = {
           contentType: featureFlagContentType,
