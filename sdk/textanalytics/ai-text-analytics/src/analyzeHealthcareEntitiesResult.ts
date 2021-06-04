@@ -11,7 +11,8 @@ import {
   TextAnalyticsError,
   HealthcareAssertion,
   RelationType,
-  HealthcareRelationEntity
+  HealthcareRelationEntity,
+  HealthcareEntityCategory
 } from "./generated/models";
 import {
   makeTextAnalyticsErrorResult,
@@ -53,6 +54,39 @@ export interface HealthcareEntity extends Entity {
    * Entity references in known data sources.
    */
   dataSources: EntityDataSource[];
+  /**
+   * Defines values for HealthcareEntityCategory. \
+   * {@link KnownHealthcareEntityCategory} can be used interchangeably with HealthcareEntityCategory,
+   *  this enum contains the known values that the service supports.
+   * ### Known values supported by the service
+   * **BODY_STRUCTURE** \
+   * **AGE** \
+   * **GENDER** \
+   * **EXAMINATION_NAME** \
+   * **DATE** \
+   * **DIRECTION** \
+   * **FREQUENCY** \
+   * **MEASUREMENT_VALUE** \
+   * **MEASUREMENT_UNIT** \
+   * **RELATIONAL_OPERATOR** \
+   * **TIME** \
+   * **GENE_OR_PROTEIN** \
+   * **VARIANT** \
+   * **ADMINISTRATIVE_EVENT** \
+   * **CARE_ENVIRONMENT** \
+   * **HEALTHCARE_PROFESSION** \
+   * **DIAGNOSIS** \
+   * **SYMPTOM_OR_SIGN** \
+   * **CONDITION_QUALIFIER** \
+   * **MEDICATION_CLASS** \
+   * **MEDICATION_NAME** \
+   * **DOSAGE** \
+   * **MEDICATION_FORM** \
+   * **MEDICATION_ROUTE** \
+   * **FAMILY_RELATION** \
+   * **TREATMENT_NAME**
+   */
+  category: HealthcareEntityCategory;
 }
 
 /**
@@ -165,7 +199,7 @@ function makeHealthcareEntitiesWithoutNeighbors(
     offset,
     text,
     links,
-    subCategory,
+    subcategory,
     length,
     name
   } = entity;
@@ -177,7 +211,7 @@ function makeHealthcareEntitiesWithoutNeighbors(
     length,
     text,
     normalizedText: name,
-    subCategory,
+    subCategory: subcategory,
     dataSources:
       links?.map(({ dataSource, id }): EntityDataSource => ({ name: dataSource, entityId: id })) ??
       []

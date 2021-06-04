@@ -18,6 +18,7 @@ import {
   GeneratedClientAnalyzeStatusResponse,
   GeneratedClientHealthStatusOptionalParams,
   GeneratedClientHealthStatusResponse,
+  GeneratedClientCancelHealthJobOptionalParams,
   GeneratedClientCancelHealthJobResponse,
   MultiLanguageBatchInput,
   GeneratedClientHealthOptionalParams,
@@ -98,7 +99,7 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   cancelHealthJob(
     jobId: string,
-    options?: coreClient.OperationOptions
+    options?: GeneratedClientCancelHealthJobOptionalParams
   ): Promise<GeneratedClientCancelHealthJobResponse> {
     return this.sendOperationRequest(
       { jobId, options },
@@ -245,7 +246,7 @@ const analyzeOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -271,7 +272,7 @@ const analyzeStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip
   ],
-  urlParameters: [Parameters.endpoint, Parameters.jobId],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion, Parameters.jobId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -296,7 +297,11 @@ const healthStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip
   ],
-  urlParameters: [Parameters.endpoint, Parameters.jobId1],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.apiVersion,
+    Parameters.jobId1
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -316,7 +321,11 @@ const cancelHealthJobOperationSpec: coreClient.OperationSpec = {
       isError: true
     }
   },
-  urlParameters: [Parameters.endpoint, Parameters.jobId1],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.apiVersion,
+    Parameters.jobId1
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -342,7 +351,7 @@ const healthOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.loggingOptOut
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -370,7 +379,7 @@ const entitiesRecognitionGeneralOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.loggingOptOut
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -400,7 +409,7 @@ const entitiesRecognitionPiiOperationSpec: coreClient.OperationSpec = {
     Parameters.domain,
     Parameters.piiCategories
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -428,7 +437,7 @@ const entitiesLinkingOperationSpec: coreClient.OperationSpec = {
     Parameters.stringIndexType,
     Parameters.loggingOptOut
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -455,7 +464,7 @@ const keyPhrasesOperationSpec: coreClient.OperationSpec = {
     Parameters.modelVersion,
     Parameters.loggingOptOut
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -482,7 +491,7 @@ const languagesOperationSpec: coreClient.OperationSpec = {
     Parameters.modelVersion,
     Parameters.loggingOptOut
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -511,7 +520,7 @@ const sentimentOperationSpec: coreClient.OperationSpec = {
     Parameters.loggingOptOut,
     Parameters.opinionMining
   ],
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer

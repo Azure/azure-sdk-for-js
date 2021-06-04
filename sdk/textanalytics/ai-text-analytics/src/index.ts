@@ -147,5 +147,6 @@ export {
   Association as EntityAssociation,
   Certainty as EntityCertainty,
   Conditionality as EntityConditionality,
-  RelationType as HealthcareEntityRelationType
+  RelationType as HealthcareEntityRelationType,
+  KnownHealthcareEntityCategory
 } from "./generated/models";

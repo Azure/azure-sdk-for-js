@@ -74,6 +74,7 @@ import {
   AnalyzeActionsOperationState
 } from "./lro/analyze/operation";
 import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
+import { TextAnalyticsAction } from "./textAnalyticsAction";
 
 export {
   BeginAnalyzeActionsOptions,
@@ -195,7 +196,7 @@ export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOp
 /**
  * Options for an entities recognition action.
  */
-export type RecognizeCategorizedEntitiesAction = {
+export interface RecognizeCategorizedEntitiesAction extends TextAnalyticsAction {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -218,7 +219,7 @@ export type RecognizeCategorizedEntitiesAction = {
 /**
  * Options for a Pii entities recognition action.
  */
-export type RecognizePiiEntitiesAction = {
+export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
   /**
    * Filters entities to ones only included in the specified domain (e.g., if
    * set to 'PHI', entities in the Protected Healthcare Information domain will
@@ -247,7 +248,7 @@ export type RecognizePiiEntitiesAction = {
 /**
  * Options for a key phrases recognition action.
  */
-export interface ExtractKeyPhrasesAction {
+export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -264,7 +265,7 @@ export interface ExtractKeyPhrasesAction {
 /**
  * Options for an entities linking action.
  */
-export type RecognizeLinkedEntitiesAction = {
+export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -287,7 +288,7 @@ export type RecognizeLinkedEntitiesAction = {
 /**
  * Options for an analyze sentiment action.
  */
-export type AnalyzeSentimentAction = {
+export interface AnalyzeSentimentAction extends TextAnalyticsAction {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.

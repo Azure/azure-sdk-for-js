@@ -8,6 +8,16 @@
 
 import * as coreClient from "@azure/core-client";
 
+export interface JobDescriptor {
+  /** Optional display name for the analysis job. */
+  displayName?: string;
+}
+
+export interface AnalysisInput {
+  /** Contains a set of input documents to be analyzed by the service. */
+  analysisInput: MultiLanguageBatchInput;
+}
+
 /** Contains a set of input documents to be analyzed by the service. */
 export interface MultiLanguageBatchInput {
   /** The set of documents to process as part of this batch. */
@@ -22,11 +32,6 @@ export interface TextDocumentInput {
   text: string;
   /** (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. If not set, use "en" for English as default. */
   language?: string;
-}
-
-export interface JobDescriptor {
-  /** Optional display name for the analysis job. */
-  displayName?: string;
 }
 
 export interface JobManifest {
@@ -45,6 +50,7 @@ export interface JobManifestTasks {
 
 export interface EntitiesTask {
   parameters?: EntitiesTaskParameters;
+  taskName?: string;
 }
 
 export interface EntitiesTaskParameters {
@@ -55,6 +61,7 @@ export interface EntitiesTaskParameters {
 
 export interface PiiTask {
   parameters?: PiiTaskParameters;
+  taskName?: string;
 }
 
 export interface PiiTaskParameters {
@@ -68,6 +75,7 @@ export interface PiiTaskParameters {
 
 export interface KeyPhrasesTask {
   parameters?: KeyPhrasesTaskParameters;
+  taskName?: string;
 }
 
 export interface KeyPhrasesTaskParameters {
@@ -77,6 +85,7 @@ export interface KeyPhrasesTaskParameters {
 
 export interface EntityLinkingTask {
   parameters?: EntityLinkingTaskParameters;
+  taskName?: string;
 }
 
 export interface EntityLinkingTaskParameters {
@@ -87,6 +96,7 @@ export interface EntityLinkingTaskParameters {
 
 export interface SentimentAnalysisTask {
   parameters?: SentimentAnalysisTaskParameters;
+  taskName?: string;
 }
 
 export interface SentimentAnalysisTaskParameters {
@@ -127,18 +137,6 @@ export interface InnerError {
   innererror?: InnerError;
 }
 
-/** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-export interface TextDocumentBatchStatistics {
-  /** Number of documents submitted in the request. */
-  documentCount: number;
-  /** Number of valid documents. This excludes empty, over-size limit or non-supported languages documents. */
-  validDocumentCount: number;
-  /** Number of invalid documents. This includes empty, over-size limit or non-supported languages documents. */
-  erroneousDocumentCount: number;
-  /** Number of transactions for the request. */
-  transactionCount: number;
-}
-
 export interface JobMetadata {
   createdDateTime: Date;
   expirationDateTime?: Date;
@@ -147,12 +145,15 @@ export interface JobMetadata {
   status: State;
 }
 
+export interface AnalyzeJobDisplayName {
+  displayName?: string;
+}
+
 export interface TasksState {
   tasks: TasksStateTasks;
 }
 
 export interface TasksStateTasks {
-  details?: TasksStateTasksDetails;
   completed: number;
   failed: number;
   inProgress: number;
@@ -166,11 +167,11 @@ export interface TasksStateTasks {
 
 export interface TaskState {
   lastUpdateDateTime: Date;
-  name?: string;
+  taskName?: string;
   status: State;
 }
 
-export interface Components15Gvwi3SchemasTasksstatePropertiesTasksPropertiesEntityrecognitiontasksItemsAllof1 {
+export interface EntitiesTaskResult {
   results?: EntitiesResult;
 }
 
@@ -235,7 +236,19 @@ export interface DocumentError {
   error: TextAnalyticsError;
 }
 
-export interface Components15X8E9LSchemasTasksstatePropertiesTasksPropertiesEntityrecognitionpiitasksItemsAllof1 {
+/** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+export interface TextDocumentBatchStatistics {
+  /** Number of documents submitted in the request. */
+  documentCount: number;
+  /** Number of valid documents. This excludes empty, over-size limit or non-supported languages documents. */
+  validDocumentCount: number;
+  /** Number of invalid documents. This includes empty, over-size limit or non-supported languages documents. */
+  erroneousDocumentCount: number;
+  /** Number of transactions for the request. */
+  transactionCount: number;
+}
+
+export interface PiiTaskResult {
   results?: PiiResult;
 }
 
@@ -263,7 +276,7 @@ export interface PiiDocumentEntities {
   statistics?: TextDocumentStatistics;
 }
 
-export interface Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1 {
+export interface KeyPhraseTaskResult {
   results?: KeyPhraseResult;
 }
 
@@ -289,7 +302,7 @@ export interface DocumentKeyPhrases {
   statistics?: TextDocumentStatistics;
 }
 
-export interface ComponentsIfu7BjSchemasTasksstatePropertiesTasksPropertiesEntitylinkingtasksItemsAllof1 {
+export interface EntityLinkingTaskResult {
   results?: EntityLinkingResult;
 }
 
@@ -345,7 +358,7 @@ export interface Match {
   length: number;
 }
 
-export interface Components1C6O47FSchemasTasksstatePropertiesTasksPropertiesSentimentanalysistasksItemsAllof1 {
+export interface SentimentTaskResult {
   results?: SentimentResponse;
 }
 
@@ -443,8 +456,19 @@ export interface SentenceAssessment {
   isNegated: boolean;
 }
 
+export interface AnalyzeJobErrorsAndStatistics {
+  errors?: TextAnalyticsError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+}
+
 export interface Pagination {
   nextLink?: string;
+}
+
+export interface HealthcareTaskResult {
+  results?: HealthcareResult;
+  errors?: TextAnalyticsError[];
 }
 
 export interface HealthcareResult {
@@ -469,6 +493,14 @@ export interface DocumentHealthcareEntities {
   warnings: TextAnalyticsWarning[];
   /** if showStats=true was specified in the request this field will contain information about the document payload. */
   statistics?: TextDocumentStatistics;
+}
+
+export interface HealthcareLinkingProperties {
+  assertion?: HealthcareAssertion;
+  /** Preferred name for the entity. Example: 'histologically' would have a 'name' of 'histologic'. */
+  name?: string;
+  /** Entity references in known data sources. */
+  links?: HealthcareEntityLink[];
 }
 
 export interface HealthcareAssertion {
@@ -547,52 +579,48 @@ export interface DetectedLanguage {
 }
 
 export type AnalyzeBatchInput = JobDescriptor &
-  JobManifest & {
-    /** Contains a set of input documents to be analyzed by the service. */
-    analysisInput: MultiLanguageBatchInput;
-  };
+  AnalysisInput &
+  JobManifest & {};
 
-export type AnalyzeJobMetadata = JobMetadata & {
-  displayName?: string;
-};
+export type AnalyzeJobMetadata = JobMetadata & AnalyzeJobDisplayName & {};
 
 export type HealthcareJobState = JobMetadata &
-  Pagination & {
-    results?: HealthcareResult;
-    errors?: TextAnalyticsError[];
-  };
+  HealthcareTaskResult &
+  Pagination & {};
 
 export type AnalyzeJobState = AnalyzeJobMetadata &
   TasksState &
-  Pagination & {
-    errors?: TextAnalyticsError[];
-    /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-    statistics?: TextDocumentBatchStatistics;
-  };
-
-export type TasksStateTasksDetails = TaskState & {};
+  AnalyzeJobErrorsAndStatistics &
+  Pagination & {};
 
 export type TasksStateTasksEntityRecognitionTasksItem = TaskState &
-  Components15Gvwi3SchemasTasksstatePropertiesTasksPropertiesEntityrecognitiontasksItemsAllof1 & {};
+  EntitiesTaskResult & {};
 
 export type TasksStateTasksEntityRecognitionPiiTasksItem = TaskState &
-  Components15X8E9LSchemasTasksstatePropertiesTasksPropertiesEntityrecognitionpiitasksItemsAllof1 & {};
+  PiiTaskResult & {};
 
 export type TasksStateTasksKeyPhraseExtractionTasksItem = TaskState &
-  Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1 & {};
+  KeyPhraseTaskResult & {};
 
 export type TasksStateTasksEntityLinkingTasksItem = TaskState &
-  ComponentsIfu7BjSchemasTasksstatePropertiesTasksPropertiesEntitylinkingtasksItemsAllof1 & {};
+  EntityLinkingTaskResult & {};
 
 export type TasksStateTasksSentimentAnalysisTasksItem = TaskState &
-  Components1C6O47FSchemasTasksstatePropertiesTasksPropertiesSentimentanalysistasksItemsAllof1 & {};
+  SentimentTaskResult & {};
 
-export type HealthcareEntity = Entity & {
-  assertion?: HealthcareAssertion;
-  /** Preferred name for the entity. Example: 'histologically' would have a 'name' of 'histologic'. */
-  name?: string;
-  /** Entity references in known data sources. */
-  links?: HealthcareEntityLink[];
+export type HealthcareEntity = HealthcareLinkingProperties & {
+  /** Entity text as appears in the request. */
+  text: string;
+  /** Healthcare Entity Category. */
+  category: HealthcareEntityCategory;
+  /** (Optional) Entity sub type. */
+  subcategory?: string;
+  /** Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned. */
+  offset: number;
+  /** Length for the entity text. Use of different 'stringIndexType' values can affect the length returned. */
+  length: number;
+  /** Confidence score between 0 and 1 of the extracted entity. */
+  confidenceScore: number;
 };
 
 /** Defines headers for GeneratedClient_analyze operation. */
@@ -1051,6 +1079,70 @@ export const enum KnownWarningCode {
  */
 export type WarningCode = string;
 
+/** Known values of {@link HealthcareEntityCategory} that the service accepts. */
+export const enum KnownHealthcareEntityCategory {
+  BodyStructure = "BODY_STRUCTURE",
+  AGE = "AGE",
+  Gender = "GENDER",
+  ExaminationName = "EXAMINATION_NAME",
+  Date = "DATE",
+  Direction = "DIRECTION",
+  Frequency = "FREQUENCY",
+  MeasurementValue = "MEASUREMENT_VALUE",
+  MeasurementUnit = "MEASUREMENT_UNIT",
+  RelationalOperator = "RELATIONAL_OPERATOR",
+  Time = "TIME",
+  GeneORProtein = "GENE_OR_PROTEIN",
+  Variant = "VARIANT",
+  AdministrativeEvent = "ADMINISTRATIVE_EVENT",
+  CareEnvironment = "CARE_ENVIRONMENT",
+  HealthcareProfession = "HEALTHCARE_PROFESSION",
+  Diagnosis = "DIAGNOSIS",
+  SymptomORSign = "SYMPTOM_OR_SIGN",
+  ConditionQualifier = "CONDITION_QUALIFIER",
+  MedicationClass = "MEDICATION_CLASS",
+  MedicationName = "MEDICATION_NAME",
+  Dosage = "DOSAGE",
+  MedicationForm = "MEDICATION_FORM",
+  MedicationRoute = "MEDICATION_ROUTE",
+  FamilyRelation = "FAMILY_RELATION",
+  TreatmentName = "TREATMENT_NAME"
+}
+
+/**
+ * Defines values for HealthcareEntityCategory. \
+ * {@link KnownHealthcareEntityCategory} can be used interchangeably with HealthcareEntityCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **BODY_STRUCTURE** \
+ * **AGE** \
+ * **GENDER** \
+ * **EXAMINATION_NAME** \
+ * **DATE** \
+ * **DIRECTION** \
+ * **FREQUENCY** \
+ * **MEASUREMENT_VALUE** \
+ * **MEASUREMENT_UNIT** \
+ * **RELATIONAL_OPERATOR** \
+ * **TIME** \
+ * **GENE_OR_PROTEIN** \
+ * **VARIANT** \
+ * **ADMINISTRATIVE_EVENT** \
+ * **CARE_ENVIRONMENT** \
+ * **HEALTHCARE_PROFESSION** \
+ * **DIAGNOSIS** \
+ * **SYMPTOM_OR_SIGN** \
+ * **CONDITION_QUALIFIER** \
+ * **MEDICATION_CLASS** \
+ * **MEDICATION_NAME** \
+ * **DOSAGE** \
+ * **MEDICATION_FORM** \
+ * **MEDICATION_ROUTE** \
+ * **FAMILY_RELATION** \
+ * **TREATMENT_NAME**
+ */
+export type HealthcareEntityCategory = string;
+
 /** Known values of {@link RelationType} that the service accepts. */
 export const enum KnownRelationType {
   Abbreviation = "Abbreviation",
@@ -1119,8 +1211,7 @@ export type State =
   | "failed"
   | "rejected"
   | "cancelled"
-  | "cancelling"
-  | "partiallyCompleted";
+  | "cancelling";
 /** Defines values for DocumentSentimentLabel. */
 export type DocumentSentimentLabel =
   | "positive"
@@ -1182,6 +1273,10 @@ export interface GeneratedClientHealthStatusOptionalParams
 
 /** Contains response data for the healthStatus operation. */
 export type GeneratedClientHealthStatusResponse = HealthcareJobState;
+
+/** Optional parameters. */
+export interface GeneratedClientCancelHealthJobOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the cancelHealthJob operation. */
 export type GeneratedClientCancelHealthJobResponse = GeneratedClientCancelHealthJobHeaders;
@@ -1301,6 +1396,8 @@ export type GeneratedClientSentimentResponse = SentimentResponse;
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams
   extends coreClient.ServiceClientOptions {
+  /** Text Analytics API version (for example, v3.0). */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
