@@ -337,70 +337,71 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("sends an authorization request correctly in an Azure Arc environment", async () => {
+  it("sends an authorization request correctly in an Azure Arc environment", async function() {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
-    const filePath = join(tmpdir(), `${Date.now()}`);
+    const filePath = join(tmpdir(), this.currentTest?.title || `Date.time()`);
     const key = "challenge key";
     writeFileSync(filePath, key, { encoding: "utf8" });
-
-    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], undefined, {
-      authResponse: [
-        {
-          status: 401,
-          headers: new HttpHeaders({
-            "www-authenticate": `we don't pay much attention about this format=${filePath}`
-          })
-        },
-        {
-          status: 200,
-          parsedBody: {
-            token: "token",
-            expires_in: 1
+    try {
+      const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], undefined, {
+        authResponse: [
+          {
+            status: 401,
+            headers: new HttpHeaders({
+              "www-authenticate": `we don't pay much attention about this format=${filePath}`
+            })
+          },
+          {
+            status: 200,
+            parsedBody: {
+              token: "token",
+              expires_in: 1
+            }
           }
-        }
-      ]
-    });
+        ]
+      });
 
-    // File request
-    const validationRequest = authDetails.requests[0];
-    assert.ok(validationRequest.query, "No query string parameters on request");
+      // File request
+      const validationRequest = authDetails.requests[0];
+      assert.ok(validationRequest.query, "No query string parameters on request");
 
-    assert.equal(validationRequest.method, "GET");
-    assert.equal(decodeURIComponent(validationRequest.query!["resource"]), "https://service");
+      assert.equal(validationRequest.method, "GET");
+      assert.equal(decodeURIComponent(validationRequest.query!["resource"]), "https://service");
 
-    assert.ok(
-      validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
-    );
-
-    // Authorization request, which comes after getting the file path, for now at least.
-    const authRequest = authDetails.requests[1];
-    assert.ok(authRequest.query, "No query string parameters on request");
-
-    assert.equal(authRequest.method, "GET");
-    assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
-
-    assert.ok(
-      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
-    );
-
-    assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
-    if (authDetails.token) {
-      // We use Date.now underneath.
-      assert.equal(
-        Math.floor(authDetails.token.expiresOnTimestamp / 1000000),
-        Math.floor(Date.now() / 1000000)
+      assert.ok(
+        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
       );
-    } else {
-      assert.fail("No token was returned!");
-    }
 
-    unlinkSync(filePath);
+      // Authorization request, which comes after getting the file path, for now at least.
+      const authRequest = authDetails.requests[1];
+      assert.ok(authRequest.query, "No query string parameters on request");
+
+      assert.equal(authRequest.method, "GET");
+      assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
+
+      assert.ok(
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+
+      assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
+      if (authDetails.token) {
+        // We use Date.now underneath.
+        assert.equal(
+          Math.floor(authDetails.token.expiresOnTimestamp / 1000000),
+          Math.floor(Date.now() / 1000000)
+        );
+      } else {
+        assert.fail("No token was returned!");
+      }
+    } finally {
+      unlinkSync(filePath);
+    }
   });
 
   // "fabricMsi" isn't part of the ManagedIdentityCredential MSIs yet
