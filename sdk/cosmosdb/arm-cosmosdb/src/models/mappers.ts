@@ -60,7 +60,12 @@ export const ManagedServiceIdentity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned,UserAssigned", "None"]
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned,UserAssigned",
+            "None"
+          ]
         }
       },
       userAssignedIdentities: {
@@ -106,7 +111,13 @@ export const ConsistencyPolicy: msRest.CompositeMapper = {
         serializedName: "defaultConsistencyLevel",
         type: {
           name: "Enum",
-          allowedValues: ["Eventual", "Session", "BoundedStaleness", "Strong", "ConsistentPrefix"]
+          allowedValues: [
+            "Eventual",
+            "Session",
+            "BoundedStaleness",
+            "Strong",
+            "ConsistentPrefix"
+          ]
         }
       },
       maxStalenessPrefix: {
@@ -534,7 +545,7 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
       ...ARMResourceProperties.type.modelProperties,
       kind: {
         serializedName: "kind",
-        defaultValue: "GlobalDocumentDB",
+        defaultValue: 'GlobalDocumentDB',
         type: {
           name: "String"
         }
@@ -564,7 +575,9 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         serializedName: "properties.databaseAccountOfferType",
         type: {
           name: "Enum",
-          allowedValues: ["Standard"]
+          allowedValues: [
+            "Standard"
+          ]
         }
       },
       ipRules: {
@@ -778,7 +791,10 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         serializedName: "properties.networkAclBypass",
         type: {
           name: "Enum",
-          allowedValues: ["None", "AzureServices"]
+          allowedValues: [
+            "None",
+            "AzureServices"
+          ]
         }
       },
       networkAclBypassResourceIds: {
@@ -913,7 +929,7 @@ export const Indexes: msRest.CompositeMapper = {
     modelProperties: {
       dataType: {
         serializedName: "dataType",
-        defaultValue: "String",
+        defaultValue: 'String',
         type: {
           name: "String"
         }
@@ -926,7 +942,7 @@ export const Indexes: msRest.CompositeMapper = {
       },
       kind: {
         serializedName: "kind",
-        defaultValue: "Hash",
+        defaultValue: 'Hash',
         type: {
           name: "String"
         }
@@ -1042,7 +1058,7 @@ export const IndexingPolicy: msRest.CompositeMapper = {
       },
       indexingMode: {
         serializedName: "indexingMode",
-        defaultValue: "consistent",
+        defaultValue: 'consistent',
         type: {
           name: "String"
         }
@@ -1123,7 +1139,7 @@ export const ContainerPartitionKey: msRest.CompositeMapper = {
       },
       kind: {
         serializedName: "kind",
-        defaultValue: "Hash",
+        defaultValue: 'Hash',
         type: {
           name: "String"
         }
@@ -1200,7 +1216,7 @@ export const ConflictResolutionPolicy: msRest.CompositeMapper = {
     modelProperties: {
       mode: {
         serializedName: "mode",
-        defaultValue: "LastWriterWins",
+        defaultValue: 'LastWriterWins',
         type: {
           name: "String"
         }
@@ -2585,7 +2601,7 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
       ...ARMResourceProperties.type.modelProperties,
       kind: {
         serializedName: "kind",
-        defaultValue: "GlobalDocumentDB",
+        defaultValue: 'GlobalDocumentDB',
         type: {
           name: "String"
         }
@@ -2621,7 +2637,7 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "properties.databaseAccountOfferType",
-        defaultValue: "Standard",
+        defaultValue: 'Standard',
         type: {
           name: "String"
         }
@@ -2765,7 +2781,10 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.networkAclBypass",
         type: {
           name: "Enum",
-          allowedValues: ["None", "AzureServices"]
+          allowedValues: [
+            "None",
+            "AzureServices"
+          ]
         }
       },
       networkAclBypassResourceIds: {
@@ -2971,7 +2990,10 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.networkAclBypass",
         type: {
           name: "Enum",
-          allowedValues: ["None", "AzureServices"]
+          allowedValues: [
+            "None",
+            "AzureServices"
+          ]
         }
       },
       networkAclBypassResourceIds: {
@@ -4559,7 +4581,10 @@ export const SqlRoleDefinitionCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.type",
         type: {
           name: "Enum",
-          allowedValues: ["BuiltInRole", "CustomRole"]
+          allowedValues: [
+            "BuiltInRole",
+            "CustomRole"
+          ]
         }
       },
       assignableScopes: {
@@ -4606,7 +4631,10 @@ export const SqlRoleDefinitionGetResults: msRest.CompositeMapper = {
         serializedName: "properties.type",
         type: {
           name: "Enum",
-          allowedValues: ["BuiltInRole", "CustomRole"]
+          allowedValues: [
+            "BuiltInRole",
+            "CustomRole"
+          ]
         }
       },
       assignableScopes: {
@@ -5313,7 +5341,8 @@ export const PrivateEndpointConnectionListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  BackupPolicy: BackupPolicy,
-  "BackupPolicy.Periodic": PeriodicModeBackupPolicy,
-  "BackupPolicy.Continuous": ContinuousModeBackupPolicy
+  'BackupPolicy' : BackupPolicy,
+  'BackupPolicy.Periodic' : PeriodicModeBackupPolicy,
+  'BackupPolicy.Continuous' : ContinuousModeBackupPolicy
+
 };

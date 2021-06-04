@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: "en-US",
+    defaultValue: 'en-US',
     type: {
       name: "String"
     }
@@ -108,7 +108,10 @@ export const filter0: msRest.OperationQueryParameter = {
   }
 };
 export const filter1: msRest.OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
+  parameterPath: [
+    "options",
+    "filter"
+  ],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -163,7 +166,7 @@ export const notebookWorkspaceName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "notebookWorkspaceName",
-    defaultValue: "default",
+    defaultValue: 'default',
     type: {
       name: "String"
     }
