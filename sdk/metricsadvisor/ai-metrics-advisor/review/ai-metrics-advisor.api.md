@@ -686,23 +686,18 @@ export type IngestionStatusType = "NotStarted" | "Scheduled" | "Running" | "Succ
 
 // @public
 export interface ListAlertsOptions extends OperationOptions {
-    // (undocumented)
     skip?: number;
 }
 
 // @public
 export interface ListAnomaliesForAlertConfigurationOptions extends OperationOptions {
-    // (undocumented)
     skip?: number;
 }
 
 // @public
 export interface ListAnomaliesForDetectionConfigurationOptions extends OperationOptions {
-    // (undocumented)
     dimensionFilter?: DimensionKey[];
-    // (undocumented)
     severityFilter?: SeverityFilterCondition;
-    // (undocumented)
     skip?: number;
 }
 
@@ -710,19 +705,16 @@ export interface ListAnomaliesForDetectionConfigurationOptions extends Operation
 export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
     // (undocumented)
     dimensionFilter?: DimensionKey;
-    // (undocumented)
     skip?: number;
 }
 
 // @public
 export interface ListDataFeedIngestionStatusOptions extends OperationOptions {
-    // (undocumented)
     skip?: number;
 }
 
 // @public
 export interface ListDataFeedsOptions extends OperationOptions {
-    // (undocumented)
     filter?: {
         dataFeedName?: string;
         dataSourceType?: DataSourceType;
@@ -730,13 +722,11 @@ export interface ListDataFeedsOptions extends OperationOptions {
         status?: DataFeedStatus;
         creator?: string;
     };
-    // (undocumented)
     skip?: number;
 }
 
 // @public
 export interface ListDatasourceCredentialsOptions extends OperationOptions {
-    // (undocumented)
     skip?: number;
 }
 
@@ -749,46 +739,39 @@ export interface ListFeedbackOptions extends OperationOptions {
         endTime?: Date | string;
         timeMode?: FeedbackQueryTimeMode;
     };
-    // (undocumented)
     skip?: number;
 }
 
 // @public
 export interface ListHooksOptions extends OperationOptions {
     hookName?: string;
-    // (undocumented)
     skip?: number;
 }
 
 // @public
 export interface ListIncidentsForAlertOptions extends OperationOptions {
-    // (undocumented)
     skip?: number;
 }
 
 // @public
 export interface ListIncidentsForDetectionConfigurationOptions extends OperationOptions {
-    // (undocumented)
     dimensionFilter?: DimensionKey[];
 }
 
 // @public
 export interface ListMetricDimensionValuesOptions extends OperationOptions {
     dimensionValueFilter?: string;
-    // (undocumented)
     skip?: number;
 }
 
 // @public
 export interface ListMetricEnrichmentStatusOptions extends OperationOptions {
-    // (undocumented)
     skip?: number;
 }
 
 // @public
 export interface ListMetricSeriesDefinitionsOptions extends OperationOptions {
     dimensionFilter?: Record<string, string[]>;
-    // (undocumented)
     skip?: number;
 }
 
@@ -1020,9 +1003,7 @@ export class MetricsAdvisorKeyCredential {
 
 // @public
 export interface MetricsAdvisorKeys {
-    // (undocumented)
     apiKey?: string;
-    // (undocumented)
     subscriptionKey?: string;
 }
 

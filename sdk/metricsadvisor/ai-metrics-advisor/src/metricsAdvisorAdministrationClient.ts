@@ -78,6 +78,7 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
  * Options for listing data feed ingestion status
  */
 export interface ListDataFeedIngestionStatusOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
 }
 
@@ -85,6 +86,7 @@ export interface ListDataFeedIngestionStatusOptions extends OperationOptions {
  * Options for listing hooks
  */
 export interface ListHooksOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
   /**
    * filter hook by its name
@@ -96,6 +98,7 @@ export interface ListHooksOptions extends OperationOptions {
  * Options for listing data source credentials
  */
 export interface ListDatasourceCredentialsOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
 }
 
@@ -103,7 +106,9 @@ export interface ListDatasourceCredentialsOptions extends OperationOptions {
  * Options for listing data feeds
  */
 export interface ListDataFeedsOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
+  /** Filters for listing datafeeds */
   filter?: {
     /**
      * filter data feed by its name
@@ -192,7 +197,6 @@ export class MetricsAdvisorAdministrationClient {
    * @param options - The options parameter.
    * @returns Response with Datafeed object
    */
-
   public async createDataFeed(
     feed: DataFeedDescriptor,
     operationOptions: CreateDataFeedOptions = {}
@@ -291,7 +295,6 @@ export class MetricsAdvisorAdministrationClient {
    * @param id - id for the data feed to retrieve
    * @param options - The options parameter.
    */
-
   public async getDataFeed(
     id: string,
     options: OperationOptions = {}
@@ -369,7 +372,6 @@ export class MetricsAdvisorAdministrationClient {
    * ```
    * @param options - The options parameter.
    */
-
   public listDataFeeds(
     options: ListDataFeedsOptions = {}
   ): PagedAsyncIterableIterator<DataFeed, DataFeedsPageResponse> {

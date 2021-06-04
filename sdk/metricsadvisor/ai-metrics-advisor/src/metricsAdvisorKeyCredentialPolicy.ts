@@ -18,7 +18,9 @@ const X_API_KEY_HEADER_NAME = "x-api-key";
  * Interface parameters for updateKey function
  */
 export interface MetricsAdvisorKeys {
+  /** API key from the Metrics Advisor web portal */
   apiKey?: string;
+  /** Subscription access key from the Azure portal */
   subscriptionKey?: string;
 }
 

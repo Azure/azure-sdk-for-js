@@ -50,6 +50,7 @@ export interface MetricsAdvisorClientOptions extends PipelineOptions {}
  * Options for listing incidents for detection configurations
  */
 export interface ListIncidentsForDetectionConfigurationOptions extends OperationOptions {
+  /** Dimension Filter */
   dimensionFilter?: DimensionKey[]; // lifted
 }
 
@@ -62,8 +63,11 @@ export interface GetMetricEnrichedSeriesDataOptions extends OperationOptions {}
  * Options for listing anomalies for detection configurations
  */
 export interface ListAnomaliesForDetectionConfigurationOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
+  /** Dimension Filter */
   dimensionFilter?: DimensionKey[];
+  /** Severity Filter */
   severityFilter?: SeverityFilterCondition;
 }
 
@@ -71,6 +75,7 @@ export interface ListAnomaliesForDetectionConfigurationOptions extends Operation
  * Options for listing anomalies for alert configurations
  */
 export interface ListAnomaliesForAlertConfigurationOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
 }
 
@@ -78,6 +83,7 @@ export interface ListAnomaliesForAlertConfigurationOptions extends OperationOpti
  * Options for listing incidents for an alert
  */
 export interface ListIncidentsForAlertOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
 }
 
@@ -85,6 +91,7 @@ export interface ListIncidentsForAlertOptions extends OperationOptions {
  * Options for listing dimension values for detection configurations
  */
 export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
   dimensionFilter?: DimensionKey;
 }
@@ -93,6 +100,7 @@ export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
  * Options for listing feedbacks
  */
 export interface ListFeedbackOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
   /**
    * filter when listing feedbacks
@@ -122,6 +130,7 @@ export interface ListFeedbackOptions extends OperationOptions {
  * Options for listing series definitions of a metric
  */
 export interface ListMetricSeriesDefinitionsOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
   /**
    * filter specific dimension name and values
@@ -138,6 +147,7 @@ export interface GetMetricSeriesDataOptions extends OperationOptions {}
  * Options for listing alerts
  */
 export interface ListAlertsOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
 }
 
@@ -145,6 +155,7 @@ export interface ListAlertsOptions extends OperationOptions {
  * Options for listing dimension values of a metric
  */
 export interface ListMetricDimensionValuesOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
   /**
    * dimension value to be filtered
@@ -156,6 +167,7 @@ export interface ListMetricDimensionValuesOptions extends OperationOptions {
  * Options for listing metric enrichment status
  */
 export interface ListMetricEnrichmentStatusOptions extends OperationOptions {
+  /** Number of items to skip */
   skip?: number;
 }
 
@@ -864,7 +876,6 @@ export class MetricsAdvisorClient {
   /**
    * listing anomalies for detection config - segments
    */
-
   private async *listSegmentsOfAnomaliesForDetectionConfig(
     detectionConfigId: string,
     startTime: Date,
@@ -954,7 +965,6 @@ export class MetricsAdvisorClient {
   /**
    * listing anomalies for detection config - items
    */
-
   private async *listItemsOfAnomaliesForDetectionConfig(
     detectionConfigId: string,
     startTime: Date,
