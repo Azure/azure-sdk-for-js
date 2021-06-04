@@ -4,5 +4,6 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types"
   },
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
   "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
 }
