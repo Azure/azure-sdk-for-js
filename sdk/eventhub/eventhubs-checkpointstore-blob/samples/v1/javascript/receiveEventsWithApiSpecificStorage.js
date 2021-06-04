@@ -3,20 +3,13 @@
 
 /**
  * @summary Demonstrates how to use the EventHubConsumerClient to process events from all partitions
-  of a consumer group in an Event Hubs instance, as well as checkpointing - synonymous with persisting
-  your event offsets - along the way.
-
-  This sample uses the `createCustomPipeline` function to override the targetted version of the Storage Blob service.
-
-  Checkpointing using a durable store allows your application to be more resilient. When you restart
-  your application after a crash (or an intentional stop), your application can continue consuming
-  events from where it last checkpointed.
-
-  If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" sample
-  to populate it before running this sample.
-
-  If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" from the event-hubs project
-  located here: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts
+ * of a consumer group in an Event Hubs instance, as well as checkpointing along the way.
+ *
+ * This sample uses the `createCustomPipeline` function to override the targetted version of the Storage service.
+ *
+ * Checkpointing using a durable store allows your application to be more resilient. When you restart
+ * your application after a crash (or an intentional stop), your application can continue consuming
+ * events from where it last checkpointed.
  */
 
 const { EventHubConsumerClient } = require("@azure/event-hubs");
@@ -54,6 +47,10 @@ async function main() {
     eventHubName,
     checkpointStore
   );
+
+  // The below code will set up your program to listen to events from your Event Hub instance.
+  // If your Event Hub instance doesn't have any events, then please run "sendEvents.ts" from the event-hubs project
+  // located here: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts
 
   const subscription = consumerClient.subscribe({
     processEvents: async (events, context) => {
