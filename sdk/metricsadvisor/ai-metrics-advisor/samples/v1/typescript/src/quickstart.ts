@@ -98,7 +98,7 @@ async function createDataFeed(
       dataSourceType: "SqlServer",
       connectionString: sqlServerConnectionString,
       query: sqlServerQuery,
-      authenticationType:"Basic"
+      authenticationType: "Basic"
     },
     granularity: {
       granularityType: "Daily"

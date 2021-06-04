@@ -139,7 +139,8 @@ async function getDataFeed(client, dataFeedId) {
 async function updateDataFeed(client, dataFeedId) {
   const patch = {
     source: {
-      dataSourceType: "AzureBlob"
+      dataSourceType: "AzureBlob",
+      authenticationType: "ManagedIdentity"
     },
     name: "new name test-datafeed " + new Date().getTime().toString(),
     ingestionSettings: {
