@@ -12,7 +12,7 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient, createRecorder } from "../utils/recordedClient";
+import { createRecordedClient, createRecorder, getAttestationUri } from "../utils/recordedClient";
 import { encodeByteArray } from "../utils/base64url";
 import { AttestationClient } from "../../src";
 describe("TokenCertTests", function() {
@@ -63,23 +63,23 @@ describe("TokenCertTests", function() {
 
   it("#GetMetadataConfigAAD", async () => {
     const client = createRecordedClient("AAD");
-    await getMetadataConfigTest(client);
+    await getMetadataConfigTest(client, getAttestationUri("AAD"));
   });
 
   it("#GetMetadataConfigIsolated", async () => {
     const client = createRecordedClient("Isolated");
-    await getMetadataConfigTest(client);
+    await getMetadataConfigTest(client, getAttestationUri("Isolated"));
   });
 
   it("#GetMetadataConfigShared", async () => {
     const client = createRecordedClient("Shared");
-    await getMetadataConfigTest(client);
+    await getMetadataConfigTest(client, getAttestationUri("Shared"));
   });
 
-  async function getMetadataConfigTest(client: AttestationClient): Promise<void> {
+  async function getMetadataConfigTest(client: AttestationClient, instanceUrl : string): Promise<void> {
     const openIdMetadata = await client.getOpenIdMetadata();
     assert.isDefined(openIdMetadata["response_types_supported"]);
-    assert.equal(openIdMetadata["jwks_uri"], client.instanceUrl + "/certs");
-    assert.equal(openIdMetadata["issuer"], client.instanceUrl);
+    assert.equal(openIdMetadata["jwks_uri"], instanceUrl + "/certs");
+    assert.equal(openIdMetadata["issuer"], instanceUrl);
   }
 });

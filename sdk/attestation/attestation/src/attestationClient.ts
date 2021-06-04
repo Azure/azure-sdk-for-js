@@ -158,7 +158,6 @@ export class AttestationClient {
 
     this._client = new GeneratedClient(credentials, instanceUrl, internalPipelineOptions);
     this._validationOptions = options.validationOptions;
-    this.instanceUrl = instanceUrl;
 
     // Legacy compatibility classes functions which will be removed eventually.
     this.policyCertificates = new PolicyCertificates(this);
@@ -366,8 +365,6 @@ export class AttestationClient {
     this._signers = this.getAttestationSigners();
     return Promise.resolve(this._signers);
   }
-
-  instanceUrl: string;
 
   /**
    * Legacy property to access policy certificate management APIs.

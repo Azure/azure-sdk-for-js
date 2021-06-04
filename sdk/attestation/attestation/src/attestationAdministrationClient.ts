@@ -11,7 +11,7 @@ import { createSpan } from "./tracing";
 
 import { GeneratedClientOptionalParams } from "./generated/models";
 
-import { bytesToString } from "./utils/utf8.browser";
+import { bytesToString } from "./utils/utf8";
 
 import {
   AttestationResponse,
@@ -137,7 +137,7 @@ export class AttestationAdministrationClient {
 
       // Validate the token returned from the service.
       token.validateToken(
-        await this._signingKeys,
+        await this.signingKeys(),
         options.validationOptions ?? this._validationOptions
       );
 
@@ -218,7 +218,7 @@ export class AttestationAdministrationClient {
       // object as the body.
       const token = new AttestationToken(setPolicyResult.token);
       token.validateToken(
-        await this._signingKeys,
+        await this.signingKeys(),
         options.validationOptions ?? this._validationOptions
       );
 
@@ -278,7 +278,7 @@ export class AttestationAdministrationClient {
       // object as the body.
       const token = new AttestationToken(resetPolicyResult.token);
       token.validateToken(
-        await this._signingKeys,
+        await this.signingKeys(),
         options.validationOptions ?? this._validationOptions
       );
 
@@ -298,26 +298,20 @@ export class AttestationAdministrationClient {
     }
   }
 
-  private get _signingKeys(): Promise<AttestationSigner[]> {
+  private async signingKeys(): Promise<AttestationSigner[]> {
     if (this._signers !== undefined) {
-      return Promise.resolve(this._signers);
+      return this._signers;
     }
-    const signingCertificates = this._client.signingCertificates.get();
-    return signingCertificates
-      .then((jwks) => {
-        const signers: AttestationSigner[] = new Array();
-        jwks.keys?.forEach((element) => {
-          signers.push(new AttestationSigner(element));
-        });
-        return signers;
-      })
-      .then((signers) => {
-        this._signers = Promise.resolve(signers);
-        return this._signers;
-      });
+    const jwks = await this._client.signingCertificates.get();
+    const signers: AttestationSigner[] = new Array();
+    jwks.keys?.forEach((element) => {
+        signers.push(new AttestationSigner(element));
+    });
+    this._signers = signers;
+    return this._signers;
   }
 
   private _client: GeneratedClient;
-  private _signers?: Promise<AttestationSigner[]>;
+  private _signers?: AttestationSigner[];
   private _validationOptions?: AttestationTokenValidationOptions;
 }

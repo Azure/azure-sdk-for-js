@@ -18,7 +18,7 @@ import * as base64url from "../utils/base64url";
 
 import { AttestationData } from "../../src";
 import { KnownAttestationType } from "../../src/generated";
-import { bytesToString, stringToBytes } from "../../src/utils/utf8.browser";
+import { bytesToString, stringToBytes } from "../../src/utils/utf8";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;

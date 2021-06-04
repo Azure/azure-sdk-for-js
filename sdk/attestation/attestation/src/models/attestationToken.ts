@@ -8,7 +8,7 @@ import * as jsrsasign from "jsrsasign";
 import { JsonWebKey } from "../generated/models";
 import { base64UrlDecodeString, hexToBase64 } from "../utils/base64";
 import { AttestationSigningKey } from "./attestationSigningKey";
-import { bytesToString } from "../utils/utf8.browser";
+import { bytesToString } from "../utils/utf8";
 import { AttestationSigner } from "./attestationSigner";
 
 import * as Mappers from "../generated/models/mappers";
@@ -149,7 +149,7 @@ export class AttestationToken {
       return;
     }
 
-    let foundSigner: AttestationSigner | null = null;
+    let foundSigner: AttestationSigner | undefined = undefined;
     if (this.algorithm !== "none") {
       const signers = this.getCandidateSigners(possibleSigners);
 
@@ -165,7 +165,7 @@ export class AttestationToken {
         }
       });
 
-      if (foundSigner === null) {
+      if (foundSigner === undefined) {
         throw new Error("Attestation Token is not properly signed.");
       }
     }
@@ -179,7 +179,7 @@ export class AttestationToken {
     if (options.validationCallback !== undefined) {
       // If there is a validation error, the validationCallback will throw a customer
       // defined exception.
-      options.validationCallback(this, foundSigner ?? undefined);
+      options.validationCallback(this, foundSigner);
     }
   }
 

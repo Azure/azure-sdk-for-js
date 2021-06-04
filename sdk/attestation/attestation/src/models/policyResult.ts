@@ -45,6 +45,12 @@ export class PolicyResult {
    */
   policy?: string;
 
+  /**
+   * Create a new instance of a {@link PolicyResult} from a raw JSON object.
+   * @param rawJson JSON Policy Result object returned from the Attestation service.
+   * @returns a newly created {@link PolicyResult} object whose contents reflect the JSON received from
+   *  the attestation service.
+   */
   static create(rawJson: unknown): PolicyResult {
     return new PolicyResult(
       TypeDeserializer.deserialize(

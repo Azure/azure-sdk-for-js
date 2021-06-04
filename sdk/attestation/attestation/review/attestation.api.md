@@ -46,8 +46,6 @@ export class AttestationClient {
     // @internal
     getGeneratedClient(): GeneratedClient;
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
-    // (undocumented)
-    instanceUrl: string;
     policyCertificates: PolicyCertificates;
     }
 
@@ -335,7 +333,6 @@ export type PolicyModification = string;
 
 // @public
 export class PolicyResult {
-    // (undocumented)
     static create(rawJson: unknown): PolicyResult;
     policy?: string;
     policyResolution?: PolicyModification;

@@ -14,7 +14,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecorder } from "../utils/recordedClient";
 
-import { bytesToString, stringToBytes } from "../../src/utils/utf8.browser";
+import { bytesToString, stringToBytes } from "../../src/utils/utf8";
 
 import { AttestationSigningKey, AttestationToken } from "../../src";
 import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";

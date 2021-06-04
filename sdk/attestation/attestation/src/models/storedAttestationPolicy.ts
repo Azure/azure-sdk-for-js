@@ -7,7 +7,7 @@
  *
  */
 
-import { stringToBytes } from "../utils/utf8.browser";
+import { stringToBytes } from "../utils/utf8";
 import { TypeDeserializer } from "../utils/typeDeserializer";
 
 import * as Mappers from "../generated/models/mappers";
