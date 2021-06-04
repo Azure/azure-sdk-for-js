@@ -195,6 +195,7 @@ export type DataFeedGranularity =
       customGranularityValue: number;
     };
 
+/** DataFeed Status */
 export type DataFeedStatus = "Paused" | "Active";
 
 /**
@@ -334,7 +335,9 @@ export type AzureCosmosDbDataFeedSource = {
  * Represents Service Principal Authentication Type for Azure Data Explorer Source
  */
 export interface AzureDataExplorerAuthServicePrincipal {
+  /** Authentication Type */
   authenticationType: "ServicePrincipal";
+  /** datasource credential id  */
   credentialId: string;
 }
 
@@ -342,7 +345,9 @@ export interface AzureDataExplorerAuthServicePrincipal {
  * Represents Service Principal in KV Authentication Type for Azure Data Explorer Source
  */
 export interface AzureDataExplorerAuthServicePrincipalInKeyVault {
+  /** Authentication Type */
   authenticationType: "ServicePrincipalInKV";
+  /** datasource credential id  */
   credentialId: string;
 }
 
@@ -350,6 +355,7 @@ export interface AzureDataExplorerAuthServicePrincipalInKeyVault {
  * Represents Basic Authentication Type for Azure Data Explorer Source
  */
 export interface AzureDataExplorerAuthBasic {
+  /** Basic Authentication Type */
   authenticationType: "Basic";
 }
 
@@ -357,6 +363,7 @@ export interface AzureDataExplorerAuthBasic {
  * Represents Managed Identity Authentication Type for Azure Data Explorer Source
  */
 export interface AzureDataExplorerAuthManagedIdentity {
+  /** Managed Identity Authentication Type */
   authenticationType: "ManagedIdentity";
 }
 
@@ -372,6 +379,7 @@ export type AzureDataExplorerAuthTypes =
  * Represents an Azure Data Explorer data source.
  */
 export type AzureDataExplorerDataFeedSource = {
+  /** Azure Data Explorer Data Source */
   dataSourceType: "AzureDataExplorer";
   /** Database connection string */
   connectionString: string;
@@ -441,6 +449,7 @@ export type AzureDataLakeStorageGen2AuthTypes =
  * Represents an Azure DataLake Storage Gen2 data source.
  */
 export type AzureDataLakeStorageGen2DataFeedSource = {
+  /** Azure DataLake Storage Gen2 data source type */
   dataSourceType: "AzureDataLakeStorageGen2";
   /** Account name */
   accountName: string;
@@ -456,6 +465,7 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
  * Represents an Azure Table data source.
  */
 export type AzureTableDataFeedSource = {
+  /** Azure Table data Source type */
   dataSourceType: "AzureTable";
   /** Azure Table connection string */
   connectionString: string;
@@ -524,6 +534,7 @@ export type AzureLogAnalyticsDataFeedSource = {
  * Represents an Azure Event Hubs data source.
  */
 export type AzureEventHubsDataFeedSource = {
+  /** Azure Event Hubs data source type */
   dataSourceType: "AzureEventHubs";
   /** The connection string of this Azure Event Hubs */
   connectionString?: string;
@@ -537,6 +548,7 @@ export type AzureEventHubsDataFeedSource = {
  * Represents an InfluxDB data source.
  */
 export type InfluxDbDataFeedSource = {
+  /** InfluxDB data source type */
   dataSourceType: "InfluxDB";
   /** InfluxDB connection string */
   connectionString: string;
@@ -556,6 +568,7 @@ export type InfluxDbDataFeedSource = {
  * Represents a MySQL data source.
  */
 export type MySqlDataFeedSource = {
+  /** MySql data source */
   dataSourceType: "MySql";
   /** Database connection string */
   connectionString?: string;
@@ -569,6 +582,7 @@ export type MySqlDataFeedSource = {
  * Represents a PostgreSQL data source.
  */
 export type PostgreSqlDataFeedSource = {
+  /** PostgreSQL data source */
   dataSourceType: "PostgreSql";
   /** Database connection string */
   connectionString?: string;
@@ -582,6 +596,7 @@ export type PostgreSqlDataFeedSource = {
  * Represents a MongoDB data source.
  */
 export type MongoDbDataFeedSource = {
+  /** MongoDB data source */
   dataSourceType: "MongoDB";
   /** MongoDB connection string */
   connectionString: string;
@@ -597,6 +612,7 @@ export type MongoDbDataFeedSource = {
  * Represents an Unknown data source.
  */
 export type UnknownDataFeedSource = {
+  /** Unknown data source */
   dataSourceType: "Unknown";
   /** data source parameter for unknown datafeed */
   dataSourceParameter: unknown;
@@ -672,6 +688,7 @@ export type SqlServerAuthTypes =
  * Represents a SQL Server data source.
  */
 export type SqlServerDataFeedSource = {
+  /** SQL Server data source */
   dataSourceType: "SqlServer";
   /** Query for Sql Server datafeed source */
   query: string;
@@ -768,6 +785,7 @@ export type DataFeedPatch = {
  * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
  */
 export type DataFeedSourcePatch = Partial<DataFeedSource> & {
+  /** datasource type for patch */
   dataSourceType: DataFeedSource["dataSourceType"];
 };
 
@@ -2185,6 +2203,7 @@ export interface DatasourceCredential {
  * SqlServer Data Source Credential
  */
 export interface SqlServerConnectionStringDatasourceCredential extends DatasourceCredential {
+  /** Azure Sql Connection String credential */
   type: "AzureSQLConnectionString";
   /** The connection string for SqlServer Data Source Credential */
   connectionString: string;
@@ -2194,12 +2213,14 @@ export interface SqlServerConnectionStringDatasourceCredential extends Datasourc
  * DataLake Gen2 Shared Key Datasource Credential
  */
 export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCredential {
+  /** DataLakeGen2 Shared Key Datasource credential */
   type: "DataLakeGen2SharedKey";
   /** The account key of the DataLake Gen2 Shared Key Datasource Credential  */
   accountKey: string;
 }
 
 export interface ServicePrincipalDatasourceCredential extends DatasourceCredential {
+  /** Service Principal Datasource Credential */
   type: "ServicePrincipal";
   /** The client id of the service principal. */
   clientId: string;
@@ -2210,6 +2231,7 @@ export interface ServicePrincipalDatasourceCredential extends DatasourceCredenti
 }
 
 export interface ServicePrincipalInKeyVaultDatasourceCredential extends DatasourceCredential {
+  /** Service Principal in KeyVault Datasource Credential */
   type: "ServicePrincipalInKV";
   /** The Key Vault endpoint that storing the service principal. */
   keyVaultEndpoint: string;

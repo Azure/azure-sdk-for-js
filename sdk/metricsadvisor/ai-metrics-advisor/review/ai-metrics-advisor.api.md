@@ -138,29 +138,23 @@ export type AzureCosmosDbDataFeedSource = {
 
 // @public
 export interface AzureDataExplorerAuthBasic {
-    // (undocumented)
     authenticationType: "Basic";
 }
 
 // @public
 export interface AzureDataExplorerAuthManagedIdentity {
-    // (undocumented)
     authenticationType: "ManagedIdentity";
 }
 
 // @public
 export interface AzureDataExplorerAuthServicePrincipal {
-    // (undocumented)
     authenticationType: "ServicePrincipal";
-    // (undocumented)
     credentialId: string;
 }
 
 // @public
 export interface AzureDataExplorerAuthServicePrincipalInKeyVault {
-    // (undocumented)
     authenticationType: "ServicePrincipalInKV";
-    // (undocumented)
     credentialId: string;
 }
 
@@ -378,13 +372,12 @@ export interface DataFeedsPageResponse extends Array<DataFeed> {
     };
 }
 
-// @public (undocumented)
+// @public
 export type DataFeedStatus = "Paused" | "Active";
 
 // @public
 export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCredential {
     accountKey: string;
-    // (undocumented)
     type: "DataLakeGen2SharedKey";
 }
 
@@ -1088,7 +1081,6 @@ export interface ServicePrincipalDatasourceCredential extends DatasourceCredenti
     clientId: string;
     clientSecret: string;
     tenantId: string;
-    // (undocumented)
     type: "ServicePrincipal";
 }
 
@@ -1100,7 +1092,6 @@ export interface ServicePrincipalInKeyVaultDatasourceCredential extends Datasour
     servicePrincipalIdNameInKV: string;
     servicePrincipalSecretNameInKV: string;
     tenantId: string;
-    // (undocumented)
     type: "ServicePrincipalInKV";
 }
 
@@ -1168,7 +1159,6 @@ export type SqlServerAuthTypes = SqlServerAuthBasic | SqlServerAuthManagedIdenti
 // @public
 export interface SqlServerConnectionStringDatasourceCredential extends DatasourceCredential {
     connectionString: string;
-    // (undocumented)
     type: "AzureSQLConnectionString";
 }
 
