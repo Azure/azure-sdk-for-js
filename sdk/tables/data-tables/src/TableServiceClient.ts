@@ -18,7 +18,7 @@ import {
   SetPropertiesResponse
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
@@ -26,7 +26,7 @@ import { logger } from "./logger";
 import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
-import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
+import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { ListTableItemsResponse } from "./utils/internalModels";
 import { Pipeline } from "@azure/core-rest-pipeline";
@@ -54,14 +54,15 @@ export class TableServiceClient {
    * @param url - The URL of the service account that is the target of the desired operation., such as
    *              "https://myaccount.table.core.windows.net". You can append a SAS,
    *              such as "https://myaccount.table.core.windows.net?sasString".
-   * @param credential - TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
+   * @param credential - NamedKeyCredential used to authenticate requests. Only Supported for Node
    * @param options - Options to configure the HTTP pipeline.
    *
    * Example using an account name/key:
    *
    * ```js
+   * const { AzureNamedKeyCredential, TableServiceClient } = require("@azure/data-tables")
    * const account = "<storage account name>"
-   * const sharedKeyCredential = new TablesSharedKeyCredential(account, "<account key>");
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, "<account key>");
    *
    * const tableServiceClient = new TableServiceClient(
    *   `https://${account}.table.core.windows.net`,
@@ -69,11 +70,7 @@ export class TableServiceClient {
    * );
    * ```
    */
-  constructor(
-    url: string,
-    credential: TablesSharedKeyCredential,
-    options?: TableServiceClientOptions
-  );
+  constructor(url: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
   /**
    * Creates a new instance of the TableServiceClient class.
    *
@@ -95,16 +92,13 @@ export class TableServiceClient {
   constructor(url: string, options?: TableServiceClientOptions);
   constructor(
     url: string,
-    credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
+    credentialOrOptions?: NamedKeyCredential | TableServiceClientOptions,
     options?: TableServiceClientOptions
   ) {
     this.url = url;
-    const credential =
-      credentialOrOptions instanceof TablesSharedKeyCredential ? credentialOrOptions : undefined;
+    const credential = isNamedKeyCredential(credentialOrOptions) ? credentialOrOptions : undefined;
     const clientOptions =
-      (!(credentialOrOptions instanceof TablesSharedKeyCredential)
-        ? credentialOrOptions
-        : options) || {};
+      (!isNamedKeyCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
     clientOptions.endpoint = clientOptions.endpoint || url;
 
@@ -136,7 +130,7 @@ export class TableServiceClient {
 
     const client = new GeneratedClient(url, internalPipelineOptions);
     if (credential) {
-      client.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+      client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
     }
     this.pipeline = client.pipeline;
     this.table = client.table;

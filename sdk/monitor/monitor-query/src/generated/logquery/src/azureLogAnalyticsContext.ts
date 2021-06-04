@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { AzureLogAnalyticsOptionalParams } from "./models";
 
 const packageName = "monitor-log-query";
-const packageVersion = "1.0.0";
+const packageVersion = "1.0.0-beta.1";
 
 /** @hidden */
 export class AzureLogAnalyticsContext extends coreHttp.ServiceClient {

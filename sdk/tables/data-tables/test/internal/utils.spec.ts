@@ -23,7 +23,7 @@ describe("Utility Helpers", () => {
         const result = extractConnectionStringParts(validConnectionString);
         assert.deepEqual(result, {
           accountName: "testaccount",
-          accountKey: Buffer.from([68, 64, 192, 9, 49, 3]),
+          accountKey: "REDACTED",
           kind: "AccountConnString",
           url: "https://testaccount.table.core.windows.net"
         });
@@ -35,7 +35,7 @@ describe("Utility Helpers", () => {
         const result = extractConnectionStringParts(validConnectionString);
         assert.deepEqual(result, {
           accountName: "testaccount",
-          accountKey: Buffer.from([68, 64, 192, 9, 49, 3]),
+          accountKey: "REDACTED",
           kind: "AccountConnString",
           url: "https://testaccount.table.core.windows.net"
         });
@@ -47,7 +47,7 @@ describe("Utility Helpers", () => {
         const result = extractConnectionStringParts(validConnectionString);
         assert.deepEqual(result, {
           accountName: "testaccount",
-          accountKey: Buffer.from([68, 64, 192, 9, 49, 3]),
+          accountKey: "REDACTED",
           kind: "AccountConnString",
           url: "https://myAccount.table.core.windows.net"
         });

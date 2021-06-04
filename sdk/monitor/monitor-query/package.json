@@ -9,7 +9,19 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
+        "path": "src/generated/logquery/src/azureLogAnalyticsContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/metrics/src/monitorManagementClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/metricsdefinitions/src/metricsDefinitionsClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/metricsnamespaces/src/metricsNamespacesClientContext.ts",
         "prefix": "packageVersion"
       },
       {
