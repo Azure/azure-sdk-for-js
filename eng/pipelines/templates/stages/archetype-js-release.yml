@@ -118,7 +118,7 @@ stages:
                       - checkout: self
                       - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
                         parameters:
-                          ArtifactLocation: $(System.ArtifactsDirectory)/packages/${{artifact.name}}.json
+                          ArtifactLocation: $(System.ArtifactsDirectory)/packages/PackageInfo/${{artifact.name}}.json
                           PackageRepository: NPM
                           RepoId: Azure/azure-sdk-for-js
                           WorkingDirectory: $(System.DefaultWorkingDirectory)
@@ -246,7 +246,7 @@ stages:
         - ${{ each artifact in parameters.Artifacts }}:
           - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
             parameters:
-              ArtifactLocation: $(System.ArtifactsDirectory)/packages/${{artifact.name}}.json
+              ArtifactLocation: $(System.ArtifactsDirectory)/packages/PackageInfo/${{artifact.name}}.json
               PackageRepository: NPM
               RepoId: Azure/azure-sdk-for-js
               WorkingDirectory: $(System.DefaultWorkingDirectory)
