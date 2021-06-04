@@ -33,39 +33,21 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesListHostsResponse>
    */
-  listHosts(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.VirtualMachinesListHostsResponse>;
+  listHosts(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachinesListHostsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param callback The callback
    */
-  listHosts(
-    resourceGroupName: string,
-    clusterName: string,
-    callback: msRest.ServiceCallback<Models.HostInfo[]>
-  ): void;
+  listHosts(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.HostInfo[]>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHosts(
-    resourceGroupName: string,
-    clusterName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.HostInfo[]>
-  ): void;
-  listHosts(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostInfo[]>,
-    callback?: msRest.ServiceCallback<Models.HostInfo[]>
-  ): Promise<Models.VirtualMachinesListHostsResponse> {
+  listHosts(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostInfo[]>): void;
+  listHosts(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostInfo[]>, callback?: msRest.ServiceCallback<Models.HostInfo[]>): Promise<Models.VirtualMachinesListHostsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,8 +55,7 @@ export class VirtualMachines {
         options
       },
       listHostsOperationSpec,
-      callback
-    ) as Promise<Models.VirtualMachinesListHostsResponse>;
+      callback) as Promise<Models.VirtualMachinesListHostsResponse>;
   }
 
   /**
@@ -85,18 +66,9 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  restartHosts(
-    resourceGroupName: string,
-    clusterName: string,
-    hosts: string[],
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginRestartHosts(
-      resourceGroupName,
-      clusterName,
-      hosts,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished());
+  restartHosts(resourceGroupName: string, clusterName: string, hosts: string[], options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRestartHosts(resourceGroupName,clusterName,hosts,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -107,24 +79,14 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesGetAsyncOperationStatusResponse>
    */
-  getAsyncOperationStatus(
-    resourceGroupName: string,
-    clusterName: string,
-    operationId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.VirtualMachinesGetAsyncOperationStatusResponse>;
+  getAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachinesGetAsyncOperationStatusResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param operationId The long running operation id.
    * @param callback The callback
    */
-  getAsyncOperationStatus(
-    resourceGroupName: string,
-    clusterName: string,
-    operationId: string,
-    callback: msRest.ServiceCallback<Models.AsyncOperationResult>
-  ): void;
+  getAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -132,20 +94,8 @@ export class VirtualMachines {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAsyncOperationStatus(
-    resourceGroupName: string,
-    clusterName: string,
-    operationId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.AsyncOperationResult>
-  ): void;
-  getAsyncOperationStatus(
-    resourceGroupName: string,
-    clusterName: string,
-    operationId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>,
-    callback?: msRest.ServiceCallback<Models.AsyncOperationResult>
-  ): Promise<Models.VirtualMachinesGetAsyncOperationStatusResponse> {
+  getAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  getAsyncOperationStatus(resourceGroupName: string, clusterName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.VirtualMachinesGetAsyncOperationStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,8 +104,7 @@ export class VirtualMachines {
         options
       },
       getAsyncOperationStatusOperationSpec,
-      callback
-    ) as Promise<Models.VirtualMachinesGetAsyncOperationStatusResponse>;
+      callback) as Promise<Models.VirtualMachinesGetAsyncOperationStatusResponse>;
   }
 
   /**
@@ -166,12 +115,7 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRestartHosts(
-    resourceGroupName: string,
-    clusterName: string,
-    hosts: string[],
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginRestartHosts(resourceGroupName: string, clusterName: string, hosts: string[], options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -180,8 +124,7 @@ export class VirtualMachines {
         options
       },
       beginRestartHostsOperationSpec,
-      options
-    );
+      options);
   }
 }
 
@@ -189,11 +132,18 @@ export class VirtualMachines {
 const serializer = new msRest.Serializer(Mappers);
 const listHostsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/listHosts",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/listHosts",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: {
@@ -218,16 +168,19 @@ const listHostsOperationSpec: msRest.OperationSpec = {
 
 const getAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/restartHosts/azureasyncoperations/{operationId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/restartHosts/azureasyncoperations/{operationId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.operationId
   ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.AsyncOperationResult
@@ -241,11 +194,18 @@ const getAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
 
 const beginRestartHostsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/restartHosts",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/restartHosts",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "hosts",
     mapper: {

@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: "en-US",
+    defaultValue: 'en-US',
     type: {
       name: "String"
     }
@@ -116,7 +116,7 @@ export const roleName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "roleName",
-    defaultValue: "workernode",
+    defaultValue: 'workernode',
     type: {
       name: "String"
     }

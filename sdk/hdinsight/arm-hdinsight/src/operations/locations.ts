@@ -31,41 +31,26 @@ export class Locations {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationsGetCapabilitiesResponse>
    */
-  getCapabilities(
-    location: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.LocationsGetCapabilitiesResponse>;
+  getCapabilities(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsGetCapabilitiesResponse>;
   /**
    * @param location The Azure location (region) for which to make the request.
    * @param callback The callback
    */
-  getCapabilities(
-    location: string,
-    callback: msRest.ServiceCallback<Models.CapabilitiesResult>
-  ): void;
+  getCapabilities(location: string, callback: msRest.ServiceCallback<Models.CapabilitiesResult>): void;
   /**
    * @param location The Azure location (region) for which to make the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCapabilities(
-    location: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CapabilitiesResult>
-  ): void;
-  getCapabilities(
-    location: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapabilitiesResult>,
-    callback?: msRest.ServiceCallback<Models.CapabilitiesResult>
-  ): Promise<Models.LocationsGetCapabilitiesResponse> {
+  getCapabilities(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapabilitiesResult>): void;
+  getCapabilities(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapabilitiesResult>, callback?: msRest.ServiceCallback<Models.CapabilitiesResult>): Promise<Models.LocationsGetCapabilitiesResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       getCapabilitiesOperationSpec,
-      callback
-    ) as Promise<Models.LocationsGetCapabilitiesResponse>;
+      callback) as Promise<Models.LocationsGetCapabilitiesResponse>;
   }
 
   /**
@@ -74,10 +59,7 @@ export class Locations {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationsListUsagesResponse>
    */
-  listUsages(
-    location: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.LocationsListUsagesResponse>;
+  listUsages(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsListUsagesResponse>;
   /**
    * @param location The Azure location (region) for which to make the request.
    * @param callback The callback
@@ -88,24 +70,15 @@ export class Locations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsages(
-    location: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.UsagesListResult>
-  ): void;
-  listUsages(
-    location: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsagesListResult>,
-    callback?: msRest.ServiceCallback<Models.UsagesListResult>
-  ): Promise<Models.LocationsListUsagesResponse> {
+  listUsages(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsagesListResult>): void;
+  listUsages(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsagesListResult>, callback?: msRest.ServiceCallback<Models.UsagesListResult>): Promise<Models.LocationsListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listUsagesOperationSpec,
-      callback
-    ) as Promise<Models.LocationsListUsagesResponse>;
+      callback) as Promise<Models.LocationsListUsagesResponse>;
   }
 
   /**
@@ -114,41 +87,26 @@ export class Locations {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationsListBillingSpecsResponse>
    */
-  listBillingSpecs(
-    location: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.LocationsListBillingSpecsResponse>;
+  listBillingSpecs(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsListBillingSpecsResponse>;
   /**
    * @param location The Azure location (region) for which to make the request.
    * @param callback The callback
    */
-  listBillingSpecs(
-    location: string,
-    callback: msRest.ServiceCallback<Models.BillingResponseListResult>
-  ): void;
+  listBillingSpecs(location: string, callback: msRest.ServiceCallback<Models.BillingResponseListResult>): void;
   /**
    * @param location The Azure location (region) for which to make the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBillingSpecs(
-    location: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.BillingResponseListResult>
-  ): void;
-  listBillingSpecs(
-    location: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingResponseListResult>,
-    callback?: msRest.ServiceCallback<Models.BillingResponseListResult>
-  ): Promise<Models.LocationsListBillingSpecsResponse> {
+  listBillingSpecs(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingResponseListResult>): void;
+  listBillingSpecs(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingResponseListResult>, callback?: msRest.ServiceCallback<Models.BillingResponseListResult>): Promise<Models.LocationsListBillingSpecsResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listBillingSpecsOperationSpec,
-      callback
-    ) as Promise<Models.LocationsListBillingSpecsResponse>;
+      callback) as Promise<Models.LocationsListBillingSpecsResponse>;
   }
 
   /**
@@ -158,39 +116,21 @@ export class Locations {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationsGetAzureAsyncOperationStatusResponse>
    */
-  getAzureAsyncOperationStatus(
-    location: string,
-    operationId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.LocationsGetAzureAsyncOperationStatusResponse>;
+  getAzureAsyncOperationStatus(location: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsGetAzureAsyncOperationStatusResponse>;
   /**
    * @param location The Azure location (region) for which to make the request.
    * @param operationId The long running operation id.
    * @param callback The callback
    */
-  getAzureAsyncOperationStatus(
-    location: string,
-    operationId: string,
-    callback: msRest.ServiceCallback<Models.AsyncOperationResult>
-  ): void;
+  getAzureAsyncOperationStatus(location: string, operationId: string, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
   /**
    * @param location The Azure location (region) for which to make the request.
    * @param operationId The long running operation id.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAzureAsyncOperationStatus(
-    location: string,
-    operationId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.AsyncOperationResult>
-  ): void;
-  getAzureAsyncOperationStatus(
-    location: string,
-    operationId: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>,
-    callback?: msRest.ServiceCallback<Models.AsyncOperationResult>
-  ): Promise<Models.LocationsGetAzureAsyncOperationStatusResponse> {
+  getAzureAsyncOperationStatus(location: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  getAzureAsyncOperationStatus(location: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.LocationsGetAzureAsyncOperationStatusResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -198,8 +138,7 @@ export class Locations {
         options
       },
       getAzureAsyncOperationStatusOperationSpec,
-      callback
-    ) as Promise<Models.LocationsGetAzureAsyncOperationStatusResponse>;
+      callback) as Promise<Models.LocationsGetAzureAsyncOperationStatusResponse>;
   }
 
   /**
@@ -209,41 +148,21 @@ export class Locations {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationsCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(
-    location: string,
-    parameters: Models.NameAvailabilityCheckRequestParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.LocationsCheckNameAvailabilityResponse>;
+  checkNameAvailability(location: string, parameters: Models.NameAvailabilityCheckRequestParameters, options?: msRest.RequestOptionsBase): Promise<Models.LocationsCheckNameAvailabilityResponse>;
   /**
    * @param location The Azure location (region) for which to make the request.
    * @param parameters
    * @param callback The callback
    */
-  checkNameAvailability(
-    location: string,
-    parameters: Models.NameAvailabilityCheckRequestParameters,
-    callback: msRest.ServiceCallback<Models.NameAvailabilityCheckResult>
-  ): void;
+  checkNameAvailability(location: string, parameters: Models.NameAvailabilityCheckRequestParameters, callback: msRest.ServiceCallback<Models.NameAvailabilityCheckResult>): void;
   /**
    * @param location The Azure location (region) for which to make the request.
    * @param parameters
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(
-    location: string,
-    parameters: Models.NameAvailabilityCheckRequestParameters,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.NameAvailabilityCheckResult>
-  ): void;
-  checkNameAvailability(
-    location: string,
-    parameters: Models.NameAvailabilityCheckRequestParameters,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.NameAvailabilityCheckResult>,
-    callback?: msRest.ServiceCallback<Models.NameAvailabilityCheckResult>
-  ): Promise<Models.LocationsCheckNameAvailabilityResponse> {
+  checkNameAvailability(location: string, parameters: Models.NameAvailabilityCheckRequestParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailabilityCheckResult>): void;
+  checkNameAvailability(location: string, parameters: Models.NameAvailabilityCheckRequestParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityCheckResult>, callback?: msRest.ServiceCallback<Models.NameAvailabilityCheckResult>): Promise<Models.LocationsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -251,8 +170,7 @@ export class Locations {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback
-    ) as Promise<Models.LocationsCheckNameAvailabilityResponse>;
+      callback) as Promise<Models.LocationsCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -262,41 +180,21 @@ export class Locations {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationsValidateClusterCreateRequestResponse>
    */
-  validateClusterCreateRequest(
-    location: string,
-    parameters: Models.ClusterCreateRequestValidationParameters,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.LocationsValidateClusterCreateRequestResponse>;
+  validateClusterCreateRequest(location: string, parameters: Models.ClusterCreateRequestValidationParameters, options?: msRest.RequestOptionsBase): Promise<Models.LocationsValidateClusterCreateRequestResponse>;
   /**
    * @param location The Azure location (region) for which to make the request.
    * @param parameters
    * @param callback The callback
    */
-  validateClusterCreateRequest(
-    location: string,
-    parameters: Models.ClusterCreateRequestValidationParameters,
-    callback: msRest.ServiceCallback<Models.ClusterCreateValidationResult>
-  ): void;
+  validateClusterCreateRequest(location: string, parameters: Models.ClusterCreateRequestValidationParameters, callback: msRest.ServiceCallback<Models.ClusterCreateValidationResult>): void;
   /**
    * @param location The Azure location (region) for which to make the request.
    * @param parameters
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateClusterCreateRequest(
-    location: string,
-    parameters: Models.ClusterCreateRequestValidationParameters,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ClusterCreateValidationResult>
-  ): void;
-  validateClusterCreateRequest(
-    location: string,
-    parameters: Models.ClusterCreateRequestValidationParameters,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.ClusterCreateValidationResult>,
-    callback?: msRest.ServiceCallback<Models.ClusterCreateValidationResult>
-  ): Promise<Models.LocationsValidateClusterCreateRequestResponse> {
+  validateClusterCreateRequest(location: string, parameters: Models.ClusterCreateRequestValidationParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterCreateValidationResult>): void;
+  validateClusterCreateRequest(location: string, parameters: Models.ClusterCreateRequestValidationParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterCreateValidationResult>, callback?: msRest.ServiceCallback<Models.ClusterCreateValidationResult>): Promise<Models.LocationsValidateClusterCreateRequestResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -304,8 +202,7 @@ export class Locations {
         options
       },
       validateClusterCreateRequestOperationSpec,
-      callback
-    ) as Promise<Models.LocationsValidateClusterCreateRequestResponse>;
+      callback) as Promise<Models.LocationsValidateClusterCreateRequestResponse>;
   }
 }
 
@@ -313,11 +210,17 @@ export class Locations {
 const serializer = new msRest.Serializer(Mappers);
 const getCapabilitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/capabilities",
-  urlParameters: [Parameters.subscriptionId, Parameters.location],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/capabilities",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CapabilitiesResult
@@ -332,9 +235,16 @@ const getCapabilitiesOperationSpec: msRest.OperationSpec = {
 const listUsagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/usages",
-  urlParameters: [Parameters.subscriptionId, Parameters.location],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.UsagesListResult
@@ -348,11 +258,17 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
 
 const listBillingSpecsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/billingSpecs",
-  urlParameters: [Parameters.subscriptionId, Parameters.location],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/billingSpecs",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BillingResponseListResult
@@ -366,11 +282,18 @@ const listBillingSpecsOperationSpec: msRest.OperationSpec = {
 
 const getAzureAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/azureasyncoperations/{operationId}",
-  urlParameters: [Parameters.subscriptionId, Parameters.location, Parameters.operationId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/azureasyncoperations/{operationId}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.AsyncOperationResult
@@ -384,11 +307,17 @@ const getAzureAsyncOperationStatusOperationSpec: msRest.OperationSpec = {
 
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/checkNameAvailability",
-  urlParameters: [Parameters.subscriptionId, Parameters.location],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/checkNameAvailability",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -409,11 +338,17 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const validateClusterCreateRequestOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/validateCreateRequest",
-  urlParameters: [Parameters.subscriptionId, Parameters.location],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/validateCreateRequest",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
