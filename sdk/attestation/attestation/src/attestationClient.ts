@@ -24,6 +24,7 @@ import { AttestationResponse } from "./models/attestationResponse";
 import { TypeDeserializer } from "./utils/typeDeserializer";
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { bytesToString, stringToBytes } from "./utils/utf8";
 
 /**
  * Attestation Client Construction Options.
@@ -289,20 +290,40 @@ export class AttestationClient {
 
   /** Attest a TPM based enclave.
 
-   * See the TPM Attestation Protocol Reference {@link https://docs.microsoft.com/en-us/azure/attestation/virtualization-based-security-protocol} for more information.
+   * See the  {@link https://docs.microsoft.com/en-us/azure/attestation/virtualization-based-security-protocol | TPM Attestation Protocol Reference} for more information.
    * 
    * @param request - Incoming request to send to the TPM attestation service, Utf8 encoded.
    * @param options - Pipeline options for TPM attestation request.
    * @returns A structure containing the response from the TPM attestation, Utf8 encoded.
+   * 
+   * @remarks
+   * 
+   * The incoming requests to the TPM attestation API are stringified JSON objects.
+   * 
+   * @example
+   * For example, the initial call for a TPM attestation operation is:
+   * 
+   * ```js
+   * const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
+   * const result = await client.attestTpm(encodedPayload);
+   * ```
+   * 
+   * where stringToBytes converts the string to UTF8.
    */
   public async attestTpm(
-    request: Uint8Array,
+    request: string,
     options: AttestTpmOptions = {}
-  ): Promise<Uint8Array | undefined> {
+  ): Promise<string> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);
     try {
-      const response = await this._client.attestation.attestTpm({ data: request }, updatedOptions);
-      return response.data;
+      const response = await this._client.attestation.attestTpm({ data: stringToBytes(request) }, updatedOptions);
+      if (response.data) {
+        return bytesToString(response.data);
+      }
+      else
+      {
+        throw Error("Internal error - response data cannot be undefined.")
+      }
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

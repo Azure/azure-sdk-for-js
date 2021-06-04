@@ -18,7 +18,6 @@ import * as base64url from "../utils/base64url";
 
 import { AttestationData } from "../../src";
 import { KnownAttestationType } from "../../src/generated";
-import { bytesToString, stringToBytes } from "../../src/utils/utf8";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
@@ -180,18 +179,15 @@ describe("[AAD] Attestation Client", function() {
 
     const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
 
-    const result = await client.attestTpm(stringToBytes(encodedPayload));
-    assert.isDefined(result);
-    if (result) {
-      const tpmResult = JSON.parse(bytesToString(result));
+    const result = await client.attestTpm(encodedPayload);
+    const tpmResult = JSON.parse(result);
 
-      assert.isDefined(tpmResult.payload);
+    assert.isDefined(tpmResult.payload);
 
-      const payload = tpmResult.payload;
+    const payload = tpmResult.payload;
 
-      assert.isDefined(payload.challenge);
-      assert.isDefined(payload.service_context);
-    }
+    assert.isDefined(payload.challenge);
+    assert.isDefined(payload.service_context);
 
     // Reset the policy on the instance to the default for reproducibility.
     await adminClient.resetPolicy(KnownAttestationType.Tpm);
