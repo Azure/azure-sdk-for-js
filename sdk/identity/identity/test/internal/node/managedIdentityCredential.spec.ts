@@ -13,7 +13,7 @@ import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "..
 import { OAuthErrorResponse } from "../../../src/client/errors";
 import Sinon from "sinon";
 import { imdsMsiRetryConfig } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
-import { unlinkSync, writeFileSync } from "fs";
+import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
 
@@ -343,16 +343,19 @@ describe("ManagedIdentityCredential", function() {
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
-    const filePath = join(tmpdir(), this.test?.title || `test-Date.time()`);
+    const testTitle = this.test?.title || `test-Date.time()`;
+    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+    const tempFile = join(tempDir, testTitle);
     const key = "challenge key";
-    writeFileSync(filePath, key, { encoding: "utf8" });
+    writeFileSync(tempFile, key, { encoding: "utf8" });
+
     try {
       const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], undefined, {
         authResponse: [
           {
             status: 401,
             headers: new HttpHeaders({
-              "www-authenticate": `we don't pay much attention about this format=${filePath}`
+              "www-authenticate": `we don't pay much attention about this format=${tempFile}`
             })
           },
           {
@@ -400,7 +403,8 @@ describe("ManagedIdentityCredential", function() {
         assert.fail("No token was returned!");
       }
     } finally {
-      unlinkSync(filePath);
+      unlinkSync(tempFile);
+      rmdirSync(tempDir);
     }
   });
 
