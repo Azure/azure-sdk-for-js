@@ -145,7 +145,8 @@ async function getDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedI
 async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {
   const patch: DataFeedPatch = {
     source: {
-      dataSourceType: "AzureBlob"
+      dataSourceType: "AzureBlob",
+      authenticationType: "ManagedIdentity"
     },
     name: "new name test-datafeed " + new Date().getTime().toString(),
     ingestionSettings: {
