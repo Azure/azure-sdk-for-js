@@ -6,7 +6,12 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { env, Recorder } from "@azure/test-utils-recorder";
 
-import { KeyVaultAccessControlClient, KeyVaultPermission, KeyVaultRoleDefinition } from "../../src";
+import {
+  KeyVaultAccessControlClient,
+  KeyVaultPermission,
+  KeyVaultRoleDefinition,
+  KnownKeyVaultDataAction
+} from "../../src";
 import { authenticate } from "../utils/authentication";
 import { setTracer, TestTracer } from "@azure/core-tracing";
 
@@ -44,8 +49,8 @@ describe("KeyVaultAccessControlClient", () => {
       {
         actions: [],
         dataActions: [
-          "Microsoft.KeyVault/managedHsm/backup/start/action",
-          "Microsoft.KeyVault/managedHsm/backup/status/action"
+          KnownKeyVaultDataAction.StartHsmBackup,
+          KnownKeyVaultDataAction.ReadHsmBackupStatus
         ],
         notActions: [],
         notDataActions: []
@@ -93,7 +98,7 @@ describe("KeyVaultAccessControlClient", () => {
       const name = generateFakeUUID();
       const roleName = "custom role definition name";
       const description = "custom role description";
-      let roleDefinition: KeyVaultRoleDefinition = await client.upsertRoleDefinition(globalScope, {
+      let roleDefinition: KeyVaultRoleDefinition = await client.setRoleDefinition(globalScope, {
         roleDefinitionName: name,
         roleName,
         permissions,
@@ -113,10 +118,10 @@ describe("KeyVaultAccessControlClient", () => {
         actions: [],
         notActions: [],
         dataActions: [],
-        notDataActions: ["Microsoft.KeyVault/managedHsm/keys/encrypt/action"]
+        notDataActions: [KnownKeyVaultDataAction.EncryptHsmKey]
       });
 
-      roleDefinition = await client.upsertRoleDefinition(globalScope, {
+      roleDefinition = await client.setRoleDefinition(globalScope, {
         roleDefinitionName: name,
         roleName,
         permissions,
@@ -137,10 +142,10 @@ describe("KeyVaultAccessControlClient", () => {
       }
     });
 
-    describe("upsertRoleDefinition", function() {
+    describe("setRoleDefinition", function() {
       it("errors when name is not a valid guid", async function() {
         await assert.isRejected(
-          client.upsertRoleDefinition(globalScope, {
+          client.setRoleDefinition(globalScope, {
             roleDefinitionName: "foo unique value",
             roleName: "foo role definition name",
             permissions: []
@@ -162,7 +167,7 @@ describe("KeyVaultAccessControlClient", () => {
         }
 
         await assert.isRejected(
-          client.upsertRoleDefinition(globalScope, {
+          client.setRoleDefinition(globalScope, {
             roleDefinitionName: builtInDefinition.name,
             roleName: builtInDefinition.roleName,
             permissions

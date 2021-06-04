@@ -8,7 +8,8 @@
  * @azsdk-weight 40
  */
 
-import { Edm, TableClient, TablesSharedKeyCredential } from "@azure/data-tables";
+import { Edm, TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -22,7 +23,7 @@ async function createSimpleDateEntity() {
   const tableName = `createSimpleDateEntityTable`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const creds = new TablesSharedKeyCredential(accountName, accountKey);
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
   const client = new TableClient(tablesUrl, tableName, creds);
 
   await client.createTable();
@@ -43,7 +44,7 @@ async function createComplexDateEntity() {
   const tableName = `createComplexDateEntityTable`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const creds = new TablesSharedKeyCredential(accountName, accountKey);
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
   const client = new TableClient(tablesUrl, tableName, creds);
 
   await client.createTable();
@@ -69,7 +70,7 @@ async function createAndDeleteEntities() {
   const tableName = `createAndDeleteEntitiesTable`;
 
   // See authenticationMethods sample for other options of creating a new client
-  const creds = new TablesSharedKeyCredential(accountName, accountKey);
+  const creds = new AzureNamedKeyCredential(accountName, accountKey);
   const client = new TableClient(tablesUrl, tableName, creds);
 
   // Create the table

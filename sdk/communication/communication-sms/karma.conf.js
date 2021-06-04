@@ -62,7 +62,8 @@ module.exports = function(config) {
       "TEST_MODE",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
+      "AZURE_TENANT_ID",
+      "COMMUNICATION_SKIP_INT_SMS_TEST"
     ],
 
     // test results reporter to use

@@ -139,12 +139,11 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     state.startTime = startTime;
     state.status = status;
     state.statusDetails = statusDetails;
+    state.isCompleted = !!endTime;
 
-    if (status?.toLowerCase() === "failed") {
+    if (state.isCompleted && error?.code) {
       throw new Error(error?.message || statusDetails);
     }
-
-    state.isCompleted = !!endTime;
 
     if (state.isCompleted) {
       state.result = {

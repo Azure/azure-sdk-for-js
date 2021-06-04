@@ -82,12 +82,6 @@ describe("AbortSignal", () => {
       });
 
       assert.equal(passedInOptions?.abortSignal, abortSignal);
-
-      await sender.sendMessages([testMessageThatDoesntMatter], {
-        abortSignal
-      });
-
-      assert.equal(passedInOptions?.abortSignal, abortSignal);
     });
 
     it("_trySend with an already aborted AbortSignal", async () => {

@@ -8,7 +8,8 @@
  * @azsdk-weight 70
  */
 
-import { Edm, TableClient, TablesSharedKeyCredential } from "@azure/data-tables";
+import { Edm, TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -22,7 +23,7 @@ async function workingWithInt64() {
   const client = new TableClient(
     tablesUrl,
     "testInt64",
-    new TablesSharedKeyCredential(accountName, accountKey)
+    new AzureNamedKeyCredential(accountName, accountKey)
   );
 
   await client.createTable();

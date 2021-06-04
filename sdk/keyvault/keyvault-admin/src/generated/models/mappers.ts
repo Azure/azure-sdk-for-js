@@ -56,14 +56,23 @@ export const RoleDefinition: coreHttp.CompositeMapper = {
         serializedName: "properties.permissions",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Permission" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Permission"
+            }
+          }
         }
       },
       assignableScopes: {
         serializedName: "properties.assignableScopes",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -97,14 +106,23 @@ export const RoleDefinitionProperties: coreHttp.CompositeMapper = {
         serializedName: "permissions",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Permission" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Permission"
+            }
+          }
         }
       },
       assignableScopes: {
         serializedName: "assignableScopes",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -120,28 +138,44 @@ export const Permission: coreHttp.CompositeMapper = {
         serializedName: "actions",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       notActions: {
         serializedName: "notActions",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       dataActions: {
         serializedName: "dataActions",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       notDataActions: {
         serializedName: "notDataActions",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -219,7 +253,12 @@ export const RoleDefinitionListResult: coreHttp.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "RoleDefinition" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "RoleDefinition"
+            }
+          }
         }
       },
       nextLink: {
@@ -344,7 +383,12 @@ export const RoleAssignmentListResult: coreHttp.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "RoleAssignment" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "RoleAssignment"
+            }
+          }
         }
       },
       nextLink: {
@@ -412,6 +456,7 @@ export const FullBackupOperation: coreHttp.CompositeMapper = {
       },
       endTime: {
         serializedName: "endTime",
+        nullable: true,
         type: {
           name: "UnixTime"
         }
@@ -493,6 +538,7 @@ export const RestoreOperation: coreHttp.CompositeMapper = {
       },
       endTime: {
         serializedName: "endTime",
+        nullable: true,
         type: {
           name: "UnixTime"
         }
@@ -562,6 +608,7 @@ export const SelectiveKeyRestoreOperation: coreHttp.CompositeMapper = {
       },
       endTime: {
         serializedName: "endTime",
+        nullable: true,
         type: {
           name: "UnixTime"
         }

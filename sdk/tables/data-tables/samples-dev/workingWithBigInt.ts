@@ -8,7 +8,8 @@
  * @azsdk-weight 70
  */
 
-import { TableClient, TablesSharedKeyCredential } from "@azure/data-tables";
+import { TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -22,7 +23,7 @@ async function workingWithBigint() {
   const client = new TableClient(
     tablesUrl,
     "testbigint",
-    new TablesSharedKeyCredential(accountName, accountKey)
+    new AzureNamedKeyCredential(accountName, accountKey)
   );
 
   await client.createTable();

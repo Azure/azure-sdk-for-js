@@ -8,7 +8,7 @@ import {
   KeyBundle,
   KeyItem
 } from "./generated/models";
-import { parseKeyVaultKeyId } from "./identifier";
+import { parseKeyVaultKeyIdentifier } from "./identifier";
 import { DeletedKey, KeyVaultKey, JsonWebKey, KeyOperation, KeyProperties } from "./keysModels";
 
 /**
@@ -21,7 +21,7 @@ export function getKeyFromKeyBundle(
   const keyBundle = bundle as KeyBundle;
   const deletedKeyBundle = bundle as DeletedKeyBundle;
 
-  const parsedId = parseKeyVaultKeyId(keyBundle.key!.kid!);
+  const parsedId = parseKeyVaultKeyIdentifier(keyBundle.key!.kid!);
 
   const attributes: KeyAttributes = keyBundle.attributes || {};
   delete keyBundle.attributes;
@@ -88,7 +88,7 @@ export function getDeletedKeyFromDeletedKeyItem(keyItem: DeletedKeyItem): Delete
  * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
  */
 export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
-  const parsedId = parseKeyVaultKeyId(keyItem.kid!);
+  const parsedId = parseKeyVaultKeyIdentifier(keyItem.kid!);
   const attributes = keyItem.attributes || {};
 
   const resultObject: KeyProperties = {

@@ -176,4 +176,40 @@ describe("batch operations", () => {
       assert.isString(error.message);
     }
   });
+
+  it("should send multiple transactions with the same partition key", async () => {
+    const multiBatchPartitionKey = "multiBatch1";
+    const actions1: TransactionAction[] = [
+      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r1", value: "1" }],
+      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r2", value: "2" }],
+      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r3", value: "3" }]
+    ];
+
+    await client.submitTransaction(actions1);
+
+    const actions2: TransactionAction[] = [
+      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r4", value: "4" }],
+      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r5", value: "5" }],
+      ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r6", value: "6" }]
+    ];
+
+    await client.submitTransaction(actions2);
+
+    const entities = client.listEntities<{ name: string }>({
+      queryOptions: { filter: odata`PartitionKey eq ${multiBatchPartitionKey}` }
+    });
+
+    let entityCount = 0;
+    for await (const entity of entities) {
+      if (entity.partitionKey !== multiBatchPartitionKey) {
+        throw new Error(
+          `Expected all entities to have the same partition key: ${multiBatchPartitionKey} but found ${entity.partitionKey}`
+        );
+      }
+
+      entityCount++;
+    }
+
+    assert.equal(entityCount, 6);
+  });
 });
