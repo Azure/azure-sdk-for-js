@@ -113,7 +113,9 @@ export interface AnalyzeActionsOperationState
 /**
  * @internal
  */
-function getMetaInfoFromResponse(response: AnalyzeJobState): Omit<AnalyzeActionsOperationMetadata, "operationId"> {
+function getMetaInfoFromResponse(
+  response: AnalyzeJobState
+): Omit<AnalyzeActionsOperationMetadata, "operationId"> {
   return {
     createdOn: response.createdDateTime,
     lastModifiedOn: response.lastUpdateDateTime,
