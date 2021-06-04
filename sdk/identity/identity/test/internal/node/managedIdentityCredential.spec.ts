@@ -343,7 +343,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
-    const filePath = join(tmpdir(), this.currentTest?.title || `Date.time()`);
+    const filePath = join(tmpdir(), this.test?.title || `test-Date.time()`);
     const key = "challenge key";
     writeFileSync(filePath, key, { encoding: "utf8" });
     try {
