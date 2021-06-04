@@ -13,6 +13,7 @@ import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "..
 import { OAuthErrorResponse } from "../../../src/client/errors";
 import Sinon from "sinon";
 import { imdsMsiRetryConfig } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
+import { unlinkSync, writeFileSync } from "fs";
 
 interface AuthRequestDetails {
   requests: WebResource[];
@@ -20,9 +21,6 @@ interface AuthRequestDetails {
 }
 
 describe("ManagedIdentityCredential", function() {
-  // There are no types available for this dependency, at least at the time this test file was written.
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const mockFs = require("mock-fs");
   let envCopy: string = "";
   let sandbox: Sinon.SinonSandbox;
   let clock: Sinon.SinonFakeTimers;
@@ -42,7 +40,6 @@ describe("ManagedIdentityCredential", function() {
     });
   });
   afterEach(() => {
-    mockFs.restore();
     const env = JSON.parse(envCopy);
     process.env.IDENTITY_ENDPOINT = env.IDENTITY_ENDPOINT;
     process.env.IDENTITY_HEADER = env.IDENTITY_HEADER;
@@ -338,19 +335,16 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  // This fails on ubuntu1804_16x_node on Node version 16.3.0
-  it.skip("sends an authorization request correctly in an Azure Arc environment", async () => {
+  it("sends an authorization request correctly in an Azure Arc environment", async () => {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
-    const filePath = "path/to/file";
+    const date = Date.now();
+    const filePath = `test_${date}`;
     const key = "challenge key";
-
-    mockFs({
-      [`${filePath}`]: key
-    });
+    writeFileSync(filePath, key, { encoding: "utf8" });
 
     const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], undefined, {
       authResponse: [
@@ -404,6 +398,8 @@ describe("ManagedIdentityCredential", function() {
     } else {
       assert.fail("No token was returned!");
     }
+
+    unlinkSync(filePath);
   });
 
   // "fabricMsi" isn't part of the ManagedIdentityCredential MSIs yet
