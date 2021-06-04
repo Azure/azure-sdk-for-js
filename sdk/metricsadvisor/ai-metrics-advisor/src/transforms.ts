@@ -1490,6 +1490,7 @@ export function toServiceCredentialPatch(
     case "AzureSQLConnectionString": {
       const cred1 = from as Partial<Omit<SqlServerConnectionStringDatasourceCredential, "id">>;
       return {
+        ...common,
         dataSourceCredentialType: from.type,
         parameters: {
           connectionString: cred1.connectionString
