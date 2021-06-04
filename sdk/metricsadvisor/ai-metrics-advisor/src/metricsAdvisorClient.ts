@@ -44,13 +44,11 @@ import { createClientPipeline } from "./createClientPipeline";
 /**
  * Client options used to configure Metrics Advisor API requests.
  */
-
 export interface MetricsAdvisorClientOptions extends PipelineOptions {}
 
 /**
  * Options for listing incidents for detection configurations
  */
-
 export interface ListIncidentsForDetectionConfigurationOptions extends OperationOptions {
   dimensionFilter?: DimensionKey[]; // lifted
 }
@@ -58,13 +56,11 @@ export interface ListIncidentsForDetectionConfigurationOptions extends Operation
 /**
  * Options for retreiving metric enriched series data
  */
-
 export interface GetMetricEnrichedSeriesDataOptions extends OperationOptions {}
 
 /**
  * Options for listing anomalies for detection configurations
  */
-
 export interface ListAnomaliesForDetectionConfigurationOptions extends OperationOptions {
   skip?: number;
   dimensionFilter?: DimensionKey[];
@@ -74,7 +70,6 @@ export interface ListAnomaliesForDetectionConfigurationOptions extends Operation
 /**
  * Options for listing anomalies for alert configurations
  */
-
 export interface ListAnomaliesForAlertConfigurationOptions extends OperationOptions {
   skip?: number;
 }
@@ -82,7 +77,6 @@ export interface ListAnomaliesForAlertConfigurationOptions extends OperationOpti
 /**
  * Options for listing incidents for an alert
  */
-
 export interface ListIncidentsForAlertOptions extends OperationOptions {
   skip?: number;
 }
@@ -90,7 +84,6 @@ export interface ListIncidentsForAlertOptions extends OperationOptions {
 /**
  * Options for listing dimension values for detection configurations
  */
-
 export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
   skip?: number;
   dimensionFilter?: DimensionKey;
@@ -99,7 +92,6 @@ export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
 /**
  * Options for listing feedbacks
  */
-
 export interface ListFeedbackOptions extends OperationOptions {
   skip?: number;
   /**
@@ -129,7 +121,6 @@ export interface ListFeedbackOptions extends OperationOptions {
 /**
  * Options for listing series definitions of a metric
  */
-
 export interface ListMetricSeriesDefinitionsOptions extends OperationOptions {
   skip?: number;
   /**
@@ -141,13 +132,11 @@ export interface ListMetricSeriesDefinitionsOptions extends OperationOptions {
 /**
  * Options for retreiving metric series data
  */
-
 export interface GetMetricSeriesDataOptions extends OperationOptions {}
 
 /**
  * Options for listing alerts
  */
-
 export interface ListAlertsOptions extends OperationOptions {
   skip?: number;
 }
@@ -155,7 +144,6 @@ export interface ListAlertsOptions extends OperationOptions {
 /**
  * Options for listing dimension values of a metric
  */
-
 export interface ListMetricDimensionValuesOptions extends OperationOptions {
   skip?: number;
   /**
@@ -167,7 +155,6 @@ export interface ListMetricDimensionValuesOptions extends OperationOptions {
 /**
  * Options for listing metric enrichment status
  */
-
 export interface ListMetricEnrichmentStatusOptions extends OperationOptions {
   skip?: number;
 }
@@ -374,7 +361,6 @@ export class MetricsAdvisorClient {
    * @param timeMode - Query time mode - "AnomalyTime" | "CreatedTime" | "ModifiedTime"
    * @param options - The options parameter.
    */
-
   public listAlerts(
     alertConfigId: string,
     startTime: Date | string,

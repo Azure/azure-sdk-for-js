@@ -598,7 +598,9 @@ export type MongoDbDataFeedSource = {
  */
 export type UnknownDataFeedSource = {
   dataSourceType: "Unknown";
+  /** data source parameter for unknown datafeed */
   dataSourceParameter: unknown;
+  /** authentication type */
   authenticationType: "Basic";
 };
 
@@ -606,7 +608,9 @@ export type UnknownDataFeedSource = {
  * Represents Basic Authentication for Sql Server datafeed source
  */
 export interface SqlServerAuthBasic {
+  /** Basic Authentication Type */
   authenticationType: "Basic";
+  /** Connection string for Sql Server datafeed authentication */
   connectionString: string;
 }
 
@@ -614,7 +618,9 @@ export interface SqlServerAuthBasic {
  * Represents Managed Identity Authentication for Sql Server datafeed source
  */
 export interface SqlServerAuthManagedIdentity {
+  /** Managed Identity Authentication Type */
   authenticationType: "ManagedIdentity";
+  /** Connection string for Sql Server datafeed authentication */
   connectionString: string;
 }
 
@@ -622,7 +628,9 @@ export interface SqlServerAuthManagedIdentity {
  * Represents Azure SQL Connection String Authentication for Sql Server datafeed source
  */
 export interface SqlServerAuthConnectionString {
+  /** Azure SQL Connection String Authentication */
   authenticationType: "AzureSQLConnectionString";
+  /** Datasource Credential Id for Sql Server datafeed authentication */
   credentialId: string;
 }
 
@@ -630,8 +638,11 @@ export interface SqlServerAuthConnectionString {
  * Represents Service Principal in Keyvault Authentication for Sql Server datafeed source
  */
 export interface SqlServerAuthServicePrincipalInKeyVault {
+  /** Service Principal in Keyvault Authentication */
   authenticationType: "ServicePrincipalInKV";
+  /** Datasource Credential Id for Sql Server datafeed authentication */
   credentialId: string;
+  /** Connection string for Sql Server datafeed authentication */
   connectionString: string;
 }
 
@@ -639,8 +650,11 @@ export interface SqlServerAuthServicePrincipalInKeyVault {
  * Represents Service Principal Authentication for Sql Server datafeed source
  */
 export interface SqlServerAuthServicePrincipal {
+  /** Service Principal Authentication */
   authenticationType: "ServicePrincipal";
+  /** Datasource Credential Id for Sql Server datafeed authentication */
   credentialId: string;
+  /** Connection string for Sql Server datafeed authentication */
   connectionString: string;
 }
 
@@ -659,6 +673,7 @@ export type SqlServerAuthTypes =
  */
 export type SqlServerDataFeedSource = {
   dataSourceType: "SqlServer";
+  /** Query for Sql Server datafeed source */
   query: string;
 } & SqlServerAuthTypes;
 
@@ -1083,6 +1098,7 @@ export interface NotificationHook {
  */
 export type EmailNotificationHook = {
   hookType: "Email";
+  /** Parameters for email notification hook */
   hookParameter: EmailHookParameter;
 } & NotificationHook;
 
@@ -1091,6 +1107,7 @@ export type EmailNotificationHook = {
  */
 export type WebNotificationHook = {
   hookType: "Webhook";
+  /** Parameters for web notification hook */
   hookParameter: WebhookHookParameter;
 } & NotificationHook;
 
@@ -1122,6 +1139,7 @@ export type NotificationHookPatch = {
  */
 export type EmailNotificationHookPatch = {
   hookType: "Email";
+  /** Parameters for email notification hook patch */
   hookParameter?: Partial<EmailHookParameter>;
 } & NotificationHookPatch;
 
@@ -1130,6 +1148,7 @@ export type EmailNotificationHookPatch = {
  */
 export type WebNotificationHookPatch = {
   hookType: "Webhook";
+  /** Parameters for web notification hook patch */
   hookParameter?: Partial<WebhookHookParameter>;
 } & NotificationHookPatch;
 
@@ -2147,6 +2166,9 @@ export type GetIngestionProgressResponse = {
   };
 };
 
+/**
+ * Data Source Credential
+ */
 export interface DatasourceCredential {
   /**
    * Unique id of data source credential
@@ -2159,13 +2181,21 @@ export interface DatasourceCredential {
   description?: string;
 }
 
+/**
+ * SqlServer Data Source Credential
+ */
 export interface SqlServerConnectionStringDatasourceCredential extends DatasourceCredential {
   type: "AzureSQLConnectionString";
+  /** The connection string for SqlServer Data Source Credential */
   connectionString: string;
 }
 
+/**
+ * DataLake Gen2 Shared Key Datasource Credential
+ */
 export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCredential {
   type: "DataLakeGen2SharedKey";
+  /** The account key of the DataLake Gen2 Shared Key Datasource Credential  */
   accountKey: string;
 }
 

@@ -381,9 +381,8 @@ export interface DataFeedsPageResponse extends Array<DataFeed> {
 // @public (undocumented)
 export type DataFeedStatus = "Paused" | "Active";
 
-// @public (undocumented)
+// @public
 export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCredential {
-    // (undocumented)
     accountKey: string;
     // (undocumented)
     type: "DataLakeGen2SharedKey";
@@ -433,7 +432,7 @@ export interface DataPointAnomaly {
     readonly value?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface DatasourceCredential {
     description?: string;
     readonly id?: string;
@@ -1019,7 +1018,7 @@ export class MetricsAdvisorKeyCredential {
     updateKey(metricAdvisorKeys: MetricsAdvisorKeys): void;
 }
 
-// @public (undocumented)
+// @public
 export interface MetricsAdvisorKeys {
     // (undocumented)
     apiKey?: string;
@@ -1152,54 +1151,41 @@ export type SnoozeScope = "Metric" | "Series";
 
 // @public
 export interface SqlServerAuthBasic {
-    // (undocumented)
     authenticationType: "Basic";
-    // (undocumented)
     connectionString: string;
 }
 
 // @public
 export interface SqlServerAuthConnectionString {
-    // (undocumented)
     authenticationType: "AzureSQLConnectionString";
-    // (undocumented)
     credentialId: string;
 }
 
 // @public
 export interface SqlServerAuthManagedIdentity {
-    // (undocumented)
     authenticationType: "ManagedIdentity";
-    // (undocumented)
     connectionString: string;
 }
 
 // @public
 export interface SqlServerAuthServicePrincipal {
-    // (undocumented)
     authenticationType: "ServicePrincipal";
-    // (undocumented)
     connectionString: string;
-    // (undocumented)
     credentialId: string;
 }
 
 // @public
 export interface SqlServerAuthServicePrincipalInKeyVault {
-    // (undocumented)
     authenticationType: "ServicePrincipalInKV";
-    // (undocumented)
     connectionString: string;
-    // (undocumented)
     credentialId: string;
 }
 
 // @public
 export type SqlServerAuthTypes = SqlServerAuthBasic | SqlServerAuthManagedIdentity | SqlServerAuthConnectionString | SqlServerAuthServicePrincipal | SqlServerAuthServicePrincipalInKeyVault;
 
-// @public (undocumented)
+// @public
 export interface SqlServerConnectionStringDatasourceCredential extends DatasourceCredential {
-    // (undocumented)
     connectionString: string;
     // (undocumented)
     type: "AzureSQLConnectionString";

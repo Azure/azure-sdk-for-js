@@ -14,6 +14,9 @@ import {
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 const X_API_KEY_HEADER_NAME = "x-api-key";
 
+/**
+ * Interface parameters for updateKey function
+ */
 export interface MetricsAdvisorKeys {
   apiKey?: string;
   subscriptionKey?: string;
