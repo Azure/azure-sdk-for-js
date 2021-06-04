@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { MicrosoftDatadogClientContext } from "./microsoftDatadogClientContext";
 
-
 class MicrosoftDatadogClient extends MicrosoftDatadogClientContext {
   // Operation groups
   marketplaceAgreements: operations.MarketplaceAgreements;
@@ -34,7 +33,11 @@ class MicrosoftDatadogClient extends MicrosoftDatadogClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.MicrosoftDatadogClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials | TokenCredential,
+    subscriptionId: string,
+    options?: Models.MicrosoftDatadogClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.marketplaceAgreements = new operations.MarketplaceAgreements(this);
     this.monitors = new operations.Monitors(this);
