@@ -32,41 +32,21 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    factoryName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.PrivateLinkResourcesGetResponse>;
+  get(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    factoryName: string,
-    callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>
-  ): void;
+  get(resourceGroupName: string, factoryName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    factoryName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>
-  ): void;
-  get(
-    resourceGroupName: string,
-    factoryName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>,
-    callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>
-  ): Promise<Models.PrivateLinkResourcesGetResponse> {
+  get(resourceGroupName: string, factoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  get(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): Promise<Models.PrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,8 +54,7 @@ export class PrivateLinkResources {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.PrivateLinkResourcesGetResponse>;
+      callback) as Promise<Models.PrivateLinkResourcesGetResponse>;
   }
 }
 
@@ -83,11 +62,18 @@ export class PrivateLinkResources {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateLinkResources",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.factoryName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateLinkResources",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourcesWrapper
