@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { HDInsightManagementClientContext } from "./hDInsightManagementClientContext";
 
-
 class HDInsightManagementClient extends HDInsightManagementClientContext {
   // Operation groups
   clusters: operations.Clusters;
@@ -39,7 +38,11 @@ class HDInsightManagementClient extends HDInsightManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.HDInsightManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials | TokenCredential,
+    subscriptionId: string,
+    options?: Models.HDInsightManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.clusters = new operations.Clusters(this);
     this.applications = new operations.Applications(this);
