@@ -7,7 +7,7 @@
  *
  * @param services -
  */
-export function accountSASServicesFromString(services: string) {
+export function accountSASServicesFromString(services: string): AccountSASServices {
   const accountSASServices: AccountSASServices = {};
 
   for (const c of services) {
@@ -36,7 +36,7 @@ export function accountSASServicesFromString(services: string) {
  * Converts the given services to a string.
  *
  */
-export function accountSASServicesToString(services: AccountSASServices = { table: true }) {
+export function accountSASServicesToString(services: AccountSASServices = { table: true }): string {
   const servicesString: string[] = [];
   if (services.blob) {
     servicesString.push("b");

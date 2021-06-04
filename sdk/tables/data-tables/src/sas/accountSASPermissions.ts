@@ -6,8 +6,8 @@
  *
  * @param permissions -
  */
-export function accountSASPermissionsFromString(permissions: string) {
-  let accountSASPermissions: AccountSASPermissions = {};
+export function accountSASPermissionsFromString(permissions: string): AccountSASPermissions {
+  const accountSASPermissions: AccountSASPermissions = {};
 
   for (const c of permissions) {
     switch (c) {
@@ -48,7 +48,7 @@ export function accountSASPermissionsFromString(permissions: string) {
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
  *
  */
-export function accountSASPermissionsToString(permissions: AccountSASPermissions) {
+export function accountSASPermissionsToString(permissions: AccountSASPermissions): string {
   // The order of the characters should be as specified here to ensure correctness:
   // https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
   // Use a string array instead of string concatenating += operator for performance
