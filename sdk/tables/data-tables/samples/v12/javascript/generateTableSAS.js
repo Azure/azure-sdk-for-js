@@ -6,21 +6,20 @@
  * by default the only permission granted is list
  *
  * @summary generate a Table Account SAS token
- * @azsdk-weight 40
  */
 
-import {
+const {
   generateAccountSAS,
   generateTableSAS,
   TableClient,
   TableServiceClient,
   AccountSASPermissions,
   TableSASPermissions
-} from "@azure/data-tables";
-import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
+} = require("@azure/data-tables");
+const { AzureNamedKeyCredential, AzureSASCredential } = require("@azure/core-auth");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 const tablesUrl = process.env["TABLES_URL"] || "";
@@ -97,7 +96,7 @@ async function generateTableSASSample() {
   await table.deleteTable();
 }
 
-export async function main() {
+async function main() {
   await generateTableSASSample();
 }
 

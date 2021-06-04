@@ -3,6 +3,7 @@
 
 export * from "./generatedModels";
 export * from "./models";
+export * from "./sas";
 
 export { TableServiceClient } from "./TableServiceClient";
 export { TableTransaction } from "./TableTransaction";

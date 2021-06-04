@@ -40,7 +40,7 @@ async function tableServiceClientWithSasConnectionString() {
  * Create a TableServiceCLient using a SAS token
  */
 async function tableServiceClientWithSasToken() {
-  const client = new TableServiceClient(`${tablesUrl}${sasToken}`);
+  const client = new TableServiceClient(tablesUrl, new AzureSASCredential(sasToken));
   countTablesWithClient(client);
 }
 

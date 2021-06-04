@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -19,7 +22,7 @@ export class AccountSASPermissions {
     for (const c of permissions) {
       switch (c) {
         case "r":
-          accountSASPermissions.read = true;
+          accountSASPermissions.query = true;
           break;
         case "w":
           accountSASPermissions.write = true;
@@ -27,30 +30,16 @@ export class AccountSASPermissions {
         case "d":
           accountSASPermissions.delete = true;
           break;
-        case "x":
-          accountSASPermissions.deleteVersion = true;
-          break;
         case "l":
           accountSASPermissions.list = true;
           break;
         case "a":
           accountSASPermissions.add = true;
           break;
-        case "c":
-          accountSASPermissions.create = true;
-          break;
         case "u":
           accountSASPermissions.update = true;
           break;
-        case "p":
-          accountSASPermissions.process = true;
-          break;
-        case "t":
-          accountSASPermissions.tag = true;
-          break;
-        case "f":
-          accountSASPermissions.filter = true;
-          break;
+
         default:
           throw new RangeError(`Invalid permission character: ${c}`);
       }
@@ -67,8 +56,8 @@ export class AccountSASPermissions {
    */
   public static from(permissionLike: AccountSASPermissionsLike): AccountSASPermissions {
     const accountSASPermissions = new AccountSASPermissions();
-    if (permissionLike.read) {
-      accountSASPermissions.read = true;
+    if (permissionLike.query) {
+      accountSASPermissions.query = true;
     }
     if (permissionLike.write) {
       accountSASPermissions.write = true;
@@ -76,87 +65,47 @@ export class AccountSASPermissions {
     if (permissionLike.delete) {
       accountSASPermissions.delete = true;
     }
-    if (permissionLike.deleteVersion) {
-      accountSASPermissions.deleteVersion = true;
-    }
-    if (permissionLike.filter) {
-      accountSASPermissions.filter = true;
-    }
-    if (permissionLike.tag) {
-      accountSASPermissions.tag = true;
-    }
     if (permissionLike.list) {
       accountSASPermissions.list = true;
     }
     if (permissionLike.add) {
       accountSASPermissions.add = true;
     }
-    if (permissionLike.create) {
-      accountSASPermissions.create = true;
-    }
     if (permissionLike.update) {
       accountSASPermissions.update = true;
-    }
-    if (permissionLike.process) {
-      accountSASPermissions.process = true;
     }
     return accountSASPermissions;
   }
 
   /**
-   * Permission to read resources.
+   * Grants permission to list entities.
    */
-  public read: boolean = false;
+  public query: boolean = false;
 
   /**
-   * Permission to write resources granted.
+   * Grants permission to create tables
    */
   public write: boolean = false;
 
   /**
-   * Permission to create blobs and files granted.
+   * Grants permission to delete tables and entities
    */
   public delete: boolean = false;
 
   /**
-   * Permission to delete versions granted.
-   */
-  public deleteVersion: boolean = false;
-
-  /**
-   * Permission to list tables, blob containers, blobs, shares, directories, and files granted.
+   * Grants permission to list tables
    */
   public list: boolean = false;
 
   /**
-   * Permission to add messages, table entities, and append to blobs granted.
+   * Grants permission to create entities
    */
   public add: boolean = false;
-
-  /**
-   * Permission to create blobs and files granted.
-   */
-  public create: boolean = false;
 
   /**
    * Permissions to update messages and table entities granted.
    */
   public update: boolean = false;
-
-  /**
-   * Permission to get and delete messages granted.
-   */
-  public process: boolean = false;
-
-  /**
-   * Specfies Tag access granted.
-   */
-  public tag: boolean = false;
-
-  /**
-   * Permission to filter blobs.
-   */
-  public filter: boolean = false;
 
   /**
    * Produces the SAS permissions string for an Azure Storage account.
@@ -173,7 +122,7 @@ export class AccountSASPermissions {
     // https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
     // Use a string array instead of string concatenating += operator for performance
     const permissions: string[] = [];
-    if (this.read) {
+    if (this.query) {
       permissions.push("r");
     }
     if (this.write) {
@@ -182,30 +131,16 @@ export class AccountSASPermissions {
     if (this.delete) {
       permissions.push("d");
     }
-    if (this.deleteVersion) {
-      permissions.push("x");
-    }
-    if (this.filter) {
-      permissions.push("f");
-    }
-    if (this.tag) {
-      permissions.push("t");
-    }
     if (this.list) {
       permissions.push("l");
     }
     if (this.add) {
       permissions.push("a");
     }
-    if (this.create) {
-      permissions.push("c");
-    }
     if (this.update) {
       permissions.push("u");
     }
-    if (this.process) {
-      permissions.push("p");
-    }
+
     return permissions.join("");
   }
 }
@@ -216,57 +151,32 @@ export class AccountSASPermissions {
  */
 export interface AccountSASPermissionsLike {
   /**
-   * Permission to read resources and list queues and tables granted.
+   * Grants permission to list entities.
    */
-  read?: boolean;
+  query: boolean;
 
   /**
-   * Permission to write resources granted.
+   * Grants permission to create tables
    */
-  write?: boolean;
+  write: boolean;
 
   /**
-   * Permission to create blobs and files granted.
+   * Grants permission to delete tables and entities
    */
-  delete?: boolean;
+  delete: boolean;
 
   /**
-   * Permission to delete versions granted.
+   * Grants permission to list tables
    */
-  deleteVersion?: boolean;
+  list: boolean;
 
   /**
-   * Permission to list blob containers, blobs, shares, directories, and files granted.
+   * Grants permission to create entities
    */
-  list?: boolean;
-
-  /**
-   * Permission to add messages, table entities, and append to blobs granted.
-   */
-  add?: boolean;
-
-  /**
-   * Permission to create blobs and files granted.
-   */
-  create?: boolean;
+  add: boolean;
 
   /**
    * Permissions to update messages and table entities granted.
    */
-  update?: boolean;
-
-  /**
-   * Permission to get and delete messages granted.
-   */
-  process?: boolean;
-
-  /**
-   * Specfies Tag access granted.
-   */
-  tag?: boolean;
-
-  /**
-   * Permission to filter blobs.
-   */
-  filter?: boolean;
+  update: boolean;
 }

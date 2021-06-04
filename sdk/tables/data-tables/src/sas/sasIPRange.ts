@@ -24,6 +24,10 @@ export interface SasIPRange {
  *
  * @param ipRange -
  */
-export function ipRangeToString(ipRange: SasIPRange): string {
+export function ipRangeToString(ipRange?: SasIPRange): string {
+  if (!ipRange) {
+    return "";
+  }
+
   return ipRange.end ? `${ipRange.start}-${ipRange.end}` : ipRange.start;
 }

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
 import { AccountSASPermissions } from "./accountSASPermissions";
 import { AccountSASServices } from "./accountSASServices";
@@ -6,9 +9,7 @@ import { SasIPRange } from "./sasIPRange";
 import { SASProtocol } from "./sasQueryParameters";
 
 /**
- * Only available for BlobServiceClient constructed with a shared key credential.
- *
- * Generates a Blob account Shared Access Signature (SAS) URI based on the client properties
+ * Generates a Table Account Shared Access Signature (SAS) URI based on the client properties
  * and parameters passed in. The SAS is signed by the shared key credential of the client.
  *
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
@@ -19,10 +20,10 @@ import { SASProtocol } from "./sasQueryParameters";
 export function generateAccountSAS(
   credential: NamedKeyCredential,
   options: AccountSASOptions = {}
-) {
+): string {
   const {
     expiresOn,
-    permissions = AccountSASPermissions.parse("rwdlacu"),
+    permissions = AccountSASPermissions.parse("rl"),
     resourceTypes = "sco",
     ...rest
   } = options;
@@ -54,7 +55,7 @@ export function generateAccountSAS(
 }
 
 /**
- * Options to configure {@link BlobServiceClient.generateAccountSasUrl} operation.
+ * Options to configure {@link generateAccountSAS} operation.
  */
 export interface AccountSASOptions {
   /**

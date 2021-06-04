@@ -322,14 +322,10 @@ export class TableServiceClient {
   }
 
   private async _listTables(options?: InternalListTablesOptions): Promise<ListTableItemsResponse> {
-    try {
-      const { xMsContinuationNextTableName: nextTableName, value = [] } = await this.table.query(
-        options
-      );
-      return Object.assign([...value], { nextTableName });
-    } catch (e) {
-      throw e;
-    }
+    const { xMsContinuationNextTableName: nextTableName, value = [] } = await this.table.query(
+      options
+    );
+    return Object.assign([...value], { nextTableName });
   }
 
   /**

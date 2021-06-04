@@ -105,6 +105,13 @@ export function generateTableSAS(
 ): string;
 
 // @public
+export function generateTableSAS(
+  tableName: string,
+  credential: NamedKeyCredential,
+  options?: TableSASSignatureValues
+): string;
+
+// @public
 export interface GeoReplication {
   lastSyncTime: Date;
   status: GeoReplicationStatusType;
@@ -378,6 +385,40 @@ export interface TableQueryOptions {
 // @public
 export interface TableQueryResponse {
   value?: TableItem[];
+}
+
+// @public
+export class TableSASPermissions {
+  add: boolean;
+  delete: boolean;
+  static from(permissionLike: TableSASPermissionsLike): TableSASPermissions;
+  static parse(permissions: string): TableSASPermissions;
+  query: boolean;
+  toString(): string;
+  update: boolean;
+}
+
+// @public
+export interface TableSASPermissionsLike {
+  add?: boolean;
+  delete?: boolean;
+  query?: boolean;
+  update?: boolean;
+}
+
+// @public
+export interface TableSASSignatureValues {
+  endPartitionKey?: string;
+  endRowKey?: string;
+  expiresOn?: Date;
+  identifier?: string;
+  ipRange?: SasIPRange;
+  permissions?: TableSASPermissions;
+  protocol?: SASProtocol;
+  startPartitionKey?: string;
+  startRowKey?: string;
+  startsOn?: Date;
+  version?: string;
 }
 
 // @public

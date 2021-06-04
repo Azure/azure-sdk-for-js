@@ -6,7 +6,6 @@
  * by default the only permission granted is list
  *
  * @summary generate a Table Account SAS token
- * @azsdk-weight 40
  */
 
 import {
