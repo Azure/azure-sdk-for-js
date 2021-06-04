@@ -198,11 +198,6 @@ export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOp
  */
 export interface RecognizeCategorizedEntitiesAction extends TextAnalyticsAction {
   /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
-  /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
    * The default is the JavaScript's default which is "Utf16CodeUnit".
@@ -227,11 +222,6 @@ export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
    */
   domain?: PiiEntityDomain;
   /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
-  /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
    * The default is the JavaScript's default which is "Utf16CodeUnit".
@@ -250,11 +240,6 @@ export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
  */
 export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
   /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
-  /**
    * If set to false, you opt-in to have your text input logged for troubleshooting. By default, Text Analytics
    * will not log your input text for pii entities recognition. Setting this parameter to false,
    * enables input logging.
@@ -266,11 +251,6 @@ export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
  * Options for an entities linking action.
  */
 export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -289,11 +269,6 @@ export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
  * Options for an analyze sentiment action.
  */
 export interface AnalyzeSentimentAction extends TextAnalyticsAction {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".

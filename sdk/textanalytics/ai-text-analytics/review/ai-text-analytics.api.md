@@ -68,7 +68,6 @@ export interface AnalyzeHealthcareOperationState extends AnalysisPollOperationSt
 export interface AnalyzeSentimentAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
     includeOpinionMining?: boolean;
-    modelVersion?: string;
     stringIndexType?: StringIndexType;
 }
 
@@ -214,7 +213,6 @@ export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalSer
 // @public
 export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
-    modelVersion?: string;
 }
 
 // @public
@@ -430,7 +428,6 @@ export enum PiiEntityDomain {
 // @public
 export interface RecognizeCategorizedEntitiesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
-    modelVersion?: string;
     stringIndexType?: StringIndexType;
 }
 
@@ -470,7 +467,6 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
 // @public
 export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
-    modelVersion?: string;
     stringIndexType?: StringIndexType;
 }
 
@@ -511,7 +507,6 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
     domain?: PiiEntityDomain;
-    modelVersion?: string;
     stringIndexType?: StringIndexType;
 }
 
@@ -607,6 +602,7 @@ export interface TargetSentiment {
 // @public
 export interface TextAnalyticsAction {
     actionName?: string;
+    modelVersion?: string;
 }
 
 // @public

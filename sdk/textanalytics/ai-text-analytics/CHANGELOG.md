@@ -4,7 +4,8 @@
 
 ### New Features
 
-- We are now targetting the service's v3.1 API as the default instead of v3.1-preview.5
+- We are now targeting the service's v3.1 API as the default instead of v3.1-preview.5.
+- Actions for `beginAnalyzeActions` can have custom names.
 
 ### Breaking Changes
 
