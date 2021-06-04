@@ -8,7 +8,6 @@ import { env, Recorder } from "@azure/test-utils-recorder";
 
 import {
   KeyVaultAccessControlClient,
-  KeyVaultPermission,
   KeyVaultRoleDefinition,
   KnownKeyVaultDataAction
 } from "../../src";
@@ -45,18 +44,6 @@ describe("KeyVaultAccessControlClient", () => {
   });
 
   describe("role definitions", function() {
-    const permissions: KeyVaultPermission[] = [
-      {
-        actions: [],
-        dataActions: [
-          KnownKeyVaultDataAction.StartHsmBackup,
-          KnownKeyVaultDataAction.ReadHsmBackupStatus
-        ],
-        notActions: [],
-        notDataActions: []
-      }
-    ];
-
     it("listRoleDefinitions", async function() {
       const expectedType = "Microsoft.Authorization/roleDefinitions";
       let receivedRoles: string[] = [];
@@ -101,35 +88,50 @@ describe("KeyVaultAccessControlClient", () => {
       let roleDefinition: KeyVaultRoleDefinition = await client.setRoleDefinition(globalScope, {
         roleDefinitionName: name,
         roleName,
-        permissions,
+        permissions: [
+          {
+            dataActions: [KnownKeyVaultDataAction.StartHsmBackup]
+          }
+        ],
         description
       });
 
       assert.equal(roleDefinition.name, name);
       assert.equal(roleDefinition.description, description);
-      assert.deepEqual(roleDefinition.permissions, permissions);
+
+      // The output type should include all 4 properties.
+      assert.exists(roleDefinition.permissions[0].actions);
+      assert.exists(roleDefinition.permissions[0].notActions);
+      assert.sameMembers(roleDefinition.permissions[0].dataActions, [
+        KnownKeyVaultDataAction.StartHsmBackup
+      ]);
+      assert.exists(roleDefinition.permissions[0].notDataActions);
+
       assert.equal(roleDefinition.assignableScopes[0], globalScope);
       assert.equal("Microsoft.Authorization/roleDefinitions", roleDefinition.kind);
       assert.equal(roleDefinition.roleType, "CustomRole");
 
       const id = roleDefinition.id;
 
-      permissions.push({
-        actions: [],
-        notActions: [],
-        dataActions: [],
-        notDataActions: [KnownKeyVaultDataAction.EncryptHsmKey]
-      });
-
       roleDefinition = await client.setRoleDefinition(globalScope, {
         roleDefinitionName: name,
         roleName,
-        permissions,
+        permissions: [
+          {
+            dataActions: [KnownKeyVaultDataAction.StartHsmBackup],
+            notDataActions: [KnownKeyVaultDataAction.EncryptHsmKey]
+          }
+        ],
         description
       });
 
       assert.equal(roleDefinition.id, id);
-      assert.deepEqual(roleDefinition.permissions, permissions);
+      assert.sameMembers(roleDefinition.permissions[0].dataActions, [
+        KnownKeyVaultDataAction.StartHsmBackup
+      ]);
+      assert.sameMembers(roleDefinition.permissions[0].notDataActions, [
+        KnownKeyVaultDataAction.EncryptHsmKey
+      ]);
 
       await client.deleteRoleDefinition(globalScope, roleDefinition.name);
 
@@ -159,6 +161,7 @@ describe("KeyVaultAccessControlClient", () => {
         for await (const definition of client.listRoleDefinitions(globalScope)) {
           if (definition.roleType !== "CustomRole") {
             builtInDefinition = definition;
+            break;
           }
         }
 
@@ -170,7 +173,7 @@ describe("KeyVaultAccessControlClient", () => {
           client.setRoleDefinition(globalScope, {
             roleDefinitionName: builtInDefinition.name,
             roleName: builtInDefinition.roleName,
-            permissions
+            permissions: []
           })
         );
       });
