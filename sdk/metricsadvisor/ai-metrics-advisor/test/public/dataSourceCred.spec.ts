@@ -62,12 +62,10 @@ describe
         } as DatasourceCredentialPatch;
         await client.updateDatasourceCredential(createdSqlServerCredId, sqlServerCredentialPatch);
         const updated = await client.getDatasourceCredential(createdSqlServerCredId);
-        console.dir(updated);
         assert.ok(updated.id, "Expecting valid datasource credential");
         assert.equal(updated.description, sqlServerCredentialPatch.description);
         assert.equal(updated.type, sqlServerCredentialPatch.type);
         assert.equal(updated.name, sqlServerCredentialPatch.name);
-        console.log((updated as SqlServerConnectionStringDatasourceCredential).connectionString);
       });
 
       it("creates datalake gen2 shared key credential", async function() {
@@ -98,12 +96,10 @@ describe
         } as DatasourceCredentialPatch;
         await client.updateDatasourceCredential(createdDatalakeCredId, dataLakeCredentialPatch);
         const updated = await client.getDatasourceCredential(createdDatalakeCredId);
-        console.dir(updated);
         assert.ok(updated.id, "Expecting valid datasource credential");
         assert.equal(updated.description, dataLakeCredentialPatch.description);
         assert.equal(updated.type, dataLakeCredentialPatch.type);
         assert.equal(updated.name, dataLakeCredentialPatch.name);
-        console.log((updated as DataLakeGen2SharedKeyDatasourceCredential).accountKey);
       });
 
       it("creates service principal credential", async function() {
@@ -145,8 +141,7 @@ describe
           createdServicePrincipalCredId,
           servicePrincipalCredentialPatch
         );
-        const updated = await client.getDatasourceCredential(createdDatalakeCredId);
-        console.dir(updated);
+        const updated = await client.getDatasourceCredential(createdServicePrincipalCredId);
         assert.ok(updated.id, "Expecting valid datasource credential");
         assert.equal(updated.description, servicePrincipalCredentialPatch.description);
         assert.equal(updated.type, servicePrincipalCredentialPatch.type);
@@ -154,10 +149,6 @@ describe
         assert.equal(
           (updated as ServicePrincipalDatasourceCredential).clientId,
           servicePrincipalCredentialPatch.clientId
-        );
-        assert.equal(
-          (updated as ServicePrincipalDatasourceCredential).clientSecret,
-          servicePrincipalCredentialPatch.clientSecret
         );
       });
 
@@ -204,11 +195,10 @@ describe
         } as ServicePrincipalInKeyVaultDatasourceCredential;
 
         await client.updateDatasourceCredential(
-          createdServicePrincipalCredId,
+          createdServicePrincipalInKVCredId,
           servicePrincipalInKVCredentialPatch
         );
-        const updated = await client.getDatasourceCredential(createdDatalakeCredId);
-        console.dir(updated);
+        const updated = await client.getDatasourceCredential(createdServicePrincipalInKVCredId);
         assert.ok(updated.id, "Expecting valid datasource credential");
         assert.equal(updated.description, servicePrincipalInKVCredentialPatch.description);
         assert.equal(updated.type, servicePrincipalInKVCredentialPatch.type);
@@ -290,6 +280,6 @@ export async function verifyDatasourceCredentialDeletion(
     assert.fail("Expecting error getting datasource credential");
   } catch (error) {
     assert.equal((error as any).code, "404 NOT_FOUND");
-    assert.equal((error as any).message, "datasourceCredentialId is invalid.");
+    assert.equal((error as any).message, "credentialId is invalid.");
   }
 }
