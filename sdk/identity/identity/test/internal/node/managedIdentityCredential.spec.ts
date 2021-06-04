@@ -14,6 +14,8 @@ import { OAuthErrorResponse } from "../../../src/client/errors";
 import Sinon from "sinon";
 import { imdsMsiRetryConfig } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { unlinkSync, writeFileSync } from "fs";
+import { join } from "path";
+import { tmpdir } from "os";
 
 interface AuthRequestDetails {
   requests: WebResource[];
@@ -341,8 +343,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
-    const date = Date.now();
-    const filePath = `test_${date}`;
+    const filePath = join(tmpdir(), `${Date.now()}`);
     const key = "challenge key";
     writeFileSync(filePath, key, { encoding: "utf8" });
 

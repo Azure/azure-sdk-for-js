@@ -613,22 +613,6 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-INOR23hOISEe2OgwlNhM/BA5+uJmLfx5jqE21wLkQBHNzusdn7P65LT3Zu/AX84ofJO0Z0q+QjY6XOhpFLW90w==
-  /@azure/storage-blob/12.5.0:
-    dependencies:
-      '@azure/abort-controller': 1.0.4
-      '@azure/core-http': 1.2.5
-      '@azure/core-lro': 1.0.5
-      '@azure/core-paging': 1.1.3
-      '@azure/core-tracing': 1.0.0-preview.10
-      '@azure/logger': 1.0.2
-      '@opentelemetry/api': 0.10.2
-      events: 3.3.0
-      tslib: 2.2.0
-    dev: false
-    engines:
-      node: '>=8.0.0'
-    resolution:
-      integrity: sha512-DgoefgODst2IPkkQsNdhtYdyJgSsAZC1pEujO6aD5y7uFy5GnzhYliobSrp204jYRyK5XeJ9iiePmy/SPtTbLA==
   /@babel/code-frame/7.12.11:
     dependencies:
       '@babel/highlight': 7.14.0
@@ -827,12 +811,12 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-YqW3hPS0RXriqjcCrLOTJj+LWe3c8JpwlL83k1ka1Q8U05ZjAKbGQZYeTzUd0NFEnnfPtsUiKGpFEBJG6kFuvg==
-  /@eslint/eslintrc/0.4.1:
+  /@eslint/eslintrc/0.4.2:
     dependencies:
       ajv: 6.12.6
       debug: 4.3.1
       espree: 7.3.1
-      globals: 12.4.0
+      globals: 13.9.0
       ignore: 4.0.6
       import-fresh: 3.3.0
       js-yaml: 3.14.1
@@ -842,7 +826,7 @@ packages:
     engines:
       node: ^10.12.0 || >=12.0.0
     resolution:
-      integrity: sha512-5v7TDE9plVhvxQeWLXDTvFvJBdH6pEsdnl2g/dAptmuFEPedQ4Erq5rsDsX+mvAM610IhNaO2W5V1dOOnDKxkQ==
+      integrity: sha512-8nmGq/4ycLpIwzvhI4tNDmQztZ8sp+hI7cyG8i1nQDhkAbRzHpXPidRAHlNvCZQpJTKw5ItIpMw9RSToGF00mg==
   /@istanbuljs/schema/0.1.3:
     dev: false
     engines:
@@ -1320,19 +1304,19 @@ packages:
       integrity: sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
   /@types/eslint/7.2.13:
     dependencies:
-      '@types/estree': 0.0.47
+      '@types/estree': 0.0.48
       '@types/json-schema': 7.0.7
     dev: false
     resolution:
-      integrity: sha512-RTKvBsfz0T8CKOGZMfuluDNyMFHnu5lvNr4hWEsQeHXH6FcmIDIozOyWMh36nLGMwVd5UFNXC2xztA8lln22MQ==
+      integrity: sha512-LKmQCWAlnVHvvXq4oasNUMTJJb2GwSyTY8+1C7OH5ILR8mPLaljv1jxL1bXW3xB3jFbQxTKxJAvI8PyjB09aBg==
   /@types/estree/0.0.39:
     dev: false
     resolution:
       integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
-  /@types/estree/0.0.47:
+  /@types/estree/0.0.48:
     dev: false
     resolution:
-      integrity: sha512-c5ciR06jK8u9BstrmJyO97m+klJrrhCf9u3rLu3DEAJBirxRqSCvDQoYKmxuYwQI5SZChAWu+tq9oVlGRuzPAg==
+      integrity: sha512-LfZwXoGUDo0C3me81HXgkBg5CTQYb6xzEl+fNmbO4JdRiSKQ8A0GD1OBBvKAIsbCUgoyAty7m99GqqMQe784ew==
   /@types/express-serve-static-core/4.17.21:
     dependencies:
       '@types/node': 8.10.66
@@ -1491,7 +1475,7 @@ packages:
       integrity: sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 10.17.13
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -3200,7 +3184,7 @@ packages:
   /eslint/7.27.0:
     dependencies:
       '@babel/code-frame': 7.12.11
-      '@eslint/eslintrc': 0.4.1
+      '@eslint/eslintrc': 0.4.2
       ajv: 6.12.6
       chalk: 4.1.1
       cross-spawn: 7.0.3
@@ -3884,14 +3868,6 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==
-  /globals/12.4.0:
-    dependencies:
-      type-fest: 0.8.1
-    dev: false
-    engines:
-      node: '>=8'
-    resolution:
-      integrity: sha512-BWICuzzDvDoH54NHKCseDanAhE3CeDorgDL5MT6LMXXj2WCnd9UC2szdk4AWLfjdgNBCXLUanXYcpBBKOSWGwg==
   /globals/13.9.0:
     dependencies:
       type-fest: 0.20.2
@@ -4387,7 +4363,7 @@ packages:
       integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
   /is-reference/1.2.1:
     dependencies:
-      '@types/estree': 0.0.47
+      '@types/estree': 0.0.48
     dev: false
     resolution:
       integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==
@@ -6593,7 +6569,7 @@ packages:
       integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
   /rollup/1.32.1:
     dependencies:
-      '@types/estree': 0.0.47
+      '@types/estree': 0.0.48
       '@types/node': 8.10.66
       acorn: 7.4.1
     dev: false
@@ -7450,12 +7426,6 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-Ne+eE4r0/iWnpAxD852z3A+N0Bt5RN//NjJwRd2VFHEmrywxf5vsZlh4R6lixl6B+wz/8d+maTSAkN1FIkI3LQ==
-  /type-fest/0.8.1:
-    dev: false
-    engines:
-      node: '>=8'
-    resolution:
-      integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
   /type-is/1.6.18:
     dependencies:
       media-typer: 0.3.0
@@ -9474,7 +9444,7 @@ packages:
     dev: false
     name: '@rush-temp/data-tables'
     resolution:
-      integrity: sha512-ZXPV9NiS8N/zpxKgkPZeZG/vVAbdr/JhtucYUkONi0tTz8x0Q3vgmbRK6Jsmoam0BK4XEboGUzDJS1w8kn3gIQ==
+      integrity: sha512-KL62Sl5k6LlY0mOLf7ptXw/UbRG7ahQoHaTTLp3+dQOg17xaXCbOQIYNvfTpNcmojSWmYWlNAwuxscmDyI1P+A==
       tarball: file:projects/data-tables.tgz
     version: 0.0.0
   file:projects/dev-tool.tgz:
@@ -9574,7 +9544,7 @@ packages:
     dependencies:
       '@types/chai': 4.2.18
       '@types/eslint': 7.2.13
-      '@types/estree': 0.0.47
+      '@types/estree': 0.0.48
       '@types/glob': 7.1.3
       '@types/json-schema': 7.0.7
       '@types/mocha': 7.0.2
@@ -9789,7 +9759,6 @@ packages:
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
     dependencies:
-      '@azure/storage-blob': 12.5.0
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
@@ -9844,7 +9813,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-+IkU2ATSSMXaGRwCmLYsC6zjHzXJdbyPHp2Hj9r90C/odBUHvsffC0Pr0Z6VKqb9V1DZfFDoLlQTUdjwkS2NHg==
+      integrity: sha512-HVGnI1U0A0SyBMpjRlQDZINX71Kaae+cfNmQRcgmRhnDtt0J4K5sUbUJRuSEUje7LX/cZrKB7JyYzH+U9bXmLQ==
       tarball: file:projects/eventhubs-checkpointstore-blob.tgz
     version: 0.0.0
   file:projects/identity.tgz:
@@ -9878,7 +9847,6 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      mock-fs: 4.14.0
       open: 7.4.2
       prettier: 1.19.1
       puppeteer: 3.3.0
@@ -9895,7 +9863,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-WBDiw99pS183MgGmJf7Ety38qx9pB8H8lJ+bcOhgLCD0EQsG+yPKjUIuQjicVG8XIpEWCcb6NjftPkfjLCkVkw==
+      integrity: sha512-hO5FxDWanVtC8MNG7Zei9b4RKxEQwXzJCyrrDZ6cXVKCHKVGy2Odte0Lup8Boj3mztVzw57LqEfX3TkMzNVUzg==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
