@@ -5,9 +5,10 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   PipelineResponse,
-  RestError
+  RestError,
+  Pipeline
 } from "@azure/core-rest-pipeline";
-import { ServiceClient, OperationOptions } from "@azure/core-client";
+import { ServiceClient, OperationOptions, serializationPolicy } from "@azure/core-client";
 import {
   DeleteTableEntityOptions,
   TableEntity,
@@ -29,13 +30,12 @@ import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableServiceErrorOdataError } from "./generated";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
-import { TableClient } from "./TableClient";
 import {
-  prepateTransactionPipeline,
   getTransactionHttpRequestBody,
   getInitialTransactionBody
 } from "./utils/transactionHelpers";
 import { signURLWithSAS } from "./tablesSASTokenPolicy";
+import { transactionHeaderFilterPolicy, transactionRequestAssemblePolicy } from "./TablePolicies";
 
 /**
  * Helper to build a list of transaction actions
@@ -123,15 +123,15 @@ export class InternalTableTransaction {
    */
   constructor(
     url: string,
-    tableName: string,
     partitionKey: string,
     transactionId: string,
     changesetId: string,
+    interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential
   ) {
     this.credential = credential;
     this.url = url;
-    this.interceptClient = new TableClient(this.url, tableName);
+    this.interceptClient = interceptClient;
 
     // Initialize Reset-able properties
     this.resetableState = this.initializeSharedState(transactionId, changesetId, partitionKey);
@@ -346,4 +346,30 @@ function parseTransactionResponse(transactionResponse: PipelineResponse): TableT
     subResponses: responses,
     getResponseForEntity: (rowKey: string) => responses.find((r) => r.rowKey === rowKey)
   };
+}
+
+/**
+ * Prepares the transaction pipeline to intercept operations
+ * @param pipeline - Client pipeline
+ */
+export function prepateTransactionPipeline(
+  pipeline: Pipeline,
+  bodyParts: string[],
+  changesetId: string
+): void {
+  // Fist, we need to clear all the existing policies to make sure we start
+  // with a fresh state.
+  const policies = pipeline.getOrderedPolicies();
+  for (const policy of policies) {
+    pipeline.removePolicy({
+      name: policy.name
+    });
+  }
+
+  // With the clear state we now initialize the pipelines required for intercepting the requests.
+  // Use transaction assemble policy to assemble request and intercept request from going to wire
+
+  pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+  pipeline.addPolicy(transactionHeaderFilterPolicy());
+  pipeline.addPolicy(transactionRequestAssemblePolicy(bodyParts, changesetId));
 }

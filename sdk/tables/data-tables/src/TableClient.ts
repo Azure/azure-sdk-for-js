@@ -596,10 +596,10 @@ export class TableClient {
       // Add pipeline
       this.transactionClient = new InternalTableTransaction(
         this.url,
-        this.tableName,
         partitionKey,
         transactionId,
         changesetId,
+        new TableClient(this.url, this.tableName),
         this.credential
       );
     } else {
