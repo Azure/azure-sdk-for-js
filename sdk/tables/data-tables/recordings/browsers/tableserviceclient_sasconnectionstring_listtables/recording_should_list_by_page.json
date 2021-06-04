@@ -1,0 +1,122 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.table.core.windows.net/Tables",
+   "query": {
+    "$top": "5"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"ListTableTestSASConnectionStringbrowser0\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser1\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser10\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser11\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser12\"}]}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 04 Jun 2021 22:00:36 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "40024833-f625-4f2d-a8b1-ac50a5ab5274",
+    "x-ms-continuation-nexttablename": "1!80!bGlzdHRhYmxldGVzdHNhc2Nvbm5lY3Rpb25zdHJpbmdicm93c2VyMTMBMDFkNzU5OGQwY2MyNjNlZg--",
+    "x-ms-request-id": "7ea3bd70-a002-00d1-338d-593ce0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.table.core.windows.net/Tables",
+   "query": {
+    "$top": "5",
+    "NextTableName": "1!80!bGlzdHRhYmxldGVzdHNhc2Nvbm5lY3Rpb25zdHJpbmdicm93c2VyMTMBMDFkNzU5OGQwY2MyNjNlZg--"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"ListTableTestSASConnectionStringbrowser13\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser14\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser15\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser16\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser17\"}]}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 04 Jun 2021 22:00:37 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "930c702d-6e7f-4d5d-babc-d92a07669d12",
+    "x-ms-continuation-nexttablename": "1!80!bGlzdHRhYmxldGVzdHNhc2Nvbm5lY3Rpb25zdHJpbmdicm93c2VyMTgBMDFkNzU5OGQwY2Y0Yzc4YQ--",
+    "x-ms-request-id": "7ea3bd82-a002-00d1-448d-593ce0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.table.core.windows.net/Tables",
+   "query": {
+    "$top": "5",
+    "NextTableName": "1!80!bGlzdHRhYmxldGVzdHNhc2Nvbm5lY3Rpb25zdHJpbmdicm93c2VyMTgBMDFkNzU5OGQwY2Y0Yzc4YQ--"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"ListTableTestSASConnectionStringbrowser18\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser19\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser2\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser3\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser4\"}]}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 04 Jun 2021 22:00:37 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "809303d1-8845-4ca7-ade8-24f39a4ebdf2",
+    "x-ms-continuation-nexttablename": "1!76!bGlzdHRhYmxldGVzdHNhc2Nvbm5lY3Rpb25zdHJpbmdicm93c2VyNQEwMWQ3NTk4ZDBjNzEyODJh",
+    "x-ms-request-id": "7ea3bd94-a002-00d1-568d-593ce0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.table.core.windows.net/Tables",
+   "query": {
+    "$top": "5",
+    "NextTableName": "1!76!bGlzdHRhYmxldGVzdHNhc2Nvbm5lY3Rpb25zdHJpbmdicm93c2VyNQEwMWQ3NTk4ZDBjNzEyODJh"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"ListTableTestSASConnectionStringbrowser5\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser6\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser7\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser8\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser9\"}]}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 04 Jun 2021 22:00:37 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "f4da8105-4168-4cdf-8484-a4be0b58b899",
+    "x-ms-continuation-nexttablename": "1!80!dGFibGVjbGllbnR0ZXN0c2FzY29ubmVjdGlvbnN0cmluZ2Jyb3dzZXIBMDFkNzU5OGQwOWNiYTY5ZQ--",
+    "x-ms-request-id": "7ea3bdb1-a002-00d1-718d-593ce0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.table.core.windows.net/Tables",
+   "query": {
+    "$top": "5",
+    "NextTableName": "1!80!dGFibGVjbGllbnR0ZXN0c2FzY29ubmVjdGlvbnN0cmluZ2Jyb3dzZXIBMDFkNzU5OGQwOWNiYTY5ZQ--"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#Tables\",\"value\":[]}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 04 Jun 2021 22:00:37 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "5333e08d-bf65-4636-b143-db03394f24f4",
+    "x-ms-request-id": "7ea3bdc4-a002-00d1-038d-593ce0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "dc97982916a92f87ee47d38b1af76427"
+}

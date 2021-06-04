@@ -1,0 +1,68 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://fakestorageaccount.table.core.windows.net/Tables",
+   "query": {},
+   "requestBody": "{\"TableName\":\"batchTableTestSASConnectionStringbrowser\"}",
+   "status": 409,
+   "response": "{\"odata.error\":{\"code\":\"TableAlreadyExists\",\"message\":{\"lang\":\"en-US\",\"value\":\"The table specified already exists.\\nRequestId:7ea3bf72-a002-00d1-118d-593ce0000000\\nTime:2021-06-04T22:00:39.5313299Z\"}}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 04 Jun 2021 22:00:38 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "7d5e2abc-2833-4af6-99a4-d64f53083f43",
+    "x-ms-request-id": "7ea3bf72-a002-00d1-118d-593ce0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://fakestorageaccount.table.core.windows.net/$batch",
+   "query": {},
+   "requestBody": "--batch_fakeId\r\ncontent-type: multipart/mixed; boundary=changeset_fakeId\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nPUT https://fakestorageaccount.table.core.windows.net/batchTableTestSASConnectionStringbrowser(PartitionKey='batchTest',RowKey='1') HTTP/1.1\r\ncontent-type: application/json\r\ndataserviceversion: 3.0\r\naccept: application/json\r\nif-match: *\r\n\r\n\r\n{\"PartitionKey\":\"batchTest\",\"RowKey\":\"1\",\"name\":\"updated\"}\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nPUT https://fakestorageaccount.table.core.windows.net/batchTableTestSASConnectionStringbrowser(PartitionKey='batchTest',RowKey='2') HTTP/1.1\r\ncontent-type: application/json\r\ndataserviceversion: 3.0\r\naccept: application/json\r\nif-match: *\r\n\r\n\r\n{\"PartitionKey\":\"batchTest\",\"RowKey\":\"2\",\"name\":\"updated\"}\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nPUT https://fakestorageaccount.table.core.windows.net/batchTableTestSASConnectionStringbrowser(PartitionKey='batchTest',RowKey='3') HTTP/1.1\r\ncontent-type: application/json\r\ndataserviceversion: 3.0\r\naccept: application/json\r\nif-match: *\r\n\r\n\r\n{\"PartitionKey\":\"batchTest\",\"RowKey\":\"3\",\"name\":\"updated\"}\r\n--changeset_fakeId--\r\n--batch_fakeId\r\n",
+   "status": 202,
+   "response": "--batchresponse_b5de8abc-ce73-4fa9-af53-2c2e1206dfec\r\nContent-Type: multipart/mixed; boundary=changesetresponse_d90db4d4-599b-4386-873e-c1e484e07eb9\r\n\r\n--changesetresponse_d90db4d4-599b-4386-873e-c1e484e07eb9\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-06-04T22%3A00%3A39.5943236Z'\"\r\n\r\n\r\n--changesetresponse_d90db4d4-599b-4386-873e-c1e484e07eb9\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-06-04T22%3A00%3A39.5943236Z'\"\r\n\r\n\r\n--changesetresponse_d90db4d4-599b-4386-873e-c1e484e07eb9\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-06-04T22%3A00%3A39.5943236Z'\"\r\n\r\n\r\n--changesetresponse_d90db4d4-599b-4386-873e-c1e484e07eb9--\r\n--batchresponse_b5de8abc-ce73-4fa9-af53-2c2e1206dfec--\r\n",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "multipart/mixed; boundary=batchresponse_b5de8abc-ce73-4fa9-af53-2c2e1206dfec",
+    "date": "Fri, 04 Jun 2021 22:00:39 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "e52709c2-db6b-4c75-a8c8-18eee9a8b4d9",
+    "x-ms-request-id": "7ea3bf7f-a002-00d1-1e8d-593ce0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.table.core.windows.net/batchTableTestSASConnectionStringbrowser()",
+   "query": {
+    "$filter": "PartitionKey eq 'batchTest'"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#batchTableTestSASConnectionStringbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-04T22%3A00%3A39.5943236Z'\\\"\",\"PartitionKey\":\"batchTest\",\"RowKey\":\"1\",\"Timestamp\":\"2021-06-04T22:00:39.5943236Z\",\"name\":\"updated\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-04T22%3A00%3A39.5943236Z'\\\"\",\"PartitionKey\":\"batchTest\",\"RowKey\":\"2\",\"Timestamp\":\"2021-06-04T22:00:39.5943236Z\",\"name\":\"updated\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-04T22%3A00%3A39.5943236Z'\\\"\",\"PartitionKey\":\"batchTest\",\"RowKey\":\"3\",\"Timestamp\":\"2021-06-04T22:00:39.5943236Z\",\"name\":\"updated\"}]}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 04 Jun 2021 22:00:39 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "bb6b9d5a-35b8-4e40-9127-3425fee1ae1c",
+    "x-ms-request-id": "7ea3bf8c-a002-00d1-2a8d-593ce0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "3119a2b6c0f86d6474ebfdf2aba25502"
+}

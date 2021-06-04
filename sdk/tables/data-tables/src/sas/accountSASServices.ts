@@ -2,84 +2,77 @@
 // Licensed under the MIT license.
 
 /**
- * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ * Creates an {@link AccountSASServices} from the specified services string. This method will throw an
+ * Error if it encounters a character that does not correspond to a valid service.
  *
- * This is a helper class to construct a string representing the services accessible by an AccountSAS. Setting a value
- * to true means that any SAS which uses these permissions will grant access to that service. Once all the
- * values are set, this should be serialized with toString and set as the services field on an
- * {@link AccountSASSignatureValues} object. It is possible to construct the services string without this class, but
- * the order of the services is particular and this class guarantees correctness.
+ * @param services -
  */
-export class AccountSASServices {
-  /**
-   * Creates an {@link AccountSASServices} from the specified services string. This method will throw an
-   * Error if it encounters a character that does not correspond to a valid service.
-   *
-   * @param services -
-   */
-  public static parse(services: string): AccountSASServices {
-    const accountSASServices = new AccountSASServices();
+export function accountSASServicesFromString(services: string) {
+  const accountSASServices: AccountSASServices = {};
 
-    for (const c of services) {
-      switch (c) {
-        case "b":
-          accountSASServices.blob = true;
-          break;
-        case "f":
-          accountSASServices.file = true;
-          break;
-        case "q":
-          accountSASServices.queue = true;
-          break;
-        case "t":
-          accountSASServices.table = true;
-          break;
-        default:
-          throw new RangeError(`Invalid service character: ${c}`);
-      }
+  for (const c of services) {
+    switch (c) {
+      case "b":
+        accountSASServices.blob = true;
+        break;
+      case "f":
+        accountSASServices.file = true;
+        break;
+      case "q":
+        accountSASServices.queue = true;
+        break;
+      case "t":
+        accountSASServices.table = true;
+        break;
+      default:
+        throw new RangeError(`Invalid service character: ${c}`);
     }
-
-    return accountSASServices;
   }
 
+  return accountSASServices;
+}
+
+/**
+ * Converts the given services to a string.
+ *
+ */
+export function accountSASServicesToString(services: AccountSASServices = { table: true }) {
+  const servicesString: string[] = [];
+  if (services.blob) {
+    servicesString.push("b");
+  }
+  if (services.table) {
+    servicesString.push("t");
+  }
+  if (services.queue) {
+    servicesString.push("q");
+  }
+  if (services.file) {
+    servicesString.push("f");
+  }
+  return servicesString.join("");
+}
+/**
+ * Services that the SAS token can access
+ */
+export interface AccountSASServices {
   /**
    * Permission to access blob resources granted.
    */
-  public blob: boolean = false;
+  blob?: boolean;
 
   /**
    * Permission to access file resources granted.
    */
-  public file: boolean = false;
+  file?: boolean;
 
   /**
    * Permission to access queue resources granted.
    */
-  public queue: boolean = false;
 
+  queue?: boolean;
   /**
    * Permission to access table resources granted.
    */
-  public table: boolean = false;
-
-  /**
-   * Converts the given services to a string.
-   *
-   */
-  public toString(): string {
-    const services: string[] = [];
-    if (this.blob) {
-      services.push("b");
-    }
-    if (this.table) {
-      services.push("t");
-    }
-    if (this.queue) {
-      services.push("q");
-    }
-    if (this.file) {
-      services.push("f");
-    }
-    return services.join("");
-  }
+  table?: boolean;
 }

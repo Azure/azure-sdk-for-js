@@ -27,31 +27,27 @@ export interface AccountSASOptions {
     permissions?: AccountSASPermissions;
     protocol?: SASProtocol;
     resourceTypes?: string;
+    services?: AccountSASServices;
     startsOn?: Date;
     version?: string;
 }
 
 // @public
-export class AccountSASPermissions {
-    add: boolean;
-    delete: boolean;
-    static from(permissionLike: AccountSASPermissionsLike): AccountSASPermissions;
-    list: boolean;
-    static parse(permissions: string): AccountSASPermissions;
-    query: boolean;
-    toString(): string;
-    update: boolean;
-    write: boolean;
+export interface AccountSASPermissions {
+    add?: boolean;
+    delete?: boolean;
+    list?: boolean;
+    query?: boolean;
+    update?: boolean;
+    write?: boolean;
 }
 
 // @public
-export interface AccountSASPermissionsLike {
-    add: boolean;
-    delete: boolean;
-    list: boolean;
-    query: boolean;
-    update: boolean;
-    write: boolean;
+export interface AccountSASServices {
+    blob?: boolean;
+    file?: boolean;
+    queue?: boolean;
+    table?: boolean;
 }
 
 export { AzureNamedKeyCredential }
@@ -177,10 +173,7 @@ export interface SasIPRange {
 }
 
 // @public
-export enum SASProtocol {
-    Https = "https",
-    HttpsAndHttp = "https,http"
-}
+export type SASProtocol = "https" | "https,http";
 
 // @public
 export interface ServiceGetPropertiesHeaders {
@@ -340,18 +333,7 @@ export interface TableQueryResponse {
 }
 
 // @public
-export class TableSASPermissions {
-    add: boolean;
-    delete: boolean;
-    static from(permissionLike: TableSASPermissionsLike): TableSASPermissions;
-    static parse(permissions: string): TableSASPermissions;
-    query: boolean;
-    toString(): string;
-    update: boolean;
-}
-
-// @public
-export interface TableSASPermissionsLike {
+export interface TableSASPermissions {
     add?: boolean;
     delete?: boolean;
     query?: boolean;

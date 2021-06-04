@@ -8,17 +8,7 @@ import { ipRangeToString, SasIPRange } from "./sasIPRange";
 /**
  * Protocols for generated SAS.
  */
-export enum SASProtocol {
-  /**
-   * Protocol that allows HTTPS only
-   */
-  Https = "https",
-
-  /**
-   * Protocol that allows both HTTPS and HTTP
-   */
-  HttpsAndHttp = "https,http"
-}
+export type SASProtocol = "https" | "https,http";
 
 /**
  * Represents the components that make up an Azure SAS' query parameters. This type is not constructed directly

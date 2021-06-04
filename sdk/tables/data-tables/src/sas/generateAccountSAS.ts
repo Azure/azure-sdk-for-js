@@ -2,8 +2,12 @@
 // Licensed under the MIT license.
 
 import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
-import { AccountSASPermissions } from "./accountSASPermissions";
-import { AccountSASServices } from "./accountSASServices";
+import { AccountSASPermissions, accountSASPermissionsFromString } from "./accountSASPermissions";
+import {
+  AccountSASServices,
+  accountSASServicesFromString,
+  accountSASServicesToString
+} from "./accountSASServices";
 import { generateAccountSASQueryParameters } from "./accountSASSignatureValues";
 import { SasIPRange } from "./sasIPRange";
 import { SASProtocol } from "./sasQueryParameters";
@@ -23,8 +27,9 @@ export function generateAccountSAS(
 ): string {
   const {
     expiresOn,
-    permissions = AccountSASPermissions.parse("rl"),
+    permissions = accountSASPermissionsFromString("rl"),
     resourceTypes = "sco",
+    services = accountSASServicesFromString("t"),
     ...rest
   } = options;
   if (!isNamedKeyCredential(credential)) {
@@ -45,7 +50,7 @@ export function generateAccountSAS(
       permissions,
       expiresOn: expiry,
       resourceTypes,
-      services: AccountSASServices.parse("t").toString(),
+      services: accountSASServicesToString(services),
       ...rest
     },
     credential
@@ -89,4 +94,8 @@ export interface AccountSASOptions {
    * IP range allowed.
    */
   ipRange?: SasIPRange;
+  /**
+   * Account services
+   */
+  services?: AccountSASServices;
 }

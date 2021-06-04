@@ -14,12 +14,15 @@ import { assert } from "chai";
 import { FullOperationResponse } from "@azure/core-client";
 
 // SASConnectionString and SASToken are supported in both node and browser
-const authModes: CreateClientMode[] = ["SASConnectionString", "SASToken"];
+const authModes: CreateClientMode[] = ["SASConnectionString"];
 
-// Cannot use SharedKey auth when using recordings since the signature uses the current date
-// which wouldn't match the recorded one. Fallingback to SAS for recorded tests.
-if (isNode && isLiveMode()) {
-  authModes.push("AccountConnectionString", "AccountKey");
+// Validate all supported auth strategies when running in live mode
+if (isLiveMode()) {
+  if (isNode) {
+    // This auth strategies are only supported in node
+    authModes.push("AccountConnectionString", "AccountKey");
+  }
+  authModes.push("SASToken");
 }
 
 authModes.forEach((authMode) => {

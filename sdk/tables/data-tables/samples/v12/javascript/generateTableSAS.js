@@ -12,9 +12,7 @@ const {
   generateAccountSAS,
   generateTableSAS,
   TableClient,
-  TableServiceClient,
-  AccountSASPermissions,
-  TableSASPermissions
+  TableServiceClient
 } = require("@azure/data-tables");
 const { AzureNamedKeyCredential, AzureSASCredential } = require("@azure/core-auth");
 
@@ -34,20 +32,24 @@ async function generateTableSASSample() {
 
   // We can optionally set the permissions we want on the SAS token
   // If non is specified, only list is granted
-  const permissions = new AccountSASPermissions();
-  // Grants permission to list tables
-  permissions.list = true;
-  // Grants permission to create tables
-  permissions.write = true;
-  // Grants permission to create entities
-  permissions.add = true;
-  // Grants permission to query entities
-  permissions.query = true;
-  // Grants permission to delete tables and entities
-  permissions.delete = true;
+  const permissions = {
+    // Grants permission to list tables
+    list: true,
+    // Grants permission to create tables
+    write: true,
+    // Grants permission to create entities
+    add: true,
+    // Grants permission to query entities
+    query: true,
+    // Grants permission to delete tables and entities
+    delete: true
+  };
 
   // Generate an account SAS with the NamedKeyCredential and the permissions set previously
-  const accountSAS = generateAccountSAS(cred, { permissions, expiresOn: new Date("2021-12-12") });
+  const accountSAS = generateAccountSAS(cred, {
+    permissions,
+    expiresOn: new Date("2021-12-12")
+  });
 
   const tableService = new TableServiceClient(tablesUrl, new AzureSASCredential(accountSAS));
 
@@ -63,13 +65,17 @@ async function generateTableSASSample() {
 
   // We are going to create a new SAS token scoped down to the specific table we just created.
   // If no permissions are provided, by default the token would have only query permission
-  const tablePermissions = new TableSASPermissions();
-  // Allows adding entities
-  tablePermissions.add = true;
-  // Allows querying entities
-  tablePermissions.query = true;
-  // Allows deleting entities
-  tablePermissions.delete = true;
+  const tablePermissions = {
+    // Allows adding entities
+    add: true,
+    // Allows querying entities
+    query: true,
+    // Allows deleting entities
+    delete: true,
+    // Allows updating entities
+    update: true
+  };
+
   // Create the table SAS token
   const tableSAS = generateTableSAS(tableName, cred, {
     expiresOn: new Date("2021-12-12"),
@@ -93,7 +99,7 @@ async function generateTableSASSample() {
   await table.deleteEntity("test", "1");
 
   // Delete the Table
-  await table.deleteTable();
+  await tableService.deleteTable(tableName);
 }
 
 async function main() {

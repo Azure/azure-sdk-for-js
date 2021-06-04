@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
-import { TableSASPermissions } from "./tableSASPermisions";
+import { tableSASPermissionsFromString } from "./tableSASPermisions";
 import {
   generateTableSASQueryParameters,
   TableSASSignatureValues
@@ -22,7 +22,7 @@ export function generateTableSAS(
   credential: NamedKeyCredential,
   options: TableSASSignatureValues = {}
 ): string {
-  const { expiresOn, permissions = TableSASPermissions.parse("r"), ...rest } = options;
+  const { expiresOn, permissions = tableSASPermissionsFromString("rl"), ...rest } = options;
 
   if (!isNamedKeyCredential(credential)) {
     throw RangeError(

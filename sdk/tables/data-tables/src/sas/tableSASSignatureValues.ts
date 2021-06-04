@@ -13,7 +13,7 @@ import { SERVICE_VERSION } from "../utils/constants";
 import { truncatedISO8061Date } from "../utils/truncateISO8061Date";
 import { ipRangeToString, SasIPRange } from "./sasIPRange";
 import { SASProtocol, SASQueryParameters } from "./sasQueryParameters";
-import { TableSASPermissions } from "./tableSASPermisions";
+import { TableSASPermissions, tableSASPermissionsToString } from "./tableSASPermisions";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -117,7 +117,7 @@ export function generateTableSASQueryParameters(
     throw new Error("Must provide a 'tableName'");
   }
 
-  const signedPermissions = tableSASSignatureValues.permissions?.toString() ?? "";
+  const signedPermissions = tableSASPermissionsToString(tableSASSignatureValues.permissions);
   const signedStart = tableSASSignatureValues.startsOn
     ? truncatedISO8061Date(tableSASSignatureValues.startsOn, false /** withMilliseconds */)
     : "";
@@ -127,7 +127,7 @@ export function generateTableSASQueryParameters(
   const canonicalizedResource = getCanonicalName(credential.name, tableName);
   const signedIdentifier = tableSASSignatureValues.identifier ?? "";
   const signedIP = ipRangeToString(tableSASSignatureValues.ipRange);
-  const signedProtocol = tableSASSignatureValues.protocol || "https,http";
+  const signedProtocol = tableSASSignatureValues.protocol || "";
   const startingPartitionKey = tableSASSignatureValues.startPartitionKey ?? "";
   const startingRowKey = tableSASSignatureValues.startRowKey ?? "";
   const endingPartitionKey = tableSASSignatureValues.endPartitionKey ?? "";
@@ -145,8 +145,7 @@ export function generateTableSASQueryParameters(
     startingPartitionKey,
     startingRowKey,
     endingPartitionKey,
-    endingRowKey,
-    ""
+    endingRowKey
   ].join("\n");
 
   const signature = computeHMACSHA256(stringToSign, credential.key);
@@ -165,5 +164,5 @@ export function generateTableSASQueryParameters(
 function getCanonicalName(accountName: string, tableName: string): string {
   // Sample CanonicalName for URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price'):
   //   canonicalizedResource = "/table/myaccount/employees"
-  return `/table/${accountName}/${tableName}`;
+  return `/table/${accountName}/${tableName.toLowerCase()}`;
 }

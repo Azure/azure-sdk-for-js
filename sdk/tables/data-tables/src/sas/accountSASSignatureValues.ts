@@ -5,9 +5,12 @@ import { NamedKeyCredential } from "@azure/core-auth";
 import { computeHMACSHA256 } from "../utils/computeHMACSHA256";
 import { SERVICE_VERSION } from "../utils/constants";
 import { truncatedISO8061Date } from "../utils/truncateISO8061Date";
-import { AccountSASPermissions } from "./accountSASPermissions";
-import { AccountSASResourceTypes } from "./accountSASResourceTypes";
-import { AccountSASServices } from "./accountSASServices";
+import { AccountSASPermissions, accountSASPermissionsToString } from "./accountSASPermissions";
+import {
+  accountSASResourceTypesFromString,
+  accountSASResourceTypesToString
+} from "./accountSASResourceTypes";
+import { accountSASServicesFromString, accountSASServicesToString } from "./accountSASServices";
 import { ipRangeToString, SasIPRange } from "./sasIPRange";
 import { SASProtocol, SASQueryParameters } from "./sasQueryParameters";
 
@@ -90,13 +93,14 @@ export function generateAccountSASQueryParameters(
     ? accountSASSignatureValues.version
     : SERVICE_VERSION;
 
-  const parsedPermissions = AccountSASPermissions.parse(
-    accountSASSignatureValues.permissions.toString()
+  const parsedPermissions = accountSASPermissionsToString(accountSASSignatureValues.permissions);
+  const parsedServices = accountSASServicesToString(
+    accountSASServicesFromString(accountSASSignatureValues.services)
   );
-  const parsedServices = AccountSASServices.parse(accountSASSignatureValues.services).toString();
-  const parsedResourceTypes = AccountSASResourceTypes.parse(
-    accountSASSignatureValues.resourceTypes
-  ).toString();
+  // to and from string to guarantee the correct order of resoruce types is generated
+  const parsedResourceTypes = accountSASResourceTypesToString(
+    accountSASResourceTypesFromString(accountSASSignatureValues.resourceTypes)
+  );
 
   const stringToSign = [
     credential.name,

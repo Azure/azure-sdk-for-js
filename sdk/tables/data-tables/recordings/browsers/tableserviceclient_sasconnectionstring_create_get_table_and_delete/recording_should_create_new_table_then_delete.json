@@ -1,0 +1,67 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://fakestorageaccount.table.core.windows.net/Tables",
+   "query": {},
+   "requestBody": "{\"TableName\":\"testTableSASConnectionStringbrowser\"}",
+   "status": 201,
+   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#Tables/@Element\",\"TableName\":\"testTableSASConnectionStringbrowser\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 04 Jun 2021 22:00:35 GMT",
+    "location": "https://fakestorageaccount.table.core.windows.net/Tables('testTableSASConnectionStringbrowser')",
+    "preference-applied": "return-content",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "dc2e7a63-5470-4685-8dae-5efddd76826a",
+    "x-ms-request-id": "7ea3bbef-a002-00d1-628d-593ce0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.table.core.windows.net/Tables",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"testTableSASConnectionStringbrowser\"}]}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 04 Jun 2021 22:00:35 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "7279e8a9-3d65-4fb4-a5c2-a98dd68b8050",
+    "x-ms-request-id": "7ea3bc01-a002-00d1-708d-593ce0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.table.core.windows.net/Tables('testTableSASConnectionStringbrowser')",
+   "query": {},
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "date": "Fri, 04 Jun 2021 22:00:35 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "ec2cbf9e-2c10-40e1-9655-e5ea1fb08f5b",
+    "x-ms-request-id": "7ea3bc12-a002-00d1-7e8d-593ce0000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "9cf963b1fa28f4167de5ad68246e835c"
+}
