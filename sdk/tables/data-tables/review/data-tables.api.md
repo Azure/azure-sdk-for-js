@@ -4,11 +4,12 @@
 
 ```ts
 
+import { AzureNamedKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
+import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
-import { PipelinePolicy } from '@azure/core-rest-pipeline';
 
 // @public
 export interface AccessPolicy {
@@ -16,6 +17,8 @@ export interface AccessPolicy {
     permission: string;
     start: Date;
 }
+
+export { AzureNamedKeyCredential }
 
 // @public
 export interface CorsRule {
@@ -173,7 +176,7 @@ export interface SignedIdentifier {
 
 // @public
 export class TableClient {
-    constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
+    constructor(url: string, tableName: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createEntity<T extends object>(entity: TableEntity<T>, options?: OperationOptions): Promise<CreateTableEntityResponse>;
     createTable(options?: OperationOptions): Promise<void>;
@@ -282,7 +285,7 @@ export interface TableQueryResponse {
 
 // @public
 export class TableServiceClient {
-    constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
+    constructor(url: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
     createTable(name: string, options?: OperationOptions): Promise<void>;
     deleteTable(name: string, options?: OperationOptions): Promise<void>;
@@ -313,22 +316,6 @@ export interface TableSetAccessPolicyHeaders {
     requestId?: string;
     version?: string;
 }
-
-// @public
-export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike {
-    constructor(accountName: string, accountKey: string);
-    readonly accountName: string;
-    computeHMACSHA256(stringToSign: string): string;
-}
-
-// @public
-export interface TablesSharedKeyCredentialLike {
-    accountName: string;
-    computeHMACSHA256: (stringToSign: string) => string;
-}
-
-// @public
-export function tablesSharedKeyCredentialPolicy(credential: TablesSharedKeyCredentialLike): PipelinePolicy;
 
 // @public
 export class TableTransaction {
