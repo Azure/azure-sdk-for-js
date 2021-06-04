@@ -15,11 +15,10 @@ import {
   EndpointType
 } from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
-import { utf8ToBytes } from "../utils/utf8.browser";
 
 import { AttestationData } from "../../src";
 import { KnownAttestationType } from "../../src/generated";
-import { bytesToString } from "../../src/utils/utf8.browser";
+import { bytesToString, stringToBytes } from "../../src/utils/utf8.browser";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
@@ -181,7 +180,7 @@ describe("[AAD] Attestation Client", function() {
 
     const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
 
-    const result = await client.attestTpm(utf8ToBytes(encodedPayload));
+    const result = await client.attestTpm(stringToBytes(encodedPayload));
     assert.isDefined(result);
     if (result) {
       const tpmResult = JSON.parse(bytesToString(result));
