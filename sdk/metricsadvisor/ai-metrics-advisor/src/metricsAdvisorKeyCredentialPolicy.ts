@@ -62,7 +62,7 @@ export class MetricsAdvisorKeyCredential {
   }
 
   /**
-   * Change the value of the subscription and api keys.
+   * Change the value of the subscription and/or api keys.
    *
    * Updates will take effect upon the next request after
    * updating the key value.
@@ -72,9 +72,7 @@ export class MetricsAdvisorKeyCredential {
    */
   public updateKey(metricAdvisorKeys: MetricsAdvisorKeys): void {
     if (!metricAdvisorKeys.subscriptionKey && !metricAdvisorKeys.apiKey) {
-      throw new RangeError(
-        "At least one of the subscriptionKey and apiKey must be a non-empty string"
-      );
+      throw new Error("At least one of the subscriptionKey and apiKey must be a non-empty string");
     }
     if (metricAdvisorKeys.subscriptionKey) {
       this._subscriptionKey = metricAdvisorKeys.subscriptionKey;

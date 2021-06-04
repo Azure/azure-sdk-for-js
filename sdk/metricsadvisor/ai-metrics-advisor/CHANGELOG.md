@@ -14,7 +14,7 @@ _Breaking Changes_
 
 - Updated Patch types for all update methods
 - Replaced `updateSubscriptionKey` and `updateApiKey` into one method `updateKey`
-- Deprecated support for `HttpRequestDataFeed` and `ElasticsearchDataFeed` source type
+- Removed support for `HttpRequestDataFeed` and `ElasticsearchDataFeed` source type
 - Removed `DataSourceParameter` property and serialized `DataSourceParameter` properties for all datafeed sources into `DataFeedSource` types
 - Renamed `top` parameter to `maxPageSize`
 - Renamed `AlertSnoozeCondition` to `MetricAnomalyAlertSnoozeCondition` and `MetricAlertConditions` to `MetricAnomalyAlertConditions`

@@ -13,14 +13,14 @@ describe("MetricsAdvisorKeyCredential", () => {
   });
 
   it("update subscriptionKey", async function() {
-    const newSubscriptionKey = "Abc";
-    credential.updateKey({ subscriptionKey: newSubscriptionKey });
-    assert.equal(credential.subscriptionKey, newSubscriptionKey);
+    const newValue = "Abc";
+    credential.updateKey({ subscriptionKey: newValue });
+    assert.equal(credential.subscriptionKey, newValue);
   });
 
   it("update apiKey", async function() {
-    const newApiKey = "Abcdef";
-    credential.updateKey({ apiKey: newApiKey });
-    assert.equal(credential.apiKey, newApiKey);
+    const newValue = "Abcdef";
+    credential.updateKey({ apiKey: newValue });
+    assert.equal(credential.apiKey, newValue);
   });
 });
