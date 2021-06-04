@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { assert } from "chai";
 import { Context } from "mocha";
 import {
@@ -11,8 +14,7 @@ import {
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
 
-describe
-  .only("DataSourceCredential", () => {
+describe("DataSourceCredential", () => {
     let client: MetricsAdvisorAdministrationClient;
     let recorder: Recorder;
 
@@ -50,7 +52,7 @@ describe
         assert.equal(createdSqlServerCred.type, sqlServerCredential.type);
       });
 
-      it("updates sql server connection string credential", async function() {
+      it("updates sql server connection string credential", async function(this: Context) {
         if (!createdSqlServerCredId) {
           this.skip();
         }
@@ -84,7 +86,7 @@ describe
         assert.equal(createdDatalakeCred.type, datalakeCred.type);
       });
 
-      it("updates datalake gen2 shared key credential", async function() {
+      it("updates datalake gen2 shared key credential", async function(this: Context) {
         if (!createdDatalakeCredId) {
           this.skip();
         }
@@ -125,7 +127,7 @@ describe
         assert.equal(createdServicePrincipalCred.type, servicePrincipalCred.type);
       });
 
-      it("updates service principal credential", async function() {
+      it("updates service principal credential", async function(this: Context) {
         if (!createdServicePrincipalCredId) {
           this.skip();
         }
@@ -178,7 +180,7 @@ describe
         assert.equal(createdServicePrincipalInKVCred.type, servicePrincipalInKVCred.type);
       });
 
-      it("updates service principal in keyvault credential", async function() {
+      it("updates service principal in keyvault credential", async function(this: Context) {
         if (!createdServicePrincipalInKVCredId) {
           this.skip();
         }
@@ -225,35 +227,35 @@ describe
         result = await iterator.next();
         assert.ok(result.value.id, "Expecting second datasource credential");
 
-        let pageIterator = client.listDatasourceCredential().byPage({ maxPageSize: 2 });
+        const pageIterator = client.listDatasourceCredential().byPage({ maxPageSize: 2 });
         let pageResult = await pageIterator.next();
         assert.equal(pageResult.value.length, 2, "Expecting two entries in first page");
         pageResult = await pageIterator.next();
         assert.equal(pageResult.value.length, 2, "Expecting two entries in second page");
       });
 
-      it("deletes sqlserver datasource credential", async function() {
+      it("deletes sqlserver datasource credential", async function(this: Context) {
         if (!createdSqlServerCredId) {
           this.skip();
         }
         await verifyDatasourceCredentialDeletion(client, createdSqlServerCredId);
       });
 
-      it("deletes datalake gen2 shared key datasource credential", async function() {
+      it("deletes datalake gen2 shared key datasource credential", async function(this: Context) {
         if (!createdDatalakeCredId) {
           this.skip();
         }
         await verifyDatasourceCredentialDeletion(client, createdDatalakeCredId);
       });
 
-      it("deletes service principal datasource credential", async function() {
+      it("deletes service principal datasource credential", async function(this: Context) {
         if (!createdServicePrincipalCredId) {
           this.skip();
         }
         await verifyDatasourceCredentialDeletion(client, createdServicePrincipalCredId);
       });
 
-      it("deletes service principal in KeyVault datasource credential", async function() {
+      it("deletes service principal in KeyVault datasource credential", async function(this: Context) {
         if (!createdServicePrincipalInKVCredId) {
           this.skip();
         }
