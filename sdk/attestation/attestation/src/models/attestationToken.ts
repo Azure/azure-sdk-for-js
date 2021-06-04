@@ -1,17 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/// <reference path="../jsrsasign.d.ts"/>
 
-/*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT License.
- *
- */
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../jsrsasign.d.ts"/>
+import * as jsrsasign from "jsrsasign";
 
 import { JsonWebKey } from "../generated/models";
 import { base64UrlDecodeString, hexToBase64 } from "../utils/base64";
 import { AttestationSigningKey } from "./attestationSigningKey";
-import * as jsrsasign from "jsrsasign";
 import { bytesToString } from "../utils/utf8.browser";
 import { AttestationSigner } from "./attestationSigner";
 
@@ -112,7 +108,7 @@ export class AttestationToken {
   private _body: any;
   //    private _signature: Uint8Array;
 
-  private _jwsVerifier: any;//jsrsasign.KJUR.jws.JWS.JWSResult;
+  private _jwsVerifier: any; // jsrsasign.KJUR.jws.JWS.JWSResult;
 
   /**
    * Returns the deserialized body of the AttestationToken object.

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/// <reference path="../../src/jsrsasign.d.ts"/>
 
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../src/jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 
 import { hexToByteArray } from "../../src/utils/base64";
@@ -9,7 +10,7 @@ import { hexToByteArray } from "../../src/utils/base64";
 export function createECDSKey(): [string, string] {
   const keyPair = jsrsasign.KEYUTIL.generateKeypair("EC", "secp256r1");
   return [
-    jsrsasign.KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV"), 
+    jsrsasign.KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV"),
     jsrsasign.KEYUTIL.getPEM(keyPair.pubKeyObj, "PKCS8PUB")
   ];
 }
@@ -17,7 +18,7 @@ export function createECDSKey(): [string, string] {
 export function createRSAKey(): [string, string] {
   const keyPair = jsrsasign.KEYUTIL.generateKeypair("RSA", 2048);
   return [
-    jsrsasign.KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV"), 
+    jsrsasign.KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV"),
     jsrsasign.KEYUTIL.getPEM(keyPair.pubKeyObj, "PKCS8PUB")
   ];
 }
@@ -48,49 +49,37 @@ function formatDateString(dateObject: Date): string {
 }
 
 // Create a self-signed X.509 certificZTe
-export function createX509Certificate(privKeyPEM: string, pubKeyPEM: string, subject_name: string): string {
+export function createX509Certificate(
+  privKeyPEM: string,
+  pubKeyPEM: string,
+  subject_name: string
+): string {
   const pubKey = jsrsasign.KEYUTIL.getKey(pubKeyPEM);
   const privKey = jsrsasign.KEYUTIL.getKey(privKeyPEM);
 
   const timeEnd = new Date();
   timeEnd.setFullYear(timeEnd.getFullYear() + 1);
 
-  //  const tbs = new jsrsasign.KJUR.asn1.x509.TBSCertificate({
-  //    serial: {int: 4},
-  //   sigalg: {name: "SHA1withRSA"},
-  //    issue: {str: "/CN="+subject_name},
-  //    subject: {str: "/CN="+subject_name},
-  //    notafter: {str: formatDateString(timeEnd)},
-  //    sbjpubkey: signing_key,
-  //    ext: [
-  //      {extname: "basicConstraints", cA: false, pathLen: 0, critical: true},
-  //    ],
-  //    cakey: signing_key,
-  // });
-
   const cert = new jsrsasign.KJUR.asn1.x509.Certificate({
     //    tbsobj: tbs,
     serial: { int: 4 },
-    issue: { str: "/CN=" + subject_name },
     issuer: { str: "/CN=" + subject_name },
     subject: { str: "/CN=" + subject_name },
     notafter: { str: formatDateString(timeEnd) },
     sbjpubkey: pubKey,
     ext: [
       { extname: "basicConstraints", critical: false, cA: false, pathLen: 0 },
+      { extname: "subjectAltName", critical: false, array: [{ uri: "https://" + subject_name }] },
       { extname: "keyUsage", critical: true, names: ["digitalSignature"] }
     ],
     sigalg: { name: "SHA256withRSA" },
     cakey: privKey
   });
-//  cert.sign();
 
   const x509 = new jsrsasign.X509();
   x509.readCertPEM(cert.getPEM());
 
   return cert.getPEM();
-
-  //    builder = builder.add_extension(SubjectAlternativeName([x509.DNSName(subject_name)]), critical=False)
 }
 
 /**
