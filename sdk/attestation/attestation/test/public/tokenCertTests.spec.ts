@@ -76,7 +76,10 @@ describe("TokenCertTests", function() {
     await getMetadataConfigTest(client, getAttestationUri("Shared"));
   });
 
-  async function getMetadataConfigTest(client: AttestationClient, instanceUrl : string): Promise<void> {
+  async function getMetadataConfigTest(
+    client: AttestationClient,
+    instanceUrl: string
+  ): Promise<void> {
     const openIdMetadata = await client.getOpenIdMetadata();
     assert.isDefined(openIdMetadata["response_types_supported"]);
     assert.equal(openIdMetadata["jwks_uri"], instanceUrl + "/certs");

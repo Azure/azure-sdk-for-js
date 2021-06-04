@@ -310,19 +310,17 @@ export class AttestationClient {
    * 
    * where stringToBytes converts the string to UTF8.
    */
-  public async attestTpm(
-    request: string,
-    options: AttestTpmOptions = {}
-  ): Promise<string> {
+  public async attestTpm(request: string, options: AttestTpmOptions = {}): Promise<string> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);
     try {
-      const response = await this._client.attestation.attestTpm({ data: stringToBytes(request) }, updatedOptions);
+      const response = await this._client.attestation.attestTpm(
+        { data: stringToBytes(request) },
+        updatedOptions
+      );
       if (response.data) {
         return bytesToString(response.data);
-      }
-      else
-      {
-        throw Error("Internal error - response data cannot be undefined.")
+      } else {
+        throw Error("Internal error - response data cannot be undefined.");
       }
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });

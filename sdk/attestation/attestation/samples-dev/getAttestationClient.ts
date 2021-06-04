@@ -19,6 +19,6 @@ export async function main() {
   console.log("The SGX policy for ", endpoint, " has a value of:", policy.value);
 }
 
- main().catch((err) => {
+main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });

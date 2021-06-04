@@ -305,7 +305,7 @@ export class AttestationAdministrationClient {
     const jwks = await this._client.signingCertificates.get();
     const signers: AttestationSigner[] = new Array();
     jwks.keys?.forEach((element) => {
-        signers.push(new AttestationSigner(element));
+      signers.push(new AttestationSigner(element));
     });
     this._signers = signers;
     return this._signers;
