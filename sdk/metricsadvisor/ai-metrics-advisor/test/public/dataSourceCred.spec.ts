@@ -164,7 +164,7 @@ describe
       it("creates service principal in keyvault credential", async function() {
         const servicePrincipalInKVCred: ServicePrincipalInKeyVaultDatasourceCredential = {
           ...datasourceCredential,
-          name: "ExampleSPCredential",
+          name: "ExampleSPinKVCredential",
           type: "ServicePrincipalInKV",
           tenantId: "tenant-id",
           keyVaultEndpoint: "keyvault-endpoint",
@@ -191,33 +191,105 @@ describe
         if (!createdServicePrincipalInKVCredId) {
           this.skip();
         }
-        const servicePrincipalCredentialPatch = {
-          name: "UpdatedSPCred",
+        const servicePrincipalInKVCredentialPatch = {
+          name: "UpdatedSPinKVCred",
           description: "updated description",
-          clientId: "updated-client",
-          clientSecret: "updated-secret",
+          keyVaultEndpoint: "updated-keyvault-endpoint",
+          keyVaultClientId: "updated-keyvault-client-id",
+          keyVaultClientSecret: "updated-keyvault-client-secret",
+          servicePrincipalIdNameInKV: "updated-service-principal-in-kv",
+          servicePrincipalSecretNameInKV: "updated-service-principal-secret-name-in-kv",
           tenantId: "updated-tenant",
-          type: "ServicePrincipal"
-        } as ServicePrincipalDatasourceCredential;
+          type: "ServicePrincipalInKV"
+        } as ServicePrincipalInKeyVaultDatasourceCredential;
+
         await client.updateDatasourceCredential(
           createdServicePrincipalCredId,
-          servicePrincipalCredentialPatch
+          servicePrincipalInKVCredentialPatch
         );
         const updated = await client.getDatasourceCredential(createdDatalakeCredId);
         console.dir(updated);
         assert.ok(updated.id, "Expecting valid datasource credential");
-        assert.equal(updated.description, servicePrincipalCredentialPatch.description);
-        assert.equal(updated.type, servicePrincipalCredentialPatch.type);
-        assert.equal(updated.name, servicePrincipalCredentialPatch.name);
+        assert.equal(updated.description, servicePrincipalInKVCredentialPatch.description);
+        assert.equal(updated.type, servicePrincipalInKVCredentialPatch.type);
+        assert.equal(updated.name, servicePrincipalInKVCredentialPatch.name);
         assert.equal(
-          (updated as ServicePrincipalDatasourceCredential).clientId,
-          servicePrincipalCredentialPatch.clientId
+          (updated as ServicePrincipalInKeyVaultDatasourceCredential).tenantId,
+          servicePrincipalInKVCredentialPatch.tenantId
         );
         assert.equal(
-          (updated as ServicePrincipalDatasourceCredential).clientSecret,
-          servicePrincipalCredentialPatch.clientSecret
+          (updated as ServicePrincipalInKeyVaultDatasourceCredential).keyVaultClientId,
+          servicePrincipalInKVCredentialPatch.keyVaultClientId
         );
+        assert.equal(
+          (updated as ServicePrincipalInKeyVaultDatasourceCredential).servicePrincipalIdNameInKV,
+          servicePrincipalInKVCredentialPatch.servicePrincipalIdNameInKV
+        );
+      });
+
+      it("lists datasource credentials one by one and by pages", async function() {
+        const iterator = client.listDatasourceCredential();
+        let result = await iterator.next();
+
+        assert.ok(result.value.id, "Expecting first datasource credential");
+        result = await iterator.next();
+        assert.ok(result.value.id, "Expecting second datasource credential");
+
+        let pageIterator = client.listDatasourceCredential().byPage({ maxPageSize: 2 });
+        let pageResult = await pageIterator.next();
+        assert.equal(pageResult.value.length, 2, "Expecting two entries in first page");
+        pageResult = await pageIterator.next();
+        assert.equal(pageResult.value.length, 2, "Expecting two entries in second page");
+      });
+
+      it("deletes sqlserver datasource credential", async function() {
+        if (!createdSqlServerCredId) {
+          this.skip();
+        }
+        await verifyDatasourceCredentialDeletion(client, createdSqlServerCredId);
+      });
+
+      it("deletes datalake gen2 shared key datasource credential", async function() {
+        if (!createdDatalakeCredId) {
+          this.skip();
+        }
+        await verifyDatasourceCredentialDeletion(client, createdDatalakeCredId);
+      });
+
+      it("deletes service principal datasource credential", async function() {
+        if (!createdServicePrincipalCredId) {
+          this.skip();
+        }
+        await verifyDatasourceCredentialDeletion(client, createdServicePrincipalCredId);
+      });
+
+      it("deletes service principal in KeyVault datasource credential", async function() {
+        if (!createdServicePrincipalInKVCredId) {
+          this.skip();
+        }
+        await verifyDatasourceCredentialDeletion(client, createdServicePrincipalInKVCredId);
       });
     });
   })
   .timeout(60000);
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export async function verifyDatasourceCredentialDeletion(
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  this: any,
+  client: MetricsAdvisorAdministrationClient,
+  createdDatasourceCredentialId: string
+): Promise<void> {
+  if (!createdDatasourceCredentialId) {
+    this.skip();
+  }
+
+  await client.deleteDatasourceCredential(createdDatasourceCredentialId);
+  try {
+    await client.getDatasourceCredential(createdDatasourceCredentialId);
+    assert.fail("Expecting error getting datasource credential");
+  } catch (error) {
+    assert.equal((error as any).code, "404 NOT_FOUND");
+    assert.equal((error as any).message, "datasourceCredentialId is invalid.");
+  }
+}
