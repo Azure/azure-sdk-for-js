@@ -64,8 +64,6 @@ export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuc
 export interface AnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedAnalyzeHealthcareEntitiesResult> {
 }
 
-// Warning: (ae-forgotten-export) The symbol "TextAnalyticsAction" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface AnalyzeSentimentAction extends TextAnalyticsAction {
     disableServiceLogs?: boolean;
@@ -604,6 +602,11 @@ export interface TargetSentiment {
     offset: number;
     sentiment: TokenSentimentValue;
     text: string;
+}
+
+// @public
+export interface TextAnalyticsAction {
+    actionName?: string;
 }
 
 // @public

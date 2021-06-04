@@ -119,6 +119,8 @@ export {
   TextAnalyticsSuccessResult
 } from "./textAnalyticsResult";
 
+export { TextAnalyticsAction } from "./textAnalyticsAction";
+
 // Models
 export {
   DetectedLanguage,
