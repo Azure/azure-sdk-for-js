@@ -5,7 +5,11 @@
  * @summary Uses an AccessControlClient to list, create, and assign roles to users.
  */
 
-const { KeyVaultAccessControlClient } = require("@azure/keyvault-admin");
+const {
+  KeyVaultAccessControlClient,
+  KnownKeyVaultDataAction,
+  KnownKeyVaultRoleScope
+} = require("@azure/keyvault-admin");
 const { DefaultAzureCredential } = require("@azure/identity");
 const uuid = require("uuid");
 
@@ -29,15 +33,11 @@ async function main() {
     console.log(roleAssignment);
   }
 
-  const globalScope = "/";
-
+  const globalScope = KnownKeyVaultRoleScope.Global;
   const roleDefinitionName = uuid.v4();
   const permissions = [
     {
-      dataActions: [
-        "Microsoft.KeyVault/managedHsm/backup/start/action",
-        "Microsoft.KeyVault/managedHsm/backup/status/action"
-      ]
+      dataActions: [KnownKeyVaultDataAction.StartHsmBackup, KnownKeyVaultDataAction.StartHsmRestore]
     }
   ];
   let roleDefinition = await client.setRoleDefinition(globalScope, {

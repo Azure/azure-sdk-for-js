@@ -436,13 +436,14 @@ export class KeyVaultAccessControlClient {
   }
 
   /**
-   * Upserts a role definition in an Azure Key Vault.
+   * Creates or updates a role definition in an Azure Key Vault.
    *
    * Example usage:
    * ```ts
    * const client = new KeyVaultAccessControlClient(url, credentials);
-   * const permissions = [{ dataActions: "Microsoft.KeyVault/managedHsm/backup/start/action" }];
-   * const roleDefinition = await client.upsertRoleDefintion("/", "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a", permissions);
+   * const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
+   * const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
+   * const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, { permissions, roleDefinitionName });
    * console.log(roleDefinition);
    * ```
    * @param roleScope - The scope of the role definition.
