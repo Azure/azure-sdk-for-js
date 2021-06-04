@@ -122,6 +122,15 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   return $resultObj
 }
 
+function Get-javascript-DocsMsMetadataForPackage($PackageInfo) { 
+  New-Object PSObject -Property @{ 
+    DocsMsReadMeName = $PackageInfo.Name -replace "^@azure/" , ""
+    LatestReadMeLocation = 'docs-ref-services/latest'
+    PreviewReadMeLocation = 'docs-ref-services/preview'
+    Suffix = ''
+  }
+}
+
 # Stage and Upload Docs to blob Storage
 function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
 {
