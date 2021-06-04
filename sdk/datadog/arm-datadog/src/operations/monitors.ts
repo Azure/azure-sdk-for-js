@@ -33,39 +33,21 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListApiKeysResponse>
    */
-  listApiKeys(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsListApiKeysResponse>;
+  listApiKeys(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListApiKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
-  listApiKeys(
-    resourceGroupName: string,
-    monitorName: string,
-    callback: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>
-  ): void;
+  listApiKeys(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listApiKeys(
-    resourceGroupName: string,
-    monitorName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>
-  ): void;
-  listApiKeys(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogApiKeyListResponse>,
-    callback?: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>
-  ): Promise<Models.MonitorsListApiKeysResponse> {
+  listApiKeys(resourceGroupName: string, monitorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>): void;
+  listApiKeys(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogApiKeyListResponse>, callback?: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>): Promise<Models.MonitorsListApiKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,8 +55,7 @@ export class Monitors {
         options
       },
       listApiKeysOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListApiKeysResponse>;
+      callback) as Promise<Models.MonitorsListApiKeysResponse>;
   }
 
   /**
@@ -84,39 +65,21 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsGetDefaultKeyResponse>
    */
-  getDefaultKey(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsGetDefaultKeyResponse>;
+  getDefaultKey(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsGetDefaultKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
-  getDefaultKey(
-    resourceGroupName: string,
-    monitorName: string,
-    callback: msRest.ServiceCallback<Models.DatadogApiKey>
-  ): void;
+  getDefaultKey(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogApiKey>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDefaultKey(
-    resourceGroupName: string,
-    monitorName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DatadogApiKey>
-  ): void;
-  getDefaultKey(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogApiKey>,
-    callback?: msRest.ServiceCallback<Models.DatadogApiKey>
-  ): Promise<Models.MonitorsGetDefaultKeyResponse> {
+  getDefaultKey(resourceGroupName: string, monitorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatadogApiKey>): void;
+  getDefaultKey(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogApiKey>, callback?: msRest.ServiceCallback<Models.DatadogApiKey>): Promise<Models.MonitorsGetDefaultKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,8 +87,7 @@ export class Monitors {
         options
       },
       getDefaultKeyOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsGetDefaultKeyResponse>;
+      callback) as Promise<Models.MonitorsGetDefaultKeyResponse>;
   }
 
   /**
@@ -135,39 +97,21 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  setDefaultKey(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: Models.MonitorsSetDefaultKeyOptionalParams
-  ): Promise<msRest.RestResponse>;
+  setDefaultKey(resourceGroupName: string, monitorName: string, options?: Models.MonitorsSetDefaultKeyOptionalParams): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
-  setDefaultKey(
-    resourceGroupName: string,
-    monitorName: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  setDefaultKey(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
    */
-  setDefaultKey(
-    resourceGroupName: string,
-    monitorName: string,
-    options: Models.MonitorsSetDefaultKeyOptionalParams,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  setDefaultKey(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: Models.MonitorsSetDefaultKeyOptionalParams | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<msRest.RestResponse> {
+  setDefaultKey(resourceGroupName: string, monitorName: string, options: Models.MonitorsSetDefaultKeyOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  setDefaultKey(resourceGroupName: string, monitorName: string, options?: Models.MonitorsSetDefaultKeyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,8 +119,7 @@ export class Monitors {
         options
       },
       setDefaultKeyOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -186,39 +129,21 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListHostsResponse>
    */
-  listHosts(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsListHostsResponse>;
+  listHosts(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListHostsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
-  listHosts(
-    resourceGroupName: string,
-    monitorName: string,
-    callback: msRest.ServiceCallback<Models.DatadogHostListResponse>
-  ): void;
+  listHosts(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogHostListResponse>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHosts(
-    resourceGroupName: string,
-    monitorName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DatadogHostListResponse>
-  ): void;
-  listHosts(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogHostListResponse>,
-    callback?: msRest.ServiceCallback<Models.DatadogHostListResponse>
-  ): Promise<Models.MonitorsListHostsResponse> {
+  listHosts(resourceGroupName: string, monitorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatadogHostListResponse>): void;
+  listHosts(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogHostListResponse>, callback?: msRest.ServiceCallback<Models.DatadogHostListResponse>): Promise<Models.MonitorsListHostsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -226,8 +151,7 @@ export class Monitors {
         options
       },
       listHostsOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListHostsResponse>;
+      callback) as Promise<Models.MonitorsListHostsResponse>;
   }
 
   /**
@@ -238,39 +162,21 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListLinkedResourcesResponse>
    */
-  listLinkedResources(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsListLinkedResourcesResponse>;
+  listLinkedResources(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListLinkedResourcesResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
-  listLinkedResources(
-    resourceGroupName: string,
-    monitorName: string,
-    callback: msRest.ServiceCallback<Models.LinkedResourceListResponse>
-  ): void;
+  listLinkedResources(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.LinkedResourceListResponse>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listLinkedResources(
-    resourceGroupName: string,
-    monitorName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.LinkedResourceListResponse>
-  ): void;
-  listLinkedResources(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedResourceListResponse>,
-    callback?: msRest.ServiceCallback<Models.LinkedResourceListResponse>
-  ): Promise<Models.MonitorsListLinkedResourcesResponse> {
+  listLinkedResources(resourceGroupName: string, monitorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedResourceListResponse>): void;
+  listLinkedResources(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedResourceListResponse>, callback?: msRest.ServiceCallback<Models.LinkedResourceListResponse>): Promise<Models.MonitorsListLinkedResourcesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -278,8 +184,7 @@ export class Monitors {
         options
       },
       listLinkedResourcesOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListLinkedResourcesResponse>;
+      callback) as Promise<Models.MonitorsListLinkedResourcesResponse>;
   }
 
   /**
@@ -289,41 +194,21 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListMonitoredResourcesResponse>
    */
-  listMonitoredResources(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsListMonitoredResourcesResponse>;
+  listMonitoredResources(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListMonitoredResourcesResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
-  listMonitoredResources(
-    resourceGroupName: string,
-    monitorName: string,
-    callback: msRest.ServiceCallback<Models.MonitoredResourceListResponse>
-  ): void;
+  listMonitoredResources(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.MonitoredResourceListResponse>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMonitoredResources(
-    resourceGroupName: string,
-    monitorName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.MonitoredResourceListResponse>
-  ): void;
-  listMonitoredResources(
-    resourceGroupName: string,
-    monitorName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.MonitoredResourceListResponse>,
-    callback?: msRest.ServiceCallback<Models.MonitoredResourceListResponse>
-  ): Promise<Models.MonitorsListMonitoredResourcesResponse> {
+  listMonitoredResources(resourceGroupName: string, monitorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MonitoredResourceListResponse>): void;
+  listMonitoredResources(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MonitoredResourceListResponse>, callback?: msRest.ServiceCallback<Models.MonitoredResourceListResponse>): Promise<Models.MonitorsListMonitoredResourcesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -331,8 +216,7 @@ export class Monitors {
         options
       },
       listMonitoredResourcesOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListMonitoredResourcesResponse>;
+      callback) as Promise<Models.MonitorsListMonitoredResourcesResponse>;
   }
 
   /**
@@ -349,23 +233,14 @@ export class Monitors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>
-  ): void;
-  list(
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>,
-    callback?: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>
-  ): Promise<Models.MonitorsListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>, callback?: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): Promise<Models.MonitorsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListResponse>;
+      callback) as Promise<Models.MonitorsListResponse>;
   }
 
   /**
@@ -374,43 +249,26 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListByResourceGroupResponse>
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>
-  ): void;
+  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>
-  ): void;
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>,
-    callback?: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>
-  ): Promise<Models.MonitorsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): void;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>, callback?: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): Promise<Models.MonitorsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListByResourceGroupResponse>;
+      callback) as Promise<Models.MonitorsListByResourceGroupResponse>;
   }
 
   /**
@@ -420,39 +278,21 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsGetResponse>
    */
-  get(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsGetResponse>;
+  get(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    monitorName: string,
-    callback: msRest.ServiceCallback<Models.DatadogMonitorResource>
-  ): void;
+  get(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogMonitorResource>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    resourceGroupName: string,
-    monitorName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DatadogMonitorResource>
-  ): void;
-  get(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogMonitorResource>,
-    callback?: msRest.ServiceCallback<Models.DatadogMonitorResource>
-  ): Promise<Models.MonitorsGetResponse> {
+  get(resourceGroupName: string, monitorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatadogMonitorResource>): void;
+  get(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogMonitorResource>, callback?: msRest.ServiceCallback<Models.DatadogMonitorResource>): Promise<Models.MonitorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -460,8 +300,7 @@ export class Monitors {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsGetResponse>;
+      callback) as Promise<Models.MonitorsGetResponse>;
   }
 
   /**
@@ -471,14 +310,9 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsCreateResponse>
    */
-  create(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: Models.MonitorsCreateOptionalParams
-  ): Promise<Models.MonitorsCreateResponse> {
-    return this.beginCreate(resourceGroupName, monitorName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    ) as Promise<Models.MonitorsCreateResponse>;
+  create(resourceGroupName: string, monitorName: string, options?: Models.MonitorsCreateOptionalParams): Promise<Models.MonitorsCreateResponse> {
+    return this.beginCreate(resourceGroupName,monitorName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MonitorsCreateResponse>;
   }
 
   /**
@@ -488,14 +322,9 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsUpdateResponse>
    */
-  update(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: Models.MonitorsUpdateOptionalParams
-  ): Promise<Models.MonitorsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName, monitorName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    ) as Promise<Models.MonitorsUpdateResponse>;
+  update(resourceGroupName: string, monitorName: string, options?: Models.MonitorsUpdateOptionalParams): Promise<Models.MonitorsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,monitorName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MonitorsUpdateResponse>;
   }
 
   /**
@@ -505,14 +334,9 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName, monitorName, options).then((lroPoller) =>
-      lroPoller.pollUntilFinished()
-    );
+  deleteMethod(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,monitorName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -522,39 +346,21 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsRefreshSetPasswordLinkResponse>
    */
-  refreshSetPasswordLink(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsRefreshSetPasswordLinkResponse>;
+  refreshSetPasswordLink(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsRefreshSetPasswordLinkResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
-  refreshSetPasswordLink(
-    resourceGroupName: string,
-    monitorName: string,
-    callback: msRest.ServiceCallback<Models.DatadogSetPasswordLink>
-  ): void;
+  refreshSetPasswordLink(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogSetPasswordLink>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
    */
-  refreshSetPasswordLink(
-    resourceGroupName: string,
-    monitorName: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DatadogSetPasswordLink>
-  ): void;
-  refreshSetPasswordLink(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogSetPasswordLink>,
-    callback?: msRest.ServiceCallback<Models.DatadogSetPasswordLink>
-  ): Promise<Models.MonitorsRefreshSetPasswordLinkResponse> {
+  refreshSetPasswordLink(resourceGroupName: string, monitorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatadogSetPasswordLink>): void;
+  refreshSetPasswordLink(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogSetPasswordLink>, callback?: msRest.ServiceCallback<Models.DatadogSetPasswordLink>): Promise<Models.MonitorsRefreshSetPasswordLinkResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -562,8 +368,7 @@ export class Monitors {
         options
       },
       refreshSetPasswordLinkOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsRefreshSetPasswordLinkResponse>;
+      callback) as Promise<Models.MonitorsRefreshSetPasswordLinkResponse>;
   }
 
   /**
@@ -573,11 +378,7 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: Models.MonitorsBeginCreateOptionalParams
-  ): Promise<msRestAzure.LROPoller> {
+  beginCreate(resourceGroupName: string, monitorName: string, options?: Models.MonitorsBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -585,8 +386,7 @@ export class Monitors {
         options
       },
       beginCreateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -596,11 +396,7 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: Models.MonitorsBeginUpdateOptionalParams
-  ): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, monitorName: string, options?: Models.MonitorsBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -608,8 +404,7 @@ export class Monitors {
         options
       },
       beginUpdateOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -619,11 +414,7 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -631,8 +422,7 @@ export class Monitors {
         options
       },
       beginDeleteMethodOperationSpec,
-      options
-    );
+      options);
   }
 
   /**
@@ -641,41 +431,26 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListApiKeysNextResponse>
    */
-  listApiKeysNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsListApiKeysNextResponse>;
+  listApiKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListApiKeysNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listApiKeysNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>
-  ): void;
+  listApiKeysNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listApiKeysNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>
-  ): void;
-  listApiKeysNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogApiKeyListResponse>,
-    callback?: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>
-  ): Promise<Models.MonitorsListApiKeysNextResponse> {
+  listApiKeysNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>): void;
+  listApiKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogApiKeyListResponse>, callback?: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>): Promise<Models.MonitorsListApiKeysNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listApiKeysNextOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListApiKeysNextResponse>;
+      callback) as Promise<Models.MonitorsListApiKeysNextResponse>;
   }
 
   /**
@@ -684,41 +459,26 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListHostsNextResponse>
    */
-  listHostsNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsListHostsNextResponse>;
+  listHostsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListHostsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listHostsNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.DatadogHostListResponse>
-  ): void;
+  listHostsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DatadogHostListResponse>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHostsNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DatadogHostListResponse>
-  ): void;
-  listHostsNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogHostListResponse>,
-    callback?: msRest.ServiceCallback<Models.DatadogHostListResponse>
-  ): Promise<Models.MonitorsListHostsNextResponse> {
+  listHostsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatadogHostListResponse>): void;
+  listHostsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogHostListResponse>, callback?: msRest.ServiceCallback<Models.DatadogHostListResponse>): Promise<Models.MonitorsListHostsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listHostsNextOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListHostsNextResponse>;
+      callback) as Promise<Models.MonitorsListHostsNextResponse>;
   }
 
   /**
@@ -728,41 +488,26 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListLinkedResourcesNextResponse>
    */
-  listLinkedResourcesNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsListLinkedResourcesNextResponse>;
+  listLinkedResourcesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListLinkedResourcesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listLinkedResourcesNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.LinkedResourceListResponse>
-  ): void;
+  listLinkedResourcesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LinkedResourceListResponse>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listLinkedResourcesNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.LinkedResourceListResponse>
-  ): void;
-  listLinkedResourcesNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedResourceListResponse>,
-    callback?: msRest.ServiceCallback<Models.LinkedResourceListResponse>
-  ): Promise<Models.MonitorsListLinkedResourcesNextResponse> {
+  listLinkedResourcesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedResourceListResponse>): void;
+  listLinkedResourcesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedResourceListResponse>, callback?: msRest.ServiceCallback<Models.LinkedResourceListResponse>): Promise<Models.MonitorsListLinkedResourcesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listLinkedResourcesNextOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListLinkedResourcesNextResponse>;
+      callback) as Promise<Models.MonitorsListLinkedResourcesNextResponse>;
   }
 
   /**
@@ -771,43 +516,26 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListMonitoredResourcesNextResponse>
    */
-  listMonitoredResourcesNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsListMonitoredResourcesNextResponse>;
+  listMonitoredResourcesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListMonitoredResourcesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listMonitoredResourcesNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.MonitoredResourceListResponse>
-  ): void;
+  listMonitoredResourcesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MonitoredResourceListResponse>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMonitoredResourcesNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.MonitoredResourceListResponse>
-  ): void;
-  listMonitoredResourcesNext(
-    nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.MonitoredResourceListResponse>,
-    callback?: msRest.ServiceCallback<Models.MonitoredResourceListResponse>
-  ): Promise<Models.MonitorsListMonitoredResourcesNextResponse> {
+  listMonitoredResourcesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MonitoredResourceListResponse>): void;
+  listMonitoredResourcesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MonitoredResourceListResponse>, callback?: msRest.ServiceCallback<Models.MonitoredResourceListResponse>): Promise<Models.MonitorsListMonitoredResourcesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listMonitoredResourcesNextOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListMonitoredResourcesNextResponse>;
+      callback) as Promise<Models.MonitorsListMonitoredResourcesNextResponse>;
   }
 
   /**
@@ -816,43 +544,26 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListNextResponse>
    */
-  listNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>
-  ): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>
-  ): void;
-  listNext(
-    nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>,
-    callback?: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>
-  ): Promise<Models.MonitorsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>, callback?: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): Promise<Models.MonitorsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListNextResponse>;
+      callback) as Promise<Models.MonitorsListNextResponse>;
   }
 
   /**
@@ -861,43 +572,26 @@ export class Monitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.MonitorsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>
-  ): void;
+  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>
-  ): void;
-  listByResourceGroupNext(
-    nextPageLink: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>,
-    callback?: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>
-  ): Promise<Models.MonitorsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>, callback?: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): Promise<Models.MonitorsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback
-    ) as Promise<Models.MonitorsListByResourceGroupNextResponse>;
+      callback) as Promise<Models.MonitorsListByResourceGroupNextResponse>;
   }
 }
 
@@ -905,11 +599,18 @@ export class Monitors {
 const serializer = new msRest.Serializer(Mappers);
 const listApiKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listApiKeys",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.monitorName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listApiKeys",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DatadogApiKeyListResponse
@@ -923,11 +624,18 @@ const listApiKeysOperationSpec: msRest.OperationSpec = {
 
 const getDefaultKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/getDefaultKey",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.monitorName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/getDefaultKey",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DatadogApiKey
@@ -941,13 +649,23 @@ const getDefaultKeyOperationSpec: msRest.OperationSpec = {
 
 const setDefaultKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/setDefaultKey",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.monitorName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/setDefaultKey",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
-    parameterPath: ["options", "body"],
+    parameterPath: [
+      "options",
+      "body"
+    ],
     mapper: Mappers.DatadogApiKey
   },
   responses: {
@@ -961,11 +679,18 @@ const setDefaultKeyOperationSpec: msRest.OperationSpec = {
 
 const listHostsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listHosts",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.monitorName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listHosts",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DatadogHostListResponse
@@ -979,11 +704,18 @@ const listHostsOperationSpec: msRest.OperationSpec = {
 
 const listLinkedResourcesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listLinkedResources",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.monitorName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listLinkedResources",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.LinkedResourceListResponse
@@ -997,11 +729,18 @@ const listLinkedResourcesOperationSpec: msRest.OperationSpec = {
 
 const listMonitoredResourcesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listMonitoredResources",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.monitorName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listMonitoredResources",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.MonitoredResourceListResponse
@@ -1016,9 +755,15 @@ const listMonitoredResourcesOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Datadog/monitors",
-  urlParameters: [Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DatadogMonitorResourceListResponse
@@ -1032,11 +777,17 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DatadogMonitorResourceListResponse
@@ -1050,11 +801,18 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.monitorName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DatadogMonitorResource
@@ -1068,11 +826,18 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const refreshSetPasswordLinkOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/refreshSetPasswordLink",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.monitorName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/refreshSetPasswordLink",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DatadogSetPasswordLink
@@ -1086,13 +851,23 @@ const refreshSetPasswordLinkOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.monitorName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
-    parameterPath: ["options", "body"],
+    parameterPath: [
+      "options",
+      "body"
+    ],
     mapper: Mappers.DatadogMonitorResource
   },
   responses: {
@@ -1111,13 +886,23 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.monitorName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
-    parameterPath: ["options", "body"],
+    parameterPath: [
+      "options",
+      "body"
+    ],
     mapper: Mappers.DatadogMonitorResourceUpdateParameters
   },
   responses: {
@@ -1136,11 +921,18 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
-  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.monitorName],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {},
     202: {},
@@ -1156,9 +948,15 @@ const listApiKeysNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DatadogApiKeyListResponse
@@ -1174,9 +972,15 @@ const listHostsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DatadogHostListResponse
@@ -1192,9 +996,15 @@ const listLinkedResourcesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.LinkedResourceListResponse
@@ -1210,9 +1020,15 @@ const listMonitoredResourcesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.MonitoredResourceListResponse
@@ -1228,9 +1044,15 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DatadogMonitorResourceListResponse
@@ -1246,9 +1068,15 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DatadogMonitorResourceListResponse
