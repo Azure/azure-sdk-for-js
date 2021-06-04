@@ -243,14 +243,15 @@ stages:
     - job: PublishDocsToNightlyBranch
       steps: 
         - checkout: self
-        - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
-          parameters:
-            ArtifactLocation: $(System.ArtifactsDirectory)/packages/${{artifact.name}}.json
-            PackageRepository: NPM
-            RepoId: Azure/azure-sdk-for-js
-            WorkingDirectory: $(System.DefaultWorkingDirectory)
-            TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
-            TargetDocRepoName: ${{parameters.TargetDocRepoName}}
-            ArtifactName: ${{artifact.name}}
-            Language: 'javascript'
-            DailyDocsBuild: true
+        - ${{ each artifact in parameters.Artifacts }}:
+          - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
+            parameters:
+              ArtifactLocation: $(System.ArtifactsDirectory)/packages/${{artifact.name}}.json
+              PackageRepository: NPM
+              RepoId: Azure/azure-sdk-for-js
+              WorkingDirectory: $(System.DefaultWorkingDirectory)
+              TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
+              TargetDocRepoName: ${{parameters.TargetDocRepoName}}
+              ArtifactName: ${{artifact.name}}
+              Language: 'javascript'
+              DailyDocsBuild: true
