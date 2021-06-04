@@ -63,6 +63,28 @@ const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(
 
 Note that these samples assume you have a `CONTAINER_REGISTRY_ENDPOINT` environment variable set, which is the URL including the name of the login server and the `https://` prefix.
 
+#### National Clouds
+
+To authenticate with a registry in a [National Cloud](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud), you will need to make the following additions to your configuration:
+
+- Set the `authorityHost` in the credential options or via the `AZURE_AUTHORITY_HOST` environment variable
+- Set the `authenticationScope` in `ContainerRegistryClientOptions`
+
+```javascript
+const { ContainerRegistryClient } = require("@azure/container-registry");
+const { DefaultAzureCredential, AzureAuthorityHosts } = require("@azure/identity");
+
+const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT;
+// Create a ContainerRegistryClient that will authenticate through AAD in the China national cloud
+const client = new ContainerRegistryClient(
+  endpoint,
+  new DefaultAzureCredential({ authorityHost: AzureAuthorityHosts.AzureChina }),
+  {
+    authenticationScope: "https://management.chinacloudapi.cn/.default"
+  }
+);
+```
+
 For more information on using AAD with Azure Container Registry, please see the service's [Authentication Overview](https://docs.microsoft.com/azure/container-registry/container-registry-authentication).
 
 ## Key concepts
