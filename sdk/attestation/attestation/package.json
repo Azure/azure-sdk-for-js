@@ -144,12 +144,10 @@
   },
   "//sampleConfiguration": {
     "skipFolder": false,
-    "disableDocsMs": true,
     "productName": "Azure Attestation",
     "productSlugs": [
       "azure-attestation"
     ],
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/",
     "requiredResources": {}
   }
 }
