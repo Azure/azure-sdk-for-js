@@ -16,7 +16,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { NetworkManagementClientContext } from "./networkManagementClientContext";
 
-
 class NetworkManagementClient extends NetworkManagementClientContext {
   // Operation groups
   applicationGateways: operations.ApplicationGateways;
@@ -138,11 +137,19 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.NetworkManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials | TokenCredential,
+    subscriptionId: string,
+    options?: Models.NetworkManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.applicationGateways = new operations.ApplicationGateways(this);
-    this.applicationGatewayPrivateLinkResources = new operations.ApplicationGatewayPrivateLinkResources(this);
-    this.applicationGatewayPrivateEndpointConnections = new operations.ApplicationGatewayPrivateEndpointConnections(this);
+    this.applicationGatewayPrivateLinkResources = new operations.ApplicationGatewayPrivateLinkResources(
+      this
+    );
+    this.applicationGatewayPrivateEndpointConnections = new operations.ApplicationGatewayPrivateEndpointConnections(
+      this
+    );
     this.applicationSecurityGroups = new operations.ApplicationSecurityGroups(this);
     this.availableDelegations = new operations.AvailableDelegations(this);
     this.availableResourceGroupDelegations = new operations.AvailableResourceGroupDelegations(this);
@@ -161,21 +168,29 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.expressRouteCircuitAuthorizations = new operations.ExpressRouteCircuitAuthorizations(this);
     this.expressRouteCircuitPeerings = new operations.ExpressRouteCircuitPeerings(this);
     this.expressRouteCircuitConnections = new operations.ExpressRouteCircuitConnections(this);
-    this.peerExpressRouteCircuitConnections = new operations.PeerExpressRouteCircuitConnections(this);
+    this.peerExpressRouteCircuitConnections = new operations.PeerExpressRouteCircuitConnections(
+      this
+    );
     this.expressRouteCircuits = new operations.ExpressRouteCircuits(this);
     this.expressRouteServiceProviders = new operations.ExpressRouteServiceProviders(this);
     this.expressRouteCrossConnections = new operations.ExpressRouteCrossConnections(this);
-    this.expressRouteCrossConnectionPeerings = new operations.ExpressRouteCrossConnectionPeerings(this);
+    this.expressRouteCrossConnectionPeerings = new operations.ExpressRouteCrossConnectionPeerings(
+      this
+    );
     this.expressRoutePortsLocations = new operations.ExpressRoutePortsLocations(this);
     this.expressRoutePorts = new operations.ExpressRoutePorts(this);
     this.expressRouteLinks = new operations.ExpressRouteLinks(this);
     this.firewallPolicies = new operations.FirewallPolicies(this);
-    this.firewallPolicyRuleCollectionGroups = new operations.FirewallPolicyRuleCollectionGroups(this);
+    this.firewallPolicyRuleCollectionGroups = new operations.FirewallPolicyRuleCollectionGroups(
+      this
+    );
     this.ipAllocations = new operations.IpAllocations(this);
     this.ipGroups = new operations.IpGroups(this);
     this.loadBalancers = new operations.LoadBalancers(this);
     this.loadBalancerBackendAddressPools = new operations.LoadBalancerBackendAddressPools(this);
-    this.loadBalancerFrontendIPConfigurations = new operations.LoadBalancerFrontendIPConfigurations(this);
+    this.loadBalancerFrontendIPConfigurations = new operations.LoadBalancerFrontendIPConfigurations(
+      this
+    );
     this.inboundNatRules = new operations.InboundNatRules(this);
     this.loadBalancerLoadBalancingRules = new operations.LoadBalancerLoadBalancingRules(this);
     this.loadBalancerOutboundRules = new operations.LoadBalancerOutboundRules(this);
@@ -237,7 +252,9 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.vpnSiteLinkConnections = new operations.VpnSiteLinkConnections(this);
     this.natRules = new operations.NatRules(this);
     this.p2sVpnGateways = new operations.P2sVpnGateways(this);
-    this.vpnServerConfigurationsAssociatedWithVirtualWan = new operations.VpnServerConfigurationsAssociatedWithVirtualWan(this);
+    this.vpnServerConfigurationsAssociatedWithVirtualWan = new operations.VpnServerConfigurationsAssociatedWithVirtualWan(
+      this
+    );
     this.virtualHubRouteTableV2s = new operations.VirtualHubRouteTableV2s(this);
     this.expressRouteGateways = new operations.ExpressRouteGateways(this);
     this.expressRouteConnections = new operations.ExpressRouteConnections(this);
@@ -256,9 +273,20 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.PutBastionShareableLinkResponse>
    */
-  putBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: Models.BastionShareableLinkListRequest, options?: msRest.RequestOptionsBase): Promise<Models.PutBastionShareableLinkResponse> {
-    return this.beginPutBastionShareableLink(resourceGroupName,bastionHostName,bslRequest,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PutBastionShareableLinkResponse>;
+  putBastionShareableLink(
+    resourceGroupName: string,
+    bastionHostName: string,
+    bslRequest: Models.BastionShareableLinkListRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PutBastionShareableLinkResponse> {
+    return this.beginPutBastionShareableLink(
+      resourceGroupName,
+      bastionHostName,
+      bslRequest,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PutBastionShareableLinkResponse
+    >;
   }
 
   /**
@@ -269,9 +297,18 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: Models.BastionShareableLinkListRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteBastionShareableLink(resourceGroupName,bastionHostName,bslRequest,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteBastionShareableLink(
+    resourceGroupName: string,
+    bastionHostName: string,
+    bslRequest: Models.BastionShareableLinkListRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteBastionShareableLink(
+      resourceGroupName,
+      bastionHostName,
+      bslRequest,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -282,14 +319,24 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetBastionShareableLinkResponse>
    */
-  getBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: Models.BastionShareableLinkListRequest, options?: msRest.RequestOptionsBase): Promise<Models.GetBastionShareableLinkResponse>;
+  getBastionShareableLink(
+    resourceGroupName: string,
+    bastionHostName: string,
+    bslRequest: Models.BastionShareableLinkListRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetBastionShareableLinkResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
    * @param bslRequest Post request for all the Bastion Shareable Link endpoints.
    * @param callback The callback
    */
-  getBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: Models.BastionShareableLinkListRequest, callback: msRest.ServiceCallback<Models.BastionShareableLinkListResult>): void;
+  getBastionShareableLink(
+    resourceGroupName: string,
+    bastionHostName: string,
+    bslRequest: Models.BastionShareableLinkListRequest,
+    callback: msRest.ServiceCallback<Models.BastionShareableLinkListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
@@ -297,8 +344,22 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: Models.BastionShareableLinkListRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BastionShareableLinkListResult>): void;
-  getBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: Models.BastionShareableLinkListRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionShareableLinkListResult>, callback?: msRest.ServiceCallback<Models.BastionShareableLinkListResult>): Promise<Models.GetBastionShareableLinkResponse> {
+  getBastionShareableLink(
+    resourceGroupName: string,
+    bastionHostName: string,
+    bslRequest: Models.BastionShareableLinkListRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BastionShareableLinkListResult>
+  ): void;
+  getBastionShareableLink(
+    resourceGroupName: string,
+    bastionHostName: string,
+    bslRequest: Models.BastionShareableLinkListRequest,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.BastionShareableLinkListResult>,
+    callback?: msRest.ServiceCallback<Models.BastionShareableLinkListResult>
+  ): Promise<Models.GetBastionShareableLinkResponse> {
     return this.sendOperationRequest(
       {
         resourceGroupName,
@@ -307,7 +368,8 @@ class NetworkManagementClient extends NetworkManagementClientContext {
         options
       },
       getBastionShareableLinkOperationSpec,
-      callback) as Promise<Models.GetBastionShareableLinkResponse>;
+      callback
+    ) as Promise<Models.GetBastionShareableLinkResponse>;
   }
 
   /**
@@ -317,9 +379,18 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetActiveSessionsResponse>
    */
-  getActiveSessions(resourceGroupName: string, bastionHostName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetActiveSessionsResponse> {
-    return this.beginGetActiveSessions(resourceGroupName,bastionHostName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GetActiveSessionsResponse>;
+  getActiveSessions(
+    resourceGroupName: string,
+    bastionHostName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetActiveSessionsResponse> {
+    return this.beginGetActiveSessions(
+      resourceGroupName,
+      bastionHostName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GetActiveSessionsResponse
+    >;
   }
 
   /**
@@ -330,14 +401,24 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisconnectActiveSessionsResponse>
    */
-  disconnectActiveSessions(resourceGroupName: string, bastionHostName: string, sessionIds: Models.SessionIds, options?: msRest.RequestOptionsBase): Promise<Models.DisconnectActiveSessionsResponse>;
+  disconnectActiveSessions(
+    resourceGroupName: string,
+    bastionHostName: string,
+    sessionIds: Models.SessionIds,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisconnectActiveSessionsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
    * @param sessionIds The list of sessionids to disconnect.
    * @param callback The callback
    */
-  disconnectActiveSessions(resourceGroupName: string, bastionHostName: string, sessionIds: Models.SessionIds, callback: msRest.ServiceCallback<Models.BastionSessionDeleteResult>): void;
+  disconnectActiveSessions(
+    resourceGroupName: string,
+    bastionHostName: string,
+    sessionIds: Models.SessionIds,
+    callback: msRest.ServiceCallback<Models.BastionSessionDeleteResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
@@ -345,8 +426,20 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disconnectActiveSessions(resourceGroupName: string, bastionHostName: string, sessionIds: Models.SessionIds, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BastionSessionDeleteResult>): void;
-  disconnectActiveSessions(resourceGroupName: string, bastionHostName: string, sessionIds: Models.SessionIds, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionSessionDeleteResult>, callback?: msRest.ServiceCallback<Models.BastionSessionDeleteResult>): Promise<Models.DisconnectActiveSessionsResponse> {
+  disconnectActiveSessions(
+    resourceGroupName: string,
+    bastionHostName: string,
+    sessionIds: Models.SessionIds,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BastionSessionDeleteResult>
+  ): void;
+  disconnectActiveSessions(
+    resourceGroupName: string,
+    bastionHostName: string,
+    sessionIds: Models.SessionIds,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionSessionDeleteResult>,
+    callback?: msRest.ServiceCallback<Models.BastionSessionDeleteResult>
+  ): Promise<Models.DisconnectActiveSessionsResponse> {
     return this.sendOperationRequest(
       {
         resourceGroupName,
@@ -355,7 +448,8 @@ class NetworkManagementClient extends NetworkManagementClientContext {
         options
       },
       disconnectActiveSessionsOperationSpec,
-      callback) as Promise<Models.DisconnectActiveSessionsResponse>;
+      callback
+    ) as Promise<Models.DisconnectActiveSessionsResponse>;
   }
 
   /**
@@ -366,14 +460,22 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckDnsNameAvailabilityResponse>
    */
-  checkDnsNameAvailability(location: string, domainNameLabel: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckDnsNameAvailabilityResponse>;
+  checkDnsNameAvailability(
+    location: string,
+    domainNameLabel: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CheckDnsNameAvailabilityResponse>;
   /**
    * @param location The location of the domain name.
    * @param domainNameLabel The domain name to be verified. It must conform to the following regular
    * expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.
    * @param callback The callback
    */
-  checkDnsNameAvailability(location: string, domainNameLabel: string, callback: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): void;
+  checkDnsNameAvailability(
+    location: string,
+    domainNameLabel: string,
+    callback: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>
+  ): void;
   /**
    * @param location The location of the domain name.
    * @param domainNameLabel The domain name to be verified. It must conform to the following regular
@@ -381,8 +483,18 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkDnsNameAvailability(location: string, domainNameLabel: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): void;
-  checkDnsNameAvailability(location: string, domainNameLabel: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DnsNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>): Promise<Models.CheckDnsNameAvailabilityResponse> {
+  checkDnsNameAvailability(
+    location: string,
+    domainNameLabel: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>
+  ): void;
+  checkDnsNameAvailability(
+    location: string,
+    domainNameLabel: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DnsNameAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.DnsNameAvailabilityResult>
+  ): Promise<Models.CheckDnsNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         location,
@@ -390,7 +502,8 @@ class NetworkManagementClient extends NetworkManagementClientContext {
         options
       },
       checkDnsNameAvailabilityOperationSpec,
-      callback) as Promise<Models.CheckDnsNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.CheckDnsNameAvailabilityResponse>;
   }
 
   /**
@@ -401,14 +514,22 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SupportedSecurityProvidersResponse>
    */
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase): Promise<Models.SupportedSecurityProvidersResponse>;
+  supportedSecurityProviders(
+    resourceGroupName: string,
+    virtualWANName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SupportedSecurityProvidersResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param virtualWANName The name of the VirtualWAN for which supported security providers are
    * needed.
    * @param callback The callback
    */
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, callback: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): void;
+  supportedSecurityProviders(
+    resourceGroupName: string,
+    virtualWANName: string,
+    callback: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param virtualWANName The name of the VirtualWAN for which supported security providers are
@@ -416,8 +537,20 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): void;
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualWanSecurityProviders>, callback?: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>): Promise<Models.SupportedSecurityProvidersResponse> {
+  supportedSecurityProviders(
+    resourceGroupName: string,
+    virtualWANName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>
+  ): void;
+  supportedSecurityProviders(
+    resourceGroupName: string,
+    virtualWANName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VirtualWanSecurityProviders>,
+    callback?: msRest.ServiceCallback<Models.VirtualWanSecurityProviders>
+  ): Promise<Models.SupportedSecurityProvidersResponse> {
     return this.sendOperationRequest(
       {
         resourceGroupName,
@@ -425,7 +558,8 @@ class NetworkManagementClient extends NetworkManagementClientContext {
         options
       },
       supportedSecurityProvidersOperationSpec,
-      callback) as Promise<Models.SupportedSecurityProvidersResponse>;
+      callback
+    ) as Promise<Models.SupportedSecurityProvidersResponse>;
   }
 
   /**
@@ -439,9 +573,20 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>
    */
-  generatevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName: string, virtualWANName: string, vpnClientParams: Models.VirtualWanVpnProfileParameters, options?: msRest.RequestOptionsBase): Promise<Models.GeneratevirtualwanvpnserverconfigurationvpnprofileResponse> {
-    return this.beginGeneratevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName,virtualWANName,vpnClientParams,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>;
+  generatevirtualwanvpnserverconfigurationvpnprofile(
+    resourceGroupName: string,
+    virtualWANName: string,
+    vpnClientParams: Models.VirtualWanVpnProfileParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GeneratevirtualwanvpnserverconfigurationvpnprofileResponse> {
+    return this.beginGeneratevirtualwanvpnserverconfigurationvpnprofile(
+      resourceGroupName,
+      virtualWANName,
+      vpnClientParams,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.GeneratevirtualwanvpnserverconfigurationvpnprofileResponse
+    >;
   }
 
   /**
@@ -452,7 +597,12 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPutBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: Models.BastionShareableLinkListRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPutBastionShareableLink(
+    resourceGroupName: string,
+    bastionHostName: string,
+    bslRequest: Models.BastionShareableLinkListRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.sendLRORequest(
       {
         resourceGroupName,
@@ -461,7 +611,8 @@ class NetworkManagementClient extends NetworkManagementClientContext {
         options
       },
       beginPutBastionShareableLinkOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -472,7 +623,12 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: Models.BastionShareableLinkListRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteBastionShareableLink(
+    resourceGroupName: string,
+    bastionHostName: string,
+    bslRequest: Models.BastionShareableLinkListRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.sendLRORequest(
       {
         resourceGroupName,
@@ -481,7 +637,8 @@ class NetworkManagementClient extends NetworkManagementClientContext {
         options
       },
       beginDeleteBastionShareableLinkOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -491,7 +648,11 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginGetActiveSessions(resourceGroupName: string, bastionHostName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGetActiveSessions(
+    resourceGroupName: string,
+    bastionHostName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.sendLRORequest(
       {
         resourceGroupName,
@@ -499,7 +660,8 @@ class NetworkManagementClient extends NetworkManagementClientContext {
         options
       },
       beginGetActiveSessionsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -513,7 +675,12 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginGeneratevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName: string, virtualWANName: string, vpnClientParams: Models.VirtualWanVpnProfileParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGeneratevirtualwanvpnserverconfigurationvpnprofile(
+    resourceGroupName: string,
+    virtualWANName: string,
+    vpnClientParams: Models.VirtualWanVpnProfileParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.sendLRORequest(
       {
         resourceGroupName,
@@ -522,7 +689,8 @@ class NetworkManagementClient extends NetworkManagementClientContext {
         options
       },
       beginGeneratevirtualwanvpnserverconfigurationvpnprofileOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -531,9 +699,13 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.PutBastionShareableLinkNextResponse>
    */
-  putBastionShareableLinkNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PutBastionShareableLinkNextResponse> {
-    return this.beginPutBastionShareableLinkNext(nextPageLink,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PutBastionShareableLinkNextResponse>;
+  putBastionShareableLinkNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PutBastionShareableLinkNextResponse> {
+    return this.beginPutBastionShareableLinkNext(nextPageLink, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.PutBastionShareableLinkNextResponse>;
   }
 
   /**
@@ -542,26 +714,43 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetBastionShareableLinkNextResponse>
    */
-  getBastionShareableLinkNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetBastionShareableLinkNextResponse>;
+  getBastionShareableLinkNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetBastionShareableLinkNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getBastionShareableLinkNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BastionShareableLinkListResult>): void;
+  getBastionShareableLinkNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.BastionShareableLinkListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getBastionShareableLinkNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BastionShareableLinkListResult>): void;
-  getBastionShareableLinkNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionShareableLinkListResult>, callback?: msRest.ServiceCallback<Models.BastionShareableLinkListResult>): Promise<Models.GetBastionShareableLinkNextResponse> {
+  getBastionShareableLinkNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BastionShareableLinkListResult>
+  ): void;
+  getBastionShareableLinkNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.BastionShareableLinkListResult>,
+    callback?: msRest.ServiceCallback<Models.BastionShareableLinkListResult>
+  ): Promise<Models.GetBastionShareableLinkNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getBastionShareableLinkNextOperationSpec,
-      callback) as Promise<Models.GetBastionShareableLinkNextResponse>;
+      callback
+    ) as Promise<Models.GetBastionShareableLinkNextResponse>;
   }
 
   /**
@@ -570,9 +759,13 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetActiveSessionsNextResponse>
    */
-  getActiveSessionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GetActiveSessionsNextResponse> {
-    return this.beginGetActiveSessionsNext(nextPageLink,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GetActiveSessionsNextResponse>;
+  getActiveSessionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetActiveSessionsNextResponse> {
+    return this.beginGetActiveSessionsNext(nextPageLink, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.GetActiveSessionsNextResponse>;
   }
 
   /**
@@ -581,26 +774,41 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisconnectActiveSessionsNextResponse>
    */
-  disconnectActiveSessionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DisconnectActiveSessionsNextResponse>;
+  disconnectActiveSessionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisconnectActiveSessionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  disconnectActiveSessionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BastionSessionDeleteResult>): void;
+  disconnectActiveSessionsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.BastionSessionDeleteResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  disconnectActiveSessionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BastionSessionDeleteResult>): void;
-  disconnectActiveSessionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionSessionDeleteResult>, callback?: msRest.ServiceCallback<Models.BastionSessionDeleteResult>): Promise<Models.DisconnectActiveSessionsNextResponse> {
+  disconnectActiveSessionsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BastionSessionDeleteResult>
+  ): void;
+  disconnectActiveSessionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionSessionDeleteResult>,
+    callback?: msRest.ServiceCallback<Models.BastionSessionDeleteResult>
+  ): Promise<Models.DisconnectActiveSessionsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       disconnectActiveSessionsNextOperationSpec,
-      callback) as Promise<Models.DisconnectActiveSessionsNextResponse>;
+      callback
+    ) as Promise<Models.DisconnectActiveSessionsNextResponse>;
   }
 
   /**
@@ -609,14 +817,18 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPutBastionShareableLinkNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPutBastionShareableLinkNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.sendLRORequest(
       {
         nextPageLink,
         options
       },
       beginPutBastionShareableLinkNextOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -625,14 +837,18 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginGetActiveSessionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginGetActiveSessionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.sendLRORequest(
       {
         nextPageLink,
         options
       },
       beginGetActiveSessionsNextOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -640,18 +856,15 @@ class NetworkManagementClient extends NetworkManagementClientContext {
 const serializer = new msRest.Serializer(Mappers);
 const getBastionShareableLinkOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getShareableLinks",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getShareableLinks",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.bastionHostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "bslRequest",
     mapper: {
@@ -672,18 +885,15 @@ const getBastionShareableLinkOperationSpec: msRest.OperationSpec = {
 
 const disconnectActiveSessionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/disconnectActiveSessions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/disconnectActiveSessions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.bastionHostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "sessionIds",
     mapper: {
@@ -704,18 +914,11 @@ const disconnectActiveSessionsOperationSpec: msRest.OperationSpec = {
 
 const checkDnsNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability",
-  urlParameters: [
-    Parameters.location0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.domainNameLabel,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability",
+  urlParameters: [Parameters.location0, Parameters.subscriptionId],
+  queryParameters: [Parameters.domainNameLabel, Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DnsNameAvailabilityResult
@@ -729,18 +932,15 @@ const checkDnsNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const supportedSecurityProvidersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/supportedSecurityProviders",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/supportedSecurityProviders",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualWANName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualWanSecurityProviders
@@ -754,18 +954,15 @@ const supportedSecurityProvidersOperationSpec: msRest.OperationSpec = {
 
 const beginPutBastionShareableLinkOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/createShareableLinks",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/createShareableLinks",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.bastionHostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "bslRequest",
     mapper: {
@@ -787,18 +984,15 @@ const beginPutBastionShareableLinkOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteBastionShareableLinkOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinks",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinks",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.bastionHostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "bslRequest",
     mapper: {
@@ -818,18 +1012,15 @@ const beginDeleteBastionShareableLinkOperationSpec: msRest.OperationSpec = {
 
 const beginGetActiveSessionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getActiveSessions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getActiveSessions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.bastionHostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BastionActiveSessionListResult
@@ -844,18 +1035,15 @@ const beginGetActiveSessionsOperationSpec: msRest.OperationSpec = {
 
 const beginGeneratevirtualwanvpnserverconfigurationvpnprofileOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/GenerateVpnProfile",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/GenerateVpnProfile",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualWANName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "vpnClientParams",
     mapper: {
@@ -879,15 +1067,9 @@ const getBastionShareableLinkNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BastionShareableLinkListResult
@@ -903,15 +1085,9 @@ const disconnectActiveSessionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BastionSessionDeleteResult
@@ -927,15 +1103,9 @@ const beginPutBastionShareableLinkNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BastionShareableLinkListResult
@@ -952,15 +1122,9 @@ const beginGetActiveSessionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BastionActiveSessionListResult
