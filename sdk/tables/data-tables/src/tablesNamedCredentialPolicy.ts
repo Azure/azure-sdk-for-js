@@ -7,7 +7,7 @@ import {
   SendRequest,
   PipelinePolicy
 } from "@azure/core-rest-pipeline";
-import { isSASCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import { NamedKeyCredential } from "@azure/core-auth";
 import { HeaderConstants } from "./utils/constants";
 import { URL } from "./utils/url";
 import { computeHMACSHA256 } from "./utils/computeHMACSHA256";
@@ -37,11 +37,8 @@ export function tablesNamedKeyCredentialPolicy(credential: NamedKeyCredential): 
 
 export function getAuthorizationHeader(
   request: PipelineRequest,
-  credential: NamedKeyCredential | SASCredential
+  credential: NamedKeyCredential
 ): string {
-  if (isSASCredential(credential)) {
-    throw new Error("NYI: SAS");
-  }
   if (!request.headers.has(HeaderConstants.X_MS_DATE)) {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
   }

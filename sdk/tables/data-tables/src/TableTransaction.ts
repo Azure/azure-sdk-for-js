@@ -17,7 +17,12 @@ import {
   TableTransactionEntityResponse,
   TransactionAction
 } from "./models";
-import { NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import {
+  isNamedKeyCredential,
+  isSASCredential,
+  NamedKeyCredential,
+  SASCredential
+} from "@azure/core-auth";
 import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
@@ -30,6 +35,7 @@ import {
   getTransactionHttpRequestBody,
   getInitialTransactionBody
 } from "./utils/transactionHelpers";
+import { signURLWithSAS } from "./tablesSASTokenPolicy";
 
 /**
  * Helper to build a list of transaction actions
@@ -262,9 +268,11 @@ export class InternalTableTransaction {
       tracingOptions: updatedOptions.tracingOptions
     });
 
-    if (this.credential) {
+    if (isNamedKeyCredential(this.credential)) {
       const authHeader = getAuthorizationHeader(request, this.credential);
       request.headers.set("Authorization", authHeader);
+    } else if (isSASCredential(this.credential)) {
+      signURLWithSAS(request, this.credential);
     }
 
     try {

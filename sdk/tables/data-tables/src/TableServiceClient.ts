@@ -36,6 +36,7 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 import { ListTableItemsResponse } from "./utils/internalModels";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { isCredential } from "./utils/isCredential";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -110,7 +111,7 @@ export class TableServiceClient {
     const clientOptions =
       (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
-    clientOptions.endpoint = clientOptions.endpoint || url;
+    clientOptions.endpoint = clientOptions.endpoint || this.url;
 
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
@@ -138,12 +139,13 @@ export class TableServiceClient {
       }
     };
 
-    const client = new GeneratedClient(url, internalPipelineOptions);
+    const client = new GeneratedClient(this.url, internalPipelineOptions);
     if (isNamedKeyCredential(credential)) {
       client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
     } else if (isSASCredential(credential)) {
-      throw new Error("NYI: SAS");
+      client.pipeline.addPolicy(tablesSASTokenPolicy(credential));
     }
+
     this.pipeline = client.pipeline;
     this.table = client.table;
     this.service = client.service;
@@ -320,11 +322,14 @@ export class TableServiceClient {
   }
 
   private async _listTables(options?: InternalListTablesOptions): Promise<ListTableItemsResponse> {
-    const { xMsContinuationNextTableName: nextTableName, value = [] } = await this.table.query(
-      options
-    );
-
-    return Object.assign([...value], { nextTableName });
+    try {
+      const { xMsContinuationNextTableName: nextTableName, value = [] } = await this.table.query(
+        options
+      );
+      return Object.assign([...value], { nextTableName });
+    } catch (e) {
+      throw e;
+    }
   }
 
   /**

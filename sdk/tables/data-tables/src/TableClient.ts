@@ -52,6 +52,7 @@ import { Uuid } from "./utils/uuid";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { isCredential } from "./utils/isCredential";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -137,11 +138,13 @@ export class TableClient {
     options: TableClientOptions = {}
   ) {
     this.url = url;
+
     const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
+
     const clientOptions =
       (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
-    clientOptions.endpoint = clientOptions.endpoint || url;
+    clientOptions.endpoint = clientOptions.endpoint || this.url;
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
     }
@@ -168,11 +171,11 @@ export class TableClient {
 
     this.tableName = tableName;
     this.credential = credential;
-    const generatedClient = new GeneratedClient(url, internalPipelineOptions);
+    const generatedClient = new GeneratedClient(this.url, internalPipelineOptions);
     if (isNamedKeyCredential(credential)) {
       generatedClient.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
     } else if (isSASCredential(credential)) {
-      throw new Error("SAS credential NYI");
+      generatedClient.pipeline.addPolicy(tablesSASTokenPolicy(credential));
     }
     this.table = generatedClient.table;
     this.pipeline = generatedClient.pipeline;

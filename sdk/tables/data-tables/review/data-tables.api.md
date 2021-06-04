@@ -27,6 +27,10 @@ export interface AccountSASPermissions {
   update?: boolean;
 }
 
+export { AzureNamedKeyCredential };
+
+export { AzureSASCredential };
+
 // @public
 export interface CorsRule {
   allowedHeaders: string;
@@ -181,6 +185,12 @@ export interface SasIPRange {
 }
 
 // @public
+export enum SASProtocol {
+  Https = "https",
+  HttpsAndHttp = "https,http"
+}
+
+// @public
 export interface ServiceGetPropertiesHeaders {
   clientRequestId?: string;
   requestId?: string;
@@ -227,9 +237,6 @@ export interface SignedIdentifier {
   accessPolicy: AccessPolicy;
   id: string;
 }
-
-// @public
-export type TableAccountSASResourceTypes = "Service" | "Container" | "Object" | "All";
 
 // @public
 export class TableClient {
