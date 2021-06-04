@@ -162,7 +162,7 @@ export interface KeyVaultSelectiveKeyRestoreResult {
 }
 
 // @public
-export const enum KnownKeyVaultDataAction {
+export enum KnownKeyVaultDataAction {
     BackupHsmKeys = "Microsoft.KeyVault/managedHsm/keys/backup/action",
     CreateHsmKey = "Microsoft.KeyVault/managedHsm/keys/create",
     DecryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/decrypt/action",
@@ -195,7 +195,7 @@ export const enum KnownKeyVaultDataAction {
 }
 
 // @public
-export const enum KnownKeyVaultRoleScope {
+export enum KnownKeyVaultRoleScope {
     Global = "/",
     Keys = "/keys"
 }
