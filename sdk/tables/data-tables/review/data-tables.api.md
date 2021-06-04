@@ -21,19 +21,19 @@ export interface AccessPolicy {
 }
 
 // @public
-export interface AccountSASOptions {
+export interface AccountSasOptions {
     expiresOn?: Date;
     ipRange?: SasIPRange;
-    permissions?: AccountSASPermissions;
-    protocol?: SASProtocol;
+    permissions?: AccountSasPermissions;
+    protocol?: SasProtocol;
     resourceTypes?: string;
-    services?: AccountSASServices;
+    services?: AccountSasServices;
     startsOn?: Date;
     version?: string;
 }
 
 // @public
-export interface AccountSASPermissions {
+export interface AccountSasPermissions {
     add?: boolean;
     delete?: boolean;
     list?: boolean;
@@ -43,7 +43,7 @@ export interface AccountSASPermissions {
 }
 
 // @public
-export interface AccountSASServices {
+export interface AccountSasServices {
     blob?: boolean;
     file?: boolean;
     queue?: boolean;
@@ -87,10 +87,10 @@ export interface Edm<T extends EdmTypes> {
 export type EdmTypes = "Binary" | "Boolean" | "DateTime" | "Double" | "Guid" | "Int32" | "Int64" | "String";
 
 // @public
-export function generateAccountSAS(credential: NamedKeyCredential, options?: AccountSASOptions): string;
+export function generateAccountSas(credential: NamedKeyCredential, options?: AccountSasOptions): string;
 
 // @public
-export function generateTableSAS(tableName: string, credential: NamedKeyCredential, options?: TableSASSignatureValues): string;
+export function generateTableSas(tableName: string, credential: NamedKeyCredential, options?: TableSasSignatureValues): string;
 
 // @public
 export interface GeoReplication {
@@ -173,7 +173,7 @@ export interface SasIPRange {
 }
 
 // @public
-export type SASProtocol = "https" | "https,http";
+export type SasProtocol = "https" | "https,http";
 
 // @public
 export interface ServiceGetPropertiesHeaders {
@@ -333,7 +333,7 @@ export interface TableQueryResponse {
 }
 
 // @public
-export interface TableSASPermissions {
+export interface TableSasPermissions {
     add?: boolean;
     delete?: boolean;
     query?: boolean;
@@ -341,14 +341,14 @@ export interface TableSASPermissions {
 }
 
 // @public
-export interface TableSASSignatureValues {
+export interface TableSasSignatureValues {
     endPartitionKey?: string;
     endRowKey?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
-    permissions?: TableSASPermissions;
-    protocol?: SASProtocol;
+    permissions?: TableSasPermissions;
+    protocol?: SasProtocol;
     startPartitionKey?: string;
     startRowKey?: string;
     startsOn?: Date;

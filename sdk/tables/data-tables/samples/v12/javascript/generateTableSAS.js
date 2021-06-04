@@ -9,8 +9,8 @@
  */
 
 const {
-  generateAccountSAS,
-  generateTableSAS,
+  generateAccountSas,
+  generateTableSas,
   TableClient,
   TableServiceClient
 } = require("@azure/data-tables");
@@ -24,7 +24,7 @@ const tablesUrl = process.env["TABLES_URL"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
 const accountName = process.env["ACCOUNT_NAME"] || "";
 
-async function generateTableSASSample() {
+async function generateTableSasSample() {
   console.log("== Generate Table Account SAS Sample ==");
 
   // We need a NamedKeyCredential to generate the SAS token
@@ -46,12 +46,12 @@ async function generateTableSASSample() {
   };
 
   // Generate an account SAS with the NamedKeyCredential and the permissions set previously
-  const accountSAS = generateAccountSAS(cred, {
+  const accountSas = generateAccountSas(cred, {
     permissions,
     expiresOn: new Date("2021-12-12")
   });
 
-  const tableService = new TableServiceClient(tablesUrl, new AzureSASCredential(accountSAS));
+  const tableService = new TableServiceClient(tablesUrl, new AzureSASCredential(accountSas));
 
   // Create a new table
   const tableName = "fooTable";
@@ -77,14 +77,14 @@ async function generateTableSASSample() {
   };
 
   // Create the table SAS token
-  const tableSAS = generateTableSAS(tableName, cred, {
+  const tableSas = generateTableSas(tableName, cred, {
     expiresOn: new Date("2021-12-12"),
     permissions: tablePermissions
   });
 
   // Create a new client for the table we just created. Alternatively the Table Account SAS token could be used here as well
   // however using Table level SAS tokens offers a more granular access control
-  const table = new TableClient(tablesUrl, tableName, new AzureSASCredential(tableSAS));
+  const table = new TableClient(tablesUrl, tableName, new AzureSASCredential(tableSas));
 
   // Create an entity in the table
   await table.createEntity({ partitionKey: "test", rowKey: "1", foo: "bar" });
@@ -103,7 +103,7 @@ async function generateTableSASSample() {
 }
 
 async function main() {
-  await generateTableSASSample();
+  await generateTableSasSample();
 }
 
 main().catch((err) => {

@@ -9,12 +9,12 @@
  */
 
 import {
-  generateAccountSAS,
-  generateTableSAS,
+  generateAccountSas,
+  generateTableSas,
   TableClient,
   TableServiceClient,
-  AccountSASPermissions,
-  TableSASPermissions
+  AccountSasPermissions,
+  TableSasPermissions
 } from "@azure/data-tables";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
@@ -26,7 +26,7 @@ const tablesUrl = process.env["TABLES_URL"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
 const accountName = process.env["ACCOUNT_NAME"] || "";
 
-async function generateTableSASSample() {
+async function generateTableSasSample() {
   console.log("== Generate Table Account SAS Sample ==");
 
   // We need a NamedKeyCredential to generate the SAS token
@@ -34,7 +34,7 @@ async function generateTableSASSample() {
 
   // We can optionally set the permissions we want on the SAS token
   // If non is specified, only list is granted
-  const permissions: AccountSASPermissions = {
+  const permissions: AccountSasPermissions = {
     // Grants permission to list tables
     list: true,
     // Grants permission to create tables
@@ -48,12 +48,12 @@ async function generateTableSASSample() {
   };
 
   // Generate an account SAS with the NamedKeyCredential and the permissions set previously
-  const accountSAS = generateAccountSAS(cred, {
+  const accountSas = generateAccountSas(cred, {
     permissions,
     expiresOn: new Date("2021-12-12")
   });
 
-  const tableService = new TableServiceClient(tablesUrl, new AzureSASCredential(accountSAS));
+  const tableService = new TableServiceClient(tablesUrl, new AzureSASCredential(accountSas));
 
   // Create a new table
   const tableName = "fooTable";
@@ -67,7 +67,7 @@ async function generateTableSASSample() {
 
   // We are going to create a new SAS token scoped down to the specific table we just created.
   // If no permissions are provided, by default the token would have only query permission
-  const tablePermissions: TableSASPermissions = {
+  const tablePermissions: TableSasPermissions = {
     // Allows adding entities
     add: true,
     // Allows querying entities
@@ -79,14 +79,14 @@ async function generateTableSASSample() {
   };
 
   // Create the table SAS token
-  const tableSAS = generateTableSAS(tableName, cred, {
+  const tableSas = generateTableSas(tableName, cred, {
     expiresOn: new Date("2021-12-12"),
     permissions: tablePermissions
   });
 
   // Create a new client for the table we just created. Alternatively the Table Account SAS token could be used here as well
   // however using Table level SAS tokens offers a more granular access control
-  const table = new TableClient(tablesUrl, tableName, new AzureSASCredential(tableSAS));
+  const table = new TableClient(tablesUrl, tableName, new AzureSASCredential(tableSas));
 
   // Create an entity in the table
   await table.createEntity({ partitionKey: "test", rowKey: "1", foo: "bar" });
@@ -105,7 +105,7 @@ async function generateTableSASSample() {
 }
 
 export async function main() {
-  await generateTableSASSample();
+  await generateTableSasSample();
 }
 
 main().catch((err) => {

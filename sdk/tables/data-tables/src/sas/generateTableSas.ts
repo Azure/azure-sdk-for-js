@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
-import { tableSASPermissionsFromString } from "./tableSASPermisions";
+import { tableSasPermissionsFromString } from "./tableSasPermisions";
 import {
-  generateTableSASQueryParameters,
-  TableSASSignatureValues
-} from "./tableSASSignatureValues";
+  generateTableSasQueryParameters,
+  TableSasSignatureValues
+} from "./tableSasSignatureValues";
 
 /**
  * Generates a Table Service Shared Access Signature (SAS) URI based on the client properties
@@ -17,12 +17,12 @@ import {
  * @param options - Optional parameters.
  * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
  */
-export function generateTableSAS(
+export function generateTableSas(
   tableName: string,
   credential: NamedKeyCredential,
-  options: TableSASSignatureValues = {}
+  options: TableSasSignatureValues = {}
 ): string {
-  const { expiresOn, permissions = tableSASPermissionsFromString("rl"), ...rest } = options;
+  const { expiresOn, permissions = tableSasPermissionsFromString("rl"), ...rest } = options;
 
   if (!isNamedKeyCredential(credential)) {
     throw RangeError(
@@ -37,7 +37,7 @@ export function generateTableSAS(
     expiry = new Date(now.getTime() + 3600 * 1000);
   }
 
-  const sas = generateTableSASQueryParameters(tableName, credential, {
+  const sas = generateTableSasQueryParameters(tableName, credential, {
     expiresOn: expiry,
     permissions,
     ...rest

@@ -2,41 +2,41 @@
 // Licensed under the MIT license.
 
 /**
- * Creates an {@link AccountSASServices} from the specified services string. This method will throw an
+ * Creates an {@link AccountSasServices} from the specified services string. This method will throw an
  * Error if it encounters a character that does not correspond to a valid service.
  *
  * @param services -
  */
-export function accountSASServicesFromString(services: string): AccountSASServices {
-  const accountSASServices: AccountSASServices = {};
+export function accountSasServicesFromString(services: string): AccountSasServices {
+  const accountSasServices: AccountSasServices = {};
 
   for (const c of services) {
     switch (c) {
       case "b":
-        accountSASServices.blob = true;
+        accountSasServices.blob = true;
         break;
       case "f":
-        accountSASServices.file = true;
+        accountSasServices.file = true;
         break;
       case "q":
-        accountSASServices.queue = true;
+        accountSasServices.queue = true;
         break;
       case "t":
-        accountSASServices.table = true;
+        accountSasServices.table = true;
         break;
       default:
         throw new RangeError(`Invalid service character: ${c}`);
     }
   }
 
-  return accountSASServices;
+  return accountSasServices;
 }
 
 /**
  * Converts the given services to a string.
  *
  */
-export function accountSASServicesToString(services: AccountSASServices = { table: true }): string {
+export function accountSasServicesToString(services: AccountSasServices = { table: true }): string {
   const servicesString: string[] = [];
   if (services.blob) {
     servicesString.push("b");
@@ -55,7 +55,7 @@ export function accountSASServicesToString(services: AccountSASServices = { tabl
 /**
  * Services that the SAS token can access
  */
-export interface AccountSASServices {
+export interface AccountSasServices {
   /**
    * Permission to access blob resources granted.
    */

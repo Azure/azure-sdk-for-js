@@ -6,28 +6,28 @@
  *
  * @param permissions -
  */
-export function accountSASPermissionsFromString(permissions: string): AccountSASPermissions {
-  const accountSASPermissions: AccountSASPermissions = {};
+export function accountSasPermissionsFromString(permissions: string): AccountSasPermissions {
+  const accountSasPermissions: AccountSasPermissions = {};
 
   for (const c of permissions) {
     switch (c) {
       case "r":
-        accountSASPermissions.query = true;
+        accountSasPermissions.query = true;
         break;
       case "w":
-        accountSASPermissions.write = true;
+        accountSasPermissions.write = true;
         break;
       case "d":
-        accountSASPermissions.delete = true;
+        accountSasPermissions.delete = true;
         break;
       case "l":
-        accountSASPermissions.list = true;
+        accountSasPermissions.list = true;
         break;
       case "a":
-        accountSASPermissions.add = true;
+        accountSasPermissions.add = true;
         break;
       case "u":
-        accountSASPermissions.update = true;
+        accountSasPermissions.update = true;
         break;
 
       default:
@@ -35,7 +35,7 @@ export function accountSASPermissionsFromString(permissions: string): AccountSAS
     }
   }
 
-  return accountSASPermissions;
+  return accountSasPermissions;
 }
 
 /**
@@ -48,7 +48,7 @@ export function accountSASPermissionsFromString(permissions: string): AccountSAS
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
  *
  */
-export function accountSASPermissionsToString(permissions: AccountSASPermissions): string {
+export function accountSasPermissionsToString(permissions: AccountSasPermissions): string {
   // The order of the characters should be as specified here to ensure correctness:
   // https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
   // Use a string array instead of string concatenating += operator for performance
@@ -77,9 +77,9 @@ export function accountSASPermissionsToString(permissions: AccountSASPermissions
 
 /**
  * A type that looks like an account SAS permission.
- * Used in {@link AccountSASPermissions} to parse SAS permissions from raw objects.
+ * Used in {@link AccountSasPermissions} to parse SAS permissions from raw objects.
  */
-export interface AccountSASPermissions {
+export interface AccountSasPermissions {
   /**
    * Grants permission to list entities.
    */

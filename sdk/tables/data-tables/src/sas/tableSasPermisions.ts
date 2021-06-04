@@ -2,42 +2,42 @@
 // Licensed under the MIT license.
 
 /**
- * Creates a {@link TableSASPermissions} from the specified permissions string. This method will throw an
+ * Creates a {@link TableSasPermissions} from the specified permissions string. This method will throw an
  * Error if it encounters a character that does not correspond to a valid permission.
  *
  * @param permissions -
  */
-export function tableSASPermissionsFromString(permissions: string): TableSASPermissions {
-  const tableSASPermissions: TableSASPermissions = {};
+export function tableSasPermissionsFromString(permissions: string): TableSasPermissions {
+  const tableSasPermissions: TableSasPermissions = {};
   for (const char of permissions) {
     switch (char) {
       case "r":
-        tableSASPermissions.query = true;
+        tableSasPermissions.query = true;
         break;
       case "a":
-        tableSASPermissions.add = true;
+        tableSasPermissions.add = true;
         break;
       case "u":
-        tableSASPermissions.update = true;
+        tableSasPermissions.update = true;
         break;
       case "d":
-        tableSASPermissions.delete = true;
+        tableSasPermissions.delete = true;
         break;
       default:
         throw new RangeError(`Invalid permission: ${char}`);
     }
   }
 
-  return tableSASPermissions;
+  return tableSasPermissions;
 }
 
 /**
  * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
  * order accepted by the service.
  *
- * @returns A string which represents the TableSASPermissions
+ * @returns A string which represents the TableSasPermissions
  */
-export function tableSASPermissionsToString(permissions?: TableSASPermissions): string {
+export function tableSasPermissionsToString(permissions?: TableSasPermissions): string {
   if (!permissions) {
     return "";
   }
@@ -61,9 +61,9 @@ export function tableSASPermissionsToString(permissions?: TableSASPermissions): 
 
 /**
  * A type that looks like a Table SAS permission.
- * Used in {@link TableSASPermissions} to parse SAS permissions from raw objects.
+ * Used in {@link TableSasPermissions} to parse SAS permissions from raw objects.
  */
-export interface TableSASPermissions {
+export interface TableSasPermissions {
   /**
    * Specifies Query access granted.
    */

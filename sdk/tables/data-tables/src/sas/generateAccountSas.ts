@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
-import { AccountSASPermissions, accountSASPermissionsFromString } from "./accountSASPermissions";
+import { AccountSasPermissions, accountSasPermissionsFromString } from "./accountSasPermissions";
 import {
-  AccountSASServices,
-  accountSASServicesFromString,
-  accountSASServicesToString
-} from "./accountSASServices";
-import { generateAccountSASQueryParameters } from "./accountSASSignatureValues";
+  AccountSasServices,
+  accountSasServicesFromString,
+  accountSasServicesToString
+} from "./accountSasServices";
+import { generateAccountSasQueryParameters } from "./accountSasSignatureValues";
 import { SasIPRange } from "./sasIPRange";
-import { SASProtocol } from "./sasQueryParameters";
+import { SasProtocol } from "./sasQueryParameters";
 
 /**
  * Generates a Table Account Shared Access Signature (SAS) URI based on the client properties
@@ -21,15 +21,15 @@ import { SASProtocol } from "./sasQueryParameters";
  * @param options - Optional parameters.
  * @returns An account SAS token
  */
-export function generateAccountSAS(
+export function generateAccountSas(
   credential: NamedKeyCredential,
-  options: AccountSASOptions = {}
+  options: AccountSasOptions = {}
 ): string {
   const {
     expiresOn,
-    permissions = accountSASPermissionsFromString("rl"),
+    permissions = accountSasPermissionsFromString("rl"),
     resourceTypes = "sco",
-    services = accountSASServicesFromString("t"),
+    services = accountSasServicesFromString("t"),
     ...rest
   } = options;
   if (!isNamedKeyCredential(credential)) {
@@ -45,12 +45,12 @@ export function generateAccountSAS(
     expiry = new Date(now.getTime() + 3600 * 1000);
   }
 
-  const sas = generateAccountSASQueryParameters(
+  const sas = generateAccountSasQueryParameters(
     {
       permissions,
       expiresOn: expiry,
       resourceTypes,
-      services: accountSASServicesToString(services),
+      services: accountSasServicesToString(services),
       ...rest
     },
     credential
@@ -60,9 +60,9 @@ export function generateAccountSAS(
 }
 
 /**
- * Options to configure {@link generateAccountSAS} operation.
+ * Options to configure {@link generateAccountSas} operation.
  */
-export interface AccountSASOptions {
+export interface AccountSasOptions {
   /**
    * The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
    */
@@ -70,7 +70,7 @@ export interface AccountSASOptions {
   /**
    * Specifies the list of permissions to be associated with the SAS.
    */
-  permissions?: AccountSASPermissions;
+  permissions?: AccountSasPermissions;
   /**
    * Specifies the resource types associated with the shared access signature.
    */
@@ -84,7 +84,7 @@ export interface AccountSASOptions {
   /**
    * SAS protocols allowed.
    */
-  protocol?: SASProtocol;
+  protocol?: SasProtocol;
 
   /**
    * When the SAS will take effect.
@@ -97,5 +97,5 @@ export interface AccountSASOptions {
   /**
    * Account services
    */
-  services?: AccountSASServices;
+  services?: AccountSasServices;
 }

@@ -12,15 +12,15 @@ import { computeHMACSHA256 } from "../utils/computeHMACSHA256";
 import { SERVICE_VERSION } from "../utils/constants";
 import { truncatedISO8061Date } from "../utils/truncateISO8061Date";
 import { ipRangeToString, SasIPRange } from "./sasIPRange";
-import { SASProtocol, SASQueryParameters } from "./sasQueryParameters";
-import { TableSASPermissions, tableSASPermissionsToString } from "./tableSASPermisions";
+import { SasProtocol, SasQueryParameters } from "./sasQueryParameters";
+import { TableSasPermissions, tableSasPermissionsToString } from "./tableSasPermisions";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * TableSASSignatureValues is used to help generating Table service SAS tokens for tables
  */
-export interface TableSASSignatureValues {
+export interface TableSasSignatureValues {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
@@ -30,7 +30,7 @@ export interface TableSASSignatureValues {
   /**
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
    */
-  protocol?: SASProtocol;
+  protocol?: SasProtocol;
 
   /**
    * Optional. When the SAS will take effect.
@@ -44,10 +44,10 @@ export interface TableSASSignatureValues {
 
   /**
    * Optional only when identifier is provided.
-   * Please refer to {@link TableSASPermissions} depending on the resource
+   * Please refer to {@link TableSasPermissions} depending on the resource
    * being accessed for help constructing the permissions string.
    */
-  permissions?: TableSASPermissions;
+  permissions?: TableSasPermissions;
   /**
    * Optional. IP ranges allowed in this SAS.
    */
@@ -102,12 +102,12 @@ export interface TableSASSignatureValues {
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  */
-export function generateTableSASQueryParameters(
+export function generateTableSasQueryParameters(
   tableName: string,
   credential: NamedKeyCredential,
-  tableSASSignatureValues: TableSASSignatureValues
-): SASQueryParameters {
-  const version = tableSASSignatureValues.version ?? SERVICE_VERSION;
+  tableSasSignatureValues: TableSasSignatureValues
+): SasQueryParameters {
+  const version = tableSasSignatureValues.version ?? SERVICE_VERSION;
 
   if (credential === undefined) {
     throw TypeError("Invalid NamedKeyCredential");
@@ -117,21 +117,21 @@ export function generateTableSASQueryParameters(
     throw new Error("Must provide a 'tableName'");
   }
 
-  const signedPermissions = tableSASPermissionsToString(tableSASSignatureValues.permissions);
-  const signedStart = tableSASSignatureValues.startsOn
-    ? truncatedISO8061Date(tableSASSignatureValues.startsOn, false /** withMilliseconds */)
+  const signedPermissions = tableSasPermissionsToString(tableSasSignatureValues.permissions);
+  const signedStart = tableSasSignatureValues.startsOn
+    ? truncatedISO8061Date(tableSasSignatureValues.startsOn, false /** withMilliseconds */)
     : "";
-  const signedExpiry = tableSASSignatureValues.expiresOn
-    ? truncatedISO8061Date(tableSASSignatureValues.expiresOn, false /** withMilliseconds */)
+  const signedExpiry = tableSasSignatureValues.expiresOn
+    ? truncatedISO8061Date(tableSasSignatureValues.expiresOn, false /** withMilliseconds */)
     : "";
   const canonicalizedResource = getCanonicalName(credential.name, tableName);
-  const signedIdentifier = tableSASSignatureValues.identifier ?? "";
-  const signedIP = ipRangeToString(tableSASSignatureValues.ipRange);
-  const signedProtocol = tableSASSignatureValues.protocol || "";
-  const startingPartitionKey = tableSASSignatureValues.startPartitionKey ?? "";
-  const startingRowKey = tableSASSignatureValues.startRowKey ?? "";
-  const endingPartitionKey = tableSASSignatureValues.endPartitionKey ?? "";
-  const endingRowKey = tableSASSignatureValues.endRowKey ?? "";
+  const signedIdentifier = tableSasSignatureValues.identifier ?? "";
+  const signedIP = ipRangeToString(tableSasSignatureValues.ipRange);
+  const signedProtocol = tableSasSignatureValues.protocol || "";
+  const startingPartitionKey = tableSasSignatureValues.startPartitionKey ?? "";
+  const startingRowKey = tableSasSignatureValues.startRowKey ?? "";
+  const endingPartitionKey = tableSasSignatureValues.endPartitionKey ?? "";
+  const endingRowKey = tableSasSignatureValues.endRowKey ?? "";
 
   const stringToSign = [
     signedPermissions,
@@ -150,13 +150,13 @@ export function generateTableSASQueryParameters(
 
   const signature = computeHMACSHA256(stringToSign, credential.key);
 
-  return new SASQueryParameters(version, signature, {
+  return new SasQueryParameters(version, signature, {
     permissions: signedPermissions,
-    protocol: tableSASSignatureValues.protocol,
-    startsOn: tableSASSignatureValues.startsOn,
-    expiresOn: tableSASSignatureValues.expiresOn,
-    ipRange: tableSASSignatureValues.ipRange,
-    identifier: tableSASSignatureValues.identifier,
+    protocol: tableSasSignatureValues.protocol,
+    startsOn: tableSasSignatureValues.startsOn,
+    expiresOn: tableSasSignatureValues.expiresOn,
+    ipRange: tableSasSignatureValues.ipRange,
+    identifier: tableSasSignatureValues.identifier,
     tableName
   });
 }
