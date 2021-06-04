@@ -15,27 +15,20 @@ import {
   loggerForTest
 } from "./shared/testShared";
 import { ErrorInfo } from "../../src/generated/logquery/src";
-import { RestError } from "@azure/core-http";
+import { RestError, RetryOptions } from "@azure/core-http";
 
 describe("LogsQueryClient live tests", function() {
   let monitorWorkspaceId: string;
-  let client: LogsQueryClient;
+  let createClient: (retryOptions?: RetryOptions) => LogsQueryClient;
   let testRunId: string;
 
-  beforeEach(function(this: Context) {
+  before(function(this: Context) {
     monitorWorkspaceId = getMonitorWorkspaceId(this);
 
-    const disableHttpRetries = (this.currentTest?.title?.indexOf("#disablehttpretries") ?? -1) >= 0;
-
-    if (disableHttpRetries) {
-      loggerForTest.verbose(`Disabling http retries for test '${this.currentTest?.title}'`);
-    }
-
-    client = new LogsQueryClient(createTestClientSecretCredential(), {
-      retryOptions: {
-        maxRetries: disableHttpRetries ? 0 : undefined
-      }
-    });
+    createClient = (retryOptions?: RetryOptions) =>
+      new LogsQueryClient(createTestClientSecretCredential(), {
+        retryOptions
+      });
   });
 
   it("queryLogs (bad query)", async () => {
@@ -45,7 +38,7 @@ describe("LogsQueryClient live tests", function() {
     try {
       // TODO: there is an error details in the query, but when I run an invalid query it
       // throws (and ErrorDetails are just present in the exception.)
-      await client.queryLogs(monitorWorkspaceId, kustoQuery, Durations.lastDay);
+      await createClient().queryLogs(monitorWorkspaceId, kustoQuery, Durations.lastDay);
       assert.fail("Should have thrown an exception");
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
@@ -83,9 +76,9 @@ describe("LogsQueryClient live tests", function() {
 
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.
-  it("serverTimeoutInSeconds #disablehttpretries", async () => {
+  it("serverTimeoutInSeconds", async () => {
     try {
-      await client.queryLogs(
+      await createClient({ maxRetries: 0 }).queryLogs(
         monitorWorkspaceId,
         // slow query suggested by Pavel.
         "range x from 1 to 10000000000 step 1 | count",
@@ -126,7 +119,7 @@ describe("LogsQueryClient live tests", function() {
   });
 
   it("includeQueryStatistics", async () => {
-    const query = await client.queryLogs(
+    const query = await createClient().queryLogs(
       monitorWorkspaceId,
       "AppEvents | limit 1",
       Durations.last24Hours,
@@ -167,7 +160,6 @@ describe("LogsQueryClient live tests", function() {
       loggerForTest.info(`testRunId = ${testRunId}`);
 
       // (we'll wait until the data is there before running all the tests)
-      // by coincidence one of the tests tries this same query.
       await checkLogsHaveBeenIngested({
         maxTries: 240,
         secondsBetweenQueries: 1
@@ -177,7 +169,7 @@ describe("LogsQueryClient live tests", function() {
     it("queryLogs (last day)", async () => {
       const kustoQuery = `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`;
 
-      const singleQueryLogsResult = await client.queryLogs(
+      const singleQueryLogsResult = await createClient().queryLogs(
         monitorWorkspaceId,
         kustoQuery,
         Durations.lastDay
@@ -214,7 +206,7 @@ describe("LogsQueryClient live tests", function() {
         ]
       };
 
-      const response = await client.queryLogsBatch(batchRequest);
+      const response = await createClient().queryLogsBatch(batchRequest);
 
       assertQueryTable(
         response.results?.[0].tables?.[0],
@@ -248,6 +240,8 @@ describe("LogsQueryClient live tests", function() {
       loggerForTest.verbose(
         `Polling for results to make sure our telemetry has been ingested....\n${query}`
       );
+
+      const client = createClient();
 
       for (let i = 0; i < args.maxTries; ++i) {
         const result = await client.queryLogs(monitorWorkspaceId, query, Durations.last24Hours);
