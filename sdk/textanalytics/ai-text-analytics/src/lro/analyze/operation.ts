@@ -45,15 +45,15 @@ export interface AnalyzeActionsOperationMetadata extends OperationMetadata {
   /**
    * Number of successfully completed actions.
    */
-  actionsSucceededCount?: number;
+  actionsSucceededCount: number;
   /**
    * Number of failed actions.
    */
-  actionsFailedCount?: number;
+  actionsFailedCount: number;
   /**
    * Number of actions still in progress.
    */
-  actionsInProgressCount?: number;
+  actionsInProgressCount: number;
   /**
    * The operation's display name.
    */
@@ -71,7 +71,7 @@ interface AnalyzeActionsOperationStatus {
    * in the client call.
    */
   statistics?: TextDocumentBatchStatistics;
-  operationMetdata?: AnalyzeActionsOperationMetadata;
+  operationMetdata: Omit<AnalyzeActionsOperationMetadata, "operationId">;
 }
 
 /**
@@ -113,7 +113,7 @@ export interface AnalyzeActionsOperationState
 /**
  * @internal
  */
-function getMetaInfoFromResponse(response: AnalyzeJobState): AnalyzeActionsOperationMetadata {
+function getMetaInfoFromResponse(response: AnalyzeJobState): Omit<AnalyzeActionsOperationMetadata, "operationId"> {
   return {
     createdOn: response.createdDateTime,
     lastModifiedOn: response.lastUpdateDateTime,
@@ -320,13 +320,13 @@ export class BeginAnalyzeActionsPollerOperation extends AnalysisPollOperation<
       tracingOptions: this.options.tracingOptions
     });
 
-    state.createdOn = operationStatus.operationMetdata?.createdOn;
-    state.expiresOn = operationStatus.operationMetdata?.expiresOn;
-    state.lastModifiedOn = operationStatus.operationMetdata?.lastModifiedOn;
-    state.status = operationStatus.operationMetdata?.status;
-    state.actionsSucceededCount = operationStatus.operationMetdata?.actionsSucceededCount;
-    state.actionsFailedCount = operationStatus.operationMetdata?.actionsFailedCount;
-    state.actionsInProgressCount = operationStatus.operationMetdata?.actionsInProgressCount;
+    state.createdOn = operationStatus.operationMetdata.createdOn;
+    state.expiresOn = operationStatus.operationMetdata.expiresOn;
+    state.lastModifiedOn = operationStatus.operationMetdata.lastModifiedOn;
+    state.status = operationStatus.operationMetdata.status;
+    state.actionsSucceededCount = operationStatus.operationMetdata.actionsSucceededCount;
+    state.actionsFailedCount = operationStatus.operationMetdata.actionsFailedCount;
+    state.actionsInProgressCount = operationStatus.operationMetdata.actionsInProgressCount;
     state.displayName = operationStatus.operationMetdata?.displayName;
 
     if (!state.isCompleted && operationStatus.done) {
