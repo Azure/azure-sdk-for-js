@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import {
   AnomalyDetectionConfiguration as ServiceAnomalyDetectionConfiguration,
   AnomalyAlertingConfiguration as ServiceAnomalyAlertingConfiguration,
@@ -75,14 +76,15 @@ import {
   AzureDataLakeStorageGen2DataFeedSource,
   SqlServerAuthTypes,
   AnomalyDetectionConfigurationPatch,
-  SqlServerConnectionStringDatasourceCredential,
   DatasourceCredentialUnion,
-  DataLakeGen2SharedKeyDatasourceCredential,
   DatasourceCredential,
-  ServicePrincipalDatasourceCredential,
-  ServicePrincipalInKeyVaultDatasourceCredential,
   DataFeedSource,
-  DataFeedSourcePatch
+  DataFeedSourcePatch,
+  SqlServerConnectionStringDatasourceCredentialPatch,
+  DataLakeGen2SharedKeyDatasourceCredentialPatch,
+  ServicePrincipalDatasourceCredentialPatch,
+  ServicePrincipalInKeyVaultDatasourceCredentialPatch,
+  ServicePrincipalDatasourceCredential
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -887,8 +889,13 @@ export function toServiceDataFeedSourcePatch(
       throw new Error(`Unexpected datafeed source type: '${source.dataSourceType}'`);
   }
 }
+
 export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUnion): DataFeed {
-  const metricMap = new Map(original.metrics.map((x) => [x.name, x.id!]));
+  const metricMap: Record<string, string> = {};
+  for (const metric of original.metrics) {
+    metricMap[metric.name] = metric.id!;
+  }
+
   const common = {
     id: original.dataFeedId!,
     name: original.dataFeedName,
@@ -1430,7 +1437,6 @@ export function toServiceCredential(
   from: DatasourceCredentialUnion
 ): ServiceDataSourceCredentialUnion {
   const common = {
-    dataSourceCredentialId: from.id,
     dataSourceCredentialName: from.name,
     dataSourceCredentialDescription: from.description
   };
@@ -1439,22 +1445,24 @@ export function toServiceCredential(
       const parameters = {
         connectionString: from.connectionString
       };
-      return {
+      const sqlcred: AzureSQLConnectionStringCredential = {
         ...common,
         dataSourceCredentialType: from.type,
         parameters
       };
+      return sqlcred;
     }
     case "DataLakeGen2SharedKey":
-      return {
+      const datalake: DataLakeGen2SharedKeyCredential = {
         ...common,
         dataSourceCredentialType: from.type,
         parameters: {
           accountKey: from.accountKey
         }
       };
+      return datalake;
     case "ServicePrincipal":
-      return {
+      const sp: ServicePrincipalCredential = {
         ...common,
         dataSourceCredentialType: from.type,
         parameters: {
@@ -1463,8 +1471,9 @@ export function toServiceCredential(
           tenantId: from.tenantId
         }
       };
+      return sp;
     case "ServicePrincipalInKV":
-      return {
+      const spInKV: ServicePrincipalInKVCredential = {
         ...common,
         dataSourceCredentialType: from.type,
         parameters: {
@@ -1476,6 +1485,7 @@ export function toServiceCredential(
           tenantId: from.tenantId
         }
       };
+      return spInKV;
   }
 }
 
@@ -1488,7 +1498,7 @@ export function toServiceCredentialPatch(
   };
   switch (from.type) {
     case "AzureSQLConnectionString": {
-      const cred1 = from as Partial<Omit<SqlServerConnectionStringDatasourceCredential, "id">>;
+      const cred1 = from as SqlServerConnectionStringDatasourceCredentialPatch;
       return {
         ...common,
         dataSourceCredentialType: from.type,
@@ -1498,7 +1508,7 @@ export function toServiceCredentialPatch(
       };
     }
     case "DataLakeGen2SharedKey": {
-      const cred2 = from as Partial<DataLakeGen2SharedKeyDatasourceCredential>;
+      const cred2 = from as DataLakeGen2SharedKeyDatasourceCredentialPatch;
       return {
         ...common,
         dataSourceCredentialType: from.type,
@@ -1508,7 +1518,7 @@ export function toServiceCredentialPatch(
       };
     }
     case "ServicePrincipal": {
-      const cred3 = from as Partial<ServicePrincipalDatasourceCredential>;
+      const cred3 = from as ServicePrincipalDatasourceCredentialPatch;
       return {
         ...common,
         dataSourceCredentialType: from.type,
@@ -1520,7 +1530,7 @@ export function toServiceCredentialPatch(
       };
     }
     case "ServicePrincipalInKV": {
-      const cred4 = from as Partial<ServicePrincipalInKeyVaultDatasourceCredential>;
+      const cred4 = from as ServicePrincipalInKeyVaultDatasourceCredentialPatch;
       return {
         ...common,
         dataSourceCredentialType: from.type,

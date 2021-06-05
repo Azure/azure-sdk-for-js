@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates data feed management operations.
+ * @summary This sample demonstrates data source credential operations
  */
 
 // Load the .env file if it exists
@@ -94,7 +94,7 @@ async function updateDatasourceCredential(client, credentialId) {
     name: "update-credential-name",
     description: "updated-description",
     type: "AzureSQLConnectionString",
-    connectionString: "updated-connection-string"
+    connectionString: "connection-string"
   };
 
   try {

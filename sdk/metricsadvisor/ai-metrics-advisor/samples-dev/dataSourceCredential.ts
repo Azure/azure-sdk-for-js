@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates data feed management operations.
+ * @summary This sample demonstrates data source credential operations
  * @azsdk-weight 80
  */
 
@@ -14,8 +14,8 @@ import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
   GetCredentialEntityResponse,
-  DatasourceCredentialUnion,
-  DatasourceCredentialPatch
+  DatasourceCredentialPatch,
+  SqlServerConnectionStringDatasourceCredential
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -75,7 +75,7 @@ async function createDatasourceCredential(
   client: MetricsAdvisorAdministrationClient
 ): Promise<GetCredentialEntityResponse> {
   console.log("Creating Datasource credential...");
-  const datasourceCredential: DatasourceCredentialUnion = {
+  const datasourceCredential: SqlServerConnectionStringDatasourceCredential = {
     name: "Sql-server-cred",
     description: "an example sql server credential",
     type: "AzureSQLConnectionString",
@@ -106,7 +106,7 @@ async function updateDatasourceCredential(
     name: "update-credential-name",
     description: "updated-description",
     type: "AzureSQLConnectionString",
-    connectionString: "updated-connection-string"
+    connectionString: "connection-string"
   } as DatasourceCredentialPatch;
 
   try {

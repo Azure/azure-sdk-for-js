@@ -237,7 +237,7 @@ export type DataFeed = {
   /**
    * Map of metric names to metric ids for quick lookup
    */
-  metricIds: Map<string, string>;
+  metricIds: Record<string, string>;
   /**
    * Granularity of the data feed.
    */
@@ -2219,6 +2219,9 @@ export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCre
   accountKey: string;
 }
 
+/**
+ * Service Principal Datasource Credential
+ */
 export interface ServicePrincipalDatasourceCredential extends DatasourceCredential {
   /** Service Principal Datasource Credential */
   type: "ServicePrincipal";
@@ -2230,6 +2233,9 @@ export interface ServicePrincipalDatasourceCredential extends DatasourceCredenti
   tenantId: string;
 }
 
+/**
+ * Service Principal in KeyVault Datasource Credential
+ */
 export interface ServicePrincipalInKeyVaultDatasourceCredential extends DatasourceCredential {
   /** Service Principal in KeyVault Datasource Credential */
   type: "ServicePrincipalInKV";
@@ -2253,13 +2259,84 @@ export type DatasourceCredentialUnion =
   | ServicePrincipalDatasourceCredential
   | ServicePrincipalInKeyVaultDatasourceCredential;
 
-export type DatasourceCredentialPatch = Partial<Omit<DatasourceCredentialUnion, "id">> & {
-  type:
-    | "AzureSQLConnectionString"
-    | "DataLakeGen2SharedKey"
-    | "ServicePrincipal"
-    | "ServicePrincipalInKV";
-};
+/**
+ * SqlServer Data Source Credential Patch
+ */
+export interface SqlServerConnectionStringDatasourceCredentialPatch {
+  /** Azure Sql Connection String credential */
+  type: "AzureSQLConnectionString";
+  /** Name of data source credential */
+  name?: string;
+  /** Description of data source credential */
+  description?: string;
+  /** The connection string for SqlServer Data Source Credential */
+  connectionString?: string;
+}
+
+/**
+ * DataLake Gen2 Shared Key Datasource Credential Patch
+ */
+export interface DataLakeGen2SharedKeyDatasourceCredentialPatch {
+  /** DataLakeGen2 Shared Key Datasource credential */
+  type: "DataLakeGen2SharedKey";
+  /** Name of data source credential */
+  name?: string;
+  /** Description of data source credential */
+  description?: string;
+  /** The account key of the DataLake Gen2 Shared Key Datasource Credential  */
+  accountKey?: string;
+}
+
+/**
+ *  Service Principal Datasource Credential Patch
+ */
+export interface ServicePrincipalDatasourceCredentialPatch {
+  /** Service Principal Datasource Credential */
+  type: "ServicePrincipal";
+  /** Name of data source credential */
+  name?: string;
+  /** Description of data source credential */
+  description?: string;
+  /** The client id of the service principal. */
+  clientId?: string;
+  /** The client secret of the service principal. */
+  clientSecret?: string;
+  /** The tenant id of the service principal. */
+  tenantId?: string;
+}
+
+/**
+ *  Service Principal in KeyVault Datasource Credential Patch
+ */
+export interface ServicePrincipalInKeyVaultDatasourceCredentialPatch {
+  /** Service Principal in KeyVault Datasource Credential */
+  type: "ServicePrincipalInKV";
+  /** Name of data source credential */
+  name?: string;
+  /** Description of data source credential */
+  description?: string;
+  /** The Key Vault endpoint that storing the service principal. */
+  keyVaultEndpoint?: string;
+  /** The Client Id to access the Key Vault. */
+  keyVaultClientId?: string;
+  /** The Client Secret to access the Key Vault. */
+  keyVaultClientSecret?: string;
+  /** The secret name of the service principal's client Id in the Key Vault. */
+  servicePrincipalIdNameInKV?: string;
+  /** The secret name of the service principal's client secret in the Key Vault. */
+  servicePrincipalSecretNameInKV?: string;
+  /** The tenant id of your service principal. */
+  tenantId?: string;
+}
+
+/**
+ * Datasource credential patch types
+ */
+export type DatasourceCredentialPatch =
+  | SqlServerConnectionStringDatasourceCredentialPatch
+  | DataLakeGen2SharedKeyDatasourceCredentialPatch
+  | ServicePrincipalDatasourceCredentialPatch
+  | ServicePrincipalInKeyVaultDatasourceCredentialPatch;
 
 /**
  * Contains response data for the listCredentials operation.
