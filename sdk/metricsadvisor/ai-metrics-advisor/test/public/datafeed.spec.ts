@@ -775,7 +775,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes Log Analytics data feed", async function() {
+        it.skip("deletes Log Analytics data feed", async function() {
           await verifyDataFeedDeletion(client, createdLogAnalyticsId);
         });
 
