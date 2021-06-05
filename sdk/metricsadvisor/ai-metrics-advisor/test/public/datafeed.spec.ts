@@ -17,7 +17,10 @@ import {
   DataFeedRollupSettings,
   AzureBlobDataFeedSource,
   DataFeedAccessMode,
-  MongoDbDataFeedSource
+  MongoDbDataFeedSource,
+  AzureDataLakeStorageGen2DataFeedSource,
+  AzureEventHubsDataFeedSource,
+  AzureLogAnalyticsDataFeedSource
 } from "../../src";
 import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
@@ -34,11 +37,13 @@ matrix([[true, false]] as const, async (useAad) => {
       let cosmosFeedName: string;
       let dataExplorerFeedName: string;
       let azureTableFeedName: string;
-      let httpRequestFeedName: string;
+      let eventHubsFeedName: string;
       let influxDbFeedName: string;
       let mongoDbFeedName: string;
       let mySqlFeedName: string;
       let postgreSqlFeedName: string;
+      let datalakeGenFeedName: string;
+      let logAnalyticsFeedName: string;
 
       beforeEach(function(this: Context) {
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
@@ -60,8 +65,11 @@ matrix([[true, false]] as const, async (useAad) => {
         if (recorder && !azureTableFeedName) {
           azureTableFeedName = recorder.getUniqueName("js-test-tableFeed-");
         }
-        if (recorder && !httpRequestFeedName) {
-          httpRequestFeedName = recorder.getUniqueName("js-test-httpRequestFeed-");
+        if (recorder && !eventHubsFeedName) {
+          eventHubsFeedName = recorder.getUniqueName("js-test-httpRequestFeed-");
+        }
+        if (recorder && !logAnalyticsFeedName) {
+          logAnalyticsFeedName = recorder.getUniqueName("js-test-logAnalyticsFeed-");
         }
         if (recorder && !influxDbFeedName) {
           influxDbFeedName = recorder.getUniqueName("js-test-influxdbFeed-");
@@ -74,6 +82,9 @@ matrix([[true, false]] as const, async (useAad) => {
         }
         if (recorder && !postgreSqlFeedName) {
           postgreSqlFeedName = recorder.getUniqueName("js-test-postgreSqlFeed-");
+        }
+        if (recorder && !datalakeGenFeedName) {
+          datalakeGenFeedName = recorder.getUniqueName("js-test-dataLakeGenFeed-");
         }
       });
 
@@ -93,6 +104,9 @@ matrix([[true, false]] as const, async (useAad) => {
       let createdMongoDbFeedId: string;
       let createdMySqlFeedId: string;
       let createdPostGreSqlId: string;
+      let createdDataLakeGenId: string;
+      let createdEventhubsId: string;
+      let createdLogAnalyticsId: string;
 
       describe("DataFeed", async () => {
         const metric: DataFeedMetric[] = [
@@ -662,6 +676,107 @@ matrix([[true, false]] as const, async (useAad) => {
 
         it("deletes MySQL data feed", async function() {
           await verifyDataFeedDeletion(client, createdMySqlFeedId);
+        });
+
+        it("creates Datalake Gen 2 data feed", async () => {
+          const expectedSource: AzureDataLakeStorageGen2DataFeedSource = {
+            dataSourceType: "AzureDataLakeStorageGen2",
+            directoryTemplate: "directory-template",
+            fileSystemName: "file-system-name",
+            fileTemplate: "file-template",
+            accountKey: "account-key",
+            accountName: "account-name",
+            authenticationType: "Basic"
+          };
+          const actual = await client.createDataFeed({
+            name: datalakeGenFeedName,
+            source: expectedSource,
+            granularity,
+            schema: dataFeedSchema,
+            ingestionSettings: dataFeedIngestion,
+            ...options
+          } as DataFeedDescriptor);
+
+          assert.ok(actual.id, "Expecting valid data feed id");
+          createdDataLakeGenId = actual.id;
+          assert.equal(actual.source.dataSourceType, "AzureDataLakeStorageGen2");
+          if (actual.source.dataSourceType === "AzureDataLakeStorageGen2") {
+            assert.equal(actual.source.accountName, expectedSource.accountName);
+            assert.equal(actual.source.authenticationType, expectedSource.authenticationType);
+            assert.equal(actual.source.fileSystemName, expectedSource.fileSystemName);
+            assert.equal(actual.source.fileTemplate, expectedSource.fileTemplate);
+            assert.equal(actual.source.directoryTemplate, expectedSource.directoryTemplate);
+          }
+        });
+
+        it("deletes Datalake Gen 2 data feed", async function() {
+          await verifyDataFeedDeletion(client, createdDataLakeGenId);
+        });
+
+        it("creates Eventhubs data feed", async () => {
+          const expectedSource: AzureEventHubsDataFeedSource = {
+            dataSourceType: "AzureEventHubs",
+            authenticationType: "Basic",
+            connectionString: "connection-string",
+            consumerGroup: "consumer-group"
+          };
+          const actual = await client.createDataFeed({
+            name: eventHubsFeedName,
+            source: expectedSource,
+            granularity,
+            schema: dataFeedSchema,
+            ingestionSettings: dataFeedIngestion,
+            ...options
+          } as DataFeedDescriptor);
+
+          assert.ok(actual.id, "Expecting valid data feed id");
+          createdEventhubsId = actual.id;
+          assert.equal(actual.source.dataSourceType, expectedSource.dataSourceType);
+          if (actual.source.dataSourceType === "AzureEventHubs") {
+            assert.equal(actual.source.consumerGroup, expectedSource.consumerGroup);
+            assert.equal(actual.source.authenticationType, expectedSource.authenticationType);
+            assert.equal(actual.source.connectionString, expectedSource.connectionString);
+          }
+        });
+
+        it("deletes Eventhubs data feed", async function() {
+          await verifyDataFeedDeletion(client, createdEventhubsId);
+        });
+
+        it("creates Log Analytics data feed", async () => {
+          const expectedSource: AzureLogAnalyticsDataFeedSource = {
+            dataSourceType: "AzureLogAnalytics",
+            authenticationType: "Basic",
+            clientId: "client-id",
+            clientSecret: "client-secret",
+            tenantId: "tenant-id",
+            workspaceId: "workspace-id",
+            query: "query"
+          };
+          const actual = await client.createDataFeed({
+            name: logAnalyticsFeedName,
+            source: expectedSource,
+            granularity,
+            schema: dataFeedSchema,
+            ingestionSettings: dataFeedIngestion,
+            ...options
+          } as DataFeedDescriptor);
+
+          assert.ok(actual.id, "Expecting valid data feed id");
+          createdLogAnalyticsId = actual.id;
+          assert.equal(actual.source.dataSourceType, expectedSource.dataSourceType);
+          if (actual.source.dataSourceType === "AzureLogAnalytics") {
+            assert.equal(actual.source.clientId, expectedSource.clientId);
+            assert.equal(actual.source.authenticationType, expectedSource.authenticationType);
+            assert.equal(actual.source.query, expectedSource.query);
+            assert.equal(actual.source.tenantId, expectedSource.tenantId);
+            assert.equal(actual.source.workspaceId, expectedSource.workspaceId);
+            assert.equal(actual.source.clientSecret, undefined);
+          }
+        });
+
+        it("deletes Log Analytics data feed", async function() {
+          await verifyDataFeedDeletion(client, createdLogAnalyticsId);
         });
 
         it("creates PostgreSQL data feed", async () => {
