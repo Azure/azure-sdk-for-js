@@ -59,31 +59,31 @@ export interface HealthcareEntity extends Entity {
    * {@link KnownHealthcareEntityCategory} can be used interchangeably with HealthcareEntityCategory,
    *  this enum contains the known values that the service supports.
    * ### Known values supported by the service
-   * **BODY_STRUCTURE** \
-   * **AGE** \
-   * **GENDER** \
-   * **EXAMINATION_NAME** \
-   * **DATE** \
-   * **DIRECTION** \
-   * **FREQUENCY** \
-   * **MEASUREMENT_VALUE** \
-   * **MEASUREMENT_UNIT** \
-   * **RELATIONAL_OPERATOR** \
-   * **TIME** \
-   * **GENE_OR_PROTEIN** \
-   * **VARIANT** \
-   * **ADMINISTRATIVE_EVENT** \
-   * **CARE_ENVIRONMENT** \
-   * **HEALTHCARE_PROFESSION** \
-   * **DIAGNOSIS** \
-   * **SYMPTOM_OR_SIGN** \
-   * **CONDITION_QUALIFIER** \
-   * **MEDICATION_CLASS** \
-   * **MEDICATION_NAME** \
-   * **DOSAGE** \
-   * **MEDICATION_FORM** \
-   * **MEDICATION_ROUTE** \
-   * **FAMILY_RELATION** \
+   * **BODY_STRUCTURE**
+   * **AGE**
+   * **GENDER**
+   * **EXAMINATION_NAME**
+   * **DATE**
+   * **DIRECTION**
+   * **FREQUENCY**
+   * **MEASUREMENT_VALUE**
+   * **MEASUREMENT_UNIT**
+   * **RELATIONAL_OPERATOR**
+   * **TIME**
+   * **GENE_OR_PROTEIN**
+   * **VARIANT**
+   * **ADMINISTRATIVE_EVENT**
+   * **CARE_ENVIRONMENT**
+   * **HEALTHCARE_PROFESSION**
+   * **DIAGNOSIS**
+   * **SYMPTOM_OR_SIGN**
+   * **CONDITION_QUALIFIER**
+   * **MEDICATION_CLASS**
+   * **MEDICATION_NAME**
+   * **DOSAGE**
+   * **MEDICATION_FORM**
+   * **MEDICATION_ROUTE**
+   * **FAMILY_RELATION**
    * **TREATMENT_NAME**
    */
   category: HealthcareEntityCategory;
