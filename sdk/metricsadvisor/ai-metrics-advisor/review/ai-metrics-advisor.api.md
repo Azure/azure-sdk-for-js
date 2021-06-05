@@ -248,7 +248,7 @@ export type DataFeed = {
     creator: string;
     source: DataFeedSource;
     schema: DataFeedSchema;
-    metricIds: Map<string, string>;
+    metricIds: Record<string, string>;
     granularity: DataFeedGranularity;
     ingestionSettings: DataFeedIngestionSettings;
     description?: string;
@@ -382,6 +382,14 @@ export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCre
 }
 
 // @public
+export interface DataLakeGen2SharedKeyDatasourceCredentialPatch {
+    accountKey?: string;
+    description?: string;
+    name?: string;
+    type: "DataLakeGen2SharedKey";
+}
+
+// @public
 export type DataLakeStorageGen2AuthBasic = {
     authenticationType: "Basic";
     accountKey: string;
@@ -432,10 +440,8 @@ export interface DatasourceCredential {
     name: string;
 }
 
-// @public (undocumented)
-export type DatasourceCredentialPatch = Partial<Omit<DatasourceCredentialUnion, "id">> & {
-    type: "AzureSQLConnectionString" | "DataLakeGen2SharedKey" | "ServicePrincipal" | "ServicePrincipalInKV";
-};
+// @public
+export type DatasourceCredentialPatch = SqlServerConnectionStringDatasourceCredentialPatch | DataLakeGen2SharedKeyDatasourceCredentialPatch | ServicePrincipalDatasourceCredentialPatch | ServicePrincipalInKeyVaultDatasourceCredentialPatch;
 
 // @public (undocumented)
 export type DatasourceCredentialUnion = SqlServerConnectionStringDatasourceCredential | DataLakeGen2SharedKeyDatasourceCredential | ServicePrincipalDatasourceCredential | ServicePrincipalInKeyVaultDatasourceCredential;
@@ -1076,7 +1082,7 @@ export type PostgreSqlDataFeedSource = {
     authenticationType: "Basic";
 };
 
-// @public (undocumented)
+// @public
 export interface ServicePrincipalDatasourceCredential extends DatasourceCredential {
     clientId: string;
     clientSecret: string;
@@ -1084,7 +1090,17 @@ export interface ServicePrincipalDatasourceCredential extends DatasourceCredenti
     type: "ServicePrincipal";
 }
 
-// @public (undocumented)
+// @public
+export interface ServicePrincipalDatasourceCredentialPatch {
+    clientId?: string;
+    clientSecret?: string;
+    description?: string;
+    name?: string;
+    tenantId?: string;
+    type: "ServicePrincipal";
+}
+
+// @public
 export interface ServicePrincipalInKeyVaultDatasourceCredential extends DatasourceCredential {
     keyVaultClientId: string;
     keyVaultClientSecret: string;
@@ -1092,6 +1108,19 @@ export interface ServicePrincipalInKeyVaultDatasourceCredential extends Datasour
     servicePrincipalIdNameInKV: string;
     servicePrincipalSecretNameInKV: string;
     tenantId: string;
+    type: "ServicePrincipalInKV";
+}
+
+// @public
+export interface ServicePrincipalInKeyVaultDatasourceCredentialPatch {
+    description?: string;
+    keyVaultClientId?: string;
+    keyVaultClientSecret?: string;
+    keyVaultEndpoint?: string;
+    name?: string;
+    servicePrincipalIdNameInKV?: string;
+    servicePrincipalSecretNameInKV?: string;
+    tenantId?: string;
     type: "ServicePrincipalInKV";
 }
 
@@ -1159,6 +1188,14 @@ export type SqlServerAuthTypes = SqlServerAuthBasic | SqlServerAuthManagedIdenti
 // @public
 export interface SqlServerConnectionStringDatasourceCredential extends DatasourceCredential {
     connectionString: string;
+    type: "AzureSQLConnectionString";
+}
+
+// @public
+export interface SqlServerConnectionStringDatasourceCredentialPatch {
+    connectionString?: string;
+    description?: string;
+    name?: string;
     type: "AzureSQLConnectionString";
 }
 

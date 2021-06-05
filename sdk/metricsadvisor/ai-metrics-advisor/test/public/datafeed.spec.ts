@@ -197,7 +197,7 @@ matrix([[true, false]] as const, async (useAad) => {
             "Ingesting settings mismatch!"
           );
           assert.equal(
-            actual.metricIds.get(dataFeedSchema.metrics[0].name),
+            actual.metricIds[dataFeedSchema.metrics[0].name],
             actual.schema.metrics[0].id
           );
 
