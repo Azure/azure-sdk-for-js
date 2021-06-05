@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import { ErrorInfo, QueryResults as GeneratedQueryResults, Table } from "../generated/logquery/src";
+import { Column, ErrorInfo } from "../generated/logquery/src";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
 // https://dev.loganalytics.io/documentation/Using-the-API/Timeouts
@@ -28,9 +28,12 @@ export interface QueryStatistics {
   [key: string]: unknown;
 }
 
-export type QueryLogsResult = GeneratedQueryResults & {
-  statistics?: QueryStatistics;
-};
+export interface QueryLogsResult {
+  /** The list of tables, columns and rows. */
+  tables: Table[];
+  /** Statistics represented in JSON format. */
+  statistics?: any;
+}
 
 export type QueryLogsBatchOptions = OperationOptions;
 
@@ -91,4 +94,14 @@ export interface QueryLogsBatchResponse {
   // TODO: this is omitted from the Java models.
   /** Error response for a batch request */
   // error?: BatchResponseError;
+}
+
+/** Contains the columns and rows for one table in a query response. */
+export interface Table {
+  /** The name of the table. */
+  name: string;
+  /** The list of columns in this table. */
+  columns: Column[];
+  /** The resulting rows from this query. */
+  rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }

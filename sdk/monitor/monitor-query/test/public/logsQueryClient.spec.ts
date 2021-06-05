@@ -78,7 +78,7 @@ describe("LogsQueryClient live tests", function() {
   // query has timed out on purpose.
   it("serverTimeoutInSeconds", async () => {
     try {
-      await createClient({ maxRetries: 0 }).queryLogs(
+      await createClient({ maxRetries: 0, retryDelayInMs: 0, maxRetryDelayInMs: 0 }).queryLogs(
         monitorWorkspaceId,
         // slow query suggested by Pavel.
         "range x from 1 to 10000000000 step 1 | count",
@@ -132,6 +132,184 @@ describe("LogsQueryClient live tests", function() {
 
     // do a very basic check that the statistics were returnedassert.
     assert.ok(query.statistics?.query?.executionTime);
+  });
+
+  it("query with types", async () => {
+    const constantsQuery = `print "hello", true, make_datetime("2000-01-02 03:04:05Z"), toint(100), long(101), 102.1, dynamic({ "hello": "world" })
+      | project 
+          stringcolumn=print_0, 
+          boolcolumn=print_1,
+          datecolumn=print_2,
+          intcolumn=print_3,
+          longcolumn=print_4,
+          realcolumn=print_5,
+          dynamiccolumn=print_6
+      `;
+
+    const results = await createClient().queryLogs(
+      monitorWorkspaceId,
+      constantsQuery,
+      Durations.last5Minutes
+    );
+
+    const table = results.tables[0];
+
+    // check the column types all match what we expect.
+    assert.deepEqual(
+      [
+        {
+          name: "stringcolumn",
+          type: "string"
+        },
+        {
+          name: "boolcolumn",
+          type: "bool"
+        },
+        {
+          name: "datecolumn",
+          type: "datetime"
+        },
+        {
+          name: "intcolumn",
+          type: "int"
+        },
+        {
+          name: "longcolumn",
+          type: "long"
+        },
+        {
+          name: "realcolumn",
+          type: "real"
+        },
+        {
+          name: "dynamiccolumn",
+          type: "dynamic"
+        }
+      ],
+      table.columns
+    );
+
+    table.rows.map((rowValues) => {
+      const [
+        stringColumn,
+        boolColumn,
+        dateColumn,
+        intColumn,
+        longColumn,
+        realColumn,
+        dynamicColumn,
+        ...rest
+      ] = rowValues;
+
+      assert.strictEqual(stringColumn, "hello");
+      assert.equal((dateColumn as Date).valueOf(), new Date("2000-01-02 03:04:05Z").valueOf());
+      assert.strictEqual(boolColumn, true);
+
+      // all the number types (real, int, long) are all represented using `number`
+      assert.strictEqual(intColumn, 100);
+      assert.strictEqual(longColumn, 101);
+      assert.strictEqual(realColumn, 102.1);
+
+      assert.deepEqual(dynamicColumn, {
+        hello: "world"
+      });
+
+      assert.isEmpty(rest);
+    });
+  });
+
+  // TODO: there is something odd happening here where the body is coming
+  // back as a string, rather than an object.
+  it.skip("queryBatch with types", async () => {
+    const constantsQuery = `print "hello", true, make_datetime("2000-01-02 03:04:05Z"), toint(100), long(101), 102.1, dynamic({ "hello": "world" })
+      | project 
+          stringcolumn=print_0, 
+          boolcolumn=print_1,
+          datecolumn=print_2,
+          intcolumn=print_3,
+          longcolumn=print_4,
+          realcolumn=print_5,
+          dynamiccolumn=print_6
+      `;
+
+    const results = await createClient().queryLogsBatch({
+      queries: [
+        {
+          workspace: monitorWorkspaceId,
+          query: constantsQuery,
+          timespan: Durations.last5Minutes
+        }
+      ]
+    });
+
+    const table = results.results?.[0].tables?.[0];
+
+    if (table == null) {
+      throw new Error("No table returned for query");
+    }
+
+    // check the column types all match what we expect.
+    assert.deepEqual(
+      [
+        {
+          name: "stringcolumn",
+          type: "string"
+        },
+        {
+          name: "boolcolumn",
+          type: "bool"
+        },
+        {
+          name: "datecolumn",
+          type: "datetime"
+        },
+        {
+          name: "intcolumn",
+          type: "int"
+        },
+        {
+          name: "longcolumn",
+          type: "long"
+        },
+        {
+          name: "realcolumn",
+          type: "real"
+        },
+        {
+          name: "dynamiccolumn",
+          type: "dynamic"
+        }
+      ],
+      table.columns
+    );
+
+    table.rows.map((rowValues) => {
+      const [
+        stringColumn,
+        boolColumn,
+        dateColumn,
+        intColumn,
+        longColumn,
+        realColumn,
+        dynamicColumn,
+        ...rest
+      ] = rowValues;
+
+      assert.strictEqual(stringColumn, "hello");
+      assert.equal((dateColumn as Date).valueOf(), new Date("2000-01-02 03:04:05Z").valueOf());
+      assert.strictEqual(boolColumn, true);
+
+      // all the number types (real, int, long) are all represented using `number`
+      assert.strictEqual(intColumn, 100);
+      assert.strictEqual(longColumn, 101);
+      assert.strictEqual(realColumn, 102.1);
+
+      assert.deepEqual(dynamicColumn, {
+        hello: "world"
+      });
+
+      assert.isEmpty(rest);
+    });
   });
 
   describe("Ingested data tests (can be slow due to loading times)", () => {

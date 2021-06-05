@@ -5,7 +5,7 @@ import { env, record, Recorder, isPlaybackMode } from "@azure/test-utils-recorde
 import * as assert from "assert";
 import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";
-import { Table } from "../../../src/generated/logquery/src";
+import { Table } from "../../../src";
 
 export const loggerForTest = createClientLogger("test");
 
@@ -133,7 +133,7 @@ export function assertQueryTable(
   expectedTable: {
     name: string;
     columns: string[];
-    rows: string[][];
+    rows: Table["rows"];
   },
   message: string
 ): void {

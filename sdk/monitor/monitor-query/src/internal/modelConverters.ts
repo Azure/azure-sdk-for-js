@@ -6,7 +6,8 @@ import {
   LogQueryRequest,
   LogQueryResponse,
   QueryBatchResponse as GeneratedQueryBatchResponse,
-  QueryBody
+  QueryBody,
+  Table as GeneratedTable
 } from "../generated/logquery/src";
 
 import {
@@ -26,14 +27,16 @@ import { MetricNamespacesListResponse as GeneratedMetricNamespacesListResponse }
 import { formatPreferHeader } from "./util";
 
 import {
+  BatchQuery,
+  GetMetricDefinitionsOptions,
+  GetMetricDefinitionsResponse,
+  GetMetricNamespacesResponse,
+  MetricDefinition,
   QueryLogsBatch,
   QueryLogsBatchResponse,
   QueryMetricsOptions,
   QueryMetricsResponse,
-  GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResponse,
-  GetMetricNamespacesResponse,
-  BatchQuery
+  Table
 } from "../../src";
 import { Metric, TimeSeriesElement } from "../models/publicMetricsModels";
 
@@ -95,7 +98,7 @@ export function convertResponseForQueryBatch(
         status: response.status,
         // hoist fields from the sub-object 'body' to this level
         error: response.body?.error,
-        tables: response.body?.tables
+        tables: response.body?.tables?.map(convertGeneratedTable)
       }))
   };
 
@@ -142,11 +145,15 @@ export function convertResponseForMetrics(
   const metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
     return {
       ...metric,
+      name: metric.name.value,
       timeseries: metric.timeseries.map(
         (ts: GeneratedTimeSeriesElement) =>
           <TimeSeriesElement>{
             data: ts.data,
-            metadataValues: ts.metadatavalues
+            metadataValues: ts.metadatavalues?.map((mv) => ({
+              ...mv,
+              name: mv.name?.value
+            }))
           }
       )
     };
@@ -197,7 +204,20 @@ export function convertResponseForMetricsDefinitions(
   generatedResponse: GeneratedMetricDefinitionsListResponse
 ): GetMetricDefinitionsResponse {
   return {
-    definitions: generatedResponse.value
+    definitions: generatedResponse.value.map((defn) => {
+      const { name, dimensions, ...rest } = defn;
+      const newDefn: MetricDefinition = rest;
+
+      if (name) {
+        newDefn.name = name.value;
+      }
+
+      if (dimensions) {
+        newDefn.dimensions = dimensions.map((dimension) => dimension.value);
+      }
+
+      return newDefn;
+    })
   };
 }
 
@@ -209,5 +229,42 @@ export function convertResponseForMetricNamespaces(
 ): GetMetricNamespacesResponse {
   return {
     namespaces: generatedResponse.value
+  };
+}
+
+/**
+ * @internal
+ */
+export function convertGeneratedTable(table: GeneratedTable): Table {
+  const dynamicsIndices: number[] = [];
+  const datesIndices: number[] = [];
+
+  // most columns convert on deserialization except for `dynamic` columns (basically JSON objects)
+  // and 'datetime' (strings that are ISO8601 formatted dates)
+  for (let i = 0; i < table.columns.length; ++i) {
+    if (table.columns[i].type === "datetime") {
+      datesIndices.push(i);
+    } else if (table.columns[i].type === "dynamic") {
+      dynamicsIndices.push(i);
+    }
+  }
+
+  return {
+    ...table,
+    rows: (table.rows as Table["rows"]).map((row) => {
+      for (const dynamicIndex of dynamicsIndices) {
+        try {
+          row[dynamicIndex] = JSON.parse(row[dynamicIndex] as string) as Record<string, unknown>;
+        } catch (_err) {
+          /* leave as is. */
+        }
+      }
+
+      for (const dateIndex of datesIndices) {
+        row[dateIndex] = new Date(row[dateIndex] as string);
+      }
+
+      return row;
+    })
   };
 }

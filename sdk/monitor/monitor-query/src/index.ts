@@ -12,7 +12,8 @@ export {
   QueryLogsBatchResponse,
   QueryLogsOptions,
   QueryLogsResult,
-  QueryStatistics
+  QueryStatistics,
+  Table
 } from "./models/publicLogsModels";
 export {
   MetricsQueryClient,
@@ -23,7 +24,9 @@ export {
   GetMetricDefinitionsResponse,
   GetMetricNamespacesOptions,
   GetMetricNamespacesResponse,
+  MetadataValue,
   Metric,
+  MetricDefinition,
   QueryMetricsOptions,
   QueryMetricsResponse,
   TimeSeriesElement
@@ -41,9 +44,7 @@ export {
   Column as MetricColumn,
   ColumnDataType,
   ErrorDetail,
-  ErrorInfo,
-  QueryResults,
-  Table
+  ErrorInfo
 } from "./generated/logquery/src";
 
 //
@@ -52,18 +53,12 @@ export {
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
-  LocalizableString,
-  MetadataValue,
   MetricValue,
   ResultType,
   MetricUnit
 } from "./generated/metrics/src";
 
-export {
-  AggregationType,
-  MetricAvailability,
-  MetricDefinition
-} from "./generated/metricsdefinitions/src";
+export { AggregationType, MetricAvailability } from "./generated/metricsdefinitions/src";
 export {
   MetricNamespace,
   MetricNamespaceName,

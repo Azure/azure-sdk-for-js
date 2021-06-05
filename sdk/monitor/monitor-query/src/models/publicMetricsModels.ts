@@ -3,13 +3,12 @@
 
 import { OperationOptions } from "@azure/core-http";
 import {
-  LocalizableString,
-  MetadataValue,
-  MetricDefinition,
   MetricNamespace,
   MetricValue,
   ResultType,
-  MetricUnit
+  MetricUnit,
+  AggregationType,
+  MetricAvailability
 } from "..";
 
 /**
@@ -50,8 +49,8 @@ export interface Metric {
   id: string;
   /** the resource type of the metric resource. */
   type: string;
-  /** the name and the display name of the metric, i.e. it is localizable string. */
-  name: LocalizableString;
+  /** the name of the metric */
+  name: string;
   /** Detailed description of this metric. */
   displayDescription: string;
   /** 'Success' or the error details on query failures for this metric. */
@@ -60,6 +59,14 @@ export interface Metric {
   unit: MetricUnit;
   /** the time series returned when a data query is performed. */
   timeseries: TimeSeriesElement[];
+}
+
+/** Represents a metric metadata value. */
+export interface MetadataValue {
+  /** the name of the metadata. */
+  name?: string;
+  /** the value of the metadata. */
+  value?: string;
 }
 
 /** A time series result type. The discriminator value is always TimeSeries in this case. */
@@ -101,6 +108,30 @@ export interface GetMetricDefinitionsOptions extends OperationOptions {
 
   /** Metric namespace to query metric definitions for. */
   metricNamespace?: string;
+}
+
+/** Metric definition class specifies the metadata for a metric. */
+export interface MetricDefinition {
+  /** Flag to indicate whether the dimension is required. */
+  isDimensionRequired?: boolean;
+  /** the resource identifier of the resource that emitted the metric. */
+  resourceId?: string;
+  /** the name of the metric */
+  name?: string;
+  /** Detailed description of this metric. */
+  displayDescription?: string;
+  /** Custom category name for this metric. */
+  category?: string;
+  /** the unit of the metric. */
+  unit?: MetricUnit;
+  /** the primary aggregation type value defining how to use the values for display. */
+  primaryAggregationType?: AggregationType;
+  /** the collection of what aggregation intervals are available to be queried. */
+  metricAvailabilities?: MetricAvailability[];
+  /** the resource identifier of the metric definition. */
+  id?: string;
+  /** the name of the dimension */
+  dimensions?: string[];
 }
 
 /**

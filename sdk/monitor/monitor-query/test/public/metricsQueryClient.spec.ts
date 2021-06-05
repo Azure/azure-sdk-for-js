@@ -22,7 +22,7 @@ describe("MetricsClient live tests", function() {
 
     for (const definition of metricDefinitions.definitions) {
       const result = await metricsQueryClient.queryMetrics(metricsArmResourceId, {
-        metricNames: [definition.name?.value || ""]
+        metricNames: [definition.name || ""]
       });
 
       assert.ok(result);
@@ -31,7 +31,7 @@ describe("MetricsClient live tests", function() {
     }
 
     const newResults = await metricsQueryClient.queryMetrics(metricsArmResourceId, {
-      metricNames: metricDefinitions.definitions.map((def) => def.name?.value || "")
+      metricNames: metricDefinitions.definitions.map((def) => def.name || "")
     });
 
     assert.ok(newResults);

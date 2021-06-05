@@ -145,6 +145,8 @@ describe("Model unit tests", () => {
     });
 
     it("convertResponseForMetrics (all fields)", () => {
+      const now = new Date();
+
       const generatedResponse: Required<GeneratedMetricsListResponse> = {
         // all of these fields are just copied over verbatim...
         timespan: "aTimespan",
@@ -158,13 +160,24 @@ describe("Model unit tests", () => {
             },
             timeseries: [
               {
-                data: [],
+                data: [
+                  {
+                    timeStamp: now,
+                    count: 100
+                  }
+                ],
                 // this value is renamed in track 2
                 metadatavalues: [
                   {
                     name: {
                       value: "metadataName"
                     }
+                  },
+                  {
+                    name: {
+                      value: "metadataName2"
+                    },
+                    value: "value2"
                   }
                 ]
               }
@@ -189,18 +202,24 @@ describe("Model unit tests", () => {
             id: "fakeMetric",
             displayDescription: "displayDescription",
             errorCode: "anErrorCode",
-            name: {
-              value: "fakeValue"
-            },
+            name: "fakeValue",
             timeseries: [
               {
-                data: [],
+                data: [
+                  {
+                    timeStamp: now,
+                    count: 100
+                  }
+                ],
                 // this value is renamed in track 2
                 metadataValues: [
                   {
-                    name: {
-                      value: "metadataName"
-                    }
+                    name: "metadataName"
+                    // note we don't unnecesssarily add properties that weren't in the input
+                  },
+                  {
+                    name: "metadataName2",
+                    value: "value2"
                   }
                 ]
               }
@@ -251,12 +270,55 @@ describe("Model unit tests", () => {
     it("convertResponseForMetricsDefinitions", () => {
       const actualResponse = convertResponseForMetricsDefinitions({
         _response: {} as any,
-        value: [{ id: "anything" } as any]
+        value: [
+          {
+            dimensions: [
+              {
+                value: "the value",
+                localizedValue: "optional localized value but it's ignored"
+              }
+            ],
+            name: {
+              value: "the name"
+            },
+            id: "anything"
+          }
+        ]
       });
 
       assert.deepEqual(
         <GetMetricDefinitionsResponse>{
-          definitions: [{ id: "anything" } as any]
+          definitions: [
+            {
+              id: "anything",
+              name: "the name",
+              dimensions: ["the value"]
+            }
+          ]
+        },
+        actualResponse
+      );
+    });
+
+    it("convertResponseForMetricsDefinitions (optional fields removed)", () => {
+      const actualResponse = convertResponseForMetricsDefinitions({
+        _response: {} as any,
+        value: [
+          {
+            id: "anything"
+          }
+        ]
+      });
+
+      assert.deepEqual(
+        <GetMetricDefinitionsResponse>{
+          definitions: [
+            // we don't add fields if they weren't in the original response (for instance, we don't add in an
+            // undefined 'name', or 'dimensions')
+            {
+              id: "anything"
+            }
+          ]
         },
         actualResponse
       );

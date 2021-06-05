@@ -81,12 +81,6 @@ export interface GetMetricNamespacesResponse {
 }
 
 // @public
-export interface LocalizableString {
-    localizedValue?: string;
-    value: string;
-}
-
-// @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
@@ -101,7 +95,7 @@ export interface LogsQueryClientOptions extends PipelineOptions {
 
 // @public
 export interface MetadataValue {
-    name?: LocalizableString;
+    name?: string;
     value?: string;
 }
 
@@ -110,7 +104,7 @@ export interface Metric {
     displayDescription: string;
     errorCode?: string;
     id: string;
-    name: LocalizableString;
+    name: string;
     timeseries: TimeSeriesElement[];
     type: string;
     unit: MetricUnit;
@@ -131,17 +125,15 @@ export interface MetricColumn {
 // @public
 export interface MetricDefinition {
     category?: string;
-    dimensions?: LocalizableString_2[];
+    dimensions?: string[];
     displayDescription?: string;
     id?: string;
     isDimensionRequired?: boolean;
     metricAvailabilities?: MetricAvailability[];
-    // Warning: (ae-forgotten-export) The symbol "LocalizableString" needs to be exported by the entry point index.d.ts
-    name?: LocalizableString_2;
+    name?: string;
     primaryAggregationType?: AggregationType;
     resourceId?: string;
-    // Warning: (ae-forgotten-export) The symbol "MetricUnit" needs to be exported by the entry point index.d.ts
-    unit?: MetricUnit_2;
+    unit?: MetricUnit;
 }
 
 // @public

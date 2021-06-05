@@ -18,6 +18,7 @@ import {
 } from "./models/publicLogsModels";
 
 import {
+  convertGeneratedTable,
   convertRequestForQueryBatch,
   convertResponseForQueryBatch
 } from "./internal/modelConverters";
@@ -91,7 +92,7 @@ export class LogsQueryClient {
     );
 
     return {
-      tables: result.tables,
+      tables: result.tables.map(convertGeneratedTable),
       statistics: result.statistics
     };
   }
