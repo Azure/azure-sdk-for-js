@@ -250,11 +250,13 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 // @public
 export interface HealthcareEntity extends Entity {
     assertion?: EntityAssertion;
-    // Warning: (ae-forgotten-export) The symbol "HealthcareEntityCategory" needs to be exported by the entry point index.d.ts
     category: HealthcareEntityCategory;
     dataSources: EntityDataSource[];
     normalizedText?: string;
 }
+
+// @public
+export type HealthcareEntityCategory = string;
 
 // @public
 export interface HealthcareEntityRelation {
