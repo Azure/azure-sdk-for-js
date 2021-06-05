@@ -2,7 +2,7 @@
 
 ## 1.0.0-beta.4 (Unreleased)
 
-_New Features_
+### New Features
 
 - Added support for `Azure Log Analytics` DataFeed source
 - Added datasource credential API support to client
@@ -10,7 +10,7 @@ _New Features_
 - Added property `splitAlertByDimensions` to `AnomalyAlertConfiguration` model
 - Added properties`value` and `expectedValue` to `DataPointAnomaly` and `valueOfRootNode` and `expectedValueOfRootNode` to `AnomalyIncident`
 
-_Breaking Changes_
+### Breaking Changes
 
 - Updated Patch types for all update methods
 - Replaced `updateSubscriptionKey` and `updateApiKey` into one method `updateKey`
