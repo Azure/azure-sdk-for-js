@@ -55,7 +55,7 @@ export interface HealthcareEntity extends Entity {
    */
   dataSources: EntityDataSource[];
   /**
-   * Defines values for HealthcareEntityCategory. \
+   * Defines values for HealthcareEntityCategory.
    * {@link KnownHealthcareEntityCategory} can be used interchangeably with HealthcareEntityCategory,
    *  this enum contains the known values that the service supports.
    * ### Known values supported by the service
