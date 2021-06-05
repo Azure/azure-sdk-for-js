@@ -76,7 +76,7 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
     private: true,
     version: "1.0.0",
     description: `${info.productName} client library samples for ${fullOutputKind}`,
-    engine: {
+    engines: {
       node: `>=${MIN_SUPPORTED_NODE_VERSION}`
     },
     ...(outputKind === OutputKind.TypeScript
