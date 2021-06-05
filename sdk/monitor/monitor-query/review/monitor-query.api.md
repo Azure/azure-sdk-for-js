@@ -207,9 +207,10 @@ export interface QueryLogsOptions extends OperationOptions {
 }
 
 // @public (undocumented)
-export type QueryLogsResult = QueryResults & {
-    statistics?: QueryStatistics;
-};
+export interface QueryLogsResult {
+    statistics?: any;
+    tables: Table[];
+}
 
 // @public
 export interface QueryMetricsOptions extends OperationOptions {
@@ -234,12 +235,6 @@ export interface QueryMetricsResponse {
     timespan: string;
 }
 
-// @public
-export interface QueryResults {
-    statistics?: any;
-    tables: Table[];
-}
-
 // @public (undocumented)
 export interface QueryStatistics {
     // (undocumented)
@@ -258,7 +253,7 @@ export type ResultType = "Data" | "Metadata";
 export interface Table {
     columns: MetricColumn[];
     name: string;
-    rows: string[][];
+    rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
 
 // @public
