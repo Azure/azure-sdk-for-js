@@ -220,7 +220,7 @@ describe("LogsQueryClient live tests", function() {
 
   // TODO: there is something odd happening here where the body is coming
   // back as a string, rather than an object.
-  it.skip("queryBatch with types", async () => {
+  it("queryBatch with types", async () => {
     const constantsQuery = `print "hello", true, make_datetime("2000-01-02 03:04:05Z"), toint(100), long(101), 102.1, dynamic({ "hello": "world" })
       | project 
           stringcolumn=print_0, 
@@ -372,7 +372,8 @@ describe("LogsQueryClient live tests", function() {
         queries: [
           {
             workspace: monitorWorkspaceId,
-            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`
+            query: `AppDependencies | where Properties['testRunId'] == '${testRunId}' | project Kind=Properties["kind"], Name, Target, TestRunId=Properties['testRunId']`,
+            timespan: Durations.last24Hours
           },
           {
             workspace: monitorWorkspaceId,

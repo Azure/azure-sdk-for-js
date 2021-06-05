@@ -74,13 +74,21 @@ export class MetricsQueryClient {
     );
   }
 
+  /**
+   * Query metrics, given a resource Uri
+   * @param resourceUri The resource URI to query.
+   * @param timespan The enclosing timespan for metrics.
+   * @param options Options for querying, including items like aggregation, filtering, etc...
+   * @returns A response containing metrics.
+   */
   async queryMetrics(
     resourceUri: string,
+    timespan: string,
     options?: QueryMetricsOptions
   ): Promise<QueryMetricsResponse> {
     const response = await this._metricsClient.metrics.list(
       resourceUri,
-      convertRequestForMetrics(options)
+      convertRequestForMetrics(timespan, options)
     );
 
     return convertResponseForMetrics(response);

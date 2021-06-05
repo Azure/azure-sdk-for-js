@@ -109,16 +109,20 @@ export function convertResponseForQueryBatch(
  * @internal
  */
 export function convertRequestForMetrics(
+  timespan: string,
   queryMetricsOptions: QueryMetricsOptions | undefined
 ): GeneratedMetricsListOptionalParams {
   if (!queryMetricsOptions) {
-    return {};
+    return {
+      timespan
+    };
   }
 
   const { orderBy, metricNames, aggregations, metricNamespace, ...rest } = queryMetricsOptions;
 
   const obj: GeneratedMetricsListOptionalParams = {
-    ...rest
+    ...rest,
+    timespan
   };
 
   if (orderBy) {

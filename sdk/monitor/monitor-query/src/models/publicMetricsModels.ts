@@ -15,8 +15,6 @@ import {
  * Options used when querying metrics.
  */
 export interface QueryMetricsOptions extends OperationOptions {
-  /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
-  timespan?: string;
   /** The interval (i.e. timegrain) of the query. */
   interval?: string;
   /** The names of the metrics to retrieve **/

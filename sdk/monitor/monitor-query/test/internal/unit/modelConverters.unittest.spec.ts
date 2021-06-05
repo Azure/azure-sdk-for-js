@@ -37,7 +37,8 @@ describe("Model unit tests", () => {
         queries: [
           {
             query: "the kusto query",
-            workspace: "the primary workspace id"
+            workspace: "the primary workspace id",
+            timespan: Durations.last24Hours
           }
         ]
       });
@@ -49,7 +50,8 @@ describe("Model unit tests", () => {
             workspace: "the primary workspace id",
             headers: undefined,
             body: {
-              query: "the kusto query"
+              query: "the kusto query",
+              timespan: Durations.last24Hours
             }
           }
         ]
@@ -61,7 +63,8 @@ describe("Model unit tests", () => {
         queries: [
           {
             query: "<placeholder>",
-            workspace: "<placeholder>"
+            workspace: "<placeholder>",
+            timespan: Durations.last24Hours
           },
           {
             azureResourceIds: ["resourceId1"],
@@ -114,12 +117,12 @@ describe("Model unit tests", () => {
         orderBy: "orderByClause",
         requestOptions,
         resultType: "Data",
-        timespan: "arbitraryTimespan",
         top: 10,
         tracingOptions
       };
 
       const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
+        "arbitraryTimespan",
         track2Model
       );
 
@@ -140,8 +143,12 @@ describe("Model unit tests", () => {
     });
 
     it("convertRequestForMetrics (only required fields)", () => {
-      assert.deepEqual(convertRequestForMetrics(undefined), {});
-      assert.deepEqual(convertRequestForMetrics({}), {});
+      assert.deepEqual(convertRequestForMetrics(Durations.lastDay, undefined), {
+        timespan: Durations.lastDay
+      });
+      assert.deepEqual(convertRequestForMetrics(Durations.last2Days, {}), {
+        timespan: Durations.last2Days
+      });
     });
 
     it("convertResponseForMetrics (all fields)", () => {

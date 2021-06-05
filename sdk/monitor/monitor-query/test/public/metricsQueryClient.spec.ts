@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import { MetricsQueryClient } from "../../src";
+import { Durations, MetricsQueryClient } from "../../src";
 
 import { createTestClientSecretCredential, getMetricsArmResourceId } from "./shared/testShared";
 
@@ -21,18 +21,26 @@ describe("MetricsClient live tests", function() {
     assert.isNotEmpty(metricDefinitions.definitions);
 
     for (const definition of metricDefinitions.definitions) {
-      const result = await metricsQueryClient.queryMetrics(metricsArmResourceId, {
-        metricNames: [definition.name || ""]
-      });
+      const result = await metricsQueryClient.queryMetrics(
+        metricsArmResourceId,
+        Durations.last24Hours,
+        {
+          metricNames: [definition.name || ""]
+        }
+      );
 
       assert.ok(result);
       assert.ok(result.interval);
       assert.isNotEmpty(result.metrics);
     }
 
-    const newResults = await metricsQueryClient.queryMetrics(metricsArmResourceId, {
-      metricNames: metricDefinitions.definitions.map((def) => def.name || "")
-    });
+    const newResults = await metricsQueryClient.queryMetrics(
+      metricsArmResourceId,
+      Durations.last24Hours,
+      {
+        metricNames: metricDefinitions.definitions.map((def) => def.name || "")
+      }
+    );
 
     assert.ok(newResults);
     assert.isNotEmpty(newResults.metrics);

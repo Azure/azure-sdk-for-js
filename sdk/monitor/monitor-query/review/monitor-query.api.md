@@ -18,7 +18,7 @@ export interface BatchQuery {
     qualifiedNames?: string[];
     query: string;
     serverTimeoutInSeconds?: number;
-    timespan?: string;
+    timespan: string;
     workspace: string;
     workspaceIds?: string[];
     workspaces?: string[];
