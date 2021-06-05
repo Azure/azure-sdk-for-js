@@ -709,7 +709,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes Datalake Gen 2 data feed", async function() {
+        it.skip("deletes Datalake Gen 2 data feed", async function() {
           await verifyDataFeedDeletion(client, createdDataLakeGenId);
         });
 
