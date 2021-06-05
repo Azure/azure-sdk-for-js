@@ -343,6 +343,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
+    // eslint-disable-next-line @typescript-eslint/no-invalid-this
     const testTitle = this.test?.title || `test-Date.time()`;
     const tempDir = mkdtempSync(join(tmpdir(), testTitle));
     const tempFile = join(tempDir, testTitle);
