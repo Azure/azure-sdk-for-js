@@ -37,7 +37,7 @@ Instructions:
 
 ### Authenticate the client
 
-[LogsClient]<!--[msdocs_logs_client]--> and [MetricsClient]<!--[msdocs_metrics_client]--> authenticate using a [service principal](#authenticating-with-a-service-principal).
+[LogsQueryClient]<!--[msdocs_logs_client]--> and [MetricsQueryClient]<!--[msdocs_metrics_client]--> authenticate using a [service principal](#authenticating-with-a-service-principal).
 
 #### Authenticating with a service principal
 
@@ -51,40 +51,40 @@ Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/ma
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { LogsClient, MetricsClient } = require("@azure/monitor-query");
+const { LogsQueryClient, MetricsQueryClient } = require("@azure/monitor-query");
 
 const credential = new DefaultAzureCredential();
 
-const logsClient = new LogsClient(credential);
+const logsQueryClient = new LogsQueryClient(credential);
 // or
-const metricsClient = new MetricsClient(credential);
+const metricsQueryClient = new MetricsQueryClient(credential);
 ```
 
 More information about `@azure/identity` can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md)
 
 ## Key concepts
 
-The [`LogsClient`]<!--[msdocs_logs_client]--> allows you to query logs, using the [Kusto query language][kusto_query_language]. This data can be queried in the
+The [`LogsQueryClient`]<!--[msdocs_logs_client]--> allows you to query logs, using the [Kusto query language][kusto_query_language]. This data can be queried in the
 portal using tables like `AppEvents`, `AppDependencies` and others.
 
-The [`MetricsClient`]<!--[msdocs_metrics_client]--> allows you to query metrics.
+The [`MetricsQueryClient`]<!--[msdocs_metrics_client]--> allows you to query metrics.
 
 ## Examples
 
 #### Querying logs
 
-The LogsClient can be used to query a Monitor workspace using the Kusto Query language.
+The `LogsQueryClient` can be used to query a Monitor workspace using the Kusto Query language.
 
 ```javascript
-const { LogsClient } = require("@azure/monitor-query");
+const { LogsQueryClient } = require("@azure/monitor-query");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
-const logsClient = new LogsClient(new DefaultAzureCredential());
+const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
-  const result = logsClient.queryLogs(azureLogAnalyticsWorkspaceId, kustoQuery);
+  const result = logsQueryClient.queryLogs(azureLogAnalyticsWorkspaceId, kustoQuery);
   const tablesFromResult = result.tables;
 
   if (tablesFromResult == null) {
@@ -166,8 +166,8 @@ folder for more details.
 [azure_monitor_create_using_cli]: https://docs.microsoft.com/azure/azure-monitor/logs/quick-create-workspace-cli
 [azure_monitor_roles]: https://docs.microsoft.com/azure/azure-monitor/roles-permissions-security
 [kusto_query_language]: https://docs.microsoft.com/azure/data-explorer/kusto/query/
-[msdocs_metrics_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/metricsclient
-[msdocs_logs_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/logsclient
+[msdocs_metrics_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/metricsqueryclient
+[msdocs_logs_client]: https://docs.microsoft.com/javascript/api/@azure/monitor-query/logsqueryclient
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples
 [samples_logsquery_ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logQuery.ts
 [samples_logquerybatch_ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/samples/v1/typescript/src/logQueryBatch.ts
