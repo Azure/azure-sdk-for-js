@@ -743,7 +743,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await verifyDataFeedDeletion(client, createdEventhubsId);
         });
 
-        it("creates Log Analytics data feed", async () => {
+        it.skip("creates Log Analytics data feed", async () => {
           const expectedSource: AzureLogAnalyticsDataFeedSource = {
             dataSourceType: "AzureLogAnalytics",
             authenticationType: "Basic",
