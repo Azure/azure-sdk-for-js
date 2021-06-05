@@ -1,47 +1,47 @@
 let nock = require('nock');
 
-module.exports.hash = "4b33b7b094825afc28b5df9d117b50e1";
+module.exports.hash = "d40a632bfefe5944264fcbd33c7c3698";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"AzureDataExplorer","dataFeedName":"js-test-dataExplorerFeed-161070014038700574","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","dataSourceParameter":{"connectionString":"Server=server.example.net;Encrypt=True;","query":"let starttime=datetime(@StartTime); let endtime=starttime"}})
+  .post('/metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"AzureDataExplorer","dataFeedName":"js-test-dataExplorerFeed-162267904090102583","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","authenticationType":"ManagedIdentity","dataSourceParameter":{"connectionString":"Server=server.example.net;Encrypt=True;","query":"let starttime=datetime(@StartTime); let endtime=starttime"}})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/dataFeeds/56973712-0033-449f-ab7d-b53546cfdc23',
+  'https://endpoint/metricsadvisor/v1.0/dataFeeds/5d2bddd0-0c56-434b-8d1b-fb7b33ae24c7',
   'x-request-id',
-  'e82c84ea-8429-4458-904a-7134d9987ecc',
+  'de31554c-cd6c-47e4-a245-3ae9a641d87d',
   'x-envoy-upstream-service-time',
-  '546',
+  '779',
   'apim-request-id',
-  'e82c84ea-8429-4458-904a-7134d9987ecc',
+  'de31554c-cd6c-47e4-a245-3ae9a641d87d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:42:32 GMT'
+  'Thu, 03 Jun 2021 00:11:00 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/dataFeeds/56973712-0033-449f-ab7d-b53546cfdc23')
-  .reply(200, {"dataFeedId":"56973712-0033-449f-ab7d-b53546cfdc23","dataFeedName":"js-test-dataExplorerFeed-161070014038700574","metrics":[{"metricId":"acf4717e-1c7f-4458-85a1-01c1baa08330","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"75352e96-9788-4e0e-931d-f2343d6b361f","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"AzureDataExplorer","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","granularityAmount":null,"allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","rollUpColumns":[],"dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["kaghiya@microsoft.com"],"viewers":[],"creator":"kaghiya@microsoft.com","status":"Active","createdTime":"2021-01-15T08:42:33Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"connectionString":"Server=server.example.net;Encrypt=True;","query":"let starttime=datetime(@StartTime); let endtime=starttime"}}, [
+  .get('/metricsadvisor/v1.0/dataFeeds/5d2bddd0-0c56-434b-8d1b-fb7b33ae24c7')
+  .reply(200, {"dataFeedId":"5d2bddd0-0c56-434b-8d1b-fb7b33ae24c7","dataFeedName":"js-test-dataExplorerFeed-162267904090102583","metrics":[{"metricId":"1fea50fa-c356-48b8-a4ce-c0bfcfa60a0c","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"8de18cc3-4ffb-43f2-87e3-3e31b629b476","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"AzureDataExplorer","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["kaghiya@microsoft.com"],"viewers":[],"creator":"kaghiya@microsoft.com","status":"Active","createdTime":"2021-06-03T00:11:00Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"query":"let starttime=datetime(@StartTime); let endtime=starttime"},"authenticationType":"ManagedIdentity"}, [
   'Content-Length',
-  '1354',
+  '1288',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '76784231-ad80-4bb1-8f8b-202bcbae8661',
+  '8c656e1a-e536-4c82-b6a2-ed80881fffec',
   'x-envoy-upstream-service-time',
-  '246',
+  '166',
   'apim-request-id',
-  '76784231-ad80-4bb1-8f8b-202bcbae8661',
+  '8c656e1a-e536-4c82-b6a2-ed80881fffec',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:42:33 GMT'
+  'Thu, 03 Jun 2021 00:11:00 GMT'
 ]);
