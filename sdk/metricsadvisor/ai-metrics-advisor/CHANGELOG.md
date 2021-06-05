@@ -4,7 +4,7 @@
 
 ### New Features
 
-- Added support for `Azure Log Analytics` DataFeed source
+- Added support for `Azure Log Analytics` DataFeed source and `Azure EventHubs` DataFeed source
 - Added datasource credential API support to client
 - Added authentication type support for data feed
 - Added property `splitAlertByDimensions` to `AnomalyAlertConfiguration` model
