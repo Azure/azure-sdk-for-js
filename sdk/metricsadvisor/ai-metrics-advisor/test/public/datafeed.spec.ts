@@ -678,7 +678,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await verifyDataFeedDeletion(client, createdMySqlFeedId);
         });
 
-        it("creates Datalake Gen 2 data feed", async () => {
+        it.skip("creates Datalake Gen 2 data feed", async () => {
           const expectedSource: AzureDataLakeStorageGen2DataFeedSource = {
             dataSourceType: "AzureDataLakeStorageGen2",
             directoryTemplate: "directory-template",
