@@ -94,6 +94,13 @@ export interface LogsQueryClientOptions extends PipelineOptions {
 }
 
 // @public
+export interface LogsTable {
+    columns: MetricColumn[];
+    name: string;
+    rows: (Date | string | number | Record<string, unknown> | boolean)[][];
+}
+
+// @public
 export interface MetadataValue {
     name?: string;
     value?: string;
@@ -155,15 +162,12 @@ export interface MetricsClientOptions extends PipelineOptions {
     endpoint?: string;
 }
 
-// @public (undocumented)
+// @public
 export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
-    // (undocumented)
     getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResponse>;
-    // (undocumented)
     getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResponse>;
-    // (undocumented)
-    queryMetrics(resourceUri: string, options?: QueryMetricsOptions): Promise<QueryMetricsResponse>;
+    queryMetrics(resourceUri: string, timespan: string, options?: QueryMetricsOptions): Promise<QueryMetricsResponse>;
 }
 
 // @public
@@ -195,7 +199,7 @@ export interface QueryLogsBatchResponse {
     results?: {
         id?: string;
         status?: number;
-        tables?: Table[];
+        tables?: LogsTable[];
         error?: ErrorInfo;
     }[];
 }
@@ -209,7 +213,7 @@ export interface QueryLogsOptions extends OperationOptions {
 // @public (undocumented)
 export interface QueryLogsResult {
     statistics?: any;
-    tables: Table[];
+    tables: LogsTable[];
 }
 
 // @public
@@ -221,7 +225,6 @@ export interface QueryMetricsOptions extends OperationOptions {
     metricNamespace?: string;
     orderBy?: string;
     resultType?: ResultType;
-    timespan?: string;
     top?: number;
 }
 
@@ -248,13 +251,6 @@ export interface QueryStatistics {
 
 // @public
 export type ResultType = "Data" | "Metadata";
-
-// @public
-export interface Table {
-    columns: MetricColumn[];
-    name: string;
-    rows: (Date | string | number | Record<string, unknown> | boolean)[][];
-}
 
 // @public
 export interface TimeSeriesElement {

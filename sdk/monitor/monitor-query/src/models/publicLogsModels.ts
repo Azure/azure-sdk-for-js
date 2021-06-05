@@ -30,7 +30,7 @@ export interface QueryStatistics {
 
 export interface QueryLogsResult {
   /** The list of tables, columns and rows. */
-  tables: Table[];
+  tables: LogsTable[];
   /** Statistics represented in JSON format. */
   statistics?: any;
 }
@@ -87,7 +87,7 @@ export interface QueryLogsBatchResponse {
     status?: number;
     /** The list of tables, columns and rows. */
     // (hoisted up from `LogQueryResult`)
-    tables?: Table[];
+    tables?: LogsTable[];
     error?: ErrorInfo;
   }[];
 
@@ -97,7 +97,7 @@ export interface QueryLogsBatchResponse {
 }
 
 /** Contains the columns and rows for one table in a query response. */
-export interface Table {
+export interface LogsTable {
   /** The name of the table. */
   name: string;
   /** The list of columns in this table. */

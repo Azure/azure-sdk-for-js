@@ -31,12 +31,12 @@ import {
   GetMetricDefinitionsOptions,
   GetMetricDefinitionsResponse,
   GetMetricNamespacesResponse,
+  LogsTable,
   MetricDefinition,
   QueryLogsBatch,
   QueryLogsBatchResponse,
   QueryMetricsOptions,
-  QueryMetricsResponse,
-  Table
+  QueryMetricsResponse
 } from "../../src";
 import { Metric, TimeSeriesElement } from "../models/publicMetricsModels";
 
@@ -239,7 +239,7 @@ export function convertResponseForMetricNamespaces(
 /**
  * @internal
  */
-export function convertGeneratedTable(table: GeneratedTable): Table {
+export function convertGeneratedTable(table: GeneratedTable): LogsTable {
   const dynamicsIndices: number[] = [];
   const datesIndices: number[] = [];
 
@@ -255,7 +255,7 @@ export function convertGeneratedTable(table: GeneratedTable): Table {
 
   return {
     ...table,
-    rows: (table.rows as Table["rows"]).map((row) => {
+    rows: (table.rows as LogsTable["rows"]).map((row) => {
       for (const dynamicIndex of dynamicsIndices) {
         try {
           row[dynamicIndex] = JSON.parse(row[dynamicIndex] as string) as Record<string, unknown>;

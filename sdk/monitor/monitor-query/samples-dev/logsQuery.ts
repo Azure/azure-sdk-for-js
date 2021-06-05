@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, LogsQueryClient, Table } from "@azure/monitor-query";
+import { Durations, LogsQueryClient, LogsTable } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -41,7 +41,7 @@ export async function main() {
     }
   );
 
-  const tablesFromResult: Table[] | undefined = result.tables;
+  const tablesFromResult: LogsTable[] | undefined = result.tables;
 
   if (tablesFromResult == null) {
     console.log(`No results for query '${kustoQuery}'`);

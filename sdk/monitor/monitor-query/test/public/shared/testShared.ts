@@ -5,7 +5,7 @@ import { env, record, Recorder, isPlaybackMode } from "@azure/test-utils-recorde
 import * as assert from "assert";
 import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";
-import { Table } from "../../../src";
+import { LogsTable } from "../../../src";
 
 export const loggerForTest = createClientLogger("test");
 
@@ -116,7 +116,7 @@ function getRequiredEnvVar(mochaContext: Pick<Context, "skip">, variableName: st
   return env[variableName];
 }
 
-export function printLogQueryTables(tables: Table[]): void {
+export function printLogQueryTables(tables: LogsTable[]): void {
   for (const table of tables) {
     const columnHeaderString = table.columns.map((c) => `${c.name}(${c.type}) `).join("| ");
     console.log(columnHeaderString);
@@ -129,11 +129,11 @@ export function printLogQueryTables(tables: Table[]): void {
 }
 
 export function assertQueryTable(
-  table: Table | undefined,
+  table: LogsTable | undefined,
   expectedTable: {
     name: string;
     columns: string[];
-    rows: Table["rows"];
+    rows: LogsTable["rows"];
   },
   message: string
 ): void {

@@ -41,11 +41,19 @@ export interface MetricsQueryClientOptions extends PipelineOptions {
   endpoint?: string;
 }
 
+/**
+ * A client that can query metrics, get metric definitions and get metric namespaces.
+ */
 export class MetricsQueryClient {
   private _metricsClient: GeneratedMetricsClient;
   private _definitionsClient: GeneratedMetricsDefinitionsClient;
   private _namespacesClient: GeneratedMetricsNamespacesClient;
 
+  /**
+   * Creates a MetricsQueryClient.
+   * @param tokenCredential - A TokenCredential that has rights to query metrics on resources.
+   * @param options - Options for the client like controlling request retries.
+   */
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
     const bearerTokenPolicy = bearerTokenAuthenticationPolicy(
       tokenCredential,
@@ -75,10 +83,10 @@ export class MetricsQueryClient {
   }
 
   /**
-   * Query metrics, given a resource Uri
-   * @param resourceUri The resource URI to query.
-   * @param timespan The enclosing timespan for metrics.
-   * @param options Options for querying, including items like aggregation, filtering, etc...
+   * Query metrics, given a resource URI
+   * @param resourceUri - The resource URI to query.
+   * @param timespan - The enclosing timespan for metrics.
+   * @param options - Options for querying metrics.
    * @returns A response containing metrics.
    */
   async queryMetrics(
@@ -94,6 +102,12 @@ export class MetricsQueryClient {
     return convertResponseForMetrics(response);
   }
 
+  /**
+   * Get a list of metric definitions, given a resource URI.
+   * @param resourceUri - The resource URI to get metric definitions for.
+   * @param options - Options for getting metric definitions.
+   * @returns Metric definitions for a given resource URI.
+   */
   async getMetricDefinitions(
     resourceUri: string,
     options?: GetMetricDefinitionsOptions
@@ -106,6 +120,12 @@ export class MetricsQueryClient {
     return convertResponseForMetricsDefinitions(response);
   }
 
+  /**
+   * Get a list of metric namespaces, given a resource URI.
+   * @param resourceUri - The resource URI to get metric namespaces for.
+   * @param options - Options for getting metric namespaces.
+   * @returns Metric namespaces for a given resource URI.
+   */
   async getMetricNamespaces(
     resourceUri: string,
     options?: GetMetricNamespacesOptions

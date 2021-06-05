@@ -13,7 +13,7 @@ export {
   QueryLogsOptions,
   QueryLogsResult,
   QueryStatistics,
-  Table
+  LogsTable
 } from "./models/publicLogsModels";
 export {
   MetricsQueryClient,
