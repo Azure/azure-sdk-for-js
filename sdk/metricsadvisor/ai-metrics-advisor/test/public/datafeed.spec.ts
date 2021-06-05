@@ -678,7 +678,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await verifyDataFeedDeletion(client, createdMySqlFeedId);
         });
 
-        it.skip("creates Datalake Gen 2 data feed", async () => {
+        it("creates Datalake Gen 2 data feed", async () => {
           const expectedSource: AzureDataLakeStorageGen2DataFeedSource = {
             dataSourceType: "AzureDataLakeStorageGen2",
             directoryTemplate: "directory-template",
@@ -709,7 +709,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it.skip("deletes Datalake Gen 2 data feed", async function() {
+        it("deletes Datalake Gen 2 data feed", async function() {
           await verifyDataFeedDeletion(client, createdDataLakeGenId);
         });
 
@@ -717,8 +717,8 @@ matrix([[true, false]] as const, async (useAad) => {
           const expectedSource: AzureEventHubsDataFeedSource = {
             dataSourceType: "AzureEventHubs",
             authenticationType: "Basic",
-            connectionString: "connection-string",
-            consumerGroup: "consumer-group"
+            connectionString: testEnv.METRICS_EVENTHUB_CONNECTION_STRING,
+            consumerGroup: testEnv.METRICS_EVENTHUB_CONSUMER_GROUP
           };
           const actual = await client.createDataFeed({
             name: eventHubsFeedName,
@@ -735,7 +735,7 @@ matrix([[true, false]] as const, async (useAad) => {
           if (actual.source.dataSourceType === "AzureEventHubs") {
             assert.equal(actual.source.consumerGroup, expectedSource.consumerGroup);
             assert.equal(actual.source.authenticationType, expectedSource.authenticationType);
-            assert.equal(actual.source.connectionString, expectedSource.connectionString);
+            assert.equal(actual.source.connectionString, undefined);
           }
         });
 
@@ -743,7 +743,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await verifyDataFeedDeletion(client, createdEventhubsId);
         });
 
-        it.skip("creates Log Analytics data feed", async () => {
+        it("creates Log Analytics data feed", async () => {
           const expectedSource: AzureLogAnalyticsDataFeedSource = {
             dataSourceType: "AzureLogAnalytics",
             authenticationType: "Basic",
@@ -775,7 +775,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it.skip("deletes Log Analytics data feed", async function() {
+        it("deletes Log Analytics data feed", async function() {
           await verifyDataFeedDeletion(client, createdLogAnalyticsId);
         });
 
