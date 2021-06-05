@@ -83,8 +83,7 @@ import {
   SqlServerConnectionStringDatasourceCredentialPatch,
   DataLakeGen2SharedKeyDatasourceCredentialPatch,
   ServicePrincipalDatasourceCredentialPatch,
-  ServicePrincipalInKeyVaultDatasourceCredentialPatch,
-  ServicePrincipalDatasourceCredential
+  ServicePrincipalInKeyVaultDatasourceCredentialPatch
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -1452,7 +1451,7 @@ export function toServiceCredential(
       };
       return sqlcred;
     }
-    case "DataLakeGen2SharedKey":
+    case "DataLakeGen2SharedKey": {
       const datalake: DataLakeGen2SharedKeyCredential = {
         ...common,
         dataSourceCredentialType: from.type,
@@ -1461,7 +1460,8 @@ export function toServiceCredential(
         }
       };
       return datalake;
-    case "ServicePrincipal":
+    }
+    case "ServicePrincipal": {
       const sp: ServicePrincipalCredential = {
         ...common,
         dataSourceCredentialType: from.type,
@@ -1472,7 +1472,8 @@ export function toServiceCredential(
         }
       };
       return sp;
-    case "ServicePrincipalInKV":
+    }
+    case "ServicePrincipalInKV": {
       const spInKV: ServicePrincipalInKVCredential = {
         ...common,
         dataSourceCredentialType: from.type,
@@ -1486,6 +1487,7 @@ export function toServiceCredential(
         }
       };
       return spInKV;
+    }
   }
 }
 
