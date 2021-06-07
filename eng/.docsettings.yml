@@ -44,7 +44,6 @@ known_content_issues:
   - ["sdk/eventhub/event-processor-host/README.md",  "#14727"]
   - ["sdk/eventhub/mock-hub/README.md",  "azure-sdk-tools/issues/1530"]
   - ["sdk/test-utils/multi-version/README.md", "#14728"]
-  - ["sdk/web-pubsub/web-pubsub-express/README.md", "#1583"]
 
 package_indexing_exclusion_list:
   - "@azure/template"
