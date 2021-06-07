@@ -224,7 +224,7 @@ export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
   /**
    * Filters entities to ones only included in the specified array of categories
    */
-   categoriesFilter?: PiiCategory[];
+  categoriesFilter?: PiiCategory[];
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
