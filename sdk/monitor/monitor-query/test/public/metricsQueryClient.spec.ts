@@ -3,36 +3,44 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import { MetricsClient } from "../../src";
+import { Durations, MetricsQueryClient } from "../../src";
 
 import { createTestClientSecretCredential, getMetricsArmResourceId } from "./shared/testShared";
 
 describe("MetricsClient live tests", function() {
   let metricsArmResourceId: string;
-  let metricsClient: MetricsClient;
+  let metricsQueryClient: MetricsQueryClient;
 
   beforeEach(function(this: Context) {
     metricsArmResourceId = getMetricsArmResourceId(this);
-    metricsClient = new MetricsClient(createTestClientSecretCredential());
+    metricsQueryClient = new MetricsQueryClient(createTestClientSecretCredential());
   });
 
   it("queryMetrics", async () => {
-    const metricDefinitions = await metricsClient.getMetricDefinitions(metricsArmResourceId);
+    const metricDefinitions = await metricsQueryClient.getMetricDefinitions(metricsArmResourceId);
     assert.isNotEmpty(metricDefinitions.definitions);
 
     for (const definition of metricDefinitions.definitions) {
-      const result = await metricsClient.queryMetrics(metricsArmResourceId, {
-        metricNames: [definition.name?.value || ""]
-      });
+      const result = await metricsQueryClient.queryMetrics(
+        metricsArmResourceId,
+        Durations.last24Hours,
+        {
+          metricNames: [definition.name || ""]
+        }
+      );
 
       assert.ok(result);
       assert.ok(result.interval);
       assert.isNotEmpty(result.metrics);
     }
 
-    const newResults = await metricsClient.queryMetrics(metricsArmResourceId, {
-      metricNames: metricDefinitions.definitions.map((def) => def.name?.value || "")
-    });
+    const newResults = await metricsQueryClient.queryMetrics(
+      metricsArmResourceId,
+      Durations.last24Hours,
+      {
+        metricNames: metricDefinitions.definitions.map((def) => def.name || "")
+      }
+    );
 
     assert.ok(newResults);
     assert.isNotEmpty(newResults.metrics);
@@ -66,11 +74,11 @@ describe("MetricsClient live tests", function() {
   });
 
   it("listNamespaces", async () => {
-    const result = await metricsClient.getMetricNamespaces(metricsArmResourceId);
+    const result = await metricsQueryClient.getMetricNamespaces(metricsArmResourceId);
     assert.ok(result);
   });
   it("listDefinitions", async () => {
-    const result = await metricsClient.getMetricDefinitions(metricsArmResourceId);
+    const result = await metricsQueryClient.getMetricDefinitions(metricsArmResourceId);
     assert.ok(result);
   });
 });

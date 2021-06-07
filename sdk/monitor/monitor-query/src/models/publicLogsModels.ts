@@ -2,11 +2,14 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import { ErrorInfo, QueryResults as GeneratedQueryResults, Table } from "../generated/logquery/src";
+import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
 // https://dev.loganalytics.io/documentation/Using-the-API/Timeouts
 
+/**
+ * Options for querying logs.
+ */
 export interface QueryLogsOptions extends OperationOptions {
   /**
    * The maximum amount of time the server will spend processing the query.
@@ -18,11 +21,11 @@ export interface QueryLogsOptions extends OperationOptions {
    * Results will also include statistics about the query.
    */
   includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
-
-  /** Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
-  timespan?: string;
 }
 
+/**
+ * @internal
+ */
 export interface QueryStatistics {
   query?: {
     executionTime?: number;
@@ -31,10 +34,17 @@ export interface QueryStatistics {
   [key: string]: unknown;
 }
 
-export type QueryLogsResult = GeneratedQueryResults & {
-  statistics?: QueryStatistics;
-};
+/**
+ * Tables and statistic results from a logs query.
+ */
+export interface QueryLogsResult {
+  /** The list of tables, columns and rows. */
+  tables: LogsTable[];
+  /** Statistics represented in JSON format. */
+  statistics?: any;
+}
 
+/** Options when query logs with a batch. */
 export type QueryLogsBatchOptions = OperationOptions;
 
 /** An array of queries to run as a batch. */
@@ -56,8 +66,8 @@ export interface BatchQuery {
 
   /** The query to execute. */
   query: string;
-  /** Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
-  timespan?: string;
+  /** The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
+  timespan: string;
   /** A list of workspaces that are included in the query. */
   workspaces?: string[];
   /** A list of qualified workspace names that are included in the query. */
@@ -80,18 +90,28 @@ export interface BatchQuery {
 }
 
 /** Results for a batch query. */
-export interface QueryLogsBatchResponse {
+export interface QueryLogsBatchResult {
   /** An array of responses corresponding to each individual request in a batch. */
   results?: {
     id?: string;
     status?: number;
     /** The list of tables, columns and rows. */
     // (hoisted up from `LogQueryResult`)
-    tables?: Table[];
+    tables?: LogsTable[];
     error?: ErrorInfo;
   }[];
 
   // TODO: this is omitted from the Java models.
   /** Error response for a batch request */
   // error?: BatchResponseError;
+}
+
+/** Contains the columns and rows for one table in a query response. */
+export interface LogsTable {
+  /** The name of the table. */
+  name: string;
+  /** The list of columns in this table. */
+  columns: LogsColumn[];
+  /** The resulting rows from this query. */
+  rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
