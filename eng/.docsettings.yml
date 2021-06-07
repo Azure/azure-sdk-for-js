@@ -1,4 +1,5 @@
 omitted_paths:
+  - README.md
   - common/*
   - documentation/ServicePrincipal/*
   - eng/*
@@ -33,7 +34,6 @@ required_readme_sections:
   - ^Contributing$
 
 known_content_issues:
-  - ["README.md",  "#1583"]
   - ["sdk/appconfiguration/app-configuration/README.md",  "#1583"]
   - ["sdk/core/abort-controller/README.md",  "#14714"]
   - ["sdk/core/core-amqp/README.md",  "#14715"]
