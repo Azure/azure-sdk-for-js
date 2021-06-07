@@ -289,6 +289,11 @@ export interface ReceivedEventData {
   };
 }
 
+/**
+ * Converts any Date objects into a number representing date.getTime().
+ * Recursively checks for any Date objects in arrays and objects.
+ * @internal
+ */
 function convertDatesToNumbers<T = unknown>(thing: T): T {
   // fast exit
   if (!isDefined(thing)) return thing;
@@ -315,6 +320,7 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
     { foo: new Date(), children: { nested: new Date() }}
   */
   if (typeof thing === "object" && isDefined(thing)) {
+    thing = { ...thing };
     for (const key of Object.keys(thing)) {
       (thing as any)[key] = convertDatesToNumbers((thing as any)[key]);
     }
