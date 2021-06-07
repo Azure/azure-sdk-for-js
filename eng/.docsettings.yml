@@ -16,6 +16,7 @@ omitted_paths:
   - sdk/batch/batch/README.md
   - sdk/cognitiveservices/*
   - sdk/core/README.md
+  - sdk/eventhub/event-processor-host/README.md
   - sdk/graphrbac/graph/README.md
   - sdk/operationalinsights/loganalytics/README.md
   - sdk/servicefabric/servicefabric/README.md
