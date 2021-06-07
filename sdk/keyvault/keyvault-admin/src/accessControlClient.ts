@@ -166,8 +166,7 @@ export class KeyVaultAccessControlClient {
    * ```ts
    * const client = new KeyVaultAccessControlClient(url, credentials);
    * const roleAssignment = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
-   * const deletedRoleAssignment = await client.deleteRoleAssignment(roleAssignment.properties.roleScope, roleAssignment.name);
-   * console.log(deletedRoleAssignment);
+   * await client.deleteRoleAssignment(roleAssignment.properties.roleScope, roleAssignment.name);
    * ```
    * Deletes an existing role assignment.
    * @param roleScope - The scope of the role assignment.
