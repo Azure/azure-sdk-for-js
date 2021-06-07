@@ -4770,10 +4770,10 @@ packages:
       '0': node >=0.6.0
     resolution:
       integrity: sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=
-  /jsrsasign/8.0.24:
+  /jsrsasign/10.3.0:
     dev: false
     resolution:
-      integrity: sha512-u45jAyusqUpyGbFc2IbHoeE4rSkoBWQgLe/w99temHenX+GyCz4nflU5sjK7ajU1ffZTezl6le7u43Yjr/lkQg==
+      integrity: sha512-irDIKKFW++EAELgP3fjFi5/Fn0XEyfuQTTgpbeFwCGkV6tRIYZl3uraRea2HTXWCstcSZuDaCbdAhU1n+075Bg==
   /jssha/2.4.2:
     deprecated: jsSHA versions < 3.0.0 will no longer receive feature updates
     dev: false
@@ -8462,7 +8462,7 @@ packages:
       eslint: 7.23.0
       esm: 3.2.25
       inherits: 2.0.4
-      jsrsasign: 8.0.24
+      jsrsasign: 10.3.0
       karma: 6.3.2
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
@@ -8495,7 +8495,7 @@ packages:
     dev: false
     name: '@rush-temp/attestation'
     resolution:
-      integrity: sha512-+BCbMheKvHGS3fIhPNiusw4a7FxfEm/jtXGfXCd8yNl/LbIC084E7f45kqpdT8pfEwE9d1qp2SJFE7CLsMX1Pw==
+      integrity: sha512-5hGCDuAcXkmdUOIGRcUR98wyo2mt7VIRCELqiBlNPsdmu/zGoEjoc9pqziY8BHV/dsFTZN/343bMKeoIYqIJzA==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -9794,7 +9794,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-V5DebYdjjOd8/csxIgmZv79r7P10+Ka2Uo6THh9YzMtkk5rPMl5GieiHC7tm+bjPtiGzTZUyNG9Qu8bowBlmcQ==
+      integrity: sha512-IdGKdBp1RaSCHv6TyLTm++5mAxfSRmcOTXDUZypfWSicVFiAjxal5S1JpfVufCF8woX35aDylWoK8caTTF7v5Q==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
@@ -10023,7 +10023,7 @@ packages:
     optionalDependencies:
       keytar: 7.6.0
     resolution:
-      integrity: sha512-WBDiw99pS183MgGmJf7Ety38qx9pB8H8lJ+bcOhgLCD0EQsG+yPKjUIuQjicVG8XIpEWCcb6NjftPkfjLCkVkw==
+      integrity: sha512-hO5FxDWanVtC8MNG7Zei9b4RKxEQwXzJCyrrDZ6cXVKCHKVGy2Odte0Lup8Boj3mztVzw57LqEfX3TkMzNVUzg==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
@@ -11132,7 +11132,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-rk/vJU6tPlnqfTL9jTaavfskutpTLeJHccfBVaOZ+GQIy/92hmDTbXqCLauTA0Q9vWL+JqOiTNmbYSf79uiXug==
+      integrity: sha512-hi2BRZYeQ2SnFKJMaUKwUJhdR0sx49h6gKGAKUlhyLZhyujg2l1HgxU0Wff7EL+VJSoQlj/PiCvwKU4rIHkVIQ==
       tarball: file:projects/service-bus.tgz
     version: 0.0.0
   file:projects/storage-blob-changefeed.tgz:
