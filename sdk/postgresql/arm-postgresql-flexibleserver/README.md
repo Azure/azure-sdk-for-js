@@ -14,12 +14,12 @@ You must have an [Azure subscription](https://azure.microsoft.com/free/).
 ### How to install
 
 To use this SDK in your project, you will need to install two packages.
-- `@azure/arm-postgresql` that contains the client.
+- `@azure/arm-postgresql-flexibleserver` that contains the client.
 - `@azure/identity` that provides different mechanisms for the client to authenticate your requests using Azure Active Directory.
 
 Install both packages using the below command:
 ```bash
-npm install --save @azure/arm-postgresql @azure/identity
+npm install --save @azure/arm-postgresql-flexibleserver @azure/identity
 ```
 > **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
 If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
@@ -42,7 +42,7 @@ Once the client is created, explore the operations on it either in your favorite
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql");
+const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexibleserver");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 // Use `DefaultAzureCredential` or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
@@ -75,10 +75,10 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-postgresql sample</title>
+    <title>@azure/arm-postgresql-flexibleserver sample</title>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/identity/dist/index.js"></script>
-    <script src="node_modules/@azure/arm-postgresql/dist/arm-postgresql.js"></script>
+    <script src="node_modules/@azure/arm-postgresql-flexibleserver/dist/arm-postgresql.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       // Create credentials using the `@azure/identity` package.
