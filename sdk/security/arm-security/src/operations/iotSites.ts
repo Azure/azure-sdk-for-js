@@ -42,15 +42,24 @@ export class IotSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotSitesList>): void;
-  list(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSitesList>, callback?: msRest.ServiceCallback<Models.IotSitesList>): Promise<Models.IotSitesListResponse> {
+  list(
+    scope: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotSitesList>
+  ): void;
+  list(
+    scope: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSitesList>,
+    callback?: msRest.ServiceCallback<Models.IotSitesList>
+  ): Promise<Models.IotSitesListResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IotSitesListResponse>;
+      callback
+    ) as Promise<Models.IotSitesListResponse>;
   }
 
   /**
@@ -70,15 +79,24 @@ export class IotSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotSitesModel>): void;
-  get(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSitesModel>, callback?: msRest.ServiceCallback<Models.IotSitesModel>): Promise<Models.IotSitesGetResponse> {
+  get(
+    scope: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotSitesModel>
+  ): void;
+  get(
+    scope: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSitesModel>,
+    callback?: msRest.ServiceCallback<Models.IotSitesModel>
+  ): Promise<Models.IotSitesGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IotSitesGetResponse>;
+      callback
+    ) as Promise<Models.IotSitesGetResponse>;
   }
 
   /**
@@ -88,21 +106,39 @@ export class IotSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotSitesCreateOrUpdateResponse>
    */
-  createOrUpdate(scope: string, iotSitesModel: Models.IotSitesModel, options?: msRest.RequestOptionsBase): Promise<Models.IotSitesCreateOrUpdateResponse>;
+  createOrUpdate(
+    scope: string,
+    iotSitesModel: Models.IotSitesModel,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotSitesCreateOrUpdateResponse>;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSitesModel The IoT sites model
    * @param callback The callback
    */
-  createOrUpdate(scope: string, iotSitesModel: Models.IotSitesModel, callback: msRest.ServiceCallback<Models.IotSitesModel>): void;
+  createOrUpdate(
+    scope: string,
+    iotSitesModel: Models.IotSitesModel,
+    callback: msRest.ServiceCallback<Models.IotSitesModel>
+  ): void;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSitesModel The IoT sites model
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(scope: string, iotSitesModel: Models.IotSitesModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotSitesModel>): void;
-  createOrUpdate(scope: string, iotSitesModel: Models.IotSitesModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSitesModel>, callback?: msRest.ServiceCallback<Models.IotSitesModel>): Promise<Models.IotSitesCreateOrUpdateResponse> {
+  createOrUpdate(
+    scope: string,
+    iotSitesModel: Models.IotSitesModel,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotSitesModel>
+  ): void;
+  createOrUpdate(
+    scope: string,
+    iotSitesModel: Models.IotSitesModel,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSitesModel>,
+    callback?: msRest.ServiceCallback<Models.IotSitesModel>
+  ): Promise<Models.IotSitesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -110,7 +146,8 @@ export class IotSites {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.IotSitesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.IotSitesCreateOrUpdateResponse>;
   }
 
   /**
@@ -130,15 +167,24 @@ export class IotSites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    scope: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    scope: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -147,15 +193,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Security/iotSites",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotSitesList
@@ -170,15 +210,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Security/iotSites/default",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotSitesModel
@@ -193,15 +227,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{scope}/providers/Microsoft.Security/iotSites/default",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "iotSitesModel",
     mapper: {
@@ -226,15 +254,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{scope}/providers/Microsoft.Security/iotSites/default",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},

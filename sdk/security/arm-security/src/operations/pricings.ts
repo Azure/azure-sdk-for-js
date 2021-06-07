@@ -39,14 +39,21 @@ export class Pricings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PricingList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PricingList>, callback?: msRest.ServiceCallback<Models.PricingList>): Promise<Models.PricingsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PricingList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PricingList>,
+    callback?: msRest.ServiceCallback<Models.PricingList>
+  ): Promise<Models.PricingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PricingsListResponse>;
+      callback
+    ) as Promise<Models.PricingsListResponse>;
   }
 
   /**
@@ -55,7 +62,10 @@ export class Pricings {
    * @param [options] The optional parameters
    * @returns Promise<Models.PricingsGetResponse>
    */
-  get(pricingName: string, options?: msRest.RequestOptionsBase): Promise<Models.PricingsGetResponse>;
+  get(
+    pricingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PricingsGetResponse>;
   /**
    * @param pricingName name of the pricing configuration
    * @param callback The callback
@@ -66,15 +76,24 @@ export class Pricings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(pricingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pricing>): void;
-  get(pricingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pricing>, callback?: msRest.ServiceCallback<Models.Pricing>): Promise<Models.PricingsGetResponse> {
+  get(
+    pricingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Pricing>
+  ): void;
+  get(
+    pricingName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pricing>,
+    callback?: msRest.ServiceCallback<Models.Pricing>
+  ): Promise<Models.PricingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         pricingName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PricingsGetResponse>;
+      callback
+    ) as Promise<Models.PricingsGetResponse>;
   }
 
   /**
@@ -84,21 +103,39 @@ export class Pricings {
    * @param [options] The optional parameters
    * @returns Promise<Models.PricingsUpdateResponse>
    */
-  update(pricingName: string, pricing: Models.Pricing, options?: msRest.RequestOptionsBase): Promise<Models.PricingsUpdateResponse>;
+  update(
+    pricingName: string,
+    pricing: Models.Pricing,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PricingsUpdateResponse>;
   /**
    * @param pricingName name of the pricing configuration
    * @param pricing Pricing object
    * @param callback The callback
    */
-  update(pricingName: string, pricing: Models.Pricing, callback: msRest.ServiceCallback<Models.Pricing>): void;
+  update(
+    pricingName: string,
+    pricing: Models.Pricing,
+    callback: msRest.ServiceCallback<Models.Pricing>
+  ): void;
   /**
    * @param pricingName name of the pricing configuration
    * @param pricing Pricing object
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(pricingName: string, pricing: Models.Pricing, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Pricing>): void;
-  update(pricingName: string, pricing: Models.Pricing, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pricing>, callback?: msRest.ServiceCallback<Models.Pricing>): Promise<Models.PricingsUpdateResponse> {
+  update(
+    pricingName: string,
+    pricing: Models.Pricing,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Pricing>
+  ): void;
+  update(
+    pricingName: string,
+    pricing: Models.Pricing,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Pricing>,
+    callback?: msRest.ServiceCallback<Models.Pricing>
+  ): Promise<Models.PricingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         pricingName,
@@ -106,7 +143,8 @@ export class Pricings {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.PricingsUpdateResponse>;
+      callback
+    ) as Promise<Models.PricingsUpdateResponse>;
   }
 }
 
@@ -115,15 +153,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PricingList
@@ -138,16 +170,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.pricingName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.pricingName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Pricing
@@ -162,16 +187,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings/{pricingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.pricingName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.pricingName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "pricing",
     mapper: {

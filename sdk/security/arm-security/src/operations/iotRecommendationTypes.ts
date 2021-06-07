@@ -33,14 +33,22 @@ export class IotRecommendationTypes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotRecommendationTypesListResponse>
    */
-  list(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotRecommendationTypesListResponse>;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotRecommendationTypesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param solutionName The name of the IoT Security solution.
    * @param callback The callback
    */
-  list(resourceGroupName: string, solutionName: string, callback: msRest.ServiceCallback<Models.IotRecommendationTypeList>): void;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    callback: msRest.ServiceCallback<Models.IotRecommendationTypeList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -48,8 +56,18 @@ export class IotRecommendationTypes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, solutionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotRecommendationTypeList>): void;
-  list(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotRecommendationTypeList>, callback?: msRest.ServiceCallback<Models.IotRecommendationTypeList>): Promise<Models.IotRecommendationTypesListResponse> {
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotRecommendationTypeList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotRecommendationTypeList>,
+    callback?: msRest.ServiceCallback<Models.IotRecommendationTypeList>
+  ): Promise<Models.IotRecommendationTypesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -57,7 +75,8 @@ export class IotRecommendationTypes {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IotRecommendationTypesListResponse>;
+      callback
+    ) as Promise<Models.IotRecommendationTypesListResponse>;
   }
 
   /**
@@ -69,7 +88,12 @@ export class IotRecommendationTypes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotRecommendationTypesGetResponse>
    */
-  get(resourceGroupName: string, solutionName: string, iotRecommendationTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotRecommendationTypesGetResponse>;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    iotRecommendationTypeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotRecommendationTypesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -77,7 +101,12 @@ export class IotRecommendationTypes {
    * @param iotRecommendationTypeName Name of the recommendation type
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, iotRecommendationTypeName: string, callback: msRest.ServiceCallback<Models.IotRecommendationType>): void;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    iotRecommendationTypeName: string,
+    callback: msRest.ServiceCallback<Models.IotRecommendationType>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -86,8 +115,20 @@ export class IotRecommendationTypes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, iotRecommendationTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotRecommendationType>): void;
-  get(resourceGroupName: string, solutionName: string, iotRecommendationTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotRecommendationType>, callback?: msRest.ServiceCallback<Models.IotRecommendationType>): Promise<Models.IotRecommendationTypesGetResponse> {
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    iotRecommendationTypeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotRecommendationType>
+  ): void;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    iotRecommendationTypeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotRecommendationType>,
+    callback?: msRest.ServiceCallback<Models.IotRecommendationType>
+  ): Promise<Models.IotRecommendationTypesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +137,8 @@ export class IotRecommendationTypes {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IotRecommendationTypesGetResponse>;
+      callback
+    ) as Promise<Models.IotRecommendationTypesGetResponse>;
   }
 
   /**
@@ -113,14 +155,21 @@ export class IotRecommendationTypes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list1(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotRecommendationTypeList>): void;
-  list1(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotRecommendationTypeList>, callback?: msRest.ServiceCallback<Models.IotRecommendationTypeList>): Promise<Models.IotRecommendationTypesList1Response> {
+  list1(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotRecommendationTypeList>
+  ): void;
+  list1(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotRecommendationTypeList>,
+    callback?: msRest.ServiceCallback<Models.IotRecommendationTypeList>
+  ): Promise<Models.IotRecommendationTypesList1Response> {
     return this.client.sendOperationRequest(
       {
         options
       },
       list1OperationSpec,
-      callback) as Promise<Models.IotRecommendationTypesList1Response>;
+      callback
+    ) as Promise<Models.IotRecommendationTypesList1Response>;
   }
 
   /**
@@ -129,26 +178,41 @@ export class IotRecommendationTypes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotRecommendationTypesGet1Response>
    */
-  get1(iotRecommendationTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotRecommendationTypesGet1Response>;
+  get1(
+    iotRecommendationTypeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotRecommendationTypesGet1Response>;
   /**
    * @param iotRecommendationTypeName Name of the recommendation type
    * @param callback The callback
    */
-  get1(iotRecommendationTypeName: string, callback: msRest.ServiceCallback<Models.IotRecommendationType>): void;
+  get1(
+    iotRecommendationTypeName: string,
+    callback: msRest.ServiceCallback<Models.IotRecommendationType>
+  ): void;
   /**
    * @param iotRecommendationTypeName Name of the recommendation type
    * @param options The optional parameters
    * @param callback The callback
    */
-  get1(iotRecommendationTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotRecommendationType>): void;
-  get1(iotRecommendationTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotRecommendationType>, callback?: msRest.ServiceCallback<Models.IotRecommendationType>): Promise<Models.IotRecommendationTypesGet1Response> {
+  get1(
+    iotRecommendationTypeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotRecommendationType>
+  ): void;
+  get1(
+    iotRecommendationTypeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotRecommendationType>,
+    callback?: msRest.ServiceCallback<Models.IotRecommendationType>
+  ): Promise<Models.IotRecommendationTypesGet1Response> {
     return this.client.sendOperationRequest(
       {
         iotRecommendationTypeName,
         options
       },
       get1OperationSpec,
-      callback) as Promise<Models.IotRecommendationTypesGet1Response>;
+      callback
+    ) as Promise<Models.IotRecommendationTypesGet1Response>;
   }
 }
 
@@ -156,18 +220,11 @@ export class IotRecommendationTypes {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/iotRecommendationTypes",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.solutionName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/iotRecommendationTypes",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.solutionName],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotRecommendationTypeList
@@ -181,19 +238,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/iotRecommendationTypes/{iotRecommendationTypeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/iotRecommendationTypes/{iotRecommendationTypeName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.solutionName,
     Parameters.iotRecommendationTypeName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotRecommendationType
@@ -208,15 +262,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const list1OperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotRecommendationTypes",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotRecommendationTypeList
@@ -230,17 +278,11 @@ const list1OperationSpec: msRest.OperationSpec = {
 
 const get1OperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotRecommendationTypes/{iotRecommendationTypeName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.iotRecommendationTypeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotRecommendationTypes/{iotRecommendationTypeName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.iotRecommendationTypeName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotRecommendationType

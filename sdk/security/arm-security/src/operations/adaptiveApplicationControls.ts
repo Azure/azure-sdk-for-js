@@ -30,7 +30,9 @@ export class AdaptiveApplicationControls {
    * @param [options] The optional parameters
    * @returns Promise<Models.AdaptiveApplicationControlsListResponse>
    */
-  list(options?: Models.AdaptiveApplicationControlsListOptionalParams): Promise<Models.AdaptiveApplicationControlsListResponse>;
+  list(
+    options?: Models.AdaptiveApplicationControlsListOptionalParams
+  ): Promise<Models.AdaptiveApplicationControlsListResponse>;
   /**
    * @param callback The callback
    */
@@ -39,14 +41,23 @@ export class AdaptiveApplicationControls {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.AdaptiveApplicationControlsListOptionalParams, callback: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroups>): void;
-  list(options?: Models.AdaptiveApplicationControlsListOptionalParams | msRest.ServiceCallback<Models.AdaptiveApplicationControlGroups>, callback?: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroups>): Promise<Models.AdaptiveApplicationControlsListResponse> {
+  list(
+    options: Models.AdaptiveApplicationControlsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroups>
+  ): void;
+  list(
+    options?:
+      | Models.AdaptiveApplicationControlsListOptionalParams
+      | msRest.ServiceCallback<Models.AdaptiveApplicationControlGroups>,
+    callback?: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroups>
+  ): Promise<Models.AdaptiveApplicationControlsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AdaptiveApplicationControlsListResponse>;
+      callback
+    ) as Promise<Models.AdaptiveApplicationControlsListResponse>;
   }
 
   /**
@@ -55,26 +66,43 @@ export class AdaptiveApplicationControls {
    * @param [options] The optional parameters
    * @returns Promise<Models.AdaptiveApplicationControlsGetResponse>
    */
-  get(groupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AdaptiveApplicationControlsGetResponse>;
+  get(
+    groupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AdaptiveApplicationControlsGetResponse>;
   /**
    * @param groupName Name of an application control machine group
    * @param callback The callback
    */
-  get(groupName: string, callback: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>): void;
+  get(
+    groupName: string,
+    callback: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>
+  ): void;
   /**
    * @param groupName Name of an application control machine group
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>): void;
-  get(groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>, callback?: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>): Promise<Models.AdaptiveApplicationControlsGetResponse> {
+  get(
+    groupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>
+  ): void;
+  get(
+    groupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>,
+    callback?: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>
+  ): Promise<Models.AdaptiveApplicationControlsGetResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AdaptiveApplicationControlsGetResponse>;
+      callback
+    ) as Promise<Models.AdaptiveApplicationControlsGetResponse>;
   }
 
   /**
@@ -84,21 +112,41 @@ export class AdaptiveApplicationControls {
    * @param [options] The optional parameters
    * @returns Promise<Models.AdaptiveApplicationControlsPutResponse>
    */
-  put(groupName: string, body: Models.AdaptiveApplicationControlGroup, options?: msRest.RequestOptionsBase): Promise<Models.AdaptiveApplicationControlsPutResponse>;
+  put(
+    groupName: string,
+    body: Models.AdaptiveApplicationControlGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AdaptiveApplicationControlsPutResponse>;
   /**
    * @param groupName Name of an application control machine group
    * @param body
    * @param callback The callback
    */
-  put(groupName: string, body: Models.AdaptiveApplicationControlGroup, callback: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>): void;
+  put(
+    groupName: string,
+    body: Models.AdaptiveApplicationControlGroup,
+    callback: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>
+  ): void;
   /**
    * @param groupName Name of an application control machine group
    * @param body
    * @param options The optional parameters
    * @param callback The callback
    */
-  put(groupName: string, body: Models.AdaptiveApplicationControlGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>): void;
-  put(groupName: string, body: Models.AdaptiveApplicationControlGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>, callback?: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>): Promise<Models.AdaptiveApplicationControlsPutResponse> {
+  put(
+    groupName: string,
+    body: Models.AdaptiveApplicationControlGroup,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>
+  ): void;
+  put(
+    groupName: string,
+    body: Models.AdaptiveApplicationControlGroup,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>,
+    callback?: msRest.ServiceCallback<Models.AdaptiveApplicationControlGroup>
+  ): Promise<Models.AdaptiveApplicationControlsPutResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -106,7 +154,8 @@ export class AdaptiveApplicationControls {
         options
       },
       putOperationSpec,
-      callback) as Promise<Models.AdaptiveApplicationControlsPutResponse>;
+      callback
+    ) as Promise<Models.AdaptiveApplicationControlsPutResponse>;
   }
 
   /**
@@ -115,7 +164,10 @@ export class AdaptiveApplicationControls {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(groupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    groupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param groupName Name of an application control machine group
    * @param callback The callback
@@ -126,15 +178,24 @@ export class AdaptiveApplicationControls {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    groupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    groupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -143,17 +204,13 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/applicationWhitelistings",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.subscriptionId],
   queryParameters: [
     Parameters.apiVersion8,
     Parameters.includePathRecommendations,
     Parameters.summary
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AdaptiveApplicationControlGroups
@@ -167,18 +224,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-    Parameters.groupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation, Parameters.groupName],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AdaptiveApplicationControlGroup
@@ -192,18 +242,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const putOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-    Parameters.groupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation, Parameters.groupName],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -224,18 +267,11 @@ const putOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-    Parameters.groupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation, Parameters.groupName],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

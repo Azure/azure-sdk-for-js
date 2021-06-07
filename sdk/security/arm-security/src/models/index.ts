@@ -247,7 +247,10 @@ export interface AdvancedThreatProtectionSetting extends Resource {
 /**
  * Contains the possible cases for CustomAlertRule.
  */
-export type CustomAlertRuleUnion = CustomAlertRule | ThresholdCustomAlertRuleUnion | ListCustomAlertRuleUnion;
+export type CustomAlertRuleUnion =
+  | CustomAlertRule
+  | ThresholdCustomAlertRuleUnion
+  | ListCustomAlertRuleUnion;
 
 /**
  * A custom alert rule.
@@ -276,7 +279,9 @@ export interface CustomAlertRule {
 /**
  * Contains the possible cases for ThresholdCustomAlertRule.
  */
-export type ThresholdCustomAlertRuleUnion = ThresholdCustomAlertRule | TimeWindowCustomAlertRuleUnion;
+export type ThresholdCustomAlertRuleUnion =
+  | ThresholdCustomAlertRule
+  | TimeWindowCustomAlertRuleUnion;
 
 /**
  * A custom alert rule that checks if a value (depends on the custom alert type) is within the
@@ -314,7 +319,24 @@ export interface ThresholdCustomAlertRule {
 /**
  * Contains the possible cases for TimeWindowCustomAlertRule.
  */
-export type TimeWindowCustomAlertRuleUnion = TimeWindowCustomAlertRule | ActiveConnectionsNotInAllowedRange | AmqpC2DMessagesNotInAllowedRange | MqttC2DMessagesNotInAllowedRange | HttpC2DMessagesNotInAllowedRange | AmqpC2DRejectedMessagesNotInAllowedRange | MqttC2DRejectedMessagesNotInAllowedRange | HttpC2DRejectedMessagesNotInAllowedRange | AmqpD2CMessagesNotInAllowedRange | MqttD2CMessagesNotInAllowedRange | HttpD2CMessagesNotInAllowedRange | DirectMethodInvokesNotInAllowedRange | FailedLocalLoginsNotInAllowedRange | FileUploadsNotInAllowedRange | QueuePurgesNotInAllowedRange | TwinUpdatesNotInAllowedRange | UnauthorizedOperationsNotInAllowedRange;
+export type TimeWindowCustomAlertRuleUnion =
+  | TimeWindowCustomAlertRule
+  | ActiveConnectionsNotInAllowedRange
+  | AmqpC2DMessagesNotInAllowedRange
+  | MqttC2DMessagesNotInAllowedRange
+  | HttpC2DMessagesNotInAllowedRange
+  | AmqpC2DRejectedMessagesNotInAllowedRange
+  | MqttC2DRejectedMessagesNotInAllowedRange
+  | HttpC2DRejectedMessagesNotInAllowedRange
+  | AmqpD2CMessagesNotInAllowedRange
+  | MqttD2CMessagesNotInAllowedRange
+  | HttpD2CMessagesNotInAllowedRange
+  | DirectMethodInvokesNotInAllowedRange
+  | FailedLocalLoginsNotInAllowedRange
+  | FileUploadsNotInAllowedRange
+  | QueuePurgesNotInAllowedRange
+  | TwinUpdatesNotInAllowedRange
+  | UnauthorizedOperationsNotInAllowedRange;
 
 /**
  * A custom alert rule that checks if the number of activities (depends on the custom alert type)
@@ -356,7 +378,10 @@ export interface TimeWindowCustomAlertRule {
 /**
  * Contains the possible cases for ListCustomAlertRule.
  */
-export type ListCustomAlertRuleUnion = ListCustomAlertRule | AllowlistCustomAlertRuleUnion | DenylistCustomAlertRule;
+export type ListCustomAlertRuleUnion =
+  | ListCustomAlertRule
+  | AllowlistCustomAlertRuleUnion
+  | DenylistCustomAlertRule;
 
 /**
  * A List custom alert rule.
@@ -390,7 +415,12 @@ export interface ListCustomAlertRule {
 /**
  * Contains the possible cases for AllowlistCustomAlertRule.
  */
-export type AllowlistCustomAlertRuleUnion = AllowlistCustomAlertRule | ConnectionToIpNotAllowed | ConnectionFromIpNotAllowed | LocalUserNotAllowed | ProcessNotAllowed;
+export type AllowlistCustomAlertRuleUnion =
+  | AllowlistCustomAlertRule
+  | ConnectionToIpNotAllowed
+  | ConnectionFromIpNotAllowed
+  | LocalUserNotAllowed
+  | ProcessNotAllowed;
 
 /**
  * A custom alert rule that checks if a value (depends on the custom alert type) is allowed.
@@ -2317,7 +2347,10 @@ export interface SubAssessmentStatus {
 /**
  * Contains the possible cases for ResourceDetails.
  */
-export type ResourceDetailsUnion = ResourceDetails | OnPremiseResourceDetailsUnion | AzureResourceDetails;
+export type ResourceDetailsUnion =
+  | ResourceDetails
+  | OnPremiseResourceDetailsUnion
+  | AzureResourceDetails;
 
 /**
  * Details of the resource that was assessed
@@ -2332,7 +2365,11 @@ export interface ResourceDetails {
 /**
  * Contains the possible cases for AdditionalData.
  */
-export type AdditionalDataUnion = AdditionalData | SqlServerVulnerabilityProperties | ContainerRegistryVulnerabilityProperties | ServerVulnerabilityProperties;
+export type AdditionalDataUnion =
+  | AdditionalData
+  | SqlServerVulnerabilityProperties
+  | ContainerRegistryVulnerabilityProperties
+  | ServerVulnerabilityProperties;
 
 /**
  * Details of the sub-assessment
@@ -2697,7 +2734,11 @@ export interface AutomationSource {
 /**
  * Contains the possible cases for AutomationAction.
  */
-export type AutomationActionUnion = AutomationAction | AutomationActionLogicApp | AutomationActionEventHub | AutomationActionWorkspace;
+export type AutomationActionUnion =
+  | AutomationAction
+  | AutomationActionLogicApp
+  | AutomationActionEventHub
+  | AutomationActionWorkspace;
 
 /**
  * The action that should be triggered.
@@ -3834,7 +3875,11 @@ export interface SecuritySolutionsReferenceDataList {
 /**
  * Contains the possible cases for ExternalSecuritySolution.
  */
-export type ExternalSecuritySolutionUnion = ExternalSecuritySolution | CefExternalSecuritySolution | AtaExternalSecuritySolution | AadExternalSecuritySolution;
+export type ExternalSecuritySolutionUnion =
+  | ExternalSecuritySolution
+  | CefExternalSecuritySolution
+  | AtaExternalSecuritySolution
+  | AadExternalSecuritySolution;
 
 /**
  * Represents a security solution external to Azure Security Center which sends information to an
@@ -4304,7 +4349,11 @@ export interface HybridComputeSettingsProperties {
 /**
  * Contains the possible cases for AuthenticationDetailsProperties.
  */
-export type AuthenticationDetailsPropertiesUnion = AuthenticationDetailsProperties | AwsCredsAuthenticationDetailsProperties | AwAssumeRoleAuthenticationDetailsProperties | GcpCredentialsDetailsProperties;
+export type AuthenticationDetailsPropertiesUnion =
+  | AuthenticationDetailsProperties
+  | AwsCredsAuthenticationDetailsProperties
+  | AwAssumeRoleAuthenticationDetailsProperties
+  | GcpCredentialsDetailsProperties;
 
 /**
  * Settings for cloud authentication management
@@ -5473,7 +5522,10 @@ export interface IotRecommendationModel extends Resource {
 /**
  * Contains the possible cases for ResourceIdentifier.
  */
-export type ResourceIdentifierUnion = ResourceIdentifier | AzureResourceIdentifier | LogAnalyticsIdentifier;
+export type ResourceIdentifierUnion =
+  | ResourceIdentifier
+  | AzureResourceIdentifier
+  | LogAnalyticsIdentifier;
 
 /**
  * A resource identifier for an alert which can be used to direct the alert to the right product
@@ -5682,7 +5734,9 @@ export interface LogAnalyticsIdentifier {
 /**
  * Contains the possible cases for AlertSimulatorRequestProperties.
  */
-export type AlertSimulatorRequestPropertiesUnion = AlertSimulatorRequestProperties | AlertSimulatorBundlesRequestProperties;
+export type AlertSimulatorRequestPropertiesUnion =
+  | AlertSimulatorRequestProperties
+  | AlertSimulatorBundlesRequestProperties;
 
 /**
  * Describes properties of an alert simulation request
@@ -5816,7 +5870,8 @@ export interface Software extends Resource {
 /**
  * Optional Parameters.
  */
-export interface IotSecuritySolutionListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface IotSecuritySolutionListBySubscriptionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Filter the IoT Security solution with OData syntax. Supports filtering by iotHubs.
    */
@@ -5826,7 +5881,8 @@ export interface IotSecuritySolutionListBySubscriptionOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface IotSecuritySolutionListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface IotSecuritySolutionListByResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Filter the IoT Security solution with OData syntax. Supports filtering by iotHubs.
    */
@@ -5836,7 +5892,8 @@ export interface IotSecuritySolutionListByResourceGroupOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface IotSecuritySolutionListBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
+export interface IotSecuritySolutionListBySubscriptionNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Filter the IoT Security solution with OData syntax. Supports filtering by iotHubs.
    */
@@ -5846,7 +5903,8 @@ export interface IotSecuritySolutionListBySubscriptionNextOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface IotSecuritySolutionListByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
+export interface IotSecuritySolutionListByResourceGroupNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Filter the IoT Security solution with OData syntax. Supports filtering by iotHubs.
    */
@@ -5856,7 +5914,8 @@ export interface IotSecuritySolutionListByResourceGroupNextOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams extends msRest.RequestOptionsBase {
+export interface IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Number of results to retrieve.
    */
@@ -5866,7 +5925,8 @@ export interface IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams 
 /**
  * Optional Parameters.
  */
-export interface IotSecuritySolutionsAnalyticsAggregatedAlertListNextOptionalParams extends msRest.RequestOptionsBase {
+export interface IotSecuritySolutionsAnalyticsAggregatedAlertListNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Number of results to retrieve.
    */
@@ -5876,7 +5936,8 @@ export interface IotSecuritySolutionsAnalyticsAggregatedAlertListNextOptionalPar
 /**
  * Optional Parameters.
  */
-export interface IotSecuritySolutionsAnalyticsRecommendationListOptionalParams extends msRest.RequestOptionsBase {
+export interface IotSecuritySolutionsAnalyticsRecommendationListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Number of results to retrieve.
    */
@@ -5886,7 +5947,8 @@ export interface IotSecuritySolutionsAnalyticsRecommendationListOptionalParams e
 /**
  * Optional Parameters.
  */
-export interface IotSecuritySolutionsAnalyticsRecommendationListNextOptionalParams extends msRest.RequestOptionsBase {
+export interface IotSecuritySolutionsAnalyticsRecommendationListNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Number of results to retrieve.
    */
@@ -6184,7 +6246,8 @@ export interface RegulatoryComplianceStandardsListOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface RegulatoryComplianceStandardsListNextOptionalParams extends msRest.RequestOptionsBase {
+export interface RegulatoryComplianceStandardsListNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * OData filter. Optional.
    */
@@ -6204,7 +6267,8 @@ export interface RegulatoryComplianceControlsListOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface RegulatoryComplianceControlsListNextOptionalParams extends msRest.RequestOptionsBase {
+export interface RegulatoryComplianceControlsListNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * OData filter. Optional.
    */
@@ -6214,7 +6278,8 @@ export interface RegulatoryComplianceControlsListNextOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface RegulatoryComplianceAssessmentsListOptionalParams extends msRest.RequestOptionsBase {
+export interface RegulatoryComplianceAssessmentsListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * OData filter. Optional.
    */
@@ -6224,7 +6289,8 @@ export interface RegulatoryComplianceAssessmentsListOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface RegulatoryComplianceAssessmentsListNextOptionalParams extends msRest.RequestOptionsBase {
+export interface RegulatoryComplianceAssessmentsListNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * OData filter. Optional.
    */
@@ -6278,7 +6344,8 @@ export interface AdaptiveApplicationControlsListOptionalParams extends msRest.Re
 /**
  * Optional Parameters.
  */
-export interface SecureScoreControlsListBySecureScoreOptionalParams extends msRest.RequestOptionsBase {
+export interface SecureScoreControlsListBySecureScoreOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * OData expand. Optional. Possible values include: 'definition'
    */
@@ -6298,7 +6365,8 @@ export interface SecureScoreControlsListOptionalParams extends msRest.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface SecureScoreControlsListBySecureScoreNextOptionalParams extends msRest.RequestOptionsBase {
+export interface SecureScoreControlsListBySecureScoreNextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * OData expand. Optional. Possible values include: 'definition'
    */
@@ -6318,7 +6386,8 @@ export interface SecureScoreControlsListNextOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The baseline results for this rule.
    */
@@ -6328,7 +6397,8 @@ export interface SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateOptionalPa
 /**
  * Optional Parameters.
  */
-export interface SqlVulnerabilityAssessmentBaselineRulesAddOptionalParams extends msRest.RequestOptionsBase {
+export interface SqlVulnerabilityAssessmentBaselineRulesAddOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The baseline rules.
    */
@@ -6488,7 +6558,8 @@ export interface IoTSecurityAggregatedAlertList extends Array<IoTSecurityAggrega
  * List of IoT Security solution aggregated recommendations.
  * @extends Array<IoTSecurityAggregatedRecommendation>
  */
-export interface IoTSecurityAggregatedRecommendationList extends Array<IoTSecurityAggregatedRecommendation> {
+export interface IoTSecurityAggregatedRecommendationList
+  extends Array<IoTSecurityAggregatedRecommendation> {
   /**
    * When there is too much alert data for one page, use this URI to fetch the next page.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -6967,7 +7038,7 @@ export interface SoftwaresList extends Array<Software> {
  * @readonly
  * @enum {string}
  */
-export type ResourceStatus = 'Healthy' | 'NotApplicable' | 'OffByPolicy' | 'NotHealthy';
+export type ResourceStatus = "Healthy" | "NotApplicable" | "OffByPolicy" | "NotHealthy";
 
 /**
  * Defines values for PricingTier.
@@ -6975,7 +7046,7 @@ export type ResourceStatus = 'Healthy' | 'NotApplicable' | 'OffByPolicy' | 'NotH
  * @readonly
  * @enum {string}
  */
-export type PricingTier = 'Free' | 'Standard';
+export type PricingTier = "Free" | "Standard";
 
 /**
  * Defines values for ValueType.
@@ -6983,7 +7054,7 @@ export type PricingTier = 'Free' | 'Standard';
  * @readonly
  * @enum {string}
  */
-export type ValueType = 'IpCidr' | 'String';
+export type ValueType = "IpCidr" | "String";
 
 /**
  * Defines values for SecuritySolutionStatus.
@@ -6991,7 +7062,7 @@ export type ValueType = 'IpCidr' | 'String';
  * @readonly
  * @enum {string}
  */
-export type SecuritySolutionStatus = 'Enabled' | 'Disabled';
+export type SecuritySolutionStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for ExportData.
@@ -6999,7 +7070,7 @@ export type SecuritySolutionStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ExportData = 'RawEvents';
+export type ExportData = "RawEvents";
 
 /**
  * Defines values for DataSource.
@@ -7007,7 +7078,7 @@ export type ExportData = 'RawEvents';
  * @readonly
  * @enum {string}
  */
-export type DataSource = 'TwinData';
+export type DataSource = "TwinData";
 
 /**
  * Defines values for RecommendationType.
@@ -7020,7 +7091,23 @@ export type DataSource = 'TwinData';
  * @readonly
  * @enum {string}
  */
-export type RecommendationType = 'IoT_ACRAuthentication' | 'IoT_AgentSendsUnutilizedMessages' | 'IoT_Baseline' | 'IoT_EdgeHubMemOptimize' | 'IoT_EdgeLoggingOptions' | 'IoT_InconsistentModuleSettings' | 'IoT_InstallAgent' | 'IoT_IPFilter_DenyAll' | 'IoT_IPFilter_PermissiveRule' | 'IoT_OpenPorts' | 'IoT_PermissiveFirewallPolicy' | 'IoT_PermissiveInputFirewallRules' | 'IoT_PermissiveOutputFirewallRules' | 'IoT_PrivilegedDockerOptions' | 'IoT_SharedCredentials' | 'IoT_VulnerableTLSCipherSuite';
+export type RecommendationType =
+  | "IoT_ACRAuthentication"
+  | "IoT_AgentSendsUnutilizedMessages"
+  | "IoT_Baseline"
+  | "IoT_EdgeHubMemOptimize"
+  | "IoT_EdgeLoggingOptions"
+  | "IoT_InconsistentModuleSettings"
+  | "IoT_InstallAgent"
+  | "IoT_IPFilter_DenyAll"
+  | "IoT_IPFilter_PermissiveRule"
+  | "IoT_OpenPorts"
+  | "IoT_PermissiveFirewallPolicy"
+  | "IoT_PermissiveInputFirewallRules"
+  | "IoT_PermissiveOutputFirewallRules"
+  | "IoT_PrivilegedDockerOptions"
+  | "IoT_SharedCredentials"
+  | "IoT_VulnerableTLSCipherSuite";
 
 /**
  * Defines values for RecommendationConfigStatus.
@@ -7028,7 +7115,7 @@ export type RecommendationType = 'IoT_ACRAuthentication' | 'IoT_AgentSendsUnutil
  * @readonly
  * @enum {string}
  */
-export type RecommendationConfigStatus = 'Disabled' | 'Enabled';
+export type RecommendationConfigStatus = "Disabled" | "Enabled";
 
 /**
  * Defines values for UnmaskedIpLoggingStatus.
@@ -7036,7 +7123,7 @@ export type RecommendationConfigStatus = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type UnmaskedIpLoggingStatus = 'Disabled' | 'Enabled';
+export type UnmaskedIpLoggingStatus = "Disabled" | "Enabled";
 
 /**
  * Defines values for AdditionalWorkspaceType.
@@ -7044,7 +7131,7 @@ export type UnmaskedIpLoggingStatus = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type AdditionalWorkspaceType = 'Sentinel';
+export type AdditionalWorkspaceType = "Sentinel";
 
 /**
  * Defines values for AdditionalWorkspaceDataType.
@@ -7052,7 +7139,7 @@ export type AdditionalWorkspaceType = 'Sentinel';
  * @readonly
  * @enum {string}
  */
-export type AdditionalWorkspaceDataType = 'Alerts' | 'RawEvents';
+export type AdditionalWorkspaceDataType = "Alerts" | "RawEvents";
 
 /**
  * Defines values for CreatedByType.
@@ -7060,7 +7147,7 @@ export type AdditionalWorkspaceDataType = 'Alerts' | 'RawEvents';
  * @readonly
  * @enum {string}
  */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
 
 /**
  * Defines values for ReportedSeverity.
@@ -7068,7 +7155,7 @@ export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
  * @readonly
  * @enum {string}
  */
-export type ReportedSeverity = 'Informational' | 'Low' | 'Medium' | 'High';
+export type ReportedSeverity = "Informational" | "Low" | "Medium" | "High";
 
 /**
  * Defines values for AlertSeverity.
@@ -7076,7 +7163,7 @@ export type ReportedSeverity = 'Informational' | 'Low' | 'Medium' | 'High';
  * @readonly
  * @enum {string}
  */
-export type AlertSeverity = 'Informational' | 'Low' | 'Medium' | 'High';
+export type AlertSeverity = "Informational" | "Low" | "Medium" | "High";
 
 /**
  * Defines values for AlertIntent.
@@ -7087,7 +7174,23 @@ export type AlertSeverity = 'Informational' | 'Low' | 'Medium' | 'High';
  * @readonly
  * @enum {string}
  */
-export type AlertIntent = 'Unknown' | 'PreAttack' | 'InitialAccess' | 'Persistence' | 'PrivilegeEscalation' | 'DefenseEvasion' | 'CredentialAccess' | 'Discovery' | 'LateralMovement' | 'Execution' | 'Collection' | 'Exfiltration' | 'CommandAndControl' | 'Impact' | 'Probing' | 'Exploitation';
+export type AlertIntent =
+  | "Unknown"
+  | "PreAttack"
+  | "InitialAccess"
+  | "Persistence"
+  | "PrivilegeEscalation"
+  | "DefenseEvasion"
+  | "CredentialAccess"
+  | "Discovery"
+  | "LateralMovement"
+  | "Execution"
+  | "Collection"
+  | "Exfiltration"
+  | "CommandAndControl"
+  | "Impact"
+  | "Probing"
+  | "Exploitation";
 
 /**
  * Defines values for RecommendationSeverity.
@@ -7096,7 +7199,14 @@ export type AlertIntent = 'Unknown' | 'PreAttack' | 'InitialAccess' | 'Persisten
  * @readonly
  * @enum {string}
  */
-export type RecommendationSeverity = 'Unknown' | 'NotApplicable' | 'Healthy' | 'OffByPolicy' | 'Low' | 'Medium' | 'High';
+export type RecommendationSeverity =
+  | "Unknown"
+  | "NotApplicable"
+  | "Healthy"
+  | "OffByPolicy"
+  | "Low"
+  | "Medium"
+  | "High";
 
 /**
  * Defines values for AutoProvision.
@@ -7104,7 +7214,7 @@ export type RecommendationSeverity = 'Unknown' | 'NotApplicable' | 'Healthy' | '
  * @readonly
  * @enum {string}
  */
-export type AutoProvision = 'On' | 'Off';
+export type AutoProvision = "On" | "Off";
 
 /**
  * Defines values for Rank.
@@ -7112,7 +7222,7 @@ export type AutoProvision = 'On' | 'Off';
  * @readonly
  * @enum {string}
  */
-export type Rank = 'None' | 'Low' | 'Medium' | 'High' | 'Critical';
+export type Rank = "None" | "Low" | "Medium" | "High" | "Critical";
 
 /**
  * Defines values for AlertNotifications.
@@ -7120,7 +7230,7 @@ export type Rank = 'None' | 'Low' | 'Medium' | 'High' | 'Critical';
  * @readonly
  * @enum {string}
  */
-export type AlertNotifications = 'On' | 'Off';
+export type AlertNotifications = "On" | "Off";
 
 /**
  * Defines values for AlertsToAdmins.
@@ -7128,7 +7238,7 @@ export type AlertNotifications = 'On' | 'Off';
  * @readonly
  * @enum {string}
  */
-export type AlertsToAdmins = 'On' | 'Off';
+export type AlertsToAdmins = "On" | "Off";
 
 /**
  * Defines values for State.
@@ -7136,7 +7246,7 @@ export type AlertsToAdmins = 'On' | 'Off';
  * @readonly
  * @enum {string}
  */
-export type State = 'Passed' | 'Failed' | 'Skipped' | 'Unsupported';
+export type State = "Passed" | "Failed" | "Skipped" | "Unsupported";
 
 /**
  * Defines values for SubAssessmentStatusCode.
@@ -7144,7 +7254,7 @@ export type State = 'Passed' | 'Failed' | 'Skipped' | 'Unsupported';
  * @readonly
  * @enum {string}
  */
-export type SubAssessmentStatusCode = 'Healthy' | 'Unhealthy' | 'NotApplicable';
+export type SubAssessmentStatusCode = "Healthy" | "Unhealthy" | "NotApplicable";
 
 /**
  * Defines values for Severity.
@@ -7152,7 +7262,7 @@ export type SubAssessmentStatusCode = 'Healthy' | 'Unhealthy' | 'NotApplicable';
  * @readonly
  * @enum {string}
  */
-export type Severity = 'Low' | 'Medium' | 'High';
+export type Severity = "Low" | "Medium" | "High";
 
 /**
  * Defines values for EventSource.
@@ -7162,7 +7272,16 @@ export type Severity = 'Low' | 'Medium' | 'High';
  * @readonly
  * @enum {string}
  */
-export type EventSource = 'Assessments' | 'SubAssessments' | 'Alerts' | 'SecureScores' | 'SecureScoresSnapshot' | 'SecureScoreControls' | 'SecureScoreControlsSnapshot' | 'RegulatoryComplianceAssessment' | 'RegulatoryComplianceAssessmentSnapshot';
+export type EventSource =
+  | "Assessments"
+  | "SubAssessments"
+  | "Alerts"
+  | "SecureScores"
+  | "SecureScoresSnapshot"
+  | "SecureScoreControls"
+  | "SecureScoreControlsSnapshot"
+  | "RegulatoryComplianceAssessment"
+  | "RegulatoryComplianceAssessmentSnapshot";
 
 /**
  * Defines values for PropertyType.
@@ -7170,7 +7289,7 @@ export type EventSource = 'Assessments' | 'SubAssessments' | 'Alerts' | 'SecureS
  * @readonly
  * @enum {string}
  */
-export type PropertyType = 'String' | 'Integer' | 'Number' | 'Boolean';
+export type PropertyType = "String" | "Integer" | "Number" | "Boolean";
 
 /**
  * Defines values for Operator.
@@ -7179,7 +7298,16 @@ export type PropertyType = 'String' | 'Integer' | 'Number' | 'Boolean';
  * @readonly
  * @enum {string}
  */
-export type Operator = 'Equals' | 'GreaterThan' | 'GreaterThanOrEqualTo' | 'LesserThan' | 'LesserThanOrEqualTo' | 'NotEquals' | 'Contains' | 'StartsWith' | 'EndsWith';
+export type Operator =
+  | "Equals"
+  | "GreaterThan"
+  | "GreaterThanOrEqualTo"
+  | "LesserThan"
+  | "LesserThanOrEqualTo"
+  | "NotEquals"
+  | "Contains"
+  | "StartsWith"
+  | "EndsWith";
 
 /**
  * Defines values for RuleState.
@@ -7187,7 +7315,7 @@ export type Operator = 'Equals' | 'GreaterThan' | 'GreaterThanOrEqualTo' | 'Less
  * @readonly
  * @enum {string}
  */
-export type RuleState = 'Enabled' | 'Disabled' | 'Expired';
+export type RuleState = "Enabled" | "Disabled" | "Expired";
 
 /**
  * Defines values for Categories.
@@ -7195,7 +7323,7 @@ export type RuleState = 'Enabled' | 'Disabled' | 'Expired';
  * @readonly
  * @enum {string}
  */
-export type Categories = 'Compute' | 'Networking' | 'Data' | 'IdentityAndAccess' | 'IoT';
+export type Categories = "Compute" | "Networking" | "Data" | "IdentityAndAccess" | "IoT";
 
 /**
  * Defines values for UserImpact.
@@ -7203,7 +7331,7 @@ export type Categories = 'Compute' | 'Networking' | 'Data' | 'IdentityAndAccess'
  * @readonly
  * @enum {string}
  */
-export type UserImpact = 'Low' | 'Moderate' | 'High';
+export type UserImpact = "Low" | "Moderate" | "High";
 
 /**
  * Defines values for ImplementationEffort.
@@ -7211,7 +7339,7 @@ export type UserImpact = 'Low' | 'Moderate' | 'High';
  * @readonly
  * @enum {string}
  */
-export type ImplementationEffort = 'Low' | 'Moderate' | 'High';
+export type ImplementationEffort = "Low" | "Moderate" | "High";
 
 /**
  * Defines values for Threats.
@@ -7221,7 +7349,15 @@ export type ImplementationEffort = 'Low' | 'Moderate' | 'High';
  * @readonly
  * @enum {string}
  */
-export type Threats = 'accountBreach' | 'dataExfiltration' | 'dataSpillage' | 'maliciousInsider' | 'elevationOfPrivilege' | 'threatResistance' | 'missingCoverage' | 'denialOfService';
+export type Threats =
+  | "accountBreach"
+  | "dataExfiltration"
+  | "dataSpillage"
+  | "maliciousInsider"
+  | "elevationOfPrivilege"
+  | "threatResistance"
+  | "missingCoverage"
+  | "denialOfService";
 
 /**
  * Defines values for AssessmentType.
@@ -7229,7 +7365,7 @@ export type Threats = 'accountBreach' | 'dataExfiltration' | 'dataSpillage' | 'm
  * @readonly
  * @enum {string}
  */
-export type AssessmentType = 'BuiltIn' | 'CustomPolicy' | 'CustomerManaged' | 'VerifiedPartner';
+export type AssessmentType = "BuiltIn" | "CustomPolicy" | "CustomerManaged" | "VerifiedPartner";
 
 /**
  * Defines values for AssessmentStatusCode.
@@ -7237,7 +7373,7 @@ export type AssessmentType = 'BuiltIn' | 'CustomPolicy' | 'CustomerManaged' | 'V
  * @readonly
  * @enum {string}
  */
-export type AssessmentStatusCode = 'Healthy' | 'Unhealthy' | 'NotApplicable';
+export type AssessmentStatusCode = "Healthy" | "Unhealthy" | "NotApplicable";
 
 /**
  * Defines values for Direction.
@@ -7245,7 +7381,7 @@ export type AssessmentStatusCode = 'Healthy' | 'Unhealthy' | 'NotApplicable';
  * @readonly
  * @enum {string}
  */
-export type Direction = 'Inbound' | 'Outbound';
+export type Direction = "Inbound" | "Outbound";
 
 /**
  * Defines values for TransportProtocol.
@@ -7253,7 +7389,7 @@ export type Direction = 'Inbound' | 'Outbound';
  * @readonly
  * @enum {string}
  */
-export type TransportProtocol = 'TCP' | 'UDP';
+export type TransportProtocol = "TCP" | "UDP";
 
 /**
  * Defines values for Protocol.
@@ -7261,7 +7397,7 @@ export type TransportProtocol = 'TCP' | 'UDP';
  * @readonly
  * @enum {string}
  */
-export type Protocol = 'TCP' | 'UDP' | '*';
+export type Protocol = "TCP" | "UDP" | "*";
 
 /**
  * Defines values for Status.
@@ -7269,7 +7405,7 @@ export type Protocol = 'TCP' | 'UDP' | '*';
  * @readonly
  * @enum {string}
  */
-export type Status = 'Revoked' | 'Initiated';
+export type Status = "Revoked" | "Initiated";
 
 /**
  * Defines values for StatusReason.
@@ -7277,7 +7413,7 @@ export type Status = 'Revoked' | 'Initiated';
  * @readonly
  * @enum {string}
  */
-export type StatusReason = 'Expired' | 'UserRequested' | 'NewerRequestInitiated';
+export type StatusReason = "Expired" | "UserRequested" | "NewerRequestInitiated";
 
 /**
  * Defines values for SecurityFamily.
@@ -7285,7 +7421,7 @@ export type StatusReason = 'Expired' | 'UserRequested' | 'NewerRequestInitiated'
  * @readonly
  * @enum {string}
  */
-export type SecurityFamily = 'Waf' | 'Ngfw' | 'SaasWaf' | 'Va';
+export type SecurityFamily = "Waf" | "Ngfw" | "SaasWaf" | "Va";
 
 /**
  * Defines values for AadConnectivityState.
@@ -7293,7 +7429,7 @@ export type SecurityFamily = 'Waf' | 'Ngfw' | 'SaasWaf' | 'Va';
  * @readonly
  * @enum {string}
  */
-export type AadConnectivityState = 'Discovered' | 'NotLicensed' | 'Connected';
+export type AadConnectivityState = "Discovered" | "NotLicensed" | "Connected";
 
 /**
  * Defines values for ExternalSecuritySolutionKind.
@@ -7301,7 +7437,7 @@ export type AadConnectivityState = 'Discovered' | 'NotLicensed' | 'Connected';
  * @readonly
  * @enum {string}
  */
-export type ExternalSecuritySolutionKind = 'CEF' | 'ATA' | 'AAD';
+export type ExternalSecuritySolutionKind = "CEF" | "ATA" | "AAD";
 
 /**
  * Defines values for ControlType.
@@ -7309,7 +7445,7 @@ export type ExternalSecuritySolutionKind = 'CEF' | 'ATA' | 'AAD';
  * @readonly
  * @enum {string}
  */
-export type ControlType = 'BuiltIn' | 'Custom';
+export type ControlType = "BuiltIn" | "Custom";
 
 /**
  * Defines values for ProvisioningState.
@@ -7317,7 +7453,7 @@ export type ControlType = 'BuiltIn' | 'Custom';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Succeeded' | 'Failed' | 'Updating';
+export type ProvisioningState = "Succeeded" | "Failed" | "Updating";
 
 /**
  * Defines values for HybridComputeProvisioningState.
@@ -7325,7 +7461,7 @@ export type ProvisioningState = 'Succeeded' | 'Failed' | 'Updating';
  * @readonly
  * @enum {string}
  */
-export type HybridComputeProvisioningState = 'Valid' | 'Invalid' | 'Expired';
+export type HybridComputeProvisioningState = "Valid" | "Invalid" | "Expired";
 
 /**
  * Defines values for AuthenticationProvisioningState.
@@ -7333,7 +7469,7 @@ export type HybridComputeProvisioningState = 'Valid' | 'Invalid' | 'Expired';
  * @readonly
  * @enum {string}
  */
-export type AuthenticationProvisioningState = 'Valid' | 'Invalid' | 'Expired' | 'IncorrectPolicy';
+export type AuthenticationProvisioningState = "Valid" | "Invalid" | "Expired" | "IncorrectPolicy";
 
 /**
  * Defines values for PermissionProperty.
@@ -7342,7 +7478,11 @@ export type AuthenticationProvisioningState = 'Valid' | 'Invalid' | 'Expired' | 
  * @readonly
  * @enum {string}
  */
-export type PermissionProperty = 'AWS::AWSSecurityHubReadOnlyAccess' | 'AWS::SecurityAudit' | 'AWS::AmazonSSMAutomationRole' | 'GCP::Security Center Admin Viewer';
+export type PermissionProperty =
+  | "AWS::AWSSecurityHubReadOnlyAccess"
+  | "AWS::SecurityAudit"
+  | "AWS::AmazonSSMAutomationRole"
+  | "GCP::Security Center Admin Viewer";
 
 /**
  * Defines values for ScanTriggerType.
@@ -7350,7 +7490,7 @@ export type PermissionProperty = 'AWS::AWSSecurityHubReadOnlyAccess' | 'AWS::Sec
  * @readonly
  * @enum {string}
  */
-export type ScanTriggerType = 'OnDemand' | 'Recurring';
+export type ScanTriggerType = "OnDemand" | "Recurring";
 
 /**
  * Defines values for ScanState.
@@ -7358,7 +7498,7 @@ export type ScanTriggerType = 'OnDemand' | 'Recurring';
  * @readonly
  * @enum {string}
  */
-export type ScanState = 'Failed' | 'FailedToRun' | 'InProgress' | 'Passed';
+export type ScanState = "Failed" | "FailedToRun" | "InProgress" | "Passed";
 
 /**
  * Defines values for RuleStatus.
@@ -7366,7 +7506,7 @@ export type ScanState = 'Failed' | 'FailedToRun' | 'InProgress' | 'Passed';
  * @readonly
  * @enum {string}
  */
-export type RuleStatus = 'NonFinding' | 'Finding' | 'InternalError';
+export type RuleStatus = "NonFinding" | "Finding" | "InternalError";
 
 /**
  * Defines values for RuleSeverity.
@@ -7374,7 +7514,7 @@ export type RuleStatus = 'NonFinding' | 'Finding' | 'InternalError';
  * @readonly
  * @enum {string}
  */
-export type RuleSeverity = 'High' | 'Medium' | 'Low' | 'Informational' | 'Obsolete';
+export type RuleSeverity = "High" | "Medium" | "Low" | "Informational" | "Obsolete";
 
 /**
  * Defines values for RuleType.
@@ -7382,7 +7522,7 @@ export type RuleSeverity = 'High' | 'Medium' | 'Low' | 'Informational' | 'Obsole
  * @readonly
  * @enum {string}
  */
-export type RuleType = 'Binary' | 'BaselineExpected' | 'PositiveList' | 'NegativeList';
+export type RuleType = "Binary" | "BaselineExpected" | "PositiveList" | "NegativeList";
 
 /**
  * Defines values for OnboardingKind.
@@ -7390,7 +7530,7 @@ export type RuleType = 'Binary' | 'BaselineExpected' | 'PositiveList' | 'Negativ
  * @readonly
  * @enum {string}
  */
-export type OnboardingKind = 'Default' | 'MigratedToAzure';
+export type OnboardingKind = "Default" | "MigratedToAzure";
 
 /**
  * Defines values for VersionKind.
@@ -7398,7 +7538,7 @@ export type OnboardingKind = 'Default' | 'MigratedToAzure';
  * @readonly
  * @enum {string}
  */
-export type VersionKind = 'Latest' | 'Previous' | 'Preview';
+export type VersionKind = "Latest" | "Previous" | "Preview";
 
 /**
  * Defines values for SensorStatus.
@@ -7406,7 +7546,7 @@ export type VersionKind = 'Latest' | 'Previous' | 'Preview';
  * @readonly
  * @enum {string}
  */
-export type SensorStatus = 'Ok' | 'Disconnected' | 'Unavailable';
+export type SensorStatus = "Ok" | "Disconnected" | "Unavailable";
 
 /**
  * Defines values for TiStatus.
@@ -7414,7 +7554,7 @@ export type SensorStatus = 'Ok' | 'Disconnected' | 'Unavailable';
  * @readonly
  * @enum {string}
  */
-export type TiStatus = 'Ok' | 'Failed' | 'InProgress' | 'UpdateAvailable';
+export type TiStatus = "Ok" | "Failed" | "InProgress" | "UpdateAvailable";
 
 /**
  * Defines values for SensorType.
@@ -7422,7 +7562,7 @@ export type TiStatus = 'Ok' | 'Failed' | 'InProgress' | 'UpdateAvailable';
  * @readonly
  * @enum {string}
  */
-export type SensorType = 'Ot' | 'Enterprise';
+export type SensorType = "Ot" | "Enterprise";
 
 /**
  * Defines values for MacSignificance.
@@ -7430,7 +7570,7 @@ export type SensorType = 'Ot' | 'Enterprise';
  * @readonly
  * @enum {string}
  */
-export type MacSignificance = 'Primary' | 'Secondary';
+export type MacSignificance = "Primary" | "Secondary";
 
 /**
  * Defines values for RelationToIpStatus.
@@ -7438,7 +7578,7 @@ export type MacSignificance = 'Primary' | 'Secondary';
  * @readonly
  * @enum {string}
  */
-export type RelationToIpStatus = 'Guess' | 'Certain';
+export type RelationToIpStatus = "Guess" | "Certain";
 
 /**
  * Defines values for ManagementState.
@@ -7446,7 +7586,7 @@ export type RelationToIpStatus = 'Guess' | 'Certain';
  * @readonly
  * @enum {string}
  */
-export type ManagementState = 'Managed' | 'Unmanaged';
+export type ManagementState = "Managed" | "Unmanaged";
 
 /**
  * Defines values for AuthorizationState.
@@ -7454,7 +7594,7 @@ export type ManagementState = 'Managed' | 'Unmanaged';
  * @readonly
  * @enum {string}
  */
-export type AuthorizationState = 'Authorized' | 'Unauthorized';
+export type AuthorizationState = "Authorized" | "Unauthorized";
 
 /**
  * Defines values for DeviceCriticality.
@@ -7462,7 +7602,7 @@ export type AuthorizationState = 'Authorized' | 'Unauthorized';
  * @readonly
  * @enum {string}
  */
-export type DeviceCriticality = 'Important' | 'Standard';
+export type DeviceCriticality = "Important" | "Standard";
 
 /**
  * Defines values for PurdueLevel.
@@ -7470,7 +7610,7 @@ export type DeviceCriticality = 'Important' | 'Standard';
  * @readonly
  * @enum {string}
  */
-export type PurdueLevel = 'ProcessControl' | 'Supervisory' | 'Enterprise';
+export type PurdueLevel = "ProcessControl" | "Supervisory" | "Enterprise";
 
 /**
  * Defines values for ProgrammingState.
@@ -7478,7 +7618,7 @@ export type PurdueLevel = 'ProcessControl' | 'Supervisory' | 'Enterprise';
  * @readonly
  * @enum {string}
  */
-export type ProgrammingState = 'ProgrammingDevice' | 'NotProgrammingDevice';
+export type ProgrammingState = "ProgrammingDevice" | "NotProgrammingDevice";
 
 /**
  * Defines values for ScanningFunctionality.
@@ -7486,7 +7626,7 @@ export type ProgrammingState = 'ProgrammingDevice' | 'NotProgrammingDevice';
  * @readonly
  * @enum {string}
  */
-export type ScanningFunctionality = 'ScannerDevice' | 'NotScannerDevice';
+export type ScanningFunctionality = "ScannerDevice" | "NotScannerDevice";
 
 /**
  * Defines values for DeviceStatus.
@@ -7494,7 +7634,7 @@ export type ScanningFunctionality = 'ScannerDevice' | 'NotScannerDevice';
  * @readonly
  * @enum {string}
  */
-export type DeviceStatus = 'Active' | 'Removed';
+export type DeviceStatus = "Active" | "Removed";
 
 /**
  * Defines values for Intent.
@@ -7505,7 +7645,23 @@ export type DeviceStatus = 'Active' | 'Removed';
  * @readonly
  * @enum {string}
  */
-export type Intent = 'Unknown' | 'PreAttack' | 'InitialAccess' | 'Persistence' | 'PrivilegeEscalation' | 'DefenseEvasion' | 'CredentialAccess' | 'Discovery' | 'LateralMovement' | 'Execution' | 'Collection' | 'Exfiltration' | 'CommandAndControl' | 'Impact' | 'Probing' | 'Exploitation';
+export type Intent =
+  | "Unknown"
+  | "PreAttack"
+  | "InitialAccess"
+  | "Persistence"
+  | "PrivilegeEscalation"
+  | "DefenseEvasion"
+  | "CredentialAccess"
+  | "Discovery"
+  | "LateralMovement"
+  | "Execution"
+  | "Collection"
+  | "Exfiltration"
+  | "CommandAndControl"
+  | "Impact"
+  | "Probing"
+  | "Exploitation";
 
 /**
  * Defines values for AlertStatus.
@@ -7513,7 +7669,7 @@ export type Intent = 'Unknown' | 'PreAttack' | 'InitialAccess' | 'Persistence' |
  * @readonly
  * @enum {string}
  */
-export type AlertStatus = 'Active' | 'Resolved' | 'Dismissed';
+export type AlertStatus = "Active" | "Resolved" | "Dismissed";
 
 /**
  * Defines values for BundleType.
@@ -7522,7 +7678,15 @@ export type AlertStatus = 'Active' | 'Resolved' | 'Dismissed';
  * @readonly
  * @enum {string}
  */
-export type BundleType = 'AppServices' | 'DNS' | 'KeyVaults' | 'KubernetesService' | 'ResourceManager' | 'SqlServers' | 'StorageAccounts' | 'VirtualMachines';
+export type BundleType =
+  | "AppServices"
+  | "DNS"
+  | "KeyVaults"
+  | "KubernetesService"
+  | "ResourceManager"
+  | "SqlServers"
+  | "StorageAccounts"
+  | "VirtualMachines";
 
 /**
  * Defines values for EndOfSupportStatus.
@@ -7531,7 +7695,12 @@ export type BundleType = 'AppServices' | 'DNS' | 'KeyVaults' | 'KubernetesServic
  * @readonly
  * @enum {string}
  */
-export type EndOfSupportStatus = 'None' | 'noLongerSupported' | 'versionNoLongerSupported' | 'upcomingNoLongerSupported' | 'upcomingVersionNoLongerSupported';
+export type EndOfSupportStatus =
+  | "None"
+  | "noLongerSupported"
+  | "versionNoLongerSupported"
+  | "upcomingNoLongerSupported"
+  | "upcomingVersionNoLongerSupported";
 
 /**
  * Defines values for ExpandEnum.
@@ -7539,7 +7708,7 @@ export type EndOfSupportStatus = 'None' | 'noLongerSupported' | 'versionNoLonger
  * @readonly
  * @enum {string}
  */
-export type ExpandEnum = 'links' | 'metadata';
+export type ExpandEnum = "links" | "metadata";
 
 /**
  * Defines values for ConnectionType.
@@ -7547,7 +7716,7 @@ export type ExpandEnum = 'links' | 'metadata';
  * @readonly
  * @enum {string}
  */
-export type ConnectionType = 'Internal' | 'External';
+export type ConnectionType = "Internal" | "External";
 
 /**
  * Defines values for ExpandControlsEnum.
@@ -7555,7 +7724,7 @@ export type ConnectionType = 'Internal' | 'External';
  * @readonly
  * @enum {string}
  */
-export type ExpandControlsEnum = 'definition';
+export type ExpandControlsEnum = "definition";
 
 /**
  * Defines values for ProvisioningState1.
@@ -7563,7 +7732,12 @@ export type ExpandControlsEnum = 'definition';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState1 = 'Succeeded' | 'Failed' | 'Canceled' | 'Provisioning' | 'Deprovisioning';
+export type ProvisioningState1 =
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Provisioning"
+  | "Deprovisioning";
 
 /**
  * Defines values for Exe.
@@ -7571,7 +7745,7 @@ export type ProvisioningState1 = 'Succeeded' | 'Failed' | 'Canceled' | 'Provisio
  * @readonly
  * @enum {string}
  */
-export type Exe = 'Audit' | 'Enforce' | 'None';
+export type Exe = "Audit" | "Enforce" | "None";
 
 /**
  * Defines values for Msi.
@@ -7579,7 +7753,7 @@ export type Exe = 'Audit' | 'Enforce' | 'None';
  * @readonly
  * @enum {string}
  */
-export type Msi = 'Audit' | 'Enforce' | 'None';
+export type Msi = "Audit" | "Enforce" | "None";
 
 /**
  * Defines values for Script.
@@ -7587,7 +7761,7 @@ export type Msi = 'Audit' | 'Enforce' | 'None';
  * @readonly
  * @enum {string}
  */
-export type Script = 'Audit' | 'Enforce' | 'None';
+export type Script = "Audit" | "Enforce" | "None";
 
 /**
  * Defines values for Executable.
@@ -7595,7 +7769,7 @@ export type Script = 'Audit' | 'Enforce' | 'None';
  * @readonly
  * @enum {string}
  */
-export type Executable = 'Audit' | 'Enforce' | 'None';
+export type Executable = "Audit" | "Enforce" | "None";
 
 /**
  * Defines values for Issue.
@@ -7605,7 +7779,13 @@ export type Executable = 'Audit' | 'Enforce' | 'None';
  * @readonly
  * @enum {string}
  */
-export type Issue = 'ViolationsAudited' | 'ViolationsBlocked' | 'MsiAndScriptViolationsAudited' | 'MsiAndScriptViolationsBlocked' | 'ExecutableViolationsAudited' | 'RulesViolatedManually';
+export type Issue =
+  | "ViolationsAudited"
+  | "ViolationsBlocked"
+  | "MsiAndScriptViolationsAudited"
+  | "MsiAndScriptViolationsBlocked"
+  | "ExecutableViolationsAudited"
+  | "RulesViolatedManually";
 
 /**
  * Defines values for ConfigurationStatus.
@@ -7613,7 +7793,12 @@ export type Issue = 'ViolationsAudited' | 'ViolationsBlocked' | 'MsiAndScriptVio
  * @readonly
  * @enum {string}
  */
-export type ConfigurationStatus = 'Configured' | 'NotConfigured' | 'InProgress' | 'Failed' | 'NoStatus';
+export type ConfigurationStatus =
+  | "Configured"
+  | "NotConfigured"
+  | "InProgress"
+  | "Failed"
+  | "NoStatus";
 
 /**
  * Defines values for RecommendationAction.
@@ -7621,7 +7806,7 @@ export type ConfigurationStatus = 'Configured' | 'NotConfigured' | 'InProgress' 
  * @readonly
  * @enum {string}
  */
-export type RecommendationAction = 'Recommended' | 'Add' | 'Remove';
+export type RecommendationAction = "Recommended" | "Add" | "Remove";
 
 /**
  * Defines values for EnforcementSupport.
@@ -7629,7 +7814,7 @@ export type RecommendationAction = 'Recommended' | 'Add' | 'Remove';
  * @readonly
  * @enum {string}
  */
-export type EnforcementSupport = 'Supported' | 'NotSupported' | 'Unknown';
+export type EnforcementSupport = "Supported" | "NotSupported" | "Unknown";
 
 /**
  * Defines values for RecommendationAction1.
@@ -7637,7 +7822,7 @@ export type EnforcementSupport = 'Supported' | 'NotSupported' | 'Unknown';
  * @readonly
  * @enum {string}
  */
-export type RecommendationAction1 = 'Recommended' | 'Add' | 'Remove';
+export type RecommendationAction1 = "Recommended" | "Add" | "Remove";
 
 /**
  * Defines values for Action.
@@ -7645,7 +7830,7 @@ export type RecommendationAction1 = 'Recommended' | 'Add' | 'Remove';
  * @readonly
  * @enum {string}
  */
-export type Action = 'Recommended' | 'Add' | 'Remove';
+export type Action = "Recommended" | "Add" | "Remove";
 
 /**
  * Defines values for Type.
@@ -7654,7 +7839,13 @@ export type Action = 'Recommended' | 'Add' | 'Remove';
  * @readonly
  * @enum {string}
  */
-export type Type = 'File' | 'FileHash' | 'PublisherSignature' | 'ProductSignature' | 'BinarySignature' | 'VersionAndAboveSignature';
+export type Type =
+  | "File"
+  | "FileHash"
+  | "PublisherSignature"
+  | "ProductSignature"
+  | "BinarySignature"
+  | "VersionAndAboveSignature";
 
 /**
  * Defines values for FileType.
@@ -7662,7 +7853,7 @@ export type Type = 'File' | 'FileHash' | 'PublisherSignature' | 'ProductSignatur
  * @readonly
  * @enum {string}
  */
-export type FileType = 'Exe' | 'Dll' | 'Msi' | 'Script' | 'Executable' | 'Unknown';
+export type FileType = "Exe" | "Dll" | "Msi" | "Script" | "Executable" | "Unknown";
 
 /**
  * Defines values for ConfigurationStatus1.
@@ -7670,7 +7861,12 @@ export type FileType = 'Exe' | 'Dll' | 'Msi' | 'Script' | 'Executable' | 'Unknow
  * @readonly
  * @enum {string}
  */
-export type ConfigurationStatus1 = 'Configured' | 'NotConfigured' | 'InProgress' | 'Failed' | 'NoStatus';
+export type ConfigurationStatus1 =
+  | "Configured"
+  | "NotConfigured"
+  | "InProgress"
+  | "Failed"
+  | "NoStatus";
 
 /**
  * Defines values for EnforcementMode.
@@ -7678,7 +7874,7 @@ export type ConfigurationStatus1 = 'Configured' | 'NotConfigured' | 'InProgress'
  * @readonly
  * @enum {string}
  */
-export type EnforcementMode = 'Audit' | 'Enforce' | 'None';
+export type EnforcementMode = "Audit" | "Enforce" | "None";
 
 /**
  * Defines values for ConfigurationStatus2.
@@ -7686,7 +7882,12 @@ export type EnforcementMode = 'Audit' | 'Enforce' | 'None';
  * @readonly
  * @enum {string}
  */
-export type ConfigurationStatus2 = 'Configured' | 'NotConfigured' | 'InProgress' | 'Failed' | 'NoStatus';
+export type ConfigurationStatus2 =
+  | "Configured"
+  | "NotConfigured"
+  | "InProgress"
+  | "Failed"
+  | "NoStatus";
 
 /**
  * Defines values for RecommendationStatus.
@@ -7694,7 +7895,7 @@ export type ConfigurationStatus2 = 'Configured' | 'NotConfigured' | 'InProgress'
  * @readonly
  * @enum {string}
  */
-export type RecommendationStatus = 'Recommended' | 'NotRecommended' | 'NotAvailable' | 'NoStatus';
+export type RecommendationStatus = "Recommended" | "NotRecommended" | "NotAvailable" | "NoStatus";
 
 /**
  * Defines values for SourceSystem.
@@ -7703,7 +7904,12 @@ export type RecommendationStatus = 'Recommended' | 'NotRecommended' | 'NotAvaila
  * @readonly
  * @enum {string}
  */
-export type SourceSystem = 'Azure_AppLocker' | 'Azure_AuditD' | 'NonAzure_AppLocker' | 'NonAzure_AuditD' | 'None';
+export type SourceSystem =
+  | "Azure_AppLocker"
+  | "Azure_AuditD"
+  | "NonAzure_AppLocker"
+  | "NonAzure_AuditD"
+  | "None";
 
 /**
  * Defines values for SettingName.
@@ -7711,7 +7917,7 @@ export type SourceSystem = 'Azure_AppLocker' | 'Azure_AuditD' | 'NonAzure_AppLoc
  * @readonly
  * @enum {string}
  */
-export type SettingName = 'MCAS' | 'WDATP';
+export type SettingName = "MCAS" | "WDATP";
 
 /**
  * Defines values for SettingName1.
@@ -7719,7 +7925,7 @@ export type SettingName = 'MCAS' | 'WDATP';
  * @readonly
  * @enum {string}
  */
-export type SettingName1 = 'MCAS' | 'WDATP';
+export type SettingName1 = "MCAS" | "WDATP";
 
 /**
  * Defines values for TaskUpdateActionType.
@@ -7727,7 +7933,7 @@ export type SettingName1 = 'MCAS' | 'WDATP';
  * @readonly
  * @enum {string}
  */
-export type TaskUpdateActionType = 'Activate' | 'Dismiss' | 'Start' | 'Resolve' | 'Close';
+export type TaskUpdateActionType = "Activate" | "Dismiss" | "Start" | "Resolve" | "Close";
 
 /**
  * Defines values for TaskUpdateActionType1.
@@ -7735,7 +7941,7 @@ export type TaskUpdateActionType = 'Activate' | 'Dismiss' | 'Start' | 'Resolve' 
  * @readonly
  * @enum {string}
  */
-export type TaskUpdateActionType1 = 'Activate' | 'Dismiss' | 'Start' | 'Resolve' | 'Close';
+export type TaskUpdateActionType1 = "Activate" | "Dismiss" | "Start" | "Resolve" | "Close";
 
 /**
  * Defines values for InformationProtectionPolicyName.
@@ -7743,7 +7949,7 @@ export type TaskUpdateActionType1 = 'Activate' | 'Dismiss' | 'Start' | 'Resolve'
  * @readonly
  * @enum {string}
  */
-export type InformationProtectionPolicyName = 'effective' | 'custom';
+export type InformationProtectionPolicyName = "effective" | "custom";
 
 /**
  * Defines values for InformationProtectionPolicyName1.
@@ -7751,7 +7957,7 @@ export type InformationProtectionPolicyName = 'effective' | 'custom';
  * @readonly
  * @enum {string}
  */
-export type InformationProtectionPolicyName1 = 'effective' | 'custom';
+export type InformationProtectionPolicyName1 = "effective" | "custom";
 
 /**
  * Contains response data for the list operation.
@@ -7761,16 +7967,16 @@ export type ComplianceResultsListResponse = ComplianceResultList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComplianceResultList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComplianceResultList;
+  };
 };
 
 /**
@@ -7781,16 +7987,16 @@ export type ComplianceResultsGetResponse = ComplianceResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComplianceResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComplianceResult;
+  };
 };
 
 /**
@@ -7801,16 +8007,16 @@ export type ComplianceResultsListNextResponse = ComplianceResultList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComplianceResultList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComplianceResultList;
+  };
 };
 
 /**
@@ -7821,16 +8027,16 @@ export type PricingsListResponse = PricingList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PricingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PricingList;
+  };
 };
 
 /**
@@ -7841,16 +8047,16 @@ export type PricingsGetResponse = Pricing & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Pricing;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Pricing;
+  };
 };
 
 /**
@@ -7861,16 +8067,16 @@ export type PricingsUpdateResponse = Pricing & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Pricing;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Pricing;
+  };
 };
 
 /**
@@ -7881,16 +8087,16 @@ export type SettingsListResponse = SettingsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SettingsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SettingsList;
+  };
 };
 
 /**
@@ -7901,16 +8107,16 @@ export type SettingsGetResponse = SettingUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SettingUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SettingUnion;
+  };
 };
 
 /**
@@ -7921,16 +8127,16 @@ export type SettingsUpdateResponse = SettingUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SettingUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SettingUnion;
+  };
 };
 
 /**
@@ -7941,16 +8147,16 @@ export type SettingsListNextResponse = SettingsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SettingsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SettingsList;
+  };
 };
 
 /**
@@ -7961,16 +8167,16 @@ export type AdvancedThreatProtectionGetResponse = AdvancedThreatProtectionSettin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AdvancedThreatProtectionSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AdvancedThreatProtectionSetting;
+  };
 };
 
 /**
@@ -7981,16 +8187,16 @@ export type AdvancedThreatProtectionCreateResponse = AdvancedThreatProtectionSet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AdvancedThreatProtectionSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AdvancedThreatProtectionSetting;
+  };
 };
 
 /**
@@ -8001,16 +8207,16 @@ export type DeviceSecurityGroupsListResponse = DeviceSecurityGroupList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeviceSecurityGroupList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeviceSecurityGroupList;
+  };
 };
 
 /**
@@ -8021,16 +8227,16 @@ export type DeviceSecurityGroupsGetResponse = DeviceSecurityGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeviceSecurityGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeviceSecurityGroup;
+  };
 };
 
 /**
@@ -8041,16 +8247,16 @@ export type DeviceSecurityGroupsCreateOrUpdateResponse = DeviceSecurityGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeviceSecurityGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeviceSecurityGroup;
+  };
 };
 
 /**
@@ -8061,16 +8267,16 @@ export type DeviceSecurityGroupsListNextResponse = DeviceSecurityGroupList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeviceSecurityGroupList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeviceSecurityGroupList;
+  };
 };
 
 /**
@@ -8081,16 +8287,16 @@ export type IotSecuritySolutionListBySubscriptionResponse = IoTSecuritySolutions
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecuritySolutionsList;
+  };
 };
 
 /**
@@ -8101,16 +8307,16 @@ export type IotSecuritySolutionListByResourceGroupResponse = IoTSecuritySolution
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecuritySolutionsList;
+  };
 };
 
 /**
@@ -8121,16 +8327,16 @@ export type IotSecuritySolutionGetResponse = IoTSecuritySolutionModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecuritySolutionModel;
+  };
 };
 
 /**
@@ -8141,16 +8347,16 @@ export type IotSecuritySolutionCreateOrUpdateResponse = IoTSecuritySolutionModel
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecuritySolutionModel;
+  };
 };
 
 /**
@@ -8161,16 +8367,16 @@ export type IotSecuritySolutionUpdateResponse = IoTSecuritySolutionModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecuritySolutionModel;
+  };
 };
 
 /**
@@ -8181,16 +8387,16 @@ export type IotSecuritySolutionListBySubscriptionNextResponse = IoTSecuritySolut
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecuritySolutionsList;
+  };
 };
 
 /**
@@ -8201,16 +8407,16 @@ export type IotSecuritySolutionListByResourceGroupNextResponse = IoTSecuritySolu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecuritySolutionsList;
+  };
 };
 
 /**
@@ -8221,16 +8427,16 @@ export type IotSecuritySolutionAnalyticsListResponse = IoTSecuritySolutionAnalyt
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionAnalyticsModelList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecuritySolutionAnalyticsModelList;
+  };
 };
 
 /**
@@ -8241,16 +8447,16 @@ export type IotSecuritySolutionAnalyticsGetResponse = IoTSecuritySolutionAnalyti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecuritySolutionAnalyticsModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecuritySolutionAnalyticsModel;
+  };
 };
 
 /**
@@ -8261,16 +8467,16 @@ export type IotSecuritySolutionsAnalyticsAggregatedAlertListResponse = IoTSecuri
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedAlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecurityAggregatedAlertList;
+  };
 };
 
 /**
@@ -8281,16 +8487,16 @@ export type IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse = IoTSecurit
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedAlert;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecurityAggregatedAlert;
+  };
 };
 
 /**
@@ -8301,16 +8507,16 @@ export type IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse = IoTSe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedAlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecurityAggregatedAlertList;
+  };
 };
 
 /**
@@ -8321,16 +8527,16 @@ export type IotSecuritySolutionsAnalyticsRecommendationGetResponse = IoTSecurity
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedRecommendation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecurityAggregatedRecommendation;
+  };
 };
 
 /**
@@ -8341,16 +8547,16 @@ export type IotSecuritySolutionsAnalyticsRecommendationListResponse = IoTSecurit
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedRecommendationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecurityAggregatedRecommendationList;
+  };
 };
 
 /**
@@ -8361,16 +8567,16 @@ export type IotSecuritySolutionsAnalyticsRecommendationListNextResponse = IoTSec
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSecurityAggregatedRecommendationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSecurityAggregatedRecommendationList;
+  };
 };
 
 /**
@@ -8381,16 +8587,16 @@ export type IotAlertTypesListResponse = IotAlertTypeList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotAlertTypeList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotAlertTypeList;
+  };
 };
 
 /**
@@ -8401,16 +8607,16 @@ export type IotAlertTypesGetResponse = IotAlertType & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotAlertType;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotAlertType;
+  };
 };
 
 /**
@@ -8421,16 +8627,16 @@ export type IotAlertTypesList1Response = IotAlertTypeList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotAlertTypeList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotAlertTypeList;
+  };
 };
 
 /**
@@ -8441,16 +8647,16 @@ export type IotAlertTypesGet1Response = IotAlertType & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotAlertType;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotAlertType;
+  };
 };
 
 /**
@@ -8461,16 +8667,16 @@ export type IotAlertsListResponse = IotAlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotAlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotAlertList;
+  };
 };
 
 /**
@@ -8481,16 +8687,16 @@ export type IotAlertsGetResponse = IotAlert & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotAlert;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotAlert;
+  };
 };
 
 /**
@@ -8501,16 +8707,16 @@ export type IotAlertsList1Response = IotAlertListModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotAlertListModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotAlertListModel;
+  };
 };
 
 /**
@@ -8521,16 +8727,16 @@ export type IotAlertsGet1Response = IotAlertModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotAlertModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotAlertModel;
+  };
 };
 
 /**
@@ -8541,16 +8747,16 @@ export type IotAlertsListNextResponse = IotAlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotAlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotAlertList;
+  };
 };
 
 /**
@@ -8561,16 +8767,16 @@ export type IotAlertsList1NextResponse = IotAlertListModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotAlertListModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotAlertListModel;
+  };
 };
 
 /**
@@ -8581,16 +8787,16 @@ export type IotRecommendationTypesListResponse = IotRecommendationTypeList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotRecommendationTypeList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotRecommendationTypeList;
+  };
 };
 
 /**
@@ -8601,16 +8807,16 @@ export type IotRecommendationTypesGetResponse = IotRecommendationType & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotRecommendationType;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotRecommendationType;
+  };
 };
 
 /**
@@ -8621,16 +8827,16 @@ export type IotRecommendationTypesList1Response = IotRecommendationTypeList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotRecommendationTypeList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotRecommendationTypeList;
+  };
 };
 
 /**
@@ -8641,16 +8847,16 @@ export type IotRecommendationTypesGet1Response = IotRecommendationType & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotRecommendationType;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotRecommendationType;
+  };
 };
 
 /**
@@ -8661,16 +8867,16 @@ export type IotRecommendationsListResponse = IotRecommendationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotRecommendationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotRecommendationList;
+  };
 };
 
 /**
@@ -8681,16 +8887,16 @@ export type IotRecommendationsGetResponse = IotRecommendation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotRecommendation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotRecommendation;
+  };
 };
 
 /**
@@ -8701,16 +8907,16 @@ export type IotRecommendationsList1Response = IotRecommendationListModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotRecommendationListModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotRecommendationListModel;
+  };
 };
 
 /**
@@ -8721,16 +8927,16 @@ export type IotRecommendationsGet1Response = IotRecommendationModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotRecommendationModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotRecommendationModel;
+  };
 };
 
 /**
@@ -8741,16 +8947,16 @@ export type IotRecommendationsListNextResponse = IotRecommendationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotRecommendationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotRecommendationList;
+  };
 };
 
 /**
@@ -8761,16 +8967,16 @@ export type IotRecommendationsList1NextResponse = IotRecommendationListModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotRecommendationListModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotRecommendationListModel;
+  };
 };
 
 /**
@@ -8781,16 +8987,16 @@ export type LocationsListResponse = AscLocationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AscLocationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AscLocationList;
+  };
 };
 
 /**
@@ -8801,16 +9007,16 @@ export type LocationsGetResponse = AscLocation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AscLocation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AscLocation;
+  };
 };
 
 /**
@@ -8821,16 +9027,16 @@ export type LocationsListNextResponse = AscLocationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AscLocationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AscLocationList;
+  };
 };
 
 /**
@@ -8841,16 +9047,16 @@ export type OperationsListResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -8861,16 +9067,16 @@ export type OperationsListNextResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -8881,16 +9087,16 @@ export type TasksListResponse = SecurityTaskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityTaskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityTaskList;
+  };
 };
 
 /**
@@ -8901,16 +9107,16 @@ export type TasksListByHomeRegionResponse = SecurityTaskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityTaskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityTaskList;
+  };
 };
 
 /**
@@ -8921,16 +9127,16 @@ export type TasksGetSubscriptionLevelTaskResponse = SecurityTask & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityTask;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityTask;
+  };
 };
 
 /**
@@ -8941,16 +9147,16 @@ export type TasksListByResourceGroupResponse = SecurityTaskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityTaskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityTaskList;
+  };
 };
 
 /**
@@ -8961,16 +9167,16 @@ export type TasksGetResourceGroupLevelTaskResponse = SecurityTask & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityTask;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityTask;
+  };
 };
 
 /**
@@ -8981,16 +9187,16 @@ export type TasksListNextResponse = SecurityTaskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityTaskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityTaskList;
+  };
 };
 
 /**
@@ -9001,16 +9207,16 @@ export type TasksListByHomeRegionNextResponse = SecurityTaskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityTaskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityTaskList;
+  };
 };
 
 /**
@@ -9021,16 +9227,16 @@ export type TasksListByResourceGroupNextResponse = SecurityTaskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityTaskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityTaskList;
+  };
 };
 
 /**
@@ -9041,16 +9247,16 @@ export type AutoProvisioningSettingsListResponse = AutoProvisioningSettingList &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutoProvisioningSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutoProvisioningSettingList;
+  };
 };
 
 /**
@@ -9061,16 +9267,16 @@ export type AutoProvisioningSettingsGetResponse = AutoProvisioningSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutoProvisioningSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutoProvisioningSetting;
+  };
 };
 
 /**
@@ -9081,16 +9287,16 @@ export type AutoProvisioningSettingsCreateResponse = AutoProvisioningSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutoProvisioningSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutoProvisioningSetting;
+  };
 };
 
 /**
@@ -9101,16 +9307,16 @@ export type AutoProvisioningSettingsListNextResponse = AutoProvisioningSettingLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutoProvisioningSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutoProvisioningSettingList;
+  };
 };
 
 /**
@@ -9121,16 +9327,16 @@ export type CompliancesListResponse = ComplianceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComplianceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComplianceList;
+  };
 };
 
 /**
@@ -9141,16 +9347,16 @@ export type CompliancesGetResponse = Compliance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Compliance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Compliance;
+  };
 };
 
 /**
@@ -9161,16 +9367,16 @@ export type CompliancesListNextResponse = ComplianceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComplianceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComplianceList;
+  };
 };
 
 /**
@@ -9181,16 +9387,16 @@ export type InformationProtectionPoliciesGetResponse = InformationProtectionPoli
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: InformationProtectionPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: InformationProtectionPolicy;
+  };
 };
 
 /**
@@ -9201,16 +9407,16 @@ export type InformationProtectionPoliciesCreateOrUpdateResponse = InformationPro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: InformationProtectionPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: InformationProtectionPolicy;
+  };
 };
 
 /**
@@ -9221,16 +9427,16 @@ export type InformationProtectionPoliciesListResponse = InformationProtectionPol
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: InformationProtectionPolicyList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: InformationProtectionPolicyList;
+  };
 };
 
 /**
@@ -9241,16 +9447,16 @@ export type InformationProtectionPoliciesListNextResponse = InformationProtectio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: InformationProtectionPolicyList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: InformationProtectionPolicyList;
+  };
 };
 
 /**
@@ -9261,16 +9467,16 @@ export type SecurityContactsListResponse = SecurityContactList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityContactList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityContactList;
+  };
 };
 
 /**
@@ -9281,16 +9487,16 @@ export type SecurityContactsGetResponse = SecurityContact & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityContact;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityContact;
+  };
 };
 
 /**
@@ -9301,16 +9507,16 @@ export type SecurityContactsCreateResponse = SecurityContact & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityContact;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityContact;
+  };
 };
 
 /**
@@ -9321,16 +9527,16 @@ export type SecurityContactsUpdateResponse = SecurityContact & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityContact;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityContact;
+  };
 };
 
 /**
@@ -9341,16 +9547,16 @@ export type SecurityContactsListNextResponse = SecurityContactList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityContactList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityContactList;
+  };
 };
 
 /**
@@ -9361,16 +9567,16 @@ export type WorkspaceSettingsListResponse = WorkspaceSettingList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceSettingList;
+  };
 };
 
 /**
@@ -9381,16 +9587,16 @@ export type WorkspaceSettingsGetResponse = WorkspaceSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceSetting;
+  };
 };
 
 /**
@@ -9401,16 +9607,16 @@ export type WorkspaceSettingsCreateResponse = WorkspaceSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceSetting;
+  };
 };
 
 /**
@@ -9421,16 +9627,16 @@ export type WorkspaceSettingsUpdateResponse = WorkspaceSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceSetting;
+  };
 };
 
 /**
@@ -9441,16 +9647,16 @@ export type WorkspaceSettingsListNextResponse = WorkspaceSettingList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceSettingList;
+  };
 };
 
 /**
@@ -9461,16 +9667,16 @@ export type RegulatoryComplianceStandardsListResponse = RegulatoryComplianceStan
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceStandardList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegulatoryComplianceStandardList;
+  };
 };
 
 /**
@@ -9481,16 +9687,16 @@ export type RegulatoryComplianceStandardsGetResponse = RegulatoryComplianceStand
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceStandard;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegulatoryComplianceStandard;
+  };
 };
 
 /**
@@ -9501,16 +9707,16 @@ export type RegulatoryComplianceStandardsListNextResponse = RegulatoryCompliance
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceStandardList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegulatoryComplianceStandardList;
+  };
 };
 
 /**
@@ -9521,16 +9727,16 @@ export type RegulatoryComplianceControlsListResponse = RegulatoryComplianceContr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceControlList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegulatoryComplianceControlList;
+  };
 };
 
 /**
@@ -9541,16 +9747,16 @@ export type RegulatoryComplianceControlsGetResponse = RegulatoryComplianceContro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceControl;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegulatoryComplianceControl;
+  };
 };
 
 /**
@@ -9561,16 +9767,16 @@ export type RegulatoryComplianceControlsListNextResponse = RegulatoryComplianceC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceControlList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegulatoryComplianceControlList;
+  };
 };
 
 /**
@@ -9581,16 +9787,16 @@ export type RegulatoryComplianceAssessmentsListResponse = RegulatoryComplianceAs
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceAssessmentList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegulatoryComplianceAssessmentList;
+  };
 };
 
 /**
@@ -9601,16 +9807,16 @@ export type RegulatoryComplianceAssessmentsGetResponse = RegulatoryComplianceAss
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceAssessment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegulatoryComplianceAssessment;
+  };
 };
 
 /**
@@ -9621,16 +9827,16 @@ export type RegulatoryComplianceAssessmentsListNextResponse = RegulatoryComplian
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegulatoryComplianceAssessmentList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegulatoryComplianceAssessmentList;
+  };
 };
 
 /**
@@ -9641,16 +9847,16 @@ export type SubAssessmentsListAllResponse = SecuritySubAssessmentList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySubAssessmentList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySubAssessmentList;
+  };
 };
 
 /**
@@ -9661,16 +9867,16 @@ export type SubAssessmentsListResponse = SecuritySubAssessmentList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySubAssessmentList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySubAssessmentList;
+  };
 };
 
 /**
@@ -9681,16 +9887,16 @@ export type SubAssessmentsGetResponse = SecuritySubAssessment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySubAssessment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySubAssessment;
+  };
 };
 
 /**
@@ -9701,16 +9907,16 @@ export type SubAssessmentsListAllNextResponse = SecuritySubAssessmentList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySubAssessmentList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySubAssessmentList;
+  };
 };
 
 /**
@@ -9721,16 +9927,16 @@ export type SubAssessmentsListNextResponse = SecuritySubAssessmentList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySubAssessmentList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySubAssessmentList;
+  };
 };
 
 /**
@@ -9741,16 +9947,16 @@ export type AutomationsListResponse = AutomationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationList;
+  };
 };
 
 /**
@@ -9761,16 +9967,16 @@ export type AutomationsListByResourceGroupResponse = AutomationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationList;
+  };
 };
 
 /**
@@ -9781,16 +9987,16 @@ export type AutomationsGetResponse = Automation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Automation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Automation;
+  };
 };
 
 /**
@@ -9801,16 +10007,16 @@ export type AutomationsCreateOrUpdateResponse = Automation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Automation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Automation;
+  };
 };
 
 /**
@@ -9821,16 +10027,16 @@ export type AutomationsValidateResponse = AutomationValidationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationValidationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationValidationStatus;
+  };
 };
 
 /**
@@ -9841,16 +10047,16 @@ export type AutomationsListNextResponse = AutomationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationList;
+  };
 };
 
 /**
@@ -9861,16 +10067,16 @@ export type AutomationsListByResourceGroupNextResponse = AutomationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationList;
+  };
 };
 
 /**
@@ -9881,16 +10087,16 @@ export type AlertsSuppressionRulesListResponse = AlertsSuppressionRulesList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertsSuppressionRulesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertsSuppressionRulesList;
+  };
 };
 
 /**
@@ -9901,16 +10107,16 @@ export type AlertsSuppressionRulesGetResponse = AlertsSuppressionRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertsSuppressionRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertsSuppressionRule;
+  };
 };
 
 /**
@@ -9921,16 +10127,16 @@ export type AlertsSuppressionRulesUpdateResponse = AlertsSuppressionRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertsSuppressionRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertsSuppressionRule;
+  };
 };
 
 /**
@@ -9941,16 +10147,16 @@ export type AlertsSuppressionRulesListNextResponse = AlertsSuppressionRulesList 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertsSuppressionRulesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertsSuppressionRulesList;
+  };
 };
 
 /**
@@ -9961,16 +10167,16 @@ export type ServerVulnerabilityAssessmentListByExtendedResourceResponse = Server
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessmentsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServerVulnerabilityAssessmentsList;
+  };
 };
 
 /**
@@ -9981,16 +10187,16 @@ export type ServerVulnerabilityAssessmentGetResponse = ServerVulnerabilityAssess
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServerVulnerabilityAssessment;
+  };
 };
 
 /**
@@ -10001,16 +10207,16 @@ export type ServerVulnerabilityAssessmentCreateOrUpdateResponse = ServerVulnerab
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServerVulnerabilityAssessment;
+  };
 };
 
 /**
@@ -10021,16 +10227,16 @@ export type AssessmentsMetadataListResponse = SecurityAssessmentMetadataList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityAssessmentMetadataList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityAssessmentMetadataList;
+  };
 };
 
 /**
@@ -10041,16 +10247,16 @@ export type AssessmentsMetadataGetResponse = SecurityAssessmentMetadata & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityAssessmentMetadata;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityAssessmentMetadata;
+  };
 };
 
 /**
@@ -10061,16 +10267,16 @@ export type AssessmentsMetadataListBySubscriptionResponse = SecurityAssessmentMe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityAssessmentMetadataList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityAssessmentMetadataList;
+  };
 };
 
 /**
@@ -10081,16 +10287,16 @@ export type AssessmentsMetadataGetInSubscriptionResponse = SecurityAssessmentMet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityAssessmentMetadata;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityAssessmentMetadata;
+  };
 };
 
 /**
@@ -10101,16 +10307,16 @@ export type AssessmentsMetadataCreateInSubscriptionResponse = SecurityAssessment
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityAssessmentMetadata;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityAssessmentMetadata;
+  };
 };
 
 /**
@@ -10121,16 +10327,16 @@ export type AssessmentsMetadataListNextResponse = SecurityAssessmentMetadataList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityAssessmentMetadataList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityAssessmentMetadataList;
+  };
 };
 
 /**
@@ -10141,16 +10347,16 @@ export type AssessmentsMetadataListBySubscriptionNextResponse = SecurityAssessme
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityAssessmentMetadataList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityAssessmentMetadataList;
+  };
 };
 
 /**
@@ -10161,16 +10367,16 @@ export type AssessmentsListResponse = SecurityAssessmentList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityAssessmentList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityAssessmentList;
+  };
 };
 
 /**
@@ -10181,16 +10387,16 @@ export type AssessmentsGetResponse = SecurityAssessment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityAssessment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityAssessment;
+  };
 };
 
 /**
@@ -10201,16 +10407,16 @@ export type AssessmentsCreateOrUpdateResponse = SecurityAssessment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityAssessment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityAssessment;
+  };
 };
 
 /**
@@ -10221,16 +10427,16 @@ export type AssessmentsListNextResponse = SecurityAssessmentList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecurityAssessmentList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecurityAssessmentList;
+  };
 };
 
 /**
@@ -10241,16 +10447,16 @@ export type AdaptiveApplicationControlsListResponse = AdaptiveApplicationControl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AdaptiveApplicationControlGroups;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AdaptiveApplicationControlGroups;
+  };
 };
 
 /**
@@ -10261,16 +10467,16 @@ export type AdaptiveApplicationControlsGetResponse = AdaptiveApplicationControlG
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AdaptiveApplicationControlGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AdaptiveApplicationControlGroup;
+  };
 };
 
 /**
@@ -10281,16 +10487,16 @@ export type AdaptiveApplicationControlsPutResponse = AdaptiveApplicationControlG
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AdaptiveApplicationControlGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AdaptiveApplicationControlGroup;
+  };
 };
 
 /**
@@ -10301,16 +10507,16 @@ export type AdaptiveNetworkHardeningsListByExtendedResourceResponse = AdaptiveNe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AdaptiveNetworkHardeningsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AdaptiveNetworkHardeningsList;
+  };
 };
 
 /**
@@ -10321,16 +10527,16 @@ export type AdaptiveNetworkHardeningsGetResponse = AdaptiveNetworkHardening & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AdaptiveNetworkHardening;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AdaptiveNetworkHardening;
+  };
 };
 
 /**
@@ -10341,16 +10547,16 @@ export type AdaptiveNetworkHardeningsListByExtendedResourceNextResponse = Adapti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AdaptiveNetworkHardeningsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AdaptiveNetworkHardeningsList;
+  };
 };
 
 /**
@@ -10361,16 +10567,16 @@ export type AllowedConnectionsListResponse = AllowedConnectionsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AllowedConnectionsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AllowedConnectionsList;
+  };
 };
 
 /**
@@ -10381,16 +10587,16 @@ export type AllowedConnectionsListByHomeRegionResponse = AllowedConnectionsList 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AllowedConnectionsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AllowedConnectionsList;
+  };
 };
 
 /**
@@ -10401,16 +10607,16 @@ export type AllowedConnectionsGetResponse = AllowedConnectionsResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AllowedConnectionsResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AllowedConnectionsResource;
+  };
 };
 
 /**
@@ -10421,16 +10627,16 @@ export type AllowedConnectionsListNextResponse = AllowedConnectionsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AllowedConnectionsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AllowedConnectionsList;
+  };
 };
 
 /**
@@ -10441,16 +10647,16 @@ export type AllowedConnectionsListByHomeRegionNextResponse = AllowedConnectionsL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AllowedConnectionsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AllowedConnectionsList;
+  };
 };
 
 /**
@@ -10461,16 +10667,16 @@ export type TopologyListResponse = TopologyList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopologyList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopologyList;
+  };
 };
 
 /**
@@ -10481,16 +10687,16 @@ export type TopologyListByHomeRegionResponse = TopologyList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopologyList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopologyList;
+  };
 };
 
 /**
@@ -10501,16 +10707,16 @@ export type TopologyGetResponse = TopologyResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopologyResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopologyResource;
+  };
 };
 
 /**
@@ -10521,16 +10727,16 @@ export type TopologyListNextResponse = TopologyList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopologyList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopologyList;
+  };
 };
 
 /**
@@ -10541,16 +10747,16 @@ export type TopologyListByHomeRegionNextResponse = TopologyList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopologyList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopologyList;
+  };
 };
 
 /**
@@ -10561,16 +10767,16 @@ export type JitNetworkAccessPoliciesListResponse = JitNetworkAccessPoliciesList 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JitNetworkAccessPoliciesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JitNetworkAccessPoliciesList;
+  };
 };
 
 /**
@@ -10581,16 +10787,16 @@ export type JitNetworkAccessPoliciesListByRegionResponse = JitNetworkAccessPolic
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JitNetworkAccessPoliciesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JitNetworkAccessPoliciesList;
+  };
 };
 
 /**
@@ -10601,16 +10807,16 @@ export type JitNetworkAccessPoliciesListByResourceGroupResponse = JitNetworkAcce
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JitNetworkAccessPoliciesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JitNetworkAccessPoliciesList;
+  };
 };
 
 /**
@@ -10621,16 +10827,16 @@ export type JitNetworkAccessPoliciesListByResourceGroupAndRegionResponse = JitNe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JitNetworkAccessPoliciesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JitNetworkAccessPoliciesList;
+  };
 };
 
 /**
@@ -10641,16 +10847,16 @@ export type JitNetworkAccessPoliciesGetResponse = JitNetworkAccessPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JitNetworkAccessPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JitNetworkAccessPolicy;
+  };
 };
 
 /**
@@ -10661,16 +10867,16 @@ export type JitNetworkAccessPoliciesCreateOrUpdateResponse = JitNetworkAccessPol
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JitNetworkAccessPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JitNetworkAccessPolicy;
+  };
 };
 
 /**
@@ -10681,16 +10887,16 @@ export type JitNetworkAccessPoliciesInitiateResponse = JitNetworkAccessRequest &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JitNetworkAccessRequest;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JitNetworkAccessRequest;
+  };
 };
 
 /**
@@ -10701,16 +10907,16 @@ export type JitNetworkAccessPoliciesListNextResponse = JitNetworkAccessPoliciesL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JitNetworkAccessPoliciesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JitNetworkAccessPoliciesList;
+  };
 };
 
 /**
@@ -10721,16 +10927,16 @@ export type JitNetworkAccessPoliciesListByRegionNextResponse = JitNetworkAccessP
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JitNetworkAccessPoliciesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JitNetworkAccessPoliciesList;
+  };
 };
 
 /**
@@ -10741,16 +10947,16 @@ export type JitNetworkAccessPoliciesListByResourceGroupNextResponse = JitNetwork
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JitNetworkAccessPoliciesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JitNetworkAccessPoliciesList;
+  };
 };
 
 /**
@@ -10761,16 +10967,16 @@ export type JitNetworkAccessPoliciesListByResourceGroupAndRegionNextResponse = J
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JitNetworkAccessPoliciesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JitNetworkAccessPoliciesList;
+  };
 };
 
 /**
@@ -10781,16 +10987,16 @@ export type DiscoveredSecuritySolutionsListResponse = DiscoveredSecuritySolution
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiscoveredSecuritySolutionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiscoveredSecuritySolutionList;
+  };
 };
 
 /**
@@ -10801,16 +11007,16 @@ export type DiscoveredSecuritySolutionsListByHomeRegionResponse = DiscoveredSecu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiscoveredSecuritySolutionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiscoveredSecuritySolutionList;
+  };
 };
 
 /**
@@ -10821,16 +11027,16 @@ export type DiscoveredSecuritySolutionsGetResponse = DiscoveredSecuritySolution 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiscoveredSecuritySolution;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiscoveredSecuritySolution;
+  };
 };
 
 /**
@@ -10841,16 +11047,16 @@ export type DiscoveredSecuritySolutionsListNextResponse = DiscoveredSecuritySolu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiscoveredSecuritySolutionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiscoveredSecuritySolutionList;
+  };
 };
 
 /**
@@ -10861,16 +11067,16 @@ export type DiscoveredSecuritySolutionsListByHomeRegionNextResponse = Discovered
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiscoveredSecuritySolutionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiscoveredSecuritySolutionList;
+  };
 };
 
 /**
@@ -10881,16 +11087,16 @@ export type SecuritySolutionsReferenceDataListResponse = SecuritySolutionsRefere
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySolutionsReferenceDataList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySolutionsReferenceDataList;
+  };
 };
 
 /**
@@ -10901,16 +11107,16 @@ export type SecuritySolutionsReferenceDataListByHomeRegionResponse = SecuritySol
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySolutionsReferenceDataList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySolutionsReferenceDataList;
+  };
 };
 
 /**
@@ -10921,16 +11127,16 @@ export type ExternalSecuritySolutionsListResponse = ExternalSecuritySolutionList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExternalSecuritySolutionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExternalSecuritySolutionList;
+  };
 };
 
 /**
@@ -10941,16 +11147,16 @@ export type ExternalSecuritySolutionsListByHomeRegionResponse = ExternalSecurity
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExternalSecuritySolutionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExternalSecuritySolutionList;
+  };
 };
 
 /**
@@ -10961,16 +11167,16 @@ export type ExternalSecuritySolutionsGetResponse = ExternalSecuritySolutionUnion
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExternalSecuritySolutionUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExternalSecuritySolutionUnion;
+  };
 };
 
 /**
@@ -10981,16 +11187,16 @@ export type ExternalSecuritySolutionsListNextResponse = ExternalSecuritySolution
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExternalSecuritySolutionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExternalSecuritySolutionList;
+  };
 };
 
 /**
@@ -11001,16 +11207,16 @@ export type ExternalSecuritySolutionsListByHomeRegionNextResponse = ExternalSecu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExternalSecuritySolutionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExternalSecuritySolutionList;
+  };
 };
 
 /**
@@ -11021,16 +11227,16 @@ export type SecureScoresListResponse = SecureScoresList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecureScoresList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecureScoresList;
+  };
 };
 
 /**
@@ -11041,16 +11247,16 @@ export type SecureScoresGetResponse = SecureScoreItem & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecureScoreItem;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecureScoreItem;
+  };
 };
 
 /**
@@ -11061,16 +11267,16 @@ export type SecureScoresListNextResponse = SecureScoresList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecureScoresList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecureScoresList;
+  };
 };
 
 /**
@@ -11081,16 +11287,16 @@ export type SecureScoreControlsListBySecureScoreResponse = SecureScoreControlLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecureScoreControlList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecureScoreControlList;
+  };
 };
 
 /**
@@ -11101,16 +11307,16 @@ export type SecureScoreControlsListResponse = SecureScoreControlList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecureScoreControlList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecureScoreControlList;
+  };
 };
 
 /**
@@ -11121,16 +11327,16 @@ export type SecureScoreControlsListBySecureScoreNextResponse = SecureScoreContro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecureScoreControlList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecureScoreControlList;
+  };
 };
 
 /**
@@ -11141,16 +11347,16 @@ export type SecureScoreControlsListNextResponse = SecureScoreControlList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecureScoreControlList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecureScoreControlList;
+  };
 };
 
 /**
@@ -11161,16 +11367,16 @@ export type SecureScoreControlDefinitionsListResponse = SecureScoreControlDefini
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecureScoreControlDefinitionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecureScoreControlDefinitionList;
+  };
 };
 
 /**
@@ -11181,16 +11387,16 @@ export type SecureScoreControlDefinitionsListBySubscriptionResponse = SecureScor
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecureScoreControlDefinitionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecureScoreControlDefinitionList;
+  };
 };
 
 /**
@@ -11201,16 +11407,16 @@ export type SecureScoreControlDefinitionsListNextResponse = SecureScoreControlDe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecureScoreControlDefinitionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecureScoreControlDefinitionList;
+  };
 };
 
 /**
@@ -11221,16 +11427,16 @@ export type SecureScoreControlDefinitionsListBySubscriptionNextResponse = Secure
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecureScoreControlDefinitionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecureScoreControlDefinitionList;
+  };
 };
 
 /**
@@ -11241,16 +11447,16 @@ export type SecuritySolutionsListResponse = SecuritySolutionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySolutionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySolutionList;
+  };
 };
 
 /**
@@ -11261,16 +11467,16 @@ export type SecuritySolutionsGetResponse = SecuritySolution & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySolution;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySolution;
+  };
 };
 
 /**
@@ -11281,16 +11487,16 @@ export type SecuritySolutionsListNextResponse = SecuritySolutionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySolutionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySolutionList;
+  };
 };
 
 /**
@@ -11301,16 +11507,16 @@ export type ConnectorsListResponse = ConnectorSettingList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectorSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectorSettingList;
+  };
 };
 
 /**
@@ -11321,16 +11527,16 @@ export type ConnectorsGetResponse = ConnectorSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectorSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectorSetting;
+  };
 };
 
 /**
@@ -11341,16 +11547,16 @@ export type ConnectorsCreateOrUpdateResponse = ConnectorSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectorSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectorSetting;
+  };
 };
 
 /**
@@ -11361,16 +11567,16 @@ export type ConnectorsListNextResponse = ConnectorSettingList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectorSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectorSettingList;
+  };
 };
 
 /**
@@ -11381,16 +11587,16 @@ export type SqlVulnerabilityAssessmentScansGetResponse = Scan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Scan;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Scan;
+  };
 };
 
 /**
@@ -11401,16 +11607,16 @@ export type SqlVulnerabilityAssessmentScansListResponse = Scans & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Scans;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Scans;
+  };
 };
 
 /**
@@ -11421,16 +11627,16 @@ export type SqlVulnerabilityAssessmentScanResultsGetResponse = ScanResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScanResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScanResult;
+  };
 };
 
 /**
@@ -11441,16 +11647,16 @@ export type SqlVulnerabilityAssessmentScanResultsListResponse = ScanResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScanResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScanResults;
+  };
 };
 
 /**
@@ -11461,16 +11667,16 @@ export type SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateResponse = Rule
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RuleResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RuleResults;
+  };
 };
 
 /**
@@ -11481,16 +11687,16 @@ export type SqlVulnerabilityAssessmentBaselineRulesGetResponse = RuleResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RuleResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RuleResults;
+  };
 };
 
 /**
@@ -11501,16 +11707,16 @@ export type SqlVulnerabilityAssessmentBaselineRulesListResponse = RulesResults &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RulesResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RulesResults;
+  };
 };
 
 /**
@@ -11521,16 +11727,16 @@ export type SqlVulnerabilityAssessmentBaselineRulesAddResponse = RulesResults & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RulesResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RulesResults;
+  };
 };
 
 /**
@@ -11541,16 +11747,16 @@ export type IotDefenderSettingsListResponse = IotDefenderSettingsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotDefenderSettingsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotDefenderSettingsList;
+  };
 };
 
 /**
@@ -11561,16 +11767,16 @@ export type IotDefenderSettingsGetResponse = IotDefenderSettingsModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotDefenderSettingsModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotDefenderSettingsModel;
+  };
 };
 
 /**
@@ -11581,16 +11787,16 @@ export type IotDefenderSettingsCreateOrUpdateResponse = IotDefenderSettingsModel
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotDefenderSettingsModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotDefenderSettingsModel;
+  };
 };
 
 /**
@@ -11601,16 +11807,16 @@ export type IotDefenderSettingsPackageDownloadsMethodResponse = PackageDownloads
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PackageDownloads;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PackageDownloads;
+  };
 };
 
 /**
@@ -11647,16 +11853,16 @@ export type IotSensorsListResponse = IotSensorsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotSensorsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotSensorsList;
+  };
 };
 
 /**
@@ -11667,16 +11873,16 @@ export type IotSensorsGetResponse = IotSensorsModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotSensorsModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotSensorsModel;
+  };
 };
 
 /**
@@ -11687,16 +11893,16 @@ export type IotSensorsCreateOrUpdateResponse = IotSensorsModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotSensorsModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotSensorsModel;
+  };
 };
 
 /**
@@ -11759,16 +11965,16 @@ export type DevicesForSubscriptionListResponse = DeviceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeviceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeviceList;
+  };
 };
 
 /**
@@ -11779,16 +11985,16 @@ export type DevicesForSubscriptionListNextResponse = DeviceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeviceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeviceList;
+  };
 };
 
 /**
@@ -11799,16 +12005,16 @@ export type DevicesForHubListResponse = DeviceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeviceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeviceList;
+  };
 };
 
 /**
@@ -11819,16 +12025,16 @@ export type DevicesForHubListNextResponse = DeviceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeviceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeviceList;
+  };
 };
 
 /**
@@ -11839,16 +12045,16 @@ export type DeviceGetResponse = Device & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Device;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Device;
+  };
 };
 
 /**
@@ -11859,16 +12065,16 @@ export type OnPremiseIotSensorsListResponse = OnPremiseIotSensorsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OnPremiseIotSensorsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OnPremiseIotSensorsList;
+  };
 };
 
 /**
@@ -11879,16 +12085,16 @@ export type OnPremiseIotSensorsGetResponse = OnPremiseIotSensor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OnPremiseIotSensor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OnPremiseIotSensor;
+  };
 };
 
 /**
@@ -11899,16 +12105,16 @@ export type OnPremiseIotSensorsCreateOrUpdateResponse = OnPremiseIotSensor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OnPremiseIotSensor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OnPremiseIotSensor;
+  };
 };
 
 /**
@@ -11971,16 +12177,16 @@ export type IotSitesListResponse = IotSitesList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotSitesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotSitesList;
+  };
 };
 
 /**
@@ -11991,16 +12197,16 @@ export type IotSitesGetResponse = IotSitesModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotSitesModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotSitesModel;
+  };
 };
 
 /**
@@ -12011,16 +12217,16 @@ export type IotSitesCreateOrUpdateResponse = IotSitesModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotSitesModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotSitesModel;
+  };
 };
 
 /**
@@ -12031,16 +12237,16 @@ export type AlertsListResponse = AlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertList;
+  };
 };
 
 /**
@@ -12051,16 +12257,16 @@ export type AlertsListByResourceGroupResponse = AlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertList;
+  };
 };
 
 /**
@@ -12071,16 +12277,16 @@ export type AlertsListSubscriptionLevelByRegionResponse = AlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertList;
+  };
 };
 
 /**
@@ -12091,16 +12297,16 @@ export type AlertsListResourceGroupLevelByRegionResponse = AlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertList;
+  };
 };
 
 /**
@@ -12111,16 +12317,16 @@ export type AlertsGetSubscriptionLevelResponse = Alert & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Alert;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Alert;
+  };
 };
 
 /**
@@ -12131,16 +12337,16 @@ export type AlertsGetResourceGroupLevelResponse = Alert & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Alert;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Alert;
+  };
 };
 
 /**
@@ -12151,16 +12357,16 @@ export type AlertsListNextResponse = AlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertList;
+  };
 };
 
 /**
@@ -12171,16 +12377,16 @@ export type AlertsListByResourceGroupNextResponse = AlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertList;
+  };
 };
 
 /**
@@ -12191,16 +12397,16 @@ export type AlertsListSubscriptionLevelByRegionNextResponse = AlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertList;
+  };
 };
 
 /**
@@ -12211,16 +12417,16 @@ export type AlertsListResourceGroupLevelByRegionNextResponse = AlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertList;
+  };
 };
 
 /**
@@ -12231,16 +12437,16 @@ export type IngestionSettingsListResponse = IngestionSettingList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IngestionSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IngestionSettingList;
+  };
 };
 
 /**
@@ -12251,16 +12457,16 @@ export type IngestionSettingsGetResponse = IngestionSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IngestionSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IngestionSetting;
+  };
 };
 
 /**
@@ -12271,16 +12477,16 @@ export type IngestionSettingsCreateResponse = IngestionSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IngestionSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IngestionSetting;
+  };
 };
 
 /**
@@ -12291,16 +12497,16 @@ export type IngestionSettingsListTokensResponse = IngestionSettingToken & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IngestionSettingToken;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IngestionSettingToken;
+  };
 };
 
 /**
@@ -12311,16 +12517,16 @@ export type IngestionSettingsListConnectionStringsResponse = ConnectionStrings &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionStrings;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionStrings;
+  };
 };
 
 /**
@@ -12331,16 +12537,16 @@ export type IngestionSettingsListNextResponse = IngestionSettingList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IngestionSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IngestionSettingList;
+  };
 };
 
 /**
@@ -12351,16 +12557,16 @@ export type SoftwareInventoriesListByExtendedResourceResponse = SoftwaresList & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SoftwaresList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SoftwaresList;
+  };
 };
 
 /**
@@ -12371,16 +12577,16 @@ export type SoftwareInventoriesListBySubscriptionResponse = SoftwaresList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SoftwaresList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SoftwaresList;
+  };
 };
 
 /**
@@ -12391,16 +12597,16 @@ export type SoftwareInventoriesGetResponse = Software & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Software;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Software;
+  };
 };
 
 /**
@@ -12411,16 +12617,16 @@ export type SoftwareInventoriesListByExtendedResourceNextResponse = SoftwaresLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SoftwaresList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SoftwaresList;
+  };
 };
 
 /**
@@ -12431,14 +12637,14 @@ export type SoftwareInventoriesListBySubscriptionNextResponse = SoftwaresList & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SoftwaresList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SoftwaresList;
+  };
 };

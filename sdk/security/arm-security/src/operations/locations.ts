@@ -41,14 +41,21 @@ export class Locations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AscLocationList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AscLocationList>, callback?: msRest.ServiceCallback<Models.AscLocationList>): Promise<Models.LocationsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AscLocationList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AscLocationList>,
+    callback?: msRest.ServiceCallback<Models.AscLocationList>
+  ): Promise<Models.LocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.LocationsListResponse>;
+      callback
+    ) as Promise<Models.LocationsListResponse>;
   }
 
   /**
@@ -65,14 +72,21 @@ export class Locations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AscLocation>): void;
-  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AscLocation>, callback?: msRest.ServiceCallback<Models.AscLocation>): Promise<Models.LocationsGetResponse> {
+  get(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AscLocation>
+  ): void;
+  get(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AscLocation>,
+    callback?: msRest.ServiceCallback<Models.AscLocation>
+  ): Promise<Models.LocationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LocationsGetResponse>;
+      callback
+    ) as Promise<Models.LocationsGetResponse>;
   }
 
   /**
@@ -83,7 +97,10 @@ export class Locations {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -94,15 +111,24 @@ export class Locations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AscLocationList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AscLocationList>, callback?: msRest.ServiceCallback<Models.AscLocationList>): Promise<Models.LocationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AscLocationList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AscLocationList>,
+    callback?: msRest.ServiceCallback<Models.AscLocationList>
+  ): Promise<Models.LocationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.LocationsListNextResponse>;
+      callback
+    ) as Promise<Models.LocationsListNextResponse>;
   }
 }
 
@@ -111,15 +137,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AscLocationList
@@ -134,16 +154,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AscLocation
@@ -159,15 +172,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AscLocationList

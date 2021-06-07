@@ -39,14 +39,21 @@ export class Topology {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopologyList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopologyList>, callback?: msRest.ServiceCallback<Models.TopologyList>): Promise<Models.TopologyListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopologyList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopologyList>,
+    callback?: msRest.ServiceCallback<Models.TopologyList>
+  ): Promise<Models.TopologyListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.TopologyListResponse>;
+      callback
+    ) as Promise<Models.TopologyListResponse>;
   }
 
   /**
@@ -54,7 +61,9 @@ export class Topology {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopologyListByHomeRegionResponse>
    */
-  listByHomeRegion(options?: msRest.RequestOptionsBase): Promise<Models.TopologyListByHomeRegionResponse>;
+  listByHomeRegion(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopologyListByHomeRegionResponse>;
   /**
    * @param callback The callback
    */
@@ -63,14 +72,21 @@ export class Topology {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHomeRegion(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopologyList>): void;
-  listByHomeRegion(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopologyList>, callback?: msRest.ServiceCallback<Models.TopologyList>): Promise<Models.TopologyListByHomeRegionResponse> {
+  listByHomeRegion(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopologyList>
+  ): void;
+  listByHomeRegion(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopologyList>,
+    callback?: msRest.ServiceCallback<Models.TopologyList>
+  ): Promise<Models.TopologyListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listByHomeRegionOperationSpec,
-      callback) as Promise<Models.TopologyListByHomeRegionResponse>;
+      callback
+    ) as Promise<Models.TopologyListByHomeRegionResponse>;
   }
 
   /**
@@ -81,14 +97,22 @@ export class Topology {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopologyGetResponse>
    */
-  get(resourceGroupName: string, topologyResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopologyGetResponse>;
+  get(
+    resourceGroupName: string,
+    topologyResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopologyGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param topologyResourceName Name of a topology resources collection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, topologyResourceName: string, callback: msRest.ServiceCallback<Models.TopologyResource>): void;
+  get(
+    resourceGroupName: string,
+    topologyResourceName: string,
+    callback: msRest.ServiceCallback<Models.TopologyResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -96,8 +120,18 @@ export class Topology {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, topologyResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopologyResource>): void;
-  get(resourceGroupName: string, topologyResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopologyResource>, callback?: msRest.ServiceCallback<Models.TopologyResource>): Promise<Models.TopologyGetResponse> {
+  get(
+    resourceGroupName: string,
+    topologyResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopologyResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    topologyResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopologyResource>,
+    callback?: msRest.ServiceCallback<Models.TopologyResource>
+  ): Promise<Models.TopologyGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +139,8 @@ export class Topology {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TopologyGetResponse>;
+      callback
+    ) as Promise<Models.TopologyGetResponse>;
   }
 
   /**
@@ -114,7 +149,10 @@ export class Topology {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopologyListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TopologyListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopologyListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -125,15 +163,24 @@ export class Topology {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopologyList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopologyList>, callback?: msRest.ServiceCallback<Models.TopologyList>): Promise<Models.TopologyListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopologyList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopologyList>,
+    callback?: msRest.ServiceCallback<Models.TopologyList>
+  ): Promise<Models.TopologyListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.TopologyListNextResponse>;
+      callback
+    ) as Promise<Models.TopologyListNextResponse>;
   }
 
   /**
@@ -142,26 +189,41 @@ export class Topology {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopologyListByHomeRegionNextResponse>
    */
-  listByHomeRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TopologyListByHomeRegionNextResponse>;
+  listByHomeRegionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopologyListByHomeRegionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByHomeRegionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TopologyList>): void;
+  listByHomeRegionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.TopologyList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHomeRegionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopologyList>): void;
-  listByHomeRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopologyList>, callback?: msRest.ServiceCallback<Models.TopologyList>): Promise<Models.TopologyListByHomeRegionNextResponse> {
+  listByHomeRegionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopologyList>
+  ): void;
+  listByHomeRegionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopologyList>,
+    callback?: msRest.ServiceCallback<Models.TopologyList>
+  ): Promise<Models.TopologyListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByHomeRegionNextOperationSpec,
-      callback) as Promise<Models.TopologyListByHomeRegionNextResponse>;
+      callback
+    ) as Promise<Models.TopologyListByHomeRegionNextResponse>;
   }
 }
 
@@ -170,15 +232,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/topologies",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopologyList
@@ -192,17 +248,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByHomeRegionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/topologies",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/topologies",
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopologyList
@@ -216,19 +266,16 @@ const listByHomeRegionOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/topologies/{topologyResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/topologies/{topologyResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.ascLocation,
     Parameters.topologyResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopologyResource
@@ -244,15 +291,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopologyList
@@ -268,15 +309,9 @@ const listByHomeRegionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopologyList

@@ -39,14 +39,21 @@ export class Connectors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorSettingList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorSettingList>, callback?: msRest.ServiceCallback<Models.ConnectorSettingList>): Promise<Models.ConnectorsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectorSettingList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorSettingList>,
+    callback?: msRest.ServiceCallback<Models.ConnectorSettingList>
+  ): Promise<Models.ConnectorsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ConnectorsListResponse>;
+      callback
+    ) as Promise<Models.ConnectorsListResponse>;
   }
 
   /**
@@ -55,7 +62,10 @@ export class Connectors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectorsGetResponse>
    */
-  get(connectorName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectorsGetResponse>;
+  get(
+    connectorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectorsGetResponse>;
   /**
    * @param connectorName Name of the cloud account connector
    * @param callback The callback
@@ -66,15 +76,24 @@ export class Connectors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(connectorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorSetting>): void;
-  get(connectorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorSetting>, callback?: msRest.ServiceCallback<Models.ConnectorSetting>): Promise<Models.ConnectorsGetResponse> {
+  get(
+    connectorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectorSetting>
+  ): void;
+  get(
+    connectorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorSetting>,
+    callback?: msRest.ServiceCallback<Models.ConnectorSetting>
+  ): Promise<Models.ConnectorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         connectorName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ConnectorsGetResponse>;
+      callback
+    ) as Promise<Models.ConnectorsGetResponse>;
   }
 
   /**
@@ -86,21 +105,39 @@ export class Connectors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectorsCreateOrUpdateResponse>
    */
-  createOrUpdate(connectorName: string, connectorSetting: Models.ConnectorSetting, options?: msRest.RequestOptionsBase): Promise<Models.ConnectorsCreateOrUpdateResponse>;
+  createOrUpdate(
+    connectorName: string,
+    connectorSetting: Models.ConnectorSetting,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectorsCreateOrUpdateResponse>;
   /**
    * @param connectorName Name of the cloud account connector
    * @param connectorSetting Settings for the cloud account connector
    * @param callback The callback
    */
-  createOrUpdate(connectorName: string, connectorSetting: Models.ConnectorSetting, callback: msRest.ServiceCallback<Models.ConnectorSetting>): void;
+  createOrUpdate(
+    connectorName: string,
+    connectorSetting: Models.ConnectorSetting,
+    callback: msRest.ServiceCallback<Models.ConnectorSetting>
+  ): void;
   /**
    * @param connectorName Name of the cloud account connector
    * @param connectorSetting Settings for the cloud account connector
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(connectorName: string, connectorSetting: Models.ConnectorSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorSetting>): void;
-  createOrUpdate(connectorName: string, connectorSetting: Models.ConnectorSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorSetting>, callback?: msRest.ServiceCallback<Models.ConnectorSetting>): Promise<Models.ConnectorsCreateOrUpdateResponse> {
+  createOrUpdate(
+    connectorName: string,
+    connectorSetting: Models.ConnectorSetting,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectorSetting>
+  ): void;
+  createOrUpdate(
+    connectorName: string,
+    connectorSetting: Models.ConnectorSetting,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorSetting>,
+    callback?: msRest.ServiceCallback<Models.ConnectorSetting>
+  ): Promise<Models.ConnectorsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         connectorName,
@@ -108,7 +145,8 @@ export class Connectors {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ConnectorsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ConnectorsCreateOrUpdateResponse>;
   }
 
   /**
@@ -117,7 +155,10 @@ export class Connectors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(connectorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    connectorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param connectorName Name of the cloud account connector
    * @param callback The callback
@@ -128,15 +169,24 @@ export class Connectors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(connectorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(connectorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    connectorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    connectorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         connectorName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -145,26 +195,41 @@ export class Connectors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectorsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectorsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectorsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ConnectorSettingList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ConnectorSettingList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorSettingList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorSettingList>, callback?: msRest.ServiceCallback<Models.ConnectorSettingList>): Promise<Models.ConnectorsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectorSettingList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorSettingList>,
+    callback?: msRest.ServiceCallback<Models.ConnectorSettingList>
+  ): Promise<Models.ConnectorsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ConnectorsListNextResponse>;
+      callback
+    ) as Promise<Models.ConnectorsListNextResponse>;
   }
 }
 
@@ -173,15 +238,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion9
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion9],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectorSettingList
@@ -196,16 +255,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors/{connectorName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.connectorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion9
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.connectorName],
+  queryParameters: [Parameters.apiVersion9],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectorSetting
@@ -220,16 +272,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors/{connectorName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.connectorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion9
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.connectorName],
+  queryParameters: [Parameters.apiVersion9],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "connectorSetting",
     mapper: {
@@ -251,16 +296,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors/{connectorName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.connectorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion9
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.connectorName],
+  queryParameters: [Parameters.apiVersion9],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -275,15 +313,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion9
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion9],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectorSettingList

@@ -33,15 +33,20 @@ export class SecurityCenterContext extends msRestAzure.AzureServiceClient {
    * from Get locations
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, ascLocation: string, options?: Models.SecurityCenterOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials | TokenCredential,
+    subscriptionId: string,
+    ascLocation: string,
+    options?: Models.SecurityCenterOptions
+  ) {
     if (credentials == undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+      throw new Error("'credentials' cannot be null.");
     }
     if (subscriptionId == undefined) {
-      throw new Error('\'subscriptionId\' cannot be null.');
+      throw new Error("'subscriptionId' cannot be null.");
     }
     if (ascLocation == undefined) {
-      throw new Error('\'ascLocation\' cannot be null.');
+      throw new Error("'ascLocation' cannot be null.");
     }
 
     if (!options) {
@@ -54,7 +59,7 @@ export class SecurityCenterContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
-    this.acceptLanguage = 'en-US';
+    this.acceptLanguage = "en-US";
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
@@ -65,7 +70,10 @@ export class SecurityCenterContext extends msRestAzure.AzureServiceClient {
     if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (
+      options.longRunningOperationRetryTimeout !== null &&
+      options.longRunningOperationRetryTimeout !== undefined
+    ) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

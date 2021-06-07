@@ -30,7 +30,9 @@ export class SecureScoreControlDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlDefinitionsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.SecureScoreControlDefinitionsListResponse>;
+  list(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecureScoreControlDefinitionsListResponse>;
   /**
    * @param callback The callback
    */
@@ -39,14 +41,23 @@ export class SecureScoreControlDefinitions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>, callback?: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>): Promise<Models.SecureScoreControlDefinitionsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>
+  ): Promise<Models.SecureScoreControlDefinitionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SecureScoreControlDefinitionsListResponse>;
+      callback
+    ) as Promise<Models.SecureScoreControlDefinitionsListResponse>;
   }
 
   /**
@@ -55,23 +66,36 @@ export class SecureScoreControlDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlDefinitionsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.SecureScoreControlDefinitionsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecureScoreControlDefinitionsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>): void;
+  listBySubscription(
+    callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>, callback?: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>): Promise<Models.SecureScoreControlDefinitionsListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>
+  ): Promise<Models.SecureScoreControlDefinitionsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.SecureScoreControlDefinitionsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.SecureScoreControlDefinitionsListBySubscriptionResponse>;
   }
 
   /**
@@ -80,26 +104,43 @@ export class SecureScoreControlDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlDefinitionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SecureScoreControlDefinitionsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecureScoreControlDefinitionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>, callback?: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>): Promise<Models.SecureScoreControlDefinitionsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>
+  ): Promise<Models.SecureScoreControlDefinitionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SecureScoreControlDefinitionsListNextResponse>;
+      callback
+    ) as Promise<Models.SecureScoreControlDefinitionsListNextResponse>;
   }
 
   /**
@@ -109,26 +150,43 @@ export class SecureScoreControlDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlDefinitionsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SecureScoreControlDefinitionsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecureScoreControlDefinitionsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>, callback?: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>): Promise<Models.SecureScoreControlDefinitionsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.SecureScoreControlDefinitionList>
+  ): Promise<Models.SecureScoreControlDefinitionsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.SecureScoreControlDefinitionsListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.SecureScoreControlDefinitionsListBySubscriptionNextResponse>;
   }
 }
 
@@ -137,12 +195,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Security/secureScoreControlDefinitions",
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecureScoreControlDefinitionList
@@ -157,15 +211,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/secureScoreControlDefinitions",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecureScoreControlDefinitionList
@@ -181,15 +229,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecureScoreControlDefinitionList
@@ -205,15 +247,9 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecureScoreControlDefinitionList

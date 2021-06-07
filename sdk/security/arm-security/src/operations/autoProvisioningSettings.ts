@@ -39,14 +39,23 @@ export class AutoProvisioningSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoProvisioningSettingList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoProvisioningSettingList>, callback?: msRest.ServiceCallback<Models.AutoProvisioningSettingList>): Promise<Models.AutoProvisioningSettingsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AutoProvisioningSettingList>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AutoProvisioningSettingList>,
+    callback?: msRest.ServiceCallback<Models.AutoProvisioningSettingList>
+  ): Promise<Models.AutoProvisioningSettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AutoProvisioningSettingsListResponse>;
+      callback
+    ) as Promise<Models.AutoProvisioningSettingsListResponse>;
   }
 
   /**
@@ -55,7 +64,10 @@ export class AutoProvisioningSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.AutoProvisioningSettingsGetResponse>
    */
-  get(settingName: string, options?: msRest.RequestOptionsBase): Promise<Models.AutoProvisioningSettingsGetResponse>;
+  get(
+    settingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AutoProvisioningSettingsGetResponse>;
   /**
    * @param settingName Auto provisioning setting key
    * @param callback The callback
@@ -66,15 +78,24 @@ export class AutoProvisioningSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(settingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoProvisioningSetting>): void;
-  get(settingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoProvisioningSetting>, callback?: msRest.ServiceCallback<Models.AutoProvisioningSetting>): Promise<Models.AutoProvisioningSettingsGetResponse> {
+  get(
+    settingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AutoProvisioningSetting>
+  ): void;
+  get(
+    settingName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoProvisioningSetting>,
+    callback?: msRest.ServiceCallback<Models.AutoProvisioningSetting>
+  ): Promise<Models.AutoProvisioningSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         settingName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AutoProvisioningSettingsGetResponse>;
+      callback
+    ) as Promise<Models.AutoProvisioningSettingsGetResponse>;
   }
 
   /**
@@ -84,21 +105,39 @@ export class AutoProvisioningSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.AutoProvisioningSettingsCreateResponse>
    */
-  create(settingName: string, setting: Models.AutoProvisioningSetting, options?: msRest.RequestOptionsBase): Promise<Models.AutoProvisioningSettingsCreateResponse>;
+  create(
+    settingName: string,
+    setting: Models.AutoProvisioningSetting,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AutoProvisioningSettingsCreateResponse>;
   /**
    * @param settingName Auto provisioning setting key
    * @param setting Auto provisioning setting key
    * @param callback The callback
    */
-  create(settingName: string, setting: Models.AutoProvisioningSetting, callback: msRest.ServiceCallback<Models.AutoProvisioningSetting>): void;
+  create(
+    settingName: string,
+    setting: Models.AutoProvisioningSetting,
+    callback: msRest.ServiceCallback<Models.AutoProvisioningSetting>
+  ): void;
   /**
    * @param settingName Auto provisioning setting key
    * @param setting Auto provisioning setting key
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(settingName: string, setting: Models.AutoProvisioningSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoProvisioningSetting>): void;
-  create(settingName: string, setting: Models.AutoProvisioningSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoProvisioningSetting>, callback?: msRest.ServiceCallback<Models.AutoProvisioningSetting>): Promise<Models.AutoProvisioningSettingsCreateResponse> {
+  create(
+    settingName: string,
+    setting: Models.AutoProvisioningSetting,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AutoProvisioningSetting>
+  ): void;
+  create(
+    settingName: string,
+    setting: Models.AutoProvisioningSetting,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoProvisioningSetting>,
+    callback?: msRest.ServiceCallback<Models.AutoProvisioningSetting>
+  ): Promise<Models.AutoProvisioningSettingsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         settingName,
@@ -106,7 +145,8 @@ export class AutoProvisioningSettings {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.AutoProvisioningSettingsCreateResponse>;
+      callback
+    ) as Promise<Models.AutoProvisioningSettingsCreateResponse>;
   }
 
   /**
@@ -115,26 +155,43 @@ export class AutoProvisioningSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.AutoProvisioningSettingsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AutoProvisioningSettingsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AutoProvisioningSettingsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AutoProvisioningSettingList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AutoProvisioningSettingList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoProvisioningSettingList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoProvisioningSettingList>, callback?: msRest.ServiceCallback<Models.AutoProvisioningSettingList>): Promise<Models.AutoProvisioningSettingsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AutoProvisioningSettingList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AutoProvisioningSettingList>,
+    callback?: msRest.ServiceCallback<Models.AutoProvisioningSettingList>
+  ): Promise<Models.AutoProvisioningSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AutoProvisioningSettingsListNextResponse>;
+      callback
+    ) as Promise<Models.AutoProvisioningSettingsListNextResponse>;
   }
 }
 
@@ -143,15 +200,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion6],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AutoProvisioningSettingList
@@ -165,17 +216,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings/{settingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.settingName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings/{settingName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.settingName0],
+  queryParameters: [Parameters.apiVersion6],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AutoProvisioningSetting
@@ -189,17 +234,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings/{settingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.settingName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings/{settingName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.settingName0],
+  queryParameters: [Parameters.apiVersion6],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "setting",
     mapper: {
@@ -222,15 +261,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion6],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AutoProvisioningSettingList

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { SecurityCenterContext } from "./securityCenterContext";
 
-
 class SecurityCenter extends SecurityCenterContext {
   // Operation groups
   complianceResults: operations.ComplianceResults;
@@ -87,7 +86,12 @@ class SecurityCenter extends SecurityCenterContext {
    * from Get locations
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, ascLocation: string, options?: Models.SecurityCenterOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials | TokenCredential,
+    subscriptionId: string,
+    ascLocation: string,
+    options?: Models.SecurityCenterOptions
+  ) {
     super(credentials, subscriptionId, ascLocation, options);
     this.complianceResults = new operations.ComplianceResults(this);
     this.pricings = new operations.Pricings(this);
@@ -96,8 +100,12 @@ class SecurityCenter extends SecurityCenterContext {
     this.deviceSecurityGroups = new operations.DeviceSecurityGroups(this);
     this.iotSecuritySolution = new operations.IotSecuritySolution(this);
     this.iotSecuritySolutionAnalytics = new operations.IotSecuritySolutionAnalytics(this);
-    this.iotSecuritySolutionsAnalyticsAggregatedAlert = new operations.IotSecuritySolutionsAnalyticsAggregatedAlert(this);
-    this.iotSecuritySolutionsAnalyticsRecommendation = new operations.IotSecuritySolutionsAnalyticsRecommendation(this);
+    this.iotSecuritySolutionsAnalyticsAggregatedAlert = new operations.IotSecuritySolutionsAnalyticsAggregatedAlert(
+      this
+    );
+    this.iotSecuritySolutionsAnalyticsRecommendation = new operations.IotSecuritySolutionsAnalyticsRecommendation(
+      this
+    );
     this.iotAlertTypes = new operations.IotAlertTypes(this);
     this.iotAlerts = new operations.IotAlerts(this);
     this.iotRecommendationTypes = new operations.IotRecommendationTypes(this);
@@ -116,7 +124,9 @@ class SecurityCenter extends SecurityCenterContext {
     this.subAssessments = new operations.SubAssessments(this);
     this.automations = new operations.Automations(this);
     this.alertsSuppressionRules = new operations.AlertsSuppressionRules(this);
-    this.serverVulnerabilityAssessment = new operations.ServerVulnerabilityAssessmentOperations(this);
+    this.serverVulnerabilityAssessment = new operations.ServerVulnerabilityAssessmentOperations(
+      this
+    );
     this.assessmentsMetadata = new operations.AssessmentsMetadata(this);
     this.assessments = new operations.Assessments(this);
     this.adaptiveApplicationControls = new operations.AdaptiveApplicationControls(this);
@@ -125,7 +135,9 @@ class SecurityCenter extends SecurityCenterContext {
     this.topology = new operations.Topology(this);
     this.jitNetworkAccessPolicies = new operations.JitNetworkAccessPolicies(this);
     this.discoveredSecuritySolutions = new operations.DiscoveredSecuritySolutions(this);
-    this.securitySolutionsReferenceData = new operations.SecuritySolutionsReferenceDataOperations(this);
+    this.securitySolutionsReferenceData = new operations.SecuritySolutionsReferenceDataOperations(
+      this
+    );
     this.externalSecuritySolutions = new operations.ExternalSecuritySolutions(this);
     this.secureScores = new operations.SecureScores(this);
     this.secureScoreControls = new operations.SecureScoreControls(this);
@@ -133,8 +145,12 @@ class SecurityCenter extends SecurityCenterContext {
     this.securitySolutions = new operations.SecuritySolutions(this);
     this.connectors = new operations.Connectors(this);
     this.sqlVulnerabilityAssessmentScans = new operations.SqlVulnerabilityAssessmentScans(this);
-    this.sqlVulnerabilityAssessmentScanResults = new operations.SqlVulnerabilityAssessmentScanResults(this);
-    this.sqlVulnerabilityAssessmentBaselineRules = new operations.SqlVulnerabilityAssessmentBaselineRules(this);
+    this.sqlVulnerabilityAssessmentScanResults = new operations.SqlVulnerabilityAssessmentScanResults(
+      this
+    );
+    this.sqlVulnerabilityAssessmentBaselineRules = new operations.SqlVulnerabilityAssessmentBaselineRules(
+      this
+    );
     this.iotDefenderSettings = new operations.IotDefenderSettings(this);
     this.iotSensors = new operations.IotSensors(this);
     this.devicesForSubscription = new operations.DevicesForSubscription(this);

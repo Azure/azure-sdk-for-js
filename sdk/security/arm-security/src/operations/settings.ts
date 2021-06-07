@@ -39,14 +39,21 @@ export class Settings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingsList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingsList>, callback?: msRest.ServiceCallback<Models.SettingsList>): Promise<Models.SettingsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SettingsList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingsList>,
+    callback?: msRest.ServiceCallback<Models.SettingsList>
+  ): Promise<Models.SettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SettingsListResponse>;
+      callback
+    ) as Promise<Models.SettingsListResponse>;
   }
 
   /**
@@ -55,7 +62,10 @@ export class Settings {
    * @param [options] The optional parameters
    * @returns Promise<Models.SettingsGetResponse>
    */
-  get(settingName: Models.SettingName, options?: msRest.RequestOptionsBase): Promise<Models.SettingsGetResponse>;
+  get(
+    settingName: Models.SettingName,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SettingsGetResponse>;
   /**
    * @param settingName Name of setting: (MCAS/WDATP). Possible values include: 'MCAS', 'WDATP'
    * @param callback The callback
@@ -66,15 +76,24 @@ export class Settings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(settingName: Models.SettingName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingUnion>): void;
-  get(settingName: Models.SettingName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingUnion>, callback?: msRest.ServiceCallback<Models.SettingUnion>): Promise<Models.SettingsGetResponse> {
+  get(
+    settingName: Models.SettingName,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SettingUnion>
+  ): void;
+  get(
+    settingName: Models.SettingName,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingUnion>,
+    callback?: msRest.ServiceCallback<Models.SettingUnion>
+  ): Promise<Models.SettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         settingName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SettingsGetResponse>;
+      callback
+    ) as Promise<Models.SettingsGetResponse>;
   }
 
   /**
@@ -84,21 +103,39 @@ export class Settings {
    * @param [options] The optional parameters
    * @returns Promise<Models.SettingsUpdateResponse>
    */
-  update(settingName: Models.SettingName1, setting: Models.SettingUnion, options?: msRest.RequestOptionsBase): Promise<Models.SettingsUpdateResponse>;
+  update(
+    settingName: Models.SettingName1,
+    setting: Models.SettingUnion,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SettingsUpdateResponse>;
   /**
    * @param settingName Name of setting: (MCAS/WDATP). Possible values include: 'MCAS', 'WDATP'
    * @param setting Setting object
    * @param callback The callback
    */
-  update(settingName: Models.SettingName1, setting: Models.SettingUnion, callback: msRest.ServiceCallback<Models.SettingUnion>): void;
+  update(
+    settingName: Models.SettingName1,
+    setting: Models.SettingUnion,
+    callback: msRest.ServiceCallback<Models.SettingUnion>
+  ): void;
   /**
    * @param settingName Name of setting: (MCAS/WDATP). Possible values include: 'MCAS', 'WDATP'
    * @param setting Setting object
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(settingName: Models.SettingName1, setting: Models.SettingUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingUnion>): void;
-  update(settingName: Models.SettingName1, setting: Models.SettingUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingUnion>, callback?: msRest.ServiceCallback<Models.SettingUnion>): Promise<Models.SettingsUpdateResponse> {
+  update(
+    settingName: Models.SettingName1,
+    setting: Models.SettingUnion,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SettingUnion>
+  ): void;
+  update(
+    settingName: Models.SettingName1,
+    setting: Models.SettingUnion,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingUnion>,
+    callback?: msRest.ServiceCallback<Models.SettingUnion>
+  ): Promise<Models.SettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         settingName,
@@ -106,7 +143,8 @@ export class Settings {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.SettingsUpdateResponse>;
+      callback
+    ) as Promise<Models.SettingsUpdateResponse>;
   }
 
   /**
@@ -115,7 +153,10 @@ export class Settings {
    * @param [options] The optional parameters
    * @returns Promise<Models.SettingsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SettingsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SettingsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -126,15 +167,24 @@ export class Settings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SettingsList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingsList>, callback?: msRest.ServiceCallback<Models.SettingsList>): Promise<Models.SettingsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SettingsList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SettingsList>,
+    callback?: msRest.ServiceCallback<Models.SettingsList>
+  ): Promise<Models.SettingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SettingsListNextResponse>;
+      callback
+    ) as Promise<Models.SettingsListNextResponse>;
   }
 }
 
@@ -143,15 +193,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/settings",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SettingsList
@@ -166,16 +210,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/settings/{settingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.settingName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.settingName0],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Setting
@@ -190,16 +227,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/settings/{settingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.settingName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.settingName0],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "setting",
     mapper: {
@@ -222,15 +252,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SettingsList

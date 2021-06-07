@@ -30,7 +30,9 @@ export class SecuritySolutionsReferenceDataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecuritySolutionsReferenceDataListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.SecuritySolutionsReferenceDataListResponse>;
+  list(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecuritySolutionsReferenceDataListResponse>;
   /**
    * @param callback The callback
    */
@@ -39,14 +41,23 @@ export class SecuritySolutionsReferenceDataOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>, callback?: msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>): Promise<Models.SecuritySolutionsReferenceDataListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>,
+    callback?: msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>
+  ): Promise<Models.SecuritySolutionsReferenceDataListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SecuritySolutionsReferenceDataListResponse>;
+      callback
+    ) as Promise<Models.SecuritySolutionsReferenceDataListResponse>;
   }
 
   /**
@@ -54,23 +65,36 @@ export class SecuritySolutionsReferenceDataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecuritySolutionsReferenceDataListByHomeRegionResponse>
    */
-  listByHomeRegion(options?: msRest.RequestOptionsBase): Promise<Models.SecuritySolutionsReferenceDataListByHomeRegionResponse>;
+  listByHomeRegion(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecuritySolutionsReferenceDataListByHomeRegionResponse>;
   /**
    * @param callback The callback
    */
-  listByHomeRegion(callback: msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>): void;
+  listByHomeRegion(
+    callback: msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHomeRegion(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>): void;
-  listByHomeRegion(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>, callback?: msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>): Promise<Models.SecuritySolutionsReferenceDataListByHomeRegionResponse> {
+  listByHomeRegion(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>
+  ): void;
+  listByHomeRegion(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>,
+    callback?: msRest.ServiceCallback<Models.SecuritySolutionsReferenceDataList>
+  ): Promise<Models.SecuritySolutionsReferenceDataListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listByHomeRegionOperationSpec,
-      callback) as Promise<Models.SecuritySolutionsReferenceDataListByHomeRegionResponse>;
+      callback
+    ) as Promise<Models.SecuritySolutionsReferenceDataListByHomeRegionResponse>;
   }
 }
 
@@ -78,16 +102,11 @@ export class SecuritySolutionsReferenceDataOperations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/securitySolutionsReferenceData",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/securitySolutionsReferenceData",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecuritySolutionsReferenceDataList
@@ -101,17 +120,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByHomeRegionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/securitySolutionsReferenceData",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/securitySolutionsReferenceData",
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecuritySolutionsReferenceDataList

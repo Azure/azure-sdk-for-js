@@ -33,14 +33,22 @@ export class IotSecuritySolutionAnalytics {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotSecuritySolutionAnalyticsListResponse>
    */
-  list(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotSecuritySolutionAnalyticsListResponse>;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotSecuritySolutionAnalyticsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param solutionName The name of the IoT Security solution.
    * @param callback The callback
    */
-  list(resourceGroupName: string, solutionName: string, callback: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModelList>): void;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    callback: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModelList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -48,8 +56,20 @@ export class IotSecuritySolutionAnalytics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, solutionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModelList>): void;
-  list(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModelList>, callback?: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModelList>): Promise<Models.IotSecuritySolutionAnalyticsListResponse> {
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModelList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModelList>,
+    callback?: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModelList>
+  ): Promise<Models.IotSecuritySolutionAnalyticsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -57,7 +77,8 @@ export class IotSecuritySolutionAnalytics {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IotSecuritySolutionAnalyticsListResponse>;
+      callback
+    ) as Promise<Models.IotSecuritySolutionAnalyticsListResponse>;
   }
 
   /**
@@ -68,14 +89,22 @@ export class IotSecuritySolutionAnalytics {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotSecuritySolutionAnalyticsGetResponse>
    */
-  get(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotSecuritySolutionAnalyticsGetResponse>;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotSecuritySolutionAnalyticsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param solutionName The name of the IoT Security solution.
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, callback: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>): void;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    callback: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -83,8 +112,20 @@ export class IotSecuritySolutionAnalytics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>): void;
-  get(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>, callback?: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>): Promise<Models.IotSecuritySolutionAnalyticsGetResponse> {
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>
+  ): void;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>,
+    callback?: msRest.ServiceCallback<Models.IoTSecuritySolutionAnalyticsModel>
+  ): Promise<Models.IotSecuritySolutionAnalyticsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +133,8 @@ export class IotSecuritySolutionAnalytics {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IotSecuritySolutionAnalyticsGetResponse>;
+      callback
+    ) as Promise<Models.IotSecuritySolutionAnalyticsGetResponse>;
   }
 }
 
@@ -100,18 +142,11 @@ export class IotSecuritySolutionAnalytics {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.solutionName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.solutionName],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IoTSecuritySolutionAnalyticsModelList
@@ -125,18 +160,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.solutionName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.solutionName],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IoTSecuritySolutionAnalyticsModel

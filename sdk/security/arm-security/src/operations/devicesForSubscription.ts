@@ -30,7 +30,9 @@ export class DevicesForSubscription {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesForSubscriptionListResponse>
    */
-  list(options?: Models.DevicesForSubscriptionListOptionalParams): Promise<Models.DevicesForSubscriptionListResponse>;
+  list(
+    options?: Models.DevicesForSubscriptionListOptionalParams
+  ): Promise<Models.DevicesForSubscriptionListResponse>;
   /**
    * @param callback The callback
    */
@@ -39,14 +41,23 @@ export class DevicesForSubscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.DevicesForSubscriptionListOptionalParams, callback: msRest.ServiceCallback<Models.DeviceList>): void;
-  list(options?: Models.DevicesForSubscriptionListOptionalParams | msRest.ServiceCallback<Models.DeviceList>, callback?: msRest.ServiceCallback<Models.DeviceList>): Promise<Models.DevicesForSubscriptionListResponse> {
+  list(
+    options: Models.DevicesForSubscriptionListOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeviceList>
+  ): void;
+  list(
+    options?:
+      | Models.DevicesForSubscriptionListOptionalParams
+      | msRest.ServiceCallback<Models.DeviceList>,
+    callback?: msRest.ServiceCallback<Models.DeviceList>
+  ): Promise<Models.DevicesForSubscriptionListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DevicesForSubscriptionListResponse>;
+      callback
+    ) as Promise<Models.DevicesForSubscriptionListResponse>;
   }
 
   /**
@@ -55,7 +66,10 @@ export class DevicesForSubscription {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesForSubscriptionListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.DevicesForSubscriptionListNextOptionalParams): Promise<Models.DevicesForSubscriptionListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.DevicesForSubscriptionListNextOptionalParams
+  ): Promise<Models.DevicesForSubscriptionListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -66,15 +80,26 @@ export class DevicesForSubscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.DevicesForSubscriptionListNextOptionalParams, callback: msRest.ServiceCallback<Models.DeviceList>): void;
-  listNext(nextPageLink: string, options?: Models.DevicesForSubscriptionListNextOptionalParams | msRest.ServiceCallback<Models.DeviceList>, callback?: msRest.ServiceCallback<Models.DeviceList>): Promise<Models.DevicesForSubscriptionListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.DevicesForSubscriptionListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeviceList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.DevicesForSubscriptionListNextOptionalParams
+      | msRest.ServiceCallback<Models.DeviceList>,
+    callback?: msRest.ServiceCallback<Models.DeviceList>
+  ): Promise<Models.DevicesForSubscriptionListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DevicesForSubscriptionListNextResponse>;
+      callback
+    ) as Promise<Models.DevicesForSubscriptionListNextResponse>;
   }
 }
 
@@ -83,18 +108,14 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/devices",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.subscriptionId],
   queryParameters: [
     Parameters.apiVersion4,
     Parameters.limit,
     Parameters.skipToken,
     Parameters.deviceManagementType
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeviceList
@@ -110,18 +131,14 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
+  urlParameters: [Parameters.nextPageLink],
   queryParameters: [
     Parameters.apiVersion4,
     Parameters.limit,
     Parameters.skipToken,
     Parameters.deviceManagementType
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeviceList

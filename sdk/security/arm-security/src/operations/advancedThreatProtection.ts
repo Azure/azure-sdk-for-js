@@ -31,26 +31,43 @@ export class AdvancedThreatProtection {
    * @param [options] The optional parameters
    * @returns Promise<Models.AdvancedThreatProtectionGetResponse>
    */
-  get(resourceId: string, options?: msRest.RequestOptionsBase): Promise<Models.AdvancedThreatProtectionGetResponse>;
+  get(
+    resourceId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AdvancedThreatProtectionGetResponse>;
   /**
    * @param resourceId The identifier of the resource.
    * @param callback The callback
    */
-  get(resourceId: string, callback: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): void;
+  get(
+    resourceId: string,
+    callback: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>
+  ): void;
   /**
    * @param resourceId The identifier of the resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): void;
-  get(resourceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>, callback?: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): Promise<Models.AdvancedThreatProtectionGetResponse> {
+  get(
+    resourceId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>
+  ): void;
+  get(
+    resourceId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>,
+    callback?: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>
+  ): Promise<Models.AdvancedThreatProtectionGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AdvancedThreatProtectionGetResponse>;
+      callback
+    ) as Promise<Models.AdvancedThreatProtectionGetResponse>;
   }
 
   /**
@@ -60,21 +77,41 @@ export class AdvancedThreatProtection {
    * @param [options] The optional parameters
    * @returns Promise<Models.AdvancedThreatProtectionCreateResponse>
    */
-  create(resourceId: string, advancedThreatProtectionSetting: Models.AdvancedThreatProtectionSetting, options?: msRest.RequestOptionsBase): Promise<Models.AdvancedThreatProtectionCreateResponse>;
+  create(
+    resourceId: string,
+    advancedThreatProtectionSetting: Models.AdvancedThreatProtectionSetting,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AdvancedThreatProtectionCreateResponse>;
   /**
    * @param resourceId The identifier of the resource.
    * @param advancedThreatProtectionSetting Advanced Threat Protection Settings
    * @param callback The callback
    */
-  create(resourceId: string, advancedThreatProtectionSetting: Models.AdvancedThreatProtectionSetting, callback: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): void;
+  create(
+    resourceId: string,
+    advancedThreatProtectionSetting: Models.AdvancedThreatProtectionSetting,
+    callback: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>
+  ): void;
   /**
    * @param resourceId The identifier of the resource.
    * @param advancedThreatProtectionSetting Advanced Threat Protection Settings
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceId: string, advancedThreatProtectionSetting: Models.AdvancedThreatProtectionSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): void;
-  create(resourceId: string, advancedThreatProtectionSetting: Models.AdvancedThreatProtectionSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>, callback?: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>): Promise<Models.AdvancedThreatProtectionCreateResponse> {
+  create(
+    resourceId: string,
+    advancedThreatProtectionSetting: Models.AdvancedThreatProtectionSetting,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>
+  ): void;
+  create(
+    resourceId: string,
+    advancedThreatProtectionSetting: Models.AdvancedThreatProtectionSetting,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>,
+    callback?: msRest.ServiceCallback<Models.AdvancedThreatProtectionSetting>
+  ): Promise<Models.AdvancedThreatProtectionCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -82,7 +119,8 @@ export class AdvancedThreatProtection {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.AdvancedThreatProtectionCreateResponse>;
+      callback
+    ) as Promise<Models.AdvancedThreatProtectionCreateResponse>;
   }
 }
 
@@ -91,16 +129,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceId}/providers/Microsoft.Security/advancedThreatProtectionSettings/{settingName}",
-  urlParameters: [
-    Parameters.resourceId,
-    Parameters.settingName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceId, Parameters.settingName1],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AdvancedThreatProtectionSetting
@@ -115,16 +146,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{resourceId}/providers/Microsoft.Security/advancedThreatProtectionSettings/{settingName}",
-  urlParameters: [
-    Parameters.resourceId,
-    Parameters.settingName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceId, Parameters.settingName1],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "advancedThreatProtectionSetting",
     mapper: {

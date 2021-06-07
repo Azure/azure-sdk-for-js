@@ -32,7 +32,11 @@ export class DeviceOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeviceGetResponse>
    */
-  get(resourceId: string, deviceId: string, options?: msRest.RequestOptionsBase): Promise<Models.DeviceGetResponse>;
+  get(
+    resourceId: string,
+    deviceId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeviceGetResponse>;
   /**
    * @param resourceId The identifier of the resource.
    * @param deviceId Identifier of the device.
@@ -45,8 +49,18 @@ export class DeviceOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceId: string, deviceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Device>): void;
-  get(resourceId: string, deviceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Device>, callback?: msRest.ServiceCallback<Models.Device>): Promise<Models.DeviceGetResponse> {
+  get(
+    resourceId: string,
+    deviceId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Device>
+  ): void;
+  get(
+    resourceId: string,
+    deviceId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Device>,
+    callback?: msRest.ServiceCallback<Models.Device>
+  ): Promise<Models.DeviceGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -54,7 +68,8 @@ export class DeviceOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DeviceGetResponse>;
+      callback
+    ) as Promise<Models.DeviceGetResponse>;
   }
 }
 
@@ -63,16 +78,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceId}/providers/Microsoft.Security/devices/{deviceId}",
-  urlParameters: [
-    Parameters.resourceId,
-    Parameters.deviceId1
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceId, Parameters.deviceId1],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Device

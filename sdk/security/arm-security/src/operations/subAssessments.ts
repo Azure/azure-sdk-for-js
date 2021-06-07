@@ -33,7 +33,10 @@ export class SubAssessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubAssessmentsListAllResponse>
    */
-  listAll(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.SubAssessmentsListAllResponse>;
+  listAll(
+    scope: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubAssessmentsListAllResponse>;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -48,15 +51,24 @@ export class SubAssessments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>): void;
-  listAll(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySubAssessmentList>, callback?: msRest.ServiceCallback<Models.SecuritySubAssessmentList>): Promise<Models.SubAssessmentsListAllResponse> {
+  listAll(
+    scope: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>
+  ): void;
+  listAll(
+    scope: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySubAssessmentList>,
+    callback?: msRest.ServiceCallback<Models.SecuritySubAssessmentList>
+  ): Promise<Models.SubAssessmentsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       listAllOperationSpec,
-      callback) as Promise<Models.SubAssessmentsListAllResponse>;
+      callback
+    ) as Promise<Models.SubAssessmentsListAllResponse>;
   }
 
   /**
@@ -68,7 +80,11 @@ export class SubAssessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubAssessmentsListResponse>
    */
-  list(scope: string, assessmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.SubAssessmentsListResponse>;
+  list(
+    scope: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubAssessmentsListResponse>;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -76,7 +92,11 @@ export class SubAssessments {
    * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param callback The callback
    */
-  list(scope: string, assessmentName: string, callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>): void;
+  list(
+    scope: string,
+    assessmentName: string,
+    callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>
+  ): void;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -85,8 +105,18 @@ export class SubAssessments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(scope: string, assessmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>): void;
-  list(scope: string, assessmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySubAssessmentList>, callback?: msRest.ServiceCallback<Models.SecuritySubAssessmentList>): Promise<Models.SubAssessmentsListResponse> {
+  list(
+    scope: string,
+    assessmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>
+  ): void;
+  list(
+    scope: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySubAssessmentList>,
+    callback?: msRest.ServiceCallback<Models.SecuritySubAssessmentList>
+  ): Promise<Models.SubAssessmentsListResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -94,7 +124,8 @@ export class SubAssessments {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SubAssessmentsListResponse>;
+      callback
+    ) as Promise<Models.SubAssessmentsListResponse>;
   }
 
   /**
@@ -107,7 +138,12 @@ export class SubAssessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubAssessmentsGetResponse>
    */
-  get(scope: string, assessmentName: string, subAssessmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.SubAssessmentsGetResponse>;
+  get(
+    scope: string,
+    assessmentName: string,
+    subAssessmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubAssessmentsGetResponse>;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -116,7 +152,12 @@ export class SubAssessments {
    * @param subAssessmentName The Sub-Assessment Key - Unique key for the sub-assessment type
    * @param callback The callback
    */
-  get(scope: string, assessmentName: string, subAssessmentName: string, callback: msRest.ServiceCallback<Models.SecuritySubAssessment>): void;
+  get(
+    scope: string,
+    assessmentName: string,
+    subAssessmentName: string,
+    callback: msRest.ServiceCallback<Models.SecuritySubAssessment>
+  ): void;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -126,8 +167,20 @@ export class SubAssessments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(scope: string, assessmentName: string, subAssessmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecuritySubAssessment>): void;
-  get(scope: string, assessmentName: string, subAssessmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySubAssessment>, callback?: msRest.ServiceCallback<Models.SecuritySubAssessment>): Promise<Models.SubAssessmentsGetResponse> {
+  get(
+    scope: string,
+    assessmentName: string,
+    subAssessmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecuritySubAssessment>
+  ): void;
+  get(
+    scope: string,
+    assessmentName: string,
+    subAssessmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySubAssessment>,
+    callback?: msRest.ServiceCallback<Models.SecuritySubAssessment>
+  ): Promise<Models.SubAssessmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -136,7 +189,8 @@ export class SubAssessments {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SubAssessmentsGetResponse>;
+      callback
+    ) as Promise<Models.SubAssessmentsGetResponse>;
   }
 
   /**
@@ -145,26 +199,41 @@ export class SubAssessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubAssessmentsListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SubAssessmentsListAllNextResponse>;
+  listAllNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubAssessmentsListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>): void;
+  listAllNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySubAssessmentList>, callback?: msRest.ServiceCallback<Models.SecuritySubAssessmentList>): Promise<Models.SubAssessmentsListAllNextResponse> {
+  listAllNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>
+  ): void;
+  listAllNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySubAssessmentList>,
+    callback?: msRest.ServiceCallback<Models.SecuritySubAssessmentList>
+  ): Promise<Models.SubAssessmentsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAllNextOperationSpec,
-      callback) as Promise<Models.SubAssessmentsListAllNextResponse>;
+      callback
+    ) as Promise<Models.SubAssessmentsListAllNextResponse>;
   }
 
   /**
@@ -173,26 +242,41 @@ export class SubAssessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubAssessmentsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SubAssessmentsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubAssessmentsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySubAssessmentList>, callback?: msRest.ServiceCallback<Models.SecuritySubAssessmentList>): Promise<Models.SubAssessmentsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecuritySubAssessmentList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySubAssessmentList>,
+    callback?: msRest.ServiceCallback<Models.SecuritySubAssessmentList>
+  ): Promise<Models.SubAssessmentsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SubAssessmentsListNextResponse>;
+      callback
+    ) as Promise<Models.SubAssessmentsListNextResponse>;
   }
 }
 
@@ -201,15 +285,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listAllOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Security/subAssessments",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecuritySubAssessmentList
@@ -224,16 +302,9 @@ const listAllOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Security/assessments/{assessmentName}/subAssessments",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.assessmentName
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.assessmentName],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecuritySubAssessmentList
@@ -247,18 +318,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{scope}/providers/Microsoft.Security/assessments/{assessmentName}/subAssessments/{subAssessmentName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.assessmentName,
-    Parameters.subAssessmentName
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "{scope}/providers/Microsoft.Security/assessments/{assessmentName}/subAssessments/{subAssessmentName}",
+  urlParameters: [Parameters.scope, Parameters.assessmentName, Parameters.subAssessmentName],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecuritySubAssessment
@@ -274,15 +338,9 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecuritySubAssessmentList
@@ -298,15 +356,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecuritySubAssessmentList

@@ -39,14 +39,21 @@ export class OnPremiseIotSensors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OnPremiseIotSensorsList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OnPremiseIotSensorsList>, callback?: msRest.ServiceCallback<Models.OnPremiseIotSensorsList>): Promise<Models.OnPremiseIotSensorsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OnPremiseIotSensorsList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OnPremiseIotSensorsList>,
+    callback?: msRest.ServiceCallback<Models.OnPremiseIotSensorsList>
+  ): Promise<Models.OnPremiseIotSensorsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OnPremiseIotSensorsListResponse>;
+      callback
+    ) as Promise<Models.OnPremiseIotSensorsListResponse>;
   }
 
   /**
@@ -55,26 +62,41 @@ export class OnPremiseIotSensors {
    * @param [options] The optional parameters
    * @returns Promise<Models.OnPremiseIotSensorsGetResponse>
    */
-  get(onPremiseIotSensorName: string, options?: msRest.RequestOptionsBase): Promise<Models.OnPremiseIotSensorsGetResponse>;
+  get(
+    onPremiseIotSensorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OnPremiseIotSensorsGetResponse>;
   /**
    * @param onPremiseIotSensorName Name of the on-premise IoT sensor
    * @param callback The callback
    */
-  get(onPremiseIotSensorName: string, callback: msRest.ServiceCallback<Models.OnPremiseIotSensor>): void;
+  get(
+    onPremiseIotSensorName: string,
+    callback: msRest.ServiceCallback<Models.OnPremiseIotSensor>
+  ): void;
   /**
    * @param onPremiseIotSensorName Name of the on-premise IoT sensor
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(onPremiseIotSensorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OnPremiseIotSensor>): void;
-  get(onPremiseIotSensorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OnPremiseIotSensor>, callback?: msRest.ServiceCallback<Models.OnPremiseIotSensor>): Promise<Models.OnPremiseIotSensorsGetResponse> {
+  get(
+    onPremiseIotSensorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OnPremiseIotSensor>
+  ): void;
+  get(
+    onPremiseIotSensorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OnPremiseIotSensor>,
+    callback?: msRest.ServiceCallback<Models.OnPremiseIotSensor>
+  ): Promise<Models.OnPremiseIotSensorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         onPremiseIotSensorName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.OnPremiseIotSensorsGetResponse>;
+      callback
+    ) as Promise<Models.OnPremiseIotSensorsGetResponse>;
   }
 
   /**
@@ -83,26 +105,41 @@ export class OnPremiseIotSensors {
    * @param [options] The optional parameters
    * @returns Promise<Models.OnPremiseIotSensorsCreateOrUpdateResponse>
    */
-  createOrUpdate(onPremiseIotSensorName: string, options?: msRest.RequestOptionsBase): Promise<Models.OnPremiseIotSensorsCreateOrUpdateResponse>;
+  createOrUpdate(
+    onPremiseIotSensorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OnPremiseIotSensorsCreateOrUpdateResponse>;
   /**
    * @param onPremiseIotSensorName Name of the on-premise IoT sensor
    * @param callback The callback
    */
-  createOrUpdate(onPremiseIotSensorName: string, callback: msRest.ServiceCallback<Models.OnPremiseIotSensor>): void;
+  createOrUpdate(
+    onPremiseIotSensorName: string,
+    callback: msRest.ServiceCallback<Models.OnPremiseIotSensor>
+  ): void;
   /**
    * @param onPremiseIotSensorName Name of the on-premise IoT sensor
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(onPremiseIotSensorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OnPremiseIotSensor>): void;
-  createOrUpdate(onPremiseIotSensorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OnPremiseIotSensor>, callback?: msRest.ServiceCallback<Models.OnPremiseIotSensor>): Promise<Models.OnPremiseIotSensorsCreateOrUpdateResponse> {
+  createOrUpdate(
+    onPremiseIotSensorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OnPremiseIotSensor>
+  ): void;
+  createOrUpdate(
+    onPremiseIotSensorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OnPremiseIotSensor>,
+    callback?: msRest.ServiceCallback<Models.OnPremiseIotSensor>
+  ): Promise<Models.OnPremiseIotSensorsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         onPremiseIotSensorName,
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.OnPremiseIotSensorsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.OnPremiseIotSensorsCreateOrUpdateResponse>;
   }
 
   /**
@@ -111,7 +148,10 @@ export class OnPremiseIotSensors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(onPremiseIotSensorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    onPremiseIotSensorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param onPremiseIotSensorName Name of the on-premise IoT sensor
    * @param callback The callback
@@ -122,15 +162,24 @@ export class OnPremiseIotSensors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(onPremiseIotSensorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(onPremiseIotSensorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    onPremiseIotSensorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    onPremiseIotSensorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         onPremiseIotSensorName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -139,7 +188,10 @@ export class OnPremiseIotSensors {
    * @param [options] The optional parameters
    * @returns Promise<Models.OnPremiseIotSensorsDownloadActivationResponse>
    */
-  downloadActivation(onPremiseIotSensorName: string, options?: msRest.RequestOptionsBase): Promise<Models.OnPremiseIotSensorsDownloadActivationResponse>;
+  downloadActivation(
+    onPremiseIotSensorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OnPremiseIotSensorsDownloadActivationResponse>;
   /**
    * @param onPremiseIotSensorName Name of the on-premise IoT sensor
    * @param callback The callback
@@ -150,15 +202,24 @@ export class OnPremiseIotSensors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  downloadActivation(onPremiseIotSensorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  downloadActivation(onPremiseIotSensorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.OnPremiseIotSensorsDownloadActivationResponse> {
+  downloadActivation(
+    onPremiseIotSensorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  downloadActivation(
+    onPremiseIotSensorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.OnPremiseIotSensorsDownloadActivationResponse> {
     return this.client.sendOperationRequest(
       {
         onPremiseIotSensorName,
         options
       },
       downloadActivationOperationSpec,
-      callback) as Promise<Models.OnPremiseIotSensorsDownloadActivationResponse>;
+      callback
+    ) as Promise<Models.OnPremiseIotSensorsDownloadActivationResponse>;
   }
 
   /**
@@ -168,21 +229,39 @@ export class OnPremiseIotSensors {
    * @param [options] The optional parameters
    * @returns Promise<Models.OnPremiseIotSensorsDownloadResetPasswordResponse>
    */
-  downloadResetPassword(onPremiseIotSensorName: string, body: Models.ResetPasswordInput, options?: msRest.RequestOptionsBase): Promise<Models.OnPremiseIotSensorsDownloadResetPasswordResponse>;
+  downloadResetPassword(
+    onPremiseIotSensorName: string,
+    body: Models.ResetPasswordInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OnPremiseIotSensorsDownloadResetPasswordResponse>;
   /**
    * @param onPremiseIotSensorName Name of the on-premise IoT sensor
    * @param body Input for reset password.
    * @param callback The callback
    */
-  downloadResetPassword(onPremiseIotSensorName: string, body: Models.ResetPasswordInput, callback: msRest.ServiceCallback<void>): void;
+  downloadResetPassword(
+    onPremiseIotSensorName: string,
+    body: Models.ResetPasswordInput,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param onPremiseIotSensorName Name of the on-premise IoT sensor
    * @param body Input for reset password.
    * @param options The optional parameters
    * @param callback The callback
    */
-  downloadResetPassword(onPremiseIotSensorName: string, body: Models.ResetPasswordInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  downloadResetPassword(onPremiseIotSensorName: string, body: Models.ResetPasswordInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.OnPremiseIotSensorsDownloadResetPasswordResponse> {
+  downloadResetPassword(
+    onPremiseIotSensorName: string,
+    body: Models.ResetPasswordInput,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  downloadResetPassword(
+    onPremiseIotSensorName: string,
+    body: Models.ResetPasswordInput,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.OnPremiseIotSensorsDownloadResetPasswordResponse> {
     return this.client.sendOperationRequest(
       {
         onPremiseIotSensorName,
@@ -190,7 +269,8 @@ export class OnPremiseIotSensors {
         options
       },
       downloadResetPasswordOperationSpec,
-      callback) as Promise<Models.OnPremiseIotSensorsDownloadResetPasswordResponse>;
+      callback
+    ) as Promise<Models.OnPremiseIotSensorsDownloadResetPasswordResponse>;
   }
 }
 
@@ -199,15 +279,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/onPremiseIotSensors",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OnPremiseIotSensorsList
@@ -221,17 +295,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/onPremiseIotSensors/{onPremiseIotSensorName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.onPremiseIotSensorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/onPremiseIotSensors/{onPremiseIotSensorName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.onPremiseIotSensorName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OnPremiseIotSensor
@@ -245,17 +313,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/onPremiseIotSensors/{onPremiseIotSensorName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.onPremiseIotSensorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/onPremiseIotSensors/{onPremiseIotSensorName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.onPremiseIotSensorName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OnPremiseIotSensor
@@ -272,17 +334,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/onPremiseIotSensors/{onPremiseIotSensorName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.onPremiseIotSensorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/onPremiseIotSensors/{onPremiseIotSensorName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.onPremiseIotSensorName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -295,17 +351,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const downloadActivationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/onPremiseIotSensors/{onPremiseIotSensorName}/downloadActivation",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.onPremiseIotSensorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/onPremiseIotSensors/{onPremiseIotSensorName}/downloadActivation",
+  urlParameters: [Parameters.subscriptionId, Parameters.onPremiseIotSensorName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -324,17 +374,11 @@ const downloadActivationOperationSpec: msRest.OperationSpec = {
 
 const downloadResetPasswordOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/onPremiseIotSensors/{onPremiseIotSensorName}/downloadResetPassword",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.onPremiseIotSensorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/onPremiseIotSensors/{onPremiseIotSensorName}/downloadResetPassword",
+  urlParameters: [Parameters.subscriptionId, Parameters.onPremiseIotSensorName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {

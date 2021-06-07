@@ -39,14 +39,21 @@ export class AllowedConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AllowedConnectionsList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AllowedConnectionsList>, callback?: msRest.ServiceCallback<Models.AllowedConnectionsList>): Promise<Models.AllowedConnectionsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AllowedConnectionsList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AllowedConnectionsList>,
+    callback?: msRest.ServiceCallback<Models.AllowedConnectionsList>
+  ): Promise<Models.AllowedConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AllowedConnectionsListResponse>;
+      callback
+    ) as Promise<Models.AllowedConnectionsListResponse>;
   }
 
   /**
@@ -54,7 +61,9 @@ export class AllowedConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.AllowedConnectionsListByHomeRegionResponse>
    */
-  listByHomeRegion(options?: msRest.RequestOptionsBase): Promise<Models.AllowedConnectionsListByHomeRegionResponse>;
+  listByHomeRegion(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AllowedConnectionsListByHomeRegionResponse>;
   /**
    * @param callback The callback
    */
@@ -63,14 +72,21 @@ export class AllowedConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHomeRegion(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AllowedConnectionsList>): void;
-  listByHomeRegion(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AllowedConnectionsList>, callback?: msRest.ServiceCallback<Models.AllowedConnectionsList>): Promise<Models.AllowedConnectionsListByHomeRegionResponse> {
+  listByHomeRegion(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AllowedConnectionsList>
+  ): void;
+  listByHomeRegion(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AllowedConnectionsList>,
+    callback?: msRest.ServiceCallback<Models.AllowedConnectionsList>
+  ): Promise<Models.AllowedConnectionsListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listByHomeRegionOperationSpec,
-      callback) as Promise<Models.AllowedConnectionsListByHomeRegionResponse>;
+      callback
+    ) as Promise<Models.AllowedConnectionsListByHomeRegionResponse>;
   }
 
   /**
@@ -83,7 +99,11 @@ export class AllowedConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.AllowedConnectionsGetResponse>
    */
-  get(resourceGroupName: string, connectionType: Models.ConnectionType, options?: msRest.RequestOptionsBase): Promise<Models.AllowedConnectionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    connectionType: Models.ConnectionType,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AllowedConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -91,7 +111,11 @@ export class AllowedConnections {
    * include: 'Internal', 'External'
    * @param callback The callback
    */
-  get(resourceGroupName: string, connectionType: Models.ConnectionType, callback: msRest.ServiceCallback<Models.AllowedConnectionsResource>): void;
+  get(
+    resourceGroupName: string,
+    connectionType: Models.ConnectionType,
+    callback: msRest.ServiceCallback<Models.AllowedConnectionsResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -100,8 +124,18 @@ export class AllowedConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, connectionType: Models.ConnectionType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AllowedConnectionsResource>): void;
-  get(resourceGroupName: string, connectionType: Models.ConnectionType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AllowedConnectionsResource>, callback?: msRest.ServiceCallback<Models.AllowedConnectionsResource>): Promise<Models.AllowedConnectionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    connectionType: Models.ConnectionType,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AllowedConnectionsResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    connectionType: Models.ConnectionType,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AllowedConnectionsResource>,
+    callback?: msRest.ServiceCallback<Models.AllowedConnectionsResource>
+  ): Promise<Models.AllowedConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -109,7 +143,8 @@ export class AllowedConnections {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AllowedConnectionsGetResponse>;
+      callback
+    ) as Promise<Models.AllowedConnectionsGetResponse>;
   }
 
   /**
@@ -118,26 +153,41 @@ export class AllowedConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.AllowedConnectionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AllowedConnectionsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AllowedConnectionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AllowedConnectionsList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AllowedConnectionsList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AllowedConnectionsList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AllowedConnectionsList>, callback?: msRest.ServiceCallback<Models.AllowedConnectionsList>): Promise<Models.AllowedConnectionsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AllowedConnectionsList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AllowedConnectionsList>,
+    callback?: msRest.ServiceCallback<Models.AllowedConnectionsList>
+  ): Promise<Models.AllowedConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AllowedConnectionsListNextResponse>;
+      callback
+    ) as Promise<Models.AllowedConnectionsListNextResponse>;
   }
 
   /**
@@ -146,26 +196,41 @@ export class AllowedConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.AllowedConnectionsListByHomeRegionNextResponse>
    */
-  listByHomeRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AllowedConnectionsListByHomeRegionNextResponse>;
+  listByHomeRegionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AllowedConnectionsListByHomeRegionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByHomeRegionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AllowedConnectionsList>): void;
+  listByHomeRegionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AllowedConnectionsList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHomeRegionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AllowedConnectionsList>): void;
-  listByHomeRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AllowedConnectionsList>, callback?: msRest.ServiceCallback<Models.AllowedConnectionsList>): Promise<Models.AllowedConnectionsListByHomeRegionNextResponse> {
+  listByHomeRegionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AllowedConnectionsList>
+  ): void;
+  listByHomeRegionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AllowedConnectionsList>,
+    callback?: msRest.ServiceCallback<Models.AllowedConnectionsList>
+  ): Promise<Models.AllowedConnectionsListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByHomeRegionNextOperationSpec,
-      callback) as Promise<Models.AllowedConnectionsListByHomeRegionNextResponse>;
+      callback
+    ) as Promise<Models.AllowedConnectionsListByHomeRegionNextResponse>;
   }
 }
 
@@ -174,15 +239,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/allowedConnections",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AllowedConnectionsList
@@ -196,17 +255,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByHomeRegionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/allowedConnections",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/allowedConnections",
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AllowedConnectionsList
@@ -220,19 +273,16 @@ const listByHomeRegionOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/allowedConnections/{connectionType}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/allowedConnections/{connectionType}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.ascLocation,
     Parameters.connectionType
   ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AllowedConnectionsResource
@@ -248,15 +298,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AllowedConnectionsList
@@ -272,15 +316,9 @@ const listByHomeRegionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AllowedConnectionsList

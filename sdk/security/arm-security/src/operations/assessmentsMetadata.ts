@@ -39,14 +39,23 @@ export class AssessmentsMetadata {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>, callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>): Promise<Models.AssessmentsMetadataListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>,
+    callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>
+  ): Promise<Models.AssessmentsMetadataListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AssessmentsMetadataListResponse>;
+      callback
+    ) as Promise<Models.AssessmentsMetadataListResponse>;
   }
 
   /**
@@ -55,26 +64,41 @@ export class AssessmentsMetadata {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsMetadataGetResponse>
    */
-  get(assessmentMetadataName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsMetadataGetResponse>;
+  get(
+    assessmentMetadataName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsMetadataGetResponse>;
   /**
    * @param assessmentMetadataName The Assessment Key - Unique key for the assessment type
    * @param callback The callback
    */
-  get(assessmentMetadataName: string, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>): void;
+  get(
+    assessmentMetadataName: string,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>
+  ): void;
   /**
    * @param assessmentMetadataName The Assessment Key - Unique key for the assessment type
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(assessmentMetadataName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>): void;
-  get(assessmentMetadataName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentMetadata>, callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>): Promise<Models.AssessmentsMetadataGetResponse> {
+  get(
+    assessmentMetadataName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>
+  ): void;
+  get(
+    assessmentMetadataName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentMetadata>,
+    callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>
+  ): Promise<Models.AssessmentsMetadataGetResponse> {
     return this.client.sendOperationRequest(
       {
         assessmentMetadataName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AssessmentsMetadataGetResponse>;
+      callback
+    ) as Promise<Models.AssessmentsMetadataGetResponse>;
   }
 
   /**
@@ -82,7 +106,9 @@ export class AssessmentsMetadata {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsMetadataListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsMetadataListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsMetadataListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -91,14 +117,23 @@ export class AssessmentsMetadata {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>, callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>): Promise<Models.AssessmentsMetadataListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>,
+    callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>
+  ): Promise<Models.AssessmentsMetadataListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.AssessmentsMetadataListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.AssessmentsMetadataListBySubscriptionResponse>;
   }
 
   /**
@@ -107,26 +142,41 @@ export class AssessmentsMetadata {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsMetadataGetInSubscriptionResponse>
    */
-  getInSubscription(assessmentMetadataName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsMetadataGetInSubscriptionResponse>;
+  getInSubscription(
+    assessmentMetadataName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsMetadataGetInSubscriptionResponse>;
   /**
    * @param assessmentMetadataName The Assessment Key - Unique key for the assessment type
    * @param callback The callback
    */
-  getInSubscription(assessmentMetadataName: string, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>): void;
+  getInSubscription(
+    assessmentMetadataName: string,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>
+  ): void;
   /**
    * @param assessmentMetadataName The Assessment Key - Unique key for the assessment type
    * @param options The optional parameters
    * @param callback The callback
    */
-  getInSubscription(assessmentMetadataName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>): void;
-  getInSubscription(assessmentMetadataName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentMetadata>, callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>): Promise<Models.AssessmentsMetadataGetInSubscriptionResponse> {
+  getInSubscription(
+    assessmentMetadataName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>
+  ): void;
+  getInSubscription(
+    assessmentMetadataName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentMetadata>,
+    callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>
+  ): Promise<Models.AssessmentsMetadataGetInSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         assessmentMetadataName,
         options
       },
       getInSubscriptionOperationSpec,
-      callback) as Promise<Models.AssessmentsMetadataGetInSubscriptionResponse>;
+      callback
+    ) as Promise<Models.AssessmentsMetadataGetInSubscriptionResponse>;
   }
 
   /**
@@ -136,21 +186,39 @@ export class AssessmentsMetadata {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsMetadataCreateInSubscriptionResponse>
    */
-  createInSubscription(assessmentMetadataName: string, assessmentMetadata: Models.SecurityAssessmentMetadata, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsMetadataCreateInSubscriptionResponse>;
+  createInSubscription(
+    assessmentMetadataName: string,
+    assessmentMetadata: Models.SecurityAssessmentMetadata,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsMetadataCreateInSubscriptionResponse>;
   /**
    * @param assessmentMetadataName The Assessment Key - Unique key for the assessment type
    * @param assessmentMetadata AssessmentMetadata object
    * @param callback The callback
    */
-  createInSubscription(assessmentMetadataName: string, assessmentMetadata: Models.SecurityAssessmentMetadata, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>): void;
+  createInSubscription(
+    assessmentMetadataName: string,
+    assessmentMetadata: Models.SecurityAssessmentMetadata,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>
+  ): void;
   /**
    * @param assessmentMetadataName The Assessment Key - Unique key for the assessment type
    * @param assessmentMetadata AssessmentMetadata object
    * @param options The optional parameters
    * @param callback The callback
    */
-  createInSubscription(assessmentMetadataName: string, assessmentMetadata: Models.SecurityAssessmentMetadata, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>): void;
-  createInSubscription(assessmentMetadataName: string, assessmentMetadata: Models.SecurityAssessmentMetadata, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentMetadata>, callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>): Promise<Models.AssessmentsMetadataCreateInSubscriptionResponse> {
+  createInSubscription(
+    assessmentMetadataName: string,
+    assessmentMetadata: Models.SecurityAssessmentMetadata,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>
+  ): void;
+  createInSubscription(
+    assessmentMetadataName: string,
+    assessmentMetadata: Models.SecurityAssessmentMetadata,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentMetadata>,
+    callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadata>
+  ): Promise<Models.AssessmentsMetadataCreateInSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         assessmentMetadataName,
@@ -158,7 +226,8 @@ export class AssessmentsMetadata {
         options
       },
       createInSubscriptionOperationSpec,
-      callback) as Promise<Models.AssessmentsMetadataCreateInSubscriptionResponse>;
+      callback
+    ) as Promise<Models.AssessmentsMetadataCreateInSubscriptionResponse>;
   }
 
   /**
@@ -168,26 +237,41 @@ export class AssessmentsMetadata {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteInSubscription(assessmentMetadataName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteInSubscription(
+    assessmentMetadataName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param assessmentMetadataName The Assessment Key - Unique key for the assessment type
    * @param callback The callback
    */
-  deleteInSubscription(assessmentMetadataName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteInSubscription(
+    assessmentMetadataName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param assessmentMetadataName The Assessment Key - Unique key for the assessment type
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteInSubscription(assessmentMetadataName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteInSubscription(assessmentMetadataName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteInSubscription(
+    assessmentMetadataName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteInSubscription(
+    assessmentMetadataName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         assessmentMetadataName,
         options
       },
       deleteInSubscriptionOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -196,26 +280,43 @@ export class AssessmentsMetadata {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsMetadataListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsMetadataListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsMetadataListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>, callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>): Promise<Models.AssessmentsMetadataListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>,
+    callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>
+  ): Promise<Models.AssessmentsMetadataListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AssessmentsMetadataListNextResponse>;
+      callback
+    ) as Promise<Models.AssessmentsMetadataListNextResponse>;
   }
 
   /**
@@ -224,26 +325,43 @@ export class AssessmentsMetadata {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsMetadataListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsMetadataListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsMetadataListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>, callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>): Promise<Models.AssessmentsMetadataListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>,
+    callback?: msRest.ServiceCallback<Models.SecurityAssessmentMetadataList>
+  ): Promise<Models.AssessmentsMetadataListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.AssessmentsMetadataListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.AssessmentsMetadataListBySubscriptionNextResponse>;
   }
 }
 
@@ -252,12 +370,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Security/assessmentMetadata",
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityAssessmentMetadataList
@@ -272,15 +386,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
-  urlParameters: [
-    Parameters.assessmentMetadataName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.assessmentMetadataName],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityAssessmentMetadata
@@ -295,15 +403,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityAssessmentMetadataList
@@ -317,17 +419,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const getInSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
-  urlParameters: [
-    Parameters.assessmentMetadataName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
+  urlParameters: [Parameters.assessmentMetadataName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityAssessmentMetadata
@@ -341,17 +437,11 @@ const getInSubscriptionOperationSpec: msRest.OperationSpec = {
 
 const createInSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
-  urlParameters: [
-    Parameters.assessmentMetadataName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
+  urlParameters: [Parameters.assessmentMetadataName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "assessmentMetadata",
     mapper: {
@@ -372,17 +462,11 @@ const createInSubscriptionOperationSpec: msRest.OperationSpec = {
 
 const deleteInSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
-  urlParameters: [
-    Parameters.assessmentMetadataName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/assessmentMetadata/{assessmentMetadataName}",
+  urlParameters: [Parameters.assessmentMetadataName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -396,15 +480,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityAssessmentMetadataList
@@ -420,15 +498,9 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityAssessmentMetadataList

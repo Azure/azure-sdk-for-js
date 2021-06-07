@@ -33,7 +33,10 @@ export class ComplianceResults {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComplianceResultsListResponse>
    */
-  list(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.ComplianceResultsListResponse>;
+  list(
+    scope: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComplianceResultsListResponse>;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -48,15 +51,24 @@ export class ComplianceResults {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComplianceResultList>): void;
-  list(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceResultList>, callback?: msRest.ServiceCallback<Models.ComplianceResultList>): Promise<Models.ComplianceResultsListResponse> {
+  list(
+    scope: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ComplianceResultList>
+  ): void;
+  list(
+    scope: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceResultList>,
+    callback?: msRest.ServiceCallback<Models.ComplianceResultList>
+  ): Promise<Models.ComplianceResultsListResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ComplianceResultsListResponse>;
+      callback
+    ) as Promise<Models.ComplianceResultsListResponse>;
   }
 
   /**
@@ -66,21 +78,39 @@ export class ComplianceResults {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComplianceResultsGetResponse>
    */
-  get(resourceId: string, complianceResultName: string, options?: msRest.RequestOptionsBase): Promise<Models.ComplianceResultsGetResponse>;
+  get(
+    resourceId: string,
+    complianceResultName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComplianceResultsGetResponse>;
   /**
    * @param resourceId The identifier of the resource.
    * @param complianceResultName name of the desired assessment compliance result
    * @param callback The callback
    */
-  get(resourceId: string, complianceResultName: string, callback: msRest.ServiceCallback<Models.ComplianceResult>): void;
+  get(
+    resourceId: string,
+    complianceResultName: string,
+    callback: msRest.ServiceCallback<Models.ComplianceResult>
+  ): void;
   /**
    * @param resourceId The identifier of the resource.
    * @param complianceResultName name of the desired assessment compliance result
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceId: string, complianceResultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComplianceResult>): void;
-  get(resourceId: string, complianceResultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceResult>, callback?: msRest.ServiceCallback<Models.ComplianceResult>): Promise<Models.ComplianceResultsGetResponse> {
+  get(
+    resourceId: string,
+    complianceResultName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ComplianceResult>
+  ): void;
+  get(
+    resourceId: string,
+    complianceResultName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceResult>,
+    callback?: msRest.ServiceCallback<Models.ComplianceResult>
+  ): Promise<Models.ComplianceResultsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -88,7 +118,8 @@ export class ComplianceResults {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ComplianceResultsGetResponse>;
+      callback
+    ) as Promise<Models.ComplianceResultsGetResponse>;
   }
 
   /**
@@ -97,26 +128,41 @@ export class ComplianceResults {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComplianceResultsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ComplianceResultsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComplianceResultsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ComplianceResultList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ComplianceResultList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComplianceResultList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceResultList>, callback?: msRest.ServiceCallback<Models.ComplianceResultList>): Promise<Models.ComplianceResultsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ComplianceResultList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComplianceResultList>,
+    callback?: msRest.ServiceCallback<Models.ComplianceResultList>
+  ): Promise<Models.ComplianceResultsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ComplianceResultsListNextResponse>;
+      callback
+    ) as Promise<Models.ComplianceResultsListNextResponse>;
   }
 }
 
@@ -125,15 +171,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Security/complianceResults",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ComplianceResultList
@@ -148,16 +188,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceId}/providers/Microsoft.Security/complianceResults/{complianceResultName}",
-  urlParameters: [
-    Parameters.resourceId,
-    Parameters.complianceResultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceId, Parameters.complianceResultName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ComplianceResult
@@ -173,15 +206,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ComplianceResultList

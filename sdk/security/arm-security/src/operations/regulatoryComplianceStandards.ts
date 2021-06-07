@@ -30,7 +30,9 @@ export class RegulatoryComplianceStandards {
    * @param [options] The optional parameters
    * @returns Promise<Models.RegulatoryComplianceStandardsListResponse>
    */
-  list(options?: Models.RegulatoryComplianceStandardsListOptionalParams): Promise<Models.RegulatoryComplianceStandardsListResponse>;
+  list(
+    options?: Models.RegulatoryComplianceStandardsListOptionalParams
+  ): Promise<Models.RegulatoryComplianceStandardsListResponse>;
   /**
    * @param callback The callback
    */
@@ -39,14 +41,23 @@ export class RegulatoryComplianceStandards {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.RegulatoryComplianceStandardsListOptionalParams, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>): void;
-  list(options?: Models.RegulatoryComplianceStandardsListOptionalParams | msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>, callback?: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>): Promise<Models.RegulatoryComplianceStandardsListResponse> {
+  list(
+    options: Models.RegulatoryComplianceStandardsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>
+  ): void;
+  list(
+    options?:
+      | Models.RegulatoryComplianceStandardsListOptionalParams
+      | msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>,
+    callback?: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>
+  ): Promise<Models.RegulatoryComplianceStandardsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RegulatoryComplianceStandardsListResponse>;
+      callback
+    ) as Promise<Models.RegulatoryComplianceStandardsListResponse>;
   }
 
   /**
@@ -55,26 +66,43 @@ export class RegulatoryComplianceStandards {
    * @param [options] The optional parameters
    * @returns Promise<Models.RegulatoryComplianceStandardsGetResponse>
    */
-  get(regulatoryComplianceStandardName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegulatoryComplianceStandardsGetResponse>;
+  get(
+    regulatoryComplianceStandardName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RegulatoryComplianceStandardsGetResponse>;
   /**
    * @param regulatoryComplianceStandardName Name of the regulatory compliance standard object
    * @param callback The callback
    */
-  get(regulatoryComplianceStandardName: string, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>): void;
+  get(
+    regulatoryComplianceStandardName: string,
+    callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>
+  ): void;
   /**
    * @param regulatoryComplianceStandardName Name of the regulatory compliance standard object
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(regulatoryComplianceStandardName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>): void;
-  get(regulatoryComplianceStandardName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegulatoryComplianceStandard>, callback?: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>): Promise<Models.RegulatoryComplianceStandardsGetResponse> {
+  get(
+    regulatoryComplianceStandardName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>
+  ): void;
+  get(
+    regulatoryComplianceStandardName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RegulatoryComplianceStandard>,
+    callback?: msRest.ServiceCallback<Models.RegulatoryComplianceStandard>
+  ): Promise<Models.RegulatoryComplianceStandardsGetResponse> {
     return this.client.sendOperationRequest(
       {
         regulatoryComplianceStandardName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RegulatoryComplianceStandardsGetResponse>;
+      callback
+    ) as Promise<Models.RegulatoryComplianceStandardsGetResponse>;
   }
 
   /**
@@ -83,26 +111,43 @@ export class RegulatoryComplianceStandards {
    * @param [options] The optional parameters
    * @returns Promise<Models.RegulatoryComplianceStandardsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.RegulatoryComplianceStandardsListNextOptionalParams): Promise<Models.RegulatoryComplianceStandardsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.RegulatoryComplianceStandardsListNextOptionalParams
+  ): Promise<Models.RegulatoryComplianceStandardsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.RegulatoryComplianceStandardsListNextOptionalParams, callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>): void;
-  listNext(nextPageLink: string, options?: Models.RegulatoryComplianceStandardsListNextOptionalParams | msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>, callback?: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>): Promise<Models.RegulatoryComplianceStandardsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.RegulatoryComplianceStandardsListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.RegulatoryComplianceStandardsListNextOptionalParams
+      | msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>,
+    callback?: msRest.ServiceCallback<Models.RegulatoryComplianceStandardList>
+  ): Promise<Models.RegulatoryComplianceStandardsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.RegulatoryComplianceStandardsListNextResponse>;
+      callback
+    ) as Promise<Models.RegulatoryComplianceStandardsListNextResponse>;
   }
 }
 
@@ -111,16 +156,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion7,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion7, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RegulatoryComplianceStandardList
@@ -134,17 +172,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.regulatoryComplianceStandardName
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/regulatoryComplianceStandards/{regulatoryComplianceStandardName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.regulatoryComplianceStandardName],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RegulatoryComplianceStandard
@@ -160,16 +192,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion7,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion7, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RegulatoryComplianceStandardList

@@ -39,14 +39,21 @@ export class IotDefenderSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotDefenderSettingsList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotDefenderSettingsList>, callback?: msRest.ServiceCallback<Models.IotDefenderSettingsList>): Promise<Models.IotDefenderSettingsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotDefenderSettingsList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotDefenderSettingsList>,
+    callback?: msRest.ServiceCallback<Models.IotDefenderSettingsList>
+  ): Promise<Models.IotDefenderSettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IotDefenderSettingsListResponse>;
+      callback
+    ) as Promise<Models.IotDefenderSettingsListResponse>;
   }
 
   /**
@@ -63,14 +70,21 @@ export class IotDefenderSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotDefenderSettingsModel>): void;
-  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotDefenderSettingsModel>, callback?: msRest.ServiceCallback<Models.IotDefenderSettingsModel>): Promise<Models.IotDefenderSettingsGetResponse> {
+  get(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotDefenderSettingsModel>
+  ): void;
+  get(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotDefenderSettingsModel>,
+    callback?: msRest.ServiceCallback<Models.IotDefenderSettingsModel>
+  ): Promise<Models.IotDefenderSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IotDefenderSettingsGetResponse>;
+      callback
+    ) as Promise<Models.IotDefenderSettingsGetResponse>;
   }
 
   /**
@@ -79,26 +93,41 @@ export class IotDefenderSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDefenderSettingsCreateOrUpdateResponse>
    */
-  createOrUpdate(iotDefenderSettingsModel: Models.IotDefenderSettingsModel, options?: msRest.RequestOptionsBase): Promise<Models.IotDefenderSettingsCreateOrUpdateResponse>;
+  createOrUpdate(
+    iotDefenderSettingsModel: Models.IotDefenderSettingsModel,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDefenderSettingsCreateOrUpdateResponse>;
   /**
    * @param iotDefenderSettingsModel The IoT defender settings model
    * @param callback The callback
    */
-  createOrUpdate(iotDefenderSettingsModel: Models.IotDefenderSettingsModel, callback: msRest.ServiceCallback<Models.IotDefenderSettingsModel>): void;
+  createOrUpdate(
+    iotDefenderSettingsModel: Models.IotDefenderSettingsModel,
+    callback: msRest.ServiceCallback<Models.IotDefenderSettingsModel>
+  ): void;
   /**
    * @param iotDefenderSettingsModel The IoT defender settings model
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(iotDefenderSettingsModel: Models.IotDefenderSettingsModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotDefenderSettingsModel>): void;
-  createOrUpdate(iotDefenderSettingsModel: Models.IotDefenderSettingsModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotDefenderSettingsModel>, callback?: msRest.ServiceCallback<Models.IotDefenderSettingsModel>): Promise<Models.IotDefenderSettingsCreateOrUpdateResponse> {
+  createOrUpdate(
+    iotDefenderSettingsModel: Models.IotDefenderSettingsModel,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotDefenderSettingsModel>
+  ): void;
+  createOrUpdate(
+    iotDefenderSettingsModel: Models.IotDefenderSettingsModel,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotDefenderSettingsModel>,
+    callback?: msRest.ServiceCallback<Models.IotDefenderSettingsModel>
+  ): Promise<Models.IotDefenderSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         iotDefenderSettingsModel,
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.IotDefenderSettingsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.IotDefenderSettingsCreateOrUpdateResponse>;
   }
 
   /**
@@ -116,13 +145,17 @@ export class IotDefenderSettings {
    * @param callback The callback
    */
   deleteMethod(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -130,7 +163,9 @@ export class IotDefenderSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDefenderSettingsPackageDownloadsMethodResponse>
    */
-  packageDownloadsMethod(options?: msRest.RequestOptionsBase): Promise<Models.IotDefenderSettingsPackageDownloadsMethodResponse>;
+  packageDownloadsMethod(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDefenderSettingsPackageDownloadsMethodResponse>;
   /**
    * @param callback The callback
    */
@@ -139,14 +174,21 @@ export class IotDefenderSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  packageDownloadsMethod(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PackageDownloads>): void;
-  packageDownloadsMethod(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PackageDownloads>, callback?: msRest.ServiceCallback<Models.PackageDownloads>): Promise<Models.IotDefenderSettingsPackageDownloadsMethodResponse> {
+  packageDownloadsMethod(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PackageDownloads>
+  ): void;
+  packageDownloadsMethod(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PackageDownloads>,
+    callback?: msRest.ServiceCallback<Models.PackageDownloads>
+  ): Promise<Models.IotDefenderSettingsPackageDownloadsMethodResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       packageDownloadsMethodOperationSpec,
-      callback) as Promise<Models.IotDefenderSettingsPackageDownloadsMethodResponse>;
+      callback
+    ) as Promise<Models.IotDefenderSettingsPackageDownloadsMethodResponse>;
   }
 
   /**
@@ -154,7 +196,9 @@ export class IotDefenderSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDefenderSettingsDownloadManagerActivationResponse>
    */
-  downloadManagerActivation(options?: msRest.RequestOptionsBase): Promise<Models.IotDefenderSettingsDownloadManagerActivationResponse>;
+  downloadManagerActivation(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDefenderSettingsDownloadManagerActivationResponse>;
   /**
    * @param callback The callback
    */
@@ -163,14 +207,21 @@ export class IotDefenderSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  downloadManagerActivation(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  downloadManagerActivation(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.IotDefenderSettingsDownloadManagerActivationResponse> {
+  downloadManagerActivation(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  downloadManagerActivation(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.IotDefenderSettingsDownloadManagerActivationResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       downloadManagerActivationOperationSpec,
-      callback) as Promise<Models.IotDefenderSettingsDownloadManagerActivationResponse>;
+      callback
+    ) as Promise<Models.IotDefenderSettingsDownloadManagerActivationResponse>;
   }
 }
 
@@ -179,15 +230,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotDefenderSettings",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotDefenderSettingsList
@@ -202,15 +247,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotDefenderSettings/default",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotDefenderSettingsModel
@@ -225,15 +264,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotDefenderSettings/default",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "iotDefenderSettingsModel",
     mapper: {
@@ -258,15 +291,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotDefenderSettings/default",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -279,16 +306,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const packageDownloadsMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotDefenderSettings/default/packageDownloads",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotDefenderSettings/default/packageDownloads",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PackageDownloads
@@ -302,16 +324,11 @@ const packageDownloadsMethodOperationSpec: msRest.OperationSpec = {
 
 const downloadManagerActivationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotDefenderSettings/default/downloadManagerActivation",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotDefenderSettings/default/downloadManagerActivation",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {

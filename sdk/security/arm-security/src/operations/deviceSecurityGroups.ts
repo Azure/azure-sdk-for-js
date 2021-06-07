@@ -31,7 +31,10 @@ export class DeviceSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeviceSecurityGroupsListResponse>
    */
-  list(resourceId: string, options?: msRest.RequestOptionsBase): Promise<Models.DeviceSecurityGroupsListResponse>;
+  list(
+    resourceId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeviceSecurityGroupsListResponse>;
   /**
    * @param resourceId The identifier of the resource.
    * @param callback The callback
@@ -42,15 +45,24 @@ export class DeviceSecurityGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeviceSecurityGroupList>): void;
-  list(resourceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeviceSecurityGroupList>, callback?: msRest.ServiceCallback<Models.DeviceSecurityGroupList>): Promise<Models.DeviceSecurityGroupsListResponse> {
+  list(
+    resourceId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeviceSecurityGroupList>
+  ): void;
+  list(
+    resourceId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeviceSecurityGroupList>,
+    callback?: msRest.ServiceCallback<Models.DeviceSecurityGroupList>
+  ): Promise<Models.DeviceSecurityGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DeviceSecurityGroupsListResponse>;
+      callback
+    ) as Promise<Models.DeviceSecurityGroupsListResponse>;
   }
 
   /**
@@ -61,14 +73,22 @@ export class DeviceSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeviceSecurityGroupsGetResponse>
    */
-  get(resourceId: string, deviceSecurityGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeviceSecurityGroupsGetResponse>;
+  get(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeviceSecurityGroupsGetResponse>;
   /**
    * @param resourceId The identifier of the resource.
    * @param deviceSecurityGroupName The name of the device security group. Note that the name of the
    * device security group is case insensitive.
    * @param callback The callback
    */
-  get(resourceId: string, deviceSecurityGroupName: string, callback: msRest.ServiceCallback<Models.DeviceSecurityGroup>): void;
+  get(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    callback: msRest.ServiceCallback<Models.DeviceSecurityGroup>
+  ): void;
   /**
    * @param resourceId The identifier of the resource.
    * @param deviceSecurityGroupName The name of the device security group. Note that the name of the
@@ -76,8 +96,18 @@ export class DeviceSecurityGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceId: string, deviceSecurityGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeviceSecurityGroup>): void;
-  get(resourceId: string, deviceSecurityGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeviceSecurityGroup>, callback?: msRest.ServiceCallback<Models.DeviceSecurityGroup>): Promise<Models.DeviceSecurityGroupsGetResponse> {
+  get(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeviceSecurityGroup>
+  ): void;
+  get(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeviceSecurityGroup>,
+    callback?: msRest.ServiceCallback<Models.DeviceSecurityGroup>
+  ): Promise<Models.DeviceSecurityGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -85,7 +115,8 @@ export class DeviceSecurityGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DeviceSecurityGroupsGetResponse>;
+      callback
+    ) as Promise<Models.DeviceSecurityGroupsGetResponse>;
   }
 
   /**
@@ -97,7 +128,12 @@ export class DeviceSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeviceSecurityGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceId: string, deviceSecurityGroupName: string, deviceSecurityGroup: Models.DeviceSecurityGroup, options?: msRest.RequestOptionsBase): Promise<Models.DeviceSecurityGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    deviceSecurityGroup: Models.DeviceSecurityGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeviceSecurityGroupsCreateOrUpdateResponse>;
   /**
    * @param resourceId The identifier of the resource.
    * @param deviceSecurityGroupName The name of the device security group. Note that the name of the
@@ -105,7 +141,12 @@ export class DeviceSecurityGroups {
    * @param deviceSecurityGroup Security group object.
    * @param callback The callback
    */
-  createOrUpdate(resourceId: string, deviceSecurityGroupName: string, deviceSecurityGroup: Models.DeviceSecurityGroup, callback: msRest.ServiceCallback<Models.DeviceSecurityGroup>): void;
+  createOrUpdate(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    deviceSecurityGroup: Models.DeviceSecurityGroup,
+    callback: msRest.ServiceCallback<Models.DeviceSecurityGroup>
+  ): void;
   /**
    * @param resourceId The identifier of the resource.
    * @param deviceSecurityGroupName The name of the device security group. Note that the name of the
@@ -114,8 +155,20 @@ export class DeviceSecurityGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceId: string, deviceSecurityGroupName: string, deviceSecurityGroup: Models.DeviceSecurityGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeviceSecurityGroup>): void;
-  createOrUpdate(resourceId: string, deviceSecurityGroupName: string, deviceSecurityGroup: Models.DeviceSecurityGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeviceSecurityGroup>, callback?: msRest.ServiceCallback<Models.DeviceSecurityGroup>): Promise<Models.DeviceSecurityGroupsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    deviceSecurityGroup: Models.DeviceSecurityGroup,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeviceSecurityGroup>
+  ): void;
+  createOrUpdate(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    deviceSecurityGroup: Models.DeviceSecurityGroup,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeviceSecurityGroup>,
+    callback?: msRest.ServiceCallback<Models.DeviceSecurityGroup>
+  ): Promise<Models.DeviceSecurityGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -124,7 +177,8 @@ export class DeviceSecurityGroups {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DeviceSecurityGroupsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DeviceSecurityGroupsCreateOrUpdateResponse>;
   }
 
   /**
@@ -135,14 +189,22 @@ export class DeviceSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceId: string, deviceSecurityGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceId The identifier of the resource.
    * @param deviceSecurityGroupName The name of the device security group. Note that the name of the
    * device security group is case insensitive.
    * @param callback The callback
    */
-  deleteMethod(resourceId: string, deviceSecurityGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceId The identifier of the resource.
    * @param deviceSecurityGroupName The name of the device security group. Note that the name of the
@@ -150,8 +212,18 @@ export class DeviceSecurityGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceId: string, deviceSecurityGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceId: string, deviceSecurityGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceId: string,
+    deviceSecurityGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -159,7 +231,8 @@ export class DeviceSecurityGroups {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -168,26 +241,41 @@ export class DeviceSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeviceSecurityGroupsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DeviceSecurityGroupsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeviceSecurityGroupsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeviceSecurityGroupList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DeviceSecurityGroupList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeviceSecurityGroupList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeviceSecurityGroupList>, callback?: msRest.ServiceCallback<Models.DeviceSecurityGroupList>): Promise<Models.DeviceSecurityGroupsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeviceSecurityGroupList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeviceSecurityGroupList>,
+    callback?: msRest.ServiceCallback<Models.DeviceSecurityGroupList>
+  ): Promise<Models.DeviceSecurityGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DeviceSecurityGroupsListNextResponse>;
+      callback
+    ) as Promise<Models.DeviceSecurityGroupsListNextResponse>;
   }
 }
 
@@ -196,15 +284,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceId}/providers/Microsoft.Security/deviceSecurityGroups",
-  urlParameters: [
-    Parameters.resourceId
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceId],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeviceSecurityGroupList
@@ -219,16 +301,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceId}/providers/Microsoft.Security/deviceSecurityGroups/{deviceSecurityGroupName}",
-  urlParameters: [
-    Parameters.resourceId,
-    Parameters.deviceSecurityGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceId, Parameters.deviceSecurityGroupName],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeviceSecurityGroup
@@ -243,16 +318,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{resourceId}/providers/Microsoft.Security/deviceSecurityGroups/{deviceSecurityGroupName}",
-  urlParameters: [
-    Parameters.resourceId,
-    Parameters.deviceSecurityGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceId, Parameters.deviceSecurityGroupName],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "deviceSecurityGroup",
     mapper: {
@@ -277,16 +345,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{resourceId}/providers/Microsoft.Security/deviceSecurityGroups/{deviceSecurityGroupName}",
-  urlParameters: [
-    Parameters.resourceId,
-    Parameters.deviceSecurityGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceId, Parameters.deviceSecurityGroupName],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -301,15 +362,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeviceSecurityGroupList

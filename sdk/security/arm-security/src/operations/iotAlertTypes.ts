@@ -33,14 +33,22 @@ export class IotAlertTypes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotAlertTypesListResponse>
    */
-  list(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotAlertTypesListResponse>;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotAlertTypesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param solutionName The name of the IoT Security solution.
    * @param callback The callback
    */
-  list(resourceGroupName: string, solutionName: string, callback: msRest.ServiceCallback<Models.IotAlertTypeList>): void;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    callback: msRest.ServiceCallback<Models.IotAlertTypeList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -48,8 +56,18 @@ export class IotAlertTypes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, solutionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotAlertTypeList>): void;
-  list(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotAlertTypeList>, callback?: msRest.ServiceCallback<Models.IotAlertTypeList>): Promise<Models.IotAlertTypesListResponse> {
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotAlertTypeList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotAlertTypeList>,
+    callback?: msRest.ServiceCallback<Models.IotAlertTypeList>
+  ): Promise<Models.IotAlertTypesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -57,7 +75,8 @@ export class IotAlertTypes {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IotAlertTypesListResponse>;
+      callback
+    ) as Promise<Models.IotAlertTypesListResponse>;
   }
 
   /**
@@ -69,7 +88,12 @@ export class IotAlertTypes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotAlertTypesGetResponse>
    */
-  get(resourceGroupName: string, solutionName: string, iotAlertTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotAlertTypesGetResponse>;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    iotAlertTypeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotAlertTypesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -77,7 +101,12 @@ export class IotAlertTypes {
    * @param iotAlertTypeName Name of the alert type
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, iotAlertTypeName: string, callback: msRest.ServiceCallback<Models.IotAlertType>): void;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    iotAlertTypeName: string,
+    callback: msRest.ServiceCallback<Models.IotAlertType>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -86,8 +115,20 @@ export class IotAlertTypes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, iotAlertTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotAlertType>): void;
-  get(resourceGroupName: string, solutionName: string, iotAlertTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotAlertType>, callback?: msRest.ServiceCallback<Models.IotAlertType>): Promise<Models.IotAlertTypesGetResponse> {
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    iotAlertTypeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotAlertType>
+  ): void;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    iotAlertTypeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotAlertType>,
+    callback?: msRest.ServiceCallback<Models.IotAlertType>
+  ): Promise<Models.IotAlertTypesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +137,8 @@ export class IotAlertTypes {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IotAlertTypesGetResponse>;
+      callback
+    ) as Promise<Models.IotAlertTypesGetResponse>;
   }
 
   /**
@@ -113,14 +155,21 @@ export class IotAlertTypes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list1(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotAlertTypeList>): void;
-  list1(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotAlertTypeList>, callback?: msRest.ServiceCallback<Models.IotAlertTypeList>): Promise<Models.IotAlertTypesList1Response> {
+  list1(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotAlertTypeList>
+  ): void;
+  list1(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotAlertTypeList>,
+    callback?: msRest.ServiceCallback<Models.IotAlertTypeList>
+  ): Promise<Models.IotAlertTypesList1Response> {
     return this.client.sendOperationRequest(
       {
         options
       },
       list1OperationSpec,
-      callback) as Promise<Models.IotAlertTypesList1Response>;
+      callback
+    ) as Promise<Models.IotAlertTypesList1Response>;
   }
 
   /**
@@ -129,7 +178,10 @@ export class IotAlertTypes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotAlertTypesGet1Response>
    */
-  get1(iotAlertTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotAlertTypesGet1Response>;
+  get1(
+    iotAlertTypeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotAlertTypesGet1Response>;
   /**
    * @param iotAlertTypeName Name of the alert type
    * @param callback The callback
@@ -140,15 +192,24 @@ export class IotAlertTypes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get1(iotAlertTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotAlertType>): void;
-  get1(iotAlertTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotAlertType>, callback?: msRest.ServiceCallback<Models.IotAlertType>): Promise<Models.IotAlertTypesGet1Response> {
+  get1(
+    iotAlertTypeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotAlertType>
+  ): void;
+  get1(
+    iotAlertTypeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotAlertType>,
+    callback?: msRest.ServiceCallback<Models.IotAlertType>
+  ): Promise<Models.IotAlertTypesGet1Response> {
     return this.client.sendOperationRequest(
       {
         iotAlertTypeName,
         options
       },
       get1OperationSpec,
-      callback) as Promise<Models.IotAlertTypesGet1Response>;
+      callback
+    ) as Promise<Models.IotAlertTypesGet1Response>;
   }
 }
 
@@ -156,18 +217,11 @@ export class IotAlertTypes {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/iotAlertTypes",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.solutionName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/iotAlertTypes",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.solutionName],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotAlertTypeList
@@ -181,19 +235,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/iotAlertTypes/{iotAlertTypeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/iotAlertTypes/{iotAlertTypeName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.solutionName,
     Parameters.iotAlertTypeName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotAlertType
@@ -208,15 +259,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const list1OperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotAlertTypes",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotAlertTypeList
@@ -230,17 +275,11 @@ const list1OperationSpec: msRest.OperationSpec = {
 
 const get1OperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotAlertTypes/{iotAlertTypeName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.iotAlertTypeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/iotAlertTypes/{iotAlertTypeName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.iotAlertTypeName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotAlertType

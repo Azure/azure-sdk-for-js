@@ -40,14 +40,21 @@ export class Automations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutomationList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutomationList>, callback?: msRest.ServiceCallback<Models.AutomationList>): Promise<Models.AutomationsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AutomationList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutomationList>,
+    callback?: msRest.ServiceCallback<Models.AutomationList>
+  ): Promise<Models.AutomationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AutomationsListResponse>;
+      callback
+    ) as Promise<Models.AutomationsListResponse>;
   }
 
   /**
@@ -58,28 +65,43 @@ export class Automations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AutomationsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AutomationsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AutomationsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AutomationList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AutomationList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutomationList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutomationList>, callback?: msRest.ServiceCallback<Models.AutomationList>): Promise<Models.AutomationsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AutomationList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutomationList>,
+    callback?: msRest.ServiceCallback<Models.AutomationList>
+  ): Promise<Models.AutomationsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.AutomationsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.AutomationsListByResourceGroupResponse>;
   }
 
   /**
@@ -90,14 +112,22 @@ export class Automations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AutomationsGetResponse>
    */
-  get(resourceGroupName: string, automationName: string, options?: msRest.RequestOptionsBase): Promise<Models.AutomationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AutomationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param automationName The security automation name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationName: string, callback: msRest.ServiceCallback<Models.Automation>): void;
+  get(
+    resourceGroupName: string,
+    automationName: string,
+    callback: msRest.ServiceCallback<Models.Automation>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -105,8 +135,18 @@ export class Automations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Automation>): void;
-  get(resourceGroupName: string, automationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Automation>, callback?: msRest.ServiceCallback<Models.Automation>): Promise<Models.AutomationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Automation>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Automation>,
+    callback?: msRest.ServiceCallback<Models.Automation>
+  ): Promise<Models.AutomationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +154,8 @@ export class Automations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AutomationsGetResponse>;
+      callback
+    ) as Promise<Models.AutomationsGetResponse>;
   }
 
   /**
@@ -127,7 +168,12 @@ export class Automations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AutomationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, automationName: string, automation: Models.Automation, options?: msRest.RequestOptionsBase): Promise<Models.AutomationsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationName: string,
+    automation: Models.Automation,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AutomationsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -135,7 +181,12 @@ export class Automations {
    * @param automation The security automation resource
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationName: string, automation: Models.Automation, callback: msRest.ServiceCallback<Models.Automation>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationName: string,
+    automation: Models.Automation,
+    callback: msRest.ServiceCallback<Models.Automation>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -144,8 +195,20 @@ export class Automations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationName: string, automation: Models.Automation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Automation>): void;
-  createOrUpdate(resourceGroupName: string, automationName: string, automation: Models.Automation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Automation>, callback?: msRest.ServiceCallback<Models.Automation>): Promise<Models.AutomationsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    automationName: string,
+    automation: Models.Automation,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Automation>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationName: string,
+    automation: Models.Automation,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Automation>,
+    callback?: msRest.ServiceCallback<Models.Automation>
+  ): Promise<Models.AutomationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,7 +217,8 @@ export class Automations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.AutomationsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.AutomationsCreateOrUpdateResponse>;
   }
 
   /**
@@ -165,14 +229,22 @@ export class Automations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, automationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    automationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param automationName The security automation name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -180,8 +252,18 @@ export class Automations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    automationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -189,7 +271,8 @@ export class Automations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -202,7 +285,12 @@ export class Automations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AutomationsValidateResponse>
    */
-  validate(resourceGroupName: string, automationName: string, automation: Models.Automation, options?: msRest.RequestOptionsBase): Promise<Models.AutomationsValidateResponse>;
+  validate(
+    resourceGroupName: string,
+    automationName: string,
+    automation: Models.Automation,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AutomationsValidateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -210,7 +298,12 @@ export class Automations {
    * @param automation The security automation resource
    * @param callback The callback
    */
-  validate(resourceGroupName: string, automationName: string, automation: Models.Automation, callback: msRest.ServiceCallback<Models.AutomationValidationStatus>): void;
+  validate(
+    resourceGroupName: string,
+    automationName: string,
+    automation: Models.Automation,
+    callback: msRest.ServiceCallback<Models.AutomationValidationStatus>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -219,8 +312,20 @@ export class Automations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  validate(resourceGroupName: string, automationName: string, automation: Models.Automation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutomationValidationStatus>): void;
-  validate(resourceGroupName: string, automationName: string, automation: Models.Automation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutomationValidationStatus>, callback?: msRest.ServiceCallback<Models.AutomationValidationStatus>): Promise<Models.AutomationsValidateResponse> {
+  validate(
+    resourceGroupName: string,
+    automationName: string,
+    automation: Models.Automation,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AutomationValidationStatus>
+  ): void;
+  validate(
+    resourceGroupName: string,
+    automationName: string,
+    automation: Models.Automation,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutomationValidationStatus>,
+    callback?: msRest.ServiceCallback<Models.AutomationValidationStatus>
+  ): Promise<Models.AutomationsValidateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -229,7 +334,8 @@ export class Automations {
         options
       },
       validateOperationSpec,
-      callback) as Promise<Models.AutomationsValidateResponse>;
+      callback
+    ) as Promise<Models.AutomationsValidateResponse>;
   }
 
   /**
@@ -239,7 +345,10 @@ export class Automations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AutomationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AutomationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AutomationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -250,15 +359,24 @@ export class Automations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutomationList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutomationList>, callback?: msRest.ServiceCallback<Models.AutomationList>): Promise<Models.AutomationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AutomationList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutomationList>,
+    callback?: msRest.ServiceCallback<Models.AutomationList>
+  ): Promise<Models.AutomationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AutomationsListNextResponse>;
+      callback
+    ) as Promise<Models.AutomationsListNextResponse>;
   }
 
   /**
@@ -268,26 +386,41 @@ export class Automations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AutomationsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AutomationsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AutomationsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AutomationList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AutomationList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutomationList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutomationList>, callback?: msRest.ServiceCallback<Models.AutomationList>): Promise<Models.AutomationsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AutomationList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutomationList>,
+    callback?: msRest.ServiceCallback<Models.AutomationList>
+  ): Promise<Models.AutomationsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.AutomationsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.AutomationsListByResourceGroupNextResponse>;
   }
 }
 
@@ -296,15 +429,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/automations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AutomationList
@@ -318,17 +445,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AutomationList
@@ -342,18 +463,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationName
   ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Automation
@@ -367,18 +485,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationName
   ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "automation",
     mapper: {
@@ -402,18 +517,15 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationName
   ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -425,18 +537,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const validateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}/validate",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/automations/{automationName}/validate",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationName
   ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "automation",
     mapper: {
@@ -459,15 +568,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AutomationList
@@ -483,15 +586,9 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AutomationList

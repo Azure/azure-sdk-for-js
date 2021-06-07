@@ -39,14 +39,21 @@ export class SecuritySolutions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecuritySolutionList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySolutionList>, callback?: msRest.ServiceCallback<Models.SecuritySolutionList>): Promise<Models.SecuritySolutionsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecuritySolutionList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySolutionList>,
+    callback?: msRest.ServiceCallback<Models.SecuritySolutionList>
+  ): Promise<Models.SecuritySolutionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SecuritySolutionsListResponse>;
+      callback
+    ) as Promise<Models.SecuritySolutionsListResponse>;
   }
 
   /**
@@ -57,14 +64,22 @@ export class SecuritySolutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecuritySolutionsGetResponse>
    */
-  get(resourceGroupName: string, securitySolutionName: string, options?: msRest.RequestOptionsBase): Promise<Models.SecuritySolutionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    securitySolutionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecuritySolutionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param securitySolutionName Name of security solution.
    * @param callback The callback
    */
-  get(resourceGroupName: string, securitySolutionName: string, callback: msRest.ServiceCallback<Models.SecuritySolution>): void;
+  get(
+    resourceGroupName: string,
+    securitySolutionName: string,
+    callback: msRest.ServiceCallback<Models.SecuritySolution>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -72,8 +87,18 @@ export class SecuritySolutions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, securitySolutionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecuritySolution>): void;
-  get(resourceGroupName: string, securitySolutionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySolution>, callback?: msRest.ServiceCallback<Models.SecuritySolution>): Promise<Models.SecuritySolutionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    securitySolutionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecuritySolution>
+  ): void;
+  get(
+    resourceGroupName: string,
+    securitySolutionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySolution>,
+    callback?: msRest.ServiceCallback<Models.SecuritySolution>
+  ): Promise<Models.SecuritySolutionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -81,7 +106,8 @@ export class SecuritySolutions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SecuritySolutionsGetResponse>;
+      callback
+    ) as Promise<Models.SecuritySolutionsGetResponse>;
   }
 
   /**
@@ -90,26 +116,41 @@ export class SecuritySolutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecuritySolutionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SecuritySolutionsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecuritySolutionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecuritySolutionList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecuritySolutionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecuritySolutionList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySolutionList>, callback?: msRest.ServiceCallback<Models.SecuritySolutionList>): Promise<Models.SecuritySolutionsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecuritySolutionList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecuritySolutionList>,
+    callback?: msRest.ServiceCallback<Models.SecuritySolutionList>
+  ): Promise<Models.SecuritySolutionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SecuritySolutionsListNextResponse>;
+      callback
+    ) as Promise<Models.SecuritySolutionsListNextResponse>;
   }
 }
 
@@ -118,15 +159,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/securitySolutions",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecuritySolutionList
@@ -140,19 +175,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/securitySolutions/{securitySolutionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/securitySolutions/{securitySolutionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.ascLocation,
     Parameters.securitySolutionName
   ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecuritySolution
@@ -168,15 +200,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecuritySolutionList

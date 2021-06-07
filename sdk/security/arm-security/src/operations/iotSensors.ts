@@ -42,15 +42,24 @@ export class IotSensors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotSensorsList>): void;
-  list(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSensorsList>, callback?: msRest.ServiceCallback<Models.IotSensorsList>): Promise<Models.IotSensorsListResponse> {
+  list(
+    scope: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotSensorsList>
+  ): void;
+  list(
+    scope: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSensorsList>,
+    callback?: msRest.ServiceCallback<Models.IotSensorsList>
+  ): Promise<Models.IotSensorsListResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IotSensorsListResponse>;
+      callback
+    ) as Promise<Models.IotSensorsListResponse>;
   }
 
   /**
@@ -60,21 +69,39 @@ export class IotSensors {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotSensorsGetResponse>
    */
-  get(scope: string, iotSensorName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotSensorsGetResponse>;
+  get(
+    scope: string,
+    iotSensorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotSensorsGetResponse>;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSensorName Name of the IoT sensor
    * @param callback The callback
    */
-  get(scope: string, iotSensorName: string, callback: msRest.ServiceCallback<Models.IotSensorsModel>): void;
+  get(
+    scope: string,
+    iotSensorName: string,
+    callback: msRest.ServiceCallback<Models.IotSensorsModel>
+  ): void;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSensorName Name of the IoT sensor
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(scope: string, iotSensorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotSensorsModel>): void;
-  get(scope: string, iotSensorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSensorsModel>, callback?: msRest.ServiceCallback<Models.IotSensorsModel>): Promise<Models.IotSensorsGetResponse> {
+  get(
+    scope: string,
+    iotSensorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotSensorsModel>
+  ): void;
+  get(
+    scope: string,
+    iotSensorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSensorsModel>,
+    callback?: msRest.ServiceCallback<Models.IotSensorsModel>
+  ): Promise<Models.IotSensorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -82,7 +109,8 @@ export class IotSensors {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IotSensorsGetResponse>;
+      callback
+    ) as Promise<Models.IotSensorsGetResponse>;
   }
 
   /**
@@ -93,14 +121,24 @@ export class IotSensors {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotSensorsCreateOrUpdateResponse>
    */
-  createOrUpdate(scope: string, iotSensorName: string, iotSensorsModel: Models.IotSensorsModel, options?: msRest.RequestOptionsBase): Promise<Models.IotSensorsCreateOrUpdateResponse>;
+  createOrUpdate(
+    scope: string,
+    iotSensorName: string,
+    iotSensorsModel: Models.IotSensorsModel,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotSensorsCreateOrUpdateResponse>;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSensorName Name of the IoT sensor
    * @param iotSensorsModel The IoT sensor model
    * @param callback The callback
    */
-  createOrUpdate(scope: string, iotSensorName: string, iotSensorsModel: Models.IotSensorsModel, callback: msRest.ServiceCallback<Models.IotSensorsModel>): void;
+  createOrUpdate(
+    scope: string,
+    iotSensorName: string,
+    iotSensorsModel: Models.IotSensorsModel,
+    callback: msRest.ServiceCallback<Models.IotSensorsModel>
+  ): void;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSensorName Name of the IoT sensor
@@ -108,8 +146,20 @@ export class IotSensors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(scope: string, iotSensorName: string, iotSensorsModel: Models.IotSensorsModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotSensorsModel>): void;
-  createOrUpdate(scope: string, iotSensorName: string, iotSensorsModel: Models.IotSensorsModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSensorsModel>, callback?: msRest.ServiceCallback<Models.IotSensorsModel>): Promise<Models.IotSensorsCreateOrUpdateResponse> {
+  createOrUpdate(
+    scope: string,
+    iotSensorName: string,
+    iotSensorsModel: Models.IotSensorsModel,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotSensorsModel>
+  ): void;
+  createOrUpdate(
+    scope: string,
+    iotSensorName: string,
+    iotSensorsModel: Models.IotSensorsModel,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotSensorsModel>,
+    callback?: msRest.ServiceCallback<Models.IotSensorsModel>
+  ): Promise<Models.IotSensorsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -118,7 +168,8 @@ export class IotSensors {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.IotSensorsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.IotSensorsCreateOrUpdateResponse>;
   }
 
   /**
@@ -128,7 +179,11 @@ export class IotSensors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(scope: string, iotSensorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    scope: string,
+    iotSensorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSensorName Name of the IoT sensor
@@ -141,8 +196,18 @@ export class IotSensors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(scope: string, iotSensorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(scope: string, iotSensorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    scope: string,
+    iotSensorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    scope: string,
+    iotSensorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -150,7 +215,8 @@ export class IotSensors {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -160,21 +226,39 @@ export class IotSensors {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotSensorsDownloadActivationResponse>
    */
-  downloadActivation(scope: string, iotSensorName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotSensorsDownloadActivationResponse>;
+  downloadActivation(
+    scope: string,
+    iotSensorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotSensorsDownloadActivationResponse>;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSensorName Name of the IoT sensor
    * @param callback The callback
    */
-  downloadActivation(scope: string, iotSensorName: string, callback: msRest.ServiceCallback<void>): void;
+  downloadActivation(
+    scope: string,
+    iotSensorName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSensorName Name of the IoT sensor
    * @param options The optional parameters
    * @param callback The callback
    */
-  downloadActivation(scope: string, iotSensorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  downloadActivation(scope: string, iotSensorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.IotSensorsDownloadActivationResponse> {
+  downloadActivation(
+    scope: string,
+    iotSensorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  downloadActivation(
+    scope: string,
+    iotSensorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.IotSensorsDownloadActivationResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -182,7 +266,8 @@ export class IotSensors {
         options
       },
       downloadActivationOperationSpec,
-      callback) as Promise<Models.IotSensorsDownloadActivationResponse>;
+      callback
+    ) as Promise<Models.IotSensorsDownloadActivationResponse>;
   }
 
   /**
@@ -193,14 +278,24 @@ export class IotSensors {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotSensorsDownloadResetPasswordResponse>
    */
-  downloadResetPassword(scope: string, iotSensorName: string, body: Models.ResetPasswordInput, options?: msRest.RequestOptionsBase): Promise<Models.IotSensorsDownloadResetPasswordResponse>;
+  downloadResetPassword(
+    scope: string,
+    iotSensorName: string,
+    body: Models.ResetPasswordInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotSensorsDownloadResetPasswordResponse>;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSensorName Name of the IoT sensor
    * @param body The reset password input.
    * @param callback The callback
    */
-  downloadResetPassword(scope: string, iotSensorName: string, body: Models.ResetPasswordInput, callback: msRest.ServiceCallback<void>): void;
+  downloadResetPassword(
+    scope: string,
+    iotSensorName: string,
+    body: Models.ResetPasswordInput,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSensorName Name of the IoT sensor
@@ -208,8 +303,20 @@ export class IotSensors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  downloadResetPassword(scope: string, iotSensorName: string, body: Models.ResetPasswordInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  downloadResetPassword(scope: string, iotSensorName: string, body: Models.ResetPasswordInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.IotSensorsDownloadResetPasswordResponse> {
+  downloadResetPassword(
+    scope: string,
+    iotSensorName: string,
+    body: Models.ResetPasswordInput,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  downloadResetPassword(
+    scope: string,
+    iotSensorName: string,
+    body: Models.ResetPasswordInput,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.IotSensorsDownloadResetPasswordResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -218,7 +325,8 @@ export class IotSensors {
         options
       },
       downloadResetPasswordOperationSpec,
-      callback) as Promise<Models.IotSensorsDownloadResetPasswordResponse>;
+      callback
+    ) as Promise<Models.IotSensorsDownloadResetPasswordResponse>;
   }
 
   /**
@@ -228,21 +336,39 @@ export class IotSensors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  triggerTiPackageUpdate(scope: string, iotSensorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  triggerTiPackageUpdate(
+    scope: string,
+    iotSensorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSensorName Name of the IoT sensor
    * @param callback The callback
    */
-  triggerTiPackageUpdate(scope: string, iotSensorName: string, callback: msRest.ServiceCallback<void>): void;
+  triggerTiPackageUpdate(
+    scope: string,
+    iotSensorName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param scope Scope of the query (IoT Hub, /providers/Microsoft.Devices/iotHubs/myHub)
    * @param iotSensorName Name of the IoT sensor
    * @param options The optional parameters
    * @param callback The callback
    */
-  triggerTiPackageUpdate(scope: string, iotSensorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  triggerTiPackageUpdate(scope: string, iotSensorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  triggerTiPackageUpdate(
+    scope: string,
+    iotSensorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  triggerTiPackageUpdate(
+    scope: string,
+    iotSensorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -250,7 +376,8 @@ export class IotSensors {
         options
       },
       triggerTiPackageUpdateOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -259,15 +386,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Security/iotSensors",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotSensorsList
@@ -282,16 +403,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Security/iotSensors/{iotSensorName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.iotSensorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.iotSensorName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotSensorsModel
@@ -306,16 +420,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{scope}/providers/Microsoft.Security/iotSensors/{iotSensorName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.iotSensorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.iotSensorName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "iotSensorsModel",
     mapper: {
@@ -340,16 +447,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{scope}/providers/Microsoft.Security/iotSensors/{iotSensorName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.iotSensorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.iotSensorName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -363,16 +463,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const downloadActivationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{scope}/providers/Microsoft.Security/iotSensors/{iotSensorName}/downloadActivation",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.iotSensorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.iotSensorName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -392,16 +485,9 @@ const downloadActivationOperationSpec: msRest.OperationSpec = {
 const downloadResetPasswordOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{scope}/providers/Microsoft.Security/iotSensors/{iotSensorName}/downloadResetPassword",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.iotSensorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.iotSensorName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -428,16 +514,9 @@ const downloadResetPasswordOperationSpec: msRest.OperationSpec = {
 const triggerTiPackageUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{scope}/providers/Microsoft.Security/iotSensors/{iotSensorName}/triggerTiPackageUpdate",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.iotSensorName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.iotSensorName],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {

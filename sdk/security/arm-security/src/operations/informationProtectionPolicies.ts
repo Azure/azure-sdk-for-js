@@ -35,7 +35,11 @@ export class InformationProtectionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.InformationProtectionPoliciesGetResponse>
    */
-  get(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName, options?: msRest.RequestOptionsBase): Promise<Models.InformationProtectionPoliciesGetResponse>;
+  get(
+    scope: string,
+    informationProtectionPolicyName: Models.InformationProtectionPolicyName,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InformationProtectionPoliciesGetResponse>;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -44,7 +48,11 @@ export class InformationProtectionPolicies {
    * values include: 'effective', 'custom'
    * @param callback The callback
    */
-  get(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName, callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>): void;
+  get(
+    scope: string,
+    informationProtectionPolicyName: Models.InformationProtectionPolicyName,
+    callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>
+  ): void;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -54,8 +62,20 @@ export class InformationProtectionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>): void;
-  get(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InformationProtectionPolicy>, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicy>): Promise<Models.InformationProtectionPoliciesGetResponse> {
+  get(
+    scope: string,
+    informationProtectionPolicyName: Models.InformationProtectionPolicyName,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>
+  ): void;
+  get(
+    scope: string,
+    informationProtectionPolicyName: Models.InformationProtectionPolicyName,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.InformationProtectionPolicy>,
+    callback?: msRest.ServiceCallback<Models.InformationProtectionPolicy>
+  ): Promise<Models.InformationProtectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -63,7 +83,8 @@ export class InformationProtectionPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.InformationProtectionPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.InformationProtectionPoliciesGetResponse>;
   }
 
   /**
@@ -77,7 +98,12 @@ export class InformationProtectionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, informationProtectionPolicy: Models.InformationProtectionPolicy, options?: msRest.RequestOptionsBase): Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    scope: string,
+    informationProtectionPolicyName: Models.InformationProtectionPolicyName1,
+    informationProtectionPolicy: Models.InformationProtectionPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse>;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -87,7 +113,12 @@ export class InformationProtectionPolicies {
    * @param informationProtectionPolicy Information protection policy.
    * @param callback The callback
    */
-  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, informationProtectionPolicy: Models.InformationProtectionPolicy, callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>): void;
+  createOrUpdate(
+    scope: string,
+    informationProtectionPolicyName: Models.InformationProtectionPolicyName1,
+    informationProtectionPolicy: Models.InformationProtectionPolicy,
+    callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>
+  ): void;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -98,8 +129,22 @@ export class InformationProtectionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, informationProtectionPolicy: Models.InformationProtectionPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>): void;
-  createOrUpdate(scope: string, informationProtectionPolicyName: Models.InformationProtectionPolicyName1, informationProtectionPolicy: Models.InformationProtectionPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InformationProtectionPolicy>, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicy>): Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    scope: string,
+    informationProtectionPolicyName: Models.InformationProtectionPolicyName1,
+    informationProtectionPolicy: Models.InformationProtectionPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.InformationProtectionPolicy>
+  ): void;
+  createOrUpdate(
+    scope: string,
+    informationProtectionPolicyName: Models.InformationProtectionPolicyName1,
+    informationProtectionPolicy: Models.InformationProtectionPolicy,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.InformationProtectionPolicy>,
+    callback?: msRest.ServiceCallback<Models.InformationProtectionPolicy>
+  ): Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -108,7 +153,8 @@ export class InformationProtectionPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.InformationProtectionPoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -119,14 +165,20 @@ export class InformationProtectionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.InformationProtectionPoliciesListResponse>
    */
-  list(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.InformationProtectionPoliciesListResponse>;
+  list(
+    scope: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InformationProtectionPoliciesListResponse>;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
    * (/providers/Microsoft.Management/managementGroups/mgName).
    * @param callback The callback
    */
-  list(scope: string, callback: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): void;
+  list(
+    scope: string,
+    callback: msRest.ServiceCallback<Models.InformationProtectionPolicyList>
+  ): void;
   /**
    * @param scope Scope of the query, can be subscription
    * (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group
@@ -134,15 +186,26 @@ export class InformationProtectionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): void;
-  list(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InformationProtectionPolicyList>, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): Promise<Models.InformationProtectionPoliciesListResponse> {
+  list(
+    scope: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.InformationProtectionPolicyList>
+  ): void;
+  list(
+    scope: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.InformationProtectionPolicyList>,
+    callback?: msRest.ServiceCallback<Models.InformationProtectionPolicyList>
+  ): Promise<Models.InformationProtectionPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.InformationProtectionPoliciesListResponse>;
+      callback
+    ) as Promise<Models.InformationProtectionPoliciesListResponse>;
   }
 
   /**
@@ -151,26 +214,43 @@ export class InformationProtectionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.InformationProtectionPoliciesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.InformationProtectionPoliciesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InformationProtectionPoliciesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.InformationProtectionPolicyList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InformationProtectionPolicyList>, callback?: msRest.ServiceCallback<Models.InformationProtectionPolicyList>): Promise<Models.InformationProtectionPoliciesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.InformationProtectionPolicyList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.InformationProtectionPolicyList>,
+    callback?: msRest.ServiceCallback<Models.InformationProtectionPolicyList>
+  ): Promise<Models.InformationProtectionPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.InformationProtectionPoliciesListNextResponse>;
+      callback
+    ) as Promise<Models.InformationProtectionPoliciesListNextResponse>;
   }
 }
 
@@ -178,17 +258,11 @@ export class InformationProtectionPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{scope}/providers/Microsoft.Security/informationProtectionPolicies/{informationProtectionPolicyName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.informationProtectionPolicyName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "{scope}/providers/Microsoft.Security/informationProtectionPolicies/{informationProtectionPolicyName}",
+  urlParameters: [Parameters.scope, Parameters.informationProtectionPolicyName],
+  queryParameters: [Parameters.apiVersion6],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InformationProtectionPolicy
@@ -202,17 +276,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "{scope}/providers/Microsoft.Security/informationProtectionPolicies/{informationProtectionPolicyName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.informationProtectionPolicyName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "{scope}/providers/Microsoft.Security/informationProtectionPolicies/{informationProtectionPolicyName}",
+  urlParameters: [Parameters.scope, Parameters.informationProtectionPolicyName],
+  queryParameters: [Parameters.apiVersion6],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "informationProtectionPolicy",
     mapper: {
@@ -237,15 +305,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Security/informationProtectionPolicies",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion6],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InformationProtectionPolicyList
@@ -261,15 +323,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion6],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InformationProtectionPolicyList

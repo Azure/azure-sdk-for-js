@@ -40,14 +40,21 @@ export class IngestionSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IngestionSettingList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IngestionSettingList>, callback?: msRest.ServiceCallback<Models.IngestionSettingList>): Promise<Models.IngestionSettingsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IngestionSettingList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IngestionSettingList>,
+    callback?: msRest.ServiceCallback<Models.IngestionSettingList>
+  ): Promise<Models.IngestionSettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IngestionSettingsListResponse>;
+      callback
+    ) as Promise<Models.IngestionSettingsListResponse>;
   }
 
   /**
@@ -57,26 +64,41 @@ export class IngestionSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.IngestionSettingsGetResponse>
    */
-  get(ingestionSettingName: string, options?: msRest.RequestOptionsBase): Promise<Models.IngestionSettingsGetResponse>;
+  get(
+    ingestionSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IngestionSettingsGetResponse>;
   /**
    * @param ingestionSettingName Name of the ingestion setting
    * @param callback The callback
    */
-  get(ingestionSettingName: string, callback: msRest.ServiceCallback<Models.IngestionSetting>): void;
+  get(
+    ingestionSettingName: string,
+    callback: msRest.ServiceCallback<Models.IngestionSetting>
+  ): void;
   /**
    * @param ingestionSettingName Name of the ingestion setting
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(ingestionSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IngestionSetting>): void;
-  get(ingestionSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IngestionSetting>, callback?: msRest.ServiceCallback<Models.IngestionSetting>): Promise<Models.IngestionSettingsGetResponse> {
+  get(
+    ingestionSettingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IngestionSetting>
+  ): void;
+  get(
+    ingestionSettingName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IngestionSetting>,
+    callback?: msRest.ServiceCallback<Models.IngestionSetting>
+  ): Promise<Models.IngestionSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         ingestionSettingName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IngestionSettingsGetResponse>;
+      callback
+    ) as Promise<Models.IngestionSettingsGetResponse>;
   }
 
   /**
@@ -87,21 +109,39 @@ export class IngestionSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.IngestionSettingsCreateResponse>
    */
-  create(ingestionSettingName: string, ingestionSetting: Models.IngestionSetting, options?: msRest.RequestOptionsBase): Promise<Models.IngestionSettingsCreateResponse>;
+  create(
+    ingestionSettingName: string,
+    ingestionSetting: Models.IngestionSetting,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IngestionSettingsCreateResponse>;
   /**
    * @param ingestionSettingName Name of the ingestion setting
    * @param ingestionSetting Ingestion setting object
    * @param callback The callback
    */
-  create(ingestionSettingName: string, ingestionSetting: Models.IngestionSetting, callback: msRest.ServiceCallback<Models.IngestionSetting>): void;
+  create(
+    ingestionSettingName: string,
+    ingestionSetting: Models.IngestionSetting,
+    callback: msRest.ServiceCallback<Models.IngestionSetting>
+  ): void;
   /**
    * @param ingestionSettingName Name of the ingestion setting
    * @param ingestionSetting Ingestion setting object
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(ingestionSettingName: string, ingestionSetting: Models.IngestionSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IngestionSetting>): void;
-  create(ingestionSettingName: string, ingestionSetting: Models.IngestionSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IngestionSetting>, callback?: msRest.ServiceCallback<Models.IngestionSetting>): Promise<Models.IngestionSettingsCreateResponse> {
+  create(
+    ingestionSettingName: string,
+    ingestionSetting: Models.IngestionSetting,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IngestionSetting>
+  ): void;
+  create(
+    ingestionSettingName: string,
+    ingestionSetting: Models.IngestionSetting,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IngestionSetting>,
+    callback?: msRest.ServiceCallback<Models.IngestionSetting>
+  ): Promise<Models.IngestionSettingsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         ingestionSettingName,
@@ -109,7 +149,8 @@ export class IngestionSettings {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.IngestionSettingsCreateResponse>;
+      callback
+    ) as Promise<Models.IngestionSettingsCreateResponse>;
   }
 
   /**
@@ -118,7 +159,10 @@ export class IngestionSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(ingestionSettingName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    ingestionSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param ingestionSettingName Name of the ingestion setting
    * @param callback The callback
@@ -129,15 +173,24 @@ export class IngestionSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(ingestionSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(ingestionSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    ingestionSettingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    ingestionSettingName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         ingestionSettingName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -147,26 +200,41 @@ export class IngestionSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.IngestionSettingsListTokensResponse>
    */
-  listTokens(ingestionSettingName: string, options?: msRest.RequestOptionsBase): Promise<Models.IngestionSettingsListTokensResponse>;
+  listTokens(
+    ingestionSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IngestionSettingsListTokensResponse>;
   /**
    * @param ingestionSettingName Name of the ingestion setting
    * @param callback The callback
    */
-  listTokens(ingestionSettingName: string, callback: msRest.ServiceCallback<Models.IngestionSettingToken>): void;
+  listTokens(
+    ingestionSettingName: string,
+    callback: msRest.ServiceCallback<Models.IngestionSettingToken>
+  ): void;
   /**
    * @param ingestionSettingName Name of the ingestion setting
    * @param options The optional parameters
    * @param callback The callback
    */
-  listTokens(ingestionSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IngestionSettingToken>): void;
-  listTokens(ingestionSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IngestionSettingToken>, callback?: msRest.ServiceCallback<Models.IngestionSettingToken>): Promise<Models.IngestionSettingsListTokensResponse> {
+  listTokens(
+    ingestionSettingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IngestionSettingToken>
+  ): void;
+  listTokens(
+    ingestionSettingName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IngestionSettingToken>,
+    callback?: msRest.ServiceCallback<Models.IngestionSettingToken>
+  ): Promise<Models.IngestionSettingsListTokensResponse> {
     return this.client.sendOperationRequest(
       {
         ingestionSettingName,
         options
       },
       listTokensOperationSpec,
-      callback) as Promise<Models.IngestionSettingsListTokensResponse>;
+      callback
+    ) as Promise<Models.IngestionSettingsListTokensResponse>;
   }
 
   /**
@@ -175,26 +243,41 @@ export class IngestionSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.IngestionSettingsListConnectionStringsResponse>
    */
-  listConnectionStrings(ingestionSettingName: string, options?: msRest.RequestOptionsBase): Promise<Models.IngestionSettingsListConnectionStringsResponse>;
+  listConnectionStrings(
+    ingestionSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IngestionSettingsListConnectionStringsResponse>;
   /**
    * @param ingestionSettingName Name of the ingestion setting
    * @param callback The callback
    */
-  listConnectionStrings(ingestionSettingName: string, callback: msRest.ServiceCallback<Models.ConnectionStrings>): void;
+  listConnectionStrings(
+    ingestionSettingName: string,
+    callback: msRest.ServiceCallback<Models.ConnectionStrings>
+  ): void;
   /**
    * @param ingestionSettingName Name of the ingestion setting
    * @param options The optional parameters
    * @param callback The callback
    */
-  listConnectionStrings(ingestionSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionStrings>): void;
-  listConnectionStrings(ingestionSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionStrings>, callback?: msRest.ServiceCallback<Models.ConnectionStrings>): Promise<Models.IngestionSettingsListConnectionStringsResponse> {
+  listConnectionStrings(
+    ingestionSettingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectionStrings>
+  ): void;
+  listConnectionStrings(
+    ingestionSettingName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionStrings>,
+    callback?: msRest.ServiceCallback<Models.ConnectionStrings>
+  ): Promise<Models.IngestionSettingsListConnectionStringsResponse> {
     return this.client.sendOperationRequest(
       {
         ingestionSettingName,
         options
       },
       listConnectionStringsOperationSpec,
-      callback) as Promise<Models.IngestionSettingsListConnectionStringsResponse>;
+      callback
+    ) as Promise<Models.IngestionSettingsListConnectionStringsResponse>;
   }
 
   /**
@@ -204,26 +287,41 @@ export class IngestionSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.IngestionSettingsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IngestionSettingsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IngestionSettingsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IngestionSettingList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IngestionSettingList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IngestionSettingList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IngestionSettingList>, callback?: msRest.ServiceCallback<Models.IngestionSettingList>): Promise<Models.IngestionSettingsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IngestionSettingList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IngestionSettingList>,
+    callback?: msRest.ServiceCallback<Models.IngestionSettingList>
+  ): Promise<Models.IngestionSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.IngestionSettingsListNextResponse>;
+      callback
+    ) as Promise<Models.IngestionSettingsListNextResponse>;
   }
 }
 
@@ -232,15 +330,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/ingestionSettings",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion12
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion12],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IngestionSettingList
@@ -254,17 +346,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/ingestionSettings/{ingestionSettingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ingestionSettingName
-  ],
-  queryParameters: [
-    Parameters.apiVersion12
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/ingestionSettings/{ingestionSettingName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.ingestionSettingName],
+  queryParameters: [Parameters.apiVersion12],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IngestionSetting
@@ -278,17 +364,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/ingestionSettings/{ingestionSettingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ingestionSettingName
-  ],
-  queryParameters: [
-    Parameters.apiVersion12
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/ingestionSettings/{ingestionSettingName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.ingestionSettingName],
+  queryParameters: [Parameters.apiVersion12],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "ingestionSetting",
     mapper: {
@@ -309,17 +389,11 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/ingestionSettings/{ingestionSettingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ingestionSettingName
-  ],
-  queryParameters: [
-    Parameters.apiVersion12
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/ingestionSettings/{ingestionSettingName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.ingestionSettingName],
+  queryParameters: [Parameters.apiVersion12],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -332,17 +406,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listTokensOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/ingestionSettings/{ingestionSettingName}/listTokens",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ingestionSettingName
-  ],
-  queryParameters: [
-    Parameters.apiVersion12
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/ingestionSettings/{ingestionSettingName}/listTokens",
+  urlParameters: [Parameters.subscriptionId, Parameters.ingestionSettingName],
+  queryParameters: [Parameters.apiVersion12],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IngestionSettingToken
@@ -356,17 +424,11 @@ const listTokensOperationSpec: msRest.OperationSpec = {
 
 const listConnectionStringsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/ingestionSettings/{ingestionSettingName}/listConnectionStrings",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ingestionSettingName
-  ],
-  queryParameters: [
-    Parameters.apiVersion12
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/ingestionSettings/{ingestionSettingName}/listConnectionStrings",
+  urlParameters: [Parameters.subscriptionId, Parameters.ingestionSettingName],
+  queryParameters: [Parameters.apiVersion12],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectionStrings
@@ -382,15 +444,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion12
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion12],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IngestionSettingList

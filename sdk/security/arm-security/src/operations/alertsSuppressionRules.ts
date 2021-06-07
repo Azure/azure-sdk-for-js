@@ -30,7 +30,9 @@ export class AlertsSuppressionRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsSuppressionRulesListResponse>
    */
-  list(options?: Models.AlertsSuppressionRulesListOptionalParams): Promise<Models.AlertsSuppressionRulesListResponse>;
+  list(
+    options?: Models.AlertsSuppressionRulesListOptionalParams
+  ): Promise<Models.AlertsSuppressionRulesListResponse>;
   /**
    * @param callback The callback
    */
@@ -39,14 +41,23 @@ export class AlertsSuppressionRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.AlertsSuppressionRulesListOptionalParams, callback: msRest.ServiceCallback<Models.AlertsSuppressionRulesList>): void;
-  list(options?: Models.AlertsSuppressionRulesListOptionalParams | msRest.ServiceCallback<Models.AlertsSuppressionRulesList>, callback?: msRest.ServiceCallback<Models.AlertsSuppressionRulesList>): Promise<Models.AlertsSuppressionRulesListResponse> {
+  list(
+    options: Models.AlertsSuppressionRulesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.AlertsSuppressionRulesList>
+  ): void;
+  list(
+    options?:
+      | Models.AlertsSuppressionRulesListOptionalParams
+      | msRest.ServiceCallback<Models.AlertsSuppressionRulesList>,
+    callback?: msRest.ServiceCallback<Models.AlertsSuppressionRulesList>
+  ): Promise<Models.AlertsSuppressionRulesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AlertsSuppressionRulesListResponse>;
+      callback
+    ) as Promise<Models.AlertsSuppressionRulesListResponse>;
   }
 
   /**
@@ -55,26 +66,41 @@ export class AlertsSuppressionRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsSuppressionRulesGetResponse>
    */
-  get(alertsSuppressionRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.AlertsSuppressionRulesGetResponse>;
+  get(
+    alertsSuppressionRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertsSuppressionRulesGetResponse>;
   /**
    * @param alertsSuppressionRuleName The unique name of the suppression alert rule
    * @param callback The callback
    */
-  get(alertsSuppressionRuleName: string, callback: msRest.ServiceCallback<Models.AlertsSuppressionRule>): void;
+  get(
+    alertsSuppressionRuleName: string,
+    callback: msRest.ServiceCallback<Models.AlertsSuppressionRule>
+  ): void;
   /**
    * @param alertsSuppressionRuleName The unique name of the suppression alert rule
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(alertsSuppressionRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertsSuppressionRule>): void;
-  get(alertsSuppressionRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertsSuppressionRule>, callback?: msRest.ServiceCallback<Models.AlertsSuppressionRule>): Promise<Models.AlertsSuppressionRulesGetResponse> {
+  get(
+    alertsSuppressionRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertsSuppressionRule>
+  ): void;
+  get(
+    alertsSuppressionRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertsSuppressionRule>,
+    callback?: msRest.ServiceCallback<Models.AlertsSuppressionRule>
+  ): Promise<Models.AlertsSuppressionRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         alertsSuppressionRuleName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AlertsSuppressionRulesGetResponse>;
+      callback
+    ) as Promise<Models.AlertsSuppressionRulesGetResponse>;
   }
 
   /**
@@ -84,21 +110,39 @@ export class AlertsSuppressionRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsSuppressionRulesUpdateResponse>
    */
-  update(alertsSuppressionRuleName: string, alertsSuppressionRule: Models.AlertsSuppressionRule, options?: msRest.RequestOptionsBase): Promise<Models.AlertsSuppressionRulesUpdateResponse>;
+  update(
+    alertsSuppressionRuleName: string,
+    alertsSuppressionRule: Models.AlertsSuppressionRule,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertsSuppressionRulesUpdateResponse>;
   /**
    * @param alertsSuppressionRuleName The unique name of the suppression alert rule
    * @param alertsSuppressionRule Suppression rule object
    * @param callback The callback
    */
-  update(alertsSuppressionRuleName: string, alertsSuppressionRule: Models.AlertsSuppressionRule, callback: msRest.ServiceCallback<Models.AlertsSuppressionRule>): void;
+  update(
+    alertsSuppressionRuleName: string,
+    alertsSuppressionRule: Models.AlertsSuppressionRule,
+    callback: msRest.ServiceCallback<Models.AlertsSuppressionRule>
+  ): void;
   /**
    * @param alertsSuppressionRuleName The unique name of the suppression alert rule
    * @param alertsSuppressionRule Suppression rule object
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(alertsSuppressionRuleName: string, alertsSuppressionRule: Models.AlertsSuppressionRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertsSuppressionRule>): void;
-  update(alertsSuppressionRuleName: string, alertsSuppressionRule: Models.AlertsSuppressionRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertsSuppressionRule>, callback?: msRest.ServiceCallback<Models.AlertsSuppressionRule>): Promise<Models.AlertsSuppressionRulesUpdateResponse> {
+  update(
+    alertsSuppressionRuleName: string,
+    alertsSuppressionRule: Models.AlertsSuppressionRule,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertsSuppressionRule>
+  ): void;
+  update(
+    alertsSuppressionRuleName: string,
+    alertsSuppressionRule: Models.AlertsSuppressionRule,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertsSuppressionRule>,
+    callback?: msRest.ServiceCallback<Models.AlertsSuppressionRule>
+  ): Promise<Models.AlertsSuppressionRulesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         alertsSuppressionRuleName,
@@ -106,7 +150,8 @@ export class AlertsSuppressionRules {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.AlertsSuppressionRulesUpdateResponse>;
+      callback
+    ) as Promise<Models.AlertsSuppressionRulesUpdateResponse>;
   }
 
   /**
@@ -115,7 +160,10 @@ export class AlertsSuppressionRules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(alertsSuppressionRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    alertsSuppressionRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param alertsSuppressionRuleName The unique name of the suppression alert rule
    * @param callback The callback
@@ -126,15 +174,24 @@ export class AlertsSuppressionRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(alertsSuppressionRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(alertsSuppressionRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    alertsSuppressionRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    alertsSuppressionRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         alertsSuppressionRuleName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -143,26 +200,43 @@ export class AlertsSuppressionRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsSuppressionRulesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.AlertsSuppressionRulesListNextOptionalParams): Promise<Models.AlertsSuppressionRulesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.AlertsSuppressionRulesListNextOptionalParams
+  ): Promise<Models.AlertsSuppressionRulesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AlertsSuppressionRulesList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AlertsSuppressionRulesList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.AlertsSuppressionRulesListNextOptionalParams, callback: msRest.ServiceCallback<Models.AlertsSuppressionRulesList>): void;
-  listNext(nextPageLink: string, options?: Models.AlertsSuppressionRulesListNextOptionalParams | msRest.ServiceCallback<Models.AlertsSuppressionRulesList>, callback?: msRest.ServiceCallback<Models.AlertsSuppressionRulesList>): Promise<Models.AlertsSuppressionRulesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.AlertsSuppressionRulesListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.AlertsSuppressionRulesList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.AlertsSuppressionRulesListNextOptionalParams
+      | msRest.ServiceCallback<Models.AlertsSuppressionRulesList>,
+    callback?: msRest.ServiceCallback<Models.AlertsSuppressionRulesList>
+  ): Promise<Models.AlertsSuppressionRulesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AlertsSuppressionRulesListNextResponse>;
+      callback
+    ) as Promise<Models.AlertsSuppressionRulesListNextResponse>;
   }
 }
 
@@ -171,16 +245,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion7,
-    Parameters.alertType1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion7, Parameters.alertType1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertsSuppressionRulesList
@@ -194,17 +261,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.alertsSuppressionRuleName
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.alertsSuppressionRuleName],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertsSuppressionRule
@@ -218,17 +279,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.alertsSuppressionRuleName
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.alertsSuppressionRuleName],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "alertsSuppressionRule",
     mapper: {
@@ -249,17 +304,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.alertsSuppressionRuleName
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.alertsSuppressionRuleName],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -273,16 +322,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion7,
-    Parameters.alertType1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion7, Parameters.alertType1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertsSuppressionRulesList
