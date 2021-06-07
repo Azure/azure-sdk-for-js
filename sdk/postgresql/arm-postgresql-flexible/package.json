@@ -1,7 +1,7 @@
 {
-  "name": "@azure/arm-postgresql-flexibleserver",
+  "name": "@azure/arm-postgresql-flexible",
   "author": "Microsoft Corporation",
-  "description": "PostgreSQLManagementFlexibleServerClient Library with typescript type definitions for node.js and browser.",
+  "description": "PostgreSQLFlexibleManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.1.0",
@@ -17,9 +17,9 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/arm-postgresql.js",
-  "module": "./esm/postgreSQLManagementFlexibleServerClient.js",
-  "types": "./esm/postgreSQLManagementFlexibleServerClient.d.ts",
+  "main": "./dist/arm-postgresql-flexible.js",
+  "module": "./esm/postgreSQLFlexibleManagementClient.js",
+  "types": "./esm/postgreSQLFlexibleManagementClient.d.ts",
   "devDependencies": {
     "typescript": "^3.6.0",
     "rollup": "^1.18.0",
@@ -51,7 +51,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-postgresql.js.map'\" -o ./dist/arm-postgresql.min.js ./dist/arm-postgresql.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-postgresql-flexible.js.map'\" -o ./dist/arm-postgresql-flexible.min.js ./dist/arm-postgresql-flexible.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false

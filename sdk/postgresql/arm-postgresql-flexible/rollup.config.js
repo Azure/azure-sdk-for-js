@@ -6,15 +6,15 @@ import sourcemaps from "rollup-plugin-sourcemaps";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/postgreSQLManagementFlexibleServerClient.js",
+  input: "./esm/postgreSQLFlexibleManagementClient.js",
   external: [
     "@azure/ms-rest-js",
     "@azure/ms-rest-azure-js"
   ],
   output: {
-    file: "./dist/arm-postgresql.js",
+    file: "./dist/arm-postgresql-flexible.js",
     format: "umd",
-    name: "Azure.ArmPostgresql",
+    name: "Azure.ArmPostgresqlFlexible",
     sourcemap: true,
     globals: {
       "@azure/ms-rest-js": "msRest",

@@ -11,17 +11,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/locationBasedCapabilitiesMappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLManagementFlexibleServerClientContext } from "../postgreSQLManagementFlexibleServerClientContext";
+import { PostgreSQLFlexibleManagementClientContext } from "../postgreSQLFlexibleManagementClientContext";
 
 /** Class representing a LocationBasedCapabilities. */
 export class LocationBasedCapabilities {
-  private readonly client: PostgreSQLManagementFlexibleServerClientContext;
+  private readonly client: PostgreSQLFlexibleManagementClientContext;
 
   /**
    * Create a LocationBasedCapabilities.
-   * @param {PostgreSQLManagementFlexibleServerClientContext} client Reference to the service client.
+   * @param {PostgreSQLFlexibleManagementClientContext} client Reference to the service client.
    */
-  constructor(client: PostgreSQLManagementFlexibleServerClientContext) {
+  constructor(client: PostgreSQLFlexibleManagementClientContext) {
     this.client = client;
   }
 

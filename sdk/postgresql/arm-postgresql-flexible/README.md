@@ -1,6 +1,6 @@
-## Azure PostgreSQLManagementFlexibleServerClient SDK for JavaScript
+## Azure PostgreSQLFlexibleManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in node.js and in browsers) for PostgreSQLManagementFlexibleServerClient.
+This package contains an isomorphic SDK (runs both in node.js and in browsers) for PostgreSQLFlexibleManagementClient.
 
 ### Currently supported environments
 
@@ -14,12 +14,12 @@ You must have an [Azure subscription](https://azure.microsoft.com/free/).
 ### How to install
 
 To use this SDK in your project, you will need to install two packages.
-- `@azure/arm-postgresql-flexibleserver` that contains the client.
+- `@azure/arm-postgresql-flexible` that contains the client.
 - `@azure/identity` that provides different mechanisms for the client to authenticate your requests using Azure Active Directory.
 
 Install both packages using the below command:
 ```bash
-npm install --save @azure/arm-postgresql-flexibleserver @azure/identity
+npm install --save @azure/arm-postgresql-flexible @azure/identity
 ```
 > **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
 If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
@@ -42,13 +42,13 @@ Once the client is created, explore the operations on it either in your favorite
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexibleserver");
+const { PostgreSQLFlexibleManagementClient } = require("@azure/arm-postgresql-flexible");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 // Use `DefaultAzureCredential` or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
 // Please note that you can also use credentials from the `@azure/ms-rest-nodeauth` package instead.
 const creds = new DefaultAzureCredential();
-const client = new PostgreSQLManagementFlexibleServerClient(creds, subscriptionId);
+const client = new PostgreSQLFlexibleManagementClient(creds, subscriptionId);
 const resourceGroupName = "testresourceGroupName";
 const serverName = "testserverName";
 const databaseName = "testdatabaseName";
@@ -75,10 +75,10 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-postgresql-flexibleserver sample</title>
+    <title>@azure/arm-postgresql-flexible sample</title>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/identity/dist/index.js"></script>
-    <script src="node_modules/@azure/arm-postgresql-flexibleserver/dist/arm-postgresql.js"></script>
+    <script src="node_modules/@azure/arm-postgresql-flexible/dist/arm-postgresql-flexible.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       // Create credentials using the `@azure/identity` package.
@@ -88,7 +88,7 @@ In browser applications, we recommend using the `InteractiveBrowserCredential` t
         clientId: "<client id for your Azure AD app>",
         tenant: "<optional tenant for your organization>"
       });
-      const client = new Azure.ArmPostgresql.PostgreSQLManagementFlexibleServerClient(creds, subscriptionId);
+      const client = new Azure.ArmPostgresql.PostgreSQLFlexibleManagementClient(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const serverName = "testserverName";
       const databaseName = "testdatabaseName";

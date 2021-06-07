@@ -12,17 +12,17 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/databasesMappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLManagementFlexibleServerClientContext } from "../postgreSQLManagementFlexibleServerClientContext";
+import { PostgreSQLFlexibleManagementClientContext } from "../postgreSQLFlexibleManagementClientContext";
 
 /** Class representing a Databases. */
 export class Databases {
-  private readonly client: PostgreSQLManagementFlexibleServerClientContext;
+  private readonly client: PostgreSQLFlexibleManagementClientContext;
 
   /**
    * Create a Databases.
-   * @param {PostgreSQLManagementFlexibleServerClientContext} client Reference to the service client.
+   * @param {PostgreSQLFlexibleManagementClientContext} client Reference to the service client.
    */
-  constructor(client: PostgreSQLManagementFlexibleServerClientContext) {
+  constructor(client: PostgreSQLFlexibleManagementClientContext) {
     this.client = client;
   }
 

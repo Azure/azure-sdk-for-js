@@ -12,10 +12,10 @@ import { TokenCredential } from "@azure/core-auth";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
-import { PostgreSQLManagementFlexibleServerClientContext } from "./postgreSQLManagementFlexibleServerClientContext";
+import { PostgreSQLFlexibleManagementClientContext } from "./postgreSQLFlexibleManagementClientContext";
 
 
-class PostgreSQLManagementFlexibleServerClient extends PostgreSQLManagementFlexibleServerClientContext {
+class PostgreSQLFlexibleManagementClient extends PostgreSQLFlexibleManagementClientContext {
   // Operation groups
   databases: operations.Databases;
   getPrivateDnsZoneSuffix: operations.GetPrivateDnsZoneSuffix;
@@ -29,7 +29,7 @@ class PostgreSQLManagementFlexibleServerClient extends PostgreSQLManagementFlexi
   operations: operations.Operations;
 
   /**
-   * Initializes a new instance of the PostgreSQLManagementFlexibleServerClient class.
+   * Initializes a new instance of the PostgreSQLFlexibleManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure. Credentials
    * implementing the TokenCredential interface from the @azure/identity package are recommended. For
    * more information about these credentials, see
@@ -39,7 +39,7 @@ class PostgreSQLManagementFlexibleServerClient extends PostgreSQLManagementFlexi
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.PostgreSQLManagementFlexibleServerClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.PostgreSQLFlexibleManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.databases = new operations.Databases(this);
     this.getPrivateDnsZoneSuffix = new operations.GetPrivateDnsZoneSuffix(this);
@@ -57,9 +57,9 @@ class PostgreSQLManagementFlexibleServerClient extends PostgreSQLManagementFlexi
 // Operation Specifications
 
 export {
-  PostgreSQLManagementFlexibleServerClient,
-  PostgreSQLManagementFlexibleServerClientContext,
-  Models as PostgreSQLManagementFlexibleServerModels,
-  Mappers as PostgreSQLManagementFlexibleServerMappers
+  PostgreSQLFlexibleManagementClient,
+  PostgreSQLFlexibleManagementClientContext,
+  Models as PostgreSQLFlexibleManagementModels,
+  Mappers as PostgreSQLFlexibleManagementMappers
 };
 export * from "./operations";

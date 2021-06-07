@@ -808,9 +808,9 @@ export interface ResourceModelWithAllowedPropertySet extends BaseResource {
 }
 
 /**
- * An interface representing PostgreSQLManagementFlexibleServerClientOptions.
+ * An interface representing PostgreSQLFlexibleManagementClientOptions.
  */
-export interface PostgreSQLManagementFlexibleServerClientOptions extends AzureServiceClientOptions {
+export interface PostgreSQLFlexibleManagementClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
 }
 

@@ -12,15 +12,15 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
-const packageName = "@azure/arm-postgresql";
+const packageName = "@azure/arm-postgresql-flexible";
 const packageVersion = "1.0.0";
 
-export class PostgreSQLManagementFlexibleServerClientContext extends msRestAzure.AzureServiceClient {
+export class PostgreSQLFlexibleManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the PostgreSQLManagementFlexibleServerClient class.
+   * Initializes a new instance of the PostgreSQLFlexibleManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure. Credentials
    * implementing the TokenCredential interface from the @azure/identity package are recommended. For
    * more information about these credentials, see
@@ -30,7 +30,7 @@ export class PostgreSQLManagementFlexibleServerClientContext extends msRestAzure
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.PostgreSQLManagementFlexibleServerClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.PostgreSQLFlexibleManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
