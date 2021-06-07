@@ -796,6 +796,64 @@ export const StorageAsyncOperationInitiatedEventData: CompositeMapper = {
   }
 };
 
+export const StorageBlobInventoryPolicyCompletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageBlobInventoryPolicyCompletedEventData",
+    modelProperties: {
+      scheduleDateTime: {
+        serializedName: "scheduleDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      accountName: {
+        serializedName: "accountName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      ruleName: {
+        serializedName: "ruleName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunStatus: {
+        serializedName: "policyRunStatus",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunStatusMessage: {
+        serializedName: "policyRunStatusMessage",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunId: {
+        serializedName: "policyRunId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      manifestBlobUrl: {
+        serializedName: "manifestBlobUrl",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EventHubCaptureFileCreatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
@@ -2646,6 +2704,7 @@ export const MediaJobOutput: CompositeMapper = {
     modelProperties: {
       odataType: {
         serializedName: "@odata\\.type",
+        required: true,
         type: {
           name: "String"
         }
@@ -5693,6 +5752,20 @@ export const AcsRecordingChunkInfo: CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      metadataLocation: {
+        serializedName: "metadataLocation",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentLocation: {
+        serializedName: "contentLocation",
+        required: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -5866,6 +5939,1263 @@ export const PolicyInsightsPolicyStateDeletedEventData: CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingBoundaryChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingBoundaryChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      parentId: {
+        serializedName: "parentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      parentType: {
+        serializedName: "parentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isPrimary: {
+        serializedName: "isPrimary",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingCropChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingCropChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingCropVarietyChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingCropVarietyChangedEventData",
+    modelProperties: {
+      cropId: {
+        serializedName: "cropId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingFarmChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingFarmChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingFarmerChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingFarmerChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingFieldChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingFieldChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmId: {
+        serializedName: "farmId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingSeasonalFieldChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingSeasonalFieldChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      seasonId: {
+        serializedName: "seasonId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      fieldId: {
+        serializedName: "fieldId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmId: {
+        serializedName: "farmId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingSeasonChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingSeasonChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingApplicationDataChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingApplicationDataChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingPlantingDataChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingPlantingDataChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingHarvestDataChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingHarvestDataChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingTillageDataChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingTillageDataChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingSatelliteDataIngestionJobStatusChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingSatelliteDataIngestionJobStatusChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingWeatherDataIngestionJobStatusChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingWeatherDataIngestionJobStatusChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingFarmOperationDataIngestionJobStatusChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "AgriFoodFarmingFarmOperationDataIngestionJobStatusChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
