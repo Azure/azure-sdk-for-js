@@ -146,12 +146,11 @@ stages:
                       - pwsh: |
                           $adjustedName = "${{artifact.name}}" -replace "^azure-", ""
                           Write-Host "##vso[task.setvariable variable=Documentation.Zip]$adjustedName"
-                        displayName: Set Documentation File Name                        
-                      - template: /eng/pipelines/templates/steps/stage-artifacts.yml
-                        parameters:
-                          SourceFolder: ${{parameters.DocArtifact}}
-                          TargetFolder: ${{parameters.ArtifactName}}/${{artifact.name}}/${{parameters.DocArtifact}}
-                          PackageName: $(Documentation.Zip).zip
+                        displayName: Set Documentation File Name
+                      - pwsh: |
+                          New-Item -Type Directory -Name ${{parameters.DocArtifact}} -Path $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                          Copy-Item $(Pipeline.Workspace)/${{parameters.DocArtifact}}/$(Documentation.Zip).zip $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/${{parameters.DocArtifact}}
+                        displayName: Copy Document Artifact
                       - pwsh: |
                           Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
                         workingDirectory: $(Pipeline.Workspace)

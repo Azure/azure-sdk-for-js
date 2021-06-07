@@ -61,16 +61,11 @@ steps:
       ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
 
   - ${{ each artifact in parameters.Artifacts }}:
-    - task: PowerShell@2
+    - pwsh: |
+        New-Item -Type Directory -Name ${{artifact.name}} -Path $(Build.ArtifactStagingDirectory)
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/${{artifact.name}}-*.tgz $(Build.ArtifactStagingDirectory)/${{artifact.name}}
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/${{artifact.name}}-*.zip $(Build.ArtifactStagingDirectory)/${{artifact.name}}
       displayName: 'Copy Package ${{artifact.name}}'
-      inputs:
-        targetType: filePath
-        filePath: "eng/scripts/Copy-Artifacts.ps1"
-        arguments: >
-          -serviceDirectory sdk/${{parameters.ServiceDirectory}}
-          -artifactName ${{artifact.name}}
-          -targetPath $(Build.ArtifactStagingDirectory)
-        pwsh: true
 
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
