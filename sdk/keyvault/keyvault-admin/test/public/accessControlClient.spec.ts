@@ -182,10 +182,8 @@ describe("KeyVaultAccessControlClient", () => {
       });
 
       it("succeeds when deleting a non-existent role definition", async function() {
-        await assert.isFulfilled(
-          client.deleteRoleDefinition(globalScope, "foobar"),
-          "delete should ignore 404s"
-        );
+        const response = await client.deleteRoleDefinition(globalScope, "foobar");
+        assert.equal(404, response._response.status);
       });
     });
 
@@ -279,10 +277,8 @@ describe("KeyVaultAccessControlClient", () => {
     });
 
     it("succeeds when deleting a role assignment that doesn't exist", async () => {
-      await assert.isFulfilled(
-        client.deleteRoleAssignment(globalScope, generateFakeUUID()),
-        "delete should ignore 404s"
-      );
+      const response = await client.deleteRoleAssignment(globalScope, generateFakeUUID());
+      assert.equal(404, response._response.status);
     });
 
     it("supports tracing", async function() {
