@@ -7,6 +7,9 @@ import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
 // https://dev.loganalytics.io/documentation/Using-the-API/Timeouts
 
+/**
+ * Options for querying logs.
+ */
 export interface QueryLogsOptions extends OperationOptions {
   /**
    * The maximum amount of time the server will spend processing the query.
@@ -31,6 +34,9 @@ export interface QueryStatistics {
   [key: string]: unknown;
 }
 
+/**
+ * Tables and statistic results from a logs query.
+ */
 export interface QueryLogsResult {
   /** The list of tables, columns and rows. */
   tables: LogsTable[];
@@ -38,6 +44,7 @@ export interface QueryLogsResult {
   statistics?: any;
 }
 
+/** Options when query logs with a batch. */
 export type QueryLogsBatchOptions = OperationOptions;
 
 /** An array of queries to run as a batch. */

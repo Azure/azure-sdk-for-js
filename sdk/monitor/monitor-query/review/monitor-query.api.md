@@ -90,11 +90,10 @@ export interface LogsColumn {
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
-    // (undocumented)
     queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
 }
 
-// @public (undocumented)
+// @public
 export interface LogsQueryClientOptions extends PipelineOptions {
     endpoint?: string;
 }
@@ -157,7 +156,7 @@ export interface MetricNamespaceName {
     metricNamespaceName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MetricsClientOptions extends PipelineOptions {
     endpoint?: string;
 }
@@ -191,7 +190,7 @@ export interface QueryLogsBatch {
     queries: BatchQuery[];
 }
 
-// @public (undocumented)
+// @public
 export type QueryLogsBatchOptions = OperationOptions;
 
 // @public
@@ -204,13 +203,13 @@ export interface QueryLogsBatchResult {
     }[];
 }
 
-// @public (undocumented)
+// @public
 export interface QueryLogsOptions extends OperationOptions {
     includeQueryStatistics?: boolean;
     serverTimeoutInSeconds?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface QueryLogsResult {
     statistics?: any;
     tables: LogsTable[];

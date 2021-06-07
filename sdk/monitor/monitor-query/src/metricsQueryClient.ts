@@ -36,6 +36,9 @@ import {
   convertResponseForMetricsDefinitions
 } from "./internal/modelConverters";
 
+/**
+ * Options for the MetricsQueryClient.
+ */
 export interface MetricsQueryClientOptions extends PipelineOptions {
   /** Overrides client endpoint. */
   endpoint?: string;

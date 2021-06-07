@@ -26,6 +26,9 @@ import { formatPreferHeader } from "./internal/util";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
+/**
+ * Options for the LogsQueryClient.
+ */
 export interface LogsQueryClientOptions extends PipelineOptions {
   /**
    * The host to connect to.
@@ -97,6 +100,12 @@ export class LogsQueryClient {
     };
   }
 
+  /**
+   * Query logs with multiple queries, in a batch.
+   * @param batch - A batch of queries to run. Each query can be configured to run against separate workspaces.
+   * @param options - Options for querying logs in a batch.
+   * @returns The log query results for all the queries.
+   */
   async queryLogsBatch(
     batch: QueryLogsBatch,
     options?: QueryLogsBatchOptions
