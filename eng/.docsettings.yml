@@ -35,7 +35,6 @@ required_readme_sections:
   - ^Contributing$
 
 known_content_issues:
-  - ["sdk/appconfiguration/app-configuration/README.md",  "#1583"]
   - ["sdk/core/abort-controller/README.md",  "#14714"]
   - ["sdk/core/core-amqp/README.md",  "#14715"]
   - ["sdk/core/core-auth/README.md",  "#14716"]
