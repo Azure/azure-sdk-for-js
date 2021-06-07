@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import { Column, ErrorInfo } from "../generated/logquery/src";
+import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
 // https://dev.loganalytics.io/documentation/Using-the-API/Timeouts
@@ -101,7 +101,7 @@ export interface LogsTable {
   /** The name of the table. */
   name: string;
   /** The list of columns in this table. */
-  columns: Column[];
+  columns: LogsColumn[];
   /** The resulting rows from this query. */
   rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }

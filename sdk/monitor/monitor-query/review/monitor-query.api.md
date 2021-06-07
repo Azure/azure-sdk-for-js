@@ -81,6 +81,12 @@ export interface GetMetricNamespacesResponse {
 }
 
 // @public
+export interface LogsColumn {
+    name?: string;
+    type?: ColumnDataType;
+}
+
+// @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
@@ -95,7 +101,7 @@ export interface LogsQueryClientOptions extends PipelineOptions {
 
 // @public
 export interface LogsTable {
-    columns: MetricColumn[];
+    columns: LogsColumn[];
     name: string;
     rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
@@ -121,12 +127,6 @@ export interface Metric {
 export interface MetricAvailability {
     retention?: string;
     timeGrain?: string;
-}
-
-// @public
-export interface MetricColumn {
-    name?: string;
-    type?: ColumnDataType;
 }
 
 // @public

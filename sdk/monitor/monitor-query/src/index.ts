@@ -41,7 +41,7 @@ export { Durations } from "./models/constants";
 export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
-  Column as MetricColumn,
+  Column as LogsColumn,
   ColumnDataType,
   ErrorDetail,
   ErrorInfo
