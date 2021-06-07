@@ -1,26 +1,25 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT license
 
-/**
- * This sample shows how to add a persistent token cache to `@azure/identity`
- * using the persistence extension. Once the persistence extension is added
- * through `useIdentityExtension`, some credentials, such as
- * `DeviceCodeCredential`, will be able to retrieve tokens from the cache rather
- * than requesting new tokens from the Azure Active Directory token endpoint.
- *
- * @summary import and use the persistence extension
- */
+import {
+  useIdentityExtension,
+  DeviceCodeCredential,
+  IdentityExtensionModule
+} from "@azure/identity";
 
-import { useIdentityExtension, DeviceCodeCredential } from "@azure/identity";
-
-import persistence from "@azure/identity-persistence";
-useIdentityExtension(persistence);
+async function getPersistence(): Promise<IdentityExtensionModule> {
+  return require("@azure/identity-cache-persistence");
+}
 
 import dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const credential = new DeviceCodeCredential();
+  // If your environment supports it (ES2020 or newer), you can use
+  // `import("@azure/identity-cache-persistence")` instead.
+  await useIdentityExtension(getPersistence());
+
+  const credential = new DeviceCodeCredential({ tokenCachePersistenceOptions: {} });
 
   // This is the scope we will use to get a token from the AAD token endpoint.
   // By default, we'll use the Microsoft Graph scope as an example, but when

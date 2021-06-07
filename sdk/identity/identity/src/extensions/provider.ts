@@ -7,7 +7,7 @@
  * It's important that this module does not contain any imports or exports.
  *
  * This file is referenced by the other identity packages, such as
- * identity-vscode and identity-persistence, so any imports or exports here will
+ * identity-vscode and identity-cache-persistence, so any imports or exports here will
  * be dragged into those packages' depdendencies as well.
  */
 
@@ -80,7 +80,7 @@ export interface PluginControl {
   ) => Promise<import("@azure/msal-common").ICachePlugin>;
 }
 export interface AzureExtensionContext {
-  pluginControl: PluginControl;
+  cachePluginControl: PluginControl;
 }
 
 export function registerExtension(

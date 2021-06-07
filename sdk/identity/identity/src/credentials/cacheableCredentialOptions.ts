@@ -13,12 +13,12 @@ export interface CacheableCredentialOptions {
    * storing credentials.
    * 
    * You must first register a persistence provider as an extension. See the
-   * `@azure/identity-persistence` package on NPM.
+   * `@azure/identity-cache-persistence` package on NPM.
    * 
    * Example:
    * 
    * ```typescript
-   * import persistence from "@azure/identity-persistence";
+   * import persistence from "@azure/identity-cache-persistence";
    * import { useIdentityExtension, DeviceCodeCredential } from "@azure/identity";
    * 
    * useIdentityExtension(persistence);

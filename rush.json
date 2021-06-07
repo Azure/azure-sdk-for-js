@@ -547,8 +547,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/identity-persistence",
-      "projectFolder": "sdk/identity/identity-persistence",
+      "packageName": "@azure/identity-cache-persistence",
+      "projectFolder": "sdk/identity/identity-cache-persistence",
       "versionPolicyName": "client"
     },
     {

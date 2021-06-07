@@ -7,7 +7,7 @@
     "outDir": "./dist-esm",
     "resolveJsonModule": true,
     "paths": {
-      "@azure/identity-persistence": ["./src/index"]
+      "@azure/identity-cache-persistence": ["./src/index"]
     }
   },
   "include": ["src/**/*", "test/**/*", "samples-dev/**/*"]

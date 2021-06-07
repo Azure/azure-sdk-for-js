@@ -8,7 +8,7 @@ declare module "@azure/identity" {
 }
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { registerExtension } from "../../identity/src/extensionProvider";
+import { registerExtension } from "../../identity/src/extensions/provider";
 import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
 
 export { VisualStudioCodeCredential };

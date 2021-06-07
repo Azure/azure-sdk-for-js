@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT license.
 
-import { IdentityExtension, registry } from "./extensionProvider";
-import { msalNodeFlowPluginControl } from "./msal/nodeFlows/nodeCommon";
+import { IdentityExtension, registry } from "./provider";
+import { msalNodeFlowCacheControl } from "../msal/nodeFlows/nodeCommon";
 
-const pluginContext = {
-  pluginControl: msalNodeFlowPluginControl
+const extensionContext = {
+  cachePluginControl: msalNodeFlowCacheControl
 };
 
 /**
@@ -21,7 +21,7 @@ function install(extension: IdentityExtension): void {
     );
   }
 
-  installer(pluginContext);
+  installer(extensionContext);
 }
 
 /**
@@ -40,7 +40,7 @@ export interface IdentityExtensionModule {
  * Example:
  *
  * ```javascript
- * import persistence from "@azure/identity-persistence";
+ * import persistence from "@azure/identity-cache-persistence";
  *
  * import { useIdentityExtension, DefaultAzureCredential } from "@azure/identity";
  * useIdentityExtension(persistence);
@@ -57,7 +57,7 @@ export interface IdentityExtensionModule {
  * import { useIdentityExtension, DefaultAzureCredential } from "@azure/identity";
  *
  * async function main() {
- *   await useIdentityExtension(import("@azure/identity-persistence"));
+ *   await useIdentityExtension(import("@azure/identity-cache-persistence"));
  *
  *   const credential = new DefaultAzureCredential();
  * }

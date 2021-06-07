@@ -43,7 +43,7 @@ let persistenceProvider:
  * An object that allows setting the persistence provider.
  * @internal
  */
-export const msalNodeFlowPluginControl = {
+export const msalNodeFlowCacheControl = {
   set persistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>) {
     persistenceProvider = pluginProvider;
   }
@@ -78,7 +78,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       this.createCachePlugin = () => persistenceProvider!(options.tokenCachePersistenceOptions);
     } else if (options.tokenCachePersistenceOptions !== undefined) {
       throw new Error(
-        "`tokenCachePersistenceOptions` were provided, but no persistence provider was configured (do you need to use the `@azure/identity-persistence` package?)"
+        "`tokenCachePersistenceOptions` were provided, but no persistence provider was configured (do you need to use the `@azure/identity-cache-persistence` package?)"
       );
     }
   }

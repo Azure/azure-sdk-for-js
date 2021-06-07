@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./extensions";
-export { IdentityExtension, AzureIdentityExtensionTypeMap } from "./extensionProvider";
+export * from "./extensions/consumer";
+
+export { IdentityExtension, AzureIdentityExtensionTypeMap } from "./extensions/provider";
 
 import { TokenCredential } from "@azure/core-http";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";

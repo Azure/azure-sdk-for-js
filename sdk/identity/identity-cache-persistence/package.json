@@ -1,10 +1,10 @@
 {
-  "name": "@azure/identity-persistence",
-  "version": "2.0.0-beta.1",
+  "name": "@azure/identity-cache-persistence",
+  "version": "1.0.0-beta.1",
   "description": "A secure, persistent token cache for Azure Identity credentials that uses the OS secret-management API",
   "main": "dist/index.js",
-  "module": "dist-esm/identity-persistence/src/index.js",
-  "types": "./types/identity-persistence.d.ts",
+  "module": "dist-esm/identity-cache-persistence/src/index.js",
+  "types": "./types/identity-cache-persistence.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo skipped",
@@ -33,8 +33,8 @@
   "files": [
     "dist/",
     "dist-esm/identity",
-    "dist-esm/identity-persistence",
-    "types/identity-persistence.d.ts",
+    "dist-esm/identity-cache-persistence",
+    "types/identity-cache-persistence.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -61,7 +61,7 @@
   "engine": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity-persistence/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity-cache-persistence/README.md",
   "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
