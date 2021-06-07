@@ -507,8 +507,9 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 
 // @public
 export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
+    categoriesFilter?: PiiEntityCategory[];
     disableServiceLogs?: boolean;
-    domain?: PiiEntityDomain;
+    domainFilter?: PiiEntityDomain;
     stringIndexType?: StringIndexType;
 }
 
