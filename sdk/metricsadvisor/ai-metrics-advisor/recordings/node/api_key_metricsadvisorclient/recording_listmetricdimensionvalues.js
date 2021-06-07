@@ -6,21 +6,21 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query', {"dimensionName":"city"})
-  .reply(200, {"value":["Abidjan","Ahmadabad","Alexandria","Ankara","Atlanta","Baghdad","Bangkok","Barcelona","Beijing","Belo Horizonte","Bengaluru","Bogota","Boston","Brasilia","Buenos Aires","Cairo","Chengdu","Chennai","Chicago","Chittagong"],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$top=20&$skip=20"}, [
+  .reply(200, {"value":["Abidjan","Ahmadabad","Alexandria","Ankara","Atlanta","Baghdad","Bangkok","Barcelona","Beijing","Belo Horizonte","Bengaluru","Bogota","Boston","Brasilia","Buenos Aires","Cairo","Chengdu","Chennai","Chicago","Chittagong"],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$maxpagesize=20&$skip=20"}, [
   'Content-Length',
-  '402',
+  '410',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'd849e94f-c64b-41d0-a6a8-c33dc93b613e',
+  '82688434-ae27-477c-9ea0-98a8d9727b61',
   'x-envoy-upstream-service-time',
-  '106',
+  '120',
   'apim-request-id',
-  'd849e94f-c64b-41d0-a6a8-c33dc93b613e',
+  '82688434-ae27-477c-9ea0-98a8d9727b61',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:41:21 GMT'
+  'Wed, 02 Jun 2021 07:07:57 GMT'
 ]);

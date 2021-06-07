@@ -1,19 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, use as chaiUse } from "chai";
+import { assert, expect, use as chaiUse } from "chai";
 import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient, createRecorder, EndpointType } from "../utils/recordedClient";
+import {
+  createRecordedAdminClient,
+  createRecordedClient,
+  createRecorder,
+  EndpointType
+} from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
-import { verifyAttestationToken } from "../utils/helpers";
-import { utf8ToBytes } from "../utils/utf8.browser";
 
 import { AttestationData } from "../../src";
+import { KnownAttestationType } from "../../src/generated";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
@@ -165,44 +169,69 @@ describe("[AAD] Attestation Client", function() {
    */
   it("#attestTpm", async () => {
     const client = createRecordedClient("AAD");
+    const adminClient = createRecordedAdminClient("AAD");
+
+    // Set the policy on the instance to a known value.
+    await adminClient.setPolicy(
+      KnownAttestationType.Tpm,
+      "version=1.0; authorizationrules{=> permit();}; issuancerules{};"
+    );
 
     const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
 
-    // TPM Attestation throws if there is no attestation policy set.
-    // Until the policy APIs are created, just assert that this throws an exception.
-    try {
-      await client.attestTpm({ data: utf8ToBytes(encodedPayload) });
-      assert.fail("Attest TPM should have thrown an exception.");
-    } catch (e) {
-      // Text to make eslint happy.
-      console.log("Caught expected exception.");
-    }
+    const result = await client.attestTpm(encodedPayload);
+    const tpmResult = JSON.parse(result);
+
+    assert.isDefined(tpmResult.payload);
+
+    const payload = tpmResult.payload;
+
+    assert.isDefined(payload.challenge);
+    assert.isDefined(payload.service_context);
+
+    // Reset the policy on the instance to the default for reproducibility.
+    await adminClient.resetPolicy(KnownAttestationType.Tpm);
   });
 
   async function testOpenEnclave(endpointType: EndpointType): Promise<void> {
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
     const client = createRecordedClient(endpointType);
-    const attestationResult = await client.attestOpenEnclave(
-      base64url.decodeString(_openEnclaveReport),
-      {
-        runTimeData: new AttestationData(binaryRuntimeData, false)
-      }
-    );
 
-    /**
-     * Skipping verification in playback mode because the resource url is part
-     * of the JWT and it has to be verified against the real resource url instead
-     * of the fake one in playback.
-     */
-    const rawToken = attestationResult.token;
-    assert(rawToken, "Expected a token from the service but did not receive one");
+    {
+      const attestationResult = await client.attestOpenEnclave(
+        base64url.decodeString(_openEnclaveReport),
+        {
+          runTimeData: new AttestationData(binaryRuntimeData, false)
+        }
+      );
 
-    if (rawToken && !isPlaybackMode()) {
-      // The issuer of the client should be the client's instance URI.
-      assert.equal(client.instanceUrl, attestationResult.value.iss);
-      assert.equal(client.instanceUrl, rawToken.issuer);
-      const signers = await client.getAttestationSigners();
-      await verifyAttestationToken(rawToken.serialize(), signers, endpointType);
+      assert.isNotNull(attestationResult.value.sgxCollateral);
+      assert.isUndefined(attestationResult.value.runtimeClaims);
+      expect(attestationResult.value.enclaveHeldData?.length).is.equal(binaryRuntimeData.length);
+      expect(attestationResult.value.enclaveHeldData).to.deep.equal(binaryRuntimeData);
+
+      assert(attestationResult.token, "Expected a token from the service but did not receive one");
+    }
+
+    {
+      const attestationResult = await client.attestOpenEnclave(
+        base64url.decodeString(_openEnclaveReport),
+        {
+          runTimeData: new AttestationData(binaryRuntimeData, true)
+        }
+      );
+
+      assert.isNotNull(attestationResult.value.sgxCollateral);
+      assert.isDefined(attestationResult.value.runtimeClaims);
+      assert.isUndefined(attestationResult.value.enclaveHeldData);
+
+      // Confirm that the JWK response out of the service makes sense and contains
+      // the JSON inside the binaryRuntimeData.
+      assert.isDefined(attestationResult.value.runtimeClaims.jwk);
+      assert.isDefined(attestationResult.value.runtimeClaims.jwk.crv);
+      expect(attestationResult.value.runtimeClaims.jwk.crv).is.equal("P-256");
+
+      assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
   }
 
@@ -210,30 +239,48 @@ describe("[AAD] Attestation Client", function() {
     const client = createRecordedClient(endpointType);
 
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
-    // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
-    //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
-    //  16 bytes from the report.
-    const attestationResult = await client.attestSgxEnclave(
-      base64url.decodeString(_openEnclaveReport).subarray(0x10),
-      {
-        runTimeData: new AttestationData(binaryRuntimeData, false)
-      }
-    );
 
-    /**
-     * Skipping verification in playback mode because the resource url is part
-     * of the JWT and it has to be verified against the real resource url instead
-     * of the fake one in playback.
-     */
-    const rawToken = attestationResult.token;
+    {
+      // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
+      //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
+      //  16 bytes from the report.
+      const attestationResult = await client.attestSgxEnclave(
+        base64url.decodeString(_openEnclaveReport).subarray(0x10),
+        {
+          runTimeData: new AttestationData(binaryRuntimeData, false)
+        }
+      );
 
-    assert(rawToken, "Expected a token from the service but did not receive one");
-    if (rawToken && !isPlaybackMode()) {
-      assert.equal(client.instanceUrl, attestationResult.value.iss);
-      assert.equal(client.instanceUrl, rawToken.issuer);
+      assert.isNotNull(attestationResult.value.sgxCollateral);
+      assert.isUndefined(attestationResult.value.runtimeClaims);
+      expect(attestationResult.value.enclaveHeldData?.length).is.equal(binaryRuntimeData.length);
+      expect(attestationResult.value.enclaveHeldData).to.deep.equal(binaryRuntimeData);
 
-      const signers = await client.getAttestationSigners();
-      await verifyAttestationToken(rawToken.serialize(), signers, endpointType);
+      assert(attestationResult.token, "Expected a token from the service but did not receive one");
+    }
+
+    {
+      // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
+      //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
+      //  16 bytes from the report.
+      const attestationResult = await client.attestSgxEnclave(
+        base64url.decodeString(_openEnclaveReport).subarray(0x10),
+        {
+          runTimeData: new AttestationData(binaryRuntimeData, true)
+        }
+      );
+
+      assert.isNotNull(attestationResult.value.sgxCollateral);
+      assert.isDefined(attestationResult.value.runtimeClaims);
+      assert.isUndefined(attestationResult.value.enclaveHeldData);
+
+      // Confirm that the JWK response out of the service makes sense and contains
+      // the JSON inside the binaryRuntimeData.
+      assert.isDefined(attestationResult.value.runtimeClaims.jwk);
+      assert.isDefined(attestationResult.value.runtimeClaims.jwk.crv);
+      expect(attestationResult.value.runtimeClaims.jwk.crv).is.equal("P-256");
+
+      assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
   }
 });

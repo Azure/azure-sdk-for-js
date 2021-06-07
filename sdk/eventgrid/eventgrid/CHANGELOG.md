@@ -1,6 +1,32 @@
 # Release History
 
-## 4.2.1 (Unreleased)
+## 4.3.0 (Unreleased)
+
+### New Features
+
+- Added new System Events:
+  - `Microsoft.AgFoodPlatform.ApplicationDataChanged`
+  - `Microsoft.AgFoodPlatform.BoundaryChanged`
+  - `Microsoft.AgFoodPlatform.CropChanged`
+  - `Microsoft.AgFoodPlatform.CropVarietyChanged`
+  - `Microsoft.AgFoodPlatform.FarmChanged`
+  - `Microsoft.AgFoodPlatform.FarmOperationDataIngestionJobStatusChanged`
+  - `Microsoft.AgFoodPlatform.FarmerChanged`
+  - `Microsoft.AgFoodPlatform.FieldChanged`
+  - `Microsoft.AgFoodPlatform.HarvestDataChanged`
+  - `Microsoft.AgFoodPlatform.PlantingDataChanged`
+  - `Microsoft.AgFoodPlatform.SatelliteDataIngestionJobStatusChanged`
+  - `Microsoft.AgFoodPlatform.SeasonChanged`
+  - `Microsoft.AgFoodPlatform.SeasonalFieldChanged`
+  - `Microsoft.AgFoodPlatform.TillageDataChanged`
+  - `Microsoft.AgFoodPlatform.WeatherDataIngestionJobStatusChanged`
+  - `Microsoft.Storage.BlobInventoryPolicyCompleted`
+
+### Key Bug Fixes
+
+- The `Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners` event was incorrectly listed with the name of `Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener`.
+  This has been corrected. When using TypeScript, you will need to replace any calls to `isSystemEvent("Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener")` with
+  `isSystemEvent("Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners")`.
 
 ## 4.2.0 (2021-05-11)
 

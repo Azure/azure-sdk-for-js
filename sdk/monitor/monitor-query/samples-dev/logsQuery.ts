@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { CommonDurations, LogsClient, Table } from "@azure/monitor-query";
+import { Durations, LogsQueryClient, LogsTable } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -14,39 +14,42 @@ const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
 export async function main() {
   const tokenCredential = new DefaultAzureCredential();
-  const logsClient = new LogsClient(tokenCredential);
+  const logsQueryClient = new LogsQueryClient(tokenCredential);
 
   if (!monitorWorkspaceId) {
     throw new Error("MONITOR_WORKSPACE_ID must be set in the environment for this sample");
   }
 
-  const kqlQuery =
+  const kustoQuery =
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
-  console.log(`Running '${kqlQuery}' for the last 5 minutes`);
-  const result = await logsClient.queryLogs(monitorWorkspaceId, kqlQuery, {
+  console.log(`Running '${kustoQuery}' over the last 5 minutes`);
+  const result = await logsQueryClient.queryLogs(
+    monitorWorkspaceId,
+    kustoQuery,
     // The timespan is an ISO8601 formatted time (or interval). Some common aliases
     // are available (like lastDay, lastHour, last48Hours, etc..) but any properly formatted ISO8601
     // value is valid.
-    timespan: CommonDurations.last5Minutes,
+    Durations.last5Minutes,
+    {
+      // optionally enable returning additional statistics about the query's execution.
+      // (by default this is off)
+      includeQueryStatistics: true,
 
-    // optionally enable returning additional statistics about the query's execution.
-    // (by default this is off)
-    includeQueryStatistics: true,
+      // explicitly control the amount of time the server can spend processing the query.
+      serverTimeoutInSeconds: 60
+    }
+  );
 
-    // explicitly control the amount of time the server can spend processing the query.
-    serverTimeoutInSeconds: 60
-  });
-
-  const tablesFromResult: Table[] | undefined = result.tables;
+  const tablesFromResult: LogsTable[] | undefined = result.tables;
 
   if (tablesFromResult == null) {
-    console.log(`No results for query '${kqlQuery}'`);
+    console.log(`No results for query '${kustoQuery}'`);
     return;
   }
 
   console.log(
-    `Results for query '${kqlQuery}', execution time: ${result.statistics?.query?.executionTime}`
+    `Results for query '${kustoQuery}', execution time: ${result.statistics?.query?.executionTime}`
   );
 
   for (const table of tablesFromResult) {

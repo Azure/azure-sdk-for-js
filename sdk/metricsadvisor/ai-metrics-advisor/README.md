@@ -191,7 +191,8 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
       dataSourceParameter: {
         connectionString: sqlServerConnectionString,
         query: sqlServerQuery
-      }
+      },
+      authenticationType: "Basic"
     },
     granularity: {
       granularityType: "Daily"

@@ -2,6 +2,21 @@
 
 ## 1.0.0-beta.4 (Unreleased)
 
+### New Features
+
+- Added support for `Azure Log Analytics` DataFeed source and `Azure EventHubs` DataFeed source
+- Added datasource credential API support to client
+- Added authentication type support for data feed
+- Added property `splitAlertByDimensions` to `AnomalyAlertConfiguration` model
+- Added properties`value` and `expectedValue` to `DataPointAnomaly` and `valueOfRootNode` and `expectedValueOfRootNode` to `AnomalyIncident`
+
+### Breaking Changes
+
+- Updated Patch types for all update methods
+- Replaced `updateSubscriptionKey` and `updateApiKey` into one method `updateKey`
+- Removed support for `HttpRequestDataFeed` and `ElasticsearchDataFeed` source type
+- Removed `DataSourceParameter` property and serialized `DataSourceParameter` properties for all datafeed sources into `DataFeedSource` types
+- Renamed `AlertSnoozeCondition` to `MetricAnomalyAlertSnoozeCondition` and `MetricAlertConditions` to `MetricAnomalyAlertConditions`
 
 ## 1.0.0-beta.3 (2021-02-09)
 
@@ -9,10 +24,10 @@
 - Added support for API key and Subscription key rotation
 - Added a map property in DataFeed object for mapping of metric name to metric id
 - [Breaking] All update methods now return just RestResponse instead of entire objects:
-    - `updateAlertConfig()` now returns `RestResponse` instead of `GetAnomalyAlertConfigurationResponse`
-    - `updateDatafeed` now returns `RestResponse` instead of `GetDatafeedResponse`
-    - `updateHook` now returns `RestResponse` instead of `GetHookResponse`
-    - `updateDetectionConfig` now returns `RestResponse` instead of `GetAnomalyDetectionConfigurationResponse`
+  - `updateAlertConfig()` now returns `RestResponse` instead of `GetAnomalyAlertConfigurationResponse`
+  - `updateDatafeed` now returns `RestResponse` instead of `GetDatafeedResponse`
+  - `updateHook` now returns `RestResponse` instead of `GetHookResponse`
+  - `updateDetectionConfig` now returns `RestResponse` instead of `GetAnomalyDetectionConfigurationResponse`
 - [Breaking] Rename function `listDimensionValuesForDetectionConfig()` to `listAnomalyDimensionValues()`
 
 ## 1.0.0-beta.2 (2020-11-10)

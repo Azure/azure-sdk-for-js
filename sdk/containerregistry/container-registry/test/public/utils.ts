@@ -19,6 +19,7 @@ const replaceableVariables: Record<string, string> = {
   REGISTRY: "myregistry"
 };
 
+const expiryReplacement = "eyJleHAiOjg2NDAwMDAwMDAwMDB9"; //  base64 encoding of '{"exp":8640000000000}' ;
 export const recorderEnvSetup: RecorderEnvironmentSetup = {
   // == Recorder Environment Setup == Add the replaceable variables from
   // above
@@ -35,11 +36,17 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
   // replacements within recordings.
   customizationsOnRecordings: [
     (recording: string): string =>
-      recording.replace(/"refresh_token":"[^"]+"/g, `"refresh_token":"refresh_token"`),
+      recording.replace(
+        /"refresh_token":"[^"]+"/g,
+        `"refresh_token":"sanitized.${expiryReplacement}.sanitized"`
+      ),
     (recording: string): string =>
       recording.replace(/access_token=(.+?)(&|")/, `access_token=access_token$2`),
     (recording: string): string =>
-      recording.replace(/refresh_token=([^&]+?)(&|")/, `refresh_token=refresh_token$2`)
+      recording.replace(
+        /refresh_token=([^&]+?)(&|")/,
+        `refresh_token=sanitized.${expiryReplacement}.sanitized$2`
+      )
   ]
 };
 

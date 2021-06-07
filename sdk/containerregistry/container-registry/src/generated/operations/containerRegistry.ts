@@ -18,9 +18,8 @@ import {
   ContainerRegistryGetRepositoriesOptionalParams,
   ContainerRegistryGetRepositoriesResponse,
   ContainerRegistryGetPropertiesResponse,
-  ContainerRegistryDeleteRepositoryResponse,
-  ContainerRegistrySetPropertiesOptionalParams,
-  ContainerRegistrySetPropertiesResponse,
+  ContainerRegistryUpdatePropertiesOptionalParams,
+  ContainerRegistryUpdatePropertiesResponse,
   ContainerRegistryGetTagsOptionalParams,
   ContainerRegistryGetTagsResponse,
   ContainerRegistryGetTagPropertiesResponse,
@@ -152,7 +151,7 @@ export class ContainerRegistry {
   deleteRepository(
     name: string,
     options?: coreClient.OperationOptions
-  ): Promise<ContainerRegistryDeleteRepositoryResponse> {
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { name, options },
       deleteRepositoryOperationSpec
@@ -164,13 +163,13 @@ export class ContainerRegistry {
    * @param name Name of the image (including the namespace)
    * @param options The options parameters.
    */
-  setProperties(
+  updateProperties(
     name: string,
-    options?: ContainerRegistrySetPropertiesOptionalParams
-  ): Promise<ContainerRegistrySetPropertiesResponse> {
+    options?: ContainerRegistryUpdatePropertiesOptionalParams
+  ): Promise<ContainerRegistryUpdatePropertiesResponse> {
     return this.client.sendOperationRequest(
       { name, options },
-      setPropertiesOperationSpec
+      updatePropertiesOperationSpec
     );
   }
 
@@ -392,6 +391,7 @@ const deleteManifestOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     202: {},
+    404: {},
     default: {
       bodyMapper: Mappers.AcrErrors
     }
@@ -422,7 +422,7 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RepositoryProperties
+      bodyMapper: Mappers.ContainerRepositoryProperties
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -436,9 +436,8 @@ const deleteRepositoryOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "DELETE",
   responses: {
-    202: {
-      bodyMapper: Mappers.DeleteRepositoryResult
-    },
+    202: {},
+    404: {},
     default: {
       bodyMapper: Mappers.AcrErrors
     }
@@ -447,12 +446,12 @@ const deleteRepositoryOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const setPropertiesOperationSpec: coreClient.OperationSpec = {
+const updatePropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RepositoryProperties
+      bodyMapper: Mappers.ContainerRepositoryProperties
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -512,7 +511,7 @@ const updateTagAttributesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  requestBody: Parameters.value,
+  requestBody: Parameters.value1,
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -523,6 +522,7 @@ const deleteTagOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     202: {},
+    404: {},
     default: {
       bodyMapper: Mappers.AcrErrors
     }
@@ -574,7 +574,7 @@ const updateManifestPropertiesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  requestBody: Parameters.value,
+  requestBody: Parameters.value2,
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",

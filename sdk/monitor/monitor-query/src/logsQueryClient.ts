@@ -12,12 +12,13 @@ import {
 import {
   QueryLogsBatch,
   QueryLogsBatchOptions,
-  QueryLogsBatchResponse,
+  QueryLogsBatchResult,
   QueryLogsOptions,
   QueryLogsResult
 } from "./models/publicLogsModels";
 
 import {
+  convertGeneratedTable,
   convertRequestForQueryBatch,
   convertResponseForQueryBatch
 } from "./internal/modelConverters";
@@ -25,7 +26,10 @@ import { formatPreferHeader } from "./internal/util";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 
-export interface LogsClientOptions extends PipelineOptions {
+/**
+ * Options for the LogsQueryClient.
+ */
+export interface LogsQueryClientOptions extends PipelineOptions {
   /**
    * The host to connect to.
    *
@@ -37,7 +41,7 @@ export interface LogsClientOptions extends PipelineOptions {
 /**
  * Client for Azure Log Analytics
  */
-export class LogsClient {
+export class LogsQueryClient {
   private _logAnalytics: AzureLogAnalytics;
 
   /**
@@ -46,7 +50,7 @@ export class LogsClient {
    * @param tokenCredential - A token credential.
    * @param options - Options for the LogsClient.
    */
-  constructor(tokenCredential: TokenCredential, options?: LogsClientOptions) {
+  constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions) {
     const authPolicy = bearerTokenAuthenticationPolicy(tokenCredential, defaultMonitorScope);
 
     // This client defaults to using 'https://api.loganalytics.io/v1' as the
@@ -59,16 +63,27 @@ export class LogsClient {
     });
   }
 
+  /**
+   * Queries logs in a Log Analytics Workspace.
+   *
+   * @param workspaceId - The 'Workspace Id' for the Log Analytics Workspace
+   * @param query - A Log Analytics Query
+   * @param timespan - The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression.
+   *  Some common durations can be found in the `Durations` object.
+   * @param options - Options to adjust various aspects of the request.
+   * @returns The result of the query.
+   */
   async queryLogs(
     workspaceId: string,
     query: string,
+    timespan: string,
     options?: QueryLogsOptions
   ): Promise<QueryLogsResult> {
     const result = await this._logAnalytics.query.execute(
       workspaceId,
       {
         query,
-        timespan: options?.timespan
+        timespan
       },
       {
         requestOptions: {
@@ -80,15 +95,21 @@ export class LogsClient {
     );
 
     return {
-      tables: result.tables,
+      tables: result.tables.map(convertGeneratedTable),
       statistics: result.statistics
     };
   }
 
+  /**
+   * Query logs with multiple queries, in a batch.
+   * @param batch - A batch of queries to run. Each query can be configured to run against separate workspaces.
+   * @param options - Options for querying logs in a batch.
+   * @returns The log query results for all the queries.
+   */
   async queryLogsBatch(
     batch: QueryLogsBatch,
     options?: QueryLogsBatchOptions
-  ): Promise<QueryLogsBatchResponse> {
+  ): Promise<QueryLogsBatchResult> {
     const generatedRequest = convertRequestForQueryBatch(batch);
     const response = await this._logAnalytics.query.batch(generatedRequest, options);
     return convertResponseForQueryBatch(response);

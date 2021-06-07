@@ -298,7 +298,9 @@ export const enum KnownRoleType {
 export type RoleType = string;
 
 /** Known values of {@link DataAction} that the service accepts. */
-export const enum KnownDataAction {
+// Note: `const` keyword removed manually while we discuss the generated code
+// in https://github.com/Azure/autorest.typescript/issues/1013
+export enum KnownDataAction {
   /** Read HSM key metadata. */
   ReadHsmKey = "Microsoft.KeyVault/managedHsm/keys/read/action",
   /** Update an HSM key. */
@@ -397,7 +399,9 @@ export const enum KnownDataAction {
 export type DataAction = string;
 
 /** Known values of {@link RoleScope} that the service accepts. */
-export const enum KnownRoleScope {
+// Note: `const` keyword removed manually while we discuss the generated code
+// in https://github.com/Azure/autorest.typescript/issues/1013
+export enum KnownRoleScope {
   /** Global scope */
   Global = "/",
   /** Keys scope */

@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsClient } from "@azure/monitor-query";
+import { LogsQueryClient } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -18,11 +18,11 @@ export async function main() {
   }
 
   const tokenCredential = new DefaultAzureCredential();
-  const logsClient = new LogsClient(tokenCredential);
+  const logsQueryClient = new LogsQueryClient(tokenCredential);
 
   const kqlQuery = "AppEvents | project TimeGenerated, OperationName, AppRoleInstance | limit 1";
 
-  const result = await logsClient.queryLogsBatch({
+  const result = await logsQueryClient.queryLogsBatch({
     queries: [
       {
         workspace: monitorWorkspaceId,

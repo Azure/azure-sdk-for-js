@@ -16,17 +16,17 @@ export async function main() {
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
-  await listRepositories(client);
+  await listRepositoryNames(client);
 
   // Advanced: listing by pages
   const pageSize = 1;
-  await listRepositoriesByPages(client, pageSize);
+  await listRepositoryNamesByPages(client, pageSize);
 
   const repositoryName = "repository-name-to-delete";
   await deleteRepository(client, repositoryName);
 }
 
-async function listRepositories(client: ContainerRegistryClient) {
+async function listRepositoryNames(client: ContainerRegistryClient) {
   console.log("Listing repositories");
   const iterator = client.listRepositoryNames();
   for await (const repository of iterator) {
@@ -34,7 +34,7 @@ async function listRepositories(client: ContainerRegistryClient) {
   }
 }
 
-async function listRepositoriesByPages(client: ContainerRegistryClient, pageSize: number) {
+async function listRepositoryNamesByPages(client: ContainerRegistryClient, pageSize: number) {
   console.log("Listing repositories by pages");
   const pages = client.listRepositoryNames().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
@@ -49,17 +49,7 @@ async function listRepositoriesByPages(client: ContainerRegistryClient, pageSize
 
 async function deleteRepository(client: ContainerRegistryClient, repositoryName: string) {
   console.log("Deleting a repository");
-  const response = await client.deleteRepository(repositoryName);
-  console.log(
-    `Artifacts deleted: ${(response &&
-      response.deletedManifests &&
-      response.deletedManifests.length) ||
-      0}`
-  );
-  console.log(
-    `Tags deleted: ${(response && response.deletedManifests && response.deletedManifests.length) ||
-      0}`
-  );
+  await client.deleteRepository(repositoryName);
 }
 
 main().catch((err) => {
