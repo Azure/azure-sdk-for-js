@@ -1,5 +1,35 @@
 # Release History
 
+## 1.2.5 (2021-06-03)
+
+### Fixed
+
+- Delay loading of NO_PROXY environment variable until when request pipeline is being created. This fixes [issue 14873](https://github.com/Azure/azure-sdk-for-js/issues/14873)
+- Fixed an issue where tracing spans were not setting a status correctly (on success or error) which results in the span status being `UNSET`. In addition, we will now capture the HTTP status code when a request fails in the tracing span. [PR 15061](https://github.com/Azure/azure-sdk-for-js/pull/15061)
+- Fix packaging issue [PR 15286](https://github.com/Azure/azure-sdk-for-js/pull/15286)
+- Improve the sanitizer to handle recursive objects [PR 15426](https://github.com/Azure/azure-sdk-for-js/pull/15426)
+
+## 1.2.4 (2021-03-30)
+
+- Rewrote `bearerTokenAuthenticationPolicy` to use a new backend that refreshes tokens only when they're about to expire and not multiple times before. This fixes the issue: [13369](https://github.com/Azure/azure-sdk-for-js/issues/13369).
+
+### Breaking Changes
+
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+
+## 1.2.3 (2021-02-04)
+
+- Don't set a default content-type when there is no request body. [PR 13233](https://github.com/Azure/azure-sdk-for-js/pull/13233)
+- Clean up abort event handler properly for streaming operations. Fixed [issue 12029](https://github.com/Azure/azure-sdk-for-js/issues/12029)
+- Reduce memory usage of the cache in proxy policy. Fixed [issue 13277](https://github.com/Azure/azure-sdk-for-js/issues/13277)
+- Fix an issue where non-streaming response body was treated as stream [PR 13192](https://github.com/Azure/azure-sdk-for-js/pull/13192)
+- Browser XML parser now lazily load parser error namespace into cache. Fixed [issue 13268](https://github.com/Azure/azure-sdk-for-js/issues/13268)
+- Add ms-cv header used as correlation vector (used for distributed tracing) to list of non-redacted headers so that clients can share this header for debugging purposes. [PR 13541](https://github.com/Azure/azure-sdk-for-js/pull/13541)
+
+## 1.2.2 (2021-01-07)
+
+- Cache the default `HttpClient` used when one isn't passed in to `ServiceClient`. This means that for most packages we will only create a single `HttpClient`, which will improve platform resource usage by reducing overhead. [PR 12966](https://github.com/Azure/azure-sdk-for-js/pull/12966)
+
 ## 1.2.1 (2020-12-09)
 
 - Support custom auth scopes. Scope is a mechanism in OAuth 2.0 to limit an application's access to a user's account [PR 12752](https://github.com/Azure/azure-sdk-for-js/pull/12752)

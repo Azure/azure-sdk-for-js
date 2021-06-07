@@ -1,0 +1,30 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/phoneNumbers/%2B14155550100",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"PhoneNumberNotFound\",\"message\":\"The specified phone number +14155550100 cannot be found.\",\"target\":\"phonenumber\"}}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-03-07",
+    "content-type": "application/json",
+    "date": "Tue, 01 Jun 2021 16:13:18 GMT",
+    "ms-cv": "2r+SvqDDbEi2+zhSjnrAWw.0",
+    "request-context": "appId=",
+    "status": "404",
+    "x-azure-ref": "0nVy2YAAAAAB1mBqGyi+VT6YBwebKoRwJWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "952ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "90e064cb005516c2fa1918bdcded2120"
+}

@@ -5,7 +5,7 @@ import { RoleAssignment, RoleDefinition } from "./generated/models";
 import {
   KeyVaultRoleAssignment,
   KeyVaultRoleDefinition,
-  RoleAssignmentScope
+  KeyVaultRoleScope
 } from "./accessControlModels";
 
 export const mappings = {
@@ -16,9 +16,9 @@ export const mappings = {
       return {
         id: id!,
         name: name!,
-        type: type!,
+        kind: type!,
         properties: {
-          scope: scope as RoleAssignmentScope,
+          scope: scope as KeyVaultRoleScope,
           roleDefinitionId: roleDefinitionId!,
           principalId: principalId!
         }
@@ -40,7 +40,7 @@ export const mappings = {
       return {
         id: id!,
         name: name!,
-        type: type!,
+        kind: type!,
         roleName: roleName!,
         description: description!,
         roleType: roleType!,
@@ -48,5 +48,19 @@ export const mappings = {
         assignableScopes: assignableScopes!
       };
     }
+  },
+  folderUriParts(folderUri: string): { folderName: string; folderUri: string } {
+    const uriParts = folderUri.split("/");
+    const folderName = uriParts.pop();
+    const storageUri = uriParts.join("/");
+
+    if (!folderName) {
+      throw new Error("The provided folder URI is missing the folder name.");
+    }
+
+    return {
+      folderName,
+      folderUri: storageUri
+    };
   }
 };

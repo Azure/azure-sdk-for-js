@@ -8,7 +8,7 @@ const trimRightSlashes = new RegExp("[/]+$");
 const illegalResourceIdCharacters = new RegExp("[/\\\\?#]");
 
 /** @hidden */
-export function jsonStringifyAndEscapeNonASCII(arg: any) {
+export function jsonStringifyAndEscapeNonASCII(arg: unknown): string {
   // TODO: better way for this? Not sure.
   // escapes non-ASCII characters as \uXXXX
   return JSON.stringify(arg).replace(/[\u007F-\uFFFF]/g, (m) => {
@@ -17,9 +17,17 @@ export function jsonStringifyAndEscapeNonASCII(arg: any) {
 }
 
 /**
- * @ignore
+ * @hidden
  */
-export function parseLink(resourcePath: string) {
+export function parseLink(
+  resourcePath: string
+): {
+  type: ResourceType;
+  objectBody: {
+    id: string;
+    self: string;
+  };
+} {
   if (resourcePath.length === 0) {
     /* for DatabaseAccount case, both type and objectBody will be undefined. */
     return {
@@ -72,14 +80,14 @@ export function parseLink(resourcePath: string) {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function isReadRequest(operationType: OperationType): boolean {
   return operationType === OperationType.Read || operationType === OperationType.Query;
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function sleep(time: number): Promise<void> {
   return new Promise((resolve) => {
@@ -90,9 +98,9 @@ export function sleep(time: number): Promise<void> {
 }
 
 /**
- * @ignore
+ * @hidden
  */
-export function getContainerLink(link: string) {
+export function getContainerLink(link: string): string {
   return link
     .split("/")
     .slice(0, 4)
@@ -100,35 +108,35 @@ export function getContainerLink(link: string) {
 }
 
 /**
- * @ignore
+ * @hidden
  */
-export function trimSlashes(source: string) {
+export function trimSlashes(source: string): string {
   return source.replace(trimLeftSlashes, "").replace(trimRightSlashes, "");
 }
 
 /**
- * @ignore
+ * @hidden
  */
-export function getHexaDigit() {
+export function getHexaDigit(): string {
   return Math.floor(Math.random() * 16).toString(16);
 }
 
 /**
- * @ignore
+ * @hidden
  */
-export function parsePath(path: string) {
+export function parsePath(path: string): string[] {
   const pathParts = [];
   let currentIndex = 0;
 
-  const throwError = () => {
+  const throwError = (): never => {
     throw new Error("Path " + path + " is invalid at index " + currentIndex);
   };
 
-  const getEscapedToken = () => {
+  const getEscapedToken = (): string => {
     const quote = path[currentIndex];
     let newIndex = ++currentIndex;
 
-    while (true) {
+    for (;;) {
       newIndex = path.indexOf(quote, newIndex);
       if (newIndex === -1) {
         throwError();
@@ -146,7 +154,7 @@ export function parsePath(path: string) {
     return token;
   };
 
-  const getToken = () => {
+  const getToken = (): string => {
     const newIndex = path.indexOf("/", currentIndex);
     let token = null;
     if (newIndex === -1) {
@@ -181,10 +189,10 @@ export function parsePath(path: string) {
 }
 
 /**
- * @ignore
+ * @hidden
  */
-export function isResourceValid(resource: any, err: any) {
-  // TODO: any TODO: code smell
+export function isResourceValid(resource: { id?: string }, err: { message?: string }): boolean {
+  // TODO: fix strictness issues so that caller contexts respects the types of the functions
   if (resource.id) {
     if (typeof resource.id !== "string") {
       err.message = "Id must be a string.";
@@ -208,14 +216,14 @@ export function isResourceValid(resource: any, err: any) {
   return true;
 }
 
-/** @ignore */
-export function getIdFromLink(resourceLink: string) {
+/** @hidden */
+export function getIdFromLink(resourceLink: string): string {
   resourceLink = trimSlashes(resourceLink);
   return resourceLink;
 }
 
-/** @ignore */
-export function getPathFromLink(resourceLink: string, resourceType?: string) {
+/** @hidden */
+export function getPathFromLink(resourceLink: string, resourceType?: string): string {
   resourceLink = trimSlashes(resourceLink);
   if (resourceType) {
     return "/" + encodeURI(resourceLink) + "/" + resourceType;
@@ -225,17 +233,17 @@ export function getPathFromLink(resourceLink: string, resourceType?: string) {
 }
 
 /**
- * @ignore
+ * @hidden
  */
-export function isStringNullOrEmpty(inputString: string) {
+export function isStringNullOrEmpty(inputString: string): boolean {
   // checks whether string is null, undefined, empty or only contains space
   return !inputString || /^\s*$/.test(inputString);
 }
 
 /**
- * @ignore
+ * @hidden
  */
-export function trimSlashFromLeftAndRight(inputString: string) {
+export function trimSlashFromLeftAndRight(inputString: string): string {
   if (typeof inputString !== "string") {
     throw new Error("invalid input: input is not string");
   }
@@ -244,9 +252,9 @@ export function trimSlashFromLeftAndRight(inputString: string) {
 }
 
 /**
- * @ignore
+ * @hidden
  */
-export function validateResourceId(resourceId: string) {
+export function validateResourceId(resourceId: string): boolean {
   // if resourceId is not a string or is empty throw an error
   if (typeof resourceId !== "string" || isStringNullOrEmpty(resourceId)) {
     throw new Error("Resource Id must be a string and cannot be undefined, null or empty");
@@ -266,10 +274,9 @@ export function validateResourceId(resourceId: string) {
 }
 
 /**
- * @ignore
- * @param resourcePath
+ * @hidden
  */
-export function getResourceIdFromPath(resourcePath: string) {
+export function getResourceIdFromPath(resourcePath: string): string {
   if (!resourcePath || typeof resourcePath !== "string") {
     return null;
   }
@@ -286,7 +293,7 @@ export function getResourceIdFromPath(resourcePath: string) {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 interface ConnectionObject {
   AccountEndpoint: string;
@@ -294,7 +301,7 @@ interface ConnectionObject {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function parseConnectionString(connectionString: string): CosmosClientOptions {
   const keyValueStrings = connectionString.split(";");

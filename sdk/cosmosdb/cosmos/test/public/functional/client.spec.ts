@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { Agent } from "http";
 import { CosmosClient } from "../../../src";
 import { endpoint, masterKey } from "../common/_testConfig";
@@ -11,8 +12,9 @@ import {
   bulkInsertItems
 } from "../common/TestHelpers";
 import AbortController from "node-abort-controller";
+import { UsernamePasswordCredential } from "@azure/identity";
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   describe("Validate client request timeout", function() {
@@ -52,6 +54,23 @@ describe("NodeJS CRUD Tests", function() {
     it("throws on a bad endpoint", function() {
       assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
     });
+    it("fails to read databases with bad AAD authentication", async function() {
+      try {
+        const credentials = new UsernamePasswordCredential(
+          "fake-tenant-id",
+          "fake-client-id",
+          "fakeUsername",
+          "fakePassword"
+        );
+        const client = new CosmosClient({
+          endpoint,
+          aadCredentials: credentials
+        });
+        await client.databases.readAll().fetchAll();
+      } catch (e) {
+        assert.equal(e.statusCode, 400);
+      }
+    });
   });
   describe("Validate user passed AbortController.signal", function() {
     it("should throw exception if aborted during the request", async function() {
@@ -59,10 +78,11 @@ describe("NodeJS CRUD Tests", function() {
       try {
         const controller = new AbortController();
         const signal = controller.signal;
-        setTimeout(() => controller.abort(), 5);
+        setTimeout(() => controller.abort(), 1);
         await client.getDatabaseAccount({ abortSignal: signal });
         assert.fail("Must throw when trying to connect to database");
       } catch (err) {
+        console.log(err);
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
     });

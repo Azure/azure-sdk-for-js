@@ -3,6 +3,14 @@
 
 import * as coreHttp from "@azure/core-http";
 import { SUPPORTED_API_VERSIONS } from "./constants";
+import {
+  DataAction as KeyVaultDataAction,
+  KnownDataAction as KnownKeyVaultDataAction,
+  KnownRoleScope as KnownKeyVaultRoleScope,
+  RoleScope as KeyVaultRoleScope
+} from "./generated/index";
+
+export { KeyVaultDataAction, KnownKeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultRoleScope };
 
 /**
  * The optional parameters accepted by the Key Vault's AccessControlClient
@@ -29,15 +37,15 @@ export interface KeyVaultRoleAssignment {
   /**
    * The role assignment type.
    */
-  readonly type: string;
+  readonly kind: string;
   /**
    * Role assignment properties.
    */
-  properties: KeyVaultRoleAssignmentPropertiesWithScope;
+  properties: KeyVaultRoleAssignmentProperties;
 }
 
 /**
- * VaA list of Key Vault permissions.
+ * A list of Key Vault permissions.
  */
 export interface KeyVaultPermission {
   /**
@@ -45,17 +53,17 @@ export interface KeyVaultPermission {
    */
   actions?: string[];
   /**
-   * Denied actions.
+   * Actions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
   notActions?: string[];
   /**
    * Allowed Data actions.
    */
-  dataActions?: string[];
+  dataActions?: KeyVaultDataAction[];
   /**
-   * Denied Data actions.
+   * Data actions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
-  notDataActions?: string[];
+  notDataActions?: KeyVaultDataAction[];
 }
 
 /**
@@ -73,7 +81,7 @@ export interface KeyVaultRoleDefinition {
   /**
    * The role definition type.
    */
-  readonly type: string;
+  readonly kind: string;
   /**
    * The role name.
    */
@@ -108,30 +116,10 @@ export interface KeyVaultRoleAssignmentProperties {
    * The principal ID.
    */
   principalId: string;
-}
-
-/**
- * A scope of the role assignment.
- * The valid scopes are: "/", "/keys" and any a specific resource Id followed by a slash, as in "ID/".
- */
-export type RoleAssignmentScope = "/" | "/keys" | string;
-
-/**
- * Role assignment properties with the scope property.
- */
-export interface KeyVaultRoleAssignmentPropertiesWithScope {
   /**
    * The role assignment scope.
    */
-  scope?: RoleAssignmentScope;
-  /**
-   * The role definition ID.
-   */
-  roleDefinitionId: string;
-  /**
-   * The principal ID.
-   */
-  principalId: string;
+  scope?: KeyVaultRoleScope;
 }
 
 /**
@@ -161,6 +149,42 @@ export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {}
  * An interface representing optional parameters passed to {@link listRoleDefinitions}.
  */
 export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters passed to {@link getRoleDefinition}.
+ */
+export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters passed to {@link setRoleDefinition}.
+ */
+export interface SetRoleDefinitionOptions extends coreHttp.OperationOptions {
+  /**
+   * UUID used as the name of the role definition to create. If it's not provided, a new UUID will be generated.
+   */
+  roleDefinitionName?: string;
+  /**
+   * Friendly display name for the role definition.
+   */
+  roleName?: string;
+  /**
+   * Long-form description of the role definition.
+   */
+  description?: string;
+  /**
+   * List of Key Vault permissions
+   */
+  permissions?: KeyVaultPermission[];
+  /**
+   * List of assignable Key Vault role scopes
+   */
+  assignableScopes?: KeyVaultRoleScope[];
+}
+
+/**
+ * An interface representing optional parameters passed to {@link deleteRoleDefinition}.
+ */
+export interface DeleteRoleDefinitionOptions extends coreHttp.OperationOptions {}
 
 /**
  * Arguments for retrieving the next page of search results.

@@ -1,0 +1,36 @@
+{
+  "name": "azure-mock-hub-samples-js",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Mock Hub client library samples for JavaScript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Mock Hub",
+    "Node.js",
+    "JavaScript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "sideEffects": false,
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.0"
+  }
+}

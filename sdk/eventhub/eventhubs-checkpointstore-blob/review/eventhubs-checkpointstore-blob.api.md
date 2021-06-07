@@ -7,15 +7,16 @@
 import { Checkpoint } from '@azure/event-hubs';
 import { CheckpointStore } from '@azure/event-hubs';
 import { ContainerClient } from '@azure/storage-blob';
+import { OperationOptions } from '@azure/event-hubs';
 import { PartitionOwnership } from '@azure/event-hubs';
 
 // @public
 export class BlobCheckpointStore implements CheckpointStore {
     constructor(containerClient: ContainerClient);
-    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+    claimOwnership(partitionOwnership: PartitionOwnership[], options?: OperationOptions): Promise<PartitionOwnership[]>;
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string, options?: OperationOptions): Promise<Checkpoint[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string, options?: OperationOptions): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint, options?: OperationOptions): Promise<void>;
 }
 
 // @public

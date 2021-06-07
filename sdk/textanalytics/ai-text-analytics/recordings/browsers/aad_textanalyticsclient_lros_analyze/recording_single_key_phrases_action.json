@@ -1,0 +1,373 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:18:52 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11722.21 - NCUS ProdSlices",
+    "x-ms-request-id": "c1e705ec-3912-4743-ac25-e105c3194e00"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze",
+   "query": {},
+   "requestBody": "{\"tasks\":{\"keyPhraseExtractionTasks\":[{\"parameters\":{\"model-version\":\"latest\"}}]},\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"Microsoft was founded by Bill Gates and Paul Allen\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Microsoft fue fundado por Bill Gates y Paul Allen\",\"language\":\"es\"}]}}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "901ab7e6-59e4-41ae-9942-2cc682626f7e",
+    "date": "Wed, 12 May 2021 19:18:52 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "71"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:18:53Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:18:53Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "b8ed5a00-7815-452e-b144-7460db1e4b62",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:18:52 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "8"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:18:53Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:18:53Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "80c09679-fbf8-4f14-b94a-b2b945c5e122",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:18:52 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:18:53Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:18:53Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "791f6134-b6eb-4bcb-a93c-e07e3fa07d37",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:18:54 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "31"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:18:53Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:18:53Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "0e39a42e-035f-4d9a-b36b-c309057b5ceb",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:18:56 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:18:53Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:18:53Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "f5954576-7ec0-402f-a6d3-4546ea388062",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:18:58 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "5"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "0ae52d50-ae90-4e7a-80dc-bea7292b15e8",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:00 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "46753dbc-d6ad-4eff-ae96-bbc175d14f8f",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:02 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "b69a236f-9b56-4d26-bd35-f9936353a7f7",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:04 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "9d1c5a93-48e5-45cc-95c4-248b8b62f710",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:07 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "5"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "64499335-f151-49ff-af6a-f81553dfb06d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:09 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "3ee1e45f-5506-42b1-a0e9-a2813fc41783",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:11 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "2836e592-e817-4def-bc06-879a680661c4",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:13 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "8"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "ca293a11-03e8-472b-ab1c-bb27cc3841d1",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:15 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "05550324-3f17-4e87-a875-fa979d7dfede",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:17 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:00Z\"},\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "aa9b7853-1d29-4add-af61-abf9da2a3ff8",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:19 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:21Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-05-12T19:19:21.0111403Z\",\"name\":\"NA\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"Bill Gates\",\"Paul Allen\",\"Microsoft\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Bill Gates\",\"Paul Allen\",\"Microsoft\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "780cacbc-0d9b-4538-a712-32e01f18d2a7",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:21 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "52"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint//text/analytics/v3.1-preview.5/analyze/jobs/681c318e-b917-41f7-8b8e-00b10d3197ed",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"681c318e-b917-41f7-8b8e-00b10d3197ed\",\"lastUpdateDateTime\":\"2021-05-12T19:19:21Z\",\"createdDateTime\":\"2021-05-12T19:18:52Z\",\"expirationDateTime\":\"2021-05-13T19:18:52Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"details\":{\"name\":\"NA\",\"lastUpdateDateTime\":\"2021-05-12T19:19:21Z\"},\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-05-12T19:19:21.0111403Z\",\"name\":\"NA\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"Bill Gates\",\"Paul Allen\",\"Microsoft\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"Bill Gates\",\"Paul Allen\",\"Microsoft\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9d3064cd-9373-4253-93be-920fe4531723",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 12 May 2021 19:19:21 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "41"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "0c99bc0302e3bbe004a8daba1717ad0a"
+}

@@ -1,14 +1,18 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
+import {
+  CheckpointStore,
+  PartitionOwnership,
+  Checkpoint,
+  OperationOptions
+} from "@azure/event-hubs";
 import { ContainerClient, Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
 import { logger, logErrorStackTrace } from "./log";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
  * An implementation of CheckpointStore that uses Azure Blob Storage to persist checkpoint data.
- * @class
  */
 export class BlobCheckpointStore implements CheckpointStore {
   private _containerClient: ContainerClient;
@@ -21,18 +25,23 @@ export class BlobCheckpointStore implements CheckpointStore {
    * results if there are is no existing ownership information.
    * Partition Ownership contains the information on which `EventHubConsumerClient` subscribe call is currently processing the partition.
    *
-   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
-   * @param eventHubName The event hub name.
-   * @param consumerGroup The consumer group name.
-   * @return Partition ownership details of all the partitions that have had an owner.
+   * @param eventHubName - The event hub name.
+   * @param consumerGroup - The consumer group name.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
+   * @returns Partition ownership details of all the partitions that have had an owner.
    */
   async listOwnership(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroup: string
+    consumerGroup: string,
+    options: OperationOptions = {}
   ): Promise<PartitionOwnership[]> {
     const partitionOwnershipArray: PartitionOwnership[] = [];
+    const { abortSignal, tracingOptions } = options;
 
     const blobPrefix = BlobCheckpointStore.getBlobPrefix({
       type: "ownership",
@@ -43,8 +52,10 @@ export class BlobCheckpointStore implements CheckpointStore {
 
     try {
       const blobs = this._containerClient.listBlobsFlat({
+        abortSignal,
         includeMetadata: true,
-        prefix: blobPrefix
+        prefix: blobPrefix,
+        tracingOptions
       });
 
       for await (const blob of blobs) {
@@ -73,6 +84,9 @@ export class BlobCheckpointStore implements CheckpointStore {
     } catch (err) {
       logger.warning(`Error occurred while fetching the list of blobs`, err.message);
       logErrorStackTrace(err);
+
+      if (err?.name === "AbortError") throw err;
+
       throw new Error(`Error occurred while fetching the list of blobs. \n${err}`);
     }
   }
@@ -81,20 +95,27 @@ export class BlobCheckpointStore implements CheckpointStore {
    * Claim ownership of a list of partitions. This will return the list of partitions that were
    * successfully claimed.
    *
-   * @param partitionOwnership The list of partition ownership this instance is claiming to own.
-   * @return A list partitions this instance successfully claimed ownership.
+   * @param partitionOwnership - The list of partition ownership this instance is claiming to own.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
+   * @returns A list partitions this instance successfully claimed ownership.
    */
-  async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
-    let partitionOwnershipArray: PartitionOwnership[] = [];
+  async claimOwnership(
+    partitionOwnership: PartitionOwnership[],
+    options: OperationOptions = {}
+  ): Promise<PartitionOwnership[]> {
+    const partitionOwnershipArray: PartitionOwnership[] = [];
     for (const ownership of partitionOwnership) {
       const blobName = BlobCheckpointStore.getBlobPrefix({ type: "ownership", ...ownership });
       try {
-        let updatedBlobResponse = await this._setBlobMetadata(
+        const updatedBlobResponse = await this._setBlobMetadata(
           blobName,
           {
             ownerid: ownership.ownerId
           },
-          ownership.etag
+          ownership.etag,
+          options
         );
 
         if (updatedBlobResponse.lastModified) {
@@ -135,16 +156,21 @@ export class BlobCheckpointStore implements CheckpointStore {
   /**
    * Lists all the checkpoints in a data store for a given namespace, eventhub and consumer group.
    *
-   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
-   * @param eventHubName The event hub name.
-   * @param consumerGroup The consumer group name.
+   * @param eventHubName - The event hub name.
+   * @param consumerGroup - The consumer group name.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
    */
   async listCheckpoints(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroup: string
+    consumerGroup: string,
+    options: OperationOptions = {}
   ): Promise<Checkpoint[]> {
+    const { abortSignal, tracingOptions } = options;
     const blobPrefix = BlobCheckpointStore.getBlobPrefix({
       type: "checkpoint",
       fullyQualifiedNamespace,
@@ -153,8 +179,10 @@ export class BlobCheckpointStore implements CheckpointStore {
     });
 
     const blobs = this._containerClient.listBlobsFlat({
+      abortSignal,
       includeMetadata: true,
-      prefix: blobPrefix
+      prefix: blobPrefix,
+      tracingOptions
     });
 
     const checkpoints: Checkpoint[] = [];
@@ -188,10 +216,13 @@ export class BlobCheckpointStore implements CheckpointStore {
   /**
    * Updates the checkpoint in the data store for a partition.
    *
-   * @param checkpoint The checkpoint.
-   * @return The new etag on successful update.
+   * @param checkpoint - The checkpoint.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
+   * @returns The new etag on successful update.
    */
-  async updateCheckpoint(checkpoint: Checkpoint): Promise<void> {
+  async updateCheckpoint(checkpoint: Checkpoint, options: OperationOptions = {}): Promise<void> {
     throwTypeErrorIfParameterMissing(
       "updateCheckpoint",
       "sequenceNumber",
@@ -207,7 +238,8 @@ export class BlobCheckpointStore implements CheckpointStore {
           sequencenumber: checkpoint.sequenceNumber.toString(),
           offset: checkpoint.offset.toString()
         },
-        undefined
+        undefined,
+        options
       );
 
       logger.verbose(
@@ -223,6 +255,9 @@ export class BlobCheckpointStore implements CheckpointStore {
         err.message
       );
       logErrorStackTrace(err);
+
+      if (err?.name === "AbortError") throw err;
+
       throw new Error(
         `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}, ${err}`
       );
@@ -252,24 +287,31 @@ export class BlobCheckpointStore implements CheckpointStore {
   private async _setBlobMetadata(
     blobName: string,
     metadata: OwnershipMetadata | CheckpointMetadata,
-    etag: string | undefined
+    etag: string | undefined,
+    options: OperationOptions = {}
   ): Promise<BlobSetMetadataResponse> {
+    const { abortSignal, tracingOptions } = options;
     const blockBlobClient = this._containerClient.getBlobClient(blobName).getBlockBlobClient();
 
     // When we have an etag, we know the blob existed.
     // If we encounter an error we should fail.
     if (etag) {
       return blockBlobClient.setMetadata(metadata as Metadata, {
+        abortSignal,
         conditions: {
           ifMatch: etag
-        }
+        },
+        tracingOptions
       });
     } else {
       try {
         // Attempt to set metadata, and fallback to upload if the blob doesn't already exist.
         // This avoids poor performance in storage accounts with soft-delete or blob versioning enabled.
         // https://github.com/Azure/azure-sdk-for-js/issues/10132
-        return await blockBlobClient.setMetadata(metadata as Metadata);
+        return await blockBlobClient.setMetadata(metadata as Metadata, {
+          abortSignal,
+          tracingOptions
+        });
       } catch (err) {
         // Check if the error is `BlobNotFound` and fallback to `upload` if it is.
         if (err?.name !== "RestError") {
@@ -282,7 +324,9 @@ export class BlobCheckpointStore implements CheckpointStore {
         }
 
         return blockBlobClient.upload("", 0, {
-          metadata: metadata as Metadata
+          abortSignal,
+          metadata: metadata as Metadata,
+          tracingOptions
         });
       }
     }
@@ -298,7 +342,7 @@ type CheckpointMetadata = {
 };
 
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 export function parseIntOrThrow(

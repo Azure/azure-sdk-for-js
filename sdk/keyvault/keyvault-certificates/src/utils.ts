@@ -7,7 +7,6 @@ import { CertificateContentType } from "./certificatesModels";
 /**
  * Decodes a Uint8Array into a Base64 string.
  * @internal
- * @param bytes -
  */
 export function toBase64(bytes: Uint8Array): string {
   if (isNode) {
@@ -20,7 +19,6 @@ export function toBase64(bytes: Uint8Array): string {
 /**
  * Decodes a Uint8Array into an ASCII string.
  * @internal
- * @param bytes -
  */
 export function toAscii(bytes: Uint8Array): string {
   if (isNode) {
@@ -33,7 +31,6 @@ export function toAscii(bytes: Uint8Array): string {
 /**
  * Encodes a JavaScript string into a Uint8Array.
  * @internal
- * @param value -
  */
 export function stringToUint8Array(value: string): Uint8Array {
   if (isNode) {
@@ -46,7 +43,6 @@ export function stringToUint8Array(value: string): Uint8Array {
 /**
  * Encodes a Base64 string into a Uint8Array.
  * @internal
- * @param value -
  */
 export function base64ToUint8Array(value: string): Uint8Array {
   if (isNode) {

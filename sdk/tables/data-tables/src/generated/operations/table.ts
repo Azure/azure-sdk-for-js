@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { createSerializer, OperationSpec } from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClient } from "../generatedClient";
@@ -36,9 +36,8 @@ import {
   TableSetAccessPolicyResponse
 } from "../models";
 
-/**
- * Class representing a Table.
- */
+/** Class representing a Table. */
+/** @hidden */
 export class Table {
   private readonly client: GeneratedClient;
 
@@ -54,16 +53,10 @@ export class Table {
    * Queries tables under the given account.
    * @param options The options parameters.
    */
-  query(
-    options?: TableQueryOptionalParams
-  ): Promise<TableQueryOperationResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.client.sendOperationRequest(
-      { options: operationOptions },
-      queryOperationSpec
-    ) as Promise<TableQueryOperationResponse>;
+  query(options?: TableQueryOptionalParams): Promise<TableQueryOperationResponse> {
+    return this.client.sendOperationRequest({ options }, queryOperationSpec) as Promise<
+      TableQueryOperationResponse
+    >;
   }
 
   /**
@@ -75,11 +68,8 @@ export class Table {
     tableProperties: TableProperties,
     options?: TableCreateOptionalParams
   ): Promise<TableCreateResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { tableProperties, options: operationOptions },
+      { tableProperties, options },
       createOperationSpec
     ) as Promise<TableCreateResponse>;
   }
@@ -89,17 +79,10 @@ export class Table {
    * @param table The name of the table.
    * @param options The options parameters.
    */
-  delete(
-    table: string,
-    options?: TableDeleteOptionalParams
-  ): Promise<TableDeleteResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.client.sendOperationRequest(
-      { table, options: operationOptions },
-      deleteOperationSpec
-    ) as Promise<TableDeleteResponse>;
+  delete(table: string, options?: TableDeleteOptionalParams): Promise<TableDeleteResponse> {
+    return this.client.sendOperationRequest({ table, options }, deleteOperationSpec) as Promise<
+      TableDeleteResponse
+    >;
   }
 
   /**
@@ -111,11 +94,8 @@ export class Table {
     table: string,
     options?: TableQueryEntitiesOptionalParams
   ): Promise<TableQueryEntitiesResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { table, options: operationOptions },
+      { table, options },
       queryEntitiesOperationSpec
     ) as Promise<TableQueryEntitiesResponse>;
   }
@@ -133,11 +113,8 @@ export class Table {
     rowKey: string,
     options?: TableQueryEntitiesWithPartitionAndRowKeyOptionalParams
   ): Promise<TableQueryEntitiesWithPartitionAndRowKeyResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { table, partitionKey, rowKey, options: operationOptions },
+      { table, partitionKey, rowKey, options },
       queryEntitiesWithPartitionAndRowKeyOperationSpec
     ) as Promise<TableQueryEntitiesWithPartitionAndRowKeyResponse>;
   }
@@ -155,11 +132,8 @@ export class Table {
     rowKey: string,
     options?: TableUpdateEntityOptionalParams
   ): Promise<TableUpdateEntityResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { table, partitionKey, rowKey, options: operationOptions },
+      { table, partitionKey, rowKey, options },
       updateEntityOperationSpec
     ) as Promise<TableUpdateEntityResponse>;
   }
@@ -177,11 +151,8 @@ export class Table {
     rowKey: string,
     options?: TableMergeEntityOptionalParams
   ): Promise<TableMergeEntityResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { table, partitionKey, rowKey, options: operationOptions },
+      { table, partitionKey, rowKey, options },
       mergeEntityOperationSpec
     ) as Promise<TableMergeEntityResponse>;
   }
@@ -203,11 +174,8 @@ export class Table {
     ifMatch: string,
     options?: TableDeleteEntityOptionalParams
   ): Promise<TableDeleteEntityResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { table, partitionKey, rowKey, ifMatch, options: operationOptions },
+      { table, partitionKey, rowKey, ifMatch, options },
       deleteEntityOperationSpec
     ) as Promise<TableDeleteEntityResponse>;
   }
@@ -221,11 +189,8 @@ export class Table {
     table: string,
     options?: TableInsertEntityOptionalParams
   ): Promise<TableInsertEntityResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { table, options: operationOptions },
+      { table, options },
       insertEntityOperationSpec
     ) as Promise<TableInsertEntityResponse>;
   }
@@ -240,11 +205,8 @@ export class Table {
     table: string,
     options?: TableGetAccessPolicyOptionalParams
   ): Promise<TableGetAccessPolicyResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { table, options: operationOptions },
+      { table, options },
       getAccessPolicyOperationSpec
     ) as Promise<TableGetAccessPolicyResponse>;
   }
@@ -258,22 +220,19 @@ export class Table {
     table: string,
     options?: TableSetAccessPolicyOptionalParams
   ): Promise<TableSetAccessPolicyResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { table, options: operationOptions },
+      { table, options },
       setAccessPolicyOperationSpec
     ) as Promise<TableSetAccessPolicyResponse>;
   }
 }
 // Operation Specifications
 
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = createSerializer(Mappers, /* isXml */ true);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = createSerializer(Mappers, /* isXml */ false);
 
-const queryOperationSpec: coreHttp.OperationSpec = {
+const queryOperationSpec: OperationSpec = {
   path: "/Tables",
   httpMethod: "GET",
   responses: {
@@ -302,7 +261,7 @@ const queryOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: OperationSpec = {
   path: "/Tables",
   httpMethod: "POST",
   responses: {
@@ -322,17 +281,17 @@ const createOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.format],
   urlParameters: [Parameters.url],
   headerParameters: [
+    Parameters.accept,
     Parameters.version,
     Parameters.requestId,
     Parameters.dataServiceVersion,
     Parameters.contentType,
-    Parameters.accept1,
     Parameters.responsePreference
   ],
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: OperationSpec = {
   path: "/Tables('{table}')",
   httpMethod: "DELETE",
   responses: {
@@ -345,14 +304,10 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.url, Parameters.table],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.accept2
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId, Parameters.accept1],
   serializer
 };
-const queryEntitiesOperationSpec: coreHttp.OperationSpec = {
+const queryEntitiesOperationSpec: OperationSpec = {
   path: "/{table}()",
   httpMethod: "GET",
   responses: {
@@ -383,7 +338,7 @@ const queryEntitiesOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const queryEntitiesWithPartitionAndRowKeyOperationSpec: coreHttp.OperationSpec = {
+const queryEntitiesWithPartitionAndRowKeyOperationSpec: OperationSpec = {
   path: "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}')",
   httpMethod: "GET",
   responses: {
@@ -395,22 +350,11 @@ const queryEntitiesWithPartitionAndRowKeyOperationSpec: coreHttp.OperationSpec =
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper:
-        Mappers.TableQueryEntitiesWithPartitionAndRowKeyExceptionHeaders
+      headersMapper: Mappers.TableQueryEntitiesWithPartitionAndRowKeyExceptionHeaders
     }
   },
-  queryParameters: [
-    Parameters.format,
-    Parameters.select,
-    Parameters.filter,
-    Parameters.timeout
-  ],
-  urlParameters: [
-    Parameters.url,
-    Parameters.table,
-    Parameters.partitionKey,
-    Parameters.rowKey
-  ],
+  queryParameters: [Parameters.format, Parameters.select, Parameters.filter, Parameters.timeout],
+  urlParameters: [Parameters.url, Parameters.table, Parameters.partitionKey, Parameters.rowKey],
   headerParameters: [
     Parameters.accept,
     Parameters.version,
@@ -419,7 +363,7 @@ const queryEntitiesWithPartitionAndRowKeyOperationSpec: coreHttp.OperationSpec =
   ],
   serializer
 };
-const updateEntityOperationSpec: coreHttp.OperationSpec = {
+const updateEntityOperationSpec: OperationSpec = {
   path: "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}')",
   httpMethod: "PUT",
   responses: {
@@ -433,24 +377,19 @@ const updateEntityOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.tableEntityProperties,
   queryParameters: [Parameters.format, Parameters.timeout],
-  urlParameters: [
-    Parameters.url,
-    Parameters.table,
-    Parameters.partitionKey,
-    Parameters.rowKey
-  ],
+  urlParameters: [Parameters.url, Parameters.table, Parameters.partitionKey, Parameters.rowKey],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
     Parameters.dataServiceVersion,
+    Parameters.accept1,
     Parameters.contentType1,
-    Parameters.accept3,
     Parameters.ifMatch
   ],
   mediaType: "json",
   serializer
 };
-const mergeEntityOperationSpec: coreHttp.OperationSpec = {
+const mergeEntityOperationSpec: OperationSpec = {
   path: "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}')",
   httpMethod: "PATCH",
   responses: {
@@ -464,24 +403,19 @@ const mergeEntityOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.tableEntityProperties,
   queryParameters: [Parameters.format, Parameters.timeout],
-  urlParameters: [
-    Parameters.url,
-    Parameters.table,
-    Parameters.partitionKey,
-    Parameters.rowKey
-  ],
+  urlParameters: [Parameters.url, Parameters.table, Parameters.partitionKey, Parameters.rowKey],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
     Parameters.dataServiceVersion,
+    Parameters.accept1,
     Parameters.contentType1,
-    Parameters.accept3,
     Parameters.ifMatch
   ],
   mediaType: "json",
   serializer
 };
-const deleteEntityOperationSpec: coreHttp.OperationSpec = {
+const deleteEntityOperationSpec: OperationSpec = {
   path: "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}')",
   httpMethod: "DELETE",
   responses: {
@@ -494,12 +428,7 @@ const deleteEntityOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.format, Parameters.timeout],
-  urlParameters: [
-    Parameters.url,
-    Parameters.table,
-    Parameters.partitionKey,
-    Parameters.rowKey
-  ],
+  urlParameters: [Parameters.url, Parameters.table, Parameters.partitionKey, Parameters.rowKey],
   headerParameters: [
     Parameters.accept,
     Parameters.version,
@@ -509,7 +438,7 @@ const deleteEntityOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const insertEntityOperationSpec: coreHttp.OperationSpec = {
+const insertEntityOperationSpec: OperationSpec = {
   path: "/{table}",
   httpMethod: "POST",
   responses: {
@@ -531,17 +460,17 @@ const insertEntityOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.format, Parameters.timeout],
   urlParameters: [Parameters.url, Parameters.table],
   headerParameters: [
+    Parameters.accept,
     Parameters.version,
     Parameters.requestId,
     Parameters.dataServiceVersion,
     Parameters.contentType,
-    Parameters.accept1,
     Parameters.responsePreference
   ],
   mediaType: "json",
   serializer
 };
-const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
+const getAccessPolicyOperationSpec: OperationSpec = {
   path: "/{table}",
   httpMethod: "GET",
   responses: {
@@ -567,15 +496,11 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.timeout, Parameters.comp],
   urlParameters: [Parameters.url, Parameters.table],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.accept4
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId, Parameters.accept2],
   isXML: true,
   serializer: xmlSerializer
 };
-const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
+const setAccessPolicyOperationSpec: OperationSpec = {
   path: "/{table}",
   httpMethod: "PUT",
   responses: {
@@ -594,7 +519,7 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.requestId,
     Parameters.contentType2,
-    Parameters.accept5
+    Parameters.accept3
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",

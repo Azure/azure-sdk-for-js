@@ -66,11 +66,17 @@ export interface ActivityRunsQueryResponse {
 }
 
 // @public (undocumented)
-export type ActivityUnion = Activity | ControlActivity | ExecutionActivityUnion | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity | SqlPoolStoredProcedureActivity;
+export type ActivityUnion = Activity | ControlActivityUnion | ExecutionActivityUnion | SqlPoolStoredProcedureActivity;
 
 // @public
 export interface AddDataFlowToDebugSessionResponse {
     jobVersion?: string;
+}
+
+// @public
+export interface AdditionalColumns {
+    name?: any;
+    value?: any;
 }
 
 // @public
@@ -127,11 +133,26 @@ export type AmazonRedshiftTableDataset = Dataset & {
 };
 
 // @public
+export type AmazonS3Dataset = Dataset & {
+    type: "AmazonS3Object";
+    bucketName: any;
+    key?: any;
+    prefix?: any;
+    version?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+    format?: DatasetStorageFormatUnion;
+    compression?: DatasetCompressionUnion;
+};
+
+// @public
 export type AmazonS3LinkedService = LinkedService & {
     type: "AmazonS3";
+    authenticationType?: any;
     accessKeyId?: any;
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
+    sessionToken?: SecretBaseUnion;
     encryptedCredential?: any;
 };
 
@@ -149,13 +170,16 @@ export type AmazonS3ReadSettings = StoreReadSettings & {
     wildcardFolderPath?: any;
     wildcardFileName?: any;
     prefix?: any;
+    fileListPath?: any;
     enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
 };
 
 // @public
-export type AppendVariableActivity = Activity & {
+export type AppendVariableActivity = ControlActivity & {
     type: "AppendVariable";
     variableName?: string;
     value?: any;
@@ -179,6 +203,8 @@ export class ArtifactsClient extends ArtifactsClientContext {
     dataset: DatasetOperation;
     // (undocumented)
     integrationRuntimes: IntegrationRuntimesOperation;
+    // (undocumented)
+    library: LibraryOperaion;
     // (undocumented)
     linkedService: LinkedServiceOperation;
     // (undocumented)
@@ -238,7 +264,7 @@ export type AvroCompressionCodec = string;
 export type AvroDataset = Dataset & {
     type: "Avro";
     location?: DatasetLocationUnion;
-    avroCompressionCodec?: AvroCompressionCodec;
+    avroCompressionCodec?: any;
     avroCompressionLevel?: number;
 };
 
@@ -258,6 +284,7 @@ export type AvroSink = CopySink & {
 export type AvroSource = CopySource & {
     type: "AvroSource";
     storeSettings?: StoreReadSettingsUnion;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -265,6 +292,8 @@ export type AvroWriteSettings = FormatWriteSettings & {
     type: "AvroWriteSettings";
     recordName?: string;
     recordNamespace?: string;
+    maxRowsPerFile?: any;
+    fileNamePrefix?: any;
 };
 
 // @public
@@ -279,6 +308,27 @@ export type AzureBatchLinkedService = LinkedService & {
 };
 
 // @public
+export type AzureBlobDataset = Dataset & {
+    type: "AzureBlob";
+    folderPath?: any;
+    tableRootLocation?: any;
+    fileName?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+    format?: DatasetStorageFormatUnion;
+    compression?: DatasetCompressionUnion;
+};
+
+// @public
+export type AzureBlobFSDataset = Dataset & {
+    type: "AzureBlobFSFile";
+    folderPath?: any;
+    fileName?: any;
+    format?: DatasetStorageFormatUnion;
+    compression?: DatasetCompressionUnion;
+};
+
+// @public
 export type AzureBlobFSLinkedService = LinkedService & {
     type: "AzureBlobFS";
     url: any;
@@ -286,6 +336,7 @@ export type AzureBlobFSLinkedService = LinkedService & {
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    azureCloudType?: any;
     encryptedCredential?: any;
 };
 
@@ -301,7 +352,10 @@ export type AzureBlobFSReadSettings = StoreReadSettings & {
     recursive?: any;
     wildcardFolderPath?: any;
     wildcardFileName?: any;
+    fileListPath?: any;
     enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
 };
@@ -337,6 +391,7 @@ export type AzureBlobStorageLinkedService = LinkedService & {
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    azureCloudType?: any;
     encryptedCredential?: string;
 };
 
@@ -353,7 +408,10 @@ export type AzureBlobStorageReadSettings = StoreReadSettings & {
     wildcardFolderPath?: any;
     wildcardFileName?: any;
     prefix?: any;
+    fileListPath?: any;
     enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
 };
@@ -365,10 +423,56 @@ export type AzureBlobStorageWriteSettings = StoreWriteSettings & {
 };
 
 // @public
+export type AzureDatabricksDeltaLakeDataset = Dataset & {
+    type: "AzureDatabricksDeltaLakeDataset";
+    table?: any;
+    database?: any;
+};
+
+// @public
+export type AzureDatabricksDeltaLakeExportCommand = ExportSettings & {
+    type: "AzureDatabricksDeltaLakeExportCommand";
+    dateFormat?: any;
+    timestampFormat?: any;
+};
+
+// @public
+export type AzureDatabricksDeltaLakeImportCommand = ImportSettings & {
+    type: "AzureDatabricksDeltaLakeImportCommand";
+    dateFormat?: any;
+    timestampFormat?: any;
+};
+
+// @public
+export type AzureDatabricksDeltaLakeLinkedService = LinkedService & {
+    type: "AzureDatabricksDeltaLake";
+    domain: any;
+    accessToken: SecretBaseUnion;
+    clusterId?: any;
+    encryptedCredential?: any;
+};
+
+// @public
+export type AzureDatabricksDeltaLakeSink = CopySink & {
+    type: "AzureDatabricksDeltaLakeSink";
+    preCopyScript?: any;
+    importSettings?: AzureDatabricksDeltaLakeImportCommand;
+};
+
+// @public
+export type AzureDatabricksDeltaLakeSource = CopySource & {
+    type: "AzureDatabricksDeltaLakeSource";
+    query?: any;
+    exportSettings?: AzureDatabricksDeltaLakeExportCommand;
+};
+
+// @public
 export type AzureDatabricksLinkedService = LinkedService & {
     type: "AzureDatabricks";
     domain: any;
-    accessToken: SecretBaseUnion;
+    accessToken?: SecretBaseUnion;
+    authentication?: any;
+    workspaceResourceId?: any;
     existingClusterId?: any;
     instancePoolId?: any;
     newClusterVersion?: any;
@@ -383,10 +487,12 @@ export type AzureDatabricksLinkedService = LinkedService & {
     newClusterCustomTags?: {
         [propertyName: string]: any;
     };
+    newClusterLogDestination?: any;
     newClusterDriverNodeType?: any;
     newClusterInitScripts?: any;
     newClusterEnableElasticDisk?: any;
     encryptedCredential?: any;
+    policyId?: any;
 };
 
 // @public
@@ -420,6 +526,7 @@ export type AzureDataExplorerSource = CopySource & {
     query: any;
     noTruncation?: any;
     queryTimeout?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -442,12 +549,22 @@ export type AzureDataLakeAnalyticsLinkedService = LinkedService & {
 };
 
 // @public
+export type AzureDataLakeStoreDataset = Dataset & {
+    type: "AzureDataLakeStoreFile";
+    folderPath?: any;
+    fileName?: any;
+    format?: DatasetStorageFormatUnion;
+    compression?: DatasetCompressionUnion;
+};
+
+// @public
 export type AzureDataLakeStoreLinkedService = LinkedService & {
     type: "AzureDataLakeStore";
     dataLakeStoreUri: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    azureCloudType?: any;
     accountName?: any;
     subscriptionId?: any;
     resourceGroupName?: any;
@@ -465,7 +582,12 @@ export type AzureDataLakeStoreReadSettings = StoreReadSettings & {
     recursive?: any;
     wildcardFolderPath?: any;
     wildcardFileName?: any;
+    fileListPath?: any;
+    listAfter?: any;
+    listBefore?: any;
     enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
 };
@@ -486,6 +608,7 @@ export type AzureDataLakeStoreSource = CopySource & {
 // @public
 export type AzureDataLakeStoreWriteSettings = StoreWriteSettings & {
     type: "AzureDataLakeStoreWriteSettings";
+    expiryDateTime?: any;
 };
 
 // @public
@@ -499,6 +622,12 @@ export type AzureFileStorageLinkedService = LinkedService & {
     host: any;
     userId?: any;
     password?: SecretBaseUnion;
+    connectionString?: any;
+    accountKey?: AzureKeyVaultSecretReference;
+    sasUri?: any;
+    sasToken?: AzureKeyVaultSecretReference;
+    fileShare?: any;
+    snapshot?: any;
     encryptedCredential?: any;
 };
 
@@ -513,9 +642,18 @@ export type AzureFileStorageReadSettings = StoreReadSettings & {
     recursive?: any;
     wildcardFolderPath?: any;
     wildcardFileName?: any;
+    prefix?: any;
+    fileListPath?: any;
     enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
+};
+
+// @public
+export type AzureFileStorageWriteSettings = StoreWriteSettings & {
+    type: "AzureFileStorageWriteSettings";
 };
 
 // @public
@@ -725,6 +863,7 @@ export type AzureSqlDatabaseLinkedService = LinkedService & {
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    azureCloudType?: any;
     encryptedCredential?: any;
 };
 
@@ -736,6 +875,7 @@ export type AzureSqlDWLinkedService = LinkedService & {
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    azureCloudType?: any;
     encryptedCredential?: any;
 };
 
@@ -755,6 +895,7 @@ export type AzureSqlMILinkedService = LinkedService & {
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    azureCloudType?: any;
     encryptedCredential?: any;
 };
 
@@ -788,6 +929,8 @@ export type AzureSqlSource = TabularSource & {
         [propertyName: string]: StoredProcedureParameter;
     };
     produceAdditionalTypes?: any;
+    partitionOption?: any;
+    partitionSettings?: SqlPartitionSettings;
 };
 
 // @public
@@ -861,16 +1004,19 @@ export type BigDataPoolResourceInfo = TrackedResource & {
     creationDate?: Date;
     autoPause?: AutoPauseProperties;
     isComputeIsolationEnabled?: boolean;
-    haveLibraryRequirementsChanged?: boolean;
     sessionLevelPackagesEnabled?: boolean;
+    cacheSize?: number;
+    dynamicExecutorAllocation?: DynamicExecutorAllocation;
     sparkEventsFolder?: string;
     nodeCount?: number;
     libraryRequirements?: LibraryRequirements;
+    customLibraries?: LibraryInfo[];
     sparkConfigProperties?: LibraryRequirements;
     sparkVersion?: string;
     defaultSparkLogFolder?: string;
     nodeSize?: NodeSize;
     nodeSizeFamily?: NodeSizeFamily;
+    readonly lastSucceededTimestamp?: Date;
 };
 
 // @public
@@ -896,8 +1042,7 @@ export type BigDataPoolsListResponse = BigDataPoolResourceInfoListResult & {
 };
 
 // @public
-export class BigDataPoolsOperation {
-    constructor(client: ArtifactsClient);
+export interface BigDataPoolsOperation {
     get(bigDataPoolName: string, options?: coreHttp.OperationOptions): Promise<BigDataPoolsGetResponse>;
     list(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse>;
 }
@@ -910,6 +1055,12 @@ export type BinaryDataset = Dataset & {
 };
 
 // @public
+export type BinaryReadSettings = FormatReadSettings & {
+    type: "BinaryReadSettings";
+    compressionProperties?: CompressionReadSettingsUnion;
+};
+
+// @public
 export type BinarySink = CopySink & {
     type: "BinarySink";
     storeSettings?: StoreWriteSettingsUnion;
@@ -919,6 +1070,7 @@ export type BinarySink = CopySink & {
 export type BinarySource = CopySource & {
     type: "BinarySource";
     storeSettings?: StoreReadSettingsUnion;
+    formatSettings?: BinaryReadSettings;
 };
 
 // @public
@@ -1024,7 +1176,7 @@ export type CommonDataServiceForAppsLinkedService = LinkedService & {
     username?: any;
     password?: SecretBaseUnion;
     servicePrincipalId?: any;
-    servicePrincipalCredentialType?: DynamicsServicePrincipalCredentialType;
+    servicePrincipalCredentialType?: any;
     servicePrincipalCredential?: SecretBaseUnion;
     encryptedCredential?: any;
 };
@@ -1041,11 +1193,25 @@ export type CommonDataServiceForAppsSink = CopySink & {
 export type CommonDataServiceForAppsSource = CopySource & {
     type: "CommonDataServiceForAppsSource";
     query?: any;
+    additionalColumns?: AdditionalColumns[];
 };
+
+// @public
+export type CompressionCodec = string;
+
+// @public
+export interface CompressionReadSettings {
+    [property: string]: any;
+    type: "ZipDeflateReadSettings" | "TarReadSettings" | "TarGZipReadSettings";
+}
+
+// @public (undocumented)
+export type CompressionReadSettingsUnion = CompressionReadSettings | ZipDeflateReadSettings | TarReadSettings | TarGZipReadSettings;
 
 // @public
 export type ConcurLinkedService = LinkedService & {
     type: "Concur";
+    connectionProperties?: any;
     clientId: any;
     username: any;
     password?: SecretBaseUnion;
@@ -1072,6 +1238,9 @@ export type ControlActivity = Activity & {
     type: "Container";
 };
 
+// @public (undocumented)
+export type ControlActivityUnion = ControlActivity | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity;
+
 // @public
 export type CopyActivity = ExecutionActivity & {
     type: "Copy";
@@ -1086,9 +1255,19 @@ export type CopyActivity = ExecutionActivity & {
     dataIntegrationUnits?: any;
     enableSkipIncompatibleRow?: any;
     redirectIncompatibleRowSettings?: RedirectIncompatibleRowSettings;
+    logStorageSettings?: LogStorageSettings;
+    logSettings?: LogSettings;
     preserveRules?: any[];
     preserve?: any[];
+    validateDataConsistency?: any;
+    skipErrorFile?: SkipErrorFile;
 };
+
+// @public
+export interface CopyActivityLogSettings {
+    enableReliableLogging?: any;
+    logLevel?: any;
+}
 
 // @public
 export type CopyBehaviorType = string;
@@ -1099,13 +1278,13 @@ export interface CopySink {
     maxConcurrentConnections?: any;
     sinkRetryCount?: any;
     sinkRetryWait?: any;
-    type: "DelimitedTextSink" | "JsonSink" | "OrcSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "CosmosDbMongoDbApiSink";
+    type: "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "CosmosDbMongoDbApiSink";
     writeBatchSize?: any;
     writeBatchTimeout?: any;
 }
 
 // @public (undocumented)
-export type CopySinkUnion = CopySink | DelimitedTextSink | JsonSink | OrcSink | AzurePostgreSqlSink | AzureMySqlSink | SapCloudForCustomerSink | AzureQueueSink | AzureTableSink | AvroSink | ParquetSink | BinarySink | BlobSink | FileSystemSink | DocumentDbCollectionSink | CosmosDbSqlApiSink | SqlSink | SqlServerSink | AzureSqlSink | SqlMISink | SqlDWSink | OracleSink | AzureDataLakeStoreSink | AzureBlobFSSink | AzureSearchIndexSink | OdbcSink | InformixSink | MicrosoftAccessSink | DynamicsSink | DynamicsCrmSink | CommonDataServiceForAppsSink | AzureDataExplorerSink | SalesforceSink | SalesforceServiceCloudSink | CosmosDbMongoDbApiSink;
+export type CopySinkUnion = CopySink | DelimitedTextSink | JsonSink | OrcSink | RestSink | AzurePostgreSqlSink | AzureMySqlSink | AzureDatabricksDeltaLakeSink | SapCloudForCustomerSink | AzureQueueSink | AzureTableSink | AvroSink | ParquetSink | BinarySink | BlobSink | FileSystemSink | DocumentDbCollectionSink | CosmosDbSqlApiSink | SqlSink | SqlServerSink | AzureSqlSink | SqlMISink | SqlDWSink | SnowflakeSink | OracleSink | AzureDataLakeStoreSink | AzureBlobFSSink | AzureSearchIndexSink | OdbcSink | InformixSink | MicrosoftAccessSink | DynamicsSink | DynamicsCrmSink | CommonDataServiceForAppsSink | AzureDataExplorerSink | SalesforceSink | SalesforceServiceCloudSink | CosmosDbMongoDbApiSink;
 
 // @public
 export interface CopySource {
@@ -1113,11 +1292,11 @@ export interface CopySource {
     maxConcurrentConnections?: any;
     sourceRetryCount?: any;
     sourceRetryWait?: any;
-    type: "AvroSource" | "ParquetSource" | "DelimitedTextSource" | "JsonSource" | "OrcSource" | "BinarySource" | "TabularSource" | "AzureTableSource" | "BlobSource" | "DocumentDbCollectionSource" | "CosmosDbSqlApiSource" | "DynamicsSource" | "DynamicsCrmSource" | "CommonDataServiceForAppsSource" | "RelationalSource" | "InformixSource" | "MicrosoftAccessSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "SybaseSource" | "SapBwSource" | "ODataSource" | "SalesforceSource" | "SalesforceServiceCloudSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapTableSource" | "RestSource" | "SqlSource" | "SqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "FileSystemSource" | "HdfsSource" | "AzureMySqlSource" | "AzureDataExplorerSource" | "OracleSource" | "TeradataSource" | "WebSource" | "CassandraSource" | "MongoDbSource" | "MongoDbV2Source" | "CosmosDbMongoDbApiSource" | "Office365Source" | "AzureDataLakeStoreSource" | "AzureBlobFSSource" | "HttpSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource";
+    type: "AvroSource" | "ExcelSource" | "ParquetSource" | "DelimitedTextSource" | "JsonSource" | "XmlSource" | "OrcSource" | "BinarySource" | "TabularSource" | "AzureTableSource" | "BlobSource" | "DocumentDbCollectionSource" | "CosmosDbSqlApiSource" | "DynamicsSource" | "DynamicsCrmSource" | "CommonDataServiceForAppsSource" | "RelationalSource" | "InformixSource" | "MicrosoftAccessSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "SybaseSource" | "SapBwSource" | "ODataSource" | "SalesforceSource" | "SalesforceServiceCloudSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapTableSource" | "RestSource" | "SqlSource" | "SqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "FileSystemSource" | "HdfsSource" | "AzureMySqlSource" | "AzureDataExplorerSource" | "OracleSource" | "TeradataSource" | "WebSource" | "CassandraSource" | "MongoDbSource" | "MongoDbAtlasSource" | "MongoDbV2Source" | "CosmosDbMongoDbApiSource" | "Office365Source" | "AzureDataLakeStoreSource" | "AzureBlobFSSource" | "HttpSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "SnowflakeSource" | "AzureDatabricksDeltaLakeSource" | "SharePointOnlineListSource";
 }
 
 // @public (undocumented)
-export type CopySourceUnion = CopySource | AvroSource | ParquetSource | DelimitedTextSource | JsonSource | OrcSource | BinarySource | TabularSourceUnion | BlobSource | DocumentDbCollectionSource | CosmosDbSqlApiSource | DynamicsSource | DynamicsCrmSource | CommonDataServiceForAppsSource | RelationalSource | MicrosoftAccessSource | ODataSource | SalesforceServiceCloudSource | RestSource | FileSystemSource | HdfsSource | AzureDataExplorerSource | OracleSource | WebSource | MongoDbSource | MongoDbV2Source | CosmosDbMongoDbApiSource | Office365Source | AzureDataLakeStoreSource | AzureBlobFSSource | HttpSource;
+export type CopySourceUnion = CopySource | AvroSource | ExcelSource | ParquetSource | DelimitedTextSource | JsonSource | XmlSource | OrcSource | BinarySource | TabularSourceUnion | BlobSource | DocumentDbCollectionSource | CosmosDbSqlApiSource | DynamicsSource | DynamicsCrmSource | CommonDataServiceForAppsSource | RelationalSource | MicrosoftAccessSource | ODataSource | SalesforceServiceCloudSource | RestSource | FileSystemSource | HdfsSource | AzureDataExplorerSource | OracleSource | WebSource | MongoDbSource | MongoDbAtlasSource | MongoDbV2Source | CosmosDbMongoDbApiSource | Office365Source | AzureDataLakeStoreSource | AzureBlobFSSource | HttpSource | SnowflakeSource | AzureDatabricksDeltaLakeSource | SharePointOnlineListSource;
 
 // @public
 export interface CopyTranslator {
@@ -1164,6 +1343,7 @@ export type CosmosDbMongoDbApiSource = CopySource & {
     cursorMethods?: MongoDbCursorMethodsProperties;
     batchSize?: any;
     queryTimeout?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -1184,6 +1364,8 @@ export type CosmosDbSqlApiSource = CopySource & {
     query?: any;
     pageSize?: any;
     preferredRegions?: any;
+    detectDatetime?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -1237,6 +1419,7 @@ export type CustomActivity = ExecutionActivity & {
         [propertyName: string]: any;
     };
     retentionTimeInDays?: any;
+    autoUserSpecification?: any;
 };
 
 // @public
@@ -1262,6 +1445,15 @@ export interface CustomerManagedKeyDetails {
     key?: WorkspaceKeyDetails;
     readonly status?: string;
 }
+
+// @public
+export type CustomEventsTrigger = MultiplePipelineTrigger & {
+    type: "CustomEventsTrigger";
+    subjectBeginsWith?: string;
+    subjectEndsWith?: string;
+    events: any[];
+    scope: string;
+};
 
 // @public
 export interface CustomSetupBase {
@@ -1434,14 +1626,13 @@ export interface DataFlowDebugSessionInfo {
 }
 
 // @public
-export class DataFlowDebugSessionOperation {
-    constructor(client: ArtifactsClient);
+export interface DataFlowDebugSessionOperation {
     addDataFlow(request: DataFlowDebugPackage, options?: coreHttp.OperationOptions): Promise<DataFlowDebugSessionAddDataFlowResponse>;
     createDataFlowDebugSession(request: CreateDataFlowDebugSessionRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>>;
     deleteDataFlowDebugSession(request: DeleteDataFlowDebugSessionRequest, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
     executeCommand(request: DataFlowDebugCommandRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>>;
     listQueryDataFlowDebugSessionsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
-    }
+}
 
 // @public
 export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse = QueryDataFlowDebugSessionsResponse & {
@@ -1508,8 +1699,7 @@ export interface DataFlowListResponse {
 }
 
 // @public
-export class DataFlowOperation {
-    constructor(client: ArtifactsClient);
+export interface DataFlowOperation {
     createOrUpdateDataFlow(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowCreateOrUpdateDataFlowOptionalParams): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>>;
     deleteDataFlow(dataFlowName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     getDataFlow(dataFlowName: string, options?: DataFlowGetDataFlowOptionalParams): Promise<DataFlowGetDataFlowResponse>;
@@ -1529,18 +1719,22 @@ export interface DataFlowReference {
 export type DataFlowReferenceType = string;
 
 // @public
-export type DataFlowResource = AzureEntityResource & {
+export type DataFlowResource = SubResource & {
     properties: DataFlowUnion;
 };
 
 // @public
 export type DataFlowSink = Transformation & {
     dataset?: DatasetReference;
+    linkedService?: LinkedServiceReference;
+    schemaLinkedService?: LinkedServiceReference;
 };
 
 // @public
 export type DataFlowSource = Transformation & {
     dataset?: DatasetReference;
+    linkedService?: LinkedServiceReference;
+    schemaLinkedService?: LinkedServiceReference;
 };
 
 // @public
@@ -1591,7 +1785,7 @@ export interface Dataset {
     };
     schema?: any;
     structure?: any;
-    type: "Avro" | "Parquet" | "DelimitedText" | "Json" | "Orc" | "Binary" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "Office365Table" | "MongoDbCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "RestResource" | "SapTableResource" | "WebTable" | "AzureSearchIndex" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject";
+    type: "AmazonS3Object" | "Avro" | "Excel" | "Parquet" | "DelimitedText" | "Json" | "Xml" | "Orc" | "Binary" | "AzureBlob" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "AzureDataLakeStoreFile" | "AzureBlobFSFile" | "Office365Table" | "FileShare" | "MongoDbCollection" | "MongoDbAtlasCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "RestResource" | "SapTableResource" | "WebTable" | "AzureSearchIndex" | "HttpFile" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject" | "SnowflakeTable" | "SharePointOnlineListResource" | "AzureDatabricksDeltaLakeDataset";
 }
 
 // @public
@@ -1602,14 +1796,14 @@ export type DatasetBZip2Compression = DatasetCompression & {
 // @public
 export interface DatasetCompression {
     [property: string]: any;
-    type: "BZip2" | "GZip" | "Deflate" | "ZipDeflate";
+    type: "BZip2" | "GZip" | "Deflate" | "ZipDeflate" | "Tar" | "TarGZip";
 }
 
 // @public
 export type DatasetCompressionLevel = string;
 
 // @public (undocumented)
-export type DatasetCompressionUnion = DatasetCompression | DatasetBZip2Compression | DatasetGZipCompression | DatasetDeflateCompression | DatasetZipDeflateCompression;
+export type DatasetCompressionUnion = DatasetCompression | DatasetBZip2Compression | DatasetGZipCompression | DatasetDeflateCompression | DatasetZipDeflateCompression | DatasetTarCompression | DatasetTarGZipCompression;
 
 // @public
 export interface DatasetCreateOrUpdateDatasetOptionalParams extends coreHttp.OperationOptions {
@@ -1639,7 +1833,7 @@ export type DatasetDebugResource = SubResourceDebugResource & {
 // @public
 export type DatasetDeflateCompression = DatasetCompression & {
     type: "Deflate";
-    level?: DatasetCompressionLevel;
+    level?: any;
 };
 
 // @public
@@ -1679,7 +1873,7 @@ export type DatasetGetDatasetsByWorkspaceResponse = DatasetListResponse & {
 // @public
 export type DatasetGZipCompression = DatasetCompression & {
     type: "GZip";
-    level?: DatasetCompressionLevel;
+    level?: any;
 };
 
 // @public
@@ -1700,8 +1894,7 @@ export interface DatasetLocation {
 export type DatasetLocationUnion = DatasetLocation | AzureBlobStorageLocation | AzureBlobFSLocation | AzureDataLakeStoreLocation | AmazonS3Location | FileServerLocation | AzureFileStorageLocation | GoogleCloudStorageLocation | FtpServerLocation | SftpLocation | HttpServerLocation | HdfsLocation;
 
 // @public
-export class DatasetOperation {
-    constructor(client: ArtifactsClient);
+export interface DatasetOperation {
     createOrUpdateDataset(datasetName: string, dataset: DatasetResource, options?: DatasetCreateOrUpdateDatasetOptionalParams): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>>;
     deleteDataset(datasetName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     getDataset(datasetName: string, options?: DatasetGetDatasetOptionalParams): Promise<DatasetGetDatasetResponse>;
@@ -1722,7 +1915,7 @@ export interface DatasetReference {
 export type DatasetReferenceType = string;
 
 // @public
-export type DatasetResource = AzureEntityResource & {
+export type DatasetResource = SubResource & {
     properties: DatasetUnion;
 };
 
@@ -1744,13 +1937,24 @@ export interface DatasetStorageFormat {
 // @public (undocumented)
 export type DatasetStorageFormatUnion = DatasetStorageFormat | TextFormat | JsonFormat | AvroFormat | OrcFormat | ParquetFormat;
 
+// @public
+export type DatasetTarCompression = DatasetCompression & {
+    type: "Tar";
+};
+
+// @public
+export type DatasetTarGZipCompression = DatasetCompression & {
+    type: "TarGZip";
+    level?: any;
+};
+
 // @public (undocumented)
-export type DatasetUnion = Dataset | AvroDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | OrcDataset | BinaryDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | Office365Dataset | MongoDbCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | WebTableDataset | AzureSearchIndexDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset;
+export type DatasetUnion = Dataset | AmazonS3Dataset | AvroDataset | ExcelDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | XmlDataset | OrcDataset | BinaryDataset | AzureBlobDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | AzureDataLakeStoreDataset | AzureBlobFSDataset | Office365Dataset | FileShareDataset | MongoDbCollectionDataset | MongoDbAtlasCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | WebTableDataset | AzureSearchIndexDataset | HttpDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset | SnowflakeDataset | SharePointOnlineListResourceDataset | AzureDatabricksDeltaLakeDataset;
 
 // @public
 export type DatasetZipDeflateCompression = DatasetCompression & {
     type: "ZipDeflate";
-    level?: DatasetCompressionLevel;
+    level?: any;
 };
 
 // @public
@@ -1762,6 +1966,7 @@ export type Db2AuthenticationType = string;
 // @public
 export type Db2LinkedService = LinkedService & {
     type: "Db2";
+    connectionString?: any;
     server: any;
     database: any;
     authenticationType?: Db2AuthenticationType;
@@ -1794,6 +1999,7 @@ export type DeleteActivity = ExecutionActivity & {
     enableLogging?: any;
     logStorageSettings?: LogStorageSettings;
     dataset: DatasetReference;
+    storeSettings?: StoreReadSettingsUnion;
 };
 
 // @public
@@ -1803,17 +2009,14 @@ export interface DeleteDataFlowDebugSessionRequest {
 }
 
 // @public
-export type DelimitedTextCompressionCodec = string;
-
-// @public
 export type DelimitedTextDataset = Dataset & {
     type: "DelimitedText";
     location?: DatasetLocationUnion;
     columnDelimiter?: any;
     rowDelimiter?: any;
     encodingName?: any;
-    compressionCodec?: DelimitedTextCompressionCodec;
-    compressionLevel?: DatasetCompressionLevel;
+    compressionCodec?: CompressionCodec;
+    compressionLevel?: any;
     quoteChar?: any;
     escapeChar?: any;
     firstRowAsHeader?: any;
@@ -1824,6 +2027,7 @@ export type DelimitedTextDataset = Dataset & {
 export type DelimitedTextReadSettings = FormatReadSettings & {
     type: "DelimitedTextReadSettings";
     skipLineCount?: any;
+    compressionProperties?: CompressionReadSettingsUnion;
 };
 
 // @public
@@ -1838,6 +2042,7 @@ export type DelimitedTextSource = CopySource & {
     type: "DelimitedTextSource";
     storeSettings?: StoreReadSettingsUnion;
     formatSettings?: DelimitedTextReadSettings;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -1845,6 +2050,8 @@ export type DelimitedTextWriteSettings = FormatWriteSettings & {
     type: "DelimitedTextWriteSettings";
     quoteAllText?: any;
     fileExtension: any;
+    maxRowsPerFile?: any;
+    fileNamePrefix?: any;
 };
 
 // @public
@@ -1884,6 +2091,7 @@ export type DocumentDbCollectionSource = CopySource & {
     query?: any;
     nestingSeparator?: any;
     queryTimeout?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -1923,6 +2131,11 @@ export interface DWCopyCommandSettings {
 }
 
 // @public
+export interface DynamicExecutorAllocation {
+    enabled?: boolean;
+}
+
+// @public
 export type DynamicsAuthenticationType = string;
 
 // @public
@@ -1946,6 +2159,7 @@ export type DynamicsAXResourceDataset = Dataset & {
 export type DynamicsAXSource = TabularSource & {
     type: "DynamicsAXSource";
     query?: any;
+    httpRequestTimeout?: any;
 };
 
 // @public
@@ -1966,7 +2180,7 @@ export type DynamicsCrmLinkedService = LinkedService & {
     username?: any;
     password?: SecretBaseUnion;
     servicePrincipalId?: any;
-    servicePrincipalCredentialType?: DynamicsServicePrincipalCredentialType;
+    servicePrincipalCredentialType?: any;
     servicePrincipalCredential?: SecretBaseUnion;
     encryptedCredential?: any;
 };
@@ -1983,6 +2197,7 @@ export type DynamicsCrmSink = CopySink & {
 export type DynamicsCrmSource = CopySource & {
     type: "DynamicsCrmSource";
     query?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -1998,10 +2213,10 @@ export type DynamicsEntityDataset = Dataset & {
 export type DynamicsLinkedService = LinkedService & {
     type: "Dynamics";
     deploymentType: DynamicsDeploymentType;
-    hostName?: string;
-    port?: string;
-    serviceUri?: string;
-    organizationName?: string;
+    hostName?: any;
+    port?: any;
+    serviceUri?: any;
+    organizationName?: any;
     authenticationType: DynamicsAuthenticationType;
     username?: any;
     password?: SecretBaseUnion;
@@ -2029,6 +2244,7 @@ export type DynamicsSinkWriteBehavior = string;
 export type DynamicsSource = CopySource & {
     type: "DynamicsSource";
     query?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -2100,12 +2316,33 @@ export interface EvaluateDataFlowExpressionRequest {
 export type EventSubscriptionStatus = string;
 
 // @public
+export type ExcelDataset = Dataset & {
+    type: "Excel";
+    location?: DatasetLocationUnion;
+    sheetName?: any;
+    range?: any;
+    firstRowAsHeader?: any;
+    compression?: DatasetCompressionUnion;
+    nullValue?: any;
+};
+
+// @public
+export type ExcelSource = CopySource & {
+    type: "ExcelSource";
+    storeSettings?: StoreReadSettingsUnion;
+    additionalColumns?: AdditionalColumns[];
+};
+
+// @public
 export type ExecuteDataFlowActivity = ExecutionActivity & {
     type: "ExecuteDataFlow";
-    dataFlow: DataFlowReference;
+    dataflow: DataFlowReference;
     staging?: DataFlowStagingInfo;
     integrationRuntime?: IntegrationRuntimeReference;
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    traceLevel?: any;
+    continueOnError?: any;
+    runConcurrently?: any;
 };
 
 // @public
@@ -2115,7 +2352,7 @@ export interface ExecuteDataFlowActivityTypePropertiesCompute {
 }
 
 // @public
-export type ExecutePipelineActivity = Activity & {
+export type ExecutePipelineActivity = ControlActivity & {
     type: "ExecutePipeline";
     pipeline: PipelineReference;
     parameters?: {
@@ -2140,10 +2377,14 @@ export type ExecuteSsisPackageActivity = ExecutionActivity & {
         [propertyName: string]: SsisExecutionParameter;
     };
     projectConnectionManagers?: {
-        [propertyName: string]: any;
+        [propertyName: string]: {
+            [propertyName: string]: SsisExecutionParameter;
+        };
     };
     packageConnectionManagers?: {
-        [propertyName: string]: any;
+        [propertyName: string]: {
+            [propertyName: string]: SsisExecutionParameter;
+        };
     };
     propertyOverrides?: {
         [propertyName: string]: SsisPropertyOverride;
@@ -2160,6 +2401,15 @@ export type ExecutionActivity = Activity & {
 
 // @public (undocumented)
 export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity;
+
+// @public
+export interface ExportSettings {
+    [property: string]: any;
+    type: "SnowflakeExportCopyCommand" | "AzureDatabricksDeltaLakeExportCommand";
+}
+
+// @public (undocumented)
+export type ExportSettingsUnion = ExportSettings | SnowflakeExportCopyCommand | AzureDatabricksDeltaLakeExportCommand;
 
 // @public
 export interface ExposureControlRequest {
@@ -2202,14 +2452,30 @@ export type FileServerReadSettings = StoreReadSettings & {
     recursive?: any;
     wildcardFolderPath?: any;
     wildcardFileName?: any;
+    fileListPath?: any;
     enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
+    fileFilter?: any;
 };
 
 // @public
 export type FileServerWriteSettings = StoreWriteSettings & {
     type: "FileServerWriteSettings";
+};
+
+// @public
+export type FileShareDataset = Dataset & {
+    type: "FileShare";
+    folderPath?: any;
+    fileName?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+    format?: DatasetStorageFormatUnion;
+    fileFilter?: any;
+    compression?: DatasetCompressionUnion;
 };
 
 // @public
@@ -2222,10 +2488,11 @@ export type FileSystemSink = CopySink & {
 export type FileSystemSource = CopySource & {
     type: "FileSystemSource";
     recursive?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
-export type FilterActivity = Activity & {
+export type FilterActivity = ControlActivity & {
     type: "Filter";
     items: Expression;
     condition: Expression;
@@ -2235,7 +2502,7 @@ export type FilterActivity = Activity & {
 export type FinalStateVia = "azure-async-operation" | "location" | "original-uri";
 
 // @public
-export type ForEachActivity = Activity & {
+export type ForEachActivity = ControlActivity & {
     type: "ForEach";
     isSequential?: boolean;
     batchCount?: number;
@@ -2246,20 +2513,20 @@ export type ForEachActivity = Activity & {
 // @public
 export interface FormatReadSettings {
     [property: string]: any;
-    type: "DelimitedTextReadSettings";
+    type: "DelimitedTextReadSettings" | "JsonReadSettings" | "XmlReadSettings" | "BinaryReadSettings";
 }
 
 // @public (undocumented)
-export type FormatReadSettingsUnion = FormatReadSettings | DelimitedTextReadSettings;
+export type FormatReadSettingsUnion = FormatReadSettings | DelimitedTextReadSettings | JsonReadSettings | XmlReadSettings | BinaryReadSettings;
 
 // @public
 export interface FormatWriteSettings {
     [property: string]: any;
-    type: "AvroWriteSettings" | "DelimitedTextWriteSettings" | "JsonWriteSettings";
+    type: "AvroWriteSettings" | "OrcWriteSettings" | "ParquetWriteSettings" | "DelimitedTextWriteSettings" | "JsonWriteSettings";
 }
 
 // @public (undocumented)
-export type FormatWriteSettingsUnion = FormatWriteSettings | AvroWriteSettings | DelimitedTextWriteSettings | JsonWriteSettings;
+export type FormatWriteSettingsUnion = FormatWriteSettings | AvroWriteSettings | OrcWriteSettings | ParquetWriteSettings | DelimitedTextWriteSettings | JsonWriteSettings;
 
 // @public
 export type FtpAuthenticationType = string;
@@ -2270,6 +2537,10 @@ export type FtpReadSettings = StoreReadSettings & {
     recursive?: any;
     wildcardFolderPath?: any;
     wildcardFileName?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
+    fileListPath?: any;
     useBinaryTransfer?: boolean;
 };
 
@@ -2296,6 +2567,8 @@ export type GetMetadataActivity = ExecutionActivity & {
     type: "GetMetadata";
     dataset: DatasetReference;
     fieldList?: any[];
+    storeSettings?: StoreReadSettingsUnion;
+    formatSettings?: FormatReadSettingsUnion;
 };
 
 // @public
@@ -2404,7 +2677,10 @@ export type GoogleCloudStorageReadSettings = StoreReadSettings & {
     wildcardFolderPath?: any;
     wildcardFileName?: any;
     prefix?: any;
+    fileListPath?: any;
     enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
 };
@@ -2483,10 +2759,13 @@ export type HdfsReadSettings = StoreReadSettings & {
     recursive?: any;
     wildcardFolderPath?: any;
     wildcardFileName?: any;
+    fileListPath?: any;
     enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
     distcpSettings?: DistcpSettings;
+    deleteFilesAfterCompletion?: any;
 };
 
 // @public
@@ -2679,6 +2958,17 @@ export type HiveThriftTransportProtocol = string;
 export type HttpAuthenticationType = string;
 
 // @public
+export type HttpDataset = Dataset & {
+    type: "HttpFile";
+    relativeUrl?: any;
+    requestMethod?: any;
+    requestBody?: any;
+    additionalHeaders?: any;
+    format?: DatasetStorageFormatUnion;
+    compression?: DatasetCompressionUnion;
+};
+
+// @public
 export type HttpLinkedService = LinkedService & {
     type: "HttpServer";
     url: any;
@@ -2698,6 +2988,8 @@ export type HttpReadSettings = StoreReadSettings & {
     requestBody?: any;
     additionalHeaders?: any;
     requestTimeout?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
 };
 
 // @public
@@ -2738,7 +3030,7 @@ export type HubspotSource = TabularSource & {
 };
 
 // @public
-export type IfConditionActivity = Activity & {
+export type IfConditionActivity = ControlActivity & {
     type: "IfCondition";
     expression: Expression;
     ifTrueActivities?: ActivityUnion[];
@@ -2777,6 +3069,15 @@ export type ImpalaSource = TabularSource & {
     type: "ImpalaSource";
     query?: any;
 };
+
+// @public
+export interface ImportSettings {
+    [property: string]: any;
+    type: "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand";
+}
+
+// @public (undocumented)
+export type ImportSettingsUnion = ImportSettings | AzureDatabricksDeltaLakeImportCommand | SnowflakeImportCopyCommand;
 
 // @public
 export type InformixLinkedService = LinkedService & {
@@ -2874,7 +3175,7 @@ export interface IntegrationRuntimeReference {
 export type IntegrationRuntimeReferenceType = string;
 
 // @public
-export type IntegrationRuntimeResource = AzureEntityResource & {
+export type IntegrationRuntimeResource = SubResource & {
     properties: IntegrationRuntimeUnion;
 };
 
@@ -2895,8 +3196,7 @@ export type IntegrationRuntimesListResponse = IntegrationRuntimeListResponse & {
 };
 
 // @public
-export class IntegrationRuntimesOperation {
-    constructor(client: ArtifactsClient);
+export interface IntegrationRuntimesOperation {
     get(integrationRuntimeName: string, options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesGetResponse>;
     list(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse>;
 }
@@ -2988,6 +3288,12 @@ export type JsonFormat = DatasetStorageFormat & {
 export type JsonFormatFilePattern = string;
 
 // @public
+export type JsonReadSettings = FormatReadSettings & {
+    type: "JsonReadSettings";
+    compressionProperties?: CompressionReadSettingsUnion;
+};
+
+// @public
 export type JsonSink = CopySink & {
     type: "JsonSink";
     storeSettings?: StoreWriteSettingsUnion;
@@ -2998,6 +3304,8 @@ export type JsonSink = CopySink & {
 export type JsonSource = CopySource & {
     type: "JsonSource";
     storeSettings?: StoreReadSettingsUnion;
+    formatSettings?: JsonReadSettings;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -3100,6 +3408,26 @@ export const enum KnownCellOutputType {
 }
 
 // @public
+export const enum KnownCompressionCodec {
+    // (undocumented)
+    Bzip2 = "bzip2",
+    // (undocumented)
+    Deflate = "deflate",
+    // (undocumented)
+    Gzip = "gzip",
+    // (undocumented)
+    Lz4 = "lz4",
+    // (undocumented)
+    Snappy = "snappy",
+    // (undocumented)
+    Tar = "tar",
+    // (undocumented)
+    TarGZip = "tarGZip",
+    // (undocumented)
+    ZipDeflate = "zipDeflate"
+}
+
+// @public
 export const enum KnownCopyBehaviorType {
     // (undocumented)
     FlattenHierarchy = "FlattenHierarchy",
@@ -3143,22 +3471,6 @@ export const enum KnownDatasetReferenceType {
 export const enum KnownDb2AuthenticationType {
     // (undocumented)
     Basic = "Basic"
-}
-
-// @public
-export const enum KnownDelimitedTextCompressionCodec {
-    // (undocumented)
-    Bzip2 = "bzip2",
-    // (undocumented)
-    Deflate = "deflate",
-    // (undocumented)
-    Gzip = "gzip",
-    // (undocumented)
-    Lz4 = "lz4",
-    // (undocumented)
-    Snappy = "snappy",
-    // (undocumented)
-    ZipDeflate = "zipDeflate"
 }
 
 // @public
@@ -3508,6 +3820,8 @@ export const enum KnownOraclePartitionOption {
 // @public
 export const enum KnownOrcCompressionCodec {
     // (undocumented)
+    Lzo = "lzo",
+    // (undocumented)
     None = "none",
     // (undocumented)
     Snappy = "snappy",
@@ -3534,7 +3848,7 @@ export const enum KnownParameterType {
 }
 
 // @public
-export const enum KnownParquetCompressionCodec {
+export const enum KnownParquetCompressionCodecEnum {
     // (undocumented)
     Gzip = "gzip",
     // (undocumented)
@@ -3858,6 +4172,16 @@ export const enum KnownSqlConnectionType {
 }
 
 // @public
+export const enum KnownSqlPartitionOption {
+    // (undocumented)
+    DynamicRange = "DynamicRange",
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable"
+}
+
+// @public
 export const enum KnownSqlPoolReferenceType {
     // (undocumented)
     SqlPoolReference = "SqlPoolReference"
@@ -3881,6 +4205,8 @@ export const enum KnownSsisPackageLocationType {
     File = "File",
     // (undocumented)
     InlinePackage = "InlinePackage",
+    // (undocumented)
+    PackageStore = "PackageStore",
     // (undocumented)
     Ssisdb = "SSISDB"
 }
@@ -3960,7 +4286,9 @@ export const enum KnownTumblingWindowFrequency {
     // (undocumented)
     Hour = "Hour",
     // (undocumented)
-    Minute = "Minute"
+    Minute = "Minute",
+    // (undocumented)
+    Month = "Month"
 }
 
 // @public
@@ -4010,10 +4338,104 @@ export const enum KnownWebHookActivityMethod {
 }
 
 // @public
+export interface LibraryAppendOptionalParams extends coreHttp.OperationOptions {
+    xMsBlobConditionAppendpos?: number;
+}
+
+// @public
+export type LibraryGetOperationResultResponse = LibraryResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: LibraryResource;
+    };
+};
+
+// @public
+export type LibraryGetResponse = LibraryResource & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: LibraryResource;
+    };
+};
+
+// @public
+export interface LibraryInfo {
+    containerName?: string;
+    readonly creatorId?: string;
+    name?: string;
+    path?: string;
+    readonly provisioningStatus?: string;
+    type?: string;
+    readonly uploadedTimestamp?: Date;
+}
+
+// @public
+export type LibraryListNextResponse = LibraryListResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: LibraryListResponse;
+    };
+};
+
+// @public
+export type LibraryListOperationResponse = LibraryListResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: LibraryListResponse;
+    };
+};
+
+// @public
+export interface LibraryListResponse {
+    nextLink?: string;
+    value: LibraryResource[];
+}
+
+// @public
+export interface LibraryOperaion {
+    append(libraryName: string, content: coreHttp.HttpRequestBody, options?: LibraryAppendOptionalParams): Promise<coreHttp.RestResponse>;
+    create(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    delete(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    flush(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse>;
+    getOperationResult(operationId: string, options?: coreHttp.OperationOptions): Promise<LibraryGetOperationResultResponse>;
+    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LibraryResource>;
+}
+
+// @public
 export interface LibraryRequirements {
     content?: string;
     filename?: string;
     readonly time?: Date;
+}
+
+// @public
+export type LibraryResource = SubResource & {
+    properties: LibraryResourceProperties;
+};
+
+// @public
+export interface LibraryResourceInfo {
+    readonly artifactId?: string;
+    readonly changed?: string;
+    readonly created?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly operationId?: string;
+    readonly recordId?: number;
+    readonly state?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface LibraryResourceProperties {
+    readonly containerName?: string;
+    readonly creatorId?: string;
+    readonly name?: string;
+    readonly path?: string;
+    readonly provisioningStatus?: string;
+    readonly type?: string;
+    readonly uploadedTimestamp?: string;
 }
 
 // @public
@@ -4045,7 +4467,7 @@ export interface LinkedService {
     parameters?: {
         [propertyName: string]: ParameterSpecification;
     };
-    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "GoogleCloudStorage" | "Oracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "RestService" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction";
+    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "GoogleCloudStorage" | "Oracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "RestService" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SharePointOnlineList";
 }
 
 // @public
@@ -4103,8 +4525,7 @@ export interface LinkedServiceListResponse {
 }
 
 // @public
-export class LinkedServiceOperation {
-    constructor(client: ArtifactsClient);
+export interface LinkedServiceOperation {
     createOrUpdateLinkedService(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>>;
     deleteLinkedService(linkedServiceName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     getLinkedService(linkedServiceName: string, options?: LinkedServiceGetLinkedServiceOptionalParams): Promise<LinkedServiceGetLinkedServiceResponse>;
@@ -4122,17 +4543,32 @@ export interface LinkedServiceReference {
 }
 
 // @public
-export type LinkedServiceResource = AzureEntityResource & {
+export type LinkedServiceResource = SubResource & {
     properties: LinkedServiceUnion;
 };
 
 // @public (undocumented)
-export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | RestServiceLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | RestServiceLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SharePointOnlineListLinkedService;
+
+// @public
+export interface LogLocationSettings {
+    linkedServiceName: LinkedServiceReference;
+    path?: any;
+}
+
+// @public
+export interface LogSettings {
+    copyActivityLogSettings?: CopyActivityLogSettings;
+    enableCopyActivityLog?: any;
+    logLocationSettings: LogLocationSettings;
+}
 
 // @public
 export interface LogStorageSettings {
     [property: string]: any;
+    enableReliableLogging?: any;
     linkedServiceName: LinkedServiceReference;
+    logLevel?: any;
     path?: any;
 }
 
@@ -4251,9 +4687,16 @@ export interface ManagedIdentity {
 export type ManagedIntegrationRuntime = IntegrationRuntime & {
     type: "Managed";
     readonly state?: IntegrationRuntimeState;
+    managedVirtualNetwork?: ManagedVirtualNetworkReference;
     computeProperties?: IntegrationRuntimeComputeProperties;
     ssisProperties?: IntegrationRuntimeSsisProperties;
 };
+
+// @public
+export interface ManagedVirtualNetworkReference {
+    referenceName: string;
+    type: "ManagedVirtualNetworkReference";
+}
 
 // @public
 export interface ManagedVirtualNetworkSettings {
@@ -4336,12 +4779,36 @@ export type MicrosoftAccessSink = CopySink & {
 export type MicrosoftAccessSource = CopySource & {
     type: "MicrosoftAccessSource";
     query?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
 export type MicrosoftAccessTableDataset = Dataset & {
     type: "MicrosoftAccessTable";
     tableName?: any;
+};
+
+// @public
+export type MongoDbAtlasCollectionDataset = Dataset & {
+    type: "MongoDbAtlasCollection";
+    collection: any;
+};
+
+// @public
+export type MongoDbAtlasLinkedService = LinkedService & {
+    type: "MongoDbAtlas";
+    connectionString: any;
+    database: any;
+};
+
+// @public
+export type MongoDbAtlasSource = CopySource & {
+    type: "MongoDbAtlasSource";
+    filter?: any;
+    cursorMethods?: MongoDbCursorMethodsProperties;
+    batchSize?: any;
+    queryTimeout?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -4381,6 +4848,7 @@ export type MongoDbLinkedService = LinkedService & {
 export type MongoDbSource = CopySource & {
     type: "MongoDbSource";
     query?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -4403,6 +4871,7 @@ export type MongoDbV2Source = CopySource & {
     cursorMethods?: MongoDbCursorMethodsProperties;
     batchSize?: any;
     queryTimeout?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -4412,7 +4881,7 @@ export type MultiplePipelineTrigger = Trigger & {
 };
 
 // @public (undocumented)
-export type MultiplePipelineTriggerUnion = MultiplePipelineTrigger | ScheduleTrigger | BlobTrigger | BlobEventsTrigger;
+export type MultiplePipelineTriggerUnion = MultiplePipelineTrigger | ScheduleTrigger | BlobTrigger | BlobEventsTrigger | CustomEventsTrigger;
 
 // @public
 export type MySqlLinkedService = LinkedService & {
@@ -4489,7 +4958,7 @@ export interface Notebook {
 // @public
 export interface NotebookCell {
     [property: string]: any;
-    attachments?: any;
+    attachments?: any | null;
     cellType: string;
     metadata: any;
     outputs?: NotebookCellOutputItem[];
@@ -4589,12 +5058,11 @@ export interface NotebookListResponse {
 export interface NotebookMetadata {
     [property: string]: any;
     kernelspec?: NotebookKernelSpec;
-    languageInfo?: NotebookLanguageInfo;
+    languageInfo?: NotebookLanguageInfo | null;
 }
 
 // @public
-export class NotebookOperation {
-    constructor(client: ArtifactsClient);
+export interface NotebookOperation {
     createOrUpdateNotebook(notebookName: string, notebook: NotebookResource, options?: NotebookCreateOrUpdateNotebookOptionalParams): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>>;
     deleteNotebook(notebookName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     getNotebook(notebookName: string, options?: NotebookGetNotebookOptionalParams): Promise<NotebookGetNotebookResponse>;
@@ -4639,6 +5107,7 @@ export type ODataLinkedService = LinkedService & {
     password?: SecretBaseUnion;
     tenant?: any;
     servicePrincipalId?: any;
+    azureCloudType?: any;
     aadResourceId?: any;
     aadServicePrincipalCredentialType?: ODataAadServicePrincipalCredentialType;
     servicePrincipalKey?: SecretBaseUnion;
@@ -4657,6 +5126,8 @@ export type ODataResourceDataset = Dataset & {
 export type ODataSource = CopySource & {
     type: "ODataSource";
     query?: any;
+    httpRequestTimeout?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -4717,6 +5188,15 @@ export type Office365Source = CopySource & {
 };
 
 // @public
+export interface OperationResult {
+    code?: string;
+    details?: CloudError[];
+    message?: string;
+    readonly status?: string;
+    target?: string;
+}
+
+// @public
 export type OracleLinkedService = LinkedService & {
     type: "Oracle";
     connectionString: any;
@@ -4772,6 +5252,7 @@ export type OracleSource = CopySource & {
     queryTimeout?: any;
     partitionOption?: OraclePartitionOption;
     partitionSettings?: OraclePartitionSettings;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -4801,12 +5282,21 @@ export type OrcFormat = DatasetStorageFormat & {
 export type OrcSink = CopySink & {
     type: "OrcSink";
     storeSettings?: StoreWriteSettingsUnion;
+    formatSettings?: OrcWriteSettings;
 };
 
 // @public
 export type OrcSource = CopySource & {
     type: "OrcSource";
     storeSettings?: StoreReadSettingsUnion;
+    additionalColumns?: AdditionalColumns[];
+};
+
+// @public
+export type OrcWriteSettings = FormatWriteSettings & {
+    type: "OrcWriteSettings";
+    maxRowsPerFile?: any;
+    fileNamePrefix?: any;
 };
 
 // @public
@@ -4819,13 +5309,13 @@ export interface ParameterSpecification {
 export type ParameterType = string;
 
 // @public
-export type ParquetCompressionCodec = string;
+export type ParquetCompressionCodecEnum = string;
 
 // @public
 export type ParquetDataset = Dataset & {
     type: "Parquet";
     location?: DatasetLocationUnion;
-    compressionCodec?: ParquetCompressionCodec;
+    compressionCodec?: any;
 };
 
 // @public
@@ -4837,12 +5327,21 @@ export type ParquetFormat = DatasetStorageFormat & {
 export type ParquetSink = CopySink & {
     type: "ParquetSink";
     storeSettings?: StoreWriteSettingsUnion;
+    formatSettings?: ParquetWriteSettings;
 };
 
 // @public
 export type ParquetSource = CopySource & {
     type: "ParquetSource";
     storeSettings?: StoreReadSettingsUnion;
+    additionalColumns?: AdditionalColumns[];
+};
+
+// @public
+export type ParquetWriteSettings = FormatWriteSettings & {
+    type: "ParquetWriteSettings";
+    maxRowsPerFile?: any;
+    fileNamePrefix?: any;
 };
 
 // @public
@@ -4976,8 +5475,7 @@ export interface PipelineListResponse {
 }
 
 // @public
-export class PipelineOperation {
-    constructor(client: ArtifactsClient);
+export interface PipelineOperation {
     createOrUpdatePipeline(pipelineName: string, pipeline: PipelineResource, options?: PipelineCreateOrUpdatePipelineOptionalParams): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>>;
     createPipelineRun(pipelineName: string, options?: PipelineCreatePipelineRunOptionalParams): Promise<PipelineCreatePipelineRunResponse>;
     deletePipeline(pipelineName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
@@ -4997,7 +5495,7 @@ export interface PipelineReference {
 export type PipelineReferenceType = string;
 
 // @public
-export type PipelineResource = AzureEntityResource & {
+export type PipelineResource = SubResource & {
     [property: string]: any;
     description?: string;
     activities?: ActivityUnion[];
@@ -5027,7 +5525,7 @@ export interface PipelineRun {
         [propertyName: string]: string;
     };
     readonly pipelineName?: string;
-    readonly runEnd?: Date;
+    readonly runEnd?: Date | null;
     readonly runGroupId?: string;
     readonly runId?: string;
     readonly runStart?: Date;
@@ -5055,8 +5553,7 @@ export interface PipelineRunInvokedBy {
 }
 
 // @public
-export class PipelineRunOperation {
-    constructor(client: ArtifactsClient);
+export interface PipelineRunOperation {
     cancelPipelineRun(runId: string, options?: PipelineRunCancelPipelineRunOptionalParams): Promise<coreHttp.RestResponse>;
     getPipelineRun(runId: string, options?: coreHttp.OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
     queryActivityRuns(pipelineName: string, runId: string, filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<PipelineRunQueryActivityRunsResponse>;
@@ -5164,7 +5661,7 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export type PrivateEndpointConnection = ProxyResource & {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: string;
@@ -5194,6 +5691,7 @@ export interface QueryDataFlowDebugSessionsResponse {
 // @public
 export type QuickBooksLinkedService = LinkedService & {
     type: "QuickBooks";
+    connectionProperties?: any;
     endpoint: any;
     companyId: any;
     consumerKey: any;
@@ -5253,6 +5751,7 @@ export interface RedshiftUnloadSettings {
 export type RelationalSource = CopySource & {
     type: "RelationalSource";
     query?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -5268,17 +5767,17 @@ export interface RerunTriggerListResponse {
 }
 
 // @public
-export type RerunTriggerResource = AzureEntityResource & {
+export type RerunTriggerResource = SubResource & {
     properties: RerunTumblingWindowTrigger;
 };
 
 // @public
 export type RerunTumblingWindowTrigger = Trigger & {
     type: "RerunTumblingWindowTrigger";
-    parentTrigger?: any;
+    parentTrigger: any;
     requestedStartTime: Date;
     requestedEndTime: Date;
-    maxConcurrency: number;
+    rerunConcurrency: number;
 };
 
 // @public
@@ -5346,8 +5845,19 @@ export type RestServiceLinkedService = LinkedService & {
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    azureCloudType?: any;
     aadResourceId?: any;
     encryptedCredential?: any;
+};
+
+// @public
+export type RestSink = CopySink & {
+    type: "RestSink";
+    requestMethod?: any;
+    additionalHeaders?: any;
+    httpRequestTimeout?: any;
+    requestInterval?: any;
+    httpCompressionType?: any;
 };
 
 // @public
@@ -5359,6 +5869,7 @@ export type RestSource = CopySource & {
     paginationRules?: any;
     httpRequestTimeout?: any;
     requestInterval?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -5408,12 +5919,14 @@ export type SalesforceLinkedService = LinkedService & {
     username?: any;
     password?: SecretBaseUnion;
     securityToken?: SecretBaseUnion;
+    apiVersion?: any;
     encryptedCredential?: any;
 };
 
 // @public
 export type SalesforceMarketingCloudLinkedService = LinkedService & {
     type: "SalesforceMarketingCloud";
+    connectionProperties?: any;
     clientId: any;
     clientSecret?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
@@ -5447,6 +5960,7 @@ export type SalesforceServiceCloudLinkedService = LinkedService & {
     username?: any;
     password?: SecretBaseUnion;
     securityToken?: SecretBaseUnion;
+    apiVersion?: any;
     extendedProperties?: any;
     encryptedCredential?: any;
 };
@@ -5470,6 +5984,7 @@ export type SalesforceServiceCloudSource = CopySource & {
     type: "SalesforceServiceCloudSource";
     query?: any;
     readBehavior?: SalesforceSourceReadBehavior;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -5534,6 +6049,7 @@ export type SapCloudForCustomerResourceDataset = Dataset & {
 export type SapCloudForCustomerSink = CopySink & {
     type: "SapCloudForCustomerSink";
     writeBehavior?: SapCloudForCustomerSinkWriteBehavior;
+    httpRequestTimeout?: any;
 };
 
 // @public
@@ -5543,6 +6059,7 @@ export type SapCloudForCustomerSinkWriteBehavior = string;
 export type SapCloudForCustomerSource = TabularSource & {
     type: "SapCloudForCustomerSource";
     query?: any;
+    httpRequestTimeout?: any;
 };
 
 // @public
@@ -5564,6 +6081,7 @@ export type SapEccResourceDataset = Dataset & {
 export type SapEccSource = TabularSource & {
     type: "SapEccSource";
     query?: any;
+    httpRequestTimeout?: any;
 };
 
 // @public
@@ -5611,8 +6129,12 @@ export type SapOpenHubLinkedService = LinkedService & {
     systemNumber: any;
     clientId: any;
     language?: any;
+    systemId?: any;
     userName?: any;
     password?: SecretBaseUnion;
+    messageServer?: any;
+    messageServerService?: any;
+    logonGroup?: any;
     encryptedCredential?: any;
 };
 
@@ -5621,6 +6143,8 @@ export type SapOpenHubSource = TabularSource & {
     type: "SapOpenHubSource";
     excludeLastRequest?: any;
     baseRequestId?: any;
+    customRfcReadTableFunctionModule?: any;
+    sapDataColumnDelimiter?: any;
 };
 
 // @public
@@ -5678,6 +6202,7 @@ export type SapTableSource = TabularSource & {
     rfcTableOptions?: any;
     batchSize?: any;
     customRfcReadTableFunctionModule?: any;
+    sapDataColumnDelimiter?: any;
     partitionOption?: SapTablePartitionOption;
     partitionSettings?: SapTablePartitionSettings;
 };
@@ -5771,7 +6296,7 @@ export type ServiceNowSource = TabularSource & {
 };
 
 // @public
-export type SetVariableActivity = Activity & {
+export type SetVariableActivity = ControlActivity & {
     type: "SetVariable";
     variableName?: string;
     value?: any;
@@ -5791,6 +6316,10 @@ export type SftpReadSettings = StoreReadSettings & {
     recursive?: any;
     wildcardFolderPath?: any;
     wildcardFileName?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    fileListPath?: any;
+    deleteFilesAfterCompletion?: any;
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
 };
@@ -5815,6 +6344,30 @@ export type SftpServerLinkedService = LinkedService & {
 export type SftpWriteSettings = StoreWriteSettings & {
     type: "SftpWriteSettings";
     operationTimeout?: any;
+    useTempFileRename?: any;
+};
+
+// @public
+export type SharePointOnlineListLinkedService = LinkedService & {
+    type: "SharePointOnlineList";
+    siteUrl: any;
+    tenantId: any;
+    servicePrincipalId: any;
+    servicePrincipalKey: SecretBaseUnion;
+    encryptedCredential?: any;
+};
+
+// @public
+export type SharePointOnlineListResourceDataset = Dataset & {
+    type: "SharePointOnlineListResource";
+    listName?: any;
+};
+
+// @public
+export type SharePointOnlineListSource = CopySource & {
+    type: "SharePointOnlineListSource";
+    query?: any;
+    httpRequestTimeout?: any;
 };
 
 // @public
@@ -5841,11 +6394,68 @@ export type ShopifySource = TabularSource & {
 };
 
 // @public
+export interface SkipErrorFile {
+    dataInconsistency?: any;
+    fileMissing?: any;
+}
+
+// @public
 export interface Sku {
     capacity?: number;
     name?: string;
     tier?: string;
 }
+
+// @public
+export type SnowflakeDataset = Dataset & {
+    type: "SnowflakeTable";
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+};
+
+// @public
+export type SnowflakeExportCopyCommand = ExportSettings & {
+    type: "SnowflakeExportCopyCommand";
+    additionalCopyOptions?: {
+        [propertyName: string]: any;
+    };
+    additionalFormatOptions?: {
+        [propertyName: string]: any;
+    };
+};
+
+// @public
+export type SnowflakeImportCopyCommand = ImportSettings & {
+    type: "SnowflakeImportCopyCommand";
+    additionalCopyOptions?: {
+        [propertyName: string]: any;
+    };
+    additionalFormatOptions?: {
+        [propertyName: string]: any;
+    };
+};
+
+// @public
+export type SnowflakeLinkedService = LinkedService & {
+    type: "Snowflake";
+    connectionString: any;
+    password?: AzureKeyVaultSecretReference;
+    encryptedCredential?: any;
+};
+
+// @public
+export type SnowflakeSink = CopySink & {
+    type: "SnowflakeSink";
+    preCopyScript?: any;
+    importSettings?: SnowflakeImportCopyCommand;
+};
+
+// @public
+export type SnowflakeSource = CopySource & {
+    type: "SnowflakeSource";
+    query?: any;
+    exportSettings?: SnowflakeExportCopyCommand;
+};
 
 // @public
 export type SparkAuthenticationType = string;
@@ -5917,6 +6527,7 @@ export type SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse = SparkJo
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: SparkJobDefinitionResource;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -5968,11 +6579,10 @@ export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse = SparkJ
 };
 
 // @public
-export class SparkJobDefinitionOperation {
-    constructor(client: ArtifactsClient);
-    createOrUpdateSparkJobDefinition(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>;
+export interface SparkJobDefinitionOperation {
+    createOrUpdateSparkJobDefinition(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams): Promise<LROPoller<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>>;
     debugSparkJobDefinition(sparkJobDefinitionAzureResource: SparkJobDefinitionResource, options?: coreHttp.OperationOptions): Promise<LROPoller<SparkJobDefinitionDebugSparkJobDefinitionResponse>>;
-    deleteSparkJobDefinition(sparkJobDefinitionName: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+    deleteSparkJobDefinition(sparkJobDefinitionName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     executeSparkJobDefinition(sparkJobDefinitionName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<SparkJobDefinitionExecuteSparkJobDefinitionResponse>>;
     getSparkJobDefinition(sparkJobDefinitionName: string, options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse>;
     listSparkJobDefinitionsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SparkJobDefinitionResource>;
@@ -5980,7 +6590,7 @@ export class SparkJobDefinitionOperation {
 }
 
 // @public
-export type SparkJobDefinitionResource = AzureEntityResource & {
+export type SparkJobDefinitionResource = SubResource & {
     properties: SparkJobDefinition;
 };
 
@@ -6077,7 +6687,7 @@ export interface SparkRequest {
 // @public (undocumented)
 export interface SparkScheduler {
     // (undocumented)
-    cancellationRequestedAt?: Date;
+    cancellationRequestedAt?: Date | null;
     // (undocumented)
     currentState?: SchedulerCurrentState;
     // (undocumented)
@@ -6153,6 +6763,8 @@ export type SqlDWSource = TabularSource & {
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
     storedProcedureParameters?: any;
+    partitionOption?: any;
+    partitionSettings?: SqlPartitionSettings;
 };
 
 // @public
@@ -6177,7 +6789,19 @@ export type SqlMISource = TabularSource & {
         [propertyName: string]: StoredProcedureParameter;
     };
     produceAdditionalTypes?: any;
+    partitionOption?: any;
+    partitionSettings?: SqlPartitionSettings;
 };
+
+// @public
+export type SqlPartitionOption = string;
+
+// @public
+export interface SqlPartitionSettings {
+    partitionColumnName?: any;
+    partitionLowerBound?: any;
+    partitionUpperBound?: any;
+}
 
 // @public
 export type SqlPool = TrackedResource & {
@@ -6225,8 +6849,7 @@ export type SqlPoolsListResponse = SqlPoolInfoListResult & {
 };
 
 // @public
-export class SqlPoolsOperation {
-    constructor(client: ArtifactsClient);
+export interface SqlPoolsOperation {
     get(sqlPoolName: string, options?: coreHttp.OperationOptions): Promise<SqlPoolsGetResponse>;
     list(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse>;
 }
@@ -6267,6 +6890,7 @@ export type SqlScriptCreateOrUpdateSqlScriptResponse = SqlScriptResource & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: SqlScriptResource;
+        [LROSYM]: LROResponseInfo;
     };
 };
 
@@ -6306,10 +6930,9 @@ export interface SqlScriptMetadata {
 }
 
 // @public
-export class SqlScriptOperation {
-    constructor(client: ArtifactsClient);
-    createOrUpdateSqlScript(sqlScriptName: string, sqlScript: SqlScriptResource, options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams): Promise<SqlScriptCreateOrUpdateSqlScriptResponse>;
-    deleteSqlScript(sqlScriptName: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+export interface SqlScriptOperation {
+    createOrUpdateSqlScript(sqlScriptName: string, sqlScript: SqlScriptResource, options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams): Promise<LROPoller<SqlScriptCreateOrUpdateSqlScriptResponse>>;
+    deleteSqlScript(sqlScriptName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     getSqlScript(sqlScriptName: string, options?: SqlScriptGetSqlScriptOptionalParams): Promise<SqlScriptGetSqlScriptResponse>;
     listSqlScriptsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SqlScriptResource>;
     renameSqlScript(sqlScriptName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
@@ -6364,6 +6987,8 @@ export type SqlServerSource = TabularSource & {
         [propertyName: string]: StoredProcedureParameter;
     };
     produceAdditionalTypes?: any;
+    partitionOption?: any;
+    partitionSettings?: SqlPartitionSettings;
 };
 
 // @public
@@ -6404,11 +7029,15 @@ export type SqlSource = TabularSource & {
     storedProcedureParameters?: {
         [propertyName: string]: StoredProcedureParameter;
     };
+    isolationLevel?: any;
+    partitionOption?: any;
+    partitionSettings?: SqlPartitionSettings;
 };
 
 // @public
 export type SquareLinkedService = LinkedService & {
     type: "Square";
+    connectionProperties?: any;
     host: any;
     clientId: any;
     clientSecret?: SecretBaseUnion;
@@ -6481,6 +7110,7 @@ export interface SsisObjectMetadataStatusResponse {
 export interface SsisPackageLocation {
     accessCredential?: SsisAccessCredential;
     childPackages?: SsisChildPackage[];
+    configurationAccessCredential?: SsisAccessCredential;
     configurationPath?: any;
     packageContent?: any;
     packageLastModifiedDate?: string;
@@ -6547,11 +7177,11 @@ export interface StoreWriteSettings {
     [property: string]: any;
     copyBehavior?: any;
     maxConcurrentConnections?: any;
-    type: "SftpWriteSettings" | "AzureBlobStorageWriteSettings" | "AzureBlobFSWriteSettings" | "AzureDataLakeStoreWriteSettings" | "FileServerWriteSettings";
+    type: "SftpWriteSettings" | "AzureBlobStorageWriteSettings" | "AzureBlobFSWriteSettings" | "AzureDataLakeStoreWriteSettings" | "FileServerWriteSettings" | "AzureFileStorageWriteSettings";
 }
 
 // @public (undocumented)
-export type StoreWriteSettingsUnion = StoreWriteSettings | SftpWriteSettings | AzureBlobStorageWriteSettings | AzureBlobFSWriteSettings | AzureDataLakeStoreWriteSettings | FileServerWriteSettings;
+export type StoreWriteSettingsUnion = StoreWriteSettings | SftpWriteSettings | AzureBlobStorageWriteSettings | AzureBlobFSWriteSettings | AzureDataLakeStoreWriteSettings | FileServerWriteSettings | AzureFileStorageWriteSettings;
 
 // @public
 export type SubResource = AzureEntityResource & {};
@@ -6562,7 +7192,7 @@ export interface SubResourceDebugResource {
 }
 
 // @public
-export type SwitchActivity = Activity & {
+export type SwitchActivity = ControlActivity & {
     type: "Switch";
     on: Expression;
     cases?: SwitchCase[];
@@ -6633,6 +7263,7 @@ export interface SynapseSparkJobReference {
 export type TabularSource = CopySource & {
     type: "TabularSource";
     queryTimeout?: any;
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public (undocumented)
@@ -6646,6 +7277,20 @@ export type TabularTranslator = CopyTranslator & {
     collectionReference?: any;
     mapComplexValuesToString?: any;
     mappings?: any;
+    typeConversion?: any;
+    typeConversionSettings?: TypeConversionSettings;
+};
+
+// @public
+export type TarGZipReadSettings = CompressionReadSettings & {
+    type: "TarGZipReadSettings";
+    preserveCompressionFileNameAsFolder?: any;
+};
+
+// @public
+export type TarReadSettings = CompressionReadSettings & {
+    type: "TarReadSettings";
+    preserveCompressionFileNameAsFolder?: any;
 };
 
 // @public
@@ -6721,7 +7366,7 @@ export interface Trigger {
     annotations?: any[];
     description?: string;
     readonly runtimeState?: TriggerRuntimeState;
-    type: "RerunTumblingWindowTrigger" | "MultiplePipelineTrigger" | "ScheduleTrigger" | "BlobTrigger" | "BlobEventsTrigger" | "TumblingWindowTrigger" | "ChainingTrigger";
+    type: "RerunTumblingWindowTrigger" | "MultiplePipelineTrigger" | "ScheduleTrigger" | "BlobTrigger" | "BlobEventsTrigger" | "CustomEventsTrigger" | "TumblingWindowTrigger" | "ChainingTrigger";
 }
 
 // @public
@@ -6797,8 +7442,7 @@ export interface TriggerListResponse {
 }
 
 // @public
-export class TriggerOperation {
-    constructor(client: ArtifactsClient);
+export interface TriggerOperation {
     createOrUpdateTrigger(triggerName: string, trigger: TriggerResource, options?: TriggerCreateOrUpdateTriggerOptionalParams): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>>;
     deleteTrigger(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
     getEventSubscriptionStatus(triggerName: string, options?: coreHttp.OperationOptions): Promise<TriggerGetEventSubscriptionStatusResponse>;
@@ -6828,7 +7472,7 @@ export interface TriggerReference {
 export type TriggerReferenceType = string;
 
 // @public
-export type TriggerResource = AzureEntityResource & {
+export type TriggerResource = SubResource & {
     properties: TriggerUnion;
 };
 
@@ -6850,8 +7494,7 @@ export interface TriggerRun {
 }
 
 // @public
-export class TriggerRunOperation {
-    constructor(client: ArtifactsClient);
+export interface TriggerRunOperation {
     cancelTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
     queryTriggerRunsByWorkspace(filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
     rerunTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
@@ -6932,7 +7575,17 @@ export type TumblingWindowTriggerDependencyReference = TriggerDependencyReferenc
 export type Type = string;
 
 // @public
-export type UntilActivity = Activity & {
+export interface TypeConversionSettings {
+    allowDataTruncation?: any;
+    culture?: any;
+    dateTimeFormat?: any;
+    dateTimeOffsetFormat?: any;
+    timeSpanFormat?: any;
+    treatBooleanAsNumber?: any;
+}
+
+// @public
+export type UntilActivity = ControlActivity & {
     type: "Until";
     expression: Expression;
     timeout?: any;
@@ -6946,7 +7599,7 @@ export interface UserProperty {
 }
 
 // @public
-export type ValidationActivity = Activity & {
+export type ValidationActivity = ControlActivity & {
     type: "Validation";
     timeout?: any;
     sleep?: any;
@@ -6992,9 +7645,9 @@ export interface VirtualNetworkProfile {
 }
 
 // @public
-export type WaitActivity = Activity & {
+export type WaitActivity = ControlActivity & {
     type: "Wait";
-    waitTimeInSeconds: number;
+    waitTimeInSeconds: any;
 };
 
 // @public
@@ -7045,7 +7698,7 @@ export type WebClientCertificateAuthentication = WebLinkedServiceTypeProperties 
 };
 
 // @public
-export type WebHookActivity = Activity & {
+export type WebHookActivity = ControlActivity & {
     type: "WebHook";
     method: WebHookActivityMethod;
     url: any;
@@ -7077,6 +7730,7 @@ export type WebLinkedServiceTypePropertiesUnion = WebLinkedServiceTypeProperties
 // @public
 export type WebSource = CopySource & {
     type: "WebSource";
+    additionalColumns?: AdditionalColumns[];
 };
 
 // @public
@@ -7108,6 +7762,7 @@ export type Workspace = TrackedResource & {
     managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
     workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration;
     purviewConfiguration?: PurviewConfiguration;
+    readonly adlaResourceId?: string;
 };
 
 // @public
@@ -7132,8 +7787,7 @@ export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse = GitHubAcces
 };
 
 // @public
-export class WorkspaceGitRepoManagementOperation {
-    constructor(client: ArtifactsClient);
+export interface WorkspaceGitRepoManagementOperation {
     getGitHubAccessToken(gitHubAccessTokenRequest: GitHubAccessTokenRequest, options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse>;
 }
 
@@ -7151,8 +7805,7 @@ export interface WorkspaceKeyDetails {
 }
 
 // @public
-export class WorkspaceOperation {
-    constructor(client: ArtifactsClient);
+export interface WorkspaceOperation {
     get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse>;
 }
 
@@ -7161,9 +7814,11 @@ export interface WorkspaceRepositoryConfiguration {
     accountName?: string;
     collaborationBranch?: string;
     hostName?: string;
+    lastCommitId?: string;
     projectName?: string;
     repositoryName?: string;
     rootFolder?: string;
+    tenantId?: string;
     type?: string;
 }
 
@@ -7178,6 +7833,7 @@ export interface WorkspaceUpdateParameters {
 // @public
 export type XeroLinkedService = LinkedService & {
     type: "Xero";
+    connectionProperties?: any;
     host: any;
     consumerKey?: SecretBaseUnion;
     privateKey?: SecretBaseUnion;
@@ -7200,8 +7856,42 @@ export type XeroSource = TabularSource & {
 };
 
 // @public
+export type XmlDataset = Dataset & {
+    type: "Xml";
+    location?: DatasetLocationUnion;
+    encodingName?: any;
+    nullValue?: any;
+    compression?: DatasetCompressionUnion;
+};
+
+// @public
+export type XmlReadSettings = FormatReadSettings & {
+    type: "XmlReadSettings";
+    compressionProperties?: CompressionReadSettingsUnion;
+    validationMode?: any;
+    detectDataType?: any;
+    namespaces?: any;
+    namespacePrefixes?: any;
+};
+
+// @public
+export type XmlSource = CopySource & {
+    type: "XmlSource";
+    storeSettings?: StoreReadSettingsUnion;
+    formatSettings?: XmlReadSettings;
+    additionalColumns?: AdditionalColumns[];
+};
+
+// @public
+export type ZipDeflateReadSettings = CompressionReadSettings & {
+    type: "ZipDeflateReadSettings";
+    preserveZipFileNameAsFolder?: any;
+};
+
+// @public
 export type ZohoLinkedService = LinkedService & {
     type: "Zoho";
+    connectionProperties?: any;
     endpoint: any;
     accessToken?: SecretBaseUnion;
     useEncryptedEndpoints?: any;

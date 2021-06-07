@@ -1,11 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export interface PartitionKeyRangePropertiesNames {
+  // Partition Key Range Constants
+  MinInclusive: "minInclusive";
+  MaxExclusive: "maxExclusive";
+  Id: "id";
+}
+
 /**
- * @ignore
+ * @hidden
  */
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
 export const Constants = {
   HttpHeaders: {
     Authorization: "authorization",
@@ -151,6 +156,7 @@ export const Constants = {
     // Bulk/Batch header
     IsBatchRequest: "x-ms-cosmos-is-batch-request",
     IsBatchAtomic: "x-ms-cosmos-batch-atomic",
+    BatchContinueOnError: "x-ms-cosmos-batch-continue-on-error",
 
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh"
@@ -180,6 +186,7 @@ export const Constants = {
   },
 
   Path: {
+    Root: "/",
     DatabasesPathSegment: "dbs",
     CollectionsPathSegment: "colls",
     UsersPathSegment: "users",
@@ -202,7 +209,7 @@ export const Constants = {
     MinInclusive: "minInclusive",
     MaxExclusive: "maxExclusive",
     Id: "id"
-  },
+  } as PartitionKeyRangePropertiesNames,
 
   QueryRangeConstants: {
     // Partition Key Range Constants
@@ -218,7 +225,7 @@ export const Constants = {
 };
 
 /**
- * @ignore
+ * @hidden
  */
 export enum ResourceType {
   none = "",
@@ -236,7 +243,7 @@ export enum ResourceType {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export enum HTTPMethod {
   get = "GET",
@@ -246,7 +253,7 @@ export enum HTTPMethod {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export enum OperationType {
   Create = "create",
@@ -257,4 +264,170 @@ export enum OperationType {
   Query = "query",
   Execute = "execute",
   Batch = "batch"
+}
+
+/**
+ * @hidden
+ */
+export enum CosmosKeyType {
+  PrimaryMaster = "PRIMARY_MASTER",
+  SecondaryMaster = "SECONDARY_MASTER",
+  PrimaryReadOnly = "PRIMARY_READONLY",
+  SecondaryReadOnly = "SECONDARY_READONLY"
+}
+
+/**
+ * @hidden
+ */
+export enum CosmosContainerChildResourceKind {
+  Item = "ITEM",
+  StoredProcedure = "STORED_PROCEDURE",
+  UserDefinedFunction = "USER_DEFINED_FUNCTION",
+  Trigger = "TRIGGER"
+}
+/**
+ * @hidden
+ */
+export enum PermissionScopeValues {
+  /**
+   * Values which set permission Scope applicable to control plane related operations.
+   */
+  ScopeAccountReadValue = 0x0001,
+  ScopeAccountListDatabasesValue = 0x0002,
+  ScopeDatabaseReadValue = 0x0004,
+  ScopeDatabaseReadOfferValue = 0x0008,
+  ScopeDatabaseListContainerValue = 0x0010,
+  ScopeContainerReadValue = 0x0020,
+  ScopeContainerReadOfferValue = 0x0040,
+
+  ScopeAccountCreateDatabasesValue = 0x0001,
+  ScopeAccountDeleteDatabasesValue = 0x0002,
+  ScopeDatabaseDeleteValue = 0x0004,
+  ScopeDatabaseReplaceOfferValue = 0x0008,
+  ScopeDatabaseCreateContainerValue = 0x0010,
+  ScopeDatabaseDeleteContainerValue = 0x0020,
+  ScopeContainerReplaceValue = 0x0040,
+  ScopeContainerDeleteValue = 0x0080,
+  ScopeContainerReplaceOfferValue = 0x0100,
+
+  ScopeAccountReadAllAccessValue = 0xffff,
+  ScopeDatabaseReadAllAccessValue = PermissionScopeValues.ScopeDatabaseReadValue |
+    PermissionScopeValues.ScopeDatabaseReadOfferValue |
+    PermissionScopeValues.ScopeDatabaseListContainerValue |
+    PermissionScopeValues.ScopeContainerReadValue |
+    PermissionScopeValues.ScopeContainerReadOfferValue,
+
+  ScopeContainersReadAllAccessValue = PermissionScopeValues.ScopeContainerReadValue |
+    PermissionScopeValues.ScopeContainerReadOfferValue,
+
+  ScopeAccountWriteAllAccessValue = 0xffff,
+  ScopeDatabaseWriteAllAccessValue = PermissionScopeValues.ScopeDatabaseDeleteValue |
+    PermissionScopeValues.ScopeDatabaseReplaceOfferValue |
+    PermissionScopeValues.ScopeDatabaseCreateContainerValue |
+    PermissionScopeValues.ScopeDatabaseDeleteContainerValue |
+    PermissionScopeValues.ScopeContainerReplaceValue |
+    PermissionScopeValues.ScopeContainerDeleteValue |
+    PermissionScopeValues.ScopeContainerReplaceOfferValue,
+
+  ScopeContainersWriteAllAccessValue = PermissionScopeValues.ScopeContainerReplaceValue |
+    PermissionScopeValues.ScopeContainerDeleteValue |
+    PermissionScopeValues.ScopeContainerReplaceOfferValue,
+
+  /**
+   * Values which set permission Scope applicable to data plane related operations.
+   */
+  ScopeContainerExecuteQueriesValue = 0x00000001,
+  ScopeContainerReadFeedsValue = 0x00000002,
+  ScopeContainerReadStoredProceduresValue = 0x00000004,
+  ScopeContainerReadUserDefinedFunctionsValue = 0x00000008,
+  ScopeContainerReadTriggersValue = 0x00000010,
+  ScopeContainerReadConflictsValue = 0x00000020,
+  ScopeItemReadValue = 0x00000040,
+  ScopeStoredProcedureReadValue = 0x00000080,
+  ScopeUserDefinedFunctionReadValue = 0x00000100,
+  ScopeTriggerReadValue = 0x00000200,
+
+  ScopeContainerCreateItemsValue = 0x00000001,
+  ScopeContainerReplaceItemsValue = 0x00000002,
+  ScopeContainerUpsertItemsValue = 0x00000004,
+  ScopeContainerDeleteItemsValue = 0x00000008,
+  ScopeContainerCreateStoredProceduresValue = 0x00000010,
+  ScopeContainerReplaceStoredProceduresValue = 0x00000020,
+  ScopeContainerDeleteStoredProceduresValue = 0x00000040,
+  ScopeContainerExecuteStoredProceduresValue = 0x00000080,
+  ScopeContainerCreateTriggersValue = 0x00000100,
+  ScopeContainerReplaceTriggersValue = 0x00000200,
+  ScopeContainerDeleteTriggersValue = 0x00000400,
+  ScopeContainerCreateUserDefinedFunctionsValue = 0x00000800,
+  ScopeContainerReplaceUserDefinedFunctionsValue = 0x00001000,
+  ScopeContainerDeleteUserDefinedFunctionSValue = 0x00002000,
+  ScopeContainerDeleteCONFLICTSValue = 0x00004000,
+  ScopeItemReplaceValue = 0x00010000,
+  ScopeItemUpsertValue = 0x00020000,
+  ScopeItemDeleteValue = 0x00040000,
+  ScopeStoredProcedureReplaceValue = 0x00100000,
+  ScopeStoredProcedureDeleteValue = 0x00200000,
+  ScopeStoredProcedureExecuteValue = 0x00400000,
+  ScopeUserDefinedFunctionReplaceValue = 0x00800000,
+  ScopeUserDefinedFunctionDeleteValue = 0x01000000,
+  ScopeTriggerReplaceValue = 0x02000000,
+  ScopeTriggerDeleteValue = 0x04000000,
+
+  ScopeContainerReadAllAccessValue = 0xffffffff,
+  ScopeItemReadAllAccessValue = PermissionScopeValues.ScopeContainerExecuteQueriesValue |
+    PermissionScopeValues.ScopeItemReadValue,
+  ScopeContainerWriteAllAccessValue = 0xffffffff,
+  ScopeItemWriteAllAccessValue = PermissionScopeValues.ScopeContainerCreateItemsValue |
+    PermissionScopeValues.ScopeContainerReplaceItemsValue |
+    PermissionScopeValues.ScopeContainerUpsertItemsValue |
+    PermissionScopeValues.ScopeContainerDeleteItemsValue |
+    PermissionScopeValues.ScopeItemReplaceValue |
+    PermissionScopeValues.ScopeItemUpsertValue |
+    PermissionScopeValues.ScopeItemDeleteValue,
+
+  NoneValue = 0
+}
+/**
+ * @hidden
+ */
+export enum SasTokenPermissionKind {
+  ContainerCreateItems = PermissionScopeValues.ScopeContainerCreateItemsValue,
+  ContainerReplaceItems = PermissionScopeValues.ScopeContainerReplaceItemsValue,
+  ContainerUpsertItems = PermissionScopeValues.ScopeContainerUpsertItemsValue,
+  ContainerDeleteItems = PermissionScopeValues.ScopeContainerDeleteValue,
+  ContainerExecuteQueries = PermissionScopeValues.ScopeContainerExecuteQueriesValue,
+  ContainerReadFeeds = PermissionScopeValues.ScopeContainerReadFeedsValue,
+  ContainerCreateStoreProcedure = PermissionScopeValues.ScopeContainerCreateStoredProceduresValue,
+  ContainerReadStoreProcedure = PermissionScopeValues.ScopeContainerReadStoredProceduresValue,
+  ContainerReplaceStoreProcedure = PermissionScopeValues.ScopeContainerReplaceStoredProceduresValue,
+  ContainerDeleteStoreProcedure = PermissionScopeValues.ScopeContainerDeleteStoredProceduresValue,
+  ContainerCreateTriggers = PermissionScopeValues.ScopeContainerCreateTriggersValue,
+  ContainerReadTriggers = PermissionScopeValues.ScopeContainerReadTriggersValue,
+  ContainerReplaceTriggers = PermissionScopeValues.ScopeContainerReplaceTriggersValue,
+  ContainerDeleteTriggers = PermissionScopeValues.ScopeContainerDeleteTriggersValue,
+  ContainerCreateUserDefinedFunctions = PermissionScopeValues.ScopeContainerCreateUserDefinedFunctionsValue,
+  ContainerReadUserDefinedFunctions = PermissionScopeValues.ScopeContainerReadUserDefinedFunctionsValue,
+  ContainerReplaceUserDefinedFunctions = PermissionScopeValues.ScopeContainerReplaceUserDefinedFunctionsValue,
+  ContainerDeleteUserDefinedFunctions = PermissionScopeValues.ScopeContainerDeleteUserDefinedFunctionSValue,
+  ContainerExecuteStoredProcedure = PermissionScopeValues.ScopeContainerExecuteStoredProceduresValue,
+  ContainerReadConflicts = PermissionScopeValues.ScopeContainerReadConflictsValue,
+  ContainerDeleteConflicts = PermissionScopeValues.ScopeContainerDeleteCONFLICTSValue,
+  ContainerReadAny = PermissionScopeValues.ScopeContainerReadOfferValue,
+  ContainerFullAccess = PermissionScopeValues.ScopeContainerReadAllAccessValue,
+  ItemReadAny = PermissionScopeValues.ScopeItemReplaceValue,
+  ItemFullAccess = PermissionScopeValues.ScopeItemReadAllAccessValue,
+  ItemRead = PermissionScopeValues.ScopeItemReadValue,
+  ItemReplace = PermissionScopeValues.ScopeItemReplaceValue,
+  ItemUpsert = PermissionScopeValues.ScopeItemUpsertValue,
+  ItemDelete = PermissionScopeValues.ScopeItemDeleteValue,
+  StoreProcedureRead = PermissionScopeValues.ScopeStoredProcedureReadValue,
+  StoreProcedureReplace = PermissionScopeValues.ScopeStoredProcedureReplaceValue,
+  StoreProcedureDelete = PermissionScopeValues.ScopeStoredProcedureDeleteValue,
+  StoreProcedureExecute = PermissionScopeValues.ScopeStoredProcedureExecuteValue,
+  UserDefinedFuntionRead = PermissionScopeValues.ScopeUserDefinedFunctionReadValue,
+  UserDefinedFuntionReplace = PermissionScopeValues.ScopeUserDefinedFunctionReplaceValue,
+  UserDefinedFuntionDelete = PermissionScopeValues.ScopeUserDefinedFunctionDeleteValue,
+  TriggerRead = PermissionScopeValues.ScopeTriggerReadValue,
+  TriggerReplace = PermissionScopeValues.ScopeTriggerReplaceValue,
+  TriggerDelete = PermissionScopeValues.ScopeTriggerDeleteValue
 }

@@ -16,13 +16,13 @@ export class Offer {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return `/${Constants.Path.OffersPathSegment}/${this.id}`;
   }
   /**
    * @hidden
-   * @param client The parent {@link CosmosClient} for the Database Account.
-   * @param id The id of the given {@link Offer}.
+   * @param client - The parent {@link CosmosClient} for the Database Account.
+   * @param id - The id of the given {@link Offer}.
    */
   constructor(
     public readonly client: CosmosClient,
@@ -32,7 +32,6 @@ export class Offer {
 
   /**
    * Read the {@link OfferDefinition} for the given {@link Offer}.
-   * @param options
    */
   public async read(options?: RequestOptions): Promise<OfferResponse> {
     const response = await this.clientContext.read<OfferDefinition>({
@@ -46,8 +45,7 @@ export class Offer {
 
   /**
    * Replace the given {@link Offer} with the specified {@link OfferDefinition}.
-   * @param body The specified {@link OfferDefinition}
-   * @param options
+   * @param body - The specified {@link OfferDefinition}
    */
   public async replace(body: OfferDefinition, options?: RequestOptions): Promise<OfferResponse> {
     const err = {};

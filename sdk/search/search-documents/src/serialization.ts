@@ -24,6 +24,7 @@ export function deserialize<OutputT>(obj: unknown): OutputT {
 }
 
 function walk(start: unknown, mapper: (val: any) => any): any {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   const seenMarker = new WeakMap<object, boolean>();
   const result = { value: undefined };
   const queue: { value: any; parent: any; key: string }[] = [
@@ -96,7 +97,7 @@ function deserializeDates(input: unknown): Date | unknown {
 
 function deserializeGeoPoint(input: unknown): GeographyPoint | unknown {
   if (isGeoJSONPoint(input)) {
-    return new GeographyPoint(input.coordinates[0], input.coordinates[1]);
+    return new GeographyPoint({ longitude: input.coordinates[0], latitude: input.coordinates[1] });
   }
 
   return input;

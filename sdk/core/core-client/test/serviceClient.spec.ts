@@ -14,18 +14,24 @@ import {
   Mapper,
   CompositeMapper,
   OperationSpec,
-  serializationPolicy
+  serializationPolicy,
+  FullOperationResponse
 } from "../src";
 import {
   createHttpHeaders,
   createEmptyPipeline,
-  HttpsClient,
+  HttpClient,
   createPipelineRequest
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 
-import { getOperationArgumentValueFromParameter } from "../src/operationHelpers";
+import {
+  getOperationArgumentValueFromParameter,
+  getOperationRequestInfo
+} from "../src/operationHelpers";
 import { deserializationPolicy } from "../src/deserializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
+import { getCachedDefaultHttpClient } from "../src/httpClientCache";
+import { assertServiceClientResponse } from "./utils/serviceClient";
 
 describe("ServiceClient", function() {
   describe("Auth scopes", () => {
@@ -80,7 +86,7 @@ describe("ServiceClient", function() {
       try {
         let request: OperationRequest;
         const client = new ServiceClient({
-          httpsClient: {
+          httpClient: {
             sendRequest: (req) => {
               request = req;
               return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -106,7 +112,7 @@ describe("ServiceClient", function() {
       try {
         let request: OperationRequest;
         const client = new ServiceClient({
-          httpsClient: {
+          httpClient: {
             sendRequest: (req) => {
               request = req;
               return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -136,7 +142,7 @@ describe("ServiceClient", function() {
 
       let request: OperationRequest;
       const client = new ServiceClient({
-        httpsClient: {
+        httpClient: {
           sendRequest: (req) => {
             request = req;
             return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -163,7 +169,7 @@ describe("ServiceClient", function() {
 
       let request: OperationRequest;
       const client = new ServiceClient({
-        httpsClient: {
+        httpClient: {
           sendRequest: (req) => {
             request = req;
             return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -188,10 +194,10 @@ describe("ServiceClient", function() {
     };
 
     let request: OperationRequest;
-    let pipeline = createEmptyPipeline();
+    const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
-      httpsClient: {
+      httpClient: {
         sendRequest: (req) => {
           request = req;
           return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -248,20 +254,26 @@ describe("ServiceClient", function() {
     assert.deepEqual(request!.headers.toJSON(), expected);
   });
 
-  it("responses should not show the _response property when serializing", async function() {
+  it("should call rawResponseCallback with the full response", async function() {
     let request: OperationRequest;
     const client = new ServiceClient({
-      httpsClient: {
+      httpClient: {
         sendRequest: (req) => {
           request = req;
-          return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          return Promise.resolve({
+            request,
+            status: 200,
+            headers: createHttpHeaders({ "X-Extra-Info": "foo" })
+          });
         }
       },
       pipeline: createEmptyPipeline()
     });
 
-    const response = await client.sendOperationRequest(
-      {},
+    let rawResponse: FullOperationResponse | undefined;
+
+    const operationResponse = await client.sendOperationRequest(
+      { options: { onResponse: (response) => (rawResponse = response) } },
       {
         httpMethod: "GET",
         baseUrl: "https://example.com",
@@ -274,8 +286,10 @@ describe("ServiceClient", function() {
     );
 
     assert(request!);
-    // _response should be not enumerable
-    assert.strictEqual(JSON.stringify(response), "{}");
+    assert.strictEqual(JSON.stringify(operationResponse), "{}");
+    assert.strictEqual(rawResponse?.status, 200);
+    assert.strictEqual(rawResponse?.request, request!);
+    assert.strictEqual(rawResponse?.headers.get("X-Extra-Info"), "foo");
   });
 
   it("should serialize collection:csv query parameters", async function() {
@@ -316,7 +330,7 @@ describe("ServiceClient", function() {
 
   it("should deserialize response bodies", async function() {
     let request: OperationRequest;
-    const httpsClient: HttpsClient = {
+    const httpClient: HttpClient = {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({
@@ -331,12 +345,19 @@ describe("ServiceClient", function() {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
     const client1 = new ServiceClient({
-      httpsClient,
+      httpClient,
       pipeline
     });
 
-    const res = await client1.sendOperationRequest(
-      {},
+    let rawResponse: FullOperationResponse | undefined;
+    const res = await client1.sendOperationRequest<Array<number>>(
+      {
+        options: {
+          onResponse: (response) => {
+            rawResponse = response;
+          }
+        }
+      },
       {
         serializer: createSerializer(),
         httpMethod: "GET",
@@ -358,8 +379,200 @@ describe("ServiceClient", function() {
       }
     );
 
-    assert.strictEqual(res._response.status, 200);
+    assert.strictEqual(rawResponse?.status, 200);
     assert.deepStrictEqual(res.slice(), [1, 2, 3]);
+  });
+
+  it("should deserialize array response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Sequence,
+              element: {
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize array response as empty array if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Sequence,
+              element: {
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        }
+      },
+      []
+    );
+  });
+
+  it("should deserialize dictionary response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Dictionary,
+              value: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize dictionary response as empty if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Dictionary,
+              value: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
+      {}
+    );
+  });
+
+  it("should deserialize object response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Composite,
+              modelProperties: {
+                message: {
+                  type: {
+                    name: "String"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize object response as empty if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Composite,
+              modelProperties: {
+                message: {
+                  type: {
+                    name: "String"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {}
+    );
+  });
+
+  it("should deserialize primitive response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
+          }
+        }
+      },
+      {
+        body: null
+      }
+    );
+  });
+
+  it("should deserialize primitive response as undefined if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
+          }
+        }
+      },
+      {
+        body: undefined
+      }
+    );
+  });
+
+  it("should deserialize a head request with no body even if the mapper says the body is nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        requestMethod: "HEAD",
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
+          }
+        }
+      },
+      undefined
+    );
   });
 
   describe("getOperationArgumentValueFromParameter()", () => {
@@ -768,11 +981,10 @@ describe("ServiceClient", function() {
     };
 
     let request: OperationRequest = createPipelineRequest({ url: "https://example.com" });
-    request.additionalInfo = {
-      operationSpec
-    };
+    const operationInfo = getOperationRequestInfo(request);
+    operationInfo.operationSpec = operationSpec;
 
-    const httpsClient: HttpsClient = {
+    const httpClient: HttpClient = {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({
@@ -789,7 +1001,7 @@ describe("ServiceClient", function() {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
     const client = new ServiceClient({
-      httpsClient,
+      httpClient,
       pipeline
     });
 
@@ -799,6 +1011,353 @@ describe("ServiceClient", function() {
     } catch (ex) {
       assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
       assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
+    }
+  });
+
+  it("should deserialize non-streaming default response", async function() {
+    const StorageError: CompositeMapper = {
+      serializedName: "StorageError",
+      type: {
+        name: "Composite",
+        className: "StorageError",
+        modelProperties: {
+          message: {
+            xmlName: "Message",
+            serializedName: "Message",
+            type: {
+              name: "String"
+            }
+          },
+          code: {
+            xmlName: "Code",
+            serializedName: "Code",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+
+    const serializer = createSerializer(undefined, true);
+
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: {
+            serializedName: "parsedResponse",
+            type: {
+              name: "Stream"
+            }
+          }
+        },
+        default: {
+          bodyMapper: StorageError
+        }
+      },
+      baseUrl: "https://example.com",
+      serializer
+    };
+
+    let request: OperationRequest = createPipelineRequest({ url: "https://example.com" });
+    const operationInfo = getOperationRequestInfo(request);
+    operationInfo.operationSpec = operationSpec;
+
+    const httpClient: HttpClient = {
+      sendRequest: (req) => {
+        request = req;
+        return Promise.resolve({
+          request,
+          status: 500,
+          headers: createHttpHeaders({
+            "Content-Type": "application/json"
+          }),
+          bodyAsText: `{ "Code": "BlobNotFound", "Message": "The specified blob does not exist." }`
+        });
+      }
+    };
+
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy());
+    const client = new ServiceClient({
+      httpClient,
+      pipeline
+    });
+
+    try {
+      await client.sendOperationRequest({}, operationSpec);
+      assert.fail();
+    } catch (ex) {
+      assert.strictEqual(ex.code, "BlobNotFound");
+      assert.strictEqual(ex.message, "The specified blob does not exist.");
+    }
+  });
+
+  it("should re-use the common instance of DefaultHttpClient", function() {
+    const client = new ServiceClient();
+    assert.strictEqual((client as any)._httpClient, getCachedDefaultHttpClient());
+  });
+
+  it("should not allow insecure connection by default", async function() {
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {}
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          assert.isFalse(req.allowInsecureConnection);
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        }
+      }
+    });
+    await client.sendOperationRequest({}, operationSpec);
+  });
+
+  it("should allow insecure connection if configured via client options", async function() {
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {}
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      allowInsecureConnection: true,
+      httpClient: {
+        sendRequest: (req) => {
+          assert.isTrue(req.allowInsecureConnection);
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        }
+      }
+    });
+    await client.sendOperationRequest({}, operationSpec);
+  });
+
+  it("should allow insecure connection if configured via request options", async function() {
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {}
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          assert.isTrue(req.allowInsecureConnection);
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        }
+      }
+    });
+    await client.sendOperationRequest(
+      { options: { requestOptions: { allowInsecureConnection: true } } },
+      operationSpec
+    );
+  });
+
+  it("should wrap body when bodyWrapper is specified", async function() {
+    const operationSpec: OperationSpec = {
+      path: "/datetime/invalid",
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: { type: { name: "DateTime" } }
+        }
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          return Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: `"201O-18-90D00:89:56.9AX"`
+          });
+        }
+      }
+    });
+    const response = await client.sendOperationRequest<{ body: Date }>({}, operationSpec);
+    assert.ok(response.body);
+  });
+
+  it("should catch the mandatory parameter missing error", async function() {
+    const operationSpec: OperationSpec = {
+      baseUrl: "http://localhost:3000",
+      path: "/reqopt/required/integer/header",
+      httpMethod: "PUT",
+      responses: {
+        200: {},
+        default: {
+          bodyMapper: {
+            type: {
+              name: "Composite",
+              className: "ErrorModel",
+              modelProperties: {
+                status: {
+                  serializedName: "status",
+                  type: {
+                    name: "Number"
+                  }
+                },
+                message: {
+                  serializedName: "message",
+                  type: {
+                    name: "String"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      headerParameters: [
+        {
+          parameterPath: "accept",
+          mapper: {
+            defaultValue: "application/json",
+            isConstant: true,
+            serializedName: "Accept",
+            type: {
+              name: "String"
+            }
+          }
+        },
+        {
+          parameterPath: "headerParameter",
+          mapper: {
+            serializedName: "headerParameter",
+            required: true,
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      ],
+      serializer: createSerializer()
+    };
+
+    let request: OperationRequest;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+        }
+      },
+      pipeline
+    });
+
+    try {
+      await client.sendOperationRequest(
+        {
+          options: undefined
+        },
+        operationSpec
+      );
+      assert.fail("Expected client to throw");
+    } catch (error) {
+      assert.include(error.message, "cannot be null or undefined");
+    }
+  });
+
+  it("should catch the mandatory parameter missing error in the query", async function() {
+    const operationSpec: OperationSpec = {
+      baseUrl: "http://localhost:3000",
+      path: "/reqopt/global/required/query",
+      httpMethod: "GET",
+      responses: {
+        200: {},
+        default: {
+          bodyMapper: {
+            type: {
+              name: "Composite",
+              className: "ErrorModel",
+              modelProperties: {
+                status: {
+                  serializedName: "status",
+                  type: {
+                    name: "Number"
+                  }
+                },
+                message: {
+                  serializedName: "message",
+                  type: {
+                    name: "String"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      headerParameters: [
+        {
+          parameterPath: "accept",
+          mapper: {
+            defaultValue: "application/json",
+            isConstant: true,
+            serializedName: "Accept",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      ],
+      queryParameters: [
+        {
+          parameterPath: "requiredGlobalQuery",
+          mapper: {
+            serializedName: "required-global-query",
+            required: true,
+            type: {
+              name: "String"
+            }
+          }
+        }
+      ],
+      serializer: createSerializer()
+    };
+
+    let request: OperationRequest;
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+        }
+      },
+      pipeline
+    });
+
+    try {
+      await client.sendOperationRequest(
+        {
+          options: undefined
+        },
+        operationSpec
+      );
+      assert.fail("Expected client to throw");
+    } catch (error) {
+      assert.include(error.message, "cannot be null or undefined");
     }
   });
 });
@@ -811,7 +1370,7 @@ async function testSendOperationRequest(
 ): Promise<void> {
   let request: OperationRequest;
   const client = new ServiceClient({
-    httpsClient: {
+    httpClient: {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });

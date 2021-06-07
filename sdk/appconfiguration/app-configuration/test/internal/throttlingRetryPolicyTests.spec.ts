@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import sinon from "sinon";
@@ -37,7 +37,7 @@ describe("ThrottlingRetryPolicy", () => {
     response: HttpOperationResponse = defaultResponse,
     nextPolicyCreator: (response: HttpOperationResponse) => RequestPolicy = (response) =>
       new PassThroughPolicy(response)
-  ) {
+  ): ThrottlingRetryPolicy {
     return new ThrottlingRetryPolicy(nextPolicyCreator(response), new RequestPolicyOptions());
   }
 

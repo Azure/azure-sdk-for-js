@@ -6,10 +6,9 @@ import {
   GetMessageIteratorOptions,
   MessageHandlers,
   ReceiveMessagesOptions,
-  SubscribeOptions,
-  InternalMessageHandlers
+  SubscribeOptions
 } from "../models";
-import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceivedMessage } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -22,8 +21,8 @@ import {
   throwErrorIfInvalidOperationOnMessage,
   throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
-import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
-import { StreamingReceiverInitArgs, StreamingReceiver } from "../core/streamingReceiver";
+import { ReceiveOptions } from "../core/messageReceiver";
+import { StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
 import {
   abandonMessage,
@@ -31,17 +30,25 @@ import {
   completeMessage,
   deadLetterMessage,
   deferMessage,
-  getMessageIterator,
-  wrapProcessErrorHandler
-} from "./shared";
+  getMessageIterator
+} from "./receiverCommon";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
-import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
+
+/**
+ * The default time to wait for messages _after_ the first message
+ * has been received.
+ *
+ * This timeout only applies to receiveMessages()
+ *
+ * @internal
+ */
+export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;
 
 /**
  * A receiver that does not handle sessions.
@@ -49,8 +56,8 @@ import { translateServiceBusError } from "../serviceBusError";
 export interface ServiceBusReceiver {
   /**
    * Streams messages to message handlers.
-   * @param handlers A handler that gets called for messages and errors.
-   * @param options Options for subscribe.
+   * @param handlers - A handler that gets called for messages and errors.
+   * @param options - Options for subscribe.
    * @returns An object that can be closed, sending any remaining messages to `handlers` and
    * stopping new messages from arriving.
    */
@@ -68,7 +75,7 @@ export interface ServiceBusReceiver {
    * Returns an iterator that can be used to receive messages from Service Bus.
    * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
    *
-   * @param options A set of options to control the receive operation.
+   * @param options - A set of options to control the receive operation.
    * - `maxWaitTimeInMs`: The time to wait to receive the message in each iteration.
    * - `abortSignal`: The signal to use to abort the ongoing operation.
    *
@@ -83,11 +90,11 @@ export interface ServiceBusReceiver {
   /**
    * Returns a promise that resolves to an array of messages received from Service Bus.
    *
-   * @param maxMessageCount The maximum number of messages to receive.
-   * @param options A set of options to control the receive operation.
+   * @param maxMessageCount - The maximum number of messages to receive.
+   * @param options - A set of options to control the receive operation.
    * - `maxWaitTimeInMs`: The maximum time to wait for the first message before returning an empty array if no messages are available.
    * - `abortSignal`: The signal to use to abort the ongoing operation.
-   * @returns Promise<ServiceBusReceivedMessage[]> A promise that resolves with an array of messages.
+   * @returns A promise that resolves with an array of messages.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws `ServiceBusError` if the service returns an error while receiving messages.
@@ -99,11 +106,9 @@ export interface ServiceBusReceiver {
 
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
-   * @param sequenceNumbers The sequence number or an array of sequence numbers for the messages that need to be received.
+   * @param sequenceNumbers - The sequence number or an array of sequence numbers for the messages that need to be received.
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns {Promise<ServiceBusMessage[]>}
-   * - Returns a list of messages identified by the given sequenceNumbers.
-   * - Returns an empty list if no messages are found.
+   * @returns A list of messages identified by the given sequenceNumbers or an empty list if no messages are found.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while receiving deferred messages.
    */
@@ -119,8 +124,8 @@ export interface ServiceBusReceiver {
    * subsequent message.
    * - Unlike a "received" message, "peeked" message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`.
-   * @param maxMessageCount The maximum number of messages to peek.
-   * @param options Options that allow to specify the maximum number of messages to peek,
+   * @param maxMessageCount - The maximum number of messages to peek.
+   * @param options - Options that allow to specify the maximum number of messages to peek,
    * the sequenceNumber to start peeking from or an abortSignal to abort the operation.
    */
   peekMessages(
@@ -136,7 +141,7 @@ export interface ServiceBusReceiver {
    */
   receiveMode: "peekLock" | "receiveAndDelete";
   /**
-   * @property Returns `true` if either the receiver or the client that created it has been closed.
+   * Returns `true` if either the receiver or the client that created it has been closed.
    * @readonly
    */
   isClosed: boolean;
@@ -164,8 +169,6 @@ export interface ServiceBusReceiver {
    * in this mode.
    * @throws Error with name `ServiceUnavailableError` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
-   *
-   * @returns Promise<void>.
    */
   completeMessage(message: ServiceBusReceivedMessage): Promise<void>;
   /**
@@ -188,9 +191,7 @@ export interface ServiceBusReceiver {
    * @throws `ServiceBusError` with the code `ServiceTimeout` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
-   * @param propertiesToModify The properties of the message to modify while abandoning the message.
-   *
-   * @return Promise<void>.
+   * @param propertiesToModify - The properties of the message to modify while abandoning the message.
    */
   abandonMessage(
     message: ServiceBusReceivedMessage,
@@ -216,9 +217,7 @@ export interface ServiceBusReceiver {
    * @throws `ServiceBusError` with the code `ServiceTimeout` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
-   * @param propertiesToModify The properties of the message to modify while deferring the message
-   *
-   * @returns Promise<void>
+   * @param propertiesToModify - The properties of the message to modify while deferring the message
    */
   deferMessage(
     message: ServiceBusReceivedMessage,
@@ -244,10 +243,8 @@ export interface ServiceBusReceiver {
    * @throws `ServiceBusError` with the code `ServiceTimeout` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
-   * @param options The DeadLetter options that can be provided while
+   * @param options - The DeadLetter options that can be provided while
    * rejecting the message.
-   *
-   * @returns Promise<void>
    */
   deadLetterMessage(
     message: ServiceBusReceivedMessage,
@@ -261,7 +258,7 @@ export interface ServiceBusReceiver {
    * before its lock expires, then the message lands back in the Queue/Subscription for the next
    * receive operation.
    *
-   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
+   * @returns New lock token expiry date and time in UTC format.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws ServiceBusError if the service returns an error while renewing message lock.
    */
@@ -270,12 +267,11 @@ export interface ServiceBusReceiver {
 
 /**
  * @internal
- * @ignore
  */
 export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   private _retryOptions: RetryOptions;
   /**
-   * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
+   * Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
 
@@ -290,9 +286,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   private _streamingReceiver?: StreamingReceiver;
   private _lockRenewer: LockRenewer | undefined;
 
-  private _createProcessingSpan: typeof createProcessingSpan;
-
-  private get logPrefix() {
+  private get logPrefix(): string {
     return `[${this._context.connectionId}|receiver:${this.entityPath}]`;
   }
 
@@ -313,7 +307,6 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       maxAutoRenewLockDurationInMs,
       receiveMode
     );
-    this._createProcessingSpan = createProcessingSpan;
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -339,120 +332,6 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return this._isClosed || this._context.wasConnectionCloseCalled;
   }
 
-  /**
-   * Registers handlers to deal with the incoming stream of messages over an AMQP receiver link
-   * from a Queue/Subscription.
-   * To stop receiving messages, call `close()` on the Receiver.
-   *
-   * Throws an error if there is another receive operation in progress on the same receiver. If you
-   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
-   * property on the receiver.
-   *
-   * @param onMessage - Handler for processing each incoming message.
-   * @param onError - Handler for any error that occurs while receiving or processing messages.
-   * @param options - Options to control if messages should be automatically completed, and/or have
-   * their locks automatically renewed. You can control the maximum number of messages that should
-   * be concurrently processed. You can also provide a timeout in milliseconds to denote the
-   * amount of time to wait for a new message before closing the receiver.
-   *
-   * @returns void
-   * @throws Error if the underlying connection or receiver is closed.
-   * @throws Error if current receiver is already in state of receiving messages.
-   * @throws ServiceBusError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
-   */
-  private _registerMessageHandler(
-    onInitialize: () => Promise<void>,
-    onMessage: OnMessage,
-    onError: OnError,
-    options: SubscribeOptions
-  ): void {
-    this._throwIfReceiverOrConnectionClosed();
-    this._throwIfAlreadyReceiving();
-    const connId = this._context.connectionId;
-    throwTypeErrorIfParameterMissing(connId, "onMessage", onMessage);
-    throwTypeErrorIfParameterMissing(connId, "onError", onError);
-    if (typeof onMessage !== "function") {
-      throw new TypeError("The parameter 'onMessage' must be of type 'function'.");
-    }
-    if (typeof onError !== "function") {
-      throw new TypeError("The parameter 'onError' must be of type 'function'.");
-    }
-
-    this._createStreamingReceiver({
-      ...options,
-      receiveMode: this.receiveMode,
-      retryOptions: this._retryOptions,
-      lockRenewer: this._lockRenewer,
-      onError
-    })
-      .then(async (sReceiver) => {
-        if (!sReceiver) {
-          return;
-        }
-        this._streamingReceiver = sReceiver;
-
-        try {
-          await onInitialize();
-        } catch (err) {
-          onError({
-            error: err,
-            errorSource: "receive",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
-          });
-        }
-
-        if (!this.isClosed) {
-          sReceiver.subscribe(onMessage, onError);
-        } else {
-          await sReceiver.close();
-        }
-        return;
-      })
-      .catch((err) => {
-        // TODO: being a bit broad here but the only errors that should filter out this
-        // far are going to be bootstrapping the subscription.
-        onError({
-          error: err,
-          errorSource: "receive",
-          entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host
-        });
-      });
-  }
-
-  private async _createStreamingReceiver(
-    options: StreamingReceiverInitArgs
-  ): Promise<StreamingReceiver> {
-    throwErrorIfConnectionClosed(this._context);
-    if (options.autoCompleteMessages == null) options.autoCompleteMessages = true;
-
-    // When the user "stops" a streaming receiver (via the returned instance from 'subscribe' we just suspend
-    // it, leaving the link open). This allows users to stop the flow of messages but still be able to settle messages
-    // since the link itself hasn't been shut down.
-    //
-    // Users can, if they want, restart their subscription (since we've got a link already established).
-    // So you'll have an instance here if the user has done:
-    // 1. const subscription = receiver.subscribe()
-    // 2. subscription.stop()
-    // 3. receiver.subscribe()
-    this._streamingReceiver =
-      this._streamingReceiver ?? new StreamingReceiver(this._context, this.entityPath, options);
-
-    // this ensures that if the outer service bus client is closed that  this receiver is cleaned up.
-    // this mostly affects us if we're in the middle of init() - the connection (and receiver) are not yet
-    // open but we do need to close the receiver to exit the init() loop.
-    this._context.messageReceivers[this._streamingReceiver.name] = this._streamingReceiver;
-
-    await this._streamingReceiver.init({
-      connectionId: this._context.connectionId,
-      useNewName: false,
-      ...options
-    });
-
-    return this._streamingReceiver;
-  }
-
   async receiveMessages(
     maxMessageCount: number,
     options?: ReceiveMessagesOptions
@@ -475,9 +354,9 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       throw new TypeError(InvalidMaxMessageCountError);
     }
 
-    const receiveMessages = async () => {
+    const receiveMessages = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
-        const options: ReceiveOptions = {
+        const receiveOptions: ReceiveOptions = {
           maxConcurrentCalls: 0,
           receiveMode: this.receiveMode,
           lockRenewer: this._lockRenewer
@@ -485,7 +364,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         this._batchingReceiver = this._createBatchingReceiver(
           this._context,
           this.entityPath,
-          options
+          receiveOptions
         );
       }
 
@@ -536,7 +415,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     const deferredSequenceNumbers = Array.isArray(sequenceNumbers)
       ? sequenceNumbers
       : [sequenceNumbers];
-    const receiveDeferredMessagesOperationPromise = async () => {
+    const receiveDeferredMessagesOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
         .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, undefined, {
@@ -571,9 +450,9 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs
     };
-    const peekOperationPromise = async () => {
+    const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber) {
-        return await this._context
+        return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
             options.fromSequenceNumber,
@@ -582,7 +461,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
             managementRequestOptions
           );
       } else {
-        return await this._context
+        return this._context
           .getManagementClient(this.entityPath)
           .peek(maxMessageCount, managementRequestOptions);
       }
@@ -605,25 +484,45 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     close(): Promise<void>;
   } {
     assertValidMessageHandlers(handlers);
-    options = options ?? {};
+    throwErrorIfConnectionClosed(this._context);
+    this._throwIfReceiverOrConnectionClosed();
+    this._throwIfAlreadyReceiving();
 
-    const processError = wrapProcessErrorHandler(handlers);
+    options = {
+      ...(options ?? {}),
+      autoCompleteMessages: options?.autoCompleteMessages ?? true
+    };
 
-    const internalMessageHandlers = handlers as InternalMessageHandlers;
+    // When the user "stops" a streaming receiver (via the returned instance from 'subscribe' we just suspend
+    // it, leaving the link open). This allows users to stop the flow of messages but still be able to settle messages
+    // since the link itself hasn't been shut down.
+    //
+    // Users can, if they want, restart their subscription (since we've got a link already established).
+    // So you'll have an instance here if the user has done:
+    // 1. const subscription = receiver.subscribe()
+    // 2. subscription.stop()
+    // 3. receiver.subscribe()
 
-    this._registerMessageHandler(
-      async () => {
-        if (internalMessageHandlers?.processInitialize) {
-          await internalMessageHandlers.processInitialize();
-        }
-      },
-      async (message: ServiceBusMessageImpl) => {
-        const span = this._createProcessingSpan(message, this, this._context.config, options);
-        return trace(() => handlers.processMessage(message), span);
-      },
-      processError,
-      options
-    );
+    this._streamingReceiver =
+      this._streamingReceiver ??
+      new StreamingReceiver(this._context, this.entityPath, {
+        ...options,
+        receiveMode: this.receiveMode,
+        retryOptions: this._retryOptions,
+        lockRenewer: this._lockRenewer
+      });
+
+    // this ensures that if the outer service bus client is closed that  this receiver is cleaned up.
+    // this mostly affects us if we're in the middle of init() - the connection (and receiver) are not yet
+    // open but we do need to close the receiver to exit the init() loop.
+    this._context.messageReceivers[this._streamingReceiver.name] = this._streamingReceiver;
+
+    this._streamingReceiver.subscribe(handlers, options).catch((_) => {
+      // (the error will already have been reported to the user)
+      if (this._streamingReceiver) {
+        delete this._context.messageReceivers[this._streamingReceiver.name];
+      }
+    });
 
     return {
       close: async (): Promise<void> => {
@@ -636,7 +535,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return completeMessage(msgImpl, this._context, this.entityPath);
+    return completeMessage(msgImpl, this._context, this.entityPath, this._retryOptions);
   }
 
   async abandonMessage(
@@ -646,7 +545,13 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
+    return abandonMessage(
+      msgImpl,
+      this._context,
+      this.entityPath,
+      propertiesToModify,
+      this._retryOptions
+    );
   }
 
   async deferMessage(
@@ -656,7 +561,13 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
+    return deferMessage(
+      msgImpl,
+      this._context,
+      this.entityPath,
+      propertiesToModify,
+      this._retryOptions
+    );
   }
 
   async deadLetterMessage(
@@ -666,7 +577,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
+    return deadLetterMessage(msgImpl, this._context, this.entityPath, options, this._retryOptions);
   }
 
   async renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
@@ -717,7 +628,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     if (
       this._streamingReceiver &&
       this._streamingReceiver.isOpen() &&
-      this._streamingReceiver.isReceivingMessages
+      this._streamingReceiver.isSubscribeActive
     ) {
       return true;
     }
@@ -757,14 +668,3 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return;
   }
 }
-
-/**
- * The default time to wait for messages _after_ the first message
- * has been received.
- *
- * This timeout only applies to receiveMessages()
- *
- * @internal
- * @ignore
- */
-export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;

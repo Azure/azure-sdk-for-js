@@ -1,6 +1,39 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.3.1 (Unreleased)
+
+
+## 2.3.0 (2021-04-29)
+
+- Updates `AmqpAnnotatedMessage` to identify the AMQP section where body data was decoded from. [PR 14703](https://github.com/Azure/azure-sdk-for-js/pull/14703).
+
+- Adds `CancellableAsyncLock` as an alternative to `AsyncLock` that supports cancellation via the abort signal. [PR 14844](https://github.com/Azure/azure-sdk-for-js/pull/14844).
+
+## 2.2.0 (2021-03-30)
+
+- Updates `translateError` to convert non-object type parameters to errors.
+  The parameter will be part of the error's `message` property unless the parameter is null or undefined.
+  Fixes issue [14499](https://github.com/Azure/azure-sdk-for-js/issues/14499).
+
+- Addresses issue [9988](https://github.com/Azure/azure-sdk-for-js/issues/9988)
+  by updating the following operations to accept an `abortSignal` to allow cancellation:
+  - CbsClient.init()
+  - CbsClient.negotiateClaim()
+  - RequestResponseLink.create()
+- Exporting `StandardAbortMessage` that is the standard error message accompanying the `AbortError`.
+
+## 2.1.0 (2021-02-08)
+
+- Fixes the bug reported in issue [13048](https://github.com/Azure/azure-sdk-for-js/issues/13048).
+  Now an informative error is thrown describing the circumstance that led to the error.
+- Adds the ability to configure the `amqpHostname` and `port` that a `ConnectionContextBase` will use when connecting to a service.
+  The `host` field refers to the DNS host or IP address of the service, whereas the `amqpHostname`
+  is the fully qualified host name of the service. Normally `host` and `amqpHostname` will be the same.
+  However if your network does not allow connecting to the service via the public host,
+  you can specify a custom host (e.g. an application gateway) via the `host` field and continue
+  using the public host as the `amqpHostname`.
+
+## 2.0.1 (2021-01-07)
 
 - Fixes the bug reported in issue [12610](https://github.com/Azure/azure-sdk-for-js/issues/12610).
   Previously, `retry` would still sleep one more time after all retry attempts were exhausted before returning.
@@ -115,7 +148,7 @@ We are cleaning the public API surface by
 - Updated to use the latest version of the `rhea` package.
   This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
 
-## 1.0.0 (2019-01-08)
+## 1.0.0 (2020-01-08)
 
 - This release marks the general availability of the `@azure/core-amqp` package.
 - Improved detection of when an established socket is no longer receiving data from the service.

@@ -4,12 +4,10 @@ import { parsePath } from "./common";
 import { PartitionKey, PartitionKeyDefinition } from "./documents";
 
 /**
- * @ignore
- * @param document
- * @param partitionKeyDefinition
+ * @hidden
  */
 export function extractPartitionKey(
-  document: any,
+  document: unknown,
   partitionKeyDefinition: PartitionKeyDefinition
 ): PartitionKey[] {
   if (
@@ -22,11 +20,12 @@ export function extractPartitionKey(
       const pathParts = parsePath(path);
       let obj = document;
       for (const part of pathParts) {
-        if (!(typeof obj === "object" && part in obj)) {
+        if (typeof obj === "object" && part in obj) {
+          obj = (obj as Record<string, unknown>)[part];
+        } else {
           obj = undefined;
           break;
         }
-        obj = obj[part];
       }
       partitionKey.push(obj);
     });
@@ -37,10 +36,9 @@ export function extractPartitionKey(
   }
 }
 /**
- * @ignore
- * @param partitionKeyDefinition
+ * @hidden
  */
-export function undefinedPartitionKey(partitionKeyDefinition: PartitionKeyDefinition) {
+export function undefinedPartitionKey(partitionKeyDefinition: PartitionKeyDefinition): unknown[] {
   if (partitionKeyDefinition.systemKey === true) {
     return [];
   } else {

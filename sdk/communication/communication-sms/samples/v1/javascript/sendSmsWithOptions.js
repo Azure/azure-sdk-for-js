@@ -1,0 +1,62 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Configure SMS options when sending a message
+ */
+
+const { SmsClient } = require("@azure/communication-sms");
+
+// Load the .env file if it exists
+const dotenv = require("dotenv");
+dotenv.config();
+
+export const main = async () => {
+  console.log("== Send SMS Message With Options ==");
+
+  // You will need to set this environment variable or edit the following values
+  const connectionString =
+    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
+    "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
+
+  // create new client
+  const client = new SmsClient(connectionString);
+
+  // construct send request
+  const sendRequest = {
+    from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
+    to: process.env.TO_PHONE_NUMBERS?.split(",") || [process.env.AZURE_PHONE_NUMBER] || [
+        "<to-phone-number-1>",
+        "<to-phone-number-2>"
+      ],
+    message: "Hello World via SMS!"
+  };
+
+  // construct send options
+  const sendOptions = {
+    //delivery reports are delivered via EventGrid
+    enableDeliveryReport: true,
+    //tags are applied to the delivery report
+    tag: "marketing"
+  };
+
+  // send sms with request and options
+  const sendResults = await client.send(sendRequest, sendOptions);
+
+  // individual messages can encounter errors during sending
+  // use the "successful" property to verify
+  for (const sendResult of sendResults) {
+    if (sendResult.successful) {
+      console.log("Success: ", sendResult);
+    } else {
+      console.error("Something went wrong when trying to send this message: ", sendResult);
+    }
+  }
+
+  console.log("== Done: Send SMS Message With Options ==");
+};
+
+main().catch((error) => {
+  console.error("Encountered an error while sending SMS: ", error);
+  process.exit(1);
+});

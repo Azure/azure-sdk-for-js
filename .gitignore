@@ -90,6 +90,7 @@ TestResults/*
 .vscode/*
 ./**/.vscode/*
 
+
 # Node #
 **/node_modules/
 **/cjs/
@@ -118,6 +119,7 @@ Thumbs.db
 *.cer
 *.pfx
 *.pem
+*.key
 
 # WebStorm #
 .idea/
@@ -145,6 +147,7 @@ sdk/cosmosdb/cosmos/lib
 *.test.js
 *.test.js.map
 *lintReport.html
+tsdoc-metadata.json
 
 # autorest generated files
 swagger/*.json

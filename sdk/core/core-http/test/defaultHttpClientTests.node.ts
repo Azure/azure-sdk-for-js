@@ -14,6 +14,8 @@ import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
 import { PassThrough } from "stream";
 import { ReportTransform, CommonResponse } from "../src/fetchHttpClient";
+import { CompositeMapper, Serializer } from "../src/serializer";
+import { OperationSpec } from "../src/operationSpec";
 
 describe("defaultHttpClient (node)", function() {
   let httpMock: HttpMockFacade;
@@ -95,6 +97,199 @@ describe("defaultHttpClient (node)", function() {
     assert.strictEqual(responseBody, responseContent);
 
     httpMock.teardown();
+  });
+
+  it("should set readableStreamBody for streamming response", async function() {
+    const serializer = new Serializer(undefined, true);
+    const StorageError: CompositeMapper = {
+      serializedName: "StorageError",
+      type: {
+        name: "Composite",
+        className: "StorageError",
+        modelProperties: {
+          message: {
+            xmlName: "Message",
+            serializedName: "Message",
+            type: {
+              name: "String"
+            }
+          },
+          code: {
+            xmlName: "Code",
+            serializedName: "Code",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: {
+            serializedName: "parsedResponse",
+            type: {
+              name: "Stream"
+            }
+          }
+        },
+        default: {
+          bodyMapper: StorageError
+        }
+      },
+      isXML: true,
+      baseUrl: "httpbin.org",
+      serializer
+    };
+    httpMock.get("http://my.fake.domain/non-existing-blob", {
+      status: 200,
+      headers: {
+        "Content-Type": "application/xml",
+        "Content-Length": 215
+      },
+      body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+    });
+    const client = getMockedHttpClient();
+
+    const request = new WebResource("http://my.fake.domain/non-existing-blob");
+    request.operationSpec = operationSpec;
+    request.streamResponseStatusCodes = new Set([200]);
+    const response = await client.sendRequest(request);
+
+    assert.ok(response.readableStreamBody, "Expect stream response body");
+    assert.strictEqual(response.bodyAsText, undefined);
+  });
+
+  it("should not treat non-streaming default response body as stream", async function() {
+    const serializer = new Serializer(undefined, true);
+    const StorageError: CompositeMapper = {
+      serializedName: "StorageError",
+      type: {
+        name: "Composite",
+        className: "StorageError",
+        modelProperties: {
+          message: {
+            xmlName: "Message",
+            serializedName: "Message",
+            type: {
+              name: "String"
+            }
+          },
+          code: {
+            xmlName: "Code",
+            serializedName: "Code",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: {
+            serializedName: "parsedResponse",
+            type: {
+              name: "Stream"
+            }
+          }
+        },
+        default: {
+          bodyMapper: StorageError
+        }
+      },
+      isXML: true,
+      baseUrl: "httpbin.org",
+      serializer
+    };
+    httpMock.get("http://my.fake.domain/non-existing-blob", {
+      status: 404,
+      headers: {
+        "Content-Type": "application/xml",
+        "Content-Length": 215
+      },
+      body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+    });
+    const client = getMockedHttpClient();
+
+    const request = new WebResource("http://my.fake.domain/non-existing-blob");
+    request.operationSpec = operationSpec;
+    request.streamResponseStatusCodes = new Set([200]);
+    const response = await client.sendRequest(request);
+
+    assert.equal(response.readableStreamBody, undefined);
+    assert.strictEqual(
+      response.bodyAsText,
+      `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+    );
+  });
+
+  it("should respect deprecated streamResponseBody", async function() {
+    const serializer = new Serializer(undefined, true);
+    const StorageError: CompositeMapper = {
+      serializedName: "StorageError",
+      type: {
+        name: "Composite",
+        className: "StorageError",
+        modelProperties: {
+          message: {
+            xmlName: "Message",
+            serializedName: "Message",
+            type: {
+              name: "String"
+            }
+          },
+          code: {
+            xmlName: "Code",
+            serializedName: "Code",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: {
+            serializedName: "parsedResponse",
+            type: {
+              name: "Stream"
+            }
+          }
+        },
+        default: {
+          bodyMapper: StorageError
+        }
+      },
+      isXML: true,
+      baseUrl: "httpbin.org",
+      serializer
+    };
+    httpMock.get("http://my.fake.domain/non-existing-blob", {
+      status: 404,
+      headers: {
+        "Content-Type": "application/xml",
+        "Content-Length": 215
+      },
+      body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+    });
+    const client = getMockedHttpClient();
+
+    const request = new WebResource("http://my.fake.domain/non-existing-blob");
+    request.operationSpec = operationSpec;
+    // deprecated streamResponseBody property is still supported.
+    request.streamResponseBody = true;
+    const response = await client.sendRequest(request);
+
+    assert.ok(response.readableStreamBody, "Expect stream response body");
+    assert.strictEqual(response.bodyAsText, undefined);
   });
 
   describe("should report upload and download progress", () => {

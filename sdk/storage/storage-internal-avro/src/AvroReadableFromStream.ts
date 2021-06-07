@@ -42,7 +42,7 @@ export class AvroReadableFromStream extends AvroReadable {
       throw new Error("Stream no longer readable.");
     }
     // See if there is already enough data.
-    let chunk = this._readable.read(size);
+    const chunk = this._readable.read(size);
     if (chunk) {
       this._position += chunk.length;
       // chunk.length maybe less than desired size if the stream ends.
@@ -62,7 +62,7 @@ export class AvroReadableFromStream extends AvroReadable {
         };
 
         const readableCallback = () => {
-          let chunk = this._readable.read(size);
+          const chunk = this._readable.read(size);
           if (chunk) {
             this._position += chunk.length;
             cleanUp();

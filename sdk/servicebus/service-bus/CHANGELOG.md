@@ -1,12 +1,87 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 7.2.0-beta.2 (Unreleased)
 
+### Bug fixes
+
+- ServiceBusSender could throw an error (`TypeError: Cannot read property 'maxMessageSize' of undefined`) if a link was being restarted while calling sendMessages().
+  [PR#15409](https://github.com/Azure/azure-sdk-for-js/pull/15409)
+
+## 7.2.0-beta.1 (2021-05-18)
+
+### New Features
+
+- Enable encoding the body of a message to the 'value' or 'sequence' sections (via AmqpAnnotatedMessage.bodyType). Using this encoding is not required but does allow you to take advantage of native AMQP serialization for supported primitives or sequences.
+
+## 7.1.0 (2021-05-11)
+
+### New Features
+
+- Adds support for passing `NamedKeyCredential` as the credential type to `ServiceBusClient` and `ServiceBusAdminstrationClient`. Also adds support for passing `SASCredential` to `ServiceBusClient`.
+  These credential types support rotation via their `update` methods and are an alternative to using the `SharedAccessKeyName/SharedAccessKey` or `SharedAccessSignature` properties in a connection string.
+  Resolves [#11891](https://github.com/Azure/azure-sdk-for-js/issues/11891).
+
+### Bug fixes
+
+- [Bug Fix] `expiresAtUtc` is `Invalid Date` in the received message when the ttl is not defined. Has been fixed in [#13543](https://github.com/Azure/azure-sdk-for-js/pull/13543)
+- Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug w.r.t the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
+- Settling messages now use the `retryOptions` passed to `ServiceBusClient`, making it more resilient against network failures.
+  [PR#14867](https://github.com/Azure/azure-sdk-for-js/pull/14867)
+- Fixes an issue where receiver link recovery/creation could fail, resulting in a receiver that was no longer receiving messages.
+  [PR#15098](https://github.com/Azure/azure-sdk-for-js/pull/15098)
+
+## 7.0.5 (2021-04-06)
+
+### Bug fixes
+
+- Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug with regards to the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
+
+## 7.0.4 (2021-03-31)
+
+### Bug fixes
+
+- `ServiceBusSessionReceiver.receiveMessages` and `ServiceBusSessionReceiver.subscribe` methods are updated to handle errors on the AMQP connection like a network disconnect in [#13956](https://github.com/Azure/azure-sdk-for-js/pull/13956). Previously, these methods only handled errors on the AMQP link or session.
+
+  - This previously resulted in the promise returned by the `receiveMessages` method never getting fulfilled and the `subscribe` method not calling the user provided error handler.
+  - The `receiveMessages` method will now throw `SessionLockLostError` when used in `peekLock` mode and return messages collected so far when used in `receiveAndDelete` mode to avoid data loss if errors on the AMQP connection are encountered.
+  - When using the `subscribe`, the user provided `processError` callback will now be called with `SessionLockLostError` if errors on the AMQP connection are encountered.
+
+- Allow null as a value for the properties in `ServiceBusMessage.applicationProperties`.
+  Fixes [#14329](https://github.com/Azure/azure-sdk-for-js/issues/14329)
+- Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
+  in `ServiceBusClientOptions`.
+  Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
+
+### Tracing updates
+
+- Tracing options for `ServiceBusMessageBatch.tryAdd` now match the shape of `OperationOptions`.
+
+## 7.0.3 (2021-01-26)
+
+- [Bug Fix] Uncaught error "OperationTimeoutError" thrown inside a setTimeout can potentially cause the program to crash.
+  Fixed in [#13264](https://github.com/Azure/azure-sdk-for-js/pull/13264)
+- [Bug Fix] Response from the `ServiceBusAdministrationClient.getSubscriptionRuntimeProperties()` method had the message count properties to be zero.
+  The bug has been fixed in [#13229](https://github.com/Azure/azure-sdk-for-js/pull/13229)
+- [Bug Fix] Fixed a race condition where the `ServiceBusReceiver.receiveMessages` might lose messages and not return any if triggered right after the recovery from a network disruption.
+  The same race condition could also have led to an OperationTimeout error if attempted the message settlement.
+  [#13374](https://github.com/Azure/azure-sdk-for-js/pull/13374)
+
+## 7.0.2 (2021-01-13)
+
+- [Bug Fix] Receiving messages from sessions in "receiveAndDelete" mode using the `subscribe()` method stops after receiving 2048 of them and leaves the receiver hanging. The bug has been fixed in [PR 13178](https://github.com/Azure/azure-sdk-for-js/pull/13178). Also fixes the same issue that is seen with the `receiveMessages` API when large number of messages are requested or if the API is called in a loop.
+
+## 7.0.1 (2021-01-11)
+
+- Fix the `isNode` check to allow the package to be usable in Electron. [Bug 12983](https://github.com/Azure/azure-sdk-for-js/issues/12983)
+- Fix issue where receiveMessages might return fewer messages than were received, causing them to be potentially locked or lost.
+  [PR 12772](https://github.com/Azure/azure-sdk-for-js/pull/12772)
+  [PR 12908](https://github.com/Azure/azure-sdk-for-js/pull/12908)
+  [PR 13073](https://github.com/Azure/azure-sdk-for-js/pull/13073)
 - Updates documentation for `ServiceBusMessage` to call out that the `body` field
   must be converted to a byte array or `Buffer` when cross-language
   compatibility while receiving events is required.
-- Fix issue where receiveMessages might return fewer messages than were received, causing them to be potentially locked or lost.
-  [PR 12772](https://github.com/Azure/azure-sdk-for-js/pull/12772)
+- [Bug Fix] Correlation Rule Filter with the "label" set using the `createRule()` method doesn't filter the messages to the subscription.
+  The bug has been fixed in [PR 13069](https://github.com/Azure/azure-sdk-for-js/pull/13069), also fixes the related issues where the messages are not filtered when a subset of properties are set in the correlation filter.
 
 ## 7.0.0 (2020-11-23)
 
@@ -105,6 +180,11 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   - as part of this `CreateSessionReceiverOptions` has been renamed to `AcceptSessionReceiverOptions` to conform to guidelines.
 - The `processError` handler passed to `Receiver.subscribe` now takes a `ProcessErrorArgs` instead of just an error.
 
+## 1.1.10 (2020-09-14)
+
+- Fixes [bug 10943](https://github.com/Azure/azure-sdk-for-js/issues/10943) where accessing the address
+  field when timing out could cause a fatal error.
+
 ## 7.0.0-preview.6 (2020-09-10)
 
 ### New features:
@@ -148,6 +228,15 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   - `ServiceBusManagementClientOptions` for `ServiceBusManagementClient` is replaced by `PipelineOptions` from `@azure/core-http`
   - `AuthorizationRule.accessRights` type has been changed to be a string union with the available rights.
 
+## 1.1.9 (2020-08-19)
+
+- Fixes [bug 10641](https://github.com/Azure/azure-sdk-for-js/issues/10641) where parallel requests
+  on the management link would fail with a `ServiceUnavailableError`.
+- Fixes [bug 9287](https://github.com/Azure/azure-sdk-for-js/issues/9287)
+  where operations that used the `RequestResponseLink` and encountered an error
+  would fail to cleanup their internal timer.
+  This caused exiting the process to be delayed until the timer reached its timeout.
+
 ## 7.0.0-preview.5 (2020-08-10)
 
 - User agent details can now be added to the outgoing requests by passing the user-agent prefixes to the `ServiceBusClient` and the `ServiceBusManagementClient` through options.
@@ -178,7 +267,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`, `getQueuesRuntimeInfo()`, etc. and renamed them to use the `list` verb.
   [PR 9951](https://github.com/Azure/azure-sdk-for-js/pull/9951)
   [PR 10223](https://github.com/Azure/azure-sdk-for-js/pull/10223)
-  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/listingEntities.ts)
+  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/listingEntities.ts)
 - `receiveMessages()`'s optional `maxWaitTimeInMs` parameter now controls how long to wait for the _first_
   message, rather than how long to wait for an entire set of messages. This change allows for a faster return
   of messages to your application.
@@ -191,6 +280,12 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   process of closing resulted in a `TypeError` in an uncaught exception.
 
 - The terms `RuntimeInfo` and `Description` are replaced with `RuntimeProperties` and `Properties` to better align with guidelines around the kind of suffixes we use for naming methods and interfaces.
+
+## 1.1.8 (2020-07-15)
+
+- Fixes [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
+  where attempting to create AMQP links when the AMQP connection was in the
+  process of closing resulted in a `TypeError` in an uncaught exception.
 
 ## 7.0.0-preview.4 (2020-07-07)
 
@@ -248,6 +343,19 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - `Receiver/SessionReceiver.browseMessages()` has been renamed to `Receiver/SessionReceiver.peekMessages()`.
   [PR 9280](https://github.com/Azure/azure-sdk-for-js/pull/9280)
 
+## 1.1.7 (2020-05-13)
+
+- Relaxes the scheme check for the endpoint while parsing the connection string.
+  This allows "\<anything\>://" as the scheme as opposed to the "sb://" scheme suggested by the connection string in the portal.
+  Fixes [bug 7907](https://github.com/Azure/azure-sdk-for-js/issues/7907).
+- Provides down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
+  [PR 8515](https://github.com/Azure/azure-sdk-for-js/pull/8515)
+- Updates `@azure/amqp-common` to version 1.0.0-preview.15, fixing an issue with 'OperationTimeoutError's not being considered retryable.
+- Ensures the promise returned by `receiveMessages()` is rejected appropriately when the connection disconnects in the midst of
+  draining credits. This fixes [bug 7689](https://github.com/Azure/azure-sdk-for-js/issues/7689) with [PR 8552](https://github.com/Azure/azure-sdk-for-js/pull/8552)
+- Fixes [bug 8673](https://github.com/Azure/azure-sdk-for-js/issues/8673) where a user application would crash with ECONNRESET error due to the underlying AMQP library
+  `rhea` not cleaning up sockets on connection going idle. Details can be found in [PR amqp/rhea#300](https://github.com/amqp/rhea/pull/300)
+
 ## 7.0.0-preview.2 (2020-05-05)
 
 - Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
@@ -267,6 +375,23 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - Remove rule operations from `ServiceBusClient` in favor of having similar operations via the management apis
   which would apply to queues, topics, subscriptions and rules in the upcoming previews.
   [PR 8660](https://github.com/Azure/azure-sdk-for-js/pull/8660)
+
+## 1.1.6 (2020-04-23)
+
+- Removes the `@azure/ms-rest-nodeauth` dependency.
+  This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/service-bus` without TypeScript compilation errors.
+  Fixes [bug 8041](https://github.com/Azure/azure-sdk-for-js/issues/8041).
+- Fixes for the below bugs when settling a message with [PR 8406](https://github.com/Azure/azure-sdk-for-js/pull/8406)
+  - Not setting user provided deadletter error reason and description when deadlettering a deferred message.
+  - Not setting user provided custom properties when deadlettering a non deferred message.
+  - Not able to settle previously received messages when a receiver recovers from a broken link or connection. Please note that if using sessions, this behavior doesn't change with this release.
+- Fixes an issue where non-retryable errors caused by a connection disconnecting were not getting surfaced to the user's registered error handler
+  when using the `registerMessageHandler` method on a receiver.
+  [PR 8401](https://github.com/Azure/azure-sdk-for-js/pull/8401)
+- Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
+  [PR 8447](https://github.com/Azure/azure-sdk-for-js/pull/8447)
+- Adds a new method `open()` on the sender to allow you to front load the work of setting up the underlying AMQP links. Use this if you want to avoid having your first `send()` operation pay the tax of link set up.
+  [PR 8329](https://github.com/Azure/azure-sdk-for-js/pull/8329). This PR also fixes a bug where a sender recovering from connection loss does not report the error back to the user from ongoing send operations in expected time.
 
 ## 7.0.0-preview.1 (2020-04-07)
 
@@ -370,7 +495,7 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 
 ## 1.0.0-preview.3 (2019-04-24)
 
-- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/useProxy.js)
+- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/javascript/useProxy.js)
   sample to see how you can use Websockets to run this library with a proxy server
 - Standardized error messages on errors thrown on parameter validations
 - We now have API reference docs published for this library. Checkout our README which has been updated with the relevant API reference links.

@@ -21,7 +21,7 @@ export class UserDefinedFunctionResponse extends ResourceResponse<
   /** A reference to the {@link UserDefinedFunction} corresponding to the returned {@link UserDefinedFunctionDefinition}. */
   public readonly userDefinedFunction: UserDefinedFunction;
   /**
-   * Alias for `userDefinedFunction(id).
+   * Alias for `userDefinedFunction(id)`.
    *
    * A reference to the {@link UserDefinedFunction} corresponding to the returned {@link UserDefinedFunctionDefinition}.
    */

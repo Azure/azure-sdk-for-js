@@ -4,6 +4,20 @@ To test this project, make sure to build it by following our [building instructi
 
 You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/test-resources.json) that already has all of the the necessary configurations.
 
+> Some tests require an Azure Managed HSM to run in live mode, as such you'll need to ensure one is deployed to run these tests. To do so you'll want to pass `enableHsm` as an ARM template parameter.
+>
+> As an example:
+>
+> ```powershell
+> New-TestResources.ps1 -ServiceDirectory 'keyvault' -ArmTemplateParameters @{ "enableHsm" = $true }
+> ```
+
+The `New-TestResources` script will ensure that the Managed HSM is activated; however, if you are creating your own Managed HSM there are additional steps required to set up the correct permissions and activate the HSM. Please see [Activate Your Managed HSM](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/README.md#activate-your-managed-hsm) for more information.
+
+> Managed HSMs do have an hourly cost even when not in-use. Please review the [Azure Dedicated HSM Pricing page](https://azure.microsoft.com/pricing/details/azure-dedicated-hsm/#pricing) and clean up the resources when not in use.
+
+Tests that require a managed HSM will be skipped if the `AZURE_MANAGEDHSM_URI` environment variable is not defined in live mode.
+
 The Azure resource that is used by the tests in this project is:
 
 - An [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/general/basic-concepts). Your Azure Active Directory application needs to be added to the Access Policies of the Key Vault. The steps are provided [below](#aad-based-authentication).
@@ -14,7 +28,8 @@ To run the live tests, you will also need to set the below environment variables
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
 - `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
 - `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
-- `KEYVAULT_NAME`: The name of the KeyVault to use.
+- `KEYVAULT_URI`: The URI of the KeyVault to use.
+- `AZURE_MANAGEDHSM_URI`: The URI of the Azure Managed HSM to use in the Managed HSM tests.
 
 The live tests in this project will create, modify and delete [keys](https://docs.microsoft.com/azure/key-vault/keys/about-keys) inside of the provided Azure Key Vault.
 

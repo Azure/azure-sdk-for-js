@@ -392,6 +392,7 @@ export const SparkScheduler: coreHttp.CompositeMapper = {
       },
       cancellationRequestedAt: {
         serializedName: "cancellationRequestedAt",
+        nullable: true,
         type: {
           name: "DateTime"
         }
@@ -1096,18 +1097,21 @@ export const SparkStatementOutput: coreHttp.CompositeMapper = {
       },
       errorName: {
         serializedName: "ename",
+        nullable: true,
         type: {
           name: "String"
         }
       },
       errorValue: {
         serializedName: "evalue",
+        nullable: true,
         type: {
           name: "String"
         }
       },
       traceback: {
         serializedName: "traceback",
+        nullable: true,
         type: {
           name: "Sequence",
           element: {
@@ -1147,7 +1151,7 @@ export const SparkStatementCancellationResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "SparkStatementCancellationResult",
     modelProperties: {
-      msg: {
+      message: {
         serializedName: "msg",
         type: {
           name: "String"

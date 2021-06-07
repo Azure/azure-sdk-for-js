@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { URLBuilder } from "@azure/core-http";
 import * as assert from "assert";
 import { QueueClient, RestError, newPipeline, QueueServiceClient } from "../src";

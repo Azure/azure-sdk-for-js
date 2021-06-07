@@ -1,8 +1,20 @@
 # Release History
 
-## 1.1.4 (Unreleased)
+## 1.3.1 (Unreleased)
 
-- Updated to use OpenTelemetry 0.10.2 via `@azure/core-tracing`
+
+## 1.3.0 (2021-03-30)
+
+- Adds the `AzureNamedKeyCredential` class which supports credential rotation and a corresponding `NamedKeyCredential` interface to support the use of static string-based names and keys in Azure clients.
+- Adds the `isNamedKeyCredential` and `isSASCredential` typeguard functions similar to the existing `isTokenCredential`.
+
+## 1.2.0 (2021-02-08)
+
+- Add `AzureSASCredential` and `SASCredential` for use by service clients which allow authenticiation using a shared access signature.
+
+## 1.1.4 (2021-01-07)
+
+- Removed direct dependency on `@opentelemetry/api` and `@azure/core-tracing`.
 
 ## 1.1.3 (2020-06-30)
 

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { QueueServiceClient } from "../src/QueueServiceClient";
@@ -144,7 +147,7 @@ describe("QueueServiceClient", () => {
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
-    let iter1 = queueServiceClient.listQueues({
+    const iter1 = queueServiceClient.listQueues({
       includeMetadata: true,
       prefix: queueNamePrefix
     });
@@ -214,7 +217,7 @@ describe("QueueServiceClient", () => {
       }
     }
     // Gets next marker
-    let marker = item.continuationToken;
+    const marker = item.continuationToken;
     // Passing next marker as continuationToken
     iter = queueServiceClient
       .listQueues({

@@ -22,7 +22,7 @@ import {
   IndexDocumentsResult
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { deserialize, serialize } from "./serialization";
 import {
   CountDocumentsOptions,
@@ -41,34 +41,36 @@ import {
   DeleteDocumentsOptions,
   SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
-  SearchRequest,
-  SearchIndexingBufferedSenderOptions
+  SearchRequest
 } from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import { encode, decode } from "./base64";
 import * as utils from "./serviceUtils";
-import { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
-import { createSearchIndexingBufferedSender } from "./searchIndexingBufferedSenderImpl";
-
+import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export type SearchClientOptions = PipelineOptions;
+export interface SearchClientOptions extends PipelineOptions {
+  /**
+   * The API version to use when communicating with the service.
+   */
+  apiVersion?: string;
+}
 
 /**
  * Class used to perform operations against a search index,
  * including querying documents in the index as well as
  * adding, updating, and removing them.
  */
-export class SearchClient<T> {
+export class SearchClient<T> implements IndexDocumentsClient<T> {
   /// Maintenance note: when updating supported API versions,
   /// the ContinuationToken logic will need to be updated below.
 
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30";
+  public readonly apiVersion: string = "2020-06-30-Preview";
 
   /**
    * The endpoint of the search service
@@ -82,7 +84,7 @@ export class SearchClient<T> {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated SearchClient
    */
   private readonly client: GeneratedClient;
@@ -100,10 +102,10 @@ export class SearchClient<T> {
    *   new AzureKeyCredential("<Admin Key>");
    * );
    * ```
-   * @param {string} endpoint The endpoint of the search service
-   * @param {string} indexName The name of the index
-   * @param {KeyCredential} credential Used to authenticate requests to the service.
-   * @param {SearchClientOptions} [options] Used to configure the Search client.
+   * @param endpoint - The endpoint of the search service
+   * @param indexName - The name of the index
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the Search client.
    */
   constructor(
     endpoint: string,
@@ -149,12 +151,21 @@ export class SearchClient<T> {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
     }
 
-    this.client = new GeneratedClient(this.apiVersion, this.endpoint, this.indexName, pipeline);
+    let apiVersion = this.apiVersion;
+
+    if (options.apiVersion) {
+      if (!["2020-06-30-Preview", "2020-06-30"].includes(options.apiVersion)) {
+        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
+      }
+      apiVersion = options.apiVersion;
+    }
+
+    this.client = new GeneratedClient(this.endpoint, this.indexName, apiVersion, pipeline);
   }
 
   /**
    * Retrieves the number of documents in the index.
-   * @param options Options to the count operation.
+   * @param options - Options to the count operation.
    */
   public async getDocumentsCount(options: CountDocumentsOptions = {}): Promise<number> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocumentsCount", options);
@@ -165,7 +176,7 @@ export class SearchClient<T> {
       return Number(result._response.bodyAsText);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -177,9 +188,9 @@ export class SearchClient<T> {
   /**
    * Based on a partial searchText from the user, return a list
    * of potential completion strings based on a specified suggester.
-   * @param searchText The search text on which to base autocomplete results.
-   * @param suggesterName The name of the suggester as specified in the suggesters collection that's part of the index definition.
-   * @param options Options to the autocomplete operation.
+   * @param searchText - The search text on which to base autocomplete results.
+   * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
+   * @param options - Options to the autocomplete operation.
    */
   public async autocomplete<Fields extends keyof T>(
     searchText: string,
@@ -213,7 +224,7 @@ export class SearchClient<T> {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -249,7 +260,7 @@ export class SearchClient<T> {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
 
-      const { results, count, coverage, facets, nextLink, nextPageParameters } = result;
+      const { results, count, coverage, facets, answers, nextLink } = result;
 
       const modifiedResults = utils.generatedSearchResultToPublicSearchResult<T>(results);
 
@@ -258,13 +269,14 @@ export class SearchClient<T> {
         count,
         coverage,
         facets,
-        continuationToken: this.encodeContinuationToken(nextLink, nextPageParameters)
+        answers,
+        continuationToken: this.encodeContinuationToken(nextLink, result.nextPageParameters)
       };
 
       return deserialize<SearchDocumentsPageResult<Pick<T, Fields>>>(converted);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -278,7 +290,7 @@ export class SearchClient<T> {
     options: SearchOptions<Fields> = {},
     settings: ListSearchResultsPageSettings = {}
   ): AsyncIterableIterator<SearchDocumentsPageResult<Pick<T, Fields>>> {
-    const decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
+    let decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
     let result = await this.searchDocuments<Fields>(
       searchText,
       options,
@@ -290,7 +302,7 @@ export class SearchClient<T> {
     // Technically, we should also leverage nextLink, but the generated code
     // doesn't support this yet.
     while (result.continuationToken) {
-      const decodedContinuation = this.decodeContinuationToken(result.continuationToken);
+      decodedContinuation = this.decodeContinuationToken(result.continuationToken);
       result = await this.searchDocuments(
         searchText,
         options,
@@ -338,8 +350,8 @@ export class SearchClient<T> {
   /**
    * Performs a search on the current index given
    * the specified arguments.
-   * @param searchText Text to search
-   * @param options Options for the search operation.
+   * @param searchText - Text to search
+   * @param options - Options for the search operation.
    */
   public async search<Fields extends keyof T>(
     searchText?: string,
@@ -350,17 +362,18 @@ export class SearchClient<T> {
     try {
       const pageResult = await this.searchDocuments(searchText, updatedOptions);
 
-      const { count, coverage, facets } = pageResult;
+      const { count, coverage, facets, answers } = pageResult;
 
       return {
         count,
         coverage,
         facets,
+        answers,
         results: this.listSearchResults(pageResult, searchText, updatedOptions)
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -372,9 +385,9 @@ export class SearchClient<T> {
   /**
    * Returns a short list of suggestions based on the searchText
    * and specified suggester.
-   * @param searchText The search text to use to suggest documents. Must be at least 1 character, and no more than 100 characters.
-   * @param suggesterName The name of the suggester as specified in the suggesters collection that's part of the index definition.
-   * @param options Options for the suggest operation
+   * @param searchText - The search text to use to suggest documents. Must be at least 1 character, and no more than 100 characters.
+   * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
+   * @param options - Options for the suggest operation
    */
   public async suggest<Fields extends keyof T = never>(
     searchText: string,
@@ -415,7 +428,7 @@ export class SearchClient<T> {
       return deserialize<SuggestDocumentsResult<Pick<T, Fields>>>(modifiedResult);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -426,8 +439,8 @@ export class SearchClient<T> {
 
   /**
    * Retrieve a particular document from the index by key.
-   * @param key The primary key value of the document
-   * @param options Additional options
+   * @param key - The primary key value of the document
+   * @param options - Additional options
    */
   public async getDocument<Fields extends keyof T>(
     key: string,
@@ -442,7 +455,7 @@ export class SearchClient<T> {
       return deserialize<T>(result.body);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -458,8 +471,8 @@ export class SearchClient<T> {
    * be reflected in the index. If you would like to treat this as an exception,
    * set the `throwOnAnyFailure` option to true.
    * For more details about how merging works, see: https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
-   * @param batch An array of actions to perform on the index.
-   * @param options Additional options.
+   * @param batch - An array of actions to perform on the index.
+   * @param options - Additional options.
    */
   public async indexDocuments(
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -478,7 +491,7 @@ export class SearchClient<T> {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -489,8 +502,8 @@ export class SearchClient<T> {
 
   /**
    * Upload an array of documents to the index.
-   * @param documents The documents to upload.
-   * @param options Additional options.
+   * @param documents - The documents to upload.
+   * @param options - Additional options.
    */
   public async uploadDocuments(
     documents: T[],
@@ -505,7 +518,7 @@ export class SearchClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -517,8 +530,8 @@ export class SearchClient<T> {
   /**
    * Update a set of documents in the index.
    * For more details about how merging works, see https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
-   * @param documents The updated documents.
-   * @param options Additional options.
+   * @param documents - The updated documents.
+   * @param options - Additional options.
    */
   public async mergeDocuments(
     documents: T[],
@@ -533,7 +546,7 @@ export class SearchClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -545,8 +558,8 @@ export class SearchClient<T> {
   /**
    * Update a set of documents in the index or upload them if they don't exist.
    * For more details about how merging works, see https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
-   * @param documents The updated documents.
-   * @param options Additional options.
+   * @param documents - The updated documents.
+   * @param options - Additional options.
    */
   public async mergeOrUploadDocuments(
     documents: T[],
@@ -561,7 +574,7 @@ export class SearchClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -572,8 +585,8 @@ export class SearchClient<T> {
 
   /**
    * Delete a set of documents.
-   * @param documents Documents to be deleted.
-   * @param options Additional options.
+   * @param documents - Documents to be deleted.
+   * @param options - Additional options.
    */
   public async deleteDocuments(
     documents: T[],
@@ -582,9 +595,9 @@ export class SearchClient<T> {
 
   /**
    * Delete a set of documents.
-   * @param keyName The name of their primary key in the index.
-   * @param keyValues The primary key values of documents to delete.
-   * @param options Additional options.
+   * @param keyName - The name of their primary key in the index.
+   * @param keyValues - The primary key values of documents to delete.
+   * @param options - Additional options.
    */
   public async deleteDocuments(
     keyName: keyof T,
@@ -610,25 +623,13 @@ export class SearchClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
     } finally {
       span.end();
     }
-  }
-
-  /**
-   * Gets an instance of SearchIndexingBufferedSender.
-   *
-   * @param options SearchIndexingBufferedSender Options
-   */
-
-  public getSearchIndexingBufferedSenderInstance(
-    options: SearchIndexingBufferedSenderOptions = {}
-  ): SearchIndexingBufferedSender<T> {
-    return createSearchIndexingBufferedSender(this, options);
   }
 
   private encodeContinuationToken(
@@ -675,6 +676,7 @@ export class SearchClient<T> {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   private extractOperationOptions<T extends OperationOptions>(
     obj: T
   ): {

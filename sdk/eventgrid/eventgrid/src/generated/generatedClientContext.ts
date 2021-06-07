@@ -6,37 +6,32 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { ServiceClient } from "@azure/core-client";
 import { GeneratedClientOptionalParams } from "./models";
 
-const packageName = "@azure/eventgrid";
-const packageVersion = "3.0.0-beta.3";
-
-export class GeneratedClientContext extends coreHttp.ServiceClient {
+export class GeneratedClientContext extends ServiceClient {
   apiVersion: string;
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
    * @param options The parameter options
    */
-  constructor(options?: GeneratedClientOptionalParams) {
-    // Initializing default values for options
-    if (!options) {
-      options = {};
-    }
+  constructor(options: GeneratedClientOptionalParams = {}) {
+    const defaults: GeneratedClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const { endpoint, apiVersion, ...restOptions } = options;
 
-    super(undefined, options);
+    const optionsWithDefaults: GeneratedClientOptionalParams = {
+      ...defaults,
+      ...restOptions,
+      baseUri: endpoint || "{topicHostname}"
+    };
 
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "https://{topicHostname}";
+    super(optionsWithDefaults);
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2018-01-01";
+    this.apiVersion = apiVersion || "2018-01-01";
   }
 }

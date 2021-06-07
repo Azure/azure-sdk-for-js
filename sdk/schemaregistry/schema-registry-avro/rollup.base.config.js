@@ -1,4 +1,5 @@
 import cjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import multiEntry from "@rollup/plugin-multi-entry";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
@@ -8,6 +9,7 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 import { terser } from "rollup-plugin-terser";
 import viz from "rollup-plugin-visualizer";
 import inject from "@rollup/plugin-inject";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -40,7 +42,12 @@ export function nodeConfig(test = false) {
         "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
-      cjs()
+      json(),
+      cjs({
+        namedExports: {
+          ...openTelemetryCommonJs()
+        }
+      })
     ]
   };
 
@@ -101,10 +108,11 @@ export function browserConfig(test = false, production = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
+      json(),
       cjs({
         namedExports: {
           chai: ["assert", "expect", "use"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryCommonJs()
         }
       }),
       inject({

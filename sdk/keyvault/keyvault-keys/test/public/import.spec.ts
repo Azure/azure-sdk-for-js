@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 
 import { KeyClient, JsonWebKey } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { getServiceVersion } from "../utils/utils.common";
 
 describe("Keys client - import keys", () => {
   const prefix = `import${env.CERTIFICATE_NAME || "KeyName"}`;
@@ -16,8 +18,8 @@ describe("Keys client - import keys", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
+  beforeEach(async function(this: Context) {
+    const authentication = await authenticate(this, getServiceVersion());
     suffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -30,7 +32,7 @@ describe("Keys client - import keys", () => {
 
   // The tests follow
 
-  it("can import a key", async function() {
+  it("can import a key", async function(this: Context) {
     const keyName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     function toBytes(hex: string): Uint8Array {
       if (hex.length % 2) {

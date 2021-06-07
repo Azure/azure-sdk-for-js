@@ -7,7 +7,10 @@ import GeographyPoint from "../../src/geographyPoint";
 
 describe("geographyPoint", () => {
   it("JSON.stringify", () => {
-    const geoPoint = new GeographyPoint(47.669444, -122.123889);
+    const geoPoint = new GeographyPoint({
+      longitude: -122.123889,
+      latitude: 47.669444
+    });
     const result = JSON.parse(JSON.stringify(geoPoint));
     assert.deepEqual(result, {
       type: "Point",

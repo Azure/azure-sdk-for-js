@@ -1,0 +1,49 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/identities",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
+   "status": 201,
+   "response": "{\"identity\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-10bb-2e7c-5b3a0d000547\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-05-12T18:24:33.5765816+00:00\"}}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/identities",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
+   "status": 201,
+   "response": "{\"identity\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-129f-2e7c-5b3a0d000548\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-05-12T18:24:33.0606174+00:00\"}}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/chat/threads",
+   "query": {
+    "api-version": "2021-04-05-preview6"
+   },
+   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-10bb-2e7c-5b3a0d000547\"}}},{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-129f-2e7c-5b3a0d000548\"}}}]}",
+   "status": 201,
+   "response": "{\"chatThread\":{\"id\":\"19:3VBfD6wcJOmvbsDwk6pz-G49K-cppJh3qreDihMUhCY1@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2021-05-11T18:24:35Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-10bb-2e7c-5b3a0d000547\",\"communicationUser\":{\"id\":\"8:acs:1b5cc06b-f352-4571-b1e6-d9b259b7c776_00000009-fc8e-10bb-2e7c-5b3a0d000547\"}}}}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8",
+    "location": "https://endpoint/chat/threads/19%3A3VBfD6wcJOmvbsDwk6pz-G49K-cppJh3qreDihMUhCY1@thread.v2"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "e855b5b88d976e0d32b1b77a9ce5a3e4"
+}

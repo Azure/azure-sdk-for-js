@@ -79,31 +79,16 @@ export class XhrHttpClient implements HttpClient {
     for (const header of request.headers.headersArray()) {
       xhr.setRequestHeader(header.name, header.value);
     }
-    xhr.responseType = request.streamResponseBody ? "blob" : "text";
+
+    xhr.responseType =
+      request.streamResponseStatusCodes?.size || request.streamResponseBody ? "blob" : "text";
 
     // tslint:disable-next-line:no-null-keyword
     xhr.send(request.body === undefined ? null : request.body);
 
-    if (request.streamResponseBody) {
+    if (xhr.responseType === "blob") {
       return new Promise((resolve, reject) => {
-        xhr.addEventListener("readystatechange", () => {
-          // Resolve as soon as headers are loaded
-          if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
-            // eslint-disable-next-line @typescript-eslint/no-shadow
-            const blobBody = new Promise<Blob>((resolve, reject) => {
-              xhr.addEventListener("load", () => {
-                resolve(xhr.response);
-              });
-              rejectOnTerminalEvent(request, xhr, reject);
-            });
-            resolve({
-              request,
-              status: xhr.status,
-              headers: parseHeaders(xhr),
-              blobBody
-            });
-          }
-        });
+        handleBlobResponse(xhr, request, resolve, reject);
         rejectOnTerminalEvent(request, xhr, reject);
       });
     } else {
@@ -120,6 +105,62 @@ export class XhrHttpClient implements HttpClient {
       });
     }
   }
+}
+
+function handleBlobResponse(
+  xhr: XMLHttpRequest,
+  request: WebResourceLike,
+  res: (value: HttpOperationResponse | PromiseLike<HttpOperationResponse>) => void,
+  rej: (reason?: any) => void
+): void {
+  xhr.addEventListener("readystatechange", () => {
+    // Resolve as soon as headers are loaded
+    if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
+      if (request.streamResponseBody || request.streamResponseStatusCodes?.has(xhr.status)) {
+        const blobBody = new Promise<Blob>((resolve, reject) => {
+          xhr.addEventListener("load", () => {
+            resolve(xhr.response);
+          });
+          rejectOnTerminalEvent(request, xhr, reject);
+        });
+        res({
+          request,
+          status: xhr.status,
+          headers: parseHeaders(xhr),
+          blobBody
+        });
+      } else {
+        xhr.addEventListener("load", () => {
+          // xhr.response is of Blob type if the request is sent with xhr.responseType === "blob"
+          // but the status code is not one of the stream response status codes,
+          // so treat it as text and convert from Blob to text
+          if (xhr.response) {
+            // Blob.text() is not supported in IE so using FileReader instead
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const text = e.target?.result as string;
+              res({
+                request,
+                status: xhr.status,
+                headers: parseHeaders(xhr),
+                bodyAsText: text
+              });
+            };
+            reader.onerror = function(_e) {
+              rej(reader.error);
+            };
+            reader.readAsText(xhr.response, "UTF-8");
+          } else {
+            res({
+              request,
+              status: xhr.status,
+              headers: parseHeaders(xhr)
+            });
+          }
+        });
+      }
+    }
+  });
 }
 
 function addProgressListener(

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient, testEnv } from "./utils/recordedClient";
+import { Context } from "mocha";
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
@@ -18,8 +19,8 @@ import {
 chaiUse(chaiPromises);
 
 const schema: SchemaDescription = {
-  name: "azsdk_js_test_000022",
-  group: "azsdk_js_test_group",
+  name: "azsdk_js_test",
+  group: testEnv.SCHEMA_REGISTRY_GROUP,
   serializationType: "avro",
   content: JSON.stringify({
     type: "record",
@@ -38,13 +39,17 @@ const schema: SchemaDescription = {
   })
 };
 
-function assertIsNotNullUndefinedOrEmpty(x: string | null | undefined): void {
+function assertIsNotNullUndefinedOrEmpty(x: SchemaId | string | null | undefined): asserts x {
   assert.isTrue(x !== undefined, "should not be undefined");
   assert.isNotNull(x);
   assert.isNotEmpty(x);
 }
 
-function assertIsValidSchemaId(schemaId: SchemaId, expectedSerializationType = "avro"): void {
+function assertIsValidSchemaId(
+  schemaId: SchemaId | undefined,
+  expectedSerializationType = "avro"
+): asserts schemaId {
+  assertIsNotNullUndefinedOrEmpty(schemaId);
   assertIsNotNullUndefinedOrEmpty(schemaId.id);
   assertIsNotNullUndefinedOrEmpty(schemaId.location);
   assertIsNotNullUndefinedOrEmpty(schemaId.locationById);
@@ -62,8 +67,7 @@ describe("SchemaRegistryClient", function() {
   let recorder: Recorder;
   let client: SchemaRegistryClient;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(function(this: Context) {
     ({ client, recorder } = createRecordedClient(this));
   });
 
@@ -106,14 +110,6 @@ describe("SchemaRegistryClient", function() {
     const registered = await client.registerSchema(schema);
     assertStatus(registered, 200);
     assertIsValidSchemaId(registered);
-
-    // changing schema content bumps version, generates new id/locations
-    const changed = await client.registerSchema({
-      ...schema,
-      content: schema.content.replace("favoriteNumber", "secondFavoriteNumber")
-    });
-    assertStatus(changed, 200);
-    assertIsValidSchemaId(changed);
   });
 
   it("fails to get schema ID when given invalid args", async () => {
@@ -128,10 +124,7 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema ID when no matching schema exists", async () => {
-    await assert.isRejected(
-      client.getSchemaId({ ...schema, name: "never-registered" }),
-      /never-registered/
-    );
+    assert.isUndefined(await client.getSchemaId({ ...schema, name: "never-registered" }));
   });
 
   it("gets schema ID", async () => {
@@ -151,10 +144,7 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema when no schema exists with given ID", async () => {
-    await assert.isRejected(
-      client.getSchemaById("ffffffffffffffffffffffffffffffff"),
-      /ffffffffffffffffffffffffffffffff/
-    );
+    assert.isUndefined(await client.getSchemaById("ffffffffffffffffffffffffffffffff"));
   });
 
   it("gets schema by ID", async () => {
@@ -163,8 +153,8 @@ describe("SchemaRegistryClient", function() {
     assertIsValidSchemaId(registered);
 
     const found = await client.getSchemaById(registered.id);
-    assertStatus(found, 200);
     assertIsValidSchemaId(found);
+    assertStatus(found, 200);
     assert.equal(found.content, schema.content);
   });
 });

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { CosmosClient, DatabaseDefinition, Database } from "../../../src";
 import { endpoint, masterKey } from "../common/_testConfig";
 import {
@@ -13,14 +14,14 @@ import { DatabaseRequest } from "../../../src";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
   });
 
   describe("Validate Database CRUD", async function() {
-    const databaseCRUDTest = async function() {
+    const databaseCRUDTest = async function(): Promise<void> {
       // read databases
       const { resources: databases } = await client.databases.readAll().fetchAll();
       assert.equal(databases.constructor, Array, "Value should be an array");
@@ -173,7 +174,6 @@ describe("database.create", function() {
     };
     const database = await getTestDatabase("autoscale db", undefined, databaseRequest);
     const { resource: offer } = await database.readOffer();
-    console.log({ offer: offer.content });
     const settings = offer.content.offerAutopilotSettings;
     assert.equal(settings.maxThroughput, maxThroughput);
   });

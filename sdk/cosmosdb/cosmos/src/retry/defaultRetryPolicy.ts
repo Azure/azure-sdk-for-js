@@ -6,84 +6,84 @@ import { TimeoutErrorCode } from "../request/TimeoutError";
 import { RetryPolicy } from "./RetryPolicy";
 
 /**
- * @ignore
+ * @hidden
  */
 // Windows Socket Error Codes
 const WindowsInterruptedFunctionCall = 10004;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsFileHandleNotValid = 10009;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsPermissionDenied = 10013;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsBadAddress = 10014;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsInvalidArgumnet = 10022;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsResourceTemporarilyUnavailable = 10035;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsOperationNowInProgress = 10036;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsAddressAlreadyInUse = 10048;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsConnectionResetByPeer = 10054;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsCannotSendAfterSocketShutdown = 10058;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsConnectionTimedOut = 10060;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsConnectionRefused = 10061;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsNameTooLong = 10063;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsHostIsDown = 10064;
 /**
- * @ignore
+ * @hidden
  */
 const WindowsNoRouteTohost = 10065;
 /**
- * @ignore
+ * @hidden
  */
 
 // Linux Error Codes
 /**
- * @ignore
+ * @hidden
  */
 const LinuxConnectionReset = "ECONNRESET";
 
 // Node Error Codes
 /**
- * @ignore
+ * @hidden
  */
 const BrokenPipe = "EPIPE";
 
 /**
- * @ignore
+ * @hidden
  */
 const CONNECTION_ERROR_CODES = [
   WindowsInterruptedFunctionCall,
@@ -107,9 +107,9 @@ const CONNECTION_ERROR_CODES = [
 ];
 
 /**
- * @ignore
+ * @hidden
  */
-function needsRetry(operationType: OperationType, code: number | string) {
+function needsRetry(operationType: OperationType, code: number | string): boolean {
   if (
     (operationType === OperationType.Read || operationType === OperationType.Query) &&
     CONNECTION_ERROR_CODES.indexOf(code) !== -1
@@ -122,9 +122,7 @@ function needsRetry(operationType: OperationType, code: number | string) {
 
 /**
  * This class implements the default connection retry policy for requests.
- * @property {int} currentRetryAttemptCount           - Current retry attempt count.
  * @hidden
- * @ignore
  */
 export class DefaultRetryPolicy implements RetryPolicy {
   private maxTries: number = 10;
@@ -134,7 +132,7 @@ export class DefaultRetryPolicy implements RetryPolicy {
   constructor(private operationType: OperationType) {}
   /**
    * Determines whether the request should be retried or not.
-   * @param {object} err - Error returned by the request.
+   * @param err - Error returned by the request.
    */
   public async shouldRetry(err: ErrorResponse): Promise<boolean> {
     if (err) {

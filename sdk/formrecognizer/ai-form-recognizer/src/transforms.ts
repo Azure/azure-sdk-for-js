@@ -49,12 +49,20 @@ function toBoundingBox(original: number[]): Point2D[] {
 }
 
 export function toTextLine(original: TextLineModel, pageNumber: number): FormLine {
+  const appearance =
+    original.appearance !== undefined
+      ? {
+          styleName: original.appearance.style.name,
+          styleConfidence: original.appearance.style.confidence
+        }
+      : undefined;
+
   const line: FormLine = {
     kind: "line",
     pageNumber,
     text: original.text,
     boundingBox: toBoundingBox(original.boundingBox),
-    appearance: original.appearance,
+    appearance,
     words: original.words.map((w) => {
       return {
         kind: "word",
@@ -186,7 +194,7 @@ export function toFormPages(
 
 export function toRecognizedFormArray(
   original: GetAnalyzeFormResultResponse,
-  expectedDocType?: string
+  expectedDocTypePrefix?: string
 ): RecognizedFormArray {
   const pages = toFormPages(
     original.analyzeResult?.readResults,
@@ -199,9 +207,9 @@ export function toRecognizedFormArray(
       original.analyzeResult?.documentResults
         ?.filter((d) => !!d.fields)
         ?.map((d) => {
-          if (expectedDocType !== undefined && expectedDocType !== d.docType) {
+          if (expectedDocTypePrefix !== undefined && !d.docType.startsWith(expectedDocTypePrefix)) {
             throw new RangeError(
-              `Expected document type '${expectedDocType}', but found '${d.docType}'.`
+              `Expected document type to start with '${expectedDocTypePrefix}', but found '${d.docType}'.`
             );
           }
           return toRecognizedForm(d, pages);
@@ -225,6 +233,11 @@ export function toFormFieldFromFieldValueModel(
     | FormField[]
     | { [propertyName: string]: FormField }
     | undefined;
+
+  function unreachable(v: never): never {
+    throw new Error(`Encountered unknown field value type: ${v}`);
+  }
+
   switch (original.type) {
     case "string":
       value = original.valueString;
@@ -245,9 +258,7 @@ export function toFormFieldFromFieldValueModel(
       value = original.valuePhoneNumber;
       break;
     case "selectionMark":
-      // TODO: service issue returns `undefined` for valueSelectionMark and
-      // instead returns the value in `text`
-      value = original.text;
+      value = original.valueSelectionMark;
       break;
     case "array":
       value = original.valueArray?.map((fieldValueModel) =>
@@ -259,6 +270,11 @@ export function toFormFieldFromFieldValueModel(
         ? toFieldsFromFieldValue(original.valueObject, readResults)
         : undefined;
       break;
+    case "countryRegion":
+      value = original.valueCountryRegion;
+      break;
+    default:
+      return unreachable(original.type);
   }
   return {
     confidence: original.confidence || 1,

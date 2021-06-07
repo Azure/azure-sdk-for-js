@@ -3,7 +3,7 @@
 
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { RecognizeContentOptions } from "../../formRecognizerClient";
+import { BeginRecognizeContentOptions } from "../../formRecognizerClient";
 import { FormContentType } from "../../common";
 
 import {
@@ -38,7 +38,7 @@ export type RecognizeContentPollerClient = {
   beginRecognize: (
     source: FormRecognizerRequestBody | string,
     contentType?: FormContentType,
-    analyzeOptions?: RecognizeContentOptions
+    analyzeOptions?: BeginRecognizeContentOptions
   ) => Promise<AnalyzeLayoutAsyncResponseModel>;
   // retrieves analyze result
   getRecognizeResult: (
@@ -53,7 +53,7 @@ export interface BeginRecognizeContentPollState extends PollOperationState<FormP
   contentType?: FormContentType;
   resultId?: string;
   status: OperationStatus;
-  readonly analyzeOptions?: RecognizeContentOptions;
+  readonly analyzeOptions?: BeginRecognizeContentOptions;
 }
 
 export interface BeginRecognizeContentPollerOperation
@@ -70,7 +70,7 @@ export type BeginRecognizeContentPollerOptions = {
   resultId?: string;
   onProgress?: (state: BeginRecognizeContentPollState) => void;
   resumeFrom?: string;
-} & RecognizeContentOptions;
+} & BeginRecognizeContentOptions;
 
 /**
  * Class that represents a poller that waits until a model has been trained.
@@ -124,7 +124,6 @@ export class BeginRecognizeContentPoller extends Poller<
 /**
  * Creates a poll operation given the provided state.
  * @internal
- * @hidden
  */
 function makeBeginRecognizePollOperation(
   state: BeginRecognizeContentPollState

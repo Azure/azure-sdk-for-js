@@ -9,6 +9,7 @@ import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
 import json from "@rollup/plugin-json";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 /**
  * @type {import('rollup').RollupFileOptions}
@@ -51,7 +52,11 @@ export function nodeConfig(test = false) {
         "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
-      cjs()
+      cjs({
+        namedExports: {
+          ...openTelemetryCommonJs()
+        }
+      })
     ]
   };
 
@@ -118,9 +123,9 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          chai: ["assert"],
-          assert: ["ok", "equal", "strictEqual", "deepEqual"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          chai: ["assert", "use"],
+          assert: ["ok", "equal", "strictEqual", "deepEqual", "isRejected"],
+          ...openTelemetryCommonJs()
         }
       })
     ]
@@ -133,7 +138,7 @@ export function browserConfig(test = false) {
       json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
     );
     baseConfig.output.file = "dist-test/index.browser.js";
-    // mark fs-extra as external
+
     baseConfig.external = [];
     baseConfig.context = "null";
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
+import { delay, OperationOptions } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { KeyVaultClient } from "../generated/keyVaultClient";
 
@@ -12,7 +12,7 @@ export interface KeyVaultSecretPollerOptions {
   vaultUrl: string;
   client: KeyVaultClient;
   name: string;
-  requestOptions?: RequestOptionsBase;
+  operationOptions?: OperationOptions;
   intervalInMs?: number;
   resumeFrom?: string;
 }

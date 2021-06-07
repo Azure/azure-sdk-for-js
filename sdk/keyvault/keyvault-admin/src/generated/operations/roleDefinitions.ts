@@ -6,29 +6,114 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { RoleDefinitions } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { KeyVaultClient } from "../keyVaultClient";
+import { KeyVaultClientContext } from "../keyVaultClientContext";
 import {
+  RoleDefinitionsDeleteOptionalParams,
+  RoleDefinitionsDeleteResponse,
+  RoleDefinitionCreateParameters,
+  RoleDefinitionsCreateOrUpdateOptionalParams,
+  RoleDefinitionsCreateOrUpdateResponse,
+  RoleDefinitionsGetOptionalParams,
+  RoleDefinitionsGetResponse,
   RoleDefinitionsListOptionalParams,
   RoleDefinitionsListResponse,
   RoleDefinitionsListNextOptionalParams,
   RoleDefinitionsListNextResponse
 } from "../models";
 
-/**
- * Class representing a RoleDefinitions.
- */
-export class RoleDefinitions {
-  private readonly client: KeyVaultClient;
+/** Class representing a RoleDefinitions. */
+export class RoleDefinitionsImpl implements RoleDefinitions {
+  private readonly client: KeyVaultClientContext;
 
   /**
    * Initialize a new instance of the class RoleDefinitions class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultClient) {
+  constructor(client: KeyVaultClientContext) {
     this.client = client;
+  }
+
+  /**
+   * Deletes a custom role definition.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param scope The scope of the role definition to delete. Managed HSM only supports '/'.
+   * @param roleDefinitionName The name (GUID) of the role definition to delete.
+   * @param options The options parameters.
+   */
+  delete(
+    vaultBaseUrl: string,
+    scope: string,
+    roleDefinitionName: string,
+    options?: RoleDefinitionsDeleteOptionalParams
+  ): Promise<RoleDefinitionsDeleteResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      scope,
+      roleDefinitionName,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      deleteOperationSpec
+    ) as Promise<RoleDefinitionsDeleteResponse>;
+  }
+
+  /**
+   * Creates or updates a custom role definition.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param scope The scope of the role definition to create or update. Managed HSM only supports '/'.
+   * @param roleDefinitionName The name of the role definition to create or update. It can be any valid
+   *                           GUID.
+   * @param parameters Parameters for the role definition.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    vaultBaseUrl: string,
+    scope: string,
+    roleDefinitionName: string,
+    parameters: RoleDefinitionCreateParameters,
+    options?: RoleDefinitionsCreateOrUpdateOptionalParams
+  ): Promise<RoleDefinitionsCreateOrUpdateResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      scope,
+      roleDefinitionName,
+      parameters,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      createOrUpdateOperationSpec
+    ) as Promise<RoleDefinitionsCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Get the specified role definition.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param scope The scope of the role definition to get. Managed HSM only supports '/'.
+   * @param roleDefinitionName The name of the role definition to get.
+   * @param options The options parameters.
+   */
+  get(
+    vaultBaseUrl: string,
+    scope: string,
+    roleDefinitionName: string,
+    options?: RoleDefinitionsGetOptionalParams
+  ): Promise<RoleDefinitionsGetResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      scope,
+      roleDefinitionName,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getOperationSpec
+    ) as Promise<RoleDefinitionsGetResponse>;
   }
 
   /**
@@ -42,11 +127,13 @@ export class RoleDefinitions {
     scope: string,
     options?: RoleDefinitionsListOptionalParams
   ): Promise<RoleDefinitionsListResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      scope,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { vaultBaseUrl, scope, options: operationOptions },
+      operationArguments,
       listOperationSpec
     ) as Promise<RoleDefinitionsListResponse>;
   }
@@ -64,19 +151,86 @@ export class RoleDefinitions {
     nextLink: string,
     options?: RoleDefinitionsListNextOptionalParams
   ): Promise<RoleDefinitionsListNextResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      scope,
+      nextLink,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { vaultBaseUrl, scope, nextLink, options: operationOptions },
+      operationArguments,
       listNextOperationSpec
     ) as Promise<RoleDefinitionsListNextResponse>;
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
+const deleteOperationSpec: coreHttp.OperationSpec = {
+  path:
+    "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleDefinition
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.scope,
+    Parameters.roleDefinitionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
+  path:
+    "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}",
+  httpMethod: "PUT",
+  responses: {
+    201: {
+      bodyMapper: Mappers.RoleDefinition
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.scope,
+    Parameters.roleDefinitionName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getOperationSpec: coreHttp.OperationSpec = {
+  path:
+    "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleDefinition
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.scope,
+    Parameters.roleDefinitionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listOperationSpec: coreHttp.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Authorization/roleDefinitions",
   httpMethod: "GET",
@@ -88,8 +242,9 @@ const listOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyVaultError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.scope],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreHttp.OperationSpec = {
@@ -103,11 +258,12 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyVaultError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.vaultBaseUrl,
     Parameters.scope,
     Parameters.nextLink
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };

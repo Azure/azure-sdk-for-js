@@ -8,70 +8,69 @@
 # Catch all
 /sdk/ @ramya-rao-a
 
-# Core
 # PRLabel: %Azure.Core
-/sdk/core/abort-controller/ @chradek @xirzec @bterlson
+/sdk/core/ @xirzec @chradek @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+/sdk/core/core-amqp/ @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Azure.Core
-/sdk/core/core-auth/ @daviwil @xirzec @bterlson
+/sdk/core/core-auth/ @sadasant @xirzec @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng
+/sdk/core/core-client-rest/ @xirzec @chradek @joheredi @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-lro/ @sadasant @xirzec @bterlson
-
-# PRLabel: %Azure.Core
-/sdk/core/core-paging/ @daviwil @xirzec @bterlson
-
-# PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @bterlson @chradek
-
-# PRLabel: %Azure.Core
-/sdk/core/logger @xirzec @bterlson @chradek
+/sdk/core/core-tracing/ @xirzec @chradek @richardpark-msft @maorleger
 
 # Service teams
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @richardpark-msft @chradek
+/sdk/appconfiguration/ @richardpark-msft @chradek @HarshaNalluru
+
+# PRLabel: %Attestation
+/sdk/attestation/ @LarryOsterman @deyaaeldeen
 
 # PRLabel: %Batch
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
 # PRLabel: %Communication
-/sdk/communication/ @RezaJooyandeh @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
+/sdk/communication/ @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
+
+# PRLabel: %Container Registry
+/sdk/containerregistry/ @jeremymeng
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster
 
 # PRLabel: %Digital Twins
-/sdk/digitaltwins/ @zolvarga
+/sdk/digitaltwins/ @vishnureddy17
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/ @ramya-rao-a @ellismg
+/sdk/eventgrid/ @xirzec @ellismg
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
-
-# PRLabel: %Service Bus
-/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+/sdk/eventhub/ @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
+/sdk/identity/ @sadasant @witemple-msft @schaabs
+
+# PRLabel: %Iot
+/sdk/iot/ @YoDaMa @xirzec
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @jonathandturner @sadasant
+/sdk/keyvault/ @maorleger @sadasant 
+
+# PRLabel: %Service Bus
+/sdk/servicebus/ @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Storage
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
+/sdk/storage/ @XiaoningLiu @jeremymeng @vinjiang @jiacfan @ljian3377 @EmmaZhu
 
 # PRLabel: %Synapse
-/sdk/synapse/ @jonathandturner
+/sdk/synapse/ @joheredi
 
 # PRLabel: %Tables
-/sdk/tables/ @mahdiva @joheredi
+/sdk/tables/ @joheredi
 
 # PRLabel: %EngSys
 /sdk/template/ @Azure/azure-sdk-eng
@@ -79,10 +78,10 @@
 /sdk/test-utils/ @HarshaNalluru @sadasant
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @deyaaeldeen @xirzec @willmtemple
+/sdk/textanalytics/ @deyaaeldeen @witemple-msft
 
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/ @jeremymeng @willmtemple
+/sdk/formrecognizer/ @jeremymeng @witemple-msft
 
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @jeremymeng @KarishmaGhiya
@@ -100,29 +99,38 @@
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec
+/sdk/**/review/*api.md @bterlson @xirzec @chradek
 
 # Management Plane
 # PRLabel: %Mgmt
 /sdk/**/arm-*/ @qiaozha
 
 # PRLabel: %Monitor
-/sdk/monitor/ @markwolff @xirzec @applicationinsights-js-owners
+/sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
+/sdk/monitor/monitor-query @richardpark-msft @maorleger
+
+###########
+# Tools
+###########
+
+# PRLabel: %dev-tool
+/common/tools/dev-tool/ @witemple-msft
 
 ###########
 # Eng Sys
 ###########
 /eng/   @weshaggard @praveenkuttappan @mikeharder @mitchdenny @danieljurek
-/**/tests.yml   @danieljurek
+/**/tests.yml   @benbp
 /**/ci.yml      @mitchdenny
 
 ###########
 # Config
 ###########
 /.vscode/ @mikeharder @praveenkuttappan @deyaaeldeen
-/common/ @mikeharder @praveenkuttappan
-/common/config/rush/pnpm-lock.yaml @bterlson
-/common/git-hooks/ @deyaaeldeen
+/common/ @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
+/common/smoke-test @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen @benbp
+
 /rush.json @mikeharder @praveenkuttappan
-/tsconfig.json @mikeharder @praveenkuttappan
-/**/tsconfig.json @bterlson
+/tsconfig.json @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
+/**/tsconfig.json @witemple-msft @deyaaeldeen
+/.scripts/ @mikeharder @praveenkuttappan @KarishmaGhiya

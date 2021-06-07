@@ -39,15 +39,13 @@ async function main(argv) {
 
   const rushSpec = await packageUtils.getRushSpec(repoRoot);
   const targetPackage = rushSpec.projects.find(
-    packageSpec => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName
+    (packageSpec) => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName
   );
 
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
-  const packageJsonContents = await packageUtils.readFileJson(
-    packageJsonLocation
-  );
+  const packageJsonContents = await packageUtils.readFileJson(packageJsonLocation);
 
   const oldVersion = packageJsonContents.version;
   const newVersion = incrementVersion(packageJsonContents.version);
@@ -64,12 +62,15 @@ async function main(argv) {
   };
   await packageUtils.writePackageJson(packageJsonLocation, updatedPackageJson);
 
-  await versionUtils.updatePackageConstants(
+  await versionUtils.updatePackageConstants(targetPackagePath, packageJsonContents, newVersion);
+  const updateStatus = versionUtils.updateChangelog(
     targetPackagePath,
-    packageJsonContents,
-    newVersion
+    artifactName,
+    repoRoot,
+    newVersion,
+    true,
+    false
   );
-  const updateStatus = versionUtils.updateChangelog(targetPackagePath, repoRoot, newVersion, true, false);
   if (!updateStatus) {
     process.exit(1);
   }

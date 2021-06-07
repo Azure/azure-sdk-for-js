@@ -1,5 +1,58 @@
 # Release History
 
+## 3.11.4 (Unreleased)
+
+
+## 3.11.3 (2021-05-21)
+
+- BUGFIX: Sanitize user endpoint URLs for AAD DataPlane RBAC token generation.
+
+## 3.11.2 (2021-05-11)
+
+- BUGFIX: Cache https client between requests.
+
+## 3.11.1 (2021-05-06)
+
+- BUGFIX: Import URL from Browser/Node shim rather than built-in module.
+
+## 3.11.0 (2021-04-21)
+
+- FEATURE: Internal client update. No user facing changes, but major version bump to be safe.
+
+## 3.10.6 (2021-04-14)
+
+- BUGFIX: Adds partitionKey parameter to `container.conflicts.delete`
+
+## 3.10.5 (2021-03-25)
+
+- BUGFIX: Pins node-abort-controller version as we depend on a type in v1.2.0.
+
+## 3.10.4 (2021-03-23)
+
+- FEATURE: Adds Bulk continueOnError option.
+
+## 3.10.3 (2021-03-12)
+
+- BUGFIX: Removes direct dependency on @azure/identity while retaining compatibility.
+
+## 3.10.2 (2021-03-11)
+
+- BUGFIX: Fixes @azure/identity dependency in dev deps.
+
+## 3.10.1 (2021-03-10)
+
+- BUGFIX: Autogenerates IDs for Upsert operations in bulk.
+
+## 3.10.0 (2021-01-21)
+
+- FEATURE: Adds AAD authentication via @azure/identity.
+
+## 3.9.5 (2021-01-18)
+
+- BUGFIX: Throws correct Invalid Continuation Token error when making request with malformed token
+- BUGFIX: Defaults partitionKeyValue to `'[{}]'` when missing in Read/Delete bulk operations
+- BUGFIX: Sums group by operations for cross-partition queries correctly with null values.
+
 ## 3.9.3 (2020-10-19)
 
 - BUGFIX: Fixes bulk operations with top level partitionKey values that are undefined or null.
@@ -464,11 +517,11 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Enable noUnusedLocals and noUnusedParameters (#275)
 - Azure Pipelines YAML for CI builds (#298)
 
-## 2.0.1
+## 2.0.1 (2018-09-25)
 
 - Fix type issue (See #141)
 
-## 2.0.0
+## 2.0.0 (2018-09-24)
 
 - Multi-region Write support
 - Shared resource response properties added to responses
@@ -476,7 +529,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Modified items.query to allow for cross partition query
 - Misc fixes/doc updates
 
-## 2.0.0-3
+## 2.0.0-3 (2018-08-02)
 
 - New object model
 - Updated documentation and samples
@@ -485,18 +538,18 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Added prettier
 - Added public CI (Travis and VSTS)
 
-## 2.0.0-0
+## 2.0.0-0 (2018-08-01)
 
 - Added Promise support
 - Added token handler option for auth
 - typings now emitted from source (moved source to TypeScript)
 - Added CosmosClient (DocumentClient now considered deprecated)
 
-## 1.14.4
+## 1.14.4 (2018-05-03)
 
 - npm documentation fixed.
 
-## 1.14.3
+## 1.14.3 (2018-05-03)
 
 - Added support for default retries on connection issues.
 - Added support to read collection change feed.
@@ -504,44 +557,44 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Added support for query metrics.
 - Modified http Agent's maximum number of connections.
 
-## 1.14.2
+## 1.14.2 (2017-12-21)
 
 - Updated documentation to use Azure Cosmos DB.
 - Added Support for proxyUrl setting in ConnectionPolicy.
 
-## 1.14.1
+## 1.14.1 (2017-11-10)
 
 - Minor fix for case sensitive file systems.
 
-## 1.14.0
+## 1.14.0 (2017-11-09)
 
 - Adds support for Session Consistency.
 - This SDK version requires the latest version of Azure Cosmos DB Emulator available for download from https://aka.ms/cosmosdb-emulator.
 
-## 1.13.0
+## 1.13.0 (2017-10-11)
 
 - Splitproofed cross partition queries.
 - Adds supports for resource link with leading and trailing slashes (and corresponding tests).
 
-## 1.12.2
+## 1.12.2 (2017-08-10)
 
 - npm documentation fixed.
 
-## 1.12.1
+## 1.12.1 (2017-08-10)
 
 - Fixed bug in executeStoredProcedure where documents involved had special unicode characters (LS, PS).
 - Fixed bug in handling documents with unicode characters in partition key.
 - Fixed support for creating collection with name media (github #114).
 - Fixed support for permission authorization token (github #178).
 
-## 1.12.0
+## 1.12.0 (2017-05-10)
 
 - Added support for Request Unit per Minute (RU/m) feature.
 - Added support for a new consistency level called ConsistentPrefix.
 - Added support for UriFactory.
 - Fixed the unicode support bug (github #171)
 
-## 1.11.0
+## 1.11.0 (2017-03-16)
 
 - Added the support for aggregation queries (COUNT, MIN, MAX, SUM, and AVG).
 - Added the option for controlling degree of parallelism for cross partition queries.
@@ -550,22 +603,22 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Fixed the continuation token bug for single partition collection (github #107).
 - Fixed the executeStoredProcedure bug in handling 0 as single param (github #155).
 
-## 1.10.2
+## 1.10.2 (2017-01-27)
 
 - Fixed user-agent header to include the SDK version.
 - Minor code cleanup.
 
-## 1.10.1
+## 1.10.1 (2016-12-22)
 
 - Disabling SSL verification when using the SDK to target the emulator(hostname=localhost).
 - Added support for enabling script logging during stored procedure execution.
 
-## 1.10.0
+## 1.10.0 (2016-10-03)
 
 - Added support for cross partition parallel queries.
 - Added support for TOP/ORDER BY queries for partitioned collections.
 
-## 1.9.0
+## 1.9.0 (2016-07-07)
 
 - Added retry policy support for throttled requests. (Throttled requests receive a request rate too large exception, error code 429.)
   By default, DocumentClient retries nine times for each request when error code 429 is encountered, honoring the retryAfter time in the response header.
@@ -577,87 +630,87 @@ Not always the most visible changes, but they help our team ship better code, fa
 
 - The RetryOptions class was added, exposing the RetryOptions property on the ConnectionPolicy class that can be used to override some of the default retry options.
 
-## 1.8.0
+## 1.8.0 (2016-06-14)
 
 - Added the support for geo-replicated database accounts.
 
-## 1.7.0
+## 1.7.0 (2016-04-26)
 
 - Added the support for TimeToLive(TTL) feature for documents.
 
-## 1.6.0
+## 1.6.0 (2016-03-29)
 
 - Added support for Partitioned Collections.
 - Added support for new offer types.
 
-## 1.5.6
+## 1.5.6 (2016-03-08)
 
 - Fixed RangePartitionResolver.resolveForRead bug where it was not returning links due to a bad concat of results.
 - Move compareFunction from Range class to RangePartitionResolver class.
 
-## 1.5.5
+## 1.5.5 (2016-02-02)
 
 - Fixed hashParitionResolver resolveForRead(): When no partition key supplied was throwing exception, instead of returning a list of all registered links.
 
-## 1.5.4
+## 1.5.4 (2016-02-01)
 
 - Dedicated HTTPS Agent: Avoid modifying the global. Use a dedicated agent for all of the lib’s requests.
 
-## 1.5.3
+## 1.5.3 (2016-01-26)
 
 - Properly handle dashes in the mediaIds.
 
-## 1.5.2
+## 1.5.2 (2016-01-22)
 
 - Fix memory leak.
 
-## 1.5.1
+## 1.5.1 (2016-01-04)
 
 - Renamed "Hash" directory to "hash".
 
-## 1.5.0
+## 1.5.0 (2015-12-31)
 
 - Added client-side sharding support.
 - Added hash partition resolver implementation.
 - Added range partitoin resolver implementation.
 
-## 1.4.0
+## 1.4.0 (2015-10-06)
 
 - Implement Upsert. New upsertXXX methods on documentClient.
 
-## 1.3.0
+## 1.3.0 (2015-10-06)
 
 - Skipped to bring version numbers in alignment with other SDKs.
 
-## 1.2.2
+## 1.2.2 (2015-09-10)
 
 - Split Q promises wrapper to new repository.
 - Update to package file for npm registry.
 
-## 1.2.1
+## 1.2.1 (2015-08-15)
 
 - Implements ID Based Routing.
 - Fixes Issue [#49](https://github.com/Azure/azure-documentdb-node/issues/49) - current property conflicts with method current().
 
-## 1.2.0
+## 1.2.0 (2015-08-05)
 
 - Added support for GeoSpatial index.
 - Validates id property for all resources. Ids for resources cannot contain ?, /, #, \\, characters or end with a space.
 - Adds new header "index transformation progress" to ResourceResponse.
 
-## 1.1.0
+## 1.1.0 (2015-07-09)
 
 - Implements V2 indexing policy.
 
-## 1.0.3
+## 1.0.3 (2015-06-04)
 
 - Issue [#40](https://github.com/Azure/azure-documentdb-node/issues/40) - Implemented eslint and grunt configurations in the core and promise SDK.
 
-## 1.0.2
+## 1.0.2 (2015-05-23)
 
 - Issue [#45](https://github.com/Azure/azure-documentdb-node/issues/45) - Promises wrapper does not include header with error.
 
-## 1.0.1
+## 1.0.1 (2015-05-15)
 
 - Implemented ability to query for conflicts by adding readConflicts, readConflictAsync, queryConflicts.
 - Updated API documentation.
@@ -726,7 +779,7 @@ Any request to Cosmos DB using a retired SDK will be rejected by the service.
 | [1.5.6](#1.5.6)          | March 08, 2016     | August 30, 2020 |
 | [1.5.5](#1.5.5)          | February 02, 2016  | August 30, 2020 |
 | [1.5.4](#1.5.4)          | February 01, 2016  | August 30, 2020 |
-| [1.5.2](#1.5.2)          | January 26, 2016   | August 30, 2020 |
+| [1.5.3](#1.5.2)          | January 26, 2016   | August 30, 2020 |
 | [1.5.2](#1.5.2)          | January 22, 2016   | August 30, 2020 |
 | [1.5.1](#1.5.1)          | January 4, 2016    | August 30, 2020 |
 | [1.5.0](#1.5.0)          | December 31, 2015  | August 30, 2020 |

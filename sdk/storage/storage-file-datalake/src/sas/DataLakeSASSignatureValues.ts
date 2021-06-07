@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
 import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential";
 import { DataLakeSASPermissions } from "./DataLakeSASPermissions";
@@ -15,41 +15,26 @@ import { DirectorySASPermissions } from "./DirectorySASPermissions";
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * DataLakeSASSignatureValues is used to help generating Blob and DataLake service SAS tokens for containers, blobs, filesystem, directories and files.
- *
- * @export
- * @class DataLakeSASSignatureValues
  */
 export interface DataLakeSASSignatureValues {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   version?: string;
 
   /**
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
-   *
-   * @type {SASProtocol}
-   * @memberof DataLakeSASSignatureValues
    */
   protocol?: SASProtocol;
 
   /**
    * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof DataLakeSASSignatureValues
    */
   startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
-   *
-   * @type {Date}
-   * @memberof DataLakeSASSignatureValues
    */
   expiresOn?: Date;
 
@@ -57,33 +42,21 @@ export interface DataLakeSASSignatureValues {
    * Optional only when identifier is provided.
    * Please refer to {@link FileSystemSASPermissions}, {@link DirectorySASPermissions} or {@link DataLakeSASPermissions} depending on the resource
    * being accessed for help constructing the permissions string.
-   *
-   * @type {DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions}
-   * @memberof DataLakeSASSignatureValues
    */
   permissions?: DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
-   *
-   * @type {SasIPRange}
-   * @memberof DataLakeSASSignatureValues
    */
   ipRange?: SasIPRange;
 
   /**
    * The name of the file system the SAS user may access.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   fileSystemName: string;
 
   /**
    * Optional. The path name of the directory or file SAS user may access. Required if snapshotTime is provided.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   pathName?: string;
 
@@ -91,18 +64,12 @@ export interface DataLakeSASSignatureValues {
    * Optional. Beginning in version 2020-02-10, this value defines whether or not the {@link pathName} is a directory.
    * If this value is set to true, the Path is a Directory for a Directory SAS. If set to false or default, the Path
    * is a File Path for a File Path SAS.
-   *
-   * @type {boolean}
-   * @memberof DataLakeSASSignatureValues
    */
   isDirectory?: boolean;
 
   /**
    * Optional. Beginning in version 2020-02-10, indicate the depth of the directory specified in the canonicalizedresource field of the string-to-sign.
    * The depth of the directory is the number of directories beneath the root folder.
-   *
-   * @type {number}
-   * @memberof DataLakeSASSignatureValues
    */
   directoryDepth?: number;
 
@@ -112,9 +79,6 @@ export interface DataLakeSASSignatureValues {
    * ensure that the owner of the user delegation key has the required permissions before granting access but no additional permission
    * check for the user specified in this value will be performed. This cannot be used in conjuction with {@link agentObjectId}.
    * This is only used for User Delegation SAS.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   preauthorizedAgentObjectId?: string;
 
@@ -123,26 +87,17 @@ export interface DataLakeSASSignatureValues {
    * to be unauthorized by the owner of the user delegation key. The Azure Storage Service will perform an additional POSIX ACL check to determine
    * if the user is authorized to perform the requested operation. This cannot be used in conjuction with {@link preauthorizedAgentObjectId}.
    * This is only used for User Delegation SAS.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   agentObjectId?: string;
 
   /**
    * Optional. Beginning in version 2020-02-10, this is a GUID value that will be logged in the storage diagnostic logs and can be used to
    * correlate SAS generation with storage resource access. This is only used for User Delegation SAS.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   correlationId?: string;
 
   /**
    * Optional. Snapshot timestamp string the SAS user may access. Only supported from API version 2018-11-09.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   snapshotTime?: string;
 
@@ -150,49 +105,31 @@ export interface DataLakeSASSignatureValues {
    * Optional. The name of the access policy on the file system this SAS references if any.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   identifier?: string;
 
   /**
    * Optional. The cache-control header for the SAS.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   cacheControl?: string;
 
   /**
    * Optional. The content-disposition header for the SAS.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   contentDisposition?: string;
 
   /**
    * Optional. The content-encoding header for the SAS.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   contentEncoding?: string;
 
   /**
    * Optional. The content-language header for the SAS.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   contentLanguage?: string;
 
   /**
    * Optional. The content-type header for the SAS.
-   *
-   * @type {string}
-   * @memberof DataLakeSASSignatureValues
    */
   contentType?: string;
 }
@@ -249,10 +186,8 @@ export interface DataLakeSASSignatureValues {
  * ).toString();
  * ```
  *
- * @export
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param sharedKeyCredential -
  */
 export function generateDataLakeSASQueryParameters(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
@@ -276,18 +211,16 @@ export function generateDataLakeSASQueryParameters(
  *     expiresOn, // Required. Date type
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
  *     protocol: SASProtocol.HttpsAndHttp, // Optional
- *     version: "2018-11-09" // Must >= 2018-11-09 to generate user delegation SAS
+ *     version: "2018-11-09" // Must greater than or equal to 2018-11-09 to generate user delegation SAS
  *   },
  *   userDelegationKey, // UserDelegationKey
  *   accountName
  * ).toString();
  * ```
  *
- * @export
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {UserDelegationKey} userDelegationKey Return value of `blobServiceClient.getUserDelegationKey()`
- * @param {string} accountName
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+ * @param accountName -
  */
 export function generateDataLakeSASQueryParameters(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
@@ -374,9 +307,8 @@ export function generateDataLakeSASQueryParameters(
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param sharedKeyCredential -
  */
 function generateBlobSASQueryParameters20150405(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
@@ -384,8 +316,7 @@ function generateBlobSASQueryParameters20150405(
 ): SASQueryParameters {
   if (
     !dataLakeSASSignatureValues.identifier &&
-    !dataLakeSASSignatureValues.permissions &&
-    !dataLakeSASSignatureValues.expiresOn
+    !(dataLakeSASSignatureValues.permissions && dataLakeSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for DataLake SAS generation when 'identifier' is not provided."
@@ -395,20 +326,24 @@ function generateBlobSASQueryParameters20150405(
   const version = dataLakeSASSignatureValues.version
     ? dataLakeSASSignatureValues.version
     : SERVICE_VERSION;
-  let resource: string = "c";
-  let verifiedPermissions: string | undefined;
+
   dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
     dataLakeSASSignatureValues,
     version
   );
 
+  let resource: string = "c";
+  if (dataLakeSASSignatureValues.pathName) {
+    resource = "b";
+  }
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
   if (dataLakeSASSignatureValues.permissions) {
     if (dataLakeSASSignatureValues.pathName) {
       verifiedPermissions = DataLakeSASPermissions.parse(
         dataLakeSASSignatureValues.permissions.toString()
       ).toString();
-      resource = "b";
     } else {
       verifiedPermissions = FileSystemSASPermissions.parse(
         dataLakeSASSignatureValues.permissions.toString()
@@ -478,9 +413,8 @@ function generateBlobSASQueryParameters20150405(
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param sharedKeyCredential -
  */
 function generateBlobSASQueryParameters20181109(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
@@ -488,8 +422,7 @@ function generateBlobSASQueryParameters20181109(
 ): SASQueryParameters {
   if (
     !dataLakeSASSignatureValues.identifier &&
-    !dataLakeSASSignatureValues.permissions &&
-    !dataLakeSASSignatureValues.expiresOn
+    !(dataLakeSASSignatureValues.permissions && dataLakeSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided."
@@ -499,30 +432,36 @@ function generateBlobSASQueryParameters20181109(
   const version = dataLakeSASSignatureValues.version
     ? dataLakeSASSignatureValues.version
     : SERVICE_VERSION;
-  let resource: string = "c";
-  let verifiedPermissions: string | undefined;
 
   dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
     dataLakeSASSignatureValues,
     version
   );
 
+  let resource: string = "c";
+  if (dataLakeSASSignatureValues.pathName) {
+    if (dataLakeSASSignatureValues.isDirectory) {
+      resource = "d";
+    } else {
+      resource = "b";
+      if (dataLakeSASSignatureValues.snapshotTime) {
+        resource = "bs";
+      }
+    }
+  }
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
   if (dataLakeSASSignatureValues.permissions) {
     if (dataLakeSASSignatureValues.pathName) {
       if (dataLakeSASSignatureValues.isDirectory) {
         verifiedPermissions = DirectorySASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "d";
       } else {
         verifiedPermissions = DataLakeSASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "b";
-        if (dataLakeSASSignatureValues.snapshotTime) {
-          resource = "bs";
-        }
       }
     } else {
       verifiedPermissions = FileSystemSASPermissions.parse(
@@ -595,9 +534,8 @@ function generateBlobSASQueryParameters20181109(
  *
  * WARNING: identifier will be ignored, permissions and expiresOn are required.
  *
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {UserDelegationKeyCredential} userDelegationKeyCredential
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param userDelegationKeyCredential -
  */
 function generateBlobSASQueryParametersUDK20181109(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
@@ -612,29 +550,35 @@ function generateBlobSASQueryParametersUDK20181109(
   const version = dataLakeSASSignatureValues.version
     ? dataLakeSASSignatureValues.version
     : SERVICE_VERSION;
-  let resource: string = "c";
-  let verifiedPermissions: string | undefined;
   dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
     dataLakeSASSignatureValues,
     version
   );
 
+  let resource: string = "c";
+  if (dataLakeSASSignatureValues.pathName) {
+    if (dataLakeSASSignatureValues.isDirectory) {
+      resource = "d";
+    } else {
+      resource = "b";
+      if (dataLakeSASSignatureValues.snapshotTime) {
+        resource = "bs";
+      }
+    }
+  }
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
   if (dataLakeSASSignatureValues.permissions) {
     if (dataLakeSASSignatureValues.pathName) {
       if (dataLakeSASSignatureValues.isDirectory) {
         verifiedPermissions = DirectorySASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "d";
       } else {
         verifiedPermissions = DataLakeSASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "b";
-        if (dataLakeSASSignatureValues.snapshotTime) {
-          resource = "bs";
-        }
       }
     } else {
       verifiedPermissions = FileSystemSASPermissions.parse(
@@ -717,9 +661,8 @@ function generateBlobSASQueryParametersUDK20181109(
  *
  * WARNING: identifier will be ignored, permissions and expiresOn are required.
  *
- * @param {DataLakeSASSignatureValues} dataLakeSASSignatureValues
- * @param {UserDelegationKeyCredential} userDelegationKeyCredential
- * @returns {SASQueryParameters}
+ * @param dataLakeSASSignatureValues -
+ * @param userDelegationKeyCredential -
  */
 function generateBlobSASQueryParametersUDK20200210(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
@@ -734,29 +677,35 @@ function generateBlobSASQueryParametersUDK20200210(
   const version = dataLakeSASSignatureValues.version
     ? dataLakeSASSignatureValues.version
     : SERVICE_VERSION;
-  let resource: string = "c";
-  let verifiedPermissions: string | undefined;
   dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
     dataLakeSASSignatureValues,
     version
   );
 
+  let resource: string = "c";
+  if (dataLakeSASSignatureValues.pathName) {
+    if (dataLakeSASSignatureValues.isDirectory) {
+      resource = "d";
+    } else {
+      resource = "b";
+      if (dataLakeSASSignatureValues.snapshotTime) {
+        resource = "bs";
+      }
+    }
+  }
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
   if (dataLakeSASSignatureValues.permissions) {
     if (dataLakeSASSignatureValues.pathName) {
       if (dataLakeSASSignatureValues.isDirectory) {
         verifiedPermissions = DirectorySASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "d";
       } else {
         verifiedPermissions = DataLakeSASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "b";
-        if (dataLakeSASSignatureValues.snapshotTime) {
-          resource = "bs";
-        }
       }
     } else {
       verifiedPermissions = FileSystemSASPermissions.parse(

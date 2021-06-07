@@ -7,8 +7,10 @@ import {
   HttpMethods,
   PipelineResponse,
   TransferProgressEvent,
-  PipelineRequest
-} from "@azure/core-https";
+  PipelineRequest,
+  PipelineOptions,
+  HttpClient
+} from "@azure/core-rest-pipeline";
 
 /**
  * Default key used to access the XML attributes.
@@ -50,10 +52,9 @@ export type RequiredSerializerOptions = {
 };
 
 /**
- * This interface extends a generic `PipelineRequest` to include
- * additional metadata about the request.
+ * A type alias for future proofing.
  */
-export type OperationRequest = PipelineRequest<OperationRequestInfo>;
+export type OperationRequest = PipelineRequest;
 
 /**
  * Metadata that is used to properly parse a response.
@@ -105,6 +106,13 @@ export interface OperationOptions {
    * Options to override serialization/de-serialization behavior.
    */
   serializerOptions?: SerializerOptions;
+
+  /**
+   * A function to be called each time a response is received from the server
+   * while performing the requested operation.
+   * May be called multiple times.
+   */
+  onResponse?: RawResponseCallback;
 }
 
 /**
@@ -112,7 +120,7 @@ export interface OperationOptions {
  */
 export interface OperationRequestOptions {
   /**
-   * @property {object} [customHeaders] User defined custom request headers that
+   * User defined custom request headers that
    * will be applied before the request is sent.
    */
   customHeaders?: { [key: string]: string };
@@ -131,11 +139,17 @@ export interface OperationRequestOptions {
    * Callback which fires upon download progress.
    */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
   /**
    * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
    * HttpOperationResponse should be deserialized.
    */
   shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
+
+  /**
+   * Set to true if the request is sent over HTTP instead of HTTPS
+   */
+  allowInsecureConnection?: boolean;
 }
 
 /**
@@ -333,17 +347,14 @@ export interface FullOperationResponse extends PipelineResponse {
 }
 
 /**
- * The processed and flattened response to an operation call.
- * Contains merged properties of the parsed body and headers.
+ * A function to be called each time a response is received from the server
+ * while performing the requested operation.
+ * May be called multiple times.
  */
-export interface OperationResponse {
-  /**
-   * The underlying HTTP response containing both raw and deserialized response data.
-   */
-  _response: FullOperationResponse;
-
-  [key: string]: any;
-}
+export type RawResponseCallback = (
+  rawResponse: FullOperationResponse,
+  flatResponse: unknown
+) => void;
 
 /**
  * Used to map raw response objects to final shapes.
@@ -533,4 +544,14 @@ export interface SpanConfig {
    * Service namespace
    */
   namespace: string;
+}
+
+/**
+ * The common set of options that high level clients are expected to expose.
+ */
+export interface CommonClientOptions extends PipelineOptions {
+  /**
+   * The HttpClient that will be used to send HTTP requests.
+   */
+  httpClient?: HttpClient;
 }

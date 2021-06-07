@@ -26,17 +26,20 @@ export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {
 
 // @public
 export interface DeletedSecret {
+    deletedOn?: Date;
     name: string;
     properties: SecretProperties & {
         recoveryId?: string;
         scheduledPurgeDate?: Date;
         deletedOn?: Date;
     };
+    recoveryId?: string;
+    scheduledPurgeDate?: Date;
     value?: string;
 }
 
 // @public
-export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
+export type DeletionRecoveryLevel = string;
 
 // @public
 export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {
@@ -55,11 +58,22 @@ export interface KeyVaultSecret {
 }
 
 // @public
-export interface KeyVaultSecretId {
+export interface KeyVaultSecretIdentifier {
     name: string;
     sourceId: string;
     vaultUrl: string;
     version?: string;
+}
+
+// @public
+export const enum KnownDeletionRecoveryLevel {
+    CustomizedRecoverable = "CustomizedRecoverable",
+    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
+    Purgeable = "Purgeable",
+    Recoverable = "Recoverable",
+    RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
+    RecoverablePurgeable = "Recoverable+Purgeable"
 }
 
 // @public
@@ -82,7 +96,7 @@ export { PagedAsyncIterableIterator }
 export { PageSettings }
 
 // @public
-export function parseKeyVaultSecretId(id: string): KeyVaultSecretId;
+export function parseKeyVaultSecretIdentifier(id: string): KeyVaultSecretIdentifier;
 
 export { PipelineOptions }
 
@@ -118,7 +132,7 @@ export class SecretClient {
 
 // @public
 export interface SecretClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1";
+    serviceVersion?: "7.0" | "7.1" | "7.2";
 }
 
 // @public
@@ -129,12 +143,14 @@ export interface SecretPollerOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface SecretProperties {
+    readonly certificateKeyId?: string;
     contentType?: string;
     readonly createdOn?: Date;
     enabled?: boolean;
     readonly expiresOn?: Date;
     id?: string;
-    readonly keyId?: URL;
+    // @deprecated
+    readonly keyId?: never;
     readonly managed?: boolean;
     name: string;
     readonly notBefore?: Date;

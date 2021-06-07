@@ -14,11 +14,13 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 # openapi v2 in PR
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/3cbc984fcf0fab278b9c28175319f65db1b9162a/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7efe0ae6a89c93a915c85af1e2f871501adac0c9/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200626.1"
+  "@autorest/typescript": "6.0.0-dev.20210223.1"
+disable-async-iterators: true
+hide-clients: true
 ```
 
 ## Customizations for Track 2 Generator
@@ -648,5 +650,41 @@ directive:
             "nextLinkName": null
           }
         }
+      }
+```
+
+### Make Sealed enums
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties
+    transform: >
+      if($) {
+          let props = Object.keys($);
+          for(let i = 0; i < props.length; i++) {
+              
+              if ($[props[i]] &&  $[props[i]]["x-ms-enum"]) {
+                  $[props[i]]["x-ms-enum"].modelAsString = false;
+              } else if ($[props[i]] && $[props[i]]["enum"]) {
+                $[props[i]]["x-ms-enum"] = {modelAsString: false, name: props[i] }
+              }
+          }
+      }
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths..get.parameters
+    transform: >
+      if($) {
+          for(let i = 0; i < $.length; i++) {
+              if ($[i] &&  $[i]["x-ms-enum"]) {
+                  $[i]["x-ms-enum"].modelAsString = false;
+              } else if ($[i] && $[i]["enum"]) {
+                $[i]["x-ms-enum"] = {modelAsString: false, name: props[i] }
+              }
+          }
       }
 ```

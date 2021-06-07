@@ -4,7 +4,12 @@
 /// <reference lib="dom"/>
 import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
 
-// tslint:disable-next-line:no-null-keyword
+if (!document || !DOMParser || !Node || !XMLSerializer) {
+  throw new Error(
+    `This library depends on the following DOM objects: ["document", "DOMParser", "Node", "XMLSerializer"] to parse XML, but some of these are undefined. You may provide a polyfill to make these globally available in order to support your environment. For more information, please refer to https://aka.ms/azsdk/js/web-workers. `
+  );
+}
+
 const doc = document.implementation.createDocument(null, null, null);
 
 const parser = new DOMParser();
@@ -31,19 +36,30 @@ export function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
   }
 }
 
-let errorNS = "";
-try {
-  errorNS = parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
-    .namespaceURI!;
-} catch (ignored) {
-  // Most browsers will return a document containing <parsererror>, but IE will throw.
+let errorNS: string | undefined;
+
+function getErrorNamespace(): string {
+  if (errorNS === undefined) {
+    try {
+      errorNS =
+        parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
+          .namespaceURI! ?? "";
+    } catch (ignored) {
+      // Most browsers will return a document containing <parsererror>, but IE will throw.
+      errorNS = "";
+    }
+  }
+
+  return errorNS;
 }
 
 function throwIfError(dom: Document): void {
-  if (errorNS) {
-    const parserErrors = dom.getElementsByTagNameNS(errorNS, "parsererror");
-    if (parserErrors.length) {
-      throw new Error(parserErrors.item(0)!.innerHTML);
+  const parserErrors = dom.getElementsByTagName("parsererror");
+  if (parserErrors.length > 0 && getErrorNamespace()) {
+    for (let i = 0; i < parserErrors.length; i++) {
+      if (parserErrors[i].namespaceURI === errorNS) {
+        throw new Error(parserErrors[i].innerHTML);
+      }
     }
   }
 }
@@ -113,7 +129,7 @@ function domToObject(node: Node, options: Required<XmlOptions>): any {
 
 const serializer = new XMLSerializer();
 
-export function stringifyXML(content: any, opts: XmlOptions = {}): string {
+export function stringifyXML(content: unknown, opts: XmlOptions = {}): string {
   const updatedOptions: Required<XmlOptions> = {
     rootName: opts.rootName ?? "root",
     includeRoot: opts.includeRoot ?? false,

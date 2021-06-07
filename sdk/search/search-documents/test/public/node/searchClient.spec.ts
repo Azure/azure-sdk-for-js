@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable no-invalid-this */
-
 import { assert } from "chai";
+import { Context } from "mocha";
+import { Suite } from "mocha";
 
 import { Recorder, record, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 
@@ -12,7 +12,9 @@ import {
   SearchClient,
   SearchIndexClient,
   AutocompleteResult,
-  IndexDocumentsBatch
+  IndexDocumentsBatch,
+  KnownSpeller,
+  KnownQueryLanguage
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createIndex, populateIndex, WAIT_TIME, createRandomIndexName } from "../utils/setup";
@@ -20,14 +22,14 @@ import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test1";
 
-describe("SearchClient", function() {
+describe("SearchClient", function(this: Suite) {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;
 
   this.timeout(99999);
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
       await createIndex(indexClient, TEST_INDEX_NAME);
@@ -250,5 +252,27 @@ describe("SearchClient", function() {
     assert.equal(getDocumentResult.description, "Modified Description");
     const documentCount = await searchClient.getDocumentsCount();
     assert.equal(documentCount, 11);
+  });
+
+  it("search with speller", async function() {
+    const searchResults = await searchClient.search("budjet", {
+      skip: 0,
+      top: 5,
+      includeTotalCount: true,
+      queryLanguage: KnownQueryLanguage.EnUs,
+      speller: KnownSpeller.Lexicon
+    });
+    assert.equal(searchResults.count, 6);
+  });
+
+  it("search with semantic ranking", async function() {
+    const searchResults = await searchClient.search("luxury", {
+      skip: 0,
+      top: 5,
+      includeTotalCount: true,
+      queryLanguage: KnownQueryLanguage.EnUs,
+      queryType: "semantic"
+    });
+    assert.equal(searchResults.count, 1);
   });
 });

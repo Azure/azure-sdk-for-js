@@ -6,14 +6,14 @@ import {
   CertificateContentType,
   CertificateOperation,
   CertificateIssuer,
-  CertificateKeyType,
   CertificatePolicy,
   CertificateProperties,
   DeletedCertificate,
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
   SubjectAlternativeNames,
-  CertificateContact
+  CertificateContact,
+  CertificateOperationError
 } from "./certificatesModels";
 import {
   CertificateAttributes,
@@ -26,9 +26,11 @@ import {
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
   X509CertificateProperties,
   CertificateOperation as CoreCertificateOperation,
-  Contacts as CoreContacts
+  Contacts as CoreContacts,
+  JsonWebKeyType as CertificateKeyType,
+  ErrorModel
 } from "./generated/models";
-import { parseKeyVaultCertificateId } from "./identifier";
+import { parseKeyVaultCertificateIdentifier } from "./identifier";
 
 export function toCoreAttributes(properties: CertificateProperties): CertificateAttributes {
   return {
@@ -161,7 +163,7 @@ export function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificateP
 }
 
 export function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
-  const parsedId = parseKeyVaultCertificateId(issuer.id!);
+  const parsedId = parseKeyVaultCertificateIdentifier(issuer.id!);
   const attributes: IssuerAttributes = issuer.attributes || {};
 
   const publicIssuer: CertificateIssuer = {
@@ -192,7 +194,7 @@ export function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
 export function getCertificateFromCertificateBundle(
   certificateBundle: CertificateBundle
 ): KeyVaultCertificate {
-  const parsedId = parseKeyVaultCertificateId(certificateBundle.id!);
+  const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
 
   const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
@@ -224,7 +226,7 @@ export function getCertificateFromCertificateBundle(
 export function getCertificateWithPolicyFromCertificateBundle(
   certificateBundle: CertificateBundle
 ): KeyVaultCertificateWithPolicy {
-  const parsedId = parseKeyVaultCertificateId(certificateBundle.id!);
+  const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
 
   const attributes: CertificateAttributes = certificateBundle.attributes || {};
   const policy = toPublicPolicy(certificateBundle.policy || {});
@@ -277,7 +279,7 @@ export function getDeletedCertificateFromDeletedCertificateBundle(
 }
 
 export function getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {
-  const parsedId = parseKeyVaultCertificateId(item.id!);
+  const parsedId = parseKeyVaultCertificateIdentifier(item.id!);
 
   const attributes: any = item.attributes || {};
 
@@ -307,6 +309,19 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
   };
 }
 
+function getCertificateOperationErrorFromErrorModel(
+  error?: ErrorModel | null
+): CertificateOperationError | undefined {
+  if (error) {
+    return {
+      code: error.code,
+      innerError: getCertificateOperationErrorFromErrorModel(error.innerError),
+      message: error.message
+    };
+  }
+  return undefined;
+}
+
 export function getCertificateOperationFromCoreOperation(
   certificateName: string,
   vaultUrl: string,
@@ -323,7 +338,7 @@ export function getCertificateOperationFromCoreOperation(
       ? operation.issuerParameters.certificateType
       : undefined,
     csr: operation.csr,
-    error: operation.error,
+    error: getCertificateOperationErrorFromErrorModel(operation.error),
     id: operation.id,
     requestId: operation.requestId,
     status: operation.status,
@@ -344,7 +359,7 @@ export function coreContactsToCertificateContacts(contacts: CoreContacts): Certi
 export function getPropertiesFromCertificateBundle(
   certificateBundle: CertificateBundle
 ): CertificateProperties {
-  const parsedId = parseKeyVaultCertificateId(certificateBundle.id!);
+  const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
   const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
   const abstractProperties: CertificateProperties = {

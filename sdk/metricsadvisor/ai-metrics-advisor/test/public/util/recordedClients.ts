@@ -4,12 +4,19 @@
 import { Context } from "mocha";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-
+import { ClientSecretCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient
 } from "../../../src";
+import * as dotenv from "dotenv";
+import { isNode } from "@azure/core-http";
+
+if (isNode) {
+  dotenv.config();
+}
 
 export interface RecordedAdminClient {
   client: MetricsAdvisorAdministrationClient;
@@ -43,7 +50,9 @@ const replaceableVariables: { [k: string]: string } = {
   METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID: "26ece682-80a6-4415-89a2-05903dd9a640",
   METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_INCIDENT_ID:
     "045f03a31628d5938cd75cfdecfff045-17465dcc000",
-  METRICS_ADVISOR_AZURE_SQLSERVER_INCIDENT_ID: "045f03a31628d5938cd75cfdecfff045-17465dcc000"
+  METRICS_ADVISOR_AZURE_SQLSERVER_INCIDENT_ID: "045f03a31628d5938cd75cfdecfff045-17465dcc000",
+  METRICS_EVENTHUB_CONNECTION_STRING: "eventhub-connection-string",
+  METRICS_EVENTHUB_CONSUMER_GROUP: "consumer-group"
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
@@ -73,7 +82,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export function createRecordedAdminClient(
   context: Context,
-  apiKey: MetricsAdvisorKeyCredential
+  apiKey: TokenCredential | MetricsAdvisorKeyCredential
 ): RecordedAdminClient {
   const recorder = record(context, environmentSetup);
   return {
@@ -84,11 +93,27 @@ export function createRecordedAdminClient(
 
 export function createRecordedAdvisorClient(
   context: Context,
-  apiKey: MetricsAdvisorKeyCredential
+  apiKey: TokenCredential | MetricsAdvisorKeyCredential
 ): RecordedAdvisorClient {
   const recorder = record(context, environmentSetup);
   return {
     client: new MetricsAdvisorClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey),
     recorder
   };
+}
+
+/**
+ * Returns an appropriate credential depending on the value of `useAad`.
+ */
+export function makeCredential(useAad: boolean): TokenCredential | MetricsAdvisorKeyCredential {
+  return useAad
+    ? new ClientSecretCredential(
+        testEnv.AZURE_TENANT_ID,
+        testEnv.AZURE_CLIENT_ID,
+        testEnv.AZURE_CLIENT_SECRET
+      )
+    : new MetricsAdvisorKeyCredential(
+        testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
+        testEnv.METRICS_ADVISOR_API_KEY
+      );
 }

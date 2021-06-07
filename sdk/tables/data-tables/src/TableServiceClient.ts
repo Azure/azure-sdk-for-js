@@ -6,43 +6,45 @@ import { Service } from "./generated/operations";
 import { Table } from "./generated/operations";
 import {
   ListTableItemsOptions,
-  CreateTableOptions,
-  ListTableItemsResponse,
-  CreateTableItemResponse,
   TableServiceClientOptions,
-  TableQueryOptions
+  TableQueryOptions,
+  TableItem
 } from "./models";
 import {
-  GetStatisticsOptions,
   GetStatisticsResponse,
-  GetPropertiesOptions,
   GetPropertiesResponse,
   SetPropertiesOptions,
   ServiceProperties,
-  SetPropertiesResponse,
-  DeleteTableOptions,
-  DeleteTableResponse,
-  GetAccessPolicyOptions,
-  GetAccessPolicyResponse,
-  SetAccessPolicyResponse,
-  SetAccessPolicyOptions,
-  TableResponseProperties
+  SetPropertiesResponse
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
-import { createPipelineFromOptions, InternalPipelineOptions } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
+import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
+import { parseXML, stringifyXML } from "@azure/core-xml";
+import { ListTableItemsResponse } from "./utils/internalModels";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
  * to perform operations on the tables and the entities.
  */
 export class TableServiceClient {
+  /**
+   * Table Account URL
+   */
+  public url: string;
+  /**
+   * Represents a pipeline for making a HTTP request to a URL.
+   * Pipelines can have multiple policies to manage manipulating each request before and after it is made to the server.
+   */
+  public pipeline: Pipeline;
   private table: Table;
   private service: Service;
 
@@ -52,14 +54,15 @@ export class TableServiceClient {
    * @param url - The URL of the service account that is the target of the desired operation., such as
    *              "https://myaccount.table.core.windows.net". You can append a SAS,
    *              such as "https://myaccount.table.core.windows.net?sasString".
-   * @param credential - TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
+   * @param credential - NamedKeyCredential used to authenticate requests. Only Supported for Node
    * @param options - Options to configure the HTTP pipeline.
    *
    * Example using an account name/key:
    *
    * ```js
+   * const { AzureNamedKeyCredential, TableServiceClient } = require("@azure/data-tables")
    * const account = "<storage account name>"
-   * const sharedKeyCredential = new TablesSharedKeyCredential(account, "<account key>");
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, "<account key>");
    *
    * const tableServiceClient = new TableServiceClient(
    *   `https://${account}.table.core.windows.net`,
@@ -67,11 +70,7 @@ export class TableServiceClient {
    * );
    * ```
    */
-  constructor(
-    url: string,
-    credential: TablesSharedKeyCredential,
-    options?: TableServiceClientOptions
-  );
+  constructor(url: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
   /**
    * Creates a new instance of the TableServiceClient class.
    *
@@ -93,15 +92,15 @@ export class TableServiceClient {
   constructor(url: string, options?: TableServiceClientOptions);
   constructor(
     url: string,
-    credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
+    credentialOrOptions?: NamedKeyCredential | TableServiceClientOptions,
     options?: TableServiceClientOptions
   ) {
-    const credential =
-      credentialOrOptions instanceof TablesSharedKeyCredential ? credentialOrOptions : undefined;
+    this.url = url;
+    const credential = isNamedKeyCredential(credentialOrOptions) ? credentialOrOptions : undefined;
     const clientOptions =
-      (!(credentialOrOptions instanceof TablesSharedKeyCredential)
-        ? credentialOrOptions
-        : options) || {};
+      (!isNamedKeyCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
+
+    clientOptions.endpoint = clientOptions.endpoint || url;
 
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
@@ -113,18 +112,27 @@ export class TableServiceClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalPipelineOptions: InternalClientPipelineOptions = {
       ...clientOptions,
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+        },
+        deserializationOptions: {
+          parseXML
+        },
+        serializationOptions: {
+          stringifyXML
         }
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, credential);
-    const client = new GeneratedClient(url, pipeline);
+    const client = new GeneratedClient(url, internalPipelineOptions);
+    if (credential) {
+      client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
+    }
+    this.pipeline = client.pipeline;
     this.table = client.table;
     this.service = client.service;
   }
@@ -134,12 +142,12 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options - The options parameters.
    */
-  public getStatistics(options: GetStatisticsOptions = {}): Promise<GetStatisticsResponse> {
+  public getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
     try {
       return this.service.getStatistics(updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -151,12 +159,12 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options - The options parameters.
    */
-  public getProperties(options: GetPropertiesOptions = {}): Promise<GetPropertiesResponse> {
+  public getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getProperties", options);
     try {
       return this.service.getProperties(updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -177,7 +185,7 @@ export class TableServiceClient {
     try {
       return this.service.setProperties(properties, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -186,22 +194,23 @@ export class TableServiceClient {
 
   /**
    * Creates a new table under the given account.
-   * @param tableName - The name of the table.
+   * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  public createTable(
-    tableName: string,
-    options: CreateTableOptions = {}
-  ): Promise<CreateTableItemResponse> {
+  public async createTable(name: string, options: OperationOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableServiceClient-createTable", options);
     try {
-      return this.table.create(
-        { tableName },
+      await this.table.create(
+        { name },
         { ...updatedOptions, responsePreference: "return-content" }
       );
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
-      throw e;
+      if (e.statusCode === 409) {
+        logger.info("TableServiceClient-createTable: Table Already Exists");
+      } else {
+        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+        throw e;
+      }
     } finally {
       span.end();
     }
@@ -209,19 +218,20 @@ export class TableServiceClient {
 
   /**
    * Operation permanently deletes the specified table.
-   * @param tableName - The name of the table.
+   * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  public deleteTable(
-    tableName: string,
-    options: DeleteTableOptions = {}
-  ): Promise<DeleteTableResponse> {
+  public async deleteTable(name: string, options: OperationOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableServiceClient-deleteTable", options);
     try {
-      return this.table.delete(tableName, updatedOptions);
+      await this.table.delete(name, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
-      throw e;
+      if (e.statusCode === 404) {
+        logger.info("TableServiceClient-deleteTable: Table doesn't exist");
+      } else {
+        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+        throw e;
+      }
     } finally {
       span.end();
     }
@@ -234,7 +244,7 @@ export class TableServiceClient {
   public listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListTableItemsOptions
-  ): PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse> {
+  ): PagedAsyncIterableIterator<TableItem, TableItem[]> {
     const iter = this.listTablesAll(options);
 
     return {
@@ -255,13 +265,13 @@ export class TableServiceClient {
   }
 
   private async *listTablesAll(
-    options?: ListTableItemsOptions
-  ): AsyncIterableIterator<TableResponseProperties> {
+    options?: InternalListTablesOptions
+  ): AsyncIterableIterator<TableItem> {
     const firstPage = await this._listTables(options);
     const { nextTableName } = firstPage;
     yield* firstPage;
     if (nextTableName) {
-      const optionsWithContinuation: ListTableItemsOptions = {
+      const optionsWithContinuation: InternalListTablesOptions = {
         ...options,
         nextTableName
       };
@@ -273,7 +283,7 @@ export class TableServiceClient {
 
   private async *listTablesPage(
     options: InternalListTablesOptions = {}
-  ): AsyncIterableIterator<ListTableItemsResponse> {
+  ): AsyncIterableIterator<TableItem[]> {
     const { span, updatedOptions } = createSpan("TableServiceClient-listTablesPage", options);
 
     try {
@@ -282,7 +292,7 @@ export class TableServiceClient {
       yield result;
 
       while (result.nextTableName) {
-        const optionsWithContinuation: ListTableItemsOptions = {
+        const optionsWithContinuation: InternalListTablesOptions = {
           ...updatedOptions,
           nextTableName: result.nextTableName
         };
@@ -290,7 +300,7 @@ export class TableServiceClient {
         yield result;
       }
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -298,55 +308,11 @@ export class TableServiceClient {
   }
 
   private async _listTables(options?: InternalListTablesOptions): Promise<ListTableItemsResponse> {
-    const {
-      _response,
-      xMsContinuationNextTableName: nextTableName,
-      value = []
-    } = await this.table.query(options);
+    const { xMsContinuationNextTableName: nextTableName, value = [] } = await this.table.query(
+      options
+    );
 
-    return Object.assign([...value], { _response, nextTableName });
-  }
-
-  /**
-   * Retrieves details about any stored access policies specified on the table that may be used with
-   * Shared Access Signatures.
-   * @param tableName - The name of the table.
-   * @param options - The options parameters.
-   */
-  public getAccessPolicy(
-    tableName: string,
-    options: GetAccessPolicyOptions = {}
-  ): Promise<GetAccessPolicyResponse> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-getAccessPolicy", options);
-    try {
-      return this.table.getAccessPolicy(tableName, updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Sets stored access policies for the table that may be used with Shared Access Signatures.
-   * @param tableName - The name of the table.
-   * @param acl - The Access Control List for the table.
-   * @param options - The options parameters.
-   */
-  public setAccessPolicy(
-    tableName: string,
-    options: SetAccessPolicyOptions = {}
-  ): Promise<SetAccessPolicyResponse> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-setAccessPolicy", options);
-    try {
-      return this.table.setAccessPolicy(tableName, updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return Object.assign([...value], { nextTableName });
   }
 
   /**
@@ -382,4 +348,8 @@ export class TableServiceClient {
 
 type InternalListTablesOptions = ListTableItemsOptions & {
   queryOptions?: TableQueryOptions & { top?: number };
+  /**
+   * A table query continuation token from a previous call.
+   */
+  nextTableName?: string;
 };

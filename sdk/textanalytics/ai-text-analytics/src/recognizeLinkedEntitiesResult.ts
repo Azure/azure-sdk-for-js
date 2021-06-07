@@ -7,12 +7,7 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
-import {
-  TextDocumentStatistics,
-  TextAnalyticsError,
-  LinkedEntity,
-  TextAnalyticsWarning
-} from "./generated/models";
+import { TextAnalyticsError, LinkedEntity, DocumentLinkedEntities } from "./generated/models";
 
 /**
  * The result of the recognize linked entities operation on a single document.
@@ -37,18 +32,22 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
  */
 export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 
+/**
+ * @internal
+ */
 export function makeRecognizeLinkedEntitiesResult(
-  id: string,
-  entities: LinkedEntity[],
-  warnings: TextAnalyticsWarning[],
-  statistics?: TextDocumentStatistics
+  result: DocumentLinkedEntities
 ): RecognizeLinkedEntitiesSuccessResult {
+  const { statistics, id, warnings, entities } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     entities
   };
 }
 
+/**
+ * @internal
+ */
 export function makeRecognizeLinkedEntitiesErrorResult(
   id: string,
   error: TextAnalyticsError

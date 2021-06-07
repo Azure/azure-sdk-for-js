@@ -1,16 +1,33 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { defaultCustomizationsOnRecordings } from "./defaultCustomizations";
 import {
-  isBrowser,
   TestInfo,
   RecorderEnvironmentSetup,
   filterSecretsFromStrings,
   filterSecretsRecursivelyFromJSON,
-  generateTestRecordingFilePath,
-  decodeHexEncodingIfExistsInNockFixture
+  generateTestRecordingFilePath
 } from "./utils";
+import {
+  defaultRequestBodyTransforms,
+  RequestBodyTransformsType
+} from "./utils/requestBodyTransform";
 
+type InternalRecorderEnvironmentSetup = RecorderEnvironmentSetup & {
+  /**
+   * Used in record and playback modes
+   *
+   *  Array of callback functions provided to customize the request body
+   *  - Record mode: These callbacks will be applied on the request body before the recording is saved
+   *  - Playback mode: These callbacks will be applied on the request body of the new requests
+   *
+   * // Nock doesn't support multiple `.filteringRequestBody` patches in the recordings,
+   * // ..hence not exporting `requestBodyTransformations` to the users until we find an alternative
+   * // TODO: Best alternative would be to migrate to JSON recordings for node tests
+   */
+  requestBodyTransformations: Required<RequestBodyTransformsType>;
+};
 /**
  * Loads the environment variables in both node and browser modes corresponding to the key-value pairs provided.
  *
@@ -32,18 +49,14 @@ export abstract class BaseRecorder {
   // Example - node/some_random_test_suite/recording_first_test.js
   protected readonly relativeTestRecordingFilePath: string;
   public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
-  public environmentSetup: RecorderEnvironmentSetup = {
+  public environmentSetup: InternalRecorderEnvironmentSetup = {
     replaceableVariables: {},
     customizationsOnRecordings: [],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
+    requestBodyTransformations: defaultRequestBodyTransforms
   };
   protected hash: string;
-  private defaultCustomizationsOnRecordings = !isBrowser()
-    ? [
-        // Decodes "hex" strings in the response from the recorded fixture if any exists.
-        decodeHexEncodingIfExistsInNockFixture
-      ]
-    : [];
+  private defaultCustomizationsOnRecordings = defaultCustomizationsOnRecordings;
 
   constructor(
     platform: "node" | "browsers",
@@ -66,20 +79,52 @@ export abstract class BaseRecorder {
    *
    * @protected
    * @param content
-   * @returns
    * @memberof BaseRecorder
    */
   protected filterSecrets(content: any): any {
+    let updatedContent = content;
+    if (typeof content !== "string") {
+      // For the recording as a whole...
+      // Methods such as maskAccessTokenInBrowserRecording may have effects here
+      for (const customization of this.defaultCustomizationsOnRecordings) {
+        updatedContent = customization(updatedContent);
+      }
+    }
+
     const recordingFilterMethod =
-      typeof content === "string" ? filterSecretsFromStrings : filterSecretsRecursivelyFromJSON;
+      typeof updatedContent === "string"
+        ? filterSecretsFromStrings
+        : filterSecretsRecursivelyFromJSON;
 
     return recordingFilterMethod(
-      content,
+      updatedContent,
       this.environmentSetup.replaceableVariables,
       this.defaultCustomizationsOnRecordings.concat(
         this.environmentSetup.customizationsOnRecordings
       )
     );
+  }
+
+  public init(environmentSetup: RecorderEnvironmentSetup) {
+    this.environmentSetup = {
+      replaceableVariables: {
+        ...this.environmentSetup.replaceableVariables,
+        ...environmentSetup.replaceableVariables
+      },
+      customizationsOnRecordings: [
+        ...this.environmentSetup.customizationsOnRecordings,
+        ...environmentSetup.customizationsOnRecordings
+      ],
+      queryParametersToSkip: [
+        ...this.environmentSetup.queryParametersToSkip,
+        ...environmentSetup.queryParametersToSkip
+      ],
+      requestBodyTransformations: {
+        // TODO: Concat with the requestBodyTransformations once exposed
+        stringTransforms: this.environmentSetup.requestBodyTransformations?.stringTransforms,
+        jsonTransforms: this.environmentSetup.requestBodyTransformations?.jsonTransforms
+      }
+    };
   }
 
   public abstract record(environmentSetup: RecorderEnvironmentSetup): void;

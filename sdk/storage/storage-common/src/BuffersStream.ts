@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { Readable, ReadableOptions } from "stream";
 
@@ -10,35 +10,20 @@ export interface BuffersStreamOptions extends ReadableOptions {}
 
 /**
  * This class generates a readable stream from the data in an array of buffers.
- *
- * @export
- * @class BuffersStream
  */
 export class BuffersStream extends Readable {
   /**
    * The offset of data to be read in the current buffer.
-   *
-   * @private
-   * @type {number}
-   * @memberof BuffersStream
    */
   private byteOffsetInCurrentBuffer: number;
 
   /**
    * The index of buffer to be read in the array of buffers.
-   *
-   * @private
-   * @type {number}
-   * @memberof BuffersStream
    */
   private bufferIndex: number;
 
   /**
    * The total length of data already read.
-   *
-   * @private
-   * @type {number}
-   * @memberof BuffersStream
    */
   private pushedBytesLength: number;
 
@@ -46,9 +31,8 @@ export class BuffersStream extends Readable {
    * Creates an instance of BuffersStream that will emit the data
    * contained in the array of buffers.
    *
-   * @param {Buffer[]} buffers Array of buffers containing the data
-   * @param {number} byteLength The total length of data contained in the buffers
-   * @memberof BuffersStream
+   * @param buffers - Array of buffers containing the data
+   * @param byteLength - The total length of data contained in the buffers
    */
   constructor(
     private buffers: Buffer[],
@@ -73,8 +57,7 @@ export class BuffersStream extends Readable {
   /**
    * Internal _read() that will be called when the stream wants to pull more data in.
    *
-   * @param {number} size Optional. The size of data to be read
-   * @memberof BuffersStream
+   * @param size - Optional. The size of data to be read
    */
   public _read(size?: number) {
     if (this.pushedBytesLength >= this.byteLength) {

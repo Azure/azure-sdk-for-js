@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ServiceSubmitBatchResponseModel } from "./generatedModels";
 import { blobToString } from "./utils/utils.browser";
 

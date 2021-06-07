@@ -28,7 +28,7 @@ export async function main(): Promise<void> {
 
   let client = new AccessControlClient(
     credential,
-    "https://joturnersynapsetest.dev.azuresynapse.net"
+    "https://mysynapse.dev.azuresynapse.net"
   );
   let list = await client.listRoleDefinitions();
   for await (let item of list) {

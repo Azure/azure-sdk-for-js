@@ -1,8 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   CopyFileSmbInfo,
@@ -72,7 +72,7 @@ import {
 import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -114,333 +114,221 @@ import { FileSASPermissions } from "./FileSASPermissions";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
- *
- * @export
- * @interface ShareCreateOptions
  */
 export interface ShareCreateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * A name-value pair to associate with a file storage object.
-   *
-   * @type {{ [propertyName: string]: string }}
-   * @memberof ShareCreateOptions
    */
   metadata?: { [propertyName: string]: string };
 
   /**
    * Specifies the maximum size of the share, in
    * gigabytes.
-   *
-   * @type {number}
-   * @memberof ShareCreateOptions
    */
   quota?: number;
 
   /**
    * Specifies the access tier of the share. Possible values include: 'TransactionOptimized',
    * 'Hot', 'Cool'
-   * @type {ShareAccessTier}
-   * @memberof ShareCreateOptions
    */
   accessTier?: ShareAccessTier;
 
   /**
    * Supported in version 2020-02-10 and above. Specifies the enabled protocols on the share. If not specified, the default is SMB.
-   * @type {ShareProtocols}
-   * @memberof ShareCreateOptions
    */
   protocols?: ShareProtocols;
   /**
    * Root squash to set on the share.  Only valid for NFS shares. Possible values include:
    * 'NoRootSquash', 'RootSquash', 'AllSquash'.
-   * @type {ShareRootSquash}
-   * @memberof ShareCreateOptions
    */
   rootSquash?: ShareRootSquash;
 }
 
 /**
  * Options to configure the {@link ShareClient.delete} operation.
- *
- * @export
- * @interface ShareDeleteMethodOptions
  */
 export interface ShareDeleteMethodOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareDeleteMethodOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Specifies the option
    * include to delete the base share and all of its snapshots. Possible values
    * include: 'include'
-   *
-   * @type {DeleteSnapshotsOptionType}
-   * @memberof ShareDeleteMethodOptions
    */
   deleteSnapshots?: DeleteSnapshotsOptionType;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof ShareDeleteMethodOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareClient.setMetadata} operation.
- *
- * @export
- * @interface ShareSetMetadataOptions
  */
 export interface ShareSetMetadataOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareSetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof ShareSetMetadataOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareClient.setAccessPolicy} operation.
- *
- * @export
- * @interface ShareSetAccessPolicyOptions
  */
 export interface ShareSetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareSetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof ShareSetAccessPolicyOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareClient.getAccessPolicy} operation.
- *
- * @export
- * @interface ShareGetAccessPolicyOptions
  */
 export interface ShareGetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareGetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof ShareGetAccessPolicyOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareClient.exists} operation.
- *
- * @export
- * @interface ShareExistsOptions
  */
 export interface ShareExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareExistsOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof ShareExistsOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareClient.getProperties} operation.
- *
- * @export
- * @interface ShareGetPropertiesOptions
  */
 export interface ShareGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof ShareGetPropertiesOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareClient.setQuota} operation.
- *
- * @export
- * @interface ShareSetQuotaOptions
  */
 export interface ShareSetQuotaOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareSetQuotaOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof ShareSetQuotaOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareClient.setProperties} operation.
- *
- * @export
- * @interface ShareSetPropertiesOptions
  */
 export interface ShareSetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareSetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 
   /**
    * Specifies the access tier of the share. Possible values include: 'TransactionOptimized',
    * 'Hot', 'Cool'.
-   *
-   * @type {ShareAccessTier}
-   * @memberof ShareSetPropertiesOptions
    */
   accessTier?: ShareAccessTier;
 
   /**
    * Specifies the maximum size of the share, in gigabytes.
-   * @type {number}
-   * @memberof ShareSetPropertiesOptions
    */
   quotaInGB?: number;
 
   /**
    * Root squash to set on the share.  Only valid for NFS shares. Possible values include:
    * 'NoRootSquash', 'RootSquash', 'AllSquash'.
-   * @type {ShareRootSquash}
-   * @memberof ShareSetPropertiesOptions
    */
   rootSquash?: ShareRootSquash;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof ShareSetPropertiesOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareClient.getStatistics} operation.
- *
- * @export
- * @interface ShareGetStatisticsOptions
  */
 export interface ShareGetStatisticsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareGetStatisticsOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof ShareGetStatisticsOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Signed Identifier
- *
- * @export
- * @interface SignedIdentifier
  */
 export interface SignedIdentifier {
   /**
-   * @member {string} id a unique id
+   * a unique id
    */
   id: string;
   /**
-   * @member {AccessPolicy} accessPolicy
+   * Access Policy
    */
   accessPolicy: {
     /**
-     * @member {Date} startsOn the date-time the policy is active.
+     * the date-time the policy is active.
      */
     startsOn: Date;
     /**
-     * @member {string} expiresOn the date-time the policy expires.
+     * the date-time the policy expires.
      */
     expiresOn: Date;
     /**
-     * @member {string} permissions the permissions for the acl policy
+     * the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
      */
     permissions: string;
@@ -471,66 +359,42 @@ export declare type ShareGetAccessPolicyResponse = {
 
 /**
  * Options to configure the {@link ShareClient.createSnapshot} operation.
- *
- * @export
- * @interface ShareCreateSnapshotOptions
  */
 export interface ShareCreateSnapshotOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareCreateSnapshotOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * A name-value pair to associate with a file storage object.
-   *
-   * @type {{ [propertyName: string]: string }}
-   * @memberof ShareCreateOptions
    */
   metadata?: { [propertyName: string]: string };
 }
 
 /**
  * Options to configure the {@link ShareClient.createPermission} operation.
- *
- * @export
- * @interface ShareCreatePermissionOptions
  */
 export interface ShareCreatePermissionOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareCreatePermissionOptions
    */
   abortSignal?: AbortSignalLike;
 }
 /**
  * Options to configure the {@link ShareClient.getPermission} operation.
- *
- * @export
- * @interface ShareGetPermissionOptions
  */
 export interface ShareGetPermissionOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ShareGetPermissionOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Response data for the {@link ShareClient.getStatistics} Operation.
- *
- * @export
- * @interface ShareGetStatisticsResponse
  */
 export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
   /**
@@ -538,108 +402,67 @@ export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
    *
    * The approximate size of the data stored on the share, rounded up to the nearest gigabyte. Note
    * that this value may not include all recently created or recently resized files.
-   *
-   * @type {number}
-   * @memberof ShareGetStatisticsResponse
    */
   shareUsage: number;
 };
 
 /**
  * Contains response data for the {@link ShareClient.createIfNotExists} operation.
- *
- * @export
- * @interface ShareCreateIfNotExistsResponse
  */
 export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
   /**
    * Indicate whether the share is successfully created. Is false when the share is not changed as it already exists.
-   *
-   * @type {boolean}
-   * @memberof ShareCreateIfNotExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Contains response data for the {@link ShareClient.deleteIfExists} operation.
- *
- * @export
- * @interface ShareDeleteIfExistsResponse
  */
 export interface ShareDeleteIfExistsResponse extends ShareDeleteResponse {
   /**
    * Indicate whether the share is successfully deleted. Is false if the share does not exist in the first place.
-   *
-   * @type {boolean}
-   * @memberof ShareDeleteIfExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Contains response data for the {@link ShareClient.getProperties} operation.
- *
- * @export
- * @interface ShareGetPropertiesResponse
  */
-export type ShareGetPropertiesResponse = Omit<
-  ShareGetPropertiesResponseModel,
-  "enabledProtocols"
-> & {
+export type ShareGetPropertiesResponse = ShareGetPropertiesResponseModel & {
   /**
    * The protocols that have been enabled on the share.
-   * @type {ShareProtocols}
-   * @memberof ShareGetPropertiesResponse
    */
   protocols?: ShareProtocols;
 };
 
 /**
  * Common options of the {@link ShareGenerateSasUrlOptions} and {@link FileGenerateSasUrlOptions}.
- *
- * @export
- * @interface CommonGenerateSasUrlOptions
  */
 export interface CommonGenerateSasUrlOptions {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   version?: string;
 
   /**
    * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
-   *
-   * @type {SASProtocol}
-   * @memberof CommonGenerateSasUrlOptions
    */
   protocol?: SASProtocol;
 
   /**
    * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof CommonGenerateSasUrlOptions
    */
   startsOn?: Date;
 
   /**
    * Optional only when identifier is provided. The time after which the SAS will no longer work.
-   *
-   * @type {Date}
-   * @memberof CommonGenerateSasUrlOptions
    */
   expiresOn?: Date;
 
   /**
    * Optional. IP ranges allowed in this SAS.
-   *
-   * @type {SasIPRange}
-   * @memberof CommonGenerateSasUrlOptions
    */
   ipRange?: SasIPRange;
 
@@ -647,82 +470,51 @@ export interface CommonGenerateSasUrlOptions {
    * Optional. The name of the access policy on the share this SAS references if any.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   identifier?: string;
 
   /**
    * Optional. The cache-control header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   cacheControl?: string;
 
   /**
    * Optional. The content-disposition header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   contentDisposition?: string;
 
   /**
    * Optional. The content-encoding header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   contentEncoding?: string;
 
   /**
    * Optional. The content-language header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   contentLanguage?: string;
 
   /**
    * Optional. The content-type header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
    */
   contentType?: string;
 }
 
 /**
  * Options to configure {@link ShareClient.generateSasUrl} operation.
- *
- * @export
- * @interface ShareGenerateSasUrlOptions
  */
 export interface ShareGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
   /**
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
-   *
-   * @type {ShareSASPermissions}
-   * @memberof ShareGenerateSasUrlOptions
    */
   permissions?: ShareSASPermissions;
 }
 
 /**
  * A ShareClient represents a URL to the Azure Storage share allowing you to manipulate its directories and files.
- *
- * @export
- * @class ShareClient
  */
 export class ShareClient extends StorageClient {
   /**
    * Share operation context provided by protocol layer.
-   *
-   * @private
-   * @type {Share}
-   * @memberof ShareClient
    */
   private context: Share;
 
@@ -730,49 +522,43 @@ export class ShareClient extends StorageClient {
 
   /**
    * The name of the share
-   *
-   * @type {string}
-   * @memberof ShareClient
    */
   public get name(): string {
     return this._name;
   }
 
   /**
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {string} name Share name.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof ShareClient
+   * @param name - Share name.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage file share, such as
+   * @param url - A URL string pointing to Azure Storage file share, such as
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
-   * @param {Credential} [credential] Such as AnonymousCredential or StorageSharedKeyCredential.
+   * @param credential - Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof ShareClient
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage file share, such as
+   * @param url - A URL string pointing to Azure Storage file share, such as
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ShareClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -836,9 +622,8 @@ export class ShareClient extends StorageClient {
    * Creates a new ShareClient object identical to the source but with the specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a URL to the base share.
    *
-   * @param {string} snapshot The snapshot timestamp.
-   * @returns {ShareClient} A new ShareClient object identical to the source but with the specified snapshot timestamp
-   * @memberof ShareClient
+   * @param snapshot - The snapshot timestamp.
+   * @returns A new ShareClient object identical to the source but with the specified snapshot timestamp
    */
   public withSnapshot(snapshot: string): ShareClient {
     return new ShareClient(
@@ -856,21 +641,20 @@ export class ShareClient extends StorageClient {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
    *
-   * @param {ShareCreateOptions} [options] Options to Share Create operation.
-   * @returns {Promise<ShareCreateResponse>} Response data for the Share Create operation.
-   * @memberof ShareClient
+   * @param options - Options to Share Create operation.
+   * @returns Response data for the Share Create operation.
    */
   public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-create", options);
     try {
       return await this.context.create({
         ...options,
         enabledProtocols: toShareProtocolsString(options.protocols),
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -884,22 +668,14 @@ export class ShareClient extends StorageClient {
    * the same name already exists, it is not changed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
    *
-   * @param {ShareCreateOptions} [options]
-   * @returns {Promise<ShareCreateIfNotExistsResponse>}
-   * @memberof ShareClient
+   * @param options -
    */
   public async createIfNotExists(
     options: ShareCreateOptions = {}
   ): Promise<ShareCreateIfNotExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareClient-createIfNotExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareClient-createIfNotExists", options);
     try {
-      const res = await this.create({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const res = await this.create(updatedOptions);
       return {
         succeeded: true,
         ...res
@@ -907,7 +683,7 @@ export class ShareClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "ShareAlreadyExists") {
         span.setStatus({
-          code: CanonicalCode.ALREADY_EXISTS,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a share only if it doesn't already exist."
         });
         return {
@@ -917,7 +693,7 @@ export class ShareClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -929,9 +705,8 @@ export class ShareClient extends StorageClient {
   /**
    * Creates a {@link ShareDirectoryClient} object.
    *
-   * @param directoryName A directory name
-   * @returns {ShareDirectoryClient} The ShareDirectoryClient object for the given directory name.
-   * @memberof ShareClient
+   * @param directoryName - A directory name
+   * @returns The ShareDirectoryClient object for the given directory name.
    */
   public getDirectoryClient(directoryName: string): ShareDirectoryClient {
     return new ShareDirectoryClient(
@@ -944,9 +719,7 @@ export class ShareClient extends StorageClient {
    * Gets the directory client for the root directory of this share.
    * Note that the root directory always exists and cannot be deleted.
    *
-   * @readonly
-   * @type {ShareDirectoryClient} A new ShareDirectoryClient object for the root directory.
-   * @memberof ShareClient
+   * @readonly A new ShareDirectoryClient object for the root directory.
    */
   public get rootDirectoryClient(): ShareDirectoryClient {
     return this.getDirectoryClient("");
@@ -956,10 +729,9 @@ export class ShareClient extends StorageClient {
    * Creates a new subdirectory under this share.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   * @param {string} directoryName
-   * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
-   * @returns {Promise<{ directoryClient: ShareDirectoryClient, directoryCreateResponse: DirectoryCreateResponse }>} Directory creation response data and the corresponding directory client.
-   * @memberof ShareClient
+   * @param directoryName -
+   * @param options - Options to Directory Create operation.
+   * @returns Directory creation response data and the corresponding directory client.
    */
   public async createDirectory(
     directoryName: string,
@@ -968,20 +740,17 @@ export class ShareClient extends StorageClient {
     directoryClient: ShareDirectoryClient;
     directoryCreateResponse: DirectoryCreateResponse;
   }> {
-    const { span, spanOptions } = createSpan("ShareClient-createDirectory", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-createDirectory", options);
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      const directoryCreateResponse = await directoryClient.create({
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      const directoryCreateResponse = await directoryClient.create(updatedOptions);
       return {
         directoryClient,
         directoryCreateResponse
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -995,25 +764,21 @@ export class ShareClient extends StorageClient {
    * Note that the directory must be empty before it can be deleted.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
-   * @param {string} directoryName
-   * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
-   * @returns {Promise<DirectoryDeleteResponse>} Directory deletion response data.
-   * @memberof ShareClient
+   * @param directoryName -
+   * @param options - Options to Directory Delete operation.
+   * @returns Directory deletion response data.
    */
   public async deleteDirectory(
     directoryName: string,
     options: DirectoryDeleteOptions = {}
   ): Promise<DirectoryDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-deleteDirectory", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-deleteDirectory", options);
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      return await directoryClient.delete({
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      return await directoryClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1027,32 +792,28 @@ export class ShareClient extends StorageClient {
    * Note it only initializes the file with no content.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
-   * @param {string} fileName
-   * @param {number} size Specifies the maximum size in bytes for the file, up to 4 TB.
-   * @param {FileCreateOptions} [options] Options to File Create operation.
-   * @returns {Promise<{ fileClient: ShareFileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
-   * @memberof ShareClient
+   * @param fileName -
+   * @param size - Specifies the maximum size in bytes for the file, up to 4 TB.
+   * @param options - Options to File Create operation.
+   * @returns File creation response data and the corresponding file client.
    */
   public async createFile(
     fileName: string,
     size: number,
     options: FileCreateOptions = {}
   ): Promise<{ fileClient: ShareFileClient; fileCreateResponse: FileCreateResponse }> {
-    const { span, spanOptions } = createSpan("ShareClient-createFile", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-createFile", options);
     try {
       const directoryClient = this.rootDirectoryClient;
       const fileClient = directoryClient.getFileClient(fileName);
-      const fileCreateResponse = await fileClient.create(size, {
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      const fileCreateResponse = await fileClient.create(size, updatedOptions);
       return {
         fileClient,
         fileCreateResponse
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1076,27 +837,23 @@ export class ShareClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
-   * @param {string} directoryName
-   * @param {string} fileName
-   * @param {FileDeleteOptions} [options] Options to File Delete operation.
+   * @param directoryName -
+   * @param fileName -
+   * @param options - Options to File Delete operation.
    * @returns Promise<FileDeleteResponse> File Delete response data.
-   * @memberof ShareClient
    */
   public async deleteFile(
     fileName: string,
     options: FileDeleteOptions = {}
   ): Promise<FileDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-deleteFile", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-deleteFile", options);
     try {
       const directoryClient = this.rootDirectoryClient;
       const fileClient = directoryClient.getFileClient(fileName);
-      return await fileClient.delete({
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      return await fileClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1112,28 +869,23 @@ export class ShareClient extends StorageClient {
    * applications. Vice versa new shares might be added by other clients or applications after this
    * function completes.
    *
-   * @param {ShareExistsOptions} [options] options to Exists operation.
-   * @returns {Promise<boolean>}
-   * @memberof ShareClient
+   * @param options - options to Exists operation.
    */
   public async exists(options: ShareExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("ShareClient-exists", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-exists", options);
     try {
-      await this.getProperties({
-        ...options,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+      await this.getProperties(updatedOptions);
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when checking share existence"
         });
         return false;
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1152,27 +904,25 @@ export class ShareClient extends StorageClient {
    * the `listShares` method of {@link ShareServiceClient} using the `includeMetadata` option, which
    * will retain their original casing.
    *
-   * @returns {Promise<ShareGetPropertiesResponse>} Response data for the Share Get Properties operation.
-   * @memberof ShareClient
+   * @returns Response data for the Share Get Properties operation.
    */
   public async getProperties(
     options: ShareGetPropertiesOptions = {}
   ): Promise<ShareGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getProperties", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-getProperties", options);
     try {
       const res = await this.context.getProperties({
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       // parse protocols
       const protocols = toShareProtocols(res.enabledProtocols);
-      delete res.enabledProtocols;
       (res as any).protocols = protocols;
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1186,20 +936,19 @@ export class ShareClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
-   * @param {ShareDeleteMethodOptions} [options] Options to Share Delete operation.
-   * @returns {Promise<ShareDeleteResponse>} Response data for the Share Delete operation.
-   * @memberof ShareClient
+   * @param options - Options to Share Delete operation.
+   * @returns Response data for the Share Delete operation.
    */
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<ShareDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-delete", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-delete", options);
     try {
-      return await this.context.deleteMethod({
+      return await this.context.delete({
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1213,19 +962,14 @@ export class ShareClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
-   * @param {ShareDeleteMethodOptions} [options]
-   * @returns {Promise<ShareDeleteIfExistsResponse>}
-   * @memberof ShareClient
+   * @param options -
    */
   public async deleteIfExists(
     options: ShareDeleteMethodOptions = {}
   ): Promise<ShareDeleteIfExistsResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-deleteIfExists", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-deleteIfExists", options);
     try {
-      const res = await this.delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const res = await this.delete(updatedOptions);
       return {
         succeeded: true,
         ...res
@@ -1233,7 +977,7 @@ export class ShareClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "ShareNotFound") {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a share only if it exists."
         });
         return {
@@ -1243,7 +987,7 @@ export class ShareClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1259,25 +1003,24 @@ export class ShareClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-metadata
    *
-   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed.
-   * @param {ShareSetMetadataOptions} [option] Options to Share Set Metadata operation.
-   * @returns {Promise<ShareSetMetadataResponse>} Response data for the Share Set Metadata operation.
-   * @memberof ShareClient
+   * @param metadata - If no metadata provided, all existing directory metadata will be removed.
+   * @param option - Options to Share Set Metadata operation.
+   * @returns Response data for the Share Set Metadata operation.
    */
   public async setMetadata(
     metadata?: Metadata,
     options: ShareSetMetadataOptions = {}
   ): Promise<ShareSetMetadataResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setMetadata", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-setMetadata", options);
     try {
       return await this.context.setMetadata({
         ...options,
         metadata,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1295,18 +1038,17 @@ export class ShareClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-acl
    *
-   * @param {ShareGetAccessPolicyOptions} [option] Options to Share Get Access Policy operation.
-   * @returns {Promise<ShareGetAccessPolicyResponse>} Response data for the Share Get Access Policy operation.
-   * @memberof ShareClient
+   * @param option - Options to Share Get Access Policy operation.
+   * @returns Response data for the Share Get Access Policy operation.
    */
   public async getAccessPolicy(
     options: ShareGetAccessPolicyOptions = {}
   ): Promise<ShareGetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getAccessPolicy", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-getAccessPolicy", options);
     try {
       const response = await this.context.getAccessPolicy({
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       const res: ShareGetAccessPolicyResponse = {
@@ -1344,7 +1086,7 @@ export class ShareClient extends StorageClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1366,16 +1108,15 @@ export class ShareClient extends StorageClient {
    * fail with status code 403 (Forbidden), until the access policy becomes active.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
    *
-   * @param {SignedIdentifier[]} [shareAcl] Array of signed identifiers, each having a unique Id and details of access policy.
-   * @param {ShareSetAccessPolicyOptions} [option] Options to Share Set Access Policy operation.
-   * @returns {Promise<ShareSetAccessPolicyResponse>} Response data for the Share Set Access Policy operation.
-   * @memberof ShareClient
+   * @param shareAcl - Array of signed identifiers, each having a unique Id and details of access policy.
+   * @param option - Options to Share Set Access Policy operation.
+   * @returns Response data for the Share Set Access Policy operation.
    */
   public async setAccessPolicy(
     shareAcl?: SignedIdentifier[],
     options: ShareSetAccessPolicyOptions = {}
   ): Promise<ShareSetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setAccessPolicy", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-setAccessPolicy", options);
     try {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of shareAcl || []) {
@@ -1396,11 +1137,11 @@ export class ShareClient extends StorageClient {
       return await this.context.setAccessPolicy({
         ...options,
         shareAcl: acl,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1412,23 +1153,22 @@ export class ShareClient extends StorageClient {
   /**
    * Creates a read-only snapshot of a share.
    *
-   * @param {ShareCreateSnapshotOptions} [options={}] Options to Share Create Snapshot operation.
-   * @returns {Promise<ShareCreateSnapshotResponse>} Response data for the Share Create Snapshot operation.
-   * @memberof ShareClient
+   * @param options - Options to Share Create Snapshot operation.
+   * @returns Response data for the Share Create Snapshot operation.
    */
   public async createSnapshot(
     options: ShareCreateSnapshotOptions = {}
   ): Promise<ShareCreateSnapshotResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-createSnapshot", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-createSnapshot", options);
     try {
       return await this.context.createSnapshot({
         abortSignal: options.abortSignal,
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1442,25 +1182,24 @@ export class ShareClient extends StorageClient {
    *
    * @deprecated Use {@link ShareClient.setProperties} instead.
    *
-   * @param {number} quotaInGB Specifies the maximum size of the share in gigabytes
-   * @param {ShareSetQuotaOptions} [option] Options to Share Set Quota operation.
-   * @returns {Promise<ShareSetQuotaResponse>} Response data for the Share Get Quota operation.
-   * @memberof ShareClient
+   * @param quotaInGB - Specifies the maximum size of the share in gigabytes
+   * @param option - Options to Share Set Quota operation.
+   * @returns Response data for the Share Get Quota operation.
    */
   public async setQuota(
     quotaInGB: number,
     options: ShareSetQuotaOptions = {}
   ): Promise<ShareSetQuotaResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setQuota", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-setQuota", options);
     try {
       return await this.context.setProperties({
         ...options,
         quota: quotaInGB,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1472,23 +1211,22 @@ export class ShareClient extends StorageClient {
   /**
    * Sets properties of the share.
    *
-   * @param {ShareSetPropertiesOptions} [option] Options to Share Set Properties operation.
-   * @returns {Promise<ShareSetPropertiesResponse>} Response data for the Share Set Properties operation.
-   * @memberof ShareClient
+   * @param option - Options to Share Set Properties operation.
+   * @returns Response data for the Share Set Properties operation.
    */
   public async setProperties(
     options: ShareSetPropertiesOptions = {}
   ): Promise<ShareSetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setProperties", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-setProperties", options);
     try {
       return await this.context.setProperties({
         ...options,
         quota: options.quotaInGB,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1500,25 +1238,24 @@ export class ShareClient extends StorageClient {
   /**
    * Retrieves statistics related to the share.
    *
-   * @param {ShareGetStatisticsOptions} [option] Options to Share Get Statistics operation.
-   * @returns {Promise<ShareGetStatisticsResponse>} Response data for the Share Get Statistics operation.
-   * @memberof ShareClient
+   * @param option - Options to Share Get Statistics operation.
+   * @returns Response data for the Share Get Statistics operation.
    */
   public async getStatistics(
     options: ShareGetStatisticsOptions = {}
   ): Promise<ShareGetStatisticsResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getStatistics", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-getStatistics", options);
     try {
       const response = await this.context.getStatistics({
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       const GBBytes = 1024 * 1024 * 1024;
       return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1532,17 +1269,14 @@ export class ShareClient extends StorageClient {
    * The created security descriptor can be used for the files/directories in the share.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-permission
    *
-   * @param {ShareCreatePermissionOptions} [options] Options to Share Create Permission operation.
-   * @param filePermission File permission described in the SDDL
+   * @param options - Options to Share Create Permission operation.
+   * @param filePermission - File permission described in the SDDL
    */
   public async createPermission(
     filePermission: string,
     options: ShareCreatePermissionOptions = {}
   ): Promise<ShareCreatePermissionResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareClient-createPermission",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareClient-createPermission", options);
     try {
       return await this.context.createPermission(
         {
@@ -1550,12 +1284,12 @@ export class ShareClient extends StorageClient {
         },
         {
           abortSignal: options.abortSignal,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1569,22 +1303,22 @@ export class ShareClient extends StorageClient {
    * which indicates a security descriptor.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-permission
    *
-   * @param {ShareGetPermissionOptions} [options] Options to Share Create Permission operation.
-   * @param filePermissionKey File permission key which indicates the security descriptor of the permission.
+   * @param options - Options to Share Create Permission operation.
+   * @param filePermissionKey - File permission key which indicates the security descriptor of the permission.
    */
   public async getPermission(
     filePermissionKey: string,
     options: ShareGetPermissionOptions = {}
   ): Promise<ShareGetPermissionResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getPermission", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareClient-getPermission", options);
     try {
       return await this.context.getPermission(filePermissionKey, {
-        aborterSignal: options.abortSignal,
-        spanOptions
+        abortSignal: options.abortSignal,
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1601,9 +1335,8 @@ export class ShareClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @param {ShareGenerateSasUrlOptions} options Optional parameters.
-   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof ShareClient
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
   public generateSasUrl(options: ShareGenerateSasUrlOptions): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
@@ -1626,24 +1359,15 @@ export class ShareClient extends StorageClient {
 
 /**
  * Options to configure {@link ShareDirectoryClient.create} operation.
- *
- * @export
- * @interface DirectoryCreateOptions
  */
 export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectoryCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the file storage object.
-   *
-   * @type {Metadata}
-   * @memberof DirectoryCreateOptions
    */
   metadata?: Metadata;
 }
@@ -1654,9 +1378,6 @@ export interface DirectoryProperties
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectoryProperties
    */
   abortSignal?: AbortSignalLike;
 }
@@ -1668,24 +1389,16 @@ export interface DirectoryProperties
  * - {@link ShareDirectoryClient.iterateFilesAndDirectoriesSegments}
  * - {@link ShareDirectoryClient.listFilesAndDirectoriesItems}
  * - {@link ShareDirectoryClient.listFilesAndDirectoriesSegment}
- *
- * @interface DirectoryListFilesAndDirectoriesSegmentOptions
  */
 interface DirectoryListFilesAndDirectoriesSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Filters the results to return only entries whose
    * name begins with the specified prefix.
-   *
-   * @type {string}
-   * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
   prefix?: string;
 
@@ -1693,102 +1406,66 @@ interface DirectoryListFilesAndDirectoriesSegmentOptions extends CommonOptions {
    * Specifies the maximum number of entries to
    * return. If the request does not specify maxResults, or specifies a value
    * greater than 5,000, the server will return up to 5,000 items.
-   *
-   * @type {number}
-   * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
   maxResults?: number;
 }
 
 /**
  * Options to configure {@link ShareDirectoryClient.listFilesAndDirectories} operation.
- *
- * @export
- * @interface DirectoryListFilesAndDirectoriesOptions
  */
 export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectoryListFilesAndDirectoriesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Filters the results to return only entries whose
    * name begins with the specified prefix.
-   *
-   * @type {string}
-   * @memberof DirectoryListFilesAndDirectoriesOptions
    */
   prefix?: string;
 }
 
 /**
  * Options to configure the {@link ShareDirectoryClient.delete} operation.
- *
- * @export
- * @interface DirectoryDeleteOptions
  */
 export interface DirectoryDeleteOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectoryDeleteOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure the {@link ShareDirectoryClient.exists} operation.
- *
- * @export
- * @interface DirectoryExistsOptions
  */
 export interface DirectoryExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectoryExistsOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure the {@link ShareDirectoryClient.getProperties} operation.
- *
- * @export
- * @interface DirectoryGetPropertiesOptions
  */
 export interface DirectoryGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectoryGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure the {@link ShareDirectoryClient.setMetadata} operation.
- *
- * @export
- * @interface DirectorySetMetadataOptions
  */
 export interface DirectorySetMetadataOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectorySetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -1801,58 +1478,37 @@ export interface DirectorySetMetadataOptions extends CommonOptions {
  * - {@link ShareDirectoryClient.iterateHandleSegments}
  * - {@link ShareDirectoryClient.listHandleItems}
  *
- *
- * @export
- * @interface DirectoryListHandlesSegmentOptions
  */
 export interface DirectoryListHandlesSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectoryListHandlesSegmentOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Specifies the maximum number of entries to return. If the request does not specify maxResults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
-   *
-   * @type {number}
-   * @memberof DirectoryListHandlesSegmentOptions
    */
   maxResults?: number;
   /**
    * Specifies operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
-   *
-   * @type {boolean}
-   * @memberof DirectoryListHandlesSegmentOptions
    */
   recursive?: boolean;
 }
 
 /**
  * Options to configure the {@link ShareDirectoryClient.listHandles} operation.
- *
- * @export
- * @interface DirectoryListHandlesOptions
  */
 export interface DirectoryListHandlesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectoryListHandlesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Specifies whether operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
-   *
-   * @type {boolean}
-   * @memberof DirectoryListHandlesOptions
    */
   recursive?: boolean;
 }
@@ -1863,25 +1519,16 @@ export interface DirectoryListHandlesOptions extends CommonOptions {
  * See:
  * - {@link ShareDirectoryClient.forceCloseHandlesSegment}
  * - {@link ShareDirectoryClient.forceCloseAllHandles}
- *
- * @export
- * @interface DirectoryForceCloseHandlesSegmentOptions
  */
 export interface DirectoryForceCloseHandlesSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectoryForceCloseHandlesSegmentOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Specifies operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
-   *
-   * @type {boolean}
-   * @memberof DirectoryForceCloseHandlesSegmentOptions
    */
   recursive?: boolean;
 }
@@ -1929,66 +1576,41 @@ export type DirectoryForceCloseHandlesResponse = CloseHandlesInfo &
 
 /**
  * Options to configure {@link ShareDirectoryClient.forceCloseHandle}.
- *
- * @export
- * @interface DirectoryForceCloseHandlesOptions
  */
 export interface DirectoryForceCloseHandlesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof DirectoryForceCloseHandlesOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Contains response data for the {@link DirectoryClient.createIfNotExists} operation.
- *
- * @export
- * @interface DirectoryCreateIfNotExistsResponse
  */
 export interface DirectoryCreateIfNotExistsResponse extends DirectoryCreateResponse {
   /**
    * Indicate whether the directory is successfully created. Is false when the directory is not changed as it already exists.
-   *
-   * @type {boolean}
-   * @memberof DirectoryCreateIfNotExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Contains response data for the {@link DirectoryClient.deleteIfExists} operation.
- *
- * @export
- * @interface DirectoryDeleteIfExistsResponse
  */
 export interface DirectoryDeleteIfExistsResponse extends DirectoryDeleteResponse {
   /**
    * Indicate whether the directory is successfully deleted. Is false if the directory does not exist in the first place.
-   *
-   * @type {boolean}
-   * @memberof DirectoryDeleteIfExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * A ShareDirectoryClient represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
- *
- * @export
- * @class ShareDirectoryClient
  */
 export class ShareDirectoryClient extends StorageClient {
   /**
    * context provided by protocol layer.
-   *
-   * @private
-   * @type {Directory}
-   * @memberof ShareDirectoryClient
    */
   private context: Directory;
 
@@ -1998,9 +1620,6 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * The share name corresponding to this directory client
-   *
-   * @type {string}
-   * @memberof ShareDirectoryClient
    */
   public get shareName(): string {
     return this._shareName;
@@ -2008,9 +1627,6 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * The full path of the directory
-   *
-   * @type {string}
-   * @memberof ShareDirectoryClient
    */
   public get path(): string {
     return this._path;
@@ -2018,9 +1634,6 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * The name of the directory
-   *
-   * @type {string}
-   * @memberof ShareDirectoryClient
    */
   public get name(): string {
     return this._name;
@@ -2029,7 +1642,7 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Creates an instance of DirectoryClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage file directory, such as
+   * @param url - A URL string pointing to Azure Storage file directory, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory?sasString".
@@ -2037,16 +1650,15 @@ export class ShareDirectoryClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
-   * @param {Credential} [credential] Such as AnonymousCredential or StorageSharedKeyCredential.
+   * @param credential - Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof ShareDirectoryClient
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of DirectoryClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage file directory, such as
+   * @param url - A URL string pointing to Azure Storage file directory, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory?sasString".
@@ -2054,9 +1666,8 @@ export class ShareDirectoryClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ShareDirectoryClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -2087,12 +1698,11 @@ export class ShareDirectoryClient extends StorageClient {
    * Creates a new directory under the specified share or parent directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
-   * @returns {Promise<DirectoryCreateResponse>} Response data for the Directory  operation.
-   * @memberof ShareDirectoryClient
+   * @param options - Options to Directory Create operation.
+   * @returns Response data for the Directory  operation.
    */
   public async create(options: DirectoryCreateOptions = {}): Promise<DirectoryCreateResponse> {
-    const { span, spanOptions } = createSpan("ShareDirectoryClient-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-create", options);
     try {
       if (!options.fileAttributes) {
         options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
@@ -2111,12 +1721,12 @@ export class ShareDirectoryClient extends StorageClient {
           metadata: options.metadata,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2130,22 +1740,14 @@ export class ShareDirectoryClient extends StorageClient {
    * If the directory already exists, it is not modified.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   * @param {DirectoryCreateOptions} [options]
-   * @returns {Promise<DirectoryCreateIfNotExistsResponse>}
-   * @memberof ShareDirectoryClient
+   * @param options -
    */
   public async createIfNotExists(
     options: DirectoryCreateOptions = {}
   ): Promise<DirectoryCreateIfNotExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareDirectoryClient-createIfNotExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-createIfNotExists", options);
     try {
-      const res = await this.create({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const res = await this.create(updatedOptions);
       return {
         succeeded: true,
         ...res
@@ -2153,7 +1755,7 @@ export class ShareDirectoryClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "ResourceAlreadyExists") {
         span.setStatus({
-          code: CanonicalCode.ALREADY_EXISTS,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a directory only if it does not already exist."
         });
         return {
@@ -2163,7 +1765,7 @@ export class ShareDirectoryClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2176,18 +1778,13 @@ export class ShareDirectoryClient extends StorageClient {
    * Sets properties on the directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-properties
    *
-   * @param {properties} [DirectoryProperties] Directory properties. If no values are provided,
+   * @param DirectoryProperties - Directory properties. If no values are provided,
    *                                            existing values will be preserved.
-   * @returns {Promise<DirectorySetPropertiesResponse>}
-   * @memberof ShareDirectoryClient
    */
   public async setProperties(
     properties: DirectoryProperties = {}
   ): Promise<DirectorySetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareDirectoryClient-setProperties",
-      properties.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-setProperties", properties);
     try {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
@@ -2199,12 +1796,12 @@ export class ShareDirectoryClient extends StorageClient {
           abortSignal: properties.abortSignal,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2216,9 +1813,8 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Creates a ShareDirectoryClient object for a sub directory.
    *
-   * @param subDirectoryName A subdirectory name
-   * @returns {ShareDirectoryClient} The ShareDirectoryClient object for the given subdirectory name.
-   * @memberof ShareDirectoryClient
+   * @param subDirectoryName - A subdirectory name
+   * @returns The ShareDirectoryClient object for the given subdirectory name.
    *
    * Example usage:
    *
@@ -2239,10 +1835,9 @@ export class ShareDirectoryClient extends StorageClient {
    * Creates a new subdirectory under this directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   * @param {string} directoryName
-   * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
-   * @returns {Promise<{ directoryClient: ShareDirectoryClient; directoryCreateResponse: DirectoryCreateResponse; }>} Directory create response data and the corresponding DirectoryClient instance.
-   * @memberof ShareDirectoryClient
+   * @param directoryName -
+   * @param options - Options to Directory Create operation.
+   * @returns Directory create response data and the corresponding DirectoryClient instance.
    */
   public async createSubdirectory(
     directoryName: string,
@@ -2251,23 +1846,17 @@ export class ShareDirectoryClient extends StorageClient {
     directoryClient: ShareDirectoryClient;
     directoryCreateResponse: DirectoryCreateResponse;
   }> {
-    const { span, spanOptions } = createSpan(
-      "ShareDirectoryClient-createSubdirectory",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-createSubdirectory", options);
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      const directoryCreateResponse = await directoryClient.create({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const directoryCreateResponse = await directoryClient.create(updatedOptions);
       return {
         directoryClient,
         directoryCreateResponse
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2281,28 +1870,21 @@ export class ShareDirectoryClient extends StorageClient {
    * Note that the directory must be empty before it can be deleted.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
-   * @param {string} directoryName
-   * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
-   * @returns {DirectoryDeleteResponse} Directory deletion response data.
-   * @memberof ShareDirectoryClient
+   * @param directoryName -
+   * @param options - Options to Directory Delete operation.
+   * @returns Directory deletion response data.
    */
   public async deleteSubdirectory(
     directoryName: string,
     options: DirectoryDeleteOptions = {}
   ): Promise<DirectoryDeleteResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareDirectoryClient-deleteSubdirectory",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-deleteSubdirectory", options);
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      return await directoryClient.delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await directoryClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2315,34 +1897,27 @@ export class ShareDirectoryClient extends StorageClient {
    * Creates a new file or replaces a file under this directory. Note it only initializes the file with no content.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
-   * @param {string} fileName
-   * @param {number} size Specifies the maximum size in bytes for the file, up to 4 TB.
-   * @param {FileCreateOptions} [options] Options to File Create operation.
-   * @returns {Promise<{ fileClient: ShareFileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
-   * @memberof ShareDirectoryClient
+   * @param fileName -
+   * @param size - Specifies the maximum size in bytes for the file, up to 4 TB.
+   * @param options - Options to File Create operation.
+   * @returns File creation response data and the corresponding file client.
    */
   public async createFile(
     fileName: string,
     size: number,
     options: FileCreateOptions = {}
   ): Promise<{ fileClient: ShareFileClient; fileCreateResponse: FileCreateResponse }> {
-    const { span, spanOptions } = createSpan(
-      "ShareDirectoryClient-createFile",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-createFile", options);
     try {
       const fileClient = this.getFileClient(fileName);
-      const fileCreateResponse = await fileClient.create(size, {
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const fileCreateResponse = await fileClient.create(size, updatedOptions);
       return {
         fileClient,
         fileCreateResponse
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2365,28 +1940,21 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
-   * @param {string} fileName Name of the file to delete
-   * @param {FileDeleteOptions} [options] Options to File Delete operation.
-   * @returns {Promise<FileDeleteResponse>} File deletion response data.
-   * @memberof ShareDirectoryClient
+   * @param fileName - Name of the file to delete
+   * @param options - Options to File Delete operation.
+   * @returns File deletion response data.
    */
   public async deleteFile(
     fileName: string,
     options: FileDeleteOptions = {}
   ): Promise<FileDeleteResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareDirectoryClient-deleteFile",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-deleteFile", options);
     try {
       const fileClient = this.getFileClient(fileName);
-      return await fileClient.delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await fileClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2398,9 +1966,8 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Creates a {@link ShareFileClient} object.
    *
-   * @param {string} fileName A file name.
-   * @returns {ShareFileClient} A new ShareFileClient object for the given file name.
-   * @memberof ShareFileClient
+   * @param fileName - A file name.
+   * @returns A new ShareFileClient object for the given file name.
    *
    * Example usage:
    *
@@ -2430,31 +1997,29 @@ export class ShareDirectoryClient extends StorageClient {
    * applications. Vice versa new directories might be added by other clients or applications after this
    * function completes.
    *
-   * @param {DirectoryExistsOptions} [options] options to Exists operation.
-   * @returns {Promise<boolean>}
-   * @memberof ShareDirectoryClient
+   * @param options - options to Exists operation.
    */
   public async exists(options: DirectoryExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("ShareDirectoryClient-exists", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-exists", options);
     try {
       await this.getProperties({
         abortSignal: options.abortSignal,
         tracingOptions: {
           ...options.tracingOptions,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       });
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when checking directory existence"
         });
         return false;
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2469,25 +2034,21 @@ export class ShareDirectoryClient extends StorageClient {
    * subdirectories.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-directory-properties
    *
-   * @param {DirectoryGetPropertiesOptions} [options] Options to Directory Get Properties operation.
-   * @returns {Promise<DirectoryGetPropertiesResponse>} Response data for the Directory Get Properties operation.
-   * @memberof ShareDirectoryClient
+   * @param options - Options to Directory Get Properties operation.
+   * @returns Response data for the Directory Get Properties operation.
    */
   public async getProperties(
     options: DirectoryGetPropertiesOptions = {}
   ): Promise<DirectoryGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareDirectoryClient-getProperties",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-getProperties", options);
     try {
       return await this.context.getProperties({
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2501,20 +2062,19 @@ export class ShareDirectoryClient extends StorageClient {
    * deleted.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
-   * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
-   * @returns {Promise<DirectoryDeleteResponse>} Response data for the Directory Delete operation.
-   * @memberof ShareDirectoryClient
+   * @param options - Options to Directory Delete operation.
+   * @returns Response data for the Directory Delete operation.
    */
   public async delete(options: DirectoryDeleteOptions = {}): Promise<DirectoryDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareDirectoryClient-delete", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-delete", options);
     try {
-      return await this.context.deleteMethod({
+      return await this.context.delete({
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2528,22 +2088,14 @@ export class ShareDirectoryClient extends StorageClient {
    * deleted.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
-   * @param {DirectoryDeleteOptions} [options]
-   * @returns {Promise<DirectoryDeleteIfExistsResponse>}
-   * @memberof ShareDirectoryClient
+   * @param options -
    */
   public async deleteIfExists(
     options: DirectoryDeleteOptions = {}
   ): Promise<DirectoryDeleteIfExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareDirectoryClient-deleteIfExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-deleteIfExists", options);
     try {
-      const res = await this.delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const res = await this.delete(updatedOptions);
       return {
         succeeded: true,
         ...res
@@ -2554,7 +2106,7 @@ export class ShareDirectoryClient extends StorageClient {
         e.details?.errorCode === "ParentNotFound"
       ) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a directory only if it exists."
         });
         return {
@@ -2564,7 +2116,7 @@ export class ShareDirectoryClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2577,28 +2129,24 @@ export class ShareDirectoryClient extends StorageClient {
    * Updates user defined metadata for the specified directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-metadata
    *
-   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
-   * @param {DirectorySetMetadataOptions} [options] Options to Directory Set Metadata operation.
-   * @returns {Promise<DirectorySetMetadataResponse>} Response data for the Directory Set Metadata operation.
-   * @memberof ShareDirectoryClient
+   * @param metadata - If no metadata provided, all existing directory metadata will be removed
+   * @param options - Options to Directory Set Metadata operation.
+   * @returns Response data for the Directory Set Metadata operation.
    */
   public async setMetadata(
     metadata?: Metadata,
     options: DirectorySetMetadataOptions = {}
   ): Promise<DirectorySetMetadataResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareDirectoryClient-setMetadata",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-setMetadata", options);
     try {
       return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2610,17 +2158,14 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for {@link DirectoryListFilesAndDirectoriesSegmentResponse} objects
    *
-   * @private
-   * @param {string} [marker] A string value that identifies the portion of
+   * @param marker - A string value that identifies the portion of
    *                          the list of files and directories to be returned with the next listing operation. The
    *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all files and directories remaining to be listed
    *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to list files and directories operation.
-   * @returns {AsyncIterableIterator<DirectoryListFilesAndDirectoriesSegmentResponse>}
-   * @memberof ShareDirectoryClient
+   * @param options - Options to list files and directories operation.
    */
   private async *iterateFilesAndDirectoriesSegments(
     marker?: string,
@@ -2641,10 +2186,7 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for file and directory items
    *
-   * @private
-   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to list files and directories operation.
-   * @returns {AsyncIterableIterator<{ kind: "file" } & FileItem | { kind: "directory" } & DirectoryItem>}
-   * @memberof ShareDirectoryClient
+   * @param options - Options to list files and directories operation.
    */
   private async *listFilesAndDirectoriesItems(
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
@@ -2756,10 +2298,8 @@ export class ShareDirectoryClient extends StorageClient {
    * }
    * ```
    *
-   * @param {DirectoryListFilesAndDirectoriesOptions} [options] Options to list files and directories operation.
-   * @memberof ShareDirectoryClient
-   * @returns {PagedAsyncIterableIterator<{ kind: "file" } & FileItem | { kind: "directory" } , DirectoryListFilesAndDirectoriesSegmentResponse>}
-   * An asyncIterableIterator that supports paging.
+   * @param options - Options to list files and directories operation.
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listFilesAndDirectories(
     options: DirectoryListFilesAndDirectoriesOptions = {}
@@ -2775,19 +2315,19 @@ export class ShareDirectoryClient extends StorageClient {
     const iter = this.listFilesAndDirectoriesItems(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       async next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.iterateFilesAndDirectoriesSegments(settings.continuationToken, {
@@ -2803,18 +2343,17 @@ export class ShareDirectoryClient extends StorageClient {
    * contents only for a single level of the directory hierarchy.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files
    *
-   * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to Directory List Files and Directories Segment operation.
-   * @returns {Promise<DirectoryListFilesAndDirectoriesSegmentResponse>} Response data for the Directory List Files and Directories operation.
-   * @memberof ShareDirectoryClient
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to Directory List Files and Directories Segment operation.
+   * @returns Response data for the Directory List Files and Directories operation.
    */
   private async listFilesAndDirectoriesSegment(
     marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): Promise<DirectoryListFilesAndDirectoriesSegmentResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ShareDirectoryClient-listFilesAndDirectoriesSegment",
-      options.tracingOptions
+      options
     );
 
     if (options.prefix === "") {
@@ -2825,11 +2364,11 @@ export class ShareDirectoryClient extends StorageClient {
       return await this.context.listFilesAndDirectoriesSegment({
         marker,
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2841,15 +2380,12 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for {@link DirectoryListHandlesResponse}
    *
-   * @private
-   * @param {string} [marker] A string value that identifies the portion of the list to be
+   * @param marker - A string value that identifies the portion of the list to be
    *                          returned with the next list handles operation. The operation returns a
    *                          marker value within the response body if the list returned was not complete.
    *                          The marker value may then be used in a subsequent call to request the next
    *                          set of list items.
-   * @param {DirectoryListHandlesSegmentOptions} [options] Options to list handles operation.
-   * @returns {AsyncIterableIterator<DirectoryListHandlesResponse>}
-   * @memberof ShareDirectoryClient
+   * @param options - Options to list handles operation.
    */
   private async *iterateHandleSegments(
     marker?: string,
@@ -2868,10 +2404,7 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for handles
    *
-   * @private
-   * @param {DirectoryListHandlesSegmentOptions} [options] Options to list handles operation.
-   * @returns {AsyncIterableIterator<HandleItem>}
-   * @memberof ShareDirectoryClient
+   * @param options - Options to list handles operation.
    */
   private async *listHandleItems(
     options: DirectoryListHandlesSegmentOptions = {}
@@ -2958,9 +2491,8 @@ export class ShareDirectoryClient extends StorageClient {
    * }
    * ```
    *
-   * @param {DirectoryListHandlesOptions} [options] Options to list handles operation.
-   * @memberof ShareDirectoryClient
-   * @returns {PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>}
+   * @param options - Options to list handles operation.
+   *
    * An asyncIterableIterator that supports paging.
    */
   public listHandles(
@@ -2970,19 +2502,19 @@ export class ShareDirectoryClient extends StorageClient {
     const iter = this.listHandleItems(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       async next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.iterateHandleSegments(settings.continuationToken, {
@@ -2997,29 +2529,24 @@ export class ShareDirectoryClient extends StorageClient {
    * Lists handles for a directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles
    *
-   * @param {string} [marker] Optional. A string value that identifies the portion of the list to be
+   * @param marker - Optional. A string value that identifies the portion of the list to be
    *                          returned with the next list handles operation. The operation returns a
    *                          marker value within the response body if the list returned was not complete.
    *                          The marker value may then be used in a subsequent call to request the next
    *                          set of list items.
-   * @param {DirectoryListHandlesSegmentOptions} [options={}]
-   * @returns {Promise<DirectoryListHandlesResponse>}
-   * @memberof ShareDirectoryClient
+   * @param options -
    */
   private async listHandlesSegment(
     marker?: string,
     options: DirectoryListHandlesSegmentOptions = {}
   ): Promise<DirectoryListHandlesResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareDirectoryClient-listHandlesSegment",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-listHandlesSegment", options);
     try {
       marker = marker === "" ? undefined : marker;
       const response = await this.context.listHandles({
         marker,
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       // TODO: Protocol layer issue that when handle list is in returned XML
@@ -3030,7 +2557,7 @@ export class ShareDirectoryClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3043,29 +2570,27 @@ export class ShareDirectoryClient extends StorageClient {
    * Force close all handles for a directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
-   * @param {string} [marker] Optional. A string value that identifies the position of handles that will
+   * @param marker - Optional. A string value that identifies the position of handles that will
    *                          be closed with the next force close handles operation.
    *                          The operation returns a marker value within the response
    *                          body if there are more handles to close. The marker value
    *                          may then be used in a subsequent call to close the next set of handles.
-   * @param {DirectoryForceCloseHandlesSegmentOptions} [options={}]
-   * @returns {Promise<DirectoryForceCloseHandlesResponse>}
-   * @memberof ShareDirectoryClient
+   * @param options -
    */
   private async forceCloseHandlesSegment(
     marker?: string,
     options: DirectoryForceCloseHandlesSegmentOptions = {}
   ): Promise<DirectoryForceCloseHandlesResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ShareDirectoryClient-forceCloseHandlesSegment",
-      options.tracingOptions
+      options
     );
     try {
       marker = marker === "" ? undefined : marker;
       const rawResponse = await this.context.forceCloseHandles("*", {
         marker,
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       const response = rawResponse as DirectoryForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
@@ -3073,7 +2598,7 @@ export class ShareDirectoryClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3086,16 +2611,14 @@ export class ShareDirectoryClient extends StorageClient {
    * Force close all handles for a directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
-   * @param {DirectoryForceCloseHandlesSegmentOptions} [options={}]
-   * @returns {Promise<CloseHandlesInfo>}
-   * @memberof ShareDirectoryClient
+   * @param options -
    */
   public async forceCloseAllHandles(
     options: DirectoryForceCloseHandlesSegmentOptions = {}
   ): Promise<CloseHandlesInfo> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ShareDirectoryClient-forceCloseAllHandles",
-      options.tracingOptions
+      options
     );
     try {
       let handlesClosed = 0;
@@ -3105,7 +2628,7 @@ export class ShareDirectoryClient extends StorageClient {
       do {
         const response: DirectoryForceCloseHandlesResponse = await this.forceCloseHandlesSegment(
           marker,
-          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+          updatedOptions
         );
         marker = response.marker;
         response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
@@ -3115,7 +2638,7 @@ export class ShareDirectoryClient extends StorageClient {
       return { closedHandlesCount: handlesClosed, closeFailureCount: numberOfHandlesFailedToClose };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3128,22 +2651,17 @@ export class ShareDirectoryClient extends StorageClient {
    * Force close a specific handle for a directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   * @param aborter - Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {string} handleId Specific handle ID, cannot be asterisk "*".
+   * @param handleId - Specific handle ID, cannot be asterisk "*".
    *                          Use forceCloseHandlesSegment() to close all handles.
-   * @param {DirectoryForceCloseHandlesOptions} [options={}]
-   * @returns {Promise<DirectoryForceCloseHandlesResponse>}
-   * @memberof ShareDirectoryClient
+   * @param options -
    */
   public async forceCloseHandle(
     handleId: string,
     options: DirectoryForceCloseHandlesOptions = {}
   ): Promise<DirectoryForceCloseHandlesResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareDirectoryClient-forceCloseHandle",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-forceCloseHandle", options);
     try {
       if (handleId === "*") {
         throw new RangeError(
@@ -3153,7 +2671,7 @@ export class ShareDirectoryClient extends StorageClient {
 
       const rawResponse = await this.context.forceCloseHandles(handleId, {
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       const response = rawResponse as DirectoryForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
@@ -3161,7 +2679,7 @@ export class ShareDirectoryClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3173,39 +2691,24 @@ export class ShareDirectoryClient extends StorageClient {
 
 /**
  * Options to configure the {@link ShareFileClient.create} operation.
- *
- * @export
- * @interface FileCreateOptions
  */
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * File HTTP headers like Content-Type.
-   *
-   * @type {FileHttpHeaders}
-   * @memberof FileCreateOptions
    */
   fileHttpHeaders?: FileHttpHeaders;
 
   /**
    * A collection of key-value string pair to associate with the file storage object.
-   *
-   * @type {Metadata}
-   * @memberof FileCreateOptions
    */
   metadata?: Metadata;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileCreateOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -3214,23 +2717,14 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileProperties
    */
   abortSignal?: AbortSignalLike;
   /**
    * File HTTP headers like Content-Type.
-   *
-   * @type {FileHttpHeaders}
-   * @memberof FileProperties
    */
   fileHttpHeaders?: FileHttpHeaders;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileProperties
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -3239,24 +2733,15 @@ export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {}
 
 /**
  * Options to configure the {@link ShareFileClient.delete} operation.
- *
- * @export
- * @interface FileDeleteOptions
  */
 export interface FileDeleteOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileDeleteOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileDeleteOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -3267,17 +2752,11 @@ export interface FileDeleteOptions extends CommonOptions {
  * See:
  * - {@link ShareFileClient.download}
  * - {@link ShareFileClient.downloadToFile}
- *
- * @export
- * @interface FileDownloadOptions
  */
 export interface FileDownloadOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileDownloadOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -3291,9 +2770,6 @@ export interface FileDownloadOptions extends CommonOptions {
    * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
    *
    * Default value is 5, please set a larger value when loading large files in poor network.
-   *
-   * @type {number}
-   * @memberof FileDownloadOptions
    */
   maxRetryRequests?: number;
 
@@ -3301,40 +2777,26 @@ export interface FileDownloadOptions extends CommonOptions {
    * When this header is set to true and
    * specified together with the Range header, the service returns the MD5 hash
    * for the range, as long as the range is less than or equal to 4 MB in size.
-   *
-   * @type {boolean}
-   * @memberof FileDownloadOptions
    */
   rangeGetContentMD5?: boolean;
 
   /**
    * Download progress updating event handler.
-   *
-   * @memberof FileDownloadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileDownloadOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareFileClient.uploadRange} operation.
- *
- * @export
- * @interface FileUploadRangeOptions
  */
 export interface FileUploadRangeOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileUploadRangeOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -3344,40 +2806,26 @@ export interface FileUploadRangeOptions extends CommonOptions {
    * content that has arrived with the header value that was sent. If the two
    * hashes do not match, the operation will fail with error code 400 (Bad
    * Request).
-   *
-   * @type {Uint8Array}
-   * @memberof FileUploadRangeOptions
    */
   contentMD5?: Uint8Array;
 
   /**
    * Progress updating event handler.
-   *
-   * @memberof FileUploadRangeOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileUploadRangeOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareFileClient.uploadRangeFromURL} operation.
- *
- * @export
- * @interface FileUploadRangeFromURLOptions
  */
 export interface FileUploadRangeFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileUploadRangeFromURLOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -3396,9 +2844,6 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
   sourceConditions?: SourceModifiedAccessConditions;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileUploadRangeFromURLOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -3428,72 +2873,45 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
 
 /**
  * Options to configure the {@link ShareFileClient.getRangeList} operation.
- *
- * @export
- * @interface FileGetRangeListOptions
  */
 export interface FileGetRangeListOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileGetRangeListOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Optional. Specifies the range of bytes over which to list ranges, inclusively.
-   *
-   * @type {Range}
-   * @memberof FileGetRangeListOptions
    */
   range?: Range;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileGetRangeListOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareFileClient.exists} operation.
- *
- * @export
- * @interface FileExistsOptions
  */
 export interface FileExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileExistsOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure the {@link ShareFileClient.getProperties} operation.
- *
- * @export
- * @interface FileGetPropertiesOptions
  */
 export interface FileGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileGetPropertiesOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -3504,8 +2922,6 @@ export interface FileGetPropertiesOptions extends CommonOptions {
 export type FileGetRangeListResponse = FileGetRangeListHeaders & {
   /**
    * Range list for an Azure file.
-   *
-   * @type {RangeModel[]}
    */
   rangeList: RangeModel[];
 
@@ -3530,90 +2946,57 @@ export type FileGetRangeListResponse = FileGetRangeListHeaders & {
 
 /**
  * Options to configure the {@link ShareFileClient.startCopyFromURL} operation.
- *
- * @export
- * @interface FileStartCopyOptions
  */
 export interface FileStartCopyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileStartCopyOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * A collection of key-value string pair to associate with the file storage object.
-   *
-   * @type {Metadata}
-   * @memberof FileStartCopyOptions
    */
   metadata?: Metadata;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileStartCopyOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
   /**
    * If specified the permission (security descriptor) shall be set for the directory/file. This
-   * header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be
+   * header can be used if Permission size is lesser than or equal to 8KB, else x-ms-file-permission-key header shall be
    * used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and
    * dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be
    * specified.
-   *
-   * @type {string}
-   * @memberof FileStartCopyOptions
    */
   filePermission?: string;
   /**
    * Key of the permission to be set for the directory/file. Note: Only one of the
    * x-ms-file-permission or x-ms-file-permission-key should be specified.
-   *
-   * @type {string}
-   * @memberof FileStartCopyOptions
    */
   filePermissionKey?: string;
   /**
    * SMB info.
-   *
-   * @type {CopyFileSmbInfo}
-   * @memberof FileStartCopyOptions
    */
   copyFileSmbInfo?: CopyFileSmbInfo;
 }
 
 /**
  * Options to configure the {@link ShareFileClient.setMetadata} operation.
- *
- * @export
- * @interface FileSetMetadataOptions
  */
 export interface FileSetMetadataOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileSetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileSetMetadataOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareFileClient.setHttpHeaders} operation.
- *
- * @export
- * @interface FileSetHttpHeadersOptions
  */
 export interface FileSetHttpHeadersOptions
   extends FileAndDirectorySetPropertiesCommonOptions,
@@ -3621,49 +3004,31 @@ export interface FileSetHttpHeadersOptions
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileSetHttpHeadersOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileSetHttpHeadersOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareFileClient.abortCopyFromURL} operation.
- *
- * @export
- * @interface FileAbortCopyFromURLOptions
  */
 export interface FileAbortCopyFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileAbortCopyFromURLOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileAbortCopyFromURLOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareFileClient.resize} operation.
- *
- * @export
- * @interface FileResizeOptions
  */
 export interface FileResizeOptions
   extends FileAndDirectorySetPropertiesCommonOptions,
@@ -3671,40 +3036,25 @@ export interface FileResizeOptions
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileResizeOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileResizeOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Options to configure the {@link ShareFileClient.clearRange} operation.
- *
- * @export
- * @interface FileClearRangeOptions
  */
 export interface FileClearRangeOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileClearRangeOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileClearRangeOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -3716,25 +3066,16 @@ export interface FileClearRangeOptions extends CommonOptions {
  * - {@link ShareFileClient.listHandlesSegment}
  * - {@link ShareFileClient.iterateHandleSegments}
  * - {@link ShareFileClient.listHandleItems}
- *
- * @export
- * @interface FileListHandlesSegmentOptions
  */
 export interface FileListHandlesSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileClearRangeOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Specifies the maximum number of entries to return. If the request does not specify maxResults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
-   *
-   * @type {number}
-   * @memberof FileListHandlesSegmentOptions
    */
   maxPageSize?: number;
 }
@@ -3743,9 +3084,6 @@ export interface FileListHandlesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileClearRangeOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -3757,17 +3095,11 @@ export interface FileListHandlesOptions extends CommonOptions {
  * - {@link ShareFileClient.forceCloseHandlesSegment}
  * - {@link ShareFileClient.forceCloseAllHandles}
  * - {@link ShareFileClient.forceCloseHandle}
- *
- * @export
- * @interface FileForceCloseHandlesOptions
  */
 export interface FileForceCloseHandlesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileForceCloseHandlesOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -3815,46 +3147,29 @@ export type FileForceCloseHandlesResponse = CloseHandlesInfo &
 
 /**
  * Option interface for ShareFileClient.uploadStream().
- *
- * @export
- * @interface FileUploadStreamOptions
  */
 export interface FileUploadStreamOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileUploadStreamOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Azure File HTTP Headers.
-   *
-   * @type {FileHttpHeaders}
-   * @memberof FileUploadStreamOptions
    */
   fileHttpHeaders?: FileHttpHeaders;
 
   /**
    * Metadata of the Azure file.
-   *
-   * @type {Metadata}
-   * @memberof FileUploadStreamOptions
    */
   metadata?: Metadata;
 
   /**
    * Progress updater.
-   *
-   * @memberof FileUploadStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileUploadStreamOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
@@ -3865,91 +3180,59 @@ export interface FileUploadStreamOptions extends CommonOptions {
  * See:
  * - {@link ShareFileClient.uploadFile}
  * - {@link ShareFileClient.uploadSeekableStream}
- *
- * @export
- * @interface FileParallelUploadOptions
  */
 export interface FileParallelUploadOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileParallelUploadOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * RangeSize specifies the range size to use in each parallel upload,
    * the default (and maximum size) is FILE_RANGE_MAX_SIZE_BYTES.
-   *
-   * @type {number}
-   * @memberof FileParallelUploadOptions
    */
   rangeSize?: number;
 
   /**
    * Progress updater.
-   *
-   * @memberof FileParallelUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * File HTTP Headers.
-   *
-   * @type {FileHttpHeaders}
-   * @memberof FileParallelUploadOptions
    */
   fileHttpHeaders?: FileHttpHeaders;
 
   /**
    * Metadata of an Azure file.
-   *
-   * @type {Metadata}
-   * @memberof FileParallelUploadOptions
    */
   metadata?: Metadata;
 
   /**
    * Concurrency indicates the maximum number of ranges to upload in parallel.
    * If not provided, 5 concurrency will be used by default.
-   *
-   * @type {number}
-   * @memberof FileParallelUploadOptions
    */
   concurrency?: number;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileParallelUploadOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Option interface for the {@link ShareFileClient.downloadToBuffer} operation.
- *
- * @export
- * @interface FileDownloadToBufferOptions
  */
 export interface FileDownloadToBufferOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileDownloadToBufferOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * When downloading Azure files, download method will try to split large file into small ranges.
    * Every small range will be downloaded via a separate request.
    * This option defines size data every small request trying to download.
-   * Must be > 0, will use the default value if undefined,
-   *
-   * @type {number}
-   * @memberof FileDownloadToBufferOptions
+   * Must be greater than 0, will use the default value if undefined,
    */
   rangeSize?: number;
 
@@ -3965,81 +3248,51 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
    * maxRetryRequestsPerRange is reached.
    *
    * Default value is 5, please set a larger value when in poor network.
-   *
-   * @type {number}
-   * @memberof FileDownloadToBufferOptions
    */
   maxRetryRequestsPerRange?: number;
 
   /**
    * Progress updater.
-   *
-   * @memberof FileDownloadToBufferOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Concurrency indicates the maximum number of ranges to download in parallel.
    * If not provided, 5 concurrency will be used by default.
-   *
-   * @type {number}
-   * @memberof FileDownloadToBufferOptions
    */
   concurrency?: number;
   /**
    * Lease access conditions.
-   *
-   * @type {LeaseAccessConditions}
-   * @memberof FileDownloadToBufferOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
  * Contains response data for the {@link ShareFileClient.deleteIfExists} operation.
- *
- * @export
- * @interface FileDeleteIfExistsResponse
  */
 export interface FileDeleteIfExistsResponse extends FileDeleteResponse {
   /**
    * Indicate whether the file is successfully deleted. Is false if the file does not exist in the first place.
-   *
-   * @type {boolean}
-   * @memberof FileDeleteIfExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Options to configure {@link ShareFileClient.generateSasUrl} operation.
- *
- * @export
- * @interface FileGenerateSasUrlOptions
  */
 export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
   /**
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
-   *
-   * @type {FileSASPermissions}
-   * @memberof FileGenerateSasUrlOptions
    */
   permissions?: FileSASPermissions;
 }
 
 /**
  * A ShareFileClient represents a URL to an Azure Storage file.
- *
- * @export
- * @class ShareFileClient
  */
 export class ShareFileClient extends StorageClient {
   /**
    * context provided by protocol layer.
-   *
-   * @private
-   * @type {File}
-   * @memberof ShareFileClient
    */
   private context: File;
 
@@ -4049,9 +3302,6 @@ export class ShareFileClient extends StorageClient {
 
   /**
    * The share name corresponding to this file client
-   *
-   * @type {string}
-   * @memberof ShareFileClient
    */
   public get shareName(): string {
     return this._shareName;
@@ -4059,9 +3309,6 @@ export class ShareFileClient extends StorageClient {
 
   /**
    * The full path of the file
-   *
-   * @type {string}
-   * @memberof ShareFileClient
    */
   public get path(): string {
     return this._path;
@@ -4069,9 +3316,6 @@ export class ShareFileClient extends StorageClient {
 
   /**
    * The name of the file
-   *
-   * @type {string}
-   * @memberof ShareFileClient
    */
   public get name(): string {
     return this._name;
@@ -4080,7 +3324,7 @@ export class ShareFileClient extends StorageClient {
   /**
    * Creates an instance of ShareFileClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage file, such as
+   * @param url - A URL string pointing to Azure Storage file, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file?sasString".
@@ -4088,16 +3332,15 @@ export class ShareFileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
-   * @param {Credential} [credential] Such as AnonymousCredential or StorageSharedKeyCredential.
+   * @param credential - Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof ShareFileClient
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareFileClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage file, such as
+   * @param url - A URL string pointing to Azure Storage file, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file?sasString".
@@ -4105,9 +3348,8 @@ export class ShareFileClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a file or directory name includes %, file or directory name must be encoded in the URL.
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof ShareFileClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -4138,9 +3380,8 @@ export class ShareFileClient extends StorageClient {
    * Creates a new ShareFileClient object identical to the source but with the specified share snapshot timestamp.
    * Provide "" will remove the snapshot and return a URL to the base ShareFileClient.
    *
-   * @param {string} shareSnapshot The share snapshot timestamp.
-   * @returns {ShareFileClient} A new ShareFileClient object identical to the source but with the specified share snapshot timestamp.
-   * @memberof ShareFileClient
+   * @param shareSnapshot - The share snapshot timestamp.
+   * @returns A new ShareFileClient object identical to the source but with the specified share snapshot timestamp.
    */
   public withShareSnapshot(shareSnapshot: string): ShareFileClient {
     return new ShareFileClient(
@@ -4157,10 +3398,9 @@ export class ShareFileClient extends StorageClient {
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
-   * @param {number} size Specifies the maximum size in bytes for the file, up to 4 TB.
-   * @param {FileCreateOptions} [options] Options to File Create operation.
-   * @returns {Promise<FileCreateResponse>} Response data for the File Create  operation.
-   * @memberof ShareFileClient
+   * @param size - Specifies the maximum size in bytes for the file, up to 4 TB.
+   * @param options - Options to File Create operation.
+   * @returns Response data for the File Create  operation.
    *
    * Example usage:
    *
@@ -4177,7 +3417,7 @@ export class ShareFileClient extends StorageClient {
    * ```
    */
   public async create(size: number, options: FileCreateOptions = {}): Promise<FileCreateResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareFileClient-create", options);
     try {
       if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
         throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
@@ -4205,12 +3445,12 @@ export class ShareFileClient extends StorageClient {
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
           leaseAccessConditions: options.leaseAccessConditions,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4227,11 +3467,10 @@ export class ShareFileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file
    *
-   * @param {number} [offset] From which position of the file to download, >= 0
-   * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {FileDownloadOptions} [options] Options to File Download operation.
-   * @returns {Promise<FileDownloadResponse>} Response data for the File Download operation.
-   * @memberof ShareFileClient
+   * @param offset - From which position of the file to download, greater than or equal to 0
+   * @param count - How much data to be downloaded, greater than 0. Will download to the end when undefined
+   * @param options - Options to File Download operation.
+   * @returns Response data for the File Download operation.
    *
    * Example usage (Node.js):
    *
@@ -4286,7 +3525,7 @@ export class ShareFileClient extends StorageClient {
     count?: number,
     options: FileDownloadOptions = {}
   ): Promise<FileDownloadResponseModel> {
-    const { span, spanOptions } = createSpan("ShareFileClient-download", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareFileClient-download", options);
     try {
       if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
         throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
@@ -4295,11 +3534,13 @@ export class ShareFileClient extends StorageClient {
       const downloadFullFile = offset === 0 && !count;
       const res = await this.context.download({
         abortSignal: options.abortSignal,
-        onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+        requestOptions: {
+          onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
+        },
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         leaseAccessConditions: options.leaseAccessConditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       // Return browser response immediately
@@ -4343,7 +3584,7 @@ export class ShareFileClient extends StorageClient {
               abortSignal: options.abortSignal,
               leaseAccessConditions: options.leaseAccessConditions,
               ...updatedOptions,
-              spanOptions
+              ...convertTracingToRequestOptionsBase(updatedOptions)
             })
           ).readableStreamBody!;
         },
@@ -4357,7 +3598,7 @@ export class ShareFileClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4373,31 +3614,29 @@ export class ShareFileClient extends StorageClient {
    * applications. Vice versa new files might be added by other clients or applications after this
    * function completes.
    *
-   * @param {FileExistsOptions} [options] options to Exists operation.
-   * @returns {Promise<boolean>}
-   * @memberof ShareFileClient
+   * @param options - options to Exists operation.
    */
   public async exists(options: FileExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("ShareFileClient-exists", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareFileClient-exists", options);
     try {
       await this.getProperties({
         abortSignal: options.abortSignal,
         tracingOptions: {
           ...options.tracingOptions,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       });
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when checking file existence"
         });
         return false;
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4411,26 +3650,22 @@ export class ShareFileClient extends StorageClient {
    * for the file. It does not return the content of the file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-properties
    *
-   * @param {FileGetPropertiesOptions} [options] Options to File Get Properties operation.
-   * @returns {Promise<FileGetPropertiesResponse>} Response data for the File Get Properties operation.
-   * @memberof ShareFileClient
+   * @param options - Options to File Get Properties operation.
+   * @returns Response data for the File Get Properties operation.
    */
   public async getProperties(
     options: FileGetPropertiesOptions = {}
   ): Promise<FileGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-getProperties",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-getProperties", options);
     try {
       return this.context.getProperties({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4443,24 +3678,19 @@ export class ShareFileClient extends StorageClient {
    * Sets properties on the file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
-   * @param {FileProperties} [properties] File properties. For file HTTP headers(e.g. Content-Type),
+   * @param properties - File properties. For file HTTP headers(e.g. Content-Type),
    *                                       if no values are provided, existing HTTP headers will be removed.
    *                                       For other file properties(e.g. fileAttributes), if no values are provided,
    *                                       existing values will be preserved.
-   * @returns {Promise<SetPropertiesResponse>}
-   * @memberof ShareFileClient
    */
   public async setProperties(properties: FileProperties = {}): Promise<SetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-setProperties",
-      properties.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-setProperties", properties);
     try {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
       properties.fileHttpHeaders = properties.fileHttpHeaders || {};
 
-      return await this.context.setHTTPHeaders(
+      return await this.context.setHttpHeaders(
         fileAttributesToString(properties.fileAttributes!),
         fileCreationTimeToString(properties.creationTime!),
         fileLastWriteTimeToString(properties.lastWriteTime!),
@@ -4470,12 +3700,12 @@ export class ShareFileClient extends StorageClient {
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
           leaseAccessConditions: properties.leaseAccessConditions,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4498,21 +3728,20 @@ export class ShareFileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
-   * @param {FileDeleteOptions} [options] Options to File Delete operation.
-   * @returns {Promise<FileDeleteResponse>} Response data for the File Delete operation.
-   * @memberof ShareFileClient
+   * @param options - Options to File Delete operation.
+   * @returns Response data for the File Delete operation.
    */
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-delete", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareFileClient-delete", options);
     try {
-      return await this.context.deleteMethod({
+      return await this.context.delete({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4535,22 +3764,14 @@ export class ShareFileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
-   * @param {FileDeleteOptions} [options]
-   * @returns {Promise<FileDeleteIfExistsResponse>}
-   * @memberof ShareFileClient
+   * @param options -
    */
   public async deleteIfExists(
     options: FileDeleteOptions = {}
   ): Promise<FileDeleteIfExistsResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-deleteIfExists",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-deleteIfExists", options);
     try {
-      const res = await this.delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const res = await this.delete(updatedOptions);
       return {
         succeeded: true,
         ...res
@@ -4561,7 +3782,7 @@ export class ShareFileClient extends StorageClient {
         e.details?.errorCode === "ParentNotFound"
       ) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a file only if it exists."
         });
         return {
@@ -4571,7 +3792,7 @@ export class ShareFileClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4587,24 +3808,20 @@ export class ShareFileClient extends StorageClient {
    * these file HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
-   * @param {fileHttpHeaders} [FileHttpHeaders] File HTTP headers like Content-Type.
+   * @param FileHttpHeaders - File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
-   * @param {FileSetHttpHeadersOptions} [options] Options to File Set HTTP Headers operation.
-   * @returns {Promise<FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
-   * @memberof ShareFileClient
+   * @param options - Options to File Set HTTP Headers operation.
+   * @returns Response data for the File Set HTTP Headers operation.
    */
   public async setHttpHeaders(
     fileHttpHeaders: FileHttpHeaders = {},
     options: FileSetHttpHeadersOptions = {}
   ): Promise<FileSetHTTPHeadersResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-setHTTPHeaders",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-setHTTPHeaders", options);
     try {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
-      return await this.context.setHTTPHeaders(
+      return await this.context.setHttpHeaders(
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
         fileLastWriteTimeToString(options.lastWriteTime!),
@@ -4614,12 +3831,12 @@ export class ShareFileClient extends StorageClient {
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
           leaseAccessConditions: options.leaseAccessConditions,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4633,18 +3850,17 @@ export class ShareFileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
-   * @param {number} length Resizes a file to the specified size in bytes.
+   * @param length - Resizes a file to the specified size in bytes.
    *                        If the specified byte value is less than the current size of the file,
    *                        then all ranges above the specified byte value are cleared.
-   * @param {FileResizeOptions} [options] Options to File Resize operation.
-   * @returns {Promise<FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
-   * @memberof ShareFileClient
+   * @param options - Options to File Resize operation.
+   * @returns Response data for the File Set HTTP Headers operation.
    */
   public async resize(
     length: number,
     options: FileResizeOptions = {}
   ): Promise<FileSetHTTPHeadersResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-resize", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareFileClient-resize", options);
     try {
       if (length < 0) {
         throw new RangeError(`Size cannot less than 0 when resizing file.`);
@@ -4652,7 +3868,7 @@ export class ShareFileClient extends StorageClient {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
 
-      return await this.context.setHTTPHeaders(
+      return await this.context.setHttpHeaders(
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
         fileLastWriteTimeToString(options.lastWriteTime!),
@@ -4662,12 +3878,12 @@ export class ShareFileClient extends StorageClient {
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
           leaseAccessConditions: options.leaseAccessConditions,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4683,26 +3899,25 @@ export class ShareFileClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-metadata
    *
-   * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
-   * @param {FileSetMetadataOptions} [options] Options to File Set Metadata operation.
-   * @returns {Promise<FileSetMetadataResponse>} Response data for the File Set Metadata operation.
-   * @memberof ShareFileClient
+   * @param metadata - If no metadata provided, all existing directory metadata will be removed
+   * @param options - Options to File Set Metadata operation.
+   * @returns Response data for the File Set Metadata operation.
    */
   public async setMetadata(
     metadata: Metadata = {},
     options: FileSetMetadataOptions = {}
   ): Promise<FileSetMetadataResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-setMetadata", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareFileClient-setMetadata", options);
     try {
       return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
         leaseAccessConditions: options.leaseAccessConditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4712,17 +3927,17 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
-   * Upload a range of bytes to a file. Both the start and count of the
-   * range must be specified. The range can be up to 4 MB in size.
+   * Upload a range of bytes to a file. This operation can only be called on an existing file.
+   * It won't change the size, properties or metadata of the file.
+   * Both the start and count of the range must be specified. The range can be up to 4 MB in size.
    *
-   * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
+   * @param body - Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
-   * @param {number} offset Offset position of the destination Azure File to upload.
-   * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
+   * @param offset - Offset position of the destination Azure File to upload.
+   * @param contentLength - Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {FileUploadRangeOptions} [options={}] Options to File Upload Range operation.
-   * @returns {Promise<FileUploadRangeResponse>} Response data for the File Upload Range operation.
-   * @memberof ShareFileClient
+   * @param options - Options to File Upload Range operation.
+   * @returns Response data for the File Upload Range operation.
    *
    * Example usage:
    *
@@ -4744,7 +3959,7 @@ export class ShareFileClient extends StorageClient {
     contentLength: number,
     options: FileUploadRangeOptions = {}
   ): Promise<FileUploadRangeResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-uploadRange", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareFileClient-uploadRange", options);
     try {
       if (offset < 0) {
         throw new RangeError(`offset must be >= 0`);
@@ -4765,15 +3980,17 @@ export class ShareFileClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           contentMD5: options.contentMD5,
-          onUploadProgress: options.onProgress,
+          requestOptions: {
+            onUploadProgress: options.onProgress
+          },
           body: body,
-          spanOptions,
+          ...convertTracingToRequestOptionsBase(updatedOptions),
           leaseAccessConditions: options.leaseAccessConditions
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4786,13 +4003,11 @@ export class ShareFileClient extends StorageClient {
    * Upload a range of bytes to a file where the contents are read from a another file's URL.
    * The range can be up to 4 MB in size.
    *
-   * @param {string} sourceURL Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication.
-   * @param {number} sourceOffset The source offset to copy from. Pass 0 to copy from the beginning of source file.
-   * @param {number} destOffset Offset of destination file.
-   * @param {number} count Number of bytes to be uploaded from source file.
-   * @param {FileUploadRangeFromURLOptions} [options={}] Options to configure File - Upload Range from URL operation.
-   * @returns {Promise<FileUploadRangeFromURLResponse>}
-   * @memberof FileURL
+   * @param sourceURL - Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication.
+   * @param sourceOffset - The source offset to copy from. Pass 0 to copy from the beginning of source file.
+   * @param destOffset - Offset of destination file.
+   * @param count - Number of bytes to be uploaded from source file.
+   * @param options - Options to configure File - Upload Range from URL operation.
    */
   public async uploadRangeFromURL(
     sourceURL: string,
@@ -4801,10 +4016,7 @@ export class ShareFileClient extends StorageClient {
     count: number,
     options: FileUploadRangeFromURLOptions = {}
   ): Promise<FileUploadRangeFromURLResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-uploadRangeFromURL",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-uploadRangeFromURL", options);
     try {
       if (sourceOffset < 0 || destOffset < 0) {
         throw new RangeError(`sourceOffset and destOffset must be >= 0`);
@@ -4823,12 +4035,12 @@ export class ShareFileClient extends StorageClient {
           sourceRange: rangeToString({ offset: sourceOffset, count }),
           sourceModifiedAccessConditions: options.sourceConditions,
           ...options,
-          spanOptions
+          ...convertTracingToRequestOptionsBase(updatedOptions)
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4840,18 +4052,16 @@ export class ShareFileClient extends StorageClient {
    * Clears the specified range and
    * releases the space used in storage for that range.
    *
-   * @param {number} offset
-   * @param {number} contentLength
-   * @param {FileClearRangeOptions} [options] Options to File Clear Range operation.
-   * @returns {Promise<FileUploadRangeResponse>}
-   * @memberof ShareFileClient
+   * @param offset -
+   * @param contentLength -
+   * @param options - Options to File Clear Range operation.
    */
   public async clearRange(
     offset: number,
     contentLength: number,
     options: FileClearRangeOptions = {}
   ): Promise<FileUploadRangeResponse> {
-    const { span, spanOptions } = createSpan("ShareFileClient-clearRange", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareFileClient-clearRange", options);
     try {
       if (offset < 0 || contentLength <= 0) {
         throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
@@ -4863,13 +4073,13 @@ export class ShareFileClient extends StorageClient {
         0,
         {
           abortSignal: options.abortSignal,
-          spanOptions,
+          ...convertTracingToRequestOptionsBase(updatedOptions),
           leaseAccessConditions: options.leaseAccessConditions
         }
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4881,23 +4091,18 @@ export class ShareFileClient extends StorageClient {
   /**
    * Returns the list of valid ranges for a file.
    *
-   * @param {FileGetRangeListOptions} [options] Options to File Get range List operation.
-   * @returns {Promise<FileGetRangeListResponse>}
-   * @memberof ShareFileClient
+   * @param options - Options to File Get range List operation.
    */
   public async getRangeList(
     options: FileGetRangeListOptions = {}
   ): Promise<FileGetRangeListResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-getRangeList",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-getRangeList", options);
     try {
       const originalResponse = await this.context.getRangeList({
         abortSignal: options.abortSignal,
         range: options.range ? rangeToString(options.range) : undefined,
         leaseAccessConditions: options.leaseAccessConditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       // Only returns ranges, ignoring clearRanges.
@@ -4911,7 +4116,7 @@ export class ShareFileClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4923,29 +4128,24 @@ export class ShareFileClient extends StorageClient {
   /**
    * Returns the list of ranges that differ between a previous share snapshot and this file.
    *
-   * @param {string} [prevShareSnapshot] The previous snapshot parameter is an opaque DateTime value that specifies the previous share snapshot to compare with.
-   * @param {FileGetRangeListOptions} [options]
-   * @returns {Promise<FileGetRangeListDiffResponse>}
-   * @memberof ShareFileClient
+   * @param prevShareSnapshot - The previous snapshot parameter is an opaque DateTime value that specifies the previous share snapshot to compare with.
+   * @param options -
    */
   public async getRangeListDiff(
     prevShareSnapshot: string,
     options: FileGetRangeListOptions = {}
   ): Promise<FileGetRangeListDiffResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-getRangeListDiff",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-getRangeListDiff", options);
     try {
       return await this.context.getRangeList({
         prevsharesnapshot: prevShareSnapshot,
         ...options,
         range: options.range ? rangeToString(options.range) : undefined,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4957,25 +4157,20 @@ export class ShareFileClient extends StorageClient {
   /**
    * Copies a blob or file to a destination file within the storage account.
    *
-   * @param {string} copySource Specifies the URL of the source file or blob, up to 2 KB in length.
+   * @param copySource - Specifies the URL of the source file or blob, up to 2 KB in length.
    * To copy a file to another file within the same storage account, you may use Shared Key to
    * authenticate the source file. If you are copying a file from another storage account, or if you
    * are copying a blob from the same storage account or another storage account, then you must
    * authenticate the source file or blob using a shared access signature. If the source is a public
    * blob, no authentication is required to perform the copy operation. A file in a share snapshot
    * can also be specified as a copy source.
-   * @param {FileStartCopyOptions} [options] Options to File Start Copy operation.
-   * @returns {Promise<FileStartCopyResponse>}
-   * @memberof ShareFileClient
+   * @param options - Options to File Start Copy operation.
    */
   public async startCopyFromURL(
     copySource: string,
     options: FileStartCopyOptions = {}
   ): Promise<FileStartCopyResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-startCopyFromURL",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-startCopyFromURL", options);
     try {
       return await this.context.startCopy(copySource, {
         abortSignal: options.abortSignal,
@@ -4984,11 +4179,11 @@ export class ShareFileClient extends StorageClient {
         filePermission: options.filePermission,
         filePermissionKey: options.filePermissionKey,
         copyFileSmbInfo: options.copyFileSmbInfo,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5002,28 +4197,23 @@ export class ShareFileClient extends StorageClient {
    * metadata.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-file
    *
-   * @param {string} copyId Id of the Copy File operation to abort.
-   * @param {FileAbortCopyFromURLOptions} [options] Options to File Abort Copy From URL operation.
-   * @returns {Promise<FileAbortCopyResponse>}
-   * @memberof ShareFileClient
+   * @param copyId - Id of the Copy File operation to abort.
+   * @param options - Options to File Abort Copy From URL operation.
    */
   public async abortCopyFromURL(
     copyId: string,
     options: FileAbortCopyFromURLOptions = {}
   ): Promise<FileAbortCopyResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-abortCopyFromURL",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-abortCopyFromURL", options);
     try {
       return await this.context.abortCopy(copyId, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5035,17 +4225,16 @@ export class ShareFileClient extends StorageClient {
   // High Level functions
 
   /**
-   * Uploads a Buffer(Node)/Blob/ArrayBuffer/ArrayBufferView to an Azure File.
+   * Creates a new Azure File or replaces an existing Azure File, and then uploads a Buffer(Node)/Blob/ArrayBuffer/ArrayBufferView to it.
    *
-   * @param {Buffer | Blob | ArrayBuffer | ArrayBufferView} data Buffer(Node), Blob, ArrayBuffer or ArrayBufferView
-   * @param {FileParallelUploadOptions} [options]
-   * @returns {Promise<void>}
+   * @param data - Buffer(Node), Blob, ArrayBuffer or ArrayBufferView
+   * @param options -
    */
   public async uploadData(
     data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan("ShareFileClient-uploadData", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareFileClient-uploadData", options);
     try {
       if (isNode) {
         let buffer: Buffer;
@@ -5061,22 +4250,19 @@ export class ShareFileClient extends StorageClient {
         return this.uploadSeekableInternal(
           (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
           buffer.byteLength,
-          {
-            ...options,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
-          }
+          updatedOptions
         );
       } else {
         const browserBlob = new Blob([data]);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
-          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+          updatedOptions
         );
       }
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5091,28 +4277,21 @@ export class ShareFileClient extends StorageClient {
    * Uploads a browser Blob object to an Azure file. Requires a blobFactory as the data source,
    * which need to return a Blob object with the offset and size provided.
    *
-   * @param {(offset: number, size: number) => Blob} blobFactory
-   * @param {number} size
-   * @param {FileParallelUploadOptions} [options]
-   * @returns {Promise<void>}
+   * @param blobFactory -
+   * @param size -
+   * @param options -
    */
   async uploadSeekableBlob(
     blobFactory: (offset: number, size: number) => Blob,
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-UploadSeekableBlob",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-UploadSeekableBlob", options);
     try {
-      return this.uploadSeekableInternal(blobFactory, size, {
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return this.uploadSeekableInternal(blobFactory, size, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5124,18 +4303,17 @@ export class ShareFileClient extends StorageClient {
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
-   * Uploads a local file to an Azure file.
+   * Creates a new Azure File or replaces an existing Azure File, and then uploads a local file to it.
    *
-   * @param {string} filePath Full path of local file
-   * @param {ShareFileClient} fileClient ShareFileClient
-   * @param {FileParallelUploadOptions} [options]
-   * @returns {(Promise<void>)}
+   * @param filePath - Full path of local file
+   * @param fileClient - ShareFileClient
+   * @param options -
    */
   public async uploadFile(
     filePath: string,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan("ShareFileClient-uploadFile", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareFileClient-uploadFile", options);
     try {
       const size = (await fsStat(filePath)).size;
       return await this.uploadSeekableInternal(
@@ -5148,11 +4326,11 @@ export class ShareFileClient extends StorageClient {
             });
         },
         size,
-        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5168,34 +4346,29 @@ export class ShareFileClient extends StorageClient {
    * The Readable stream factory must returns a Node.js Readable stream starting from the offset defined. The offset
    * is the offset in the Azure file to be uploaded.
    *
-   * @export
-   * @param {(offset: number) => NodeJS.ReadableStream} streamFactory Returns a Node.js Readable stream starting
+   * @param streamFactory - Returns a Node.js Readable stream starting
    *                                                                  from the offset defined
-   * @param {number} size Size of the Azure file
-   * @param {ShareFileClient} fileClient ShareFileClient
-   * @param {FileParallelUploadOptions} [options]
-   * @returns {(Promise<void>)}
+   * @param size - Size of the Azure file
+   * @param fileClient - ShareFileClient
+   * @param options -
    */
   async uploadResetableStream(
     streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-uploadResetableStream",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-uploadResetableStream", options);
     try {
       return await this.uploadSeekableInternal(
         (offset: number, count?: number) => {
           return () => streamFactory(offset, count);
         },
         size,
-        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+        updatedOptions
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5206,21 +4379,17 @@ export class ShareFileClient extends StorageClient {
 
   /**
    *
-   * @param {(offset: number, count: number) => HttpRequestBody} bodyFactory
-   * @param {number} size Size of the Azure file
-   * @param {ShareFileClient} fileClient ShareFileClient
-   * @param {FileParallelUploadOptions} [options]
-   * @returns {(Promise<void>)}
+   * @param bodyFactory -
+   * @param size - Size of the Azure file
+   * @param fileClient - ShareFileClient
+   * @param options -
    */
   private async uploadSeekableInternal(
     bodyFactory: (offset: number, count: number) => HttpRequestBody,
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-uploadSeekableInternal",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-uploadSeekableInternal", options);
     try {
       if (!options.rangeSize) {
         options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
@@ -5246,7 +4415,7 @@ export class ShareFileClient extends StorageClient {
         fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
         leaseAccessConditions: options.leaseAccessConditions,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
 
       const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
@@ -5262,7 +4431,7 @@ export class ShareFileClient extends StorageClient {
             await this.uploadRange(bodyFactory(start, contentLength), start, contentLength, {
               abortSignal: options.abortSignal,
               leaseAccessConditions: options.leaseAccessConditions,
-              tracingOptions: { ...options!.tracingOptions, spanOptions }
+              tracingOptions: updatedOptions.tracingOptions
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
             transferProgress += contentLength;
@@ -5275,7 +4444,7 @@ export class ShareFileClient extends StorageClient {
       return await batch.do();
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5294,11 +4463,10 @@ export class ShareFileClient extends StorageClient {
    * gigabytes on 64-bit systems due to limitations of Node.js/V8. For files larger than this size,
    * consider {@link downloadToFile}.
    *
-   * @param {Buffer} buffer Buffer to be fill, must have length larger than count
-   * @param {number} offset From which position of the Azure File to download
-   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
-   * @param {FileDownloadToBufferOptions} [options]
-   * @returns {Promise<Buffer>}
+   * @param buffer - Buffer to be fill, must have length larger than count
+   * @param offset - From which position of the Azure File to download
+   * @param count - How much data to be downloaded. Will download to the end when passing undefined
+   * @param options -
    */
   public async downloadToBuffer(
     buffer: Buffer,
@@ -5317,10 +4485,9 @@ export class ShareFileClient extends StorageClient {
    * gigabytes on 64-bit systems due to limitations of Node.js/V8. For files larger than this size,
    * consider {@link downloadToFile}.
    *
-   * @param {number} offset From which position of the Azure file to download
-   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
-   * @param {FileDownloadToBufferOptions} [options]
-   * @returns {Promise<Buffer>}
+   * @param offset - From which position of the Azure file to download
+   * @param count - How much data to be downloaded. Will download to the end when passing undefined
+   * @param options -
    */
   public async downloadToBuffer(
     offset?: number,
@@ -5349,10 +4516,7 @@ export class ShareFileClient extends StorageClient {
       options = (countOrOptions as FileDownloadToBufferOptions) || {};
     }
 
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-downloadToBuffer",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-downloadToBuffer", options);
 
     try {
       if (!options.rangeSize) {
@@ -5382,7 +4546,7 @@ export class ShareFileClient extends StorageClient {
         const response = await this.getProperties({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.leaseAccessConditions,
-          tracingOptions: { ...options!.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         });
         count = response.contentLength! - offset;
         if (count < 0) {
@@ -5423,7 +4587,7 @@ export class ShareFileClient extends StorageClient {
             abortSignal: options.abortSignal,
             maxRetryRequests: options.maxRetryRequestsPerRange,
             leaseAccessConditions: options.leaseAccessConditions,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions.tracingOptions
           });
           const stream = response.readableStreamBody!;
           await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
@@ -5440,7 +4604,7 @@ export class ShareFileClient extends StorageClient {
       return buffer;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5452,8 +4616,8 @@ export class ShareFileClient extends StorageClient {
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
-   * Uploads a Node.js Readable stream into an Azure file.
-   * This method will try to create an Azure, then starts uploading chunk by chunk.
+   * Creates a new Azure File or replaces an existing Azure File, and then uploads a Node.js Readable stream into it.
+   * This method will try to create an Azure File, then starts uploading chunk by chunk.
    * Size of chunk is defined by `bufferSize` parameter.
    * Please make sure potential size of stream doesn't exceed file size.
    *
@@ -5461,15 +4625,14 @@ export class ShareFileClient extends StorageClient {
    * * Input stream highWaterMark is better to set a same value with bufferSize
    *   parameter, which will avoid Buffer.concat() operations.
    *
-   * @param {Readable} stream Node.js Readable stream. Must be less or equal than file size.
-   * @param {number} size Size of file to be created. Maximum size allowed is 4 TB.
+   * @param stream - Node.js Readable stream. Must be less or equal than file size.
+   * @param size - Size of file to be created. Maximum size allowed is 4 TB.
    *                      If this value is larger than stream size, there will be empty bytes in file tail.
-   * @param {number} bufferSize Size of every buffer allocated in bytes, also the chunk/range size during
-   *                            the uploaded file. Size must be > 0 and <= 4 * 1024 * 1024 (4MB)
-   * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
+   * @param bufferSize - Size of every buffer allocated in bytes, also the chunk/range size during
+   *                            the uploaded file. Size must be greater than 0 and lesser than or equal to 4 * 1024 * 1024 (4MB)
+   * @param maxBuffers - Max buffers will allocate during uploading, positive correlation
    *                            with max uploading concurrency
-   * @param {FileUploadStreamOptions} [options]
-   * @returns {Promise<void>}
+   * @param options -
    */
   public async uploadStream(
     stream: Readable,
@@ -5478,10 +4641,7 @@ export class ShareFileClient extends StorageClient {
     maxBuffers: number,
     options: FileUploadStreamOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-uploadStream",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-uploadStream", options);
     try {
       if (!options.fileHttpHeaders) {
         options.fileHttpHeaders = {};
@@ -5501,7 +4661,7 @@ export class ShareFileClient extends StorageClient {
         fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
         leaseAccessConditions: options.leaseAccessConditions,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
 
       let transferProgress: number = 0;
@@ -5520,7 +4680,7 @@ export class ShareFileClient extends StorageClient {
           await this.uploadRange(buffer, offset!, buffer.length, {
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.leaseAccessConditions,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions.tracingOptions
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
@@ -5538,7 +4698,7 @@ export class ShareFileClient extends StorageClient {
       return await scheduler.do();
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5554,15 +4714,14 @@ export class ShareFileClient extends StorageClient {
    * Fails if the the given file path already exits.
    * Offset and count are optional, pass 0 and undefined respectively to download the entire blob.
    *
-   * @param {string} filePath
-   * @param {number} [offset] From which position of the block blob to download.
-   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
-   * @param {BlobDownloadOptions} [options] Options to Blob download options.
-   * @returns {Promise<FileDownloadResponse>} The response data for blob download operation,
+   * @param filePath -
+   * @param offset - From which position of the block blob to download.
+   * @param count - How much data to be downloaded. Will download to the end when passing undefined.
+   * @param options - Options to Blob download options.
+   * @returns The response data for blob download operation,
    *                                                 but with readableStreamBody set to undefined since its
    *                                                 content is already read and written into a local file
    *                                                 at the specified path.
-   * @memberof BlobClient
    */
   public async downloadToFile(
     filePath: string,
@@ -5570,15 +4729,9 @@ export class ShareFileClient extends StorageClient {
     count?: number,
     options: FileDownloadOptions = {}
   ): Promise<FileDownloadResponseModel> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-downloadToFile",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-downloadToFile", options);
     try {
-      const response = await this.download(offset, count, {
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      const response = await this.download(offset, count, updatedOptions);
       if (response.readableStreamBody) {
         await readStreamToLocalFile(response.readableStreamBody, filePath);
       }
@@ -5588,7 +4741,7 @@ export class ShareFileClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5601,30 +4754,25 @@ export class ShareFileClient extends StorageClient {
    * Lists handles for a file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles
    *
-   * @param {string} [marker] Optional. A string value that identifies the portion of the list to be
+   * @param marker - Optional. A string value that identifies the portion of the list to be
    *                          returned with the next list handles operation. The operation returns a
    *                          marker value within the response body if the list returned was not complete.
    *                          The marker value may then be used in a subsequent call to request the next
    *                          set of list items.
-   * @param {FileListHandlesSegmentOptions} [options={}]
-   * @returns {Promise<FileListHandlesResponse>}
-   * @memberof FileURL
+   * @param options -
    */
   private async listHandlesSegment(
     marker?: string,
     options: FileListHandlesSegmentOptions = {}
   ): Promise<FileListHandlesResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-listHandlesSegment",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-listHandlesSegment", options);
     try {
       marker = marker === "" ? undefined : marker;
       const response = await this.context.listHandles({
         abortSignal: options.abortSignal,
         marker,
         ...options,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
       // TODO: Protocol layer issue that when handle list is in returned XML
@@ -5635,7 +4783,7 @@ export class ShareFileClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5647,15 +4795,12 @@ export class ShareFileClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for FileListHandlesResponse
    *
-   * @private
-   * @param {string} [marker] A string value that identifies the portion of the list to be
+   * @param marker - A string value that identifies the portion of the list to be
    *                          returned with the next list handles operation. The operation returns a
    *                          marker value within the response body if the list returned was not complete.
    *                          The marker value may then be used in a subsequent call to request the next
    *                          set of list items.
-   * @param {FileListHandlesSegmentOptions} [options] Options to list handles operation.
-   * @returns {AsyncIterableIterator<FileListHandlesResponse>}
-   * @memberof ShareFileClient
+   * @param options - Options to list handles operation.
    */
   private async *iterateHandleSegments(
     marker?: string,
@@ -5674,10 +4819,7 @@ export class ShareFileClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for handles
    *
-   * @private
-   * @param {FileListHandlesSegmentOptions} [options] Options to list handles operation.
-   * @returns {AsyncIterableIterator<HandleItem>}
-   * @memberof ShareFileClient
+   * @param options - Options to list handles operation.
    */
   private async *listHandleItems(
     options: FileListHandlesSegmentOptions = {}
@@ -5698,9 +4840,8 @@ export class ShareFileClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the handles in pages.
    *
-   * @param {FileListHandlesOptions} [options] Options to list handles operation.
-   * @memberof ShareFileClient
-   * @returns {PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>}
+   * @param options - Options to list handles operation.
+   *
    * An asyncIterableIterator that supports paging.
    */
   public listHandles(
@@ -5710,19 +4851,19 @@ export class ShareFileClient extends StorageClient {
     const iter = this.listHandleItems(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       async next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.iterateHandleSegments(settings.continuationToken, {
@@ -5737,29 +4878,27 @@ export class ShareFileClient extends StorageClient {
    * Force close all handles for a file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
-   * @param {string} [marker] Optional. A string value that identifies the position of handles that will
+   * @param marker - Optional. A string value that identifies the position of handles that will
    *                          be closed with the next force close handles operation.
    *                          The operation returns a marker value within the response
    *                          body if there are more handles to close. The marker value
    *                          may then be used in a subsequent call to close the next set of handles.
-   * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
-   * @returns {Promise<FileForceCloseHandlesResponse>}
-   * @memberof ShareFileClient
+   * @param options - Options to force close handles operation.
    */
   private async forceCloseHandlesSegment(
     marker?: string,
     options: FileForceCloseHandlesOptions = {}
   ): Promise<FileForceCloseHandlesResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ShareFileClient-forceCloseHandlesSegment",
-      options.tracingOptions
+      options
     );
     try {
       marker = marker === "" ? undefined : marker;
       const rawResponse = await this.context.forceCloseHandles("*", {
         abortSignal: options.abortSignal,
         marker,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       const response = rawResponse as FileForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
@@ -5767,7 +4906,7 @@ export class ShareFileClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5780,17 +4919,12 @@ export class ShareFileClient extends StorageClient {
    * Force close all handles for a file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
-   * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
-   * @returns {Promise<CloseHandlesInfo>}
-   * @memberof ShareFileClient
+   * @param options - Options to force close handles operation.
    */
   public async forceCloseAllHandles(
     options: FileForceCloseHandlesOptions = {}
   ): Promise<CloseHandlesInfo> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-forceCloseAllHandles",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-forceCloseAllHandles", options);
     try {
       let handlesClosed = 0;
       let numberOfHandlesFailedToClose = 0;
@@ -5799,7 +4933,7 @@ export class ShareFileClient extends StorageClient {
       do {
         const response: FileForceCloseHandlesResponse = await this.forceCloseHandlesSegment(
           marker,
-          { tracingOptions: { ...options!.tracingOptions, spanOptions } }
+          { tracingOptions: updatedOptions.tracingOptions }
         );
         marker = response.marker;
         response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
@@ -5812,7 +4946,7 @@ export class ShareFileClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5825,20 +4959,15 @@ export class ShareFileClient extends StorageClient {
    * Force close a specific handle for a file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
-   * @param {string} handleId Specific handle ID, cannot be asterisk "*".
+   * @param handleId - Specific handle ID, cannot be asterisk "*".
    *                          Use forceCloseAllHandles() to close all handles.
-   * @param FileForceCloseHandlesOptions} [options] Options to force close handles operation.
-   * @returns {Promise<FileForceCloseHandlesResponse>}
-   * @memberof ShareFileClient
+   * @param FileForceCloseHandlesOptions - Options to force close handles operation.
    */
   public async forceCloseHandle(
     handleId: string,
     options: FileForceCloseHandlesOptions = {}
   ): Promise<FileForceCloseHandlesResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareFileClient-forceCloseHandle",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareFileClient-forceCloseHandle", options);
     try {
       if (handleId === "*") {
         throw new RangeError(
@@ -5848,7 +4977,7 @@ export class ShareFileClient extends StorageClient {
 
       const rawResponse = await this.context.forceCloseHandles(handleId, {
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       const response = rawResponse as FileForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
@@ -5856,7 +4985,7 @@ export class ShareFileClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5868,9 +4997,8 @@ export class ShareFileClient extends StorageClient {
   /**
    * Get a {@link ShareLeaseClient} that manages leases on the file.
    *
-   * @param {string} [proposeLeaseId] Initial proposed lease Id.
-   * @returns {ShareLeaseClient} A new ShareLeaseClient object for managing leases on the file.
-   * @memberof ShareFileClient
+   * @param proposeLeaseId - Initial proposed lease Id.
+   * @returns A new ShareLeaseClient object for managing leases on the file.
    */
   public getShareLeaseClient(proposeLeaseId?: string) {
     return new ShareLeaseClient(this, proposeLeaseId);
@@ -5884,9 +5012,8 @@ export class ShareFileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @param {FileGenerateSasUrlOptions} options Optional parameters.
-   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof ShareFileClient
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
   public generateSasUrl(options: FileGenerateSasUrlOptions): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
@@ -5968,17 +5095,11 @@ export type LeaseOperationResponse = LeaseOperationResponseHeaders & {
 
 /**
  * lease operations options.
- *
- * @export
- * @interface LeaseOperationOptions
  */
 export interface LeaseOperationOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof LeaseOperationOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -5988,9 +5109,6 @@ export interface LeaseOperationOptions extends CommonOptions {
  * @see https://docs.microsoft.com/rest/api/storageservices/lease-file
  * and
  * @see https://docs.microsoft.com/rest/api/storageservices/lease-share
- *
- * @export
- * @class ShareLeaseClient
  */
 export class ShareLeaseClient {
   private _leaseId: string;
@@ -6001,8 +5119,6 @@ export class ShareLeaseClient {
    * Gets the lease Id.
    *
    * @readonly
-   * @memberof ShareLeaseClient
-   * @type {string}
    */
   public get leaseId(): string {
     return this._leaseId;
@@ -6012,8 +5128,6 @@ export class ShareLeaseClient {
    * Gets the url.
    *
    * @readonly
-   * @memberof ShareLeaseClient
-   * @type {string}
    */
   public get url(): string {
     return this._url;
@@ -6021,16 +5135,14 @@ export class ShareLeaseClient {
 
   /**
    * Creates an instance of ShareLeaseClient.
-   * @param {ShareFileClient} client The client to make the lease operation requests.
-   * @param {string} leaseId Initial proposed lease id.
-   * @memberof ShareLeaseClient
+   * @param client - The client to make the lease operation requests.
+   * @param leaseId - Initial proposed lease id.
    */
   constructor(client: ShareFileClient, leaseId?: string) {
-    const clientContext = new StorageClientContext(
-      SERVICE_VERSION,
-      client.url,
-      (client as any).pipeline.toServiceClientOptions()
-    );
+    const clientContext = new StorageClientContext(client.url, {
+      version: SERVICE_VERSION,
+      ...(client as any).pipeline.toServiceClientOptions()
+    });
 
     if (client instanceof ShareClient) {
       this.isShare = true;
@@ -6050,29 +5162,25 @@ export class ShareLeaseClient {
   /**
    * Establishes and manages a lock on a file, share or share snapshot for write and delete operations.
    *
-   * @param {number} duration Specifies the duration of lease in seconds. For file, the only allowed value is -1 for a lease that never expires. For share, must be -1 or between 15 to 60.
-   * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
-   * @returns {Promise<LeaseOperationResponse>} Response data for acquire lease operation.
-   * @memberof ShareLeaseClient
+   * @param duration - Specifies the duration of lease in seconds. For file, the only allowed value is -1 for a lease that never expires. For share, must be -1 or between 15 to 60.
+   * @param options - Options for the lease management operation.
+   * @returns Response data for acquire lease operation.
    */
   public async acquireLease(
     duration: number = -1,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareLeaseClient-acquireLease",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareLeaseClient-acquireLease", options);
     try {
       return await this.fileOrShare.acquireLease({
         abortSignal: options.abortSignal,
         duration,
         proposedLeaseId: this._leaseId,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -6084,30 +5192,26 @@ export class ShareLeaseClient {
   /**
    * To change the ID of an existing lease.
    *
-   * @param {string} proposedLeaseId the proposed new lease Id.
-   * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
-   * @returns {Promise<LeaseOperationResponse>} Response data for change lease operation.
-   * @memberof ShareLeaseClient
+   * @param proposedLeaseId - the proposed new lease Id.
+   * @param options - Options for the lease management operation.
+   * @returns Response data for change lease operation.
    */
   public async changeLease(
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareLeaseClient-changeLease",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareLeaseClient-changeLease", options);
     try {
       const response = await this.fileOrShare.changeLease(this._leaseId, {
         proposedLeaseId,
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       this._leaseId = proposedLeaseId;
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -6120,23 +5224,19 @@ export class ShareLeaseClient {
    * To free the lease if it is no longer needed so that another client may
    * immediately acquire a lease.
    *
-   * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
-   * @returns {Promise<LeaseOperationResponse>} Response data for release lease operation.
-   * @memberof ShareLeaseClient
+   * @param options - Options for the lease management operation.
+   * @returns Response data for release lease operation.
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan(
-      "ShareLeaseClient-releaseLease",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ShareLeaseClient-releaseLease", options);
     try {
       return await this.fileOrShare.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -6148,20 +5248,19 @@ export class ShareLeaseClient {
   /**
    * To force end the lease.
    *
-   * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
-   * @returns {Promise<LeaseOperationResponse>} Response data for break lease operation.
-   * @memberof ShareLeaseClient
+   * @param options - Options for the lease management operation.
+   * @returns Response data for break lease operation.
    */
   public async breakLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("ShareLeaseClient-breakLease", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareLeaseClient-breakLease", options);
     try {
       return await this.fileOrShare.breakLease({
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -6175,12 +5274,11 @@ export class ShareLeaseClient {
    * Note that the lease may be renewed even if it has expired as long as the share has not been leased again since the expiration of that lease.
    * When you renew a lease, the lease duration clock resets.
    *
-   * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
-   * @returns {Promise<LeaseOperationResponse>} Response data for renew lease operation.
-   * @memberof ShareLeaseClient
+   * @param options - Options for the lease management operation.
+   * @returns Response data for renew lease operation.
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("ShareLeaseClient-renewLease", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShareLeaseClient-renewLease", options);
 
     if (!this.isShare) {
       throw new RangeError("The renewLease operation is not available for lease on file.");
@@ -6189,11 +5287,11 @@ export class ShareLeaseClient {
     try {
       return await (this.fileOrShare as Share).renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
-        spanOptions
+        ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

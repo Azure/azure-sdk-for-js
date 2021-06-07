@@ -29,7 +29,7 @@ export function getRequestChargeIfAny(headers: CosmosHeaders | number): number {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export function getInitialHeader(): CosmosHeaders {
   const headers: CosmosHeaders = {};
@@ -39,12 +39,10 @@ export function getInitialHeader(): CosmosHeaders {
 }
 
 /**
- * @ignore
- * @param headers
- * @param toBeMergedHeaders
+ * @hidden
  */
 // TODO: The name of this method isn't very accurate to what it does
-export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHeaders) {
+export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHeaders): void {
   if (headers[Constants.HttpHeaders.RequestCharge] === undefined) {
     headers[Constants.HttpHeaders.RequestCharge] = 0;
   }

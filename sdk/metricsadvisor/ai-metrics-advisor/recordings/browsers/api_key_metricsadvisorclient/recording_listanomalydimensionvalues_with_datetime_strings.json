@@ -1,0 +1,27 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query",
+   "query": {},
+   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
+   "status": 200,
+   "response": "{\"value\":[\"__SUM__\",\"Karachi\",\"Los Angeles\",\"Delhi\",\"Manila\",\"Seoul\",\"Mumbai\",\"Beijing\",\"New York\",\"Miami\",\"Mexico City\",\"Tianjin\",\"Philadelphia\",\"Osaka\",\"Moscow\",\"Santiago\",\"Istanbul\",\"Taipei\",\"Madrid\",\"Kolkata\",\"Rio de Janeiro\",\"Shenzhen\",\"Belo Horizonte\",\"Jakarta\",\"Lahore\",\"Dallas\",\"Wuhan\",\"Cairo\",\"Hyderabad\",\"Lima\",\"Dhaka\",\"Bogota\",\"Shanghai\",\"Paris\",\"Bangkok\",\"Houston\",\"Buenos Aires\",\"Kinshasa\",\"London\",\"Chennai\",\"Bengaluru\",\"Lagos\",\"Tokyo\",\"Sao Paulo\",\"Chicago\",\"Hong Kong\",\"Chongqing\",\"Guangzhou\",\"Tehran\",\"Boston\",\"Ho Chi Minh City\",\"Khartoum\",\"Barcelona\",\"Washington\",\"Pune\",\"Shenyang\",\"Saint Petersburg\",\"Toronto\",\"Guadalajara\",\"Singapore\",\"Dongguan\",\"Luanda\",\"Baghdad\",\"Haora\"]}",
+   "responseHeaders": {
+    "apim-request-id": "dc4f3c91-6f3b-4a38-848a-54affa26c5c3",
+    "content-length": "693",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 02 Jun 2021 07:09:32 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "257",
+    "x-request-id": "dc4f3c91-6f3b-4a38-848a-54affa26c5c3"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "b70a704fa90b8bf71d7894aff3ebe11d"
+}

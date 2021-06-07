@@ -13,12 +13,14 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/97ae1493ff37d947cc26e00a3a5abd096982517b/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.1-preview.2/FormRecognizer.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1a8a869d1a96dc007f116d320f5c2659323bbe7c/specification/cognitiveservices/data-plane/FormRecognizer/stable/v2.1/FormRecognizer.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20201113.1"
-package-version: "3.1.0-beta.1"
+  "@autorest/typescript": "6.0.0-dev.20210121.2"
+package-version: "3.1.0"
+disable-async-iterators: true
+hide-clients: true
 ```
 
 ## Customizations for Track 2 Generator
@@ -152,12 +154,75 @@ directive:
       $["x-ms-client-name"] = "includeSubfolders";
 ```
 
-### Add "image/bmp" to `consumes` for custom form to work around autorest bug
+### Rename Appearance types
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.paths["/custom/models/{modelId}/analyze"].post
+    where: $.definitions
     transform: >
-      $.consumes.push("image/bmp");
+      if (!$.TextAppearance) {
+          $.TextAppearance = $.Appearance;
+          delete $.Appearance;
+      }
+  - from: swagger-document
+    where: $.definitions.TextLine.properties.appearance
+    transform: >
+      $["$ref"] = "#/definitions/TextAppearance";
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.TextStyle) {
+          $.TextStyle = $.Style;
+          delete $.Style;
+      }
+  - from: swagger-document
+    where: $.definitions.TextAppearance.properties.style
+    transform: >
+      $["$ref"] = "#/definitions/TextStyle";
+  - from: swagger-document
+    where: $.definitions.TextStyle.properties.name
+    transform: >
+      $["x-ms-enum"].name = "StyleName"
+```
+
+### `ReadingOrder` => `FormReadingOrder`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ReadingOrder
+    transform: >
+      $["x-ms-enum"].name = "FormReadingOrder";
+```
+
+### `Language`, `Locale` => `FormLanguage`, `FormLocale`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.Language
+    transform: >
+      $["x-ms-enum"].name = "FormLanguage";
+  - from: swagger-document
+    where: $.parameters.Locale
+    transform: >
+      $["x-ms-enum"].name = "FormLocale";
+```
+
+### Stronger SelectionMarkState and TextStyle
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SelectionMark.properties.state
+    transform: >
+      $["x-ms-enum"] = {
+        name: "SelectionMarkState",
+        modelAsString: false
+      };
+  - from: swagger-document
+    where: $.definitions.TextStyle.properties.name
+    transform: >
+      $["x-ms-enum"].modelAsString = false;
 ```

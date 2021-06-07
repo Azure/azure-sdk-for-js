@@ -10,6 +10,10 @@
   - The `https-proxy-agent` to enable the `ws` library to work with a proxy server.
 */
 
+console.warn(
+  "The package @azure/event-processor-host is deprecated in favor of @azure/event-hubs and @azure/eventhubs-checkpointstore-blob"
+);
+
 const { EventProcessorHost } = require("@azure/event-processor-host");
 const WebSocket = require("ws");
 const url = require("url");

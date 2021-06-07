@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { CompositeMapper } from "@azure/core-client";
 
-export const EventGridEvent: coreHttp.CompositeMapper = {
+export const EventGridEvent: CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventGridEvent",
@@ -72,7 +72,7 @@ export const EventGridEvent: coreHttp.CompositeMapper = {
   }
 };
 
-export const CloudEvent: coreHttp.CompositeMapper = {
+export const CloudEvent: CompositeMapper = {
   type: {
     name: "Composite",
     className: "CloudEvent",
@@ -146,79 +146,91 @@ export const CloudEvent: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageBlobCreatedEventData: coreHttp.CompositeMapper = {
+export const StorageBlobCreatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageBlobCreatedEventData",
     modelProperties: {
       api: {
         serializedName: "api",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       eTag: {
         serializedName: "eTag",
+        required: true,
         type: {
           name: "String"
         }
       },
       contentType: {
         serializedName: "contentType",
+        required: true,
         type: {
           name: "String"
         }
       },
       contentLength: {
         serializedName: "contentLength",
+        required: true,
         type: {
           name: "Number"
         }
       },
       contentOffset: {
         serializedName: "contentOffset",
+        required: true,
         type: {
           name: "Number"
         }
       },
       blobType: {
         serializedName: "blobType",
+        required: true,
         type: {
           name: "String"
         }
       },
       url: {
         serializedName: "url",
+        required: true,
         type: {
           name: "String"
         }
       },
       sequencer: {
         serializedName: "sequencer",
+        required: true,
         type: {
           name: "String"
         }
       },
       identity: {
         serializedName: "identity",
+        required: true,
         type: {
           name: "String"
         }
       },
       storageDiagnostics: {
         serializedName: "storageDiagnostics",
+        required: true,
         type: {
           name: "any"
         }
@@ -227,61 +239,70 @@ export const StorageBlobCreatedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageBlobDeletedEventData: coreHttp.CompositeMapper = {
+export const StorageBlobDeletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageBlobDeletedEventData",
     modelProperties: {
       api: {
         serializedName: "api",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       contentType: {
         serializedName: "contentType",
+        required: true,
         type: {
           name: "String"
         }
       },
       blobType: {
         serializedName: "blobType",
+        required: true,
         type: {
           name: "String"
         }
       },
       url: {
         serializedName: "url",
+        required: true,
         type: {
           name: "String"
         }
       },
       sequencer: {
         serializedName: "sequencer",
+        required: true,
         type: {
           name: "String"
         }
       },
       identity: {
         serializedName: "identity",
+        required: true,
         type: {
           name: "String"
         }
       },
       storageDiagnostics: {
         serializedName: "storageDiagnostics",
+        required: true,
         type: {
           name: "any"
         }
@@ -290,55 +311,63 @@ export const StorageBlobDeletedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageDirectoryCreatedEventData: coreHttp.CompositeMapper = {
+export const StorageDirectoryCreatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageDirectoryCreatedEventData",
     modelProperties: {
       api: {
         serializedName: "api",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       eTag: {
         serializedName: "eTag",
+        required: true,
         type: {
           name: "String"
         }
       },
       url: {
         serializedName: "url",
+        required: true,
         type: {
           name: "String"
         }
       },
       sequencer: {
         serializedName: "sequencer",
+        required: true,
         type: {
           name: "String"
         }
       },
       identity: {
         serializedName: "identity",
+        required: true,
         type: {
           name: "String"
         }
       },
       storageDiagnostics: {
         serializedName: "storageDiagnostics",
+        required: true,
         type: {
           name: "any"
         }
@@ -347,55 +376,63 @@ export const StorageDirectoryCreatedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageDirectoryDeletedEventData: coreHttp.CompositeMapper = {
+export const StorageDirectoryDeletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageDirectoryDeletedEventData",
     modelProperties: {
       api: {
         serializedName: "api",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       url: {
         serializedName: "url",
+        required: true,
         type: {
           name: "String"
         }
       },
       recursive: {
         serializedName: "recursive",
+        required: true,
         type: {
           name: "Boolean"
         }
       },
       sequencer: {
         serializedName: "sequencer",
+        required: true,
         type: {
           name: "String"
         }
       },
       identity: {
         serializedName: "identity",
+        required: true,
         type: {
           name: "String"
         }
       },
       storageDiagnostics: {
         serializedName: "storageDiagnostics",
+        required: true,
         type: {
           name: "any"
         }
@@ -404,55 +441,63 @@ export const StorageDirectoryDeletedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageBlobRenamedEventData: coreHttp.CompositeMapper = {
+export const StorageBlobRenamedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageBlobRenamedEventData",
     modelProperties: {
       api: {
         serializedName: "api",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       sourceUrl: {
         serializedName: "sourceUrl",
+        required: true,
         type: {
           name: "String"
         }
       },
       destinationUrl: {
         serializedName: "destinationUrl",
+        required: true,
         type: {
           name: "String"
         }
       },
       sequencer: {
         serializedName: "sequencer",
+        required: true,
         type: {
           name: "String"
         }
       },
       identity: {
         serializedName: "identity",
+        required: true,
         type: {
           name: "String"
         }
       },
       storageDiagnostics: {
         serializedName: "storageDiagnostics",
+        required: true,
         type: {
           name: "any"
         }
@@ -461,55 +506,63 @@ export const StorageBlobRenamedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageDirectoryRenamedEventData: coreHttp.CompositeMapper = {
+export const StorageDirectoryRenamedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageDirectoryRenamedEventData",
     modelProperties: {
       api: {
         serializedName: "api",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       sourceUrl: {
         serializedName: "sourceUrl",
+        required: true,
         type: {
           name: "String"
         }
       },
       destinationUrl: {
         serializedName: "destinationUrl",
+        required: true,
         type: {
           name: "String"
         }
       },
       sequencer: {
         serializedName: "sequencer",
+        required: true,
         type: {
           name: "String"
         }
       },
       identity: {
         serializedName: "identity",
+        required: true,
         type: {
           name: "String"
         }
       },
       storageDiagnostics: {
         serializedName: "storageDiagnostics",
+        required: true,
         type: {
           name: "any"
         }
@@ -518,13 +571,14 @@ export const StorageDirectoryRenamedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageLifecyclePolicyCompletedEventData: coreHttp.CompositeMapper = {
+export const StorageLifecyclePolicyCompletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageLifecyclePolicyCompletedEventData",
     modelProperties: {
       scheduleTime: {
         serializedName: "scheduleTime",
+        required: true,
         type: {
           name: "String"
         }
@@ -554,25 +608,28 @@ export const StorageLifecyclePolicyCompletedEventData: coreHttp.CompositeMapper 
   }
 };
 
-export const StorageLifecyclePolicyActionSummaryDetail: coreHttp.CompositeMapper = {
+export const StorageLifecyclePolicyActionSummaryDetail: CompositeMapper = {
   type: {
     name: "Composite",
     className: "StorageLifecyclePolicyActionSummaryDetail",
     modelProperties: {
       totalObjectsCount: {
         serializedName: "totalObjectsCount",
+        required: true,
         type: {
           name: "Number"
         }
       },
       successCount: {
         serializedName: "successCount",
+        required: true,
         type: {
           name: "Number"
         }
       },
       errorList: {
         serializedName: "errorList",
+        required: true,
         type: {
           name: "String"
         }
@@ -581,136 +638,372 @@ export const StorageLifecyclePolicyActionSummaryDetail: coreHttp.CompositeMapper
   }
 };
 
-export const EventHubCaptureFileCreatedEventData: coreHttp.CompositeMapper = {
+export const StorageBlobTierChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageBlobTierChangedEventData",
+    modelProperties: {
+      api: {
+        serializedName: "api",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "contentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentLength: {
+        serializedName: "contentLength",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      blobType: {
+        serializedName: "blobType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        serializedName: "url",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequencer: {
+        serializedName: "sequencer",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      storageDiagnostics: {
+        serializedName: "storageDiagnostics",
+        required: true,
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const StorageAsyncOperationInitiatedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageAsyncOperationInitiatedEventData",
+    modelProperties: {
+      api: {
+        serializedName: "api",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "contentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentLength: {
+        serializedName: "contentLength",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      blobType: {
+        serializedName: "blobType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        serializedName: "url",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequencer: {
+        serializedName: "sequencer",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      storageDiagnostics: {
+        serializedName: "storageDiagnostics",
+        required: true,
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const StorageBlobInventoryPolicyCompletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageBlobInventoryPolicyCompletedEventData",
+    modelProperties: {
+      scheduleDateTime: {
+        serializedName: "scheduleDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      accountName: {
+        serializedName: "accountName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      ruleName: {
+        serializedName: "ruleName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunStatus: {
+        serializedName: "policyRunStatus",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunStatusMessage: {
+        serializedName: "policyRunStatusMessage",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyRunId: {
+        serializedName: "policyRunId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      manifestBlobUrl: {
+        serializedName: "manifestBlobUrl",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EventHubCaptureFileCreatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventHubCaptureFileCreatedEventData",
     modelProperties: {
       fileurl: {
         serializedName: "fileurl",
+        required: true,
         type: {
           name: "String"
         }
       },
       fileType: {
         serializedName: "fileType",
+        required: true,
         type: {
           name: "String"
         }
       },
       partitionId: {
         serializedName: "partitionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       sizeInBytes: {
         serializedName: "sizeInBytes",
+        required: true,
         type: {
           name: "Number"
         }
       },
       eventCount: {
         serializedName: "eventCount",
+        required: true,
         type: {
           name: "Number"
         }
       },
       firstSequenceNumber: {
         serializedName: "firstSequenceNumber",
+        required: true,
         type: {
           name: "Number"
         }
       },
       lastSequenceNumber: {
         serializedName: "lastSequenceNumber",
+        required: true,
         type: {
           name: "Number"
         }
       },
       firstEnqueueTime: {
         serializedName: "firstEnqueueTime",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       lastEnqueueTime: {
         serializedName: "lastEnqueueTime",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       }
     }
   }
 };
 
-export const ResourceWriteSuccessEventData: coreHttp.CompositeMapper = {
+export const ResourceWriteSuccessEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceWriteSuccessEventData",
     modelProperties: {
       tenantId: {
         serializedName: "tenantId",
+        required: true,
         type: {
           name: "String"
         }
       },
       subscriptionId: {
         serializedName: "subscriptionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceGroup: {
         serializedName: "resourceGroup",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceProvider: {
         serializedName: "resourceProvider",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceUri: {
         serializedName: "resourceUri",
+        required: true,
         type: {
           name: "String"
         }
       },
       operationName: {
         serializedName: "operationName",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
       },
       authorization: {
         serializedName: "authorization",
+        required: true,
         type: {
           name: "String"
         }
       },
       claims: {
         serializedName: "claims",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationId: {
         serializedName: "correlationId",
+        required: true,
         type: {
           name: "String"
         }
       },
       httpRequest: {
         serializedName: "httpRequest",
+        required: true,
         type: {
           name: "String"
         }
@@ -719,73 +1012,84 @@ export const ResourceWriteSuccessEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResourceWriteFailureEventData: coreHttp.CompositeMapper = {
+export const ResourceWriteFailureEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceWriteFailureEventData",
     modelProperties: {
       tenantId: {
         serializedName: "tenantId",
+        required: true,
         type: {
           name: "String"
         }
       },
       subscriptionId: {
         serializedName: "subscriptionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceGroup: {
         serializedName: "resourceGroup",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceProvider: {
         serializedName: "resourceProvider",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceUri: {
         serializedName: "resourceUri",
+        required: true,
         type: {
           name: "String"
         }
       },
       operationName: {
         serializedName: "operationName",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
       },
       authorization: {
         serializedName: "authorization",
+        required: true,
         type: {
           name: "String"
         }
       },
       claims: {
         serializedName: "claims",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationId: {
         serializedName: "correlationId",
+        required: true,
         type: {
           name: "String"
         }
       },
       httpRequest: {
         serializedName: "httpRequest",
+        required: true,
         type: {
           name: "String"
         }
@@ -794,73 +1098,84 @@ export const ResourceWriteFailureEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResourceWriteCancelEventData: coreHttp.CompositeMapper = {
+export const ResourceWriteCancelEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceWriteCancelEventData",
     modelProperties: {
       tenantId: {
         serializedName: "tenantId",
+        required: true,
         type: {
           name: "String"
         }
       },
       subscriptionId: {
         serializedName: "subscriptionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceGroup: {
         serializedName: "resourceGroup",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceProvider: {
         serializedName: "resourceProvider",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceUri: {
         serializedName: "resourceUri",
+        required: true,
         type: {
           name: "String"
         }
       },
       operationName: {
         serializedName: "operationName",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
       },
       authorization: {
         serializedName: "authorization",
+        required: true,
         type: {
           name: "String"
         }
       },
       claims: {
         serializedName: "claims",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationId: {
         serializedName: "correlationId",
+        required: true,
         type: {
           name: "String"
         }
       },
       httpRequest: {
         serializedName: "httpRequest",
+        required: true,
         type: {
           name: "String"
         }
@@ -869,73 +1184,84 @@ export const ResourceWriteCancelEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResourceDeleteSuccessEventData: coreHttp.CompositeMapper = {
+export const ResourceDeleteSuccessEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceDeleteSuccessEventData",
     modelProperties: {
       tenantId: {
         serializedName: "tenantId",
+        required: true,
         type: {
           name: "String"
         }
       },
       subscriptionId: {
         serializedName: "subscriptionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceGroup: {
         serializedName: "resourceGroup",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceProvider: {
         serializedName: "resourceProvider",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceUri: {
         serializedName: "resourceUri",
+        required: true,
         type: {
           name: "String"
         }
       },
       operationName: {
         serializedName: "operationName",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
       },
       authorization: {
         serializedName: "authorization",
+        required: true,
         type: {
           name: "String"
         }
       },
       claims: {
         serializedName: "claims",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationId: {
         serializedName: "correlationId",
+        required: true,
         type: {
           name: "String"
         }
       },
       httpRequest: {
         serializedName: "httpRequest",
+        required: true,
         type: {
           name: "String"
         }
@@ -944,73 +1270,84 @@ export const ResourceDeleteSuccessEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResourceDeleteFailureEventData: coreHttp.CompositeMapper = {
+export const ResourceDeleteFailureEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceDeleteFailureEventData",
     modelProperties: {
       tenantId: {
         serializedName: "tenantId",
+        required: true,
         type: {
           name: "String"
         }
       },
       subscriptionId: {
         serializedName: "subscriptionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceGroup: {
         serializedName: "resourceGroup",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceProvider: {
         serializedName: "resourceProvider",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceUri: {
         serializedName: "resourceUri",
+        required: true,
         type: {
           name: "String"
         }
       },
       operationName: {
         serializedName: "operationName",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
       },
       authorization: {
         serializedName: "authorization",
+        required: true,
         type: {
           name: "String"
         }
       },
       claims: {
         serializedName: "claims",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationId: {
         serializedName: "correlationId",
+        required: true,
         type: {
           name: "String"
         }
       },
       httpRequest: {
         serializedName: "httpRequest",
+        required: true,
         type: {
           name: "String"
         }
@@ -1019,73 +1356,84 @@ export const ResourceDeleteFailureEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResourceDeleteCancelEventData: coreHttp.CompositeMapper = {
+export const ResourceDeleteCancelEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceDeleteCancelEventData",
     modelProperties: {
       tenantId: {
         serializedName: "tenantId",
+        required: true,
         type: {
           name: "String"
         }
       },
       subscriptionId: {
         serializedName: "subscriptionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceGroup: {
         serializedName: "resourceGroup",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceProvider: {
         serializedName: "resourceProvider",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceUri: {
         serializedName: "resourceUri",
+        required: true,
         type: {
           name: "String"
         }
       },
       operationName: {
         serializedName: "operationName",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
       },
       authorization: {
         serializedName: "authorization",
+        required: true,
         type: {
           name: "String"
         }
       },
       claims: {
         serializedName: "claims",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationId: {
         serializedName: "correlationId",
+        required: true,
         type: {
           name: "String"
         }
       },
       httpRequest: {
         serializedName: "httpRequest",
+        required: true,
         type: {
           name: "String"
         }
@@ -1094,73 +1442,84 @@ export const ResourceDeleteCancelEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResourceActionSuccessEventData: coreHttp.CompositeMapper = {
+export const ResourceActionSuccessEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceActionSuccessEventData",
     modelProperties: {
       tenantId: {
         serializedName: "tenantId",
+        required: true,
         type: {
           name: "String"
         }
       },
       subscriptionId: {
         serializedName: "subscriptionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceGroup: {
         serializedName: "resourceGroup",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceProvider: {
         serializedName: "resourceProvider",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceUri: {
         serializedName: "resourceUri",
+        required: true,
         type: {
           name: "String"
         }
       },
       operationName: {
         serializedName: "operationName",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
       },
       authorization: {
         serializedName: "authorization",
+        required: true,
         type: {
           name: "String"
         }
       },
       claims: {
         serializedName: "claims",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationId: {
         serializedName: "correlationId",
+        required: true,
         type: {
           name: "String"
         }
       },
       httpRequest: {
         serializedName: "httpRequest",
+        required: true,
         type: {
           name: "String"
         }
@@ -1169,73 +1528,84 @@ export const ResourceActionSuccessEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResourceActionFailureEventData: coreHttp.CompositeMapper = {
+export const ResourceActionFailureEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceActionFailureEventData",
     modelProperties: {
       tenantId: {
         serializedName: "tenantId",
+        required: true,
         type: {
           name: "String"
         }
       },
       subscriptionId: {
         serializedName: "subscriptionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceGroup: {
         serializedName: "resourceGroup",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceProvider: {
         serializedName: "resourceProvider",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceUri: {
         serializedName: "resourceUri",
+        required: true,
         type: {
           name: "String"
         }
       },
       operationName: {
         serializedName: "operationName",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
       },
       authorization: {
         serializedName: "authorization",
+        required: true,
         type: {
           name: "String"
         }
       },
       claims: {
         serializedName: "claims",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationId: {
         serializedName: "correlationId",
+        required: true,
         type: {
           name: "String"
         }
       },
       httpRequest: {
         serializedName: "httpRequest",
+        required: true,
         type: {
           name: "String"
         }
@@ -1244,73 +1614,84 @@ export const ResourceActionFailureEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResourceActionCancelEventData: coreHttp.CompositeMapper = {
+export const ResourceActionCancelEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceActionCancelEventData",
     modelProperties: {
       tenantId: {
         serializedName: "tenantId",
+        required: true,
         type: {
           name: "String"
         }
       },
       subscriptionId: {
         serializedName: "subscriptionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceGroup: {
         serializedName: "resourceGroup",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceProvider: {
         serializedName: "resourceProvider",
+        required: true,
         type: {
           name: "String"
         }
       },
       resourceUri: {
         serializedName: "resourceUri",
+        required: true,
         type: {
           name: "String"
         }
       },
       operationName: {
         serializedName: "operationName",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
       },
       authorization: {
         serializedName: "authorization",
+        required: true,
         type: {
           name: "String"
         }
       },
       claims: {
         serializedName: "claims",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationId: {
         serializedName: "correlationId",
+        required: true,
         type: {
           name: "String"
         }
       },
       httpRequest: {
         serializedName: "httpRequest",
+        required: true,
         type: {
           name: "String"
         }
@@ -1319,13 +1700,14 @@ export const ResourceActionCancelEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionValidationEventData: coreHttp.CompositeMapper = {
+export const SubscriptionValidationEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubscriptionValidationEventData",
     modelProperties: {
       validationCode: {
         serializedName: "validationCode",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -1333,6 +1715,7 @@ export const SubscriptionValidationEventData: coreHttp.CompositeMapper = {
       },
       validationUrl: {
         serializedName: "validationUrl",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -1342,13 +1725,14 @@ export const SubscriptionValidationEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionValidationResponse: coreHttp.CompositeMapper = {
+export const SubscriptionValidationResponse: CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubscriptionValidationResponse",
     modelProperties: {
       validationResponse: {
         serializedName: "validationResponse",
+        required: true,
         type: {
           name: "String"
         }
@@ -1357,13 +1741,14 @@ export const SubscriptionValidationResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionDeletedEventData: coreHttp.CompositeMapper = {
+export const SubscriptionDeletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubscriptionDeletedEventData",
     modelProperties: {
       eventSubscriptionId: {
         serializedName: "eventSubscriptionId",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -1373,19 +1758,21 @@ export const SubscriptionDeletedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeviceLifeCycleEventProperties: coreHttp.CompositeMapper = {
+export const DeviceLifeCycleEvent: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DeviceLifeCycleEventProperties",
+    className: "DeviceLifeCycleEvent",
     modelProperties: {
       deviceId: {
         serializedName: "deviceId",
+        required: true,
         type: {
           name: "String"
         }
       },
       hubName: {
         serializedName: "hubName",
+        required: true,
         type: {
           name: "String"
         }
@@ -1401,43 +1788,49 @@ export const DeviceLifeCycleEventProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeviceTwinInfo: coreHttp.CompositeMapper = {
+export const DeviceTwinInfo: CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceTwinInfo",
     modelProperties: {
       authenticationType: {
         serializedName: "authenticationType",
+        required: true,
         type: {
           name: "String"
         }
       },
       cloudToDeviceMessageCount: {
         serializedName: "cloudToDeviceMessageCount",
+        required: true,
         type: {
           name: "Number"
         }
       },
       connectionState: {
         serializedName: "connectionState",
+        required: true,
         type: {
           name: "String"
         }
       },
       deviceId: {
         serializedName: "deviceId",
+        required: true,
         type: {
           name: "String"
         }
       },
       etag: {
         serializedName: "etag",
+        required: true,
         type: {
           name: "String"
         }
       },
       lastActivityTime: {
         serializedName: "lastActivityTime",
+        required: true,
         type: {
           name: "String"
         }
@@ -1451,18 +1844,21 @@ export const DeviceTwinInfo: coreHttp.CompositeMapper = {
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
       },
       statusUpdateTime: {
         serializedName: "statusUpdateTime",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "Number"
         }
@@ -1478,7 +1874,7 @@ export const DeviceTwinInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeviceTwinInfoProperties: coreHttp.CompositeMapper = {
+export const DeviceTwinInfoProperties: CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceTwinInfoProperties",
@@ -1487,24 +1883,24 @@ export const DeviceTwinInfoProperties: coreHttp.CompositeMapper = {
         serializedName: "desired",
         type: {
           name: "Composite",
-          className: "DeviceTwinProperties"
+          className: "DeviceTwin"
         }
       },
       reported: {
         serializedName: "reported",
         type: {
           name: "Composite",
-          className: "DeviceTwinProperties"
+          className: "DeviceTwin"
         }
       }
     }
   }
 };
 
-export const DeviceTwinProperties: coreHttp.CompositeMapper = {
+export const DeviceTwin: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DeviceTwinProperties",
+    className: "DeviceTwin",
     modelProperties: {
       metadata: {
         serializedName: "metadata",
@@ -1515,6 +1911,7 @@ export const DeviceTwinProperties: coreHttp.CompositeMapper = {
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "Number"
         }
@@ -1523,13 +1920,14 @@ export const DeviceTwinProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeviceTwinMetadata: coreHttp.CompositeMapper = {
+export const DeviceTwinMetadata: CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceTwinMetadata",
     modelProperties: {
       lastUpdated: {
         serializedName: "lastUpdated",
+        required: true,
         type: {
           name: "String"
         }
@@ -1538,7 +1936,7 @@ export const DeviceTwinMetadata: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeviceTwinInfoX509Thumbprint: coreHttp.CompositeMapper = {
+export const DeviceTwinInfoX509Thumbprint: CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceTwinInfoX509Thumbprint",
@@ -1559,45 +1957,28 @@ export const DeviceTwinInfoX509Thumbprint: coreHttp.CompositeMapper = {
   }
 };
 
-export const IotHubDeviceCreatedEventData: coreHttp.CompositeMapper = {
+export const DeviceConnectionStateEvent: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "IotHubDeviceCreatedEventData",
-    modelProperties: {
-      ...DeviceLifeCycleEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const IotHubDeviceDeletedEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IotHubDeviceDeletedEventData",
-    modelProperties: {
-      ...DeviceLifeCycleEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const DeviceConnectionStateEventProperties: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeviceConnectionStateEventProperties",
+    className: "DeviceConnectionStateEvent",
     modelProperties: {
       deviceId: {
         serializedName: "deviceId",
+        required: true,
         type: {
           name: "String"
         }
       },
       moduleId: {
         serializedName: "moduleId",
+        required: true,
         type: {
           name: "String"
         }
       },
       hubName: {
         serializedName: "hubName",
+        required: true,
         type: {
           name: "String"
         }
@@ -1613,13 +1994,14 @@ export const DeviceConnectionStateEventProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeviceConnectionStateEventInfo: coreHttp.CompositeMapper = {
+export const DeviceConnectionStateEventInfo: CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeviceConnectionStateEventInfo",
     modelProperties: {
       sequenceNumber: {
         serializedName: "sequenceNumber",
+        required: true,
         type: {
           name: "String"
         }
@@ -1628,39 +2010,21 @@ export const DeviceConnectionStateEventInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const IotHubDeviceConnectedEventData: coreHttp.CompositeMapper = {
+export const DeviceTelemetryEvent: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "IotHubDeviceConnectedEventData",
-    modelProperties: {
-      ...DeviceConnectionStateEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const IotHubDeviceDisconnectedEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IotHubDeviceDisconnectedEventData",
-    modelProperties: {
-      ...DeviceConnectionStateEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const DeviceTelemetryEventProperties: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeviceTelemetryEventProperties",
+    className: "DeviceTelemetryEvent",
     modelProperties: {
       body: {
         serializedName: "body",
+        required: true,
         type: {
           name: "any"
         }
       },
       properties: {
         serializedName: "properties",
+        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
@@ -1668,6 +2032,7 @@ export const DeviceTelemetryEventProperties: coreHttp.CompositeMapper = {
       },
       systemProperties: {
         serializedName: "systemProperties",
+        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
@@ -1677,35 +2042,28 @@ export const DeviceTelemetryEventProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const IotHubDeviceTelemetryEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IotHubDeviceTelemetryEventData",
-    modelProperties: {
-      ...DeviceTelemetryEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const ContainerRegistryEventData: coreHttp.CompositeMapper = {
+export const ContainerRegistryEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       timestamp: {
         serializedName: "timestamp",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       action: {
         serializedName: "action",
+        required: true,
         type: {
           name: "String"
         }
@@ -1742,49 +2100,56 @@ export const ContainerRegistryEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryEventTarget: coreHttp.CompositeMapper = {
+export const ContainerRegistryEventTarget: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryEventTarget",
     modelProperties: {
       mediaType: {
         serializedName: "mediaType",
+        required: true,
         type: {
           name: "String"
         }
       },
       size: {
         serializedName: "size",
+        required: true,
         type: {
           name: "Number"
         }
       },
       digest: {
         serializedName: "digest",
+        required: true,
         type: {
           name: "String"
         }
       },
       length: {
         serializedName: "length",
+        required: true,
         type: {
           name: "Number"
         }
       },
       repository: {
         serializedName: "repository",
+        required: true,
         type: {
           name: "String"
         }
       },
       url: {
         serializedName: "url",
+        required: true,
         type: {
           name: "String"
         }
       },
       tag: {
         serializedName: "tag",
+        required: true,
         type: {
           name: "String"
         }
@@ -1793,37 +2158,42 @@ export const ContainerRegistryEventTarget: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryEventRequest: coreHttp.CompositeMapper = {
+export const ContainerRegistryEventRequest: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryEventRequest",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       addr: {
         serializedName: "addr",
+        required: true,
         type: {
           name: "String"
         }
       },
       host: {
         serializedName: "host",
+        required: true,
         type: {
           name: "String"
         }
       },
       method: {
         serializedName: "method",
+        required: true,
         type: {
           name: "String"
         }
       },
       useragent: {
         serializedName: "useragent",
+        required: true,
         type: {
           name: "String"
         }
@@ -1832,13 +2202,14 @@ export const ContainerRegistryEventRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryEventActor: coreHttp.CompositeMapper = {
+export const ContainerRegistryEventActor: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryEventActor",
     modelProperties: {
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
@@ -1847,19 +2218,21 @@ export const ContainerRegistryEventActor: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryEventSource: coreHttp.CompositeMapper = {
+export const ContainerRegistryEventSource: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryEventSource",
     modelProperties: {
       addr: {
         serializedName: "addr",
+        required: true,
         type: {
           name: "String"
         }
       },
       instanceID: {
         serializedName: "instanceID",
+        required: true,
         type: {
           name: "String"
         }
@@ -1868,45 +2241,28 @@ export const ContainerRegistryEventSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryImagePushedEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryImagePushedEventData",
-    modelProperties: {
-      ...ContainerRegistryEventData.type.modelProperties
-    }
-  }
-};
-
-export const ContainerRegistryImageDeletedEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryImageDeletedEventData",
-    modelProperties: {
-      ...ContainerRegistryEventData.type.modelProperties
-    }
-  }
-};
-
-export const ContainerRegistryArtifactEventData: coreHttp.CompositeMapper = {
+export const ContainerRegistryArtifactEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryArtifactEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       timestamp: {
         serializedName: "timestamp",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       action: {
         serializedName: "action",
+        required: true,
         type: {
           name: "String"
         }
@@ -1922,49 +2278,56 @@ export const ContainerRegistryArtifactEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryArtifactEventTarget: coreHttp.CompositeMapper = {
+export const ContainerRegistryArtifactEventTarget: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryArtifactEventTarget",
     modelProperties: {
       mediaType: {
         serializedName: "mediaType",
+        required: true,
         type: {
           name: "String"
         }
       },
       size: {
         serializedName: "size",
+        required: true,
         type: {
           name: "Number"
         }
       },
       digest: {
         serializedName: "digest",
+        required: true,
         type: {
           name: "String"
         }
       },
       repository: {
         serializedName: "repository",
+        required: true,
         type: {
           name: "String"
         }
       },
       tag: {
         serializedName: "tag",
+        required: true,
         type: {
           name: "String"
         }
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "String"
         }
@@ -1973,63 +2336,49 @@ export const ContainerRegistryArtifactEventTarget: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryChartPushedEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryChartPushedEventData",
-    modelProperties: {
-      ...ContainerRegistryArtifactEventData.type.modelProperties
-    }
-  }
-};
-
-export const ContainerRegistryChartDeletedEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryChartDeletedEventData",
-    modelProperties: {
-      ...ContainerRegistryArtifactEventData.type.modelProperties
-    }
-  }
-};
-
-export const ServiceBusActiveMessagesAvailableWithNoListenersEventData: coreHttp.CompositeMapper = {
+export const ServiceBusActiveMessagesAvailableWithNoListenersEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ServiceBusActiveMessagesAvailableWithNoListenersEventData",
     modelProperties: {
       namespaceName: {
         serializedName: "namespaceName",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestUri: {
         serializedName: "requestUri",
+        required: true,
         type: {
           name: "String"
         }
       },
       entityType: {
         serializedName: "entityType",
+        required: true,
         type: {
           name: "String"
         }
       },
       queueName: {
         serializedName: "queueName",
+        required: true,
         type: {
           name: "String"
         }
       },
       topicName: {
         serializedName: "topicName",
+        required: true,
         type: {
           name: "String"
         }
       },
       subscriptionName: {
         serializedName: "subscriptionName",
+        required: true,
         type: {
           name: "String"
         }
@@ -2038,43 +2387,49 @@ export const ServiceBusActiveMessagesAvailableWithNoListenersEventData: coreHttp
   }
 };
 
-export const ServiceBusDeadletterMessagesAvailableWithNoListenersEventData: coreHttp.CompositeMapper = {
+export const ServiceBusDeadletterMessagesAvailableWithNoListenersEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "ServiceBusDeadletterMessagesAvailableWithNoListenersEventData",
     modelProperties: {
       namespaceName: {
         serializedName: "namespaceName",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestUri: {
         serializedName: "requestUri",
+        required: true,
         type: {
           name: "String"
         }
       },
       entityType: {
         serializedName: "entityType",
+        required: true,
         type: {
           name: "String"
         }
       },
       queueName: {
         serializedName: "queueName",
+        required: true,
         type: {
           name: "String"
         }
       },
       topicName: {
         serializedName: "topicName",
+        required: true,
         type: {
           name: "String"
         }
       },
       subscriptionName: {
         serializedName: "subscriptionName",
+        required: true,
         type: {
           name: "String"
         }
@@ -2083,13 +2438,118 @@ export const ServiceBusDeadletterMessagesAvailableWithNoListenersEventData: core
   }
 };
 
-export const MediaJobStateChangeEventData: coreHttp.CompositeMapper = {
+export const ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData",
+    modelProperties: {
+      namespaceName: {
+        serializedName: "namespaceName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      requestUri: {
+        serializedName: "requestUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      entityType: {
+        serializedName: "entityType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      queueName: {
+        serializedName: "queueName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      topicName: {
+        serializedName: "topicName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionName: {
+        serializedName: "subscriptionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData",
+    modelProperties: {
+      namespaceName: {
+        serializedName: "namespaceName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      requestUri: {
+        serializedName: "requestUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      entityType: {
+        serializedName: "entityType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      queueName: {
+        serializedName: "queueName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      topicName: {
+        serializedName: "topicName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionName: {
+        serializedName: "subscriptionName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobStateChangeEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaJobStateChangeEventData",
     modelProperties: {
       previousState: {
         serializedName: "previousState",
+        required: true,
         readOnly: true,
         type: {
           name: "Enum",
@@ -2106,6 +2566,7 @@ export const MediaJobStateChangeEventData: coreHttp.CompositeMapper = {
       },
       state: {
         serializedName: "state",
+        required: true,
         readOnly: true,
         type: {
           name: "Enum",
@@ -2122,6 +2583,7 @@ export const MediaJobStateChangeEventData: coreHttp.CompositeMapper = {
       },
       correlationData: {
         serializedName: "correlationData",
+        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
@@ -2131,13 +2593,14 @@ export const MediaJobStateChangeEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const MediaJobError: coreHttp.CompositeMapper = {
+export const MediaJobError: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaJobError",
     modelProperties: {
       code: {
         serializedName: "code",
+        required: true,
         readOnly: true,
         type: {
           name: "Enum",
@@ -2156,6 +2619,7 @@ export const MediaJobError: coreHttp.CompositeMapper = {
       },
       message: {
         serializedName: "message",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2163,6 +2627,7 @@ export const MediaJobError: coreHttp.CompositeMapper = {
       },
       category: {
         serializedName: "category",
+        required: true,
         readOnly: true,
         type: {
           name: "Enum",
@@ -2177,6 +2642,7 @@ export const MediaJobError: coreHttp.CompositeMapper = {
       },
       retry: {
         serializedName: "retry",
+        required: true,
         readOnly: true,
         type: {
           name: "Enum",
@@ -2185,11 +2651,15 @@ export const MediaJobError: coreHttp.CompositeMapper = {
       },
       details: {
         serializedName: "details",
+        required: true,
         readOnly: true,
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "MediaJobErrorDetail" }
+            type: {
+              name: "Composite",
+              className: "MediaJobErrorDetail"
+            }
           }
         }
       }
@@ -2197,13 +2667,14 @@ export const MediaJobError: coreHttp.CompositeMapper = {
   }
 };
 
-export const MediaJobErrorDetail: coreHttp.CompositeMapper = {
+export const MediaJobErrorDetail: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaJobErrorDetail",
     modelProperties: {
       code: {
         serializedName: "code",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2211,6 +2682,7 @@ export const MediaJobErrorDetail: coreHttp.CompositeMapper = {
       },
       message: {
         serializedName: "message",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2220,7 +2692,7 @@ export const MediaJobErrorDetail: coreHttp.CompositeMapper = {
   }
 };
 
-export const MediaJobOutput: coreHttp.CompositeMapper = {
+export const MediaJobOutput: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaJobOutput",
@@ -2232,6 +2704,7 @@ export const MediaJobOutput: coreHttp.CompositeMapper = {
     modelProperties: {
       odataType: {
         serializedName: "@odata\\.type",
+        required: true,
         type: {
           name: "String"
         }
@@ -2276,26 +2749,7 @@ export const MediaJobOutput: coreHttp.CompositeMapper = {
   }
 };
 
-export const MediaJobOutputAsset: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputAsset",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputAsset",
-    uberParent: "MediaJobOutput",
-    polymorphicDiscriminator: MediaJobOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MediaJobOutput.type.modelProperties,
-      assetName: {
-        serializedName: "assetName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MediaJobOutputProgressEventData: coreHttp.CompositeMapper = {
+export const MediaJobOutputProgressEventData: CompositeMapper = {
   serializedName: "#Microsoft.Media.JobOutputProgress",
   type: {
     name: "Composite",
@@ -2303,18 +2757,21 @@ export const MediaJobOutputProgressEventData: coreHttp.CompositeMapper = {
     modelProperties: {
       label: {
         serializedName: "label",
+        required: true,
         type: {
           name: "String"
         }
       },
       progress: {
         serializedName: "progress",
+        required: true,
         type: {
           name: "Number"
         }
       },
       jobCorrelationData: {
         serializedName: "jobCorrelationData",
+        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
@@ -2324,13 +2781,14 @@ export const MediaJobOutputProgressEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const MediaJobOutputStateChangeEventData: coreHttp.CompositeMapper = {
+export const MediaJobOutputStateChangeEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaJobOutputStateChangeEventData",
     modelProperties: {
       previousState: {
         serializedName: "previousState",
+        required: true,
         readOnly: true,
         type: {
           name: "Enum",
@@ -2354,6 +2812,7 @@ export const MediaJobOutputStateChangeEventData: coreHttp.CompositeMapper = {
       },
       jobCorrelationData: {
         serializedName: "jobCorrelationData",
+        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
@@ -2363,166 +2822,14 @@ export const MediaJobOutputStateChangeEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const MediaJobScheduledEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobScheduled",
-  type: {
-    name: "Composite",
-    className: "MediaJobScheduledEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobProcessingEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobProcessing",
-  type: {
-    name: "Composite",
-    className: "MediaJobProcessingEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobCancelingEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobCanceling",
-  type: {
-    name: "Composite",
-    className: "MediaJobCancelingEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobFinishedEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobFinished",
-  type: {
-    name: "Composite",
-    className: "MediaJobFinishedEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties,
-      outputs: {
-        serializedName: "outputs",
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "MediaJobOutput" } }
-        }
-      }
-    }
-  }
-};
-
-export const MediaJobCanceledEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobCanceled",
-  type: {
-    name: "Composite",
-    className: "MediaJobCanceledEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties,
-      outputs: {
-        serializedName: "outputs",
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "MediaJobOutput" } }
-        }
-      }
-    }
-  }
-};
-
-export const MediaJobErroredEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobErrored",
-  type: {
-    name: "Composite",
-    className: "MediaJobErroredEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties,
-      outputs: {
-        serializedName: "outputs",
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "MediaJobOutput" } }
-        }
-      }
-    }
-  }
-};
-
-export const MediaJobOutputCanceledEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputCanceled",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputCanceledEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobOutputCancelingEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputCanceling",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputCancelingEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobOutputErroredEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputErrored",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputErroredEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobOutputFinishedEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputFinished",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputFinishedEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobOutputProcessingEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputProcessing",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputProcessingEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobOutputScheduledEventData: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputScheduled",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputScheduledEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaLiveEventEncoderConnectedEventData: coreHttp.CompositeMapper = {
+export const MediaLiveEventEncoderConnectedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventEncoderConnectedEventData",
     modelProperties: {
       ingestUrl: {
         serializedName: "ingestUrl",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2530,6 +2837,7 @@ export const MediaLiveEventEncoderConnectedEventData: coreHttp.CompositeMapper =
       },
       streamId: {
         serializedName: "streamId",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2537,6 +2845,7 @@ export const MediaLiveEventEncoderConnectedEventData: coreHttp.CompositeMapper =
       },
       encoderIp: {
         serializedName: "encoderIp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2544,6 +2853,7 @@ export const MediaLiveEventEncoderConnectedEventData: coreHttp.CompositeMapper =
       },
       encoderPort: {
         serializedName: "encoderPort",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2553,13 +2863,14 @@ export const MediaLiveEventEncoderConnectedEventData: coreHttp.CompositeMapper =
   }
 };
 
-export const MediaLiveEventConnectionRejectedEventData: coreHttp.CompositeMapper = {
+export const MediaLiveEventConnectionRejectedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventConnectionRejectedEventData",
     modelProperties: {
       ingestUrl: {
         serializedName: "ingestUrl",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2567,6 +2878,7 @@ export const MediaLiveEventConnectionRejectedEventData: coreHttp.CompositeMapper
       },
       streamId: {
         serializedName: "streamId",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2574,6 +2886,7 @@ export const MediaLiveEventConnectionRejectedEventData: coreHttp.CompositeMapper
       },
       encoderIp: {
         serializedName: "encoderIp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2581,6 +2894,7 @@ export const MediaLiveEventConnectionRejectedEventData: coreHttp.CompositeMapper
       },
       encoderPort: {
         serializedName: "encoderPort",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2588,6 +2902,7 @@ export const MediaLiveEventConnectionRejectedEventData: coreHttp.CompositeMapper
       },
       resultCode: {
         serializedName: "resultCode",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2597,13 +2912,14 @@ export const MediaLiveEventConnectionRejectedEventData: coreHttp.CompositeMapper
   }
 };
 
-export const MediaLiveEventEncoderDisconnectedEventData: coreHttp.CompositeMapper = {
+export const MediaLiveEventEncoderDisconnectedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventEncoderDisconnectedEventData",
     modelProperties: {
       ingestUrl: {
         serializedName: "ingestUrl",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2611,6 +2927,7 @@ export const MediaLiveEventEncoderDisconnectedEventData: coreHttp.CompositeMappe
       },
       streamId: {
         serializedName: "streamId",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2618,6 +2935,7 @@ export const MediaLiveEventEncoderDisconnectedEventData: coreHttp.CompositeMappe
       },
       encoderIp: {
         serializedName: "encoderIp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2625,6 +2943,7 @@ export const MediaLiveEventEncoderDisconnectedEventData: coreHttp.CompositeMappe
       },
       encoderPort: {
         serializedName: "encoderPort",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2632,6 +2951,7 @@ export const MediaLiveEventEncoderDisconnectedEventData: coreHttp.CompositeMappe
       },
       resultCode: {
         serializedName: "resultCode",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2641,13 +2961,14 @@ export const MediaLiveEventEncoderDisconnectedEventData: coreHttp.CompositeMappe
   }
 };
 
-export const MediaLiveEventIncomingStreamReceivedEventData: coreHttp.CompositeMapper = {
+export const MediaLiveEventIncomingStreamReceivedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventIncomingStreamReceivedEventData",
     modelProperties: {
       ingestUrl: {
         serializedName: "ingestUrl",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2655,6 +2976,7 @@ export const MediaLiveEventIncomingStreamReceivedEventData: coreHttp.CompositeMa
       },
       trackType: {
         serializedName: "trackType",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2662,6 +2984,7 @@ export const MediaLiveEventIncomingStreamReceivedEventData: coreHttp.CompositeMa
       },
       trackName: {
         serializedName: "trackName",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2669,6 +2992,7 @@ export const MediaLiveEventIncomingStreamReceivedEventData: coreHttp.CompositeMa
       },
       bitrate: {
         serializedName: "bitrate",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -2676,6 +3000,7 @@ export const MediaLiveEventIncomingStreamReceivedEventData: coreHttp.CompositeMa
       },
       encoderIp: {
         serializedName: "encoderIp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2683,6 +3008,7 @@ export const MediaLiveEventIncomingStreamReceivedEventData: coreHttp.CompositeMa
       },
       encoderPort: {
         serializedName: "encoderPort",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2690,6 +3016,7 @@ export const MediaLiveEventIncomingStreamReceivedEventData: coreHttp.CompositeMa
       },
       timestamp: {
         serializedName: "timestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2697,6 +3024,7 @@ export const MediaLiveEventIncomingStreamReceivedEventData: coreHttp.CompositeMa
       },
       duration: {
         serializedName: "duration",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2704,6 +3032,7 @@ export const MediaLiveEventIncomingStreamReceivedEventData: coreHttp.CompositeMa
       },
       timescale: {
         serializedName: "timescale",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2713,13 +3042,14 @@ export const MediaLiveEventIncomingStreamReceivedEventData: coreHttp.CompositeMa
   }
 };
 
-export const MediaLiveEventIncomingStreamsOutOfSyncEventData: coreHttp.CompositeMapper = {
+export const MediaLiveEventIncomingStreamsOutOfSyncEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventIncomingStreamsOutOfSyncEventData",
     modelProperties: {
       minLastTimestamp: {
         serializedName: "minLastTimestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2727,6 +3057,7 @@ export const MediaLiveEventIncomingStreamsOutOfSyncEventData: coreHttp.Composite
       },
       typeOfStreamWithMinLastTimestamp: {
         serializedName: "typeOfStreamWithMinLastTimestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2734,6 +3065,7 @@ export const MediaLiveEventIncomingStreamsOutOfSyncEventData: coreHttp.Composite
       },
       maxLastTimestamp: {
         serializedName: "maxLastTimestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2741,6 +3073,7 @@ export const MediaLiveEventIncomingStreamsOutOfSyncEventData: coreHttp.Composite
       },
       typeOfStreamWithMaxLastTimestamp: {
         serializedName: "typeOfStreamWithMaxLastTimestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2748,6 +3081,7 @@ export const MediaLiveEventIncomingStreamsOutOfSyncEventData: coreHttp.Composite
       },
       timescaleOfMinLastTimestamp: {
         serializedName: "timescaleOfMinLastTimestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2755,6 +3089,7 @@ export const MediaLiveEventIncomingStreamsOutOfSyncEventData: coreHttp.Composite
       },
       timescaleOfMaxLastTimestamp: {
         serializedName: "timescaleOfMaxLastTimestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2764,13 +3099,14 @@ export const MediaLiveEventIncomingStreamsOutOfSyncEventData: coreHttp.Composite
   }
 };
 
-export const MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: coreHttp.CompositeMapper = {
+export const MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventIncomingVideoStreamsOutOfSyncEventData",
     modelProperties: {
       firstTimestamp: {
         serializedName: "firstTimestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2778,6 +3114,7 @@ export const MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: coreHttp.Comp
       },
       firstDuration: {
         serializedName: "firstDuration",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2785,6 +3122,7 @@ export const MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: coreHttp.Comp
       },
       secondTimestamp: {
         serializedName: "secondTimestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2792,6 +3130,7 @@ export const MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: coreHttp.Comp
       },
       secondDuration: {
         serializedName: "secondDuration",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2799,6 +3138,7 @@ export const MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: coreHttp.Comp
       },
       timescale: {
         serializedName: "timescale",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2808,13 +3148,14 @@ export const MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: coreHttp.Comp
   }
 };
 
-export const MediaLiveEventIncomingDataChunkDroppedEventData: coreHttp.CompositeMapper = {
+export const MediaLiveEventIncomingDataChunkDroppedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventIncomingDataChunkDroppedEventData",
     modelProperties: {
       timestamp: {
         serializedName: "timestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2822,6 +3163,7 @@ export const MediaLiveEventIncomingDataChunkDroppedEventData: coreHttp.Composite
       },
       trackType: {
         serializedName: "trackType",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2829,6 +3171,7 @@ export const MediaLiveEventIncomingDataChunkDroppedEventData: coreHttp.Composite
       },
       bitrate: {
         serializedName: "bitrate",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -2836,6 +3179,7 @@ export const MediaLiveEventIncomingDataChunkDroppedEventData: coreHttp.Composite
       },
       timescale: {
         serializedName: "timescale",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2843,6 +3187,7 @@ export const MediaLiveEventIncomingDataChunkDroppedEventData: coreHttp.Composite
       },
       resultCode: {
         serializedName: "resultCode",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2850,6 +3195,7 @@ export const MediaLiveEventIncomingDataChunkDroppedEventData: coreHttp.Composite
       },
       trackName: {
         serializedName: "trackName",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2859,13 +3205,14 @@ export const MediaLiveEventIncomingDataChunkDroppedEventData: coreHttp.Composite
   }
 };
 
-export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = {
+export const MediaLiveEventIngestHeartbeatEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventIngestHeartbeatEventData",
     modelProperties: {
       trackType: {
         serializedName: "trackType",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2873,6 +3220,7 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
       },
       trackName: {
         serializedName: "trackName",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2880,6 +3228,7 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
       },
       bitrate: {
         serializedName: "bitrate",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -2887,6 +3236,7 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
       },
       incomingBitrate: {
         serializedName: "incomingBitrate",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -2894,6 +3244,7 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
       },
       lastTimestamp: {
         serializedName: "lastTimestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2901,6 +3252,7 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
       },
       timescale: {
         serializedName: "timescale",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2908,6 +3260,7 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
       },
       overlapCount: {
         serializedName: "overlapCount",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -2915,6 +3268,7 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
       },
       discontinuityCount: {
         serializedName: "discontinuityCount",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -2922,6 +3276,7 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
       },
       nonincreasingCount: {
         serializedName: "nonincreasingCount",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -2929,6 +3284,7 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
       },
       unexpectedBitrate: {
         serializedName: "unexpectedBitrate",
+        required: true,
         readOnly: true,
         type: {
           name: "Boolean"
@@ -2936,6 +3292,7 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
       },
       state: {
         serializedName: "state",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2943,6 +3300,7 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
       },
       healthy: {
         serializedName: "healthy",
+        required: true,
         readOnly: true,
         type: {
           name: "Boolean"
@@ -2952,13 +3310,14 @@ export const MediaLiveEventIngestHeartbeatEventData: coreHttp.CompositeMapper = 
   }
 };
 
-export const MediaLiveEventTrackDiscontinuityDetectedEventData: coreHttp.CompositeMapper = {
+export const MediaLiveEventTrackDiscontinuityDetectedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MediaLiveEventTrackDiscontinuityDetectedEventData",
     modelProperties: {
       trackType: {
         serializedName: "trackType",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2966,6 +3325,7 @@ export const MediaLiveEventTrackDiscontinuityDetectedEventData: coreHttp.Composi
       },
       trackName: {
         serializedName: "trackName",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2973,6 +3333,7 @@ export const MediaLiveEventTrackDiscontinuityDetectedEventData: coreHttp.Composi
       },
       bitrate: {
         serializedName: "bitrate",
+        required: true,
         readOnly: true,
         type: {
           name: "Number"
@@ -2980,6 +3341,7 @@ export const MediaLiveEventTrackDiscontinuityDetectedEventData: coreHttp.Composi
       },
       previousTimestamp: {
         serializedName: "previousTimestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2987,6 +3349,7 @@ export const MediaLiveEventTrackDiscontinuityDetectedEventData: coreHttp.Composi
       },
       newTimestamp: {
         serializedName: "newTimestamp",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -2994,6 +3357,7 @@ export const MediaLiveEventTrackDiscontinuityDetectedEventData: coreHttp.Composi
       },
       timescale: {
         serializedName: "timescale",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -3001,6 +3365,7 @@ export const MediaLiveEventTrackDiscontinuityDetectedEventData: coreHttp.Composi
       },
       discontinuityGap: {
         serializedName: "discontinuityGap",
+        required: true,
         readOnly: true,
         type: {
           name: "String"
@@ -3010,36 +3375,51 @@ export const MediaLiveEventTrackDiscontinuityDetectedEventData: coreHttp.Composi
   }
 };
 
-export const MapsGeofenceEventProperties: coreHttp.CompositeMapper = {
+export const MapsGeofenceEvent: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MapsGeofenceEventProperties",
+    className: "MapsGeofenceEvent",
     modelProperties: {
       expiredGeofenceGeometryId: {
         serializedName: "expiredGeofenceGeometryId",
+        required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       geometries: {
         serializedName: "geometries",
+        required: true,
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "MapsGeofenceGeometry" }
+            type: {
+              name: "Composite",
+              className: "MapsGeofenceGeometry"
+            }
           }
         }
       },
       invalidPeriodGeofenceGeometryId: {
         serializedName: "invalidPeriodGeofenceGeometryId",
+        required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       isEventPublished: {
         serializedName: "isEventPublished",
+        required: true,
         type: {
           name: "Boolean"
         }
@@ -3048,43 +3428,49 @@ export const MapsGeofenceEventProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const MapsGeofenceGeometry: coreHttp.CompositeMapper = {
+export const MapsGeofenceGeometry: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MapsGeofenceGeometry",
     modelProperties: {
       deviceId: {
         serializedName: "deviceId",
+        required: true,
         type: {
           name: "String"
         }
       },
       distance: {
         serializedName: "distance",
+        required: true,
         type: {
           name: "Number"
         }
       },
       geometryId: {
         serializedName: "geometryId",
+        required: true,
         type: {
           name: "String"
         }
       },
       nearestLat: {
         serializedName: "nearestLat",
+        required: true,
         type: {
           name: "Number"
         }
       },
       nearestLon: {
         serializedName: "nearestLon",
+        required: true,
         type: {
           name: "Number"
         }
       },
       udId: {
         serializedName: "udId",
+        required: true,
         type: {
           name: "String"
         }
@@ -3093,55 +3479,35 @@ export const MapsGeofenceGeometry: coreHttp.CompositeMapper = {
   }
 };
 
-export const MapsGeofenceEnteredEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MapsGeofenceEnteredEventData",
-    modelProperties: {
-      ...MapsGeofenceEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const MapsGeofenceExitedEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MapsGeofenceExitedEventData",
-    modelProperties: {
-      ...MapsGeofenceEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const MapsGeofenceResultEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MapsGeofenceResultEventData",
-    modelProperties: {
-      ...MapsGeofenceEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const AppConfigurationKeyValueModifiedEventData: coreHttp.CompositeMapper = {
+export const AppConfigurationKeyValueModifiedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "AppConfigurationKeyValueModifiedEventData",
     modelProperties: {
       key: {
         serializedName: "key",
+        required: true,
         type: {
           name: "String"
         }
       },
       label: {
         serializedName: "label",
+        required: true,
         type: {
           name: "String"
         }
       },
       etag: {
         serializedName: "etag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      syncToken: {
+        serializedName: "syncToken",
+        required: true,
         type: {
           name: "String"
         }
@@ -3150,25 +3516,35 @@ export const AppConfigurationKeyValueModifiedEventData: coreHttp.CompositeMapper
   }
 };
 
-export const AppConfigurationKeyValueDeletedEventData: coreHttp.CompositeMapper = {
+export const AppConfigurationKeyValueDeletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "AppConfigurationKeyValueDeletedEventData",
     modelProperties: {
       key: {
         serializedName: "key",
+        required: true,
         type: {
           name: "String"
         }
       },
       label: {
         serializedName: "label",
+        required: true,
         type: {
           name: "String"
         }
       },
       etag: {
         serializedName: "etag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      syncToken: {
+        serializedName: "syncToken",
+        required: true,
         type: {
           name: "String"
         }
@@ -3177,31 +3553,35 @@ export const AppConfigurationKeyValueDeletedEventData: coreHttp.CompositeMapper 
   }
 };
 
-export const SignalRServiceClientConnectionConnectedEventData: coreHttp.CompositeMapper = {
+export const SignalRServiceClientConnectionConnectedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "SignalRServiceClientConnectionConnectedEventData",
     modelProperties: {
       timestamp: {
         serializedName: "timestamp",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       hubName: {
         serializedName: "hubName",
+        required: true,
         type: {
           name: "String"
         }
       },
       connectionId: {
         serializedName: "connectionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       userId: {
         serializedName: "userId",
+        required: true,
         type: {
           name: "String"
         }
@@ -3210,37 +3590,42 @@ export const SignalRServiceClientConnectionConnectedEventData: coreHttp.Composit
   }
 };
 
-export const SignalRServiceClientConnectionDisconnectedEventData: coreHttp.CompositeMapper = {
+export const SignalRServiceClientConnectionDisconnectedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "SignalRServiceClientConnectionDisconnectedEventData",
     modelProperties: {
       timestamp: {
         serializedName: "timestamp",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       hubName: {
         serializedName: "hubName",
+        required: true,
         type: {
           name: "String"
         }
       },
       connectionId: {
         serializedName: "connectionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       userId: {
         serializedName: "userId",
+        required: true,
         type: {
           name: "String"
         }
       },
       errorMessage: {
         serializedName: "errorMessage",
+        required: true,
         type: {
           name: "String"
         }
@@ -3249,49 +3634,56 @@ export const SignalRServiceClientConnectionDisconnectedEventData: coreHttp.Compo
   }
 };
 
-export const KeyVaultCertificateNewVersionCreatedEventData: coreHttp.CompositeMapper = {
+export const KeyVaultCertificateNewVersionCreatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultCertificateNewVersionCreatedEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       vaultName: {
         serializedName: "vaultName",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectType: {
         serializedName: "objectType",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectName: {
         serializedName: "objectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "String"
         }
       },
       nbf: {
         serializedName: "nbf",
+        required: true,
         type: {
           name: "Number"
         }
       },
       exp: {
         serializedName: "exp",
+        required: true,
         type: {
           name: "Number"
         }
@@ -3300,49 +3692,56 @@ export const KeyVaultCertificateNewVersionCreatedEventData: coreHttp.CompositeMa
   }
 };
 
-export const KeyVaultCertificateNearExpiryEventData: coreHttp.CompositeMapper = {
+export const KeyVaultCertificateNearExpiryEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultCertificateNearExpiryEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       vaultName: {
         serializedName: "vaultName",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectType: {
         serializedName: "objectType",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectName: {
         serializedName: "objectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "String"
         }
       },
       nbf: {
         serializedName: "nbf",
+        required: true,
         type: {
           name: "Number"
         }
       },
       exp: {
         serializedName: "exp",
+        required: true,
         type: {
           name: "Number"
         }
@@ -3351,49 +3750,56 @@ export const KeyVaultCertificateNearExpiryEventData: coreHttp.CompositeMapper = 
   }
 };
 
-export const KeyVaultCertificateExpiredEventData: coreHttp.CompositeMapper = {
+export const KeyVaultCertificateExpiredEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultCertificateExpiredEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       vaultName: {
         serializedName: "vaultName",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectType: {
         serializedName: "objectType",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectName: {
         serializedName: "objectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "String"
         }
       },
       nbf: {
         serializedName: "nbf",
+        required: true,
         type: {
           name: "Number"
         }
       },
       exp: {
         serializedName: "exp",
+        required: true,
         type: {
           name: "Number"
         }
@@ -3402,49 +3808,56 @@ export const KeyVaultCertificateExpiredEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyVaultKeyNewVersionCreatedEventData: coreHttp.CompositeMapper = {
+export const KeyVaultKeyNewVersionCreatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultKeyNewVersionCreatedEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       vaultName: {
         serializedName: "vaultName",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectType: {
         serializedName: "objectType",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectName: {
         serializedName: "objectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "String"
         }
       },
       nbf: {
         serializedName: "nbf",
+        required: true,
         type: {
           name: "Number"
         }
       },
       exp: {
         serializedName: "exp",
+        required: true,
         type: {
           name: "Number"
         }
@@ -3453,49 +3866,56 @@ export const KeyVaultKeyNewVersionCreatedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyVaultKeyNearExpiryEventData: coreHttp.CompositeMapper = {
+export const KeyVaultKeyNearExpiryEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultKeyNearExpiryEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       vaultName: {
         serializedName: "vaultName",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectType: {
         serializedName: "objectType",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectName: {
         serializedName: "objectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "String"
         }
       },
       nbf: {
         serializedName: "nbf",
+        required: true,
         type: {
           name: "Number"
         }
       },
       exp: {
         serializedName: "exp",
+        required: true,
         type: {
           name: "Number"
         }
@@ -3504,49 +3924,56 @@ export const KeyVaultKeyNearExpiryEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyVaultKeyExpiredEventData: coreHttp.CompositeMapper = {
+export const KeyVaultKeyExpiredEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultKeyExpiredEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       vaultName: {
         serializedName: "vaultName",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectType: {
         serializedName: "objectType",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectName: {
         serializedName: "objectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "String"
         }
       },
       nbf: {
         serializedName: "nbf",
+        required: true,
         type: {
           name: "Number"
         }
       },
       exp: {
         serializedName: "exp",
+        required: true,
         type: {
           name: "Number"
         }
@@ -3555,49 +3982,56 @@ export const KeyVaultKeyExpiredEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyVaultSecretNewVersionCreatedEventData: coreHttp.CompositeMapper = {
+export const KeyVaultSecretNewVersionCreatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultSecretNewVersionCreatedEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       vaultName: {
         serializedName: "vaultName",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectType: {
         serializedName: "objectType",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectName: {
         serializedName: "objectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "String"
         }
       },
       nbf: {
         serializedName: "nbf",
+        required: true,
         type: {
           name: "Number"
         }
       },
       exp: {
         serializedName: "exp",
+        required: true,
         type: {
           name: "Number"
         }
@@ -3606,49 +4040,56 @@ export const KeyVaultSecretNewVersionCreatedEventData: coreHttp.CompositeMapper 
   }
 };
 
-export const KeyVaultSecretNearExpiryEventData: coreHttp.CompositeMapper = {
+export const KeyVaultSecretNearExpiryEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultSecretNearExpiryEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       vaultName: {
         serializedName: "vaultName",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectType: {
         serializedName: "objectType",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectName: {
         serializedName: "objectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "String"
         }
       },
       nbf: {
         serializedName: "nbf",
+        required: true,
         type: {
           name: "Number"
         }
       },
       exp: {
         serializedName: "exp",
+        required: true,
         type: {
           name: "Number"
         }
@@ -3657,49 +4098,56 @@ export const KeyVaultSecretNearExpiryEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyVaultSecretExpiredEventData: coreHttp.CompositeMapper = {
+export const KeyVaultSecretExpiredEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultSecretExpiredEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       vaultName: {
         serializedName: "vaultName",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectType: {
         serializedName: "objectType",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectName: {
         serializedName: "objectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "String"
         }
       },
       nbf: {
         serializedName: "nbf",
+        required: true,
         type: {
           name: "Number"
         }
       },
       exp: {
         serializedName: "exp",
+        required: true,
         type: {
           name: "Number"
         }
@@ -3708,49 +4156,56 @@ export const KeyVaultSecretExpiredEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyVaultAccessPolicyChangedEventData: coreHttp.CompositeMapper = {
+export const KeyVaultAccessPolicyChangedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultAccessPolicyChangedEventData",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       vaultName: {
         serializedName: "vaultName",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectType: {
         serializedName: "objectType",
+        required: true,
         type: {
           name: "String"
         }
       },
       objectName: {
         serializedName: "objectName",
+        required: true,
         type: {
           name: "String"
         }
       },
       version: {
         serializedName: "version",
+        required: true,
         type: {
           name: "String"
         }
       },
       nbf: {
         serializedName: "nbf",
+        required: true,
         type: {
           name: "Number"
         }
       },
       exp: {
         serializedName: "exp",
+        required: true,
         type: {
           name: "Number"
         }
@@ -3759,31 +4214,35 @@ export const KeyVaultAccessPolicyChangedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const MachineLearningServicesModelRegisteredEventData: coreHttp.CompositeMapper = {
+export const MachineLearningServicesModelRegisteredEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineLearningServicesModelRegisteredEventData",
     modelProperties: {
       modelName: {
         serializedName: "modelName",
+        required: true,
         type: {
           name: "String"
         }
       },
       modelVersion: {
         serializedName: "modelVersion",
+        required: true,
         type: {
           name: "String"
         }
       },
       modelTags: {
         serializedName: "modelTags",
+        required: true,
         type: {
           name: "any"
         }
       },
       modelProperties: {
         serializedName: "modelProperties",
+        required: true,
         type: {
           name: "any"
         }
@@ -3792,37 +4251,42 @@ export const MachineLearningServicesModelRegisteredEventData: coreHttp.Composite
   }
 };
 
-export const MachineLearningServicesModelDeployedEventData: coreHttp.CompositeMapper = {
+export const MachineLearningServicesModelDeployedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineLearningServicesModelDeployedEventData",
     modelProperties: {
       serviceName: {
         serializedName: "serviceName",
+        required: true,
         type: {
           name: "String"
         }
       },
       serviceComputeType: {
         serializedName: "serviceComputeType",
+        required: true,
         type: {
           name: "String"
         }
       },
       modelIds: {
         serializedName: "modelIds",
+        required: true,
         type: {
           name: "String"
         }
       },
       serviceTags: {
         serializedName: "serviceTags",
+        required: true,
         type: {
           name: "any"
         }
       },
       serviceProperties: {
         serializedName: "serviceProperties",
+        required: true,
         type: {
           name: "any"
         }
@@ -3831,43 +4295,49 @@ export const MachineLearningServicesModelDeployedEventData: coreHttp.CompositeMa
   }
 };
 
-export const MachineLearningServicesRunCompletedEventData: coreHttp.CompositeMapper = {
+export const MachineLearningServicesRunCompletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineLearningServicesRunCompletedEventData",
     modelProperties: {
       experimentId: {
         serializedName: "experimentId",
+        required: true,
         type: {
           name: "String"
         }
       },
       experimentName: {
         serializedName: "experimentName",
+        required: true,
         type: {
           name: "String"
         }
       },
       runId: {
         serializedName: "runId",
+        required: true,
         type: {
           name: "String"
         }
       },
       runType: {
         serializedName: "runType",
+        required: true,
         type: {
           name: "String"
         }
       },
       runTags: {
         serializedName: "runTags",
+        required: true,
         type: {
           name: "any"
         }
       },
       runProperties: {
         serializedName: "runProperties",
+        required: true,
         type: {
           name: "any"
         }
@@ -3876,106 +4346,121 @@ export const MachineLearningServicesRunCompletedEventData: coreHttp.CompositeMap
   }
 };
 
-export const MachineLearningServicesDatasetDriftDetectedEventData: coreHttp.CompositeMapper = {
+export const MachineLearningServicesDatasetDriftDetectedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineLearningServicesDatasetDriftDetectedEventData",
     modelProperties: {
       dataDriftId: {
         serializedName: "dataDriftId",
+        required: true,
         type: {
           name: "String"
         }
       },
       dataDriftName: {
         serializedName: "dataDriftName",
+        required: true,
         type: {
           name: "String"
         }
       },
       runId: {
         serializedName: "runId",
+        required: true,
         type: {
           name: "String"
         }
       },
       baseDatasetId: {
         serializedName: "baseDatasetId",
+        required: true,
         type: {
           name: "String"
         }
       },
       targetDatasetId: {
         serializedName: "targetDatasetId",
+        required: true,
         type: {
           name: "String"
         }
       },
       driftCoefficient: {
         serializedName: "driftCoefficient",
+        required: true,
         type: {
           name: "Number"
         }
       },
       startTime: {
         serializedName: "startTime",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       endTime: {
         serializedName: "endTime",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       }
     }
   }
 };
 
-export const MachineLearningServicesRunStatusChangedEventData: coreHttp.CompositeMapper = {
+export const MachineLearningServicesRunStatusChangedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "MachineLearningServicesRunStatusChangedEventData",
     modelProperties: {
       experimentId: {
         serializedName: "experimentId",
+        required: true,
         type: {
           name: "String"
         }
       },
       experimentName: {
         serializedName: "experimentName",
+        required: true,
         type: {
           name: "String"
         }
       },
       runId: {
         serializedName: "runId",
+        required: true,
         type: {
           name: "String"
         }
       },
       runType: {
         serializedName: "runType",
+        required: true,
         type: {
           name: "String"
         }
       },
       runTags: {
         serializedName: "runTags",
+        required: true,
         type: {
           name: "any"
         }
       },
       runProperties: {
         serializedName: "runProperties",
+        required: true,
         type: {
           name: "any"
         }
       },
       runStatus: {
         serializedName: "runStatus",
+        required: true,
         type: {
           name: "String"
         }
@@ -3984,25 +4469,28 @@ export const MachineLearningServicesRunStatusChangedEventData: coreHttp.Composit
   }
 };
 
-export const RedisPatchingCompletedEventData: coreHttp.CompositeMapper = {
+export const RedisPatchingCompletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "RedisPatchingCompletedEventData",
     modelProperties: {
       timestamp: {
         serializedName: "timestamp",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
@@ -4011,25 +4499,28 @@ export const RedisPatchingCompletedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const RedisScalingCompletedEventData: coreHttp.CompositeMapper = {
+export const RedisScalingCompletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "RedisScalingCompletedEventData",
     modelProperties: {
       timestamp: {
         serializedName: "timestamp",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
@@ -4038,25 +4529,28 @@ export const RedisScalingCompletedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const RedisExportRDBCompletedEventData: coreHttp.CompositeMapper = {
+export const RedisExportRDBCompletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "RedisExportRDBCompletedEventData",
     modelProperties: {
       timestamp: {
         serializedName: "timestamp",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
@@ -4065,25 +4559,28 @@ export const RedisExportRDBCompletedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const RedisImportRDBCompletedEventData: coreHttp.CompositeMapper = {
+export const RedisImportRDBCompletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "RedisImportRDBCompletedEventData",
     modelProperties: {
       timestamp: {
         serializedName: "timestamp",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
@@ -4092,7 +4589,7 @@ export const RedisImportRDBCompletedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebAppUpdatedEventData: coreHttp.CompositeMapper = {
+export const WebAppUpdatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebAppUpdatedEventData",
@@ -4106,36 +4603,42 @@ export const WebAppUpdatedEventData: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4144,13 +4647,14 @@ export const WebAppUpdatedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const AppEventTypeDetail: coreHttp.CompositeMapper = {
+export const AppEventTypeDetail: CompositeMapper = {
   type: {
     name: "Composite",
     className: "AppEventTypeDetail",
     modelProperties: {
       action: {
         serializedName: "action",
+        required: true,
         type: {
           name: "String"
         }
@@ -4159,7 +4663,7 @@ export const AppEventTypeDetail: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebBackupOperationStartedEventData: coreHttp.CompositeMapper = {
+export const WebBackupOperationStartedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebBackupOperationStartedEventData",
@@ -4173,36 +4677,42 @@ export const WebBackupOperationStartedEventData: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4211,7 +4721,7 @@ export const WebBackupOperationStartedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebBackupOperationCompletedEventData: coreHttp.CompositeMapper = {
+export const WebBackupOperationCompletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebBackupOperationCompletedEventData",
@@ -4225,36 +4735,42 @@ export const WebBackupOperationCompletedEventData: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4263,7 +4779,7 @@ export const WebBackupOperationCompletedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebBackupOperationFailedEventData: coreHttp.CompositeMapper = {
+export const WebBackupOperationFailedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebBackupOperationFailedEventData",
@@ -4277,36 +4793,42 @@ export const WebBackupOperationFailedEventData: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4315,7 +4837,7 @@ export const WebBackupOperationFailedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebRestoreOperationStartedEventData: coreHttp.CompositeMapper = {
+export const WebRestoreOperationStartedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebRestoreOperationStartedEventData",
@@ -4329,36 +4851,42 @@ export const WebRestoreOperationStartedEventData: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4367,7 +4895,7 @@ export const WebRestoreOperationStartedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebRestoreOperationCompletedEventData: coreHttp.CompositeMapper = {
+export const WebRestoreOperationCompletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebRestoreOperationCompletedEventData",
@@ -4381,36 +4909,42 @@ export const WebRestoreOperationCompletedEventData: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4419,7 +4953,7 @@ export const WebRestoreOperationCompletedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebRestoreOperationFailedEventData: coreHttp.CompositeMapper = {
+export const WebRestoreOperationFailedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebRestoreOperationFailedEventData",
@@ -4433,36 +4967,42 @@ export const WebRestoreOperationFailedEventData: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4471,7 +5011,7 @@ export const WebRestoreOperationFailedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebSlotSwapStartedEventData: coreHttp.CompositeMapper = {
+export const WebSlotSwapStartedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebSlotSwapStartedEventData",
@@ -4485,36 +5025,42 @@ export const WebSlotSwapStartedEventData: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4523,7 +5069,7 @@ export const WebSlotSwapStartedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebSlotSwapCompletedEventData: coreHttp.CompositeMapper = {
+export const WebSlotSwapCompletedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebSlotSwapCompletedEventData",
@@ -4537,36 +5083,42 @@ export const WebSlotSwapCompletedEventData: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4575,7 +5127,7 @@ export const WebSlotSwapCompletedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebSlotSwapFailedEventData: coreHttp.CompositeMapper = {
+export const WebSlotSwapFailedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebSlotSwapFailedEventData",
@@ -4589,36 +5141,42 @@ export const WebSlotSwapFailedEventData: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4627,7 +5185,7 @@ export const WebSlotSwapFailedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebSlotSwapWithPreviewStartedEventData: coreHttp.CompositeMapper = {
+export const WebSlotSwapWithPreviewStartedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebSlotSwapWithPreviewStartedEventData",
@@ -4641,36 +5199,42 @@ export const WebSlotSwapWithPreviewStartedEventData: coreHttp.CompositeMapper = 
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4679,7 +5243,7 @@ export const WebSlotSwapWithPreviewStartedEventData: coreHttp.CompositeMapper = 
   }
 };
 
-export const WebSlotSwapWithPreviewCancelledEventData: coreHttp.CompositeMapper = {
+export const WebSlotSwapWithPreviewCancelledEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebSlotSwapWithPreviewCancelledEventData",
@@ -4693,36 +5257,42 @@ export const WebSlotSwapWithPreviewCancelledEventData: coreHttp.CompositeMapper 
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4731,7 +5301,7 @@ export const WebSlotSwapWithPreviewCancelledEventData: coreHttp.CompositeMapper 
   }
 };
 
-export const WebAppServicePlanUpdatedEventData: coreHttp.CompositeMapper = {
+export const WebAppServicePlanUpdatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebAppServicePlanUpdatedEventData",
@@ -4752,36 +5322,42 @@ export const WebAppServicePlanUpdatedEventData: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       correlationRequestId: {
         serializedName: "correlationRequestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
+        required: true,
         type: {
           name: "String"
         }
       },
       address: {
         serializedName: "address",
+        required: true,
         type: {
           name: "String"
         }
       },
       verb: {
         serializedName: "verb",
+        required: true,
         type: {
           name: "String"
         }
@@ -4790,27 +5366,28 @@ export const WebAppServicePlanUpdatedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const AppServicePlanEventTypeDetail: coreHttp.CompositeMapper = {
+export const AppServicePlanEventTypeDetail: CompositeMapper = {
   type: {
     name: "Composite",
     className: "AppServicePlanEventTypeDetail",
     modelProperties: {
       stampKind: {
         serializedName: "stampKind",
+        required: true,
         type: {
           name: "String"
         }
       },
       action: {
-        defaultValue: "Updated",
-        isConstant: true,
         serializedName: "action",
+        required: true,
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
+        required: true,
         type: {
           name: "String"
         }
@@ -4819,7 +5396,7 @@ export const AppServicePlanEventTypeDetail: coreHttp.CompositeMapper = {
   }
 };
 
-export const WebAppServicePlanUpdatedEventDataSku: coreHttp.CompositeMapper = {
+export const WebAppServicePlanUpdatedEventDataSku: CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebAppServicePlanUpdatedEventDataSku",
@@ -4858,25 +5435,125 @@ export const WebAppServicePlanUpdatedEventDataSku: coreHttp.CompositeMapper = {
   }
 };
 
-export const ACSChatEventBase: coreHttp.CompositeMapper = {
+export const CommunicationIdentifierModel: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatEventBase",
+    className: "CommunicationIdentifierModel",
     modelProperties: {
-      recipientId: {
-        serializedName: "recipientId",
+      rawId: {
+        serializedName: "rawId",
+        required: true,
         type: {
           name: "String"
         }
       },
+      communicationUser: {
+        serializedName: "communicationUser",
+        type: {
+          name: "Composite",
+          className: "CommunicationUserIdentifierModel"
+        }
+      },
+      phoneNumber: {
+        serializedName: "phoneNumber",
+        type: {
+          name: "Composite",
+          className: "PhoneNumberIdentifierModel"
+        }
+      },
+      microsoftTeamsUser: {
+        serializedName: "microsoftTeamsUser",
+        type: {
+          name: "Composite",
+          className: "MicrosoftTeamsUserIdentifierModel"
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationUserIdentifierModel: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationUserIdentifierModel",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PhoneNumberIdentifierModel: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhoneNumberIdentifierModel",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MicrosoftTeamsUserIdentifierModel: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MicrosoftTeamsUserIdentifierModel",
+    modelProperties: {
+      userId: {
+        serializedName: "userId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isAnonymous: {
+        serializedName: "isAnonymous",
+        type: {
+          name: "Boolean"
+        }
+      },
+      cloud: {
+        serializedName: "cloud",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatEventBase: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatEventBase",
+    modelProperties: {
+      recipientCommunicationIdentifier: {
+        serializedName: "recipientCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
       transactionId: {
         serializedName: "transactionId",
+        required: true,
         type: {
           name: "String"
         }
       },
       threadId: {
         serializedName: "threadId",
+        required: true,
         type: {
           name: "String"
         }
@@ -4885,60 +5562,141 @@ export const ACSChatEventBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const ACSChatMessageEventBase: coreHttp.CompositeMapper = {
+export const AcsChatEventInThreadBase: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatMessageEventBase",
+    className: "AcsChatEventInThreadBase",
     modelProperties: {
-      ...ACSChatEventBase.type.modelProperties,
+      transactionId: {
+        serializedName: "transactionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      threadId: {
+        serializedName: "threadId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadParticipant: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadParticipant",
+    modelProperties: {
+      displayName: {
+        serializedName: "displayName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      participantCommunicationIdentifier: {
+        serializedName: "participantCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      }
+    }
+  }
+};
+
+export const AcsSmsDeliveryAttempt: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsSmsDeliveryAttempt",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      segmentsSucceeded: {
+        serializedName: "segmentsSucceeded",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      segmentsFailed: {
+        serializedName: "segmentsFailed",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsSmsEventBase: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsSmsEventBase",
+    modelProperties: {
       messageId: {
         serializedName: "messageId",
+        required: true,
         type: {
           name: "String"
         }
       },
-      senderId: {
-        serializedName: "senderId",
+      from: {
+        serializedName: "from",
+        required: true,
         type: {
           name: "String"
         }
       },
-      senderDisplayName: {
-        serializedName: "senderDisplayName",
+      to: {
+        serializedName: "to",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRecordingFileStatusUpdatedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRecordingFileStatusUpdatedEventData",
+    modelProperties: {
+      recordingStorageInfo: {
+        serializedName: "recordingStorageInfo",
+        type: {
+          name: "Composite",
+          className: "AcsRecordingStorageInfo"
+        }
+      },
+      recordingStartTime: {
+        serializedName: "recordingStartTime",
+        required: true,
         type: {
           name: "String"
         }
       },
-      composeTime: {
-        serializedName: "composeTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      version: {
-        serializedName: "version",
+      recordingDurationMs: {
+        serializedName: "recordingDurationMs",
+        required: true,
         type: {
           name: "Number"
         }
-      }
-    }
-  }
-};
-
-export const ACSChatMessageReceivedEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ACSChatMessageReceivedEventData",
-    modelProperties: {
-      ...ACSChatMessageEventBase.type.modelProperties,
-      messageBody: {
-        serializedName: "messageBody",
+      },
+      sessionEndReason: {
+        serializedName: "sessionEndReason",
+        required: true,
         type: {
           name: "String"
         }
@@ -4947,91 +5705,21 @@ export const ACSChatMessageReceivedEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ACSChatMessageEditedEventData: coreHttp.CompositeMapper = {
+export const AcsRecordingStorageInfo: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatMessageEditedEventData",
+    className: "AcsRecordingStorageInfo",
     modelProperties: {
-      ...ACSChatMessageEventBase.type.modelProperties,
-      messageBody: {
-        serializedName: "messageBody",
-        type: {
-          name: "String"
-        }
-      },
-      editTime: {
-        serializedName: "editTime",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const ACSChatMessageDeletedEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ACSChatMessageDeletedEventData",
-    modelProperties: {
-      ...ACSChatMessageEventBase.type.modelProperties,
-      deleteTime: {
-        serializedName: "deleteTime",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const ACSChatThreadEventBase: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ACSChatThreadEventBase",
-    modelProperties: {
-      ...ACSChatEventBase.type.modelProperties,
-      createTime: {
-        serializedName: "createTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      version: {
-        serializedName: "version",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ACSChatThreadCreatedWithUserEventData: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ACSChatThreadCreatedWithUserEventData",
-    modelProperties: {
-      ...ACSChatThreadEventBase.type.modelProperties,
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      members: {
-        serializedName: "members",
+      recordingChunks: {
+        serializedName: "recordingChunks",
+        required: true,
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ACSChatThreadMember" }
+            type: {
+              name: "Composite",
+              className: "AcsRecordingChunkInfo"
+            }
           }
         }
       }
@@ -5039,19 +5727,42 @@ export const ACSChatThreadCreatedWithUserEventData: coreHttp.CompositeMapper = {
   }
 };
 
-export const ACSChatThreadMember: coreHttp.CompositeMapper = {
+export const AcsRecordingChunkInfo: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatThreadMember",
+    className: "AcsRecordingChunkInfo",
     modelProperties: {
-      displayName: {
-        serializedName: "displayName",
+      documentId: {
+        serializedName: "documentId",
+        required: true,
         type: {
           name: "String"
         }
       },
-      memberId: {
-        serializedName: "memberId",
+      index: {
+        serializedName: "index",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      endReason: {
+        serializedName: "endReason",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      metadataLocation: {
+        serializedName: "metadataLocation",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentLocation: {
+        serializedName: "contentLocation",
+        required: true,
         type: {
           name: "String"
         }
@@ -5060,48 +5771,272 @@ export const ACSChatThreadMember: coreHttp.CompositeMapper = {
   }
 };
 
-export const ACSChatThreadWithUserDeletedEventData: coreHttp.CompositeMapper = {
+export const PolicyInsightsPolicyStateCreatedEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatThreadWithUserDeletedEventData",
+    className: "PolicyInsightsPolicyStateCreatedEventData",
     modelProperties: {
-      ...ACSChatThreadEventBase.type.modelProperties,
-      deletedBy: {
-        serializedName: "deletedBy",
+      timestamp: {
+        serializedName: "timestamp",
+        required: true,
         type: {
           name: "String"
         }
       },
-      deleteTime: {
-        serializedName: "deleteTime",
+      policyAssignmentId: {
+        serializedName: "policyAssignmentId",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
+        }
+      },
+      policyDefinitionId: {
+        serializedName: "policyDefinitionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyDefinitionReferenceId: {
+        serializedName: "policyDefinitionReferenceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceState: {
+        serializedName: "complianceState",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceReasonCode: {
+        serializedName: "complianceReasonCode",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
   }
 };
 
-export const ACSChatThreadPropertiesUpdatedPerUserEventData: coreHttp.CompositeMapper = {
+export const PolicyInsightsPolicyStateChangedEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatThreadPropertiesUpdatedPerUserEventData",
+    className: "PolicyInsightsPolicyStateChangedEventData",
     modelProperties: {
-      ...ACSChatThreadEventBase.type.modelProperties,
-      editedBy: {
-        serializedName: "editedBy",
+      timestamp: {
+        serializedName: "timestamp",
+        required: true,
         type: {
           name: "String"
         }
       },
-      editTime: {
-        serializedName: "editTime",
+      policyAssignmentId: {
+        serializedName: "policyAssignmentId",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
+        }
+      },
+      policyDefinitionId: {
+        serializedName: "policyDefinitionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyDefinitionReferenceId: {
+        serializedName: "policyDefinitionReferenceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceState: {
+        serializedName: "complianceState",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceReasonCode: {
+        serializedName: "complianceReasonCode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyInsightsPolicyStateDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyInsightsPolicyStateDeletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyAssignmentId: {
+        serializedName: "policyAssignmentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyDefinitionId: {
+        serializedName: "policyDefinitionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      policyDefinitionReferenceId: {
+        serializedName: "policyDefinitionReferenceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceState: {
+        serializedName: "complianceState",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      complianceReasonCode: {
+        serializedName: "complianceReasonCode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingBoundaryChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingBoundaryChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      parentId: {
+        serializedName: "parentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      parentType: {
+        serializedName: "parentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isPrimary: {
+        serializedName: "isPrimary",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
         }
       },
       properties: {
         serializedName: "properties",
+        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
@@ -5111,92 +6046,1702 @@ export const ACSChatThreadPropertiesUpdatedPerUserEventData: coreHttp.CompositeM
   }
 };
 
-export const ACSChatMemberAddedToThreadWithUserEventData: coreHttp.CompositeMapper = {
+export const AgriFoodFarmingCropChangedEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatMemberAddedToThreadWithUserEventData",
+    className: "AgriFoodFarmingCropChangedEventData",
     modelProperties: {
-      ...ACSChatThreadEventBase.type.modelProperties,
-      time: {
-        serializedName: "time",
-        type: {
-          name: "DateTime"
-        }
-      },
-      addedBy: {
-        serializedName: "addedBy",
+      actionType: {
+        serializedName: "actionType",
+        required: true,
         type: {
           name: "String"
         }
       },
-      memberAdded: {
-        serializedName: "memberAdded",
+      status: {
+        serializedName: "status",
+        required: true,
         type: {
-          name: "Composite",
-          className: "ACSChatThreadMember"
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
   }
 };
 
-export const ACSChatMemberRemovedFromThreadWithUserEventData: coreHttp.CompositeMapper = {
+export const AgriFoodFarmingCropVarietyChangedEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ACSChatMemberRemovedFromThreadWithUserEventData",
+    className: "AgriFoodFarmingCropVarietyChangedEventData",
     modelProperties: {
-      ...ACSChatThreadEventBase.type.modelProperties,
-      time: {
-        serializedName: "time",
-        type: {
-          name: "DateTime"
-        }
-      },
-      removedBy: {
-        serializedName: "removedBy",
+      cropId: {
+        serializedName: "cropId",
+        required: true,
         type: {
           name: "String"
         }
       },
-      memberRemoved: {
-        serializedName: "memberRemoved",
+      actionType: {
+        serializedName: "actionType",
+        required: true,
         type: {
-          name: "Composite",
-          className: "ACSChatThreadMember"
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
   }
 };
 
-export const AcsSmsEventBase: coreHttp.CompositeMapper = {
+export const AgriFoodFarmingFarmChangedEventData: CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsSmsEventBase",
+    className: "AgriFoodFarmingFarmChangedEventData",
     modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingFarmerChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingFarmerChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingFieldChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingFieldChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmId: {
+        serializedName: "farmId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingSeasonalFieldChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingSeasonalFieldChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      seasonId: {
+        serializedName: "seasonId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      fieldId: {
+        serializedName: "fieldId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmId: {
+        serializedName: "farmId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingSeasonChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingSeasonChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingApplicationDataChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingApplicationDataChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingPlantingDataChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingPlantingDataChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingHarvestDataChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingHarvestDataChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingTillageDataChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingTillageDataChangedEventData",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      modifiedDateTime: {
+        serializedName: "modifiedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingSatelliteDataIngestionJobStatusChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingSatelliteDataIngestionJobStatusChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingWeatherDataIngestionJobStatusChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgriFoodFarmingWeatherDataIngestionJobStatusChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AgriFoodFarmingFarmOperationDataIngestionJobStatusChangedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "AgriFoodFarmingFarmOperationDataIngestionJobStatusChangedEventData",
+    modelProperties: {
+      farmerId: {
+        serializedName: "farmerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastActionDateTime: {
+        serializedName: "lastActionDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isCancellationRequested: {
+        serializedName: "isCancellationRequested",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDateTime: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const IotHubDeviceCreatedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceCreatedEventData",
+    modelProperties: {
+      ...DeviceLifeCycleEvent.type.modelProperties
+    }
+  }
+};
+
+export const IotHubDeviceDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceDeletedEventData",
+    modelProperties: {
+      ...DeviceLifeCycleEvent.type.modelProperties
+    }
+  }
+};
+
+export const IotHubDeviceConnectedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceConnectedEventData",
+    modelProperties: {
+      ...DeviceConnectionStateEvent.type.modelProperties
+    }
+  }
+};
+
+export const IotHubDeviceDisconnectedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceDisconnectedEventData",
+    modelProperties: {
+      ...DeviceConnectionStateEvent.type.modelProperties
+    }
+  }
+};
+
+export const IotHubDeviceTelemetryEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceTelemetryEventData",
+    modelProperties: {
+      ...DeviceTelemetryEvent.type.modelProperties
+    }
+  }
+};
+
+export const ContainerRegistryImagePushedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryImagePushedEventData",
+    modelProperties: {
+      ...ContainerRegistryEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerRegistryImageDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryImageDeletedEventData",
+    modelProperties: {
+      ...ContainerRegistryEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerRegistryChartPushedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryChartPushedEventData",
+    modelProperties: {
+      ...ContainerRegistryArtifactEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerRegistryChartDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryChartDeletedEventData",
+    modelProperties: {
+      ...ContainerRegistryArtifactEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobScheduledEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobScheduled",
+  type: {
+    name: "Composite",
+    className: "MediaJobScheduledEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobProcessingEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobProcessing",
+  type: {
+    name: "Composite",
+    className: "MediaJobProcessingEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobCancelingEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobCanceling",
+  type: {
+    name: "Composite",
+    className: "MediaJobCancelingEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobFinishedEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobFinished",
+  type: {
+    name: "Composite",
+    className: "MediaJobFinishedEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties,
+      outputs: {
+        serializedName: "outputs",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MediaJobOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobCanceledEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobCanceled",
+  type: {
+    name: "Composite",
+    className: "MediaJobCanceledEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties,
+      outputs: {
+        serializedName: "outputs",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MediaJobOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobErroredEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobErrored",
+  type: {
+    name: "Composite",
+    className: "MediaJobErroredEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties,
+      outputs: {
+        serializedName: "outputs",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MediaJobOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobOutputAsset: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputAsset",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputAsset",
+    uberParent: "MediaJobOutput",
+    polymorphicDiscriminator: MediaJobOutput.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...MediaJobOutput.type.modelProperties,
+      assetName: {
+        serializedName: "assetName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobOutputCanceledEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputCanceled",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputCanceledEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputCancelingEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputCanceling",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputCancelingEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputErroredEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputErrored",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputErroredEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputFinishedEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputFinished",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputFinishedEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputProcessingEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputProcessing",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputProcessingEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputScheduledEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputScheduled",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputScheduledEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceEnteredEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceEnteredEventData",
+    modelProperties: {
+      ...MapsGeofenceEvent.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceExitedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceExitedEventData",
+    modelProperties: {
+      ...MapsGeofenceEvent.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceResultEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceResultEventData",
+    modelProperties: {
+      ...MapsGeofenceEvent.type.modelProperties
+    }
+  }
+};
+
+export const AcsChatMessageEventBase: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageEventBase",
+    modelProperties: {
+      ...AcsChatEventBase.type.modelProperties,
       messageId: {
         serializedName: "messageId",
+        required: true,
         type: {
           name: "String"
         }
       },
-      from: {
-        serializedName: "from",
+      senderCommunicationIdentifier: {
+        serializedName: "senderCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      senderDisplayName: {
+        serializedName: "senderDisplayName",
+        required: true,
         type: {
           name: "String"
         }
       },
-      to: {
-        serializedName: "to",
+      composeTime: {
+        serializedName: "composeTime",
+        required: true,
         type: {
           name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "Number"
         }
       }
     }
   }
 };
 
-export const AcsSmsDeliveryReportReceivedEventData: coreHttp.CompositeMapper = {
+export const AcsChatThreadEventBase: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadEventBase",
+    modelProperties: {
+      ...AcsChatEventBase.type.modelProperties,
+      createTime: {
+        serializedName: "createTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatMessageEventInThreadBase: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageEventInThreadBase",
+    modelProperties: {
+      ...AcsChatEventInThreadBase.type.modelProperties,
+      messageId: {
+        serializedName: "messageId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      senderCommunicationIdentifier: {
+        serializedName: "senderCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      senderDisplayName: {
+        serializedName: "senderDisplayName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      composeTime: {
+        serializedName: "composeTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadEventInThreadBase: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadEventInThreadBase",
+    modelProperties: {
+      ...AcsChatEventInThreadBase.type.modelProperties,
+      createTime: {
+        serializedName: "createTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatParticipantAddedToThreadEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatParticipantAddedToThreadEventData",
+    modelProperties: {
+      ...AcsChatEventInThreadBase.type.modelProperties,
+      time: {
+        serializedName: "time",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      addedByCommunicationIdentifier: {
+        serializedName: "addedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      participantAdded: {
+        serializedName: "participantAdded",
+        type: {
+          name: "Composite",
+          className: "AcsChatThreadParticipant"
+        }
+      },
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatParticipantRemovedFromThreadEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatParticipantRemovedFromThreadEventData",
+    modelProperties: {
+      ...AcsChatEventInThreadBase.type.modelProperties,
+      time: {
+        serializedName: "time",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      removedByCommunicationIdentifier: {
+        serializedName: "removedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      participantRemoved: {
+        serializedName: "participantRemoved",
+        type: {
+          name: "Composite",
+          className: "AcsChatThreadParticipant"
+        }
+      },
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsSmsDeliveryReportReceivedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsSmsDeliveryReportReceivedEventData",
@@ -5204,63 +7749,50 @@ export const AcsSmsDeliveryReportReceivedEventData: coreHttp.CompositeMapper = {
       ...AcsSmsEventBase.type.modelProperties,
       deliveryStatus: {
         serializedName: "deliveryStatus",
+        required: true,
         type: {
           name: "String"
         }
       },
       deliveryStatusDetails: {
         serializedName: "deliveryStatusDetails",
+        required: true,
         type: {
           name: "String"
         }
       },
       deliveryAttempts: {
         serializedName: "deliveryAttempts",
+        required: true,
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "AcsSmsDeliveryAttempt" }
+            type: {
+              name: "Composite",
+              className: "AcsSmsDeliveryAttempt"
+            }
           }
         }
       },
       receivedTimestamp: {
         serializedName: "receivedTimestamp",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
+        }
+      },
+      tag: {
+        serializedName: "tag",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
   }
 };
 
-export const AcsSmsDeliveryAttempt: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AcsSmsDeliveryAttempt",
-    modelProperties: {
-      timestamp: {
-        serializedName: "timestamp",
-        type: {
-          name: "DateTime"
-        }
-      },
-      segmentsSucceeded: {
-        serializedName: "segmentsSucceeded",
-        type: {
-          name: "Number"
-        }
-      },
-      segmentsFailed: {
-        serializedName: "segmentsFailed",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const AcsSmsReceivedEventData: coreHttp.CompositeMapper = {
+export const AcsSmsReceivedEventData: CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcsSmsReceivedEventData",
@@ -5268,14 +7800,382 @@ export const AcsSmsReceivedEventData: coreHttp.CompositeMapper = {
       ...AcsSmsEventBase.type.modelProperties,
       message: {
         serializedName: "message",
+        required: true,
         type: {
           name: "String"
         }
       },
       receivedTimestamp: {
         serializedName: "receivedTimestamp",
+        required: true,
         type: {
-          name: "DateTime"
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatMessageReceivedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageReceivedEventData",
+    modelProperties: {
+      ...AcsChatMessageEventBase.type.modelProperties,
+      messageBody: {
+        serializedName: "messageBody",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatMessageEditedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageEditedEventData",
+    modelProperties: {
+      ...AcsChatMessageEventBase.type.modelProperties,
+      messageBody: {
+        serializedName: "messageBody",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      editTime: {
+        serializedName: "editTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatMessageDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageDeletedEventData",
+    modelProperties: {
+      ...AcsChatMessageEventBase.type.modelProperties,
+      deleteTime: {
+        serializedName: "deleteTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadCreatedWithUserEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadCreatedWithUserEventData",
+    modelProperties: {
+      ...AcsChatThreadEventBase.type.modelProperties,
+      createdByCommunicationIdentifier: {
+        serializedName: "createdByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      participants: {
+        serializedName: "participants",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsChatThreadParticipant"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadWithUserDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadWithUserDeletedEventData",
+    modelProperties: {
+      ...AcsChatThreadEventBase.type.modelProperties,
+      deletedByCommunicationIdentifier: {
+        serializedName: "deletedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      deleteTime: {
+        serializedName: "deleteTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadPropertiesUpdatedPerUserEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadPropertiesUpdatedPerUserEventData",
+    modelProperties: {
+      ...AcsChatThreadEventBase.type.modelProperties,
+      editedByCommunicationIdentifier: {
+        serializedName: "editedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      editTime: {
+        serializedName: "editTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatParticipantAddedToThreadWithUserEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatParticipantAddedToThreadWithUserEventData",
+    modelProperties: {
+      ...AcsChatThreadEventBase.type.modelProperties,
+      time: {
+        serializedName: "time",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      addedByCommunicationIdentifier: {
+        serializedName: "addedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      participantAdded: {
+        serializedName: "participantAdded",
+        type: {
+          name: "Composite",
+          className: "AcsChatThreadParticipant"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatParticipantRemovedFromThreadWithUserEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatParticipantRemovedFromThreadWithUserEventData",
+    modelProperties: {
+      ...AcsChatThreadEventBase.type.modelProperties,
+      time: {
+        serializedName: "time",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      removedByCommunicationIdentifier: {
+        serializedName: "removedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      participantRemoved: {
+        serializedName: "participantRemoved",
+        type: {
+          name: "Composite",
+          className: "AcsChatThreadParticipant"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatMessageReceivedInThreadEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageReceivedInThreadEventData",
+    modelProperties: {
+      ...AcsChatMessageEventInThreadBase.type.modelProperties,
+      messageBody: {
+        serializedName: "messageBody",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatMessageEditedInThreadEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageEditedInThreadEventData",
+    modelProperties: {
+      ...AcsChatMessageEventInThreadBase.type.modelProperties,
+      messageBody: {
+        serializedName: "messageBody",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      editTime: {
+        serializedName: "editTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatMessageDeletedInThreadEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatMessageDeletedInThreadEventData",
+    modelProperties: {
+      ...AcsChatMessageEventInThreadBase.type.modelProperties,
+      deleteTime: {
+        serializedName: "deleteTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadCreatedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadCreatedEventData",
+    modelProperties: {
+      ...AcsChatThreadEventInThreadBase.type.modelProperties,
+      createdByCommunicationIdentifier: {
+        serializedName: "createdByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      participants: {
+        serializedName: "participants",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsChatThreadParticipant"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadDeletedEventData",
+    modelProperties: {
+      ...AcsChatThreadEventInThreadBase.type.modelProperties,
+      deletedByCommunicationIdentifier: {
+        serializedName: "deletedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      deleteTime: {
+        serializedName: "deleteTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsChatThreadPropertiesUpdatedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsChatThreadPropertiesUpdatedEventData",
+    modelProperties: {
+      ...AcsChatThreadEventInThreadBase.type.modelProperties,
+      editedByCommunicationIdentifier: {
+        serializedName: "editedByCommunicationIdentifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      editTime: {
+        serializedName: "editTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }

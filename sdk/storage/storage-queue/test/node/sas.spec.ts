@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 
 import {
@@ -313,7 +316,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.ok(deleteResult.requestId);
     assert.ok(deleteResult.clientRequestId);
 
-    //const cResult = await queuesClientwithSAS.clear(); //This request is not authorized to perform this operation. As testing, this is service's current behavior.
+    // const cResult = await queuesClientwithSAS.clear(); //This request is not authorized to perform this operation. As testing, this is service's current behavior.
   });
 
   it("QueueServiceClient.generateAccountSasUrl should work", async () => {

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ShareClient, ShareFileClient, ShareDirectoryClient } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils/index";
 import * as assert from "assert";

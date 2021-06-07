@@ -11,7 +11,11 @@ const splitError = new Error("Fake Partition Split") as any;
 splitError.code = 410;
 splitError.substatus = SubStatusCodes.PartitionKeyRangeGone;
 
-const generateDocuments = function(docSize: number) {
+const generateDocuments = function(
+  docSize: number
+): {
+  id: string;
+}[] {
   const docs = [];
   for (let i = 0; i < docSize; i++) {
     docs.push({ id: i.toString() });

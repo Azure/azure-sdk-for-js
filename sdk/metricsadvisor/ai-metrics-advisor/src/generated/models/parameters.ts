@@ -7,8 +7,8 @@
  */
 
 import {
-  OperationURLParameter,
   OperationParameter,
+  OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-http";
 import {
@@ -21,6 +21,8 @@ import {
   DetectionAnomalyResultQuery as DetectionAnomalyResultQueryMapper,
   AnomalyDimensionQuery as AnomalyDimensionQueryMapper,
   DetectionIncidentResultQuery as DetectionIncidentResultQueryMapper,
+  DataSourceCredential as DataSourceCredentialMapper,
+  DataSourceCredentialPatch as DataSourceCredentialPatchMapper,
   DataFeedDetail as DataFeedDetailMapper,
   DataFeedDetailPatch as DataFeedDetailPatchMapper,
   MetricFeedbackFilter as MetricFeedbackFilterMapper,
@@ -34,6 +36,18 @@ import {
   MetricDimensionQueryOptions as MetricDimensionQueryOptionsMapper,
   EnrichmentStatusQueryOption as EnrichmentStatusQueryOptionMapper
 } from "../models/mappers";
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -107,10 +121,10 @@ export const skip: OperationQueryParameter = {
   }
 };
 
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
+export const maxpagesize: OperationQueryParameter = {
+  parameterPath: ["options", "maxpagesize"],
   mapper: {
-    serializedName: "$top",
+    serializedName: "$maxpagesize",
     type: {
       name: "Number"
     }
@@ -179,6 +193,27 @@ export const incidentId: OperationURLParameter = {
   }
 };
 
+export const body9: OperationParameter = {
+  parameterPath: "body",
+  mapper: DataSourceCredentialMapper
+};
+
+export const body10: OperationParameter = {
+  parameterPath: "body",
+  mapper: DataSourceCredentialPatchMapper
+};
+
+export const credentialId: OperationURLParameter = {
+  parameterPath: "credentialId",
+  mapper: {
+    serializedName: "credentialId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
 export const dataFeedName: OperationQueryParameter = {
   parameterPath: ["options", "dataFeedName"],
   mapper: {
@@ -194,7 +229,22 @@ export const dataSourceType: OperationQueryParameter = {
   mapper: {
     serializedName: "dataSourceType",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: [
+        "AzureApplicationInsights",
+        "AzureBlob",
+        "AzureCosmosDB",
+        "AzureDataExplorer",
+        "AzureDataLakeStorageGen2",
+        "AzureEventHubs",
+        "AzureLogAnalytics",
+        "AzureTable",
+        "InfluxDB",
+        "MongoDB",
+        "MySql",
+        "PostgreSql",
+        "SqlServer"
+      ]
     }
   }
 };
@@ -204,7 +254,17 @@ export const granularityName: OperationQueryParameter = {
   mapper: {
     serializedName: "granularityName",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: [
+        "Yearly",
+        "Monthly",
+        "Weekly",
+        "Daily",
+        "Hourly",
+        "Minutely",
+        "Secondly",
+        "Custom"
+      ]
     }
   }
 };
@@ -214,7 +274,8 @@ export const status: OperationQueryParameter = {
   mapper: {
     serializedName: "status",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: ["Active", "Paused"]
     }
   }
 };
@@ -229,7 +290,7 @@ export const creator: OperationQueryParameter = {
   }
 };
 
-export const body9: OperationParameter = {
+export const body11: OperationParameter = {
   parameterPath: "body",
   mapper: DataFeedDetailMapper
 };
@@ -245,7 +306,7 @@ export const dataFeedId: OperationURLParameter = {
   }
 };
 
-export const body10: OperationParameter = {
+export const body12: OperationParameter = {
   parameterPath: "body",
   mapper: DataFeedDetailPatchMapper
 };
@@ -261,12 +322,12 @@ export const feedbackId: OperationURLParameter = {
   }
 };
 
-export const body11: OperationParameter = {
+export const body13: OperationParameter = {
   parameterPath: "body",
   mapper: MetricFeedbackFilterMapper
 };
 
-export const body12: OperationParameter = {
+export const body14: OperationParameter = {
   parameterPath: "body",
   mapper: MetricFeedbackMapper
 };
@@ -281,7 +342,7 @@ export const hookName: OperationQueryParameter = {
   }
 };
 
-export const body13: OperationParameter = {
+export const body15: OperationParameter = {
   parameterPath: "body",
   mapper: HookInfoMapper
 };
@@ -297,22 +358,22 @@ export const hookId: OperationURLParameter = {
   }
 };
 
-export const body14: OperationParameter = {
+export const body16: OperationParameter = {
   parameterPath: "body",
   mapper: HookInfoPatchMapper
 };
 
-export const body15: OperationParameter = {
+export const body17: OperationParameter = {
   parameterPath: "body",
   mapper: IngestionStatusQueryOptionsMapper
 };
 
-export const body16: OperationParameter = {
+export const body18: OperationParameter = {
   parameterPath: "body",
   mapper: IngestionProgressResetOptionsMapper
 };
 
-export const body17: OperationParameter = {
+export const body19: OperationParameter = {
   parameterPath: "body",
   mapper: MetricDataQueryOptionsMapper
 };
@@ -328,34 +389,22 @@ export const metricId: OperationURLParameter = {
   }
 };
 
-export const body18: OperationParameter = {
+export const body20: OperationParameter = {
   parameterPath: "body",
   mapper: MetricSeriesQueryOptionsMapper
 };
 
-export const body19: OperationParameter = {
+export const body21: OperationParameter = {
   parameterPath: "body",
   mapper: MetricDimensionQueryOptionsMapper
 };
 
-export const body20: OperationParameter = {
+export const body22: OperationParameter = {
   parameterPath: "body",
   mapper: EnrichmentStatusQueryOptionMapper
 };
 
 export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const nextLink1: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
     serializedName: "nextLink",

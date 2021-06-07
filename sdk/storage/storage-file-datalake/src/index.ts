@@ -1,6 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export * from "./DataLakeServiceClient";
 export * from "./DataLakeFileSystemClient";
 export * from "./clients";
@@ -24,6 +23,12 @@ export * from "./policies/StorageSharedKeyCredentialPolicy";
 export * from "./sas/SASQueryParameters";
 export * from "./models";
 export * from "./utils/DataLakeAclChangeFailedError";
+
+export {
+  BlobServiceProperties as DataLakeServiceProperties,
+  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse
+} from "@azure/storage-blob";
+
 export { CommonOptions } from "./StorageClient";
 export { SasIPRange } from "./sas/SasIPRange";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";

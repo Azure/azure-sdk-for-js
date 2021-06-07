@@ -3,10 +3,10 @@
 
 import qs from "qs";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
+import { CredentialUnavailableError } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { checkTenantId } from "../util/checkTenantId";
@@ -38,7 +38,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
@@ -68,7 +68,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
@@ -134,11 +134,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan(
-      "AuthorizationCodeCredential-getToken",
-      options
-    );
+  ): Promise<AccessToken> {
+    const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {
       let tokenResponse: TokenResponse | null = null;
       let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
@@ -155,7 +152,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
           this.lastTokenResponse.refreshToken,
           this.clientSecret,
           undefined,
-          newOptions
+          updatedOptions
         );
       }
 
@@ -179,7 +176,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
             "Content-Type": "application/x-www-form-urlencoded"
           },
           abortSignal: options && options.abortSignal,
-          spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
+          spanOptions: updatedOptions?.tracingOptions?.spanOptions,
+          tracingContext: updatedOptions?.tracingOptions?.tracingContext
         });
 
         tokenResponse = await this.identityClient.sendTokenRequest(webResource);
@@ -187,14 +185,15 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
       this.lastTokenResponse = tokenResponse;
       logger.getToken.info(formatSuccess(scopes));
-      return (tokenResponse && tokenResponse.accessToken) || null;
+      const token = tokenResponse && tokenResponse.accessToken;
+
+      if (!token) {
+        throw new CredentialUnavailableError("Failed to retrieve a valid token");
+      }
+      return token;
     } catch (err) {
-      const code =
-        err.name === AuthenticationErrorName
-          ? CanonicalCode.UNAUTHENTICATED
-          : CanonicalCode.UNKNOWN;
       span.setStatus({
-        code,
+        code: SpanStatusCode.ERROR,
         message: err.message
       });
       logger.getToken.info(formatError(scopes, err));

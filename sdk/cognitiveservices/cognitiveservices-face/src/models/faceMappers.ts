@@ -30,6 +30,7 @@ export {
   IdentifyResult,
   ImageUrl,
   Makeup,
+  Mask,
   Noise,
   Occlusion,
   SimilarFace,

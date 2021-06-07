@@ -45,7 +45,7 @@ import {
 } from "./util/constants";
 
 /**
- * @ignore
+ * @hidden
  */
 export interface BaseHostContext {
   hostName: string;
@@ -79,7 +79,7 @@ export interface BaseHostContext {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export interface HostContextWithCheckpointLeaseManager extends BaseHostContext {
   leaseManager: LeaseManager;
@@ -102,7 +102,7 @@ export interface HostContext extends HostContextWithPumpManager {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export namespace HostContext {
   function _validateLeaseDurationAndRenewInterval(duration: number, interval: number): void {
@@ -338,7 +338,7 @@ export namespace HostContext {
   } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
 
   /**
-   * @ignore
+   * @hidden
    */
   export function getUserAgent(options: EventProcessorHostOptions): string {
     const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;
@@ -346,7 +346,7 @@ export namespace HostContext {
   }
 
   /**
-   * @ignore
+   * @hidden
    */
   export function create(hostName: string, options: EventProcessorHostOptions): HostContext {
     const context = _createWithPumpManager(hostName, options);

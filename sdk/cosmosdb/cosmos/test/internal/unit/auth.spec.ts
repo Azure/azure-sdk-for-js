@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import { getAuthorizationTokenUsingResourceTokens } from "../../../src/auth";
+import { Suite } from "mocha";
 import assert from "assert";
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   it("should find exact match", async function() {

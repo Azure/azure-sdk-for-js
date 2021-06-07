@@ -12,9 +12,14 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.BlobStorage/preview/2020-04-08/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/8c1f9b739165035d9ced32761cebb19125bce233/specification/storage/data-plane/Microsoft.BlobStorage/preview/2020-06-12/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
+v3: true
+disable-async-iterators: true
+add-credentials: false
+use-extension:
+  "@autorest/typescript": "6.0.0-dev.20210218.1"
 ```
 
 ## Customizations for Track 2 Generator
@@ -232,6 +237,17 @@ directive:
       $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
 ```
 
+### UserDelegationKey properties SignedStart and SignedExpiry to string type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.UserDelegationKey.properties
+    transform: >
+      delete $.SignedStart["format"];
+      delete $.SignedExpiry["format"];
+```
+
 ### Add missing x-ms-parameter-location for PathRenameMode
 
 ```yaml
@@ -341,6 +357,751 @@ directive:
       }
 ```
 
+### Hide x-ms-pageable in ListContainersSegment
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=list"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
+### Hide x-ms-pageable in Container_ListBlobFlatSegment
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=list&flat"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
+### Hide x-ms-pageable in Container_ListBlobHierarchySegment
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=list&hierarchy"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
+### Add error code to response header - Service_SetProperties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?restype=service&comp=properties"]["put"]["responses"]["202"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Service_GetProperties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?restype=service&comp=properties"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Service_GetAccountInfo
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?restype=account&comp=properties"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Service_GetStatistics
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?restype=service&comp=stats"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Service_ListContainersSegment
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=list"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Service_FilterBlobs
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=blobs"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Service_SubmitBatch
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=batch"]["post"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add clientrequestid to response header - Service_SubmitBatch
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=batch"]["post"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-client-request-id"] = {};
+      $["x-ms-client-request-id"]["x-ms-client-name"] = "ClientRequestId";
+      $["x-ms-client-request-id"]["type"] = "string";
+      $["x-ms-client-request-id"]["description"] = "If a client request id header is sent in the request, this header will be present in the response with the same value.";
+```
+
+### Add ErrorCode to response header - Blob_Download
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"]["get"]["responses"]["206"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_SetHTTPHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=properties&SetHTTPHeaders"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add ContentCrc64 to response header - Blob_Download
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-content-crc64"] = {};
+      $["x-ms-content-crc64"]["x-ms-client-name"] = "ContentCrc64";
+      $["x-ms-content-crc64"]["type"] = "string";
+      $["x-ms-content-crc64"]["format"] = "byte";
+      $["x-ms-content-crc64"]["description"] = "If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to true, then the request returns a crc64 for the range, as long as the range size is less than or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is specified in the same request, it will fail with 400(Bad Request).";
+```
+
+### Add ErrorCode to response header - Blob_Query
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=query"]["post"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=query"]["post"]["responses"]["206"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add ContentCrc64 to response header - Blob_Query
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=query"]["post"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-content-crc64"] = {};
+      $["x-ms-content-crc64"]["x-ms-client-name"] = "ContentCrc64";
+      $["x-ms-content-crc64"]["type"] = "string";
+      $["x-ms-content-crc64"]["format"] = "byte";
+      $["x-ms-content-crc64"]["description"] = "If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to true, then the request returns a crc64 for the range, as long as the range size is less than or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is specified in the same request, it will fail with 400(Bad Request).";
+```
+
+### Add ErrorCode to response header - Service_GetUserDelegationKey
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?restype=service&comp=userdelegationkey"]["post"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Container_GetAccessPolicy
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=acl"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Container_SetAccessPolicy
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=acl"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - AppendBlob_Create
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?AppendBlob"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - AppendBlob_AppendBlock
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=appendblock"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - AppendBlob_AppendBlockFromUrl
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=appendblock&fromUrl"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_GetProperties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"]["head"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_Delete
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"]["delete"]["responses"]["202"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_Undelete
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=undelete"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_GetTags
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=tags"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_SetTags
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=tags"]["put"]["responses"]["204"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_SetTier
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=tier"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_SetMetadata
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=metadata"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_CreateSnapshot
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=snapshot"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_CopyFromURL
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=copy&sync"]["put"]["responses"]["202"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_StartCopyFromURL
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=copy"]["put"]["responses"]["202"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Blob_AbortCopyFromURL
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=copy&copyid={CopyId}"]["put"]["responses"]["204"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - BlockBlob_CommitBlockList
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=blocklist"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - BlockBlob_GetBlockList
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=blocklist"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - BlockBlob_PutBlobFromUrl
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?BlockBlob&fromUrl"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - BlockBlob_StageBlockFromURL
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=block&fromURL"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - BlockBlob_StageBlock
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=block"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - BlockBlob_Upload
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?BlockBlob"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Container_Create
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Container_Create
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container"]["delete"]["responses"]["202"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Container_Rename
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=rename"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Container_Restore
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=undelete"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Container_GetProperties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Container_SetMetadata
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=metadata"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Container_ListBlobFlatSegment
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=list&flat"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - Container_ListBlobHierarchySegment
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=list&hierarchy"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - PageBlob_Create
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?PageBlob"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - PageBlob_ClearPages
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=page&clear"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - PageBlob_CopyIncremental
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=incrementalcopy"]["put"]["responses"]["202"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - PageBlob_GetPageRangesDiff
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=pagelist&diff"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - PageBlob_GetPageRanges
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=pagelist"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - PageBlob_Resize
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=properties&Resize"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - PageBlob_UpdateSequenceNumber
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=properties&UpdateSequenceNumber"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - PageBlob_UploadPagesFromURL
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=page&update&fromUrl"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add error code to response header - PageBlob_UploadPages
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=page&update"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add client name for delete properties in Logging definition
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Logging.properties
+    transform: >
+      $["Delete"]["x-ms-client-name"] = "deleteProperty";
+```
+
 ### Rename AccessPolicy start -> startsOn and expiry to expiresOn
 
 ```yaml
@@ -350,6 +1111,38 @@ directive:
     transform: >
       $.Start["x-ms-client-name"] = "startsOn";
       $.Expiry["x-ms-client-name"] = "expiresOn";
+```
+
+### Change AccessPolicy start and expiry to string type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AccessPolicy.properties
+    transform: >
+      delete $.Start["format"];
+      delete $.Expiry["format"];
+```
+
+### Change BlobDeleteType definition to string
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.BlobDeleteType
+    transform: >
+      delete $["enum"];
+      delete $["x-ms-enum"];
+```
+
+### Change QueryType in QueryRequest to string type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.QueryRequest.properties
+    transform: >
+      delete $.QueryType["enum"];
 ```
 
 ### Rename KeyInfo start -> startsOn
@@ -412,6 +1205,89 @@ directive:
     where: $.definitions.StorageError
     transform: >
       $.properties.Code = { "type": "string" };
+```
+
+### Define AccessTier as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["AccessTier"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Define ArchiveStatus as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["ArchiveStatus"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Define GeoReplicationStatusType as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["GeoReplication"]["properties"]["Status"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Define BlobPublicAccess as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["BlobPublicAccess"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Define PublicAccessType as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["PublicAccessType"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Define RehydratePriority as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["RehydratePriority"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+  - from: swagger-document
+    where: $["definitions"]["RehydratePriority"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Hide AllowPermanentDelete
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.RetentionPolicy
+    transform: >
+      delete $.properties["AllowPermanentDelete"];
+```
+
+### Update service version from "2020-06-12" to "2020-08-04"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2020-08-04" ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

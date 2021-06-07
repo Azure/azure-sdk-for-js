@@ -36,8 +36,8 @@ export class Containers {
 
   /**
    * Queries all containers.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options Use to set options like response page size, continuation tokens, etc.
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
    * ```typescript
@@ -53,8 +53,8 @@ export class Containers {
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Queries all containers.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options Use to set options like response page size, continuation tokens, etc.
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
    * ```typescript
@@ -98,8 +98,8 @@ export class Containers {
    * Since containers are application resources, they can be authorized using either the
    * master key or resource keys.
    *
-   * @param body Represents the body of the container.
-   * @param options Use to set options like response page size, continuation tokens, etc.
+   * @param body - Represents the body of the container.
+   * @param options - Use to set options like response page size, continuation tokens, etc.
    */
   public async create(
     body: ContainerRequest,
@@ -117,7 +117,11 @@ export class Containers {
     if (body.maxThroughput) {
       const autoscaleParams: {
         maxThroughput: number;
-        autoUpgradePolicy?: object;
+        autoUpgradePolicy?: {
+          throughputPolicy: {
+            incrementPercent: number;
+          };
+        };
       } = {
         maxThroughput: body.maxThroughput
       };
@@ -182,8 +186,8 @@ export class Containers {
    * Since containers are application resources, they can be authorized using either the
    * master key or resource keys.
    *
-   * @param body Represents the body of the container.
-   * @param options Use to set options like response page size, continuation tokens, etc.
+   * @param body - Represents the body of the container.
+   * @param options - Use to set options like response page size, continuation tokens, etc.
    */
   public async createIfNotExists(
     body: ContainerRequest,
@@ -213,7 +217,7 @@ export class Containers {
 
   /**
    * Read all containers.
-   * @param options Use to set options like response page size, continuation tokens, etc.
+   * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
    * ```typescript

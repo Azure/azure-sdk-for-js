@@ -103,6 +103,35 @@ describe("AbortController", () => {
     }
   });
 
+  // Test for the issue reported in https://github.com/Azure/azure-sdk-for-js/issues/13985
+  it("should invoke all abort listener callbacks when aborting even when listeners self-remove", async () => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const acks: string[] = [];
+    try {
+      const onAbortFoo = () => {
+        acks.push("foo");
+        signal.removeEventListener("abort", onAbortFoo);
+      };
+
+      const onAbortBar = () => {
+        acks.push("bar");
+        signal.removeEventListener("abort", onAbortBar);
+      };
+
+      signal.addEventListener("abort", onAbortFoo);
+      signal.addEventListener("abort", onAbortBar);
+
+      const response = doAsyncOperation(signal);
+      controller.abort();
+      await response;
+      assert.fail();
+    } catch (err) {
+      assert.deepEqual(acks, ["foo", "bar"]);
+    }
+  });
+
   it("should abort after timeout when using created using timeout()", async () => {
     const aborter = AbortController.timeout(50);
     let s = undefined;

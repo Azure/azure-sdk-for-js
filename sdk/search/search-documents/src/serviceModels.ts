@@ -54,6 +54,8 @@ import {
   EntityRecognitionSkill,
   SentimentSkill,
   SplitSkill,
+  CustomEntityLookupSkill,
+  DocumentExtractionSkill,
   TextTranslationSkill,
   WebApiSkill,
   DefaultCognitiveServicesAccount,
@@ -71,7 +73,10 @@ import {
   ServiceLimits,
   FieldMapping,
   IndexingParameters,
-  IndexingSchedule
+  IndexingSchedule,
+  LexicalNormalizerName,
+  CustomNormalizer,
+  SearchIndexerKnowledgeStore
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -381,7 +386,7 @@ export interface PatternAnalyzer {
   lowerCaseTerms?: boolean;
   /**
    * A regular expression pattern to match token separators. Default is an expression that matches
-   * one or more whitespace characters. Default value: '\W+'.
+   * one or more whitespace characters. Default value: `\W+`.
    */
   pattern?: string;
   /**
@@ -453,7 +458,9 @@ export type SearchIndexerSkill =
   | EntityRecognitionSkill
   | SentimentSkill
   | SplitSkill
+  | CustomEntityLookupSkill
   | TextTranslationSkill
+  | DocumentExtractionSkill
   | WebApiSkill;
 
 /**
@@ -479,7 +486,7 @@ export interface PatternTokenizer {
   name: string;
   /**
    * A regular expression pattern to match token separators. Default is an expression that matches
-   * one or more whitespace characters. Default value: '\W+'.
+   * one or more whitespace characters. Default value: `\W+`.
    */
   pattern?: string;
   /**
@@ -655,6 +662,11 @@ export type TokenFilter =
 export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;
 
 /**
+ * Contains the possible cases for LexicalNormalizer.
+ */
+export type LexicalNormalizer = CustomNormalizer;
+
+/**
  * Contains the possible cases for ScoringFunction.
  */
 export type ScoringFunction =
@@ -670,7 +682,6 @@ export type ScoringFunction =
  * 'Collection(Edm.Int32)', 'Collection(Edm.Int64)', 'Collection(Edm.Double)',
  * 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)'
  * @readonly
- * @enum {string}
  */
 export type SearchFieldDataType =
   | "Edm.String"
@@ -692,7 +703,6 @@ export type SearchFieldDataType =
  * Defines values for ComplexDataType.
  * Possible values include: 'Edm.ComplexType', 'Collection(Edm.ComplexType)'
  * @readonly
- * @enum {string}
  */
 export type ComplexDataType = "Edm.ComplexType" | "Collection(Edm.ComplexType)";
 
@@ -803,6 +813,10 @@ export interface SimpleField {
    * fields.
    */
   synonymMapNames?: string[];
+  /**
+   * The name of the normalizer used at indexing time for the field.
+   */
+  normalizerName?: LexicalNormalizerName;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -852,7 +866,7 @@ export interface SynonymMap {
    * keys is not available for free search services, and is only available for paid services
    * created on or after January 1, 2019.
    */
-  encryptionKey?: SearchResourceEncryptionKey;
+  encryptionKey?: SearchResourceEncryptionKey | null;
   /**
    * The ETag of the synonym map.
    */
@@ -864,6 +878,7 @@ export interface SynonymMap {
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
 
 /**
@@ -871,6 +886,7 @@ export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>;
 
 /**
@@ -899,7 +915,7 @@ export interface SearchIndex {
   /**
    * Options to control Cross-Origin Resource Sharing (CORS) for the index.
    */
-  corsOptions?: CorsOptions;
+  corsOptions?: CorsOptions | null;
   /**
    * The suggesters for the index.
    */
@@ -921,6 +937,10 @@ export interface SearchIndex {
    */
   charFilters?: CharFilter[];
   /**
+   * The normalizers for the index.
+   */
+  normalizers?: LexicalNormalizer[];
+  /**
    * A description of an encryption key that you create in Azure Key Vault. This key is used to
    * provide an additional level of encryption-at-rest for your data when you want full assurance
    * that no one, not even Microsoft, can decrypt your data in Azure Cognitive Search. Once you
@@ -930,7 +950,7 @@ export interface SearchIndex {
    * keys is not available for free search services, and is only available for paid services
    * created on or after January 1, 2019.
    */
-  encryptionKey?: SearchResourceEncryptionKey;
+  encryptionKey?: SearchResourceEncryptionKey | null;
   /**
    * The type of similarity algorithm to be used when scoring and ranking the documents matching a
    * search query. The similarity algorithm can only be defined at index creation time and cannot
@@ -970,11 +990,11 @@ export interface SearchIndexer {
   /**
    * The schedule for this indexer.
    */
-  schedule?: IndexingSchedule;
+  schedule?: IndexingSchedule | null;
   /**
    * Parameters for indexer execution.
    */
-  parameters?: IndexingParameters;
+  parameters?: IndexingParameters | null;
   /**
    * Defines mappings between fields in the data source and corresponding target fields in the
    * index.
@@ -987,7 +1007,7 @@ export interface SearchIndexer {
   /**
    * A value indicating whether the indexer is disabled. Default is false. Default value: false.
    */
-  isDisabled?: boolean;
+  isDisabled?: boolean | null;
   /**
    * The ETag of the indexer.
    */
@@ -1003,7 +1023,7 @@ export interface SearchIndexer {
    * customer-managed keys is not available for free search services, and is only available for
    * paid services created on or after January 1, 2019.
    */
-  encryptionKey?: SearchResourceEncryptionKey;
+  encryptionKey?: SearchResourceEncryptionKey | null;
 }
 
 /**
@@ -1059,6 +1079,10 @@ export interface SearchIndexerSkillset {
    */
   cognitiveServicesAccount?: CognitiveServicesAccount;
   /**
+   * Definition of additional projections to azure blob, table, or files, of enriched data.
+   */
+  knowledgeStore?: SearchIndexerKnowledgeStore;
+  /**
    * The ETag of the skillset.
    */
   etag?: string;
@@ -1072,7 +1096,7 @@ export interface SearchIndexerSkillset {
    * definition will be unaffected. Encryption with customer-managed keys is not available for free
    * search services, and is only available for paid services created on or after January 1, 2019.
    */
-  encryptionKey?: SearchResourceEncryptionKey;
+  encryptionKey?: SearchResourceEncryptionKey | null;
 }
 
 /**
@@ -1102,7 +1126,6 @@ export interface ScoringProfile {
 /**
  * Defines values for TokenizerName.
  * @readonly
- * @enum {string}
  */
 export enum KnownTokenizerNames {
   /**
@@ -1133,10 +1156,12 @@ export enum KnownTokenizerNames {
   /**
    * Divides text using language-specific rules.
    */
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   MicrosoftLanguageTokenizer = "microsoft_language_tokenizer",
   /**
    * Divides text using language-specific rules and reduces words to their base forms.
    */
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   MicrosoftLanguageStemmingTokenizer = "microsoft_language_stemming_tokenizer",
   /**
    * Tokenizes the input into n-grams of the given size(s). See
@@ -1174,7 +1199,6 @@ export enum KnownTokenizerNames {
 /**
  * Defines values for TokenFilterName.
  * @readonly
- * @enum {string}
  */
 export enum KnownTokenFilterNames {
   /**
@@ -1358,7 +1382,6 @@ export enum KnownTokenFilterNames {
 /**
  * Defines values for CharFilterName.
  * @readonly
- * @enum {string}
  */
 export enum KnownCharFilterNames {
   /**
@@ -1372,7 +1395,6 @@ export enum KnownCharFilterNames {
  * Defines values for AnalyzerName.
  * See https://docs.microsoft.com/rest/api/searchservice/Language-support
  * @readonly
- * @enum {string}
  */
 export enum KnownAnalyzerNames {
   /**
@@ -1774,7 +1796,7 @@ export interface SearchIndexerDataSourceConnection {
   description?: string;
   /**
    * The type of the datasource. Possible values include: 'AzureSql', 'CosmosDb', 'AzureBlob',
-   * 'AzureTable', 'MySql'
+   * 'AzureTable', 'MySql', 'AdlsGen2'
    */
   type: SearchIndexerDataSourceType;
   /**
@@ -1788,11 +1810,11 @@ export interface SearchIndexerDataSourceConnection {
   /**
    * The data change detection policy for the datasource.
    */
-  dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
+  dataChangeDetectionPolicy?: DataChangeDetectionPolicy | null;
   /**
    * The data deletion detection policy for the datasource.
    */
-  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy;
+  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy | null;
   /**
    * The ETag of the DataSource.
    */
@@ -1808,6 +1830,6 @@ export interface SearchIndexerDataSourceConnection {
    * available for free search services, and is only available for paid services created on or
    * after January 1, 2019.
    */
-  encryptionKey?: SearchResourceEncryptionKey;
+  encryptionKey?: SearchResourceEncryptionKey | null;
 }
 // END manually modified generated interfaces

@@ -141,7 +141,6 @@ export class AbortSignal implements AbortSignalLike {
  * - If there is a timeout, the timer will be cancelled.
  * - If aborted is true, nothing will happen.
  *
- * @returns
  * @internal
  */
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -156,7 +155,10 @@ export function abortSignal(signal: AbortSignal): void {
 
   const listeners = listenersMap.get(signal)!;
   if (listeners) {
-    listeners.forEach((listener) => {
+    // Create a copy of listeners so mutations to the array
+    // (e.g. via removeListener calls) don't affect the listeners
+    // we invoke.
+    listeners.slice().forEach((listener) => {
       listener.call(signal, { type: "abort" });
     });
   }

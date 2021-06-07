@@ -4,6 +4,7 @@ trigger:
   branches:
     include:
       - master
+      - main
       - release/*
       - hotfix/*
   paths:
@@ -14,12 +15,16 @@ pr:
   branches:
     include:
       - master
+      - main
       - feature/*
       - release/*
       - hotfix/*
   paths:
     include:
       - sdk/tables/
+
+variables:
+    jobMatrixFilter: ^((?!8x_node).)*$
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml

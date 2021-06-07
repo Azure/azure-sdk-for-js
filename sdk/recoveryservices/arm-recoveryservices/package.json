@@ -2,7 +2,7 @@
   "name": "@azure/arm-recoveryservices",
   "author": "Microsoft Corporation",
   "description": "RecoveryServicesClient Library with typescript type definitions for node.js and browser.",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.0.1",
     "@azure/ms-rest-js": "^2.0.4",

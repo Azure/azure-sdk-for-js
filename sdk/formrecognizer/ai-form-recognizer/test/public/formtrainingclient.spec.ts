@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable no-invalid-this */
-
 import { assert } from "chai";
 import { Context } from "mocha";
+
+import { matrix } from "@azure/test-utils";
 
 import { env, Recorder } from "@azure/test-utils-recorder";
 
@@ -16,8 +16,6 @@ import {
   CustomFormModel,
   FormRecognizerClient
 } from "../../src";
-
-import { matrix } from "../utils/matrix";
 
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
 const containerSasUrl = (): string => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
@@ -61,7 +59,7 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       /*
-       * This `matrix` creates a test comination that will repeat training
+       * This `matrix` creates a test combination that will repeat training
        * and recognition against those models for all combinations of the
        * following training settings:
        *
@@ -144,6 +142,8 @@ matrix([[true, false]] as const, async (useAad) => {
                 : `form-${useLabels ? model.modelId : "0"}`;
               assert.equal(submodel.formType, expectedFormType);
 
+              assert.equal(model.modelName, modelName);
+
               if (useLabels) {
                 // When training with labels, we will have expectations for the names
                 assert.ok(
@@ -151,9 +151,6 @@ matrix([[true, false]] as const, async (useAad) => {
                   "Expecting field with name 'Signature' to be valid"
                 );
                 assert.isNotTrue(model.properties?.isComposedModel);
-                // TODO: move this above as a known issue prevents unlabeled models from receiving
-                // modelName
-                assert.equal(model.modelName, modelName);
               } else {
                 assert.equal(submodel.accuracy, undefined);
                 assert.ok(
@@ -201,9 +198,12 @@ matrix([[true, false]] as const, async (useAad) => {
                 const [page] = form.pages;
                 assert.isNotEmpty(page.tables);
                 const [table] = page.tables!;
-                /* TODO: service bug where boundingBox not defined for unlabeled model
-                 * assert.ok(table.boundingBox);
-                 */
+
+                // TODO: service regression, should be valid on unlabeled models as well
+                if (useLabels) {
+                  assert.ok(table.boundingBox);
+                }
+
                 assert.equal(table.pageNumber, 1);
 
                 if (useLabels) {

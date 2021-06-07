@@ -25,14 +25,19 @@ import {
 
 /**
  * @internal
- * @ignore
  * Builds the queue options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
- * @param queue
  */
 export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptions {
   return {
+    // NOTE: this ordering is extremely important. As an example, misordering of the ForwardTo property
+    // resulted in a customer bug where the Forwarding attributes appeared to be set but the portal was
+    // not picking up on it.
+    //
+    // The authority on this ordering is here:
+    // https://github.com/Azure/azure-sdk-for-net/blob/8af2dfc32c96ef3e340f9d20013bf588d97ea756/sdk/servicebus/Azure.Messaging.ServiceBus/src/Administration/QueuePropertiesExtensions.cs#L20
+
     LockDuration: queue.lockDuration,
     MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(queue.requiresDuplicateDetection),
@@ -44,11 +49,11 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     EnableBatchedOperations: getStringOrUndefined(queue.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(queue.authorizationRules),
     Status: getStringOrUndefined(queue.status),
+    ForwardTo: getStringOrUndefined(queue.forwardTo),
+    UserMetadata: getStringOrUndefined(queue.userMetadata),
     AutoDeleteOnIdle: getStringOrUndefined(queue.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
-    ForwardTo: getStringOrUndefined(queue.forwardTo),
-    UserMetadata: getStringOrUndefined(queue.userMetadata),
     EntityAvailabilityStatus: getStringOrUndefined(queue.availabilityStatus),
     EnableExpress: getStringOrUndefined(queue.enableExpress)
   };
@@ -56,12 +61,10 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
 
 /**
  * @internal
- * @ignore
  * Builds the queue object from the raw json object gotten after deserializing the
  * response from the service
- * @param rawQueue
  */
-export function buildQueue(rawQueue: any): QueueProperties {
+export function buildQueue(rawQueue: Record<string, any>): QueueProperties {
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
@@ -114,12 +117,10 @@ export function buildQueue(rawQueue: any): QueueProperties {
 
 /**
  * @internal
- * @ignore
  * Builds the queue runtime info object from the raw json object gotten after deserializing the
  * response from the service
- * @param rawQueue
  */
-export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperties {
+export function buildQueueRuntimeProperties(rawQueue: Record<string, any>): QueueRuntimeProperties {
   const messageCountDetails = getMessageCountDetails(rawQueue[Constants.COUNT_DETAILS]);
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
@@ -272,8 +273,6 @@ export interface CreateQueueOptions extends OperationOptions {
 /**
  * Represents the input for updateQueue.
  *
- * @export
- * @interface QueueProperties
  */
 export interface QueueProperties {
   /**
@@ -415,7 +414,6 @@ export interface QueueProperties {
 }
 /**
  * @internal
- * @ignore
  * Internal representation of settable options on a queue
  */
 export interface InternalQueueOptions {
@@ -616,7 +614,6 @@ export interface QueueRuntimeProperties {
 
 /**
  * @internal
- * @ignore
  * Atom XML Serializer for Queues.
  */
 export class QueueResourceSerializer implements AtomXmlSerializer {

@@ -19,18 +19,17 @@ export default class GeographyPoint {
   /**
    * Constructs a new instance of GeographyPoint given
    * the specified coordinates.
-   * @param latitude latitude value in decimal
-   * @param longitude longitude value in decimal
+   * @param geographyPoint - object with longitude and latitude values in decimal
    */
-  constructor(latitude: number, longitude: number) {
-    this.latitude = latitude;
-    this.longitude = longitude;
+  constructor(geographyPoint: { longitude: number; latitude: number }) {
+    this.longitude = geographyPoint.longitude;
+    this.latitude = geographyPoint.latitude;
   }
 
   /**
    * Used to serialize to a GeoJSON Point.
    */
-  public toJSON(): object {
+  public toJSON(): Record<string, unknown> {
     return {
       type: "Point",
       coordinates: [this.longitude, this.latitude],

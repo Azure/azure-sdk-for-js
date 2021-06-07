@@ -2,7 +2,7 @@
   "name": "@azure/core-http",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.2.1",
+  "version": "1.2.5",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -28,7 +28,7 @@
     "cloud"
   ],
   "main": "dist/index.js",
-  "module": "./es/src/coreHttp.js",
+  "module": "./dist-esm/src/coreHttp.js",
   "types": "./types/latest/src/coreHttp.d.ts",
   "typesVersions": {
     "<3.6": {
@@ -38,25 +38,23 @@
     }
   },
   "files": [
-    "dist/**/*.node.js",
-    "dist/**/*.node.js.map",
+    "dist/",
+    "dist-esm/src/",
     "dom-shim.d.ts",
-    "es/src/**/*.js",
-    "es/src/**/*.js.map",
     "types/*/src/**/*.d.ts",
     "types/*/src/**/*.d.ts.map",
     "README.md",
     "LICENSE"
   ],
   "browser": {
-    "./es/src/policies/msRestUserAgentPolicy.js": "./es/src/policies/msRestUserAgentPolicy.browser.js",
-    "./es/src/policies/disableResponseDecompressionPolicy.js": "./es/src/policies/disableResponseDecompressionPolicy.browser.js",
-    "./es/src/policies/proxyPolicy.js": "./es/src/policies/proxyPolicy.browser.js",
-    "./es/src/util/base64.js": "./es/src/util/base64.browser.js",
-    "./es/src/util/xml.js": "./es/src/util/xml.browser.js",
-    "./es/src/defaultHttpClient.js": "./es/src/defaultHttpClient.browser.js",
-    "./es/src/util/inspect.js": "./es/src/util/inspect.browser.js",
-    "./es/src/util/url.js": "./es/src/util/url.browser.js"
+    "./dist-esm/src/policies/msRestUserAgentPolicy.js": "./dist-esm/src/policies/msRestUserAgentPolicy.browser.js",
+    "./dist-esm/src/policies/disableResponseDecompressionPolicy.js": "./dist-esm/src/policies/disableResponseDecompressionPolicy.browser.js",
+    "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
+    "./dist-esm/src/util/base64.js": "./dist-esm/src/util/base64.browser.js",
+    "./dist-esm/src/util/xml.js": "./dist-esm/src/util/xml.browser.js",
+    "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.browser.js",
+    "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
+    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-http/README.md",
@@ -66,15 +64,13 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "run-s build:tsc extract-api:nobuild build:types build:rollup",
+    "build": "tsc -p tsconfig.es.json && npm run build:nodebrowser && npm run extract-api:nobuild && npm run build:types",
     "build:scripts": "tsc -p ./.scripts/",
-    "build:test": "run-s build build:test-browser",
-    "build:tsc": "tsc -p tsconfig.es.json",
+    "build:test": "tsc -p tsconfig.es.json && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build:rollup": "rollup -c 2>&1",
-    "build:test-browser": "rollup -c rollup.test.config.js 2>&1",
+    "build:nodebrowser": "rollup -c 2>&1",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf ./es ./dist ./dist-test ./dist-browser ./types ./types3.1 ./coverage ./temp ./*.tgz",
+    "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p tsconfig.es.json && api-extractor run --local",
     "extract-api:nobuild": "api-extractor run --local",
@@ -101,7 +97,8 @@
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
     "latest": "ts-node ./.scripts/latest.ts",
-    "build:samples": "echo Skipped."
+    "build:samples": "echo Skipped.",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "nyc": {
@@ -130,10 +127,10 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-auth": "^1.1.3",
-    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/core-asynciterator-polyfill": "^1.0.0",
+    "@azure/core-auth": "^1.3.0",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.10.2",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.1",
     "form-data": "^3.0.0",
@@ -147,12 +144,14 @@
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "^1.0.0",
     "@azure/logger-js": "^1.0.2",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-replace": "^2.2.0",
     "@types/chai": "^4.1.6",
     "@types/express": "^4.16.0",
     "@types/glob": "^7.1.1",
@@ -170,14 +169,14 @@
     "express": "^4.16.3",
     "fetch-mock": "^9.10.1",
     "glob": "^7.1.2",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-edge-launcher": "^0.4.2",
     "karma-firefox-launcher": "^1.1.0",
     "karma-mocha": "^2.0.1",
     "karma-rollup-preprocessor": "^7.0.0",
-    "karma-sourcemap-loader": "^0.3.7",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "npm-run-all": "^4.1.5",
@@ -191,9 +190,10 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "shx": "^0.3.2",
     "sinon": "^9.0.2",
-    "ts-node": "^8.3.0",
-    "typescript": "4.1.2",
+    "ts-node": "^9.0.0",
+    "typescript": "~4.2.0",
     "uglify-js": "^3.4.9",
-    "xhr-mock": "^2.4.1"
+    "xhr-mock": "^2.4.1",
+    "typedoc": "0.15.2"
   }
 }

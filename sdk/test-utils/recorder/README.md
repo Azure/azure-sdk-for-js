@@ -1,4 +1,4 @@
-## Azure SDK for JavaScript's test-utils-recorder
+## Azure test-utils-recorder SDK client library for JavaScript
 
 The Azure SDK for JavaScript is composed of a multitude of repositories that
 attempt to deliver a common, homogenous SDK to make use of all of the services
@@ -457,7 +457,7 @@ setReplaceableVariables({
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "azure_tenant_id",
-  KEYVAULT_NAME: "keyvault_name"
+  KEYVAULT_URI: "https://keyvault_name.vault.azure.net"
 });
 ```
 

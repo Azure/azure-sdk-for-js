@@ -3,14 +3,19 @@
 
 import qs from "qs";
 import assert from "assert";
+import { WebResource, AccessToken, HttpHeaders, RestError } from "@azure/core-http";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
   imdsEndpoint,
   imdsApiVersion
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
-import { WebResource, AccessToken, HttpHeaders } from "@azure/core-http";
 import { OAuthErrorResponse } from "../../../src/client/errors";
+import Sinon from "sinon";
+import { imdsMsiRetryConfig } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
+import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
+import { join } from "path";
+import { tmpdir } from "os";
 
 interface AuthRequestDetails {
   requests: WebResource[];
@@ -18,12 +23,34 @@ interface AuthRequestDetails {
 }
 
 describe("ManagedIdentityCredential", function() {
-  afterEach(() => {
+  let envCopy: string = "";
+  let sandbox: Sinon.SinonSandbox;
+  let clock: Sinon.SinonFakeTimers;
+
+  beforeEach(() => {
+    envCopy = JSON.stringify(process.env);
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
+    delete process.env.IMDS_ENDPOINT;
+    sandbox = Sinon.createSandbox();
+    clock = sandbox.useFakeTimers({
+      now: Date.now(),
+      shouldAdvanceTime: true
+    });
+  });
+  afterEach(() => {
+    const env = JSON.parse(envCopy);
+    process.env.IDENTITY_ENDPOINT = env.IDENTITY_ENDPOINT;
+    process.env.IDENTITY_HEADER = env.IDENTITY_HEADER;
+    process.env.MSI_ENDPOINT = env.MSI_ENDPOINT;
+    process.env.MSI_SECRET = env.MSI_SECRET;
+    process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
+    process.env.IMDS_ENDPOINT = env.IMDS_ENDPOINT;
+    sandbox.restore();
+    clock.restore();
   });
 
   it("sends an authorization request with a modified resource name", async function() {
@@ -83,7 +110,24 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("returns error when ManagedIdentityCredential authentication failed", async function() {
+  it("returns error when no MSI is available", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const imdsError: RestError = new RestError("Request Timeout", "REQUEST_SEND_ERROR", 408);
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [{ error: imdsError }]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+    await assertRejects(
+      credential.getToken("scopes"),
+      (error: AuthenticationError) => error.message.indexOf("No MSI credential available") > -1
+    );
+  });
+
+  it("an unexpected error bubbles all the way up", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const errResponse: OAuthErrorResponse = {
@@ -92,7 +136,41 @@ describe("ManagedIdentityCredential", function() {
     };
 
     const mockHttpClient = new MockAuthHttpClient({
-      authResponse: [{ status: 400, parsedBody: errResponse }]
+      authResponse: [{ status: 200 }, { status: 500, parsedBody: errResponse }]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+    await assertRejects(
+      credential.getToken("scopes"),
+      (error: AuthenticationError) => error.message.indexOf(errResponse.error) > -1
+    );
+  });
+
+  it("returns expected error when the network was unreachable", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const netError: RestError = new RestError("Request Timeout", "ENETUNREACH", 408);
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [{ status: 200 }, { error: netError }]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+    await assertRejects(
+      credential.getToken("scopes"),
+      (error: AuthenticationError) => error.message.indexOf("Network unreachable.") > -1
+    );
+  });
+
+  it("returns expected error when the host was unreachable", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const hostError: RestError = new RestError("Request Timeout", "EHOSTUNREACH", 408);
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [{ status: 200 }, { error: hostError }]
     });
 
     const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
@@ -101,7 +179,69 @@ describe("ManagedIdentityCredential", function() {
     await assertRejects(
       credential.getToken("scopes"),
       (error: AuthenticationError) =>
-        error.errorResponse.error.indexOf("ManagedIdentityCredential authentication failed.") > -1
+        error.message.indexOf("No managed identity endpoint found.") > -1
+    );
+  });
+
+  it("IMDS MSI retries and succeeds on 404", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [
+        // First response says the IMDS endpoint is available.
+        { status: 200 },
+        { status: 404 },
+        // Retries one time and fails
+        { status: 404 },
+        // Retries a second time and succeeds
+        {
+          status: 200,
+          parsedBody: {
+            access_token: "token"
+          }
+        }
+      ]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+
+    const response = await credential.getToken("scopes");
+    assert.equal(response.token, "token");
+  });
+
+  it("IMDS MSI retries up to a limit on 404", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const mockHttpClient = new MockAuthHttpClient({
+      // First response says the IMDS endpoint is available.
+      authResponse: [
+        { status: 200 },
+        { status: 404 },
+        { status: 404 },
+        { status: 404 },
+        { status: 404 }
+      ]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+
+    const promise = credential.getToken("scopes");
+
+    imdsMsiRetryConfig.startDelayInMs = 80; // 800ms / 10
+
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms, / 10 = 640ms
+    clock.tick(640);
+
+    await assertRejects(
+      promise,
+      (error: AuthenticationError) =>
+        error.message.indexOf(
+          `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
+        ) > -1
     );
   });
 
@@ -197,71 +337,75 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("sends an authorization request correctly in an Azure Arc environment", async () => {
+  it("sends an authorization request correctly in an Azure Arc environment", async function() {
     // Trigger Azure Arc behavior by setting environment variables
 
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
-    const mockFs = require("mock-fs");
-    const filePath = "path/to/file";
+    // eslint-disable-next-line @typescript-eslint/no-invalid-this
+    const testTitle = this.test?.title || `test-Date.time()`;
+    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+    const tempFile = join(tempDir, testTitle);
     const key = "challenge key";
+    writeFileSync(tempFile, key, { encoding: "utf8" });
 
-    mockFs({
-      [`${filePath}`]: key
-    });
-
-    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], undefined, {
-      authResponse: [
-        {
-          status: 401,
-          headers: new HttpHeaders({
-            "www-authenticate": `we don't pay much attention about this format=${filePath}`
-          })
-        },
-        {
-          status: 200,
-          parsedBody: {
-            token: "token",
-            expires_in: 1
+    try {
+      const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], undefined, {
+        authResponse: [
+          {
+            status: 401,
+            headers: new HttpHeaders({
+              "www-authenticate": `we don't pay much attention about this format=${tempFile}`
+            })
+          },
+          {
+            status: 200,
+            parsedBody: {
+              token: "token",
+              expires_in: 1
+            }
           }
-        }
-      ]
-    });
+        ]
+      });
 
-    // File request
-    const validationRequest = authDetails.requests[0];
-    assert.ok(validationRequest.query, "No query string parameters on request");
+      // File request
+      const validationRequest = authDetails.requests[0];
+      assert.ok(validationRequest.query, "No query string parameters on request");
 
-    assert.equal(validationRequest.method, "GET");
-    assert.equal(decodeURIComponent(validationRequest.query!["resource"]), "https://service");
+      assert.equal(validationRequest.method, "GET");
+      assert.equal(decodeURIComponent(validationRequest.query!["resource"]), "https://service");
 
-    assert.ok(
-      validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
-    );
-
-    // Authorization request, which comes after getting the file path, for now at least.
-    const authRequest = authDetails.requests[1];
-    assert.ok(authRequest.query, "No query string parameters on request");
-
-    assert.equal(authRequest.method, "GET");
-    assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
-
-    assert.ok(
-      authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
-    );
-
-    assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
-    if (authDetails.token) {
-      // We use Date.now underneath.
-      assert.equal(
-        Math.floor(authDetails.token.expiresOnTimestamp / 1000000),
-        Math.floor(Date.now() / 1000000)
+      assert.ok(
+        validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
       );
-    } else {
-      assert.fail("No token was returned!");
+
+      // Authorization request, which comes after getting the file path, for now at least.
+      const authRequest = authDetails.requests[1];
+      assert.ok(authRequest.query, "No query string parameters on request");
+
+      assert.equal(authRequest.method, "GET");
+      assert.equal(decodeURIComponent(authRequest.query!["resource"]), "https://service");
+
+      assert.ok(
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+
+      assert.equal(authRequest.headers.get("Authorization"), `Basic ${key}`);
+      if (authDetails.token) {
+        // We use Date.now underneath.
+        assert.equal(
+          Math.floor(authDetails.token.expiresOnTimestamp / 1000000),
+          Math.floor(Date.now() / 1000000)
+        );
+      } else {
+        assert.fail("No token was returned!");
+      }
+    } finally {
+      unlinkSync(tempFile);
+      rmdirSync(tempDir);
     }
   });
 

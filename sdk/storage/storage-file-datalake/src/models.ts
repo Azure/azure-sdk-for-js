@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpResponse, TransferProgressEvent } from "@azure/core-http";
 
@@ -7,124 +7,43 @@ import {
   LeaseAccessConditions,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
   UserDelegationKeyModel,
-  BlobQueryArrowConfiguration
+  BlobQueryArrowConfiguration,
+  ServiceRenameContainerOptions,
+  ContainerRenameResponse,
+  ContainerUndeleteResponse
 } from "@azure/storage-blob";
+import { DataLakePathClient } from "./clients";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
 
 /**
- * Common options of the {@link FileSystemGenerateSasUrlOptions}, {@link DirectoryGenerateSasUrlOptions}
- * and {@link FileGenerateSasUrlOptions}.
- *
- * @export
- * @interface CommonGenerateSasUrlOptions
- */
-export interface CommonGenerateSasUrlOptions {
-  /**
-   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
-   * library.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
-   */
-  version?: string;
-
-  /**
-   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
-   *
-   * @type {SASProtocol}
-   * @memberof CommonGenerateSasUrlOptions
-   */
-  protocol?: SASProtocol;
-
-  /**
-   * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof CommonGenerateSasUrlOptions
-   */
-  startsOn?: Date;
-
-  /**
-   * Optional only when identifier is provided. The time after which the SAS will no longer work.
-   *
-   * @type {Date}
-   * @memberof CommonGenerateSasUrlOptions
-   */
-  expiresOn?: Date;
-
-  /**
-   * Optional. IP ranges allowed in this SAS.
-   *
-   * @type {SasIPRange}
-   * @memberof CommonGenerateSasUrlOptions
-   */
-  ipRange?: SasIPRange;
-
-  /**
-   * Optional. The name of the access policy on the container this SAS references if any.
-   *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
-   */
-  identifier?: string;
-
-  /**
-   * Optional. The cache-control header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
-   */
-  cacheControl?: string;
-
-  /**
-   * Optional. The content-disposition header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
-   */
-  contentDisposition?: string;
-
-  /**
-   * Optional. The content-encoding header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
-   */
-  contentEncoding?: string;
-
-  /**
-   * Optional. The content-language header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
-   */
-  contentLanguage?: string;
-
-  /**
-   * Optional. The content-type header for the SAS.
-   *
-   * @type {string}
-   * @memberof CommonGenerateSasUrlOptions
-   */
-  contentType?: string;
-}
-
-/**
  * Options to query file with Apache Arrow format. Only valid for {@link FileQueryOptions.outputTextConfiguration}.
- *
- * @export
- * @interface FileQueryArrowConfiguration
  */
 export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
 
+/**
+ * Options to configure {@link DataLakeServiceClient.renameFileSystem}.
+ */
+export type ServiceRenameFileSystemOptions = ServiceRenameContainerOptions;
+
+/**
+ * Contains response data for the {@link DataLakeServiceClient.renameFileSystem} operation.
+ */
+export type FileSystemRenameResponse = ContainerRenameResponse;
+
+/**
+ * Contains response data for the {@link DataLakeServiceClient.undeleteFileSystem} operation.
+ */
+export type FileSystemUndeleteResponse = ContainerUndeleteResponse;
+
 import {
+  FileSystemListBlobHierarchySegmentHeaders,
   FileSystemListPathsHeaders,
+  ListBlobsHierarchySegmentResponse,
   PathCreateResponse,
   PathDeleteResponse,
   PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
-  PathList as PathListModel
+  PathList as PathListModel,
+  PathUndeleteHeaders
 } from "./generated/src/models";
 import { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
 import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
@@ -143,18 +62,25 @@ export {
 } from "@azure/storage-blob";
 
 export {
+  BlobHierarchyListSegment,
+  BlobItemInternal,
+  BlobPrefix,
+  BlobPropertiesInternal,
   FileSystemListPathsHeaders,
-  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
+  FileSystemListBlobHierarchySegmentHeaders,
   FileSystemListPathsResponse as ListPathsSegmentResponse,
+  ListBlobsHierarchySegmentResponse,
   Path as PathModel,
   PathList as PathListModel,
   PathCreateHeaders,
   PathDeleteHeaders,
   PathDeleteResponse,
+  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   PathSetAccessControlHeaders,
   PathSetAccessControlResponse,
   PathSetAccessControlResponse as PathSetPermissionsResponse,
   PathResourceType as PathResourceTypeModel,
+  PathUndeleteHeaders,
   PathUpdateHeaders,
   PathAppendDataHeaders,
   PathFlushDataHeaders,
@@ -170,9 +96,73 @@ export {
 
 export { PathCreateResponse };
 
-/*************************************************************/
+/**
+ * Common options of the {@link FileSystemGenerateSasUrlOptions}, {@link DirectoryGenerateSasUrlOptions}
+ * and {@link FileGenerateSasUrlOptions}.
+ */
+export interface CommonGenerateSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   */
+  startsOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. The time after which the SAS will no longer work.
+   */
+  expiresOn?: Date;
+
+  /**
+   * Optional. IP ranges allowed in this SAS.
+   */
+  ipRange?: SasIPRange;
+
+  /**
+   * Optional. The name of the access policy on the container this SAS references if any.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   */
+  identifier?: string;
+
+  /**
+   * Optional. The cache-control header for the SAS.
+   */
+  cacheControl?: string;
+
+  /**
+   * Optional. The content-disposition header for the SAS.
+   */
+  contentDisposition?: string;
+
+  /**
+   * Optional. The content-encoding header for the SAS.
+   */
+  contentEncoding?: string;
+
+  /**
+   * Optional. The content-language header for the SAS.
+   */
+  contentLanguage?: string;
+
+  /**
+   * Optional. The content-type header for the SAS.
+   */
+  contentType?: string;
+}
+
+/** ***********************************************************/
 /** DataLakeServiceClient option and response related models */
-/*************************************************************/
+/** ***********************************************************/
 
 export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -209,6 +199,11 @@ export interface ServiceListFileSystemsOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   prefix?: string;
   includeMetadata?: boolean;
+
+  /**
+   * Specifies whether soft deleted File System should be included in the response.
+   */
+  includeDeleted?: boolean;
 }
 
 export type LeaseStatusType = "locked" | "unlocked";
@@ -225,12 +220,16 @@ export interface FileSystemProperties {
   publicAccess?: PublicAccessType;
   hasImmutabilityPolicy?: boolean;
   hasLegalHold?: boolean;
+  deletedOn?: Date;
+  remainingRetentionDays?: number;
 }
 
 export interface FileSystemItem {
   name: string;
   properties: FileSystemProperties;
   metadata?: Metadata;
+  deleted?: boolean;
+  versionId?: string;
 }
 
 export interface ListFileSystemsSegmentResponse {
@@ -259,47 +258,50 @@ export type ServiceListFileSystemsSegmentResponse = ListFileSystemsSegmentRespon
 
 /**
  * Options to configure {@link DataLakeServiceClient.generateAccountSasUrl} operation.
- *
- * @export
- * @interface ServiceGenerateAccountSasUrlOptions
  */
 export interface ServiceGenerateAccountSasUrlOptions {
   /**
    * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
    * library.
-   *
-   * @type {string}
-   * @memberof ServiceGenerateAccountSasUrlOptions
    */
   version?: string;
 
   /**
    * Optional. SAS protocols allowed.
-   *
-   * @type {SASProtocol}
-   * @memberof ServiceGenerateAccountSasUrlOptions
    */
   protocol?: SASProtocol;
 
   /**
    * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof ServiceGenerateAccountSasUrlOptions
    */
   startsOn?: Date;
   /**
    * Optional. IP range allowed.
-   *
-   * @type {SasIPRange}
-   * @memberof ServiceGenerateAccountSasUrlOptions
    */
   ipRange?: SasIPRange;
 }
 
-/****************************************************************/
+/**
+ * Options to configure {@link DataLakeServiceClient.undeleteFileSystem}.
+ */
+export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Optional. Specifies the new name of the restored File System.
+   * Will use its original name if this is not specified.
+   * @deprecated Restore FileSystem to a different name is not supported by service anymore.
+   */
+  destinationFileSystemName?: string;
+}
+
+/** **************************************************************/
 /** DataLakeFileSystemClient option and response related models */
-/****************************************************************/
+/** **************************************************************/
 
 export interface FileSystemCreateOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -484,77 +486,101 @@ export type FileSystemListPathsResponse = PathList &
     };
   };
 
+export interface ListDeletedPathsOptions extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+  /** Filters results to filesystems within the specified prefix. */
+  prefix?: string;
+}
+
+export interface ListDeletedPathsSegmentOptions extends ListDeletedPathsOptions {
+  maxResults?: number;
+}
+
+export interface DeletedPath {
+  name: string;
+  deletionId?: string;
+  deletedOn?: Date;
+  remainingRetentionDays?: number;
+}
+
+export interface DeletedPathList {
+  pathItems?: DeletedPath[];
+}
+
+export type FileSystemListDeletedPathsResponse = DeletedPathList &
+  FileSystemListBlobHierarchySegmentHeaders &
+  ListBlobsHierarchySegmentResponse & {
+    _response: HttpResponse & {
+      /** The response body as text (string format) */
+      bodyAsText: string;
+
+      /** The response body as parsed JSON or XML */
+      parsedBody: ListBlobsHierarchySegmentResponse;
+      /** The parsed HTTP response headers. */
+      parsedHeaders: FileSystemListBlobHierarchySegmentHeaders;
+    };
+
+    continuation?: string;
+  };
+
+export interface FileSystemUndeletePathOption extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+}
+
+export type FileSystemUndeletePathResponse = PathUndeleteHeaders & {
+  _response: HttpResponse & {
+    parsedHeaders: PathUndeleteHeaders;
+  };
+  pathClient: DataLakePathClient;
+};
+
 /**
  * Option interface for Data Lake file system exists operations
  *
  * See:
  * - {@link DataLakeFileSystemClient.exists}
- *
- * @export
- * @interface FileSystemExistsOptions
  */
 export interface FileSystemExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileSystemExistsOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Contains response data for the {@link DataLakeFileSystemClient.createIfNotExists} operation.
- *
- * @export
- * @interface FileSystemCreateIfNotExistsResponse
  */
 export interface FileSystemCreateIfNotExistsResponse extends FileSystemCreateResponse {
   /**
    * Indicate whether the file system is successfully created. Is false when the file system is not changed as it already exists.
-   *
-   * @type {boolean}
-   * @memberof FileSystemCreateIfNotExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Contains response data for the {@link DataLakeFileSystemClient.deleteIfExists} operation.
- *
- * @export
- * @interface FileSystemDeleteIfExistsResponse
  */
 export interface FileSystemDeleteIfExistsResponse extends FileSystemDeleteResponse {
   /**
    * Indicate whether the file system is successfully deleted. Is false if the file system doesn't exist in the first place.
-   *
-   * @type {boolean}
-   * @memberof FileSystemDeleteIfExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Options to configure {@link DataLakeFileSystemClient.generateSasUrl} operation.
- *
- * @export
- * @interface FileSystemGenerateSasUrlOptions
  */
 export interface FileSystemGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
   /**
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
-   *
-   * @type {FileSystemSASPermissions}
-   * @memberof FileSystemGenerateSasUrlOptions
    */
   permissions?: FileSystemSASPermissions;
 }
 
-/**********************************************************/
+/** ********************************************************/
 /** DataLakePathClient option and response related models */
-/**********************************************************/
+/** ********************************************************/
 
 export interface Metadata {
   [propertyName: string]: string;
@@ -583,24 +609,15 @@ export type AccessControlType = "user" | "group" | "mask" | "other";
 export interface RemovePathAccessControlItem {
   /**
    * Indicates whether this is the default entry for the ACL.
-   *
-   * @type {boolean}
-   * @memberof RemovePathAccessControlItem
    */
   defaultScope: boolean;
   /**
    * Specifies which role this entry targets.
-   *
-   * @type {AccessControlType}
-   * @memberof RemovePathAccessControlItem
    */
   accessControlType: AccessControlType;
   /**
    * Specifies the entity for which this entry applies.
    * Must be omitted for types mask or other. It must also be omitted when the user or group is the owner.
-   *
-   * @type {string}
-   * @memberof RemovePathAccessControlItem
    */
   entityId?: string;
 }
@@ -608,30 +625,18 @@ export interface RemovePathAccessControlItem {
 export interface PathAccessControlItem {
   /**
    * Indicates whether this is the default entry for the ACL.
-   *
-   * @type {boolean}
-   * @memberof PathAccessControlItem
    */
   defaultScope: boolean;
   /**
    * Specifies which role this entry targets.
-   *
-   * @type {AccessControlType}
-   * @memberof PathAccessControlItem
    */
   accessControlType: AccessControlType;
   /**
    * Specifies the entity for which this entry applies.
-   *
-   * @type {string}
-   * @memberof PathAccessControlItem
    */
   entityId: string;
   /**
    * Access control permissions.
-   *
-   * @type {RolePermissions}
-   * @memberof PathAccessControlItem
    */
   permissions: RolePermissions;
 }
@@ -705,87 +710,54 @@ export interface PathSetAccessControlOptions extends CommonOptions {
 
 /**
  * Options type for `setAccessControlRecursive`, `updateAccessControlRecursive` and `removeAccessControlRecursive`.
- *
- * @export
- * @interface PathChangeAccessControlRecursiveOptions
- * @extends {CommonOptions}
  */
 export interface PathChangeAccessControlRecursiveOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PathChangeAccessControlRecursiveOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Optional. If data set size exceeds batch size then operation will be split into multiple requests so that progress can be tracked.
    * Batch size should be between 1 and 2000. The default when unspecified is 2000.
-   *
-   * @type {number}
-   * @memberof PathChangeAccessControlRecursiveOptions
    */
   batchSize?: number;
   /**
    * Optional. Defines maximum number of batches that single change Access Control operation can execute.
    * If maximum is reached before all subpaths are processed then continuation token can be used to resume operation.
    * Empty value indicates that maximum number of batches in unbound and operation continues till end.
-   *
-   * @type {number}
-   * @memberof PathChangeAccessControlRecursiveOptions
    */
   maxBatches?: number;
   /**
    * Optional. Default false. If set to false, the operation will terminate quickly on encountering user failures.
    * If true, the operation will ignore user failures and proceed with the operation on other sub-entities of the directory.
-   *
-   * @type {boolean}
-   * @memberof PathChangeAccessControlRecursiveOptions
    */
   continueOnFailure?: boolean;
   /**
    * Continuation token to continue next batch of operations.
-   *
-   * @type {string}
-   * @memberof PathChangeAccessControlRecursiveOptions
    */
   continuationToken?: string;
   /**
    * Callback where caller can track progress of the operation
    * as well as collect paths that failed to change Access Control.
-   *
-   * @memberof PathChangeAccessControlRecursiveOptions
    */
   onProgress?: (progress: AccessControlChanges) => void;
 }
 
 /**
  * Represents an entry that failed to update Access Control List during `setAccessControlRecursive`, `updateAccessControlRecursive` and `removeAccessControlRecursive`.
- *
- * @export
- * @interface AccessControlChangeFailure
  */
 export interface AccessControlChangeError {
   /**
    * Returns name of an entry.
-   *
-   * @type {string}
-   * @memberof AccessControlChangeFailure
    */
   name: string;
   /**
    * Returns whether entry is a directory.
-   *
-   * @type {boolean}
-   * @memberof AccessControlChangeFailure
    */
   isDirectory: boolean;
   /**
    * Returns error message that is the reason why entry failed to update.
-   *
-   * @type {string}
-   * @memberof AccessControlChangeFailure
    */
   message: string;
 }
@@ -793,76 +765,46 @@ export interface AccessControlChangeError {
 /**
  * AccessControlChanges contains batch and cumulative counts of operations that change Access Control Lists recursively.
  * Additionally it exposes path entries that failed to update while these operations progress.
- *
- * @export
- * @interface AccessControlChanges
  */
 export interface AccessControlChanges {
   /**
    * Path entries that failed to update Access Control List within single batch.
-   *
-   * @type {AccessControlChangeError[]}
-   * @memberof AccessControlChanges
    */
   batchFailures: AccessControlChangeError[];
   /**
    * Counts of paths changed within single batch.
-   *
-   * @type {AccessControlChangeCounters}
-   * @memberof AccessControlChanges
    */
   batchCounters: AccessControlChangeCounters;
   /**
    * Counts of paths changed from start of the operation.
-   *
-   * @type {AccessControlChangeCounters}
-   * @memberof AccessControlChanges
    */
   aggregateCounters: AccessControlChangeCounters;
   /**
    * Optional. Value is present when operation is split into multiple batches and can be used to resume progress.
-   *
-   * @type {string}
-   * @memberof AccessControlChanges
    */
   continuationToken?: string;
 }
 
 /**
  * AccessControlChangeCounters contains counts of operations that change Access Control Lists recursively.
- *
- * @export
- * @interface AccessControlChangeCounters
  */
 export interface AccessControlChangeCounters {
   /**
    * Returns number of directories where Access Control List has been updated successfully.
-   *
-   * @type {number}
-   * @memberof AccessControlChangeCounters
    */
   changedDirectoriesCount: number;
   /**
    * Returns number of files where Access Control List has been updated successfully.
-   *
-   * @type {number}
-   * @memberof AccessControlChangeCounters
    */
   changedFilesCount: number;
   /**
    * Returns number of paths where Access Control List update has failed.
-   *
-   * @type {number}
-   * @memberof AccessControlChangeCounters
    */
   failedChangesCount: number;
 }
 
 /**
  * Response type for `setAccessControlRecursive`, `updateAccessControlRecursive` and `removeAccessControlRecursive`.
- *
- * @export
- * @interface PathChangeAccessControlRecursiveResponse
  */
 export interface PathChangeAccessControlRecursiveResponse {
   /**
@@ -871,9 +813,6 @@ export interface PathChangeAccessControlRecursiveResponse {
   counters: AccessControlChangeCounters;
   /**
    * Optional. Value is present when operation is split into multiple batches and can be used to resume progress.
-   *
-   * @type {string}
-   * @memberof PathChangeAccessControlRecursiveResponse
    */
   continuationToken?: string;
 }
@@ -1018,17 +957,11 @@ export type PathMoveResponse = PathRemoveHeaders & {
  *
  * See:
  * - {@link DataLakePathClient.exists}
- *
- * @export
- * @interface PathExistsOptions
  */
 export interface PathExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof PathExistsOptions
    */
   abortSignal?: AbortSignalLike;
   // customerProvidedKey?: CpkInfo; not supported yet
@@ -1036,32 +969,20 @@ export interface PathExistsOptions extends CommonOptions {
 
 /**
  * Contains response data for the {@link DataLakePathClient.createIfNotExists} operation.
- *
- * @export
- * @interface PathCreateIfNotExistsResponse
  */
 export interface PathCreateIfNotExistsResponse extends PathCreateResponse {
   /**
    * Indicate whether the directory/file is successfully created. Is false when the directory/file is not changed as it already exists.
-   *
-   * @type {boolean}
-   * @memberof PathCreateIfNotExistsResponse
    */
   succeeded: boolean;
 }
 
 /**
  * Contains response data for the {@link DataLakePathClient.deleteIfExists} operation.
- *
- * @export
- * @interface PathDeleteIfExistsResponse
  */
 export interface PathDeleteIfExistsResponse extends PathDeleteResponse {
   /**
    * Indicate whether the directory/file is successfully deleted. Is false if the directory/file doesn't exist in the first place.
-   *
-   * @type {boolean}
-   * @memberof PathDeleteIfExistsResponse
    */
   succeeded: boolean;
 }
@@ -1071,7 +992,6 @@ export interface PathDeleteIfExistsResponse extends PathDeleteResponse {
  * Defines values for PathGetPropertiesAction.
  * Possible values include: 'getAccessControl', 'getStatus'
  * @readonly
- * @enum {string}
  */
 export enum PathGetPropertiesAction {
   GetAccessControl = "getAccessControl",
@@ -1081,7 +1001,6 @@ export enum PathGetPropertiesAction {
  * Defines values for PathRenameMode.
  * Possible values include: 'legacy', 'posix'
  * @readonly
- * @enum {string}
  */
 export enum PathRenameMode {
   Legacy = "legacy",
@@ -1091,16 +1010,15 @@ export enum PathRenameMode {
  * Defines values for PathResourceType.
  * Possible values include: 'directory', 'file'
  * @readonly
- * @enum {string}
  */
 export enum PathResourceType {
   Directory = "directory",
   File = "file"
 }
 
-/****************************************************************/
+/** **************************************************************/
 /** DataLakeDirectoryClient option and response related models **/
-/****************************************************************/
+/** **************************************************************/
 
 export interface DirectoryCreateOptions extends PathCreateOptions {}
 
@@ -1112,23 +1030,17 @@ export interface DirectoryCreateIfNotExistsResponse extends PathCreateIfNotExist
 
 /**
  * Options to configure {@link DataLakeDirectoryClient.generateSasUrl} operation.
- *
- * @export
- * @interface DirectoryGenerateSasUrlOptions
  */
 export interface DirectoryGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
   /**
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
-   *
-   * @type {DirectorySASPermissions}
-   * @memberof DirectoryGenerateSasUrlOptions
    */
   permissions?: DirectorySASPermissions;
 }
 
-/***********************************************************/
+/** *********************************************************/
 /** DataLakeFileClient option and response related models **/
-/***********************************************************/
+/** *********************************************************/
 
 export interface FileReadOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -1211,44 +1123,29 @@ export interface FileCreateIfNotExistsResponse extends PathCreateIfNotExistsResp
  * - {@link DataLakeFileClient.upload}
  * - {@link DataLakeFileClient.uploadFile}
  * - {@link DataLakeFileClient.uploadStream}
- *
- * @export
- * @interface FileParallelUploadOptions
  */
 export interface FileParallelUploadOptions extends CommonOptions {
   // For all.
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileParallelUploadOptions
    */
   abortSignal?: AbortSignalLike;
 
   /**
    * Access conditions headers.
-   *
-   * @type {DataLakeRequestConditions}
-   * @memberof FileParallelUploadOptions
    */
   conditions?: DataLakeRequestConditions;
 
   // For create and flush.
   /**
    * Http headers.
-   *
-   * @type {PathHttpHeaders}
-   * @memberof FileParallelUploadOptions
    */
   pathHttpHeaders?: PathHttpHeaders;
 
   // For create.
   /**
    * A collection of key-value string pair to associate with the Data Lake file.
-   *
-   * @type {Metadata}
-   * @memberof FileParallelUploadOptions
    */
   metadata?: Metadata;
 
@@ -1256,9 +1153,6 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * Sets POSIX access permissions for the file owner, the file owning group, and others.
    * Each class may be granted read, write, or execute permission. The sticky bit is also supported.
    * Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.
-   *
-   * @type {string}
-   * @memberof FileParallelUploadOptions
    */
   permissions?: string; // TODO: model or string?
 
@@ -1268,18 +1162,12 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * For example, if p is 0777 and u is 0057, then the resulting permission is 0720.
    * The default permission is 0666 for a file. The default umask is 0027.
    * The umask must be specified in 4-digit octal notation (e.g. 0766).
-   *
-   * @type {string}
-   * @memberof FileParallelUploadOptions
    */
   umask?: string; // TODO: model or string?
 
   // For append.
   /**
    * Progress updater.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof FileParallelUploadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
@@ -1289,9 +1177,6 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * This event has a property indicating whether this is the final change
    * to distinguish the difference between an intermediate flush to a file stream (when close set to "false")
    * and the final close of a file stream (when close set to "true").
-   *
-   * @type {boolean}
-   * @memberof FileParallelUploadOptions
    */
   close?: boolean;
 
@@ -1303,9 +1188,6 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * Data larger than this limit will be transferred in chunks in parallel.
    * Its default and max value is FILE_MAX_SINGLE_UPLOAD_THRESHOLD.
    * Note: {@link DataLakeFileClient.uploadStream} do not respect this field and always do parallel uploading.
-   *
-   * @type {number}
-   * @memberof FileParallelUploadOptions
    */
   singleUploadThreshold?: number;
 
@@ -1313,16 +1195,10 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * The size of data in bytes that will be transferred in parallel.
    * If set to 0 or undefined, it will be automatically calculated according
    * to the data size. Its max value is FILE_UPLOAD_MAX_CHUNK_SIZE.
-   *
-   * @type {number}
-   * @memberof FileParallelUploadOptions
    */
   chunkSize?: number;
   /**
-   * Max concurrency of parallel uploading. Must be >= 0. Its default value is DEFAULT_HIGH_LEVEL_CONCURRENCY.
-   *
-   * @type {number}
-   * @memberof FileParallelUploadOptions
+   * Max concurrency of parallel uploading. Must be greater than or equal to 0. Its default value is DEFAULT_HIGH_LEVEL_CONCURRENCY.
    */
   maxConcurrency?: number;
 }
@@ -1332,33 +1208,21 @@ export interface FileParallelUploadOptions extends CommonOptions {
  *
  * See:
  * - {@link DataLakeFileClient.readToBuffer}
- *
- * @export
- * @interface FileReadToBufferOptions
  */
 export interface FileReadToBufferOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileParallelUploadOptions
    */
   abortSignal?: AbortSignalLike;
 
   /**
    * Access conditions headers.
-   *
-   * @type {DataLakeRequestConditions}
-   * @memberof FileReadToBufferOptions
    */
   conditions?: DataLakeRequestConditions;
 
   /**
    * Progress updater.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof FileReadToBufferOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
@@ -1366,138 +1230,84 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * How many retries will perform for each read when the original chunk read stream ends unexpectedly.
    * Above kind of ends will not trigger retry policy defined in a pipeline,
    * because they doesn't emit network errors. Default value is 5.
-   *
-   * @type {number}
-   * @memberof FileReadToBufferOptions
    */
   maxRetryRequestsPerChunk?: number;
 
   /**
    * chunkSize is size of data every request trying to read.
-   * Must be >= 0, if set to 0 or undefined, it will automatically calculated according
+   * Must be greater than or equal to 0, if set to 0 or undefined, it will automatically calculated according
    * to the file size.
-   *
-   * @type {number}
-   * @memberof FileReadToBufferOptions
    */
   chunkSize?: number;
 
   /**
    * Concurrency of parallel read.
-   *
-   * @type {number}
-   * @memberof FileReadToBufferOptions
    */
   concurrency?: number;
 }
 
 /**
  * Options to query file with JSON format.
- *
- * @export
- * @interface FileQueryJsonTextConfiguration
  */
 export interface FileQueryJsonTextConfiguration {
   /**
    * Record separator.
-   *
-   * @type {string}
-   * @memberof FileQueryJsonTextConfiguration
    */
   recordSeparator: string;
   /**
    * Query for a JSON format file.
-   *
-   * @type {"json"}
-   * @memberof FileQueryJsonTextConfiguration
    */
   kind: "json";
 }
 
 /**
  * Options to query file with CSV format.
- *
- * @export
- * @interface FileQueryCsvTextConfiguration
  */
 export interface FileQueryCsvTextConfiguration {
   /**
    * Record separator.
-   *
-   * @type {string}
-   * @memberof FileQueryCsvTextConfiguration
    */
   recordSeparator: string;
   /**
    * Query for a CSV format file.
-   *
-   * @type {"csv"}
-   * @memberof FileQueryCsvTextConfiguration
    */
   kind: "csv";
   /**
    * Column separator. Default is ",".
-   *
-   * @type {string}
-   * @memberof FileQueryCsvTextConfiguration
    */
   columnSeparator?: string;
   /**
    * Field quote.
-   *
-   * @type {string}
-   * @memberof FileQueryCsvTextConfiguration
    */
   fieldQuote?: string;
   /**
    * Escape character.
-   *
-   * @type {string}
-   * @memberof FileQueryCsvTextConfiguration
    */
   escapeCharacter?: string;
   /**
    * Has headers. Default is false.
-   *
-   * @type {boolean}
-   * @memberof FileQueryCsvTextConfiguration
    */
   hasHeaders?: boolean;
 }
 
 /**
  * File query error type.
- *
- * @export
- * @interface FileQueryError
  */
 export interface FileQueryError {
   /**
    * Whether the error is fatal or not. A fatal error will stop the query.
-   *
-   * @type {boolean}
-   * @memberof FileQueryError
    */
   isFatal: boolean;
   /**
    * Error name.
-   *
-   * @type {string}
-   * @memberof FileQueryError
    */
   name: string;
   /**
    * Position in bytes of the query.
-   *
-   * @type {number}
-   * @memberof FileQueryError
    */
   position: number;
   /**
    * Error description.
-   *
-   * @type {string}
-   * @memberof FileQueryError
    */
   description: string;
 }
@@ -1507,31 +1317,19 @@ export interface FileQueryError {
  *
  * See:
  * - {@link DataLakeFileClient.query}
- *
- * @export
- * @interface FileQueryOptions
  */
 export interface FileQueryOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileQueryOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Configurations for the query input.
-   *
-   * @type {FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration}
-   * @memberof FileQueryOptions
    */
   inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
   /**
    * Configurations for the query output.
-   *
-   * @type {FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryArrowConfiguration}
-   * @memberof FileQueryOptions
    */
   outputTextConfiguration?:
     | FileQueryJsonTextConfiguration
@@ -1539,76 +1337,50 @@ export interface FileQueryOptions extends CommonOptions {
     | FileQueryArrowConfiguration;
   /**
    * Callback to receive events on the progress of query operation.
-   *
-   * @type {(progress: TransferProgressEvent) => void}
-   * @memberof FileQueryOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Callback to receive error events during the query operaiton.
-   *
-   * @memberof FileQueryOptions
    */
   onError?: (error: FileQueryError) => void;
   /**
    * Conditions to meet when uploading to the block file.
-   *
-   * @type {FileRequestConditions}
-   * @memberof FileQueryOptions
    */
   conditions?: DataLakeRequestConditions;
 }
 
 /**
  * Option interface for the {@link DataLakeFileClient.setExpiry} operation.
- *
- * @export
- * @interface FileSetExpiryOptions
  */
 export interface FileSetExpiryOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof FileSetExpiryOptions
    */
   abortSignal?: AbortSignalLike;
 
   /**
    * The time to set the file to expire on, used in combination with the "Absolute" {@link FileExpiryMode}.
    * A time in the past is not allowed and milliseconds will be dropped.
-   *
-   * @type {Date}
-   * @memberof FileSetExpiryOptions
    */
   expiresOn?: Date;
 
   /**
    * The number of milliseconds to elapse before the file expires, used in combination with the "RelativeToCreation" or "RelativeToNow" {@link FileExpiryMode}.
-   *
-   * @type {number}
-   * @memberof FileSetExpiryOptions
    */
   timeToExpireInMs?: number;
 }
 
 /**
  * Options to configure {@link DataLakeFileClient.generateSasUrl} operation.
- *
- * @export
- * @interface FileGenerateSasUrlOptions
  */
 export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
   /**
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
-   *
-   * @type {DataLakeSASPermissions}
-   * @memberof FileGenerateSasUrlOptions
    */
   permissions?: DataLakeSASPermissions;
 }
 
-/***********************************************************/
+/** *********************************************************/
 /** DataLakeLeaseClient option and response related models */
-/***********************************************************/
+/** *********************************************************/

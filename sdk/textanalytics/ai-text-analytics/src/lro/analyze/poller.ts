@@ -1,65 +1,64 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-http";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { PaginatedAnalyzeResults } from "../../analyzeResult";
-import { JobManifestTasks } from "../../generated/models";
+import { PollerLike } from "@azure/core-lro";
+import { PagedAnalyzeActionsResult } from "../../analyzeActionsResult";
+import { JobManifestTasks as GeneratedActions } from "../../generated/models";
+import { delay } from "../../util";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
-import { BeginAnalyzePollerOperation, BeginAnalyzePollState } from "./operation";
+import {
+  BeginAnalyzeActionsPollerOperation,
+  AnalyzeActionsOperationState,
+  BeginAnalyzeActionsOptions
+} from "./operation";
 
-export interface AnalyzePollerOptions extends AnalysisPollerOptions {
-  tasks: JobManifestTasks;
+/**
+ * @internal
+ */
+export interface AnalyzeActionsPollerOptions extends AnalysisPollerOptions {
+  actions: GeneratedActions;
+  readonly options: BeginAnalyzeActionsOptions;
 }
 
 /**
- * The status of an analyze operation
+ * Result type of the Begin Analyze Actions Long-Running-Operation (LRO).
  */
-export type BeginAnalyzeOperationState = PollOperationState<PaginatedAnalyzeResults>;
+export type AnalyzeActionsPollerLike = PollerLike<
+  AnalyzeActionsOperationState,
+  PagedAnalyzeActionsResult
+>;
 
 /**
- * Result type of the Analyze Long-Running-Operation (LRO)
+ * Class that represents a poller that waits for the analyze actions results.
+ * @internal
  */
-export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PaginatedAnalyzeResults>;
-
-/**
- * Class that represents a poller that waits for the analyze results.
- */
-export class BeginAnalyzePoller extends AnalysisPoller<
-  BeginAnalyzePollState,
-  PaginatedAnalyzeResults
+export class BeginAnalyzeActionsPoller extends AnalysisPoller<
+  AnalyzeActionsOperationState,
+  PagedAnalyzeActionsResult
 > {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  constructor(pollerOptions: AnalyzePollerOptions) {
+  constructor(pollerOptions: AnalyzeActionsPollerOptions) {
     const {
       client,
       documents,
-      analysisOptions,
-      tasks,
+      actions,
+      options,
       updateIntervalInMs = 5000,
       resumeFrom
     } = pollerOptions;
 
-    let state: BeginAnalyzePollState | undefined;
+    let state: AnalyzeActionsOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
-    const { requestOptions, tracingOptions } = analysisOptions || {};
-    const operation = new BeginAnalyzePollerOperation(
-      state || {},
+    const operation = new BeginAnalyzeActionsPollerOperation(
+      (state || {}) as any,
       client,
       documents,
-      tasks,
-      {
-        analyze: { requestOptions, tracingOptions },
-        polling: {
-          updateIntervalInMs,
-          resumeFrom
-        }
-      },
-      analysisOptions
+      actions,
+      options
     );
 
     super(operation);

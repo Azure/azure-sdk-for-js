@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, SendRequest, PipelinePolicy } from "@azure/core-https";
+import { PipelineResponse, SendRequest, PipelinePolicy } from "@azure/core-rest-pipeline";
 import {
   OperationRequest,
   SerializerOptions,
@@ -15,7 +15,10 @@ import {
 } from "./interfaces";
 import { MapperTypeNames } from "./serializer";
 import { getPathStringFromParameter } from "./interfaceHelpers";
-import { getOperationArgumentValueFromParameter } from "./operationHelpers";
+import {
+  getOperationArgumentValueFromParameter,
+  getOperationRequestInfo
+} from "./operationHelpers";
 
 /**
  * The programmatic identifier of the serializationPolicy.
@@ -25,7 +28,7 @@ export const serializationPolicyName = "serializationPolicy";
 /**
  * Options to configure API request serialization.
  */
-export interface serializationPolicyOptions {
+export interface SerializationPolicyOptions {
   /**
    * A function that is able to write XML. Required for XML support.
    */
@@ -41,14 +44,15 @@ export interface serializationPolicyOptions {
  * This policy handles assembling the request body and headers using
  * an OperationSpec and OperationArguments on the request.
  */
-export function serializationPolicy(options: serializationPolicyOptions = {}): PipelinePolicy {
+export function serializationPolicy(options: SerializationPolicyOptions = {}): PipelinePolicy {
   const stringifyXML = options.stringifyXML;
 
   return {
     name: serializationPolicyName,
     async sendRequest(request: OperationRequest, next: SendRequest): Promise<PipelineResponse> {
-      const operationSpec = request.additionalInfo?.operationSpec;
-      const operationArguments = request.additionalInfo?.operationArguments;
+      const operationInfo = getOperationRequestInfo(request);
+      const operationSpec = operationInfo?.operationSpec;
+      const operationArguments = operationInfo?.operationArguments;
       if (operationSpec && operationArguments) {
         serializeHeaders(request, operationArguments, operationSpec);
         serializeRequestBody(request, operationArguments, operationSpec, stringifyXML);
@@ -58,15 +62,18 @@ export function serializationPolicy(options: serializationPolicyOptions = {}): P
   };
 }
 
-function serializeHeaders(
+/**
+ * @internal
+ */
+export function serializeHeaders(
   request: OperationRequest,
   operationArguments: OperationArguments,
   operationSpec: OperationSpec
-) {
+): void {
   if (operationSpec.headerParameters) {
     for (const headerParameter of operationSpec.headerParameters) {
       let headerValue = getOperationArgumentValueFromParameter(operationArguments, headerParameter);
-      if (headerValue !== null && headerValue !== undefined) {
+      if ((headerValue !== null && headerValue !== undefined) || headerParameter.mapper.required) {
         headerValue = operationSpec.serializer.serialize(
           headerParameter.mapper,
           headerValue,
@@ -87,10 +94,16 @@ function serializeHeaders(
       }
     }
   }
+  const customHeaders = operationArguments.options?.requestOptions?.customHeaders;
+  if (customHeaders) {
+    for (const customHeaderName of Object.keys(customHeaders)) {
+      request.headers.set(customHeaderName, customHeaders[customHeaderName]);
+    }
+  }
 }
 
 /**
- * @internal @ignore
+ * @internal
  */
 export function serializeRequestBody(
   request: OperationRequest,
@@ -123,12 +136,17 @@ export function serializeRequestBody(
       xmlName,
       xmlElementName,
       xmlNamespace,
-      xmlNamespacePrefix
+      xmlNamespacePrefix,
+      nullable
     } = bodyMapper;
     const typeName = bodyMapper.type.name;
 
     try {
-      if (request.body || required) {
+      if (
+        (request.body !== undefined && request.body !== null) ||
+        (nullable && request.body === null) ||
+        required
+      ) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(
           operationSpec.requestBody
         );

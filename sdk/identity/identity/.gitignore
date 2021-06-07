@@ -1,2 +1,2 @@
 src/**/*.js
-samples/**/*.js
+!assets/cert.pem

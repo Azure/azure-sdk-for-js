@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as zlib from "zlib";
 
@@ -376,23 +379,26 @@ describe("syncUploadFromURL", () => {
       undefined,
       "recording file too large, exceeds GitHub's file size limit of 100.00 MB"
     );
-    await sourceBlob.upload(largeContent, largeContent.byteLength);
+    await sourceBlob.uploadData(largeContent);
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
-  });
+  }).timeout(10 * 60 * 1000);
 
   it("large content with timeout", async () => {
     recorder.skip(
       undefined,
       "recording file too large, exceeds GitHub's file size limit of 100.00 MB"
     );
-    await sourceBlob.upload(largeContent, largeContent.byteLength);
+    await sourceBlob.uploadData(largeContent);
 
+    let exceptionCaught = false;
     try {
       await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
         timeoutInSeconds: 1
       });
     } catch (err) {
       assert.deepStrictEqual(err.code, "OperationTimedOut");
+      exceptionCaught = true;
     }
-  });
+    assert.ok(exceptionCaught);
+  }).timeout(10 * 60 * 1000);
 });

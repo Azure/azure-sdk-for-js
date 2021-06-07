@@ -1,11 +1,11 @@
 steps:
-  - template: /eng/common/pipelines/templates/steps/bypass-local-dns.yml
+  - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
+    parameters:
+      AgentImage: $(OSVmImage)
 
   - task: UsePythonVersion@0
     displayName: "Use Python 3.6"
     inputs:
       versionSpec: "3.6"
-
-  - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
 
   - template: use-node-version.yml

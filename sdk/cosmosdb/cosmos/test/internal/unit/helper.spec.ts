@@ -1,18 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { isResourceValid, parseConnectionString } from "../../../src/common";
+import { parseConnectionString } from "../../../src/common";
 
 describe("Helper methods", function() {
-  describe("isResourceValid Unit Tests", function() {
-    it("id is not string", function() {
-      const err = {};
-      const result = isResourceValid({ id: 1 }, err);
-
-      assert.equal(result, false);
-      assert.deepEqual(err, { message: "Id must be a string." });
-    });
-  });
   describe("parseConnectionString", function() {
     it("parses a valid connection string", function() {
       const connectionString =

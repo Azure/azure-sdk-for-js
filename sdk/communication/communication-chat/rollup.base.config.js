@@ -2,11 +2,13 @@ import path from "path";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
 import shim from "rollup-plugin-shim";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -32,13 +34,19 @@ export function nodeConfig(test = false) {
         }
       }),
       nodeResolve({ preferBuiltins: true }),
+      json(),
       cjs()
     ]
   };
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/public/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/public/node/*.spec.js",
+      "dist-esm/test/internal/node/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -92,12 +100,13 @@ export function browserConfig(test = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
+      json(),
       cjs({
         namedExports: {
           chai: ["assert"],
           events: ["EventEmitter"],
           "@azure/communication-signaling": ["CommunicationSignalingClient", "SignalingClient"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryCommonJs()
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
@@ -106,7 +115,12 @@ export function browserConfig(test = false) {
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), browser specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/public/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/public/browser/*.spec.js",
+      "dist-esm/test/internal/browser/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
 

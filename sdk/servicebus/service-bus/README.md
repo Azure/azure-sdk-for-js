@@ -1,4 +1,4 @@
-# Azure Service Bus client library for Javascript
+# Azure Service Bus client library for JavaScript
 
 [Azure Service Bus](https://azure.microsoft.com/services/service-bus/) is a highly-reliable cloud messaging service from Microsoft.
 
@@ -8,7 +8,7 @@ Use the client library `@azure/service-bus` in your application to
 - Receive messages from an Azure Service Bus Queue or Subscription
 - Create/Get/Delete/Update/List Queues/Topics/Subscriptions/Rules in an Azure Service Bus namespace.
 
-Resources for the v7.0.0 of `@azure/service-bus`:
+Resources for `@azure/service-bus` version 7:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) |
 [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) |
@@ -19,7 +19,7 @@ Resources for the v7.0.0 of `@azure/service-bus`:
 **NOTE**: If you are using version 1.1.10 or lower and want to migrate to the latest version
 of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7][migrationguide]
 
-## Getting Started
+## Getting started
 
 ### Install the package
 
@@ -60,7 +60,7 @@ the connection string from the Azure portal.
 ```javascript
 const { ServiceBusClient } = require("@azure/service-bus");
 
-const serviceBusClient = new ServiceBusClient(connectionString);
+const serviceBusClient = new ServiceBusClient("<connectionString>");
 ```
 
 More information about this constructor is available in the [API documentation][sbclient_constructor].
@@ -91,7 +91,7 @@ const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credentia
 
 More information about this constructor is available in the [API documentation][sbclient_tokencred_overload]
 
-### Key concepts
+## Key concepts
 
 Once you've initialized a `ServiceBusClient`, you can interact with these resources within a
 Service Bus Namespace:
@@ -110,7 +110,7 @@ To interact with these resources, one should be familiar with the following SDK 
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
 
-### Examples
+## Examples
 
 The following sections provide code snippets that cover some of the common tasks using Azure Service Bus
 
@@ -268,8 +268,8 @@ for (const message of messages) {
 
 Full samples demonstrating dead letter queues more thoroughly:
 
-- [Using receiver.deadLetterMessage() to explicitly send messages to the dead letter sub-queue](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/movingMessagesToDLQ.ts)
-- [Receiving messages from the dead letter sub-queue](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/processMessageFromDLQ.ts)
+- [Using receiver.deadLetterMessage() to explicitly send messages to the dead letter sub-queue](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/movingMessagesToDLQ.ts)
+- [Receiving messages from the dead letter sub-queue](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/processMessageFromDLQ.ts)
 
 ### Send messages using Sessions
 
@@ -358,7 +358,7 @@ console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMe
 await serviceBusAdministrationClient.deleteQueue(queueName);
 ```
 
-- Sample for reference - [administrationClient.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/administrationClient.ts)
+- Sample for reference - [administrationClient.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/v7/typescript/src/advanced/administrationClient.ts)
 
 ## Troubleshooting
 
@@ -366,7 +366,7 @@ await serviceBusAdministrationClient.deleteQueue(queueName);
 
 The Service Bus library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
-### Enable logs
+### Logging
 
 You can set the following environment variable to get the debug logs when using this library.
 
@@ -391,7 +391,7 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:core-amqp:datatransform
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure:service-bus:error,azure-core-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:service-bus:error,azure:core-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 ### Logging to a file
@@ -412,7 +412,7 @@ export DEBUG=azure:service-bus:error,azure-core-amqp:error,rhea-promise:error,rh
     node your-test-script.js &> out.log
   ```
 
-## Next Steps
+## Next steps
 
 Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 directory for detailed examples on how to use this library to send and receive messages to/from

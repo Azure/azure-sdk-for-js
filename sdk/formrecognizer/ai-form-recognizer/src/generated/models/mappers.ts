@@ -537,12 +537,6 @@ export const ReadResult: coreHttp.CompositeMapper = {
           allowedValues: ["pixel", "inch"]
         }
       },
-      language: {
-        serializedName: "language",
-        type: {
-          name: "String"
-        }
-      },
       lines: {
         serializedName: "lines",
         type: {
@@ -599,12 +593,6 @@ export const TextLine: coreHttp.CompositeMapper = {
           }
         }
       },
-      language: {
-        serializedName: "language",
-        type: {
-          name: "String"
-        }
-      },
       words: {
         serializedName: "words",
         required: true,
@@ -622,7 +610,7 @@ export const TextLine: coreHttp.CompositeMapper = {
         serializedName: "appearance",
         type: {
           name: "Composite",
-          className: "Appearance"
+          className: "TextAppearance"
         }
       }
     }
@@ -671,32 +659,33 @@ export const TextWord: coreHttp.CompositeMapper = {
   }
 };
 
-export const Appearance: coreHttp.CompositeMapper = {
+export const TextAppearance: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Appearance",
+    className: "TextAppearance",
     modelProperties: {
       style: {
         serializedName: "style",
         type: {
           name: "Composite",
-          className: "Style"
+          className: "TextStyle"
         }
       }
     }
   }
 };
 
-export const Style: coreHttp.CompositeMapper = {
+export const TextStyle: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Style",
+    className: "TextStyle",
     modelProperties: {
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["other", "handwriting"]
         }
       },
       confidence: {
@@ -746,7 +735,8 @@ export const SelectionMark: coreHttp.CompositeMapper = {
         serializedName: "state",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["selected", "unselected"]
         }
       }
     }
@@ -1135,7 +1125,8 @@ export const FieldValue: coreHttp.CompositeMapper = {
             "integer",
             "array",
             "object",
-            "selectionMark"
+            "selectionMark",
+            "countryRegion"
           ]
         }
       },
@@ -1196,6 +1187,12 @@ export const FieldValue: coreHttp.CompositeMapper = {
       },
       valueSelectionMark: {
         serializedName: "valueSelectionMark",
+        type: {
+          name: "String"
+        }
+      },
+      valueCountryRegion: {
+        serializedName: "valueCountryRegion",
         type: {
           name: "String"
         }
@@ -1577,6 +1574,21 @@ export const GeneratedClientAnalyzeInvoiceAsyncHeaders: coreHttp.CompositeMapper
   type: {
     name: "Composite",
     className: "GeneratedClientAnalyzeInvoiceAsyncHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GeneratedClientAnalyzeIdDocumentAsyncHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeneratedClientAnalyzeIdDocumentAsyncHeaders",
     modelProperties: {
       operationLocation: {
         serializedName: "operation-location",

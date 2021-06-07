@@ -4,7 +4,7 @@
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-canabortcreatingakey-/create",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "",
    "status": 0,
@@ -16,5 +16,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "5158095e0f7ecf781e7b7dc0b5d08cc3"
+ "hash": "796fbcb2ce5dfdd19aaa49ade29f5773"
 }

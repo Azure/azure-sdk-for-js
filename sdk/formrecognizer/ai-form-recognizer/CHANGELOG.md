@@ -1,5 +1,37 @@
 # Release History
 
+## 3.1.1 (Unreleased)
+
+
+## 3.1.0 (2021-05-26)
+
+- This General Availability (GA) release marks the stability of the changes introduced in package versions 3.1.0-beta.1 through 3.1.0-beta.3.
+- Changed all names including `IdDocument` to use `IdentityDocument` instead, for example: `BeginRecognizeIdentityDocumentOptions`, `beginRecognizeIdentityDocuments`, and `beginRecognizeIdentityDocumentsFromUrl` for clarity.
+- Flattened the `TextStyle` type into the `TextAppearance` type. Rather than having a `style` property with its own `name` and `confidence`, `TextAppearance` now has `styleName` and `styleConfidence` properties.
+- Removed the `FormGenderField` type. Any recognized value that was previously produced as a `FormGenderField` is now returned as a `FormStringField` instead (the `value` will remain the same).
+- Renamed the `FormCountryField` type to `FormCountryRegionField`, and changed the `valueType` discriminant property of that type to `"countryRegion:`.
+- Renamed `ReadingOrder` and `Language` to `FormReadingOrder` and `FormLanguage` to reduce the chance that these types would collide with other types having the same name from other packages.
+- Removed the `KnownStyleName`, `KnownSelectionMarkState`, and `KnownKeyValueType` enums, as they represent simple string enums. The `styleName`, `state`, and `valueType` properties (respectively) now have strong string-enum types.
+- Added the `KnownFormLocale` enum to access the well-known possible values of form locales (the `locale` property of the options parameters for prebuilt model recognition).
+- Migrated to the 2.1 Form Recognizer service endpoint for all REST API calls.
+
+## 3.1.0-beta.3 (2021-04-06)
+
+- Split `FormField` into several different interfaces. This should not cause any API compatibility issues except in certain edge cases (undefined `valueType`), but should result in more accurate type refinement when dealing with FormField values and should significantly improve documentation and code hinting of these values through IntelliSense.
+- Added support for recognizing identity documents (such as driver licenses and passports) through the `beginRecognizeIdDocuments` method and its URL-based counterpart `beginRecognizeIdDocumentsFromUrl`. The identity document model is prebuilt and may be used without training a model.
+- Introduced two new form field value types: `"gender"` and `"country"`. These value types appear in the identity document recognition responses.
+  - The `"gender"` value type signifies the gender or sex of an individual and is represented by a string that is one of three values: "M", "F", or "X".
+  - The `"country"` value type indicates a specific country and is represented by a three-letter country code string (ISO 3166-1 alpha-3).
+- Added support for the `pages` option to all form recognition methods (custom forms and all prebuilt models). This option works the same as in the content recognition methods, and allows for the specification of which pages within a multi-page document (PDF or TIFF formats) should be considered during analysis and included in the response.
+- Added support for a `readingOrder` option to the content recognition methods. This option enables you to control the algorithm that the service uses to determine how recognized lines of text should be ordered.
+- Custom model recognition now supports bitmap images through the "image/bmp" content-type (content recognition and all prebuilt models already support this content type).
+- Migrated to the 2.1-preview.3 Form Recognizer service endpoint for all REST API calls.
+
+## 3.1.0-beta.2 (2021-02-09)
+
+- Renamed `Appearance` to `TextAppearance`, `Style` to `TextStyle` (previously the name of the enum for `Style.name`, and the `TextStyle` enum to `StyleName` for the sake of clarity in the type names.
+- Added `KnownStyleName`, `KnownLanguage`, `KnownSelectionMarkState`, and `KnownKeyValueType` enums to access the well-known possible values of the `StyleName`, `Language`, `SelectionMarkState`, and `KeyValueType` parameters/fields respectively.
+
 ## 3.1.0-beta.1 (2020-11-23)
 
 - Added a `pages` option to `BeginRecognizeContentOptions`. This option allows for the specification of which pages of a document to include in the content results. If a value is provided, pages that are not included in the `pages` field will not be analyzed.

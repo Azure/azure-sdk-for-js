@@ -103,7 +103,17 @@ function appendPath(url: string, pathToAppend?: string): string {
     pathToAppend = pathToAppend.substring(1);
   }
 
-  newPath = newPath + pathToAppend;
+  const searchStart = pathToAppend.indexOf("?");
+  if (searchStart !== -1) {
+    const path = pathToAppend.substring(0, searchStart);
+    const search = pathToAppend.substring(searchStart + 1);
+    newPath = newPath + path;
+    if (search) {
+      parsedUrl.search = parsedUrl.search ? `${parsedUrl.search}&${search}` : search;
+    }
+  } else {
+    newPath = newPath + pathToAppend;
+  }
 
   parsedUrl.pathname = newPath;
 
@@ -123,7 +133,10 @@ function calculateQueryParameters(
         queryParameter,
         fallbackObject
       );
-      if (queryParameterValue !== undefined && queryParameterValue !== null) {
+      if (
+        (queryParameterValue !== undefined && queryParameterValue !== null) ||
+        queryParameter.mapper.required
+      ) {
         queryParameterValue = operationSpec.serializer.serialize(
           queryParameter.mapper,
           queryParameterValue,
@@ -169,13 +182,10 @@ function calculateQueryParameters(
           queryParameterValue = queryParameterValue.join(delimiter);
         }
 
-        // ignore empty values
-        if (queryParameterValue) {
-          result.set(
-            queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
-            queryParameterValue
-          );
-        }
+        result.set(
+          queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
+          queryParameterValue
+        );
       }
     }
   }

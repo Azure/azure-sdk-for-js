@@ -1,0 +1,50 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query",
+   "query": {
+    "$maxpagesize": "2"
+   },
+   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
+   "status": 200,
+   "response": "{\"value\":[\"__SUM__\",\"Karachi\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=2\"}",
+   "responseHeaders": {
+    "apim-request-id": "03e68d0e-a107-4e79-a611-1706fd98f2ca",
+    "content-length": "253",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 02 Jun 2021 07:09:32 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "255",
+    "x-request-id": "03e68d0e-a107-4e79-a611-1706fd98f2ca"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query",
+   "query": {
+    "$maxpagesize": "2",
+    "$skip": "2"
+   },
+   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
+   "status": 200,
+   "response": "{\"value\":[\"Los Angeles\",\"Delhi\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=4\"}",
+   "responseHeaders": {
+    "apim-request-id": "a0540942-d940-4132-a4dd-344fb0b8eda3",
+    "content-length": "255",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 02 Jun 2021 07:09:32 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "255",
+    "x-request-id": "a0540942-d940-4132-a4dd-344fb0b8eda3"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "c2d4f2e678e5b1fe4f794c4cefaef692"
+}

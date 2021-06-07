@@ -3,53 +3,27 @@
 
 import {
   extractSpanContextFromTraceParentHeader,
-  getTraceParentHeader,
-  getTracer
+  SpanStatusCode,
+  Link,
+  Span,
+  SpanContext,
+  SpanKind
 } from "@azure/core-tracing";
-import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext } from "../connectionContext";
-import { getParentSpan, OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceiver } from "../receivers/receiver";
 import { ServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
+import { createServiceBusSpan } from "./tracing";
 
 /**
- * @ignore
+ * @hidden
  */
 export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
 
 /**
- * Populates the `ServiceBusMessage` with `SpanContext` info to support trace propagation.
- * Creates and returns a copy of the passed in `ServiceBusMessage` unless the `ServiceBusMessage`
- * has already been instrumented.
- * @param message The `ServiceBusMessage` to instrument.
- * @param span The `Span` containing the context to propagate tracing information.
- * @ignore
- * @internal
- */
-export function instrumentServiceBusMessage(
-  message: ServiceBusMessage,
-  span: Span
-): ServiceBusMessage {
-  if (message.applicationProperties && message.applicationProperties[TRACEPARENT_PROPERTY]) {
-    return message;
-  }
-
-  // create a copy so the original isn't modified
-  message = { ...message, applicationProperties: { ...message.applicationProperties } };
-
-  const traceParent = getTraceParentHeader(span.context());
-  if (traceParent) {
-    message.applicationProperties![TRACEPARENT_PROPERTY] = traceParent;
-  }
-
-  return message;
-}
-
-/**
  * Extracts the `SpanContext` from an `ServiceBusMessage` if the context exists.
- * @param message An individual `ServiceBusMessage` object.
+ * @param message - An individual `ServiceBusMessage` object.
  * @internal
- * @ignore
  */
 export function extractSpanContextFromServiceBusMessage(
   message: ServiceBusMessage
@@ -66,9 +40,8 @@ export function extractSpanContextFromServiceBusMessage(
  * Provides an iterable over messages, whether it is a single message or multiple
  * messages.
  *
- * @param receivedMessages A single message or a set of messages
+ * @param receivedMessages - A single message or a set of messages
  * @internal
- * @ignore
  */
 function* getReceivedMessages(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[]
@@ -92,7 +65,6 @@ function* getReceivedMessages(
  * give the message to the user.
  *
  * @internal
- * @ignore
  */
 export function createProcessingSpan(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
@@ -120,17 +92,16 @@ export function createProcessingSpan(
     });
   }
 
-  const span = getTracer().startSpan("Azure.ServiceBus.process", {
-    kind: SpanKind.CONSUMER,
-    links,
-    parent: getParentSpan(options?.tracingOptions)
-  });
-
-  span.setAttributes({
-    "az.namespace": "Microsoft.ServiceBus",
-    "message_bus.destination": receiver.entityPath,
-    "peer.address": connectionConfig.host
-  });
+  const { span } = createServiceBusSpan(
+    "process",
+    options,
+    receiver.entityPath,
+    connectionConfig.host,
+    {
+      kind: SpanKind.CONSUMER,
+      links
+    }
+  );
 
   return span;
 }
@@ -141,7 +112,6 @@ export function createProcessingSpan(
  * know the scope.
  *
  * @internal
- * @ignore
  */
 export function createAndEndProcessingSpan(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
@@ -150,6 +120,6 @@ export function createAndEndProcessingSpan(
   options?: OperationOptionsBase
 ): void {
   const span = createProcessingSpan(receivedMessages, receiver, connectionConfig, options);
-  span.setStatus({ code: CanonicalCode.OK });
+  span.setStatus({ code: SpanStatusCode.OK });
   span.end();
 }

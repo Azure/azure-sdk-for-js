@@ -7,6 +7,7 @@ import assert from "assert";
 const endpoint = "https://failovertest.documents.azure.com/";
 
 // This is a function because the SDK plugin ends up mutating it. In reality this won't happen because it is a unique backend response
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const databaseAccountResponse = () => ({
   headers: {
     "content-location": "https://failovertest.documents.azure.com/",
@@ -148,7 +149,7 @@ describe("Region Failover", () => {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, next) => {
+        plugin: async (context) => {
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;
@@ -188,7 +189,7 @@ describe("Region Failover", () => {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, next) => {
+        plugin: async (context) => {
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;
@@ -230,7 +231,7 @@ describe("Region Failover", () => {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, next) => {
+        plugin: async (context) => {
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;

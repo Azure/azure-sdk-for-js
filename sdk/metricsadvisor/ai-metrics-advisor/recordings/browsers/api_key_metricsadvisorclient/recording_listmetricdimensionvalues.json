@@ -1,0 +1,27 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query",
+   "query": {},
+   "requestBody": "{\"dimensionName\":\"city\"}",
+   "status": 200,
+   "response": "{\"value\":[\"Abidjan\",\"Ahmadabad\",\"Alexandria\",\"Ankara\",\"Atlanta\",\"Baghdad\",\"Bangkok\",\"Barcelona\",\"Beijing\",\"Belo Horizonte\",\"Bengaluru\",\"Bogota\",\"Boston\",\"Brasilia\",\"Buenos Aires\",\"Cairo\",\"Chengdu\",\"Chennai\",\"Chicago\",\"Chittagong\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$maxpagesize=20&$skip=20\"}",
+   "responseHeaders": {
+    "apim-request-id": "98bd69db-1bf5-490b-807d-77c7ab50d96d",
+    "content-length": "410",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 02 Jun 2021 07:09:46 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "115",
+    "x-request-id": "98bd69db-1bf5-490b-807d-77c7ab50d96d"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "fbff5d46b25768d6f0c433d4b82c9270"
+}

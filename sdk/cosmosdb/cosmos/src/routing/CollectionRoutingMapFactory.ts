@@ -4,9 +4,9 @@ import { Constants } from "../common/constants";
 import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
 
 /**
- * @ignore
+ * @hidden
  */
-function compareRanges(a: any, b: any) {
+function compareRanges(a: any, b: any): 0 | 1 | -1 {
   const aVal = a[0][Constants.PartitionKeyRange.MinInclusive];
   const bVal = b[0][Constants.PartitionKeyRange.MinInclusive];
   if (aVal > bVal) {
@@ -19,7 +19,9 @@ function compareRanges(a: any, b: any) {
 }
 
 /** @hidden */
-export function createCompleteRoutingMap(partitionKeyRangeInfoTuppleList: any[]) {
+export function createCompleteRoutingMap(
+  partitionKeyRangeInfoTuppleList: any[]
+): InMemoryCollectionRoutingMap {
   const rangeById: any = {}; // TODO: any
   const rangeByInfo: any = {}; // TODO: any
 
@@ -43,9 +45,9 @@ export function createCompleteRoutingMap(partitionKeyRangeInfoTuppleList: any[])
 }
 
 /**
- * @ignore
+ * @hidden
  */
-function isCompleteSetOfRange(partitionKeyOrderedRange: any) {
+function isCompleteSetOfRange(partitionKeyOrderedRange: any): boolean {
   // TODO: any
   let isComplete = false;
   if (partitionKeyOrderedRange.length > 0) {

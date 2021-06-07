@@ -10,7 +10,7 @@ import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
-import { checkURL } from "./utils/url";
+import { checkURL } from "./utils/checkURL";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -56,9 +56,9 @@ export class CosmosClient {
   constructor(connectionString: string);
   /**
    * Creates a new {@link CosmosClient} object. See {@link CosmosClientOptions} for more details on what options you can use.
-   * @param options bag of options - require at least endpoint and auth to be configured
+   * @param options - bag of options; require at least endpoint and auth to be configured
    */
-  constructor(options: CosmosClientOptions); // tslint:disable-line:unified-signatures
+  constructor(options: CosmosClientOptions);
   constructor(optionsOrConnectionString: string | CosmosClientOptions) {
     if (typeof optionsOrConnectionString === "string") {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
@@ -131,7 +131,7 @@ export class CosmosClient {
    *
    * This does not make a network call. Use `.read` to get info about the database after getting the {@link Database} object.
    *
-   * @param id The id of the database.
+   * @param id - The id of the database.
    * @example Create a new container off of an existing database
    * ```typescript
    * const container = client.database("<database id>").containers.create("<container id>");
@@ -148,9 +148,9 @@ export class CosmosClient {
 
   /**
    * Used for reading, or updating a existing offer by id.
-   * @param id The id of the offer.
+   * @param id - The id of the offer.
    */
-  public offer(id: string) {
+  public offer(id: string): Offer {
     return new Offer(this, id, this.clientContext);
   }
 }

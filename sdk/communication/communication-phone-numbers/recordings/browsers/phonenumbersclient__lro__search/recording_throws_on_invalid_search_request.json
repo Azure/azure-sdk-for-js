@@ -1,0 +1,30 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/availablePhoneNumbers/countries/US/:search",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"person\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"quantity\":1}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"InternalError\",\"message\":\"The server encountered an internal error.\",\"innererror\":{\"code\":\"BadRequest\",\"message\":\"We are unable to find phone plans to match your requested capabilities.\"}}}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-03-07",
+    "content-type": "application/json",
+    "date": "Tue, 01 Jun 2021 16:15:31 GMT",
+    "ms-cv": "D8mBUIfXZ0OHrP4SXSq/OQ.0",
+    "request-context": "appId=",
+    "status": "400",
+    "x-azure-ref": "0Il22YAAAAABTZ31Vei09TqNojP38iXqbWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "1707ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "0a8d65017395f38f7d477e7592233ac0"
+}

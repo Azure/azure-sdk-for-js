@@ -9,12 +9,6 @@ import { CosmosHeaders } from "./queryExecutionContext";
 export class ChangeFeedResponse<T> {
   /**
    * @internal
-   * @hidden
-   *
-   * @param result
-   * @param count
-   * @param statusCode
-   * @param headers
    */
   constructor(
     /**

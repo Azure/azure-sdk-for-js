@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as fs from "fs";
 import * as util from "util";
@@ -7,13 +7,11 @@ import * as util from "util";
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
  *
- * @export
- * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
- * @param {Buffer} buffer Buffer to be filled, length must >= offset
- * @param {number} offset From which position in the buffer to be filled, inclusive
- * @param {number} end To which position in the buffer to be filled, exclusive
- * @param {string} [encoding] Encoding of the Readable stream
- * @returns {Promise<void>}
+ * @param stream - A Node.js Readable stream
+ * @param buffer - Buffer to be filled, length must greater than or equal to offset
+ * @param offset - From which position in the buffer to be filled, inclusive
+ * @param end - To which position in the buffer to be filled, exclusive
+ * @param encoding - Encoding of the Readable stream
  */
 export async function streamToBuffer(
   stream: NodeJS.ReadableStream,
@@ -67,10 +65,8 @@ export async function streamToBuffer(
  *
  * Writes the content of a readstream to a local file. Returns a Promise which is completed after the file handle is closed.
  *
- * @export
- * @param {NodeJS.ReadableStream} rs The read stream.
- * @param {string} file Destination file path.
- * @returns {Promise<void>}
+ * @param rs - The read stream.
+ * @param file - Destination file path.
  */
 export async function readStreamToLocalFile(
   rs: NodeJS.ReadableStream,

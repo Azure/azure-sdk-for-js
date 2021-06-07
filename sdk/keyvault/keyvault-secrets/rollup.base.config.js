@@ -9,6 +9,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 /**
  * @type {import('rollup').RollupFileOptions}
@@ -52,7 +53,11 @@ export function nodeConfig(test = false) {
       }),
       nodeResolve({ preferBuiltins: true }),
       json(),
-      cjs()
+      cjs({
+        namedExports: {
+          ...openTelemetryCommonJs()
+        }
+      })
     ]
   };
 
@@ -64,7 +69,7 @@ export function nodeConfig(test = false) {
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
 
-    baseConfig.external.push("assert", "fs", "path");
+    baseConfig.external.push("assert", "fs", "path", "chai");
 
     baseConfig.context = "null";
 
@@ -114,10 +119,12 @@ export function browserConfig(test = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
+      json(),
       cjs({
         namedExports: {
-          assert: ["ok", "equal", "strictEqual", "deepEqual"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          chai: ["assert"],
+          assert: ["ok", "equal", "strictEqual", "deepEqual", "exists"],
+          ...openTelemetryCommonJs()
         }
       })
     ]
@@ -127,8 +134,8 @@ export function browserConfig(test = false) {
     baseConfig.input = ["dist-esm/**/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
-    // mark fs-extra as external
-    baseConfig.external = ["fs-extra", "path"];
+
+    baseConfig.external = ["path"];
     baseConfig.context = "null";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting

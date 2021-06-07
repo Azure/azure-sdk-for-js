@@ -6,7 +6,7 @@ export {
   DEFAULT_BATCH_SIZE,
   DEFAULT_FLUSH_WINDOW,
   DEFAULT_RETRY_COUNT
-} from "./searchIndexingBufferedSenderImpl";
+} from "./searchIndexingBufferedSender";
 export {
   AutocompleteRequest,
   AutocompleteOptions,
@@ -38,7 +38,7 @@ export {
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions
 } from "./indexModels";
-export { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
+export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
 export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";
 export {
@@ -110,7 +110,8 @@ export {
   SearchResourceEncryptionKey,
   SearchIndexStatistics,
   SearchServiceStatistics,
-  SearchIndexer
+  SearchIndexer,
+  LexicalNormalizer
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -125,10 +126,19 @@ export {
   IndexingResult,
   QueryType,
   SearchMode,
-  ScoringStatistics
+  ScoringStatistics,
+  Answers,
+  KnownAnswers,
+  QueryLanguage,
+  KnownQueryLanguage,
+  Speller,
+  KnownSpeller,
+  CaptionResult,
+  AnswerResult
 } from "./generated/data/models";
 export {
   RegexFlags,
+  KnownRegexFlags,
   LuceneStandardAnalyzer,
   StopAnalyzer,
   MappingCharFilter,
@@ -195,24 +205,41 @@ export {
   MergeSkill,
   EntityRecognitionSkill,
   SentimentSkill,
+  CustomEntityLookupSkill,
+  CustomEntityLookupSkillLanguage,
+  KnownCustomEntityLookupSkillLanguage,
+  DocumentExtractionSkill,
+  CustomEntity,
+  CustomEntityAlias,
   SplitSkill,
   TextTranslationSkill,
   WebApiSkill,
   SentimentSkillLanguage,
+  KnownSentimentSkillLanguage,
   SplitSkillLanguage,
+  KnownSplitSkillLanguage,
   TextSplitMode,
+  KnownTextSplitMode,
   TextTranslationSkillLanguage,
+  KnownTextTranslationSkillLanguage,
   DefaultCognitiveServicesAccount,
   CognitiveServicesAccountKey,
   InputFieldMappingEntry,
   OutputFieldMappingEntry,
   EntityCategory,
+  KnownEntityCategory,
   EntityRecognitionSkillLanguage,
+  KnownEntityRecognitionSkillLanguage,
   ImageAnalysisSkillLanguage,
+  KnownImageAnalysisSkillLanguage,
   ImageDetail,
+  KnownImageDetail,
   VisualFeature,
+  KnownVisualFeature,
   KeyPhraseExtractionSkillLanguage,
+  KnownKeyPhraseExtractionSkillLanguage,
   OcrSkillLanguage,
+  KnownOcrSkillLanguage,
   FieldMapping,
   IndexingParameters,
   IndexingSchedule,
@@ -226,6 +253,7 @@ export {
   SearchIndexerWarning,
   SearchIndexerDataContainer,
   SearchIndexerDataSourceType,
+  KnownSearchIndexerDataSourceType,
   SoftDeleteColumnDeletionDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
   HighWaterMarkChangeDetectionPolicy,
@@ -233,13 +261,43 @@ export {
   ServiceLimits,
   ResourceCounter,
   LexicalAnalyzerName,
+  KnownLexicalAnalyzerName,
   ClassicSimilarity,
   BM25Similarity,
   IndexingParametersConfiguration,
   BlobIndexerDataToExtract,
+  KnownBlobIndexerDataToExtract,
   IndexerExecutionEnvironment,
   BlobIndexerImageAction,
+  KnownBlobIndexerImageAction,
   BlobIndexerParsingMode,
-  BlobIndexerPDFTextRotationAlgorithm
+  KnownBlobIndexerParsingMode,
+  BlobIndexerPDFTextRotationAlgorithm,
+  KnownBlobIndexerPDFTextRotationAlgorithm,
+  TokenFilter as BaseTokenFilter,
+  Similarity,
+  LexicalTokenizer as BaseLexicalTokenizer,
+  CognitiveServicesAccount as BaseCognitiveServicesAccount,
+  SearchIndexerSkill as BaseSearchIndexerSkill,
+  ScoringFunction as BaseScoringFunction,
+  DataChangeDetectionPolicy as BaseDataChangeDetectionPolicy,
+  LexicalAnalyzer as BaseLexicalAnalyzer,
+  CharFilter as BaseCharFilter,
+  DataDeletionDetectionPolicy as BaseDataDeletionDetectionPolicy,
+  LexicalNormalizerName,
+  KnownLexicalNormalizerName,
+  CustomNormalizer,
+  TokenFilterName,
+  KnownTokenFilterName,
+  CharFilterName,
+  KnownCharFilterName,
+  LexicalNormalizer as BaseLexicalNormalizer,
+  SearchIndexerKnowledgeStore,
+  SearchIndexerKnowledgeStoreProjection,
+  SearchIndexerKnowledgeStoreFileProjectionSelector,
+  SearchIndexerKnowledgeStoreBlobProjectionSelector,
+  SearchIndexerKnowledgeStoreProjectionSelector,
+  SearchIndexerKnowledgeStoreObjectProjectionSelector,
+  SearchIndexerKnowledgeStoreTableProjectionSelector
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";

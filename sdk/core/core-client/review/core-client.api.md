@@ -5,17 +5,17 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { HttpMethods } from '@azure/core-https';
-import { HttpsClient } from '@azure/core-https';
-import { InternalPipelineOptions } from '@azure/core-https';
+import { HttpClient } from '@azure/core-rest-pipeline';
+import { HttpMethods } from '@azure/core-rest-pipeline';
+import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
 import { OperationTracingOptions } from '@azure/core-tracing';
-import { Pipeline } from '@azure/core-https';
-import { PipelinePolicy } from '@azure/core-https';
-import { PipelineRequest } from '@azure/core-https';
-import { PipelineResponse } from '@azure/core-https';
-import { Span } from '@opentelemetry/api';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
+import { PipelinePolicy } from '@azure/core-rest-pipeline';
+import { PipelineRequest } from '@azure/core-rest-pipeline';
+import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
-import { TransferProgressEvent } from '@azure/core-https';
+import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
 // @public (undocumented)
 export interface BaseMapper {
@@ -36,13 +36,8 @@ export interface BaseMapper {
 }
 
 // @public
-export interface ClientPipelineOptions extends InternalPipelineOptions {
-    credentialOptions?: {
-        credentialScopes: string | string[];
-        credential: TokenCredential;
-    };
-    deserializationOptions?: DeserializationPolicyOptions;
-    serializationOptions?: serializationPolicyOptions;
+export interface CommonClientOptions extends PipelineOptions {
+    httpClient?: HttpClient;
 }
 
 // @public (undocumented)
@@ -70,18 +65,12 @@ export interface CompositeMapperType {
 }
 
 // @public
-export function createClientPipeline(options?: ClientPipelineOptions): Pipeline;
+export function createClientPipeline(options?: InternalClientPipelineOptions): Pipeline;
 
 // @public
 export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
-
-// @public
-export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
-    span: Span;
-    updatedOptions: T;
-};
 
 // @public
 export interface DeserializationContentTypes {
@@ -139,6 +128,16 @@ export interface FullOperationResponse extends PipelineResponse {
         [key: string]: unknown;
     };
     request: OperationRequest;
+}
+
+// @public
+export interface InternalClientPipelineOptions extends InternalPipelineOptions {
+    credentialOptions?: {
+        credentialScopes: string | string[];
+        credential: TokenCredential;
+    };
+    deserializationOptions?: DeserializationPolicyOptions;
+    serializationOptions?: SerializationPolicyOptions;
 }
 
 // @public (undocumented)
@@ -202,6 +201,7 @@ export interface OperationArguments {
 // @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
+    onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
     serializerOptions?: SerializerOptions;
     tracingOptions?: OperationTracingOptions;
@@ -220,7 +220,7 @@ export interface OperationQueryParameter extends OperationParameter {
 }
 
 // @public
-export type OperationRequest = PipelineRequest<OperationRequestInfo>;
+export type OperationRequest = PipelineRequest;
 
 // @public
 export interface OperationRequestInfo {
@@ -232,6 +232,7 @@ export interface OperationRequestInfo {
 
 // @public
 export interface OperationRequestOptions {
+    allowInsecureConnection?: boolean;
     customHeaders?: {
         [key: string]: string;
     };
@@ -239,13 +240,6 @@ export interface OperationRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
     timeout?: number;
-}
-
-// @public
-export interface OperationResponse {
-    // (undocumented)
-    [key: string]: any;
-    _response: FullOperationResponse;
 }
 
 // @public
@@ -297,6 +291,9 @@ export interface PolymorphicDiscriminator {
 // @public
 export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
 
+// @public
+export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
+
 // @public (undocumented)
 export interface SequenceMapper extends BaseMapper {
     // (undocumented)
@@ -312,13 +309,13 @@ export interface SequenceMapperType {
 }
 
 // @public
-export function serializationPolicy(options?: serializationPolicyOptions): PipelinePolicy;
+export function serializationPolicy(options?: SerializationPolicyOptions): PipelinePolicy;
 
 // @public
 export const serializationPolicyName = "serializationPolicy";
 
 // @public
-export interface serializationPolicyOptions {
+export interface SerializationPolicyOptions {
     serializerOptions?: SerializerOptions;
     stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 }
@@ -347,20 +344,19 @@ export interface SerializerOptions {
 // @public
 export class ServiceClient {
     constructor(options?: ServiceClientOptions);
-    sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
+    readonly pipeline: Pipeline;
+    sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
 }
 
 // @public
-export interface ServiceClientOptions {
+export interface ServiceClientOptions extends CommonClientOptions {
+    allowInsecureConnection?: boolean;
     baseUri?: string;
     credential?: TokenCredential;
     credentialScopes?: string | string[];
-    httpsClient?: HttpsClient;
-    parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
     pipeline?: Pipeline;
     requestContentType?: string;
-    stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 }
 
 // @public (undocumented)

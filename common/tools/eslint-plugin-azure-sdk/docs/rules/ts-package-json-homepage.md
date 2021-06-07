@@ -14,7 +14,7 @@ Requires `homepage` in `package.json` to be set to the library's readme.
 
 ```json
 {
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus"
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/"
 }
 ```
 

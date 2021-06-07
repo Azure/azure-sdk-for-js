@@ -1,7 +1,27 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.2.0-beta.2 (2021-06-08)
 
+- With [#15136](https://github.com/Azure/azure-sdk-for-js/pull/15136), if the key of a feature flag(setting with `contentType="application/vnd.microsoft.appconfig.ff+json;charset=utf-8"`) doesn't start with `".appconfig.featureflag/"` (featureFlagPrefix), SDK adds the prefix before sending the request.
+- New design for feature flags and secret references,
+  - New types for FeatureFlag and SecretReference - `ConfigurationSetting<FeatureFlagValue>` and `ConfigurationSetting<SecretReferenceValue>`
+  - Upon using `getConfigurationSetting`(or add/update), use `parseFeatureFlag` and `parseSecretReference` methods to access the properties(to translate `ConfigurationSetting` into the types above).
+  - Helper method `isFeatureFlag` (and `isSecretReference`) checks the contentType and return boolean values.
+
+## 1.2.0-beta.1 (2021-04-06)
+
+### New Features
+
+- New `SecretReferenceConfigurationSetting` and `FeatureFlagConfigurationSetting`types to represent configuration settings that references KeyVault Secret reference and feature flag respectively.
+  [#14342](https://github.com/Azure/azure-sdk-for-js/pull/14342)
+- Added `updateSyncToken` method to `AppConfigurationClient` to be able to provide external synchronization tokens.
+  [#14507](https://github.com/Azure/azure-sdk-for-js/pull/14507)
+
+## 1.1.1 (2021-03-25)
+
+- Fix issues with `select`ing fields to be returned from `listConfigurationSettings`, `listConfigurationRevisions`
+  and `getConfigurationSetting` where `last_modified` and `content_type` could not properly be passed in.
+  [PR #13258](https://github.com/Azure/azure-sdk-for-js/pull/13258)
 
 ## 1.1.0 (2020-07-07)
 
@@ -10,7 +30,7 @@
 ## 1.0.1 (2020-02-19)
 
 - The underlying filter behavior has changed for `listConfigurationSettings` and `listRevisions`.
-  Inline documentation has been revised to accomodate it.
+  Inline documentation has been revised to accommodate it.
 
 ## 1.0.0 (2020-01-06)
 

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { EventEmitter } from "events";
 import { Readable } from "stream";
@@ -26,7 +26,7 @@ export declare type OutgoingHandler = (
  *
  * NUM_OF_ALL_BUFFERS = BUFFERS_IN_INCOMING + BUFFERS_IN_OUTGOING + BUFFERS_UNDER_HANDLING
  *
- * NUM_OF_ALL_BUFFERS <= maxBuffers
+ * NUM_OF_ALL_BUFFERS lesser than or equal to maxBuffers
  *
  * PERFORMANCE IMPROVEMENT TIPS:
  * 1. Input stream highWaterMark is better to set a same value with bufferSize
@@ -35,117 +35,67 @@ export declare type OutgoingHandler = (
  *    reduce the possibility when a outgoing handler waits for the stream data.
  *    in this situation, outgoing handlers are blocked.
  *    Outgoing queue shouldn't be empty.
- * @export
- * @class BufferScheduler
  */
 export class BufferScheduler {
   /**
    * Size of buffers in incoming and outgoing queues. This class will try to align
    * data read from Readable stream into buffer chunks with bufferSize defined.
-   *
-   * @private
-   * @type {number}
-   * @memberof BufferScheduler
    */
   private readonly bufferSize: number;
 
   /**
    * How many buffers can be created or maintained.
-   *
-   * @private
-   * @type {number}
-   * @memberof BufferScheduler
    */
   private readonly maxBuffers: number;
 
   /**
    * A Node.js Readable stream.
-   *
-   * @private
-   * @type {Readable}
-   * @memberof BufferScheduler
    */
   private readonly readable: Readable;
 
   /**
    * OutgoingHandler is an async function triggered by BufferScheduler when there
    * are available buffers in outgoing array.
-   *
-   * @private
-   * @type {OutgoingHandler}
-   * @memberof BufferScheduler
    */
   private readonly outgoingHandler: OutgoingHandler;
 
   /**
    * An internal event emitter.
-   *
-   * @private
-   * @type {EventEmitter}
-   * @memberof BufferScheduler
    */
   private readonly emitter: EventEmitter = new EventEmitter();
 
   /**
-   * Concurrency of executing outgoingHandlers. (0 < concurrency <= maxBuffers)
-   *
-   * @private
-   * @type {number}
-   * @memberof BufferScheduler
+   * Concurrency of executing outgoingHandlers. (0 lesser than concurrency lesser than or equal to maxBuffers)
    */
   private readonly concurrency: number;
 
   /**
    * An internal offset marker to track data offset in bytes of next outgoingHandler.
-   *
-   * @private
-   * @type {number}
-   * @memberof BufferScheduler
    */
   private offset: number = 0;
 
   /**
    * An internal marker to track whether stream is end.
-   *
-   * @private
-   * @type {boolean}
-   * @memberof BufferScheduler
    */
   private isStreamEnd: boolean = false;
 
   /**
    * An internal marker to track whether stream or outgoingHandler returns error.
-   *
-   * @private
-   * @type {boolean}
-   * @memberof BufferScheduler
    */
   private isError: boolean = false;
 
   /**
    * How many handlers are executing.
-   *
-   * @private
-   * @type {number}
-   * @memberof BufferScheduler
    */
   private executingOutgoingHandlers: number = 0;
 
   /**
    * Encoding of the input Readable stream which has string data type instead of Buffer.
-   *
-   * @private
-   * @type {string}
-   * @memberof BufferScheduler
    */
   private encoding?: string;
 
   /**
    * How many buffers have been allocated.
-   *
-   * @private
-   * @type {number}
-   * @memberof BufferScheduler
    */
   private numBuffers: number = 0;
 
@@ -155,52 +105,35 @@ export class BufferScheduler {
    * data received from the stream, when data in unresolvedDataArray exceeds the
    * blockSize defined, it will try to concat a blockSize of buffer, fill into available
    * buffers from incoming and push to outgoing array.
-   *
-   * @private
-   * @type {Buffer[]}
-   * @memberof BufferScheduler
    */
   private unresolvedDataArray: Buffer[] = [];
 
   /**
    * How much data consisted in unresolvedDataArray.
-   *
-   * @private
-   * @type {number}
-   * @memberof BufferScheduler
    */
   private unresolvedLength: number = 0;
 
   /**
    * The array includes all the available buffers can be used to fill data from stream.
-   *
-   * @private
-   * @type {PooledBuffer[]}
-   * @memberof BufferScheduler
    */
   private incoming: PooledBuffer[] = [];
 
   /**
    * The array (queue) includes all the buffers filled from stream data.
-   *
-   * @private
-   * @type {PooledBuffer[]}
-   * @memberof BufferScheduler
    */
   private outgoing: PooledBuffer[] = [];
 
   /**
    * Creates an instance of BufferScheduler.
    *
-   * @param {Readable} readable A Node.js Readable stream
-   * @param {number} bufferSize Buffer size of every maintained buffer
-   * @param {number} maxBuffers How many buffers can be allocated
-   * @param {OutgoingHandler} outgoingHandler An async function scheduled to be
+   * @param readable - A Node.js Readable stream
+   * @param bufferSize - Buffer size of every maintained buffer
+   * @param maxBuffers - How many buffers can be allocated
+   * @param outgoingHandler - An async function scheduled to be
    *                                          triggered when a buffer fully filled
    *                                          with stream data
-   * @param {number} concurrency Concurrency of executing outgoingHandlers (>0)
-   * @param {string} [encoding] [Optional] Encoding of Readable stream when it's a string stream
-   * @memberof BufferScheduler
+   * @param concurrency - Concurrency of executing outgoingHandlers (>0)
+   * @param encoding - [Optional] Encoding of Readable stream when it's a string stream
    */
   constructor(
     readable: Readable,
@@ -234,8 +167,6 @@ export class BufferScheduler {
    * Start the scheduler, will return error when stream of any of the outgoingHandlers
    * returns error.
    *
-   * @returns {Promise<void>}
-   * @memberof BufferScheduler
    */
   public async do(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -288,9 +219,7 @@ export class BufferScheduler {
   /**
    * Insert a new data into unresolved array.
    *
-   * @private
-   * @param {Buffer} data
-   * @memberof BufferScheduler
+   * @param data -
    */
   private appendUnresolvedData(data: Buffer) {
     this.unresolvedDataArray.push(data);
@@ -301,9 +230,6 @@ export class BufferScheduler {
    * Try to shift a buffer with size in blockSize. The buffer returned may be less
    * than blockSize when data in unresolvedDataArray is less than bufferSize.
    *
-   * @private
-   * @returns {PooledBuffer}
-   * @memberof BufferScheduler
    */
   private shiftBufferFromUnresolvedDataArray(buffer?: PooledBuffer): PooledBuffer {
     if (!buffer) {
@@ -323,9 +249,7 @@ export class BufferScheduler {
    *
    * Return false when available buffers in incoming are not enough, else true.
    *
-   * @private
-   * @returns {boolean} Return false when buffers in incoming are not enough, else true.
-   * @memberof BufferScheduler
+   * @returns Return false when buffers in incoming are not enough, else true.
    */
   private resolveData(): boolean {
     while (this.unresolvedLength >= this.bufferSize) {
@@ -353,9 +277,6 @@ export class BufferScheduler {
   /**
    * Try to trigger a outgoing handler for every buffer in outgoing. Stop when
    * concurrency reaches.
-   *
-   * @private
-   * @memberof BufferScheduler
    */
   private async triggerOutgoingHandlers() {
     let buffer: PooledBuffer | undefined;
@@ -374,10 +295,7 @@ export class BufferScheduler {
   /**
    * Trigger a outgoing handler for a buffer shifted from outgoing.
    *
-   * @private
-   * @param {Buffer} buffer
-   * @returns {Promise<any>}
-   * @memberof BufferScheduler
+   * @param buffer -
    */
   private async triggerOutgoingHandler(buffer: PooledBuffer): Promise<any> {
     const bufferLength = buffer.size;
@@ -404,9 +322,7 @@ export class BufferScheduler {
   /**
    * Return buffer used by outgoing handler into incoming.
    *
-   * @private
-   * @param {Buffer} buffer
-   * @memberof BufferScheduler
+   * @param buffer -
    */
   private reuseBuffer(buffer: PooledBuffer) {
     this.incoming.push(buffer);

@@ -5,6 +5,6 @@
     "outDir": "./dist-esm",
     "downlevelIteration": true
   },
-  "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
+  "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts", "test/perf/track-1/"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

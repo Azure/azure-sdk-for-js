@@ -1,0 +1,30 @@
+{
+  "include": [
+    {
+      "Agent": {
+        "ubuntu-18.04_ManagedHSM": {
+          "OSVmImage": "MMSUbuntu18.04",
+          "Pool": "azsdk-pool-mms-ubuntu-1804-general",
+          "ArmTemplateParameters": "@{ enableHsm = $true }"
+        }
+      },
+      "TestType": "node",
+      "NodeTestVersion": "10.x"
+    },
+    {
+      "Agent": {
+        "ubuntu-18.04": {
+          "OSVmImage": "MMSUbuntu18.04",
+          "Pool": "azsdk-pool-mms-ubuntu-1804-general"
+        }
+      },
+      "TestType": "node",
+      "NodeTestVersion": "10.x",
+      "ServiceVersion": ["7.0", "7.1"]
+    }
+  ],
+  "displayNames": {
+    "7.0": "service_version_7_0",
+    "7.1": "service_version_7_1"
+  }
+}

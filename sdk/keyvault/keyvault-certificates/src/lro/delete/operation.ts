@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
 import {
   DeleteCertificateOptions,
   DeletedCertificate,
@@ -14,8 +14,7 @@ import {
 } from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations";
-import { DeleteCertificateResponse, GetDeletedCertificateResponse } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../../../keyvault-common";
+import { withTrace } from "./poller";
 
 /**
  * The public representation of the DeleteCertificatePoller operation state.
@@ -39,7 +38,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     public state: DeleteCertificatePollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private operationOptions: OperationOptions = {}
   ) {
     super(state, { cancelMessage: "Canceling the deletion of a certificate is not supported." });
   }
@@ -48,26 +47,18 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
    * The DELETE operation applies to any certificate stored in Azure Key Vault. DELETE cannot be applied
    * to an individual version of a certificate. This operation requires the certificates/delete permission.
    */
-  private async deleteCertificate(
+  private deleteCertificate(
     certificateName: string,
     options: DeleteCertificateOptions = {}
   ): Promise<DeletedCertificate> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
-    const span = createSpan("generatedClient.deleteCertificate", requestOptions);
-
-    let response: DeleteCertificateResponse;
-    try {
-      response = await this.client.deleteCertificate(
+    return withTrace("deleteCertificate", options, async (updatedOptions) => {
+      const response = await this.client.deleteCertificate(
         this.vaultUrl,
         certificateName,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
-    } finally {
-      span.end();
-    }
-
-    return getDeletedCertificateFromDeletedCertificateBundle(response);
+      return getDeletedCertificateFromDeletedCertificateBundle(response);
+    });
   }
 
   /**
@@ -78,21 +69,14 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     certificateName: string,
     options: GetDeletedCertificateOptions = {}
   ): Promise<DeletedCertificate> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getDeletedCertificate", requestOptions);
-
-    let result: GetDeletedCertificateResponse;
-    try {
-      result = await this.client.getDeletedCertificate(
+    return withTrace("getDeletedCertificate", options, async (updatedOptions) => {
+      const result = await this.client.getDeletedCertificate(
         this.vaultUrl,
         certificateName,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
-    } finally {
-      span.end();
-    }
-
-    return getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
+      return getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
+    });
   }
 
   /**
@@ -109,11 +93,14 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     const { certificateName } = state;
 
     if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
+      this.operationOptions.abortSignal = options.abortSignal;
     }
 
     if (!state.isStarted) {
-      const deletedCertificate = await this.deleteCertificate(certificateName, this.requestOptions);
+      const deletedCertificate = await this.deleteCertificate(
+        certificateName,
+        this.operationOptions
+      );
       state.isStarted = true;
       state.result = deletedCertificate;
       if (!deletedCertificate.recoveryId) {
@@ -123,7 +110,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
 
     if (!state.isCompleted) {
       try {
-        state.result = await this.getDeletedCertificate(certificateName, this.requestOptions);
+        state.result = await this.getDeletedCertificate(certificateName, this.operationOptions);
         state.isCompleted = true;
       } catch (error) {
         if (error.statusCode === 403) {
@@ -132,6 +119,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
         } else if (error.statusCode !== 404) {
           state.error = error;
           state.isCompleted = true;
+          throw error;
         }
       }
     }

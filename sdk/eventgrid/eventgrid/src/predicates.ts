@@ -2,40 +2,56 @@
 // Licensed under the MIT license.
 
 import {
-  ACSChatMessageReceivedEventData,
-  ACSChatMessageEditedEventData,
-  ACSChatMessageDeletedEventData,
-  ACSChatThreadCreatedWithUserEventData,
-  ACSChatThreadWithUserDeletedEventData,
-  ACSChatThreadPropertiesUpdatedPerUserEventData,
-  ACSChatMemberAddedToThreadWithUserEventData,
-  ACSChatMemberRemovedFromThreadWithUserEventData,
+  AcsChatMessageDeletedEventData,
+  AcsChatMessageEditedEventData,
+  AcsChatMessageReceivedEventData,
+  AcsChatParticipantAddedToThreadEventData,
+  AcsChatParticipantAddedToThreadWithUserEventData,
+  AcsChatParticipantRemovedFromThreadEventData,
+  AcsChatParticipantRemovedFromThreadWithUserEventData,
+  AcsChatThreadCreatedWithUserEventData,
+  AcsChatThreadPropertiesUpdatedPerUserEventData,
+  AcsChatThreadWithUserDeletedEventData,
+  AcsRecordingFileStatusUpdatedEventData,
   AcsSmsDeliveryReportReceivedEventData,
   AcsSmsReceivedEventData,
+  AgriFoodFarmingApplicationDataChangedEventData,
+  AgriFoodFarmingBoundaryChangedEventData,
+  AgriFoodFarmingCropChangedEventData,
+  AgriFoodFarmingCropVarietyChangedEventData,
+  AgriFoodFarmingFarmChangedEventData,
+  AgriFoodFarmingFarmOperationDataIngestionJobStatusChangedEventData,
+  AgriFoodFarmingFarmerChangedEventData,
+  AgriFoodFarmingFieldChangedEventData,
+  AgriFoodFarmingHarvestDataChangedEventData,
+  AgriFoodFarmingPlantingDataChangedEventData,
+  AgriFoodFarmingSatelliteDataIngestionJobStatusChangedEventData,
+  AgriFoodFarmingSeasonChangedEventData,
+  AgriFoodFarmingSeasonalFieldChangedEventData,
+  AgriFoodFarmingTillageDataChangedEventData,
+  AgriFoodFarmingWeatherDataIngestionJobStatusChangedEventData,
   AppConfigurationKeyValueDeletedEventData,
   AppConfigurationKeyValueModifiedEventData,
-  ContainerRegistryImagePushedEventData,
-  ContainerRegistryImageDeletedEventData,
   ContainerRegistryChartDeletedEventData,
   ContainerRegistryChartPushedEventData,
+  ContainerRegistryImageDeletedEventData,
+  ContainerRegistryImagePushedEventData,
+  EventHubCaptureFileCreatedEventData,
+  IotHubDeviceConnectedEventData,
   IotHubDeviceCreatedEventData,
   IotHubDeviceDeletedEventData,
-  IotHubDeviceConnectedEventData,
   IotHubDeviceDisconnectedEventData,
   IotHubDeviceTelemetryEventData,
-  KeyVaultCertificateNewVersionCreatedEventData,
-  KeyVaultCertificateNearExpiryEventData,
-  KeyVaultCertificateExpiredEventData,
-  KeyVaultKeyNewVersionCreatedEventData,
-  KeyVaultKeyNearExpiryEventData,
-  KeyVaultKeyExpiredEventData,
-  KeyVaultSecretNewVersionCreatedEventData,
-  KeyVaultSecretNearExpiryEventData,
-  KeyVaultSecretExpiredEventData,
   KeyVaultAccessPolicyChangedEventData,
-  SubscriptionValidationEventData,
-  SubscriptionDeletedEventData,
-  EventHubCaptureFileCreatedEventData,
+  KeyVaultCertificateExpiredEventData,
+  KeyVaultCertificateNearExpiryEventData,
+  KeyVaultCertificateNewVersionCreatedEventData,
+  KeyVaultKeyExpiredEventData,
+  KeyVaultKeyNearExpiryEventData,
+  KeyVaultKeyNewVersionCreatedEventData,
+  KeyVaultSecretExpiredEventData,
+  KeyVaultSecretNearExpiryEventData,
+  KeyVaultSecretNewVersionCreatedEventData,
   MachineLearningServicesDatasetDriftDetectedEventData,
   MachineLearningServicesModelDeployedEventData,
   MachineLearningServicesModelRegisteredEventData,
@@ -44,61 +60,69 @@ import {
   MapsGeofenceEnteredEventData,
   MapsGeofenceExitedEventData,
   MapsGeofenceResultEventData,
-  MediaJobStateChangeEventData,
-  MediaJobOutputStateChangeEventData,
-  MediaJobScheduledEventData,
-  MediaJobProcessingEventData,
-  MediaJobCancelingEventData,
-  MediaJobFinishedEventData,
   MediaJobCanceledEventData,
+  MediaJobCancelingEventData,
   MediaJobErroredEventData,
+  MediaJobFinishedEventData,
   MediaJobOutputCanceledEventData,
   MediaJobOutputCancelingEventData,
   MediaJobOutputErroredEventData,
   MediaJobOutputFinishedEventData,
   MediaJobOutputProcessingEventData,
-  MediaJobOutputScheduledEventData,
   MediaJobOutputProgressEventData,
-  MediaLiveEventEncoderConnectedEventData,
+  MediaJobOutputScheduledEventData,
+  MediaJobOutputStateChangeEventData,
+  MediaJobProcessingEventData,
+  MediaJobScheduledEventData,
+  MediaJobStateChangeEventData,
   MediaLiveEventConnectionRejectedEventData,
+  MediaLiveEventEncoderConnectedEventData,
   MediaLiveEventEncoderDisconnectedEventData,
+  MediaLiveEventIncomingDataChunkDroppedEventData,
   MediaLiveEventIncomingStreamReceivedEventData,
   MediaLiveEventIncomingStreamsOutOfSyncEventData,
   MediaLiveEventIncomingVideoStreamsOutOfSyncEventData,
-  MediaLiveEventIncomingDataChunkDroppedEventData,
   MediaLiveEventIngestHeartbeatEventData,
   MediaLiveEventTrackDiscontinuityDetectedEventData,
-  ResourceWriteSuccessEventData,
-  ResourceWriteFailureEventData,
-  ResourceWriteCancelEventData,
-  ResourceDeleteSuccessEventData,
-  ResourceDeleteFailureEventData,
-  ResourceDeleteCancelEventData,
-  ResourceActionSuccessEventData,
-  ResourceActionFailureEventData,
+  PolicyInsightsPolicyStateChangedEventData,
+  PolicyInsightsPolicyStateCreatedEventData,
+  PolicyInsightsPolicyStateDeletedEventData,
   ResourceActionCancelEventData,
+  ResourceActionFailureEventData,
+  ResourceActionSuccessEventData,
+  ResourceDeleteCancelEventData,
+  ResourceDeleteFailureEventData,
+  ResourceDeleteSuccessEventData,
+  ResourceWriteCancelEventData,
+  ResourceWriteFailureEventData,
+  ResourceWriteSuccessEventData,
   ServiceBusActiveMessagesAvailableWithNoListenersEventData,
   ServiceBusDeadletterMessagesAvailableWithNoListenersEventData,
+  StorageAsyncOperationInitiatedEventData,
   StorageBlobCreatedEventData,
   StorageBlobDeletedEventData,
+  StorageBlobInventoryPolicyCompletedEventData,
   StorageBlobRenamedEventData,
+  StorageBlobTierChangedEventData,
   StorageDirectoryCreatedEventData,
   StorageDirectoryDeletedEventData,
   StorageDirectoryRenamedEventData,
+  StorageLifecyclePolicyCompletedEventData,
+  SubscriptionDeletedEventData,
+  SubscriptionValidationEventData,
+  WebAppServicePlanUpdatedEventData,
   WebAppUpdatedEventData,
-  WebBackupOperationStartedEventData,
   WebBackupOperationCompletedEventData,
   WebBackupOperationFailedEventData,
-  WebRestoreOperationStartedEventData,
+  WebBackupOperationStartedEventData,
   WebRestoreOperationCompletedEventData,
   WebRestoreOperationFailedEventData,
-  WebSlotSwapStartedEventData,
+  WebRestoreOperationStartedEventData,
   WebSlotSwapCompletedEventData,
   WebSlotSwapFailedEventData,
-  WebSlotSwapWithPreviewStartedEventData,
+  WebSlotSwapStartedEventData,
   WebSlotSwapWithPreviewCancelledEventData,
-  WebAppServicePlanUpdatedEventData,
-  StorageLifecyclePolicyCompletedEventData
+  WebSlotSwapWithPreviewStartedEventData
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -107,127 +131,64 @@ import { CloudEvent, EventGridEvent } from "./models";
  * The Event Types for all System Events. These may be used with `isSystemEvent` to determine if an
  * event is a system event of a given type.
  */
-export type KnownSystemEventTypes =
-  | "Microsoft.AppConfiguration.KeyValueDeleted"
-  | "Microsoft.AppConfiguration.KeyValueModified"
-  | "Microsoft.Communication.ChatMessageReceived"
-  | "Microsoft.Communication.ChatMessageEdited"
-  | "Microsoft.Communication.ChatMessageDeleted"
-  | "Microsoft.Communication.ChatThreadCreatedWithUser"
-  | "Microsoft.Communication.ChatThreadWithUserDeleted"
-  | "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser"
-  | "Microsoft.Communication.ChatMemberAddedToThreadWithUser"
-  | "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser"
-  | "Microsoft.Communication.SMSDeliveryReportReceived"
-  | "Microsoft.Communication.SMSReceived"
-  | "Microsoft.ContainerRegistry.ImagePushed"
-  | "Microsoft.ContainerRegistry.ImageDeleted"
-  | "Microsoft.ContainerRegistry.ChartDeleted"
-  | "Microsoft.ContainerRegistry.ChartPushed"
-  | "Microsoft.Devices.DeviceCreated"
-  | "Microsoft.Devices.DeviceDeleted"
-  | "Microsoft.Devices.DeviceConnected"
-  | "Microsoft.Devices.DeviceDisconnected"
-  | "Microsoft.Devices.DeviceTelemetry"
-  | "Microsoft.EventGrid.SubscriptionValidationEvent"
-  | "Microsoft.EventGrid.SubscriptionDeletedEvent"
-  | "Microsoft.EventHub.CaptureFileCreated"
-  | "Microsoft.KeyVault.CertificateNewVersionCreated"
-  | "Microsoft.KeyVault.CertificateNearExpiry"
-  | "Microsoft.KeyVault.CertificateExpired"
-  | "Microsoft.KeyVault.KeyNewVersionCreated"
-  | "Microsoft.KeyVault.KeyNearExpiry"
-  | "Microsoft.KeyVault.KeyExpired"
-  | "Microsoft.KeyVault.SecretNewVersionCreated"
-  | "Microsoft.KeyVault.SecretNearExpiry"
-  | "Microsoft.KeyVault.SecretExpired"
-  | "Microsoft.KeyVault.VaultAccessPolicyChanged"
-  | "Microsoft.MachineLearningServices.DatasetDriftDetected"
-  | "Microsoft.MachineLearningServices.ModelDeployed"
-  | "Microsoft.MachineLearningServices.ModelRegistered"
-  | "Microsoft.MachineLearningServices.RunCompleted"
-  | "Microsoft.MachineLearningServices.RunStatusChanged"
-  | "Microsoft.Maps.GeofenceEntered"
-  | "Microsoft.Maps.GeofenceExited"
-  | "Microsoft.Maps.GeofenceResult"
-  | "Microsoft.Media.JobStateChange"
-  | "Microsoft.Media.JobOutputStateChange"
-  | "Microsoft.Media.JobScheduled"
-  | "Microsoft.Media.JobProcessing"
-  | "Microsoft.Media.JobCanceling"
-  | "Microsoft.Media.JobFinished"
-  | "Microsoft.Media.JobCanceled"
-  | "Microsoft.Media.JobErrored"
-  | "Microsoft.Media.JobOutputCanceled"
-  | "Microsoft.Media.JobOutputCanceling"
-  | "Microsoft.Media.JobOutputErrored"
-  | "Microsoft.Media.JobOutputFinished"
-  | "Microsoft.Media.JobOutputProcessing"
-  | "Microsoft.Media.JobOutputScheduled"
-  | "Microsoft.Media.JobOutputProgress"
-  | "Microsoft.Media.LiveEventEncoderConnected"
-  | "Microsoft.Media.LiveEventConnectionRejected"
-  | "Microsoft.Media.LiveEventEncoderDisconnected"
-  | "Microsoft.Media.LiveEventIncomingStreamReceived"
-  | "Microsoft.Media.LiveEventIncomingStreamsOutOfSync"
-  | "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync"
-  | "Microsoft.Media.LiveEventIncomingDataChunkDropped"
-  | "Microsoft.Media.LiveEventIngestHeartbeat"
-  | "Microsoft.Media.LiveEventTrackDiscontinuityDetected"
-  | "Microsoft.Resources.ResourceWriteSuccess"
-  | "Microsoft.Resources.ResourceWriteFailure"
-  | "Microsoft.Resources.ResourceWriteCancel"
-  | "Microsoft.Resources.ResourceDeleteSuccess"
-  | "Microsoft.Resources.ResourceDeleteFailure"
-  | "Microsoft.Resources.ResourceDeleteCancel"
-  | "Microsoft.Resources.ResourceActionSuccess"
-  | "Microsoft.Resources.ResourceActionFailure"
-  | "Microsoft.Resources.ResourceActionCancel"
-  | "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners"
-  | "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener"
-  | "Microsoft.Storage.BlobCreated"
-  | "Microsoft.Storage.BlobDeleted"
-  | "Microsoft.Storage.BlobRenamed"
-  | "Microsoft.Storage.DirectoryCreated"
-  | "Microsoft.Storage.DirectoryDeleted"
-  | "Microsoft.Storage.DirectoryRenamed"
-  | "Microsoft.Storage.LifecyclePolicyCompleted"
-  | "Microsoft.Web.AppUpdated"
-  | "Microsoft.Web.BackupOperationStarted"
-  | "Microsoft.Web.BackupOperationCompleted"
-  | "Microsoft.Web.BackupOperationFailed"
-  | "Microsoft.Web.RestoreOperationStarted"
-  | "Microsoft.Web.RestoreOperationCompleted"
-  | "Microsoft.Web.RestoreOperationFailed"
-  | "Microsoft.Web.SlotSwapStarted"
-  | "Microsoft.Web.SlotSwapCompleted"
-  | "Microsoft.Web.SlotSwapFailed"
-  | "Microsoft.Web.SlotSwapWithPreviewStarted"
-  | "Microsoft.Web.SlotSwapWithPreviewCancelled"
-  | "Microsoft.Web.AppServicePlanUpdated";
+export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
 
 /**
  * A mapping of event type names to event data type interfaces.
- *
- * @hidden
  */
 export interface SystemEventNameToEventData {
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.ApplicationDataChanged" event. */
+  "Microsoft.AgFoodPlatform.ApplicationDataChanged": AgriFoodFarmingApplicationDataChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.BoundaryChanged" event. */
+  "Microsoft.AgFoodPlatform.BoundaryChanged": AgriFoodFarmingBoundaryChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.CropChanged" event. */
+  "Microsoft.AgFoodPlatform.CropChanged": AgriFoodFarmingCropChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.CropVarietyChanged" event. */
+  "Microsoft.AgFoodPlatform.CropVarietyChanged": AgriFoodFarmingCropVarietyChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.FarmChanged" event. */
+  "Microsoft.AgFoodPlatform.FarmChanged": AgriFoodFarmingFarmChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.FarmOperationDataIngestionJobStatusChanged" event. */
+  "Microsoft.AgFoodPlatform.FarmOperationDataIngestionJobStatusChanged": AgriFoodFarmingFarmOperationDataIngestionJobStatusChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.FarmerChanged" event. */
+  "Microsoft.AgFoodPlatform.FarmerChanged": AgriFoodFarmingFarmerChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.FieldChanged" event. */
+  "Microsoft.AgFoodPlatform.FieldChanged": AgriFoodFarmingFieldChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.HarvestDataChanged" event. */
+  "Microsoft.AgFoodPlatform.HarvestDataChanged": AgriFoodFarmingHarvestDataChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.PlantingDataChanged" event. */
+  "Microsoft.AgFoodPlatform.PlantingDataChanged": AgriFoodFarmingPlantingDataChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SatelliteDataIngestionJobStatusChanged" event. */
+  "Microsoft.AgFoodPlatform.SatelliteDataIngestionJobStatusChanged": AgriFoodFarmingSatelliteDataIngestionJobStatusChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SeasonChanged" event. */
+  "Microsoft.AgFoodPlatform.SeasonChanged": AgriFoodFarmingSeasonChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SeasonalFieldChanged" event. */
+  "Microsoft.AgFoodPlatform.SeasonalFieldChanged": AgriFoodFarmingSeasonalFieldChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.TillageDataChanged" event. */
+  "Microsoft.AgFoodPlatform.TillageDataChanged": AgriFoodFarmingTillageDataChangedEventData;
+  /** An interface for the event data of a "Microsoft.AgFoodPlatform.WeatherDataIngestionJobStatusChanged" event. */
+  "Microsoft.AgFoodPlatform.WeatherDataIngestionJobStatusChanged": AgriFoodFarmingWeatherDataIngestionJobStatusChangedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceived" event. */
-  "Microsoft.Communication.ChatMessageReceived": ACSChatMessageReceivedEventData;
+  "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageEdited" event. */
-  "Microsoft.Communication.ChatMessageEdited": ACSChatMessageEditedEventData;
+  "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageDeleted" event. */
-  "Microsoft.Communication.ChatMessageDeleted": ACSChatMessageDeletedEventData;
+  "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadCreatedWithUser" event. */
-  "Microsoft.Communication.ChatThreadCreatedWithUser": ACSChatThreadCreatedWithUserEventData;
+  "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadWithUserDeleted" event. */
-  "Microsoft.Communication.ChatThreadWithUserDeleted": ACSChatThreadWithUserDeletedEventData;
+  "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser" event. */
-  "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": ACSChatThreadPropertiesUpdatedPerUserEventData;
-  /** An interface for the event data of a "Microsoft.Communication.ChatMemberAddedToThreadWithUser" event. */
-  "Microsoft.Communication.ChatMemberAddedToThreadWithUser": ACSChatMemberAddedToThreadWithUserEventData;
-  /** An interface for the event data of a "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser" event. */
-  "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser": ACSChatMemberRemovedFromThreadWithUserEventData;
+  "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadParticipantAdded" event. */
+  "Microsoft.Communication.ChatThreadParticipantAdded": AcsChatParticipantAddedToThreadEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatParticipantAddedToThreadWithUser" event. */
+  "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadParticipantRemoved" event. */
+  "Microsoft.Communication.ChatThreadParticipantRemoved": AcsChatParticipantRemovedFromThreadEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser" event. */
+  "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
+  /** An interface for the event data of a "Microsoft.Communication.RecordingFileStatusUpdated" event. */
+  "Microsoft.Communication.RecordingFileStatusUpdated": AcsRecordingFileStatusUpdatedEventData;
   /** An interface for the event data of a "Microsoft.Communication.SMSDeliveryReportReceived" event. */
   "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
   /** An interface for the event data of a "Microsoft.Communication.SMSReceived" event. */
@@ -344,7 +305,13 @@ export interface SystemEventNameToEventData {
   "Microsoft.Media.LiveEventIngestHeartbeat": MediaLiveEventIngestHeartbeatEventData;
   /** An interface for the event data of a "Microsoft.Media.LiveEventTrackDiscontinuityDetected" event. */
   "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
-  /** An interface for the event data of a "Microsoft.Resources.ResourceWriteSuccess" event. */
+  /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateChanged" event. */
+  "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
+  /** An interface for the event data of a " Microsoft.PolicyInsights.PolicyStateCreated" event. */
+  "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
+  /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateDeleted" event. */
+  "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Resources.ResourceDeleteSuccess" event. */
   "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
   /** An interface for the event data of a "Microsoft.Resources.ResourceWriteFailure" event. */
   "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
@@ -364,12 +331,18 @@ export interface SystemEventNameToEventData {
   "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
   /** An interface for the event data of a "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners" event. */
   "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
-  /** An interface for the event data of a "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener" event. */
-  "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+  /** An interface for the event data of a "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners" event. */
+  "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+  /** An interface for the event data of a "Microsoft.Storage.AsyncOperationInitiated" event. */
+  "Microsoft.Storage.AsyncOperationInitiated": StorageAsyncOperationInitiatedEventData;
   /** An interface for the event data of a "Microsoft.Storage.BlobCreated" event. */
   "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
   /** An interface for the event data of a "Microsoft.Storage.BlobDeleted" event. */
   "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.BlobInventoryPolicyCompleted" event. */
+  "Microsoft.Storage.BlobInventoryPolicyCompleted": StorageBlobInventoryPolicyCompletedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.BlobTierChanged" event. */
+  "Microsoft.Storage.BlobTierChanged": StorageBlobTierChangedEventData;
   /** An interface for the event data of a "Microsoft.Storage.BlobRenamed" event. */
   "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
   /** An interface for the event data of a "Microsoft.Storage.DirectoryCreated" event. */
