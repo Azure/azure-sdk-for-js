@@ -244,10 +244,13 @@ stages:
       steps: 
         - checkout: self
         - download: current
+        - pwsh: |
+            Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
+          displayName: Show visible artifacts
         - ${{ each artifact in parameters.Artifacts }}:
           - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
             parameters:
-              ArtifactLocation: $(System.ArtifactsDirectory)/packages/PackageInfo/${{artifact.name}}.json
+              ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
               PackageRepository: NPM
               RepoId: Azure/azure-sdk-for-js
               WorkingDirectory: $(System.DefaultWorkingDirectory)
