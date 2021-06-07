@@ -3,14 +3,7 @@
 
 import * as assert from "assert";
 import sinon from "sinon";
-import {
-  setSpan,
-  SpanKind,
-  TraceFlags,
-  context as otContext,
-  getSpanContext,
-  Context
-} from "@opentelemetry/api";
+import { SpanKind, TraceFlags, context as otContext, Context, trace } from "@opentelemetry/api";
 
 import { setTracer } from "../src/tracerProxy";
 import { TestTracer } from "../src/tracers/test/testTracer";
@@ -32,7 +25,7 @@ describe("createSpan", () => {
   it("returns a created span with the right metadata", () => {
     const { testSpan, startSpanStub, setAttributeSpy } = setupTracer();
 
-    const someContext = setSpan(otContext.active(), testSpan);
+    const someContext = trace.setSpan(otContext.active(), testSpan);
 
     const { span, updatedOptions } = createSpan("testMethod", {
       tracingOptions: ({
@@ -196,8 +189,8 @@ describe("createSpan", () => {
       assert.ok(parentContext);
       assert.notDeepEqual(parentContext, otContext.active(), "new child context should be created");
       assert.equal(
-        getSpanContext(parentContext!)?.spanId,
-        span.context().spanId,
+        trace.getSpanContext(parentContext!)?.spanId,
+        span.spanContext().spanId,
         "context returned in the updated options should point to our newly created span"
       );
     }
@@ -211,8 +204,8 @@ describe("createSpan", () => {
 
     assert.ok(updatedOptions.tracingOptions.tracingContext);
     assert.equal(
-      getSpanContext(updatedOptions.tracingOptions.tracingContext!)?.spanId,
-      childSpan.context().spanId
+      trace.getSpanContext(updatedOptions.tracingOptions.tracingContext!)?.spanId,
+      childSpan.spanContext().spanId
     );
   });
 });

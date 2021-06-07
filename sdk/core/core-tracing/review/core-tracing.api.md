@@ -85,7 +85,7 @@ export type HrTime = [number, number];
 // @public
 export interface Link {
     attributes?: SpanAttributes;
-    context: LinkContext;
+    context: SpanContext;
 }
 
 // @public
@@ -97,13 +97,13 @@ export type LinkContext = {
 // @public
 export class NoOpSpan implements Span {
     addEvent(_name: string, _attributes?: SpanAttributes): this;
-    context(): SpanContext;
     end(_endTime?: number): void;
     isRecording(): boolean;
     recordException(_exception: Exception, _time?: TimeInput): void;
     setAttribute(_key: string, _value: unknown): this;
     setAttributes(_attributes: SpanAttributes): this;
     setStatus(_status: SpanStatus): this;
+    spanContext(): SpanContext;
     updateName(_name: string): this;
 }
 
@@ -122,7 +122,6 @@ export class OpenCensusSpanWrapper implements Span {
     constructor(span: OpenCensusSpan);
     constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions, context?: Context);
     addEvent(_name: string, _attributes?: SpanAttributes): this;
-    context(): SpanContext;
     end(_endTime?: number): void;
     getWrappedSpan(): OpenCensusSpan;
     isRecording(): boolean;
@@ -130,6 +129,7 @@ export class OpenCensusSpanWrapper implements Span {
     setAttribute(key: string, value: unknown): this;
     setAttributes(attributes: SpanAttributes): this;
     setStatus(status: SpanStatus): this;
+    spanContext(): SpanContext;
     updateName(name: string): this;
 }
 
@@ -163,13 +163,13 @@ export function setTracer(tracer: Tracer): void;
 // @public
 export interface Span {
     addEvent(name: string, attributesOrStartTime?: SpanAttributes | TimeInput, startTime?: TimeInput): this;
-    context(): SpanContext;
     end(endTime?: TimeInput): void;
     isRecording(): boolean;
     recordException(exception: Exception, time?: TimeInput): void;
     setAttribute(key: string, value: SpanAttributeValue): this;
     setAttributes(attributes: SpanAttributes): this;
     setStatus(status: SpanStatus): this;
+    spanContext(): SpanContext;
     updateName(name: string): this;
 }
 
@@ -234,7 +234,6 @@ export enum SpanStatusCode {
 export class TestSpan extends NoOpSpan {
     constructor(parentTracer: Tracer, name: string, context: SpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
     readonly attributes: SpanAttributes;
-    context(): SpanContext;
     end(_endTime?: number): void;
     endCalled: boolean;
     isRecording(): boolean;
@@ -244,6 +243,7 @@ export class TestSpan extends NoOpSpan {
     setAttribute(key: string, value: SpanAttributeValue): this;
     setAttributes(attributes: SpanAttributes): this;
     setStatus(status: SpanStatus): this;
+    spanContext(): SpanContext;
     readonly startTime: TimeInput;
     status: SpanStatus;
     tracer(): Tracer;

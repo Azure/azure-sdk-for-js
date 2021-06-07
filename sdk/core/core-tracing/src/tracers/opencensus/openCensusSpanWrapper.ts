@@ -116,7 +116,7 @@ export class OpenCensusSpanWrapper implements Span {
   /**
    * Returns the SpanContext associated with this Span.
    */
-  context(): SpanContext {
+  spanContext(): SpanContext {
     const openCensusSpanContext = this._span.spanContext;
 
     return {

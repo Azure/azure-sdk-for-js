@@ -32,7 +32,8 @@ describe("interface compatibility", () => {
         {
           context: {
             spanId: "",
-            traceId: ""
+            traceId: "",
+            traceFlags: 0
           }
         }
       ]
@@ -53,7 +54,8 @@ describe("interface compatibility", () => {
           {
             context: {
               spanId: "spanId",
-              traceId: "traceId"
+              traceId: "traceId",
+              traceFlags: 0
             },
             attributes: {
               hello2: "world2"
