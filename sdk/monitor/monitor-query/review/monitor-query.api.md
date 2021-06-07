@@ -66,7 +66,7 @@ export interface GetMetricDefinitionsOptions extends OperationOptions {
 }
 
 // @public
-export interface GetMetricDefinitionsResponse {
+export interface GetMetricDefinitionsResult {
     definitions: MetricDefinition[];
 }
 
@@ -76,7 +76,7 @@ export interface GetMetricNamespacesOptions {
 }
 
 // @public
-export interface GetMetricNamespacesResponse {
+export interface GetMetricNamespacesResult {
     namespaces: MetricNamespace[];
 }
 
@@ -91,7 +91,7 @@ export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
     // (undocumented)
-    queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResponse>;
+    queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
 }
 
 // @public (undocumented)
@@ -165,9 +165,9 @@ export interface MetricsClientOptions extends PipelineOptions {
 // @public
 export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
-    getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResponse>;
-    getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResponse>;
-    queryMetrics(resourceUri: string, timespan: string, options?: QueryMetricsOptions): Promise<QueryMetricsResponse>;
+    getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResult>;
+    getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResult>;
+    queryMetrics(resourceUri: string, timespan: string, options?: QueryMetricsOptions): Promise<QueryMetricsResult>;
 }
 
 // @public
@@ -195,7 +195,7 @@ export interface QueryLogsBatch {
 export type QueryLogsBatchOptions = OperationOptions;
 
 // @public
-export interface QueryLogsBatchResponse {
+export interface QueryLogsBatchResult {
     results?: {
         id?: string;
         status?: number;
@@ -229,24 +229,13 @@ export interface QueryMetricsOptions extends OperationOptions {
 }
 
 // @public
-export interface QueryMetricsResponse {
+export interface QueryMetricsResult {
     cost?: number;
     interval?: string;
     metrics: Metric[];
     namespace?: string;
     resourceRegion?: string;
     timespan: string;
-}
-
-// @public (undocumented)
-export interface QueryStatistics {
-    // (undocumented)
-    [key: string]: unknown;
-    // (undocumented)
-    query?: {
-        executionTime?: number;
-        [key: string]: unknown;
-    };
 }
 
 // @public

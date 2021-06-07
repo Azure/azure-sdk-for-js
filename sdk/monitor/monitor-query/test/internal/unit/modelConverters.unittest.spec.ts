@@ -23,11 +23,11 @@ import { AbortSignalLike, OperationRequestOptions } from "@azure/core-http";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import {
   Durations,
-  GetMetricDefinitionsResponse,
-  GetMetricNamespacesResponse,
+  GetMetricDefinitionsResult,
+  GetMetricNamespacesResult,
   GetMetricDefinitionsOptions,
   QueryMetricsOptions,
-  QueryMetricsResponse
+  QueryMetricsResult
 } from "../../../src";
 
 describe("Model unit tests", () => {
@@ -202,7 +202,7 @@ describe("Model unit tests", () => {
       };
 
       const actualConvertedResponse = convertResponseForMetrics(generatedResponse);
-      const expectedResponse: QueryMetricsResponse = {
+      const expectedResponse: QueryMetricsResult = {
         timespan: "aTimespan",
         metrics: [
           {
@@ -294,7 +294,7 @@ describe("Model unit tests", () => {
       });
 
       assert.deepEqual(
-        <GetMetricDefinitionsResponse>{
+        <GetMetricDefinitionsResult>{
           definitions: [
             {
               id: "anything",
@@ -318,7 +318,7 @@ describe("Model unit tests", () => {
       });
 
       assert.deepEqual(
-        <GetMetricDefinitionsResponse>{
+        <GetMetricDefinitionsResult>{
           definitions: [
             // we don't add fields if they weren't in the original response (for instance, we don't add in an
             // undefined 'name', or 'dimensions')
@@ -337,7 +337,7 @@ describe("Model unit tests", () => {
         value: [{ id: "anything" } as any]
       });
 
-      assert.deepEqual(actualResponse, <GetMetricNamespacesResponse>{
+      assert.deepEqual(actualResponse, <GetMetricNamespacesResult>{
         namespaces: [{ id: "anything" } as any]
       });
     });

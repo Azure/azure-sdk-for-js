@@ -12,7 +12,7 @@ import {
 import {
   QueryLogsBatch,
   QueryLogsBatchOptions,
-  QueryLogsBatchResponse,
+  QueryLogsBatchResult,
   QueryLogsOptions,
   QueryLogsResult
 } from "./models/publicLogsModels";
@@ -100,7 +100,7 @@ export class LogsQueryClient {
   async queryLogsBatch(
     batch: QueryLogsBatch,
     options?: QueryLogsBatchOptions
-  ): Promise<QueryLogsBatchResponse> {
+  ): Promise<QueryLogsBatchResult> {
     const generatedRequest = convertRequestForQueryBatch(batch);
     const response = await this._logAnalytics.query.batch(generatedRequest, options);
     return convertResponseForQueryBatch(response);

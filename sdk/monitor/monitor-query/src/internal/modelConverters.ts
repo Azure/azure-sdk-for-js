@@ -29,14 +29,14 @@ import { formatPreferHeader } from "./util";
 import {
   BatchQuery,
   GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResponse,
-  GetMetricNamespacesResponse,
+  GetMetricDefinitionsResult,
+  GetMetricNamespacesResult,
   LogsTable,
   MetricDefinition,
   QueryLogsBatch,
-  QueryLogsBatchResponse,
+  QueryLogsBatchResult,
   QueryMetricsOptions,
-  QueryMetricsResponse
+  QueryMetricsResult
 } from "../../src";
 import { Metric, TimeSeriesElement } from "../models/publicMetricsModels";
 
@@ -77,8 +77,8 @@ export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBat
  */
 export function convertResponseForQueryBatch(
   generatedResponse: GeneratedQueryBatchResponse
-): QueryLogsBatchResponse {
-  const newResponse: QueryLogsBatchResponse = {
+): QueryLogsBatchResult {
+  const newResponse: QueryLogsBatchResult = {
     results: generatedResponse.responses
       ?.sort((a, b) => {
         let left = 0;
@@ -145,7 +145,7 @@ export function convertRequestForMetrics(
  */
 export function convertResponseForMetrics(
   generatedResponse: GeneratedMetricsListResponse
-): QueryMetricsResponse {
+): QueryMetricsResult {
   const metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
     return {
       ...metric,
@@ -166,7 +166,7 @@ export function convertResponseForMetrics(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
   const { resourceregion, _response: _response, value: _ignoredValue, ...rest } = generatedResponse;
 
-  const obj: QueryMetricsResponse = {
+  const obj: QueryMetricsResult = {
     ...rest,
     metrics
   };
@@ -206,7 +206,7 @@ export function convertRequestOptionsForMetricsDefinitions(
  */
 export function convertResponseForMetricsDefinitions(
   generatedResponse: GeneratedMetricDefinitionsListResponse
-): GetMetricDefinitionsResponse {
+): GetMetricDefinitionsResult {
   return {
     definitions: generatedResponse.value.map((defn) => {
       const { name, dimensions, ...rest } = defn;
@@ -230,7 +230,7 @@ export function convertResponseForMetricsDefinitions(
  */
 export function convertResponseForMetricNamespaces(
   generatedResponse: GeneratedMetricNamespacesListResponse
-): GetMetricNamespacesResponse {
+): GetMetricNamespacesResult {
   return {
     namespaces: generatedResponse.value
   };

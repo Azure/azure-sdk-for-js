@@ -20,6 +20,9 @@ export interface QueryLogsOptions extends OperationOptions {
   includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
 }
 
+/**
+ * @internal
+ */
 export interface QueryStatistics {
   query?: {
     executionTime?: number;
@@ -80,7 +83,7 @@ export interface BatchQuery {
 }
 
 /** Results for a batch query. */
-export interface QueryLogsBatchResponse {
+export interface QueryLogsBatchResult {
   /** An array of responses corresponding to each individual request in a batch. */
   results?: {
     id?: string;

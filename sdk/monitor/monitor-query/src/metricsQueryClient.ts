@@ -9,11 +9,11 @@ import {
 
 import {
   GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResponse,
+  GetMetricDefinitionsResult,
   GetMetricNamespacesOptions,
-  GetMetricNamespacesResponse,
+  GetMetricNamespacesResult,
   QueryMetricsOptions,
-  QueryMetricsResponse
+  QueryMetricsResult
 } from "./models/publicMetricsModels";
 
 import {
@@ -93,7 +93,7 @@ export class MetricsQueryClient {
     resourceUri: string,
     timespan: string,
     options?: QueryMetricsOptions
-  ): Promise<QueryMetricsResponse> {
+  ): Promise<QueryMetricsResult> {
     const response = await this._metricsClient.metrics.list(
       resourceUri,
       convertRequestForMetrics(timespan, options)
@@ -111,7 +111,7 @@ export class MetricsQueryClient {
   async getMetricDefinitions(
     resourceUri: string,
     options?: GetMetricDefinitionsOptions
-  ): Promise<GetMetricDefinitionsResponse> {
+  ): Promise<GetMetricDefinitionsResult> {
     const response = await this._definitionsClient.metricDefinitions.list(
       resourceUri,
       convertRequestOptionsForMetricsDefinitions(options)
@@ -129,7 +129,7 @@ export class MetricsQueryClient {
   async getMetricNamespaces(
     resourceUri: string,
     options?: GetMetricNamespacesOptions
-  ): Promise<GetMetricNamespacesResponse> {
+  ): Promise<GetMetricNamespacesResult> {
     const response = await this._namespacesClient.metricNamespaces.list(resourceUri, options);
     return convertResponseForMetricNamespaces(response);
   }

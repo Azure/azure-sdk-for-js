@@ -81,7 +81,7 @@ export interface TimeSeriesElement {
 /**
  * Metrics, including additional information like cost, the resourceRegion, etc...
  */
-export interface QueryMetricsResponse {
+export interface QueryMetricsResult {
   // track 2 version of `MetricsListResponse`
 
   /** The integer value representing the cost of the query, for data case. */
@@ -135,7 +135,7 @@ export interface MetricDefinition {
 /**
  * Metric definitions.
  */
-export interface GetMetricDefinitionsResponse {
+export interface GetMetricDefinitionsResult {
   /** the values for the metric definitions. */
   definitions: MetricDefinition[];
 }
@@ -153,7 +153,7 @@ export interface GetMetricNamespacesOptions {
 /**
  * Metric namespaces.
  */
-export interface GetMetricNamespacesResponse {
+export interface GetMetricNamespacesResult {
   // track 2 version of MetricNamespacesListResponse
 
   /** The metric namespaces. */

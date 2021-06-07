@@ -9,10 +9,11 @@ export {
   BatchQuery,
   QueryLogsBatch,
   QueryLogsBatchOptions,
-  QueryLogsBatchResponse,
+  QueryLogsBatchResult,
   QueryLogsOptions,
   QueryLogsResult,
-  QueryStatistics,
+  // TODO: design issues around this still pending.
+  // QueryStatistics,
   LogsTable
 } from "./models/publicLogsModels";
 export {
@@ -21,14 +22,14 @@ export {
 } from "./metricsQueryClient";
 export {
   GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResponse,
+  GetMetricDefinitionsResult,
   GetMetricNamespacesOptions,
-  GetMetricNamespacesResponse,
+  GetMetricNamespacesResult,
   MetadataValue,
   Metric,
   MetricDefinition,
   QueryMetricsOptions,
-  QueryMetricsResponse,
+  QueryMetricsResult,
   TimeSeriesElement
 } from "./models/publicMetricsModels";
 
