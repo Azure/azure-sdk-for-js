@@ -4,6 +4,7 @@
 import { AmqpMessageHeader } from "./messageHeader";
 import { AmqpMessageProperties } from "./messageProperties";
 import { Message as RheaMessage } from "rhea-promise";
+import { isDefined, objectHasProperty } from "./util/typeGuards";
 
 /**
  * Describes the AmqpAnnotatedMessage, part of the ServiceBusReceivedMessage(as `amqpAnnotatedMessage` property).
@@ -56,9 +57,9 @@ export const AmqpAnnotatedMessage = {
     return {
       header: AmqpMessageHeader.fromRheaMessageHeader(msg),
       footer: (msg as any).footer,
-      messageAnnotations: msg.message_annotations,
-      deliveryAnnotations: msg.delivery_annotations,
-      applicationProperties: msg.application_properties,
+      messageAnnotations: convertDatesToNumbers(msg.message_annotations),
+      deliveryAnnotations: convertDatesToNumbers(msg.delivery_annotations),
+      applicationProperties: convertDatesToNumbers(msg.application_properties),
       properties: AmqpMessageProperties.fromRheaMessageProperties(msg),
       body: msg.body
     };
@@ -79,3 +80,43 @@ export const AmqpAnnotatedMessage = {
     return message;
   }
 };
+
+/**
+ * Converts any Date objects into a number representing date.getTime().
+ * Recursively checks for any Date objects in arrays and objects.
+ * @internal
+ */
+function convertDatesToNumbers<T = unknown>(thing: T): T {
+  // fast exit
+  if (!isDefined(thing)) return thing;
+
+  // When 'thing' is a Date, return the number representation
+  if (
+    typeof thing === "object" &&
+    objectHasProperty(thing, "getTime") &&
+    typeof thing.getTime === "function"
+  ) {
+    return thing.getTime();
+  }
+
+  /*
+    Examples:
+    [0, 'foo', new Date(), { nested: new Date()}]
+  */
+  if (Array.isArray(thing)) {
+    return (thing.map(convertDatesToNumbers) as unknown) as T;
+  }
+
+  /*
+    Examples:
+    { foo: new Date(), children: { nested: new Date() }}
+  */
+  if (typeof thing === "object" && isDefined(thing)) {
+    thing = { ...thing };
+    for (const key of Object.keys(thing)) {
+      (thing as any)[key] = convertDatesToNumbers((thing as any)[key]);
+    }
+  }
+
+  return thing;
+}
