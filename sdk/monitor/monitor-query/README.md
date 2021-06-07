@@ -84,7 +84,7 @@ const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 async function run() {
   const kustoQuery = "AppEvents | limit 1";
-  const result = logsQueryClient.queryLogs(azureLogAnalyticsWorkspaceId, kustoQuery);
+  const result = await logsQueryClient.queryLogs(azureLogAnalyticsWorkspaceId, kustoQuery);
   const tablesFromResult = result.tables;
 
   if (tablesFromResult == null) {
