@@ -41,14 +41,13 @@ known_content_issues:
   - ["sdk/core/logger/README.md",  "#14726"]
   - ["sdk/eventhub/event-processor-host/README.md",  "#14727"]
   - ["sdk/eventhub/mock-hub/README.md",  "azure-sdk-tools/issues/1530"]
-  - ["sdk/eventhub/README.md", "#1583"],
-  - ["sdk/keyvault/keyvault-common/*", "#1583"],
-  - ["sdk/keyvault/README.md", "#1583"],
-  - ["sdk/schemaregistry/README.md", "#1583"],
-  - ["sdk/servicebus/README.md", "#1583"],
-  - ["sdk/storage/README.md", "#1583"],
+  - ["sdk/eventhub/README.md", "#1583"]
+  - ["sdk/keyvault/README.md", "#1583"]
+  - ["sdk/schemaregistry/README.md", "#1583"]
+  - ["sdk/servicebus/README.md", "#1583"]
+  - ["sdk/storage/README.md", "#1583"]
   - ["sdk/test-utils/multi-version/README.md", "#14728"]
-  - ["sdk/web-pubsub/web-pubsub-express/README.md", "#1583"],
+  - ["sdk/web-pubsub/web-pubsub-express/README.md", "#1583"]
 
 package_indexing_exclusion_list:
   - "@azure/template"
