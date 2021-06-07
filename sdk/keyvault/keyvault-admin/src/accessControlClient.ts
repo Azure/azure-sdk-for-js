@@ -179,13 +179,7 @@ export class KeyVaultAccessControlClient {
     options: DeleteRoleAssignmentOptions = {}
   ): Promise<void> {
     return withTrace("deleteRoleAssignment", options, async (updatedOptions) => {
-      try {
-        await this.client.roleAssignments.delete(this.vaultUrl, roleScope, name, updatedOptions);
-      } catch (error) {
-        if (error.statusCode !== 404) {
-          throw error;
-        }
-      }
+      await this.client.roleAssignments.delete(this.vaultUrl, roleScope, name, updatedOptions);
     });
   }
 
@@ -494,13 +488,7 @@ export class KeyVaultAccessControlClient {
     options: DeleteRoleDefinitionOptions = {}
   ): Promise<void> {
     return withTrace("deleteRoleDefinition", options, async (updatedOptions) => {
-      try {
-        await this.client.roleDefinitions.delete(this.vaultUrl, roleScope, name, updatedOptions);
-      } catch (error) {
-        if (error.statusCode !== 404) {
-          throw error;
-        }
-      }
+      await this.client.roleDefinitions.delete(this.vaultUrl, roleScope, name, updatedOptions);
     });
   }
 }
