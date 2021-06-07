@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AmqpMessageHeader, AmqpMessageProperties, AmqpAnnotatedMessage } from "../src";
+import { AmqpMessageHeader, AmqpMessageProperties } from "../src";
 import {
-  Message as RheaMessage,
   MessageHeader as RheaMessageHeader,
   MessageProperties as RheaMessageProperties
 } from "rhea-promise";
@@ -160,44 +159,6 @@ describe("message", function() {
       );
       JSON.stringify(msgProperties).should.equal(JSON.stringify(msgPropertiesExpected));
       done();
-    });
-  });
-
-  describe("fromRheaMessage", function() {
-    it("converts Dates to date.getTime() numbers in annotations and applicationProperties", () => {
-      const timestamp = new Date();
-      const nestedTimestampSample = {
-        topLevelDate: timestamp,
-        child: {
-          nestedDate: timestamp,
-          children: [timestamp, { deepDate: timestamp }]
-        }
-      };
-      const expectedNestedTimestampSample = {
-        topLevelDate: timestamp.getTime(),
-        child: {
-          nestedDate: timestamp.getTime(),
-          children: [timestamp.getTime(), { deepDate: timestamp.getTime() }]
-        }
-      };
-
-      const message: RheaMessage = {
-        message_annotations: nestedTimestampSample,
-        application_properties: nestedTimestampSample,
-        delivery_annotations: nestedTimestampSample,
-        body: null
-      };
-      const convertedMessage = AmqpAnnotatedMessage.fromRheaMessage(message);
-
-      convertedMessage.should.deep.equal({
-        header: {},
-        properties: {},
-        footer: undefined,
-        messageAnnotations: expectedNestedTimestampSample,
-        applicationProperties: expectedNestedTimestampSample,
-        deliveryAnnotations: expectedNestedTimestampSample,
-        body: null
-      });
     });
   });
 });

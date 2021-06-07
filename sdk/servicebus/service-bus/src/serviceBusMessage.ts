@@ -612,6 +612,16 @@ export function fromRheaMessage(
   const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(rheaMessage);
   rawMessage.bodyType = bodyType;
 
+  if (rawMessage.applicationProperties) {
+    rawMessage.applicationProperties = convertDatesToNumbers(rawMessage.applicationProperties);
+  }
+  if (rawMessage.deliveryAnnotations) {
+    rawMessage.deliveryAnnotations = convertDatesToNumbers(rawMessage.deliveryAnnotations);
+  }
+  if (rawMessage.messageAnnotations) {
+    rawMessage.messageAnnotations = convertDatesToNumbers(rawMessage.messageAnnotations);
+  }
+
   const rcvdsbmsg: ServiceBusReceivedMessage = {
     _rawAmqpMessage: rawMessage,
     deliveryCount: rheaMessage.delivery_count,
@@ -864,7 +874,12 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     shouldReorderLockToken: boolean,
     receiveMode: ReceiveMode
   ) {
-    Object.assign(this, fromRheaMessage(msg, delivery, shouldReorderLockToken));
+    const { _rawAmqpMessage, ...restOfMessageProps } = fromRheaMessage(
+      msg,
+      delivery,
+      shouldReorderLockToken
+    );
+    Object.assign(this, restOfMessageProps);
     // Lock on a message is applicable only in peekLock mode, but the service sets
     // the lock token even in receiveAndDelete mode if the entity in question is partitioned.
     if (receiveMode === "receiveAndDelete") {
@@ -885,8 +900,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
         this.body = undefined;
       }
     }
-    // TODO: _rawAmqpMessage is already being populated in fromRheaMessage(), no need to do it twice
-    this._rawAmqpMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+    this._rawAmqpMessage = _rawAmqpMessage;
     this._rawAmqpMessage.bodyType = actualBodyType;
     this.delivery = delivery;
   }
