@@ -18,6 +18,7 @@ omitted_paths:
   - sdk/core/README.md
   - sdk/eventhub/event-processor-host/README.md
   - sdk/graphrbac/graph/README.md
+  - sdk/keyvault/keyvault-common/README.md
   - sdk/operationalinsights/loganalytics/README.md
   - sdk/servicefabric/servicefabric/README.md
   - sdk/storage/storage-datalake/README.md
