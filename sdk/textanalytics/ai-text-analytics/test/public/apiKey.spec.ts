@@ -153,7 +153,7 @@ describe("[API Key] TextAnalyticsClient", function(this: Suite) {
         }
       });
 
-      it.only("entity assertions", async function() {
+      it("entity assertions", async function() {
         const poller = await client.beginAnalyzeHealthcareEntities(
           [
             "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too."
