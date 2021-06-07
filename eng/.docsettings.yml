@@ -42,8 +42,10 @@ known_content_issues:
   - ["sdk/core/logger/README.md",  "#14726"]
   - ["sdk/eventhub/event-processor-host/README.md",  "#14727"]
   - ["sdk/eventhub/mock-hub/README.md",  "azure-sdk-tools/issues/1530"]
-  - ["sdk/keyvault/keyvault-common/README.md",  "#15587"]
   - ["sdk/test-utils/multi-version/README.md", "#14728"]
+
+known_presence_issues:
+  - ["sdk/keyvault/keyvault-common/README.md",  "#15587"]
 
 package_indexing_exclusion_list:
   - "@azure/template"
