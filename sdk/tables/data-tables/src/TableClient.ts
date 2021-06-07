@@ -53,6 +53,8 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { isCredential } from "./utils/isCredential";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -177,6 +179,11 @@ export class TableClient {
     } else if (isSASCredential(credential)) {
       generatedClient.pipeline.addPolicy(tablesSASTokenPolicy(credential));
     }
+
+    if (isCosmosEndpoint(this.url)) {
+      generatedClient.pipeline.addPolicy(cosmosPatchPolicy());
+    }
+
     this.table = generatedClient.table;
     this.pipeline = generatedClient.pipeline;
   }

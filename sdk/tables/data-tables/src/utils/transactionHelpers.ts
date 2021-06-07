@@ -45,7 +45,7 @@ export function getTransactionHttpRequestBody(
   const transactionBoundary = getTransactionBoundary(transactionId);
   const changesetBoundary = getChangeSetBoundary(changesetId);
   const changesetEnding = `--${changesetBoundary}--`;
-  const transactionEnding = `--${transactionBoundary}`;
+  const transactionEnding = `--${transactionBoundary}--`;
   const bodyContent = bodyParts.join(TRANSACTION_HTTP_LINE_ENDING);
   return `${bodyContent}${TRANSACTION_HTTP_LINE_ENDING}${changesetEnding}${TRANSACTION_HTTP_LINE_ENDING}${transactionEnding}${TRANSACTION_HTTP_LINE_ENDING}`;
 }

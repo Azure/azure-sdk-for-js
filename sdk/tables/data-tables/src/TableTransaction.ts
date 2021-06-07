@@ -8,7 +8,12 @@ import {
   RestError,
   Pipeline
 } from "@azure/core-rest-pipeline";
-import { ServiceClient, OperationOptions, serializationPolicy } from "@azure/core-client";
+import {
+  ServiceClient,
+  OperationOptions,
+  serializationPolicy,
+  serializationPolicyName
+} from "@azure/core-client";
 import {
   DeleteTableEntityOptions,
   TableEntity,
@@ -35,7 +40,14 @@ import {
   getInitialTransactionBody
 } from "./utils/transactionHelpers";
 import { signURLWithSAS } from "./tablesSASTokenPolicy";
-import { transactionHeaderFilterPolicy, transactionRequestAssemblePolicy } from "./TablePolicies";
+import {
+  transactionHeaderFilterPolicy,
+  transactionRequestAssemblePolicy,
+  transactionHeaderFilterPolicyName,
+  transactionRequestAssemblePolicyName
+} from "./TablePolicies";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 
 /**
  * Helper to build a list of transaction actions
@@ -159,7 +171,8 @@ export class InternalTableTransaction {
   private initializeSharedState(transactionId: string, changesetId: string, partitionKey: string) {
     const pendingOperations: Promise<any>[] = [];
     const bodyParts = getInitialTransactionBody(transactionId, changesetId);
-    prepateTransactionPipeline(this.interceptClient.pipeline, bodyParts, changesetId);
+    const isCosmos = isCosmosEndpoint(this.url);
+    prepateTransactionPipeline(this.interceptClient.pipeline, bodyParts, changesetId, isCosmos);
 
     return {
       transactionId,
@@ -355,7 +368,8 @@ function parseTransactionResponse(transactionResponse: PipelineResponse): TableT
 export function prepateTransactionPipeline(
   pipeline: Pipeline,
   bodyParts: string[],
-  changesetId: string
+  changesetId: string,
+  isCosmos: boolean
 ): void {
   // Fist, we need to clear all the existing policies to make sure we start
   // with a fresh state.
@@ -372,4 +386,10 @@ export function prepateTransactionPipeline(
   pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
   pipeline.addPolicy(transactionHeaderFilterPolicy());
   pipeline.addPolicy(transactionRequestAssemblePolicy(bodyParts, changesetId));
+  if (isCosmos) {
+    pipeline.addPolicy(cosmosPatchPolicy(), {
+      afterPolicies: [transactionHeaderFilterPolicyName],
+      beforePolicies: [serializationPolicyName, transactionRequestAssemblePolicyName]
+    });
+  }
 }
