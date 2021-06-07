@@ -38,8 +38,13 @@ export interface Repositories {
   link?: string;
 }
 
-/** Repository attributes */
-export interface RepositoryProperties {
+/** Properties of this repository. */
+export interface ContainerRepositoryProperties {
+  /**
+   * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registryLoginServer: string;
   /**
    * Image name
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -65,15 +70,6 @@ export interface RepositoryProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tagCount: number;
-  /**
-   * Writeable properties of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly writeableProperties: ContentProperties;
-}
-
-/** Changeable attributes */
-export interface ContentProperties {
   /** Delete enabled */
   canDelete?: boolean;
   /** Write enabled */
@@ -82,24 +78,28 @@ export interface ContentProperties {
   canList?: boolean;
   /** Read enabled */
   canRead?: boolean;
+  /** Enables Teleport functionality on new images in the repository improving Container startup performance */
+  teleportEnabled?: boolean;
 }
 
-/** Deleted repository */
-export interface DeleteRepositoryResult {
-  /**
-   * SHA of the deleted image
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deletedManifests?: string[];
-  /**
-   * Tag of the deleted image
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deletedTags?: string[];
+/** Changeable attributes for Repository */
+export interface RepositoryWriteableProperties {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+  /** Enables Teleport functionality on new images in the repository improving Container startup performance */
+  teleportEnabled?: boolean;
 }
 
 /** List of tag details */
 export interface TagList {
+  /** Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io */
+  registryLoginServer: string;
   /** Image name */
   repository: string;
   /** List of tag attribute details */
@@ -129,20 +129,40 @@ export interface TagAttributesBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastUpdatedOn: Date;
-  /**
-   * Writeable properties of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly writeableProperties: ContentProperties;
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+}
+
+/** Changeable attributes */
+export interface TagWriteableProperties {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
 }
 
 /** Tag attributes */
 export interface ArtifactTagProperties {
   /**
+   * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registryLoginServer: string;
+  /**
    * Image name
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly repository: string;
+  readonly repositoryName: string;
   /**
    * Tag name
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -163,15 +183,20 @@ export interface ArtifactTagProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastUpdatedOn: Date;
-  /**
-   * Writeable properties of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly writeableProperties: ContentProperties;
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
 }
 
 /** Manifest attributes */
 export interface AcrManifests {
+  /** Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io */
+  registryLoginServer?: string;
   /** Image name */
   repository?: string;
   /** List of manifests */
@@ -195,12 +220,12 @@ export interface ManifestAttributesBase {
    * Created time
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly createdOn?: Date;
+  readonly createdOn: Date;
   /**
    * Last update time
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly lastUpdatedOn?: Date;
+  readonly lastUpdatedOn: Date;
   /**
    * CPU architecture
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -212,24 +237,31 @@ export interface ManifestAttributesBase {
    */
   readonly operatingSystem?: ArtifactOperatingSystem | null;
   /**
-   * List of manifest attributes details
+   * List of artifacts that are referenced by this manifest list, with information about the platform each supports.  This list will be empty if this is a leaf manifest and not a manifest list.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly references?: ManifestAttributesManifestReferences[];
+  readonly relatedArtifacts?: ArtifactManifestPlatform[];
   /**
    * List of tags
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tags?: string[];
-  /**
-   * Writeable properties of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly writeableProperties?: ContentProperties;
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+  /** Quarantine state */
+  quarantineState?: string;
+  /** Quarantine details */
+  quarantineDetails?: string;
 }
 
 /** Manifest attributes details */
-export interface ManifestAttributesManifestReferences {
+export interface ArtifactManifestPlatform {
   /**
    * Manifest digest
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -239,16 +271,37 @@ export interface ManifestAttributesManifestReferences {
    * CPU architecture
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly architecture: ArtifactArchitecture;
+  readonly architecture?: ArtifactArchitecture;
   /**
    * Operating system
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly operatingSystem: ArtifactOperatingSystem;
+  readonly operatingSystem?: ArtifactOperatingSystem;
+}
+
+/** Changeable attributes */
+export interface ManifestWriteableProperties {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+  /** Quarantine state */
+  quarantineState?: string;
+  /** Quarantine details */
+  quarantineDetails?: string;
 }
 
 /** Manifest attributes details */
 export interface ArtifactManifestProperties {
+  /**
+   * Registry login server name.  This is likely to be similar to {registry-name}.azurecr.io
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registryLoginServer?: string;
   /**
    * Repository name
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -258,7 +311,7 @@ export interface ArtifactManifestProperties {
    * Manifest
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly digest?: string;
+  readonly digest: string;
   /**
    * Image size
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -268,12 +321,12 @@ export interface ArtifactManifestProperties {
    * Created time
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly createdOn?: Date;
+  readonly createdOn: Date;
   /**
    * Last update time
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly lastUpdatedOn?: Date;
+  readonly lastUpdatedOn: Date;
   /**
    * CPU architecture
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -285,20 +338,27 @@ export interface ArtifactManifestProperties {
    */
   readonly operatingSystem?: ArtifactOperatingSystem | null;
   /**
-   * List of manifest attributes details
+   * List of artifacts that are referenced by this manifest list, with information about the platform each supports.  This list will be empty if this is a leaf manifest and not a manifest list.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly references?: ManifestAttributesManifestReferences[];
+  readonly relatedArtifacts?: ArtifactManifestPlatform[];
   /**
    * List of tags
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tags?: string[];
-  /**
-   * Writeable properties of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly writeableProperties?: ContentProperties;
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+  /** Quarantine state */
+  quarantineState?: string;
+  /** Quarantine details */
+  quarantineDetails?: string;
 }
 
 export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
@@ -316,14 +376,14 @@ export interface AcrRefreshToken {
 }
 
 export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
-  /** Grant type is expected to be refresh_token */
-  grantType: "refresh_token";
   /** Indicates the name of your Azure container registry. */
   service: string;
   /** Which is expected to be a valid scope, and can be specified more than once for multiple scope requests. You obtained this from the Www-Authenticate response header from the challenge. */
   scope: string;
   /** Must be a valid ACR refresh token */
   acrRefreshToken: string;
+  /** Grant type is expected to be refresh_token */
+  grantType: TokenGrantType;
 }
 
 export interface AcrAccessToken {
@@ -375,6 +435,20 @@ export interface JWKHeader {
 export interface History {
   /** The raw v1 compatibility information */
   v1Compatibility?: string;
+}
+
+/** Deleted repository */
+export interface DeleteRepositoryResult {
+  /**
+   * SHA of the deleted image
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deletedManifests?: string[];
+  /**
+   * Tag of the deleted image
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deletedTags?: string[];
 }
 
 /** Image layer information */
@@ -436,25 +510,9 @@ export interface TagAttributesTag {
 /** List of manifest attributes */
 export interface ManifestAttributesManifest {
   /** List of manifest attributes details */
-  references?: ManifestAttributesManifestReferences[];
+  references?: ArtifactManifestPlatform[];
   /** Quarantine tag name */
   quarantineTag?: string;
-}
-
-/** Changeable attributes */
-export interface ManifestChangeableAttributes {
-  /** Delete enabled */
-  deleteEnabled?: boolean;
-  /** Write enabled */
-  writeEnabled?: boolean;
-  /** List enabled */
-  listEnabled?: boolean;
-  /** Read enabled */
-  readEnabled?: boolean;
-  /** Quarantine state */
-  quarantineState?: string;
-  /** Quarantine details */
-  quarantineDetails?: string;
 }
 
 export interface ManifestListAttributes {
@@ -740,8 +798,8 @@ export const enum KnownArtifactOperatingSystem {
   Dragonfly = "dragonfly",
   FreeBsd = "freebsd",
   Illumos = "illumos",
-  IOs = "ios",
-  Js = "js",
+  IOS = "ios",
+  JS = "js",
   Linux = "linux",
   NetBsd = "netbsd",
   OpenBsd = "openbsd",
@@ -771,10 +829,12 @@ export const enum KnownArtifactOperatingSystem {
  * **windows**
  */
 export type ArtifactOperatingSystem = string;
-/** Defines values for TagOrderBy. */
-export type TagOrderBy = "none" | "timedesc" | "timeasc";
-/** Defines values for ManifestOrderBy. */
-export type ManifestOrderBy = "none" | "timedesc" | "timeasc";
+/** Defines values for TokenGrantType. */
+export type TokenGrantType = "refresh_token" | "password";
+/** Defines values for ArtifactTagOrderBy. */
+export type ArtifactTagOrderBy = "none" | "timedesc" | "timeasc";
+/** Defines values for ArtifactManifestOrderBy. */
+export type ArtifactManifestOrderBy = "none" | "timedesc" | "timeasc";
 
 /** Optional parameters. */
 export interface ContainerRegistryGetManifestOptionalParams
@@ -806,20 +866,17 @@ export type ContainerRegistryGetRepositoriesResponse = ContainerRegistryGetRepos
   Repositories;
 
 /** Contains response data for the getProperties operation. */
-export type ContainerRegistryGetPropertiesResponse = RepositoryProperties;
-
-/** Contains response data for the deleteRepository operation. */
-export type ContainerRegistryDeleteRepositoryResponse = DeleteRepositoryResult;
+export type ContainerRegistryGetPropertiesResponse = ContainerRepositoryProperties;
 
 /** Optional parameters. */
-export interface ContainerRegistrySetPropertiesOptionalParams
+export interface ContainerRegistryUpdatePropertiesOptionalParams
   extends coreClient.OperationOptions {
   /** Repository attribute value */
-  value?: ContentProperties;
+  value?: RepositoryWriteableProperties;
 }
 
-/** Contains response data for the setProperties operation. */
-export type ContainerRegistrySetPropertiesResponse = RepositoryProperties;
+/** Contains response data for the updateProperties operation. */
+export type ContainerRegistryUpdatePropertiesResponse = ContainerRepositoryProperties;
 
 /** Optional parameters. */
 export interface ContainerRegistryGetTagsOptionalParams
@@ -844,8 +901,8 @@ export type ContainerRegistryGetTagPropertiesResponse = ArtifactTagProperties;
 /** Optional parameters. */
 export interface ContainerRegistryUpdateTagAttributesOptionalParams
   extends coreClient.OperationOptions {
-  /** Repository attribute value */
-  value?: ContentProperties;
+  /** Tag attribute value */
+  value?: TagWriteableProperties;
 }
 
 /** Contains response data for the updateTagAttributes operation. */
@@ -872,8 +929,8 @@ export type ContainerRegistryGetManifestPropertiesResponse = ArtifactManifestPro
 /** Optional parameters. */
 export interface ContainerRegistryUpdateManifestPropertiesOptionalParams
   extends coreClient.OperationOptions {
-  /** Repository attribute value */
-  value?: ContentProperties;
+  /** Manifest attribute value */
+  value?: ManifestWriteableProperties;
 }
 
 /** Contains response data for the updateManifestProperties operation. */
