@@ -74,6 +74,7 @@ import {
   AnalyzeActionsOperationState
 } from "./lro/analyze/operation";
 import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
+import { TextAnalyticsAction } from "./textAnalyticsAction";
 
 export {
   BeginAnalyzeActionsOptions,
@@ -195,12 +196,7 @@ export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOp
 /**
  * Options for an entities recognition action.
  */
-export type RecognizeCategorizedEntitiesAction = {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface RecognizeCategorizedEntitiesAction extends TextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -218,18 +214,13 @@ export type RecognizeCategorizedEntitiesAction = {
 /**
  * Options for a Pii entities recognition action.
  */
-export type RecognizePiiEntitiesAction = {
+export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
   /**
    * Filters entities to ones only included in the specified domain (e.g., if
    * set to 'PHI', entities in the Protected Healthcare Information domain will
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
   domain?: PiiEntityDomain;
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -247,12 +238,7 @@ export type RecognizePiiEntitiesAction = {
 /**
  * Options for a key phrases recognition action.
  */
-export interface ExtractKeyPhrasesAction {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
   /**
    * If set to false, you opt-in to have your text input logged for troubleshooting. By default, Text Analytics
    * will not log your input text for pii entities recognition. Setting this parameter to false,
@@ -264,12 +250,7 @@ export interface ExtractKeyPhrasesAction {
 /**
  * Options for an entities linking action.
  */
-export type RecognizeLinkedEntitiesAction = {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -287,12 +268,7 @@ export type RecognizeLinkedEntitiesAction = {
 /**
  * Options for an analyze sentiment action.
  */
-export type AnalyzeSentimentAction = {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface AnalyzeSentimentAction extends TextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".

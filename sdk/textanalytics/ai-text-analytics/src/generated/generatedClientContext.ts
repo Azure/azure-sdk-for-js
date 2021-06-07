@@ -12,6 +12,7 @@ import { GeneratedClientOptionalParams } from "./models";
 /** @internal */
 export class GeneratedClientContext extends coreClient.ServiceClient {
   endpoint: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
@@ -28,7 +29,6 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-
     const defaults: GeneratedClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8"
     };
@@ -36,11 +36,13 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     const optionsWithDefaults = {
       ...defaults,
       ...options,
-      baseUri: options.endpoint || "{Endpoint}/text/analytics/v3.1-preview.5"
+      baseUri: options.endpoint || "{Endpoint}/text/analytics/{ApiVersion}"
     };
-
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "v3.1";
   }
 }

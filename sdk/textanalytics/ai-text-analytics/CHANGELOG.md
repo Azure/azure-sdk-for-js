@@ -1,6 +1,11 @@
 # Release History
 
-## 5.1.0-beta.7 (Unreleased)
+## 5.1.0 (Unreleased)
+
+### New Features
+
+- We are now targeting the service's v3.1 API as the default instead of v3.1-preview.5.
+- Actions for `beginAnalyzeActions` can have custom names.
 
 ### Breaking Changes
 
