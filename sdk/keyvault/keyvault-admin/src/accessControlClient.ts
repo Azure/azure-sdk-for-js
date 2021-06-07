@@ -178,15 +178,15 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     name: string,
     options: DeleteRoleAssignmentOptions = {}
-  ): Promise<KeyVaultRoleAssignment> {
+  ): Promise<void> {
     return withTrace("deleteRoleAssignment", options, async (updatedOptions) => {
-      const response = await this.client.roleAssignments.delete(
-        this.vaultUrl,
-        roleScope,
-        name,
-        updatedOptions
-      );
-      return mappings.roleAssignment.generatedToPublic(response);
+      try {
+        await this.client.roleAssignments.delete(this.vaultUrl, roleScope, name, updatedOptions);
+      } catch (error) {
+        if (error.statusCode !== 404) {
+          throw error;
+        }
+      }
     });
   }
 
@@ -482,9 +482,8 @@ export class KeyVaultAccessControlClient {
    * Example usage:
    * ```ts
    * const client = new KeyVaultAccessControlClient(url, credentials);
-   * const roleDefinition = await client.upsertRoleDefintion("/", "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a", []);
-   * const deletedRoleDefinition = await client.deleteRoleDefinition("/", roleDefinition.name);
-   * console.log(deletedRoleDefinition);
+   * const roleDefinition = await client.setRoleDefinition("/", "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a", []);
+   * await client.deleteRoleDefinition("/", roleDefinition.name);
    * ```
    * @param roleScope - The scope of the role definition.
    * @param name - The name of the role definition to delete.
@@ -494,15 +493,15 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     name: string,
     options: DeleteRoleDefinitionOptions = {}
-  ): Promise<KeyVaultRoleDefinition> {
+  ): Promise<void> {
     return withTrace("deleteRoleDefinition", options, async (updatedOptions) => {
-      const response = await this.client.roleDefinitions.delete(
-        this.vaultUrl,
-        roleScope,
-        name,
-        updatedOptions
-      );
-      return mappings.roleDefinition.generatedToPublic(response);
+      try {
+        await this.client.roleDefinitions.delete(this.vaultUrl, roleScope, name, updatedOptions);
+      } catch (error) {
+        if (error.statusCode !== 404) {
+          throw error;
+        }
+      }
     });
   }
 }
