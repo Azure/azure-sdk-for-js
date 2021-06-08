@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "12.0.0-beta.4",
+  "version": "12.0.0",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -14,15 +14,22 @@
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   },
   "types": "types/latest/data-tables.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/*": [
+        "types/3.1/*"
+      ]
+    }
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=1.0.0-beta.4",
+    "build:autorest": "autorest ./swagger/README.md --typescript",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c 2>&1",
     "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -48,6 +55,7 @@
     "dist-esm/src/",
     "types/tables.d.ts",
     "types/latest/",
+    "types/3.1/",
     "README.md",
     "LICENSE"
   ],
@@ -141,12 +149,12 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageVersion"
-      },
-      {
         "path": "src/utils/constants.ts",
         "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
       }
     ]
   }
