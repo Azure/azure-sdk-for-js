@@ -26,7 +26,7 @@ function startServer() {
 function sayHello(call, callback) {
   const currentSpan = opentelemetry.getSpan(opentelemetry.context.active());
   // display traceid in the terminal
-  console.log(`traceid: ${currentSpan.context().traceId}`);
+  console.log(`traceid: ${currentSpan.spanContext().traceId}`);
   const span = tracer.startSpan("server.js:sayHello()", {
     parent: currentSpan,
     kind: 1, // server

@@ -129,7 +129,7 @@ Consumers are expected to pass in the `SpanContext` of the parent `Span` when ca
 ```ts
 const result = await blobClient.download(undefined, undefined, {
   tracingOptions: {
-    spanOptions: { parent: rootSpan.context() },
+    spanOptions: { parent: rootSpan.spanContext() },
   },
 });
 ```

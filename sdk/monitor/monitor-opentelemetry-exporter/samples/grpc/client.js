@@ -15,7 +15,7 @@ function main() {
   // request lifecycle entirely.
   const span = tracer.startSpan("client.js:main()");
   tracer.withSpan(span, () => {
-    console.log("Client traceId ", span.context().traceId);
+    console.log("Client traceId ", span.spanContext().traceId);
     const client = new services.GreeterClient(
       `localhost:${PORT}`,
       grpc.credentials.createInsecure()

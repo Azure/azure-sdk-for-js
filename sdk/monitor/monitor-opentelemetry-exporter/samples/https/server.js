@@ -16,7 +16,7 @@ const app = express();
 app.get("/helloworld", (req, res) => {
   const currentSpan = opentelemetry.getSpan(opentelemetry.context.active());
   // display traceid in the terminal
-  console.log(`traceid: ${currentSpan.context().traceId}`);
+  console.log(`traceid: ${currentSpan.spanContext().traceId}`);
   const span = tracer.startSpan("handleRequest", {
     parent: currentSpan,
     kind: 1, // server
