@@ -130,7 +130,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
       };
     }
 
-    const traceParent = getTraceParentHeader(messageSpan.context());
+    const traceParent = getTraceParentHeader(messageSpan.spanContext());
 
     if (traceParent) {
       // create a copy so the original isn't modified
@@ -145,7 +145,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
 
     return {
       message,
-      spanContext: messageSpan.context()
+      spanContext: messageSpan.spanContext()
     };
   } finally {
     messageSpan.end();
