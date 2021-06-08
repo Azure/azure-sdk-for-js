@@ -1,41 +1,53 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT license.
 
-import { IdentityExtension, registry } from "./provider";
+import { AzureExtensionContext, IdentityExtension } from "./provider";
 import { msalNodeFlowCacheControl } from "../msal/nodeFlows/nodeCommon";
-
-const extensionContext = {
-  cachePluginControl: msalNodeFlowCacheControl
-};
+import { vsCodeCredentialControl } from "../credentials/visualStudioCodeCredential";
 
 /**
- * A helper for extracting and running an extension handler.
+ * The context passed to an Identity Extension. This contains objects that
+ * extensions can use to set backend implementations.
  * @internal
  */
-function install(extension: IdentityExtension): void {
-  const installer = registry.get(extension as IdentityExtension);
-
-  if (!installer) {
-    throw new Error(
-      "The provided Azure Identity extension object could not be loaded because it was not registered."
-    );
-  }
-
-  installer(extensionContext);
-}
+const extensionContext: AzureExtensionContext = {
+  cachePluginControl: msalNodeFlowCacheControl,
+  vsCodeCredentialControl: vsCodeCredentialControl
+};
 
 /**
  * The type of a module that default-exports an IdentityExtension.
  */
 export interface IdentityExtensionModule {
+  /**
+   * An IdentityExtensionModule must export an IdentityExtension by default.
+   */
   default: IdentityExtension;
 }
 
 /**
- * Extend Azure Identity with additional functionality.
+ * Tests a value to see if it resembles a Promise, with an optional built-in
+ * cast to a generic type argument.
  *
- * The type of this function's parameter is `never` until a module that can
- * provide an extension is imported.
+ * @param value a value to test for promise-likeness
+ * @returns true if the value appears to be a promise
+ * @internal
+ */
+function isPromise<T = unknown>(value: unknown): value is PromiseLike<T> {
+  return (
+    value !== undefined &&
+    Object.prototype.hasOwnProperty.call(value, "then") &&
+    typeof (value as PromiseLike<unknown>).then === "function"
+  );
+}
+
+/**
+ * Extend Azure Identity with additional functionality. Pass an extension from
+ * an extension package, such as:
+ *
+ * - `@azure/identity-cache-persistence`: provides persistent token caching
+ * - `@azure/identity-vscode`: provides the dependencies of
+ *   `VisualStudioCodeCredential` and enables it
  *
  * Example:
  *
@@ -47,7 +59,11 @@ export interface IdentityExtensionModule {
  *
  * // The extension has the capability to extend `DefaultAzureCredential` and to
  * // add middleware to the underlying credentials, such as persistence.
- * const credential = new DefaultAzureCredential();
+ * const credential = new DefaultAzureCredential({
+ *   tokenCachePersistenceOptions: {
+ *     enabled: true
+ *   }
+ * });
  * ```
  *
  * An extension can also be passed in from a module `import` asynchronously, in which
@@ -59,7 +75,11 @@ export interface IdentityExtensionModule {
  * async function main() {
  *   await useIdentityExtension(import("@azure/identity-cache-persistence"));
  *
- *   const credential = new DefaultAzureCredential();
+ *   const credential = new DefaultAzureCredential({
+ *     tokenCachePersistenceOptions: {
+ *       enabled: true
+ *     }
+ *   });
  * }
  *
  * main().catch((error) => {
@@ -73,17 +93,11 @@ export interface IdentityExtensionModule {
 export function useIdentityExtension<
   Extension extends IdentityExtension | PromiseLike<IdentityExtensionModule>
 >(extension: Extension): Extension extends PromiseLike<unknown> ? Promise<void> : void {
-  if (
-    extension &&
-    Object.prototype.hasOwnProperty.call(extension, "then") &&
-    typeof (extension as PromiseLike<unknown>).then === "function"
-  ) {
-    return (extension as PromiseLike<{ default: IdentityExtension }>).then(
-      ({ default: extension }) => {
-        install(extension);
-      }
-    ) as any;
+  if (isPromise<IdentityExtensionModule>(extension)) {
+    return extension.then(({ default: extension }) => {
+      extension(extensionContext);
+    }) as any;
   } else {
-    return install(extension as IdentityExtension) as any;
+    return (extension as IdentityExtension)(extensionContext) as any;
   }
 }

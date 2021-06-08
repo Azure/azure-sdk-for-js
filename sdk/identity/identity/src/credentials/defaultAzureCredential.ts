@@ -11,6 +11,7 @@ import { AzurePowerShellCredential } from "./azurePowerShellCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
 import { CacheableCredentialOptions } from "./cacheableCredentialOptions";
+import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
 
 /**
  * Provides options to configure the {@link DefaultAzureCredential} class.
@@ -34,7 +35,7 @@ export interface DefaultAzureCredentialOptions
  * The type of a class that implements TokenCredential and accepts
  * `DefaultAzureCredentialOptions`.
  */
-export interface DefaultCredentialConstructor {
+interface DefaultCredentialConstructor {
   new (options?: DefaultAzureCredentialOptions): TokenCredential;
 }
 
@@ -55,42 +56,44 @@ class DefaultManagedIdentityCredential extends ManagedIdentityCredential {
   }
 }
 
-export const defaultCredentials: DefaultCredentialConstructor[] = [];
+export const defaultCredentials: DefaultCredentialConstructor[] = [
+  EnvironmentCredential,
+  DefaultManagedIdentityCredential,
+  VisualStudioCodeCredential,
+  AzureCliCredential,
+  AzurePowerShellCredential
+];
 
 /**
- * Provides a default {@link ChainedTokenCredential} configuration that should work for most applications that use the Azure SDK.
- * The following credential types will be tried, in order:
+ * Provides a default {@link ChainedTokenCredential} configuration that should
+ * work for most applications that use the Azure SDK.  The following credential
+ * types will be tried, in order:
  *
  * - {@link EnvironmentCredential}
  * - {@link ManagedIdentityCredential}
+ * - {@link VisualStudioCodeCredential}
  * - {@link AzureCliCredential}
  * - {@link AzurePowerShellCredential}
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
  *
- * Azure Identity extensions may add credential types to the default credential stack.
+ * **Note**: `VisualStudioCodeCredential` is provided by an extension package:
+ * `@azure/identity-vscode`. If this package is not installed and registered
+ * using the extension API (`useIdentityExtension`), then authentication using
+ * `VisualStudioCodeCredential` will not be available.
+ *
+ * Azure Identity extensions may add credential types to the default credential
+ * stack.
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
-  /**
-   * The list of credential constructors that DefaultAzureCredential instances will try, in order.
-   *
-   * @see DefaultCredentialConstructor
-   */
-  public static readonly credentials: DefaultCredentialConstructor[] = [
-    EnvironmentCredential,
-    DefaultManagedIdentityCredential,
-    AzureCliCredential,
-    AzurePowerShellCredential
-  ];
-
   /**
    * Creates an instance of the DefaultAzureCredential class.
    *
    * @param options - Optional parameters. See {@link DefaultAzureCredentialOptions}.
    */
   constructor(options?: DefaultAzureCredentialOptions) {
-    super(...DefaultAzureCredential.credentials.map((Credential) => new Credential(options)));
+    super(...defaultCredentials.map((ctor) => new ctor(options)));
     this.UnavailableMessage =
       "DefaultAzureCredential => failed to retrieve a token from the included credentials";
   }

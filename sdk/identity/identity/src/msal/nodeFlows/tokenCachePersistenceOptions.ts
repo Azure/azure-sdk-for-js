@@ -6,6 +6,10 @@
  */
 export interface TokenCachePersistenceOptions {
   /**
+   * If set to true, persistent token caching will be enabled for this credential instance.
+   */
+  enabled: boolean;
+  /**
    * Unique identifier for the persistent token cache.
    *
    * Based on this identifier, the persistence file will be located in any of the following places:

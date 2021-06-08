@@ -30,6 +30,9 @@ export const AllSupportedEnvironmentVariables = [
 
 const logger = credentialLogger("EnvironmentCredential");
 
+/**
+ * Defines options for the EnvironmentCredential class.
+ */
 export interface EnvironmentCredentialOptions
   extends TokenCredentialOptions,
     CacheableCredentialOptions {}

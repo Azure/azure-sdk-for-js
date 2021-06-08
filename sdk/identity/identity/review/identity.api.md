@@ -70,10 +70,6 @@ export class AzureCliCredential implements TokenCredential {
 }
 
 // @public
-export interface AzureIdentityExtensionTypeMap {
-}
-
-// @public
 export class AzurePowerShellCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
@@ -125,19 +121,12 @@ export const CredentialUnavailableErrorName = "CredentialUnavailableError";
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
     constructor(options?: DefaultAzureCredentialOptions);
-    static readonly credentials: DefaultCredentialConstructor[];
 }
 
 // @public
 export interface DefaultAzureCredentialOptions extends TokenCredentialOptions, CacheableCredentialOptions {
     managedIdentityClientId?: string;
     tenantId?: string;
-}
-
-// @public
-export interface DefaultCredentialConstructor {
-    // (undocumented)
-    new (options?: DefaultAzureCredentialOptions): TokenCredential;
 }
 
 // @public
@@ -173,7 +162,7 @@ export class EnvironmentCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
-// @public (undocumented)
+// @public
 export interface EnvironmentCredentialOptions extends TokenCredentialOptions, CacheableCredentialOptions {
 }
 
@@ -193,11 +182,10 @@ export function getDefaultAzureCredential(): TokenCredential;
 export { GetTokenOptions }
 
 // @public
-export type IdentityExtension = keyof AzureIdentityExtensionTypeMap;
+export type IdentityExtension = (context: unknown) => void;
 
 // @public
 export interface IdentityExtensionModule {
-    // (undocumented)
     default: IdentityExtension;
 }
 
@@ -245,6 +233,7 @@ export function serializeAuthenticationRecord(record: AuthenticationRecord): str
 // @public
 export interface TokenCachePersistenceOptions {
     allowUnencryptedStorage?: boolean;
+    enabled: boolean;
     name?: string;
 }
 

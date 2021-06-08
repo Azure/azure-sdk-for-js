@@ -4,6 +4,8 @@ The Azure Identity library provides Azure Active Directory token authentication 
 
 You can find examples for these various credentials in the [Azure Identity Examples Page](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md)
 
+> **Note**: As of `@azure/identity` >=2.0.0, `VisualStudioCodeCredential` now requires a secondary extension package to use. Please see the [`@azure/identity-vscode` package](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity-vscode) as well as [the "Extensions" section](#extensions) below for more information.
+
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity) | [Package (npm)](https://www.npmjs.com/package/@azure/identity) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/identity) | [Product documentation](https://azure.microsoft.com/services/active-directory/) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples)
 
 ## Getting started
@@ -51,7 +53,7 @@ To authenticate with [Azure PowerShell][azure_powershell] users can run the `Con
 
 ![Azure PowerShell Account Sign In][azurepowershelllogin_image]
 
-If interactive authnetication cannot be supported in the session, then the `-UseDeviceAuthentication` argument will force the cmdlet to use a device code authentication flow instead, similar to the corresponding option in the Azure CLI credential.
+If interactive authentication cannot be supported in the session, then the `-UseDeviceAuthentication` argument will force the cmdlet to use a device code authentication flow instead, similar to the corresponding option in the Azure CLI credential.
 
 ### Authenticate the client in browsers
 
@@ -83,6 +85,13 @@ If used from NodeJS, the `DefaultAzureCredential` will attempt to authenticate v
 - Managed Identity - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
 - Azure CLI - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
 - Azure PowerShell - If the developer has authenticated using the Azure PowerShell module `Connect-AzAccount` command, the `DefaultAzureCredential` will authenticate with that account.
+
+### Extensions
+
+Azure Identity for JavaScript provides an extension API that allows us to provide certain functionality through separate _extension packages_. The `@azure/identity` package exports a top-level function (`useIdentityExtension`) that can be used to enable an extension, and we provide two extension packages:
+
+- [`@azure/identity-cache-persistence`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity-cache-persistence), which provides persistent token caching in Node.js using a native secure storage system provided by your operating system. This extension allows cached `access_token` values to persist across sessions, meaning that an interactive login flow does not need to be repeated as long as a cached token is available.
+- [`@azure/identity-vscode](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity-vscode), which provides the dependencies of `VisualStudioCodeCredential` and enables it. Without this extension, the `VisualStudioCodeCredential` in this package will throw a `CredentialUnavailableError`. The extension provides the underlying implementation of this credential, enabling it for use both on its own and as part of the `DefaultAzureCredential` described above.
 
 ## Environment Variables
 
@@ -203,10 +212,10 @@ For examples of how to use managed identity for authentication please refer to [
 
 ### Authenticating via Development Tools
 
-| credential                   | usage                                                              | example                                                                                                                                                                       | reference                                                                               |
-| ---------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `AzureCliCredential`         | Authenticate in a development environment with the Azure CLI.      | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-azure-cli)          | [Azure CLI authentication](https://docs.microsoft.com/cli/azure/authenticate-azure-cli) |
-| `AzurePowerShellCredential`         | Authenticate in a development environment using Azure PowerShell.      | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-azure-powershell)          | [Azure PowerShell authentication](https://docs.microsoft.com/powershell/azure/authenticate-azureps) |
+| credential                  | usage                                                             | example                                                                                                                                                                     | reference                                                                                           |
+| --------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `AzureCliCredential`        | Authenticate in a development environment with the Azure CLI.     | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-azure-cli)        | [Azure CLI authentication](https://docs.microsoft.com/cli/azure/authenticate-azure-cli)             |
+| `AzurePowerShellCredential` | Authenticate in a development environment using Azure PowerShell. | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-azure-powershell) | [Azure PowerShell authentication](https://docs.microsoft.com/powershell/azure/authenticate-azureps) |
 
 ## Troubleshooting
 

@@ -3,7 +3,7 @@
 
 export * from "./extensions/consumer";
 
-export { IdentityExtension, AzureIdentityExtensionTypeMap } from "./extensions/provider";
+export { IdentityExtension } from "./extensions/provider";
 
 import { TokenCredential } from "@azure/core-http";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
@@ -17,7 +17,6 @@ export { InteractiveCredentialOptions } from "./credentials/interactiveCredentia
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
 export {
   DefaultAzureCredential,
-  DefaultCredentialConstructor,
   DefaultAzureCredentialOptions
 } from "./credentials/defaultAzureCredential";
 export {
