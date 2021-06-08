@@ -6,7 +6,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { LogsClient } = require("@azure/monitor-query");
+const { LogsQueryClient } = require("@azure/monitor-query");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -18,11 +18,11 @@ async function main() {
   }
 
   const tokenCredential = new DefaultAzureCredential();
-  const logsClient = new LogsClient(tokenCredential);
+  const logsQueryClient = new LogsQueryClient(tokenCredential);
 
   const kqlQuery = "AppEvents | project TimeGenerated, OperationName, AppRoleInstance | limit 1";
 
-  const result = await logsClient.queryLogsBatch({
+  const result = await logsQueryClient.queryLogsBatch({
     queries: [
       {
         workspace: monitorWorkspaceId,

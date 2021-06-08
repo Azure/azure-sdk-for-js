@@ -52,4 +52,17 @@ describe("Anonymous access tests", function() {
       `Expecting '${repositoryName}' in the list`
     );
   });
+
+  it("should throw error setting properties with anonymous access", async () => {
+    try {
+      const repository = client.getRepository(repositoryName);
+      await repository.updateProperties({
+        canDelete: false
+      });
+      assert.fail("should have thrown already");
+    } catch (e) {
+      assert.strictEqual((e as any).statusCode, 401);
+      assert.strictEqual((e as any).details.errors[0].code, "UNAUTHORIZED");
+    }
+  });
 });

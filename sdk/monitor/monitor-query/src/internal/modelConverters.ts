@@ -6,7 +6,8 @@ import {
   LogQueryRequest,
   LogQueryResponse,
   QueryBatchResponse as GeneratedQueryBatchResponse,
-  QueryBody
+  QueryBody,
+  Table as GeneratedTable
 } from "../generated/logquery/src";
 
 import {
@@ -26,14 +27,16 @@ import { MetricNamespacesListResponse as GeneratedMetricNamespacesListResponse }
 import { formatPreferHeader } from "./util";
 
 import {
-  QueryLogsBatch,
-  QueryLogsBatchResponse,
-  QueryMetricsOptions,
-  QueryMetricsResponse,
+  BatchQuery,
   GetMetricDefinitionsOptions,
-  GetMetricDefinitionsResponse,
-  GetMetricNamespacesResponse,
-  BatchQuery
+  GetMetricDefinitionsResult,
+  GetMetricNamespacesResult,
+  LogsTable,
+  MetricDefinition,
+  QueryLogsBatch,
+  QueryLogsBatchResult,
+  QueryMetricsOptions,
+  QueryMetricsResult
 } from "../../src";
 import { Metric, TimeSeriesElement } from "../models/publicMetricsModels";
 
@@ -74,8 +77,8 @@ export function convertRequestForQueryBatch(batch: QueryLogsBatch): GeneratedBat
  */
 export function convertResponseForQueryBatch(
   generatedResponse: GeneratedQueryBatchResponse
-): QueryLogsBatchResponse {
-  const newResponse: QueryLogsBatchResponse = {
+): QueryLogsBatchResult {
+  const newResponse: QueryLogsBatchResult = {
     results: generatedResponse.responses
       ?.sort((a, b) => {
         let left = 0;
@@ -95,7 +98,7 @@ export function convertResponseForQueryBatch(
         status: response.status,
         // hoist fields from the sub-object 'body' to this level
         error: response.body?.error,
-        tables: response.body?.tables
+        tables: response.body?.tables?.map(convertGeneratedTable)
       }))
   };
 
@@ -106,16 +109,20 @@ export function convertResponseForQueryBatch(
  * @internal
  */
 export function convertRequestForMetrics(
+  timespan: string,
   queryMetricsOptions: QueryMetricsOptions | undefined
 ): GeneratedMetricsListOptionalParams {
   if (!queryMetricsOptions) {
-    return {};
+    return {
+      timespan
+    };
   }
 
   const { orderBy, metricNames, aggregations, metricNamespace, ...rest } = queryMetricsOptions;
 
   const obj: GeneratedMetricsListOptionalParams = {
-    ...rest
+    ...rest,
+    timespan
   };
 
   if (orderBy) {
@@ -138,23 +145,28 @@ export function convertRequestForMetrics(
  */
 export function convertResponseForMetrics(
   generatedResponse: GeneratedMetricsListResponse
-): QueryMetricsResponse {
+): QueryMetricsResult {
   const metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
     return {
       ...metric,
+      name: metric.name.value,
       timeseries: metric.timeseries.map(
         (ts: GeneratedTimeSeriesElement) =>
           <TimeSeriesElement>{
             data: ts.data,
-            metadataValues: ts.metadatavalues
+            metadataValues: ts.metadatavalues?.map((mv) => ({
+              ...mv,
+              name: mv.name?.value
+            }))
           }
       )
     };
   });
 
-  const { resourceregion, _response: _, value: _ignoredValue, ...rest } = generatedResponse;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
+  const { resourceregion, _response: _response, value: _ignoredValue, ...rest } = generatedResponse;
 
-  const obj: QueryMetricsResponse = {
+  const obj: QueryMetricsResult = {
     ...rest,
     metrics
   };
@@ -194,9 +206,22 @@ export function convertRequestOptionsForMetricsDefinitions(
  */
 export function convertResponseForMetricsDefinitions(
   generatedResponse: GeneratedMetricDefinitionsListResponse
-): GetMetricDefinitionsResponse {
+): GetMetricDefinitionsResult {
   return {
-    definitions: generatedResponse.value
+    definitions: generatedResponse.value.map((defn) => {
+      const { name, dimensions, ...rest } = defn;
+      const newDefn: MetricDefinition = rest;
+
+      if (name) {
+        newDefn.name = name.value;
+      }
+
+      if (dimensions) {
+        newDefn.dimensions = dimensions.map((dimension) => dimension.value);
+      }
+
+      return newDefn;
+    })
   };
 }
 
@@ -205,8 +230,45 @@ export function convertResponseForMetricsDefinitions(
  */
 export function convertResponseForMetricNamespaces(
   generatedResponse: GeneratedMetricNamespacesListResponse
-): GetMetricNamespacesResponse {
+): GetMetricNamespacesResult {
   return {
     namespaces: generatedResponse.value
+  };
+}
+
+/**
+ * @internal
+ */
+export function convertGeneratedTable(table: GeneratedTable): LogsTable {
+  const dynamicsIndices: number[] = [];
+  const datesIndices: number[] = [];
+
+  // most columns convert on deserialization except for `dynamic` columns (basically JSON objects)
+  // and 'datetime' (strings that are ISO8601 formatted dates)
+  for (let i = 0; i < table.columns.length; ++i) {
+    if (table.columns[i].type === "datetime") {
+      datesIndices.push(i);
+    } else if (table.columns[i].type === "dynamic") {
+      dynamicsIndices.push(i);
+    }
+  }
+
+  return {
+    ...table,
+    rows: (table.rows as LogsTable["rows"]).map((row) => {
+      for (const dynamicIndex of dynamicsIndices) {
+        try {
+          row[dynamicIndex] = JSON.parse(row[dynamicIndex] as string) as Record<string, unknown>;
+        } catch (_err) {
+          /* leave as is. */
+        }
+      }
+
+      for (const dateIndex of datesIndices) {
+        row[dateIndex] = new Date(row[dateIndex] as string);
+      }
+
+      return row;
+    })
   };
 }

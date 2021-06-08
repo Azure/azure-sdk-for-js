@@ -1,33 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KJUR, KEYUTIL } from "jsrsasign";
-import { hexToByteArray } from "../../src/utils/base64"
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../src/jsrsasign.d.ts"/>
+import * as jsrsasign from "jsrsasign";
 
-export function createECDSKey() : string
-{
-  const keyPair = KEYUTIL.generateKeypair("EC", "secp256r1");
-  return KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV");
+import { hexToByteArray } from "../../src/utils/base64";
+
+export function createECDSKey(): [string, string] {
+  const keyPair = jsrsasign.KEYUTIL.generateKeypair("EC", "secp256r1");
+  return [
+    jsrsasign.KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV"),
+    jsrsasign.KEYUTIL.getPEM(keyPair.pubKeyObj, "PKCS8PUB")
+  ];
 }
 
-export function createRSAKey() : string
-{
-  const keyPair = KEYUTIL.generateKeypair("RSA", 2048);
-  return KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV");
+export function createRSAKey(): [string, string] {
+  const keyPair = jsrsasign.KEYUTIL.generateKeypair("RSA", 2048);
+  return [
+    jsrsasign.KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV"),
+    jsrsasign.KEYUTIL.getPEM(keyPair.pubKeyObj, "PKCS8PUB")
+  ];
 }
 
-function localDateToUtc(d : Date) : Date {
-  const  utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+function localDateToUtc(d: Date): Date {
+  const utc = d.getTime() + d.getTimezoneOffset() * 60000;
   return new Date(utc);
 }
 
-function zeroPadding(s : string, len : number) : any {
+function zeroPadding(s: string, len: number): any {
   if (s.length >= len) return s;
-  return new Array(len - s.length + 1).join('0') + s;
-};
+  return new Array(len - s.length + 1).join("0") + s;
+}
 
-function formatDateString(dateObject : Date) : string {
-  const  pad = zeroPadding;
+function formatDateString(dateObject: Date): string {
+  const pad = zeroPadding;
   const d = localDateToUtc(dateObject);
   let year = String(d.getFullYear());
   // Extract first two digits of year for UTC encoding.
@@ -42,38 +49,42 @@ function formatDateString(dateObject : Date) : string {
 }
 
 // Create a self-signed X.509 certificZTe
-export function createX509Certificate(key: string, subject_name: string) : string
-{
-  const signing_key = KEYUTIL.getKey(key);
-
-  const  tbs = new KJUR.asn1.x509.TBSCertificate();
-  tbs.setSerialNumberByParam({'int': 4});
-  tbs.setSignatureAlgByParam({'name': 'SHA1withRSA'});
+export function createX509Certificate(
+  privKeyPEM: string,
+  pubKeyPEM: string,
+  subject_name: string
+): string {
+  const pubKey = jsrsasign.KEYUTIL.getKey(pubKeyPEM);
+  const privKey = jsrsasign.KEYUTIL.getKey(privKeyPEM);
 
   const timeEnd = new Date();
   timeEnd.setFullYear(timeEnd.getFullYear() + 1);
 
-  tbs.setNotBeforeByParam({'str': formatDateString(timeEnd)});
-  tbs.setNotAfterByParam({'str': formatDateString(new Date())});
-  tbs.setSubjectPublicKey(signing_key);
-  tbs.appendExtension(new KJUR.asn1.x509.BasicConstraints({'cA':false, pathLen: 0}));
-  tbs.setSubjectByParam({'str': '/CN=' + subject_name});
-  tbs.setIssuerByParam({'str': '/CN=' + subject_name});
-  
-  const cert = new KJUR.asn1.x509.Certificate({
-      tbscertobj: tbs,
-      prvkeyobj: signing_key,
+  const cert = new jsrsasign.KJUR.asn1.x509.Certificate({
+    //    tbsobj: tbs,
+    serial: { int: 4 },
+    issuer: { str: "/CN=" + subject_name },
+    subject: { str: "/CN=" + subject_name },
+    notafter: { str: formatDateString(timeEnd) },
+    sbjpubkey: pubKey,
+    ext: [
+      { extname: "basicConstraints", critical: false, cA: false, pathLen: 0 },
+      { extname: "subjectAltName", critical: false, array: [{ uri: "https://" + subject_name }] },
+      { extname: "keyUsage", critical: true, names: ["digitalSignature"] }
+    ],
+    sigalg: { name: "SHA256withRSA" },
+    cakey: privKey
   });
-  cert.sign();
 
-  return cert.getPEMString();
+  const x509 = new jsrsasign.X509();
+  x509.readCertPEM(cert.getPEM());
 
-//    builder = builder.add_extension(SubjectAlternativeName([x509.DNSName(subject_name)]), critical=False)
+  return cert.getPEM();
 }
 
 /**
  * Generate the SHA256 hash of the specified buffer.
  */
-export function generateSha256Hash(buffer : string) : Uint8Array {
-  return hexToByteArray(KJUR.crypto.Util.hashString(buffer, "sha256"));
+export function generateSha256Hash(buffer: string): Uint8Array {
+  return hexToByteArray(jsrsasign.KJUR.crypto.Util.hashString(buffer, "sha256"));
 }

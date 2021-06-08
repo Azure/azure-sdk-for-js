@@ -2,4 +2,3 @@
 // Licensed under the MIT license.
 
 export * from "./policyCertificates";
-

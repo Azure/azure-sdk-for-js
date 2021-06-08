@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * Common ISO8601 durations.
+ * Aliases for some common ISO8601 durations.
  */
-export const CommonDurations = {
+export const Durations = {
   /** Alias for ISO8601 value 'P7D' */
   last7Days: "P7D",
   /** Alias for ISO8601 value 'P3D' */

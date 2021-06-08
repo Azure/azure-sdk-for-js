@@ -12,8 +12,8 @@ import {
 import { isNode } from "@azure/test-utils";
 import { assert } from "chai";
 
-import { TablesSharedKeyCredential } from "../../src/TablesSharedKeyCredential";
-import { tablesSharedKeyCredentialPolicy } from "../../src/TablesSharedKeyCredentialPolicy";
+import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy";
+import { AzureNamedKeyCredential } from "@azure/core-auth";
 
 describe("TablesSharedKeyCredential", () => {
   let originalToUTCString: () => string;
@@ -28,7 +28,7 @@ describe("TablesSharedKeyCredential", () => {
 
   it("It should sign", async function(this: Context) {
     if (!isNode) {
-      // TablesSharedKeyCredential auth is not supported in Browser
+      // AzureNamedKeyCredential auth is not supported in Browser
       this.skip();
     }
     const url =
@@ -41,8 +41,8 @@ describe("TablesSharedKeyCredential", () => {
         headers: createHttpHeaders()
       });
     };
-    const cred = new TablesSharedKeyCredential("accountName", "accountKey");
-    const policy = tablesSharedKeyCredentialPolicy(cred);
+    const cred = new AzureNamedKeyCredential("accountName", "accountKey");
+    const policy = tablesNamedKeyCredentialPolicy(cred);
     const response = await policy.sendRequest(requestToSign, next);
     assert.strictEqual(response.status, 200);
     assert.deepEqual(

@@ -7,12 +7,10 @@
  *
  */
 
-import {PolicyModification} from "./index";
+import { PolicyModification } from "./index";
 import * as Mappers from "../generated/models/mappers";
 
-import {
-  PolicyResult as GeneratedPolicyResult
-} from "../generated/models";
+import { PolicyResult as GeneratedPolicyResult } from "../generated/models";
 
 import { TypeDeserializer } from "../utils/typeDeserializer";
 import { AttestationSigner } from "./attestationSigner";
@@ -21,13 +19,15 @@ import { AttestationSigner } from "./attestationSigner";
  * The result of a policy certificate modification
  */
 export class PolicyResult {
-  private constructor(result : GeneratedPolicyResult) {
+  private constructor(result: GeneratedPolicyResult) {
     this.policyResolution = result.policyResolution;
     this.policyTokenHash = result.policyTokenHash;
     this.policy = result.policy;
-    this.policySigner = result.policySigner ? new AttestationSigner(result.policySigner) : undefined;
+    this.policySigner = result.policySigner
+      ? new AttestationSigner(result.policySigner)
+      : undefined;
   }
-  
+
   /**
    * The result of the operation
    */
@@ -45,12 +45,19 @@ export class PolicyResult {
    */
   policy?: string;
 
-  static create(rawJson: unknown) : PolicyResult {
-    return new PolicyResult(TypeDeserializer.deserialize(
+  /**
+   * Create a new instance of a {@link PolicyResult} from a raw JSON object.
+   * @param rawJson - JSON Policy Result object returned from the Attestation service.
+   * @returns a newly created {@link PolicyResult} object whose contents reflect the JSON received from
+   *  the attestation service.
+   */
+  static create(rawJson: unknown): PolicyResult {
+    return new PolicyResult(
+      TypeDeserializer.deserialize(
         rawJson,
-        { PolicyResult: Mappers.PolicyResult, JsonWebKey: Mappers.JsonWebKey }, 
-        "PolicyResult") as GeneratedPolicyResult);
+        { PolicyResult: Mappers.PolicyResult, JsonWebKey: Mappers.JsonWebKey },
+        "PolicyResult"
+      ) as GeneratedPolicyResult
+    );
   }
 }
-
-  

@@ -33,10 +33,6 @@ override-client-name: GeneratedClient
 title: AzureAttestationRestClient
 v3: true
 no-namespace-folders: true
-
-use-extension:
-#  "@autorest/typescript": "latest"
-  "@autorest/typescript": "6.0.0-dev.20201204.2"
 ```
 
 ## Customizations for Track 2 Generator

@@ -511,6 +511,19 @@ directive:
       $["x-ms-error-code"]["description"] = "Error Code";
 ```
 
+### Add error code to response header - Blob_SetHTTPHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=properties&SetHTTPHeaders"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
 ### Add ContentCrc64 to response header - Blob_Download
 
 ```yaml
@@ -1214,12 +1227,12 @@ directive:
       delete $["modelAsString"]
 ```
 
-### Define GeoReplication as enum type
+### Define GeoReplicationStatusType as enum type
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $["definitions"]["GeoReplication"]["x-ms-enum"]
+    where: $["definitions"]["GeoReplication"]["properties"]["Status"]["x-ms-enum"]
     transform: >
       delete $["modelAsString"]
 ```
@@ -1230,6 +1243,16 @@ directive:
 directive:
   - from: swagger-document
     where: $["parameters"]["BlobPublicAccess"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Define PublicAccessType as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["PublicAccessType"]["x-ms-enum"]
     transform: >
       delete $["modelAsString"]
 ```

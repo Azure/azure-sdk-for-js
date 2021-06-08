@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../src/jsrsasign.d.ts"/>
+import * as jsrsasign from "jsrsasign";
+
 import { assert } from "chai";
 
 import { AttestationSigner } from "../../src/";
-
-import * as jsrsasign from "jsrsasign"; // works in the browser
 
 import { decode } from "./decodeJWT";
 
 import { EndpointType, getAttestationUri } from "./recordedClient";
 
-import { encodeByteArray } from "./base64url"
+import { encodeByteArray } from "./base64url";
 
 export function decodeJWT(
   attestationToken: string,
@@ -32,14 +34,14 @@ export function decodeJWT(
 export async function verifyAttestationToken(
   attestationToken: string,
   signers: AttestationSigner[],
-  endpointType : EndpointType
+  endpointType: EndpointType
 ): Promise<{
   [key: string]: any;
 }> {
   const decoded = decodeJWT(attestationToken, getAttestationUri(endpointType));
   const keyId = decoded?.header.kid;
 
-  let signingCert : Uint8Array[] = [];
+  let signingCert: Uint8Array[] = [];
   for (const key of signers) {
     if (key.keyId === keyId) {
       signingCert = key.certificates;
@@ -53,14 +55,10 @@ export async function verifyAttestationToken(
     pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
     const pubKeyObj = jsrsasign.KEYUTIL.getKey(pemCert);
-    const isValid = jsrsasign.KJUR.jws.JWS.verifyJWT(
-      attestationToken,
-      pubKeyObj as jsrsasign.RSAKey,
-      {
-        iss: [getAttestationUri(endpointType)],
-        alg: ["RS256"]
-      }
-    );
+    const isValid = jsrsasign.KJUR.jws.JWS.verifyJWT(attestationToken, pubKeyObj, {
+      iss: [getAttestationUri(endpointType)],
+      alg: ["RS256"]
+    });
     if (!isValid) {
       throw new Error(`Verification failed! token: ${JSON.stringify(decoded)}`);
     }

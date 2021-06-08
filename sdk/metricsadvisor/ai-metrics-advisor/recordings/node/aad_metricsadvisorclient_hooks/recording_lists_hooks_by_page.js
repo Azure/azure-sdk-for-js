@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "9e11a3334bdeb420dc718a0b9ac71781";
+module.exports.hash = "8aa08cebc2e345d514d255814af01f9e";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0ba78b42-1300-474f-8b27-a69004ef4600',
+  'f56306f6-2220-438f-877a-1735a0530100',
   'x-ms-ests-server',
-  '2.1.11397.13 - KRSLR1 ProdSlices',
+  '2.1.11787.14 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsoDeAShyiJLlORVED-UD3HGLH8mEwAAAGdLk9cOAAAA; expires=Sun, 14-Feb-2021 08:42:58 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvAsiKRfhp5Eh637Nh0cx6LGLH8mBQAAAJ_hSdgOAAAA; expires=Fri, 02-Jul-2021 20:31:54 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 15 Jan 2021 08:42:57 GMT',
+  'Wed, 02 Jun 2021 20:31:54 GMT',
   'Content-Length',
   '1331'
 ]);
@@ -40,43 +40,43 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/hooks')
   .query(true)
-  .reply(200, {"value":[{"hookId":"939c72dd-3b2e-47ee-b2bc-d4ab7a0950be","hookName":"js-test-emailHook-161070017173203096","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$top=1&$skip=1"}, [
+  .reply(200, {"value":[{"hookId":"2b755260-7a5a-435c-bc98-1098d5aa8280","hookName":"js-test-emailHook-161531685527403780","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test@example.com"]}},{"hookId":"874704b3-80d3-4e78-929d-64be2accfb4f","hookName":"js-test-emailHook-161531685824404287","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test@example.com"]}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=2"}, [
   'Content-Length',
-  '426',
+  '661',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '66f73f92-73b7-4eb7-b2fd-946e41eee93b',
+  'c3f4ce34-3efc-426a-8b98-06fcc4ba0ed5',
   'x-envoy-upstream-service-time',
-  '44',
+  '103',
   'apim-request-id',
-  '66f73f92-73b7-4eb7-b2fd-946e41eee93b',
+  'c3f4ce34-3efc-426a-8b98-06fcc4ba0ed5',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:42:57 GMT'
+  'Wed, 02 Jun 2021 20:31:54 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/hooks')
   .query(true)
-  .reply(200, {"value":[{"hookId":"e9456779-51d7-4fc8-9ecf-3e6b20215d50","hookName":"js-test-webHook-161070017173206434","hookType":"Webhook","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"pass123","headers":{},"certificateKey":"","certificatePassword":""}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$top=1&$skip=2"}, [
+  .reply(200, {"value":[{"hookId":"5710d5c4-6aae-42c9-9bdf-e9ddcc5c89d5","hookName":"js-test-emailHook-161531705490304712","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test@example.com"]}},{"hookId":"54b8eea6-fdfc-4fd7-a7b5-b8dfa1d37d70","hookName":"js-test-emailHook-161531705673800660","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test@example.com"]}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=4"}, [
   'Content-Length',
-  '511',
+  '661',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'bbda1e8d-d079-40c1-80e0-651abf2b4d1b',
+  '5646daae-e43a-458b-8b5e-5b4a9ae232ee',
   'x-envoy-upstream-service-time',
-  '42',
+  '5149',
   'apim-request-id',
-  'bbda1e8d-d079-40c1-80e0-651abf2b4d1b',
+  '5646daae-e43a-458b-8b5e-5b4a9ae232ee',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 15 Jan 2021 08:42:58 GMT'
+  'Wed, 02 Jun 2021 20:31:59 GMT'
 ]);

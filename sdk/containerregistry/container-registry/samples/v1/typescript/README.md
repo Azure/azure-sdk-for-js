@@ -12,10 +12,13 @@ urlFragment: container-registry-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Container Registry in some common scenarios.
 
-| **File Name**                                         | **Description**                                                   |
-| ----------------------------------------------------- | ----------------------------------------------------------------- |
-| [containerRegistryClient.ts][containerregistryclient] | Demonstrates the use of a ContainerRegistryClient.                |
-| [repositoryAndArtifact.ts][repositoryandartifact]     | Demonstrates the use of ContainerRepository and RegistryArtifact. |
+| **File Name**                                         | **Description**                                                                            |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [containerRegistryClient.ts][containerregistryclient] | Lists repository names and deletes a repository.                                           |
+| [anonymousListTags.ts][anonymouslisttags]             | Lists tags for an image in a registry that enables anonymous pull access.                  |
+| [deleteImages.ts][deleteimages]                       | Deletes all but the latest three images.                                                   |
+| [repositoryAndArtifact.ts][repositoryandartifact]     | Uses ContainerRepository and RegistryArtifact to work with manifests, tags, and artifacts. |
+| [setImageProperties.ts][setimageproperties]           | Updates the properties on the tag so it can't be overwritten or deleted.                   |
 
 ## Prerequisites
 
@@ -70,7 +73,10 @@ npx cross-env CONTAINER_REGISTRY_ENDPOINT="<container registry endpoint>" node d
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [containerregistryclient]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/containerregistry/container-registry/samples/v1/typescript/src/containerRegistryClient.ts
+[anonymouslisttags]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/containerregistry/container-registry/samples/v1/typescript/src/anonymousListTags.ts
+[deleteimages]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/containerregistry/container-registry/samples/v1/typescript/src/deleteImages.ts
 [repositoryandartifact]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/containerregistry/container-registry/samples/v1/typescript/src/repositoryAndArtifact.ts
+[setimageproperties]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/containerregistry/container-registry/samples/v1/typescript/src/setImageProperties.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/container-registry
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecontainerregistry]: https://docs.microsoft.com/azure/container-registry/container-registry-get-started-portal

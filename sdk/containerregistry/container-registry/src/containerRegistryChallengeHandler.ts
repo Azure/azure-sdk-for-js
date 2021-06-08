@@ -45,7 +45,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
     });
   }
 
-  authenticateRequest(_options: AuthorizeRequestOptions): Promise<void> {
+  authorizeRequest(_options: AuthorizeRequestOptions): Promise<void> {
     return Promise.resolve();
   }
 
