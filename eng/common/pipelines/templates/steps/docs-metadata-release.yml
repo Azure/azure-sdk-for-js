@@ -6,6 +6,9 @@ parameters:
   - name: PackageRepository
     type: string
     default: 'not-specified'
+  - name: ReleaseSha
+    type: string
+    default: 'not-specified'
   - name: RepoId
     type: string
     default: $(Build.Repository.Name)
@@ -20,18 +23,43 @@ parameters:
     default: ''
   - name: TargetDocRepoOwner
     type: string
+    default: ''
+  - name: PRBranchName
+    type: string
+    default: 'master-rdme'
+  - name: PRLabels
+    type: string
+    default: 'auto-merge'
   - name: ArtifactName
     type: string
     default: ''
   - name: Language
     type: string
     default: ''
+  - name: DocRepoDestinationPath
+    type: string
+    default: '' #usually docs-ref-services/
+  - name: CIConfigs
+    type: string
+    default: '[]'
+  - name: GHReviewersVariable
+    type: string
+    default: ''
+  - name: GHTeamReviewersVariable
+    type: string
+    default: ''  # externally set, as eng-common does not have the identity-resolver. Run as pre-step
+  - name: OnboardingBranch
+    type: string
+    default: ''
+  - name: CloseAfterOpenForTesting
+    type: boolean
+    default: false
+  - name: SkipPackageJson
+    type: object
+    default: false
   - name: SparseCheckoutPaths
     type: object
     default: null
-  - name: DailyDocsBuild
-    type: boolean
-    default: false
 
 steps:
 - pwsh: |
@@ -44,81 +72,48 @@ steps:
     }
   displayName: Enable Long Paths if Necessary
 
-- pwsh: |
-    Write-Host "###vso[task.setvariable variable=DocRepoLocation]${{ parameters.WorkingDirectory }}/doc"
-  displayName: Set $(DocRepoLocation)
-
-# - ${{ if not(parameters.SparseCheckoutPaths) }}:
-- pwsh: |
-    if(!(Test-Path $(DocRepoLocation)) -or !(Get-ChildItem -Force $(DocRepoLocation)) ) { 
-      Write-Host "Docs already checked out, skipping checkout."
-      exit 0 
-    }
-
-    git clone `
-    https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} `
-    $(DocRepoLocation)
-  displayName: Clone Documentation Repository
-  ignoreLASTEXITCODE: false
-
-# If performing a daily docs build set the $(TargetBranchName) to a daily branch
-# name and attempt to checkout the daily docs branch. If the branch doesn't
-# exist, fail silently. Later steps will create the branch.
-- ${{ if eq(parameters.DailyDocsBuild, 'true') }}:
+- ${{ if not(parameters.SparseCheckoutPaths) }}:
   - pwsh: |
-      $branchName = "daily/$(Get-Date -Format 'yyyy-MM-dd')"
-      Write-Host "Daily Branch Name: $branchName"
-      Write-Host "##vso[task.setvariable variable=TargetBranchName;]$branchName"
-    displayName: Set daily docs branch name as $(TargetBranchName)
+      git clone https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} ${{ parameters.WorkingDirectory }}/repo
+    displayName: Clone Documentation Repository
+    ignoreLASTEXITCODE: false
 
-  - pwsh: |
-      $ErrorActionPreference = "Continue"
-      git checkout "origin/$(DailyDocsBranchName)" 2>&1 | Out-Null
-      $LASTEXITCODE = 0 # This ignores any error from git checkout
-      git status
-    displayName: Checkout daily branch if it exists
-    workingDirectory: $(DocRepoLocation)
-
-# If NOT performing a daily docs build, set the $(TargetBranchName) to the 
-# default branch of the documentation repository.
-- ${{ if ne(parameters.DailyDocsBuild, 'true') }}:
-  - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+- ${{ if parameters.SparseCheckoutPaths }}:
+  - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
     parameters:
-      WorkingDirectory: $(DocRepoLocation)
-  - pwsh: |
-      Write-Host "##vso[task.setvariable variable=TargetBranchName;]$(DefaultBranch)"
-    displayName: Set $(TargetBranchName) as $(DefaultBranch)
+      SkipDefaultCheckout: true
+      Repositories:
+        - Name: ${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }}
+          WorkingDirectory: ${{ parameters.WorkingDirectory }}/repo
+      Paths: ${{ parameters.SparseCheckoutPaths }}
 
-# - ${{ if and(ne(parameters.DailyDocsBuild, 'true'), parameters.SparseCheckoutPaths) }}:
-#   - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
-#     parameters:
-#       SkipDefaultCheckout: true
-#       Repositories:
-#         - Name: ${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }}
-#           WorkingDirectory: $(DocRepoLocation)
-#           Commitish: $[ coalesce(variables.DailyDocsBranchName, variables.DefaultBranch) ]
-#       Paths: ${{ parameters.SparseCheckoutPaths }}
-
+- template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+  parameters:
+    WorkingDirectory: ${{ parameters.WorkingDirectory }}/repo
 - task: PowerShell@2
   displayName: 'Apply Documentation Updates From Artifact'
   inputs:
     targetType: filePath
-    filePath: ${{ parameters.ScriptDirectory }}/Update-DocsMsMetadata.ps1
+    filePath: ${{ parameters.ScriptDirectory }}/update-docs-metadata.ps1
     arguments: >
       -ArtifactLocation ${{ parameters.ArtifactLocation }}
-      -DocRepoLocation "$(DocRepoLocation)"
-      -Language "${{parameters.Language}}"
+      -Repository ${{ parameters.PackageRepository }}
+      -ReleaseSHA ${{ parameters.ReleaseSha }}
       -RepoId ${{ parameters.RepoId }}
+      -WorkDirectory "${{ parameters.WorkingDirectory }}"
+      -DocRepoLocation "${{ parameters.WorkingDirectory }}/repo"
+      -Language "${{parameters.Language}}"
+      -Configs "${{ parameters.CIConfigs }}"
     pwsh: true
   env:
     GH_TOKEN: $(azuresdk-github-pat)
 
 - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
   parameters:
-    BaseRepoBranch: $(TargetBranchName)
+    BaseRepoBranch: $(DefaultBranch)
     BaseRepoOwner: ${{ parameters.TargetDocRepoOwner }}
-    CommitMsg: "Update docs metadata for release of ${{ parameters.ArtifactName }}"
+    CommitMsg: "Update docs metadata and targeting for release of ${{ parameters.ArtifactName }}"
     TargetRepoName: ${{ parameters.TargetDocRepoName }}
     TargetRepoOwner: ${{ parameters.TargetDocRepoOwner }}
-    WorkingDirectory: $(DocRepoLocation)
+    WorkingDirectory: ${{ parameters.WorkingDirectory }}/repo
     ScriptDirectory: ${{ parameters.WorkingDirectory }}/${{ parameters.ScriptDirectory }}

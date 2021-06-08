@@ -1,0 +1,111 @@
+# intended to be used as part of a release process
+parameters:
+  - name: ArtifactLocation
+    type: string
+    default: 'not-specified'
+  - name: RepoId
+    type: string
+    default: $(Build.Repository.Name)
+  - name: WorkingDirectory
+    type: string
+    default: ''
+  - name: ScriptDirectory
+    type: string
+    default: eng/common/scripts
+  - name: TargetDocRepoName
+    type: string
+    default: ''
+  - name: TargetDocRepoOwner
+    type: string
+  - name: ArtifactName
+    type: string
+    default: ''
+  - name: Language
+    type: string
+    default: ''
+  - name: DailyDocsBuild
+    type: boolean
+    default: false
+  - name: SetupDocsRepo
+    type: boolean
+    default: true
+
+steps:
+- pwsh: |
+    if ($IsWindows) {
+      REG ADD HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem /f /v LongPathsEnabled /t REG_DWORD /d 1
+      git config --system core.longpaths true
+    }
+    else {
+      Write-Host "This script is not executing on Windows, skipping registry modification."
+    }
+  displayName: Enable Long Paths if Necessary
+
+- ${{ if eq(parameters.SetupDocsRepo, 'true') }}:
+  - pwsh: |
+      Write-Host "###vso[task.setvariable variable=DocRepoLocation]${{ parameters.WorkingDirectory }}/doc"
+    displayName: Set $(DocRepoLocation)
+
+  - pwsh: |
+      if(!(Test-Path $(DocRepoLocation)) -or !(Get-ChildItem -Force $(DocRepoLocation)) ) { 
+        Write-Host "Docs already checked out, skipping checkout."
+        exit 0 
+      }
+
+      git clone `
+      https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} `
+      $(DocRepoLocation)
+    displayName: Clone Documentation Repository
+    ignoreLASTEXITCODE: false
+
+  # If performing a daily docs build set the $(TargetBranchName) to a daily branch
+  # name and attempt to checkout the daily docs branch. If the branch doesn't
+  # exist, fail silently. Later steps will create the branch.
+  - ${{ if eq(parameters.DailyDocsBuild, 'true') }}:
+    - pwsh: |
+        $branchName = "daily/$(Get-Date -Format 'yyyy-MM-dd')"
+        Write-Host "Daily Branch Name: $branchName"
+        Write-Host "##vso[task.setvariable variable=TargetBranchName;]$branchName"
+      displayName: Set daily docs branch name as $(TargetBranchName)
+
+    - pwsh: |
+        $ErrorActionPreference = "Continue"
+        git checkout "origin/$(DailyDocsBranchName)" 2>&1 | Out-Null
+        $LASTEXITCODE = 0 # This ignores any error from git checkout
+        git status
+      displayName: Checkout daily branch if it exists
+      workingDirectory: $(DocRepoLocation)
+
+  # If NOT performing a daily docs build, set the $(TargetBranchName) to the 
+  # default branch of the documentation repository.
+  - ${{ if ne(parameters.DailyDocsBuild, 'true') }}:
+    - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+      parameters:
+        WorkingDirectory: $(DocRepoLocation)
+    - pwsh: |
+        Write-Host "##vso[task.setvariable variable=TargetBranchName;]$(DefaultBranch)"
+      displayName: Set $(TargetBranchName) as $(DefaultBranch)
+
+- task: PowerShell@2
+  displayName: 'Apply Documentation Updates From Artifact'
+  inputs:
+    targetType: filePath
+    filePath: ${{ parameters.ScriptDirectory }}/Update-DocsMsMetadata.ps1
+    arguments: >
+      -ArtifactLocation ${{ parameters.ArtifactLocation }}
+      -DocRepoLocation "$(DocRepoLocation)"
+      -Language "${{parameters.Language}}"
+      -RepoId ${{ parameters.RepoId }}
+    pwsh: true
+  env:
+    GH_TOKEN: $(azuresdk-github-pat)
+
+- template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+  parameters:
+    BaseRepoBranch: $(TargetBranchName)
+    BaseRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+    CommitMsg: "Update docs metadata for release of ${{ parameters.ArtifactName }}"
+    TargetRepoName: ${{ parameters.TargetDocRepoName }}
+    TargetRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+    WorkingDirectory: $(DocRepoLocation)
+    ScriptDirectory: ${{ parameters.WorkingDirectory }}/${{ parameters.ScriptDirectory }}
