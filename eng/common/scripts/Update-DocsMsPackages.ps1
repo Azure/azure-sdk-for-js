@@ -12,8 +12,77 @@ param (
 
 . (Join-Path $PSScriptRoot common.ps1)
 
-function GetDocsMetadata() { 
-  (Get-CSVMetadata).Where({ $_.New -eq 'true' -and $_.Hide -ne 'true' })
+function GetDocsMetadataForMoniker($moniker) { 
+  $searchPath = Join-Path $DocRepoLocation 'metadata' $moniker
+  if (!(Test-Path $searchPath)) { 
+    return @() 
+  }
+  $paths = Get-ChildItem -Path $searchPath -Filter *.json
+
+  $metadata = @() 
+  foreach ($path in $paths) { 
+    $fileContents = Get-Content $path -Raw
+    $fileObject = ConvertFrom-Json -InputObject $fileContents
+    $versionGa = ''
+    $versionPreview = '' 
+    if ($moniker -eq 'latest') { 
+      $versionGa = $fileObject.Version
+    } else { 
+      $versionPreview = $fileObject.Version
+    }
+
+    $metadata += @{ 
+      Package = $fileObject.Name; 
+      VersionGA = $versionGa;
+      VersionPreview = $versionPreview;
+      RepoPath = $fileObject.ServiceDirectory;
+      Type = $fileObject.SdkType;
+      New = $fileObject.IsNewSdk;
+    }
+  }
+
+  return $metadata
+}
+function GetDocsMetadata() {
+  # Read metadata from CSV
+  $csvMetadata = (Get-CSVMetadata).Where({ $_.New -eq 'true' -and $_.Hide -ne 'true' })
+
+  # Read metadata from docs repo
+  $metadataByPackage = @{}
+  foreach ($package in GetDocsMetadataForMoniker 'latest') { 
+    if ($metadataByPackage.ContainsKey($package.Package)) { 
+      LogWarning "Duplicate package in latest metadata: $($package.Package)"
+    }
+    $metadataByPackage[$package.Package] = $package
+  }
+
+  foreach ($package in GetDocsMetadataForMoniker 'preview') {
+    if ($metadataByPackage.ContainsKey($package.Package)) {
+      # Merge VersionPreview of each object
+      $metadataByPackage[$package.Package].VersionPreview = $package.VersionPreview
+    } else { 
+      $metadataByPackage[$package.Package] = $package
+    }
+  }
+
+  # Override CSV metadata version information before returning
+  $outputMetadata = @()
+  foreach ($item in $csvMetadata) { 
+    if ($metadataByPackage.ContainsKey($item.Package)) {
+      Write-Host "Overriding CSV metadata from docs repo for $($item.Package)"
+      $matchingPackage = $metadataByPackage[$item.Package]
+      # TODO: Only mutate the verison if there is a version update?
+      if ($matchingPackage.VersionGA) {
+        $item.VersionGA = $matchingPackage.VersionGA
+      }
+      if ($matchingPackage.VersionPreview) { 
+        $item.VersionPreview = $matchingPackage.VersionPreview
+      }
+    }
+    $outputMetadata += $item
+  }
+
+  return $outputMetadata
 }
 
 if ($UpdateDocsMsPackagesFn -and (Test-Path "Function:$UpdateDocsMsPackagesFn")) {
