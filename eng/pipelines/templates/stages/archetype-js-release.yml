@@ -253,15 +253,10 @@ stages:
         # BEGIN DOCS REPO SETUP
         # TODO: REFACTOR
         - pwsh: |
-            Write-Host "###vso[task.setvariable variable=DocRepoLocation]${{ parameters.WorkingDirectory }}/doc"
+            Write-Host "###vso[task.setvariable variable=DocRepoLocation]$(System.DefaultWorkingDirectory)/doc"
           displayName: Set $(DocRepoLocation)
 
         - pwsh: |
-            if(!(Test-Path $(DocRepoLocation)) -or !(Get-ChildItem -Force $(DocRepoLocation)) ) { 
-              Write-Host "Docs already checked out, skipping checkout."
-              exit 0 
-            }
-
             git clone `
             https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} `
             $(DocRepoLocation)
