@@ -17,6 +17,7 @@ add-credentials: false
 package-version: 5.1.0
 v3: true
 hide-clients: true
+typescript: true
 ```
 
 ## Customizations for Track 2 Generator

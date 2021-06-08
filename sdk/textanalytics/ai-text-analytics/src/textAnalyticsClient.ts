@@ -171,7 +171,7 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    */
   stringIndexType?: StringIndexType;
   /**
-   * Specifies the list of Pii categories to return.
+   * Filters entities to ones only included in the specified array of categories
    */
   categoriesFilter?: PiiCategory[];
 }
@@ -209,7 +209,7 @@ export interface RecognizeCategorizedEntitiesAction extends TextAnalyticsAction 
    * disables input logging and may limit our ability to remediate issues that occur.
    */
   disableServiceLogs?: boolean;
-};
+}
 
 /**
  * Options for a Pii entities recognition action.
@@ -220,7 +220,11 @@ export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
    * set to 'PHI', entities in the Protected Healthcare Information domain will
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
-  domain?: PiiEntityDomain;
+  domainFilter?: PiiEntityDomain;
+  /**
+   * Filters entities to ones only included in the specified array of categories
+   */
+  categoriesFilter?: PiiCategory[];
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -233,7 +237,7 @@ export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
    * enables input logging.
    */
   disableServiceLogs?: boolean;
-};
+}
 
 /**
  * Options for a key phrases recognition action.
@@ -263,7 +267,7 @@ export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
    * disables input logging and may limit our ability to remediate issues that occur.
    */
   disableServiceLogs?: boolean;
-};
+}
 
 /**
  * Options for an analyze sentiment action.
@@ -290,7 +294,7 @@ export interface AnalyzeSentimentAction extends TextAnalyticsAction {
    * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
   includeOpinionMining?: boolean;
-};
+}
 
 /**
  * Description of collection of actions for the analyze API to perform on input documents

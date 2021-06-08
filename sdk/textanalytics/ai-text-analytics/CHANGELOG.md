@@ -10,6 +10,8 @@
 ### Breaking Changes
 
 - `PiiEntityDomainType` was renamed to `PiiEntityDomain`.
+- `domain` property of `RecognizePiiEntitiesAction` was renamed to `domainFilter`.
+- `categoriesFilter` was added to `RecognizePiiEntitiesAction`.
 
 ## 5.1.0-beta.6 (2021-05-18)
 
