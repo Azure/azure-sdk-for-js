@@ -181,22 +181,5 @@ export {
   PolicyInsightsPolicyStateDeletedEventData,
   StorageAsyncOperationInitiatedEventData,
   StorageBlobTierChangedEventData,
-  StorageBlobInventoryPolicyCompletedEventData,
-  AgriFoodFarmingApplicationDataChangedEventData,
-  AgriFoodFarmingBoundaryChangedEventData,
-  AgriFoodFarmingCropChangedEventData,
-  AgriFoodFarmingCropVarietyChangedEventData,
-  AgriFoodFarmingFarmChangedEventData,
-  AgriFoodFarmingFarmOperationDataIngestionJobStatusChangedEventData,
-  AgriFoodFarmingFarmerChangedEventData,
-  AgriFoodFarmingFieldChangedEventData,
-  AgriFoodFarmingHarvestDataChangedEventData,
-  AgriFoodFarmingPlantingDataChangedEventData,
-  AgriFoodFarmingSatelliteDataIngestionJobStatusChangedEventData,
-  AgriFoodFarmingSeasonChangedEventData,
-  AgriFoodFarmingSeasonalFieldChangedEventData,
-  AgriFoodFarmingTillageDataChangedEventData,
-  AgriFoodFarmingWeatherDataIngestionJobStatusChangedEventData,
-  AgriFoodFarmingResourceActionType,
-  AgriFoodFarmingJobStatus
+  StorageBlobInventoryPolicyCompletedEventData
 } from "./generated/models";
