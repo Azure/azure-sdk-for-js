@@ -237,5 +237,5 @@ function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is S
   }
 
   const x = possibleSpan as Span;
-  return typeof x.context === "function";
+  return typeof x.spanContext === "function";
 }
