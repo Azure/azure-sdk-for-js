@@ -13,7 +13,9 @@ import {
 } from "@azure/core-client";
 import {
   Manifest as ManifestMapper,
-  ContentProperties as ContentPropertiesMapper,
+  RepositoryWriteableProperties as RepositoryWriteablePropertiesMapper,
+  TagWriteableProperties as TagWriteablePropertiesMapper,
+  ManifestWriteableProperties as ManifestWriteablePropertiesMapper,
   Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema as Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper,
   PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema as PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 } from "../models/mappers";
@@ -42,26 +44,6 @@ export const url: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const last: OperationQueryParameter = {
-  parameterPath: ["options", "last"],
-  mapper: {
-    serializedName: "last",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const n: OperationQueryParameter = {
-  parameterPath: ["options", "n"],
-  mapper: {
-    serializedName: "n",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
 export const name: OperationURLParameter = {
   parameterPath: "name",
   mapper: {
@@ -71,18 +53,6 @@ export const name: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 
 export const reference: OperationURLParameter = {
@@ -123,6 +93,26 @@ export const payload: OperationParameter = {
   mapper: ManifestMapper
 };
 
+export const last: OperationQueryParameter = {
+  parameterPath: ["options", "last"],
+  mapper: {
+    serializedName: "last",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const n: OperationQueryParameter = {
+  parameterPath: ["options", "n"],
+  mapper: {
+    serializedName: "n",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
 export const contentType1: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -137,7 +127,7 @@ export const contentType1: OperationParameter = {
 
 export const value: OperationParameter = {
   parameterPath: ["options", "value"],
-  mapper: ContentPropertiesMapper
+  mapper: RepositoryWriteablePropertiesMapper
 };
 
 export const orderby: OperationQueryParameter = {
@@ -160,6 +150,11 @@ export const digest: OperationQueryParameter = {
   }
 };
 
+export const value1: OperationParameter = {
+  parameterPath: ["options", "value"],
+  mapper: TagWriteablePropertiesMapper
+};
+
 export const digest1: OperationURLParameter = {
   parameterPath: "digest",
   mapper: {
@@ -169,6 +164,23 @@ export const digest1: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const value2: OperationParameter = {
+  parameterPath: ["options", "value"],
+  mapper: ManifestWriteablePropertiesMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const accept2: OperationParameter = {
@@ -229,7 +241,7 @@ export const contentType2: OperationParameter = {
   }
 };
 
-export const value1: OperationParameter = {
+export const value3: OperationParameter = {
   parameterPath: "value",
   mapper: {
     serializedName: "value",
@@ -252,7 +264,7 @@ export const accept3: OperationParameter = {
   }
 };
 
-export const value2: OperationParameter = {
+export const value4: OperationParameter = {
   parameterPath: ["options", "value"],
   mapper: {
     serializedName: "value",
@@ -296,8 +308,8 @@ export const contentType3: OperationParameter = {
   }
 };
 
-export const aadAccesstoken: OperationParameter = {
-  parameterPath: ["options", "aadAccesstoken"],
+export const aadAccessToken: OperationParameter = {
+  parameterPath: ["options", "aadAccessToken"],
   mapper: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 };
 

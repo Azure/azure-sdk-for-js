@@ -15,25 +15,27 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'oB/Kn5fv/0GllS4OAaRoPg.0',
+  'zxK4T4XKfk+UrQXNvqGi1g.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   'sanitized',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1',
   'X-Processing-Time',
-  '12ms',
+  '22ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '06jh+YAAAAAAO2Xmx2CyLS5DXRf9xBkSFWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0Ga62YAAAAACoL9GGTyN7TKPDUgusp6lWWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 20 Apr 2021 02:14:02 GMT'
+  'Tue, 01 Jun 2021 22:00:57 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/identities/sanitized/:issueAccessToken', {"scopes":["chat","voip"]})
   .query(true)
-  .reply(200, {"token":"sanitized","expiresOn":"2021-04-21T02:14:01.2286913+00:00"}, [
+  .reply(200, {"token":"sanitized","expiresOn":"2021-06-02T22:00:57.0003807+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -41,17 +43,19 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'E3lK2Ag/pUexkJWaQRFsVQ.0',
+  'Im+DalkO/0OyT8F4zzsBdA.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   'sanitized',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1',
   'X-Processing-Time',
-  '25ms',
+  '41ms',
+  'X-Cache',
+  'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '06jh+YAAAAAAvaGzFjZPNQoBb7Bft3gBfWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0Ga62YAAAAACbXwQi1N+zSoOb+Nu0TSW8WVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 20 Apr 2021 02:14:02 GMT'
+  'Tue, 01 Jun 2021 22:00:57 GMT'
 ]);

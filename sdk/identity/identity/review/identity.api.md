@@ -66,23 +66,12 @@ export enum AzureAuthorityHosts {
 
 // @public
 export class AzureCliCredential implements TokenCredential {
-    protected getAzureCliAccessToken(resource: string): Promise<{
-        stdout: string;
-        stderr: string;
-        error: Error | null;
-    }>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
-    constructor(options?: AzurePowerShellCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-    }
-
-// @public
-export interface AzurePowerShellCredentialOptions {
-    useLegacyPowerShell?: boolean;
 }
 
 // @public

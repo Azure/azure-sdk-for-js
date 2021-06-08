@@ -10,6 +10,7 @@ package-name: "@azure/data-tables"
 title: TablesClient
 description: Tables Client
 generate-metadata: false
+package-version: 12.0.0
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
@@ -17,8 +18,9 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a8cd09
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.2"
+  "@autorest/typescript": "https://aka.ms/autorest/typescript/corev2"
 hide-clients: true
+use-core-v2: true
 ```
 
 ```yaml
@@ -27,6 +29,22 @@ directive:
     where: $.definitions.GeoReplication
     transform: >
       $["description"] = "Geo-Replication information for the Secondary Storage Service";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TableResponseProperties.properties.TableName
+    transform: >
+      $["x-ms-client-name"] = "name";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TableProperties.properties.TableName
+    transform: >
+      $["x-ms-client-name"] = "name";
 ```
 
 ```yaml

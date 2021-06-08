@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ListConfigurationSettingsOptions } from "..";
+import { featureFlagContentType, ListConfigurationSettingsOptions } from "..";
 import { URLBuilder } from "@azure/core-http";
 import {
   ListRevisionsOptions,
@@ -14,20 +14,13 @@ import {
   ConfigurationSettingParam
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
+import { FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
 import {
-  deserializeFeatureFlag,
-  FeatureFlag,
-  featureFlagContentType,
-  FeatureFlagParam,
-  serializeFeatureFlagParam
-} from "../featureFlag";
-import {
-  deserializeSecretReference,
-  SecretReference,
   secretReferenceContentType,
-  SecretReferenceParam,
-  serializeSecretReferenceParam
-} from "../keyvaultReference";
+  SecretReferenceHelper,
+  SecretReferenceValue
+} from "../secretReference";
+import { isDefined } from "./typeguards";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -166,40 +159,74 @@ export function makeConfigurationSettingEmpty(
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
   const setting: ConfigurationSetting & KeyValue = {
+    value: undefined,
     ...kvp,
     isReadOnly: !!kvp.locked
   };
 
   delete setting.locked;
 
-  switch (setting.contentType) {
-    case featureFlagContentType: {
-      return deserializeFeatureFlag(setting) ?? setting;
-    }
-    case secretReferenceContentType: {
-      return deserializeSecretReference(setting) ?? setting;
-    }
-    default:
-      return setting;
-  }
+  return setting;
+}
+
+/**
+ * @internal
+ */
+function isConfigSettingWithSecretReferenceValue(
+  setting: any
+): setting is ConfigurationSetting<SecretReferenceValue> {
+  return (
+    setting.contentType === secretReferenceContentType &&
+    isDefined(setting.value) &&
+    typeof setting.value !== "string"
+  );
+}
+
+/**
+ * @internal
+ */
+function isConfigSettingWithFeatureFlagValue(
+  setting: any
+): setting is ConfigurationSetting<FeatureFlagValue> {
+  return (
+    setting.contentType === featureFlagContentType &&
+    isDefined(setting.value) &&
+    typeof setting.value !== "string"
+  );
+}
+
+/**
+ * @internal
+ */
+function isSimpleConfigSetting(setting: any): setting is ConfigurationSetting {
+  return typeof setting.value === "string" || !isDefined(setting.value);
 }
 
 /**
  * @internal
  */
 export function serializeAsConfigurationSettingParam(
-  setting: FeatureFlagParam | SecretReferenceParam | ConfigurationSettingParam
+  setting:
+    | ConfigurationSettingParam
+    | ConfigurationSettingParam<FeatureFlagValue>
+    | ConfigurationSettingParam<SecretReferenceValue>
 ): ConfigurationSettingParam {
-  switch (setting.contentType) {
-    case featureFlagContentType: {
-      return serializeFeatureFlagParam(setting as FeatureFlag);
-    }
-    case secretReferenceContentType: {
-      return serializeSecretReferenceParam(setting as SecretReference);
-    }
-    default:
-      return setting;
+  if (isSimpleConfigSetting(setting)) {
+    return setting as ConfigurationSettingParam;
   }
+  try {
+    if (isConfigSettingWithFeatureFlagValue(setting)) {
+      return FeatureFlagHelper.toConfigurationSettingParam(setting);
+    }
+    if (isConfigSettingWithSecretReferenceValue(setting)) {
+      return SecretReferenceHelper.toConfigurationSettingParam(setting);
+    }
+  } catch (error) {
+    return setting as ConfigurationSettingParam;
+  }
+  throw new TypeError(
+    `Unable to serialize the setting with key "${setting.key}" as a configuration setting`
+  );
 }
 
 /**
@@ -273,4 +300,14 @@ export function formatFieldsForSelect(
   });
 
   return mappedFieldNames;
+}
+
+/**
+ * @internal
+ */
+export function errorMessageForUnexpectedSetting(
+  key: string,
+  expectedType: "FeatureFlag" | "SecretReference"
+) {
+  return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
 }

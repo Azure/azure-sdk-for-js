@@ -15,11 +15,12 @@ import { SmsClient, SmsClientOptions } from "../../../src";
 
 export const recorderConfiguration: RecorderEnvironmentSetup = {
   replaceableVariables: {
-    AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+    COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
     AZURE_PHONE_NUMBER: "+14255550123",
     AZURE_CLIENT_ID: "SomeClientId",
     AZURE_CLIENT_SECRET: "SomeClientSecret",
-    AZURE_TENANT_ID: "SomeTenantId"
+    AZURE_TENANT_ID: "SomeTenantId",
+    COMMUNICATION_SKIP_INT_SMS_TEST: "false"
   },
   customizationsOnRecordings: [
     (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
@@ -61,13 +62,13 @@ function createCredential(): TokenCredential {
 
 export function createSmsClient(): SmsClient {
   // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
-  return new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING, {
+  return new SmsClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
     httpClient: createTestHttpClient()
   } as SmsClientOptions);
 }
 
 export function createSmsClientWithToken(): SmsClient {
-  const { endpoint } = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING);
+  const { endpoint } = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING);
   const credential: TokenCredential = createCredential();
   // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
   return new SmsClient(endpoint, credential, {
@@ -85,9 +86,9 @@ function createTestHttpClient(): HttpClient {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
     console.log(
-      `MS-CV header for request: ${requestResponse.headers.get("ms-cv")} (${
+      `MS-CV header for request: ${httpRequest.url} (${
         requestResponse.status
-      } - ${httpRequest.url})`
+      } - ${requestResponse.headers.get("ms-cv")})`
     );
 
     return requestResponse;

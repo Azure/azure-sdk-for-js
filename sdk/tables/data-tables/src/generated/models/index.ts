@@ -19,7 +19,7 @@ export interface TableQueryResponse {
 /** The properties for the table response. */
 export interface TableResponseProperties {
   /** The name of the table. */
-  tableName?: string;
+  name?: string;
   /** The odata type of the table. */
   odataType?: string;
   /** The id of the table. */
@@ -53,7 +53,7 @@ export interface TableServiceErrorOdataErrorMessage {
 /** The properties for creating a table. */
 export interface TableProperties {
   /** The name of the table to create. */
-  tableName?: string;
+  name?: string;
 }
 
 /** The properties for the table entity query response. */

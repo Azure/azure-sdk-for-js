@@ -58,7 +58,7 @@ export interface KeyVaultSecret {
 }
 
 // @public
-export interface KeyVaultSecretId {
+export interface KeyVaultSecretIdentifier {
     name: string;
     sourceId: string;
     vaultUrl: string;
@@ -94,6 +94,9 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export function parseKeyVaultSecretIdentifier(id: string): KeyVaultSecretIdentifier;
 
 export { PipelineOptions }
 

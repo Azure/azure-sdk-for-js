@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/274ae886-0137-4cb7-a16b-217a057aa596",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/ba91b602-7d52-49e6-9938-cfdecc9926ba",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "335e30f8-c963-4532-b72d-ed4179505876",
+    "apim-request-id": "d1244af0-4207-4265-b6e2-5e805adf7c87",
     "content-length": "0",
-    "date": "Wed, 20 Jan 2021 18:42:06 GMT",
+    "date": "Thu, 03 Jun 2021 00:13:32 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "438",
-    "x-request-id": "335e30f8-c963-4532-b72d-ed4179505876"
+    "x-envoy-upstream-service-time": "373",
+    "x-request-id": "d1244af0-4207-4265-b6e2-5e805adf7c87"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/274ae886-0137-4cb7-a16b-217a057aa596",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/ba91b602-7d52-49e6-9938-cfdecc9926ba",
    "query": {},
    "requestBody": null,
    "status": 404,
-   "response": "{\"code\":\"ERROR_INVALID_PARAMETER\",\"message\":\"datafeedId is invalid.\"}",
+   "response": "{\"code\":\"404 NOT_FOUND\",\"message\":\"datafeedId is invalid.\"}",
    "responseHeaders": {
-    "apim-request-id": "f66d7751-68cb-4433-9948-341cb5a90113",
-    "content-length": "69",
+    "apim-request-id": "f24bf48e-5e34-47bd-835c-f889625413c8",
+    "content-length": "59",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:42:06 GMT",
+    "date": "Thu, 03 Jun 2021 00:13:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "78",
-    "x-request-id": "f66d7751-68cb-4433-9948-341cb5a90113"
+    "x-envoy-upstream-service-time": "5142",
+    "x-request-id": "f24bf48e-5e34-47bd-835c-f889625413c8"
    }
   }
  ],
@@ -40,5 +40,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "03e2300f788156ec889aca08f6ad954f"
+ "hash": "110e52db1be2405680580cf8a8654b60"
 }

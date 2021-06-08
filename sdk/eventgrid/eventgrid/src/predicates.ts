@@ -2,43 +2,41 @@
 // Licensed under the MIT license.
 
 import {
-  AcsChatMessageReceivedEventData,
-  AcsChatMessageEditedEventData,
   AcsChatMessageDeletedEventData,
-  AcsChatThreadCreatedWithUserEventData,
-  AcsChatThreadWithUserDeletedEventData,
-  AcsChatThreadPropertiesUpdatedPerUserEventData,
+  AcsChatMessageEditedEventData,
+  AcsChatMessageReceivedEventData,
   AcsChatParticipantAddedToThreadEventData,
   AcsChatParticipantAddedToThreadWithUserEventData,
   AcsChatParticipantRemovedFromThreadEventData,
   AcsChatParticipantRemovedFromThreadWithUserEventData,
+  AcsChatThreadCreatedWithUserEventData,
+  AcsChatThreadPropertiesUpdatedPerUserEventData,
+  AcsChatThreadWithUserDeletedEventData,
   AcsRecordingFileStatusUpdatedEventData,
   AcsSmsDeliveryReportReceivedEventData,
   AcsSmsReceivedEventData,
   AppConfigurationKeyValueDeletedEventData,
   AppConfigurationKeyValueModifiedEventData,
-  ContainerRegistryImagePushedEventData,
-  ContainerRegistryImageDeletedEventData,
   ContainerRegistryChartDeletedEventData,
   ContainerRegistryChartPushedEventData,
+  ContainerRegistryImageDeletedEventData,
+  ContainerRegistryImagePushedEventData,
+  EventHubCaptureFileCreatedEventData,
+  IotHubDeviceConnectedEventData,
   IotHubDeviceCreatedEventData,
   IotHubDeviceDeletedEventData,
-  IotHubDeviceConnectedEventData,
   IotHubDeviceDisconnectedEventData,
   IotHubDeviceTelemetryEventData,
-  KeyVaultCertificateNewVersionCreatedEventData,
-  KeyVaultCertificateNearExpiryEventData,
-  KeyVaultCertificateExpiredEventData,
-  KeyVaultKeyNewVersionCreatedEventData,
-  KeyVaultKeyNearExpiryEventData,
-  KeyVaultKeyExpiredEventData,
-  KeyVaultSecretNewVersionCreatedEventData,
-  KeyVaultSecretNearExpiryEventData,
-  KeyVaultSecretExpiredEventData,
   KeyVaultAccessPolicyChangedEventData,
-  SubscriptionValidationEventData,
-  SubscriptionDeletedEventData,
-  EventHubCaptureFileCreatedEventData,
+  KeyVaultCertificateExpiredEventData,
+  KeyVaultCertificateNearExpiryEventData,
+  KeyVaultCertificateNewVersionCreatedEventData,
+  KeyVaultKeyExpiredEventData,
+  KeyVaultKeyNearExpiryEventData,
+  KeyVaultKeyNewVersionCreatedEventData,
+  KeyVaultSecretExpiredEventData,
+  KeyVaultSecretNearExpiryEventData,
+  KeyVaultSecretNewVersionCreatedEventData,
   MachineLearningServicesDatasetDriftDetectedEventData,
   MachineLearningServicesModelDeployedEventData,
   MachineLearningServicesModelRegisteredEventData,
@@ -47,61 +45,69 @@ import {
   MapsGeofenceEnteredEventData,
   MapsGeofenceExitedEventData,
   MapsGeofenceResultEventData,
-  MediaJobStateChangeEventData,
-  MediaJobOutputStateChangeEventData,
-  MediaJobScheduledEventData,
-  MediaJobProcessingEventData,
-  MediaJobCancelingEventData,
-  MediaJobFinishedEventData,
   MediaJobCanceledEventData,
+  MediaJobCancelingEventData,
   MediaJobErroredEventData,
+  MediaJobFinishedEventData,
   MediaJobOutputCanceledEventData,
   MediaJobOutputCancelingEventData,
   MediaJobOutputErroredEventData,
   MediaJobOutputFinishedEventData,
   MediaJobOutputProcessingEventData,
-  MediaJobOutputScheduledEventData,
   MediaJobOutputProgressEventData,
-  MediaLiveEventEncoderConnectedEventData,
+  MediaJobOutputScheduledEventData,
+  MediaJobOutputStateChangeEventData,
+  MediaJobProcessingEventData,
+  MediaJobScheduledEventData,
+  MediaJobStateChangeEventData,
   MediaLiveEventConnectionRejectedEventData,
+  MediaLiveEventEncoderConnectedEventData,
   MediaLiveEventEncoderDisconnectedEventData,
+  MediaLiveEventIncomingDataChunkDroppedEventData,
   MediaLiveEventIncomingStreamReceivedEventData,
   MediaLiveEventIncomingStreamsOutOfSyncEventData,
   MediaLiveEventIncomingVideoStreamsOutOfSyncEventData,
-  MediaLiveEventIncomingDataChunkDroppedEventData,
   MediaLiveEventIngestHeartbeatEventData,
   MediaLiveEventTrackDiscontinuityDetectedEventData,
-  ResourceWriteSuccessEventData,
-  ResourceWriteFailureEventData,
-  ResourceWriteCancelEventData,
-  ResourceDeleteSuccessEventData,
-  ResourceDeleteFailureEventData,
-  ResourceDeleteCancelEventData,
-  ResourceActionSuccessEventData,
-  ResourceActionFailureEventData,
+  PolicyInsightsPolicyStateChangedEventData,
+  PolicyInsightsPolicyStateCreatedEventData,
+  PolicyInsightsPolicyStateDeletedEventData,
   ResourceActionCancelEventData,
+  ResourceActionFailureEventData,
+  ResourceActionSuccessEventData,
+  ResourceDeleteCancelEventData,
+  ResourceDeleteFailureEventData,
+  ResourceDeleteSuccessEventData,
+  ResourceWriteCancelEventData,
+  ResourceWriteFailureEventData,
+  ResourceWriteSuccessEventData,
   ServiceBusActiveMessagesAvailableWithNoListenersEventData,
   ServiceBusDeadletterMessagesAvailableWithNoListenersEventData,
+  StorageAsyncOperationInitiatedEventData,
   StorageBlobCreatedEventData,
   StorageBlobDeletedEventData,
+  StorageBlobInventoryPolicyCompletedEventData,
   StorageBlobRenamedEventData,
+  StorageBlobTierChangedEventData,
   StorageDirectoryCreatedEventData,
   StorageDirectoryDeletedEventData,
   StorageDirectoryRenamedEventData,
+  StorageLifecyclePolicyCompletedEventData,
+  SubscriptionDeletedEventData,
+  SubscriptionValidationEventData,
+  WebAppServicePlanUpdatedEventData,
   WebAppUpdatedEventData,
-  WebBackupOperationStartedEventData,
   WebBackupOperationCompletedEventData,
   WebBackupOperationFailedEventData,
-  WebRestoreOperationStartedEventData,
+  WebBackupOperationStartedEventData,
   WebRestoreOperationCompletedEventData,
   WebRestoreOperationFailedEventData,
-  WebSlotSwapStartedEventData,
+  WebRestoreOperationStartedEventData,
   WebSlotSwapCompletedEventData,
   WebSlotSwapFailedEventData,
-  WebSlotSwapWithPreviewStartedEventData,
+  WebSlotSwapStartedEventData,
   WebSlotSwapWithPreviewCancelledEventData,
-  WebAppServicePlanUpdatedEventData,
-  StorageLifecyclePolicyCompletedEventData
+  WebSlotSwapWithPreviewStartedEventData
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -254,7 +260,13 @@ export interface SystemEventNameToEventData {
   "Microsoft.Media.LiveEventIngestHeartbeat": MediaLiveEventIngestHeartbeatEventData;
   /** An interface for the event data of a "Microsoft.Media.LiveEventTrackDiscontinuityDetected" event. */
   "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
-  /** An interface for the event data of a "Microsoft.Resources.ResourceWriteSuccess" event. */
+  /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateChanged" event. */
+  "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
+  /** An interface for the event data of a " Microsoft.PolicyInsights.PolicyStateCreated" event. */
+  "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
+  /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateDeleted" event. */
+  "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Resources.ResourceDeleteSuccess" event. */
   "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
   /** An interface for the event data of a "Microsoft.Resources.ResourceWriteFailure" event. */
   "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
@@ -274,12 +286,18 @@ export interface SystemEventNameToEventData {
   "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
   /** An interface for the event data of a "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners" event. */
   "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
-  /** An interface for the event data of a "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener" event. */
-  "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+  /** An interface for the event data of a "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners" event. */
+  "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+  /** An interface for the event data of a "Microsoft.Storage.AsyncOperationInitiated" event. */
+  "Microsoft.Storage.AsyncOperationInitiated": StorageAsyncOperationInitiatedEventData;
   /** An interface for the event data of a "Microsoft.Storage.BlobCreated" event. */
   "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
   /** An interface for the event data of a "Microsoft.Storage.BlobDeleted" event. */
   "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.BlobInventoryPolicyCompleted" event. */
+  "Microsoft.Storage.BlobInventoryPolicyCompleted": StorageBlobInventoryPolicyCompletedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.BlobTierChanged" event. */
+  "Microsoft.Storage.BlobTierChanged": StorageBlobTierChangedEventData;
   /** An interface for the event data of a "Microsoft.Storage.BlobRenamed" event. */
   "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
   /** An interface for the event data of a "Microsoft.Storage.DirectoryCreated" event. */

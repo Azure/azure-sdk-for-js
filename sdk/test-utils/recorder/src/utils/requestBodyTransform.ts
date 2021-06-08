@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isBrowser, sanitizeScopeUrl } from ".";
+
 /**
  * Callbacks to be applied on the generated recordings
  * - stringTransforms - callbacks to be applied on the string based request body
@@ -14,35 +16,27 @@ export type RequestBodyTransformsType = {
 /**
  * Provides the default RequestBodyTransforms that need to be applied on the generated recordings
  */
-export const defaultRequestBodyTransforms: RequestBodyTransformsType = {
-  stringTransforms: [
-    // Identity v2 with the new msal, has unique request-ids in request body, to be able to
-    // match the ids in playback we apply the following method on the request body
-    // 1. before saving the recording
-    //    and
-    // 2. as a filter on the new requests to be able to match the request bodies
-    (body: string) =>
-      body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id")
-  ],
+export const defaultRequestBodyTransforms: Required<RequestBodyTransformsType> = {
+  stringTransforms: [(body: string) => (isBrowser() ? sanitizeScopeUrl(body) : body)],
   jsonTransforms: []
 };
 
 /**
  * Transformations to be applied on the requestBody in record mode for "string" fixtures to be able to filter the requests in playback.
  */
-export function applyRequestBodyTransformations(
+export function applyRequestBodyTransformationsOnFixture(
   runtime: "node" | "browser",
   fixture: string,
-  requestBodyTransformations?: RequestBodyTransformsType
+  requestBodyTransformations: Required<RequestBodyTransformsType>
 ): string;
 
 /**
  * Transformations to be applied on the requestBody in record mode for "JSON" fixtures to be able to filter the requests in playback.
  */
-export function applyRequestBodyTransformations(
+export function applyRequestBodyTransformationsOnFixture(
   runtime: "node" | "browser",
   fixture: { [x: string]: unknown },
-  requestBodyTransformations?: RequestBodyTransformsType
+  requestBodyTransformations: Required<RequestBodyTransformsType>
 ): { [x: string]: unknown };
 
 /**
@@ -63,20 +57,15 @@ export function applyRequestBodyTransformations(
  *          ...
  *        ]);
  */
-export function applyRequestBodyTransformations(
+export function applyRequestBodyTransformationsOnFixture(
   runtime: "node" | "browser",
   fixture: string | { [x: string]: unknown },
-  requestBodyTransformations?: RequestBodyTransformsType
+  requestBodyTransformations: Required<RequestBodyTransformsType>
 ): string | { [x: string]: unknown } {
   if (!requestBodyTransformations) {
     return fixture;
   }
-  if (runtime === "node") {
-    if (typeof fixture !== "string") {
-      // TODO: Handle JSON fixtures here - parts of below can be refactored
-      // Not required yet since we're not handling the browser recordings
-      return fixture;
-    }
+  if (runtime === "node" && typeof fixture === "string") {
     // Modify the request body
     let updatedFixture = fixture;
 
@@ -91,18 +80,14 @@ export function applyRequestBodyTransformations(
       typeof matches[2] === "string" &&
       requestBodyTransformations.stringTransforms
     ) {
-      let updatedBody = matches[2]; // Must be string - either normal or JSON-stringified
-      // normal string
-      for (const transformation of requestBodyTransformations.stringTransforms) {
-        updatedBody = transformation(updatedBody);
-      }
+      const updatedBody = applyRequestBodyTransformations(matches[2], requestBodyTransformations); // Must be string - either normal or JSON-stringified
       // TODO: Handle JSON stringified bodies - not required as of now
 
       // Updated fixture with the new request body
       // Example:
       //    .post('/azuretenantid/oauth2/v2.0/token', "client-request-id=client-request-id&client_secret=azure_client_secret")
       //    .reply(200,....
-      updatedFixture = fixture.replace(matches[2], updatedBody);
+      updatedFixture = updatedFixture.replace(matches[2], updatedBody);
     }
 
     if (updatedFixture === fixture) {
@@ -129,10 +114,69 @@ export function applyRequestBodyTransformations(
       }
     }
     return updatedFixture;
-  } else {
-    // TODO: Browser side - not needed right now since the browser tests are not using the new identity with msal
-    console.log("This feature is not yet supported in the browser");
+  } else if (runtime === "browser" && typeof fixture !== "string") {
+    if (fixture?.requestBody) {
+      if (typeof fixture.requestBody === "string") {
+        const updatedFixture = {
+          ...fixture,
+          requestBody: applyRequestBodyTransformations(
+            fixture.requestBody,
+            requestBodyTransformations
+          )
+        };
+        return updatedFixture;
+      } else {
+        // TODO: If the request body is not string - can be null or JSON
+        // Not implemented yet
+      }
+    }
   }
 
   return fixture;
+}
+
+/**
+ * Transformations to be applied on the requestBody in record mode for "string" bodies to be able to filter the requests in playback.
+ */
+export function applyRequestBodyTransformations(
+  body: string,
+  requestBodyTransformations: RequestBodyTransformsType
+): string;
+
+/**
+ * Transformations to be applied on the requestBody in record mode for "JSON" bodies to be able to filter the requests in playback.
+ */
+export function applyRequestBodyTransformations(
+  body: { [x: string]: unknown },
+  requestBodyTransformations: RequestBodyTransformsType
+): { [x: string]: unknown };
+
+/**
+ * Transformations to be applied on the requestBody in record mode to be able to filter the requests in playback.
+ *
+ * Example:
+ *     Input:
+ *        "client-request-id=11111111-1111-1111-1111-111111111111&client_secret=azure_client_secret"
+ *        with
+ *         (body: string) => body.replace(/client-request-id=[^&]*<slash>g, "client-request-id=client-request-id")
+ *     Output:
+ *        "client-request-id=client-request-id&client_secret=azure_client_secret")
+ */
+export function applyRequestBodyTransformations(
+  body: string | { [x: string]: unknown },
+  requestBodyTransformations: RequestBodyTransformsType
+): string | { [x: string]: unknown } {
+  if (typeof body === "string") {
+    if (!requestBodyTransformations.stringTransforms) {
+      return body;
+    }
+    let updatedBody = body;
+    for (const transformation of requestBodyTransformations.stringTransforms) {
+      updatedBody = transformation(updatedBody);
+    }
+    return updatedBody;
+  } else if (typeof body === "object") {
+    // TODO: Expecting JSON object or null - Yet to be implemented
+  }
+  return body;
 }

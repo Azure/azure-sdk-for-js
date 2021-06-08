@@ -1,7 +1,13 @@
 # Release History
 
-## 12.5.1 (Unreleased)
+## 12.6.0 (2021-06-09)
 
+- Includes all features released in 12.6.0-beta.1.
+
+## 12.6.0-beta.1 (2021-05-14)
+
+- Updated Azure Storage Service API version to 2020-08-04.
+- Restoring deleted container doesn't support renaming anymore, deprecated `destinationContainerName` in `ServiceUndeleteContainerOptions` for `BlobServiceClient.undeleteContainer()`.
 
 ## 12.5.0 (2021-03-10)
 

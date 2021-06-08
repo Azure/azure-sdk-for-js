@@ -45,8 +45,8 @@ export interface SendMessageOptions extends OperationOptions {
   senderDisplayName?: string;
   /** The chat message type. */
   type?: ChatMessageType;
-  /** Message properties */
-  properties?: Record<string, string>;
+  /** Message metadata. */
+  metadata?: Record<string, string>;
 }
 
 /**
@@ -55,8 +55,8 @@ export interface SendMessageOptions extends OperationOptions {
 export interface UpdateMessageOptions extends OperationOptions {
   /** Chat message content. */
   content?: string;
-  /** Message properties */
-  properties?: Record<string, string>;
+  /** Message metadata. */
+  metadata?: Record<string, string>;
 }
 
 /**

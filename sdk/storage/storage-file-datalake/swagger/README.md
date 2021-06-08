@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/855ff5c114252328d011b53fa427c908cb1e837b/specification/storage/data-plane/Microsoft.StorageDataLake/stable/2020-06-12/DataLakeStorage.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e3850d6aa56eecad65262d0fc7815be0773bfb85/specification/storage/data-plane/Microsoft.StorageDataLake/stable/2020-06-12/DataLakeStorage.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -237,4 +237,76 @@ directive:
     where: $["parameters"].PathExpiryOptions
     transform: >
       delete $["x-ms-enum"]["modelAsString"];
+```
+
+### Add ErrorCode to FileSystem_ListBlobHierarchySegment response headers
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{filesystem}?restype=container&comp=list&hierarchy"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Hide x-ms-pageable in FileSystem_ListBlobHierarchySegment
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{filesystem}?restype=container&comp=list&hierarchy"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
+### Rename "BlobItemInternal" to "BlobItemModel" to avoid "internal" word in interface.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobItemInternal"]
+    transform: >
+      $["x-ms-client-name"] = "BlobItemModel";
+```
+
+### Rename "BlobPropertiesInternal" to "BlobPropertiesModel" to avoid "internal" word in interface.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobPropertiesInternal"]
+    transform: >
+      $["x-ms-client-name"] = "BlobPropertiesModel";
+```
+
+### Remove "is" prefix from boolean variable: "isSealed"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobPropertiesInternal"]
+    transform: >
+      delete $["properties"]["Sealed"]["x-ms-client-name"];
+```
+
+### Remove duplicated "DeleteTime" property
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobPropertiesInternal"]
+    transform: >
+      delete $["properties"]["DeleteTime"]
+```
+
+### Update service version from "2020-06-12" to "2020-08-04"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2020-08-04" ];
 ```

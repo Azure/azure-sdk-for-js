@@ -1,7 +1,8 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.0-beta.1 (Unreleased)
 
+- `CommunicationIdentityClient` added a new method `exchangeTeamsToken` that provides the ability to exchange a Teams token for an ACS access token.
 
 ## 1.0.0 (2021-03-29)
 

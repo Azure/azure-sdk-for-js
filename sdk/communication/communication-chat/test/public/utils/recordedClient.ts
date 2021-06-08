@@ -31,7 +31,7 @@ export interface RecordedClient {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
+  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -45,13 +45,17 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export async function createTestUser(): Promise<CommunicationUserToken> {
-  const identityClient = new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING);
+  const identityClient = new CommunicationIdentityClient(
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING
+  );
   return identityClient.createUserAndToken(["chat"]);
 }
 
 export async function deleteTestUser(testUser: CommunicationUserIdentifier): Promise<void> {
   if (testUser) {
-    const identityClient = new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING);
+    const identityClient = new CommunicationIdentityClient(
+      env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING
+    );
     await identityClient.deleteUser(testUser);
   }
 }
@@ -65,7 +69,7 @@ export function createChatClient(userToken: string): ChatClient {
   if (userToken === "token") {
     userToken = generateToken();
   }
-  const { url } = parseClientArguments(env.COMMUNICATION_CONNECTION_STRING);
+  const { url } = parseClientArguments(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING);
 
   return new ChatClient(url, new AzureCommunicationTokenCredential(userToken), {
     httpClient: createTestHttpClient()
@@ -82,9 +86,9 @@ function createTestHttpClient(): HttpClient {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
     console.log(
-      `MS-CV header for request: ${requestResponse.headers.get("ms-cv")} (${
+      `MS-CV header for request: ${httpRequest.url} (${
         requestResponse.status
-      } - ${httpRequest.url})`
+      } - ${requestResponse.headers.get("ms-cv")})`
     );
 
     return requestResponse;

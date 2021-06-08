@@ -5,6 +5,10 @@
       "path": "sdk/core/abort-controller"
     },
     {
+      "name": "purview-catalog",
+      "path": "sdk/purview/purview-catalog-rest"
+    },
+    {
       "name": "anomaly-detector",
       "path": "sdk/anomalydetector/ai-anomaly-detector"
     },
@@ -53,12 +57,20 @@
       "path": "sdk/core/core-client"
     },
     {
-      "name": "rest-core-client",
-      "path": "sdk/core-rest/core-client"
+      "name": "core-client-rest",
+      "path": "sdk/core/core-client-rest"
     },
     {
       "name": "ai-document-translator",
       "path": "sdk/documenttranslator/ai-document-translator-rest"
+    },
+    {
+      "name": "confidential-ledger",
+      "path": "sdk/confidentialledger/confidential-ledger-rest"
+    },
+    {
+      "name": "agrifood-farming",
+      "path": "sdk/agrifood/agrifood-farming-rest"
     },
     {
       "name": "core-crypto",
@@ -231,6 +243,10 @@
     {
       "name": "dev tool",
       "path": "common/tools/dev-tool"
+    },
+    {
+      "name": "purview-scanning",
+      "path": "sdk/purview/purview-scanning-rest"
     },
     {
       "name": "perfstress",

@@ -7,7 +7,8 @@ import {
   isTokenCredential,
   signingPolicy,
   createPipelineFromOptions,
-  InternalPipelineOptions
+  InternalPipelineOptions,
+  RestResponse
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -30,15 +31,15 @@ import {
   GetRoleAssignmentOptions,
   ListRoleDefinitionsPageSettings,
   ListRoleAssignmentsPageSettings,
-  KeyVaultPermission,
   GetRoleDefinitionOptions,
-  UpsertRoleDefinitionOptions,
+  SetRoleDefinitionOptions,
   DeleteRoleDefinitionOptions
 } from "./accessControlModels";
 
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
 import { mappings } from "./mappings";
 import { logger } from "./log";
+import { v4 as v4uuid } from "uuid";
 
 const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultAccessControlClient");
 
@@ -166,8 +167,7 @@ export class KeyVaultAccessControlClient {
    * ```ts
    * const client = new KeyVaultAccessControlClient(url, credentials);
    * const roleAssignment = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
-   * const deletedRoleAssignment = await client.deleteRoleAssignment(roleAssignment.properties.roleScope, roleAssignment.name);
-   * console.log(deletedRoleAssignment);
+   * await client.deleteRoleAssignment(roleAssignment.properties.roleScope, roleAssignment.name);
    * ```
    * Deletes an existing role assignment.
    * @param roleScope - The scope of the role assignment.
@@ -178,16 +178,10 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     name: string,
     options: DeleteRoleAssignmentOptions = {}
-  ): Promise<KeyVaultRoleAssignment> {
-    return withTrace("deleteRoleAssignment", options, async (updatedOptions) => {
-      const response = await this.client.roleAssignments.delete(
-        this.vaultUrl,
-        roleScope,
-        name,
-        updatedOptions
-      );
-      return mappings.roleAssignment.generatedToPublic(response);
-    });
+  ): Promise<RestResponse> {
+    return withTrace("deleteRoleAssignment", options, (updatedOptions) =>
+      this.client.roleAssignments.delete(this.vaultUrl, roleScope, name, updatedOptions)
+    );
   }
 
   /**
@@ -436,13 +430,14 @@ export class KeyVaultAccessControlClient {
   }
 
   /**
-   * Upserts a role definition in an Azure Key Vault.
+   * Creates or updates a role definition in an Azure Key Vault.
    *
    * Example usage:
    * ```ts
    * const client = new KeyVaultAccessControlClient(url, credentials);
-   * const permissions = [{ dataActions: "Microsoft.KeyVault/managedHsm/backup/start/action" }];
-   * const roleDefinition = await client.upsertRoleDefintion("/", "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a", permissions);
+   * const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
+   * const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
+   * const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, { permissions, roleDefinitionName });
    * console.log(roleDefinition);
    * ```
    * @param roleScope - The scope of the role definition.
@@ -451,24 +446,21 @@ export class KeyVaultAccessControlClient {
    * @param description - The role definition description.
    * @param options - The optional parameters.
    */
-  public upsertRoleDefinition(
+  public setRoleDefinition(
     roleScope: KeyVaultRoleScope,
-    name: string,
-    permissions: KeyVaultPermission[],
-    description?: string,
-    options: UpsertRoleDefinitionOptions = {}
+    options: SetRoleDefinitionOptions = {}
   ): Promise<KeyVaultRoleDefinition> {
-    return withTrace("upsertRoleDefinition", options, async (updatedOptions) => {
+    return withTrace("setRoleDefinition", options, async (updatedOptions) => {
       const response = await this.client.roleDefinitions.createOrUpdate(
         this.vaultUrl,
         roleScope,
-        name,
+        options.roleDefinitionName || v4uuid(),
         {
           properties: {
-            description,
-            permissions,
+            description: options.description,
+            permissions: options.permissions,
             assignableScopes: [roleScope],
-            roleName: name,
+            roleName: options.roleName,
             roleType: "CustomRole"
           }
         },
@@ -484,9 +476,8 @@ export class KeyVaultAccessControlClient {
    * Example usage:
    * ```ts
    * const client = new KeyVaultAccessControlClient(url, credentials);
-   * const roleDefinition = await client.upsertRoleDefintion("/", "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a", []);
-   * const deletedRoleDefinition = await client.deleteRoleDefinition("/", roleDefinition.name);
-   * console.log(deletedRoleDefinition);
+   * const roleDefinition = await client.setRoleDefinition("/", "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a", []);
+   * await client.deleteRoleDefinition("/", roleDefinition.name);
    * ```
    * @param roleScope - The scope of the role definition.
    * @param name - The name of the role definition to delete.
@@ -496,15 +487,9 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     name: string,
     options: DeleteRoleDefinitionOptions = {}
-  ): Promise<KeyVaultRoleDefinition> {
-    return withTrace("deleteRoleDefinition", options, async (updatedOptions) => {
-      const response = await this.client.roleDefinitions.delete(
-        this.vaultUrl,
-        roleScope,
-        name,
-        updatedOptions
-      );
-      return mappings.roleDefinition.generatedToPublic(response);
-    });
+  ): Promise<RestResponse> {
+    return withTrace("deleteRoleDefinition", options, (updatedOptions) =>
+      this.client.roleDefinitions.delete(this.vaultUrl, roleScope, name, updatedOptions)
+    );
   }
 }

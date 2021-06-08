@@ -10,47 +10,88 @@ import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export class ContainerRegistryClient {
-    constructor(endpointUrl: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
-    deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
-    endpoint: string;
-    getRepositoryClient(repository: string): ContainerRepositoryClient;
-    listRepositories(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, string[]>;
-    }
-
-// @public
-export interface ContainerRegistryClientOptions extends PipelineOptions {
+export interface ArtifactManifestPlatform {
+    readonly architecture?: string;
+    readonly digest: string;
+    readonly operatingSystem?: string;
 }
 
 // @public
-export class ContainerRepositoryClient {
-    constructor(endpointUrl: string, repository: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
-    delete(options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
-    deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<void>;
-    deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
-    endpoint: string;
-    getProperties(options?: GetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
-    getRegistryArtifactProperties(tagOrDigest: string, options?: GetRegistryArtifactPropertiesOptions): Promise<RegistryArtifactProperties>;
-    getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<TagProperties>;
-    listRegistryArtifacts(options?: ListRegistryArtifactsOptions): PagedAsyncIterableIterator<RegistryArtifactProperties>;
-    listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<TagProperties>;
-    registry: string;
-    repository: string;
-    setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<RegistryArtifactProperties>;
-    setProperties(value: ContentProperties, options?: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
-    setTagProperties(tag: string, value: ContentProperties, options?: SetTagPropertiesOptions): Promise<TagProperties>;
-}
-
-// @public
-export interface ContentProperties {
+export interface ArtifactManifestProperties {
+    readonly architecture?: string;
     canDelete?: boolean;
     canList?: boolean;
     canRead?: boolean;
     canWrite?: boolean;
+    readonly createdOn: Date;
+    readonly digest: string;
+    readonly lastUpdatedOn: Date;
+    readonly operatingSystem?: string;
+    readonly registryLoginServer: string;
+    readonly relatedArtifacts: ArtifactManifestPlatform[];
+    readonly repositoryName: string;
+    readonly size?: number;
+    readonly tags: string[];
 }
 
 // @public
-export interface DeleteRegistryArtifactOptions extends OperationOptions {
+export interface ArtifactTagProperties {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
+    readonly createdOn: Date;
+    readonly digest: string;
+    readonly lastUpdatedOn: Date;
+    readonly name: string;
+    readonly registryLoginServer: string;
+    readonly repositoryName: string;
+}
+
+// @public
+export class ContainerRegistryClient {
+    constructor(endpoint: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
+    constructor(endpoint: string, options?: ContainerRegistryClientOptions);
+    deleteRepository(repositoryName: string, options?: DeleteRepositoryOptions): Promise<void>;
+    readonly endpoint: string;
+    getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact;
+    getRepository(repositoryName: string): ContainerRepository;
+    listRepositoryNames(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, RepositoryPageResponse>;
+}
+
+// @public
+export interface ContainerRegistryClientOptions extends PipelineOptions {
+    authenticationScope?: string;
+}
+
+// @public
+export interface ContainerRepository {
+    delete(options?: DeleteRepositoryOptions): Promise<void>;
+    getArtifact(tagOrDigest: string): RegistryArtifact;
+    getProperties(options?: GetRepositoryPropertiesOptions): Promise<ContainerRepositoryProperties>;
+    listManifestProperties(options?: ListManifestPropertiesOptions): PagedAsyncIterableIterator<ArtifactManifestProperties>;
+    readonly name: string;
+    readonly registryEndpoint: string;
+    updateProperties(options: UpdateRepositoryPropertiesOptions): Promise<ContainerRepositoryProperties>;
+}
+
+// @public
+export interface ContainerRepositoryProperties {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
+    readonly createdOn: Date;
+    readonly lastUpdatedOn: Date;
+    readonly manifestCount: number;
+    readonly name: string;
+    readonly registryLoginServer: string;
+    readonly tagCount: number;
+    teleportEnabled?: boolean;
+}
+
+// @public
+export interface DeleteArtifactOptions extends OperationOptions {
 }
 
 // @public
@@ -58,17 +99,11 @@ export interface DeleteRepositoryOptions extends OperationOptions {
 }
 
 // @public
-export interface DeleteRepositoryResult {
-    deletedRegistryArtifactDigests?: string[];
-    deletedTags?: string[];
-}
-
-// @public
 export interface DeleteTagOptions extends OperationOptions {
 }
 
 // @public
-export interface GetRegistryArtifactPropertiesOptions extends OperationOptions {
+export interface GetManifestPropertiesOptions extends OperationOptions {
 }
 
 // @public
@@ -80,8 +115,70 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface ListRegistryArtifactsOptions extends OperationOptions {
-    orderBy?: RegistryArtifactOrderBy;
+export enum KnownArtifactArchitecture {
+    // (undocumented)
+    Amd64 = "amd64",
+    // (undocumented)
+    Arm = "arm",
+    // (undocumented)
+    Arm64 = "arm64",
+    // (undocumented)
+    I386 = "386",
+    // (undocumented)
+    Mips = "mips",
+    // (undocumented)
+    Mips64 = "mips64",
+    // (undocumented)
+    Mips64Le = "mips64le",
+    // (undocumented)
+    MipsLe = "mipsle",
+    // (undocumented)
+    Ppc64 = "ppc64",
+    // (undocumented)
+    Ppc64Le = "ppc64le",
+    // (undocumented)
+    RiscV64 = "riscv64",
+    // (undocumented)
+    S390X = "s390x",
+    // (undocumented)
+    Wasm = "wasm"
+}
+
+// @public
+export enum KnownArtifactOperatingSystem {
+    // (undocumented)
+    Aix = "aix",
+    // (undocumented)
+    Android = "android",
+    // (undocumented)
+    Darwin = "darwin",
+    // (undocumented)
+    Dragonfly = "dragonfly",
+    // (undocumented)
+    FreeBsd = "freebsd",
+    // (undocumented)
+    Illumos = "illumos",
+    // (undocumented)
+    iOS = "ios",
+    // (undocumented)
+    JS = "js",
+    // (undocumented)
+    Linux = "linux",
+    // (undocumented)
+    NetBsd = "netbsd",
+    // (undocumented)
+    OpenBsd = "openbsd",
+    // (undocumented)
+    Plan9 = "plan9",
+    // (undocumented)
+    Solaris = "solaris",
+    // (undocumented)
+    Windows = "windows"
+}
+
+// @public
+export interface ListManifestPropertiesOptions extends OperationOptions {
+    orderBy?: ManifestOrderBy;
 }
 
 // @public
@@ -89,60 +186,68 @@ export interface ListRepositoriesOptions extends OperationOptions {
 }
 
 // @public
-export interface ListTagsOptions extends OperationOptions {
+export interface ListTagPropertiesOptions extends OperationOptions {
     orderBy?: TagOrderBy;
 }
 
 // @public
-export type RegistryArtifactOrderBy = "timedesc" | "timeasc";
+export type ManifestOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 // @public
-export interface RegistryArtifactProperties {
-    cpuArchitecture?: string;
-    createdOn?: Date;
-    digest?: string;
-    lastUpdatedOn?: Date;
-    operatingSystem?: string;
-    registryArtifacts?: RegistryArtifactProperties[];
-    repository?: string;
-    size?: number;
-    tags?: string[];
-    writeableProperties?: ContentProperties;
+export interface ManifestPageResponse extends Array<ArtifactManifestProperties> {
+    continuationToken?: string;
 }
 
 // @public
-export interface RepositoryProperties {
-    createdOn: Date;
-    lastUpdatedOn: Date;
-    name: string;
-    registryArtifactCount: number;
-    tagCount: number;
-    writeableProperties: ContentProperties;
+export interface RegistryArtifact {
+    delete(options?: DeleteArtifactOptions): Promise<void>;
+    deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
+    readonly fullyQualifiedReference: string;
+    getManifestProperties(options?: GetManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
+    getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<ArtifactTagProperties>;
+    listTagProperties(options?: ListTagPropertiesOptions): PagedAsyncIterableIterator<ArtifactTagProperties>;
+    readonly registryEndpoint: string;
+    readonly repositoryName: string;
+    updateManifestProperties(options?: UpdateManifestPropertiesOptions): Promise<ArtifactManifestProperties>;
+    updateTagProperties(tag: string, options: UpdateTagPropertiesOptions): Promise<ArtifactTagProperties>;
 }
 
 // @public
-export interface SetManifestPropertiesOptions extends OperationOptions {
+export interface RepositoryPageResponse extends Array<string> {
+    continuationToken?: string;
 }
 
 // @public
-export interface SetRepositoryPropertiesOptions extends OperationOptions {
+export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+
+// @public
+export interface TagPageResponse extends Array<ArtifactTagProperties> {
+    continuationToken?: string;
 }
 
 // @public
-export interface SetTagPropertiesOptions extends OperationOptions {
+export interface UpdateManifestPropertiesOptions extends OperationOptions {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
 }
 
 // @public
-export type TagOrderBy = "timedesc" | "timeasc";
+export interface UpdateRepositoryPropertiesOptions extends OperationOptions {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
+    teleportEnabled?: boolean;
+}
 
 // @public
-export interface TagProperties {
-    createdOn: Date;
-    digest: string;
-    lastUpdatedOn: Date;
-    name: string;
-    repository: string;
-    writeableProperties: ContentProperties;
+export interface UpdateTagPropertiesOptions extends OperationOptions {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
 }
 
 

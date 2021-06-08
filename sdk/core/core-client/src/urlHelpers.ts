@@ -133,7 +133,10 @@ function calculateQueryParameters(
         queryParameter,
         fallbackObject
       );
-      if (queryParameterValue !== undefined && queryParameterValue !== null) {
+      if (
+        (queryParameterValue !== undefined && queryParameterValue !== null) ||
+        queryParameter.mapper.required
+      ) {
         queryParameterValue = operationSpec.serializer.serialize(
           queryParameter.mapper,
           queryParameterValue,

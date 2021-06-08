@@ -37,6 +37,8 @@ import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { convert } from "./tsToJs";
 
 import devToolPackageJson from "../../../package.json";
+import { findMatchingFiles } from "../../util/findMatchingFiles";
+import { EOL } from "os";
 
 const log = createPrinter("publish");
 
@@ -74,7 +76,7 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
     private: true,
     version: "1.0.0",
     description: `${info.productName} client library samples for ${fullOutputKind}`,
-    engine: {
+    engines: {
       node: `>=${MIN_SUPPORTED_NODE_VERSION}`
     },
     ...(outputKind === OutputKind.TypeScript
@@ -194,23 +196,26 @@ async function processSources(
         const tags = ts.getJSDocTags(node);
 
         // Look for the @summary jsdoc tag block as well
-        if (summary === undefined && tags.some(({ tagName: { text } }) => text === "summary")) {
+        if (summary === undefined) {
           for (const tag of tags) {
+            log.debug(`File ${relativeSourcePath} has tag ${tag.tagName.text}`);
             if (tag.tagName.text === "summary") {
               log.debug("Found summary tag on node:", node.getText(sourceFile));
               // Replace is required due to multi-line splitting messing with table formatting
               summary = tag.comment?.replace(/\s*\r?\n\s*/g, " ");
-            } else if (
-              tag.tagName.text.startsWith(`${AZSDK_META_TAG_PREFIX}`) &&
-              tag.comment !== undefined
-            ) {
+            } else if (tag.tagName.text.startsWith(`${AZSDK_META_TAG_PREFIX}`)) {
               // We ran into an `azsdk` directive in the metadata
               const metaTag = tag.tagName.text.replace(
                 new RegExp(`^${AZSDK_META_TAG_PREFIX}`),
                 ""
               ) as keyof AzSdkMetaTags;
+              log.debug(`File ${relativeSourcePath} has azsdk tag ${tag.tagName.text}`);
               if (VALID_AZSDK_META_TAGS.includes(metaTag)) {
-                azSdkTags[metaTag as keyof AzSdkMetaTags] = JSON.parse(tag.comment);
+                const comment = tag.comment?.trim();
+                // If there was _no_ comment, then we can assume it is a boolean tag
+                // and so being specified at all is an indication that we should use
+                // `true`
+                azSdkTags[metaTag as keyof AzSdkMetaTags] = comment ? JSON.parse(comment) : true;
               } else {
                 log.warn(
                   `Invalid azsdk tag ${metaTag}. Valid tags include ${VALID_AZSDK_META_TAGS}`
@@ -228,17 +233,26 @@ async function processSources(
       return sourceFile;
     };
 
+    const jsModuleText = convert(sourceText, {
+      fileName: source,
+      transformers: {
+        before: [sourceProcessor]
+      }
+    });
+
+    if (summary === undefined && azSdkTags.util !== true) {
+      log.debug(azSdkTags.util, summary);
+      fail(
+        `${relativeSourcePath} does not include an @summary tag and is not marked as a util (using @azsdk-util true).`
+      );
+    }
+
     return {
       filePath: source,
       relativeSourcePath,
       text: sourceText,
-      jsModuleText: convert(sourceText, {
-        fileName: source,
-        transformers: {
-          before: [sourceProcessor]
-        }
-      }),
-      summary: summary ?? fail(`${relativeSourcePath} does not include an @summary tag.`),
+      jsModuleText,
+      summary,
       importedModules: importedModules.filter(isDependency),
       usedEnvironmentVariables,
       azSdkTags
@@ -246,6 +260,16 @@ async function processSources(
   });
 
   return Promise.all(jobs);
+}
+
+async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
+  const out = [];
+
+  for await (const v of i) {
+    out.push(v);
+  }
+
+  return out;
 }
 
 /**
@@ -261,9 +285,10 @@ async function makeSampleGenerationInfo(
   onError: () => void
 ): Promise<SampleGenerationInfo> {
   const sampleSourcesPath = path.join(projectInfo.path, DEV_SAMPLES_BASE);
-  const sampleSources = (await fs.readdir(sampleSourcesPath))
-    .filter((name) => name.endsWith(".ts"))
-    .map((name) => path.join(sampleSourcesPath, name));
+
+  const sampleSources = await collect(
+    findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts"))
+  );
 
   const sampleConfiguration = getSampleConfiguration(projectInfo.packageJson);
 
@@ -398,7 +423,8 @@ function createReadme(outputKind: OutputKind, info: SampleGenerationInfo): strin
         },
     publicationDirectory: PUBLIC_SAMPLES_BASE + "/" + info.topLevelDirectory,
     useTypeScript: outputKind === OutputKind.TypeScript,
-    ...info
+    ...info,
+    moduleInfos: info.moduleInfos.filter((mod) => mod.summary !== undefined)
   });
 }
 
@@ -440,7 +466,18 @@ async function makeSamplesFactory(
    */
   function postProcess(moduleText: string | Buffer): string {
     const content = Buffer.isBuffer(moduleText) ? moduleText.toString("utf8") : moduleText;
-    return content.replace(new RegExp(`^\\s*\\*\\s*@${AZSDK_META_TAG_PREFIX}.*\n`, "gm"), "");
+    return (
+      content
+        .replace(new RegExp(`^\\s*\\*\\s*@${AZSDK_META_TAG_PREFIX}.*\n`, "gm"), "")
+        // We also need to clean up extra blank lines that might be left behind by
+        // removing azsdk tags. These regular expressions are extremely frustrating
+        // because they deal almost exclusively in the literal "/" and "*" characters.
+        .replace(/(\s+\*)+\//s, EOL + " */")
+        // Clean up blank lines at the beginning
+        .replace(/\/\*\*(\s+\*)*/s, `/**${EOL} *`)
+        // Finally remove empty doc comments.
+        .replace(/\s*\/\*\*(\s+\*)*\/\s*/s, EOL + EOL)
+    );
   }
 
   // We use a tempdir at the outer layer to avoid creating dirty trees
@@ -455,8 +492,8 @@ async function makeSamplesFactory(
         // We copy the samples sources in to the `src` folder on the typescript side
         dir(
           "src",
-          info.moduleInfos.map(({ filePath }) =>
-            file(path.basename(filePath), () => postProcess(fs.readFileSync(filePath)))
+          info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
+            file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath)))
           )
         )
       ]),
@@ -465,8 +502,8 @@ async function makeSamplesFactory(
         file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
         copy("sample.env", path.join(projectInfo.path, "sample.env")),
         // Extract the JS Module Text from the module info structures
-        ...info.moduleInfos.map(({ filePath, jsModuleText }) =>
-          file(path.basename(filePath).replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
+        ...info.moduleInfos.map(({ relativeSourcePath, jsModuleText }) =>
+          file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
         )
       ]),
       // Copy extraFiles by reducing all configured destinations for each input file

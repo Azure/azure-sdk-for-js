@@ -14,10 +14,10 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { WebSiteManagementClientContext } from "./webSiteManagementClientContext";
 
-
 class WebSiteManagementClient extends WebSiteManagementClientContext {
   // Operation groups
   appServiceCertificateOrders: operations.AppServiceCertificateOrders;
+  certificateOrdersDiagnostics: operations.CertificateOrdersDiagnostics;
   certificateRegistrationProvider: operations.CertificateRegistrationProvider;
   domains: operations.Domains;
   topLevelDomains: operations.TopLevelDomains;
@@ -25,6 +25,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   certificates: operations.Certificates;
   deletedWebApps: operations.DeletedWebApps;
   diagnostics: operations.Diagnostics;
+  global: operations.Global;
   provider: operations.Provider;
   recommendations: operations.Recommendations;
   webApps: operations.WebApps;
@@ -40,9 +41,14 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * 00000000-0000-0000-0000-000000000000).
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.WebSiteManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.WebSiteManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.appServiceCertificateOrders = new operations.AppServiceCertificateOrders(this);
+    this.certificateOrdersDiagnostics = new operations.CertificateOrdersDiagnostics(this);
     this.certificateRegistrationProvider = new operations.CertificateRegistrationProvider(this);
     this.domains = new operations.Domains(this);
     this.topLevelDomains = new operations.TopLevelDomains(this);
@@ -50,6 +56,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
     this.certificates = new operations.Certificates(this);
     this.deletedWebApps = new operations.DeletedWebApps(this);
     this.diagnostics = new operations.Diagnostics(this);
+    this.global = new operations.Global(this);
     this.provider = new operations.Provider(this);
     this.recommendations = new operations.Recommendations(this);
     this.webApps = new operations.WebApps(this);
@@ -67,21 +74,39 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GenerateGithubAccessTokenForAppserviceCLIAsyncResponse>
    */
-  generateGithubAccessTokenForAppserviceCLIAsync(code: string, state: string, options?: msRest.RequestOptionsBase): Promise<Models.GenerateGithubAccessTokenForAppserviceCLIAsyncResponse>;
+  generateGithubAccessTokenForAppserviceCLIAsync(
+    code: string,
+    state: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GenerateGithubAccessTokenForAppserviceCLIAsyncResponse>;
   /**
    * @param code Code string to exchange for Github Access token
    * @param state State string used for verification.
    * @param callback The callback
    */
-  generateGithubAccessTokenForAppserviceCLIAsync(code: string, state: string, callback: msRest.ServiceCallback<Models.AppserviceGithubToken>): void;
+  generateGithubAccessTokenForAppserviceCLIAsync(
+    code: string,
+    state: string,
+    callback: msRest.ServiceCallback<Models.AppserviceGithubToken>
+  ): void;
   /**
    * @param code Code string to exchange for Github Access token
    * @param state State string used for verification.
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateGithubAccessTokenForAppserviceCLIAsync(code: string, state: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppserviceGithubToken>): void;
-  generateGithubAccessTokenForAppserviceCLIAsync(code: string, state: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppserviceGithubToken>, callback?: msRest.ServiceCallback<Models.AppserviceGithubToken>): Promise<Models.GenerateGithubAccessTokenForAppserviceCLIAsyncResponse> {
+  generateGithubAccessTokenForAppserviceCLIAsync(
+    code: string,
+    state: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppserviceGithubToken>
+  ): void;
+  generateGithubAccessTokenForAppserviceCLIAsync(
+    code: string,
+    state: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppserviceGithubToken>,
+    callback?: msRest.ServiceCallback<Models.AppserviceGithubToken>
+  ): Promise<Models.GenerateGithubAccessTokenForAppserviceCLIAsyncResponse> {
     return this.sendOperationRequest(
       {
         code,
@@ -89,7 +114,8 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
         options
       },
       generateGithubAccessTokenForAppserviceCLIAsyncOperationSpec,
-      callback) as Promise<Models.GenerateGithubAccessTokenForAppserviceCLIAsyncResponse>;
+      callback
+    ) as Promise<Models.GenerateGithubAccessTokenForAppserviceCLIAsyncResponse>;
   }
 
   /**
@@ -107,14 +133,21 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPublishingUser(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.User>): void;
-  getPublishingUser(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.GetPublishingUserResponse> {
+  getPublishingUser(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.User>
+  ): void;
+  getPublishingUser(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>,
+    callback?: msRest.ServiceCallback<Models.User>
+  ): Promise<Models.GetPublishingUserResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       getPublishingUserOperationSpec,
-      callback) as Promise<Models.GetPublishingUserResponse>;
+      callback
+    ) as Promise<Models.GetPublishingUserResponse>;
   }
 
   /**
@@ -124,26 +157,41 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdatePublishingUserResponse>
    */
-  updatePublishingUser(userDetails: Models.User, options?: msRest.RequestOptionsBase): Promise<Models.UpdatePublishingUserResponse>;
+  updatePublishingUser(
+    userDetails: Models.User,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UpdatePublishingUserResponse>;
   /**
    * @param userDetails Details of publishing user
    * @param callback The callback
    */
-  updatePublishingUser(userDetails: Models.User, callback: msRest.ServiceCallback<Models.User>): void;
+  updatePublishingUser(
+    userDetails: Models.User,
+    callback: msRest.ServiceCallback<Models.User>
+  ): void;
   /**
    * @param userDetails Details of publishing user
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePublishingUser(userDetails: Models.User, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.User>): void;
-  updatePublishingUser(userDetails: Models.User, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.UpdatePublishingUserResponse> {
+  updatePublishingUser(
+    userDetails: Models.User,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.User>
+  ): void;
+  updatePublishingUser(
+    userDetails: Models.User,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>,
+    callback?: msRest.ServiceCallback<Models.User>
+  ): Promise<Models.UpdatePublishingUserResponse> {
     return this.sendOperationRequest(
       {
         userDetails,
         options
       },
       updatePublishingUserOperationSpec,
-      callback) as Promise<Models.UpdatePublishingUserResponse>;
+      callback
+    ) as Promise<Models.UpdatePublishingUserResponse>;
   }
 
   /**
@@ -152,7 +200,9 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListSourceControlsResponse>
    */
-  listSourceControls(options?: msRest.RequestOptionsBase): Promise<Models.ListSourceControlsResponse>;
+  listSourceControls(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ListSourceControlsResponse>;
   /**
    * @param callback The callback
    */
@@ -161,14 +211,21 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSourceControls(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlCollection>): void;
-  listSourceControls(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlCollection>, callback?: msRest.ServiceCallback<Models.SourceControlCollection>): Promise<Models.ListSourceControlsResponse> {
+  listSourceControls(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SourceControlCollection>
+  ): void;
+  listSourceControls(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlCollection>,
+    callback?: msRest.ServiceCallback<Models.SourceControlCollection>
+  ): Promise<Models.ListSourceControlsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listSourceControlsOperationSpec,
-      callback) as Promise<Models.ListSourceControlsResponse>;
+      callback
+    ) as Promise<Models.ListSourceControlsResponse>;
   }
 
   /**
@@ -178,26 +235,41 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSourceControlResponse>
    */
-  getSourceControl(sourceControlType: string, options?: msRest.RequestOptionsBase): Promise<Models.GetSourceControlResponse>;
+  getSourceControl(
+    sourceControlType: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetSourceControlResponse>;
   /**
    * @param sourceControlType Type of source control
    * @param callback The callback
    */
-  getSourceControl(sourceControlType: string, callback: msRest.ServiceCallback<Models.SourceControl>): void;
+  getSourceControl(
+    sourceControlType: string,
+    callback: msRest.ServiceCallback<Models.SourceControl>
+  ): void;
   /**
    * @param sourceControlType Type of source control
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSourceControl(sourceControlType: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControl>): void;
-  getSourceControl(sourceControlType: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControl>, callback?: msRest.ServiceCallback<Models.SourceControl>): Promise<Models.GetSourceControlResponse> {
+  getSourceControl(
+    sourceControlType: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SourceControl>
+  ): void;
+  getSourceControl(
+    sourceControlType: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControl>,
+    callback?: msRest.ServiceCallback<Models.SourceControl>
+  ): Promise<Models.GetSourceControlResponse> {
     return this.sendOperationRequest(
       {
         sourceControlType,
         options
       },
       getSourceControlOperationSpec,
-      callback) as Promise<Models.GetSourceControlResponse>;
+      callback
+    ) as Promise<Models.GetSourceControlResponse>;
   }
 
   /**
@@ -208,21 +280,39 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateSourceControlResponse>
    */
-  updateSourceControl(sourceControlType: string, requestMessage: Models.SourceControl, options?: msRest.RequestOptionsBase): Promise<Models.UpdateSourceControlResponse>;
+  updateSourceControl(
+    sourceControlType: string,
+    requestMessage: Models.SourceControl,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UpdateSourceControlResponse>;
   /**
    * @param sourceControlType Type of source control
    * @param requestMessage Source control token information
    * @param callback The callback
    */
-  updateSourceControl(sourceControlType: string, requestMessage: Models.SourceControl, callback: msRest.ServiceCallback<Models.SourceControl>): void;
+  updateSourceControl(
+    sourceControlType: string,
+    requestMessage: Models.SourceControl,
+    callback: msRest.ServiceCallback<Models.SourceControl>
+  ): void;
   /**
    * @param sourceControlType Type of source control
    * @param requestMessage Source control token information
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSourceControl(sourceControlType: string, requestMessage: Models.SourceControl, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControl>): void;
-  updateSourceControl(sourceControlType: string, requestMessage: Models.SourceControl, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControl>, callback?: msRest.ServiceCallback<Models.SourceControl>): Promise<Models.UpdateSourceControlResponse> {
+  updateSourceControl(
+    sourceControlType: string,
+    requestMessage: Models.SourceControl,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SourceControl>
+  ): void;
+  updateSourceControl(
+    sourceControlType: string,
+    requestMessage: Models.SourceControl,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControl>,
+    callback?: msRest.ServiceCallback<Models.SourceControl>
+  ): Promise<Models.UpdateSourceControlResponse> {
     return this.sendOperationRequest(
       {
         sourceControlType,
@@ -230,7 +320,8 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
         options
       },
       updateSourceControlOperationSpec,
-      callback) as Promise<Models.UpdateSourceControlResponse>;
+      callback
+    ) as Promise<Models.UpdateSourceControlResponse>;
   }
 
   /**
@@ -239,7 +330,9 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListBillingMetersResponse>
    */
-  listBillingMeters(options?: Models.WebSiteManagementClientListBillingMetersOptionalParams): Promise<Models.ListBillingMetersResponse>;
+  listBillingMeters(
+    options?: Models.WebSiteManagementClientListBillingMetersOptionalParams
+  ): Promise<Models.ListBillingMetersResponse>;
   /**
    * @param callback The callback
    */
@@ -248,14 +341,23 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBillingMeters(options: Models.WebSiteManagementClientListBillingMetersOptionalParams, callback: msRest.ServiceCallback<Models.BillingMeterCollection>): void;
-  listBillingMeters(options?: Models.WebSiteManagementClientListBillingMetersOptionalParams | msRest.ServiceCallback<Models.BillingMeterCollection>, callback?: msRest.ServiceCallback<Models.BillingMeterCollection>): Promise<Models.ListBillingMetersResponse> {
+  listBillingMeters(
+    options: Models.WebSiteManagementClientListBillingMetersOptionalParams,
+    callback: msRest.ServiceCallback<Models.BillingMeterCollection>
+  ): void;
+  listBillingMeters(
+    options?:
+      | Models.WebSiteManagementClientListBillingMetersOptionalParams
+      | msRest.ServiceCallback<Models.BillingMeterCollection>,
+    callback?: msRest.ServiceCallback<Models.BillingMeterCollection>
+  ): Promise<Models.ListBillingMetersResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listBillingMetersOperationSpec,
-      callback) as Promise<Models.ListBillingMetersResponse>;
+      callback
+    ) as Promise<Models.ListBillingMetersResponse>;
   }
 
   /**
@@ -268,7 +370,11 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckNameAvailabilityResponse>
    */
-  checkNameAvailability(name: string, type: Models.CheckNameResourceTypes, options?: Models.WebSiteManagementClientCheckNameAvailabilityOptionalParams): Promise<Models.CheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    options?: Models.WebSiteManagementClientCheckNameAvailabilityOptionalParams
+  ): Promise<Models.CheckNameAvailabilityResponse>;
   /**
    * @param name Resource name to verify.
    * @param type Resource type used for verification. Possible values include: 'Site', 'Slot',
@@ -276,7 +382,11 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
    * @param callback The callback
    */
-  checkNameAvailability(name: string, type: Models.CheckNameResourceTypes, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  checkNameAvailability(
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    callback: msRest.ServiceCallback<Models.ResourceNameAvailability>
+  ): void;
   /**
    * @param name Resource name to verify.
    * @param type Resource type used for verification. Possible values include: 'Site', 'Slot',
@@ -285,8 +395,20 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(name: string, type: Models.CheckNameResourceTypes, options: Models.WebSiteManagementClientCheckNameAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
-  checkNameAvailability(name: string, type: Models.CheckNameResourceTypes, options?: Models.WebSiteManagementClientCheckNameAvailabilityOptionalParams | msRest.ServiceCallback<Models.ResourceNameAvailability>, callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>): Promise<Models.CheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    options: Models.WebSiteManagementClientCheckNameAvailabilityOptionalParams,
+    callback: msRest.ServiceCallback<Models.ResourceNameAvailability>
+  ): void;
+  checkNameAvailability(
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    options?:
+      | Models.WebSiteManagementClientCheckNameAvailabilityOptionalParams
+      | msRest.ServiceCallback<Models.ResourceNameAvailability>,
+    callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>
+  ): Promise<Models.CheckNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         name,
@@ -294,7 +416,8 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.CheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.CheckNameAvailabilityResponse>;
   }
 
   /**
@@ -303,23 +426,34 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSubscriptionDeploymentLocationsResponse>
    */
-  getSubscriptionDeploymentLocations(options?: msRest.RequestOptionsBase): Promise<Models.GetSubscriptionDeploymentLocationsResponse>;
+  getSubscriptionDeploymentLocations(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetSubscriptionDeploymentLocationsResponse>;
   /**
    * @param callback The callback
    */
-  getSubscriptionDeploymentLocations(callback: msRest.ServiceCallback<Models.DeploymentLocations>): void;
+  getSubscriptionDeploymentLocations(
+    callback: msRest.ServiceCallback<Models.DeploymentLocations>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSubscriptionDeploymentLocations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentLocations>): void;
-  getSubscriptionDeploymentLocations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentLocations>, callback?: msRest.ServiceCallback<Models.DeploymentLocations>): Promise<Models.GetSubscriptionDeploymentLocationsResponse> {
+  getSubscriptionDeploymentLocations(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeploymentLocations>
+  ): void;
+  getSubscriptionDeploymentLocations(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentLocations>,
+    callback?: msRest.ServiceCallback<Models.DeploymentLocations>
+  ): Promise<Models.GetSubscriptionDeploymentLocationsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       getSubscriptionDeploymentLocationsOperationSpec,
-      callback) as Promise<Models.GetSubscriptionDeploymentLocationsResponse>;
+      callback
+    ) as Promise<Models.GetSubscriptionDeploymentLocationsResponse>;
   }
 
   /**
@@ -328,7 +462,9 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListGeoRegionsResponse>
    */
-  listGeoRegions(options?: Models.WebSiteManagementClientListGeoRegionsOptionalParams): Promise<Models.ListGeoRegionsResponse>;
+  listGeoRegions(
+    options?: Models.WebSiteManagementClientListGeoRegionsOptionalParams
+  ): Promise<Models.ListGeoRegionsResponse>;
   /**
    * @param callback The callback
    */
@@ -337,14 +473,23 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listGeoRegions(options: Models.WebSiteManagementClientListGeoRegionsOptionalParams, callback: msRest.ServiceCallback<Models.GeoRegionCollection>): void;
-  listGeoRegions(options?: Models.WebSiteManagementClientListGeoRegionsOptionalParams | msRest.ServiceCallback<Models.GeoRegionCollection>, callback?: msRest.ServiceCallback<Models.GeoRegionCollection>): Promise<Models.ListGeoRegionsResponse> {
+  listGeoRegions(
+    options: Models.WebSiteManagementClientListGeoRegionsOptionalParams,
+    callback: msRest.ServiceCallback<Models.GeoRegionCollection>
+  ): void;
+  listGeoRegions(
+    options?:
+      | Models.WebSiteManagementClientListGeoRegionsOptionalParams
+      | msRest.ServiceCallback<Models.GeoRegionCollection>,
+    callback?: msRest.ServiceCallback<Models.GeoRegionCollection>
+  ): Promise<Models.ListGeoRegionsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listGeoRegionsOperationSpec,
-      callback) as Promise<Models.ListGeoRegionsResponse>;
+      callback
+    ) as Promise<Models.ListGeoRegionsResponse>;
   }
 
   /**
@@ -353,23 +498,36 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListSiteIdentifiersAssignedToHostNameResponse>
    */
-  listSiteIdentifiersAssignedToHostName(options?: Models.WebSiteManagementClientListSiteIdentifiersAssignedToHostNameOptionalParams): Promise<Models.ListSiteIdentifiersAssignedToHostNameResponse>;
+  listSiteIdentifiersAssignedToHostName(
+    options?: Models.WebSiteManagementClientListSiteIdentifiersAssignedToHostNameOptionalParams
+  ): Promise<Models.ListSiteIdentifiersAssignedToHostNameResponse>;
   /**
    * @param callback The callback
    */
-  listSiteIdentifiersAssignedToHostName(callback: msRest.ServiceCallback<Models.IdentifierCollection>): void;
+  listSiteIdentifiersAssignedToHostName(
+    callback: msRest.ServiceCallback<Models.IdentifierCollection>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteIdentifiersAssignedToHostName(options: Models.WebSiteManagementClientListSiteIdentifiersAssignedToHostNameOptionalParams, callback: msRest.ServiceCallback<Models.IdentifierCollection>): void;
-  listSiteIdentifiersAssignedToHostName(options?: Models.WebSiteManagementClientListSiteIdentifiersAssignedToHostNameOptionalParams | msRest.ServiceCallback<Models.IdentifierCollection>, callback?: msRest.ServiceCallback<Models.IdentifierCollection>): Promise<Models.ListSiteIdentifiersAssignedToHostNameResponse> {
+  listSiteIdentifiersAssignedToHostName(
+    options: Models.WebSiteManagementClientListSiteIdentifiersAssignedToHostNameOptionalParams,
+    callback: msRest.ServiceCallback<Models.IdentifierCollection>
+  ): void;
+  listSiteIdentifiersAssignedToHostName(
+    options?:
+      | Models.WebSiteManagementClientListSiteIdentifiersAssignedToHostNameOptionalParams
+      | msRest.ServiceCallback<Models.IdentifierCollection>,
+    callback?: msRest.ServiceCallback<Models.IdentifierCollection>
+  ): Promise<Models.ListSiteIdentifiersAssignedToHostNameResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listSiteIdentifiersAssignedToHostNameOperationSpec,
-      callback) as Promise<Models.ListSiteIdentifiersAssignedToHostNameResponse>;
+      callback
+    ) as Promise<Models.ListSiteIdentifiersAssignedToHostNameResponse>;
   }
 
   /**
@@ -378,23 +536,36 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListPremierAddOnOffersResponse>
    */
-  listPremierAddOnOffers(options?: msRest.RequestOptionsBase): Promise<Models.ListPremierAddOnOffersResponse>;
+  listPremierAddOnOffers(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ListPremierAddOnOffersResponse>;
   /**
    * @param callback The callback
    */
-  listPremierAddOnOffers(callback: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>): void;
+  listPremierAddOnOffers(
+    callback: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPremierAddOnOffers(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>): void;
-  listPremierAddOnOffers(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremierAddOnOfferCollection>, callback?: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>): Promise<Models.ListPremierAddOnOffersResponse> {
+  listPremierAddOnOffers(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>
+  ): void;
+  listPremierAddOnOffers(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PremierAddOnOfferCollection>,
+    callback?: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>
+  ): Promise<Models.ListPremierAddOnOffersResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listPremierAddOnOffersOperationSpec,
-      callback) as Promise<Models.ListPremierAddOnOffersResponse>;
+      callback
+    ) as Promise<Models.ListPremierAddOnOffersResponse>;
   }
 
   /**
@@ -412,14 +583,21 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuInfos>): void;
-  listSkus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuInfos>, callback?: msRest.ServiceCallback<Models.SkuInfos>): Promise<Models.ListSkusResponse> {
+  listSkus(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SkuInfos>
+  ): void;
+  listSkus(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuInfos>,
+    callback?: msRest.ServiceCallback<Models.SkuInfos>
+  ): Promise<Models.ListSkusResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listSkusOperationSpec,
-      callback) as Promise<Models.ListSkusResponse>;
+      callback
+    ) as Promise<Models.ListSkusResponse>;
   }
 
   /**
@@ -431,26 +609,43 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.VerifyHostingEnvironmentVnetResponse>
    */
-  verifyHostingEnvironmentVnet(parameters: Models.VnetParameters, options?: msRest.RequestOptionsBase): Promise<Models.VerifyHostingEnvironmentVnetResponse>;
+  verifyHostingEnvironmentVnet(
+    parameters: Models.VnetParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VerifyHostingEnvironmentVnetResponse>;
   /**
    * @param parameters VNET information
    * @param callback The callback
    */
-  verifyHostingEnvironmentVnet(parameters: Models.VnetParameters, callback: msRest.ServiceCallback<Models.VnetValidationFailureDetails>): void;
+  verifyHostingEnvironmentVnet(
+    parameters: Models.VnetParameters,
+    callback: msRest.ServiceCallback<Models.VnetValidationFailureDetails>
+  ): void;
   /**
    * @param parameters VNET information
    * @param options The optional parameters
    * @param callback The callback
    */
-  verifyHostingEnvironmentVnet(parameters: Models.VnetParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VnetValidationFailureDetails>): void;
-  verifyHostingEnvironmentVnet(parameters: Models.VnetParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VnetValidationFailureDetails>, callback?: msRest.ServiceCallback<Models.VnetValidationFailureDetails>): Promise<Models.VerifyHostingEnvironmentVnetResponse> {
+  verifyHostingEnvironmentVnet(
+    parameters: Models.VnetParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VnetValidationFailureDetails>
+  ): void;
+  verifyHostingEnvironmentVnet(
+    parameters: Models.VnetParameters,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VnetValidationFailureDetails>,
+    callback?: msRest.ServiceCallback<Models.VnetValidationFailureDetails>
+  ): Promise<Models.VerifyHostingEnvironmentVnetResponse> {
     return this.sendOperationRequest(
       {
         parameters,
         options
       },
       verifyHostingEnvironmentVnetOperationSpec,
-      callback) as Promise<Models.VerifyHostingEnvironmentVnetResponse>;
+      callback
+    ) as Promise<Models.VerifyHostingEnvironmentVnetResponse>;
   }
 
   /**
@@ -461,21 +656,39 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  move(resourceGroupName: string, moveResourceEnvelope: Models.CsmMoveResourceEnvelope, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  move(
+    resourceGroupName: string,
+    moveResourceEnvelope: Models.CsmMoveResourceEnvelope,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param moveResourceEnvelope Object that represents the resource to move.
    * @param callback The callback
    */
-  move(resourceGroupName: string, moveResourceEnvelope: Models.CsmMoveResourceEnvelope, callback: msRest.ServiceCallback<void>): void;
+  move(
+    resourceGroupName: string,
+    moveResourceEnvelope: Models.CsmMoveResourceEnvelope,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param moveResourceEnvelope Object that represents the resource to move.
    * @param options The optional parameters
    * @param callback The callback
    */
-  move(resourceGroupName: string, moveResourceEnvelope: Models.CsmMoveResourceEnvelope, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  move(resourceGroupName: string, moveResourceEnvelope: Models.CsmMoveResourceEnvelope, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  move(
+    resourceGroupName: string,
+    moveResourceEnvelope: Models.CsmMoveResourceEnvelope,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  move(
+    resourceGroupName: string,
+    moveResourceEnvelope: Models.CsmMoveResourceEnvelope,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         resourceGroupName,
@@ -483,7 +696,8 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
         options
       },
       moveOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -494,21 +708,39 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ValidateResponse2>
    */
-  validate(resourceGroupName: string, validateRequest: Models.ValidateRequest, options?: msRest.RequestOptionsBase): Promise<Models.ValidateResponse2>;
+  validate(
+    resourceGroupName: string,
+    validateRequest: Models.ValidateRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ValidateResponse2>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param validateRequest Request with the resources to validate.
    * @param callback The callback
    */
-  validate(resourceGroupName: string, validateRequest: Models.ValidateRequest, callback: msRest.ServiceCallback<Models.ValidateResponse>): void;
+  validate(
+    resourceGroupName: string,
+    validateRequest: Models.ValidateRequest,
+    callback: msRest.ServiceCallback<Models.ValidateResponse>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param validateRequest Request with the resources to validate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  validate(resourceGroupName: string, validateRequest: Models.ValidateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidateResponse>): void;
-  validate(resourceGroupName: string, validateRequest: Models.ValidateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateResponse>, callback?: msRest.ServiceCallback<Models.ValidateResponse>): Promise<Models.ValidateResponse2> {
+  validate(
+    resourceGroupName: string,
+    validateRequest: Models.ValidateRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ValidateResponse>
+  ): void;
+  validate(
+    resourceGroupName: string,
+    validateRequest: Models.ValidateRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateResponse>,
+    callback?: msRest.ServiceCallback<Models.ValidateResponse>
+  ): Promise<Models.ValidateResponse2> {
     return this.sendOperationRequest(
       {
         resourceGroupName,
@@ -516,7 +748,8 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
         options
       },
       validateOperationSpec,
-      callback) as Promise<Models.ValidateResponse2>;
+      callback
+    ) as Promise<Models.ValidateResponse2>;
   }
 
   /**
@@ -527,21 +760,39 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  validateMove(resourceGroupName: string, moveResourceEnvelope: Models.CsmMoveResourceEnvelope, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  validateMove(
+    resourceGroupName: string,
+    moveResourceEnvelope: Models.CsmMoveResourceEnvelope,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param moveResourceEnvelope Object that represents the resource to move.
    * @param callback The callback
    */
-  validateMove(resourceGroupName: string, moveResourceEnvelope: Models.CsmMoveResourceEnvelope, callback: msRest.ServiceCallback<void>): void;
+  validateMove(
+    resourceGroupName: string,
+    moveResourceEnvelope: Models.CsmMoveResourceEnvelope,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param moveResourceEnvelope Object that represents the resource to move.
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateMove(resourceGroupName: string, moveResourceEnvelope: Models.CsmMoveResourceEnvelope, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  validateMove(resourceGroupName: string, moveResourceEnvelope: Models.CsmMoveResourceEnvelope, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  validateMove(
+    resourceGroupName: string,
+    moveResourceEnvelope: Models.CsmMoveResourceEnvelope,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  validateMove(
+    resourceGroupName: string,
+    moveResourceEnvelope: Models.CsmMoveResourceEnvelope,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         resourceGroupName,
@@ -549,7 +800,8 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
         options
       },
       validateMoveOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -559,26 +811,41 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListSourceControlsNextResponse>
    */
-  listSourceControlsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ListSourceControlsNextResponse>;
+  listSourceControlsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ListSourceControlsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSourceControlsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SourceControlCollection>): void;
+  listSourceControlsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SourceControlCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSourceControlsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlCollection>): void;
-  listSourceControlsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlCollection>, callback?: msRest.ServiceCallback<Models.SourceControlCollection>): Promise<Models.ListSourceControlsNextResponse> {
+  listSourceControlsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SourceControlCollection>
+  ): void;
+  listSourceControlsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlCollection>,
+    callback?: msRest.ServiceCallback<Models.SourceControlCollection>
+  ): Promise<Models.ListSourceControlsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSourceControlsNextOperationSpec,
-      callback) as Promise<Models.ListSourceControlsNextResponse>;
+      callback
+    ) as Promise<Models.ListSourceControlsNextResponse>;
   }
 
   /**
@@ -588,26 +855,43 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListBillingMetersNextResponse>
    */
-  listBillingMetersNext(nextPageLink: string, options?: Models.WebSiteManagementClientListBillingMetersNextOptionalParams): Promise<Models.ListBillingMetersNextResponse>;
+  listBillingMetersNext(
+    nextPageLink: string,
+    options?: Models.WebSiteManagementClientListBillingMetersNextOptionalParams
+  ): Promise<Models.ListBillingMetersNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBillingMetersNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BillingMeterCollection>): void;
+  listBillingMetersNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.BillingMeterCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBillingMetersNext(nextPageLink: string, options: Models.WebSiteManagementClientListBillingMetersNextOptionalParams, callback: msRest.ServiceCallback<Models.BillingMeterCollection>): void;
-  listBillingMetersNext(nextPageLink: string, options?: Models.WebSiteManagementClientListBillingMetersNextOptionalParams | msRest.ServiceCallback<Models.BillingMeterCollection>, callback?: msRest.ServiceCallback<Models.BillingMeterCollection>): Promise<Models.ListBillingMetersNextResponse> {
+  listBillingMetersNext(
+    nextPageLink: string,
+    options: Models.WebSiteManagementClientListBillingMetersNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.BillingMeterCollection>
+  ): void;
+  listBillingMetersNext(
+    nextPageLink: string,
+    options?:
+      | Models.WebSiteManagementClientListBillingMetersNextOptionalParams
+      | msRest.ServiceCallback<Models.BillingMeterCollection>,
+    callback?: msRest.ServiceCallback<Models.BillingMeterCollection>
+  ): Promise<Models.ListBillingMetersNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBillingMetersNextOperationSpec,
-      callback) as Promise<Models.ListBillingMetersNextResponse>;
+      callback
+    ) as Promise<Models.ListBillingMetersNextResponse>;
   }
 
   /**
@@ -617,26 +901,43 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListGeoRegionsNextResponse>
    */
-  listGeoRegionsNext(nextPageLink: string, options?: Models.WebSiteManagementClientListGeoRegionsNextOptionalParams): Promise<Models.ListGeoRegionsNextResponse>;
+  listGeoRegionsNext(
+    nextPageLink: string,
+    options?: Models.WebSiteManagementClientListGeoRegionsNextOptionalParams
+  ): Promise<Models.ListGeoRegionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listGeoRegionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.GeoRegionCollection>): void;
+  listGeoRegionsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.GeoRegionCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listGeoRegionsNext(nextPageLink: string, options: Models.WebSiteManagementClientListGeoRegionsNextOptionalParams, callback: msRest.ServiceCallback<Models.GeoRegionCollection>): void;
-  listGeoRegionsNext(nextPageLink: string, options?: Models.WebSiteManagementClientListGeoRegionsNextOptionalParams | msRest.ServiceCallback<Models.GeoRegionCollection>, callback?: msRest.ServiceCallback<Models.GeoRegionCollection>): Promise<Models.ListGeoRegionsNextResponse> {
+  listGeoRegionsNext(
+    nextPageLink: string,
+    options: Models.WebSiteManagementClientListGeoRegionsNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.GeoRegionCollection>
+  ): void;
+  listGeoRegionsNext(
+    nextPageLink: string,
+    options?:
+      | Models.WebSiteManagementClientListGeoRegionsNextOptionalParams
+      | msRest.ServiceCallback<Models.GeoRegionCollection>,
+    callback?: msRest.ServiceCallback<Models.GeoRegionCollection>
+  ): Promise<Models.ListGeoRegionsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listGeoRegionsNextOperationSpec,
-      callback) as Promise<Models.ListGeoRegionsNextResponse>;
+      callback
+    ) as Promise<Models.ListGeoRegionsNextResponse>;
   }
 
   /**
@@ -646,26 +947,41 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListSiteIdentifiersAssignedToHostNameNextResponse>
    */
-  listSiteIdentifiersAssignedToHostNameNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ListSiteIdentifiersAssignedToHostNameNextResponse>;
+  listSiteIdentifiersAssignedToHostNameNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ListSiteIdentifiersAssignedToHostNameNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSiteIdentifiersAssignedToHostNameNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IdentifierCollection>): void;
+  listSiteIdentifiersAssignedToHostNameNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IdentifierCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteIdentifiersAssignedToHostNameNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentifierCollection>): void;
-  listSiteIdentifiersAssignedToHostNameNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentifierCollection>, callback?: msRest.ServiceCallback<Models.IdentifierCollection>): Promise<Models.ListSiteIdentifiersAssignedToHostNameNextResponse> {
+  listSiteIdentifiersAssignedToHostNameNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IdentifierCollection>
+  ): void;
+  listSiteIdentifiersAssignedToHostNameNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentifierCollection>,
+    callback?: msRest.ServiceCallback<Models.IdentifierCollection>
+  ): Promise<Models.ListSiteIdentifiersAssignedToHostNameNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSiteIdentifiersAssignedToHostNameNextOperationSpec,
-      callback) as Promise<Models.ListSiteIdentifiersAssignedToHostNameNextResponse>;
+      callback
+    ) as Promise<Models.ListSiteIdentifiersAssignedToHostNameNextResponse>;
   }
 
   /**
@@ -675,26 +991,43 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListPremierAddOnOffersNextResponse>
    */
-  listPremierAddOnOffersNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ListPremierAddOnOffersNextResponse>;
+  listPremierAddOnOffersNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ListPremierAddOnOffersNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listPremierAddOnOffersNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>): void;
+  listPremierAddOnOffersNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPremierAddOnOffersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>): void;
-  listPremierAddOnOffersNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PremierAddOnOfferCollection>, callback?: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>): Promise<Models.ListPremierAddOnOffersNextResponse> {
+  listPremierAddOnOffersNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>
+  ): void;
+  listPremierAddOnOffersNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PremierAddOnOfferCollection>,
+    callback?: msRest.ServiceCallback<Models.PremierAddOnOfferCollection>
+  ): Promise<Models.ListPremierAddOnOffersNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listPremierAddOnOffersNextOperationSpec,
-      callback) as Promise<Models.ListPremierAddOnOffersNextResponse>;
+      callback
+    ) as Promise<Models.ListPremierAddOnOffersNextResponse>;
   }
 }
 
@@ -703,12 +1036,8 @@ const serializer = new msRest.Serializer(Mappers);
 const generateGithubAccessTokenForAppserviceCLIAsyncOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Web/generateGithubAccessTokenForAppserviceCLI",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       code: "code",
@@ -733,12 +1062,8 @@ const generateGithubAccessTokenForAppserviceCLIAsyncOperationSpec: msRest.Operat
 const getPublishingUserOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Web/publishingUsers/web",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.User
@@ -753,12 +1078,8 @@ const getPublishingUserOperationSpec: msRest.OperationSpec = {
 const updatePublishingUserOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "providers/Microsoft.Web/publishingUsers/web",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "userDetails",
     mapper: {
@@ -780,12 +1101,8 @@ const updatePublishingUserOperationSpec: msRest.OperationSpec = {
 const listSourceControlsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Web/sourcecontrols",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SourceControlCollection
@@ -800,15 +1117,9 @@ const listSourceControlsOperationSpec: msRest.OperationSpec = {
 const getSourceControlOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Web/sourcecontrols/{sourceControlType}",
-  urlParameters: [
-    Parameters.sourceControlType
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.sourceControlType],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SourceControl
@@ -823,15 +1134,9 @@ const getSourceControlOperationSpec: msRest.OperationSpec = {
 const updateSourceControlOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "providers/Microsoft.Web/sourcecontrols/{sourceControlType}",
-  urlParameters: [
-    Parameters.sourceControlType
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.sourceControlType],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "requestMessage",
     mapper: {
@@ -853,17 +1158,9 @@ const updateSourceControlOperationSpec: msRest.OperationSpec = {
 const listBillingMetersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/billingMeters",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.billingLocation,
-    Parameters.osType,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.billingLocation, Parameters.osType, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BillingMeterCollection
@@ -878,23 +1175,14 @@ const listBillingMetersOperationSpec: msRest.OperationSpec = {
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/checknameavailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       name: "name",
       type: "type",
-      isFqdn: [
-        "options",
-        "isFqdn"
-      ]
+      isFqdn: ["options", "isFqdn"]
     },
     mapper: {
       ...Mappers.ResourceNameAvailabilityRequest,
@@ -915,15 +1203,9 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 const getSubscriptionDeploymentLocationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/deploymentLocations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeploymentLocations
@@ -938,9 +1220,7 @@ const getSubscriptionDeploymentLocationsOperationSpec: msRest.OperationSpec = {
 const listGeoRegionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/geoRegions",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.subscriptionId],
   queryParameters: [
     Parameters.sku,
     Parameters.linuxWorkersEnabled,
@@ -948,9 +1228,7 @@ const listGeoRegionsOperationSpec: msRest.OperationSpec = {
     Parameters.linuxDynamicWorkersEnabled,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GeoRegionCollection
@@ -965,21 +1243,12 @@ const listGeoRegionsOperationSpec: msRest.OperationSpec = {
 const listSiteIdentifiersAssignedToHostNameOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/listSitesAssignedToHostName",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      name: [
-        "options",
-        "name"
-      ]
+      name: ["options", "name"]
     },
     mapper: {
       ...Mappers.NameIdentifier,
@@ -1000,15 +1269,9 @@ const listSiteIdentifiersAssignedToHostNameOperationSpec: msRest.OperationSpec =
 const listPremierAddOnOffersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/premieraddonoffers",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PremierAddOnOfferCollection
@@ -1023,15 +1286,9 @@ const listPremierAddOnOffersOperationSpec: msRest.OperationSpec = {
 const listSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/skus",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SkuInfos
@@ -1046,15 +1303,9 @@ const listSkusOperationSpec: msRest.OperationSpec = {
 const verifyHostingEnvironmentVnetOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/verifyHostingEnvironmentVnet",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -1076,16 +1327,9 @@ const verifyHostingEnvironmentVnetOperationSpec: msRest.OperationSpec = {
 const moveOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/moveResources",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "moveResourceEnvelope",
     mapper: {
@@ -1104,17 +1348,11 @@ const moveOperationSpec: msRest.OperationSpec = {
 
 const validateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/validate",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/validate",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "validateRequest",
     mapper: {
@@ -1136,16 +1374,9 @@ const validateOperationSpec: msRest.OperationSpec = {
 const validateMoveOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/validateMoveResources",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "moveResourceEnvelope",
     mapper: {
@@ -1166,15 +1397,9 @@ const listSourceControlsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SourceControlCollection
@@ -1190,17 +1415,9 @@ const listBillingMetersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.billingLocation,
-    Parameters.osType,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.billingLocation, Parameters.osType, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BillingMeterCollection
@@ -1216,9 +1433,7 @@ const listGeoRegionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
+  urlParameters: [Parameters.nextPageLink],
   queryParameters: [
     Parameters.sku,
     Parameters.linuxWorkersEnabled,
@@ -1226,9 +1441,7 @@ const listGeoRegionsNextOperationSpec: msRest.OperationSpec = {
     Parameters.linuxDynamicWorkersEnabled,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GeoRegionCollection
@@ -1244,15 +1457,9 @@ const listSiteIdentifiersAssignedToHostNameNextOperationSpec: msRest.OperationSp
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IdentifierCollection
@@ -1268,15 +1475,9 @@ const listPremierAddOnOffersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PremierAddOnOfferCollection

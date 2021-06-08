@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { URLBuilder } from "@azure/core-http";
-import { RequestBodyTransformsType } from "./requestBodyTransform";
 
 export { testHasChanged } from "./recordings";
 
@@ -49,20 +48,21 @@ export interface RecorderEnvironmentSetup {
   /**
    * Used in record and playback modes
    *
-   *  Array of callback functions provided to customize the request body
-   *  - Record mode: These callbacks will be applied on the request body before the recording is saved
-   *  - Playback mode: These callbacks will be applied on the request body of the new requests
-   */
-  requestBodyTransformations?: RequestBodyTransformsType;
-  /**
-   * Used in record and playback modes
-   *
    *  Array of query parameters provided will be filtered from the requests
    *
    * @type {Array<string>}
    * @memberof RecorderEnvironmentSetup
    */
   queryParametersToSkip: Array<string>;
+  /**
+   * Used in playback mode
+   *
+   *  [Only in Node]
+   *
+   *  Callback that is run at the time of loading the recording.
+   *  Introduced only to handle special cases of identity SDK, not meant for the SDK developers to use.
+   */
+  onLoadCallbackForPlayback?: () => void;
 }
 
 export const env = isBrowser() ? (window as any).__env__ : process.env;
@@ -527,6 +527,13 @@ export function maskAccessTokenInBrowserRecording(fixtures: string): string {
     }
   }
   return fixtures;
+}
+
+/**
+ * Sanitizes the scope url in the request bodies [Meant for cleaning the false positives in cred-scan reports]
+ */
+export function sanitizeScopeUrl(body: string) {
+  return body.replace(/scope=https%3A%2F%2F[^&"]*/g, "scope=https%3A%2F%2Fsanitized%2F");
 }
 
 /**

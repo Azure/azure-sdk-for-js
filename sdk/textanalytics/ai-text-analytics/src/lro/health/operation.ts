@@ -65,7 +65,7 @@ interface HealthcareJobStatus {
    * batch of input documents.
    */
   modelVersion?: string;
-  operationMetdata?: AnalyzeHealthcareEntitiesOperationMetadata;
+  operationMetdata: Omit<AnalyzeHealthcareEntitiesOperationMetadata, "operationId">;
 }
 
 /**
@@ -85,6 +85,12 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * If set to false, you opt-in to have your text input logged for troubleshooting. By default, Text Analytics
+   * will not log your input text for healthcare entities analysis. Setting this parameter to false,
+   * enables input logging.
+   */
+  loggingOptOut?: boolean;
 }
 
 /**
@@ -116,7 +122,7 @@ export interface AnalyzeHealthcareOperationState
  */
 function getMetaInfoFromResponse(
   response: HealthcareJobState
-): AnalyzeHealthcareEntitiesOperationMetadata {
+): Omit<AnalyzeHealthcareEntitiesOperationMetadata, "operationId"> {
   return {
     createdOn: response.createdDateTime,
     lastModifiedOn: response.lastUpdateDateTime,
@@ -324,7 +330,8 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         tracingOptions: this.options.tracingOptions,
         abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal,
         modelVersion: this.options.modelVersion,
-        stringIndexType: this.options.stringIndexType
+        stringIndexType: this.options.stringIndexType,
+        loggingOptOut: this.options.disableServiceLogs
       });
       if (!response.operationLocation) {
         throw new Error(
@@ -341,10 +348,10 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
       serializerOptions: this.options.serializerOptions
     });
 
-    state.createdOn = operationStatus.operationMetdata?.createdOn;
-    state.expiresOn = operationStatus.operationMetdata?.expiresOn;
-    state.lastModifiedOn = operationStatus.operationMetdata?.lastModifiedOn;
-    state.status = operationStatus.operationMetdata?.status;
+    state.createdOn = operationStatus.operationMetdata.createdOn;
+    state.expiresOn = operationStatus.operationMetdata.expiresOn;
+    state.lastModifiedOn = operationStatus.operationMetdata.lastModifiedOn;
+    state.status = operationStatus.operationMetdata.status;
 
     if (!state.isCompleted && operationStatus.done) {
       const pagedIterator = this.listHealthcareEntitiesByPage(state.operationId!, {

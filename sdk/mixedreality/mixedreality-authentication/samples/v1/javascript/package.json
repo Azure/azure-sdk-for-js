@@ -1,0 +1,31 @@
+{
+  "name": "azure-mixedreality-authentication-samples-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Mixed Reality Authentication client library samples for JavaScript",
+  "engine": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/mixedreality/mixedreality-authentication"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript",
+    "mixedreality"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mixedreality/mixedreality-authentication",
+  "dependencies": {
+    "@azure/mixedreality-authentication": "next",
+    "dotenv": "latest",
+    "@azure/core-auth": "^1.3.0"
+  }
+}

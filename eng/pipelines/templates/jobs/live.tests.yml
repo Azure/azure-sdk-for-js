@@ -202,7 +202,7 @@ jobs:
         inputs:
           searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
           testResultsFiles: "$(TestResultsFiles)"
-          testRunTitle: "$(OSName) - $(TestType) - Integration Tests - [Node $(NodeTestVersion)]"
+          testRunTitle: "${{ parameters.ServiceDirectory }} ${{ parameters.CloudConfig.Cloud }} $(Agent.JobName)"
         condition: >
           and(
             always(),

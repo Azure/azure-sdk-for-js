@@ -103,7 +103,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2020-06-12",
+    defaultValue: "2020-08-04",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -345,7 +345,8 @@ export const access: OperationParameter = {
     serializedName: "x-ms-blob-public-access",
     xmlName: "x-ms-blob-public-access",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: ["container", "blob"]
     }
   }
 };

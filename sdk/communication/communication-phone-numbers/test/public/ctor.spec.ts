@@ -2,11 +2,10 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-http";
-import { DefaultAzureCredential } from "@azure/identity";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient } from "../../src";
+import { createMockToken } from "./utils/recordedClient";
 
 describe("PhoneNumbersClient - constructor", function() {
   const endpoint = "https://contoso.spool.azure.local";
@@ -29,11 +28,7 @@ describe("PhoneNumbersClient - constructor", function() {
   });
 
   it("successfully instantiates with with endpoint and managed identity", function(this: Context) {
-    if (!isNode) {
-      this.skip();
-    }
-
-    const client = new PhoneNumbersClient(endpoint, new DefaultAzureCredential());
+    const client = new PhoneNumbersClient(endpoint, createMockToken());
     assert.instanceOf(client, PhoneNumbersClient);
   });
 });
