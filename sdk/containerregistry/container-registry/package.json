@@ -6,7 +6,8 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/url.js": "./dist-esm/src/url.browser.js"
+    "./dist-esm/src/url.js": "./dist-esm/src/url.browser.js",
+    "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js"
   },
   "types": "types/container-registry.d.ts",
   "//metadata": {

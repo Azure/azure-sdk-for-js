@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '47580cdf-513b-46cd-94dc-f8f3b9d6a000',
+  'dd722d15-a8c7-4d01-9dfa-ea6e9e996500',
   'x-ms-ests-server',
-  '2.1.11722.26 - WUS2 ProdSlices',
+  '2.1.11787.14 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AtWIzdkWarBDnfmCPyLEsoa81LWYEAAAAGm7SNgOAAAA; expires=Thu, 01-Jul-2021 23:36:38 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AgSJSOLCU89BlsjcW6fY5hG81LWYDAAAAEB9TNgOAAAA; expires=Sun, 04-Jul-2021 20:00:25 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 01 Jun 2021 23:36:37 GMT',
+  'Fri, 04 Jun 2021 20:00:25 GMT',
   'Content-Length',
   '1317'
 ]);
@@ -40,10 +40,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://sharedwus.wus.attest.azure.net:443', {"encodedQueryParams":true})
   .get('/.well-known/openid-configuration')
   .reply(200, {"response_types_supported":["token","none"],"id_token_signing_alg_values_supported":["RS256"],"revocation_endpoint":"https://sharedwus.wus.attest.azure.net/revoke","issuer":"https://sharedwus.wus.attest.azure.net","jwks_uri":"https://sharedwus.wus.attest.azure.net/certs","claims_supported":["cnf","nonce","x-ms-ver","x-ms-attestation-type","x-ms-policy-hash","x-ms-policy-signer","x-ms-sgx-is-debuggable","x-ms-sgx-mrenclave","x-ms-sgx-mrsigner","x-ms-sgx-svn","x-ms-sgx-ehd","x-ms-sgx-collateral","is-debuggable","sgx-mrsigner","sgx-mrenclave","product-id","svn","tee"]}, [
-  'Connection',
-  'close',
   'Date',
-  'Tue, 01 Jun 2021 23:36:38 GMT',
+  'Fri, 04 Jun 2021 20:00:25 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -51,7 +49,7 @@ nock('https://sharedwus.wus.attest.azure.net:443', {"encodedQueryParams":true})
   'Content-Length',
   '573',
   'x-ms-request-id',
-  '00-4fdeb4d2b3ef9d4ef91377bc954b9cbc-0000000000000000-00',
+  '00-ca134c4c964f1b439e07d9362fcd3f2e-0000000000000000-00',
   'x-ms-maa-service-version',
-  '1.10.01598.0001'
+  '1.10.01605.0002'
 ]);

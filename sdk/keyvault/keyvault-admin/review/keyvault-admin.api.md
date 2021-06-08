@@ -8,6 +8,7 @@ import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
+import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -39,8 +40,8 @@ export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {
 export class KeyVaultAccessControlClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: AccessControlClientOptions);
     createRoleAssignment(roleScope: KeyVaultRoleScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    deleteRoleAssignment(roleScope: KeyVaultRoleScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    deleteRoleDefinition(roleScope: KeyVaultRoleScope, name: string, options?: DeleteRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
+    deleteRoleAssignment(roleScope: KeyVaultRoleScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<RestResponse>;
+    deleteRoleDefinition(roleScope: KeyVaultRoleScope, name: string, options?: DeleteRoleDefinitionOptions): Promise<RestResponse>;
     getRoleAssignment(roleScope: KeyVaultRoleScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
     getRoleDefinition(roleScope: KeyVaultRoleScope, name: string, options?: GetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     listRoleAssignments(roleScope: KeyVaultRoleScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
@@ -162,7 +163,7 @@ export interface KeyVaultSelectiveKeyRestoreResult {
 }
 
 // @public
-export const enum KnownKeyVaultDataAction {
+export enum KnownKeyVaultDataAction {
     BackupHsmKeys = "Microsoft.KeyVault/managedHsm/keys/backup/action",
     CreateHsmKey = "Microsoft.KeyVault/managedHsm/keys/create",
     DecryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/decrypt/action",
@@ -195,7 +196,7 @@ export const enum KnownKeyVaultDataAction {
 }
 
 // @public
-export const enum KnownKeyVaultRoleScope {
+export enum KnownKeyVaultRoleScope {
     Global = "/",
     Keys = "/keys"
 }

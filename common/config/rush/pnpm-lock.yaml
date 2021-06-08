@@ -613,22 +613,6 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-INOR23hOISEe2OgwlNhM/BA5+uJmLfx5jqE21wLkQBHNzusdn7P65LT3Zu/AX84ofJO0Z0q+QjY6XOhpFLW90w==
-  /@azure/storage-blob/12.5.0:
-    dependencies:
-      '@azure/abort-controller': 1.0.4
-      '@azure/core-http': 1.2.5
-      '@azure/core-lro': 1.0.5
-      '@azure/core-paging': 1.1.3
-      '@azure/core-tracing': 1.0.0-preview.10
-      '@azure/logger': 1.0.2
-      '@opentelemetry/api': 0.10.2
-      events: 3.3.0
-      tslib: 2.2.0
-    dev: false
-    engines:
-      node: '>=8.0.0'
-    resolution:
-      integrity: sha512-DgoefgODst2IPkkQsNdhtYdyJgSsAZC1pEujO6aD5y7uFy5GnzhYliobSrp204jYRyK5XeJ9iiePmy/SPtTbLA==
   /@babel/code-frame/7.12.11:
     dependencies:
       '@babel/highlight': 7.14.0
@@ -1276,7 +1260,7 @@ packages:
   /@types/body-parser/1.19.0:
     dependencies:
       '@types/connect': 3.4.34
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-W98JrE0j2K78swW4ukqMleo8R7h/pFETjM2DQ90MF6XK2i4LO4W3gQ71Lt4w3bfm2EvVSyWHplECvB5sK22yFQ==
@@ -1302,7 +1286,7 @@ packages:
       integrity: sha512-bsjleuRKWmGqajMerkzox19aGbscQX5rmmvvXl3wlIp5gMG1HgkiwPxsN5p070fBDKTNSPgojVbuY1+HWMbFhg==
   /@types/connect/3.4.34:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-ePPA/JuI+X0vb+gSWlPKOY0NdNAie/rPUqX2GUPpbZwiKTkSPhjXWuee47E4MtE54QVzGCQMQkAL6JhV2E1+cQ==
@@ -1335,7 +1319,7 @@ packages:
       integrity: sha512-LfZwXoGUDo0C3me81HXgkBg5CTQYb6xzEl+fNmbO4JdRiSKQ8A0GD1OBBvKAIsbCUgoyAty7m99GqqMQe784ew==
   /@types/express-serve-static-core/4.17.21:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
       '@types/qs': 6.9.6
       '@types/range-parser': 1.2.3
     dev: false
@@ -1359,20 +1343,20 @@ packages:
       integrity: sha512-IyNhGHu71jH1jCXTHmafuoAAdsbBON3kDh7u/UUhLmjYgN5TYB54e1R8ckTCiIevl2UuZaCsi9XRxineY5yUjw==
   /@types/fs-extra/8.1.1:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-TcUlBem321DFQzBNuz8p0CLLKp0VvF/XH9E4KHNmgwyp4E3AfgI5cjiIVZWlbfThBop2qxFIh4+LeY6hVWWZ2w==
   /@types/glob/7.1.3:
     dependencies:
       '@types/minimatch': 3.0.4
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-SEYeGAIQIQX8NN6LDKprLjbrd5dARM5EXsd8GI/A5l0apYI1fGMWgPHSe4ZKL4eozlAyI+doUE9XbYS4xCkQ1w==
   /@types/is-buffer/2.0.0:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-0f7N/e3BAz32qDYvgB4d2cqv1DqUwvGxHkXsrucICn8la1Vb6Yl6Eg8mPScGwUiqHJeE7diXlzaK+QMA9m4Gxw==
@@ -1386,17 +1370,13 @@ packages:
       integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
   /@types/jsonwebtoken/8.5.1:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-rNAPdomlIUX0i0cg2+I+Q1wOUr531zHBQ+cV/28PJ39bSPKjahatZZ2LMuhiguETkCgLVzfruw/ZvNMNkKoSzw==
-  /@types/jsrsasign/8.0.12:
-    dev: false
-    resolution:
-      integrity: sha512-FLXKbwbB+4fsJECYOpIiYX2GSqSHYnkO/UnrFqlZn6crpyyOtk4LRab+G1HC7dTbT1NB7spkHecZRQGXoCWiJQ==
   /@types/jws/3.2.3:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-g54CHxwvaHvyJyeuZqe7VQujV9SfCXwEkboJp355INPL+kjlS3Aq153EHptaeO/Cch/NPJ1i2sHz0sDDizn7LQ==
@@ -1410,7 +1390,7 @@ packages:
       integrity: sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==
   /@types/md5/2.3.0:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-556YJ7ejzxIqSSxzyGGpctuZOarNZJt/zlEkhmmDc1f/slOEANHuwu2ZX7YaZ40rMiWoxt8GvAhoDpW1cmSy6A==
@@ -1436,13 +1416,13 @@ packages:
       integrity: sha512-ZvO2tAcjmMi8V/5Z3JsyofMe3hasRcaw88cto5etSVMwVQfeivGAlEYmaQgceUSVYFofVjT+ioHsATjdWcFt1w==
   /@types/mock-fs/4.10.0:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-FQ5alSzmHMmliqcL36JqIA4Yyn9jyJKvRSGV3mvPh108VFatX7naJDzSG4fnFQNZFq9dIx0Dzoe6ddflMB2Xkg==
   /@types/mock-require/2.0.0:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-nOgjoE5bBiDeiA+z41i95makyHUSMWQMOPocP+J67Pqx/68HAXaeWN1NFtrAYYV6LrISIZZ8vKHm/a50k0f6Sg==
@@ -1452,7 +1432,7 @@ packages:
       integrity: sha512-DPxmjiDwubsNmguG5X4fEJ+XCyzWM3GXWsqQlvUcjJKa91IOoJUy51meDr0GkzK64qqNcq85ymLlyjoct9tInw==
   /@types/node-fetch/2.5.10:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
       form-data: 3.0.1
     dev: false
     resolution:
@@ -1491,7 +1471,7 @@ packages:
       integrity: sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -1502,7 +1482,7 @@ packages:
   /@types/serve-static/1.13.9:
     dependencies:
       '@types/mime': 1.3.2
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-ZFqF6qa48XsPdjXV5Gsz0Zqmux2PerNd3a/ktL45mHpa19cuMi/cL8tcxdAx497yRh+QtYPuofjT9oWw9P7nkA==
@@ -1518,7 +1498,7 @@ packages:
       integrity: sha512-dIPoZ3g5gcx9zZEszaxLSVTvMReD3xxyyDnQUjA6IYDG9Ba2AV0otMPs+77sG9ojB4Qr2N2Vk5RnKeuA0X/0bg==
   /@types/stoppable/1.1.1:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-b8N+fCADRIYYrGZOcmOR8ZNBOqhktWTB/bMUl5LvGtT201QKJZOOH5UsFyI3qtteM6ZAJbJqZoBcLqqxKIwjhw==
@@ -1528,7 +1508,7 @@ packages:
       integrity: sha512-I99sngh224D0M7XgW1s120zxCt3VYQ3IQsuw3P3jbq5GG4yc79+ZjyKznyOGIQrflfylLgcfekeZW/vk0yng6A==
   /@types/tunnel/0.0.1:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==
@@ -1542,19 +1522,19 @@ packages:
       integrity: sha512-eQ9qFW/fhfGJF8WKHGEHZEyVWfZxrT+6CLIJGBcZPfxUh/+BnEj+UCGYMlr9qZuX/2AltsvwrGqp0LhEW8D0zQ==
   /@types/ws/7.4.4:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-d/7W23JAXPodQNbOZNXvl2K+bqAQrCMwlh/nuQsPSQk6Fq0opHoPrUw43aHsvSbIiQPr8Of2hkFbnz1XBFVyZQ==
   /@types/xml2js/0.4.8:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-EyvT83ezOdec7BhDaEcsklWy7RSIdi6CNe95tmOAK0yx/Lm30C9K75snT3fYayK59ApC2oyW+rcHErdG05FHJA==
   /@types/yauzl/2.9.1:
     dependencies:
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
     dev: false
     optional: true
     resolution:
@@ -2684,7 +2664,7 @@ packages:
       integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
   /debug/3.2.6:
     dependencies:
-      ms: 2.1.3
+      ms: 2.1.1
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dev: false
     resolution:
@@ -4733,10 +4713,10 @@ packages:
       '0': node >=0.6.0
     resolution:
       integrity: sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=
-  /jsrsasign/8.0.24:
+  /jsrsasign/10.3.0:
     dev: false
     resolution:
-      integrity: sha512-u45jAyusqUpyGbFc2IbHoeE4rSkoBWQgLe/w99temHenX+GyCz4nflU5sjK7ajU1ffZTezl6le7u43Yjr/lkQg==
+      integrity: sha512-irDIKKFW++EAELgP3fjFi5/Fn0XEyfuQTTgpbeFwCGkV6tRIYZl3uraRea2HTXWCstcSZuDaCbdAhU1n+075Bg==
   /jssha/2.4.2:
     deprecated: jsSHA versions < 3.0.0 will no longer receive feature updates
     dev: false
@@ -6586,7 +6566,7 @@ packages:
   /rollup/1.32.1:
     dependencies:
       '@types/estree': 0.0.48
-      '@types/node': 10.17.60
+      '@types/node': 8.10.66
       acorn: 7.4.1
     dev: false
     hasBin: true
@@ -6877,7 +6857,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.0
       '@types/cors': 2.8.10
-      '@types/node': 10.17.60
+      '@types/node': 10.17.13
       accepts: 1.3.7
       base64id: 2.0.0
       debug: 4.3.1
@@ -8336,7 +8316,6 @@ packages:
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.18
       '@types/chai-as-promised': 7.1.4
-      '@types/jsrsasign': 8.0.12
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       buffer: 5.7.1
@@ -8348,7 +8327,7 @@ packages:
       eslint: 7.28.0
       esm: 3.2.25
       inherits: 2.0.4
-      jsrsasign: 8.0.24
+      jsrsasign: 10.3.0
       karma: 6.3.3
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
@@ -8381,7 +8360,7 @@ packages:
     dev: false
     name: '@rush-temp/attestation'
     resolution:
-      integrity: sha512-+BCbMheKvHGS3fIhPNiusw4a7FxfEm/jtXGfXCd8yNl/LbIC084E7f45kqpdT8pfEwE9d1qp2SJFE7CLsMX1Pw==
+      integrity: sha512-5hGCDuAcXkmdUOIGRcUR98wyo2mt7VIRCELqiBlNPsdmu/zGoEjoc9pqziY8BHV/dsFTZN/343bMKeoIYqIJzA==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -8794,7 +8773,7 @@ packages:
     dev: false
     name: '@rush-temp/container-registry'
     resolution:
-      integrity: sha512-4zRMuxn5nDSk+urpG+HVB+K3n8/1KCfBrTmIMeNpXoqXIOYyuGvgd5ORx7IRiwCRutzBFC+4QYI1hbSpulbT/g==
+      integrity: sha512-p4mX6xzBEEIe41EWy81HV6pIu2ydk+5nJj+d6GAaBR7H1IGPdSl2uLjaYlWtJ9TxoYU/ASVIGHR6bNJIF02eLw==
       tarball: file:projects/container-registry.tgz
     version: 0.0.0
   file:projects/core-amqp.tgz:
@@ -9775,7 +9754,6 @@ packages:
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
     dependencies:
-      '@azure/storage-blob': 12.5.0
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
@@ -9830,7 +9808,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-+IkU2ATSSMXaGRwCmLYsC6zjHzXJdbyPHp2Hj9r90C/odBUHvsffC0Pr0Z6VKqb9V1DZfFDoLlQTUdjwkS2NHg==
+      integrity: sha512-HVGnI1U0A0SyBMpjRlQDZINX71Kaae+cfNmQRcgmRhnDtt0J4K5sUbUJRuSEUje7LX/cZrKB7JyYzH+U9bXmLQ==
       tarball: file:projects/eventhubs-checkpointstore-blob.tgz
     version: 0.0.0
   file:projects/identity.tgz:
@@ -9864,7 +9842,6 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      mock-fs: 4.14.0
       open: 7.4.2
       prettier: 1.19.1
       puppeteer: 3.3.0
@@ -9881,7 +9858,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-WBDiw99pS183MgGmJf7Ety38qx9pB8H8lJ+bcOhgLCD0EQsG+yPKjUIuQjicVG8XIpEWCcb6NjftPkfjLCkVkw==
+      integrity: sha512-hO5FxDWanVtC8MNG7Zei9b4RKxEQwXzJCyrrDZ6cXVKCHKVGy2Odte0Lup8Boj3mztVzw57LqEfX3TkMzNVUzg==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
@@ -10450,7 +10427,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-core-rest-pipeline'
     resolution:
-      integrity: sha512-5n3tnNiNOrNxzsVwQa9XvHDyNkTpTb1eFa6yGlN/WReZq7IJxGWxKg7cYbmjFcS03IasRra9mupC47Zvru5RBQ==
+      integrity: sha512-KGbqhqsPgPr22oqNu65R+L8VwqyHcc2busi/fV3YZcxr8/RZnTNQDFaFycuwjgauipLSIYzBT0cRDLTgHQlNFw==
       tarball: file:projects/perf-core-rest-pipeline.tgz
     version: 0.0.0
   file:projects/perf-eventgrid.tgz:
@@ -11778,7 +11755,6 @@ packages:
       integrity: sha512-7DeCXxoad4VAGDhNwiYkzn7cUqIkaxlapdj5YnYiE2yVb059BjmVJ5+7Yy3SK5a9fT/rhXiidEuz7GpFF/J67w==
       tarball: file:projects/web-pubsub.tgz
     version: 0.0.0
-registry: ''
 specifiers:
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:./projects/agrifood-farming.tgz

@@ -207,7 +207,7 @@ describe("[API Key] TextAnalyticsClient", function(this: Suite) {
 
           const doc1Entity6 = doc1.entities[5];
           assert.equal(doc1Entity6.text, "baby");
-          assert.equal(doc1Entity6.category, "Age");
+          assert.equal(doc1Entity6.category, "FamilyRelation");
           assert.equal(doc1Entity6.normalizedText, "Infant");
           assert.isUndefined(doc1Entity6.assertion?.association);
           assert.isUndefined(doc1Entity6.assertion?.conditionality);
