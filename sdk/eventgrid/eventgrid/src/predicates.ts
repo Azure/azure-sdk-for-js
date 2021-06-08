@@ -15,21 +15,6 @@ import {
   AcsRecordingFileStatusUpdatedEventData,
   AcsSmsDeliveryReportReceivedEventData,
   AcsSmsReceivedEventData,
-  AgriFoodFarmingApplicationDataChangedEventData,
-  AgriFoodFarmingBoundaryChangedEventData,
-  AgriFoodFarmingCropChangedEventData,
-  AgriFoodFarmingCropVarietyChangedEventData,
-  AgriFoodFarmingFarmChangedEventData,
-  AgriFoodFarmingFarmOperationDataIngestionJobStatusChangedEventData,
-  AgriFoodFarmingFarmerChangedEventData,
-  AgriFoodFarmingFieldChangedEventData,
-  AgriFoodFarmingHarvestDataChangedEventData,
-  AgriFoodFarmingPlantingDataChangedEventData,
-  AgriFoodFarmingSatelliteDataIngestionJobStatusChangedEventData,
-  AgriFoodFarmingSeasonChangedEventData,
-  AgriFoodFarmingSeasonalFieldChangedEventData,
-  AgriFoodFarmingTillageDataChangedEventData,
-  AgriFoodFarmingWeatherDataIngestionJobStatusChangedEventData,
   AppConfigurationKeyValueDeletedEventData,
   AppConfigurationKeyValueModifiedEventData,
   ContainerRegistryChartDeletedEventData,
@@ -137,36 +122,6 @@ export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
  * A mapping of event type names to event data type interfaces.
  */
 export interface SystemEventNameToEventData {
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.ApplicationDataChanged" event. */
-  "Microsoft.AgFoodPlatform.ApplicationDataChanged": AgriFoodFarmingApplicationDataChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.BoundaryChanged" event. */
-  "Microsoft.AgFoodPlatform.BoundaryChanged": AgriFoodFarmingBoundaryChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.CropChanged" event. */
-  "Microsoft.AgFoodPlatform.CropChanged": AgriFoodFarmingCropChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.CropVarietyChanged" event. */
-  "Microsoft.AgFoodPlatform.CropVarietyChanged": AgriFoodFarmingCropVarietyChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.FarmChanged" event. */
-  "Microsoft.AgFoodPlatform.FarmChanged": AgriFoodFarmingFarmChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.FarmOperationDataIngestionJobStatusChanged" event. */
-  "Microsoft.AgFoodPlatform.FarmOperationDataIngestionJobStatusChanged": AgriFoodFarmingFarmOperationDataIngestionJobStatusChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.FarmerChanged" event. */
-  "Microsoft.AgFoodPlatform.FarmerChanged": AgriFoodFarmingFarmerChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.FieldChanged" event. */
-  "Microsoft.AgFoodPlatform.FieldChanged": AgriFoodFarmingFieldChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.HarvestDataChanged" event. */
-  "Microsoft.AgFoodPlatform.HarvestDataChanged": AgriFoodFarmingHarvestDataChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.PlantingDataChanged" event. */
-  "Microsoft.AgFoodPlatform.PlantingDataChanged": AgriFoodFarmingPlantingDataChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SatelliteDataIngestionJobStatusChanged" event. */
-  "Microsoft.AgFoodPlatform.SatelliteDataIngestionJobStatusChanged": AgriFoodFarmingSatelliteDataIngestionJobStatusChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SeasonChanged" event. */
-  "Microsoft.AgFoodPlatform.SeasonChanged": AgriFoodFarmingSeasonChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.SeasonalFieldChanged" event. */
-  "Microsoft.AgFoodPlatform.SeasonalFieldChanged": AgriFoodFarmingSeasonalFieldChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.TillageDataChanged" event. */
-  "Microsoft.AgFoodPlatform.TillageDataChanged": AgriFoodFarmingTillageDataChangedEventData;
-  /** An interface for the event data of a "Microsoft.AgFoodPlatform.WeatherDataIngestionJobStatusChanged" event. */
-  "Microsoft.AgFoodPlatform.WeatherDataIngestionJobStatusChanged": AgriFoodFarmingWeatherDataIngestionJobStatusChangedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceived" event. */
   "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageEdited" event. */

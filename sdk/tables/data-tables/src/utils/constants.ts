@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.0.0-beta.4";
+export const SDK_VERSION: string = "12.0.0";
 export const LIB_INFO = `azsdk-js-data-tables/${SDK_VERSION}`;
 
+export const SERVICE_VERSION = "2019-02-02";
 export const TRANSACTION_HTTP_VERSION_1_1 = "HTTP/1.1";
 export const TRANSACTION_HTTP_LINE_ENDING = "\r\n";
 

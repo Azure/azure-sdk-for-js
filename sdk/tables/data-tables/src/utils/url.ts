@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { URL } from "url";
+export { URL, URLSearchParams } from "url";
