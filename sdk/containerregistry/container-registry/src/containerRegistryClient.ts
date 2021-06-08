@@ -6,7 +6,8 @@
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
-  bearerTokenChallengeAuthenticationPolicy
+  bearerTokenAuthenticationPolicy,
+  PipelineOptions
 } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 
@@ -18,7 +19,7 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
-import { ContainerRegistryClientOptions, DeleteRepositoryResult } from "./model";
+import { RepositoryPageResponse } from "./models";
 import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 import {
@@ -26,9 +27,24 @@ import {
   ContainerRepositoryImpl,
   DeleteRepositoryOptions
 } from "./containerRepository";
-import { URL } from "./url";
 import { RegistryArtifact } from "./registryArtifact";
 import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
+
+/**
+ * Client options used to configure Container Registry Repository API requests.
+ */
+export interface ContainerRegistryClientOptions extends PipelineOptions {
+  /**
+   * Gets or sets the authentication scope to use for authentication with AAD.
+   * This defaults to the Azure Resource Manager "Azure Global" scope.  To
+   * connect to a different cloud, set this value to "&lt;resource-id&gt;/.default",
+   * where &lt;resource-id&gt; is one of the Resource IDs listed at
+   * https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities#azure-resource-manager.
+   * For example, to connect to the Azure Germany cloud, create a client with
+   * this set to "https://management.microsoftazure.de/.default".
+   */
+  authenticationScope?: string;
+}
 
 /**
  * Options for the `listRepositories` method of `ContainerRegistryClient`.
@@ -42,13 +58,7 @@ export class ContainerRegistryClient {
   /**
    * The Azure Container Registry endpoint.
    */
-  public readonly registryUrl: string;
-
-  /** The login server of the registry */
-  public readonly loginServer: string;
-
-  /** The name of the registry */
-  public readonly name: string;
+  public readonly endpoint: string;
 
   private client: GeneratedClient;
 
@@ -65,12 +75,12 @@ export class ContainerRegistryClient {
    *    new DefaultAzureCredential()
    * );
    * ```
-   * @param endpointUrl - the URL to the Container Registry endpoint
+   * @param endpoint - the URL to the Container Registry endpoint
    * @param credential - used to authenticate requests to the service
    * @param options - optional configuration used to send requests to the service
    */
   constructor(
-    endpointUrl: string,
+    endpoint: string,
     credential: TokenCredential,
     options?: ContainerRegistryClientOptions
   );
@@ -87,20 +97,21 @@ export class ContainerRegistryClient {
    *    "<container registry API endpoint>",
    * );
    * ```
-   * @param endpointUrl - the URL to the Container Registry endpoint
+   * @param endpoint - the URL to the Container Registry endpoint
    * @param options - optional configuration used to send requests to the service
    */
-  constructor(endpointUrl: string, options?: ContainerRegistryClientOptions);
+  constructor(endpoint: string, options?: ContainerRegistryClientOptions);
 
   constructor(
-    endpointUrl: string,
+    endpoint: string,
     credentialOrOptions?: TokenCredential | ContainerRegistryClientOptions,
     clientOptions: ContainerRegistryClientOptions = {}
   ) {
-    this.registryUrl = endpointUrl;
-    const parsedUrl = new URL(endpointUrl);
-    this.loginServer = parsedUrl.hostname;
-    this.name = parsedUrl.pathname;
+    if (!endpoint) {
+      throw new Error("invalid endpoint");
+    }
+
+    this.endpoint = endpoint;
 
     let credential: TokenCredential | undefined;
     let options: ContainerRegistryClientOptions | undefined;
@@ -128,19 +139,18 @@ export class ContainerRegistryClient {
         logger: logger.info,
         // This array contains header names we want to log that are not already
         // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-        additionalAllowedHeaderNames: ["x-ms-correlation-request-id"],
-        additionalAllowedQueryParameters: ["last", "n"]
+        additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"]
       }
     };
-
-    const authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
-    this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
+    const authScope = options.authenticationScope ?? "https://management.azure.com/.default";
+    const authClient = new GeneratedClient(endpoint, internalPipelineOptions);
+    this.client = new GeneratedClient(endpoint, internalPipelineOptions);
     this.client.pipeline.addPolicy(
-      bearerTokenChallengeAuthenticationPolicy({
+      bearerTokenAuthenticationPolicy({
         credential,
-        scopes: ["https://management.core.windows.net/.default"],
+        scopes: [authScope],
         challengeCallbacks: new ChallengeHandler(
-          new ContainerRegistryRefreshTokenCredential(authClient, credential)
+          new ContainerRegistryRefreshTokenCredential(authClient, authScope, credential)
         )
       })
     );
@@ -155,21 +165,18 @@ export class ContainerRegistryClient {
   public async deleteRepository(
     repositoryName: string,
     options: DeleteRepositoryOptions = {}
-  ): Promise<DeleteRepositoryResult> {
+  ): Promise<void> {
+    if (!repositoryName) {
+      throw new Error("invalid repositoryName");
+    }
+
     const { span, updatedOptions } = createSpan(
       "ContainerRegistryClient-deleteRepository",
       options
     );
 
     try {
-      const result = await this.client.containerRegistry.deleteRepository(
-        repositoryName,
-        updatedOptions
-      );
-      return {
-        deletedManifests: result.deletedManifests ?? [],
-        deletedTags: result.deletedTags ?? []
-      };
+      await this.client.containerRegistry.deleteRepository(repositoryName, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -185,7 +192,14 @@ export class ContainerRegistryClient {
    * @param tagOrDigest - tag or digest of the artifact to retrieve
    */
   public getArtifact(repositoryName: string, tagOrDigest: string): RegistryArtifact {
-    return new ContainerRepositoryImpl(this.registryUrl, repositoryName, this.client).getArtifact(
+    if (!repositoryName) {
+      throw new Error("invalid repositoryName");
+    }
+    if (!tagOrDigest) {
+      throw new Error("invalid tagOrDigest");
+    }
+
+    return new ContainerRepositoryImpl(this.endpoint, repositoryName, this.client).getArtifact(
       tagOrDigest
     );
   }
@@ -197,7 +211,11 @@ export class ContainerRegistryClient {
    * @param options - optional configuration for the operation
    */
   public getRepository(repositoryName: string): ContainerRepository {
-    return new ContainerRepositoryImpl(this.registryUrl, repositoryName, this.client);
+    if (!repositoryName) {
+      throw new Error("invalid repositoryName");
+    }
+
+    return new ContainerRepositoryImpl(this.endpoint, repositoryName, this.client);
   }
 
   /**
@@ -214,7 +232,7 @@ export class ContainerRegistryClient {
    */
   public listRepositoryNames(
     options: ListRepositoriesOptions = {}
-  ): PagedAsyncIterableIterator<string, string[]> {
+  ): PagedAsyncIterableIterator<string, RepositoryPageResponse> {
     const iter = this.listRepositoryItems(options);
 
     return {
@@ -239,27 +257,35 @@ export class ContainerRegistryClient {
   private async *listRepositoriesPage(
     continuationState: PageSettings,
     options: ListRepositoriesOptions = {}
-  ): AsyncIterableIterator<string[]> {
+  ): AsyncIterableIterator<RepositoryPageResponse> {
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
         n: continuationState.maxPageSize
       };
       const currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
-      if (currentPage.repositories) {
-        yield currentPage.repositories;
-      }
       continuationState.continuationToken = extractNextLink(currentPage.link);
+      if (currentPage.repositories) {
+        const array = currentPage.repositories;
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
+        });
+      }
     }
     while (continuationState.continuationToken) {
       const currentPage = await this.client.containerRegistry.getRepositoriesNext(
         continuationState.continuationToken,
         options
       );
-      if (currentPage.repositories) {
-        yield currentPage.repositories;
-      }
       continuationState.continuationToken = extractNextLink(currentPage.link);
+      if (currentPage.repositories) {
+        const array = currentPage.repositories;
+        yield Object.defineProperty(array, "continuationToken", {
+          value: continuationState.continuationToken,
+          enumerable: true
+        });
+      }
     }
   }
 }

@@ -7,7 +7,8 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { RoleDefinitions, RoleAssignments } from "./operations";
+import { RoleDefinitionsImpl, RoleAssignmentsImpl } from "./operations";
+import { RoleDefinitions, RoleAssignments } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
@@ -15,9 +16,11 @@ import {
   KeyVaultClientOptionalParams,
   KeyVaultClientFullBackupOptionalParams,
   KeyVaultClientFullBackupResponse,
+  KeyVaultClientFullBackupStatusOptionalParams,
   KeyVaultClientFullBackupStatusResponse,
   KeyVaultClientFullRestoreOperationOptionalParams,
   KeyVaultClientFullRestoreOperationResponse,
+  KeyVaultClientRestoreStatusOptionalParams,
   KeyVaultClientRestoreStatusResponse,
   KeyVaultClientSelectiveKeyRestoreOperationOptionalParams,
   KeyVaultClientSelectiveKeyRestoreOperationResponse
@@ -30,8 +33,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   constructor(options?: KeyVaultClientOptionalParams) {
     super(options);
-    this.roleDefinitions = new RoleDefinitions(this);
-    this.roleAssignments = new RoleAssignments(this);
+    this.roleDefinitions = new RoleDefinitionsImpl(this);
+    this.roleAssignments = new RoleAssignmentsImpl(this);
   }
 
   /**
@@ -43,11 +46,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     options?: KeyVaultClientFullBackupOptionalParams
   ): Promise<KeyVaultClientFullBackupResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.sendOperationRequest(
-      { vaultBaseUrl, options: operationOptions },
+      operationArguments,
       fullBackupOperationSpec
     ) as Promise<KeyVaultClientFullBackupResponse>;
   }
@@ -61,13 +65,15 @@ export class KeyVaultClient extends KeyVaultClientContext {
   fullBackupStatus(
     vaultBaseUrl: string,
     jobId: string,
-    options?: coreHttp.OperationOptions
+    options?: KeyVaultClientFullBackupStatusOptionalParams
   ): Promise<KeyVaultClientFullBackupStatusResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      jobId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.sendOperationRequest(
-      { vaultBaseUrl, jobId, options: operationOptions },
+      operationArguments,
       fullBackupStatusOperationSpec
     ) as Promise<KeyVaultClientFullBackupStatusResponse>;
   }
@@ -82,11 +88,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     options?: KeyVaultClientFullRestoreOperationOptionalParams
   ): Promise<KeyVaultClientFullRestoreOperationResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.sendOperationRequest(
-      { vaultBaseUrl, options: operationOptions },
+      operationArguments,
       fullRestoreOperationOperationSpec
     ) as Promise<KeyVaultClientFullRestoreOperationResponse>;
   }
@@ -100,13 +107,15 @@ export class KeyVaultClient extends KeyVaultClientContext {
   restoreStatus(
     vaultBaseUrl: string,
     jobId: string,
-    options?: coreHttp.OperationOptions
+    options?: KeyVaultClientRestoreStatusOptionalParams
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      jobId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.sendOperationRequest(
-      { vaultBaseUrl, jobId, options: operationOptions },
+      operationArguments,
       restoreStatusOperationSpec
     ) as Promise<KeyVaultClientRestoreStatusResponse>;
   }
@@ -123,11 +132,13 @@ export class KeyVaultClient extends KeyVaultClientContext {
     keyName: string,
     options?: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
   ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      vaultBaseUrl,
+      keyName,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.sendOperationRequest(
-      { vaultBaseUrl, keyName, options: operationOptions },
+      operationArguments,
       selectiveKeyRestoreOperationOperationSpec
     ) as Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse>;
   }
@@ -136,7 +147,6 @@ export class KeyVaultClient extends KeyVaultClientContext {
   roleAssignments: RoleAssignments;
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const fullBackupOperationSpec: coreHttp.OperationSpec = {
@@ -154,7 +164,7 @@ const fullBackupOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.azureStorageBlobContainerUri,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -189,7 +199,7 @@ const fullRestoreOperationOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.restoreBlobDetails,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -224,7 +234,7 @@ const selectiveKeyRestoreOperationOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.restoreBlobDetails1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName],
-  headerParameters: [Parameters.contentType, Parameters.accept1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };

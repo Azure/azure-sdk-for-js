@@ -6,23 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { SigningCertificates } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClient } from "../generatedClient";
-import { SigningCertificatesGetResponse } from "../models";
+import { GeneratedClientContext } from "../generatedClientContext";
+import {
+  SigningCertificatesGetOptionalParams,
+  SigningCertificatesGetResponse
+} from "../models";
 
-/**
- * Class representing a SigningCertificates.
- */
-export class SigningCertificates {
-  private readonly client: GeneratedClient;
+/** Class representing a SigningCertificates. */
+export class SigningCertificatesImpl implements SigningCertificates {
+  private readonly client: GeneratedClientContext;
 
   /**
    * Initialize a new instance of the class SigningCertificates class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClient) {
+  constructor(client: GeneratedClientContext) {
     this.client = client;
   }
 
@@ -31,22 +33,15 @@ export class SigningCertificates {
    * @param options The options parameters.
    */
   get(
-    options?: coreHttp.OperationOptions
+    options?: SigningCertificatesGetOptionalParams
   ): Promise<SigningCertificatesGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<SigningCertificatesGetResponse>;
+    return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/certs",
   httpMethod: "GET",
   responses: {

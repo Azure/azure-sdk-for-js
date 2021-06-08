@@ -180,5 +180,6 @@ export {
   PolicyInsightsPolicyStateCreatedEventData,
   PolicyInsightsPolicyStateDeletedEventData,
   StorageAsyncOperationInitiatedEventData,
-  StorageBlobTierChangedEventData
+  StorageBlobTierChangedEventData,
+  StorageBlobInventoryPolicyCompletedEventData
 } from "./generated/models";

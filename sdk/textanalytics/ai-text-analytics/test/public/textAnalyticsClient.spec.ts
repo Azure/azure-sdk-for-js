@@ -14,13 +14,12 @@ import {
   TextDocumentInput,
   DetectLanguageInput,
   DetectLanguageSuccessResult,
-  ExtractKeyPhrasesSuccessResult,
   AnalyzeSentimentResultArray,
   AnalyzeSentimentSuccessResult,
   SentenceSentiment,
   Opinion,
   AssessmentSentiment,
-  PiiEntityDomainType
+  PiiEntityDomain
 } from "../../src";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
@@ -479,15 +478,6 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
         assert.equal(result.error.code, "UnsupportedLanguageCode");
       });
 
-      it("service reports warning for long words", async function() {
-        const results = await client.extractKeyPhrases([
-          "Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters."
-        ]);
-        assertAllSuccess(results);
-        const result = results[0] as ExtractKeyPhrasesSuccessResult;
-        assert.equal(result.warnings[0].code, "LongWordsInDocument");
-      });
-
       it("client accepts mixed-language TextDocumentInput[]", async function() {
         const enInputs = testDataEn.map(
           (text): TextDocumentInput => ({
@@ -587,7 +577,7 @@ describe("[AAD] TextAnalyticsClient", function(this: Suite) {
               language: "en"
             }
           ],
-          { domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION }
+          { domainFilter: PiiEntityDomain.PROTECTED_HEALTH_INFORMATION }
         );
         if (!result.error) {
           assert.equal(result.entities.length, 2);

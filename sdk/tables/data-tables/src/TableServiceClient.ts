@@ -18,7 +18,12 @@ import {
   SetPropertiesResponse
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import {
+  isNamedKeyCredential,
+  NamedKeyCredential,
+  SASCredential,
+  isSASCredential
+} from "@azure/core-auth";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
@@ -26,10 +31,12 @@ import { logger } from "./logger";
 import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
-import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
+import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { ListTableItemsResponse } from "./utils/internalModels";
 import { Pipeline } from "@azure/core-rest-pipeline";
+import { isCredential } from "./utils/isCredential";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -54,14 +61,15 @@ export class TableServiceClient {
    * @param url - The URL of the service account that is the target of the desired operation., such as
    *              "https://myaccount.table.core.windows.net". You can append a SAS,
    *              such as "https://myaccount.table.core.windows.net?sasString".
-   * @param credential - TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
+   * @param credential - NamedKeyCredential | SASCredential used to authenticate requests. Only Supported for Node
    * @param options - Options to configure the HTTP pipeline.
    *
    * Example using an account name/key:
    *
    * ```js
+   * const { AzureNamedKeyCredential, TableServiceClient } = require("@azure/data-tables")
    * const account = "<storage account name>"
-   * const sharedKeyCredential = new TablesSharedKeyCredential(account, "<account key>");
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, "<account key>");
    *
    * const tableServiceClient = new TableServiceClient(
    *   `https://${account}.table.core.windows.net`,
@@ -71,7 +79,7 @@ export class TableServiceClient {
    */
   constructor(
     url: string,
-    credential: TablesSharedKeyCredential,
+    credential: NamedKeyCredential | SASCredential,
     options?: TableServiceClientOptions
   );
   /**
@@ -95,18 +103,15 @@ export class TableServiceClient {
   constructor(url: string, options?: TableServiceClientOptions);
   constructor(
     url: string,
-    credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
+    credentialOrOptions?: NamedKeyCredential | SASCredential | TableServiceClientOptions,
     options?: TableServiceClientOptions
   ) {
     this.url = url;
-    const credential =
-      credentialOrOptions instanceof TablesSharedKeyCredential ? credentialOrOptions : undefined;
+    const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
     const clientOptions =
-      (!(credentialOrOptions instanceof TablesSharedKeyCredential)
-        ? credentialOrOptions
-        : options) || {};
+      (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
-    clientOptions.endpoint = clientOptions.endpoint || url;
+    clientOptions.endpoint = clientOptions.endpoint || this.url;
 
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
@@ -134,10 +139,13 @@ export class TableServiceClient {
       }
     };
 
-    const client = new GeneratedClient(url, internalPipelineOptions);
-    if (credential) {
-      client.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+    const client = new GeneratedClient(this.url, internalPipelineOptions);
+    if (isNamedKeyCredential(credential)) {
+      client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
+    } else if (isSASCredential(credential)) {
+      client.pipeline.addPolicy(tablesSASTokenPolicy(credential));
     }
+
     this.pipeline = client.pipeline;
     this.table = client.table;
     this.service = client.service;
@@ -317,7 +325,6 @@ export class TableServiceClient {
     const { xMsContinuationNextTableName: nextTableName, value = [] } = await this.table.query(
       options
     );
-
     return Object.assign([...value], { nextTableName });
   }
 

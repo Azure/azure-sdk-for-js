@@ -4,40 +4,40 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1317",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 21 May 2021 20:27:51 GMT",
+    "date": "Fri, 04 Jun 2021 20:00:55 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11774.8 - NCUS ProdSlices",
-    "x-ms-request-id": "a5b5a503-1a1f-4d03-8c61-070547a82d00"
+    "x-ms-ests-server": "2.1.11787.14 - SCUS ProdSlices",
+    "x-ms-request-id": "1cbd4b99-911c-4624-86d2-80b069565c00"
    }
   },
   {
    "method": "GET",
-   "url": "https://isolated_attestation_url/.well-known/openid-configuration",
+   "url": "https://isolated_attestation_url.wus.attest.azure.net/.well-known/openid-configuration",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"response_types_supported\":[\"token\",\"none\"],\"id_token_signing_alg_values_supported\":[\"RS256\"],\"revocation_endpoint\":\"https://isolated_attestation_url/revoke\",\"issuer\":\"https://isolated_attestation_url\",\"jwks_uri\":\"https://isolated_attestation_url/certs\",\"claims_supported\":[\"cnf\",\"nonce\",\"x-ms-ver\",\"x-ms-attestation-type\",\"x-ms-policy-hash\",\"x-ms-policy-signer\",\"x-ms-sgx-is-debuggable\",\"x-ms-sgx-mrenclave\",\"x-ms-sgx-mrsigner\",\"x-ms-sgx-svn\",\"x-ms-sgx-ehd\",\"x-ms-sgx-collateral\",\"is-debuggable\",\"sgx-mrsigner\",\"sgx-mrenclave\",\"product-id\",\"svn\",\"tee\"]}",
+   "response": "{\"response_types_supported\":[\"token\",\"none\"],\"id_token_signing_alg_values_supported\":[\"RS256\"],\"revocation_endpoint\":\"https://isolated_attestation_url.wus.attest.azure.net/revoke\",\"issuer\":\"https://isolated_attestation_url.wus.attest.azure.net\",\"jwks_uri\":\"https://isolated_attestation_url.wus.attest.azure.net/certs\",\"claims_supported\":[\"cnf\",\"nonce\",\"x-ms-ver\",\"x-ms-attestation-type\",\"x-ms-policy-hash\",\"x-ms-policy-signer\",\"x-ms-sgx-is-debuggable\",\"x-ms-sgx-mrenclave\",\"x-ms-sgx-mrsigner\",\"x-ms-sgx-svn\",\"x-ms-sgx-ehd\",\"x-ms-sgx-collateral\",\"is-debuggable\",\"sgx-mrsigner\",\"sgx-mrenclave\",\"product-id\",\"svn\",\"tee\"]}",
    "responseHeaders": {
     "content-length": "612",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 21 May 2021 20:27:51 GMT",
+    "date": "Fri, 04 Jun 2021 20:00:55 GMT",
     "server": "Kestrel",
-    "x-ms-maa-service-version": "1.10.01581.0002",
-    "x-ms-request-id": "00-1050bba6845eec4a025fc6dadb43be4b-0000000000000000-00"
+    "x-ms-maa-service-version": "1.10.01605.0002",
+    "x-ms-request-id": "00-8dd73af1a1a7776622375fa838308891-0000000000000000-00"
    }
   }
  ],

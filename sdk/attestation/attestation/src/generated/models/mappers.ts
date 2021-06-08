@@ -6,18 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const PolicyResponse: coreHttp.CompositeMapper = {
+export const PolicyResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PolicyResponse",
     modelProperties: {
       token: {
         constraints: {
-          Pattern: new RegExp("[A-Za-z0-9_-]+.[A-Za-z0-9_-]*.[A-Za-z0-9_-]*")
+          Pattern: new RegExp(
+            "[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]*\\.[A-Za-z0-9_-]*"
+          )
         },
         serializedName: "token",
+        required: true,
         type: {
           name: "String"
         }
@@ -26,7 +29,7 @@ export const PolicyResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const CloudError: coreHttp.CompositeMapper = {
+export const CloudError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CloudError",
@@ -42,7 +45,7 @@ export const CloudError: coreHttp.CompositeMapper = {
   }
 };
 
-export const CloudErrorBody: coreHttp.CompositeMapper = {
+export const CloudErrorBody: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CloudErrorBody",
@@ -63,14 +66,16 @@ export const CloudErrorBody: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicyCertificatesResponse: coreHttp.CompositeMapper = {
+export const PolicyCertificatesResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PolicyCertificatesResponse",
     modelProperties: {
       token: {
         constraints: {
-          Pattern: new RegExp("[A-Za-z0-9_-]+.[A-Za-z0-9_-]*.[A-Za-z0-9_-]*")
+          Pattern: new RegExp(
+            "[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]*\\.[A-Za-z0-9_-]*"
+          )
         },
         serializedName: "token",
         type: {
@@ -81,14 +86,16 @@ export const PolicyCertificatesResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicyCertificatesModifyResponse: coreHttp.CompositeMapper = {
+export const PolicyCertificatesModifyResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PolicyCertificatesModifyResponse",
     modelProperties: {
       token: {
         constraints: {
-          Pattern: new RegExp("[A-Za-z0-9_-]+.[A-Za-z0-9_-]*.[A-Za-z0-9_-]*")
+          Pattern: new RegExp(
+            "[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]*\\.[A-Za-z0-9_-]*"
+          )
         },
         serializedName: "token",
         type: {
@@ -99,7 +106,7 @@ export const PolicyCertificatesModifyResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const AttestOpenEnclaveRequest: coreHttp.CompositeMapper = {
+export const AttestOpenEnclaveRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AttestOpenEnclaveRequest",
@@ -134,7 +141,7 @@ export const AttestOpenEnclaveRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const RuntimeData: coreHttp.CompositeMapper = {
+export const RuntimeData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RuntimeData",
@@ -155,7 +162,7 @@ export const RuntimeData: coreHttp.CompositeMapper = {
   }
 };
 
-export const InitTimeData: coreHttp.CompositeMapper = {
+export const InitTimeData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "InitTimeData",
@@ -176,16 +183,19 @@ export const InitTimeData: coreHttp.CompositeMapper = {
   }
 };
 
-export const AttestationResponse: coreHttp.CompositeMapper = {
+export const AttestationResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AttestationResponse",
     modelProperties: {
       token: {
         constraints: {
-          Pattern: new RegExp("[A-Za-z0-9_-]+.[A-Za-z0-9_-]*.[A-Za-z0-9_-]*")
+          Pattern: new RegExp(
+            "[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]*\\.[A-Za-z0-9_-]*"
+          )
         },
         serializedName: "token",
+        required: true,
         type: {
           name: "String"
         }
@@ -194,7 +204,7 @@ export const AttestationResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const AttestSgxEnclaveRequest: coreHttp.CompositeMapper = {
+export const AttestSgxEnclaveRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AttestSgxEnclaveRequest",
@@ -229,7 +239,7 @@ export const AttestSgxEnclaveRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const TpmAttestationRequest: coreHttp.CompositeMapper = {
+export const TpmAttestationRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TpmAttestationRequest",
@@ -244,7 +254,7 @@ export const TpmAttestationRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const TpmAttestationResponse: coreHttp.CompositeMapper = {
+export const TpmAttestationResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TpmAttestationResponse",
@@ -259,7 +269,7 @@ export const TpmAttestationResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const JsonWebKeySet: coreHttp.CompositeMapper = {
+export const JsonWebKeySet: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JsonWebKeySet",
@@ -280,7 +290,7 @@ export const JsonWebKeySet: coreHttp.CompositeMapper = {
   }
 };
 
-export const JsonWebKey: coreHttp.CompositeMapper = {
+export const JsonWebKey: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JsonWebKey",
@@ -397,7 +407,7 @@ export const JsonWebKey: coreHttp.CompositeMapper = {
   }
 };
 
-export const AttestationCertificateManagementBody: coreHttp.CompositeMapper = {
+export const AttestationCertificateManagementBody: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AttestationCertificateManagementBody",
@@ -413,7 +423,7 @@ export const AttestationCertificateManagementBody: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicyCertificatesResult: coreHttp.CompositeMapper = {
+export const PolicyCertificatesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PolicyCertificatesResult",
@@ -429,7 +439,7 @@ export const PolicyCertificatesResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicyCertificatesModificationResult: coreHttp.CompositeMapper = {
+export const PolicyCertificatesModificationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PolicyCertificatesModificationResult",
@@ -450,7 +460,7 @@ export const PolicyCertificatesModificationResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const StoredAttestationPolicy: coreHttp.CompositeMapper = {
+export const StoredAttestationPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StoredAttestationPolicy",
@@ -465,7 +475,7 @@ export const StoredAttestationPolicy: coreHttp.CompositeMapper = {
   }
 };
 
-export const PolicyResult: coreHttp.CompositeMapper = {
+export const PolicyResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PolicyResult",
@@ -491,7 +501,9 @@ export const PolicyResult: coreHttp.CompositeMapper = {
       },
       policy: {
         constraints: {
-          Pattern: new RegExp("[A-Za-z0-9_-]+.[A-Za-z0-9_-]*.[A-Za-z0-9_-]*")
+          Pattern: new RegExp(
+            "[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]*\\.[A-Za-z0-9_-]*"
+          )
         },
         serializedName: "x-ms-policy",
         type: {
@@ -502,7 +514,7 @@ export const PolicyResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const AttestationResult: coreHttp.CompositeMapper = {
+export const AttestationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AttestationResult",

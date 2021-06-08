@@ -5,8 +5,10 @@
 ```yaml
 package-name: "@azure/keyvault-admin"
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200917.1"
+  "@autorest/typescript": "6.0.0-alpha.20210527.9"
 azure-arm: false
+disable-async-iterators: true
+use-core-v2: false
 generate-metadata: false
 add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
@@ -31,4 +33,38 @@ directive:
               }
           }
       }
+```
+
+### Ignore 404s for DELETE operations
+
+Treat HTTP 404 responses for DELETE operations for RBAC as non-errors.
+
+```yaml
+directive:
+  - where-operation: RoleAssignments_Delete
+    transform: >
+      $.responses["404"] = {
+          "description": "The resource to delete does not exist.",
+          "x-ms-error-response": false
+      };
+  - where-operation: RoleDefinitions_Delete
+    transform: >
+      $.responses["404"] = {
+          "description": "The resource to delete does not exist.",
+          "x-ms-error-response": false
+      };
+```
+
+### Return void for DELETE operations
+
+Do not parse response bodies unnecessarily.
+
+```yaml
+directive:
+  - where-operation: RoleAssignments_Delete
+    transform: >
+      delete $.responses["200"].schema;
+  - where-operation: RoleDefinitions_Delete
+    transform: >
+      delete $.responses["200"].schema;
 ```

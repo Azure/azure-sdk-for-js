@@ -5,8 +5,6 @@
 ## Configuration
 
 ```yaml
-use: /home/dealmaha/corev2-v6
-use-core-v2: true
 package-name: "@azure/ai-text-analytics"
 title: GeneratedClient
 description: TextAnalytics Client

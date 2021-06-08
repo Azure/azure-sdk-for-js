@@ -3,7 +3,7 @@
 
 import { TableServiceClientOptions } from "..";
 import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
-import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
+import { AzureNamedKeyCredential } from "@azure/core-auth";
 
 /**
  * Gets client parameters from an Account Connection String
@@ -15,7 +15,7 @@ export function fromAccountConnectionString(
   extractedCreds: ConnectionString,
   options: TableServiceClientOptions = {}
 ): ClientParamsFromConnectionString {
-  const sharedKeyCredential = new TablesSharedKeyCredential(
+  const sharedKeyCredential = new AzureNamedKeyCredential(
     extractedCreds.accountName!,
     extractedCreds.accountKey
   );
@@ -34,8 +34,6 @@ export function getAccountConnectionString(
   endpointSuffix?: string,
   tableEndpoint?: string
 ): ConnectionString {
-  const accountKeyBuffer = Buffer.from(accountKey, "base64");
-
   if (!tableEndpoint) {
     // TableEndpoint is not present in the Account connection string
     // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.table.${endpointSuffix}`
@@ -53,7 +51,7 @@ export function getAccountConnectionString(
 
   if (!accountName) {
     throw new Error("Invalid AccountName in the provided Connection String");
-  } else if (accountKeyBuffer.length === 0) {
+  } else if (accountKey.length === 0) {
     throw new Error("Invalid AccountKey in the provided Connection String");
   }
 
@@ -61,6 +59,6 @@ export function getAccountConnectionString(
     kind: "AccountConnString",
     url: tableEndpoint,
     accountName,
-    accountKey: accountKeyBuffer
+    accountKey
   };
 }

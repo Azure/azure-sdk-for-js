@@ -185,4 +185,37 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       await client.deleteConfigurationSetting({ key: secondSetting.key });
     });
   });
+
+  describe("serializeAsConfigurationSettingParam", () => {
+    let client: AppConfigurationClient;
+    let recorder: Recorder;
+    let featureFlag: ConfigurationSetting<FeatureFlagValue>;
+    beforeEach(async function(this: Context) {
+      recorder = startRecorder(this);
+      client = createAppConfigurationClientForTests() || this.skip();
+      featureFlag = {
+        contentType: featureFlagContentType,
+        key: `${featureFlagPrefix}${recorder.getUniqueName("name-1")}`,
+        isReadOnly: false,
+        value: { conditions: { clientFilters: [] }, enabled: true }
+      };
+    });
+
+    afterEach(async function(this: Context) {
+      await client.deleteConfigurationSetting({ key: featureFlag.key });
+      await recorder.stop();
+    });
+
+    [`[]`, "Hello World"].forEach((value) => {
+      it(`Unexpected value ${value} as feature flag value`, async () => {
+        featureFlag.value = value as any;
+        await client.addConfigurationSetting(featureFlag);
+        assert.equal(
+          (await client.getConfigurationSetting({ key: featureFlag.key })).value,
+          value,
+          "message"
+        );
+      });
+    });
+  });
 });

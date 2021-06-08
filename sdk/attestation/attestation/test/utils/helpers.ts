@@ -1,19 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../src/jsrsasign.d.ts"/>
+import * as jsrsasign from "jsrsasign";
+
 import { assert } from "chai";
 
-import { AttestationClient } from "../../src/";
-
-import * as jsrsasign from "jsrsasign"; // works in the browser
+import { AttestationSigner } from "../../src/";
 
 import { decode } from "./decodeJWT";
 
-import { encodeByteArray } from "./base64url"
+import { EndpointType, getAttestationUri } from "./recordedClient";
+
+import { encodeByteArray } from "./base64url";
 
 export function decodeJWT(
   attestationToken: string,
-  client: AttestationClient
+  instanceUri: string
 ): {
   [key: string]: any;
 } {
@@ -21,7 +25,7 @@ export function decodeJWT(
   if (decoded?.header) {
     assert.notEqual(decoded.header.alg, "none");
     assert.equal(decoded.header.typ, "JWT");
-    assert.equal(decoded.header.jku, client.instanceUrl + "/certs");
+    assert.equal(decoded.header.jku, instanceUri + "/certs");
     return decoded;
   }
   throw new Error(`decoded token did not have header: ${decoded}`);
@@ -29,37 +33,32 @@ export function decodeJWT(
 
 export async function verifyAttestationToken(
   attestationToken: string,
-  client: AttestationClient
+  signers: AttestationSigner[],
+  endpointType: EndpointType
 ): Promise<{
   [key: string]: any;
 }> {
-  const decoded = decodeJWT(attestationToken, client);
+  const decoded = decodeJWT(attestationToken, getAttestationUri(endpointType));
   const keyId = decoded?.header.kid;
 
-  const signingCerts = await client.getAttestationSigners();
-  let signingCert;
-  assert(signingCerts.length > 0);
-  for (const key of signingCerts) {
+  let signingCert: Uint8Array[] = [];
+  for (const key of signers) {
     if (key.keyId === keyId) {
       signingCert = key.certificates;
     }
   }
-  if (signingCert) {
+  if (signingCert.length) {
     // Convert the inbound certificate to PEM format so the verify function is happy.
     let pemCert: string;
     pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-    pemCert += encodeByteArray(signingCert[1]);
+    pemCert += encodeByteArray(signingCert[0]);
     pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
     const pubKeyObj = jsrsasign.KEYUTIL.getKey(pemCert);
-    const isValid = jsrsasign.KJUR.jws.JWS.verifyJWT(
-      attestationToken,
-      pubKeyObj as jsrsasign.RSAKey,
-      {
-        iss: [client.instanceUrl],
-        alg: ["RS256"]
-      }
-    );
+    const isValid = jsrsasign.KJUR.jws.JWS.verifyJWT(attestationToken, pubKeyObj, {
+      iss: [getAttestationUri(endpointType)],
+      alg: ["RS256"]
+    });
     if (!isValid) {
       throw new Error(`Verification failed! token: ${JSON.stringify(decoded)}`);
     }

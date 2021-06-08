@@ -5,7 +5,11 @@
  * @summary Uses an AccessControlClient to list, create, and assign roles to users.
  */
 
-const { KeyVaultAccessControlClient } = require("@azure/keyvault-admin");
+const {
+  KeyVaultAccessControlClient,
+  KnownKeyVaultDataAction,
+  KnownKeyVaultRoleScope
+} = require("@azure/keyvault-admin");
 const { DefaultAzureCredential } = require("@azure/identity");
 const uuid = require("uuid");
 
@@ -29,26 +33,19 @@ async function main() {
     console.log(roleAssignment);
   }
 
-  const globalScope = "/";
-
+  const globalScope = KnownKeyVaultRoleScope.Global;
   const roleDefinitionName = uuid.v4();
   const permissions = [
     {
-      dataActions: [
-        "Microsoft.KeyVault/managedHsm/backup/start/action",
-        "Microsoft.KeyVault/managedHsm/backup/status/action"
-      ]
+      dataActions: [KnownKeyVaultDataAction.StartHsmBackup, KnownKeyVaultDataAction.StartHsmRestore]
     }
   ];
-  let roleDefinition = await client.upsertRoleDefinition(
-    globalScope,
-    {
-      roleDefinitionName,
-      roleName: "Backup Manager",
-      permissions,
-      description: "Allow backup actions"
-    }
-  );
+  let roleDefinition = await client.setRoleDefinition(globalScope, {
+    roleDefinitionName,
+    roleName: "Backup Manager",
+    permissions,
+    description: "Allow backup actions"
+  });
   console.log(roleDefinition);
 
   // This sample uses a custom role but you may assign one of the many built-in roles.
@@ -69,11 +66,9 @@ async function main() {
   assignment = await client.getRoleAssignment(globalScope, roleAssignmentName);
   console.log(assignment);
 
-  assignment = await client.deleteRoleAssignment(globalScope, roleAssignmentName);
-  console.log(assignment);
+  await client.deleteRoleAssignment(globalScope, roleAssignmentName);
 
-  roleDefinition = await client.deleteRoleDefinition(globalScope, roleDefinition.name);
-  console.log(roleDefinition);
+  await client.deleteRoleDefinition(globalScope, roleDefinition.name);
 }
 
 main().catch((err) => {

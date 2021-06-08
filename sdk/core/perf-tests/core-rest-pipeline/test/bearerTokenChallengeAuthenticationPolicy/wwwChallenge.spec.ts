@@ -2,7 +2,7 @@ import { PerfStressTest } from "@azure/test-utils-perfstress";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   AuthorizeRequestOnChallengeOptions,
-  bearerTokenChallengeAuthenticationPolicy,
+  bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
@@ -116,7 +116,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-export class BearerTokenChallengeAuthenticationPolicyTest extends PerfStressTest {
+export class BearerTokenAuthenticationPolicyChallengeTest extends PerfStressTest {
   options = {};
 
   constructor() {
@@ -156,7 +156,7 @@ export class BearerTokenChallengeAuthenticationPolicyTest extends PerfStressTest
     const pipeline = createEmptyPipeline();
 
     const cachedToken: AccessToken | null = null;
-    const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
+    const bearerPolicy = bearerTokenAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: [""],
       credential,
@@ -176,9 +176,9 @@ export class BearerTokenChallengeAuthenticationPolicyTest extends PerfStressTest
 
     let responsesCount = 0;
 
-    BearerTokenChallengeAuthenticationPolicyTest.request = request;
-    BearerTokenChallengeAuthenticationPolicyTest.pipeline = pipeline;
-    BearerTokenChallengeAuthenticationPolicyTest.testHttpsClient = {
+    BearerTokenAuthenticationPolicyChallengeTest.request = request;
+    BearerTokenAuthenticationPolicyChallengeTest.pipeline = pipeline;
+    BearerTokenAuthenticationPolicyChallengeTest.testHttpsClient = {
       sendRequest: async (req) => {
         finalSendRequestHeaders.push(req.headers.get("Authorization"));
 
@@ -194,7 +194,7 @@ export class BearerTokenChallengeAuthenticationPolicyTest extends PerfStressTest
   }
 
   async runAsync(): Promise<void> {
-    const { pipeline, testHttpsClient, request } = BearerTokenChallengeAuthenticationPolicyTest;
+    const { pipeline, testHttpsClient, request } = BearerTokenAuthenticationPolicyChallengeTest;
     await pipeline!.sendRequest(testHttpsClient!, request!);
   }
 }

@@ -1,5 +1,17 @@
 # Release History
 
+## 12.0.0 (UNRELEASED)
+
+This release marks the general availability of the `@azure/data-tables` package.
+
+- Added support for generating SAS tokens using an `AzureNamedKeyCredential` [#15564](https://github.com/Azure/azure-sdk-for-js/pull/15564)
+- Use @azure/core-auth `AzureSASCredendial` [#15564](https://github.com/Azure/azure-sdk-for-js/pull/15564)
+- Fix submit transaction issue [15403](https://github.com/Azure/azure-sdk-for-js/issues/15403) when sending multiple transactions. [#15493](https://github.com/Azure/azure-sdk-for-js/pull/15493)
+
+### Breaking Changes
+
+- Use @azure/core-auth `AzureNamedKeyCredential` [#15529](https://github.com/Azure/azure-sdk-for-js/pull/15529)
+
 ## 12.0.0-beta.3 (2021-05-17)
 
 - Update and Upsert operations have "merge" as default update mode. [#14956](https://github.com/Azure/azure-sdk-for-js/pull/14956)
