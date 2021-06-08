@@ -174,7 +174,7 @@ describe("AbortSignal", () => {
         sendable() {
           return true;
         },
-        send(_msg, _tag, _format, options) {
+        send(_msg, options) {
           if (options?.abortSignal) {
             wasAbortSignalPassed = true;
           }
