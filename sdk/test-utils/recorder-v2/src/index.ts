@@ -42,6 +42,7 @@ export class RecordingHttpClient extends DefaultHttpClient {
       upstreamUrl.path = undefined;
       request.headers.set("x-recording-upstream-base-uri", url.format(upstreamUrl));
       request.url = url.format(redirectedUrl);
+      console.log(redirectedUrl);
     }
 
     return await super.prepareRequest(request);

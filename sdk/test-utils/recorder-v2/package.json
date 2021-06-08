@@ -64,7 +64,8 @@
   "private": true,
   "dependencies": {
     "@azure/test-utils-recorder": "^1.0.0",
-    "@azure/core-http": "^1.2.0"
+    "@azure/core-http": "^1.2.0",
+    "@azure/core-rest-pipeline": "1.1.0-beta.3"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
