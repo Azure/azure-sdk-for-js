@@ -18,6 +18,7 @@ jobs:
           Paths:
             - ci-configs/packages-latest.json
             - ci-configs/packages-preview.json
+            - metadata/
           Repositories:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
