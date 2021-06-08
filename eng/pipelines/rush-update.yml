@@ -26,4 +26,3 @@ jobs:
         PRBranchName: automated-rush-update-$(Build.BuildId)
         CommitMsg: "Automatic rush update recheck"
         PRTitle: "Automatic rush update"
-        BaseBranchName: master
