@@ -58,6 +58,13 @@ ms.service: $service
 $packageInfoJson = Get-Content $ArtifactLocation -Raw
 $packageInfo = ConvertFrom-Json $packageInfoJson
 
+if ($packageInfo.DevVersion) {
+  # If the package is of a dev version, use the dev version. This is used in the
+  # docs title as well as written into the exported package info file in the 
+  # docs repo where it is used for onboarding configuration.
+  $packageInfo.Version = $packageInfo.DevVersion
+}
+
 $packageMetadataArray = (Get-CSVMetadata).Where({ $_.Package -eq $packageInfo.Name })
 if ($packageMetadataArray.Count -eq 0) { 
   LogError "Could not retrieve metadata for $($packageInfo.Name) from metadata CSV"
@@ -86,3 +93,16 @@ $readMeName = "$($docsMsMetadata.DocsMsReadMeName.ToLower())-readme${suffix}.md"
 $readmeLocation = Join-Path $DocRepoLocation $readMePath $readMeName
 
 Set-Content -Path $readmeLocation -Value $outputReadmeContent
+
+# Copy package info file to the docs repo
+$metadataMoniker = 'latest'
+if ($version.IsPrerelease) {
+  $metadataMoniker = 'preview'
+}
+$packageMetadataName = Split-Path $ArtifactLocation -Leaf
+$packageInfoLocation = Join-Path $DocRepoLocation "metadata/$metadataMoniker"
+$packageInfoJson = ConvertTo-Json $packageInfo
+New-Item -ItemType Directory -Path $packageInfoLocation -Force
+Set-Content `
+  -Path $packageInfoLocation/$packageMetadataName `
+  -Value $packageInfoJson

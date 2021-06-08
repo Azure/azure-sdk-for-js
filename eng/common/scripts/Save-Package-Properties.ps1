@@ -51,9 +51,27 @@ function SetOutput($outputPath, $incomingPackageSpec) {
       -Force
   }
 
+  # Set file paths to relative paths
+  $outputObject.DirectoryPath = GetRelativePath $outputObject.DirectoryPath
+  $outputObject.ReadMePath = GetRelativePath $outputObject.ReadMePath
+  $outputObject.ChangeLogPath = GetRelativePath $outputObject.ChangeLogPath
+
   Set-Content `
     -Path $outputPath `
     -Value (ConvertTo-Json -InputObject $outputObject -Depth 100)
+}
+
+function GetRelativePath($path) { 
+  $originalLocation = Get-Location 
+  # Set location to root of the repo for relative path calculation
+  Set-Location $PSScriptRoot/../../../
+
+  $resolvedPath = Resolve-Path $path -Relative
+  # Ensure paths are 
+  $relativePath = $resolvedPath -replace "\\", '/'
+  Set-Location $originalLocation
+
+  return $relativePath
 }
 
 $allPackageProperties = Get-AllPkgProperties $serviceDirectory
@@ -71,6 +89,7 @@ if ($allPackageProperties)
             Write-Host "Package Version: $($pkg.Version)"
             Write-Host "Package SDK Type: $($pkg.SdkType)"
             Write-Host "Artifact Name: $($pkg.ArtifactName)"
+
             $configFilePrefix = $pkg.Name
             if ($pkg.ArtifactName)
             {
@@ -78,7 +97,7 @@ if ($allPackageProperties)
             }
             $outputPath = Join-Path -Path $outDirectory "$configFilePrefix.json"
             SetOutput $outputPath $pkg
-        }        
+        }
     }
 
     Get-ChildItem -Path $outDirectory
