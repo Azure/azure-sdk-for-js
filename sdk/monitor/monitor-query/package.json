@@ -1,6 +1,6 @@
 {
   "name": "@azure/monitor-query",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "An isomorphic client library to query Azure Monitor logs and metrics.",
   "sdk-type": "client",
   "main": "dist/index.js",
