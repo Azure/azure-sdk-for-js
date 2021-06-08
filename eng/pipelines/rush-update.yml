@@ -1,0 +1,36 @@
+trigger: none
+
+pr:
+  branches:
+    include:
+      - master
+      - main
+  paths:
+    include:
+      - eng/pipelines/rush-update.yml
+
+jobs:
+  - job: 'ValidateDependencies'
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      name: azsdk-pool-mms-ubuntu-1804-general
+      vmImage: MMSUbuntu18.04
+
+    steps:
+    - template: /eng/pipelines/templates/steps/common.yml
+
+    - script: |
+        node common/scripts/install-run-rush.js install
+        rush update --recheck
+      condition: and(succeeded())
+      displayName: "Run Rush Update"
+
+    - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+      parameters:
+        RepoName: azure-sdk-for-js
+        PRBranchName: automated-rush-update-$(Build.BuildId)
+        CommitMsg: "rush update recheck"
+        PRTitle: "Automatic rush update"
+        CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
