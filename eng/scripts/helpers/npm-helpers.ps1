@@ -1,4 +1,4 @@
-$EngPath = Resolve-Path "${PSScriptRoot}/.."
+$EngPath = Resolve-Path "${PSScriptRoot}/../.."
 $Engcommon = Join-Path $EngPath "common"
 $EngCommonScriptsPath = Join-Path $Engcommon "scripts"
 . (Join-Path $EngCommonScriptsPath common.ps1)

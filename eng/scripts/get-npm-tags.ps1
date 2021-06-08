@@ -5,7 +5,8 @@ param (
   $workingDirectory
 )
 
-. (Join-Path $PSScriptRoot npm-helpers.ps1)
+$HelpersPath = Join-Path $PSScriptRoot "helpers"
+. (Join-Path $HelpersPath npm-helpers.ps1)
 
 $pkgProps = Get-javascript-PackageInfoFromPackageFile -pkg $packageArtifact -workingDirectory $workingDirectory
 if ($pkgProps -eq $null)
