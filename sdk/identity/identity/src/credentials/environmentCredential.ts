@@ -10,7 +10,7 @@ import { checkTenantId } from "../util/checkTenantId";
 import { trace } from "../util/tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { CacheableCredentialOptions } from "./cacheableCredentialOptions";
+import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -35,7 +35,7 @@ const logger = credentialLogger("EnvironmentCredential");
  */
 export interface EnvironmentCredentialOptions
   extends TokenCredentialOptions,
-    CacheableCredentialOptions {}
+    CredentialPersistenceOptions {}
 
 /**
  * Enables authentication to Azure Active Directory using client secret

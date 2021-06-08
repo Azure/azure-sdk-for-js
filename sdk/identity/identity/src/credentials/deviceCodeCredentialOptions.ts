@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
-import { CacheableCredentialOptions } from "./cacheableCredentialOptions";
+import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 
 /**
  * Provides the user code and verification URI where the code must be
@@ -40,7 +40,7 @@ export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
  */
 export interface DeviceCodeCredentialOptions
   extends InteractiveCredentialOptions,
-    CacheableCredentialOptions {
+    CredentialPersistenceOptions {
   /**
    * The Azure Active Directory tenant (directory) ID.
    */

@@ -27,7 +27,7 @@ export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
 export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions";
-export { CacheableCredentialOptions } from "./credentials/cacheableCredentialOptions";
+export { CredentialPersistenceOptions } from "./credentials/credentialPersistenceOptions";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
 export {

@@ -1,5 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Copyright (c) Microsoft Corporation
-// Licensed under the MIT license
+// Licensed under the MIT license.
 
 /**
  * Parameters that enable token cache persistence in the Identity credentials.
@@ -14,8 +17,8 @@ export interface TokenCachePersistenceOptions {
    *
    * Based on this identifier, the persistence file will be located in any of the following places:
    * - Darwin: '/Users/user/.IdentityService/<name>'
-   * - Windows 8: 'C:\Users\user\AppData\Local\.IdentityService\<name>'
-   * - Windows XP: 'C:\Documents and Settings\user\Application Data\Local\.IdentityService\<name>'
+   * - Windows 8: 'C:\\Users\\user\\AppData\\Local\\.IdentityService\\<name>'
+   * - Windows XP: 'C:\\Documents and Settings\\user\\Application Data\\Local\\.IdentityService\\<name>'
    * - Linux: '/home/user/.IdentityService/<name>'
    */
   name?: string;

@@ -1,5 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Copyright (c) Microsoft Corporation
-// Licensed under the MIT license
+// Licensed under the MIT license.
 
 import { TokenCachePersistenceOptions } from "../msal/nodeFlows/tokenCachePersistenceOptions";
 
@@ -7,7 +10,7 @@ import { TokenCachePersistenceOptions } from "../msal/nodeFlows/tokenCachePersis
  * Shared configuration options for credentials that support persistent token
  * caching.
  */
-export interface CacheableCredentialOptions {
+export interface CredentialPersistenceOptions {
   /**
    * Options to provide to the persistence layer (if one is available) when
    * storing credentials.
