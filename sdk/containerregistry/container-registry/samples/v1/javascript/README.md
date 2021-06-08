@@ -12,13 +12,13 @@ urlFragment: container-registry-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Container Registry in some common scenarios.
 
-| **File Name**                                         | **Description**                                                                                 |
-| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| [containerRegistryClient.js][containerregistryclient] | Demonstrates the use of a ContainerRegistryClient.                                              |
-| [anonymousListTags.js][anonymouslisttags]             | Illustrates how to list the tags for an image in a registry that enables anonymous pull access. |
-| [deleteImages.js][deleteimages]                       | Illustrates how to delete all but the latest three images.                                      |
-| [repositoryAndArtifact.js][repositoryandartifact]     | Demonstrates the use of ContainerRepository and RegistryArtifact.                               |
-| [setImageProperties.js][setimageproperties]           | Illustrates how to update the properties on the tag so it can't be overwritten or deleted.      |
+| **File Name**                                         | **Description**                                                                            |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [containerRegistryClient.js][containerregistryclient] | Lists repository names and deletes a repository.                                           |
+| [anonymousListTags.js][anonymouslisttags]             | Lists tags for an image in a registry that enables anonymous pull access.                  |
+| [deleteImages.js][deleteimages]                       | Deletes all but the latest three images.                                                   |
+| [repositoryAndArtifact.js][repositoryandartifact]     | Uses ContainerRepository and RegistryArtifact to work with manifests, tags, and artifacts. |
+| [setImageProperties.js][setimageproperties]           | Updates the properties on the tag so it can't be overwritten or deleted.                   |
 
 ## Prerequisites
 

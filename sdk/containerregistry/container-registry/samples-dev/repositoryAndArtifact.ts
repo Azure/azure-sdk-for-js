@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of ContainerRepository and RegistryArtifact.
+ * @summary Uses ContainerRepository and RegistryArtifact to work with manifests, tags, and artifacts.
  * @azsdk-weight 5
  */
 

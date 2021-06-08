@@ -12,13 +12,13 @@ urlFragment: container-registry-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Container Registry in some common scenarios.
 
-| **File Name**                                         | **Description**                                                                                 |
-| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| [containerRegistryClient.ts][containerregistryclient] | Demonstrates the use of a ContainerRegistryClient.                                              |
-| [anonymousListTags.ts][anonymouslisttags]             | Illustrates how to list the tags for an image in a registry that enables anonymous pull access. |
-| [deleteImages.ts][deleteimages]                       | Illustrates how to delete all but the latest three images.                                      |
-| [repositoryAndArtifact.ts][repositoryandartifact]     | Demonstrates the use of ContainerRepository and RegistryArtifact.                               |
-| [setImageProperties.ts][setimageproperties]           | Illustrates how to update the properties on the tag so it can't be overwritten or deleted.      |
+| **File Name**                                         | **Description**                                                                            |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [containerRegistryClient.ts][containerregistryclient] | Lists repository names and deletes a repository.                                           |
+| [anonymousListTags.ts][anonymouslisttags]             | Lists tags for an image in a registry that enables anonymous pull access.                  |
+| [deleteImages.ts][deleteimages]                       | Deletes all but the latest three images.                                                   |
+| [repositoryAndArtifact.ts][repositoryandartifact]     | Uses ContainerRepository and RegistryArtifact to work with manifests, tags, and artifacts. |
+| [setImageProperties.ts][setimageproperties]           | Updates the properties on the tag so it can't be overwritten or deleted.                   |
 
 ## Prerequisites
 

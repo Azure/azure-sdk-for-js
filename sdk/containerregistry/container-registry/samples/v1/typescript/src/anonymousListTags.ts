@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Illustrates how to list the tags for an image in a registry that enables anonymous pull access.
+ * @summary Lists tags for an image in a registry that enables anonymous pull access.
  */
 
 // A common use case for Azure Container Registries is to view the repositories, artifacts, or tags
 // in a public registry that belongs to someone else. In this case, the user would need to access
 // the registry anonymously. Anonymous access allows a user to list all the collections there, but
-// they wouldn't also have permissions to modify or delete any of the images in the registry.
+// they wouldn't have permissions to modify or delete any of the images in the registry.
 import { ContainerRegistryClient } from "@azure/container-registry";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -24,11 +24,11 @@ async function main() {
   const image = client.getArtifact("library/hello-world", "latest");
 
   // List the set of tags on the hello_world image tagged as "latest"
-  const tags = image.listTagProperties();
+  const tagIterator = image.listTagProperties();
 
   // Iterate through the image's tags, listing the tagged alias for the image
   console.log(`${image.fullyQualifiedReference}  has the following aliases:`);
-  for await (const tag of tags) {
+  for await (const tag of tagIterator) {
     console.log(`  ${tag.registryLoginServer}/${tag.repositoryName}:${tag.name}`);
   }
 }

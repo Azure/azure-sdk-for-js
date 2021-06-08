@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of a ContainerRegistryClient.
+ * @summary Lists repository names and deletes a repository.
  */
 
 import { ContainerRegistryClient } from "@azure/container-registry";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Illustrates how to update the properties on the tag so it can't be overwritten or deleted.
+ * @summary Updates the properties on the tag so it can't be overwritten or deleted.
  */
 
 // This sample assumes the registry has a repository `hello-world` with image tagged `v1`.

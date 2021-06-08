@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Illustrates how to delete all but the latest three images.
+ * @summary Deletes all but the latest three images.
  */
 
 // A common use case for Azure Container Registries is to scan the repositories
