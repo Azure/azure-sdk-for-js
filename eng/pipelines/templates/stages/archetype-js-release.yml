@@ -49,7 +49,7 @@ stages:
                       displayName: Output Visible Artifacts
                     - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
                       parameters:
-                        ArtifactLocation: ${{parameters.ArtifactName}}/${{artifact.name}}
+                        ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
                         PackageRepository: Npm
                         ReleaseSha: $(Build.SourceVersion)
                         RepoId: Azure/azure-sdk-for-js
@@ -112,7 +112,7 @@ stages:
                           ServiceDirectory: ${{parameters.ServiceDirectory}}
                       - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
                         parameters:
-                          ArtifactLocation: ${{parameters.ArtifactName}}/${{artifact.name}}
+                          ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
                           PackageRepository: NPM
                           ReleaseSha: $(Build.SourceVersion)
                           RepoId: Azure/azure-sdk-for-js
