@@ -1,13 +1,7 @@
 trigger: none
+pr: none
 
-pr:
-  branches:
-    include:
-      - master
-      - main
-  paths:
-    include:
-      - eng/pipelines/rush-update.yml
+# This pipeline is used to create PR automatically for rush update by running rush update --recheck
 
 jobs:
   - job: 'ValidateDependencies'
@@ -31,6 +25,5 @@ jobs:
       parameters:
         RepoName: azure-sdk-for-js
         PRBranchName: automated-rush-update-$(Build.BuildId)
-        CommitMsg: "rush update recheck"
+        CommitMsg: "Automatic rush update recheck"
         PRTitle: "Automatic rush update"
-        CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
