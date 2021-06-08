@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "aa49bc26dd2b5eaa4bd55c512d8cdb8f";
+module.exports.hash = "d1c37feda54d1c8637e8c52c80c0a788";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .put('///providers/Microsoft.Authorization/roleDefinitions/foo')
+  .put('///providers/Microsoft.Authorization/roleDefinitions/foo%20unique%20value')
   .query(true)
   .reply(401, "", [
   'content-type',
@@ -21,7 +21,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '0',
   'x-ms-request-id',
-  'b1aba6f0-a866-11eb-ac8d-000d3aab33d0',
+  'b33fec98-c7af-11eb-9e24-000d3ae39d43',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -49,19 +49,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'debe171d-f28c-43e7-bc2f-db960b802600',
+  'c53a4106-4144-4137-b131-0d3b2194a500',
   'x-ms-ests-server',
-  '2.1.11654.16 - SCUS ProdSlices',
+  '2.1.11722.26 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=Ajp62JUxeNNDt0Ku6Phhnl6nSoKICAAAAB_HG9gOAAAA; expires=Fri, 28-May-2021 21:14:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ArAm7Jm6pFpOpFhI_hDlRlS1p1ZhBgAAAAZEUNgOAAAA; expires=Wed, 07-Jul-2021 16:45:00 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr121759yJ1h1rWV6vDIWz5wbFJ9kpuAeTmOjfvS1fFMbQ8JYCX08KTtbkPf867Z7l0RbYI6yq8lWPCPJpNOlx-WRPuxTyYjDjl78xLJPMPRIuzwyAVHoeV6NySMnDn53vhEf6aELuDD80OIoYATVmshFdeBI7irfEM0UujHGHEaAgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrK4qmYUYim12MvWOje3aqzeYFRdkk2XTcbozpgC1cj-cXcLZ2W4bEQ7XxZZId17rwBFwOewHIwyrKoaRc4d6utNjadXamqmw68Q_xaniGEj2a6GYKYVm93JlathRZN7QTsIpE-E8Hz5zGR9TrwpW06lRooTdDup5PmUVyIQbyzx4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 21:14:17 GMT',
+  'Mon, 07 Jun 2021 16:45:00 GMT',
   'Content-Length',
   '980'
 ]);
@@ -84,28 +84,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8e30eed8-6132-4ee7-b258-30e2bbeeec00',
+  'c9e3e4df-63b6-4004-baa2-2833478ecf00',
   'x-ms-ests-server',
-  '2.1.11654.16 - WUS2 ProdSlices',
+  '2.1.11787.14 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=Ajp62JUxeNNDt0Ku6Phhnl6nSoKICAAAAB_HG9gOAAAA; expires=Fri, 28-May-2021 21:14:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ArAm7Jm6pFpOpFhI_hDlRlS1p1ZhBgAAAAZEUNgOAAAA; expires=Wed, 07-Jul-2021 16:45:00 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr_xAbB5gv7SEtMvqd_wW5QMoMAiUxO-dyTQRrznajG8WyX7nkrbh7p227Zj35stGJPVx2Pg2klUw_uPsGPXjpvxc0KksIfuxR4BsoleliLNSWixOZPmbRlJgSyBqO0EaXYhvl7Lu8ZyeRX1BzeIpDtoFiIIictttbSnkk-KSZUMMgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrspwLSbzBDOo5ZAz8f-M1nKs4OvGGby_XlF2RodY2aGx9AGwhi60Uq0SfjWLF0r3UMlGQ7GKQT9e3KHHjbq30-r85BXFkmuB2SEOa6rFu_AEMNLM8K_w5uIDDtnfRF3SwbX2Q__ADUGIYGTRu-lDS5wSSD9haXAxi6e0DXg3o3e4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 21:14:18 GMT',
+  'Mon, 07 Jun 2021 16:45:00 GMT',
   'Content-Length',
   '1651'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .filteringRequestBody(function (body) {
-            return body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id");
-        })
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fmanagedhsm.azure.net%2F.default%20openid%20profile%20offline_access&grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.1.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=ba967847-0267-4f51-adc0-b84c4da55889&client_secret=azure_client_secret")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -122,31 +119,31 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a5c52bde-94ea-4558-8fb4-e0b7bbea4101',
+  '65cdb7c5-94f9-478e-bbb2-379094f1b300',
   'x-ms-ests-server',
-  '2.1.11654.16 - SCUS ProdSlices',
+  '2.1.11787.14 - WUS2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Ajp62JUxeNNDt0Ku6Phhnl6nSoKICAAAAB_HG9gOAAAA; expires=Fri, 28-May-2021 21:14:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ArAm7Jm6pFpOpFhI_hDlRlS1p1ZhBgAAAAZEUNgOAAAA; expires=Wed, 07-Jul-2021 16:45:00 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 28 Apr 2021 21:14:18 GMT',
+  'Mon, 07 Jun 2021 16:45:00 GMT',
   'Content-Length',
   '1322'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .put('///providers/Microsoft.Authorization/roleDefinitions/foo', {"properties":{"roleName":"foo","type":"CustomRole","permissions":[],"assignableScopes":["/"]}})
+  .put('///providers/Microsoft.Authorization/roleDefinitions/foo%20unique%20value', {"properties":{"roleName":"foo role definition name","type":"CustomRole","permissions":[],"assignableScopes":["/"]}})
   .query(true)
-  .reply(400, {"error":{"code":"BadParameter","message":"Role definition name must be a GUID (Activity ID: b1e1ed82-a866-11eb-ac8d-000d3aab33d0)"}}, [
+  .reply(400, {"error":{"code":"BadParameter","message":"Role definition name must be a GUID (Activity ID: b36730be-c7af-11eb-9e24-000d3ae39d43)"}}, [
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-server-latency',
-  '1',
+  '0',
   'cache-control',
   'no-cache',
   'x-content-type-options',
@@ -154,7 +151,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '133',
   'x-ms-request-id',
-  'b1e1ed82-a866-11eb-ac8d-000d3aab33d0',
+  'b36730be-c7af-11eb-9e24-000d3ae39d43',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
