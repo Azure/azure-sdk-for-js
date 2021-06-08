@@ -50,6 +50,11 @@ steps:
 
 # - ${{ if not(parameters.SparseCheckoutPaths) }}:
 - pwsh: |
+    if(!(Test-Path $(DocRepoLocation)) -or !(Get-ChildItem -Force $(DocRepoLocation)) ) { 
+      Write-Host "Docs already checked out, skipping checkout."
+      exit 0 
+    }
+
     git clone `
     https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} `
     $(DocRepoLocation)
