@@ -18,10 +18,10 @@ jobs:
     - script: |
         node common/scripts/install-run-rush.js install
         rush update --recheck
-      condition: and(succeeded())
       displayName: "Run Rush Update"
 
     - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+      condition: succeeded()
       parameters:
         RepoName: azure-sdk-for-js
         PRBranchName: automated-rush-update-$(Build.BuildId)
