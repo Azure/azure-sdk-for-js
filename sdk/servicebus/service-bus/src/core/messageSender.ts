@@ -253,7 +253,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       try {
         const delivery = await this.link!.send(encodedMessage, {
           format: sendBatch ? 0x80013700 : 0,
-          timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000
+          timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000,
+          abortSignal
         });
         logger.verbose(
           "%s Sender '%s', sent message with delivery id: %d",
