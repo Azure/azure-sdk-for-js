@@ -70,7 +70,7 @@ steps:
 
     - pwsh: |
         $ErrorActionPreference = "Continue"
-        git checkout "origin/$(DailyDocsBranchName)" 2>&1 | Out-Null
+        git checkout "origin/$(TargetBranchName)" 2>&1 | Out-Null
         $LASTEXITCODE = 0 # This ignores any error from git checkout
         git status
       displayName: Checkout daily branch if it exists
