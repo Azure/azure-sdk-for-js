@@ -58,6 +58,7 @@ ms.service: $service
 $packageInfoJson = Get-Content $ArtifactLocation -Raw
 $packageInfo = ConvertFrom-Json $packageInfoJson
 
+$originalVersion = $version = [AzureEngSemanticVersion]::ParseVersionString($packageInfo.Version)
 if ($packageInfo.DevVersion) {
   # If the package is of a dev version, use the dev version. This is used in the
   # docs title as well as written into the exported package info file in the 
@@ -83,7 +84,7 @@ $docsMsMetadata = &$GetDocsMsMetadataForPackageFn $packageInfo
 $version = [AzureEngSemanticVersion]::ParseVersionString($packageInfo.Version)
 
 $readMePath = $docsMsMetadata.LatestReadMeLocation
-if ($version.IsPrerelease) { 
+if ($originalVersion.IsPrerelease) { 
   $readMePath = $docsMsMetadata.PreviewReadMeLocation
 }
 
@@ -96,7 +97,7 @@ Set-Content -Path $readmeLocation -Value $outputReadmeContent
 
 # Copy package info file to the docs repo
 $metadataMoniker = 'latest'
-if ($version.IsPrerelease) {
+if ($originalVersion.IsPrerelease) {
   $metadataMoniker = 'preview'
 }
 $packageMetadataName = Split-Path $ArtifactLocation -Leaf
