@@ -34,3 +34,37 @@ directive:
           }
       }
 ```
+
+### Ignore 404s for DELETE operations
+
+Treat HTTP 404 responses for DELETE operations for RBAC as non-errors.
+
+```yaml
+directive:
+  - where-operation: RoleAssignments_Delete
+    transform: >
+      $.responses["404"] = {
+          "description": "The resource to delete does not exist.",
+          "x-ms-error-response": false
+      };
+  - where-operation: RoleDefinitions_Delete
+    transform: >
+      $.responses["404"] = {
+          "description": "The resource to delete does not exist.",
+          "x-ms-error-response": false
+      };
+```
+
+### Return void for DELETE operations
+
+Do not parse response bodies unnecessarily.
+
+```yaml
+directive:
+  - where-operation: RoleAssignments_Delete
+    transform: >
+      delete $.responses["200"].schema;
+  - where-operation: RoleDefinitions_Delete
+    transform: >
+      delete $.responses["200"].schema;
+```

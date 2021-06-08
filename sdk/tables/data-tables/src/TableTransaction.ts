@@ -5,9 +5,15 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   PipelineResponse,
-  RestError
+  RestError,
+  Pipeline
 } from "@azure/core-rest-pipeline";
-import { ServiceClient, OperationOptions } from "@azure/core-client";
+import {
+  ServiceClient,
+  OperationOptions,
+  serializationPolicy,
+  serializationPolicyName
+} from "@azure/core-client";
 import {
   DeleteTableEntityOptions,
   TableEntity,
@@ -17,19 +23,31 @@ import {
   TableTransactionEntityResponse,
   TransactionAction
 } from "./models";
-import { NamedKeyCredential } from "@azure/core-auth";
+import {
+  isNamedKeyCredential,
+  isSASCredential,
+  NamedKeyCredential,
+  SASCredential
+} from "@azure/core-auth";
 import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableServiceErrorOdataError } from "./generated";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
-import { TableClient } from "./TableClient";
 import {
-  prepateTransactionPipeline,
   getTransactionHttpRequestBody,
   getInitialTransactionBody
 } from "./utils/transactionHelpers";
+import { signURLWithSAS } from "./tablesSASTokenPolicy";
+import {
+  transactionHeaderFilterPolicy,
+  transactionRequestAssemblePolicy,
+  transactionHeaderFilterPolicyName,
+  transactionRequestAssemblePolicyName
+} from "./TablePolicies";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 
 /**
  * Helper to build a list of transaction actions
@@ -108,7 +126,7 @@ export class InternalTableTransaction {
     partitionKey: string;
   };
   private interceptClient: TableClientLike;
-  private credential?: NamedKeyCredential;
+  private credential?: NamedKeyCredential | SASCredential;
 
   /**
    * @param url - Tables account url
@@ -117,15 +135,15 @@ export class InternalTableTransaction {
    */
   constructor(
     url: string,
-    tableName: string,
     partitionKey: string,
     transactionId: string,
     changesetId: string,
-    credential?: NamedKeyCredential
+    interceptClient: TableClientLike,
+    credential?: NamedKeyCredential | SASCredential
   ) {
     this.credential = credential;
     this.url = url;
-    this.interceptClient = new TableClient(this.url, tableName);
+    this.interceptClient = interceptClient;
 
     // Initialize Reset-able properties
     this.resetableState = this.initializeSharedState(transactionId, changesetId, partitionKey);
@@ -153,7 +171,8 @@ export class InternalTableTransaction {
   private initializeSharedState(transactionId: string, changesetId: string, partitionKey: string) {
     const pendingOperations: Promise<any>[] = [];
     const bodyParts = getInitialTransactionBody(transactionId, changesetId);
-    prepateTransactionPipeline(this.interceptClient.pipeline, bodyParts, changesetId);
+    const isCosmos = isCosmosEndpoint(this.url);
+    prepateTransactionPipeline(this.interceptClient.pipeline, bodyParts, changesetId, isCosmos);
 
     return {
       transactionId,
@@ -262,9 +281,11 @@ export class InternalTableTransaction {
       tracingOptions: updatedOptions.tracingOptions
     });
 
-    if (this.credential) {
+    if (isNamedKeyCredential(this.credential)) {
       const authHeader = getAuthorizationHeader(request, this.credential);
       request.headers.set("Authorization", authHeader);
+    } else if (isSASCredential(this.credential)) {
+      signURLWithSAS(request, this.credential);
     }
 
     try {
@@ -338,4 +359,37 @@ function parseTransactionResponse(transactionResponse: PipelineResponse): TableT
     subResponses: responses,
     getResponseForEntity: (rowKey: string) => responses.find((r) => r.rowKey === rowKey)
   };
+}
+
+/**
+ * Prepares the transaction pipeline to intercept operations
+ * @param pipeline - Client pipeline
+ */
+export function prepateTransactionPipeline(
+  pipeline: Pipeline,
+  bodyParts: string[],
+  changesetId: string,
+  isCosmos: boolean
+): void {
+  // Fist, we need to clear all the existing policies to make sure we start
+  // with a fresh state.
+  const policies = pipeline.getOrderedPolicies();
+  for (const policy of policies) {
+    pipeline.removePolicy({
+      name: policy.name
+    });
+  }
+
+  // With the clear state we now initialize the pipelines required for intercepting the requests.
+  // Use transaction assemble policy to assemble request and intercept request from going to wire
+
+  pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+  pipeline.addPolicy(transactionHeaderFilterPolicy());
+  pipeline.addPolicy(transactionRequestAssemblePolicy(bodyParts, changesetId));
+  if (isCosmos) {
+    pipeline.addPolicy(cosmosPatchPolicy(), {
+      afterPolicies: [transactionHeaderFilterPolicyName],
+      beforePolicies: [serializationPolicyName, transactionRequestAssemblePolicyName]
+    });
+  }
 }

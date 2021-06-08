@@ -25,7 +25,12 @@ import {
 } from "./generatedModels";
 import { QueryOptions as GeneratedQueryOptions, SignedIdentifier } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
+import {
+  isNamedKeyCredential,
+  isSASCredential,
+  NamedKeyCredential,
+  SASCredential
+} from "@azure/core-auth";
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -46,6 +51,10 @@ import { ListEntitiesResponse } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { Pipeline } from "@azure/core-rest-pipeline";
+import { isCredential } from "./utils/isCredential";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -62,8 +71,8 @@ export class TableClient {
    */
   public pipeline: Pipeline;
   private table: Table;
-  private credential: NamedKeyCredential | undefined;
-  private transactionClient: InternalTableTransaction | undefined;
+  private credential?: NamedKeyCredential | SASCredential;
+  private transactionClient?: InternalTableTransaction;
 
   /**
    * Name of the table to perform operations on.
@@ -76,7 +85,7 @@ export class TableClient {
    * @param url - The URL of the service account that is the target of the desired operation., such as
    *                     "https://myaccount.table.core.windows.net".
    * @param tableName - the name of the table
-   * @param credential - NamedKeyCredential used to authenticate requests. Only Supported for Node
+   * @param credential - NamedKeyCredential or SASCredential used to authenticate requests. Only Supported for Node
    * @param options - Optional. Options to configure the HTTP pipeline.
    *
    * Example using an account name/key:
@@ -97,7 +106,7 @@ export class TableClient {
   constructor(
     url: string,
     tableName: string,
-    credential: NamedKeyCredential,
+    credential: NamedKeyCredential | SASCredential,
     options?: TableClientOptions
   );
   /**
@@ -127,15 +136,17 @@ export class TableClient {
   constructor(
     url: string,
     tableName: string,
-    credentialOrOptions?: NamedKeyCredential | TableClientOptions,
+    credentialOrOptions?: NamedKeyCredential | SASCredential | TableClientOptions,
     options: TableClientOptions = {}
   ) {
     this.url = url;
-    const credential = isNamedKeyCredential(credentialOrOptions) ? credentialOrOptions : undefined;
-    const clientOptions =
-      (!isNamedKeyCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
-    clientOptions.endpoint = clientOptions.endpoint || url;
+    const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
+
+    const clientOptions =
+      (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
+
+    clientOptions.endpoint = clientOptions.endpoint || this.url;
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
     }
@@ -162,10 +173,17 @@ export class TableClient {
 
     this.tableName = tableName;
     this.credential = credential;
-    const generatedClient = new GeneratedClient(url, internalPipelineOptions);
-    if (credential) {
+    const generatedClient = new GeneratedClient(this.url, internalPipelineOptions);
+    if (isNamedKeyCredential(credential)) {
       generatedClient.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
+    } else if (isSASCredential(credential)) {
+      generatedClient.pipeline.addPolicy(tablesSASTokenPolicy(credential));
     }
+
+    if (isCosmosEndpoint(this.url)) {
+      generatedClient.pipeline.addPolicy(cosmosPatchPolicy());
+    }
+
     this.table = generatedClient.table;
     this.pipeline = generatedClient.pipeline;
   }
@@ -585,10 +603,10 @@ export class TableClient {
       // Add pipeline
       this.transactionClient = new InternalTableTransaction(
         this.url,
-        this.tableName,
         partitionKey,
         transactionId,
         changesetId,
+        new TableClient(this.url, this.tableName),
         this.credential
       );
     } else {

@@ -262,6 +262,46 @@ directive:
       delete $["x-ms-pageable"];
 ```
 
+### Rename "BlobItemInternal" to "BlobItemModel" to avoid "internal" word in interface.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobItemInternal"]
+    transform: >
+      $["x-ms-client-name"] = "BlobItemModel";
+```
+
+### Rename "BlobPropertiesInternal" to "BlobPropertiesModel" to avoid "internal" word in interface.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobPropertiesInternal"]
+    transform: >
+      $["x-ms-client-name"] = "BlobPropertiesModel";
+```
+
+### Remove "is" prefix from boolean variable: "isSealed"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobPropertiesInternal"]
+    transform: >
+      delete $["properties"]["Sealed"]["x-ms-client-name"];
+```
+
+### Remove duplicated "DeleteTime" property
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["BlobPropertiesInternal"]
+    transform: >
+      delete $["properties"]["DeleteTime"]
+```
+
 ### Update service version from "2020-06-12" to "2020-08-04"
 
 ```yaml

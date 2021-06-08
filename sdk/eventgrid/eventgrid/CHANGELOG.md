@@ -1,26 +1,10 @@
 # Release History
 
-## 4.3.0 (Unreleased)
+## 4.3.0 (2021-06-08)
 
 ### New Features
 
-- Added new System Events:
-  - `Microsoft.AgFoodPlatform.ApplicationDataChanged`
-  - `Microsoft.AgFoodPlatform.BoundaryChanged`
-  - `Microsoft.AgFoodPlatform.CropChanged`
-  - `Microsoft.AgFoodPlatform.CropVarietyChanged`
-  - `Microsoft.AgFoodPlatform.FarmChanged`
-  - `Microsoft.AgFoodPlatform.FarmOperationDataIngestionJobStatusChanged`
-  - `Microsoft.AgFoodPlatform.FarmerChanged`
-  - `Microsoft.AgFoodPlatform.FieldChanged`
-  - `Microsoft.AgFoodPlatform.HarvestDataChanged`
-  - `Microsoft.AgFoodPlatform.PlantingDataChanged`
-  - `Microsoft.AgFoodPlatform.SatelliteDataIngestionJobStatusChanged`
-  - `Microsoft.AgFoodPlatform.SeasonChanged`
-  - `Microsoft.AgFoodPlatform.SeasonalFieldChanged`
-  - `Microsoft.AgFoodPlatform.TillageDataChanged`
-  - `Microsoft.AgFoodPlatform.WeatherDataIngestionJobStatusChanged`
-  - `Microsoft.Storage.BlobInventoryPolicyCompleted`
+- Added new System Event: `Microsoft.Storage.BlobInventoryPolicyCompleted`
 
 ### Key Bug Fixes
 
