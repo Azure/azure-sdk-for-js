@@ -6,6 +6,7 @@
 
 - ServiceBusSender could throw an error (`TypeError: Cannot read property 'maxMessageSize' of undefined`) if a link was being restarted while calling sendMessages().
   [PR#15409](https://github.com/Azure/azure-sdk-for-js/pull/15409)
+- Fixes issue [#13500](https://github.com/Azure/azure-sdk-for-js/issues/13500) where a `TypeError: Cannot read property '_process' of undefined` could be thrown in rare cases.
 
 ## 7.2.0-beta.1 (2021-05-18)
 
