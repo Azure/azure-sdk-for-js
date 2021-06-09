@@ -100,13 +100,30 @@ export class TableClient {
    * ```js
    * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
    * const account = "<storage account name>";
+   * const accountKey = "<account key>"
    * const tableName = "<table name>";
-   * const sharedKeyCredential = new AzureNamedKeyCredential(account, "<account key>");
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, accountKey);
    *
    * const client = new TableClient(
    *   `https://${account}.table.core.windows.net`,
-   *   `${tableName}`
+   *   `${tableName}`,
    *   sharedKeyCredential
+   * );
+   * ```
+   *
+   * Example using a SAS Token:
+   *
+   * ```js
+   * const { AzureSASCredential, TableClient } = require("@azure/data-tables")
+   * const account = "<storage account name>";
+   * const sasToken = "<sas-token>";
+   * const tableName = "<table name>";
+   * const sasCredential = new AzureSASCredential(sasToken);
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`,
+   *   sasCredential
    * );
    * ```
    */
@@ -128,6 +145,7 @@ export class TableClient {
    * Example appending a SAS token:
    *
    * ```js
+   * const { TableClient } = require("@azure/data-tables");
    * const account = "<storage account name>";
    * const sasToken = "<SAS token>";
    * const tableName = "<table name>";
@@ -138,7 +156,6 @@ export class TableClient {
    * );
    * ```
    */
-
   constructor(url: string, tableName: string, options?: TableClientOptions);
   constructor(
     url: string,
@@ -283,6 +300,32 @@ export class TableClient {
   /**
    * Queries entities in a table.
    * @param options - The options parameters.
+   *
+   * Example listing entities
+   * ```js
+   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
+   * const account = "<storage account name>";
+   * const accountKey = "<account key>"
+   * const tableName = "<table name>";
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, accountKey);
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`,
+   *   sharedKeyCredential
+   * );
+   *
+   * // list entities returns a AsyncIterableIterator
+   * // this helps consuming paginated responses by
+   * // automatically handling getting the next pages
+   * const entities = client.listEntities();
+   *
+   * // this loop will get all the entities from all the pages
+   * // returned by the service
+   * for await (const entity of entities) {
+   *    console.log(entity);
+   * }
+   * ```
    */
   public listEntities<T extends object = Record<string, unknown>>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
@@ -582,24 +625,30 @@ export class TableClient {
    * or you can use {@link TableTransaction} to help building the transaction.
    *
    * Example usage:
-   * ```js
+   * ```typescript
+   * const { TableClient } = require("@azure/data-tables");
+   * const connectionString = "<connection-string>"
+   * const tableName = "<tableName>"
    * const client = TableClient.fromConnectionString(connectionString, tableName);
-   * const actions: TransactionAction[] = [
-   *    ["create", \{partitionKey: "p1", rowKey: "1", data: "test1"\}]
-   *    ["delete", \{partitionKey: "p1", rowKey: "2"\}],
-   *    ["update", \{partitionKey: "p1", rowKey: "3", data: "newTest"\}, "Merge"]
+   * const actions = [
+   *    ["create", {partitionKey: "p1", rowKey: "1", data: "test1"}],
+   *    ["delete", {partitionKey: "p1", rowKey: "2"}],
+   *    ["update", {partitionKey: "p1", rowKey: "3", data: "newTest"}, "Merge"]
    * ]
    * const result = await client.submitTransaction(actions);
    * ```
    *
    * Example usage with TableTransaction:
    * ```js
+   * const { TableClient } = require("@azure/data-tables");
+   * const connectionString = "<connection-string>"
+   * const tableName = "<tableName>"
    * const client = TableClient.fromConnectionString(connectionString, tableName);
    * const transaction = new TableTransaction();
    * // Call the available action in the TableTransaction object
-   * transaction.create(\{partitionKey: "p1", rowKey: "1", data: "test1"\});
+   * transaction.create({partitionKey: "p1", rowKey: "1", data: "test1"});
    * transaction.delete("p1", "2");
-   * transaction.update(\{partitionKey: "p1", rowKey: "3", data: "newTest"\}, "Merge")
+   * transaction.update({partitionKey: "p1", rowKey: "3", data: "newTest"}, "Merge")
    * // submitTransaction with the actions list on the transaction.
    * const result = await client.submitTransaction(transaction.actions);
    * ```
