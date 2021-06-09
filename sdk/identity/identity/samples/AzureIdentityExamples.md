@@ -497,7 +497,7 @@ function main() {
 [secrets_client_library]: https://www.npmjs.com/package/@azure/keyvault-secrets
 [azure_managed_identities]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 [service_principal_azure_cli]: https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli
-[device_code_flow]: https://docs.microsoft.com/en-us/azure/developer/java/sdk/identity-user-auth#enable-applications-for-device-code-flow
+[device_code_flow]: https://docs.microsoft.com/azure/developer/java/sdk/identity-user-auth#enable-applications-for-device-code-flow
 [quickstart-register-app]: https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
 [app-register-service-principal]: https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals
 [service_principal_azure_powershell]: https://docs.microsoft.com/powershell/azure/create-azure-service-principal-azureps
