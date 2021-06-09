@@ -234,8 +234,6 @@ function withClientCertificateCredential() {
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DeviceCodeCredential`.
 
-For more information about the Device Code flow, please refer to: [MSAL Authentication flows - Device code](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-authentication-flows#device-code). For more information on how to configure an AAD application to authenticate using the device code flow please refer to: [Register a public client application in Azure Active Directory](https://docs.microsoft.com/en-us/azure/healthcare-apis/fhir/register-public-azure-ad-client-app).
-
 > The `DeviceCodeCredential` offers a credential that can be used with little to no setup - the user is free to use whatever browser they choose to complete the authentication process.
 
 ```ts
@@ -254,6 +252,17 @@ function withDeviceCodeCredential() {
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
 ```
+
+To authenticate a user through device code flow, use the following steps:
+
+1. Go to Azure Active Directory in Azure portal and find your app registration.
+2. Navigate to the **Authentication** section.
+3. Under **Suggested Redirected URIs**, check the URI that ends with `/common/oauth2/nativeclient`.
+4. Under **Default Client Type**, select `yes` for `Treat application as a public client`.
+
+You also need to be the admin of your tenant to grant consent to your application when you log in for the first time.
+
+If you can't configure the device code flow option on your Active Directory, then it may require your app to be multi-tenant. To make your app multi-tenant, navigate to the **Authentication** panel, then select **Accounts in any organizational directory**. Then, select _yes_ for Treat application as Public Client.
 
 #### Authenticating a user account with username and password
 
