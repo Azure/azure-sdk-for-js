@@ -472,14 +472,7 @@ export const TextAnalyticsError: coreClient.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "InvalidRequest",
-            "InvalidArgument",
-            "InternalServerError",
-            "ServiceUnavailable",
-            "NotFound"
-          ]
+          name: "String"
         }
       },
       message: {
@@ -755,6 +748,7 @@ export const TaskState: coreClient.CompositeMapper = {
       },
       taskName: {
         serializedName: "taskName",
+        required: true,
         type: {
           name: "String"
         }
@@ -2063,6 +2057,56 @@ export const DocumentHealthcareEntities: coreClient.CompositeMapper = {
   }
 };
 
+export const HealthcareEntityProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareEntityProperties",
+    modelProperties: {
+      text: {
+        serializedName: "text",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      category: {
+        serializedName: "category",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subcategory: {
+        serializedName: "subcategory",
+        type: {
+          name: "String"
+        }
+      },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        serializedName: "length",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      confidenceScore: {
+        serializedName: "confidenceScore",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const HealthcareLinkingProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2489,48 +2533,8 @@ export const HealthcareEntity: coreClient.CompositeMapper = {
     name: "Composite",
     className: "HealthcareEntity",
     modelProperties: {
-      ...HealthcareLinkingProperties.type.modelProperties,
-      text: {
-        serializedName: "text",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      category: {
-        serializedName: "category",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      subcategory: {
-        serializedName: "subcategory",
-        type: {
-          name: "String"
-        }
-      },
-      offset: {
-        serializedName: "offset",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      length: {
-        serializedName: "length",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      confidenceScore: {
-        serializedName: "confidenceScore",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
+      ...HealthcareEntityProperties.type.modelProperties,
+      ...HealthcareLinkingProperties.type.modelProperties
     }
   }
 };

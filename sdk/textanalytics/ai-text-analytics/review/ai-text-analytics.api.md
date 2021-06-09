@@ -208,7 +208,7 @@ export interface EntityDataSource {
 export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 
 // @public
-export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable" | "NotFound";
+export type ErrorCodeValue = string;
 
 // @public
 export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
@@ -625,6 +625,7 @@ export interface TextAnalyticsActions {
 
 // @public
 export interface TextAnalyticsActionSuccessState {
+    readonly actionName: string;
     readonly completedOn: Date;
     readonly error?: undefined;
 }
