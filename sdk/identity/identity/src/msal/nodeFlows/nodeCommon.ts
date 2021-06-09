@@ -178,7 +178,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (this.account) {
       return this.account;
     }
-    const cache = this.publicApp?.getTokenCache();
+    const cache = this.confidentialApp?.getTokenCache() ?? this.publicApp?.getTokenCache();
     const accountsByTenant = await cache?.getAllAccounts();
 
     if (!accountsByTenant) {
@@ -232,7 +232,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     try {
       this.logger.info("Attempting to acquire token silently");
-      const response = await this.publicApp!.acquireTokenSilent(silentRequest);
+      const response =
+        (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
+        (await this.publicApp!.acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, this.clientId, response || undefined);
     } catch (err) {
       throw this.handleError(scopes, err, options);
