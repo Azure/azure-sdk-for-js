@@ -4,23 +4,24 @@ module.exports.hash = "ace451a3a15db6364709f9d848d931d8";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
+nock('https://joheredistorage2.table.core.windows.net:443', {"encodedQueryParams":true})
   .post('/Tables', {"TableName":"testTableSASConnectionStringnode"})
   .query(true)
-  .reply(201, {"odata.metadata":"https://fakestorageaccount.table.core.windows.net/$metadata#Tables/@Element","TableName":"testTableSASConnectionStringnode"}, [ 'Cache-Control',
+  .reply(201, {"odata.metadata":"https://joheredistorage2.table.core.windows.net/$metadata#Tables/@Element","TableName":"testTableSASConnectionStringnode"}, [
+  'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json;odata=minimalmetadata;streaming=true;charset=utf-8',
   'Location',
-  'https://fakestorageaccount.table.core.windows.net/Tables(\'testTableSASConnectionStringnode\')',
+  "https://joheredistorage2.table.core.windows.net/Tables('testTableSASConnectionStringnode')",
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6e9d0c93-c002-0024-6e8c-5918f1000000',
+  '2c0d80f3-7002-00b5-02cd-5c8c40000000',
   'x-ms-client-request-id',
-  '11c02e49-483e-4e2d-a439-2af660d8e4da',
+  'f241f692-a6ba-4bb0-819e-c735cc58d80e',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -28,12 +29,14 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Preference-Applied',
   'return-content',
   'Date',
-  'Fri, 04 Jun 2021 21:59:50 GMT' ]);
+  'Wed, 09 Jun 2021 01:17:10 GMT'
+]);
 
-nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
+nock('https://joheredistorage2.table.core.windows.net:443', {"encodedQueryParams":true})
   .get('/Tables')
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakestorageaccount.table.core.windows.net/$metadata#Tables","value":[{"TableName":"testTableSASConnectionStringnode"}]}, [ 'Cache-Control',
+  .reply(200, {"odata.metadata":"https://joheredistorage2.table.core.windows.net/$metadata#Tables","value":[{"TableName":"testTableSASConnectionStringnode"}]}, [
+  'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
   'chunked',
@@ -42,9 +45,9 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6e9d0c99-c002-0024-738c-5918f1000000',
+  '2c0d810c-7002-00b5-18cd-5c8c40000000',
   'x-ms-client-request-id',
-  '0efb8e19-081a-44b0-b51a-a537725a6d04',
+  'b9e5d704-b990-49a9-ab61-f4a5fd9764ec',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -54,24 +57,27 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 04 Jun 2021 21:59:51 GMT' ]);
+  'Wed, 09 Jun 2021 01:17:10 GMT'
+]);
 
-nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
+nock('https://joheredistorage2.table.core.windows.net:443', {"encodedQueryParams":true})
   .delete(`/Tables('testTableSASConnectionStringnode')`)
   .query(true)
-  .reply(204, "", [ 'Cache-Control',
+  .reply(204, "", [
+  'Cache-Control',
   'no-cache',
   'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6e9d0c9e-c002-0024-788c-5918f1000000',
+  '2c0d811d-7002-00b5-28cd-5c8c40000000',
   'x-ms-client-request-id',
-  'e70e34d3-a101-4479-9037-9724256e77cd',
+  '1d6ee690-b73f-4038-ac98-42ef378f1112',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 04 Jun 2021 21:59:51 GMT' ]);
+  'Wed, 09 Jun 2021 01:17:10 GMT'
+]);

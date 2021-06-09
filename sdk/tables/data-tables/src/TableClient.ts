@@ -14,16 +14,17 @@ import {
   TableServiceClientOptions as TableClientOptions,
   TableEntityResult,
   TransactionAction,
-  TableTransactionResponse
+  TableTransactionResponse,
+  SignedIdentifier,
+  GetAccessPolicyResponse
 } from "./models";
 import {
   UpdateEntityResponse,
   UpsertEntityResponse,
   DeleteTableEntityResponse,
-  GetAccessPolicyResponse,
   SetAccessPolicyResponse
 } from "./generatedModels";
-import { QueryOptions as GeneratedQueryOptions, SignedIdentifier } from "./generated/models";
+import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   isNamedKeyCredential,
@@ -35,8 +36,12 @@ import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
-import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
-import { Table } from "./generated/operations";
+import {  deserialize,
+  deserializeObjectsArray,
+  deserializeSignedIdentifier,
+  serialize,
+  serializeSignedIdentifiers } from "./serialization";
+import { Table } from "./generated/operationsInterfaces";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import {
   FullOperationResponse,
@@ -533,10 +538,11 @@ export class TableClient {
    * Shared Access Signatures.
    * @param options - The options parameters.
    */
-  public getAccessPolicy(options: OperationOptions = {}): Promise<GetAccessPolicyResponse> {
+   public async getAccessPolicy(options: OperationOptions = {}): Promise<GetAccessPolicyResponse> {
     const { span, updatedOptions } = createSpan("TableClient-getAccessPolicy", options);
     try {
-      return this.table.getAccessPolicy(this.tableName, updatedOptions);
+      const signedIdentifiers = await this.table.getAccessPolicy(this.tableName, updatedOptions);
+      return deserializeSignedIdentifier(signedIdentifiers);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -550,13 +556,17 @@ export class TableClient {
    * @param tableAcl - The Access Control List for the table.
    * @param options - The options parameters.
    */
-  public setAccessPolicy(
+   public setAccessPolicy(
     tableAcl: SignedIdentifier[],
     options: OperationOptions = {}
   ): Promise<SetAccessPolicyResponse> {
     const { span, updatedOptions } = createSpan("TableClient-setAccessPolicy", options);
     try {
-      return this.table.setAccessPolicy(this.tableName, { ...updatedOptions, tableAcl });
+      const serlializedAcl = serializeSignedIdentifiers(tableAcl);
+      return this.table.setAccessPolicy(this.tableName, {
+        ...updatedOptions,
+        tableAcl: serlializedAcl
+      });
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

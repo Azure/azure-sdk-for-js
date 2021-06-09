@@ -4,23 +4,24 @@ module.exports.hash = "7a16e9b4d6f972bde76536e576920314";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
+nock('https://joheredistorage2.table.core.windows.net:443', {"encodedQueryParams":true})
   .post('/tableClientTestSASConnectionStringnode', {"PartitionKey":"P6_node","RowKey":"R6","testField":true,"testField@odata.type":"Edm.Boolean"})
   .query(true)
-  .reply(204, "", [ 'Cache-Control',
+  .reply(204, "", [
+  'Cache-Control',
   'no-cache',
   'Content-Length',
   '0',
   'ETag',
-  'W/"datetime\'2021-06-04T21%3A59%3A51.5190642Z\'"',
+  `W/"datetime'2021-06-09T01%3A17%3A10.3369978Z'"`,
   'Location',
-  'https://fakestorageaccount.table.core.windows.net/tableClientTestSASConnectionStringnode(PartitionKey=\'P6_node\',RowKey=\'R6\')',
+  "https://joheredistorage2.table.core.windows.net/tableClientTestSASConnectionStringnode(PartitionKey='P6_node',RowKey='R6')",
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6e9d0c5d-c002-0024-3f8c-5918f1000000',
+  '2c0d803b-7002-00b5-53cd-5c8c40000000',
   'x-ms-client-request-id',
-  '08978095-a0ff-4c3e-b9b4-1dad89ff2291',
+  'a76659fe-4784-42ee-9326-292ffe4740d9',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -28,27 +29,29 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Preference-Applied',
   'return-no-content',
   'DataServiceId',
-  'https://fakestorageaccount.table.core.windows.net/tableClientTestSASConnectionStringnode(PartitionKey=\'P6_node\',RowKey=\'R6\')',
+  "https://joheredistorage2.table.core.windows.net/tableClientTestSASConnectionStringnode(PartitionKey='P6_node',RowKey='R6')",
   'Date',
-  'Fri, 04 Jun 2021 21:59:50 GMT' ]);
+  'Wed, 09 Jun 2021 01:17:10 GMT'
+]);
 
-nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
+nock('https://joheredistorage2.table.core.windows.net:443', {"encodedQueryParams":true})
   .get(`/tableClientTestSASConnectionStringnode(PartitionKey='P6_node',RowKey='R6')`)
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode/@Element","odata.etag":"W/\"datetime'2021-06-04T21%3A59%3A51.5190642Z'\"","PartitionKey":"P6_node","RowKey":"R6","Timestamp":"2021-06-04T21:59:51.5190642Z","testField":true}, [ 'Cache-Control',
+  .reply(200, {"odata.metadata":"https://joheredistorage2.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode/@Element","odata.etag":"W/\"datetime'2021-06-09T01%3A17%3A10.3369978Z'\"","PartitionKey":"P6_node","RowKey":"R6","Timestamp":"2021-06-09T01:17:10.3369978Z","testField":true}, [
+  'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json;odata=minimalmetadata;streaming=true;charset=utf-8',
   'ETag',
-  'W/"datetime\'2021-06-04T21%3A59%3A51.5190642Z\'"',
+  `W/"datetime'2021-06-09T01%3A17%3A10.3369978Z'"`,
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6e9d0c63-c002-0024-438c-5918f1000000',
+  '2c0d8055-7002-00b5-6ccd-5c8c40000000',
   'x-ms-client-request-id',
-  'a0f2159a-47fc-40f8-9c0c-259bebc41aaf',
+  'a0e51d9e-c3d6-481c-8ae0-e7ccac6aaf66',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -58,24 +61,27 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 04 Jun 2021 21:59:50 GMT' ]);
+  'Wed, 09 Jun 2021 01:17:10 GMT'
+]);
 
-nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
+nock('https://joheredistorage2.table.core.windows.net:443', {"encodedQueryParams":true})
   .delete(`/tableClientTestSASConnectionStringnode(PartitionKey='P6_node',RowKey='R6')`)
   .query(true)
-  .reply(204, "", [ 'Cache-Control',
+  .reply(204, "", [
+  'Cache-Control',
   'no-cache',
   'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6e9d0c66-c002-0024-468c-5918f1000000',
+  '2c0d8066-7002-00b5-7dcd-5c8c40000000',
   'x-ms-client-request-id',
-  '8f38cb79-4890-4e8f-8f6c-4a0370e50dfb',
+  'fd45f7d5-4df3-478f-a523-2bb08ab8daac',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 04 Jun 2021 21:59:50 GMT' ]);
+  'Wed, 09 Jun 2021 01:17:10 GMT'
+]);

@@ -7,6 +7,7 @@
 import { AzureNamedKeyCredential } from '@azure/core-auth';
 import { AzureSASCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -15,9 +16,9 @@ import { SASCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessPolicy {
-    expiry: Date;
-    permission: string;
-    start: Date;
+    expiry?: Date;
+    permission?: string;
+    start?: Date;
 }
 
 // @public
@@ -209,7 +210,7 @@ export interface ServiceSetPropertiesHeaders {
 export type SetAccessPolicyResponse = TableSetAccessPolicyHeaders;
 
 // @public
-export interface SetPropertiesOptions extends OperationOptions {
+export interface SetPropertiesOptions extends coreClient.OperationOptions {
     requestId?: string;
     timeout?: number;
 }
@@ -219,7 +220,7 @@ export type SetPropertiesResponse = ServiceSetPropertiesHeaders;
 
 // @public
 export interface SignedIdentifier {
-    accessPolicy: AccessPolicy;
+    accessPolicy?: AccessPolicy;
     id: string;
 }
 

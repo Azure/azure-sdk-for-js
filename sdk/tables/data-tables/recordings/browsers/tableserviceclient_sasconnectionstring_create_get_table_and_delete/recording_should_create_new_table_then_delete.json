@@ -2,47 +2,47 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://fakestorageaccount.table.core.windows.net/Tables",
+   "url": "https://joheredistorage2.table.core.windows.net/Tables",
    "query": {},
    "requestBody": "{\"TableName\":\"testTableSASConnectionStringbrowser\"}",
    "status": 201,
-   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#Tables/@Element\",\"TableName\":\"testTableSASConnectionStringbrowser\"}",
+   "response": "{\"odata.metadata\":\"https://joheredistorage2.table.core.windows.net/$metadata#Tables/@Element\",\"TableName\":\"testTableSASConnectionStringbrowser\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Mon, 07 Jun 2021 21:29:36 GMT",
-    "location": "https://fakestorageaccount.table.core.windows.net/Tables('testTableSASConnectionStringbrowser')",
+    "date": "Wed, 09 Jun 2021 01:17:29 GMT",
+    "location": "https://joheredistorage2.table.core.windows.net/Tables('testTableSASConnectionStringbrowser')",
     "preference-applied": "return-content",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "6dda7aef-b20a-46bc-86e6-2c7e08aa3ab4",
-    "x-ms-request-id": "d73cb5c6-0002-0032-7be4-5bd96f000000",
+    "x-ms-client-request-id": "9a599c19-ae41-4d70-a696-e5cae1061f5a",
+    "x-ms-request-id": "82b35439-e002-013c-74cd-5c7331000000",
     "x-ms-version": "2019-02-02"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.table.core.windows.net/Tables",
+   "url": "https://joheredistorage2.table.core.windows.net/Tables",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"testTableSASConnectionStringbrowser\"}]}",
+   "response": "{\"odata.metadata\":\"https://joheredistorage2.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"testTableSASConnectionStringbrowser\"}]}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Mon, 07 Jun 2021 21:29:36 GMT",
+    "date": "Wed, 09 Jun 2021 01:17:29 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "fc2d8455-1da2-48c4-9b1b-493937e7f4b3",
-    "x-ms-request-id": "d73cb5ef-0002-0032-21e4-5bd96f000000",
+    "x-ms-client-request-id": "97cca21a-0fad-4d45-8d6b-67729a57525a",
+    "x-ms-request-id": "82b35454-e002-013c-0bcd-5c7331000000",
     "x-ms-version": "2019-02-02"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.table.core.windows.net/Tables('testTableSASConnectionStringbrowser')",
+   "url": "https://joheredistorage2.table.core.windows.net/Tables('testTableSASConnectionStringbrowser')",
    "query": {},
    "requestBody": null,
    "status": 204,
@@ -50,11 +50,11 @@
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "0",
-    "date": "Mon, 07 Jun 2021 21:29:36 GMT",
+    "date": "Wed, 09 Jun 2021 01:17:29 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "dd81a2df-cfdd-49a8-9451-882afb995815",
-    "x-ms-request-id": "d73cb60e-0002-0032-3ee4-5bd96f000000",
+    "x-ms-client-request-id": "a0cc39e2-7ba4-46eb-be58-adc338b51b42",
+    "x-ms-request-id": "82b35460-e002-013c-15cd-5c7331000000",
     "x-ms-version": "2019-02-02"
    }
   }

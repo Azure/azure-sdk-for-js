@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceClientOptions, OperationOptions } from "@azure/core-client";
+import * as coreClient from "@azure/core-client";
 
 /** The properties for the table query response. */
 export interface TableQueryResponse {
@@ -69,17 +69,17 @@ export interface SignedIdentifier {
   /** A unique id. */
   id: string;
   /** The access policy. */
-  accessPolicy: AccessPolicy;
+  accessPolicy?: AccessPolicy;
 }
 
 /** An Access policy. */
 export interface AccessPolicy {
   /** The start datetime from which the policy is active. */
-  start: Date;
+  start?: string;
   /** The datetime that the policy expires. */
-  expiry: Date;
+  expiry?: string;
   /** The permissions for the acl policy. */
-  permission: string;
+  permission?: string;
 }
 
 /** Table Service Properties. */
@@ -444,9 +444,9 @@ export const enum KnownOdataMetadataFormat {
  * {@link KnownOdataMetadataFormat} can be used interchangeably with OdataMetadataFormat,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **application/json;odata=nometadata** \
- * **application/json;odata=minimalmetadata** \
- * **application/json;odata=fullmetadata**
+ * **application\/json;odata=nometadata** \
+ * **application\/json;odata=minimalmetadata** \
+ * **application\/json;odata=fullmetadata**
  */
 export type OdataMetadataFormat = string;
 
@@ -485,7 +485,7 @@ export const enum KnownGeoReplicationStatusType {
 export type GeoReplicationStatusType = string;
 
 /** Optional parameters. */
-export interface TableQueryOptionalParams extends OperationOptions {
+export interface TableQueryOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -495,10 +495,11 @@ export interface TableQueryOptionalParams extends OperationOptions {
 }
 
 /** Contains response data for the query operation. */
-export type TableQueryOperationResponse = TableQueryHeaders & TableQueryResponse;
+export type TableQueryOperationResponse = TableQueryHeaders &
+  TableQueryResponse;
 
 /** Optional parameters. */
-export interface TableCreateOptionalParams extends OperationOptions {
+export interface TableCreateOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -511,7 +512,7 @@ export interface TableCreateOptionalParams extends OperationOptions {
 export type TableCreateResponse = TableCreateHeaders & TableResponse;
 
 /** Optional parameters. */
-export interface TableDeleteOptionalParams extends OperationOptions {
+export interface TableDeleteOptionalParams extends coreClient.OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
 }
@@ -520,7 +521,8 @@ export interface TableDeleteOptionalParams extends OperationOptions {
 export type TableDeleteResponse = TableDeleteHeaders;
 
 /** Optional parameters. */
-export interface TableQueryEntitiesOptionalParams extends OperationOptions {
+export interface TableQueryEntitiesOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -534,10 +536,12 @@ export interface TableQueryEntitiesOptionalParams extends OperationOptions {
 }
 
 /** Contains response data for the queryEntities operation. */
-export type TableQueryEntitiesResponse = TableQueryEntitiesHeaders & TableEntityQueryResponse;
+export type TableQueryEntitiesResponse = TableQueryEntitiesHeaders &
+  TableEntityQueryResponse;
 
 /** Optional parameters. */
-export interface TableQueryEntitiesWithPartitionAndRowKeyOptionalParams extends OperationOptions {
+export interface TableQueryEntitiesWithPartitionAndRowKeyOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -552,7 +556,8 @@ export type TableQueryEntitiesWithPartitionAndRowKeyResponse = TableQueryEntitie
 };
 
 /** Optional parameters. */
-export interface TableUpdateEntityOptionalParams extends OperationOptions {
+export interface TableUpdateEntityOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -569,7 +574,8 @@ export interface TableUpdateEntityOptionalParams extends OperationOptions {
 export type TableUpdateEntityResponse = TableUpdateEntityHeaders;
 
 /** Optional parameters. */
-export interface TableMergeEntityOptionalParams extends OperationOptions {
+export interface TableMergeEntityOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -586,7 +592,8 @@ export interface TableMergeEntityOptionalParams extends OperationOptions {
 export type TableMergeEntityResponse = TableMergeEntityHeaders;
 
 /** Optional parameters. */
-export interface TableDeleteEntityOptionalParams extends OperationOptions {
+export interface TableDeleteEntityOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -599,7 +606,8 @@ export interface TableDeleteEntityOptionalParams extends OperationOptions {
 export type TableDeleteEntityResponse = TableDeleteEntityHeaders;
 
 /** Optional parameters. */
-export interface TableInsertEntityOptionalParams extends OperationOptions {
+export interface TableInsertEntityOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -618,7 +626,8 @@ export type TableInsertEntityResponse = TableInsertEntityHeaders & {
 };
 
 /** Optional parameters. */
-export interface TableGetAccessPolicyOptionalParams extends OperationOptions {
+export interface TableGetAccessPolicyOptionalParams
+  extends coreClient.OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. */
@@ -626,10 +635,12 @@ export interface TableGetAccessPolicyOptionalParams extends OperationOptions {
 }
 
 /** Contains response data for the getAccessPolicy operation. */
-export type TableGetAccessPolicyResponse = TableGetAccessPolicyHeaders & SignedIdentifier[];
+export type TableGetAccessPolicyResponse = TableGetAccessPolicyHeaders &
+  SignedIdentifier[];
 
 /** Optional parameters. */
-export interface TableSetAccessPolicyOptionalParams extends OperationOptions {
+export interface TableSetAccessPolicyOptionalParams
+  extends coreClient.OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. */
@@ -642,7 +653,8 @@ export interface TableSetAccessPolicyOptionalParams extends OperationOptions {
 export type TableSetAccessPolicyResponse = TableSetAccessPolicyHeaders;
 
 /** Optional parameters. */
-export interface ServiceSetPropertiesOptionalParams extends OperationOptions {
+export interface ServiceSetPropertiesOptionalParams
+  extends coreClient.OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. */
@@ -653,7 +665,8 @@ export interface ServiceSetPropertiesOptionalParams extends OperationOptions {
 export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface ServiceGetPropertiesOptionalParams extends OperationOptions {
+export interface ServiceGetPropertiesOptionalParams
+  extends coreClient.OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. */
@@ -661,10 +674,12 @@ export interface ServiceGetPropertiesOptionalParams extends OperationOptions {
 }
 
 /** Contains response data for the getProperties operation. */
-export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & TableServiceProperties;
+export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders &
+  TableServiceProperties;
 
 /** Optional parameters. */
-export interface ServiceGetStatisticsOptionalParams extends OperationOptions {
+export interface ServiceGetStatisticsOptionalParams
+  extends coreClient.OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. */
@@ -672,10 +687,12 @@ export interface ServiceGetStatisticsOptionalParams extends OperationOptions {
 }
 
 /** Contains response data for the getStatistics operation. */
-export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceStats;
+export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders &
+  TableServiceStats;
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams extends ServiceClientOptions {
+export interface GeneratedClientOptionalParams
+  extends coreClient.ServiceClientOptions {
   /** Specifies the version of the operation to use for this request. */
   version?: string;
   /** Overrides client endpoint. */

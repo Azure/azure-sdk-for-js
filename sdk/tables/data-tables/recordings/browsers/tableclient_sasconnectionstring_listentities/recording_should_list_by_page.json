@@ -2,31 +2,31 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser()",
+   "url": "https://joheredistorage2.table.core.windows.net/tableClientTestSASConnectionStringbrowser()",
    "query": {
     "$top": "5",
     "$filter": "PartitionKey eq 'listEntitiesTest'"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A33.8274993Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"0\",\"Timestamp\":\"2021-06-07T21:29:33.8274993Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A33.895545Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"1\",\"Timestamp\":\"2021-06-07T21:29:33.895545Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.5399815Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"10\",\"Timestamp\":\"2021-06-07T21:29:34.5399815Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.6010229Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"11\",\"Timestamp\":\"2021-06-07T21:29:34.6010229Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.669069Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"12\",\"Timestamp\":\"2021-06-07T21:29:34.669069Z\",\"foo\":\"testEntity\"}]}",
+   "response": "{\"odata.metadata\":\"https://joheredistorage2.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.2017702Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"0\",\"Timestamp\":\"2021-06-09T01:17:26.2017702Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.2638139Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"1\",\"Timestamp\":\"2021-06-09T01:17:26.2638139Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.8612344Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"10\",\"Timestamp\":\"2021-06-09T01:17:26.8612344Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.9262797Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"11\",\"Timestamp\":\"2021-06-09T01:17:26.9262797Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A27.0483661Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"12\",\"Timestamp\":\"2021-06-09T01:17:27.0483661Z\",\"foo\":\"testEntity\"}]}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Mon, 07 Jun 2021 21:29:34 GMT",
+    "date": "Wed, 09 Jun 2021 01:17:27 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "a5fa5b71-f14c-4fcb-854c-953f5b0c471f",
+    "x-ms-client-request-id": "8e34455d-ed74-4588-86f0-d15c38da19dd",
     "x-ms-continuation-nextpartitionkey": "1!24!bGlzdEVudGl0aWVzVGVzdA--",
     "x-ms-continuation-nextrowkey": "1!4!MTM-",
-    "x-ms-request-id": "d73cb1ed-0002-0032-3be4-5bd96f000000",
+    "x-ms-request-id": "82b3526d-e002-013c-4bcd-5c7331000000",
     "x-ms-version": "2019-02-02"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser()",
+   "url": "https://joheredistorage2.table.core.windows.net/tableClientTestSASConnectionStringbrowser()",
    "query": {
     "$top": "5",
     "$filter": "PartitionKey eq 'listEntitiesTest'",
@@ -35,24 +35,24 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.7411196Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"13\",\"Timestamp\":\"2021-06-07T21:29:34.7411196Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.8061624Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"14\",\"Timestamp\":\"2021-06-07T21:29:34.8061624Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.8712065Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"15\",\"Timestamp\":\"2021-06-07T21:29:34.8712065Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.93525Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"16\",\"Timestamp\":\"2021-06-07T21:29:34.93525Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A35.0032956Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"17\",\"Timestamp\":\"2021-06-07T21:29:35.0032956Z\",\"foo\":\"testEntity\"}]}",
+   "response": "{\"odata.metadata\":\"https://joheredistorage2.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A27.1214175Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"13\",\"Timestamp\":\"2021-06-09T01:17:27.1214175Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A27.1834612Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"14\",\"Timestamp\":\"2021-06-09T01:17:27.1834612Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A27.251509Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"15\",\"Timestamp\":\"2021-06-09T01:17:27.251509Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A27.3145534Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"16\",\"Timestamp\":\"2021-06-09T01:17:27.3145534Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A27.3876048Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"17\",\"Timestamp\":\"2021-06-09T01:17:27.3876048Z\",\"foo\":\"testEntity\"}]}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Mon, 07 Jun 2021 21:29:34 GMT",
+    "date": "Wed, 09 Jun 2021 01:17:27 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "004f7a9e-feb0-4ab1-9ba8-38a6ad6c8054",
+    "x-ms-client-request-id": "5a7f5a41-2d8b-4be4-89eb-5f65241b1a6d",
     "x-ms-continuation-nextpartitionkey": "1!24!bGlzdEVudGl0aWVzVGVzdA--",
     "x-ms-continuation-nextrowkey": "1!4!MTg-",
-    "x-ms-request-id": "d73cb204-0002-0032-4fe4-5bd96f000000",
+    "x-ms-request-id": "82b35274-e002-013c-52cd-5c7331000000",
     "x-ms-version": "2019-02-02"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser()",
+   "url": "https://joheredistorage2.table.core.windows.net/tableClientTestSASConnectionStringbrowser()",
    "query": {
     "$top": "5",
     "$filter": "PartitionKey eq 'listEntitiesTest'",
@@ -61,24 +61,24 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A35.0703406Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"18\",\"Timestamp\":\"2021-06-07T21:29:35.0703406Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A35.133383Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"19\",\"Timestamp\":\"2021-06-07T21:29:35.133383Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A33.959588Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"2\",\"Timestamp\":\"2021-06-07T21:29:33.959588Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.0236313Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"3\",\"Timestamp\":\"2021-06-07T21:29:34.0236313Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.0946799Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"4\",\"Timestamp\":\"2021-06-07T21:29:34.0946799Z\",\"foo\":\"testEntity\"}]}",
+   "response": "{\"odata.metadata\":\"https://joheredistorage2.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A27.4596555Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"18\",\"Timestamp\":\"2021-06-09T01:17:27.4596555Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A27.5257016Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"19\",\"Timestamp\":\"2021-06-09T01:17:27.5257016Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.3358646Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"2\",\"Timestamp\":\"2021-06-09T01:17:26.3358646Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.4029118Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"3\",\"Timestamp\":\"2021-06-09T01:17:26.4029118Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.4709597Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"4\",\"Timestamp\":\"2021-06-09T01:17:26.4709597Z\",\"foo\":\"testEntity\"}]}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Mon, 07 Jun 2021 21:29:34 GMT",
+    "date": "Wed, 09 Jun 2021 01:17:27 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "033e9ca2-9cff-4247-9ccb-d9d4ab40ad79",
+    "x-ms-client-request-id": "99e90148-6155-4c54-b6a1-6c529a9f1a66",
     "x-ms-continuation-nextpartitionkey": "1!24!bGlzdEVudGl0aWVzVGVzdA--",
     "x-ms-continuation-nextrowkey": "1!4!NQ--",
-    "x-ms-request-id": "d73cb214-0002-0032-5fe4-5bd96f000000",
+    "x-ms-request-id": "82b35283-e002-013c-60cd-5c7331000000",
     "x-ms-version": "2019-02-02"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser()",
+   "url": "https://joheredistorage2.table.core.windows.net/tableClientTestSASConnectionStringbrowser()",
    "query": {
     "$top": "5",
     "$filter": "PartitionKey eq 'listEntitiesTest'",
@@ -87,24 +87,24 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.1647274Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"5\",\"Timestamp\":\"2021-06-07T21:29:34.1647274Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.2297711Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"6\",\"Timestamp\":\"2021-06-07T21:29:34.2297711Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.3028206Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"7\",\"Timestamp\":\"2021-06-07T21:29:34.3028206Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.3708668Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"8\",\"Timestamp\":\"2021-06-07T21:29:34.3708668Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A34.4769391Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"9\",\"Timestamp\":\"2021-06-07T21:29:34.4769391Z\",\"foo\":\"testEntity\"}]}",
+   "response": "{\"odata.metadata\":\"https://joheredistorage2.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.5380073Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"5\",\"Timestamp\":\"2021-06-09T01:17:26.5380073Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.6080566Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"6\",\"Timestamp\":\"2021-06-09T01:17:26.6080566Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.6751033Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"7\",\"Timestamp\":\"2021-06-09T01:17:26.6751033Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.7391484Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"8\",\"Timestamp\":\"2021-06-09T01:17:26.7391484Z\",\"foo\":\"testEntity\"},{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.7991907Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"9\",\"Timestamp\":\"2021-06-09T01:17:26.7991907Z\",\"foo\":\"testEntity\"}]}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Mon, 07 Jun 2021 21:29:34 GMT",
+    "date": "Wed, 09 Jun 2021 01:17:27 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "694b3666-6d5c-4714-9274-5edf70908d21",
+    "x-ms-client-request-id": "0937441f-2378-4837-9dc7-1aaa21cb9989",
     "x-ms-continuation-nextpartitionkey": "1!24!bGlzdEVudGl0aWVzVGVzdA--",
     "x-ms-continuation-nextrowkey": "1!12!YmluYXJ5MQ--",
-    "x-ms-request-id": "d73cb239-0002-0032-03e4-5bd96f000000",
+    "x-ms-request-id": "82b35290-e002-013c-6ccd-5c7331000000",
     "x-ms-version": "2019-02-02"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser()",
+   "url": "https://joheredistorage2.table.core.windows.net/tableClientTestSASConnectionStringbrowser()",
    "query": {
     "$top": "5",
     "$filter": "PartitionKey eq 'listEntitiesTest'",
@@ -113,16 +113,16 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-07T21%3A29%3A33.7424425Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"binary1\",\"Timestamp\":\"2021-06-07T21:29:33.7424425Z\",\"foo@odata.type\":\"Edm.Binary\",\"foo\":\"QmFy\"}]}",
+   "response": "{\"odata.metadata\":\"https://joheredistorage2.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser\",\"value\":[{\"odata.etag\":\"W/\\\"datetime'2021-06-09T01%3A17%3A26.1337223Z'\\\"\",\"PartitionKey\":\"listEntitiesTest\",\"RowKey\":\"binary1\",\"Timestamp\":\"2021-06-09T01:17:26.1337223Z\",\"foo@odata.type\":\"Edm.Binary\",\"foo\":\"QmFy\"}]}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Mon, 07 Jun 2021 21:29:34 GMT",
+    "date": "Wed, 09 Jun 2021 01:17:27 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "98e845d1-3473-4bed-92e9-88db6aa90a1b",
-    "x-ms-request-id": "d73cb251-0002-0032-1be4-5bd96f000000",
+    "x-ms-client-request-id": "76137052-8947-4d8f-a29c-2ea7ad39745b",
+    "x-ms-request-id": "82b3529a-e002-013c-74cd-5c7331000000",
     "x-ms-version": "2019-02-02"
    }
   }

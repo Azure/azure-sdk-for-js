@@ -2,39 +2,39 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://fakestorageaccount.table.core.windows.net/Tables",
+   "url": "https://joheredistorage2.table.core.windows.net/Tables",
    "query": {},
    "requestBody": "{\"TableName\":\"batchTableTestSASConnectionStringbrowser\"}",
    "status": 409,
-   "response": "{\"odata.error\":{\"code\":\"TableAlreadyExists\",\"message\":{\"lang\":\"en-US\",\"value\":\"The table specified already exists.\\nRequestId:d73cbd2e-0002-0032-50e4-5bd96f000000\\nTime:2021-06-07T21:29:41.8849186Z\"}}}",
+   "response": "{\"odata.error\":{\"code\":\"TableAlreadyExists\",\"message\":{\"lang\":\"en-US\",\"value\":\"The table specified already exists.\\nRequestId:82b357bf-e002-013c-34cd-5c7331000000\\nTime:2021-06-09T01:17:34.3174828Z\"}}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Mon, 07 Jun 2021 21:29:41 GMT",
+    "date": "Wed, 09 Jun 2021 01:17:33 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "a095cd66-79e1-480d-ad20-a64f0dac5960",
-    "x-ms-request-id": "d73cbd2e-0002-0032-50e4-5bd96f000000",
+    "x-ms-client-request-id": "d6b04099-9977-441d-9571-c7a48fd55bd2",
+    "x-ms-request-id": "82b357bf-e002-013c-34cd-5c7331000000",
     "x-ms-version": "2019-02-02"
    }
   },
   {
    "method": "POST",
-   "url": "https://fakestorageaccount.table.core.windows.net/$batch",
+   "url": "https://joheredistorage2.table.core.windows.net/$batch",
    "query": {},
-   "requestBody": "--batch_fakeId\r\ncontent-type: multipart/mixed; boundary=changeset_fakeId\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nDELETE https://fakestorageaccount.table.core.windows.net/batchTableTestSASConnectionStringbrowser(PartitionKey='batchTest',RowKey='1') HTTP/1.1\r\naccept: application/json;odata=minimalmetadata\r\ndataserviceversion: 3.0\r\nif-match: *\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nDELETE https://fakestorageaccount.table.core.windows.net/batchTableTestSASConnectionStringbrowser(PartitionKey='batchTest',RowKey='2') HTTP/1.1\r\naccept: application/json;odata=minimalmetadata\r\ndataserviceversion: 3.0\r\nif-match: *\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nDELETE https://fakestorageaccount.table.core.windows.net/batchTableTestSASConnectionStringbrowser(PartitionKey='batchTest',RowKey='3') HTTP/1.1\r\naccept: application/json;odata=minimalmetadata\r\ndataserviceversion: 3.0\r\nif-match: *\r\n\r\n\r\n--changeset_fakeId--\r\n--batch_fakeId--\r\n",
+   "requestBody": "--batch_fakeId\r\ncontent-type: multipart/mixed; boundary=changeset_fakeId\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nDELETE https://joheredistorage2.table.core.windows.net/batchTableTestSASConnectionStringbrowser(PartitionKey='batchTest',RowKey='1') HTTP/1.1\r\naccept: application/json;odata=minimalmetadata\r\ndataserviceversion: 3.0\r\nif-match: *\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nDELETE https://joheredistorage2.table.core.windows.net/batchTableTestSASConnectionStringbrowser(PartitionKey='batchTest',RowKey='2') HTTP/1.1\r\naccept: application/json;odata=minimalmetadata\r\ndataserviceversion: 3.0\r\nif-match: *\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nDELETE https://joheredistorage2.table.core.windows.net/batchTableTestSASConnectionStringbrowser(PartitionKey='batchTest',RowKey='3') HTTP/1.1\r\naccept: application/json;odata=minimalmetadata\r\ndataserviceversion: 3.0\r\nif-match: *\r\n\r\n\r\n--changeset_fakeId--\r\n--batch_fakeId--\r\n",
    "status": 202,
-   "response": "--batchresponse_aede2c89-6524-4e4a-bb2d-183fff9d1746\r\nContent-Type: multipart/mixed; boundary=changesetresponse_c426fb8a-37a8-43e0-880b-74636dd43020\r\n\r\n--changesetresponse_c426fb8a-37a8-43e0-880b-74636dd43020\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_c426fb8a-37a8-43e0-880b-74636dd43020\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_c426fb8a-37a8-43e0-880b-74636dd43020\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_c426fb8a-37a8-43e0-880b-74636dd43020--\r\n--batchresponse_aede2c89-6524-4e4a-bb2d-183fff9d1746--\r\n",
+   "response": "--batchresponse_1d2ae803-239b-4cb0-8b4b-77b879997a7f\r\nContent-Type: multipart/mixed; boundary=changesetresponse_3ca9680c-db6a-4d60-8ffb-c461b7c2f794\r\n\r\n--changesetresponse_3ca9680c-db6a-4d60-8ffb-c461b7c2f794\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_3ca9680c-db6a-4d60-8ffb-c461b7c2f794\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_3ca9680c-db6a-4d60-8ffb-c461b7c2f794\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\n\r\n\r\n--changesetresponse_3ca9680c-db6a-4d60-8ffb-c461b7c2f794--\r\n--batchresponse_1d2ae803-239b-4cb0-8b4b-77b879997a7f--\r\n",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-type": "multipart/mixed; boundary=batchresponse_aede2c89-6524-4e4a-bb2d-183fff9d1746",
-    "date": "Mon, 07 Jun 2021 21:29:41 GMT",
+    "content-type": "multipart/mixed; boundary=batchresponse_1d2ae803-239b-4cb0-8b4b-77b879997a7f",
+    "date": "Wed, 09 Jun 2021 01:17:33 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "e962253d-756a-428f-89a9-8ba58ce7570b",
-    "x-ms-request-id": "d73cbd4c-0002-0032-6de4-5bd96f000000",
+    "x-ms-client-request-id": "a20dd00e-881b-44b3-834f-8939c829ba10",
+    "x-ms-request-id": "82b357ce-e002-013c-42cd-5c7331000000",
     "x-ms-version": "2019-02-02"
    }
   }

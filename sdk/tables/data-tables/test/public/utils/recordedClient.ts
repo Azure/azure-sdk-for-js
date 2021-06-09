@@ -8,7 +8,7 @@ import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
 import "./env";
 
-const mockAccountName = "fakestorageaccount";
+const mockAccountName = env.ACCOUNT_NAME;
 const mockAccountKey = "fakeKey";
 const fakeSas =
   "sv=2019-12-12&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2021-01-31T05:16:52Z&st=2021-01-26T21:16:52Z&spr=https&sig=fakeSignature";
@@ -17,7 +17,6 @@ const replaceableVariables: { [k: string]: string } = {
   // Used in record and playback modes
   // 1. The key-value pairs will be used as the environment variables in playback mode
   // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
-  ACCOUNT_NAME: `${mockAccountName}`,
   ACCOUNT_KEY: `${mockAccountKey}`,
   ACCOUNT_SAS: `${mockAccountKey}`,
   SAS_CONNECTION_STRING: `${mockSasConnectionString}`

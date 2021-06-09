@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { base64Encode, base64Decode } from "./utils/bufferSerializer";
-import { EdmTypes } from "./models";
+import { EdmTypes, SignedIdentifier } from "./models";
+import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
+import { SignedIdentifier as GeneratedSignedIdentifier } from "./generated/models";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([
   ["PartitionKey", "partitionKey"],
@@ -155,4 +157,50 @@ export function deserializeObjectsArray<T extends object>(
   disableTypeConversion: boolean
 ): T[] {
   return objArray.map((obj) => deserialize<T>(obj, disableTypeConversion));
+}
+
+/**
+ * For ACL endpoints the Tables Service takes an ISO Date wihtout decimals however
+ * serializing a JavaScript date gives us a date with decimals 2021-07-08T09:10:09.000Z
+ * which makes the XML request body invalid, these 2 functions serialize and deserialize the
+ * dates so that they are in the expected format
+ */
+ export function serializeSignedIdentifiers(
+  signedIdentifiers: SignedIdentifier[]
+): GeneratedSignedIdentifier[] {
+  return signedIdentifiers.map((acl) => {
+    const { id, accessPolicy } = acl;
+    const { start, expiry, ...rest } = accessPolicy ?? {};
+    const serializedStart = start ? truncatedISO8061Date(start) : undefined;
+    const serializedExpiry = expiry ? truncatedISO8061Date(expiry) : undefined;
+
+    return {
+      id,
+      accessPolicy: {
+        ...(serializedExpiry && { expiry: serializedExpiry }),
+        ...(serializedStart && { start: serializedStart }),
+        ...rest
+      }
+    };
+  });
+}
+
+export function deserializeSignedIdentifier(
+  signedIdentifiers: GeneratedSignedIdentifier[]
+): SignedIdentifier[] {
+  return signedIdentifiers.map((si) => {
+    const { id, accessPolicy } = si;
+    const { start, expiry, ...restAcl } = accessPolicy ?? {};
+    const deserializedStart = start ? new Date(start) : undefined;
+    const deserializedExpiry = expiry ? new Date(expiry) : undefined;
+
+    return {
+      id,
+      accessPolicy: {
+        ...(deserializedExpiry && { expiry: deserializedExpiry }),
+        ...(deserializedStart && { start: deserializedStart }),
+        ...restAcl
+      }
+    };
+  });
 }

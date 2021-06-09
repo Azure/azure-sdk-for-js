@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { GeneratedClient } from "./generated/generatedClient";
-import { Service } from "./generated/operations";
-import { Table } from "./generated/operations";
+import { Service, Table } from "./generated";
 import {
   ListTableItemsOptions,
   TableServiceClientOptions,
