@@ -1,6 +1,6 @@
 ## Azure ContainerServiceClient SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in node.js and in browsers) for ContainerServiceClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for ContainerServiceClient.
 
 ### Currently supported environments
 
