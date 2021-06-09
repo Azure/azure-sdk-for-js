@@ -1,5 +1,16 @@
 # Release History
 
+## 12.6.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+
 ## 12.6.0 (2021-06-09)
 
 - Updated Azure Storage Service API version to 2020-08-04.
@@ -80,49 +91,6 @@
 
   Previously, a new http client was created for each service client if none was provided by the user. This could result in TCP port exhaustion under heavy usage with the keepAlive option enabled because each http client has its own persistent TCP connection. This change creates a single http client instance which is shared among all service clients by default.
 
-## 12.0.0 (2019-12-04)
-
-- [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
-- [Breaking] The `expiryTime` and `startTime` members of the `AccountSASSignatureValues` and `FileSASSignatureValues` types, as well as the `expiry` and `start` members of the `accessPolicy` field of the `SignedIdentifier` type, have all been renamed to `expiresOn` and `startsOn` respectively for consistency with `@azure/storage-blob` and `@azure/storage-queue`.
-- [Breaking] `forceCloseAllHandles` will return `CloseHandlesInfo` type instead of number.
-- [Breaking] `forceCloseHandle` will return `closedHandlesCount` property instead of `numberOfHandlesClosed` to be compatible with `CloseHandlesInfo`.
-- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
-- Bug Fix - Convert empty prefixes (`""`) to `undefined` when passed as options to the `listFiles` or `listShares` methods to avoid sending an invalid request to the service. Fixes bug [5817](https://github.com/Azure/azure-sdk-for-js/issues/5817).
-- The `ShareFileClient.downloadToBuffer()` helper method has a new overload where it is not required to pass a `Buffer`. The attributes `offset` and `count` are optional, and it downloads the entire file if they are not provided.
-- [Breaking] `shareName` on `ShareClient` has been renamed to `name`. [PR 6135](https://github.com/Azure/azure-sdk-for-js/pull/6135)
-- `ShareFileClient` and `ShareDirectoryClient` now have a `name` property that returns the file or directory name respectively. [PR 6135](https://github.com/Azure/azure-sdk-for-js/pull/6135)
-- [Breaking] In browsers, `blobBody` on `FileDownloadResponse` has been renamed to `contentAsBlob` in order to avoid naming confusion between browser `Blob` objects and `Blob`s from `@azure/storage-blob`. [PR 6183](https://github.com/Azure/azure-sdk-for-js/pull/6183)
-- [Breaking] Removed `uploadBrowserData` from `ShareFileClient` in favor of a unified method `uploadData` that accepts both browser `Blob` objects as well as Node.js `Buffer` objects.
-- Added a warning to the documentation of `downloadToBuffer` that explains the limitations of Node.js `Buffer` sizes to around 2GB on 64-bit architectures and 1GB on 32-bit architectures.
-- Documented the behavior of `getProperties` methods with respect to metadata keys and their casing inconsistency when compared to the metadata keys returned through corresponding "list" methods with the `includeMetadata` option.
-
-## 12.0.0-preview.6 (2019-10-30)
-
-- [Breaking] `@azure/storage-file` package is renamed to `@azure/storage-file-share` to better align with the upcoming new package for Azure Storage Files DataLake. As a consequence,
-  - `FileServiceClient` becomes `ShareServiceClient`
-  - `DirectoryClient` becomes `ShareDirectoryClient`
-  - `FileClient` becomes `ShareFileClient`
-- Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
-- [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
-  renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862).
-  Below are the entities that now have the Storage prefix
-  - BrowserPolicy
-  - BrowserPolicyFactory
-  - RetryPolicy
-  - RetryPolicyType
-  - RetryOptions
-  - RetryPolicyFactory
-- [Breaking] The properties in the StoragePipelineOptions interface have been updated as below:
-  - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
-    will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
-    and `port` then pass it as a json object.
-  - The `telemetry` property of type `TelemetryOptions` has been renamed to `userAgentOptions` of
-    type `UserAgentOptions`. - The `logger` is no longer a property available to configure. To enable logging, please see the
-    [Troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/0ddc2f3c3d4658b20d96910acc37a77e5209e5e3/sdk/storage/storage-queue/README.md#troubleshooting) section of our readme.
-- [Breaking] The `UniqueRequestIdPolicy` and `KeepAlivePolicy` are no longer exported from this library. The
-  corresponding policies from the `@azure/core-http` library are meant to be used instead.
-- Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
-
 ## 12.0.0-preview.5 (2019.10)
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)
@@ -172,6 +140,49 @@
     includeSnapshots: true
   });
   ```
+
+## 12.0.0 (2019-12-04)
+
+- [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+- [Breaking] The `expiryTime` and `startTime` members of the `AccountSASSignatureValues` and `FileSASSignatureValues` types, as well as the `expiry` and `start` members of the `accessPolicy` field of the `SignedIdentifier` type, have all been renamed to `expiresOn` and `startsOn` respectively for consistency with `@azure/storage-blob` and `@azure/storage-queue`.
+- [Breaking] `forceCloseAllHandles` will return `CloseHandlesInfo` type instead of number.
+- [Breaking] `forceCloseHandle` will return `closedHandlesCount` property instead of `numberOfHandlesClosed` to be compatible with `CloseHandlesInfo`.
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+- Bug Fix - Convert empty prefixes (`""`) to `undefined` when passed as options to the `listFiles` or `listShares` methods to avoid sending an invalid request to the service. Fixes bug [5817](https://github.com/Azure/azure-sdk-for-js/issues/5817).
+- The `ShareFileClient.downloadToBuffer()` helper method has a new overload where it is not required to pass a `Buffer`. The attributes `offset` and `count` are optional, and it downloads the entire file if they are not provided.
+- [Breaking] `shareName` on `ShareClient` has been renamed to `name`. [PR 6135](https://github.com/Azure/azure-sdk-for-js/pull/6135)
+- `ShareFileClient` and `ShareDirectoryClient` now have a `name` property that returns the file or directory name respectively. [PR 6135](https://github.com/Azure/azure-sdk-for-js/pull/6135)
+- [Breaking] In browsers, `blobBody` on `FileDownloadResponse` has been renamed to `contentAsBlob` in order to avoid naming confusion between browser `Blob` objects and `Blob`s from `@azure/storage-blob`. [PR 6183](https://github.com/Azure/azure-sdk-for-js/pull/6183)
+- [Breaking] Removed `uploadBrowserData` from `ShareFileClient` in favor of a unified method `uploadData` that accepts both browser `Blob` objects as well as Node.js `Buffer` objects.
+- Added a warning to the documentation of `downloadToBuffer` that explains the limitations of Node.js `Buffer` sizes to around 2GB on 64-bit architectures and 1GB on 32-bit architectures.
+- Documented the behavior of `getProperties` methods with respect to metadata keys and their casing inconsistency when compared to the metadata keys returned through corresponding "list" methods with the `includeMetadata` option.
+
+## 12.0.0-preview.6 (2019-10-30)
+
+- [Breaking] `@azure/storage-file` package is renamed to `@azure/storage-file-share` to better align with the upcoming new package for Azure Storage Files DataLake. As a consequence,
+  - `FileServiceClient` becomes `ShareServiceClient`
+  - `DirectoryClient` becomes `ShareDirectoryClient`
+  - `FileClient` becomes `ShareFileClient`
+- Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
+- [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
+  renamed to have the `Storage` prefix. [PR 5862](https://github.com/Azure/azure-sdk-for-js/pull/5862).
+  Below are the entities that now have the Storage prefix
+  - BrowserPolicy
+  - BrowserPolicyFactory
+  - RetryPolicy
+  - RetryPolicyType
+  - RetryOptions
+  - RetryPolicyFactory
+- [Breaking] The properties in the StoragePipelineOptions interface have been updated as below:
+  - The `proxy` property of type `ProxySettings | string` has been renamed to `proxyOptions` and
+    will be of type `ProxyOptions`. If you have been passing url directly, split the value into `host`
+    and `port` then pass it as a json object.
+  - The `telemetry` property of type `TelemetryOptions` has been renamed to `userAgentOptions` of
+    type `UserAgentOptions`. - The `logger` is no longer a property available to configure. To enable logging, please see the
+    [Troubleshooting](https://github.com/Azure/azure-sdk-for-js/blob/0ddc2f3c3d4658b20d96910acc37a77e5209e5e3/sdk/storage/storage-queue/README.md#troubleshooting) section of our readme.
+- [Breaking] The `UniqueRequestIdPolicy` and `KeepAlivePolicy` are no longer exported from this library. The
+  corresponding policies from the `@azure/core-http` library are meant to be used instead.
+- Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
 
 ## 10.3.0 (2019-09)
 
