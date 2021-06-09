@@ -198,7 +198,7 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersListClusterAdminCredentialsResponse>
    */
-  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListClusterAdminCredentialsResponse>;
+  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options?: Models.ManagedClustersListClusterAdminCredentialsOptionalParams): Promise<Models.ManagedClustersListClusterAdminCredentialsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -211,8 +211,8 @@ export class ManagedClusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
-  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterAdminCredentialsResponse> {
+  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options: Models.ManagedClustersListClusterAdminCredentialsOptionalParams, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options?: Models.ManagedClustersListClusterAdminCredentialsOptionalParams | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterAdminCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -231,7 +231,7 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersListClusterUserCredentialsResponse>
    */
-  listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListClusterUserCredentialsResponse>;
+  listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: Models.ManagedClustersListClusterUserCredentialsOptionalParams): Promise<Models.ManagedClustersListClusterUserCredentialsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -244,8 +244,8 @@ export class ManagedClusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listClusterUserCredentials(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
-  listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterUserCredentialsResponse> {
+  listClusterUserCredentials(resourceGroupName: string, resourceName: string, options: Models.ManagedClustersListClusterUserCredentialsOptionalParams, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: Models.ManagedClustersListClusterUserCredentialsOptionalParams | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterUserCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -265,7 +265,7 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse>
    */
-  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse>;
+  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: Models.ManagedClustersListClusterMonitoringUserCredentialsOptionalParams): Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -278,8 +278,8 @@ export class ManagedClusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
-  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse> {
+  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options: Models.ManagedClustersListClusterMonitoringUserCredentialsOptionalParams, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: Models.ManagedClustersListClusterMonitoringUserCredentialsOptionalParams | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -483,6 +483,41 @@ export class ManagedClusters {
       },
       getCommandResultOperationSpec,
       callback) as Promise<Models.ManagedClustersGetCommandResultResponse>;
+  }
+
+  /**
+   * Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the
+   * specified managed cluster. The operation returns properties of each egress endpoint.
+   * @summary Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the
+   * specified managed cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ManagedClustersListOutboundNetworkDependenciesEndpointsResponse>
+   */
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListOutboundNetworkDependenciesEndpointsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param callback The callback
+   */
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
+  listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>, callback?: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): Promise<Models.ManagedClustersListOutboundNetworkDependenciesEndpointsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceName,
+        options
+      },
+      listOutboundNetworkDependenciesEndpointsOperationSpec,
+      callback) as Promise<Models.ManagedClustersListOutboundNetworkDependenciesEndpointsResponse>;
   }
 
   /**
@@ -728,6 +763,37 @@ export class ManagedClusters {
       listByResourceGroupNextOperationSpec,
       callback) as Promise<Models.ManagedClustersListByResourceGroupNextResponse>;
   }
+
+  /**
+   * Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the
+   * specified managed cluster. The operation returns properties of each egress endpoint.
+   * @summary Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the
+   * specified managed cluster.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse>
+   */
+  listOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): void;
+  listOutboundNetworkDependenciesEndpointsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>, callback?: msRest.ServiceCallback<Models.OutboundEnvironmentEndpointCollection>): Promise<Models.ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listOutboundNetworkDependenciesEndpointsNextOperationSpec,
+      callback) as Promise<Models.ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -864,7 +930,8 @@ const listClusterAdminCredentialsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.serverFqdn
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -889,7 +956,8 @@ const listClusterUserCredentialsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.serverFqdn
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -914,7 +982,8 @@ const listClusterMonitoringUserCredentialsOperationSpec: msRest.OperationSpec = 
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.serverFqdn
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -975,6 +1044,31 @@ const getCommandResultOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RunCommandResult
     },
     202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listOutboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/outboundNetworkDependenciesEndpoints",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1280,6 +1374,30 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagedClusterListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listOutboundNetworkDependenciesEndpointsNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
