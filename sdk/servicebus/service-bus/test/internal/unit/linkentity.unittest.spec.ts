@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { defaultLock } from "@azure/core-amqp";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverOptions } from "rhea-promise";
@@ -10,7 +9,6 @@ import sinon from "sinon";
 import { ConnectionContext } from "../../../src/connectionContext";
 import { LinkEntity } from "../../../src/core/linkEntity";
 import { receiverLogger } from "../../../src/log";
-import { isLinkLocked } from "../utils/misc";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -80,10 +78,6 @@ describe("LinkEntity unit tests", () => {
 
       linkEntity["_negotiateClaim"] = async () => {
         ++timesCalled;
-
-        // this will just resolve immediately because
-        // we're already connecting.
-        assert.isTrue(isLinkLocked(linkEntity));
       };
 
       await linkEntity.initLink({});
@@ -113,9 +107,7 @@ describe("LinkEntity unit tests", () => {
         try {
           const old = linkEntity["checkIfConnectionReady"];
           linkEntity["checkIfConnectionReady"] = () => {
-            if (defaultLock.isBusy(linkEntity["_context"]["cbsSession"]["cbsLock"])) {
-              connectionContext["isConnectionClosing"] = () => true;
-            }
+            connectionContext["isConnectionClosing"] = () => true;
             old.apply(linkEntity);
           };
 
@@ -130,9 +122,7 @@ describe("LinkEntity unit tests", () => {
         try {
           const old = linkEntity["checkIfConnectionReady"];
           linkEntity["checkIfConnectionReady"] = () => {
-            if (defaultLock.isBusy(linkEntity["_context"]["negotiateClaimLock"])) {
-              connectionContext["isConnectionClosing"] = () => true;
-            }
+            connectionContext["isConnectionClosing"] = () => true;
             old.apply(linkEntity);
           };
 
@@ -146,8 +136,8 @@ describe("LinkEntity unit tests", () => {
       it("connection is restarting just before createRheaLink()", async () => {
         try {
           const old = linkEntity["_negotiateClaim"];
-          linkEntity["_negotiateClaim"] = async () => {
-            await old.apply(linkEntity);
+          linkEntity["_negotiateClaim"] = async (...args) => {
+            await old.apply(linkEntity, args);
             connectionContext["isConnectionClosing"] = () => true;
           };
 
@@ -242,13 +232,13 @@ describe("LinkEntity unit tests", () => {
     });
 
     it("abortSignal - if a link was actually created we clean up", async () => {
-      let isAborted = false;
+      const abortController = new AbortController();
 
       const orig = linkEntity["createRheaLink"];
       let returnedReceiver: Receiver | undefined;
 
       linkEntity["createRheaLink"] = async (options) => {
-        isAborted = true;
+        abortController.abort();
 
         returnedReceiver = await orig.call(linkEntity, options);
         assert.isTrue(
@@ -259,11 +249,7 @@ describe("LinkEntity unit tests", () => {
       };
 
       try {
-        await linkEntity.initLink({}, {
-          get aborted(): boolean {
-            return isAborted;
-          }
-        } as AbortSignalLike);
+        await linkEntity.initLink({}, abortController.signal);
         assert.fail("Should have thrown");
       } catch (err) {
         assert.equal(err.name, "AbortError");
@@ -281,6 +267,31 @@ describe("LinkEntity unit tests", () => {
         linkEntity.isOpen(),
         "Can always reopen if the reason we closed the link is because of the abortSignal"
       );
+    });
+
+    it("abortSignal - is passed through to negotiateClaim", async () => {
+      const abortController = new AbortController();
+
+      let sawAbortSignal = false;
+      try {
+        const old = linkEntity["_negotiateClaim"];
+        linkEntity["_negotiateClaim"] = async (props) => {
+          if (props.abortSignal) {
+            sawAbortSignal = true;
+          }
+          abortController.abort();
+          return old.call(linkEntity, props);
+        };
+
+        await linkEntity.initLink({}, abortController.signal);
+        assert.fail("Should have thrown");
+      } catch (err) {
+        assert.isTrue(sawAbortSignal, "Should have seen the abortSignal.");
+        assert.deepNestedInclude(err, {
+          name: "AbortError",
+          message: "The operation was aborted."
+        });
+      }
     });
 
     it("can use a custom name via options", async () => {
