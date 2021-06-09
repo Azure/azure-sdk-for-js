@@ -16,7 +16,7 @@ describe(`Access Policy operations`, () => {
   let clock: sinon.SinonFakeTimers;
 
   beforeEach(async function(this: Context) {
-    const now = new Date(2021, 6, 8, 2, 10, 9);
+    const now = new Date("2021-07-08T09:10:09Z");
     clock = sinon.useFakeTimers(now.getTime());
     recorder = record(this, recordedEnvironmentSetup);
 
