@@ -129,7 +129,7 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.12",
     "@azure/logger": "^1.0.0",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.1",

@@ -122,14 +122,14 @@ Client libraries have preliminary support for [OpenTelemetry](https://openteleme
 
 Each client library internally does the work to create a new OpenTelemetry `Span` for each service operation, making sure to end the `Span` after the result is returned back to the consumer. Many clients use a helper method called [createSpan](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/src/tracing.ts) to create the new `Span`.
 
-When `tracingOptions.spanOptions.parent` is set on an operation, a default request policy will automatically create a span for each HTTP request that is issued.
+When `tracingOptions.tracingContext` is set on an operation, a default request policy will automatically create a span for each HTTP request that is issued.
 
-Consumers are expected to pass in the `SpanContext` of the parent `Span` when calling an operation, such as:
+Consumers are expected to pass in the `Context` of the parent `Span` when calling an operation, such as:
 
 ```ts
 const result = await blobClient.download(undefined, undefined, {
   tracingOptions: {
-    spanOptions: { parent: rootSpan.context() },
+    tracingContext: activeContext
   },
 });
 ```
