@@ -8909,7 +8909,7 @@ packages:
       '@azure/arm-containerregistry': 8.0.0
       '@azure/core-rest-pipeline': 1.1.0-beta.1
       '@azure/core-tracing': 1.0.0-preview.11
-      '@azure/identity': 1.3.0
+      '@azure/identity': 2.0.0-beta.3
       '@azure/ms-rest-nodeauth': 3.0.9
       '@microsoft/api-extractor': 7.7.11
       '@types/chai': 4.2.16
@@ -8948,7 +8948,7 @@ packages:
     dev: false
     name: '@rush-temp/container-registry'
     resolution:
-      integrity: sha512-p4mX6xzBEEIe41EWy81HV6pIu2ydk+5nJj+d6GAaBR7H1IGPdSl2uLjaYlWtJ9TxoYU/ASVIGHR6bNJIF02eLw==
+      integrity: sha512-QouuefNRLXCFQblW4AJe0BnbbRHNKH8/I+DUwy+LQVdEEjrNtjKYCiKdaXbcZ2jNfkmyn78HyNFl+z5M1rQHYQ==
       tarball: file:projects/container-registry.tgz
     version: 0.0.0
   file:projects/core-amqp.tgz:
@@ -9008,7 +9008,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-9zjqL46fRM2kqzdfrnWpDlmT3T6kUjNqWHnPqISX2xTSY8+psbFNEqOhPLDdDBuxBEfTE/5GGTFsDZ7fMkDQjw==
+      integrity: sha512-DQDDdlUNHMmpRlG6caPZ4+SUEo6zFuUIE4Dvv1ghJFWD/lxm9SzNfcv85/RNyskUPaOTx3od2MvVaxDTXcty7w==
       tarball: file:projects/core-amqp.tgz
     version: 0.0.0
   file:projects/core-asynciterator-polyfill.tgz:
@@ -9764,7 +9764,7 @@ packages:
   file:projects/event-hubs.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
-      '@azure/identity': 1.3.0_debug@4.3.1
+      '@azure/identity': 2.0.0-beta.3_debug@4.3.1
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
@@ -9831,7 +9831,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-IdGKdBp1RaSCHv6TyLTm++5mAxfSRmcOTXDUZypfWSicVFiAjxal5S1JpfVufCF8woX35aDylWoK8caTTF7v5Q==
+      integrity: sha512-putr/O04ZscqHN1rvaNrfm2HsxhcDt0nUbV9/TVdq8Er9Pslo5TIWoSUNUzQpGdlTNhbycWXQJj4l0gmhqB79g==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
@@ -9939,7 +9939,7 @@ packages:
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-uPwpxSWuymminStHgz0LNgqfYlykhomLYp0UyhHB85Kg2tCibv0WGFjgSkZGZ96dOJvW8p/Gp9HsH3LVsep+RA==
+      integrity: sha512-/RgJSuz6c87e+n2FEa7zgJUl04gJuqumc0UrRj8fsxOsbGnbvdQKxlMxphxfB3lKOpOeBSF1Kuoh8YLKqZ2MUw==
       tarball: file:projects/eventgrid.tgz
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
@@ -10630,7 +10630,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-core-rest-pipeline'
     resolution:
-      integrity: sha512-KGbqhqsPgPr22oqNu65R+L8VwqyHcc2busi/fV3YZcxr8/RZnTNQDFaFycuwjgauipLSIYzBT0cRDLTgHQlNFw==
+      integrity: sha512-5n3tnNiNOrNxzsVwQa9XvHDyNkTpTb1eFa6yGlN/WReZq7IJxGWxKg7cYbmjFcS03IasRra9mupC47Zvru5RBQ==
       tarball: file:projects/perf-core-rest-pipeline.tgz
     version: 0.0.0
   file:projects/perf-eventgrid.tgz:
@@ -10734,7 +10734,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-search-documents'
     resolution:
-      integrity: sha512-vto+WmpYpTy+yNMdR+g3U9OY/Lcoio6fcu314co/ljL87SzzF9+afvQd8VCU7ihjstRViRjLvArufr4KvfUCXg==
+      integrity: sha512-kzjwsdTW3N7Er4646OhhL4DxVUYryhkGyqsVGK1DiAUKOYA9pnuOH9258dRo9ZG744UfG8aGNDTIyHtph46SWQ==
       tarball: file:projects/perf-search-documents.tgz
     version: 0.0.0
   file:projects/perf-storage-blob.tgz:
