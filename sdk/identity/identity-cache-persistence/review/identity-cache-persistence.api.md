@@ -4,8 +4,11 @@
 
 ```ts
 
-// @public (undocumented)
-const persistence: unique symbol;
+// @public
+export type IdentityExtension = (context: unknown) => void;
+
+// @public
+const persistence: IdentityExtension;
 
 export default persistence;
 

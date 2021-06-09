@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 /* eslint-disable tsdoc/syntax */
 
 import * as path from "path";
@@ -58,7 +59,17 @@ export const defaultMsalValues = {
   }
 };
 
-type MsalPersistenceFactory = (options?: TokenCachePersistenceOptions) => Promise<Persistence>;
+/**
+ * Options that are used by the underlying MSAL cache provider.
+ * @internal
+ */
+export type MsalPersistenceOptions = Omit<TokenCachePersistenceOptions, "enabled">;
+
+/**
+ * A function that returns a persistent token cache instance.
+ * @internal
+ */
+type MsalPersistenceFactory = (options?: MsalPersistenceOptions) => Promise<Persistence>;
 
 /**
  * Expected responses:
@@ -90,7 +101,7 @@ export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersi
       DataProtectionScope.CurrentUser
     ),
 
-  darwin: async (options: TokenCachePersistenceOptions = {}): Promise<Persistence> => {
+  darwin: async (options: MsalPersistenceOptions = {}): Promise<Persistence> => {
     const { name, allowUnencryptedStorage } = options;
     const { service, account } = defaultMsalValues.keyChain;
     const persistencePath = getPersistencePath(name || defaultMsalValues.tokenCache.name);
@@ -110,7 +121,7 @@ export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersi
     }
   },
 
-  linux: async (options: TokenCachePersistenceOptions = {}): Promise<Persistence> => {
+  linux: async (options: MsalPersistenceOptions = {}): Promise<Persistence> => {
     const { name, allowUnencryptedStorage } = options;
     const { service, account } = defaultMsalValues.keyRing;
     const persistencePath = getPersistencePath(name || defaultMsalValues.tokenCache.name);
