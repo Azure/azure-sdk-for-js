@@ -1,5 +1,16 @@
 # Release History
 
+## 12.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+
 ## 12.0.0 (2021-06-09)
 
 - Added support for generating SAS tokens using an `AzureNamedKeyCredential` [#15564](https://github.com/Azure/azure-sdk-for-js/pull/15564)
