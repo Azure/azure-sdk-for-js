@@ -236,13 +236,8 @@ const analyzeOperationSpec: coreClient.OperationSpec = {
     202: {
       headersMapper: Mappers.GeneratedClientAnalyzeHeaders
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.body,
@@ -258,13 +253,8 @@ const analyzeStatusOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.AnalyzeJobState
     },
-    404: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [
@@ -283,13 +273,8 @@ const healthStatusOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.HealthcareJobState
     },
-    404: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [
@@ -312,13 +297,8 @@ const cancelHealthJobOperationSpec: coreClient.OperationSpec = {
     202: {
       headersMapper: Mappers.GeneratedClientCancelHealthJobHeaders
     },
-    404: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
@@ -336,13 +316,8 @@ const healthOperationSpec: coreClient.OperationSpec = {
     202: {
       headersMapper: Mappers.GeneratedClientHealthHeaders
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -363,13 +338,8 @@ const entitiesRecognitionGeneralOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EntitiesResult
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -391,13 +361,8 @@ const entitiesRecognitionPiiOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PiiResult
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -421,13 +386,8 @@ const entitiesLinkingOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EntityLinkingResult
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -449,13 +409,8 @@ const keyPhrasesOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.KeyPhraseResult
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -476,13 +431,8 @@ const languagesOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LanguageResult
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input1,
@@ -503,13 +453,8 @@ const sentimentOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SentimentResponse
     },
-    400: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.ErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,

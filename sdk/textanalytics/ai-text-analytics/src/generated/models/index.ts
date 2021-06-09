@@ -167,7 +167,7 @@ export interface TasksStateTasks {
 
 export interface TaskState {
   lastUpdateDateTime: Date;
-  taskName?: string;
+  taskName: string;
   status: State;
 }
 
@@ -495,6 +495,21 @@ export interface DocumentHealthcareEntities {
   statistics?: TextDocumentStatistics;
 }
 
+export interface HealthcareEntityProperties {
+  /** Entity text as appears in the request. */
+  text: string;
+  /** Healthcare Entity Category. */
+  category: HealthcareEntityCategory;
+  /** (Optional) Entity sub type. */
+  subcategory?: string;
+  /** Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned. */
+  offset: number;
+  /** Length for the entity text. Use of different 'stringIndexType' values can affect the length returned. */
+  length: number;
+  /** Confidence score between 0 and 1 of the extracted entity. */
+  confidenceScore: number;
+}
+
 export interface HealthcareLinkingProperties {
   assertion?: HealthcareAssertion;
   /** Preferred name for the entity. Example: 'histologically' would have a 'name' of 'histologic'. */
@@ -608,20 +623,8 @@ export type TasksStateTasksEntityLinkingTasksItem = TaskState &
 export type TasksStateTasksSentimentAnalysisTasksItem = TaskState &
   SentimentTaskResult & {};
 
-export type HealthcareEntity = HealthcareLinkingProperties & {
-  /** Entity text as appears in the request. */
-  text: string;
-  /** Healthcare Entity Category. */
-  category: HealthcareEntityCategory;
-  /** (Optional) Entity sub type. */
-  subcategory?: string;
-  /** Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned. */
-  offset: number;
-  /** Length for the entity text. Use of different 'stringIndexType' values can affect the length returned. */
-  length: number;
-  /** Confidence score between 0 and 1 of the extracted entity. */
-  confidenceScore: number;
-};
+export type HealthcareEntity = HealthcareEntityProperties &
+  HealthcareLinkingProperties & {};
 
 /** Defines headers for GeneratedClient_analyze operation. */
 export interface GeneratedClientAnalyzeHeaders {
@@ -652,7 +655,7 @@ export const enum KnownStringIndexType {
  * Defines values for StringIndexType. \
  * {@link KnownStringIndexType} can be used interchangeably with StringIndexType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **TextElement_v8**: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo. \
  * **UnicodeCodePoint**: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python. \
  * **Utf16CodeUnit**: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
@@ -669,7 +672,7 @@ export const enum KnownPiiTaskParametersDomain {
  * Defines values for PiiTaskParametersDomain. \
  * {@link KnownPiiTaskParametersDomain} can be used interchangeably with PiiTaskParametersDomain,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **phi** \
  * **none**
  */
@@ -856,7 +859,7 @@ export const enum KnownPiiCategory {
  * Defines values for PiiCategory. \
  * {@link KnownPiiCategory} can be used interchangeably with PiiCategory,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **ABARoutingNumber** \
  * **ARNationalIdentityNumber** \
  * **AUBankAccountNumber** \
@@ -1033,6 +1036,28 @@ export const enum KnownPiiCategory {
  */
 export type PiiCategory = string;
 
+/** Known values of {@link ErrorCodeValue} that the service accepts. */
+export const enum KnownErrorCodeValue {
+  InvalidRequest = "InvalidRequest",
+  InvalidArgument = "InvalidArgument",
+  InternalServerError = "InternalServerError",
+  ServiceUnavailable = "ServiceUnavailable",
+  NotFound = "NotFound"
+}
+
+/**
+ * Defines values for ErrorCodeValue. \
+ * {@link KnownErrorCodeValue} can be used interchangeably with ErrorCodeValue,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InvalidRequest** \
+ * **InvalidArgument** \
+ * **InternalServerError** \
+ * **ServiceUnavailable** \
+ * **NotFound**
+ */
+export type ErrorCodeValue = string;
+
 /** Known values of {@link InnerErrorCodeValue} that the service accepts. */
 export const enum KnownInnerErrorCodeValue {
   InvalidParameterValue = "InvalidParameterValue",
@@ -1050,7 +1075,7 @@ export const enum KnownInnerErrorCodeValue {
  * Defines values for InnerErrorCodeValue. \
  * {@link KnownInnerErrorCodeValue} can be used interchangeably with InnerErrorCodeValue,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **InvalidParameterValue** \
  * **InvalidRequestBodyFormat** \
  * **EmptyRequest** \
@@ -1073,7 +1098,7 @@ export const enum KnownWarningCode {
  * Defines values for WarningCode. \
  * {@link KnownWarningCode} can be used interchangeably with WarningCode,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **LongWordsInDocument** \
  * **DocumentTruncated**
  */
@@ -1113,7 +1138,7 @@ export const enum KnownHealthcareEntityCategory {
  * Defines values for HealthcareEntityCategory. \
  * {@link KnownHealthcareEntityCategory} can be used interchangeably with HealthcareEntityCategory,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **BODY_STRUCTURE** \
  * **AGE** \
  * **GENDER** \
@@ -1172,7 +1197,7 @@ export const enum KnownRelationType {
  * Defines values for RelationType. \
  * {@link KnownRelationType} can be used interchangeably with RelationType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Abbreviation** \
  * **DirectionOfBodyStructure** \
  * **DirectionOfCondition** \
@@ -1196,13 +1221,6 @@ export const enum KnownRelationType {
  * **ValueOfExamination**
  */
 export type RelationType = string;
-/** Defines values for ErrorCodeValue. */
-export type ErrorCodeValue =
-  | "InvalidRequest"
-  | "InvalidArgument"
-  | "InternalServerError"
-  | "ServiceUnavailable"
-  | "NotFound";
 /** Defines values for State. */
 export type State =
   | "notStarted"
