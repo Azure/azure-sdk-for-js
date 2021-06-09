@@ -165,7 +165,7 @@ export function deserializeObjectsArray<T extends object>(
  * which makes the XML request body invalid, these 2 functions serialize and deserialize the
  * dates so that they are in the expected format
  */
- export function serializeSignedIdentifiers(
+export function serializeSignedIdentifiers(
   signedIdentifiers: SignedIdentifier[]
 ): GeneratedSignedIdentifier[] {
   return signedIdentifiers.map((acl) => {

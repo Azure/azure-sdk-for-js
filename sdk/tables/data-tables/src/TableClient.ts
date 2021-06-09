@@ -36,11 +36,13 @@ import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
-import {  deserialize,
+import {
+  deserialize,
   deserializeObjectsArray,
   deserializeSignedIdentifier,
   serialize,
-  serializeSignedIdentifiers } from "./serialization";
+  serializeSignedIdentifiers
+} from "./serialization";
 import { Table } from "./generated/operationsInterfaces";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import {
@@ -538,7 +540,7 @@ export class TableClient {
    * Shared Access Signatures.
    * @param options - The options parameters.
    */
-   public async getAccessPolicy(options: OperationOptions = {}): Promise<GetAccessPolicyResponse> {
+  public async getAccessPolicy(options: OperationOptions = {}): Promise<GetAccessPolicyResponse> {
     const { span, updatedOptions } = createSpan("TableClient-getAccessPolicy", options);
     try {
       const signedIdentifiers = await this.table.getAccessPolicy(this.tableName, updatedOptions);
@@ -556,7 +558,7 @@ export class TableClient {
    * @param tableAcl - The Access Control List for the table.
    * @param options - The options parameters.
    */
-   public setAccessPolicy(
+  public setAccessPolicy(
     tableAcl: SignedIdentifier[],
     options: OperationOptions = {}
   ): Promise<SetAccessPolicyResponse> {
