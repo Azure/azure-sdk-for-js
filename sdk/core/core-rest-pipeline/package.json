@@ -147,6 +147,7 @@
   },
   "//sampleConfiguration": {
     "skipFolder": true,
+    "disableDocsMs": true,
     "productName": "Azure SDK Core",
     "productSlugs": [
       "azure"
