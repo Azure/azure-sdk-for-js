@@ -62,6 +62,7 @@
     "node": ">=10.10.0"
   },
   "dependencies": {
+    "ci-pipeline-optimizer": "file:eng/tools/ci-pipeline-optimizer",
     "versioning": "file:eng/tools/versioning"
   }
 }

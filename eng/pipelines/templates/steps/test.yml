@@ -8,6 +8,12 @@ steps:
       AgentImage: $(OSVmImage)
 
   - script: |
+      npm install ./eng/tools/ci-pipeline-optimizer
+      node eng/tools/ci-pipeline-optimizer/modify-config.js --repo-root "$(Build.SourcesDirectory)" --test-mode "node"
+    condition: succeeded()
+    displayName: "Remove API Extract step"
+    
+  - script: |
       node common/scripts/install-run-rush.js install
     displayName: "Install dependencies"
 

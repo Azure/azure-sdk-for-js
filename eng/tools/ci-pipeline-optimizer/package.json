@@ -1,0 +1,23 @@
+{
+  "name": "ci-pipeline-optimizer",
+  "version": "1.0.0",
+  "description": "Utilities to manipulate package.json to optimize pipeline run time",
+  "main": "echo \"use index.js\"",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "dependencies": {
+    "yargs": "^14.2.0",
+    "eng-package-utils": "file:../eng-package-utils"
+  }
+}
