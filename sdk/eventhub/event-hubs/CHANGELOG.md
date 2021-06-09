@@ -1,6 +1,6 @@
 # Release History
 
-## 5.5.2 (Unreleased)
+## 5.5.2 (2021-06-10)
 
 ### Bug fixes
 
