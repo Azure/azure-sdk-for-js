@@ -4,7 +4,12 @@
 import { assert } from "chai";
 
 import { Edm } from "../../src";
-import { serialize, deserialize, serializeSignedIdentifiers, deserializeSignedIdentifier } from "../../src/serialization";
+import {
+  serialize,
+  deserialize,
+  serializeSignedIdentifiers,
+  deserializeSignedIdentifier
+} from "../../src/serialization";
 import { isNode8 } from "@azure/test-utils";
 
 interface Entity {
@@ -236,7 +241,9 @@ describe("SignedIdentifier serialization", () => {
     const date = new Date("2021-06-09T16:34:29.000Z");
     const expectedDate = "2021-06-09T16:34:29Z";
 
-    const serialized = serializeSignedIdentifiers([{id: "test", accessPolicy: {start: date, expiry: date}}])
+    const serialized = serializeSignedIdentifiers([
+      { id: "test", accessPolicy: { start: date, expiry: date } }
+    ]);
 
     assert.lengthOf(serialized, 1);
     assert.equal(serialized[0].accessPolicy?.expiry, expectedDate);
@@ -247,7 +254,9 @@ describe("SignedIdentifier serialization", () => {
     const expectedDate = new Date("2021-06-09T16:34:29.000Z");
     const date = "2021-06-09T16:34:29Z";
 
-    const serialized = deserializeSignedIdentifier([{id: "test", accessPolicy: {start: date, expiry: date}}])
+    const serialized = deserializeSignedIdentifier([
+      { id: "test", accessPolicy: { start: date, expiry: date } }
+    ]);
 
     assert.lengthOf(serialized, 1);
     assert.deepEqual(serialized[0].accessPolicy?.expiry, expectedDate);

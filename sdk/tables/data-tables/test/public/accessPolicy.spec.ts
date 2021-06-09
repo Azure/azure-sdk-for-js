@@ -51,7 +51,7 @@ describe(`Access Policy operations`, () => {
   });
 
   it("should send a null AP", async function() {
-    const date = new Date(2021, 6, 8, 2, 10, 9);
+    const date = new Date("2021-07-08T09:10:09Z");
     await client.setAccessPolicy([
       { id: "null" },
       { id: "empty", accessPolicy: {} },
