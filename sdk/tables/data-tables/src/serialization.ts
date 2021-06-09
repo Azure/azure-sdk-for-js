@@ -172,10 +172,10 @@ export function serializeSignedIdentifiers(
     const { id, accessPolicy } = acl;
     const { start, expiry, ...rest } = accessPolicy ?? {};
     const serializedStart = start
-      ? truncatedISO8061Date(start, false /**withMilliseconds */)
+      ? truncatedISO8061Date(start, false /** withMilliseconds */)
       : undefined;
     const serializedExpiry = expiry
-      ? truncatedISO8061Date(expiry, false /**withMilliseconds */)
+      ? truncatedISO8061Date(expiry, false /** withMilliseconds */)
       : undefined;
 
     return {
