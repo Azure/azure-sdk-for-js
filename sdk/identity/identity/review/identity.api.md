@@ -245,7 +245,7 @@ export interface TokenCredentialOptions extends PipelineOptions {
 }
 
 // @public
-export function useIdentityExtension<Extension extends IdentityExtension | PromiseLike<IdentityExtensionModule>>(extension: Extension): Extension extends PromiseLike<unknown> ? Promise<void> : void;
+export function useIdentityExtension<Extension extends IdentityExtension | PromiseLike<IdentityExtensionModule>>(extensionOrModule: Extension): Extension extends PromiseLike<unknown> ? Promise<void> : void;
 
 // @public
 export class UsernamePasswordCredential implements TokenCredential {
