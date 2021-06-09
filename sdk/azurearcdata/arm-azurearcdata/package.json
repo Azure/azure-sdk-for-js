@@ -1,0 +1,59 @@
+{
+  "name": "@azure/arm-azurearcdata",
+  "author": "Microsoft Corporation",
+  "description": "AzureArcDataManagementClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0",
+  "dependencies": {
+    "@azure/ms-rest-azure-js": "^2.1.0",
+    "@azure/ms-rest-js": "^2.2.0",
+    "@azure/core-auth": "^1.1.4",
+    "tslib": "^1.10.0"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/arm-azurearcdata.js",
+  "module": "./esm/azureArcDataManagementClient.js",
+  "types": "./esm/azureArcDataManagementClient.d.ts",
+  "devDependencies": {
+    "typescript": "^3.6.0",
+    "rollup": "^1.18.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "uglify-js": "^3.6.0"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/azurearcdata/arm-azurearcdata",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "esm/**/*.js",
+    "esm/**/*.js.map",
+    "esm/**/*.d.ts",
+    "esm/**/*.d.ts.map",
+    "src/**/*.ts",
+    "README.md",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-azurearcdata.js.map'\" -o ./dist/arm-azurearcdata.min.js ./dist/arm-azurearcdata.js",
+    "prepack": "npm install && npm run build"
+  },
+  "sideEffects": false,
+  "autoPublish": true
+}
