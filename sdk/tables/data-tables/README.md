@@ -24,7 +24,7 @@ Azure Cosmos DB provides a Table API for applications that are written for Azure
 
 Currently supported environments:
 
-- Node.js version 8.x.x or higher
+- LTS versions of Node.js
 - Latest versions of Safari, Chrome, Edge and Firefox
 
 You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal) or an [Azure CosmosDB database](https://docs.microsoft.com/azure/cosmos-db/create-cosmosdb-resources-portal) to use this package.
@@ -141,13 +141,14 @@ const serviceClient = new TableServiceClient(
 Also, You can instantiate a `TableServiceClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal.
 
 ```javascript
-const { TableServiceClient } = require("@azure/data-tables");
+const { TableServiceClient, AzureSASCredential } = require("@azure/data-tables");
 
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 
 const serviceClientWithSAS = new TableServiceClient(
-  `https://${account}.table.core.windows.net${sas}`
+  `https://${account}.table.core.windows.net`,
+  new AzureSASCredential(sas)
 );
 ```
 
@@ -237,13 +238,13 @@ const client = new TableClient(`https://${account}.table.core.windows.net`, tabl
 Also, You can instantiate a `TableClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal.
 
 ```javascript
-const { TableClient } = require("@azure/data-tables");
+const { TableClient, AzureSASCredential } = require("@azure/data-tables");
 
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 const tableName = "<tableName>";
 
-const clientWithSAS = new TableClient(`https://${account}.table.core.windows.net${sas}`, tableName);
+const clientWithSAS = new TableClient(`https://${account}.table.core.windows.net`, tableName, new AzureSASCredential(sas));
 ```
 
 #### List Entities in a table
