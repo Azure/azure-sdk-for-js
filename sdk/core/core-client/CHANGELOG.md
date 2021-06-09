@@ -2,6 +2,7 @@
 
 ## 1.1.3 (Unreleased)
 
+- Fix an issue of lost properties when flattening array in deserialization [issue 15653](https://github.com/azure/azure-sdk-for-js/issues/15653)
 
 ## 1.1.2 (2021-05-20)
 
