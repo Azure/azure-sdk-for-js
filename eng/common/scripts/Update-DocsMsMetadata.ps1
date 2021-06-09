@@ -63,7 +63,12 @@ if ($packageInfo.DevVersion) {
   # If the package is of a dev version, use the dev version. This is used in the
   # docs title as well as written into the exported package info file in the 
   # docs repo where it is used for onboarding configuration.
-  $packageInfo.Version = $packageInfo.DevVersion
+  
+  # TODO: Use 'dev' tag in the case of JS. This must be refactored. The tag is 
+  # used because the dev version present in the package may not be published to
+  # NPM if the code in the dev package is the same as the code already published
+  # to NPM.
+  $packageInfo.Version = 'dev'
 }
 
 $packageMetadataArray = (Get-CSVMetadata).Where({ $_.Package -eq $packageInfo.Name })
