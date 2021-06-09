@@ -160,7 +160,7 @@ export function deserializeObjectsArray<T extends object>(
 }
 
 /**
- * For ACL endpoints the Tables Service takes an ISO Date wihtout decimals however
+ * For ACL endpoints the Tables Service takes an ISO Date without decimals however
  * serializing a JavaScript date gives us a date with decimals 2021-07-08T09:10:09.000Z
  * which makes the XML request body invalid, these 2 functions serialize and deserialize the
  * dates so that they are in the expected format

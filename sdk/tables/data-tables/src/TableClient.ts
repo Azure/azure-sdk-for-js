@@ -469,7 +469,7 @@ export class TableClient {
 
       const { etag = "*", ...updateEntityOptions } = updatedOptions || {};
       if (mode === "Merge") {
-        return this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           ifMatch: etag,
           ...updateEntityOptions
@@ -558,14 +558,14 @@ export class TableClient {
    * @param tableAcl - The Access Control List for the table.
    * @param options - The options parameters.
    */
-  public setAccessPolicy(
+  public async setAccessPolicy(
     tableAcl: SignedIdentifier[],
     options: OperationOptions = {}
   ): Promise<SetAccessPolicyResponse> {
     const { span, updatedOptions } = createSpan("TableClient-setAccessPolicy", options);
     try {
       const serlializedAcl = serializeSignedIdentifiers(tableAcl);
-      return this.table.setAccessPolicy(this.tableName, {
+      return await this.table.setAccessPolicy(this.tableName, {
         ...updatedOptions,
         tableAcl: serlializedAcl
       });
