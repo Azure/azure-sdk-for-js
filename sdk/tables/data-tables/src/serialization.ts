@@ -171,8 +171,12 @@ export function serializeSignedIdentifiers(
   return signedIdentifiers.map((acl) => {
     const { id, accessPolicy } = acl;
     const { start, expiry, ...rest } = accessPolicy ?? {};
-    const serializedStart = start ? truncatedISO8061Date(start) : undefined;
-    const serializedExpiry = expiry ? truncatedISO8061Date(expiry) : undefined;
+    const serializedStart = start
+      ? truncatedISO8061Date(start, false /**withMilliseconds */)
+      : undefined;
+    const serializedExpiry = expiry
+      ? truncatedISO8061Date(expiry, false /**withMilliseconds */)
+      : undefined;
 
     return {
       id,

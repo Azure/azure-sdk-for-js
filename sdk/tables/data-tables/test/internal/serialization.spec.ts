@@ -4,7 +4,7 @@
 import { assert } from "chai";
 
 import { Edm } from "../../src";
-import { serialize, deserialize } from "../../src/serialization";
+import { serialize, deserialize, serializeSignedIdentifiers, deserializeSignedIdentifier } from "../../src/serialization";
 import { isNode8 } from "@azure/test-utils";
 
 interface Entity {
@@ -228,5 +228,29 @@ describe("Deserializer", () => {
       "binProp@odata.type": "Edm.Binary"
     });
     assert.deepEqual(deserialized.binProp, binValue);
+  });
+});
+
+describe("SignedIdentifier serialization", () => {
+  it("should serialize to date without decimal", () => {
+    const date = new Date("2021-06-09T16:34:29.000Z");
+    const expectedDate = "2021-06-09T16:34:29Z";
+
+    const serialized = serializeSignedIdentifiers([{id: "test", accessPolicy: {start: date, expiry: date}}])
+
+    assert.lengthOf(serialized, 1);
+    assert.equal(serialized[0].accessPolicy?.expiry, expectedDate);
+    assert.equal(serialized[0].accessPolicy?.start, expectedDate);
+  });
+
+  it("should deserialize to date", () => {
+    const expectedDate = new Date("2021-06-09T16:34:29.000Z");
+    const date = "2021-06-09T16:34:29Z";
+
+    const serialized = deserializeSignedIdentifier([{id: "test", accessPolicy: {start: date, expiry: date}}])
+
+    assert.lengthOf(serialized, 1);
+    assert.deepEqual(serialized[0].accessPolicy?.expiry, expectedDate);
+    assert.deepEqual(serialized[0].accessPolicy?.start, expectedDate);
   });
 });
