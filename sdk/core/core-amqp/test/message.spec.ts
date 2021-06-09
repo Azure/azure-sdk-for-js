@@ -93,11 +93,11 @@ describe("message", function() {
         // userId: ""
       };
       const amqpMsgPropertiesExpected: RheaMessageProperties = {
-        absolute_expiry_time: 0,
+        absolute_expiry_time: new Date(0),
         content_encoding: "",
         content_type: "",
         correlation_id: 0,
-        creation_time: 0,
+        creation_time: new Date(0),
         group_id: "",
         group_sequence: 0,
         message_id: "",
@@ -140,11 +140,11 @@ describe("message", function() {
         // userId: ""
       };
       const amqpMsgProperties: RheaMessageProperties = {
-        absolute_expiry_time: 0,
+        absolute_expiry_time: new Date(0),
         content_encoding: "",
         content_type: "",
         correlation_id: 0,
-        creation_time: 0,
+        creation_time: new Date(0),
         group_id: "",
         group_sequence: 0,
         message_id: "",

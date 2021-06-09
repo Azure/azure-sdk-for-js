@@ -61,7 +61,7 @@ matrix([[true, false]] as const, async (useAad) => {
           name: webHookName,
           description: "description",
           hookParameter: {
-            endpoint: "https://httpbin.org/post",
+            endpoint: "https://mawebhook.azurewebsites.net/api/HttpTrigger",
             username: "user",
             password: "pass"
           }
@@ -82,7 +82,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const updated = await client.getHook(createdEmailHookId);
         assert.equal(updated.hookType, emailPatch.hookType);
         const emailHook = updated as EmailNotificationHook;
-        assert.deepEqual(emailHook.hookParameter.toList, [
+        assert.deepEqual(emailHook.hookParameter?.toList, [
           "test2@example.com",
           "test3@example.com"
         ]);
@@ -92,7 +92,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const webPatch: WebNotificationHookPatch = {
           hookType: "Webhook",
           hookParameter: {
-            endpoint: "https://httpbin.org/post",
+            endpoint: "https://mawebhook.azurewebsites.net/api/HttpTrigger",
             username: "user1",
             password: "pass123"
           }
@@ -101,9 +101,12 @@ matrix([[true, false]] as const, async (useAad) => {
         const updated = await client.getHook(createdWebHookId);
         assert.equal(updated.hookType, webPatch.hookType);
         const webHook = updated as WebNotificationHook;
-        assert.equal(webHook.hookParameter.username, "user1");
-        assert.equal(webHook.hookParameter.endpoint, "https://httpbin.org/post");
-        assert.equal(webHook.hookParameter.password, "pass123");
+        assert.equal(webHook.hookParameter?.username, "user1");
+        assert.equal(
+          webHook.hookParameter?.endpoint,
+          "https://mawebhook.azurewebsites.net/api/HttpTrigger"
+        );
+        assert.equal(webHook.hookParameter?.password, "pass123");
       });
 
       it("lists hooks", async function() {
@@ -121,11 +124,11 @@ matrix([[true, false]] as const, async (useAad) => {
           .listHooks({
             hookName: "js-test"
           })
-          .byPage({ maxPageSize: 1 });
+          .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
-        assert.equal(result.value.length, 1, "Expecting one hook in first page");
+        assert.equal(result.value.length, 2, "Expecting two hooks in first page");
         result = await iterator.next();
-        assert.equal(result.value.length, 1, "Expecting one hook in second page");
+        assert.equal(result.value.length, 2, "Expecting two hooks in second page");
       });
 
       it("deletes email hook", async () => {
@@ -134,7 +137,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await client.getHook(createdEmailHookId);
           assert.fail("Expecting error getting hook");
         } catch (error) {
-          assert.equal((error as any).code, "ERROR_INVALID_PARAMETER");
+          assert.equal((error as any).code, "404 NOT_FOUND");
           assert.equal((error as any).message, "hookId is invalid.");
         }
       });
@@ -145,7 +148,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await client.getHook(createdWebHookId);
           assert.fail("Expecting error getting hook");
         } catch (error) {
-          assert.equal((error as any).code, "ERROR_INVALID_PARAMETER");
+          assert.equal((error as any).code, "404 NOT_FOUND");
           assert.equal((error as any).message, "hookId is invalid.");
         }
       });

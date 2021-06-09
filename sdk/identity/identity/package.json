@@ -74,9 +74,6 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "engine": {
-    "node": ">=8.0.0"
-  },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/README.md",
   "sideEffects": false,
   "dependencies": {
@@ -129,7 +126,6 @@
     "util": "^0.12.1",
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
-    "mock-fs": "^4.10.4",
     "typedoc": "0.15.2"
   }
 }

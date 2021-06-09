@@ -1,7 +1,11 @@
 # Release History
 
-## 2.3.1 (Unreleased)
+## 3.0.0 (2021-06-09)
 
+### Breaking changes
+
+- Updates the `rhea-promise` and `rhea` dependencies to version 2.x. `rhea` contains a breaking change that changes deserialization of timestamps from numbers to Date objects.
+- Removes the `AsyncLock` and `defaultLock` exports. `defaultCancellableLock` should be used instead.
 
 ## 2.3.0 (2021-04-29)
 

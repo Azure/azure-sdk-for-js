@@ -8,71 +8,62 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const RoleDefinition: coreHttp.CompositeMapper = {
+export const KeyVaultError: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RoleDefinition",
+    className: "KeyVaultError",
     modelProperties: {
-      id: {
-        serializedName: "id",
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorModel: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorModel",
+    modelProperties: {
+      code: {
+        serializedName: "code",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      name: {
-        serializedName: "name",
+      message: {
+        serializedName: "message",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      type: {
-        serializedName: "type",
-        readOnly: true,
+      innerError: {
+        serializedName: "innererror",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "ErrorModel"
         }
-      },
-      roleName: {
-        serializedName: "properties.roleName",
+      }
+    }
+  }
+};
+
+export const RoleDefinitionCreateParameters: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleDefinitionCreateParameters",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
-      },
-      roleType: {
-        serializedName: "properties.type",
-        type: {
-          name: "String"
-        }
-      },
-      permissions: {
-        serializedName: "properties.permissions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Permission"
-            }
-          }
-        }
-      },
-      assignableScopes: {
-        serializedName: "properties.assignableScopes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "Composite",
+          className: "RoleDefinitionProperties"
         }
       }
     }
@@ -182,62 +173,71 @@ export const Permission: coreHttp.CompositeMapper = {
   }
 };
 
-export const KeyVaultError: coreHttp.CompositeMapper = {
+export const RoleDefinition: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "KeyVaultError",
+    className: "RoleDefinition",
     modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorModel"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorModel: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorModel",
-    modelProperties: {
-      code: {
-        serializedName: "code",
+      id: {
+        serializedName: "id",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      message: {
-        serializedName: "message",
+      name: {
+        serializedName: "name",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      innerError: {
-        serializedName: "innererror",
+      type: {
+        serializedName: "type",
+        readOnly: true,
         type: {
-          name: "Composite",
-          className: "ErrorModel"
+          name: "String"
         }
-      }
-    }
-  }
-};
-
-export const RoleDefinitionCreateParameters: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RoleDefinitionCreateParameters",
-    modelProperties: {
-      properties: {
-        serializedName: "properties",
+      },
+      roleName: {
+        serializedName: "properties.roleName",
         type: {
-          name: "Composite",
-          className: "RoleDefinitionProperties"
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      roleType: {
+        serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
+      permissions: {
+        serializedName: "properties.permissions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Permission"
+            }
+          }
+        }
+      },
+      assignableScopes: {
+        serializedName: "properties.assignableScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -263,6 +263,45 @@ export const RoleDefinitionListResult: coreHttp.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RoleAssignmentCreateParameters: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleAssignmentCreateParameters",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "RoleAssignmentProperties"
+        }
+      }
+    }
+  }
+};
+
+export const RoleAssignmentProperties: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleAssignmentProperties",
+    modelProperties: {
+      roleDefinitionId: {
+        serializedName: "roleDefinitionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "principalId",
+        required: true,
         type: {
           name: "String"
         }
@@ -327,45 +366,6 @@ export const RoleAssignmentPropertiesWithScope: coreHttp.CompositeMapper = {
       },
       principalId: {
         serializedName: "principalId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RoleAssignmentCreateParameters: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RoleAssignmentCreateParameters",
-    modelProperties: {
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "RoleAssignmentProperties"
-        }
-      }
-    }
-  }
-};
-
-export const RoleAssignmentProperties: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RoleAssignmentProperties",
-    modelProperties: {
-      roleDefinitionId: {
-        serializedName: "roleDefinitionId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      principalId: {
-        serializedName: "principalId",
-        required: true,
         type: {
           name: "String"
         }

@@ -10,6 +10,7 @@ package-name: "@azure/data-tables"
 title: TablesClient
 description: Tables Client
 generate-metadata: false
+package-version: 12.0.0
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated

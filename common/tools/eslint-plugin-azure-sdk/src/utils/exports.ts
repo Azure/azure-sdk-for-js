@@ -116,7 +116,7 @@ export const getLocalExports = (context: Rule.RuleContext): TSSymbol[] | undefin
 };
 
 export const getPublicMethods = (node: ClassDeclaration): MethodDefinition[] =>
-  node.body.body.filter((method: MethodDefinition): boolean => {
+  node.body.body.filter((method): method is MethodDefinition => {
     const TSMethod = method as TSESTree.MethodDefinition;
     return method.type === "MethodDefinition" && TSMethod.accessibility !== "private";
   });

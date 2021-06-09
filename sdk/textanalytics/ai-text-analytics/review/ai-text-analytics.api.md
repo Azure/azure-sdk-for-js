@@ -19,9 +19,9 @@ export interface AnalysisPollOperationState<TResult> extends PollOperationState<
 
 // @public
 export interface AnalyzeActionsOperationMetadata extends OperationMetadata {
-    actionsFailedCount?: number;
-    actionsInProgressCount?: number;
-    actionsSucceededCount?: number;
+    actionsFailedCount: number;
+    actionsInProgressCount: number;
+    actionsSucceededCount: number;
     displayName?: string;
 }
 
@@ -328,11 +328,11 @@ export interface Match {
 
 // @public
 export interface OperationMetadata {
-    createdOn?: Date;
+    createdOn: Date;
     expiresOn?: Date;
-    lastModifiedOn?: Date;
-    operationId?: string;
-    status?: TextAnalyticsOperationStatus;
+    lastModifiedOn: Date;
+    operationId: string;
+    status: TextAnalyticsOperationStatus;
 }
 
 // @public

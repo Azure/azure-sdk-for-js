@@ -8,9 +8,9 @@ import {
   PipelinePolicy
 } from "@azure/core-rest-pipeline";
 import { NamedKeyCredential } from "@azure/core-auth";
-import { createHmac } from "crypto";
 import { HeaderConstants } from "./utils/constants";
 import { URL } from "./utils/url";
+import { computeHMACSHA256 } from "./utils/computeHMACSHA256";
 
 /**
  * The programmatic identifier of the tablesNamedKeyCredentialPolicy.
@@ -62,13 +62,6 @@ export function getAuthorizationHeader(
   const signature = computeHMACSHA256(stringToSign, credential.key);
 
   return `SharedKeyLite ${credential.name}:${signature}`;
-}
-
-function computeHMACSHA256(stringToSign: string, accountKey: string): string {
-  const key = Buffer.from(accountKey, "base64");
-  return createHmac("sha256", key)
-    .update(stringToSign, "utf8")
-    .digest("base64");
 }
 
 function getHeaderValueToSign(request: PipelineRequest, headerName: string): string {

@@ -66,11 +66,9 @@ async function main() {
   assignment = await client.getRoleAssignment(globalScope, roleAssignmentName);
   console.log(assignment);
 
-  assignment = await client.deleteRoleAssignment(globalScope, roleAssignmentName);
-  console.log(assignment);
+  await client.deleteRoleAssignment(globalScope, roleAssignmentName);
 
-  roleDefinition = await client.deleteRoleDefinition(globalScope, roleDefinition.name);
-  console.log(roleDefinition);
+  await client.deleteRoleDefinition(globalScope, roleDefinition.name);
 }
 
 main().catch((err) => {

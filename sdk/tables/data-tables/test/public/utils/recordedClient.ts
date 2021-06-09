@@ -4,7 +4,7 @@
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
 import { TableClient, TableServiceClient } from "../../../src";
-import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
 import "./env";
 
@@ -51,7 +51,7 @@ export const recordedEnvironmentSetup: RecorderEnvironmentSetup = {
   ]
 };
 
-type CreateClientMode =
+export type CreateClientMode =
   | "SASConnectionString"
   | "SASToken"
   | "AccountKey"
@@ -78,7 +78,11 @@ export function createTableClient(
         );
       }
 
-      return new TableClient(`${env.TABLES_URL}${env.SAS_TOKEN}`, tableName);
+      return new TableClient(
+        env.TABLES_URL,
+        tableName,
+        new AzureSASCredential(env.SAS_TOKEN ?? "")
+      );
 
     case "AccountKey":
       if (!env.ACCOUNT_NAME || !env.ACCOUNT_KEY || !env.TABLES_URL) {

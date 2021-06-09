@@ -92,7 +92,7 @@
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.0.0",
-    "jsrsasign": "^8.0.12"
+    "jsrsasign": "^10.3.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -102,7 +102,6 @@
     "@microsoft/api-extractor": "7.7.11",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/jsrsasign": "^8.0.12",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "buffer": "^5.2.1",
@@ -145,10 +144,10 @@
   },
   "//sampleConfiguration": {
     "skipFolder": false,
-    "disableDocsMs": true,
     "productName": "Azure Attestation",
-    "productSlugs": [],
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+    "productSlugs": [
+      "azure-attestation"
+    ],
     "requiredResources": {}
   }
 }
