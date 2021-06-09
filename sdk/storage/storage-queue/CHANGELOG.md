@@ -1,5 +1,16 @@
 # Release History
 
+## 12.5.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+
 ## 12.5.0 (2021-06-09)
 
 - Updated Azure Storage Service API version to 2020-08-04.
@@ -15,22 +26,6 @@
 ## 12.3.0 (2021-01-12)
 
 - This release contains bug fixes to improve quality.
-
-## 12.3.0-beta.1 (2020-12-09)
-
-- Updated Azure Storage Service API version to 2020-04-08.
-- Added `generateSasUrl` to `QueueClient` to generate a service-level SAS URI for the client.
-- Added `generateAccountSasUrl` to `QueueServiceClient` to generate an account-level SAS URI for the client.
-- Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
-
-## 12.2.0 (2020-11-10)
-
-- Updated Azure Storage Service API version to 2020-02-10.
-
-## 12.1.0 (2020-09-08)
-
-- Bug fix - `credential` parameter of `newPipeline()` function is now optional. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
-- Bug fix - Content-Length header is no more ignored. Fixes bugs [8903](https://github.com/Azure/azure-sdk-for-js/issues/8903), [9300](https://github.com/Azure/azure-sdk-for-js/issues/9300) and [10614](https://github.com/Azure/azure-sdk-for-js/issues/10614).
 
 ## 12.1.0-preview.1 (2020.07)
 
@@ -58,11 +53,21 @@
 
   Previously, a new http client was created for each service client if none was provided by the user. This could result in TCP port exhaustion under heavy usage with the keepAlive option enabled because each http client has its own persistent TCP connection. This change creates a single http client instance which is shared among all service clients by default.
 
-## 12.0.1 (2019-12-04)
+## 12.3.0-beta.1 (2020-12-09)
 
-- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
-- Bug Fix - Convert empty prefixes (`""`) to `undefined` when passed as options to the `listQueues` method to avoid sending an invalid request to the service. Fixes bug [5817](https://github.com/Azure/azure-sdk-for-js/issues/5817).
-- Documented the behavior of `getProperties` methods with respect to metadata keys and their casing inconsistency when compared to the metadata keys returned through corresponding "list" methods with the `includeMetadata` option.
+- Updated Azure Storage Service API version to 2020-04-08.
+- Added `generateSasUrl` to `QueueClient` to generate a service-level SAS URI for the client.
+- Added `generateAccountSasUrl` to `QueueServiceClient` to generate an account-level SAS URI for the client.
+- Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
+
+## 12.2.0 (2020-11-10)
+
+- Updated Azure Storage Service API version to 2020-02-10.
+
+## 12.1.0 (2020-09-08)
+
+- Bug fix - `credential` parameter of `newPipeline()` function is now optional. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
+- Bug fix - Content-Length header is no more ignored. Fixes bugs [8903](https://github.com/Azure/azure-sdk-for-js/issues/8903), [9300](https://github.com/Azure/azure-sdk-for-js/issues/9300) and [10614](https://github.com/Azure/azure-sdk-for-js/issues/10614).
 
 ## 12.0.0 (2019.11)
 
@@ -148,6 +153,12 @@
   });
   ```
 
+## 12.0.1 (2019-12-04)
+
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
+- Bug Fix - Convert empty prefixes (`""`) to `undefined` when passed as options to the `listQueues` method to avoid sending an invalid request to the service. Fixes bug [5817](https://github.com/Azure/azure-sdk-for-js/issues/5817).
+- Documented the behavior of `getProperties` methods with respect to metadata keys and their casing inconsistency when compared to the metadata keys returned through corresponding "list" methods with the `includeMetadata` option.
+
 ## 12.0.0-preview.3 (2019-09-11)
 
 - [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
@@ -180,6 +191,17 @@
   - SAS connection string is supported in both NodeJS and browser runtimes unlike the Account Connection String which is supported only in the NodeJS runtime.
 - Fixed a bug where `MessageIdClient` constructor throws an error `URL is undefined` when the client is created with a valid connection string.
 
+## 10.2.0 (2019-07-31)
+
+- Fixed a bug that `Aborter` cannot work during retry interval.
+- Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
+- Export `RetryPolicyType`.
+- `Aborter` doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
+- Updated API version to 2018-11-09.
+- Updated HTTP client from axios to node-fetch in Node.js runtime.
+- A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
+- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/rest/api/storageservices/version-2018-11-09).
+
 ## 12.0.0-preview.1 (2019-07-03)
 
 - [Breaking] Client types are renamed from *URL to *Client.
@@ -210,17 +232,6 @@
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 
 For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
-
-## 10.2.0 (2019-07-31)
-
-- Fixed a bug that `Aborter` cannot work during retry interval.
-- Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
-- Export `RetryPolicyType`.
-- `Aborter` doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
-- Updated API version to 2018-11-09.
-- Updated HTTP client from axios to node-fetch in Node.js runtime.
-- A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
-- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/rest/api/storageservices/version-2018-11-09).
 
 ## 10.1.0 (2019-01-18)
 
