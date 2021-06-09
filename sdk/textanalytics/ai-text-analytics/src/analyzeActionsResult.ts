@@ -60,6 +60,10 @@ export interface TextAnalyticsActionSuccessState {
    */
   readonly completedOn: Date;
   /**
+   * The name of the action.
+   */
+  readonly actionName: string;
+  /**
    * Discriminant to determine if that this is an error result.
    */
   readonly error?: undefined;
@@ -364,12 +368,14 @@ function createErredAction(
 interface TaskSuccessResult<T> {
   results?: T;
   lastUpdateDateTime: Date;
+  taskName: string;
 }
 
 type ActionResult<TSuccess> =
   | {
       results: TSuccess;
       completedOn: Date;
+      actionName: string;
     }
   | TextAnalyticsActionErrorResult;
 
@@ -392,14 +398,15 @@ function makeActionResult<TTaskResult, TActionResult>(
     actions: ActionResult<TActionResult>[],
     task: TaskSuccessResult<TTaskResult>
   ): ActionResult<TActionResult>[] {
-    const { results: actionResults, lastUpdateDateTime } = task;
+    const { results: actionResults, lastUpdateDateTime, taskName } = task;
     if (actionResults !== undefined) {
       const recognizeEntitiesResults = makeResultsArray(documents, actionResults);
       return [
         ...actions,
         {
           results: recognizeEntitiesResults,
-          completedOn: lastUpdateDateTime
+          completedOn: lastUpdateDateTime,
+          actionName: taskName
         }
       ];
     } else {
