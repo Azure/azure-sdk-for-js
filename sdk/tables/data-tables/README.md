@@ -244,7 +244,11 @@ const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 const tableName = "<tableName>";
 
-const clientWithSAS = new TableClient(`https://${account}.table.core.windows.net`, tableName, new AzureSASCredential(sas));
+const clientWithSAS = new TableClient(
+  `https://${account}.table.core.windows.net`,
+  tableName,
+  new AzureSASCredential(sas)
+);
 ```
 
 #### List Entities in a table
