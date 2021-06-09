@@ -1,5 +1,8 @@
 # Release History
 
+## 1.2.6 (Unreleased)
+
+
 ## 1.2.5 (2021-06-03)
 
 ### Fixed
