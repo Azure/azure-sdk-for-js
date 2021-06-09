@@ -6,11 +6,11 @@
 
 ```yaml
 v3: true
+package-version: 12.0.0
 package-name: "@azure/data-tables"
 title: TablesClient
 description: Tables Client
 generate-metadata: false
-package-version: 12.0.0
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
@@ -18,9 +18,8 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a8cd09
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "https://aka.ms/autorest/typescript/corev2"
+  "@autorest/typescript": "latest"
 hide-clients: true
-use-core-v2: true
 ```
 
 ```yaml
@@ -61,4 +60,31 @@ directive:
     where: $.paths..responses..headers["ETag"]
     transform: >
       $["x-ms-client-name"] = "etag";
+```
+
+### Make Access Policy not required
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.SignedIdentifier
+  transform: >
+    $.required = ["Id"]
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.AccessPolicy
+  transform: >
+    delete $.required
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.AccessPolicy
+  transform: >
+    delete $.properties["Start"]["format"];
+    delete $.properties["Expiry"]["format"];
 ```

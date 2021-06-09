@@ -9008,7 +9008,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-/YV3V78se14tbDHiMQ98vnFK3pjdUa1zhzArgECevZVnGzrXcj3gwZil7Hg8fCBYP4ngoVanpE6WTfy7vv9fWw==
+      integrity: sha512-9zjqL46fRM2kqzdfrnWpDlmT3T6kUjNqWHnPqISX2xTSY8+psbFNEqOhPLDdDBuxBEfTE/5GGTFsDZ7fMkDQjw==
       tarball: file:projects/core-amqp.tgz
     version: 0.0.0
   file:projects/core-asynciterator-polyfill.tgz:
@@ -11227,7 +11227,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob-changefeed'
     resolution:
-      integrity: sha512-9P9QjSXeSJRC+jAtLZt9zTtQ6jXvzp5qoylpuTeN7H39CQqOf6i/wtaD+UT4Q1hDeQG68uof21dSg4HW/Z8wPQ==
+      integrity: sha512-3X4NwtI/FInVY4i/cVPvWahGooPHzUcuNx8j3kEErbgIOdR9dUz92K4f8OgnpyDHw9AnJb+4Azdq0eMcxFxHCA==
       tarball: file:projects/storage-blob-changefeed.tgz
     version: 0.0.0
   file:projects/storage-blob.tgz:
@@ -11459,7 +11459,7 @@ packages:
   file:projects/storage-queue.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.11
-      '@azure/identity': 1.3.0
+      '@azure/identity': 2.0.0-beta.3
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11508,7 +11508,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-l9pNcxy2+Bpg/EJCPWt4NE8fvBCNiQP2IpdP+DnaeEeLe0AzN0ndRzX6RvCAc37evuTFCpKCxYDrq1T4QHsF0w==
+      integrity: sha512-VNxSxooLe7pT3B1M+1ChSkWv5BxplfPK/x3BgSodTbIQSObPmMjIJafZQLz1Di/yBk6YCn+qAflz+K2jDV1dNw==
       tarball: file:projects/storage-queue.tgz
     version: 0.0.0
   file:projects/synapse-access-control.tgz:

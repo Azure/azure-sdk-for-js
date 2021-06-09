@@ -14,16 +14,17 @@ import {
   TableServiceClientOptions as TableClientOptions,
   TableEntityResult,
   TransactionAction,
-  TableTransactionResponse
+  TableTransactionResponse,
+  SignedIdentifier,
+  GetAccessPolicyResponse
 } from "./models";
 import {
   UpdateEntityResponse,
   UpsertEntityResponse,
   DeleteTableEntityResponse,
-  GetAccessPolicyResponse,
   SetAccessPolicyResponse
 } from "./generatedModels";
-import { QueryOptions as GeneratedQueryOptions, SignedIdentifier } from "./generated/models";
+import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   isNamedKeyCredential,
@@ -35,8 +36,14 @@ import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
-import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
-import { Table } from "./generated/operations";
+import {
+  deserialize,
+  deserializeObjectsArray,
+  deserializeSignedIdentifier,
+  serialize,
+  serializeSignedIdentifiers
+} from "./serialization";
+import { Table } from "./generated/operationsInterfaces";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import {
   FullOperationResponse,
@@ -88,18 +95,35 @@ export class TableClient {
    * @param credential - NamedKeyCredential or SASCredential used to authenticate requests. Only Supported for Node
    * @param options - Optional. Options to configure the HTTP pipeline.
    *
-   * Example using an account name/key:
+   * ### Example using an account name/key:
    *
    * ```js
    * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
    * const account = "<storage account name>";
+   * const accountKey = "<account key>"
    * const tableName = "<table name>";
-   * const sharedKeyCredential = new AzureNamedKeyCredential(account, "<account key>");
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, accountKey);
    *
    * const client = new TableClient(
    *   `https://${account}.table.core.windows.net`,
-   *   `${tableName}`
+   *   `${tableName}`,
    *   sharedKeyCredential
+   * );
+   * ```
+   *
+   * ### Example using a SAS Token:
+   *
+   * ```js
+   * const { AzureSASCredential, TableClient } = require("@azure/data-tables")
+   * const account = "<storage account name>";
+   * const sasToken = "<sas-token>";
+   * const tableName = "<table name>";
+   * const sasCredential = new AzureSASCredential(sasToken);
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`,
+   *   sasCredential
    * );
    * ```
    */
@@ -118,9 +142,10 @@ export class TableClient {
    * @param tableName - the name of the table
    * @param options - Options to configure the HTTP pipeline.
    *
-   * Example appending a SAS token:
+   * ### Example appending a SAS token:
    *
    * ```js
+   * const { TableClient } = require("@azure/data-tables");
    * const account = "<storage account name>";
    * const sasToken = "<SAS token>";
    * const tableName = "<table name>";
@@ -131,7 +156,6 @@ export class TableClient {
    * );
    * ```
    */
-
   constructor(url: string, tableName: string, options?: TableClientOptions);
   constructor(
     url: string,
@@ -191,6 +215,26 @@ export class TableClient {
   /**
    * Permanently deletes the current table with all of its entities.
    * @param options - The options parameters.
+   *
+   * ### Example deleting a table
+   * ```js
+   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
+   * const account = "<storage account name>";
+   * const accountKey = "<account key>"
+   * const tableName = "<table name>";
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, accountKey);
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`,
+   *   sharedKeyCredential
+   * );
+   *
+   * // calling deleteTable will delete the table used
+   * // to instantiate the TableClient.
+   * // Note: If the table doesn't exist this function doesn't fail.
+   * await client.deleteTable();
+   * ```
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async deleteTable(options: OperationOptions = {}): Promise<void> {
@@ -212,6 +256,27 @@ export class TableClient {
   /**
    *  Creates a table with the tableName passed to the client constructor
    * @param options - The options parameters.
+   *
+   * ### Example creating a table
+   * ```js
+   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
+   * const account = "<storage account name>";
+   * const accountKey = "<account key>"
+   * const tableName = "<table name>";
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, accountKey);
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`,
+   *   sharedKeyCredential
+   * );
+   *
+   * // calling create table will create the table used
+   * // to instantiate the TableClient.
+   * // Note: If the table already
+   * // exists this function doesn't fail.
+   * await client.createTable();
+   * ```
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async createTable(options: OperationOptions = {}): Promise<void> {
@@ -235,6 +300,27 @@ export class TableClient {
    * @param partitionKey - The partition key of the entity.
    * @param rowKey - The row key of the entity.
    * @param options - The options parameters.
+   *
+   * ### Example getting an entity
+   * ```js
+   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
+   * const account = "<storage account name>";
+   * const accountKey = "<account key>"
+   * const tableName = "<table name>";
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, accountKey);
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`,
+   *   sharedKeyCredential
+   * );
+   *
+   * // getEntity will get a single entity stored in the service that
+   * // matches exactly the partitionKey and rowKey used as parameters
+   * // to the method.
+   * const entity = await client.getEntity("<partitionKey>", "<rowKey>");
+   * console.log(entity);
+   * ```
    */
   public async getEntity<T extends object = Record<string, unknown>>(
     partitionKey: string,
@@ -276,6 +362,32 @@ export class TableClient {
   /**
    * Queries entities in a table.
    * @param options - The options parameters.
+   *
+   * Example listing entities
+   * ```js
+   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
+   * const account = "<storage account name>";
+   * const accountKey = "<account key>"
+   * const tableName = "<table name>";
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, accountKey);
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`,
+   *   sharedKeyCredential
+   * );
+   *
+   * // list entities returns a AsyncIterableIterator
+   * // this helps consuming paginated responses by
+   * // automatically handling getting the next pages
+   * const entities = client.listEntities();
+   *
+   * // this loop will get all the entities from all the pages
+   * // returned by the service
+   * for await (const entity of entities) {
+   *    console.log(entity);
+   * }
+   * ```
    */
   public listEntities<T extends object = Record<string, unknown>>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
@@ -382,6 +494,25 @@ export class TableClient {
    * Insert entity in the table.
    * @param entity - The properties for the table entity.
    * @param options - The options parameters.
+   *
+   * ### Example creating an entity
+   * ```js
+   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
+   * const account = "<storage account name>";
+   * const accountKey = "<account key>"
+   * const tableName = "<table name>";
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, accountKey);
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`,
+   *   sharedKeyCredential
+   * );
+   *
+   * // partitionKey and rowKey are required properties of the entity to create
+   * // and accepts any other properties
+   * await client.createEntity({partitionKey: "p1", rowKey: "r1", foo: "Hello!"});
+   * ```
    */
   public async createEntity<T extends object>(
     entity: TableEntity<T>,
@@ -410,6 +541,25 @@ export class TableClient {
    * @param partitionKey - The partition key of the entity.
    * @param rowKey - The row key of the entity.
    * @param options - The options parameters.
+   *
+   * ### Example deleting an entity
+   * ```js
+   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
+   * const account = "<storage account name>";
+   * const accountKey = "<account key>"
+   * const tableName = "<table name>";
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, accountKey);
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`,
+   *   sharedKeyCredential
+   * );
+   *
+   * // deleteEntity deletes the entity that matches
+   * // exactly the partitionKey and rowKey passed as parameters
+   * await client.deleteEntity("<partitionKey>", "<rowKey>")
+   * ```
    */
   public async deleteEntity(
     partitionKey: string,
@@ -446,6 +596,37 @@ export class TableClient {
    *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
    *               - Replace: Updates an existing entity by replacing the entire entity.
    * @param options - The options parameters.
+   *
+   * ### Example updating an entity
+   * ```js
+   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
+   * const account = "<storage account name>";
+   * const accountKey = "<account key>"
+   * const tableName = "<table name>";
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, accountKey);
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`,
+   *   sharedKeyCredential
+   * );
+   *
+   * const entity = {partitionKey: "p1", rowKey: "r1", bar: "updatedBar"};
+   *
+   * // Update uses update mode "Merge" as default
+   * // merge means that update will match a stored entity
+   * // that has the same partitionKey and rowKey as the entity
+   * // passed to the method and then will only update the properties present in it.
+   * // Any other properties that are not defined in the entity passed to updateEntity
+   * // will remain as they are in the service
+   * await client.updateEntity(entity)
+   *
+   * // We can also set the update mode to Replace, which will match the entity passed
+   * // to updateEntity with one stored in the service and replace with the new one.
+   * // If there are any missing properties in the entity passed to updateEntity, they
+   * // will be removed from the entity stored in the service
+   * await client.updateEntity(entity, "Replace")
+   * ```
    */
   public async updateEntity<T extends object>(
     entity: TableEntity<T>,
@@ -462,7 +643,7 @@ export class TableClient {
 
       const { etag = "*", ...updateEntityOptions } = updatedOptions || {};
       if (mode === "Merge") {
-        return this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           ifMatch: etag,
           ...updateEntityOptions
@@ -492,6 +673,33 @@ export class TableClient {
    *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
    *               - Replace: Updates an existing entity by replacing the entire entity.
    * @param options - The options parameters.
+   *
+   * ### Example upserting an entity
+   * ```js
+   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
+   * const account = "<storage account name>";
+   * const accountKey = "<account key>"
+   * const tableName = "<table name>";
+   * const sharedKeyCredential = new AzureNamedKeyCredential(account, accountKey);
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`,
+   *   sharedKeyCredential
+   * );
+   *
+   * const entity = {partitionKey: "p1", rowKey: "r1", bar: "updatedBar"};
+   *
+   * // Upsert uses update mode "Merge" as default.
+   * // This behaves similarly to update but creates the entity
+   * // if it doesn't exist in the service
+   * await client.upsertEntity(entity)
+   *
+   * // We can also set the update mode to Replace.
+   * // This behaves similarly to update but creates the entity
+   * // if it doesn't exist in the service
+   * await client.upsertEntity(entity, "Replace")
+   * ```
    */
   public async upsertEntity<T extends object>(
     entity: TableEntity<T>,
@@ -533,10 +741,11 @@ export class TableClient {
    * Shared Access Signatures.
    * @param options - The options parameters.
    */
-  public getAccessPolicy(options: OperationOptions = {}): Promise<GetAccessPolicyResponse> {
+  public async getAccessPolicy(options: OperationOptions = {}): Promise<GetAccessPolicyResponse> {
     const { span, updatedOptions } = createSpan("TableClient-getAccessPolicy", options);
     try {
-      return this.table.getAccessPolicy(this.tableName, updatedOptions);
+      const signedIdentifiers = await this.table.getAccessPolicy(this.tableName, updatedOptions);
+      return deserializeSignedIdentifier(signedIdentifiers);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -550,13 +759,17 @@ export class TableClient {
    * @param tableAcl - The Access Control List for the table.
    * @param options - The options parameters.
    */
-  public setAccessPolicy(
+  public async setAccessPolicy(
     tableAcl: SignedIdentifier[],
     options: OperationOptions = {}
   ): Promise<SetAccessPolicyResponse> {
     const { span, updatedOptions } = createSpan("TableClient-setAccessPolicy", options);
     try {
-      return this.table.setAccessPolicy(this.tableName, { ...updatedOptions, tableAcl });
+      const serlializedAcl = serializeSignedIdentifiers(tableAcl);
+      return await this.table.setAccessPolicy(this.tableName, {
+        ...updatedOptions,
+        tableAcl: serlializedAcl
+      });
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -570,24 +783,30 @@ export class TableClient {
    * or you can use {@link TableTransaction} to help building the transaction.
    *
    * Example usage:
-   * ```js
+   * ```typescript
+   * const { TableClient } = require("@azure/data-tables");
+   * const connectionString = "<connection-string>"
+   * const tableName = "<tableName>"
    * const client = TableClient.fromConnectionString(connectionString, tableName);
-   * const actions: TransactionAction[] = [
-   *    ["create", \{partitionKey: "p1", rowKey: "1", data: "test1"\}]
-   *    ["delete", \{partitionKey: "p1", rowKey: "2"\}],
-   *    ["update", \{partitionKey: "p1", rowKey: "3", data: "newTest"\}, "Merge"]
+   * const actions = [
+   *    ["create", {partitionKey: "p1", rowKey: "1", data: "test1"}],
+   *    ["delete", {partitionKey: "p1", rowKey: "2"}],
+   *    ["update", {partitionKey: "p1", rowKey: "3", data: "newTest"}, "Merge"]
    * ]
    * const result = await client.submitTransaction(actions);
    * ```
    *
    * Example usage with TableTransaction:
    * ```js
+   * const { TableClient } = require("@azure/data-tables");
+   * const connectionString = "<connection-string>"
+   * const tableName = "<tableName>"
    * const client = TableClient.fromConnectionString(connectionString, tableName);
    * const transaction = new TableTransaction();
    * // Call the available action in the TableTransaction object
-   * transaction.create(\{partitionKey: "p1", rowKey: "1", data: "test1"\});
+   * transaction.create({partitionKey: "p1", rowKey: "1", data: "test1"});
    * transaction.delete("p1", "2");
-   * transaction.update(\{partitionKey: "p1", rowKey: "3", data: "newTest"\}, "Merge")
+   * transaction.update({partitionKey: "p1", rowKey: "3", data: "newTest"}, "Merge")
    * // submitTransaction with the actions list on the transaction.
    * const result = await client.submitTransaction(transaction.actions);
    * ```
