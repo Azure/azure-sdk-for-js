@@ -53,25 +53,31 @@ function GetDocsMetadata() {
     if ($metadataByPackage.ContainsKey($package.Package)) { 
       LogWarning "Duplicate package in latest metadata: $($package.Package)"
     }
+    Write-Host "Adding latest package: $($package.Package)"
     $metadataByPackage[$package.Package] = $package
   }
 
   foreach ($package in GetDocsMetadataForMoniker 'preview') {
     if ($metadataByPackage.ContainsKey($package.Package)) {
       # Merge VersionPreview of each object
+      Write-Host "Merging preview package version for $($package.Package))"
       $metadataByPackage[$package.Package].VersionPreview = $package.VersionPreview
-    } else { 
+    } else {
+      Write-Host "Adding preview package: $($package.Package)"
       $metadataByPackage[$package.Package] = $package
     }
   }
 
   # Override CSV metadata version information before returning
   $outputMetadata = @()
-  foreach ($item in $csvMetadata) { 
+  foreach ($item in $csvMetadata) {
     if ($metadataByPackage.ContainsKey($item.Package)) {
       Write-Host "Overriding CSV metadata from docs repo for $($item.Package)"
       $matchingPackage = $metadataByPackage[$item.Package]
-      # TODO: Only mutate the verison if there is a version update?
+
+      # Only update the version from metadata present in the docs repo IF there
+      # is a specified version. The absence of package metadata in the docs repo
+      # (e.g. no GA version) does not imply that the CSV metadata is incorrect.
       if ($matchingPackage.VersionGA) {
         $item.VersionGA = $matchingPackage.VersionGA
       }
@@ -80,6 +86,16 @@ function GetDocsMetadata() {
       }
     }
     $outputMetadata += $item
+  }
+
+  # Add entries present in the docs repo which are not present in CSV. These are
+  # usually packages which have not yet published a preview or GA version.
+  foreach ($item in $metadataByPackage.Values) { 
+    $matchingPackagesInCsvMetadata = $csvMetadata.Where({ $_.Package -eq $item.Package })
+    if (!$matchingPackagesInCsvMetadata) { 
+      Write-Host "Adding package from docs metadata that is not found in CSV metadata: $($item.Package)"
+      $outputMetadata  += $item
+    }
   }
 
   return $outputMetadata
