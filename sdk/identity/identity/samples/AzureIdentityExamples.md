@@ -234,7 +234,7 @@ function withClientCertificateCredential() {
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DeviceCodeCredential`.
 
-For more information about how to configure an AAD application for device code flow please refer to [Enable applications for device code flow][device_code_flow].
+For more information about the Device Code flow, please refer to: [MSAL Authentication flows - Device code](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-authentication-flows#device-code). For more information on how to configure an AAD application to authenticate using the device code flow please refer to: [Register a public client application in Azure Active Directory](https://docs.microsoft.com/en-us/azure/healthcare-apis/fhir/register-public-azure-ad-client-app).
 
 > The `DeviceCodeCredential` offers a credential that can be used with little to no setup - the user is free to use whatever browser they choose to complete the authentication process.
 
@@ -497,7 +497,6 @@ function main() {
 [secrets_client_library]: https://www.npmjs.com/package/@azure/keyvault-secrets
 [azure_managed_identities]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 [service_principal_azure_cli]: https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli
-[device_code_flow]: https://docs.microsoft.com/azure/developer/java/sdk/identity-user-auth#enable-applications-for-device-code-flow
 [quickstart-register-app]: https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
 [app-register-service-principal]: https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals
 [service_principal_azure_powershell]: https://docs.microsoft.com/powershell/azure/create-azure-service-principal-azureps
