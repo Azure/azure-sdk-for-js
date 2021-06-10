@@ -49,11 +49,11 @@ export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions)
 
   // The AZURE_AUTHORITY_HOST environment variable can only be provided in NodeJS.
   if (isNode) {
-    authorityHost = authorityHost || process.env.AZURE_AUTHORITY_HOST;
+    authorityHost = authorityHost ?? process.env.AZURE_AUTHORITY_HOST;
   }
 
   // If the authorityHost is not provided, we use the default one from the public cloud: https://login.microsoftonline.com
-  return authorityHost || DefaultAuthorityHost;
+  return authorityHost ?? DefaultAuthorityHost;
 }
 
 /**
