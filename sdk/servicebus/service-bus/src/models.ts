@@ -150,13 +150,13 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {}
  */
 export interface SubscribeOptions extends OperationOptionsBase {
   /**
-   * Indicates whether the message should be settled automatically based on the result from the 
-   * user provided `processMessage` callback. 
-   * 
-   * - If an error is thrown from the `processMessage` callback the message will be abandoned 
-   *   using `receiver.abandonMessage()`. Doing so will make the message available again from the 
+   * Indicates whether the message should be settled automatically based on the result from the
+   * user provided `processMessage` callback.
+   *
+   * - If an error is thrown from the `processMessage` callback the message will be abandoned
+   *   using `receiver.abandonMessage()`. Doing so will make the message available again from the
    *   queue/subscription and the delivery count will be incremented.
-   * - If NO error is thrown from `processMessage` the message will be completed 
+   * - If NO error is thrown from `processMessage` the message will be completed
    *   using `receiver.completeMessage()`. Doing so removes the message from the queue/subscription.
    *
    * This option is ignored if messages are received in the `receiveAndDelete` receive mode or if
