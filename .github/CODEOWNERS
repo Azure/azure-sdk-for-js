@@ -103,7 +103,7 @@
 
 # Management Plane
 # PRLabel: %Mgmt
-/sdk/**/arm-*/ @qiaozha
+/sdk/**/arm-*/ @qiaozha @dw511214992
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
