@@ -288,7 +288,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.filter,
     Parameters.top,
     Parameters.orderby
@@ -317,7 +317,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.streamingLocatorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -344,7 +344,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.streamingLocatorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -377,7 +377,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.streamingLocatorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -402,7 +402,7 @@ const listContentKeysOperationSpec: msRest.OperationSpec = {
     Parameters.streamingLocatorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -428,7 +428,7 @@ const listPathsOperationSpec: msRest.OperationSpec = {
     Parameters.streamingLocatorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -452,7 +452,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.filter,
     Parameters.top,
     Parameters.orderby

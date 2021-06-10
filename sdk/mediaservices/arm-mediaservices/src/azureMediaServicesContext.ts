@@ -10,22 +10,27 @@
 import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
+import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-mediaservices";
-const packageVersion = "8.1.0";
+const packageVersion = "9.0.0";
 
 export class AzureMediaServicesContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+  credentials: msRest.ServiceClientCredentials | TokenCredential;
   subscriptionId: string;
-  apiVersion?: string;
 
   /**
    * Initializes a new instance of the AzureMediaServices class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param credentials Credentials needed for the client to connect to Azure. Credentials
+   * implementing the TokenCredential interface from the @azure/identity package are recommended. For
+   * more information about these credentials, see
+   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
+   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
+   * @azure/ms-rest-browserauth are also supported.
    * @param subscriptionId The unique identifier for a Microsoft Azure subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMediaServicesOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.AzureMediaServicesOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -43,7 +48,6 @@ export class AzureMediaServicesContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '2020-05-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

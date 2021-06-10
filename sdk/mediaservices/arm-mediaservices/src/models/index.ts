@@ -324,6 +324,26 @@ export interface MetricSpecification {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly dimensions?: MetricDimension[];
+  /**
+   * Indicates whether regional MDM account is enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly enableRegionalMdmAccount?: boolean;
+  /**
+   * The source MDM account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sourceMdmAccount?: string;
+  /**
+   * The source MDM namespace.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sourceMdmNamespace?: string;
+  /**
+   * The supported time grain types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedTimeGrainTypes?: string[];
 }
 
 /**
@@ -394,6 +414,14 @@ export interface Operation {
    * Operation properties format.
    */
   properties?: Properties;
+  /**
+   * Whether the operation applies to data-plane.
+   */
+  isDataAction?: boolean;
+  /**
+   * Indicates the action type. Possible values include: 'Internal'
+   */
+  actionType?: ActionType;
 }
 
 /**
@@ -481,6 +509,31 @@ export interface AccountEncryption {
 }
 
 /**
+ * An interface representing AccessControl.
+ */
+export interface AccessControl {
+  /**
+   * The behavior for IP access control in Key Delivery. Possible values include: 'Allow', 'Deny'
+   */
+  defaultAction?: DefaultAction;
+  /**
+   * The IP allow list for access control in Key Delivery. If the default action is set to 'Allow',
+   * the IP allow list must be empty.
+   */
+  ipAllowList?: string[];
+}
+
+/**
+ * An interface representing KeyDelivery.
+ */
+export interface KeyDelivery {
+  /**
+   * The access control properties for Key Delivery.
+   */
+  accessControl?: AccessControl;
+}
+
+/**
  * An interface representing MediaServiceIdentity.
  */
 export interface MediaServiceIdentity {
@@ -522,6 +575,10 @@ export interface MediaService extends TrackedResource {
    */
   encryption?: AccountEncryption;
   /**
+   * The Key Delivery properties for Media Services account.
+   */
+  keyDelivery?: KeyDelivery;
+  /**
    * The Managed Identity for the Media Services account.
    */
   identity?: MediaServiceIdentity;
@@ -530,6 +587,41 @@ export interface MediaService extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly systemData?: SystemData;
+}
+
+/**
+ * A Media Services account update.
+ */
+export interface MediaServiceUpdate {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The Media Services account ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly mediaServiceId?: string;
+  /**
+   * The storage accounts for this resource.
+   */
+  storageAccounts?: StorageAccount[];
+  /**
+   * Possible values include: 'System', 'ManagedIdentity'
+   */
+  storageAuthentication?: StorageAuthentication;
+  /**
+   * The account encryption properties.
+   */
+  encryption?: AccountEncryption;
+  /**
+   * The Key Delivery properties for Media Services account.
+   */
+  keyDelivery?: KeyDelivery;
+  /**
+   * The Managed Identity for the Media Services account.
+   */
+  identity?: MediaServiceIdentity;
 }
 
 /**
@@ -5018,6 +5110,14 @@ export type MetricUnit = 'Bytes' | 'Count' | 'Milliseconds';
 export type MetricAggregationType = 'Average' | 'Count' | 'Total';
 
 /**
+ * Defines values for ActionType.
+ * Possible values include: 'Internal'
+ * @readonly
+ * @enum {string}
+ */
+export type ActionType = 'Internal';
+
+/**
  * Defines values for StorageAccountType.
  * Possible values include: 'Primary', 'Secondary'
  * @readonly
@@ -5040,6 +5140,14 @@ export type StorageAuthentication = 'System' | 'ManagedIdentity';
  * @enum {string}
  */
 export type AccountEncryptionKeyType = 'SystemKey' | 'CustomerKey';
+
+/**
+ * Defines values for DefaultAction.
+ * Possible values include: 'Allow', 'Deny'
+ * @readonly
+ * @enum {string}
+ */
+export type DefaultAction = 'Allow' | 'Deny';
 
 /**
  * Defines values for ManagedIdentityType.
@@ -5686,26 +5794,6 @@ export type MediaservicesListBySubscriptionResponse = MediaServiceCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: MediaServiceCollection;
-    };
-};
-
-/**
- * Contains response data for the getBySubscription operation.
- */
-export type MediaservicesGetBySubscriptionResponse = MediaService & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MediaService;
     };
 };
 
