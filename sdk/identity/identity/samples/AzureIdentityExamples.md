@@ -429,7 +429,7 @@ else, if the Identity provider of your Azure Stack is Active Directory Federatio
 The following example demonstrates authenticating a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] against an Azure Key Vault hosted in Azure Stack.
 
 ```ts
-async function main() {
+function main() {
   const credential = new ClientSecretCredential(
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
