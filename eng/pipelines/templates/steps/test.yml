@@ -9,7 +9,8 @@ steps:
 
   - script: |
       npm install ./eng/tools/ci-pipeline-optimizer
-      node eng/tools/ci-pipeline-optimizer/modify-config.js --repo-root "$(Build.SourcesDirectory)" --test-mode "node"
+      node eng/tools/ci-pipeline-optimizer/modify-config.js --repo-root "$(Build.SourcesDirectory)"
+      node common/scripts/install-run-rush.js update
     condition: succeeded()
     displayName: "Remove API Extract step"
     
