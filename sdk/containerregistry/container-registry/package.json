@@ -133,6 +133,10 @@
     ],
     "requiredResources": {
       "Azure Container Registry": "https://docs.microsoft.com/azure/container-registry/container-registry-get-started-portal"
+    ,
+      "dependencyOverrides": {
+        "@azure/identity": "^1.3.0"
+      }
     }
   }
 }
