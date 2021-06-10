@@ -29,7 +29,7 @@ parameters:
       - '**'
 
 steps:
-- template: /eng/common/pipelines/templates/enable-long-path-support.yml
+- template: /eng/common/pipelines/templates/steps/enable-long-path-support.yml
 
 - pwsh: |
     Write-Host "###vso[task.setvariable variable=DocRepoLocation]${{ parameters.WorkingDirectory }}/doc"
