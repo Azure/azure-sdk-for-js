@@ -1,6 +1,6 @@
 # Release History
 
-## 3.11.5 (Unreleased)
+## 3.11.5 (2021-06-10)
 
 ### Features Added
 
@@ -10,6 +10,7 @@
 
 ### Fixed
 
+- BUGFIX: Adds another failover condition.
 
 ## 3.11.4 (2021-06-10)
 
