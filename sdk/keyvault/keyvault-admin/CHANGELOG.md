@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2021-06-08)
+## 4.0.0 (2021-06-15)
 
 This release marks the general availability of the `@azure/keyvault-admin` package.
 
