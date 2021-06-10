@@ -56,7 +56,7 @@ steps:
   - pwsh: |
       $ErrorActionPreference = "Continue"
       $RemoteName = "origin"
-      $BranchName = "$(TargetBranchName)
+      $BranchName = "$(TargetBranchName)"
       # Fetch and checkout remote branch if it already exists otherwise create a new branch.
       git ls-remote --exit-code --heads $RemoteName $BranchName
       if ($LASTEXITCODE -eq 0) {
