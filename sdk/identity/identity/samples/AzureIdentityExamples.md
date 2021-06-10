@@ -24,18 +24,6 @@
 
 Authenticating your application, users, and principals is an integral part of working with the Azure Client Libraries. The Azure Identity library provides multiple ways to authenticate, each with a flexible configuration that covers most scenarios. In this document we will go over some of these scenarios and provide small examples that can be used as a starting point for your needs.
 
-## Requirements
-
-Many of the code samples in this document will require you to have installed the following packages:
-
-- [@azure/identity](https://www.npmjs.com/package/@azure/identity).
-- [@azure/core-http](https://www.npmjs.com/package/@azure/core-http).
-- [@azure/keyvault-secrets](https://www.npmjs.com/package/@azure/keyvault-secrets).
-
-You can install them with: `npm install @azure/identity @azure/core-http @azure/keyvault-secrets`.
-
-In the cases in which other packages are necessary, we will mention which packages and how to install them.
-
 ## Authenticating client side browser applications
 
 For client side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience and is the only credential type that we support in the browser. To get started, you will want to configure an AAD application for interactive browser authentication. Please refer to the [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for additional information on how to configure your app registration for the browser.
@@ -465,14 +453,16 @@ In this section we'll examine some example cases in which it might make sense to
 
 ### Authenticating with a pre-fetched access token
 
-Our package `@azure/core-http` exports a `TokenCredential` interface which is used by the `@azure/identity` package to define a common public API for all of the Identity credentials that we offer.
+Our package `@azure/core-auth` exports a `TokenCredential` interface which is used by the `@azure/identity` package to define a common public API for all of the Identity credentials that we offer.
 
 The `@azure/identity` library does not contain a `TokenCredential` implementation which can be constructed directly with an `AccessToken`. This is intentionally omitted as a main line scenario as access tokens expire frequently and have constrained usage. However, we understand there may be some scenarios where authenticating a service client with a pre-fetched token is necessary.
 
-In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an `AccessToken` (defined on `@azure/core-http`), and simply returns that from its implementation of `getToken()`.
+In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an `AccessToken` (defined on `@azure/core-auth`), and simply returns that from its implementation of `getToken()`.
+
+> You'll need to install the [@azure/core-auth][core_auth] package for this sample.
 
 ```ts
-import { TokenCredential, AccessToken } from "@azure/core-http";
+import { TokenCredential, AccessToken } from "@azure/core-auth";
 
 class StaticTokenCredential implements TokenCredential {
   constructor(private accessToken: AccessToken) {
@@ -509,10 +499,10 @@ In this example the `ConfidentialClientApplicationCredential` is constructed wit
 
 For more information aboutMSAL, please refer to [the README of the `@azure/msal-node` package][msal_node_readme].
 
-> You'll need to install the [@azure/msal-node][msal_node_npm] package for this sample.
+> You'll need to install the [@azure/msal-node][msal_node_npm] and the the [@azure/core-auth][core_auth] package for this sample.
 
 ```ts
-import { TokenCredential, AccessToken } from "@azure/core-http";
+import { TokenCredential, AccessToken } from "@azure/core-auth";
 import * as msalNode from "@azure/msal-node";
 
 class ConfidentialClientCredential implements TokenCredential {
@@ -549,8 +539,10 @@ Currently the `@azure/identity` library doesn't provide a credential type for cl
 
 In this example the `OnBehalfOfCredential` accepts a client Id, client secret, and a user's access token. It then creates an instance of `ConfidentialClientApplication` from MSAL to obtain an OBO token which can be used to authenticate client requests.
 
+> You'll need to install the [@azure/core-auth][core_auth] package for this sample.
+
 ```ts
-import { TokenCredential, AccessToken } from "@azure/core-http";
+import { TokenCredential, AccessToken } from "@azure/core-auth";
 import * as msalNode from "@azure/msal-node";
 
 class OnBehalfOfCredential implements TokenCredential {
@@ -620,8 +612,10 @@ However, if an application wants to roll this certificate without creating new s
 
 If the application gets notified of certificate rotations and it can directly respond, it might choose to wrap the `ClientCertificateCredential` in a custom credential which provides a means for rotating the certificate. 
 
+> You'll need to install the [@azure/core-auth][core_auth] package for this sample.
+
 ```ts
-import { TokenCredential, GetTokenOptions, AccessToken } from '@azure/core-http';
+import { TokenCredential, GetTokenOptions, AccessToken } from '@azure/core-auth';
 import { ClientCertificateCredential } from "@azure/identity";
 
 class RotatableCertificateCredential implements TokenCredential {
@@ -652,7 +646,7 @@ The above example shows a custom credential type `RotatableCertificateCredential
 Some applications might want to respond to certificate rotations which are external to the application, for instance a separate process rotates the certificate by updating it on disk. Here the application create a custom credential which checks for certificate updates when tokens are requested. 
 
 ```ts
-import { TokenCredential, GetTokenOptions, AccessToken } from '@azure/core-http';
+import { TokenCredential, GetTokenOptions, AccessToken } from '@azure/core-auth';
 import { ClientCertificateCredential } from "@azure/identity";
 import * as fs from "fs";
 
@@ -713,3 +707,4 @@ In this example the custom credential type `RotatingCertificateCredential` again
 [service_principal_azure_powershell]: https://docs.microsoft.com/powershell/azure/create-azure-service-principal-azureps
 [msal_node_readme]: https://github.com/sadasant/microsoft-authentication-library-for-js/tree/acquireWithDeviceCode-interval-fix/lib/msal-node
 [msal_node_npm]: https://www.npmjs.com/package/@azure/msal-node
+[core_auth]: https://www.npmjs.com/package/@azure/core-auth
