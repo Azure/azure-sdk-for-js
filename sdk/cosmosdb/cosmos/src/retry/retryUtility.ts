@@ -81,9 +81,10 @@ export async function execute({
     let retryPolicy: RetryPolicy = null;
     const headers = err.headers || {};
     if (
-      err.code === StatusCodes.Forbidden &&
-      (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
-        err.substatus === SubStatusCodes.WriteForbidden)
+      err.code === StatusCodes.ENOTFOUND ||
+      (err.code === StatusCodes.Forbidden &&
+        (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
+          err.substatus === SubStatusCodes.WriteForbidden))
     ) {
       retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
     } else if (err.code === StatusCodes.TooManyRequests) {
