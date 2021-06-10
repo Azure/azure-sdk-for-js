@@ -118,12 +118,13 @@ stages:
                       - checkout: self
                       - template: /eng/common/pipelines/templates/steps/docs-metadata-release2.yml
                         parameters:
-                          ArtifactLocation: $(System.ArtifactsDirectory)/packages/PackageInfo/${{artifact.name}}.json
+                          Artifacts: 
+                            - Name: ${{ artifact.name }}
+                              Location: $(System.ArtifactsDirectory)/packages/PackageInfo/${{artifact.name}}.json
                           RepoId: Azure/azure-sdk-for-js
                           WorkingDirectory: $(System.DefaultWorkingDirectory)
                           TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
                           TargetDocRepoName: ${{parameters.TargetDocRepoName}}
-                          ArtifactName: ${{artifact.name}}
                           Language: 'javascript'
 
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
@@ -250,47 +251,16 @@ stages:
             Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
           displayName: Show visible artifacts
 
-        # BEGIN DOCS REPO SETUP
-        # TODO: REFACTOR
-        - pwsh: |
-            Write-Host "###vso[task.setvariable variable=DocRepoLocation]$(System.DefaultWorkingDirectory)/doc"
-          displayName: Set $(DocRepoLocation)
-
-        - pwsh: |
-            git clone `
-            https://github.com/${{ parameters.TargetDocRepoOwner }}/${{ parameters.TargetDocRepoName }} `
-            $(DocRepoLocation)
-          displayName: Clone Documentation Repository
-          ignoreLASTEXITCODE: false
-
-        # If performing a daily docs build set the $(TargetBranchName) to a daily branch
-        # name and attempt to checkout the daily docs branch. If the branch doesn't
-        # exist, fail silently. Later steps will create the branch.
-        - pwsh: |
-            $branchName = "daily/$(Get-Date -Format 'yyyy-MM-dd')"
-            Write-Host "Daily Branch Name: $branchName"
-            Write-Host "##vso[task.setvariable variable=TargetBranchName;]$branchName"
-          displayName: Set daily docs branch name as $(TargetBranchName)
-
-        - pwsh: |
-            $ErrorActionPreference = "Continue"
-            git checkout "origin/$(TargetBranchName)" 2>&1 | Out-Null
-            $LASTEXITCODE = 0 # This ignores any error from git checkout
-            git status
-          displayName: Checkout daily branch if it exists
-          workingDirectory: $(DocRepoLocation)
-
-        # END DOCS REPO SETUP
-
-        - ${{ each artifact in parameters.Artifacts }}:
-          - template: /eng/common/pipelines/templates/steps/docs-metadata-release2.yml
-            parameters:
-              ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
-              RepoId: Azure/azure-sdk-for-js
-              WorkingDirectory: $(System.DefaultWorkingDirectory)
-              TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
-              TargetDocRepoName: ${{parameters.TargetDocRepoName}}
-              ArtifactName: ${{artifact.name}}
-              Language: 'javascript'
-              DailyDocsBuild: true
-              SetupDocsRepo: false
+        - template: /eng/common/pipelines/templates/steps/docs-metadata-release2.yml
+          parameters:
+            Artifacts: 
+              - ${{ each artifact in parameters.Artifacts }}:
+                - Name: ${{ artifact.name }}
+                  Location: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
+            RepoId: Azure/azure-sdk-for-js
+            WorkingDirectory: $(System.DefaultWorkingDirectory)
+            TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
+            TargetDocRepoName: ${{parameters.TargetDocRepoName}}
+            Language: 'javascript'
+            DailyDocsBuild: true
+            SetupDocsRepo: false
