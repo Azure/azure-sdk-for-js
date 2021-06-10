@@ -53,7 +53,7 @@ async function provideAnomalyFeedback(client: MetricsAdvisorClient, metricId: st
 async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: string) {
   console.log("Creating a period feedback...");
   const periodFeedback: MetricPeriodFeedback = {
-    metricId: metricId,
+    metricId,
     feedbackType: "Period",
     periodType: "AutoDetect",
     periodValue: 4,
@@ -65,7 +65,7 @@ async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: str
 async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId: string) {
   console.log("Creating a change point feedback...");
   const changePointFeedback: MetricChangePointFeedback = {
-    metricId: metricId,
+    metricId,
     feedbackType: "ChangePoint",
     startTime: new Date("2020/08/05"),
     value: "ChangePoint",
@@ -77,7 +77,7 @@ async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId
 async function provideCommentFeedback(client: MetricsAdvisorClient, metricId: string) {
   console.log("Creating a comment feedback...");
   const commendFeedback: MetricCommentFeedback = {
-    metricId: metricId,
+    metricId,
     feedbackType: "Comment",
     dimensionKey: { city: "Manila", category: "Handmade" },
     comment: "This is a comment"

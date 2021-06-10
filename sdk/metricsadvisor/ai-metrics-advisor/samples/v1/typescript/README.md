@@ -13,18 +13,19 @@ urlFragment: ai-metrics-advisor-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Metrics Advisor in some common scenarios.
 
-| **File Name**                               | **Description**                                                                                                                                                                        |
-| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [quickstart.ts][quickstart]                 | This sample demonstrates how to get started by creating a data feed, checking ingestion status, creating detection and alerting configurations, and querying for alerts and anomalies. |
-| [dataFeed.ts][datafeed]                     | This sample demonstrates data feed management operations.                                                                                                                              |
-| [detectionConfig.ts][detectionconfig]       | This sample demonstrates Detection Configuration CRUD operations.                                                                                                                      |
-| [incidentsAndAlerts.ts][incidentsandalerts] | This sample demonstrates how to query incidents and alerts.                                                                                                                            |
-| [ingestionStatus.ts][ingestionstatus]       | This sample demonstrates operations related to ingestion status.                                                                                                                       |
-| [alertingConfig.ts][alertingconfig]         | This sample demonstrates Alerting Configuration CRUD operations.                                                                                                                       |
-| [hooks.ts][hooks]                           | This sample demonstrates Metrics Advisor Hooks CRUD operations.                                                                                                                        |
-| [metricFeedback.ts][metricfeedback]         | This sample demonstrates how to provide feedback for a metric.                                                                                                                         |
-| [metricQueries.ts][metricqueries]           | This sample demonstrates querying methods related to metric.                                                                                                                           |
-| [seriesData.ts][seriesdata]                 | This sample demonstrates how to retrieve time series data.                                                                                                                             |
+| **File Name**                                   | **Description**                                                                                                                                                                        |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [quickstart.ts][quickstart]                     | This sample demonstrates how to get started by creating a data feed, checking ingestion status, creating detection and alerting configurations, and querying for alerts and anomalies. |
+| [dataFeed.ts][datafeed]                         | This sample demonstrates data feed management operations.                                                                                                                              |
+| [dataSourceCredential.ts][datasourcecredential] | This sample demonstrates data source credential operations                                                                                                                             |
+| [detectionConfig.ts][detectionconfig]           | This sample demonstrates Detection Configuration CRUD operations.                                                                                                                      |
+| [incidentsAndAlerts.ts][incidentsandalerts]     | This sample demonstrates how to query incidents and alerts.                                                                                                                            |
+| [ingestionStatus.ts][ingestionstatus]           | This sample demonstrates operations related to ingestion status.                                                                                                                       |
+| [alertingConfig.ts][alertingconfig]             | This sample demonstrates Alerting Configuration CRUD operations.                                                                                                                       |
+| [hooks.ts][hooks]                               | This sample demonstrates Metrics Advisor Hooks CRUD operations.                                                                                                                        |
+| [metricFeedback.ts][metricfeedback]             | This sample demonstrates how to provide feedback for a metric.                                                                                                                         |
+| [metricQueries.ts][metricqueries]               | This sample demonstrates querying methods related to metric.                                                                                                                           |
+| [seriesData.ts][seriesdata]                     | This sample demonstrates how to retrieve time series data.                                                                                                                             |
 
 ## Prerequisites
 
@@ -65,7 +66,7 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/quickstart.ts
+node dist/quickstart.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
@@ -80,6 +81,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [quickstart]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/quickstart.ts
 [datafeed]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/dataFeed.ts
+[datasourcecredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/dataSourceCredential.ts
 [detectionconfig]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/detectionConfig.ts
 [incidentsandalerts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/incidentsAndAlerts.ts
 [ingestionstatus]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/ingestionStatus.ts
@@ -88,7 +90,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [metricfeedback]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/metricFeedback.ts
 [metricqueries]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/metricQueries.ts
 [seriesdata]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/typescript/src/seriesData.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/?view=azure-node-preview
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesaccount]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/metricsadvisor/ai-metrics-advisor/README.md

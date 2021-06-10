@@ -19,7 +19,7 @@ async function batchOperations() {
   console.log("== TableTransaction Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `transaction_helper`;
+  const tableName = `transactionHelper`;
 
   // See authenticationMethods sample for other options of creating a new client
   const client = TableClient.fromConnectionString(connectionString, tableName);

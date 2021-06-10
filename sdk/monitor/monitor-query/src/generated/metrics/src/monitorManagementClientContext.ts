@@ -13,7 +13,7 @@ import {
 } from "./models";
 
 const packageName = "monitor-metrics";
-const packageVersion = "1.0.0";
+const packageVersion = "1.0.0-beta.2";
 
 /** @hidden */
 export class MonitorManagementClientContext extends coreHttp.ServiceClient {

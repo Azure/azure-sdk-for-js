@@ -13,7 +13,9 @@ import {
 } from "@azure/core-client";
 import {
   Manifest as ManifestMapper,
-  ContentProperties as ContentPropertiesMapper,
+  RepositoryWriteableProperties as RepositoryWriteablePropertiesMapper,
+  TagWriteableProperties as TagWriteablePropertiesMapper,
+  ManifestWriteableProperties as ManifestWriteablePropertiesMapper,
   Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema as Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper,
   PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema as PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 } from "../models/mappers";
@@ -125,7 +127,7 @@ export const contentType1: OperationParameter = {
 
 export const value: OperationParameter = {
   parameterPath: ["options", "value"],
-  mapper: ContentPropertiesMapper
+  mapper: RepositoryWriteablePropertiesMapper
 };
 
 export const orderby: OperationQueryParameter = {
@@ -148,6 +150,11 @@ export const digest: OperationQueryParameter = {
   }
 };
 
+export const value1: OperationParameter = {
+  parameterPath: ["options", "value"],
+  mapper: TagWriteablePropertiesMapper
+};
+
 export const digest1: OperationURLParameter = {
   parameterPath: "digest",
   mapper: {
@@ -157,6 +164,11 @@ export const digest1: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const value2: OperationParameter = {
+  parameterPath: ["options", "value"],
+  mapper: ManifestWriteablePropertiesMapper
 };
 
 export const nextLink: OperationURLParameter = {
@@ -229,7 +241,7 @@ export const contentType2: OperationParameter = {
   }
 };
 
-export const value1: OperationParameter = {
+export const value3: OperationParameter = {
   parameterPath: "value",
   mapper: {
     serializedName: "value",
@@ -252,7 +264,7 @@ export const accept3: OperationParameter = {
   }
 };
 
-export const value2: OperationParameter = {
+export const value4: OperationParameter = {
   parameterPath: ["options", "value"],
   mapper: {
     serializedName: "value",

@@ -18,6 +18,7 @@
 - Renamed `KeyVaultBeginSelectiveRestoreOptions` to `KeyVaultBeginSelectiveKeyRestoreOptions`.
 - Renamed `KeyVaultSelectiveRestoreOperationState` to `KeyVaultSelectiveKeyRestoreOperationState`.
 - Renamed `KeyVaultSelectiveRestoreResult` to `KeyVaultSelectiveKeyRestoreResult`.
+- `deleteRoleAssignment` and `deleteRoleDefinition` will no longer throw an exception when the resource no longer exist and return no result.
 
 ## 4.0.0-beta.3 (2021-04-06)
 

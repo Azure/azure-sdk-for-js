@@ -1,21 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, use as chaiUse } from "chai";
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../src/jsrsasign.d.ts"/>
+import * as jsrsasign from "jsrsasign";
+
+import { assert, expect, use as chaiUse } from "chai";
 import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
-
-import { Serializer} from "@azure/core-http";
-import { AttestationResult as AttestationResultMapper } from "../../src/generated/models/mappers";
-import { AttestationResult as AttestationResultModel } from "../../src/generated/models";
 
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecorder } from "../utils/recordedClient";
 
-import { KJUR, KEYUTIL } from "jsrsasign"
+import { bytesToString, stringToBytes } from "../../src/utils/utf8";
+
 import { AttestationSigningKey, AttestationToken } from "../../src";
+import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
+import { encodeByteArray } from "../utils/base64url";
+
 describe("AttestationTokenTests", function() {
   let recorder: Recorder;
 
@@ -27,159 +31,289 @@ describe("AttestationTokenTests", function() {
     await recorder.stop();
   });
 
-  it("#createRsaSigningKey", async() => {
-      const key = createRSAKey();
-      const cert = createX509Certificate(key, "testCert");
-      assert.isTrue(key.length !== 0);
-      assert.isTrue(cert.length !== 0);
+  it("#testUtf8ConversionFunctions", async () => {
+    const buffer = stringToBytes("ABCDEF");
+    assert.equal(65, buffer[0]);
+    assert.equal(66, buffer[1]);
+    assert.equal(67, buffer[2]);
+    assert.equal(68, buffer[3]);
+    assert.equal(69, buffer[4]);
 
-      const signingKey = new AttestationSigningKey(key, cert);
-      assert.isTrue(signingKey.certificate.length !== 0);
-
-      console.log('Cert: ', cert);
-
+    const str = bytesToString(buffer);
+    assert.equal("ABCDEF", str);
   });
 
-  it("#createEcdsSigningKey", async() => {
-    const key = createECDSKey();
-    const cert = createX509Certificate(key, "testCert");
-    assert.isTrue(key.length !== 0);
+  it("#createRsaSigningKey", async () => {
+    const [privKey, pubKey] = createRSAKey();
+    const cert = createX509Certificate(privKey, pubKey, "testCert");
+    assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    const signingKey = new AttestationSigningKey(key, cert);
+    const signingKey = new AttestationSigningKey(privKey, cert);
+    assert.isTrue(signingKey.certificate.length !== 0);
+  });
+
+  it("#createEcdsSigningKey", async () => {
+    const [privKey, pubKey] = createECDSKey();
+    const cert = createX509Certificate(privKey, pubKey, "testCert");
+    assert.isTrue(privKey.length !== 0);
+    assert.isTrue(cert.length !== 0);
+
+    const signingKey = new AttestationSigningKey(privKey, cert);
     assert.isTrue(signingKey.certificate.length !== 0);
   });
 
   // Create a signing key, but use the wrong key - this should throw an
   // exception, because the key doesn't match the certificate.
-  it("#createSigningKeyWrongKey", async() => {
-    const key = createECDSKey();
-    const cert = createX509Certificate(key, "testCert");
+  it("#createSigningKeyWrongKey", async () => {
+    const [privKey, pubKey] = createECDSKey();
+    const cert = createX509Certificate(privKey, pubKey, "testCert");
 
-    const key2 = createECDSKey();
+    const [key2] = createECDSKey();
 
-    assert.isTrue(key.length !== 0);
+    assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    assert.throws( () => new AttestationSigningKey(key2, cert));
-
-  });
-
-  /**
-   * Creates a secured attestation token with the specified key.
-   */
-  it("#createSecuredAttestationToken", async() => {
-    const key = createRSAKey();
-    const cert = createX509Certificate(key, "certificate");
-
-    const sourceObject = JSON.stringify({foo: "foo", bar: 10});
-    const token = AttestationToken.serialize(sourceObject, new AttestationSigningKey(key, cert));
-
-    const body = token.get_body();
-    assert.deepEqual({foo: "foo", bar: 10}, body);
-    assert.notEqual("none", token.algorithm);
+    assert.throws(() => new AttestationSigningKey(key2, cert));
   });
 
   /**
    * Creates an unsecured attestation token.
    */
-   it("#createUnsecuredAttestationToken", async() => {
+  it("#createUnsecuredAttestationToken", async () => {
+    const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
+    const token = AttestationToken.create({ body: sourceObject });
 
-    const sourceObject = JSON.stringify({foo: "foo", bar: 10});
-    const token = AttestationToken.serialize(sourceObject);
-
-    const body = token.get_body();
-    assert.deepEqual({foo: "foo", bar: 10}, body);
+    const body = token.getBody();
+    assert.deepEqual({ foo: "foo", bar: 10 }, body);
     assert.equal("none", token.algorithm);
   });
 
-  it("#should serialize", () => {
-    const attestationResult: AttestationResultModel = { version: "one" };
-    const serializer = new Serializer({ AttestationResultMapper });
-    const serialized = serializer.serialize(AttestationResultMapper, attestationResult);
+  /**
+   * Creates an unsecured empty attestation token.
+   */
+  it("#createUnsecuredEmptyAttestationToken", async () => {
+    const token = AttestationToken.create({});
 
-    assert.equal(attestationResult.version, serialized["x-ms-ver"]);
+    // An empty unsecured attestation token has a well known value, check it.
+    assert("eyJhbGciOiJub25lIn0..", token.serialize());
+    const body = token.getBody();
+    assert.isNull(body);
+    assert.equal("none", token.algorithm);
   });
 
-  it("#should deserialize", () => {
-    const serialized = { "x-ms-ver": "one" };
-    const serializer = new Serializer({ AttestationResultMapper });
+  /**
+   * Creates a secured empty attestation token with the specified key.
+   */
+  it("#createEmptySecuredAttestationToken", async () => {
+    const [privKey, pubKey] = createRSAKey();
+    const cert = createX509Certificate(privKey, pubKey, "certificate");
 
-    const deserialized: AttestationResultModel = serializer.deserialize(
-      AttestationResultMapper,
-      serialized,
-      "attestationResult"
-    );
+    const token = AttestationToken.create({ signer: new AttestationSigningKey(privKey, cert) });
 
-    assert.equal(deserialized.version, serialized["x-ms-ver"]);
+    assert.notEqual("none", token.algorithm);
+    assert.equal(1, token.certificateChain?.certificates.length);
+    if (token.certificateChain) {
+      let pemCert: string;
+      pemCert = "-----BEGIN CERTIFICATE-----\r\n";
+      pemCert += encodeByteArray(token.certificateChain.certificates[0]);
+      pemCert += "\r\n-----END CERTIFICATE-----\r\n";
+
+      const expectedCert = new jsrsasign.X509();
+      expectedCert.readCertPEM(cert);
+
+      const actualCert = new jsrsasign.X509();
+      actualCert.readCertPEM(pemCert);
+
+      assert.equal(expectedCert.hex, actualCert.hex);
+    }
+
+    // The token of course should validate.
+    token.validateToken();
   });
 
-  function createECDSKey() : string
-  {
-      const keyPair = KEYUTIL.generateKeypair("EC", "secp256r1");
-      return KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV");
-  }
+  /**
+   * Creates a secured attestation token with the specified key.
+   */
+  it("#createSecuredAttestationToken", async () => {
+    const [privKey, pubKey] = createRSAKey();
+    const cert = createX509Certificate(privKey, pubKey, "certificate");
 
-  function createRSAKey() : string
-  {
-      const keyPair = KEYUTIL.generateKeypair("RSA", 2048);
-      return KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV");
-  }
+    const currentTime = Math.floor(new Date().getTime() / 1000);
+    const currentDate = new Date(currentTime * 1000);
 
-  function localDateToUtc(d : Date) : Date {
-    const  utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-    return new Date(utc);
-  }
+    const sourceObject = {
+      foo: "foo",
+      bar: 10,
+      exp: currentTime + 30,
+      iat: currentTime,
+      nbf: currentTime,
+      iss: "this is an issuer"
+    };
 
-  function zeroPadding(s : string, len : number) : any {
-      if (s.length >= len) return s;
-      return new Array(len - s.length + 1).join('0') + s;
-  };
-
-  function formatDateString(dateObject : Date) : string {
-    const  pad = zeroPadding;
-    const d = localDateToUtc(dateObject);
-    let year = String(d.getFullYear());
-    // Extract first two digits of year for UTC encoding.
-    year = year.substr(2, 2);
-    const month = pad(String(d.getMonth() + 1), 2);
-    const day = pad(String(d.getDate()), 2);
-    const hour = pad(String(d.getHours()), 2);
-    const min = pad(String(d.getMinutes()), 2);
-    const sec = pad(String(d.getSeconds()), 2);
-    const s = year + month + day + hour + min + sec;
-    return s + "Z";
-  }
-
-  // Create a self-signed X.509 certificZTe
-  function createX509Certificate(key: string, subject_name: string) : string
-  {
-    const signing_key = KEYUTIL.getKey(key);
-
-    const  tbs = new KJUR.asn1.x509.TBSCertificate();
-    tbs.setSerialNumberByParam({'int': 4});
-    tbs.setSignatureAlgByParam({'name': 'SHA1withRSA'});
-
-    const timeEnd = new Date();
-    timeEnd.setFullYear(timeEnd.getFullYear() + 1);
-
-    tbs.setNotBeforeByParam({'str': formatDateString(timeEnd)});
-    tbs.setNotAfterByParam({'str': formatDateString(new Date())});
-    tbs.setSubjectPublicKey(signing_key);
-    tbs.appendExtension(new KJUR.asn1.x509.BasicConstraints({'cA':false, pathLen: 0}));
-    tbs.setSubjectByParam({'str': '/CN=' + subject_name});
-    tbs.setIssuerByParam({'str': '/CN=' + subject_name});
-    
-    const cert = new KJUR.asn1.x509.Certificate({
-        tbscertobj: tbs,
-        prvkeyobj: signing_key,
+    const sourceJson = JSON.stringify(sourceObject);
+    const token = AttestationToken.create({
+      body: sourceJson,
+      signer: new AttestationSigningKey(privKey, cert)
     });
-    cert.sign();
 
-    return cert.getPEMString();
+    // Let's look at some of the properties on the token and confirm they match
+    // expectations.
+    const body = token.getBody();
+    expect(sourceObject).to.deep.equal(body);
+    assert.deepEqual(sourceObject, body);
+    assert.notEqual("none", token.algorithm);
 
-//    builder = builder.add_extension(SubjectAlternativeName([x509.DNSName(subject_name)]), critical=False)
-  }
+    expect(token.issuedAtTime?.getTime()).to.equal(currentDate.getTime());
+    expect(token.notBeforeTime?.getTime()).to.equal(currentDate.getTime());
+    expect(token.expirationTime?.getTime()).to.equal(currentDate.getTime() + 30 * 1000);
+    expect(token.issuer).to.equal("this is an issuer");
+  });
 
+  it("#verifyAttestationTokenCallback", async () => {
+    const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
+
+    const token = AttestationToken.create({ body: sourceObject });
+
+    expect(() =>
+      token.validateToken(undefined, {
+        validateToken: true,
+        validationCallback: (tokenToCheck) => {
+          console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
+        }
+      })
+    ).to.not.throw();
+
+    // Note that contrary to the documentation, the "msg" parameter of throws() is
+    // text expected to be included in the exception being thrown.
+    expect(() =>
+      token.validateToken(undefined, {
+        validateToken: true,
+        validationCallback: (tokenToCheck) => {
+          console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
+          throw new Error("Client validation failure");
+        }
+      })
+    ).to.throw("validation failure");
+  });
+
+  it("#verifyAttestationTokenIssuer", async () => {
+    const currentTime = Math.floor(new Date().getTime() / 1000);
+    {
+      // Source expires in 30 seconds.
+      const sourceObject = JSON.stringify({
+        exp: currentTime + 30,
+        iat: currentTime,
+        nbf: currentTime,
+        iss: "this is an issuer",
+        foo: "foo",
+        bar: 10
+      });
+
+      const token = AttestationToken.create({ body: sourceObject });
+
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateIssuer: true,
+          expectedIssuer: "this is an issuer"
+        })
+      ).to.not.throw();
+
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateIssuer: true,
+          expectedIssuer: "this is a different issuer"
+        })
+      ).to.throw("issuer");
+    }
+  });
+
+  it("#verifyAttestationTimeouts", async () => {
+    const currentTime = Math.floor(new Date().getTime() / 1000);
+
+    {
+      // Source expires in 30 seconds.
+      const sourceObject = JSON.stringify({
+        exp: currentTime + 30,
+        iat: currentTime,
+        nbf: currentTime,
+        foo: "foo",
+        bar: 10
+      });
+
+      const token = AttestationToken.create({ body: sourceObject });
+
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateExpirationTime: true,
+          validateNotBeforeTime: true
+        })
+      ).to.not.throw();
+    }
+
+    {
+      // Source expired 5 seconds ago.
+      const sourceObject = JSON.stringify({
+        exp: currentTime - 5,
+        iat: currentTime,
+        nbf: currentTime,
+        foo: "foo",
+        bar: 10
+      });
+
+      const token = AttestationToken.create({ body: sourceObject });
+
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateExpirationTime: true,
+          validateNotBeforeTime: true
+        })
+      ).to.throw("expired");
+
+      // Validate the token again, this time specifying a validation slack of
+      // 10 seconds. The token should be fine with that slack.
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateExpirationTime: true,
+          validateNotBeforeTime: true,
+          timeValidationSlack: 10
+        })
+      ).to.not.throw();
+    }
+
+    {
+      // Source is only valid 5 seconds from now.
+      const sourceObject = JSON.stringify({
+        exp: currentTime + 10,
+        iat: currentTime + 5,
+        nbf: currentTime + 5,
+        foo: "foo",
+        bar: 10
+      });
+
+      const token = AttestationToken.create({ body: sourceObject });
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateExpirationTime: true,
+          validateNotBeforeTime: true
+        })
+      ).to.throw("not yet");
+      // Validate the token again, this time specifying a validation slack of
+      // 10 seconds. The token should be fine with that slack.
+      expect(() =>
+        token.validateToken(undefined, {
+          validateToken: true,
+          validateExpirationTime: true,
+          validateNotBeforeTime: true,
+          timeValidationSlack: 10
+        })
+      ).to.not.throw();
+    }
+  });
 });
-

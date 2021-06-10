@@ -1,6 +1,6 @@
 {
   "name": "@azure/video-analyzer-edge",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "A JavaScript sdk for Azure Video Analyzer Edge",
   "sdk-type": "client",
   "main": "dist/index.js",

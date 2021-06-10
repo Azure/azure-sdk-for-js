@@ -66,9 +66,6 @@ async function listEntities() {
   for await (const product of priceListResults) {
     console.log(`${product.name}: ${product.price}`);
   }
-
-  // Delete the table for cleanup
-  await client.deleteTable();
 }
 
 // Sample of how to retreive the top N entities for a query
@@ -78,13 +75,10 @@ async function listTopNEntities() {
   const partitionKey = "Stationery";
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `listTopNEntitiesTable`;
+  const tableName = `queryEntitiesTable`;
 
   // See authenticationMethods sample for other options of creating a new client
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
-
-  // Create the table
-  await client.createTable();
 
   // List all entities with PartitionKey "Stationery"
   const listResults = client.listEntities<Entity>({

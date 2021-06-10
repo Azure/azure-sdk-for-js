@@ -2,6 +2,6 @@
 // Licensed under the MIT license.
 
 const textDecoder = TextDecoder;
-const textEncoder =  TextEncoder;
+const textEncoder = TextEncoder;
 
 export { textDecoder as TextDecoder, textEncoder as TextEncoder };

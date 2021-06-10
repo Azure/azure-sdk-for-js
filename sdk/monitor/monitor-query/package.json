@@ -1,6 +1,6 @@
 {
   "name": "@azure/monitor-query",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "An isomorphic client library to query Azure Monitor logs and metrics.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -9,7 +9,19 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
+        "path": "src/generated/logquery/src/azureLogAnalyticsContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/metrics/src/monitorManagementClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/metricsdefinitions/src/metricsDefinitionsClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/metricsnamespaces/src/metricsNamespacesClientContext.ts",
         "prefix": "packageVersion"
       },
       {
@@ -50,7 +62,7 @@
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --slow 5000 --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --format unix --ext .ts",
+    "lint": "eslint package.json api-extractor.json src test --format unix --ext .ts --max-warnings 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run integration-test:browser",

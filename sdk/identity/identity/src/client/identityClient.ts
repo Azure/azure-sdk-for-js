@@ -16,7 +16,6 @@ import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/m
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
-import { getAuthorityHostEnvironment } from "../util/authHostEnv";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost } from "../constants";
 import { createSpan } from "../util/tracing";
@@ -41,6 +40,22 @@ export interface TokenResponse {
 }
 
 /**
+ * @internal
+ */
+export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions): string {
+  // The authorityHost can come from options or from the AZURE_AUTHORITY_HOST environment variable.
+  let authorityHost = options?.authorityHost;
+
+  // The AZURE_AUTHORITY_HOST environment variable can only be provided in NodeJS.
+  if (isNode) {
+    authorityHost = authorityHost ?? process.env.AZURE_AUTHORITY_HOST;
+  }
+
+  // If the authorityHost is not provided, we use the default one from the public cloud: https://login.microsoftonline.com
+  return authorityHost ?? DefaultAuthorityHost;
+}
+
+/**
  * The network module used by the Identity credentials.
  *
  * It allows for credentials to abort any pending request independently of the MSAL flow,
@@ -52,14 +67,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    if (isNode) {
-      options = options || getAuthorityHostEnvironment();
-    }
-    // Only if the authorityHost is not provided, we use the default one.
-    options = {
-      authorityHost: DefaultAuthorityHost,
-      ...options
-    };
     super(
       undefined,
       createPipelineFromOptions({
@@ -72,7 +79,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       })
     );
 
-    this.baseUri = this.authorityHost = options.authorityHost || DefaultAuthorityHost;
+    this.baseUri = this.authorityHost = getIdentityClientAuthorityHost(options);
 
     if (!this.baseUri.startsWith("https:")) {
       throw new Error("The authorityHost address must use the 'https' protocol.");

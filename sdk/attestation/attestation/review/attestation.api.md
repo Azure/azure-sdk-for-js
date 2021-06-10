@@ -4,21 +4,32 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
-import { HttpResponse } from '@azure/core-http';
-import { Mapper } from '@azure/core-http';
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
-import { Serializer } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type AttestationAttestTpmResponse = TpmAttestationResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TpmAttestationResponse;
-    };
-};
+export class AttestationAdministrationClient {
+    constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationAdministrationClientOptions);
+    getPolicy(attestationType: AttestationType, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<string>>;
+    resetPolicy(attestationType: AttestationType, signingKey?: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
+    setPolicy(attestationType: AttestationType, newPolicyDocument: string, signingKey?: AttestationSigningKey, options?: AttestationAdministrationClientOperationOptions): Promise<AttestationResponse<PolicyResult>>;
+    }
+
+// @public
+export interface AttestationAdministrationClientOperationOptions extends OperationOptions {
+    validationOptions?: AttestationTokenValidationOptions;
+}
+
+// @public
+export interface AttestationAdministrationClientOptions extends CommonClientOptions {
+    validationOptions?: AttestationTokenValidationOptions;
+}
+
+// @public
+export type AttestationAttestTpmResponse = TpmAttestationResponse;
 
 // @public
 export interface AttestationCertificateManagementBody {
@@ -30,24 +41,22 @@ export class AttestationClient {
     constructor(credentials: TokenCredential, instanceUrl: string, options?: AttestationClientOptions);
     attestOpenEnclave(report: Uint8Array, options?: AttestOpenEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
     attestSgxEnclave(quote: Uint8Array, options?: AttestSgxEnclaveOptions): Promise<AttestationResponse<AttestationResult>>;
-    attestTpm(request: TpmAttestationRequest, options?: AttestTpmOptions): Promise<TpmAttestationResponse>;
-    BaseClient(): GeneratedClient;
+    attestTpm(request: string, options?: AttestTpmOptions): Promise<string>;
     getAttestationSigners(options?: AttestationClientOperationOptions): Promise<AttestationSigner[]>;
+    // @internal
+    getGeneratedClient(): GeneratedClient;
     getOpenIdMetadata(options?: AttestationClientOperationOptions): Promise<any>;
-    // (undocumented)
-    instanceUrl: string;
-    // (undocumented)
-    policy: Policy;
-    // (undocumented)
     policyCertificates: PolicyCertificates;
-}
+    }
 
 // @public
 export interface AttestationClientOperationOptions extends OperationOptions {
+    validationOptions?: AttestationTokenValidationOptions;
 }
 
 // @public
-export interface AttestationClientOptions extends PipelineOptions {
+export interface AttestationClientOptions extends CommonClientOptions {
+    validationOptions?: AttestationTokenValidationOptions;
 }
 
 // @public
@@ -59,11 +68,7 @@ export class AttestationData {
 
 // @public
 export class AttestationResponse<T> {
-    constructor(token: AttestationToken, serializer: Serializer, bodyMapper: Mapper, bodyTypeName: string, rawResult: any);
-    _response: HttpResponse & {
-        bodyAsText: string;
-        parsedBody: T;
-    };
+    constructor(token: AttestationToken, value: T);
     token: AttestationToken;
     value: T;
 }
@@ -109,53 +114,72 @@ export interface AttestationResult {
 // @public
 export class AttestationSigner {
     // Warning: (ae-forgotten-export) The symbol "JsonWebKey" needs to be exported by the entry point index.d.ts
-    constructor(key: JsonWebKey_2);
+    //
+    // @internal
+    constructor(key?: JsonWebKey_2);
     certificates: Uint8Array[];
-    keyId: string;
+    keyId?: string;
 }
 
-// @public (undocumented)
+// @public
 export class AttestationSigningKey {
     constructor(key: string, certificate: string);
-    // (undocumented)
     certificate: string;
-    // (undocumented)
     key: string;
 }
 
-// @public (undocumented)
+// @public
 export class AttestationToken {
+    // @internal
     constructor(token: string);
-    // (undocumented)
-    get algorithm(): string | undefined;
-    // (undocumented)
-    deserialize(): string;
-    // (undocumented)
-    get_body(): object | undefined;
-    // (undocumented)
-    static serialize(body: string, signer?: AttestationSigningKey): AttestationToken;
-    }
+    get algorithm(): string;
+    get certificateChain(): AttestationSigner | undefined;
+    get certificateSha256Thumbprint(): string | undefined;
+    get certificateThumbprint(): string | undefined;
+    get contentType(): string | undefined;
+    static create(params: {
+        body?: string;
+        signer?: AttestationSigningKey;
+    }): AttestationToken;
+    get critical(): boolean | undefined;
+    get expirationTime(): Date | undefined;
+    getBody(): any;
+    get issuedAtTime(): Date | undefined;
+    get issuer(): string | undefined;
+    get keyId(): string | undefined;
+    get keyUrl(): string | undefined;
+    get notBeforeTime(): Date | undefined;
+    serialize(): string;
+    get type(): string | undefined;
+    validateToken(possibleSigners?: AttestationSigner[], options?: AttestationTokenValidationOptions): void;
+    get x509Url(): string | undefined;
+}
+
+// @public
+export interface AttestationTokenValidationOptions {
+    expectedIssuer?: string;
+    timeValidationSlack?: number;
+    validateExpirationTime?: boolean;
+    validateIssuer?: boolean;
+    validateNotBeforeTime?: boolean;
+    validateToken?: boolean;
+    validationCallback?: (token: AttestationToken, signer?: AttestationSigner) => void;
+}
 
 // @public
 export type AttestationType = string;
 
 // @public
 export interface AttestOpenEnclaveOptions extends AttestationClientOperationOptions {
-    // (undocumented)
     draftPolicyForAttestation?: string;
-    // (undocumented)
     initTimeData?: AttestationData;
-    // (undocumented)
     runTimeData?: AttestationData;
 }
 
 // @public
 export interface AttestSgxEnclaveOptions extends AttestationClientOperationOptions {
-    // (undocumented)
     draftPolicyForAttestation?: string;
-    // (undocumented)
     initTimeData?: AttestationData;
-    // (undocumented)
     runTimeData?: AttestationData;
 }
 
@@ -180,12 +204,10 @@ export interface CloudErrorBody {
 // @public
 export type DataType = string;
 
-// Warning: (ae-forgotten-export) The symbol "GeneratedClientContext" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export class GeneratedClient extends GeneratedClientContext {
     // Warning: (ae-forgotten-export) The symbol "GeneratedClientOptionalParams" needs to be exported by the entry point index.d.ts
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: GeneratedClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, instanceUrl: string, options?: GeneratedClientOptionalParams);
     // Warning: (ae-forgotten-export) The symbol "Attestation" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -197,7 +219,7 @@ export class GeneratedClient extends GeneratedClientContext {
     // Warning: (ae-forgotten-export) The symbol "Policy" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    policy: Policy_2;
+    policy: Policy;
     // Warning: (ae-forgotten-export) The symbol "PolicyCertificates" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -206,6 +228,15 @@ export class GeneratedClient extends GeneratedClientContext {
     //
     // (undocumented)
     signingCertificates: SigningCertificates;
+}
+
+// @public (undocumented)
+export class GeneratedClientContext extends coreClient.ServiceClient {
+    constructor(credentials: coreAuth.TokenCredential, instanceUrl: string, options?: GeneratedClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    instanceUrl: string;
 }
 
 // @public (undocumented)
@@ -235,61 +266,43 @@ export interface JsonWebKeySet {
 }
 
 // @public
-export const enum KnownAttestationType {
+export enum KnownAttestationType {
     OpenEnclave = "OpenEnclave",
     SgxEnclave = "SgxEnclave",
     Tpm = "Tpm"
 }
 
 // @public
-export const enum KnownCertificateModification {
+export enum KnownCertificateModification {
     IsAbsent = "IsAbsent",
     IsPresent = "IsPresent"
 }
 
 // @public
-export const enum KnownDataType {
+export enum KnownDataType {
     Binary = "Binary",
     Json = "JSON"
 }
 
 // @public
-export const enum KnownPolicyModification {
+export enum KnownPolicyModification {
     Removed = "Removed",
     Updated = "Updated"
 }
 
 // @public
-export class Policy {
-    constructor(client: AttestationClient);
-    get(attestationType: AttestationType, options?: coreHttp.OperationOptions): Promise<PolicyGetResponse>;
-    reset(attestationType: AttestationType, policyJws: string, options?: coreHttp.OperationOptions): Promise<PolicyResetResponse>;
-    set(attestationType: AttestationType, newAttestationPolicy: string, options?: coreHttp.OperationOptions): Promise<PolicySetModelResponse>;
-}
-
-// @public
 export class PolicyCertificates {
     constructor(client: AttestationClient);
-    add(policyCertificateToAdd: string, options?: coreHttp.OperationOptions): Promise<PolicyCertificatesAddResponse>;
-    get(options?: coreHttp.OperationOptions): Promise<PolicyCertificatesGetResponse>;
-    remove(policyCertificateToRemove: string, options?: coreHttp.OperationOptions): Promise<PolicyCertificatesRemoveResponse>;
+    add(policyCertificateToAdd: string, options?: coreClient.OperationOptions): Promise<PolicyCertificatesAddResponse>;
+    get(options?: coreClient.OperationOptions): Promise<PolicyCertificatesGetResponse>;
+    remove(policyCertificateToRemove: string, options?: coreClient.OperationOptions): Promise<PolicyCertificatesRemoveResponse>;
 }
 
 // @public
-export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyCertificatesModifyResponse;
-    };
-};
+export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse;
 
 // @public
-export type PolicyCertificatesGetResponse = PolicyCertificatesResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyCertificatesResponse;
-    };
-};
+export type PolicyCertificatesGetResponse = PolicyCertificatesResponse;
 
 // @public
 export interface PolicyCertificatesModificationResult {
@@ -303,12 +316,7 @@ export interface PolicyCertificatesModifyResponse {
 }
 
 // @public
-export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyCertificatesModifyResponse;
-    };
-};
+export type PolicyCertificatesRemoveResponse = PolicyCertificatesModifyResponse;
 
 // @public
 export interface PolicyCertificatesResponse {
@@ -321,48 +329,23 @@ export interface PolicyCertificatesResult {
 }
 
 // @public
-export type PolicyGetResponse = PolicyResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyResponse;
-    };
-};
-
-// @public
 export type PolicyModification = string;
 
 // @public
-export type PolicyResetResponse = PolicyResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyResponse;
-    };
-};
-
-// @public
-export interface PolicyResponse {
-    token?: string;
-}
-
-// @public
-export interface PolicyResult {
+export class PolicyResult {
+    static create(rawJson: unknown): PolicyResult;
     policy?: string;
     policyResolution?: PolicyModification;
-    policySigner?: JsonWebKey;
+    policySigner?: AttestationSigner;
     policyTokenHash?: Uint8Array;
 }
 
 // @public
-export type PolicySetModelResponse = PolicyResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PolicyResponse;
-    };
-};
-
-// @public (undocumented)
-export interface StoredAttestationPolicy {
-    attestationPolicy?: Uint8Array;
+export class StoredAttestationPolicy {
+    constructor(value: string);
+    attestationPolicy: Uint8Array;
+    static deserialize(value: unknown): StoredAttestationPolicy;
+    serialize(): string;
 }
 
 // @public

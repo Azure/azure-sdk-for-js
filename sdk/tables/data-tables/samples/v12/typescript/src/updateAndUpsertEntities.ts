@@ -38,21 +38,35 @@ async function updateAndUpsertEntities() {
   // Entity doesn't exist in table, so calling upsertEntity will simply insert the entity.
   await client.upsertEntity(entity, "Merge");
 
-  // Remove brand
-  delete entity.brand;
-
   // Entity does exist in the table, so calling upsertEntity will update using the given UpdateMode.
   // Because we are passing "Replace" as update mode, the existing entity will be replaced and delete the "brand" property.
-  await client.upsertEntity(entity, "Replace");
+  await client.upsertEntity(
+    {
+      partitionKey: "Stationery",
+      rowKey: "A1",
+      name: "Marker Set",
+      price: 5.0,
+      // Replace with the same entity but without a brand
+      brand: undefined
+    },
+    "Replace"
+  );
 
+  // Getting the entity we just created should give us an entity similar to the one that we first inserted
+  // but without a brand property
   const noBrandEntity = await client.getEntity<Entity>(entity.partitionKey, entity.rowKey);
 
-  // Update the price property
-  noBrandEntity.price = 7.0;
-  await client.updateEntity(noBrandEntity, "Merge");
+  // Now we update the price setting, the default update mode is "Merge" which will only update the properties
+  // of the entity that are different to what is already stored, in this case we just need to update the price
+  // so we can just send an entity with the partition and row keys plus the new price
+  await client.updateEntity({
+    partitionKey: noBrandEntity.partitionKey,
+    rowKey: noBrandEntity.rowKey,
+    price: 7.0
+  });
 
+  // Getting the entity should gice us an entity like the original, but without a brand and with a price of 7
   const updatedEntity = await client.getEntity(entity.partitionKey, entity.rowKey);
-
   console.log(`Original entity: ${JSON.stringify(entity)}`);
   console.log(`Updated entity: ${JSON.stringify(updatedEntity)}`);
 

@@ -250,10 +250,10 @@ main();
 There is a separate endpoint and operation for recognizing Personally Identifiable Information (PII) in text such as Social Security Numbers, bank account information, credit card numbers, etc. Its usage is very similar to the standard entity recognition above:
 
 ```javascript
-const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new TextAnalyticsApiKeyCredential("<API key>")
+  new AzureKeyCredential("<API key>")
 );
 const documents = [
   "The employee's SSN is 555-55-5555.",

@@ -7,8 +7,14 @@
  */
 
 export {
+  AsyncOperationResult,
+  AzureMonitorRequest,
+  AzureMonitorResponse,
+  AzureMonitorSelectedConfigurations,
+  AzureMonitorTableConfiguration,
   ClusterMonitoringRequest,
   ClusterMonitoringResponse,
   ErrorResponse,
+  Errors,
   Extension
 } from "../models/mappers";

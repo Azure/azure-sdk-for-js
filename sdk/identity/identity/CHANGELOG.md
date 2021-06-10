@@ -13,6 +13,7 @@
 ## Bug fixes
 
 - Fixed an issue in which `InteractiveBrowserCredential` on Node would sometimes cause the process to hang if there was no browser available.
+- Fixed an issue in which the `AZURE_AUTHORITY_HOST` environment variable was not properly picked up in NodeJS.
 
 ### Breaking changes
 

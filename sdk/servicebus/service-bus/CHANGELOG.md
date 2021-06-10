@@ -1,11 +1,32 @@
 # Release History
 
-## 7.2.0-beta.2 (Unreleased)
+## 7.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+
+## 7.2.0 (2021-06-10)
+
+### New Features
+
+- Enable encoding the body of a message to the 'value' or 'sequence' sections (via AmqpAnnotatedMessage.bodyType). Using this encoding is not required but does allow you to take advantage of native AMQP serialization for supported primitives or sequences. 
+
+  More information about the AMQP message body type can be found in the AMQP specification: [link](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format)
+
+- Improves cancellation support when sending messages or initializing a connection to the service.
+  Resolves [#15311](https://github.com/Azure/azure-sdk-for-js/issues/15311) and [#13504](https://github.com/Azure/azure-sdk-for-js/issues/13504).
 
 ### Bug fixes
 
 - ServiceBusSender could throw an error (`TypeError: Cannot read property 'maxMessageSize' of undefined`) if a link was being restarted while calling sendMessages().
   [PR#15409](https://github.com/Azure/azure-sdk-for-js/pull/15409)
+- Fixes issue [#13500](https://github.com/Azure/azure-sdk-for-js/issues/13500) where a `TypeError: Cannot read property '_process' of undefined` could be thrown in rare cases.
 
 ## 7.2.0-beta.1 (2021-05-18)
 

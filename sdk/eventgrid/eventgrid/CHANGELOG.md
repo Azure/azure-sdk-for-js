@@ -1,6 +1,19 @@
 # Release History
 
-## 4.2.1 (Unreleased)
+## 4.3.1 (Unreleased)
+
+
+## 4.3.0 (2021-06-08)
+
+### New Features
+
+- Added new System Event: `Microsoft.Storage.BlobInventoryPolicyCompleted`
+
+### Key Bug Fixes
+
+- The `Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners` event was incorrectly listed with the name of `Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener`.
+  This has been corrected. When using TypeScript, you will need to replace any calls to `isSystemEvent("Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener")` with
+  `isSystemEvent("Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners")`.
 
 ## 4.2.0 (2021-05-11)
 

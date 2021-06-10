@@ -54,7 +54,7 @@ export class BeginAnalyzeActionsPoller extends AnalysisPoller<
       state = JSON.parse(resumeFrom).state;
     }
     const operation = new BeginAnalyzeActionsPollerOperation(
-      state || {},
+      (state || {}) as any,
       client,
       documents,
       actions,

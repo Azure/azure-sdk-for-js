@@ -29,7 +29,11 @@ describe("PolicyManagementTests ", function() {
     const result = policyResult.token;
     assert(result, "Expected a token from the service but did not receive one");
     if (result && !isPlaybackMode()) {
-      const tokenResult = await verifyAttestationToken(result, client);
+      const tokenResult = await verifyAttestationToken(
+        result,
+        await client.getAttestationSigners(),
+        "AAD"
+      );
       assert.isDefined(tokenResult);
       if (tokenResult) {
         const tokenKeys = tokenResult["x-ms-policy-certificates"];
@@ -45,7 +49,11 @@ describe("PolicyManagementTests ", function() {
     const result = policyResult.token;
     assert(result, "Expected a token from the service but did not receive one");
     if (result && !isPlaybackMode()) {
-      const tokenResult = await verifyAttestationToken(result, client);
+      const tokenResult = await verifyAttestationToken(
+        result,
+        await client.getAttestationSigners(),
+        "Shared"
+      );
       assert.isDefined(tokenResult);
       if (tokenResult) {
         const tokenKeys = tokenResult["x-ms-policy-certificates"];
@@ -61,7 +69,11 @@ describe("PolicyManagementTests ", function() {
     const result = policyResult.token;
     assert(result, "Expected a token from the service but did not receive one");
     if (result && !isPlaybackMode()) {
-      const tokenResult = await verifyAttestationToken(result, client);
+      const tokenResult = await verifyAttestationToken(
+        result,
+        await client.getAttestationSigners(),
+        "Isolated"
+      );
       assert.isDefined(tokenResult);
       if (tokenResult) {
         const tokenKeys = tokenResult["x-ms-policy-certificates"];

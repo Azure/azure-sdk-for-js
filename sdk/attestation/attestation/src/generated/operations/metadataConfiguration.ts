@@ -6,23 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { MetadataConfiguration } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClient } from "../generatedClient";
-import { MetadataConfigurationGetResponse } from "../models";
+import { GeneratedClientContext } from "../generatedClientContext";
+import {
+  MetadataConfigurationGetOptionalParams,
+  MetadataConfigurationGetResponse
+} from "../models";
 
-/**
- * Class representing a MetadataConfiguration.
- */
-export class MetadataConfiguration {
-  private readonly client: GeneratedClient;
+/** Class representing a MetadataConfiguration. */
+export class MetadataConfigurationImpl implements MetadataConfiguration {
+  private readonly client: GeneratedClientContext;
 
   /**
    * Initialize a new instance of the class MetadataConfiguration class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClient) {
+  constructor(client: GeneratedClientContext) {
     this.client = client;
   }
 
@@ -31,22 +33,15 @@ export class MetadataConfiguration {
    * @param options The options parameters.
    */
   get(
-    options?: coreHttp.OperationOptions
+    options?: MetadataConfigurationGetOptionalParams
   ): Promise<MetadataConfigurationGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<MetadataConfigurationGetResponse>;
+    return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/.well-known/openid-configuration",
   httpMethod: "GET",
   responses: {

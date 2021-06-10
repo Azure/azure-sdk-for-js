@@ -305,7 +305,7 @@ export const BlobHierarchyListSegment: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BlobItemInternal"
+              className: "BlobItemModel"
             }
           }
         }
@@ -332,12 +332,12 @@ export const BlobPrefix: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobItemInternal: coreHttp.CompositeMapper = {
-  serializedName: "BlobItemInternal",
+export const BlobItemModel: coreHttp.CompositeMapper = {
+  serializedName: "BlobItemModel",
   xmlName: "Blob",
   type: {
     name: "Composite",
-    className: "BlobItemInternal",
+    className: "BlobItemModel",
     modelProperties: {
       name: {
         serializedName: "Name",
@@ -382,7 +382,7 @@ export const BlobItemInternal: coreHttp.CompositeMapper = {
         xmlName: "Properties",
         type: {
           name: "Composite",
-          className: "BlobPropertiesInternal"
+          className: "BlobPropertiesModel"
         }
       },
       deletionId: {
@@ -396,12 +396,12 @@ export const BlobItemInternal: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
-  serializedName: "BlobPropertiesInternal",
+export const BlobPropertiesModel: coreHttp.CompositeMapper = {
+  serializedName: "BlobPropertiesModel",
   xmlName: "Properties",
   type: {
     name: "Composite",
-    className: "BlobPropertiesInternal",
+    className: "BlobPropertiesModel",
     modelProperties: {
       creationTime: {
         serializedName: "Creation-Time",
@@ -594,7 +594,7 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      isSealed: {
+      sealed: {
         serializedName: "Sealed",
         xmlName: "Sealed",
         type: {
@@ -604,13 +604,6 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
       lastAccessedOn: {
         serializedName: "LastAccessTime",
         xmlName: "LastAccessTime",
-        type: {
-          name: "DateTimeRfc1123"
-        }
-      },
-      deleteTime: {
-        serializedName: "DeleteTime",
-        xmlName: "DeleteTime",
         type: {
           name: "DateTimeRfc1123"
         }

@@ -14,7 +14,7 @@ import {
 import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
-import { isObjectWithProperties } from "./util/typeGuards";
+import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { reorderLockToken } from "./util/utils";
 
 /**
@@ -321,10 +321,9 @@ export function toRheaMessage(
   }
 
   if (amqpMsg.ttl != null && amqpMsg.ttl !== Constants.maxDurationValue) {
-    amqpMsg.creation_time = Date.now();
-    amqpMsg.absolute_expiry_time = Math.min(
-      Constants.maxAbsoluteExpiryTime,
-      amqpMsg.creation_time + amqpMsg.ttl
+    amqpMsg.creation_time = new Date();
+    amqpMsg.absolute_expiry_time = new Date(
+      Math.min(Constants.maxAbsoluteExpiryTime, (amqpMsg.creation_time as any) + amqpMsg.ttl)
     );
   }
 
@@ -521,7 +520,7 @@ export function fromRheaMessage(
   };
 
   if (rheaMessage.application_properties != null) {
-    sbmsg.applicationProperties = rheaMessage.application_properties;
+    sbmsg.applicationProperties = convertDatesToNumbers(rheaMessage.application_properties);
   }
   if (rheaMessage.content_type != null) {
     sbmsg.contentType = rheaMessage.content_type;
@@ -612,6 +611,16 @@ export function fromRheaMessage(
 
   const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(rheaMessage);
   rawMessage.bodyType = bodyType;
+
+  if (rawMessage.applicationProperties) {
+    rawMessage.applicationProperties = convertDatesToNumbers(rawMessage.applicationProperties);
+  }
+  if (rawMessage.deliveryAnnotations) {
+    rawMessage.deliveryAnnotations = convertDatesToNumbers(rawMessage.deliveryAnnotations);
+  }
+  if (rawMessage.messageAnnotations) {
+    rawMessage.messageAnnotations = convertDatesToNumbers(rawMessage.messageAnnotations);
+  }
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
     _rawAmqpMessage: rawMessage,
@@ -865,7 +874,12 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     shouldReorderLockToken: boolean,
     receiveMode: ReceiveMode
   ) {
-    Object.assign(this, fromRheaMessage(msg, delivery, shouldReorderLockToken));
+    const { _rawAmqpMessage, ...restOfMessageProps } = fromRheaMessage(
+      msg,
+      delivery,
+      shouldReorderLockToken
+    );
+    Object.assign(this, restOfMessageProps);
     // Lock on a message is applicable only in peekLock mode, but the service sets
     // the lock token even in receiveAndDelete mode if the entity in question is partitioned.
     if (receiveMode === "receiveAndDelete") {
@@ -886,8 +900,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
         this.body = undefined;
       }
     }
-    // TODO: _rawAmqpMessage is already being populated in fromRheaMessage(), no need to do it twice
-    this._rawAmqpMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+    this._rawAmqpMessage = _rawAmqpMessage;
     this._rawAmqpMessage.bodyType = actualBodyType;
     this.delivery = delivery;
   }
@@ -918,4 +931,44 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
 
     return clone;
   }
+}
+
+/**
+ * Converts any Date objects into a number representing date.getTime().
+ * Recursively checks for any Date objects in arrays and objects.
+ * @internal
+ */
+function convertDatesToNumbers<T = unknown>(thing: T): T {
+  // fast exit
+  if (!isDefined(thing)) return thing;
+
+  // When 'thing' is a Date, return the number representation
+  if (
+    typeof thing === "object" &&
+    isObjectWithProperties(thing, ["getTime"]) &&
+    typeof thing.getTime === "function"
+  ) {
+    return thing.getTime();
+  }
+
+  /*
+    Examples:
+    [0, 'foo', new Date(), { nested: new Date()}]
+  */
+  if (Array.isArray(thing)) {
+    return (thing.map(convertDatesToNumbers) as unknown) as T;
+  }
+
+  /*
+    Examples:
+    { foo: new Date(), children: { nested: new Date() }}
+  */
+  if (typeof thing === "object" && isDefined(thing)) {
+    thing = { ...thing };
+    for (const key of Object.keys(thing)) {
+      (thing as any)[key] = convertDatesToNumbers((thing as any)[key]);
+    }
+  }
+
+  return thing;
 }

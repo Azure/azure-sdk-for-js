@@ -41,9 +41,6 @@
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "types": "./types/logger.d.ts",
-  "engine": {
-    "node": ">=8.0.0"
-  },
   "files": [
     "dist/",
     "dist-esm/src/",

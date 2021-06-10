@@ -24,6 +24,7 @@
   "dependencies": {
     "@azure/data-tables": "next",
     "dotenv": "latest",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "@azure/core-auth": "^1.3.0"
   }
 }

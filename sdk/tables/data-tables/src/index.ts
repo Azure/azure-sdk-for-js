@@ -3,13 +3,10 @@
 
 export * from "./generatedModels";
 export * from "./models";
+export * from "./sas";
 
 export { TableServiceClient } from "./TableServiceClient";
 export { TableTransaction } from "./TableTransaction";
 export { TableClient } from "./TableClient";
-export {
-  TablesSharedKeyCredential,
-  TablesSharedKeyCredentialLike
-} from "./TablesSharedKeyCredential";
-export { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 export { odata } from "./odata";
+export { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
