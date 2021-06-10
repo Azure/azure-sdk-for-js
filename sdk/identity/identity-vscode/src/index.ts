@@ -1,33 +1,46 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT license.
 
-declare module "@azure/identity" {
-  interface AzureIdentityExtensionTypeMap {
-    [vscodeExtension]: "@azure/identity-vscode";
-  }
-}
+import { AzureExtensionContext, IdentityExtension } from "../../identity/src/extensions/provider";
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { registerExtension } from "../../identity/src/extensions/provider";
-import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
+import keytar from "keytar";
 
-export { VisualStudioCodeCredential };
+const VSCodeServiceName = "VS Code Azure";
 
-const vscodeExtension: unique symbol = Symbol("identity-vscode");
+/**
+ * An extension that provides the dependencies of `VisualStudioCodeCredential`
+ * and enables it within `@azure/identity`. The extension API is compatible with
+ * `@azure/identity` versions 2.0.0 and later. Load this extension using the
+ * `useIdentityExtension` function, imported from `@azure/identity`.
+ *
+ * `VisualStudioCodeCredential` uses the authentication session from the "Azure
+ * Account" extension in VS Code.
+ *
+ * To use this functionality, import `VisualStudioCodeCredential` or
+ * `DefaultAzureCredential` from `@azure/identity`. If this extension is not
+ * enabled, then `VisualStudioCodeCredential` will throw a
+ * `CredentialUnavailableError`, and `DefaultAzureCredential` will not be able
+ * to use authentication through Visual Studio Code.
+ *
+ * Example:
+ *
+ * ```typescript
+ * import { useIdentityExtension, VisualStudioCodeCredential } from "@azure/identity";
+ * import vsCodeExtension from "@azure/identity-vscode";
+ *
+ * // Load the extension
+ * useIdentityExtension(vsCodeExtension);
+ *
+ * // Now that the extension is loaded, this credential may be used
+ * const credential = new VisualStudioCodeCredential();
+ * ```
+ */
+const vsCodeExtension: IdentityExtension = (context) => {
+  const { vsCodeCredentialControl } = context as AzureExtensionContext;
 
-function insertBefore<T>(value: T, array: T[], predicate: (v: T) => boolean) {
-  array.splice(array.findIndex(predicate), 0, value);
-}
+  vsCodeCredentialControl.vsCodeCredentialFinder = () => keytar.findCredentials(VSCodeServiceName);
+};
 
-registerExtension(vscodeExtension, () => {
-  // We want to add VisualStudioCodeCredential before AzurePowerShellCredential
-  // because it is relatively quick to check, but AzurePowerShellCredential is
-  // slow.
-  insertBefore(
-    VisualStudioCodeCredential,
-    DefaultAzureCredential.credentials,
-    (ctor) => ctor.name === "AzurePowerShellCredential"
-  );
-});
+export default vsCodeExtension;
 
-export default vscodeExtension;
+export { IdentityExtension };

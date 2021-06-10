@@ -34,11 +34,6 @@ if (!isProduction) {
 }
 
 export async function main() {
-  // You should see that "VisualStudioCodeCredential" is now part of the
-  // DefaultAzureCredential's list of credentials (it tries these credentials in
-  // order)
-  console.log("DefaultAzureCredential components:", DefaultAzureCredential.credentials);
-
   const credential = new DefaultAzureCredential();
 
   // This is the scope we will use to get a token from the AAD token endpoint.

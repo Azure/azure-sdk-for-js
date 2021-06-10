@@ -4,22 +4,13 @@
 
 ```ts
 
-import { AccessToken } from '@azure/core-auth';
-import { GetTokenOptions } from '@azure/core-auth';
-import { TokenCredential } from '@azure/core-auth';
-import { TokenCredentialOptions } from '@azure/identity';
+// @public
+export type IdentityExtension = (context: unknown) => void;
 
 // @public
-export class VisualStudioCodeCredential implements TokenCredential {
-    // Warning: (ae-forgotten-export) The symbol "VisualStudioCodeCredentialOptions" needs to be exported by the entry point index.d.ts
-    constructor(options?: VisualStudioCodeCredentialOptions);
-    getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken>;
-    }
+const vsCodeExtension: IdentityExtension;
 
-// @public (undocumented)
-const vscodeExtension: unique symbol;
-
-export default vscodeExtension;
+export default vsCodeExtension;
 
 
 // (No @packageDocumentation comment for this package)

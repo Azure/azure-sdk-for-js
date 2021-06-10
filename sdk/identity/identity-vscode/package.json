@@ -32,13 +32,14 @@
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
+    "dist-esm/identity/src",
+    "dist-esm/identity-vscode/src",
     "types/identity-vscode.d.ts",
     "README.md",
     "LICENSE"
   ],
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -58,7 +59,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engine": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity-vscode/README.md",
   "sideEffects": false,
@@ -67,7 +68,8 @@
     "@azure/identity": "^2.0.0-beta.4",
     "@azure/logger": "^1.0.0",
     "keytar": "^7.6.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "@azure/msal-common": "^4.0.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

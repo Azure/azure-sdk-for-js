@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 
 /**
- * In this sample, rather than importing and using `VisualStudioCodeCredential`
- * manually, we use the extension API to add it to the list of credential
- * classes that `DefaultAzureCredential` from the mainline `@azure/identity`
- * package will try.
+ * In this sample, we use the extension API to provide an implementation of
+ * `VisualStudioCodeCredential` to the `@azure/identity` package, and we use it
+ * through the `DefaultAzureCredential` class.  Without the extension, the
+ * credential will simply throw a `CredentialNotFoundError`, and the
+ * `DefaultAzureCredential` will use a different credential, if one is
+ * available.
  *
- * @summary uses Identity extensions to add `VisualStudioCodeCredential` to
+ * @summary loads the `VisualStudioCodeCredential` extension and uses it through
  * `DefaultAzureCredential`
  */
 
@@ -15,15 +17,10 @@ import { useIdentityExtension, DefaultAzureCredential } from "@azure/identity";
 
 // The extension is the package's default export, so you may import and use it
 // as any name you like, and simply pass it to `useIdentityExtension`.
-import vscodeExtension from "@azure/identity-vscode";
-useIdentityExtension(vscodeExtension);
+import vsCodeExtension from "@azure/identity-vscode";
+useIdentityExtension(vsCodeExtension);
 
 export async function main() {
-  // You should see that "VisualStudioCodeCredential" is now part of the
-  // DefaultAzureCredential's list of credentials (it tries these credentials in
-  // order)
-  console.log("DefaultAzureCredential components:", DefaultAzureCredential.credentials);
-
   const credential = new DefaultAzureCredential();
 
   // This is the scope we will use to get a token from the AAD token endpoint.
