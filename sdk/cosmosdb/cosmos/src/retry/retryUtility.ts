@@ -82,6 +82,7 @@ export async function execute({
     const headers = err.headers || {};
     if (
       err.code === StatusCodes.ENOTFOUND ||
+      err.code === "REQUEST_SEND_ERROR" ||
       (err.code === StatusCodes.Forbidden &&
         (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
           err.substatus === SubStatusCodes.WriteForbidden))
