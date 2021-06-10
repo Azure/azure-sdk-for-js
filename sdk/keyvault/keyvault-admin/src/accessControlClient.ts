@@ -2,16 +2,10 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  TokenCredential,
-  isTokenCredential,
-  signingPolicy,
-  createPipelineFromOptions,
-  InternalPipelineOptions
-} from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { challengeBasedAuthenticationPolicy, createTraceFunction } from "../../keyvault-common/src";
+import { createTraceFunction } from "./tracingHelpers";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import {
   KeyVaultClientOptionalParams,
@@ -39,6 +33,8 @@ import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
 import { mappings } from "./mappings";
 import { logger } from "./log";
 import { v4 as v4uuid } from "uuid";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { ChallengeCallbackHandler } from "./challengeAuthenticationCallbacks";
 
 const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultAccessControlClient");
 
@@ -94,28 +90,31 @@ export class KeyVaultAccessControlClient {
           : libInfo
     };
 
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
-
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const clientOptions: KeyVaultClientOptionalParams = {
       ...options,
-      loggingOptions: {
-        logger: logger.info,
-        allowedHeaderNames: [
-          "x-ms-keyvault-region",
-          "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version"
-        ]
+      apiVersion: options.serviceVersion || LATEST_API_VERSION,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          additionalAllowedHeaderNames: [
+            "x-ms-keyvault-region",
+            "x-ms-keyvault-network-info",
+            "x-ms-keyvault-service-version"
+          ]
+        }
       }
     };
 
-    const params: KeyVaultClientOptionalParams = createPipelineFromOptions(
-      internalPipelineOptions,
-      authPolicy
+    this.client = new KeyVaultClient(clientOptions);
+
+    // TODO: decide on the correct scope in non admin scenarios...
+    this.client.pipeline.addPolicy(
+      bearerTokenAuthenticationPolicy({
+        credential,
+        scopes: ["https://managedhsm.azure.net/.default"],
+        challengeCallbacks: new ChallengeCallbackHandler()
+      })
     );
-    params.apiVersion = options.serviceVersion || LATEST_API_VERSION;
-    this.client = new KeyVaultClient(params);
   }
 
   /**

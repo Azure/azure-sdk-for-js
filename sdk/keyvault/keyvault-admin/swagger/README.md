@@ -4,13 +4,11 @@
 
 ```yaml
 package-name: "@azure/keyvault-admin"
-use-extension:
-  "@autorest/typescript": "6.0.0-alpha.20210527.9"
 azure-arm: false
 disable-async-iterators: true
-use-core-v2: false
 generate-metadata: false
 add-credentials: false
+package-version: 4.0.0
 license-header: MICROSOFT_MIT_NO_VERSION
 input-file:
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1e2c9f3ec93078da8078389941531359e274f32a/specification/keyvault/data-plane/Microsoft.KeyVault/stable/7.2/rbac.json
