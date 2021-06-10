@@ -1,6 +1,6 @@
 ## Azure AzureNetAppFilesManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK (runs both in node.js and in browsers) for AzureNetAppFilesManagementClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureNetAppFilesManagementClient.
 
 ### Currently supported environments
 
