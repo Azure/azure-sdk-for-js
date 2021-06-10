@@ -970,9 +970,9 @@ function deserializeCompositeType(
         );
         // Copy over any properties that have already been added into the instance, where they do
         // not exist on the newly de-serialized array
-        for (const [key, value] of Object.entries(instance)) {
-          if (!arrayInstance.hasOwnProperty(key)) {
-            arrayInstance[key] = value;
+        for (const [k, v] of Object.entries(instance)) {
+          if (!Object.prototype.hasOwnProperty.call(arrayInstance, k)) {
+            arrayInstance[k] = v;
           }
         }
         instance = arrayInstance;
