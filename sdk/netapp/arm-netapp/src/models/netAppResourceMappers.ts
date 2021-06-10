@@ -9,6 +9,7 @@
 export {
   CheckAvailabilityResponse,
   CloudError,
+  FilePathAvailabilityRequest,
   QuotaAvailabilityRequest,
   ResourceNameAvailabilityRequest
 } from "../models/mappers";
