@@ -2,7 +2,11 @@
 
 Azure Key Vault Managed HSM is a fully-managed, highly-available, single-tenant, standards-compliant cloud service that enables you to safeguard cryptographic keys for your cloud applications using FIPS 140-2 Level 3 validated HSMs. If you would like to know more about Azure Key Vault Managed HSM, you may want to review: [What is Azure Key Vault Managed HSM?][managedhsm]
 
-The package `@azure/keyvault-admin` provides support for the administrative Key Vault tasks. It includes the backup and restore operations for whole Key Vault instances, and the role-based access control (RBAC) operations.
+The package `@azure/keyvault-admin` provides support for administrative Key Vault tasks such as full backup / restore and key-level role-based access control (RBAC).
+
+> Note: The Administration library only works with [Azure Key Vault Managed HSM][managedhsm] - functions targeting a Key Vault will fail.
+>
+> Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/cors/ts/README.md) for guidance.
 
 [Source code][package-gh] | [Package (npm)][package-npm] | [API Reference Documentation][docs] | [Product documentation][docs-service] | [Samples][samples]
 
@@ -22,7 +26,7 @@ To work with the Azure Key Vault Administration client, the following is necessa
 
 - An [Azure subscription][azure-sub].
 - An existing Azure Key Vault. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
-- Use [Node.js](https://nodejs.org/) 8.x or higher.
+- Use [Node.js](https://nodejs.org/) 10.x or higher.
 
 #### Getting Azure credentials
 
@@ -56,11 +60,11 @@ Use the [Azure CLI][azure-cli] snippet below to create/get client secret credent
 
 - Create the Managed HSM and grant the above mentioned service principal authorization to perform administrative operations on the Azure Key Vault (replace `<your-resource-group-name>` and `<your-key-vault-name>` with your own, unique names and `<your-service-principal-object-id>` with the value from above):
 
-  ```
+  ```PowerShell
   az keyvault create --hsm-name <your-key-vault-name> --resource-group <your-resource-group-name> --administrators <your-service-principal-object-id> --location <your-azure-location>
   ```
 
-  The service principal is automatically added to the "Managed HSM Administrators" [built-in role][built_in_roles].
+  This service principal is automatically added to the "Managed HSM Administrators" [built-in role][built_in_roles].
 
 - Use the above mentioned Azure Key Vault name to retrieve details of your Vault which also contains your Azure Key Vault URL:
   ```PowerShell
@@ -131,7 +135,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Authenticate the client
 
-In order to control permissions to the Key Vault service, or to generate and restore backups of a specific Key Vault, you'll need to create either an instance of the `KeyVaultAccessControlClient` class, or an instance of the `KeyVaultBackupClient` class, respectively.
+In order to control permissions to the Key Vault service or to generate and restore backups of a specific Key Vault, you'll need to create either an instance of the `KeyVaultAccessControlClient` class or an instance of the `KeyVaultBackupClient` class, respectively.
 
 In both cases, you'll need a **vault URL**, which you may see as "DNS Name" in the portal, and a credential object from the [@azure/identity][identity-npm] package which is used to authenticate with Azure Active Directory.
 
@@ -175,7 +179,7 @@ const client = new KeyVaultBackupClient(vaultUrl, credentials);
 
 A Role Definition is a collection of permissions. A role definition defines the operations that can be performed, such as read, write, and delete. It can also define the operations that are excluded from allowed operations.
 
-Role definitions can be listed and specified as part of a Role Assignment.
+Role definitions can be listed and specified as part of a `KeyVaultRoleAssignment`.
 
 ### KeyVaultRoleAssignment.
 
@@ -222,8 +226,8 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Administration Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/javascript)
-- [KeyVault Administration Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript)
+- [KeyVault Administration Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/v4/javascript)
+- [KeyVault Administration Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/v4/typescript)
 - [KeyVault Administration Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/test/)
 
 ## Contributing
