@@ -15,7 +15,7 @@ jobs:
       variables:
         - template: /eng/pipelines/templates/variables/globals.yml
       pool:
-        name: "azsdk-pool-mms-ubuntu-1804-general"
+        name: "azsdk-pool-mms-ubuntu-2004-general"
         vmImage: "MMSUbuntu20.04"
       displayName: Check Smoke Test Eligibility
       steps:
@@ -65,14 +65,14 @@ jobs:
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "12.x"
         Linux Node14 (AzureCloud):
-          Pool: "azsdk-pool-mms-ubuntu-1804-general"
-          OSVmImage: "MMSUbuntu18.04"
+          Pool: "azsdk-pool-mms-ubuntu-2004-general"
+          OSVmImage: "MMSUbuntu20.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "14.x"
         Linux Node16 (AzureCloud):
-          Pool: "azsdk-pool-mms-ubuntu-1804-general"
-          OSVmImage: "MMSUbuntu18.04"
+          Pool: "azsdk-pool-mms-ubuntu-2004-general"
+          OSVmImage: "MMSUbuntu20.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "16.x"
