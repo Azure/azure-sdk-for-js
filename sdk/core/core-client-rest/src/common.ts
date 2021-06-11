@@ -28,6 +28,10 @@ export type ClientOptions = PipelineOptions & {
    * Options for setting a custom apiVersion.
    */
   apiVersion?: string;
+  /**
+   * Option to allow calling http (insecure) endpoints
+   */
+  allowInsecureConnection?: boolean;
 };
 
 /**
