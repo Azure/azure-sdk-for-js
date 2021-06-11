@@ -218,9 +218,7 @@ describe("LogsQueryClient live tests", function() {
     });
   });
 
-  // TODO: there is something odd happening here where the body is coming
-  // back as a string, rather than an object.
-  it("queryBatch with types", async () => {
+  it("queryLogsBatch with types", async () => {
     const constantsQuery = `print "hello", true, make_datetime("2000-01-02 03:04:05Z"), toint(100), long(101), 102.1, dynamic({ "hello": "world" })
       | project 
           stringcolumn=print_0, 
@@ -232,7 +230,7 @@ describe("LogsQueryClient live tests", function() {
           dynamiccolumn=print_6
       `;
 
-    const results = await createClient().queryLogsBatch({
+    const result = await createClient().queryLogsBatch({
       queries: [
         {
           workspace: monitorWorkspaceId,
@@ -242,7 +240,11 @@ describe("LogsQueryClient live tests", function() {
       ]
     });
 
-    const table = results.results?.[0].tables?.[0];
+    if ((result as any)["__fixApplied"]) {
+      console.log(`TODO: Fix was required to pass`);
+    }
+
+    const table = result.results?.[0].tables?.[0];
 
     if (table == null) {
       throw new Error("No table returned for query");
@@ -385,10 +387,14 @@ describe("LogsQueryClient live tests", function() {
         ]
       };
 
-      const response = await createClient().queryLogsBatch(batchRequest);
+      const result = await createClient().queryLogsBatch(batchRequest);
+
+      if ((result as any)["__fixApplied"]) {
+        console.log(`TODO: Fix was required to pass`);
+      }
 
       assertQueryTable(
-        response.results?.[0].tables?.[0],
+        result.results?.[0].tables?.[0],
         {
           name: "PrimaryResult",
           columns: ["Kind", "Name", "Target", "TestRunId"],
@@ -398,7 +404,7 @@ describe("LogsQueryClient live tests", function() {
       );
 
       assertQueryTable(
-        response.results?.[1].tables?.[0],
+        result.results?.[1].tables?.[0],
         {
           name: "PrimaryResult",
           columns: ["Count"],
