@@ -133,7 +133,7 @@ For clients that have a default browser available and for client-side applicatio
 
 For Node.js, if a `clientId` is provided, the Azure Active Directory application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://docs.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
 
-For client side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. You will also need to configure your app registration for single-page applications. Please refer to the [Single-Page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for more information.
+For client side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. You will also need to configure your app registration for single-page applications and set the right permissions. Please refer to the [Single-Page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for more information.
 
 ```ts
 function withInteractiveBrowserCredential () {
