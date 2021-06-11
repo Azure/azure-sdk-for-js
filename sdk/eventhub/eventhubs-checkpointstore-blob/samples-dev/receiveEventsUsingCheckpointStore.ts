@@ -12,19 +12,25 @@
 
 import { EventHubConsumerClient, CheckpointStore } from "@azure/event-hubs";
 
-import { ContainerClient } from "@azure/storage-blob";
+import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
 
-const connectionString = "";
-const eventHubName = "";
-const storageConnectionString = "";
-const containerName = "";
-const consumerGroup = "";
+const connectionString =
+  process.env["EVENT_HUB_CONNECTION_STRING"] || "<event-hub-connection-string>";
+const eventHubName = process.env["EVENT_HUB_NAME"] || "<eventHubName>";
+const consumerGroup =
+  process.env["EVENT_HUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
+const storageContainerUrl =
+  process.env["STORAGE_CONTAINER_URL"] ||
+  "https://<storageaccount>.blob.core.windows.net/<containername>";
+const storageAccountName = process.env["STORAGE_ACCOUNT_NAME"] || "<storageaccount>";
+const storageAccountKey = process.env["STORAGE_ACCOUNT_KEY"] || "<key>";
 
 export async function main() {
   // this client will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage
-  const containerClient = new ContainerClient(storageConnectionString, containerName);
+  const storageCredential = new StorageSharedKeyCredential(storageAccountName, storageAccountKey);
+  const containerClient = new ContainerClient(storageContainerUrl, storageCredential);
 
   if (!(await containerClient.exists())) {
     await containerClient.create();
