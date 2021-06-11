@@ -22,8 +22,6 @@ npm install @azure/keyvault-admin
 
 ### Prerequisites
 
-To work with the Azure Key Vault Administration client, the following is necessary:
-
 - An [Azure subscription][azure-sub].
 - An existing Azure Key Vault. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
 - Use [Node.js](https://nodejs.org/) 10.x or higher.
@@ -149,9 +147,9 @@ npm install @azure/identity
 
 Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the `KeyVaultAccessControlClient`:
 
-```ts
-import { DefaultAzureCredential } from "@azure/identity";
-import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
+```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyVaultAccessControlClient } = require("@azure/keyvault-admin");
 
 const credentials = new DefaultAzureCredential();
 
@@ -163,9 +161,9 @@ const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
 
 Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the `KeyVaultBackupClient`:
 
-```ts
-import { DefaultAzureCredential } from "@azure/identity";
-import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyVaultBackupClient } = require("@azure/keyvault-admin");
 
 const credentials = new DefaultAzureCredential();
 
@@ -217,7 +215,7 @@ We have samples both in JavaScript and TypeScript that show the access control a
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
 ```
