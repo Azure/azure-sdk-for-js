@@ -32,8 +32,6 @@ const defaultMonitorScope = "https://api.loganalytics.io/.default";
 export interface LogsQueryClientOptions extends PipelineOptions {
   /**
    * The host to connect to.
-   *
-   * Defaults to 'https://api.loganalytics.io/v1'.
    */
   endpoint?: string;
 
