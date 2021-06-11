@@ -77,11 +77,11 @@ as the redirect URI you added to your app registration. If you're following alon
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sendevents]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/browserSample/src/sendEvents.js
-[receiveevents]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/browserSample/src/receiveEvents.js
-[configuration]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/browserSample/src/configuration.js
-[app]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/browserSample/src/index.js
-[htmlpage]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/browserSample/index.html
+[sendevents]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/browser/src/sendEvents.js
+[receiveevents]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/browser/src/receiveEvents.js
+[configuration]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/browser/src/configuration.js
+[app]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/browser/src/index.js
+[htmlpage]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/v5/browser/index.html
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
 [azhubacct]: https://docs.microsoft.com/azure/event-hubs/event-hubs-node-get-started-send
 [aziothub]: https://docs.microsoft.com/azure/iot-hub/iot-hub-node-node-module-twin-getstarted
