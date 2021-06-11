@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "f1d5eb3afd42f7cb5543c18af256332f";
+module.exports.hash = "118259be451a0d1600e789a4c733a251";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'f10b8b3c-b349-49dd-ad5a-3c9ff5075300',
+  'd7f6c293-20c1-447f-95b8-fd0e8df02b00',
   'x-ms-ests-server',
-  '2.1.11787.14 - WUS2 ProdSlices',
+  '2.1.11829.4 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AgSJSOLCU89BlsjcW6fY5hG81LWYDAAAAEB9TNgOAAAA; expires=Sun, 04-Jul-2021 20:00:25 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlpePvOQsjNInp5n4RQzFUa81LWYDQAAAGLlVdgOAAAA; expires=Sun, 11-Jul-2021 23:15:10 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 04 Jun 2021 20:00:24 GMT',
+  'Fri, 11 Jun 2021 23:15:10 GMT',
   'Content-Length',
   '1317'
 ]);
@@ -41,7 +41,7 @@ nock('https://isolated_attestation_url.wus.attest.azure.net:443', {"encodedQuery
   .get('/.well-known/openid-configuration')
   .reply(200, {"response_types_supported":["token","none"],"id_token_signing_alg_values_supported":["RS256"],"revocation_endpoint":"https://isolated_attestation_url.wus.attest.azure.net/revoke","issuer":"https://isolated_attestation_url.wus.attest.azure.net","jwks_uri":"https://isolated_attestation_url.wus.attest.azure.net/certs","claims_supported":["cnf","nonce","x-ms-ver","x-ms-attestation-type","x-ms-policy-hash","x-ms-policy-signer","x-ms-sgx-is-debuggable","x-ms-sgx-mrenclave","x-ms-sgx-mrsigner","x-ms-sgx-svn","x-ms-sgx-ehd","x-ms-sgx-collateral","is-debuggable","sgx-mrsigner","sgx-mrenclave","product-id","svn","tee"]}, [
   'Date',
-  'Fri, 04 Jun 2021 20:00:24 GMT',
+  'Fri, 11 Jun 2021 23:15:10 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -49,7 +49,7 @@ nock('https://isolated_attestation_url.wus.attest.azure.net:443', {"encodedQuery
   'Content-Length',
   '612',
   'x-ms-request-id',
-  '00-1c38f31929090e6ae7fe6f3cc31f40db-0000000000000000-00',
+  '00-1fbd895d64b3152f1cc6234568bbf983-0000000000000000-00',
   'x-ms-maa-service-version',
   '1.10.01605.0002'
 ]);
