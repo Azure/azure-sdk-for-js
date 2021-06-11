@@ -24,7 +24,7 @@ stages:
 
             pool:
               name: azsdk-pool-mms-ubuntu-1804-general
-              vmImage: MMSUbuntu18.04
+              vmImage: MMSUbuntu20.04
 
             strategy:
               runOnce:
@@ -63,7 +63,7 @@ stages:
 
               pool:
                 name: azsdk-pool-mms-ubuntu-1804-general
-                vmImage: MMSUbuntu18.04
+                vmImage: MMSUbuntu20.04
 
               strategy:
                 runOnce:
@@ -182,7 +182,7 @@ stages:
 
               pool:
                 name: azsdk-pool-mms-ubuntu-1804-general
-                vmImage: MMSUbuntu18.04
+                vmImage: MMSUbuntu20.04
 
               strategy:
                 runOnce:
@@ -226,7 +226,7 @@ stages:
       displayName: Publish package to daily feed
       pool:
         name: azsdk-pool-mms-ubuntu-1804-general
-        vmImage: MMSUbuntu18.04
+        vmImage: MMSUbuntu20.04
       steps:
         - checkout: self
         - download: current

@@ -27,7 +27,7 @@ jobs:
 
     pool:
       name: azsdk-pool-mms-ubuntu-1804-general
-      vmImage: MMSUbuntu18.04
+      vmImage: MMSUbuntu20.04
 
     steps:
       - script: |
@@ -49,7 +49,7 @@ jobs:
 
     pool:
       name: azsdk-pool-mms-ubuntu-1804-general
-      vmImage: MMSUbuntu18.04
+      vmImage: MMSUbuntu20.04
 
     steps:
       - template: ../steps/common.yml
