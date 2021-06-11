@@ -2,8 +2,8 @@
 
 - [Introduction](#introduction)
 - [Requirements](#requirements)
-- [Authenticating client side browser applications](#authenticating-client-side-browser-applications)
-- [Authenticating server side applications](#authenticating-server-side-applications)
+- [Authenticating client-side browser applications](#authenticating-client-side-browser-applications)
+- [Authenticating server-side applications](#authenticating-server-side-applications)
   - [Authenticating User Accounts](#authenticating-user-accounts)
   - [Authenticating User Accounts with developer tools](#authenticating-user-accounts-with-developer-tools)
   - [Authenticating Service Principals](#authenticating-service-principals)
@@ -23,26 +23,26 @@
 
 ## Introduction
 
-Authenticating your application, users, and principals is an integral part of working with the Azure Client Libraries. The Azure Identity library provides multiple ways to gain access to the Azure services, each with a flexible configuration that covers most scenarios. While we have example code in [JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples/javascript) and [TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples/typescript) that cover the basic authentication scenarios, in this document, we will go over several use cases of Identity that are better explained with more context.
+Authenticating your application, users, and principals is an integral part of working with the Azure Client Libraries. The Azure Identity library provides multiple ways to gain access to the Azure services, each with a flexible configuration that covers most scenarios. While we have example code in [JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples/javascript) and [TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/samples/typescript) that cover the basic authentication scenarios, in this document, we will go over several use cases of Identity with greater context and links to the underlying authentication flows and other available documentation.
 
-## Authenticating client side browser applications
+## Authenticating client-side browser applications
 
-For client side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience and is the only credential type that we support in the browser. To get started, you need to register your application in the Microsoft identity platform and set the right permissions.
+For client-side applications running in the browser, the `InteractiveBrowserCredential` provides the most direct user authentication experience and is the only credential type that we support in the browser. To get started, you need to register your application in the Microsoft identity platform and set the proper permissions.
 
 - [Register a single page application](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the Microsoft identity platform
 - Configure the app registration with a redirect URI to specify where the Microsoft identity platform should redirect the client along with any security tokens.
   - If using v1 of `@azure/identity` package, follow the instructions at [Redirect URI: MSAL.js 1.0 with implicit flow](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-10-with-implicit-flow) to set the redirect URI.
   - If using v2 of `@azure/identity` package, follow the instructions at [Redirect URI: MSAL.js 2.0 with auth code flow](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow)
-- Ensure that your application has the right permission for the APIs it intends to use.
+- * Ensure that your application has the correct permission for the APIs it intends to use.
   - In your app registration in the Azure portal, go to `API Permissions`
   - Click on `Add a permission`
-  - Select the API you want to use. For example, if you are using any of our management/control plane packages i.e. the ones whose name starts with `@azure/arm-`, then you should select ``Azure Service Management`.
-- Ensure that your AAD application has enabled public authentication flows:
-  - Go to Azure Active Directory in Azure portal and find your app registration.
+  - Select the API you want to use. For example, if you are using any of our management/control plane packages, i.e., the ones whose name starts with `@azure/arm-`, then you should select ``Azure Service Management`.
+- Ensure that your AAD Application has enabled public authentication flows:
+  - Go to Azure Active Directory in the Azure portal and find your app registration.
   - Navigate to the **Authentication** section.
   - Under **Advanced settings**, select `yes` on the option `Allow public client flows`.
 
-Copy the client ID and tenant ID from the `Overview` section of your app registration in Azure portal and use it in the below code snippet where we authenticate a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
+Copy the client ID and tenant ID from the `Overview` section of your app registration in the Azure portal and use it in the below code snippet where we authenticate a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
 
 ```ts
 function withInteractiveBrowserCredential() {
@@ -57,21 +57,21 @@ function withInteractiveBrowserCredential() {
 
 If your project is already using MSAL to authenticate on the browser, or if you're looking for more advanced authentication scenarios in the browser, the Azure SDK makes it easy to use MSAL directly to authenticate our clients: [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-azure-msal-browser-public-client).
 
-## Authenticating server side applications
+## Authenticating server-side applications
 
-For server side applications, we provide options that vary from minimal configuration with sensible defaults using the `DefaultAzureCredential` to more specialized credentials.
+For server-side applications, we provide options that vary from a minimal configuration with sensible defaults using the `DefaultAzureCredential` to more specialized credentials.
 
-- To get started, you can always rely on interactive authentication of your user account which requires minimum setup.
-- As you develop your application, you may want to first sign-in using the developer tools like Azure CLI or Azure PowerShell, to avoid signing in interactively every time you run your application.
-- As you deploy your application to Azure App Service or run it in a virtual machine, you may want to make use of [Managed Identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview).
+- To get started, you can always rely on interactive authentication of your user account, which requires minimal setup.
+- As you develop your application, you may want to sign in using the developer tools like Azure CLI or Azure PowerShell, to avoid signing in interactively every time you run your application.
+- As you deploy your application to Azure App Service or run it in a virtual machine, you may want to use [Managed Identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview).
 
-We also provide a way to chain multiple credentials so that they try to authenticate sequentially until one of them succeeds. This will allow your code to work in multiple environments, including your local development tools. For more information, go to the section: [Chaining credentials](#chaining-credentials).
+We also provide a way to chain multiple credentials so that they try to authenticate sequentially until one of them succeeds. Chaining credentials will allow your code to work in multiple environments, including your local development tools. For more information, go to the section: [Chaining credentials](#chaining-credentials).
 
 One such chained credential that we provide out of the box is `DefaultAzureCredential`.
 
 ### Authenticating User Accounts
 
-Authenticating user accounts is the easiest way to get started with minimal set-up. For production scenarios, we recommend authenticating using service principals or managed identity which are listed in the later sections.
+Authenticating user accounts is the easiest way to get started with minimal set up. For production scenarios, we recommend authenticating using service principals or managed identities, which are listed in the later sections.
 
 | Credential with example                                                                     | Usage                                                                                                                   | Setup required                                                   |
 | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
@@ -90,7 +90,7 @@ Authenticating user accounts is the easiest way to get started with minimal set-
 
 ### Authenticating Service Principals
 
-An Azure service principal is an identity created for use with applications, hosted services, and automated tools to access Azure resources. This access is restricted by the roles assigned to the service principal, giving you control over which resources can be accessed and at which level. For security reasons, it's always recommended to use service principals with automated tools rather than allowing them to log in with a user identity.
+An Azure service principal is an identity created for use with applications, hosted services, and automated tools to access Azure resources. The roles assigned by the service principal will determine what resources are accessible. For security reasons, we recommended using service principals through automation rather than allowing them to log in with a user identity.
 
 To learn more, read [Application and service principal objects in Azure Active Directory][app-register-service-principal]
 
@@ -104,7 +104,7 @@ To learn more, read [Application and service principal objects in Azure Active D
 | [ClientSecretCredential](#authenticating-a-service-principal-with-a-client-secret)           | Authenticates a service principal using a secret.                                                                                                                                                                                                                                                                                              |
 | [ClientCertificateCredential](#authenticating-a-service-principal-with-a-client-certificate) | Authenticates a service principal using a certificate.                                                                                                                                                                                                                                                                                         |
 | [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)    | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                       |
-| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                        | Tries `EnvironmentCredential`, `AzureCliCredential`, `AzurePowerShellCredential` and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
+| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                        | Tries `EnvironmentCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals, or managed identity based on what is available in the current environment without changing your code. |
 
 ### Authenticating Azure Hosted Applications
 
@@ -158,7 +158,7 @@ For clients that have a default browser available and for client-side applicatio
 
 For Node.js, if a `clientId` is provided, the Azure Active Directory application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://docs.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
 
-For client side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. Please see [Authenticating client side browser applications](#authenticating-client-side-browser-applications).
+For client-side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. Please see [Authenticating client-side browser applications](#authenticating-client-side-browser-applications).
 
 ```ts
 function withInteractiveBrowserCredential() {
